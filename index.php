@@ -16,7 +16,18 @@
 		Newsletter
 	</h1>
 	<div>
-		<textarea name="editor">Comincia a scivere la newsletter qua.</textarea>
+		<textarea name="editor">
+			<table style="width:500px;max-width:500px;min-width:500px;">
+				<thead>
+					<th>
+					</th>
+					<tr>
+						<td>
+						</td>
+					</tr>
+				</thead>
+			</table>
+		</textarea>
 	</div>
 
 
