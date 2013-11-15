@@ -36,6 +36,7 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.allowedContent = true;
 
-	config.extraPlugins = 'abbr';
+	config.extraPlugins = 'download,abbr';
+	/*config.extraPlugins = 'abbr';*/
 
 };
