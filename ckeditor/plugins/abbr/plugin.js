@@ -4,7 +4,7 @@
  * Created out of the CKEditor Plugin SDK:
  * http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_1
  */
-console.log('abbr plugin');
+
 // Register the plugin within the editor.
 CKEDITOR.plugins.add( 'abbr', {
 

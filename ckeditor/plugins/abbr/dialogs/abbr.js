@@ -54,7 +54,8 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 						label: 'Id'
 					}
 				]
-			}
+			},
+
 		],
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
@@ -65,7 +66,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 			var dialog = this;
 
 			// Creates a new <abbr> element.
-			var abbr = editor.document.createElement( 'abbr' );
+			var abbr = editor.document.createElement( 'table' );
 
 			// Set element attribute and text, by getting the defined field values.
 			abbr.setAttribute( 'title', dialog.getValueOf( 'tab-basic', 'title' ) );

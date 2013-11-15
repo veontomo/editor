@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
+	<script type="text/javascript" src="js/helpers.js"></script>
 
 	<title>Creatore di newsletter</title>
 </head>
