@@ -263,7 +263,8 @@
                             widths: ["50%", "50%"],
                             children: [{
                                 type: "vbox",
-                                padding: 1,
+                                padding: 0,
+                                margin: 0,
                                 children: [{
                                     type: "text",
                                     width: "45px",
