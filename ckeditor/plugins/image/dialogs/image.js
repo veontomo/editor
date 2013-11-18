@@ -4,18 +4,18 @@
 */
 (function () {
     var r = function (c, j) {
+        console.log('function r(c, j) is envoked: c = ' + c + ', j = ' + j);
         function r() {
-            console.log('function r is envoked, c = ' + c + ', j = ' + j)
             var a = arguments,
                 b = this.getContentElement("advanced", "txtdlgGenStyle");
             b && b.commit.apply(b, a);
             this.foreach(function (b) {
-                console.table(b);
                 b.commit && "txtdlgGenStyle" != b.id && b.commit.apply(b, a)
             })
         }
 
         function i(a) {
+            console.log('function i(a) is envoked: a = ' + a);
             if (!s) {
                 s = 1;
                 var b = this.getDialog(),
