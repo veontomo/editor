@@ -22,6 +22,7 @@ $(document).ready(function(){
 */
 
 	editor.on( 'instanceReady', function() {
+		/*
 	    console.log( editor.filter.allowedContent );
 
 	    console.log('plugins');
@@ -31,8 +32,12 @@ $(document).ready(function(){
 	    console.log(editor.filter.allowedContent);
 
 
-
+	*/
 	} );
+
+
+
+
 
 
 })
