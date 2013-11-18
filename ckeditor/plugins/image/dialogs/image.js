@@ -5,10 +5,12 @@
 (function () {
     var r = function (c, j) {
         function r() {
+            console.log('function r is envoked, c = ' + c + ', j = ' + j)
             var a = arguments,
                 b = this.getContentElement("advanced", "txtdlgGenStyle");
             b && b.commit.apply(b, a);
             this.foreach(function (b) {
+                console.table(b);
                 b.commit && "txtdlgGenStyle" != b.id && b.commit.apply(b, a)
             })
         }
@@ -159,10 +161,14 @@
                             type: "image",
                             alt: ""
                         }), c.insertElement(this.imageElement)) : (this.imageElement = this.cleanImageElement, delete this.cleanImageElement)
-                } else "image" == j ? this.imageElement = c.document.createElement("img") : (this.imageElement = c.document.createElement("input"), this.imageElement.setAttribute("type", "image")), this.imageElement.setAttribute("alt", "");
+                } else "image" == j ? (this.imageElement = c.document.createElement("img"), 
+                    this.imageElement.setAttribute("style", "margin:0px;padding:0px; border:0px;")) : (this.imageElement = c.document.createElement("input"), this.imageElement.setAttribute("type", "image")),
+                this.imageElement.setAttribute("alt", "");
                 this.linkEditMode || (this.linkElement = c.document.createElement("a"));
+
                 this.commitContent(f, this.imageElement);
                 this.commitContent(2, this.linkElement);
+                console.log(this.commitContent)
                 this.imageElement.getAttribute("style") || this.imageElement.removeAttribute("style");
                 this.imageEditMode ? !this.linkEditMode && this.addLink ? (c.insertElement(this.linkElement), this.imageElement.appendTo(this.linkElement)) : this.linkEditMode && !this.addLink && (c.getSelection().selectElement(this.linkElement), c.insertElement(this.imageElement)) : this.addLink ? this.linkEditMode ? c.insertElement(this.imageElement) : (c.insertElement(this.linkElement), this.linkElement.append(this.imageElement, !1)) : c.insertElement(this.imageElement)
             },
@@ -263,8 +269,7 @@
                             widths: ["50%", "50%"],
                             children: [{
                                 type: "vbox",
-                                padding: 0,
-                                margin: 0,
+                                padding: 1,
                                 children: [{
                                     type: "text",
                                     width: "45px",
