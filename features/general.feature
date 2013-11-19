@@ -3,3 +3,6 @@ Feature: testing basic properties of the site
 		Given I am on the homepage
 		Then I should see "Algoritmo"
 		Then I should see the texteditor
+
+		Then show last response
+		

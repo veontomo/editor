@@ -49,7 +49,7 @@ class FeatureContext extends BehatContext
         $session = $this->getSession();
         $element = $session->getPage()->find(
              'xpath',
-             $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[@name="edilllkmlktor"]')
+             $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[@name="editor"]')
          );
         if (null === $element) {
             throw new \InvalidArgumentException('Cannot find editor');

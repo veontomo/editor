@@ -1,7 +1,7 @@
-var Style = function(){
-	width: "0px";
-	min-width: "0px";
-	padding: 0;
+function Style(){
+	this.width = "0px";
+	this.padding = "0px";
+	
 }
 
 var st1 = new Style;
