@@ -1,0 +1,26 @@
+default:
+  context:
+    class: 'FeatureContext'
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: 'http://localhost/slink/editor'
+      goutte: ~
+      selenium2: ~
+
+# No context:
+no_context:
+  paths:
+    bootstrap: 'NON_EXISTING_FOLDER'
+  filters:
+    tags: '~@javascript'
+
+# Context based on inheritance:
+inheritance:
+  context:
+    class: 'InheritedFeatureContext'
+
+
+# Context based on subcontexting:
+subcontexts:
+  context:
+    class: 'SubcontextedFeatureContext'
