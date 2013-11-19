@@ -43,9 +43,10 @@ contents: [{
                     html: "&nbsp;"
                 }, {
                     type: "text",
-                    id: "txtBorder",
+                    id: "txtBorderWidth",
                     requiredContent: "table[border]",
-                    label: editor.lang.table.border,
+                    "default": 1,
+                    label: editor.lang.table.border + ' (' + editor.lang.table.widthPx + ')',
                     controlStyle: "width:3em",
 
                 }]
@@ -73,24 +74,28 @@ contents: [{
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 		/*	console.table(editor.getSelection());*/
-
+            var styles = "";
 			var dialog = this;
-			var elem = editor.document.createElement('table');
-            elem.setAttribute('border', 1); // !!! to be taken from the user input
 
-			editor.insertElement(elem);
-            var parent = elem.getParent();
-            var elemWidth = parent.$.width;
-            elem.setAttribute('width', elemWidth);
-
-
-
-/*            console.log( parent.getName() );*/
-
+            // user input
             var rows = dialog.getValueOf('info', 'txtRows');
             var cols = dialog.getValueOf('info', 'txtCols');
-            alert('Tabella: ' + cols + ' colonne e ' + rows + ' righe.');
+            var bordWidth = dialog.getValueOf('info', 'txtBorderWidth'); 
+            alert('Tabella: ' + cols + ' colonne e ' + rows + ' righe, bordo ' + bordWidth);
 
+
+			var elem = editor.document.createElement('table');
+            elem.setAttribute('border', 0);
+			editor.insertElement(elem);
+
+            var parent = elem.getParent();
+            var elemWidth = parent.$.width;
+            
+            // prepare style
+            styles += 'width:'+ elemWidth + 'px;min-width:' + elemWidth + 'px;max-width:' + elemWidth + 'px;border-width:' + bordWidth + 'px;border-style:solid;border-color:black;padding:0px;margin:0px;';
+
+            elem.setAttribute('width', elemWidth);
+            elem.setAttribute('style', styles);
 
             for (var r = 0; r < rows; r++) {
                 var tr = new CKEDITOR.dom.element('tr');

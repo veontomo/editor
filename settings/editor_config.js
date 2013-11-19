@@ -19,6 +19,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// size
 	config.width = '750px';
 
+	config.disableObjectResizing = true;
+
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
