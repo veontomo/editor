@@ -81,17 +81,36 @@ contents: [{
 			editor.insertElement(elem);
             var parent = elem.getParent();
             var elemWidth = parent.$.width;
-
             elem.setAttribute('width', elemWidth);
+
+
+
 /*            console.log( parent.getName() );*/
 
-			var tr = new CKEDITOR.dom.element('tr');
+            var rows = dialog.getValueOf('info', 'txtRows');
+            var cols = dialog.getValueOf('info', 'txtCols');
+            alert('Tabella: ' + cols + ' colonne e ' + rows + ' righe.');
+
+
+            for (var r = 0; r < rows; r++) {
+                var tr = new CKEDITOR.dom.element('tr');
+                tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
+                elem.append(tr);
+                for (var c = 0; c < cols; c++) {
+                    var td = new CKEDITOR.dom.element('td');
+                    td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
+                    tr.append(td);
+                };
+                
+            };
+
+/*			var tr = new CKEDITOR.dom.element('tr');
             tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
 			var td = new CKEDITOR.dom.element('td');
             td.setAttribute('width', elemWidth); // !!! to be taken from the user input
 			elem.append(tr);
 			tr.append(td);
-
+*/
             /*console.table(elem.$);*/
 
 		}
