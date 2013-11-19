@@ -74,7 +74,6 @@ contents: [{
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 		/*	console.table(editor.getSelection());*/
-            var styles = "";
 			var dialog = this;
 
             // user input
@@ -92,18 +91,21 @@ contents: [{
             var elemWidth = parent.$.width;
             
             // prepare style
-            styles += 'width:'+ elemWidth + 'px;min-width:' + elemWidth + 'px;max-width:' + elemWidth + 'px;border-width:' + bordWidth + 'px;border-style:solid;border-color:black;padding:0px;margin:0px;';
+            var stylesTable = 'width:'+ elemWidth + 'px;min-width:' + elemWidth + 'px;max-width:' + elemWidth + 'px;border-width:' + bordWidth + 'px;border-style:solid;border-color:black;padding:0px;margin:0px;';
+            var stylesRow   = 'width:'+ elemWidth + 'px;min-width:' + elemWidth + 'px;max-width:' + elemWidth + 'px;border-width:0px;border-style:solid;border-color:black;padding:0px;margin:0px;';
+            var stylesCell  = 'width:'+ elemWidth/cols + 'px;min-width:' + elemWidth/cols + 'px;max-width:' + elemWidth/cols + 'px;border-width:0px;border-style:solid;border-color:black;padding:0px;margin:0px;';
 
             elem.setAttribute('width', elemWidth);
-            elem.setAttribute('style', styles);
+            elem.setAttribute('style', stylesTable);
 
             for (var r = 0; r < rows; r++) {
                 var tr = new CKEDITOR.dom.element('tr');
                 tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
+                tr.setAttribute('style', stylesRow);
                 elem.append(tr);
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
-                    td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
+                    td.setAttribute('width', stylesCell); // !!! to be taken from the user input
                     tr.append(td);
                 };
                 
