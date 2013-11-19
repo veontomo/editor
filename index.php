@@ -19,7 +19,7 @@
 	La procedura preliminaria sarebbe questa:
 	<ol>
 		<li>
-			Definiamo una costante <code>LARGHEZZA = 500</code> per impostare la larghezza della newsletter
+			Definiamo una costante <code>LARGHEZZA</code> per impostare la larghezza della newsletter. Inizializiamola con valore 500.
 		</li>
 		<li>
 			Creiamo una tabella larga <code>LARGHEZZA</code> pixel che serve come contenitore per tutto ci&ograve; che segue. 
@@ -79,7 +79,7 @@
 			Per immagini bisogna specificare:
 			<ol>
 				<li>
-					attributi <code>width</code> e <code>height</code> che devono essere uguali alla larghezza e lunghezza dell&#39;immagine. 
+					attributi <code>width</code> e <code>height</code> che devono essere uguali alla larghezza e altezza dell&#39;immagine. 
 				</li>
 				<li>
 					attributi <code>alt</code> e <code>title</code>.
@@ -93,9 +93,9 @@
 
 	<div>
 		<textarea name="editor">
-			<table style="width:500px;max-width:500px;min-width:500px;">
-				<tr>
-					<td>
+			<table width="500" style="width:500px;max-width:500px;min-width:500px;" border="1">
+				<tr width="500">
+					<td width="500">
 					</td>
 				</tr>
 

@@ -74,18 +74,25 @@ contents: [{
 		onOk: function() {
 		/*	console.table(editor.getSelection());*/
 
-			var sel = editor.getSelection();
-			sel.selectElement(sel.getStartElement());
-			console.log(sel.parent);
-
-
 			var dialog = this;
 			var elem = editor.document.createElement('table');
+            elem.setAttribute('border', 1); // !!! to be taken from the user input
+
 			editor.insertElement(elem);
+            var parent = elem.getParent();
+            var elemWidth = parent.$.width;
+
+            elem.setAttribute('width', elemWidth);
+/*            console.log( parent.getName() );*/
+
 			var tr = new CKEDITOR.dom.element('tr');
+            tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
 			var td = new CKEDITOR.dom.element('td');
+            td.setAttribute('width', elemWidth); // !!! to be taken from the user input
 			elem.append(tr);
 			tr.append(td);
+
+            /*console.table(elem.$);*/
 
 		}
 	};
