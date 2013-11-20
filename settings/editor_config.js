@@ -4,20 +4,13 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For the complete reference:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
-	// The toolbar groups arrangement, optimized for two toolbar rows.
-
-
-	
 	// language
 	config.language = 'it';
 	config.defaultLanguage = config.language;
-
-
 	// size
 	config.width = '750px';
+	// when pressing "ENTER", <br> is inserted, not <p>
+	config.enterMode = CKEDITOR.ENTER_BR;
 
 	config.disableObjectResizing = true;
 

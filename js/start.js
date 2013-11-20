@@ -17,19 +17,27 @@ $(document).ready(function(){
 
 		// adjusting the styles of the table as whole
         var stylesTable = new TableAttributes();
-        stylesTable.setWidth(NEWSLETTER.width);
-        stylesTable["border-width"] = "1px";
+        stylesTable.setWidth(NEWSLETTER.width + 'px');
+        stylesTable["border-width"] = '1px';
+        stylesTable["border-color"] = 'red';
 
 		// adjusting the styles of the row 
         var stylesRow = new TableRowAttributes();
-        stylesRow.setWidth(NEWSLETTER.width)
+        stylesRow.setWidth(NEWSLETTER.width + 'px');
         
         // adjusting the styles of the cell 
         var stylesCell = new TableCellAttributes();
-        stylesCell.setWidth(NEWSLETTER.width)
+        stylesCell.setWidth(NEWSLETTER.width + 'px');
 
         // applying attributes
 		elem.setAttribute('border', 0);
+		elem.setAttribute('cellspacing', 1);
+		elem.setAttribute('cellpadding', 1);
+		elem.setAttribute('width', NEWSLETTER.width);
+		tr.setAttribute('width', NEWSLETTER.width);
+		td.setAttribute('width', NEWSLETTER.width);
+
+		// applying inline styles
 		elem.setAttribute('style', stylesTable.toString());
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());

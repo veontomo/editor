@@ -75,12 +75,12 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var bordWidth = dialog.getValueOf('info', 'txtBorderWidth'); 
 
 
-			var elem = editor.document.createElement('table');
-            elem.setAttribute('border', 0);
-			editor.insertElement(elem);
+			var table = editor.document.createElement('table');
+            table.setAttribute('border', 0);
+			editor.insertElement(table);
 
-            var parent = elem.getParent();
-            var elemWidth = parent.$.width;
+            var parent = table.getParent();
+            var elemWidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
             
             // defining styles
             var stylesTable = new TableAttributes();
@@ -93,19 +93,19 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var stylesCell = new TableCellAttributes();
             stylesCell.setWidth(elemWidth/cols + "px");
 
-            elem.setAttribute('width', elemWidth);
-            elem.setAttribute('style', stylesTable.toString());
+            table.setAttribute('width', elemWidth);
+            table.setAttribute('style', stylesTable.toString());
 
             for (var r = 0; r < rows; r++) {
                 var tr = new CKEDITOR.dom.element('tr');
                 tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
                 tr.setAttribute('style', stylesRow.toString());
-                elem.append(tr);
+                table.append(tr);
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
                     td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
                     td.setAttribute('style', stylesCell.toString())
-                    tr.append(td);
+                    table.append(td);
                 };
             };
 		}
