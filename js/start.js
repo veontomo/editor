@@ -13,13 +13,14 @@ $(document).ready(function(){
 		var td = new CKEDITOR.dom.element('td');
 		elem.append(tr);
 		tr.append(td);
+		td.setHtml('<br><br><br><br><br><br><br><br>');
 		editor.insertElement(elem);
 
 		// adjusting the styles of the table as whole
         var stylesTable = new TableAttributes();
         stylesTable.setWidth(NEWSLETTER.width + 'px');
         stylesTable["border-width"] = '1px';
-        stylesTable["border-color"] = 'red';
+        stylesTable["border-color"] = '#f0f0e0';
 
 		// adjusting the styles of the row 
         var stylesRow = new TableRowAttributes();
@@ -31,8 +32,8 @@ $(document).ready(function(){
 
         // applying attributes
 		elem.setAttribute('border', 0);
-		elem.setAttribute('cellspacing', 1);
-		elem.setAttribute('cellpadding', 1);
+		elem.setAttribute('cellspacing', 0);
+		elem.setAttribute('cellpadding', 0);
 		elem.setAttribute('width', NEWSLETTER.width);
 		tr.setAttribute('width', NEWSLETTER.width);
 		td.setAttribute('width', NEWSLETTER.width);

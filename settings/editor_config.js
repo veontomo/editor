@@ -29,9 +29,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 	];
 	
-	config.allowedContent = true;
+	config.allowedContent = false;
 
-	config.extraPlugins = 'download,abbr,image2,table2';
+	config.extraPlugins = 'download,abbr,image2,table2,link2';
 	/*config.extraPlugins = 'abbr';*/
 
 };

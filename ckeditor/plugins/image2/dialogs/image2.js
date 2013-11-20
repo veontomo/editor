@@ -71,7 +71,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 			elem.setAttribute('width', imW);
 			elem.setAttribute('height', imH);
 
-			// Defining inline image styles
+			// Defining inlineimage styles
 			var stylesImage = new ImageAttributes();
 			stylesImage.width = imW + "px";
 			stylesImage.height = imH + "px";

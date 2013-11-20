@@ -104,7 +104,8 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
                     td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
-                    td.setAttribute('style', stylesCell.toString())
+                    td.setAttribute('style', stylesCell.toString());
+                    td.setHtml('<br>');
                     table.append(td);
                 };
             };
