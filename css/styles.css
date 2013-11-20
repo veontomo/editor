@@ -7,5 +7,15 @@ code{
 	font-size: 1.05em;
 	font-weight: 900;
 	color: navy;
-	
+}
+
+.editor{
+	float: left;
+
+}
+
+.algorithm{
+	width: 40%;
+	float: left;
+	min-width: 50em;
 }

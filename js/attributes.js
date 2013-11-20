@@ -10,7 +10,7 @@ var toString =  function(){
     for(var key in this) {
         // avoid adding method to the output
         if((typeof this[key]) !== "function"){
-            styles += key + ': '+ this[key] +';';
+            styles += key + ':'+ this[key] +';';
         }
     }
 	return styles;
@@ -23,13 +23,13 @@ var toString =  function(){
 * @return void
 */ 
 var setMinMaxWidth  = function(w){
-        this.width = w;
-        this["max-width"] = this.width;
-        this["min-width"] = this.width;
+    this.width = w;
+    this["max-width"] = this.width;
+    this["min-width"] = this.width;
 };
 
 /** 
-* Some data containers
+* Some data containers with default values of their attributes.
 */
 function TextAttributes(){
     this["font-size"] = "12px";
@@ -92,9 +92,9 @@ TableCellAttributes.prototype.toString = toString;
 TableCellAttributes.prototype.setWidth = setMinMaxWidth;
 
 function ImageAttributes(){
-	this["border-width"] = "1px";
+	this["border-width"] = "0px";
 	this["border-style"] = "solid";
-	this["border-color"] = "#000000";
+	this["border-color"] = "#ffffff";
 	this.padding = "0px";
 	this.margin = "0px";
 	this.width = "0px";

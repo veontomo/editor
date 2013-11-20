@@ -56,14 +56,26 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 		onOk: function() {
 			var dialog = this;
 
-			// Creates a new <abbr> element.
-			var elem = editor.document.createElement('img');
+			// user input
+			var textAlt = dialog.getValueOf('tab-general', 'textAlt');
+			var imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
 
-			// Set element attribute and text, by getting the defined field values.
-			elem.setAttribute('alt', dialog.getValueOf('tab-general', 'textAlt'));
-			elem.setAttribute('src', dialog.getValueOf('tab-general', 'imageUrl'));
-			elem.setAttribute('width', elem.$.width);
-			elem.setAttribute('height', elem.$.height);
+			var elem = editor.document.createElement('img');
+			elem.setAttribute('alt', textAlt);
+			elem.setAttribute('src', imageUrl);
+
+			// Calculate image width and height. This block should stay after "src" attribute is assigned.
+			var imH = elem.$.height;
+			var imW = elem.$.width;
+
+			elem.setAttribute('width', imW);
+			elem.setAttribute('height', imH);
+
+			// Defining inline image styles
+			var stylesImage = new ImageAttributes();
+			stylesImage.width = imW + "px";
+			stylesImage.height = imH + "px";
+			elem.setAttribute('style', stylesImage.toString());
 
 			// Inserts the element at the editor caret position.
 			editor.insertElement(elem);		

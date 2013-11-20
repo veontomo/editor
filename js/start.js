@@ -1,42 +1,39 @@
 $(document).ready(function(){
+
 	var editor = CKEDITOR.replace( 'editor', {
 			customConfig: '../settings/editor_config.js',
 		}
 	);
 
-	target_exists('ckeditor/plugins/abbr');
-/*	var CKEDITOR_BASEPATH = 'plugins/abbr';
-	console.log(CKEDITOR_BASEPATH);
-
-	$.ajax({
-    url: CKEDITOR_BASEPATH,
-    	statusCode: {
-	        404: function() {
-    	        alert('not found');
-	        }
-    	}
-	});
-*/
-
+	// once the editro is loaded, insert a table inside
 	editor.on( 'instanceReady', function() {
-		/*
-	    console.log( editor.filter.allowedContent );
+		// inserting table
+		var elem = editor.document.createElement('table');
+		var tr = new CKEDITOR.dom.element('tr');
+		var td = new CKEDITOR.dom.element('td');
+		elem.append(tr);
+		tr.append(td);
+		editor.insertElement(elem);
 
-	    console.log('plugins');
-	    console.log( editor.plugins );
+		// adjusting the styles of the table as whole
+        var stylesTable = new TableAttributes();
+        stylesTable.setWidth(NEWSLETTER.width);
+        stylesTable["border-width"] = "1px";
 
-	    console.log('allowed content');
-	    console.log(editor.filter.allowedContent);
+		// adjusting the styles of the row 
+        var stylesRow = new TableRowAttributes();
+        stylesRow.setWidth(NEWSLETTER.width)
+        
+        // adjusting the styles of the cell 
+        var stylesCell = new TableCellAttributes();
+        stylesCell.setWidth(NEWSLETTER.width)
 
-
-	*/
+        // applying attributes
+		elem.setAttribute('border', 0);
+		elem.setAttribute('style', stylesTable.toString());
+		tr.setAttribute('style', stylesRow.toString());
+		td.setAttribute('style', stylesCell.toString());
 	} );
-
-
-
-
-
-
 })
 
 
