@@ -20,7 +20,7 @@ $(document).ready(function(){
         var stylesTable = new TableAttributes();
         stylesTable.setWidth(NEWSLETTER.width + 'px');
         stylesTable["border-width"] = '1px';
-        stylesTable["border-color"] = '#f0f0e0';
+        stylesTable["border-color"] = '#cccccc';
 
 		// adjusting the styles of the row 
         var stylesRow = new TableRowAttributes();

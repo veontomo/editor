@@ -27,6 +27,10 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             label: editor.lang.table.rows,
                             required: !0,
                             controlStyle: "width:5em",
+                            onFocus: function(){
+                                console.log('on focus txtRows: ');
+                                console.log(editor.getSelection().getStartElement().$.width);
+                            }
                         }, {
                             type: "text",
                             id: "txtCols",
@@ -57,7 +61,13 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                                 requiredContent: "table{width}",
                                 controlStyle: "width:5em",
                                 label: editor.lang.common.width,
+                                "default": editor.getSelection().getStartElement().$.width,
                                 title: editor.lang.common.cssLengthTooltip,
+                                onFocus: function(){
+                                    console.log('on focus txtWidth: ');
+                                    console.log(editor.getSelection().getStartElement().$.width);
+                                }
+
                             }]
                         }]
                     }]
