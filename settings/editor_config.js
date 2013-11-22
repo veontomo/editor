@@ -5,7 +5,7 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	// language
-	config.language = 'it';
+	config.language = 'en';
 	config.defaultLanguage = config.language;
 	// size
 	config.width = '750px';
@@ -29,7 +29,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 	];
 	
-	config.allowedContent = false;
+	config.allowedContent = true;
 
 	config.extraPlugins = 'download,abbr,image2,table2,link2';
 	/*config.extraPlugins = 'abbr';*/

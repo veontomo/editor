@@ -13,8 +13,9 @@ $(document).ready(function(){
 		var td = new CKEDITOR.dom.element('td');
 		elem.append(tr);
 		tr.append(td);
-		td.setHtml('<br><br><br><br><br><br><br><br>');
+		td.setHtml('<br>cominci a scrivere qua<br><br><br><br><br><br><br>');
 		editor.insertElement(elem);
+		elem.focus();
 
 		// adjusting the styles of the table as whole
         var stylesTable = new TableAttributes();
@@ -42,6 +43,7 @@ $(document).ready(function(){
 		elem.setAttribute('style', stylesTable.toString());
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());
+
 	} );
 })
 

@@ -3,6 +3,7 @@
 */
 
 CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
+
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.common.generalTab,
@@ -27,10 +28,6 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             label: editor.lang.table.rows,
                             required: !0,
                             controlStyle: "width:5em",
-                            onFocus: function(){
-                                console.log('on focus txtRows: ');
-                                console.log(editor.getSelection().getStartElement().$.width);
-                            }
                         }, {
                             type: "text",
                             id: "txtCols",
@@ -40,7 +37,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             controlStyle: "width:5em",
                         }, {
                             type: "html",
-                            html: "&nbsp;"
+                            html: "&nbsp;AAA"
                         }, {
                             type: "text",
                             id: "txtBorderWidth",
@@ -61,7 +58,6 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                                 requiredContent: "table{width}",
                                 controlStyle: "width:5em",
                                 label: editor.lang.common.width,
-                                "default": editor.getSelection().getStartElement().$.width,
                                 title: editor.lang.common.cssLengthTooltip,
                                 onFocus: function(){
                                     console.log('on focus txtWidth: ');
@@ -74,6 +70,13 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                 }]
             },
         ],
+        onShow: function(){
+            var parentWidth = editor.getSelection().getStartElement().$.width;
+            this.setValueOf('info', 'txtWidth', parentWidth);
+            console.log(editor.getSnapshot());
+            
+        },
+
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
@@ -115,8 +118,8 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     var td = new CKEDITOR.dom.element('td');
                     td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
                     td.setAttribute('style', stylesCell.toString());
-                    td.setHtml('<br>');
-                    table.append(td);
+                    td.setHtml('row ' + r + ', column ' + c);
+                    tr.append(td);
                 };
             };
 		}
