@@ -44,6 +44,9 @@ $(document).ready(function(){
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());
 
+
+		console.log(stylesTable.toString());
+
 	} );
 })
 
