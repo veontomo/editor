@@ -89,9 +89,11 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var stylesTable = new TableAttributes();
             stylesTable.setWidth(elemWidth + "px");
             stylesTable["border-width"] = borderWidth + "px";
+            stylesTable.margin = spaceBtwRows/2 + "px";
 
             var stylesRow   = new TableRowAttributes();
             stylesRow.setWidth(elemWidth + "px");
+
 
             var stylesCell = new TableCellAttributes();
             stylesCell.setWidth(elemWidth/cols + "px");

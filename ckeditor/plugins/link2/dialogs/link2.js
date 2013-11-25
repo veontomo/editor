@@ -95,10 +95,10 @@ CKEDITOR.dialog.add("linkSimplified", function (editor) {
 
         onOk: function(){
             // user input
-            var linkRow = this.getValueOf('tab-general', 'href');
+            var linkRaw = this.getValueOf('tab-general', 'href');
             var underlined = this.getValueOf('tab-general', 'underlined');
 
-            var link = 'http://' + linkRow.replace(/http:\/\//i, '');
+            var link = 'http://' + linkRaw.replace(/http:\/\//i, '');
             
             var stylesLink = new LinkAttributes();
             stylesLink["text-decoration"] = underlined ? 'underline' : 'none';
@@ -108,6 +108,7 @@ CKEDITOR.dialog.add("linkSimplified", function (editor) {
             // what to insert into <a href=""> ... </a>
             var sel = this.getParentEditor().getSelection().getNative();
             var aTagContent = sel ? sel : link;
+            console.log('aTagContent: ' +  aTagContent);
             aTag.setHtml(aTagContent);
 
             editor.insertElement(aTag);

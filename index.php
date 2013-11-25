@@ -99,6 +99,5 @@
 	<div class="editor">
 		<textarea name="editor"></textarea>
 	</div>
-
 </body>
 </html>

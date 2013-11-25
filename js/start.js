@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+	$( "#cke_1_contents" ).on( "click", "a", function( event ) {
+		console.log( $( this ).text() );
+	});
+
 	var editor = CKEDITOR.replace( 'editor', {
 			customConfig: '../settings/editor_config.js',
 		}
