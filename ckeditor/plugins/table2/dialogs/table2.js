@@ -125,7 +125,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     table2.append(tr2);
 
                     // calculating widths of the newly created elements
-                    var td2Width = trWidth;
+                    var td2Width = trWidth; // the 
                     var table2Width = td2Width;
                     var tr2Width = table2Width - 2 * borderWidthRow;
 
@@ -135,7 +135,10 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
 
                     var stylesTable2   = new TableAttributes();
                     stylesTable2.setWidth(table2Width + "px");
-                    stylesTable2["border-width"] = borderWidthRow + "px";
+                    stylesTable2['border-width'] = borderWidthRow + "px";
+                    stylesTable2['margin-top'] = spaceBtwRows + 'px';
+                    stylesTable2['margin-bottom'] = stylesTable['margin-top'];
+
 
                     var stylesRow2 = new TableRowAttributes();
                     stylesRow2.setWidth(tr2Width + 'px');
