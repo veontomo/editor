@@ -22,9 +22,9 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                         type: "text",
                         label: editor.lang.table.rows,
                         id: 'tblRows',
-                        style: 'padding-top: 8em;float: right;padding-right: 0px; margin:0;',
+                        style: 'padding-top: 8em;margin-left:60%; margin-right: 0px;',
                         "default": "3",
-                        width: "20%"
+                        width: "50%"
                     }, {
                         type: "vbox",
                         children: [{
@@ -33,6 +33,22 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             id: 'tblCols',
                             "default": "2",
                             width: "20%",
+                            onChange: function(){
+                                console.log('tblCols is changed ' + this.getDialog().getValueOf('info', 'tblCols'));
+                                var colWidthInput = new CKEDITOR.dom.element('table');
+                                var td = new CKEDITOR.dom.element('td');
+                                colWidthInput.append(td);
+                                for (var i = 0; i < this.getDialog().getValueOf('info', 'tblCols') ; i++) {
+                                    var tr = new CKEDITOR.dom.element('tr');
+                                    td.append(tr);
+                                    tr.setHtml('<input id="colWidth' + i + '"></input>');
+                                };
+                                console.log(this.getElement().find('#addColumns'));
+                                // here one should somehow append element colWidthInput to the element #addColumns
+                                /*this.getDialog().getElement().getFirst().insertElement(colWidthInput);*/
+
+
+                            }
 
                         }, {
                             type: 'html',
@@ -61,6 +77,11 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                         id: 'spaceBtwRows',
                         width: "40%"
                     }]
+                }, {
+                    type: 'html',
+                    widths: ['100%'],
+                    html: '<div id="addColumns">' 
+
                 }]
             }
         ],
