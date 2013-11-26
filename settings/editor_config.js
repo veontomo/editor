@@ -8,7 +8,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.language = 'it';
 	config.defaultLanguage = config.language;
 	// size
-	config.width = '750px';
+	config.width = '850px';
+	config.height = '500px';
 	// when pressing "ENTER", <br> is inserted, not <p>
 	config.enterMode = CKEDITOR.ENTER_BR;
 

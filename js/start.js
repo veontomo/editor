@@ -12,42 +12,53 @@ $(document).ready(function(){
 	// once the editro is loaded, insert a table inside
 	editor.on( 'instanceReady', function() {
 		// inserting table
-		var elem = editor.document.createElement('table');
+		var table = editor.document.createElement('table');
 		var tr = new CKEDITOR.dom.element('tr');
 		var td = new CKEDITOR.dom.element('td');
-		elem.append(tr);
+		table.append(tr);
 		tr.append(td);
 		td.setHtml('<br>cominci a scrivere qua<br><br><br><br><br><br><br>');
-		editor.insertElement(elem);
-		elem.focus();
+		editor.insertElement(table);
+		table.focus();
 
-		// adjusting the styles of the table as whole
+        var borderWidth = 1; // impose by hand
+
+		// calculating the widths
+		var tableWidth = NEWSLETTER.width;
+        var trWidth = tableWidth - 2*borderWidth; // table row width
+        var tdWidth = trWidth; // table cell width
+
+		// styles for the table
         var stylesTable = new TableAttributes();
-        stylesTable.setWidth(NEWSLETTER.width + 'px');
-        stylesTable["border-width"] = '1px';
+        stylesTable.setWidth(tableWidth + 'px');
+        stylesTable["border-width"] = borderWidth + 'px';
         stylesTable["border-color"] = '#cccccc';
 
-		// adjusting the styles of the row 
+		// styles for the row
         var stylesRow = new TableRowAttributes();
-        stylesRow.setWidth(NEWSLETTER.width + 'px');
+        stylesRow.setWidth(trWidth + 'px');
         
-        // adjusting the styles of the cell 
+        // styles of the cell 
         var stylesCell = new TableCellAttributes();
-        stylesCell.setWidth(NEWSLETTER.width + 'px');
+        stylesCell.setWidth(tdWidth + 'px');
 
-        // applying attributes
-		elem.setAttribute('border', 0);
-		elem.setAttribute('cellspacing', 0);
-		elem.setAttribute('cellpadding', 0);
-		elem.setAttribute('width', NEWSLETTER.width);
-		tr.setAttribute('width', NEWSLETTER.width);
-		td.setAttribute('width', NEWSLETTER.width);
+        // applying styles
+		table.setAttribute('border', 0);
+		table.setAttribute('cellspacing', 0);
+		table.setAttribute('cellpadding', 0);
+		table.setAttribute('width', tableWidth);
+		table.setAttribute('style', stylesTable.toString());
 
-		// applying inline styles
-		elem.setAttribute('style', stylesTable.toString());
+		tr.setAttribute('width', trWidth);
 		tr.setAttribute('style', stylesRow.toString());
+
+		td.setAttribute('width', tdWidth);
 		td.setAttribute('style', stylesCell.toString());
 
+		// applying inline styles
+		table.setAttribute('style', stylesTable.toString());
+		tr.setAttribute('style', stylesRow.toString());
+		td.setAttribute('style', stylesCell.toString());
 
 		console.log(stylesTable.toString());
 

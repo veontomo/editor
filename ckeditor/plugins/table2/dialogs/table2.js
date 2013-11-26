@@ -79,31 +79,37 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var isFramed = borderWidthRow > 0; // whether each row should be framed
 
 			var table = new CKEDITOR.dom.element('table');
-            table.setAttribute('border', borderWidth);
 			editor.insertElement(table);
 
+
+
+            // calculating widths
             var parent = table.getParent();
-            var elemWidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
-            
+            var tablEwidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
+            var trWidth = tablEwidth - 2 * borderWidth; // table row width = table width - 2 * (border width)
+            var tdWidth = trWidth/cols;
+
             // defining styles
             var stylesTable = new TableAttributes();
-            stylesTable.setWidth(elemWidth + "px");
+            stylesTable.setWidth(tablEwidth + "px");
             stylesTable["border-width"] = borderWidth + "px";
-            stylesTable.margin = spaceBtwRows/2 + "px";
-
+            
             var stylesRow   = new TableRowAttributes();
-            stylesRow.setWidth(elemWidth + "px");
-
+            stylesRow.setWidth(trWidth + "px");
 
             var stylesCell = new TableCellAttributes();
-            stylesCell.setWidth(elemWidth/cols + "px");
+            stylesCell.setWidth(tdWidth + "px");
 
-            table.setAttribute('width', elemWidth);
+            // applying styles
+            table.setAttribute('width', tablEwidth);
+            table.setAttribute('border', 0);
+            table.setAttribute('cellspacing', 0);
+            table.setAttribute('cellpadding', 0);
             table.setAttribute('style', stylesTable.toString());
 
             for (var r = 0; r < rows; r++) {
                 var tr = new CKEDITOR.dom.element('tr');
-                tr.setAttribute('width', elemWidth); // the row must be of the same width as the table's one it belongs to
+                tr.setAttribute('width', trWidth); 
                 tr.setAttribute('style', stylesRow.toString());
                 table.append(tr);
 
@@ -113,35 +119,55 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     // containing the requested cells.
                     var td2 = new CKEDITOR.dom.element('td');
                     tr.append(td2);
-                    var tbl2 = new CKEDITOR.dom.element('table');
-                    td2.append(tbl2);
+                    var table2 = new CKEDITOR.dom.element('table');
+                    td2.append(table2);
                     var tr2 = new CKEDITOR.dom.element('tr'); // the forthcoming cells are to be appended to this element
-                    tbl2.append(tr2);
+                    table2.append(tr2);
 
-                    // creating and applying styles to the newly created elements
+                    // calculating widths of the newly created elements
+                    var td2Width = trWidth;
+                    var table2Width = td2Width;
+                    var tr2Width = table2Width - 2 * borderWidthRow;
+
+                    // styles of the newly created elements
                     var stylesCell2   = new TableCellAttributes();
-                    stylesCell2.setWidth(elemWidth + "px");
-                    td2.setAttribute('style', stylesCell2.toString());
+                    stylesCell2.setWidth(td2Width + "px");
 
                     var stylesTable2   = new TableAttributes();
-                    stylesTable2.setWidth(elemWidth + "px");
+                    stylesTable2.setWidth(table2Width + "px");
                     stylesTable2["border-width"] = borderWidthRow + "px";
-                    tbl2.setAttribute('style', stylesTable2.toString());
 
                     var stylesRow2 = new TableRowAttributes();
-                    stylesRow2.setWidth(elemWidth + 'px');
-                    tr2.setAttribute('style', stylesRow2.toString());
+                    stylesRow2.setWidth(tr2Width + 'px');
 
+
+                    // applying styles
+                    td2.setAttribute('width', td2Width);
+                    td2.setAttribute('style', stylesCell2.toString());
+
+                    table2.setAttribute('width', table2Width);
+                    table2.setAttribute('border', 0);
+                    table2.setAttribute('cellspacing', 0);
+                    table2.setAttribute('cellpadding', 0);
+                    table2.setAttribute('style', stylesTable2.toString());
+
+                    tr2.setAttribute('width', tr2Width);
+                    tr2.setAttribute('style', stylesRow2.toString());
                 }else{
                     // if the board around the rows is not requested, then just duplicate the table row variable 
                     // and append the forthcoming cells to this element
                     var tr2 = tr;
+                    var tr2Width = trWidth;
                 }
+
+                var cellWidth = tr2Width/cols;
+                var stylesCellNew = new TableCellAttributes();
+                stylesCellNew.setWidth(cellWidth + 'px');
 
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
-                    td.setAttribute('width', elemWidth/cols); // !!! to be taken from the user input
-                    td.setAttribute('style', stylesCell.toString());
+                    td.setAttribute('width', cellWidth);
+                    td.setAttribute('style', stylesCellNew.toString());
                     td.setHtml('row ' + r + ', column ' + c + (isFramed ? '  framed' : '  no frame' ));
                     tr2.append(td);
                 };
