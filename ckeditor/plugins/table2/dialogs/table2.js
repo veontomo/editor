@@ -31,25 +31,33 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             type: "text",
                             label: editor.lang.table.columns,
                             id: 'tblCols',
-                            "default": "2",
+                            "default": '2',
                             width: "20%",
                             onChange: function(){
                                 console.log('tblCols is changed ' + this.getDialog().getValueOf('info', 'tblCols'));
                                 var colWidthInput = new CKEDITOR.dom.element('table');
-                                var td = new CKEDITOR.dom.element('td');
-                                colWidthInput.append(td);
+                                var tr = new CKEDITOR.dom.element('tr');
+                                colWidthInput.append(tr);
                                 for (var i = 0; i < this.getDialog().getValueOf('info', 'tblCols') ; i++) {
-                                    var tr = new CKEDITOR.dom.element('tr');
-                                    td.append(tr);
-                                    tr.setHtml('<input id="colWidth' + i + '"></input>');
+                                    var td = new CKEDITOR.dom.element('td');
+                                    var inputField = new CKEDITOR.dom.element('input');
+                                    inputField.setAttribute('type', 'text');
+                                    inputField.setAttribute('id', 'widthCol' + i);
+                                    inputField.setAttribute('width', '50');
+                                    inputField.setAttribute('class', 'cke_dialog_ui_input_text');
+                                    td.append(inputField);
+                                    tr.append(td);
                                 };
-                                console.log(this.getElement().find('#addColumns'));
-                                // here one should somehow append element colWidthInput to the element #addColumns
-                                /*this.getDialog().getElement().getFirst().insertElement(colWidthInput);*/
-
-
+                                console.log(colWidthInput);
+                                var element = CKEDITOR.document.getById('addColumns');
+                                var children = element.getChildren();
+                                console.log(children.count());
+                                var length = children.count();
+                                for(var i = 0; i < length; i++){
+                                    children.getItem(i).remove();
+                                }
+                                element.append(colWidthInput);
                             }
-
                         }, {
                             type: 'html',
                             'html': '<img src="images/spreadsheet.png" width="128" height="128">'
@@ -192,7 +200,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     var td = new CKEDITOR.dom.element('td');
                     td.setAttribute('width', cellWidth);
                     td.setAttribute('style', stylesCellNew.toString());
-                    td.setHtml('row ' + r + ', column ' + c + (isFramed ? '  framed' : '  no frame' ));
+                    td.setHtml('riga ' + r + ', colonna ' + c + (isFramed ? ' con bordo' : ' senza bordo' ));
                     tr2.append(td);
                 };
             };
