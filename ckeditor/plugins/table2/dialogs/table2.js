@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     children: [{
                         type: 'text',
                         id: 'borderWidth',
-                        label: 'Bordo attorno alla tabella',
+                        label: 'Cornice',
                         "default": "0",
                         width: "40%"
                     }, {

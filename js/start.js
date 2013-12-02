@@ -60,7 +60,9 @@ $(document).ready(function(){
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());
 
-		console.log(stylesTable.toString());
+		var focusManager = new CKEDITOR.focusManager(CKEDITOR.currentInstance);
+		focusManager.focus() ? console.log('focusManager success') : console.log('focusManager not success');
+		td.focus() ? console.log('focus success') : console.log('focus not success');
 
 	} );
 })
