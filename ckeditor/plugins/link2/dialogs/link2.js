@@ -60,7 +60,7 @@
     };
 });*/
 
-CKEDITOR.dialog.add("linkSimplified", function (editor) {
+CKEDITOR.dialog.add("linkSimplified", function(editor) {
     return {
         title: editor.lang.link.info,
         minWidth: 400,
@@ -93,22 +93,22 @@ CKEDITOR.dialog.add("linkSimplified", function (editor) {
             }]
         }],
 
-        onOk: function(){
+        onOk: function() {
             // user input
             var linkRaw = this.getValueOf('tab-general', 'href');
             var underlined = this.getValueOf('tab-general', 'underlined');
 
             var link = 'http://' + linkRaw.replace(/http:\/\//i, '');
-            
+
             var stylesLink = new LinkAttributes();
             stylesLink["text-decoration"] = underlined ? 'underline' : 'none';
-            var  aTag = editor.document.createElement('a');
+            var aTag = editor.document.createElement('a');
             aTag.setAttribute('href', link);
 
             // what to insert into <a href=""> ... </a>
             var sel = this.getParentEditor().getSelection().getNative();
             var aTagContent = sel ? sel : link;
-            console.log('aTagContent: ' +  aTagContent);
+            console.log('aTagContent: ' + aTagContent);
             aTag.setHtml(aTagContent);
 
             editor.insertElement(aTag);

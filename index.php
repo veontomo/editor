@@ -93,8 +93,9 @@
 				</ol>
 			</li>
 		</ol>
-
+	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">Andare ai template</a></div>
 	</article>
+
 
 	<div class="editor">
 		<textarea name="editor"></textarea>
