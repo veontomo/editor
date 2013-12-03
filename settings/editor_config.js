@@ -32,7 +32,7 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,abbr,image2,table2,link2';
+	config.extraPlugins = 'download,image2,table2,link2';
 	/*config.extraPlugins = 'abbr';*/
 
 };
