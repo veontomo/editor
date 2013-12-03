@@ -126,7 +126,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
     /**
     * composition of roundUp and splitWeighted
     */
-    var columnWidth = function(overall, pieces){
+    var columnWidths = function(overall, pieces){
         return roundUp(splitWeighted(overall, pieces));
     }
 
@@ -157,7 +157,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                             type: "text",
                             label: editor.lang.table.columns,
                             id: 'tblCols',
-                            "default": '2',
+                            "default": '1',
                             width: "20%",
                             onChange: drawColumns
                         }, {
@@ -226,7 +226,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var parent = table.getParent();
             var tablEwidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
             var trWidth = tablEwidth - 2 * borderWidth;
-            var tdWidth = splitWeighted(trWidth, colWidths); // array of column widths
+            var tdWidth = columnWidths(trWidth, colWidths); // array of column widths
 
             // defining styles
             var stylesTable = new TableAttributes();
@@ -241,7 +241,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
 */
             // applying styles
             table.setAttribute('width', tablEwidth);
-            table.setAttribute('border', 0);
+            table.setAttribute('border', borderWidth);
             table.setAttribute('cellspacing', 0);
             table.setAttribute('cellpadding', 0);
             table.setAttribute('style', stylesTable.toString());
@@ -285,7 +285,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     td2.setAttribute('style', stylesCell2.toString());
 
                     table2.setAttribute('width', table2Width);
-                    table2.setAttribute('border', 0);
+                    table2.setAttribute('border', borderWidthRow);
                     table2.setAttribute('cellspacing', 0);
                     table2.setAttribute('cellpadding', 0);
                     table2.setAttribute('style', stylesTable2.toString());
@@ -299,7 +299,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
                     var tr2Width = trWidth;
                 }
 
-                var cellWidths = splitWeighted(tr2Width, colWidths); // tr2Width/cols;
+                var cellWidths = columnWidths(tr2Width, colWidths); // tr2Width/cols;
 
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
