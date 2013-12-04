@@ -22,5 +22,23 @@ CKEDITOR.plugins.add('link2', {
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/link2.js');
 
+		if (editor.contextMenu) {
+			editor.addMenuGroup('link2Group');
+
+			editor.addMenuItem('link2Item', {
+				label: editor.lang.link.menu,
+				icon: this.path + 'icons/link2.png',
+				command: 'link2',
+				group: 'link2Group'
+			});
+			editor.contextMenu.addListener(function(element) {
+				if (element.getAscendant('a', true)) {
+					return {
+						link2Item: CKEDITOR.TRISTATE_OFF
+					};
+				}
+			});
+		}
+
 	}
 });
