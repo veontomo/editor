@@ -64,8 +64,8 @@ $(document).ready(function(){
 			editor.removeMenuItem(item);
 		})
 
-		console.log('operator "_": ');
-		console.log(editor._);
+		console.log('plugins: ');
+		console.log(CKEDITOR.plugins);
 	} );
 })
 
