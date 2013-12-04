@@ -313,7 +313,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
         },
 
         onShow: function(){
-            alert('la logica è da inserire');
+            alert('la logica è ancora da inserire');
         }
     };
 });
