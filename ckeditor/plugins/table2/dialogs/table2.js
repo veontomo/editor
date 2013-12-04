@@ -34,7 +34,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
      * transforms each element of the input array into a non-negative number. 
      * If an element is negative, its absolute value is used.
      * If an element fails to be converted to a number, it is substituted by zero.
-     * Examples:  [1.1, 2.4, 2] -> [1.1, 2.4, 2],  
+     * @example   [1.1, 2.4, 2] -> [1.1, 2.4, 2],  
      *            ["4", -3, 3.2, "a"] -> [4, 3, 3.2, 0]
      * @param    arr      Array      array of numbers
      * @return            Array      array of numbers
@@ -51,9 +51,9 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
 
     /**
      * calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
+     * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
      * @param arr    array of numbers
      * @return   number
-     * Example: [1, 2, 2] -> 1 + 2 + 2 = 5
      */
     var trace = function(arr) {
             var accum = 0;
@@ -66,11 +66,11 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
     /**
      * normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.
      * If not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.
+     * @example     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]
+     *              [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]   
+     *              [0, 0]          -> [ 0.5, 0.5]
      * @param    Array   array of numbers
      * @return   Array   array of numbers 
-     * Expectations: [1, 3, 4]       => [ 0.125, 0.375, 0.5 ]
-     *               [2, 0, -1, -1]  => [ 2, 0, -1, -1 ]   
-     *               [0, 0]          => [ 0.5, 0.5]
      */
     var normalize = function(arr) {
             var total = trace(arr);
@@ -99,7 +99,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
     /**
      * this function produces an array that is a result of a slicing of the first argument weighted with respect to the second one.
      * The elements of the second array are supposed to be non-negative numbers. 
-     * Examples:  (10, [1, 2, 2]) -> [2, 4, 4],  
+     * @example   (10, [1, 2, 2])    -> [2, 4, 4],  
      *            (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]
      * @param    overall     Number  a number to be splitted
      * @param    pieces      Array   array of weigths
@@ -118,8 +118,9 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
 
     /**
      * rounds each elements of the array
-     * @param arr    Array       array of numbers
-     * @return       Array       array of integers    
+     * @example [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]
+     * @param    arr    Array       array of numbers
+     * @return          Array       array of integers 
      */
     var roundUp = function(arr) {
             return arr.map(function(elem) {
@@ -198,11 +199,8 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                 type: 'html',
                 widths: ['100%'],
                 html: '<div id="addColumns">'
-
             }]
         }],
-
-
         // This method is invoked once a user clicks the OK button, confirming the dialog.
         onOk: function() {
             var dialog = this;
@@ -214,12 +212,13 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var borderWidthRow = dialog.getValueOf('info', 'borderWidthRow');
             var spaceBtwRows = dialog.getValueOf('info', 'spaceBtwRows');
 
-            // calculating widths of the columns (weight factor)
 
             // read inserted values 
             var colWidths = [];
             for (var i = 0; i < cols; i++) {
-                colWidths[i] = parseFloat((CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i).getValue()));
+                // in fact, this check is needed only when the user does not change the default number of the table rows
+                var inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
+                colWidths[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
             }
 
             var isFramed = borderWidthRow > 0; // whether each row should be framed
@@ -238,7 +237,6 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
 
             var stylesRow = new TableRowAttributes();
             stylesRow.setWidth(trWidth + 'px');
-
 
             // applying styles
             table.setAttribute('width', tableWidth);
@@ -300,7 +298,8 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     var tr2Width = trWidth;
                 }
 
-                var cellWidths = columnWidths(tr2Width, colWidths); // tr2Width/cols;
+                var cellWidths = columnWidths(tr2Width, colWidths);
+
                 for (var c = 0; c < cols; c++) {
                     var td = new CKEDITOR.dom.element('td');
                     var stylesCellNew = new TableCellAttributes();
@@ -311,6 +310,10 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     tr2.append(td);
                 };
             };
+        },
+
+        onShow: function(){
+            alert('la logica è da inserire');
         }
     };
 });

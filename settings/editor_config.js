@@ -18,7 +18,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'others' },
 		'/',
@@ -30,7 +29,7 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,abbr,image2,table2,link2';
+	config.extraPlugins = 'download,image2,table2,link2';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 

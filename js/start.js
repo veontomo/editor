@@ -1,13 +1,11 @@
 $(document).ready(function(){
 
-	$( "#cke_1_contents" ).on( "click", "a", function( event ) {
-		console.log( $( this ).text() );
-	});
-
 	var editor = CKEDITOR.replace( 'editor', {
 			customConfig: '../settings/editor_config.js',
 		}
 	);
+
+
 
 	// once the editro is loaded, insert a table inside
 	editor.on( 'instanceReady', function() {
@@ -43,7 +41,7 @@ $(document).ready(function(){
         stylesCell.setWidth(tdWidth + 'px');
 
         // applying styles
-		table.setAttribute('border', 0);
+		table.setAttribute('border', borderWidth);
 		table.setAttribute('cellspacing', 0);
 		table.setAttribute('cellpadding', 0);
 		table.setAttribute('width', tableWidth);
@@ -59,6 +57,17 @@ $(document).ready(function(){
 		table.setAttribute('style', stylesTable.toString());
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());
+
+		editor.removeMenuItem('table');
+		editor.removeMenuItem('tabletools');
+		editor.removeMenuItem('tabledelete');
+		/*editor.removeMenuItem('tableProperties');*/
+		/*editor.contextMenu.removeAll();*/
+
+/*		delete editor._.menuitems.table;*/
+		console.log('operator "_": ');
+		
+		console.log(editor._);
 	} );
 })
 
