@@ -75,7 +75,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             if(linkRaw){
                 var link = 'http://' + encodeURI(dropProtocol(linkRaw));
                 var linkText = this.getValueOf('tab-general', 'text');
-                var aTagContent = linkText ? linkText : link;
+                var aTagContent = linkText || link;
 
                 var underlined = this.getValueOf('tab-general', 'underlined');
                 var stylesLink = new LinkAttributes();
