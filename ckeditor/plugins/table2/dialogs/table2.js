@@ -208,12 +208,11 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             var borderWidthRow = dialog.getValueOf('info', 'borderWidthRow'); 
             var spaceBtwRows = dialog.getValueOf('info', 'spaceBtwRows'); 
 
-            // calculating widths of the columns (weight factor)
-
-            
+           
             // read inserted values 
             var colWidths = [];
             for(var i=0; i < cols; i++){
+                
                 colWidths[i] = parseFloat((CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i).getValue()));
             }
             
@@ -224,13 +223,13 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
 
             // calculating widths
             var parent = table.getParent();
-            var tablEwidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
-            var trWidth = tablEwidth - 2 * borderWidth;
+            var tableWidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
+            var trWidth = tableWidth - 2 * borderWidth;
             var tdWidth = columnWidths(trWidth, colWidths); // array of column widths
 
             // defining styles
             var stylesTable = new TableAttributes();
-            stylesTable.setWidth(tablEwidth + "px");
+            stylesTable.setWidth(tableWidth + "px");
             stylesTable["border-width"] = borderWidth + "px";
             
             var stylesRow   = new TableRowAttributes();
@@ -240,7 +239,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             stylesCell.setWidth(tdWidth + "px");
 */
             // applying styles
-            table.setAttribute('width', tablEwidth);
+            table.setAttribute('width', tableWidth);
             table.setAttribute('border', borderWidth);
             table.setAttribute('cellspacing', 0);
             table.setAttribute('cellpadding', 0);
