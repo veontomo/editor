@@ -212,8 +212,8 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             // read inserted values 
             var colWidths = [];
             for(var i=0; i < cols; i++){
-                
-                colWidths[i] = parseFloat((CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i).getValue()));
+                var inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
+                colWidths[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
             }
             
             var isFramed = borderWidthRow > 0; // whether each row should be framed
