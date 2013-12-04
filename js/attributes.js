@@ -103,10 +103,16 @@ function ImageAttributes(){
 ImageAttributes.prototype.toString = toString;
 
 function ListAttributes()  {
+	this.padding = "0px";
+	this.margin = "0px";
+}
+ListAttributes.prototype.toString = toString;
+
+function ListItemAttributes()  {
 	this["font-size"] = "12px";
 	this.color = "#000000";
 	this["font-weight"] = "0";
 	this.padding = "0px";
 	this.margin = "0px";
 }
-ListAttributes.prototype.toString = toString;
+ListItemAttributes.prototype.toString = toString;

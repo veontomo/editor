@@ -74,6 +74,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var linkText = this.getValueOf('tab-general', 'text');
 
             if(linkRaw){
+                // if url is provided
                 var link = 'http://' + encodeURI(dropProtocol(linkRaw));
                 var aTagContent = linkText || link;
 
@@ -88,7 +89,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 aTag.setHtml(aTagContent);                
                 editor.insertElement(aTag);
             }else{
-                console.log('link Raw is empty, linkText=' + linkText);
+                // url is not provided, so let's insert the linkText as a plain text
+
                 editor.insertHtml(linkText);
             }
         }
