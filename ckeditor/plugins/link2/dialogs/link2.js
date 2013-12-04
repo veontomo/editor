@@ -71,10 +71,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
         onOk: function() {
             var linkRaw = this.getValueOf('tab-general', 'href');
+            var linkText = this.getValueOf('tab-general', 'text');
 
             if(linkRaw){
                 var link = 'http://' + encodeURI(dropProtocol(linkRaw));
-                var linkText = this.getValueOf('tab-general', 'text');
                 var aTagContent = linkText || link;
 
                 var underlined = this.getValueOf('tab-general', 'underlined');
@@ -87,6 +87,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 aTag.setAttribute('target', '_blank');
                 aTag.setHtml(aTagContent);                
                 editor.insertElement(aTag);
+            }else{
+                console.log('link Raw is empty, linkText=' + linkText);
+                editor.insertHtml(linkText);
             }
         }
     };
