@@ -212,6 +212,7 @@ CKEDITOR.dialog.add( 'table2Dialog', function(editor) {
             // read inserted values 
             var colWidths = [];
             for(var i=0; i < cols; i++){
+                // in fact, this check is needed only when the user does not change the default number of the table rows
                 var inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
                 colWidths[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
             }
