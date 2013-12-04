@@ -122,6 +122,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             stylesLink["text-decoration"] = underlined ? 'underline' : 'none';
             var aTag = editor.document.createElement('a');
             aTag.setAttribute('href', link);
+            aTag.setAttribute('style', stylesLink.toString());
             aTag.setHtml(linkText);
 
 /*            // what to insert into <a href=""> ... </a>

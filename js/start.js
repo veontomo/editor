@@ -58,15 +58,13 @@ $(document).ready(function(){
 		tr.setAttribute('style', stylesRow.toString());
 		td.setAttribute('style', stylesCell.toString());
 
-		editor.removeMenuItem('table');
-		editor.removeMenuItem('tabletools');
-		editor.removeMenuItem('tabledelete');
-		/*editor.removeMenuItem('tableProperties');*/
-		/*editor.contextMenu.removeAll();*/
+		// disabling default plugins by removing them from the context menu
+		var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink'];
+		menuItemsToRemove.forEach(function(item){
+			editor.removeMenuItem(item);
+		})
 
-/*		delete editor._.menuitems.table;*/
 		console.log('operator "_": ');
-		
 		console.log(editor._);
 	} );
 })
