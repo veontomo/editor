@@ -32,6 +32,9 @@ CKEDITOR.plugins.add( 'table2', {
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('table2Dialog', this.path + 'dialogs/table2.js' );
+
+
+	
 	}
 });
 
