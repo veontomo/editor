@@ -63,9 +63,6 @@ $(document).ready(function(){
 		menuItemsToRemove.forEach(function(item){
 			editor.removeMenuItem(item);
 		})
-
-		console.log('plugins: ');
-		console.log(CKEDITOR.plugins);
 	} );
 })
 
