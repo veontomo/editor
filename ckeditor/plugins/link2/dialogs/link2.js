@@ -1,20 +1,6 @@
+
+
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
-
-    /**
-     * Deletes the protocol name from the url.
-     * Everything until the first occurence of '://' will be removed (inclusively).
-     * @example  'http://www.test.com'      -> 'www.test.com'
-     *           'www.test.com'             -> 'www.test.com'
-     * @param    url     String
-     * @return   String  url without protocol name
-     */
-    var dropProtocol = function(str){
-        var delimiter = '://';
-        var pattern = '^[^' + delimiter + ']+' + delimiter; 
-        var re = new RegExp(pattern, 'gi');
-        return str.replace(re, '');
-    };
-
     return {
         title: editor.lang.link.info,
         minWidth: 400,
