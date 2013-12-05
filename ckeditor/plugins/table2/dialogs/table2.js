@@ -124,6 +124,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var stylesTable = new TableAttributes();
             stylesTable.setWidth(tableWidth + 'px');
             stylesTable["border-width"] = borderWidth + 'px';
+            stylesTable['cell-spacing'] = '0px ' + spaceBtwRows + 'px';
 
             var stylesRow = new TableRowAttributes();
             stylesRow.setWidth(trWidth + 'px');
@@ -165,6 +166,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     stylesTable2['border-width'] = borderWidthRow + 'px';
                     stylesTable2['margin-top'] = spaceBtwRows + 'px';
                     stylesTable2['margin-bottom'] = stylesTable2['margin-top'];
+                    stylesTable2['cell-spacing'] = '0px ' + spaceBtwRows + 'px';
 
                     var stylesRow2 = new TableRowAttributes();
                     stylesRow2.setWidth(tr2Width + 'px');
