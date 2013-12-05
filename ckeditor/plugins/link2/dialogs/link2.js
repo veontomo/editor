@@ -1,5 +1,3 @@
-
-
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     return {
         title: editor.lang.link.info,
@@ -49,7 +47,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var node = this.getParentEditor().getSelection();
             var sel = node.getNative();
             var hrefComplete = node.getStartElement().getAttribute('href');
-            var href = hrefComplete ? dropProtocol(hrefComplete) : '';
+            var href = hrefComplete ? dropProtocol(hrefComplete) : ''; // see helpers.js for the definitions of dropProtocol() and other functions.
 
             this.setValueOf('tab-general', 'text', sel);
             this.setValueOf('tab-general', 'href', href);
