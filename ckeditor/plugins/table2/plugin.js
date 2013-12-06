@@ -29,7 +29,6 @@ CKEDITOR.plugins.add('table2', {
 		CKEDITOR.dialog.add('table2Dialog', this.path + 'dialogs/table2.js');
 
 		if (editor.contextMenu) {
-			console.log('context menu in table2 is called');
 			editor.addMenuGroup('table2Group');
 			editor.addMenuItem('table2Item', {
 				label: editor.lang.table.toolbar,

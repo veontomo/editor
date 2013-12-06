@@ -1,3 +1,10 @@
+describe("file extension", function() {
+    it("gives the file extension", function() {
+        expect(fileExt('c:/folder/test.exe')).toEqual('exe');
+        expect(fileExt('c:/folder/testexe')).toEqual('');
+    });
+});
+
 describe("table2 helper functions", function() {
     it("transforms each element of the input array into a non-negative number", function() {
         expect(sanitize([1, 2, 3])).toEqual([1, 2, 3]);
@@ -30,4 +37,16 @@ describe("table2 helper functions", function() {
     	expect(roundUp([-2.8, 3.4, 4.993])).toEqual([-3, 3, 5]);
     });
  
+});
+
+describe("drop protocol", function() {
+    it("drops protocol", function() {
+        expect(dropProtocol('http://www.test.com')).toEqual("www.test.com");
+        expect(dropProtocol('https://www.test.com')).toEqual("www.test.com");
+        expect(dropProtocol('ftp://www.test.com')).toEqual("www.test.com");
+        expect(dropProtocol('www.test.com')).toEqual("www.test.com");
+        expect(dropProtocol('http://www.test.com://')).toEqual("www.test.com://");
+        expect(dropProtocol('http://www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt')).toEqual('www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt');
+    });
+
 });

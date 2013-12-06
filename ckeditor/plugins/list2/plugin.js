@@ -29,7 +29,6 @@ CKEDITOR.plugins.add('list2', {
 		CKEDITOR.dialog.add('list2Dialog', this.path + 'dialogs/list2.js');
 
 		if (editor.contextMenu) {
-			console.log('context menu in list2 is called');
 			editor.addMenuGroup('list2Group');
 			editor.addMenuItem('list2Item', {
 				label: editor.lang.list.numberedlist,

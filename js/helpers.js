@@ -138,3 +138,14 @@ var dropProtocol = function(str){
     var re = new RegExp(pattern, 'gi');
     return str.replace(re, '');
 };
+
+
+/** 
+* Gives file extension
+* @param    fileName   String      name of file
+* @return   String     file extension
+*/
+var fileExt = function(str){
+    var delimiter = '.';
+    return  str.indexOf(delimiter) !== -1 ? str.split(delimiter).pop() : '';
+};
