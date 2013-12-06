@@ -18,3 +18,7 @@ code {
 	float: left;
 	min-width: 50em;
 }
+
+.warning{
+	color: red;
+}
