@@ -26,6 +26,13 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 		{ name: 'colors' },
 	];
+
+	/*config.toolbar = [
+	    [ 'Source', '-', 'Preview', '-', 'Templates' ],
+	    [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
+	    [ 'list', 'indent', 'blocks', 'align'],
+	    [ 'Bold', 'Italic' ]
+	];*/
 	
 	config.allowedContent = true;
 
@@ -34,7 +41,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.magicline_color = '#ababab';
 
 	config.removePlugins = 'tabletools,table,link';
-
 
 
 };

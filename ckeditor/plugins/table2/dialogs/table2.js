@@ -198,14 +198,14 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     stylesCellNew.setWidth(cellWidths[c] + 'px');
                     td.setAttribute('width', cellWidths[c]);
                     td.setAttribute('style', stylesCellNew.toString());
-                    td.setHtml('riga ' + r + ', colonna ' + c + (isFramed ? ' con bordo' : ' senza bordo'));
+                    td.setHtml('&curren;');
                     tr2.append(td);
                 };
             };
         },
 
         onShow: function(){
-            alert('la logica è ancora da inserire');
+            
         }
     };
 });
