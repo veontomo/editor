@@ -3,27 +3,35 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
     var INPUTCOLWIDTHNAME = 'widthCol';
     // adds input fields to set the widths of the table columns
     var drawColumns = function() {
-            var colWidthInput = new CKEDITOR.dom.element('table');
-            var tr = new CKEDITOR.dom.element('tr');
-            colWidthInput.append(tr);
-            for (var i = 0; i < this.getDialog().getValueOf('info', 'tblCols'); i++) {
-                var td = new CKEDITOR.dom.element('td');
-                var inputField = new CKEDITOR.dom.element('input');
-                inputField.setAttribute('type', 'text');
-                inputField.setAttribute('id', INPUTCOLWIDTHNAME + i);
-                inputField.setAttribute('width', '50');
-                inputField.setAttribute('class', 'cke_dialog_ui_input_text');
-                td.append(inputField);
-                tr.append(td);
-            };
-            var element = CKEDITOR.document.getById('addColumns');
+            var element = CKEDITOR.document.getById('columnWidthTable');
+            var title = CKEDITOR.document.getById('columnWidthTableTitle')
+            title.setHtml('');
             var children = element.getChildren();
-            console.log(children.count());
             var length = children.count();
             for (var i = 0; i < length; i++) {
                 children.getItem(i).remove();
-            }
-            element.append(colWidthInput);
+            };
+
+            var colWidthInput = new CKEDITOR.dom.element('table');
+            var tr = new CKEDITOR.dom.element('tr');
+            colWidthInput.append(tr);
+            var colNum =  this.getDialog().getValueOf('info', 'tblCols');
+            if(colNum > 1){
+                for (var i = 0; i < colNum; i++) {
+                    var td = new CKEDITOR.dom.element('td');
+                    var inputField = new CKEDITOR.dom.element('input');
+                    inputField.setAttribute('type', 'text');
+                    inputField.setAttribute('id', INPUTCOLWIDTHNAME + i);
+                    inputField.setAttribute('width', '50');
+                    inputField.setAttribute('class', 'cke_dialog_ui_input_text');
+                    td.append(inputField);
+                    tr.append(td);
+                }; 
+                element.append(colWidthInput);
+                title.setHtml('Fattori con i quali le colonne contribuiscono<br>nella larghezza della tabella:');
+
+            };
+            
         };
 
 
@@ -86,9 +94,15 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     width: "40%"
                 }]
             }, {
-                type: 'html',
-                widths: ['100%'],
-                html: '<div id="addColumns">'
+                type: 'vbox',
+                children: [ {
+                    type: 'html',
+                    html: '<div id="columnWidthTableTitle"></div>'
+                }, {
+                    type: 'html',
+                    widths: ['100%'],
+                    html: '<div id="columnWidthTable"></div>'
+                }]
             }]
         }],
         // This method is invoked once a user clicks the OK button, confirming the dialog.
@@ -122,18 +136,23 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var tdWidth = columnWidths(trWidth, colWidths); // array of column widths
             // defining styles
             var stylesTable = new TableAttributes();
+            if(borderWidth > 0){
+                stylesTable['border-width'] = borderWidth + 'px';
+                stylesTable['border-color'] = 'rgb(0, 0, 0)';
+
+            }
             stylesTable.setWidth(tableWidth + 'px');
-            stylesTable["border-width"] = borderWidth + 'px';
-            stylesTable['cell-spacing'] = '0px ' + spaceBtwRows + 'px';
+            
+            stylesTable['border-spacing'] = '0px ' + spaceBtwRows + 'px';
 
             var stylesRow = new TableRowAttributes();
             stylesRow.setWidth(trWidth + 'px');
 
             // applying styles
-            table.setAttribute('width', tableWidth);
+            /*table.setAttribute('width', tableWidth);
             table.setAttribute('border', borderWidth);
             table.setAttribute('cellspacing', 0);
-            table.setAttribute('cellpadding', 0);
+            table.setAttribute('cellpadding', 0);*/
             table.setAttribute('style', stylesTable.toString());
 
             for (var r = 0; r < rows; r++) {
@@ -160,13 +179,18 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     // styles of the newly created elements
                     var stylesCell2 = new TableCellAttributes();
                     stylesCell2.setWidth(td2Width + 'px');
+                    stylesCell2['border-width'] = borderWidthRow + 'px';
+                    stylesCell2['border-color'] = 'rgb(0, 0, 0)';
 
                     var stylesTable2 = new TableAttributes();
                     stylesTable2.setWidth(table2Width + 'px');
                     stylesTable2['border-width'] = borderWidthRow + 'px';
-                    stylesTable2['margin-top'] = spaceBtwRows + 'px';
+                    stylesTable2['border-color'] = 'rgb(0, 0, 0)';
+/*                  stylesTable2['margin-top'] = spaceBtwRows + 'px';
                     stylesTable2['margin-bottom'] = stylesTable2['margin-top'];
-                    stylesTable2['cell-spacing'] = '0px ' + spaceBtwRows + 'px';
+                    stylesTable2['cell-spacing'] = '0px ' + spaceBtwRows + 'px';*/
+                    stylesTable2['border-collapse'] = 'collapse';
+
 
                     var stylesRow2 = new TableRowAttributes();
                     stylesRow2.setWidth(tr2Width + 'px');
@@ -176,9 +200,9 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     td2.setAttribute('style', stylesCell2.toString());
 
                     table2.setAttribute('width', table2Width);
-                    table2.setAttribute('border', borderWidthRow);
+/*                    table2.setAttribute('border', borderWidthRow);
                     table2.setAttribute('cellspacing', 0);
-                    table2.setAttribute('cellpadding', 0);
+                    table2.setAttribute('cellpadding', 0);*/
                     table2.setAttribute('style', stylesTable2.toString());
 
                     tr2.setAttribute('width', tr2Width);
@@ -198,7 +222,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     stylesCellNew.setWidth(cellWidths[c] + 'px');
                     td.setAttribute('width', cellWidths[c]);
                     td.setAttribute('style', stylesCellNew.toString());
-                    td.setHtml('&curren;');
+                    td.setHtml('&#164;');
                     tr2.append(td);
                 };
             };

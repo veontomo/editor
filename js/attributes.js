@@ -51,11 +51,11 @@ function LinkAttributes(){
 LinkAttributes.prototype.toString = toString;
 
 function TableAttributes(){
-	this["border-width"] = "1px";
+	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
-	this["border-color"] = "#000000";
-	this.padding = "0px";
+	this["border-width"] = "0px";
 	this.margin = "0px";
+	this.padding = "0px";
 	this.width = "0px";
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
@@ -64,11 +64,11 @@ TableAttributes.prototype.toString = toString;
 TableAttributes.prototype.setWidth = setMinMaxWidth;
 
 function TableRowAttributes(){
-	this["border-width"] = "0px";
+	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
-	this["border-color"] = "#ffffff";
-	this.padding = "0px";
+	this["border-width"] = "0px";
 	this.margin = "0px";
+	this.padding = "0px";
 	this.width = "0px";
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
@@ -77,16 +77,14 @@ TableRowAttributes.prototype.toString = toString;
 TableRowAttributes.prototype.setWidth = setMinMaxWidth;
 
 function TableCellAttributes(){
-	this["border-width"] = "0px";
+	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
-	this["border-color"] = "#ffffff";
-	this.padding = "0px";
+	this["border-width"] = "0px";
 	this.margin = "0px";
+	this.padding = "0px";
 	this.width = "0px";
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
-	this["vertical-align"] = "top";
-	this["text-align"] = "justify";
 }
 TableCellAttributes.prototype.toString = toString;
 TableCellAttributes.prototype.setWidth = setMinMaxWidth;
@@ -94,7 +92,7 @@ TableCellAttributes.prototype.setWidth = setMinMaxWidth;
 function ImageAttributes(){
 	this["border-width"] = "0px";
 	this["border-style"] = "solid";
-	this["border-color"] = "#ffffff";
+	this["border-color"] = "rgb(255, 255, 255)";
 	this.padding = "0px";
 	this.margin = "0px";
 	this.width = "0px";
