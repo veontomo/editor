@@ -2,6 +2,8 @@ $(document).ready(function(){
 
 	var editor = CKEDITOR.replace( 'editor', {
 			customConfig: '../settings/editor_config.js',
+			filebrowserBrowseUrl: '/php/browse.php?type=Images',
+			filebrowserUploadUrl: '/php/uploadFile.php'
 		}
 	);
 
@@ -57,7 +59,9 @@ $(document).ready(function(){
 		menuItemsToRemove.forEach(function(item){
 			editor.removeMenuItem(item);
 		})
-	} );
+	});
+
+
 })
 
 

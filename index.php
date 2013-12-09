@@ -12,7 +12,16 @@
 	<script type="text/javascript" src="js/attributes.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
 
+
 	<title>Creatore di newsletter</title>
+
+	<?php
+	require 'php/fileContent.php';
+	if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']) && ($_FILES['fileInput']['error'] === 0)){
+		$fileContent = fileContent(file_get_contents($_FILES['fileInput']['tmp_name']));
+
+	}
+	?>
 </head>
 <body>
 	<article class="algorithm">
@@ -95,9 +104,16 @@
 		</ol>
 	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">Andare ai template</a></div>
 	</article>
-
+	<form method="post" action='#' method="post" enctype="multipart/form-data">
+		<input type="file" id="fileInput" name="fileInput">
+		<input type="submit" value="submit">
+	</form>
 	<div class="editor">
-		<textarea name="editor"></textarea>
+		<textarea name="editor">
+			<?php if(isset($fileContent)){
+				echo $fileContent;
+			}?>
+	</textarea>
 	</div>
 </body>
 </html>

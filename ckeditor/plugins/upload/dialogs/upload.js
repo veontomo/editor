@@ -5,43 +5,29 @@ CKEDITOR.dialog.add('uploadDialog', function(editor) {
         minHeight: 100,
 
         contents: [{
-            id: 'uploadTab',
-            label: 'First Tab',
-            title: 'First Tab Title',
+            id: 'tab1',
             elements: [{
                 type: 'vbox',
-                children: [/*{
-                    type: 'text',
-                    id: 'filepath',
-                    label: 'Percorso per il file',
-                    validate: function() {
-                        var filePath = this.getValue();
-                        if (fileExt(filePath) !== 'html') {
-                            var text = 'il file deve avere l\'estensione html!';
-                            CKEDITOR.document.getById('message').setHtml(text);
-                            return false;
+                children: [{
+                    type: 'file',
+                    label: 'Percorso1',
+                    id: 'fileUpload'
+                }, {
+                    type: 'fileButton',
+                    label: 'Percorso2',
+                    'for': ['tab1', 'fileUpload'],
+                    filebrowser: {
+                        onSelect: function( fileUrl, data ) {
+                            alert( 'Successfully uploaded: ' + fileUrl );
                         }
                     }
-                },*/ {
-                    type: 'html',
-                    html: '<div class="warning" id="message"></div>',
-                }, {
-                    type: 'html',
-                    html: '<input type="file"></input>',
                 }]
             }]
         }],
         onOk: function() {
-            var filePath = this.getValueOf('uploadTab', 'filepath');
-            console.log(filePath);
-            $.get(filePath, function(data) {
-                console.log(data);
-            }).fail(function() {
-                console.log(filePath + ' is not found');
-            })
         },
         onShow: function() {
-            CKEDITOR.document.getById('message').setHtml('');
+            
         }
 
     };
