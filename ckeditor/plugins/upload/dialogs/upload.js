@@ -10,7 +10,7 @@ CKEDITOR.dialog.add('uploadDialog', function(editor) {
             title: 'First Tab Title',
             elements: [{
                 type: 'vbox',
-                children: [{
+                children: [/*{
                     type: 'text',
                     id: 'filepath',
                     label: 'Percorso per il file',
@@ -22,9 +22,12 @@ CKEDITOR.dialog.add('uploadDialog', function(editor) {
                             return false;
                         }
                     }
-                }, {
+                },*/ {
                     type: 'html',
                     html: '<div class="warning" id="message"></div>',
+                }, {
+                    type: 'html',
+                    html: '<input type="file"></input>',
                 }]
             }]
         }],
