@@ -13,16 +13,46 @@ var dropRow = function(ed){
 }
 
 /**
-* Adds a row before the selected one. The inserted row will have the same styles and attributes as the selected one.
+* Converts the first letter of the string into the upper case
+* If the string is empty, the output is empty string as well.
+* @param 	str 	String
+* @return 			String
 */
-var addRowBefore = function(ed){
-	console.log('should add a row before');
-	var currentRow = ed.getSelection().getStartElement().getAscendant('tr', true);
-	console.log(currentRow.getHtml());
-	var newElement = new CKEDITOR.dom.element('tr');
-	currentRow.copyAttributes(newElement, 'id');
-	newElement.insertBefore(currentRow);
-	newElement.setHtml('<td>A</td><td>B</td>');
+var firstLetterUpperCase = function(str){
+    return str.substring(0,1).toUpperCase() + str.substring(1);
+}
+
+/**
+* Inserts a row at a specified position with respect to the selected element.
+* The command to insert the row is obtained by capitalizing the second argument 
+* and appending it to the string 'insert'. Example: if pos is 'after', the command
+* to be executed is 'insertAfter'.
+* @param 	ed 		CKEDITOR.editor 
+* @param 	pos 	String 	where to insert the element with respect to the current one. 
+*/
+var insertRow = function(ed, pos){
+	console.log('add row ' + pos);
+	var tag = 'tr'; // tag to replicate
+	var currentRow = ed.getSelection().getStartElement().getAscendant(tag, true);
+	var newElement = new CKEDITOR.dom.element(tag);
+
+	var operation = 'insert' + firstLetterUpperCase(pos);
+	if(operation in newElement) {
+		newElement[operation](currentRow);
+	}else{
+		return null;
+	}
+
+	currentRow.copyAttributes(newElement);
+	var currentChildren = currentRow.getChildren();
+	var childNum = currentChildren.count();
+	for (var i = 0;  i < childNum; i++) {
+		var child = currentChildren.getItem(i);
+		var newChild = new CKEDITOR.dom.element(child.getName());
+		newChild.setHtml('&curren;');
+		newElement.append(newChild);
+		child.copyAttributes(newChild);
+	};
 }
 
 CKEDITOR.plugins.add('table2', {
@@ -36,12 +66,12 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2AddRowBefore', {
 			exec: function(editor) {
-				addRowBefore(editor);
+				insertRow(editor, 'before');
 			}
 		});
 		editor.addCommand('table2AddRowAfter', {
 			exec: function(editor) {
-				console.log('add row after');
+				insertRow(editor, 'after');
 			}
 		});
 		editor.addCommand('table2DeleteRow', {
