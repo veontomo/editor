@@ -12,6 +12,19 @@ var dropRow = function(ed){
 	}
 }
 
+/**
+* Adds a row before the selected one. The inserted row will have the same styles and attributes as the selected one.
+*/
+var addRowBefore = function(ed){
+	console.log('should add a row before');
+	var currentRow = ed.getSelection().getStartElement().getAscendant('tr', true);
+	console.log(currentRow.getHtml());
+	var newElement = new CKEDITOR.dom.element('tr');
+	currentRow.copyAttributes(newElement, 'id');
+	newElement.insertBefore(currentRow);
+	newElement.setHtml('<td>A</td><td>B</td>');
+}
+
 CKEDITOR.plugins.add('table2', {
 
 	// Register the icons.
@@ -23,7 +36,7 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2AddRowBefore', {
 			exec: function(editor) {
-				console.log('add row before');
+				addRowBefore(editor);
 			}
 		});
 		editor.addCommand('table2AddRowAfter', {
