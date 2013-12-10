@@ -1,7 +1,7 @@
 /**
  * Drops the table row. If after that the table remains empty, removes it as well.
  */
-var dropColumn = function(ed){
+var dropRow = function(ed){
 	var row = ed.getSelection().getStartElement().getAscendant('tr', true);
 	var parentTable = row.getAscendant('table');
 	row.remove();
@@ -33,7 +33,7 @@ CKEDITOR.plugins.add('table2', {
 		});
 		editor.addCommand('table2DeleteRow', {
 			exec: function(editor) {
-				dropColumn(editor);
+				dropRow(editor);
 			}
 		});
 
