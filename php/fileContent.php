@@ -6,13 +6,19 @@
  */
  function fileContent($fileContent){
  	$doc = new DOMDocument;
- 	$doc->loadHtml($fileContent, LIBXML_NONET);
-	$docElem = $doc->documentElement;
- 	$bodyNode = $docElem->getElementsByTagName('body')->item(0);
-//	$output = $bodyNode->ownerDocument;
- 	
- 	$content = $doc->saveHTML($bodyNode);
- 	return preg_replace("/<\/?body>/", "", $content);
+ 	try {
+ 		libxml_use_internal_errors(true);
+	 	$doc->loadHtml($fileContent, LIBXML_NONET);
+		$docElem = $doc->documentElement;
+	 	$bodyNode = $docElem->getElementsByTagName('body')->item(0);
+	 	$content = $doc->saveHTML($bodyNode);
+	 	
+	 	$output = preg_replace("/<\/?body>/", "", $content);
+ 		
+ 	} catch (Exception $e) {
+ 		$output = $e->getMessage();
+ 	}
+ 	return $output;
 }
 
 
