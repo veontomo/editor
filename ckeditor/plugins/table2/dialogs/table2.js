@@ -1,4 +1,3 @@
-
 CKEDITOR.dialog.add('table2Dialog', function(editor) {
     var INPUTCOLWIDTHNAME = 'widthCol';
     // adds input fields to set the widths of the table columns

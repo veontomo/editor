@@ -1,11 +1,17 @@
 /**
- * Basic sample plugin inserting abbreviation elements into CKEditor editing area.
- *
- * Created out of the CKEditor Plugin SDK:
- * http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_1
+ * Drops the table row. If after that the table remains empty, removes it as well.
  */
+var dropColumn = function(ed){
+	var row = ed.getSelection().getStartElement().getAscendant('tr', true);
+	var parentTable = row.getAscendant('table');
+	row.remove();
+	// calculating the numebb of children of the table after removing the row
+	var tableLength = parentTable.findOne('tbody').getChildren().count();
+	if (tableLength === 0) {
+		parentTable.remove();
+	}
+}
 
-// Register the plugin within the editor.
 CKEDITOR.plugins.add('table2', {
 
 	// Register the icons.
@@ -16,27 +22,20 @@ CKEDITOR.plugins.add('table2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2AddRowBefore', {
-			exec: function(editor){
+			exec: function(editor) {
 				console.log('add row before');
-		}});
+			}
+		});
 		editor.addCommand('table2AddRowAfter', {
-			exec: function(editor){
+			exec: function(editor) {
 				console.log('add row after');
-		}});
+			}
+		});
 		editor.addCommand('table2DeleteRow', {
-			exec: function(editor){
-				console.log('delete row');
-				var row = editor.getSelection().getStartElement().getAscendant('tr', true);
-				var parentTable = row.getAscendant('table');
-				row.remove();
-				var tableLength = parentTable.findOne('tbody').getChildren().count();
-				if(tableLength === 0) {
-					parentTable.remove();
-					console.log('the parent table removed');
-
-				}
-				
-		}});
+			exec: function(editor) {
+				dropColumn(editor);
+			}
+		});
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('Table2', {
