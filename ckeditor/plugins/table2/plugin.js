@@ -15,6 +15,29 @@ CKEDITOR.plugins.add('table2', {
 	init: function(editor) {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
+		editor.addCommand('table2AddRowBefore', {
+			exec: function(editor){
+				console.log('add row before');
+		}});
+		editor.addCommand('table2AddRowAfter', {
+			exec: function(editor){
+				console.log('add row after');
+		}});
+		editor.addCommand('table2DeleteRow', {
+			exec: function(editor){
+				console.log('delete row');
+				var row = editor.getSelection().getStartElement().getAscendant('tr', true);
+				var parentTable = row.getAscendant('table');
+				row.remove();
+				var tableLength = parentTable.findOne('tbody').getChildren().count();
+				if(tableLength === 0) {
+					parentTable.remove();
+					console.log('the parent table removed');
+
+				}
+				
+		}});
+
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('Table2', {
 			// The text part of the button (if available) and tooptip.
@@ -28,6 +51,7 @@ CKEDITOR.plugins.add('table2', {
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('table2Dialog', this.path + 'dialogs/table2.js');
 
+
 		if (editor.contextMenu) {
 			editor.addMenuGroup('table2Group');
 			editor.addMenuItem('table2Item', {
@@ -36,6 +60,36 @@ CKEDITOR.plugins.add('table2', {
 				command: 'table2Dialog',
 				group: 'table2Group'
 			});
+			editor.addMenuItem('table2AddRowBefore', {
+				label: editor.lang.table.row.insertBefore,
+				icon: this.path + 'icons/insert_row.png',
+				command: 'table2AddRowBefore',
+				group: 'table2Group'
+			});
+			editor.addMenuItem('table2AddRowAfter', {
+				label: editor.lang.table.row.insertAfter,
+				icon: this.path + 'icons/insert_row.png',
+				command: 'table2AddRowAfter',
+				group: 'table2Group'
+			});
+			editor.addMenuItem('table2DeleteRow', {
+				label: editor.lang.table.row.deleteRow,
+				icon: this.path + 'icons/delete_row.png',
+				command: 'table2DeleteRow',
+				group: 'table2Group'
+			});
+
+
+			editor.contextMenu.addListener(function(element) {
+				if (element.getAscendant('tr', true)) {
+					return {
+						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
+						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
+						table2DeleteRow: CKEDITOR.TRISTATE_OFF
+					};
+				}
+			});
+
 			editor.contextMenu.addListener(function(element) {
 				if (element.getAscendant('table', true)) {
 					return {
@@ -43,6 +97,8 @@ CKEDITOR.plugins.add('table2', {
 					};
 				}
 			});
+
+
 		}
 
 	}

@@ -12,9 +12,7 @@
 		$docElem = $doc->documentElement;
 	 	$bodyNode = $docElem->getElementsByTagName('body')->item(0);
 	 	$content = $doc->saveHTML($bodyNode);
-	 	
 	 	$output = preg_replace("/<\/?body>/", "", $content);
- 		
  	} catch (Exception $e) {
  		$output = $e->getMessage();
  	}

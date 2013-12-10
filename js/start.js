@@ -1,9 +1,7 @@
 $(document).ready(function(){
 
 	var editor = CKEDITOR.replace( 'editor', {
-			customConfig: '../settings/editor_config.js',
-			filebrowserBrowseUrl: '/php/browse.php?type=Images',
-			filebrowserUploadUrl: '/php/uploadFile.php'
+			customConfig: '../settings/editor_config.js'
 		}
 	);
 
@@ -61,7 +59,7 @@ $(document).ready(function(){
 		})
 	});
 
-
+ 
 })
 
 
