@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="js/start.js"></script>
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/attributes.js"></script>
+	<script type="text/javascript" src="js/tableObject.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
 
 
