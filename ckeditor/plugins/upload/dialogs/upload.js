@@ -3,7 +3,7 @@ CKEDITOR.dialog.add('uploadDialog', function(editor) {
         title: editor.lang.common.upload,
         minWidth: 250,
         minHeight: 100,
-
+        buttons: [CKEDITOR.dialog.cancelButton],
         contents: [{
             id: 'tab1',
             elements: [{
