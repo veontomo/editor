@@ -34,21 +34,21 @@ describe('Cell-related code', function() {
     });
 
     it('sets the value of the style attribute', function() {
-        cell.setStyle('a dummy style');
+        cell.style = 'a dummy style';
         expect(cell.style).toEqual('a dummy style');
     });
 
     it('retrieves the width from the style attribute', function() {
         cellAttr.width = 11;
-        cell.setStyle(cellAttr);
+        cell.style = cellAttr;
         expect(cell.width()).toEqual(11);
 
         cellAttr.width = 0;
-        cell.setStyle(cellAttr);
+        cell.style = cellAttr;
         expect(cell.width()).toEqual(0);
 
         cellAttr.width = '';
-        cell.setStyle(cellAttr);
+        cell.style = cellAttr;
         expect(cell.width()).toEqual('');
     });
 
@@ -61,7 +61,7 @@ describe('Cell-related code', function() {
             return 'stub for width';
         });
 
-        cell.setStyle(cellAttr);
+        cell.style = cellAttr;
         expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles"></td>');
         expect(cellAttr.toString).toHaveBeenCalled();
     });
@@ -75,11 +75,11 @@ describe('Row-related code', function(){
     });
 
     it('sets the value of the style attribute', function(){
-        row.setStyle('row style');
+        row.style = 'row style';
         expect(row.style).toEqual('row style');
 
         var dumbStyle = {'width': 100, 'color': 'red'};
-        row.setStyle(dumbStyle);
+        row.style = dumbStyle;
         expect(row.style).toEqual(dumbStyle);
     });
 
@@ -177,7 +177,7 @@ describe('Row-related code', function(){
         spyOn(rowStyle, 'toString').andCallFake(function(){
             return 'row styles';
         });
-        row.setStyle(rowStyle);
+        row.style = rowStyle;
         row.cells = [c1, c2];
         var htmlRow = row.toHtml();
         expect(c1.toHtml).toHaveBeenCalled();
@@ -185,4 +185,8 @@ describe('Row-related code', function(){
         expect(rowStyle.toString).toHaveBeenCalled();
         expect(htmlRow).toEqual('<tr width="18" style="row styles">cell1 html codecell2 html code</tr>' );
     });
-})
+});
+
+/*describe('Table-related code', function(){
+    it('');
+});*/

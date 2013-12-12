@@ -146,7 +146,6 @@ ListItemAttributes.prototype.toString = function() {
 /**
  * Table cell. It is completely characterized by its styles.
  * @param 	style 				Object 	TableCellAttribute
- * @method 	setStyle(style) 			sets the style
  * @method 	toHtml() 			String 	html representation of the element
  */
 
@@ -154,9 +153,6 @@ function Cell() {
 	this.style = new TableCellAttributes();
 	this.width = function() {
 		return this.style.width;
-	};
-	this.setStyle = function(cellAttr) {
-		this.style = cellAttr;
 	};
 	this.toHtml = function() {
 		return '<td width="' + this.width() + '" style="' + this.style.toString() + '"></td>';
@@ -166,7 +162,6 @@ function Cell() {
 /** 
  * Table row. Contains style attribute and array of table cells.
  * @param 	style 				Object 						the row attributes
- * @method 	void 				setStyle(Object) 			sets the style of the row
  * @method 	String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
  * @method 	String 				toHtml() 					html representation of the element
  * @method 	Object|null 		dropCell(Number) 			removes the element from the array of the cells
@@ -178,10 +173,6 @@ function Cell() {
 function Row() {
 	this.style = new TableRowAttributes();
 	this.cells = Array();
-
-	this.setStyle = function(rowStyle) {
-		this.style = rowStyle;
-	};
 
 	this.width = function(){
 		return ('width' in this.style) ? this.style.width : '';
