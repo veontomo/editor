@@ -49,7 +49,7 @@ function TextAttributes() {
 	this.padding = "0px";
 	this.margin = "0px";
 }
-TextAttributes.prototype.toString = toString;
+TextAttributes.prototype.toString = function(){ return toString(this);};;
 
 function LinkAttributes() {
 	this["text-decoration"] = "undeline";
@@ -59,7 +59,7 @@ function LinkAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-LinkAttributes.prototype.toString = toString;
+LinkAttributes.prototype.toString = function(){ return toString(this);};;
 
 function TableAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -84,7 +84,7 @@ function TableRowAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableRowAttributes.prototype.toString = toString;
+TableRowAttributes.prototype.toString = function(){ return toString(this);};
 TableRowAttributes.prototype.setWidth = setMinMaxWidth;
 
 function TableCellAttributes() {
@@ -97,7 +97,7 @@ function TableCellAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableCellAttributes.prototype.toString = toString;
+TableCellAttributes.prototype.toString = function(){ return toString(this);};;
 TableCellAttributes.prototype.setWidth = setMinMaxWidth;
 
 function ImageAttributes() {
@@ -109,13 +109,13 @@ function ImageAttributes() {
 	this.width = 0;
 	this.height = 0;
 }
-ImageAttributes.prototype.toString = toString;
+ImageAttributes.prototype.toString = function(){ return toString(this);};
 
 function ListAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListAttributes.prototype.toString = toString;
+ListAttributes.prototype.toString = function(){ return toString(this);};
 
 function ListItemAttributes() {
 	this["font-size"] = 12;
@@ -124,7 +124,20 @@ function ListItemAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListItemAttributes.prototype.toString = toString;
+ListItemAttributes.prototype.toString = function(){ return toString(this);};
+
+/**
+* Cell class
+*/ 
+function Cell(){
+	this.style = new TableCellAttributes();
+	this.setStyle = function(cellAttr){
+		this.style = cellAttr;
+	};
+	this.toHtml = function(){
+		return '<td width="' + this.style.width + '" style="' + this.style.toString() + '"></td>';
+	}
+}
 
 
 function Table() {
