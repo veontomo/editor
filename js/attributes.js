@@ -49,7 +49,9 @@ function TextAttributes() {
 	this.padding = "0px";
 	this.margin = "0px";
 }
-TextAttributes.prototype.toString = function(){ return toString(this);};;
+TextAttributes.prototype.toString = function() {
+	return toString(this);
+};;
 
 function LinkAttributes() {
 	this["text-decoration"] = "undeline";
@@ -59,7 +61,9 @@ function LinkAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-LinkAttributes.prototype.toString = function(){ return toString(this);};;
+LinkAttributes.prototype.toString = function() {
+	return toString(this);
+};;
 
 function TableAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -71,7 +75,9 @@ function TableAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableAttributes.prototype.toString = function(){ return toString(this);};
+TableAttributes.prototype.toString = function() {
+	return toString(this);
+};
 TableAttributes.prototype.setWidth = setMinMaxWidth;
 
 function TableRowAttributes() {
@@ -84,7 +90,9 @@ function TableRowAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableRowAttributes.prototype.toString = function(){ return toString(this);};
+TableRowAttributes.prototype.toString = function() {
+	return toString(this);
+};
 TableRowAttributes.prototype.setWidth = setMinMaxWidth;
 
 function TableCellAttributes() {
@@ -97,7 +105,10 @@ function TableCellAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableCellAttributes.prototype.toString = function(){ return toString(this);};;
+TableCellAttributes.prototype.toString = function() {
+	return toString(this);
+};
+
 TableCellAttributes.prototype.setWidth = setMinMaxWidth;
 
 function ImageAttributes() {
@@ -109,13 +120,17 @@ function ImageAttributes() {
 	this.width = 0;
 	this.height = 0;
 }
-ImageAttributes.prototype.toString = function(){ return toString(this);};
+ImageAttributes.prototype.toString = function() {
+	return toString(this);
+};
 
 function ListAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListAttributes.prototype.toString = function(){ return toString(this);};
+ListAttributes.prototype.toString = function() {
+	return toString(this);
+};
 
 function ListItemAttributes() {
 	this["font-size"] = 12;
@@ -124,21 +139,89 @@ function ListItemAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListItemAttributes.prototype.toString = function(){ return toString(this);};
+ListItemAttributes.prototype.toString = function() {
+	return toString(this);
+};
 
 /**
-* Cell class
-*/ 
-function Cell(){
+ * Table cell. It is completely characterized by its styles.
+ * @param 	style 				Object 	TableCellAttribute
+ * @method 	setStyle(style) 			sets the style
+ * @method 	toHtml() 			String 	html representation of the element
+ */
+
+function Cell() {
 	this.style = new TableCellAttributes();
-	this.setStyle = function(cellAttr){
+	this.width = function() {
+		return this.style.width;
+	};
+	this.setStyle = function(cellAttr) {
 		this.style = cellAttr;
 	};
-	this.toHtml = function(){
-		return '<td width="' + this.style.width + '" style="' + this.style.toString() + '"></td>';
+	this.toHtml = function() {
+		return '<td width="' + this.width() + '" style="' + this.style.toString() + '"></td>';
 	}
 }
 
+/** 
+ * Table row. Contains style attribute and array of table cells.
+ * @param 	style 				Object 						the row attributes
+ * @method 	void 				setStyle(Object) 			sets the style of the row
+ * @method 	String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
+ * @method 	String 				toHtml() 					html representation of the element
+ * @method 	Object|null 		dropCell(Number) 			removes the element from the array of the cells
+ * @method  void				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
+ * the cell will be appended to the end of cell array.
+ * @method  void				appendCell(Object)			appends the cell to the row cells
+ */
+
+function Row() {
+	this.style = new TableRowAttributes();
+	this.cells = Array();
+
+	this.setStyle = function(rowStyle) {
+		this.style = rowStyle;
+	};
+
+	this.width = function(){
+		return ('width' in this.style) ? this.style.width : '';
+	};
+
+	this.toHtml = function() {
+		var htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">';
+		var cellsNumber = this.length();
+		for(var i = 0; i < cellsNumber; i++){
+			htmlRow += this.cells[i].toHtml();
+		}
+		htmlRow += '</tr>';
+		return htmlRow;
+
+	};
+	this.length = function() {
+		return this.cells.length;
+	};
+
+	this.dropCell = function(num) {
+		var elem = this.cells[num];
+		if ((typeof elem) !== 'undefined') {
+			this.cells.splice(num, 1);
+			return elem;
+		}
+	};
+
+	this.insertCell = function(cell, pos) {
+		var elem = this.cells[pos];
+		if ((typeof elem) !== 'undefined') {
+			this.cells.splice(pos, 0, cell)
+		}else{
+			this.cells.push(cell);	
+		}
+	};
+
+	this.appendCell = function(cell){
+		this.insertCell(cell, this.length());
+	}
+}
 
 function Table() {
 	this.cols = 1;
