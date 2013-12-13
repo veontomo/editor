@@ -30,6 +30,42 @@ describe('String representation', function() {
 
 });
 
+describe('Content', function(){
+    var content;
+    beforeEach(function(){
+        content = new Content();
+    });
+
+    it('gives the number of elements it contains', function(){
+        content.elements = [];
+        expect(content.length()).toEqual(0);
+
+        content.elements = [1, 2, 'a', {}];
+        expect(content.length()).toEqual(4);
+
+        content.elements = ['a', {id: 'some id'}];
+        expect(content.length()).toEqual(2);
+    });
+
+    it('has toHtml method', function(){
+        var elem0 = 1;
+        var elem1 = 'element2';
+        var elem2 = {'a dummy method': 1};
+        content.elements = [elem0, elem1];
+        var htmlContent = content.toHtml();
+        expect(typeof htmlContent).toBe("string");
+        expect(htmlContent).toEqual('1element2');
+
+        content.elements = [elem0, elem1, elem2];
+        htmlContent = content.toHtml();
+        expect(typeof htmlContent).toBe("string");        
+        expect(htmlContent.indexOf(elem1) !== -1).toBe(true);
+    });
+
+
+})
+
+
 describe('Cell-related code', function() {
     var cell;
     var cellAttr;
@@ -67,6 +103,7 @@ describe('Cell-related code', function() {
         expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles"></td>');
         expect(cellAttr.toString).toHaveBeenCalled();
     });
+
 });
 
 

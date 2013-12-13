@@ -138,10 +138,45 @@ function ListItemAttributes() {
 }
 ListItemAttributes.prototype.toString  = new Attributes();
 
+
+/**
+* Content class. 
+* @property 	elements 	Array 		array of objects or strings
+* @method 		String 		toHtml()	string representation of the class. Each element should be respond to 'toHtml'.
+*/
+function Content(){
+	this.elements = [];
+	this.length = function(){
+		return this.elements.length;
+	};
+	this.toHtml = function(){
+		var output = '';
+		var len = this.length();
+		for(var i = 0; i < len; i++){
+			var elem = this.elements[i];
+			switch(typeof elem){
+				case 'string':
+					output += elem;
+					break;
+				case 'number':
+					output += elem.toString();
+					break;
+				case 'object':
+					output += ('toHtml' in elem) ? elem.toHtml() : ' no string representation fir the element! ';
+					break;
+			}
+		}
+		return output;
+
+	}
+}
+
+
 /**
  * Table cell. It is completely characterized by its styles.
- * @param 	style 				Object 	TableCellAttribute
- * @method 	toHtml() 			String 	html representation of the element
+ * @property 	style 				Object 	TableCellAttribute
+ * @property 	content 			Array 	array of objects. Each element of the array should respond to 'toHtml' method
+ * @method 		toHtml() 			String 	html representation of the element
  */
 
 function Cell() {
