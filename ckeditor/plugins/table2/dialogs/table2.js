@@ -115,7 +115,6 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var borderWidthRow = dialog.getValueOf('info', 'borderWidthRow');
             var spaceBtwRows = dialog.getValueOf('info', 'spaceBtwRows');
 
-
             // read inserted values 
             var colWidths = [];
             for (var i = 0; i < cols; i++) {

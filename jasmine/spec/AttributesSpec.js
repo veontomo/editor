@@ -1,3 +1,9 @@
+describe('creates attribute object with required attributes', function(){
+    var textAtt = new TextAttributes();
+    var textAttDefault = new TextAttributes();
+
+});
+
 describe('String representation', function() {
     it('converts object into a string', function() {
         var Obj1 = {
@@ -229,9 +235,4 @@ describe('Table-related code', function(){
         expect(table.width).toHaveBeenCalled();
     });
 
-
-    it('shows all the table', function(){
-        table.rows = 2;
-        console.log(table.toHtml());
-    });
 });

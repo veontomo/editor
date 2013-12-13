@@ -3,7 +3,7 @@
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @param  	obj 	Object 	
+ * @param   obj     Object 	
  * @param 	unit 	String|null 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return 			String 			a concatenation of substrings; each substring is of this format: "attribute: value;".
  * @example "padding: 0px;margin: 10px;color: #ababab;"
@@ -32,11 +32,20 @@ var toString = function(obj, unit) {
  * @param mixed w
  * @return void
  */
-var setMinMaxWidth = function(w) {
-		this.width = w;
-		this["max-width"] = this.width;
-		this["min-width"] = this.width;
+var setMinMaxWidth = function(obj, w) {
+		obj.width = w;
+		obj["max-width"] = obj.width;
+		obj["min-width"] = obj.width;
 	};
+
+function Attributes(){
+	this.toString = function(){
+		return toString(this);
+	};
+	this.setWidth = function(w){
+		return setMinMaxWidth(this, w);
+	};
+}
 
 /** 
  * Some data containers with default values of their attributes.
@@ -49,21 +58,17 @@ function TextAttributes() {
 	this.padding = "0px";
 	this.margin = "0px";
 }
-TextAttributes.prototype.toString = function() {
-	return toString(this);
-};;
+TextAttributes.prototype = new Attributes();
 
 function LinkAttributes() {
-	this["text-decoration"] = "undeline";
+	this["text-decoration"] = "underline";
 	this["font-size"] = 12;
 	this.color = "blue";
 	this["font-weight"] = 0;
 	this.padding = 0;
 	this.margin = 0;
 }
-LinkAttributes.prototype.toString = function() {
-	return toString(this);
-};;
+LinkAttributes.prototype = new Attributes();
 
 function TableAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -75,10 +80,13 @@ function TableAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableAttributes.prototype.toString = function() {
-	return toString(this);
-};
-TableAttributes.prototype.setWidth = setMinMaxWidth;
+TableAttributes.prototype = new Attributes();
+
+function FramedTableAttributes() {
+	this['border-width'] = 1;
+	this['border-color'] = 'rgb(0, 0, 0)';
+}
+FramedTableAttributes.prototype = new TableAttributes();
 
 function TableRowAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -90,10 +98,7 @@ function TableRowAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableRowAttributes.prototype.toString = function() {
-	return toString(this);
-};
-TableRowAttributes.prototype.setWidth = setMinMaxWidth;
+TableRowAttributes.prototype = new Attributes();
 
 function TableCellAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -105,11 +110,7 @@ function TableCellAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableCellAttributes.prototype.toString = function() {
-	return toString(this);
-};
-
-TableCellAttributes.prototype.setWidth = setMinMaxWidth;
+TableCellAttributes.prototype = new Attributes();
 
 function ImageAttributes() {
 	this["border-width"] = 0;
@@ -120,17 +121,13 @@ function ImageAttributes() {
 	this.width = 0;
 	this.height = 0;
 }
-ImageAttributes.prototype.toString = function() {
-	return toString(this);
-};
+ImageAttributes.prototype = new Attributes();
 
 function ListAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListAttributes.prototype.toString = function() {
-	return toString(this);
-};
+ListAttributes.prototype.toString  = new Attributes();
 
 function ListItemAttributes() {
 	this["font-size"] = 12;
@@ -139,9 +136,7 @@ function ListItemAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListItemAttributes.prototype.toString = function() {
-	return toString(this);
-};
+ListItemAttributes.prototype.toString  = new Attributes();
 
 /**
  * Table cell. It is completely characterized by its styles.
@@ -156,7 +151,7 @@ function Cell() {
 	};
 	this.toHtml = function() {
 		return '<td width="' + this.width() + '" style="' + this.style.toString() + '"></td>';
-	}
+	};
 }
 
 /** 
@@ -204,7 +199,7 @@ function Row() {
 	this.insertCell = function(cell, pos) {
 		var elem = this.cells[pos];
 		if ((typeof elem) !== 'undefined') {
-			this.cells.splice(pos, 0, cell)
+			this.cells.splice(pos, 0, cell);
 		}else{
 			this.cells.push(cell);	
 		}
@@ -212,7 +207,7 @@ function Row() {
 
 	this.appendCell = function(cell){
 		this.insertCell(cell, this.length());
-	}
+	};
 }
 
 /** 
@@ -224,15 +219,8 @@ function Row() {
 * @method 		String 		toHtml() 	html representation of the table
 */
 function Table() {
-	this.style = new TableAttributes();
-	this.row = new Row();
-	this.rows = 1;
 	this.cols = function(){
 		return this.row.length();
-	};
-
-	this.width = function(){
-		return ('width' in this.style) ? this.style.width : '';
 	};
 
 	this.toHtml = function(){
@@ -243,42 +231,25 @@ function Table() {
 		}
 		htmlTable += '</tbody></table>';
 		return htmlTable;
-	}
-}
-/**
- * Plain table collects info about table: 			# params
- * its width, number of columns, number of rows,  	3 (integers)
- * styles of row (the rows are of the same style) 	1 (object)
- * styles of the cells of the rows 				 	cols (objects)
- */
-
-function PlainTable() {
-	this.style = new TableAttributes();
-	this.rowAttr = new TableRowAttributes();
-	this.colsAttr = Array.apply(null, new Array(this.cols)).map(function() {
-		return new TableCellAttributes();
-	});
-	this.toHtml2 = function() {
-		var output = '<table width="' + this.style.width + '" style="' + this.style.toString() + '"><tbody>';
-		for (var r = 0; r < this.rows; r++) {
-			var row = '<tr width="' + this.rowAttr.width + '" style="' + this.rowAttr.toString() + '">';
-			for (var c = 0; c < this.cols; c++) {
-				row = row + '<td width="' + this.colsAttr[c].width + '" style="' + this.colsAttr[c].toString() + '"></td>';
-			}
-			row = row + '</tr>';
-			output = output + row;
-		}
-		output = output + '</tbody></table>';
-		return output;
 	};
 
+	this.width = function(){
+		return ('width' in this.style) ? this.style.width : '';
+	};
+
+	this.style = new TableAttributes();
+	this.row = new Row();
+	this.rows = 1;
+
+
+}
+
+function PlainTable() {
 }
 PlainTable.prototype = new Table();
 
 
 function FramedTable() {
-	this.style.
-
+	this.style = new FramedTableAttributes();
 }
-
-FramedTable.prototype = new PlainTable();
+FramedTable.prototype = new Table();
