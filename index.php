@@ -11,24 +11,6 @@
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/attributes.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
-	<script>
-		var tbl = new FramedTable();
-		var tblAttr = new TableAttributes();
-		tblAttr.setWidth(200);
-		tbl.style = tblAttr;
-		var row = new Row();
-		var cell = new Cell();
-		row.cells = [cell, cell, cell];
-		tbl.row = row;
-		tbl.rows = 2;
-
-		console.log(tbl.toHtml());
-
-		
-
-
-	</script>
-
 	<title>Creatore di newsletter</title>
 
 	<?php

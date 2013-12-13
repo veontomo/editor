@@ -28,13 +28,18 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                 }; 
                 element.append(colWidthInput);
                 title.setHtml('Fattori con i quali le colonne contribuiscono<br>nella larghezza della tabella:');
+                console.log(editor.getSelection().getStartElement().getComputedStyle('width'));
 
             };
             
         };
 
+        var parentWidth = function(){
+            var rawWidth = editor.getSelection().getStartElement().getComputedStyle('width');
+            return isNaN(rawWidth) ? false : parseInt(rawWidth);
+        }
 
-
+    
     return {
         // Basic properties of the dialog window: title, minimum size.
         title: editor.lang.common.generalTab,
@@ -106,6 +111,8 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
         }],
         // This method is invoked once a user clicks the OK button, confirming the dialog.
         onOk: function() {
+            console.log('inside onOk: isnserting table of width ' + parentWidth());
+            
             var dialog = this;
 
             // user input
@@ -124,6 +131,13 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             }
 
             var isFramed = borderWidthRow > 0; // whether each row should be framed
+
+            //  start
+            var table = new Table();
+
+
+            //  end           
+
             var table = new CKEDITOR.dom.element('table');
             editor.insertElement(table);
 
@@ -132,6 +146,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var tableWidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
             var trWidth = tableWidth - 2 * borderWidth;
             var tdWidth = columnWidths(trWidth, colWidths); // array of column widths
+            console.log('calcualted width:  ' + parentWidth() + ' vs ' + tableWidth);
             
             // defining styles
             var stylesTable = new TableAttributes();
