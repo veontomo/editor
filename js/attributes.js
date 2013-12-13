@@ -167,7 +167,6 @@ function Content(){
 			}
 		}
 		return output;
-
 	}
 }
 
@@ -184,8 +183,9 @@ function Cell() {
 	this.width = function() {
 		return this.style.width;
 	};
+	this.content = new Content();
 	this.toHtml = function() {
-		return '<td width="' + this.width() + '" style="' + this.style.toString() + '"></td>';
+		return '<td width="' + this.width() + '" style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
 	};
 }
 

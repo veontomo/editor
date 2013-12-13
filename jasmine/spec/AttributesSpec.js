@@ -100,8 +100,15 @@ describe('Cell-related code', function() {
         });
 
         cell.style = cellAttr;
+        cell.content = new Content();
         expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles"></td>');
         expect(cellAttr.toString).toHaveBeenCalled();
+
+
+        var content = new Content();
+        cell.content = content;
+        spyOn(content, 'toHtml').andCallFake(function(){return 'content';});
+        expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles">content</td>');
     });
 
 });
