@@ -132,6 +132,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             var tableWidth = isNaN(parent.$.width) ? NEWSLETTER.width : parent.$.width;
             var trWidth = tableWidth - 2 * borderWidth;
             var tdWidth = columnWidths(trWidth, colWidths); // array of column widths
+            
             // defining styles
             var stylesTable = new TableAttributes();
             if(borderWidth > 0){
