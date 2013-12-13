@@ -229,6 +229,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
 
         onShow: function(){
             
+            
         }
     };
 });

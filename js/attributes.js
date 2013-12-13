@@ -161,13 +161,14 @@ function Cell() {
 
 /** 
  * Table row. Contains style attribute and array of table cells.
- * @param 	style 				Object 						the row attributes
- * @method 	String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
- * @method 	String 				toHtml() 					html representation of the element
- * @method 	Object|null 		dropCell(Number) 			removes the element from the array of the cells
- * @method  void				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
+ * @property 	style 				Object 						the row attributes
+ * @property 	cells 				Array 						array of Cell instances
+ * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
+ * @method 		String 				toHtml() 					html representation of the element
+ * @method 		Object|null 		dropCell(Number) 			removes the element from the array of the cells
+ * @method  	void				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
  * the cell will be appended to the end of cell array.
- * @method  void				appendCell(Object)			appends the cell to the row cells
+ * @method  	void				appendCell(Object)			appends the cell to the row cells
  */
 
 function Row() {
@@ -214,9 +215,35 @@ function Row() {
 	}
 }
 
+/** 
+* Table. 
+* @property 	style 		Object 		table styles
+* @property 	row 		Object 		Row instance
+* @property 	rows 		Number 		the number of the rows in the table. Remember that all rows have identitcal styles.
+* @method 		Number 		cols() 		the number of columns in the table. It is retrieved from the row property
+* @method 		String 		toHtml() 	html representation of the table
+*/
 function Table() {
-	this.cols = 1;
+	this.style = new TableAttributes();
+	this.row = new Row();
 	this.rows = 1;
+	this.cols = function(){
+		return this.row.length();
+	};
+
+	this.width = function(){
+		return ('width' in this.style) ? this.style.width : '';
+	};
+
+	this.toHtml = function(){
+		var htmlRow = this.row.toHtml();
+		var htmlTable = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
+		for(var i = 0; i < this.rows; i++){
+			htmlTable += htmlRow;
+		}
+		htmlTable += '</tbody></table>';
+		return htmlTable;
+	}
 }
 /**
  * Plain table collects info about table: 			# params
@@ -231,7 +258,7 @@ function PlainTable() {
 	this.colsAttr = Array.apply(null, new Array(this.cols)).map(function() {
 		return new TableCellAttributes();
 	});
-	this.toHtml = function() {
+	this.toHtml2 = function() {
 		var output = '<table width="' + this.style.width + '" style="' + this.style.toString() + '"><tbody>';
 		for (var r = 0; r < this.rows; r++) {
 			var row = '<tr width="' + this.rowAttr.width + '" style="' + this.rowAttr.toString() + '">';
@@ -246,12 +273,11 @@ function PlainTable() {
 	};
 
 }
-
 PlainTable.prototype = new Table();
 
 
 function FramedTable() {
-
+	this.style.
 
 }
 

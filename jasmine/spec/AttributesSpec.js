@@ -33,10 +33,6 @@ describe('Cell-related code', function() {
         cellAttr    = new TableCellAttributes();
     });
 
-    it('sets the value of the style attribute', function() {
-        cell.style = 'a dummy style';
-        expect(cell.style).toEqual('a dummy style');
-    });
 
     it('retrieves the width from the style attribute', function() {
         cellAttr.width = 11;
@@ -74,14 +70,6 @@ describe('Row-related code', function(){
         row = new Row();
     });
 
-    it('sets the value of the style attribute', function(){
-        row.style = 'row style';
-        expect(row.style).toEqual('row style');
-
-        var dumbStyle = {'width': 100, 'color': 'red'};
-        row.style = dumbStyle;
-        expect(row.style).toEqual(dumbStyle);
-    });
 
     it('gets the width from the styles', function(){
         row.style = {'width': 15, 'foo': 'xxx'};
@@ -187,6 +175,63 @@ describe('Row-related code', function(){
     });
 });
 
-/*describe('Table-related code', function(){
-    it('');
-});*/
+describe('Table-related code', function(){
+    var table;
+    beforeEach(function(){
+        table = new Table();
+    });
+
+    it('gives the number of the columns', function(){
+        var row = new Row();
+        spyOn(row, 'length').andCallFake(function(){
+            return 5;
+        });
+        table.row = row;
+        expect(table.cols()).toEqual(5);
+        expect(row.length).toHaveBeenCalled();
+    });
+
+    it('gets the width from the styles', function(){
+        table.style = {'width': 15, 'foo': 'xxx'};
+        expect(table.width()).toEqual(15);
+        table.style = {'foo': 'xxx'};
+        expect(table.width()).toEqual('');
+
+    });
+
+    it('gets html representation of the table', function(){
+        var row = new Row();
+        spyOn(row, 'toHtml').andCallFake(function(){
+            return 'row html code';
+        });
+        var tableStyle = new TableAttributes();
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table style';
+        });
+        table.row = row;
+        table.style = tableStyle;
+        spyOn(table, 'width').andCallFake(function(){
+            return 'table width';
+        });
+        table.rows = 1;
+        var result = table.toHtml();
+        expect(result).toEqual('<table width="table width" style="table style"><tbody>' + Array(table.rows + 1).join("row html code") + '</tbody></table>');
+        expect(table.width).toHaveBeenCalled();
+
+        table.rows = 0;
+        var result = table.toHtml();
+        expect(result).toEqual('<table width="table width" style="table style"><tbody>' + Array(table.rows + 1).join("row html code") + '</tbody></table>');
+        expect(table.width).toHaveBeenCalled();
+
+        table.rows = 3;
+        var result = table.toHtml();
+        expect(result).toEqual('<table width="table width" style="table style"><tbody>' + Array(table.rows + 1).join("row html code") + '</tbody></table>');
+        expect(table.width).toHaveBeenCalled();
+    });
+
+
+    it('shows all the table', function(){
+        table.rows = 2;
+        console.log(table.toHtml());
+    });
+});
