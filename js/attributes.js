@@ -3,7 +3,7 @@
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @param   obj     Object 	
+ * @param   obj     Object     
  * @param 	unit 	String|null 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return 			String 			a concatenation of substrings; each substring is of this format: "attribute: value;".
  * @example "padding: 0px;margin: 10px;color: #ababab;"
@@ -203,9 +203,14 @@ function Cell() {
 /** 
  * Table row. Contains style attribute and array of table cells.
  * @property 	style 				Object 						the row attributes
- * @property 	cells 				Array 						array of Cell instances
+ * @property 	cellStyles 			Array 						array of TableCellAttribute instances
+ * @property 	content 			Array 						array of Content instances
+ 
  * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
  * @method 		String 				toHtml() 					html representation of the element
+ * @method 		Integer				numOfCells() 				the number of cells in the row
+ * @method 		Array				cells 						array of Cell instances. "style" property of each element is equal to the corresp. element of "cellStyles" of this instance,
+ * and "content" property is equal to the corresp. elem of "content" if this instance.
  * @method 		Object|null 		dropCell(Number) 			removes the element from the array of the cells
  * @method  	void				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
  * the cell will be appended to the end of cell array.
@@ -215,7 +220,7 @@ function Cell() {
 function Row() {
 	if(!(this instanceof Row)){return new Row();}
 	this.style = new TableRowAttributes();
-	this.cells = Array();
+	this.content = [];
 
 	this.width = function(){
 		return ('width' in this.style) ? this.style.width : '';
@@ -223,32 +228,45 @@ function Row() {
 
 	this.toHtml = function() {
 		var htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">';
-		var cellsNumber = this.length();
+		var cellsNumber = this.numOfCells();
 		for(var i = 0; i < cellsNumber; i++){
-			htmlRow += this.cells[i].toHtml();
+			htmlRow += this.cells()[i].toHtml();
 		}
 		htmlRow += '</tr>';
 		return htmlRow;
 
 	};
-	this.length = function() {
-		return this.cells.length;
+	this.numOfCells = function() {
+		return this.content.length;
+	};
+
+	this.cells = function(){
+		var output = [];
+		var len = this.numOfCells();
+		for(var i = 0; i < len; i++){
+			var cell = new Cell();
+			cell.style = this.cellStyles[i];
+			cell.content = this.content[i];
+			output.push(cell);
+
+		};
+		return output;
 	};
 
 	this.dropCell = function(num) {
 		var elem = this.cells[num];
 		if ((typeof elem) !== 'undefined') {
-			this.cells.splice(num, 1);
+			this.content.splice(num, 1);
 			return elem;
 		}
 	};
 
 	this.insertCell = function(cell, pos) {
-		var elem = this.cells[pos];
+		var elem = this.content[pos];
 		if ((typeof elem) !== 'undefined') {
-			this.cells.splice(pos, 0, cell);
+			this.content.splice(pos, 0, cell);
 		}else{
-			this.cells.push(cell);	
+			this.content.push(cell);	
 		}
 	};
 
@@ -258,36 +276,71 @@ function Row() {
 }
 
 /** 
-* Table. 
+* Table. The table rows should have the same number of cells.
 * @property 	style 		Object 		table styles
-* @property 	row 		Object 		Row instance
-* @property 	rows 		Number 		the number of the rows in the table. Remember that all rows have identitcal styles.
-* @method 		Number 		cols() 		the number of columns in the table. It is retrieved from the row property
+* @property 	rowStyle 	Object 		the style of each row of the table
+* @property 	cellStyles 	Array 		each element of the array is a cell style object
+* @property 	content 	Array 		two-dimensional array. Each element of the array is an instance of Content().
+
+* @method 		Number 		numOfCols()	the number of columns in the first row. It is retrieved from the property "content".
+* @method 		Number 		numOfRows()	the number of table rows. It is retrieved from the property "content".
+* @method 		Array 		rows() 		array, each element of which is an instance of Row, which "style" property is equal to "rowStyle" one of this instance, 
+* "cellStyles" is equal to "cellStyles" of this instance, "content" is equal to corresponding sub-element of "content" of this instance.
+* @method 		Boolean 	isRegular 	true, if each element of the property "content" contains arrays of the same length. False otherwise.
+* @method 		Number 		width()		table width. It is retrieved from the "style" property.
 * @method 		String 		toHtml() 	html representation of the table
+
 */
 function Table() {
 	if(!(this instanceof Table)){return new Table();}
-	this.cols = function(){
-		return this.row.length();
+	this.style = new TableAttributes();
+	this.rowStyle = new TableRowAttributes();
+	this.cellStyles = [];
+	this.content = [];
+	this.numOfCols = function(){
+		return this.content[0].length;
+	};
+	this.numOfRows = function(){
+		return this.content.length;
 	};
 
-	this.toHtml = function(){
-		var htmlRow = this.row.toHtml();
-		var htmlTable = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
-		for(var i = 0; i < this.rows; i++){
-			htmlTable += htmlRow;
-		}
-		htmlTable += '</tbody></table>';
-		return htmlTable;
+	this.isRegular = function(){
+		// check if each element is an array
+		var isAllArrays = this.content.every(function(elem){return Array.isArray(elem)});
+		if(!isAllArrays) return false;
+		var firstRowLength = this.content[0].length;
+		return this.content.every(function(arr){ return arr.length === firstRowLength;});
 	};
+
+	this.rows = function(){
+		var output = [];
+		var len = this.numOfRows();
+		for(var i = 0; i < len; i++){
+			var row = new Row();
+			row.style = this.rowStyle;
+			row.cellStyles = this.cellStyles;
+			row.content = this.content[i];
+			output.push(row);
+		}
+		return output;
+	};
+
+
+	this.toHtml = function(){
+		var output = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
+		var len = this.rows().length;
+		for(var i = 0; i < len; i++){
+			output += this.rows()[i].toHtml();
+		}
+		output += '</tbody></table>';
+		return output; 
+	};
+
 
 	this.width = function(){
 		return ('width' in this.style) ? this.style.width : '';
 	};
 
-	this.style = new TableAttributes();
-	this.row = new Row();
-	this.rows = 1;
 
 
 }
