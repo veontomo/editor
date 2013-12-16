@@ -177,14 +177,14 @@ function Content(){
 			}
 		}
 		return output;
-	}
+	};
 }
 
 
 /**
  * Table cell. It is completely characterized by its styles.
  * @property 	style 				Object 	TableCellAttribute
- * @property 	content 			Array 	array of objects. Each element of the array should respond to 'toHtml' method
+ * @property 	content 			Object 	content of the cell.
  * @method 		toHtml() 			String 	html representation of the element
  */
 
