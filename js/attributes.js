@@ -39,6 +39,7 @@ var setMinMaxWidth = function(obj, w) {
 	};
 
 function Attributes(){
+	if(!(this instanceof Attributes)){return new Attributes();}
 	this.toString = function(){
 		return toString(this);
 	};
@@ -50,8 +51,8 @@ function Attributes(){
 /** 
  * Some data containers with default values of their attributes.
  */
-
 function TextAttributes() {
+	if(!(this instanceof TextAttributes)){return new TextAttributes();}
 	this["font-size"] = "12px";
 	this.color = "#000000";
 	this["font-weight"] = "0";
@@ -61,6 +62,7 @@ function TextAttributes() {
 TextAttributes.prototype = new Attributes();
 
 function LinkAttributes() {
+	if(!(this instanceof LinkAttributes)){return new LinkAttributes();}
 	this["text-decoration"] = "underline";
 	this["font-size"] = 12;
 	this.color = "blue";
@@ -71,6 +73,7 @@ function LinkAttributes() {
 LinkAttributes.prototype = new Attributes();
 
 function TableAttributes() {
+	if(!(this instanceof TableAttributes)){return new TableAttributes();}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
@@ -83,12 +86,14 @@ function TableAttributes() {
 TableAttributes.prototype = new Attributes();
 
 function FramedTableAttributes() {
+	if(!(this instanceof FramedTableAttributes)){return new FramedTableAttributes();}
 	this['border-width'] = 1;
 	this['border-color'] = 'rgb(0, 0, 0)';
 }
 FramedTableAttributes.prototype = new TableAttributes();
 
 function TableRowAttributes() {
+	if(!(this instanceof TableRowAttributes)){return new TableRowAttributes();}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
@@ -101,6 +106,7 @@ function TableRowAttributes() {
 TableRowAttributes.prototype = new Attributes();
 
 function TableCellAttributes() {
+	if(!(this instanceof TableCellAttributes)){return new TableCellAttributes();}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = "0px";
@@ -113,6 +119,7 @@ function TableCellAttributes() {
 TableCellAttributes.prototype = new Attributes();
 
 function ImageAttributes() {
+	if(!(this instanceof ImageAttributes)){return new ImageAttributes();}
 	this["border-width"] = 0;
 	this["border-style"] = "solid";
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -124,12 +131,14 @@ function ImageAttributes() {
 ImageAttributes.prototype = new Attributes();
 
 function ListAttributes() {
+	if(!(this instanceof ListAttributes)){return new ListAttributes();}
 	this.padding = 0;
 	this.margin = 0;
 }
 ListAttributes.prototype.toString  = new Attributes();
 
 function ListItemAttributes() {
+	if(!(this instanceof ListItemAttributes)){return new ListItemAttributes();}
 	this["font-size"] = 12;
 	this.color = "#000000";
 	this["font-weight"] = 0;
@@ -145,6 +154,7 @@ ListItemAttributes.prototype.toString  = new Attributes();
 * @method 		String 		toHtml()	string representation of the class. Each element should be respond to 'toHtml'.
 */
 function Content(){
+	if(!(this instanceof Content)){return new Content();}
 	this.elements = [];
 	this.length = function(){
 		return this.elements.length;
@@ -179,6 +189,7 @@ function Content(){
  */
 
 function Cell() {
+	if(!(this instanceof Cell)){return new Cell();}
 	this.style = new TableCellAttributes();
 	this.width = function() {
 		return this.style.width;
@@ -202,6 +213,7 @@ function Cell() {
  */
 
 function Row() {
+	if(!(this instanceof Row)){return new Row();}
 	this.style = new TableRowAttributes();
 	this.cells = Array();
 
@@ -254,6 +266,7 @@ function Row() {
 * @method 		String 		toHtml() 	html representation of the table
 */
 function Table() {
+	if(!(this instanceof Table)){return new Table();}
 	this.cols = function(){
 		return this.row.length();
 	};
@@ -280,11 +293,13 @@ function Table() {
 }
 
 function PlainTable() {
+	if(!(this instanceof PlainTable)){return new PlainTable();}
 }
 PlainTable.prototype = new Table();
 
 
 function FramedTable() {
+	if(!(this instanceof FramedTableAttributes)){return new FramedTableAttributes();}
 	this.style = new FramedTableAttributes();
 }
 FramedTable.prototype = new Table();
