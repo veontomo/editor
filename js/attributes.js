@@ -1,4 +1,5 @@
-/*jslint plusplus: true */
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
 /** 
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
@@ -248,7 +249,6 @@ function Cell() {
  * @property 	style 				Object 						the row attributes
  * @property 	cellStyles 			Array 						array of TableCellAttribute instances
  * @property 	content 			Array 						array of Content instances
- 
  * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
  * @method 		String 				toHtml() 					html representation of the element
  * @method 		Integer				numOfCells() 				the number of cells in the row
@@ -259,7 +259,6 @@ function Cell() {
  * the cell will be appended to the end of cell array.
  * @method  	void				appendCell(Object)			appends the cell to the row cells
  */
-
 function Row() {
 	"use strict";
 	if (!(this instanceof Row)) {
@@ -273,8 +272,7 @@ function Row() {
 	};
 
 	this.toHtml = function () {
-		var i, 
-			htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">',
+		var i, htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">',
 			cellsNumber = this.numOfCells();
 		for (i = 0; i < cellsNumber; i++) {
 			htmlRow += this.cells()[i].toHtml();
@@ -288,8 +286,7 @@ function Row() {
 	};
 
 	this.cells = function () {
-		var i, cell, 
-			output = [],
+		var i, cell, output = [],
 			len = this.numOfCells();
 		for (i = 0; i < len; i++) {
 			cell = new Cell();
@@ -328,7 +325,6 @@ function Row() {
 * @property 	rowStyle 	Object 		the style of each row of the table
 * @property 	cellStyles 	Array 		each element of the array is a cell style object
 * @property 	content 	Array 		two-dimensional array. Each element of the array is an instance of Content().
-
 * @method 		Number 		numOfCols()	the number of columns in the first row. It is retrieved from the property "content".
 * @method 		Number 		numOfRows()	the number of table rows. It is retrieved from the property "content".
 * @method 		Array 		rows() 		array, each element of which is an instance of Row, which "style" property is equal to "rowStyle" one of this instance, 
@@ -336,9 +332,7 @@ function Row() {
 * @method 		Boolean 	isRegular 	true, if each element of the property "content" contains arrays of the same length. False otherwise.
 * @method 		Number 		width()		table width. It is retrieved from the "style" property.
 * @method 		String 		toHtml() 	html representation of the table
-
 */
-
 function Table() {
 	"use strict";
 	if (!(this instanceof Table)) {
@@ -371,9 +365,7 @@ function Table() {
 	};
 
 	this.rows = function () {
-		var i, 
-			row,
-			output = [],
+		var i, row, output = [],
 			len = this.numOfRows();
 		for (i = 0; i < len; i++) {
 			row = new Row();
@@ -384,7 +376,6 @@ function Table() {
 		}
 		return output;
 	};
-
 
 	this.toHtml = function () {
 		var output, len, i;
@@ -397,12 +388,9 @@ function Table() {
 		return output;
 	};
 
-
 	this.width = function () {
 		return this.style.hasOwnProperty('width') ? this.style.width : '';
 	};
-
-
 }
 
 function PlainTable() {
@@ -412,7 +400,6 @@ function PlainTable() {
 	}
 }
 PlainTable.prototype = new Table();
-
 
 function FramedTable() {
 	"use strict";
