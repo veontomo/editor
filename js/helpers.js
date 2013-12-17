@@ -179,3 +179,48 @@ var validateWidth = function (str) {
         }
         return output;
     };
+
+/**
+* Simplified version of the exception class
+*/
+function Exception(message){
+    this.message = message;
+}
+
+/**
+* Represents a quantity divided in "value" and "measure". 
+* @property     value       Number
+* @property     measure     String
+*/
+
+function Unit(value, measure){
+    "use strict";
+    if (!(this instanceof Unit)) {
+        return new Unit(value, measure);
+    }
+    if(isNaN(value) ){
+        throw new Exception('the first arg is a not a number!');
+    }
+  if(!(typeof measure === 'string' || (!measure))){
+        throw new Exception('the second arg is a not a string!');
+    }
+
+    this.value = value;
+    this.measure = measure || '';
+}
+
+    /**
+     * Divide the string into the value and the measurement unit.
+     * If the length is given in "em" or "%", it is left as it is.
+     * @param    str    String      '12px', '10m', '12.1 s', '32.2r'
+     * @return   Object     object with keys "value" and "unit"
+     */
+var toUnit = function (str) {
+    "use strict";
+    var number = parseFloat(str);
+    if (isNaN(number)) {
+        return false;
+    }
+    var unit = str.replace(number.toString(), '').trim();
+    return new Unit(number, unit);
+    };

@@ -28,14 +28,17 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                 }; 
                 element.append(colWidthInput);
                 title.setHtml('Fattori con i quali le colonne contribuiscono<br>nella larghezza della tabella:');
-                console.log(editor.getSelection().getStartElement().getComputedStyle('width'));
 
             };
             
         };
 
     var parentWidth = function(){
-        var rawWidth = editor.getSelection().getStartElement().getComputedStyle('width');
+        var startElem = editor.getSelection().getStartElement();
+        var rawWidth = startElem.getComputedStyle('width');
+        var borderWidth = startElem.getComputedStyle('border-width');
+        var padding = startElem.getComputedStyle('padding');
+        console.log('rawWidth, borderWidth, padding: ' + rawWidth + ' ' + borderWidth + ' ' + padding);
         // validateWidth()  function is defined in js/helpers.js
         return validateWidth(rawWidth);
     }
@@ -161,7 +164,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             rowStyle.setWidth(trWidth);
             var contentLine = [], cellStyles = [];
             for(var i = 0; i < cols; i++){
-                contentLine.push(new Content());
+                contentLine.push(new Content("&curren;"));
                 var tableCellAttr = new TableCellAttributes();
                 tableCellAttr.setWidth(tdWidth[i]);
                 cellStyles.push(tableCellAttr);

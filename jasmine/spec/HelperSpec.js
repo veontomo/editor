@@ -73,3 +73,13 @@ describe('Validation the calculated width', function(){
         expect(validateWidth('pt320.1')).toBe(false);
     });
 });
+
+describe('Splitting quantity in value and measure', function(){
+    it('splits', function(){
+        expect(toUnit('10px')).toEqual({value: 10, measure: 'px'});
+        expect(toUnit('20')).toEqual({value: 20, measure: ''});
+        expect(toUnit('20 em')).toEqual({value: 20, measure: 'em'});
+        expect(toUnit('0.3221s')).toEqual({value: 0.3221, measure: 's'});
+        expect(toUnit('s')).toBe(false);
+    });
+});

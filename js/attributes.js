@@ -187,16 +187,17 @@ ListItemAttributes.prototype.toString = new Attributes();
 
 /**
  * Content class.
+ * @param 		str 		String 		a sring that will be inserted by default in the array "elements".
  * @property 	elements 	Array 		array of objects or strings
- * @method 		String 		toHtml()	string representation of the class. Each element should be respond to 'toHtml'.
+ * @method 		String 		toHtml()	string representation of the class. Each element should respond to 'toHtml' method.
  */
 
-function Content() {
+function Content(str) {
 	"use strict";
 	if (!(this instanceof Content)) {
 		return new Content();
 	}
-	this.elements = ['cell'];
+	this.elements = str ? [str] : [];
 	this.length = function () {
 		return this.elements.length;
 	};
