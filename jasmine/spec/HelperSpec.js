@@ -80,6 +80,7 @@ describe('Splitting quantity in value and measure', function(){
         expect(toUnit('20')).toEqual({value: 20, measure: ''});
         expect(toUnit('20 em')).toEqual({value: 20, measure: 'em'});
         expect(toUnit('0.3221s')).toEqual({value: 0.3221, measure: 's'});
+        expect(toUnit(0.3221)).toEqual({value: 0.3221, measure: ''});
         expect(toUnit('s')).toBe(false);
     });
 });

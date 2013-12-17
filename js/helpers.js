@@ -217,6 +217,8 @@ function Unit(value, measure){
      */
 var toUnit = function (str) {
     "use strict";
+
+    str = str.toString();
     var number = parseFloat(str);
     if (isNaN(number)) {
         return false;
