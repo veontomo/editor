@@ -48,5 +48,28 @@ describe("drop protocol", function() {
         expect(dropProtocol('http://www.test.com://')).toEqual("www.test.com://");
         expect(dropProtocol('http://www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt')).toEqual('www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt');
     });
+});
 
+describe('Validation the calculated width', function(){
+    it('makes the width to be valid', function(){
+        expect(validateWidth('10px')).toEqual('10px');
+        expect(validateWidth('20.92px ')).toEqual('20px');
+        expect(validateWidth('340 px')).toEqual('340px');
+        expect(validateWidth('320.7 px')).toEqual('320px');
+        expect(validateWidth('10pt')).toEqual('10pt');
+        expect(validateWidth('20.32pt')).toEqual('20pt');
+        expect(validateWidth('340 pt')).toEqual('340pt');
+
+        expect(validateWidth('320.1 em')).toEqual('320.1em');
+        expect(validateWidth('10em')).toEqual('10em');
+        expect(validateWidth('20.92em ')).toEqual('20.92em');
+        expect(validateWidth('340 %')).toEqual('340%');
+        expect(validateWidth('320.1 %')).toEqual('320.1%');
+        expect(validateWidth('320.6%')).toEqual('320.6%');
+        expect(validateWidth('10% ')).toEqual('10%');
+
+
+        expect(validateWidth('320.1 em1')).toBe(false);
+        expect(validateWidth('pt320.1')).toBe(false);
+    });
 });

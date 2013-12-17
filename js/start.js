@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	var editor = CKEDITOR.replace( 'editor', {
 			customConfig: '../settings/editor_config.js'
 		}

@@ -1,17 +1,20 @@
-function target_exists(fileName){
+function target_exists(fileName) {
     $.ajax({
-        url: fileName, 
-        type: 'GET', 
-        async: false, 
-        timeout: 1000, 
-        error:  function(XMLHttpRequest, textStatus, errorThrown) {
+        url: fileName,
+        type: 'GET',
+        async: false,
+        timeout: 1000,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.debug("An error has occurred making the request: " + errorThrown);
         },
-        success:  function() {
+        success: function () {
             console.debug("file " + fileName + " is found");
             var output = true;
         }
-    }).complete(function(){console.debug("ajax finished"); return true;});
+    }).complete(function () {
+        console.debug("ajax finished");
+        return true;
+    });
 }
 
 
@@ -24,7 +27,7 @@ function target_exists(fileName){
  * @param    arr      Array      array of numbers
  * @return            Array      array of numbers
  */
-var sanitize = function(arr) {
+var sanitize = function (arr) {
         var sanitized = [];
         var len = arr.length;
         for (var i = 0; i < len; i++) {
@@ -40,7 +43,7 @@ var sanitize = function(arr) {
  * @param arr    array of numbers
  * @return   number
  */
-var trace = function(arr) {
+var trace = function (arr) {
         var accum = 0;
         for (num in arr) {
             accum = accum + arr[num];
@@ -57,14 +60,14 @@ var trace = function(arr) {
  * @param    Array   array of numbers
  * @return   Array   array of numbers 
  */
-var normalize = function(arr) {
+var normalize = function (arr) {
         var total = trace(arr);
         var len = arr.length;
-        var areAllZeroes = arr.every(function(elem) {
+        var areAllZeroes = arr.every(function (elem) {
             return elem === 0;
         });
         if (areAllZeroes) {
-            arr = arr.map(function(arg) {
+            arr = arr.map(function (arg) {
                 return 1;
             });
             total = len;
@@ -90,7 +93,7 @@ var normalize = function(arr) {
  * @param    pieces      Array   array of weigths
  * @return   Array       array of numbers
  */
-var splitWeighted = function(overall, pieces) {
+var splitWeighted = function (overall, pieces) {
         var norm = normalize(sanitize(pieces));
         var result = [];
         var len = norm.length;
@@ -107,8 +110,8 @@ var splitWeighted = function(overall, pieces) {
  * @param    arr    Array       array of numbers
  * @return          Array       array of integers 
  */
-var roundUp = function(arr) {
-        return arr.map(function(elem) {
+var roundUp = function (arr) {
+        return arr.map(function (elem) {
             return Math.round(elem);
         });
     };
@@ -119,33 +122,60 @@ var roundUp = function(arr) {
  * @param    pieces      Array    array of nambers
  * @return               Array    array of integers    
  */
-var columnWidths = function(overall, pieces) {
+var columnWidths = function (overall, pieces) {
         return roundUp(splitWeighted(overall, pieces));
-}
+    }
 
 
-/**
- * Deletes the protocol name from the url.
- * Everything until the first occurence of '://' will be removed (inclusively).
- * @example  'http://www.test.com'      -> 'www.test.com'
- *           'www.test.com'             -> 'www.test.com'
- * @param    url     String
- * @return   String  url without protocol name
- */
-var dropProtocol = function(str){
-    var delimiter = '://';
-    var pattern = '^[^' + delimiter + ']+' + delimiter; 
-    var re = new RegExp(pattern, 'gi');
-    return str.replace(re, '');
-};
+    /**
+     * Deletes the protocol name from the url.
+     * Everything until the first occurence of '://' will be removed (inclusively).
+     * @example  'http://www.test.com'      -> 'www.test.com'
+     *           'www.test.com'             -> 'www.test.com'
+     * @param    url     String
+     * @return   String  url without protocol name
+     */
+var dropProtocol = function (str) {
+        var delimiter = '://';
+        var pattern = '^[^' + delimiter + ']+' + delimiter;
+        var re = new RegExp(pattern, 'gi');
+        return str.replace(re, '');
+    };
 
 
 /** 
-* Gives file extension
-* @param    fileName   String      name of file
-* @return   String     file extension
-*/
-var fileExt = function(str){
-    var delimiter = '.';
-    return  str.indexOf(delimiter) !== -1 ? str.split(delimiter).pop() : '';
-};
+ * Gives file extension
+ * @param    fileName   String      name of file
+ * @return   String     file extension
+ */
+var fileExt = function (str) {
+        var delimiter = '.';
+        return str.indexOf(delimiter) !== -1 ? str.split(delimiter).pop() : '';
+    };
+
+/**
+ * Gives the validated width. If the width is given in "px" or "pt", the integer part is given.
+ * If the length is given in "em" or "%", it is left as it is.
+ * @param    str    String
+ * @return   String
+ */
+var validateWidth = function (str) {
+    "use strict";
+        var unit, output = false,
+            units = {
+                'integer': ['px', 'pt'],
+                'others': ['em', '%']
+            },
+            number = parseFloat(str);
+        if (isNaN(number)) {
+            return false;
+        }
+        unit = str.replace(number.toString(), '').trim();
+        if (units.integer.indexOf(unit) !== -1) {
+            output = Math.floor(number).toString() + unit;
+        }
+        if (units.others.indexOf(unit) !== -1) {
+            output = number.toString() + unit;
+        }
+        return output;
+    };

@@ -196,7 +196,7 @@ function Content() {
 	if (!(this instanceof Content)) {
 		return new Content();
 	}
-	this.elements = [];
+	this.elements = ['cell'];
 	this.length = function () {
 		return this.elements.length;
 	};
