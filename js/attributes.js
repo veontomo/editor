@@ -1,3 +1,4 @@
+/*jslint plusplus: true */
 /** 
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
@@ -8,19 +9,22 @@
  * @return 			String 			a concatenation of substrings; each substring is of this format: "attribute: value;".
  * @example "padding: 0px;margin: 10px;color: #ababab;"
  */
-var toString = function(obj, unit) {
-		var unit = unit || 'px';
-		var styles = "";
-		for (var attr in obj) {
-			// avoid adding method to the output
-			var val = obj[attr];
-			switch (typeof val) {
-			case 'string':
-				styles += attr + ': ' + val + ';';
-				break;
-			case 'number':
-				styles += attr + ': ' + String(val) + unit + ';';
-				break;
+var toString = function (obj, unit) {
+		"use strict";
+		var val, attr, styles = "";
+		unit = unit || 'px';
+		for (attr in obj) {
+			if (obj.hasOwnProperty(attr)) {
+				// avoid adding method to the output
+				val = obj[attr];
+				switch (typeof val) {
+				case 'string':
+					styles += attr + ': ' + val + ';';
+					break;
+				case 'number':
+					styles += attr + ': ' + String(val) + unit + ';';
+					break;
+				}
 			}
 		}
 		return styles;
@@ -32,18 +36,22 @@ var toString = function(obj, unit) {
  * @param mixed w
  * @return void
  */
-var setMinMaxWidth = function(obj, w) {
+var setMinMaxWidth = function (obj, w) {
+		"use strict";
 		obj.width = w;
 		obj["max-width"] = obj.width;
 		obj["min-width"] = obj.width;
 	};
 
-function Attributes(){
-	if(!(this instanceof Attributes)){return new Attributes();}
-	this.toString = function(){
+function Attributes() {
+	"use strict";
+	if (!(this instanceof Attributes)) {
+		return new Attributes();
+	}
+	this.toString = function () {
 		return toString(this);
 	};
-	this.setWidth = function(w){
+	this.setWidth = function (w) {
 		return setMinMaxWidth(this, w);
 	};
 }
@@ -51,8 +59,12 @@ function Attributes(){
 /** 
  * Some data containers with default values of their attributes.
  */
+
 function TextAttributes() {
-	if(!(this instanceof TextAttributes)){return new TextAttributes();}
+	"use strict";
+	if (!(this instanceof TextAttributes)) {
+		return new TextAttributes();
+	}
 	this["font-size"] = "12px";
 	this.color = "#000000";
 	this["font-weight"] = "0";
@@ -62,7 +74,10 @@ function TextAttributes() {
 TextAttributes.prototype = new Attributes();
 
 function LinkAttributes() {
-	if(!(this instanceof LinkAttributes)){return new LinkAttributes();}
+	"use strict";
+	if (!(this instanceof LinkAttributes)) {
+		return new LinkAttributes();
+	}
 	this["text-decoration"] = "underline";
 	this["font-size"] = 12;
 	this.color = "blue";
@@ -73,7 +88,10 @@ function LinkAttributes() {
 LinkAttributes.prototype = new Attributes();
 
 function TableAttributes() {
-	if(!(this instanceof TableAttributes)){return new TableAttributes();}
+	"use strict";
+	if (!(this instanceof TableAttributes)) {
+		return new TableAttributes();
+	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
@@ -86,14 +104,20 @@ function TableAttributes() {
 TableAttributes.prototype = new Attributes();
 
 function FramedTableAttributes() {
-	if(!(this instanceof FramedTableAttributes)){return new FramedTableAttributes();}
+	"use strict";
+	if (!(this instanceof FramedTableAttributes)) {
+		return new FramedTableAttributes();
+	}
 	this['border-width'] = 1;
 	this['border-color'] = 'rgb(0, 0, 0)';
 }
 FramedTableAttributes.prototype = new TableAttributes();
 
 function TableRowAttributes() {
-	if(!(this instanceof TableRowAttributes)){return new TableRowAttributes();}
+	"use strict";
+	if (!(this instanceof TableRowAttributes)) {
+		return new TableRowAttributes();
+	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
@@ -106,7 +130,10 @@ function TableRowAttributes() {
 TableRowAttributes.prototype = new Attributes();
 
 function TableCellAttributes() {
-	if(!(this instanceof TableCellAttributes)){return new TableCellAttributes();}
+	"use strict";
+	if (!(this instanceof TableCellAttributes)) {
+		return new TableCellAttributes();
+	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = "0px";
@@ -119,7 +146,10 @@ function TableCellAttributes() {
 TableCellAttributes.prototype = new Attributes();
 
 function ImageAttributes() {
-	if(!(this instanceof ImageAttributes)){return new ImageAttributes();}
+	"use strict";
+	if (!(this instanceof ImageAttributes)) {
+		return new ImageAttributes();
+	}
 	this["border-width"] = 0;
 	this["border-style"] = "solid";
 	this["border-color"] = "rgb(255, 255, 255)";
@@ -131,49 +161,59 @@ function ImageAttributes() {
 ImageAttributes.prototype = new Attributes();
 
 function ListAttributes() {
-	if(!(this instanceof ListAttributes)){return new ListAttributes();}
+	"use strict";
+	if (!(this instanceof ListAttributes)) {
+		return new ListAttributes();
+	}
 	this.padding = 0;
 	this.margin = 0;
 }
-ListAttributes.prototype.toString  = new Attributes();
+ListAttributes.prototype.toString = new Attributes();
 
 function ListItemAttributes() {
-	if(!(this instanceof ListItemAttributes)){return new ListItemAttributes();}
+	"use strict";
+	if (!(this instanceof ListItemAttributes)) {
+		return new ListItemAttributes();
+	}
 	this["font-size"] = 12;
 	this.color = "#000000";
 	this["font-weight"] = 0;
 	this.padding = 0;
 	this.margin = 0;
 }
-ListItemAttributes.prototype.toString  = new Attributes();
+ListItemAttributes.prototype.toString = new Attributes();
 
 
 /**
-* Content class. 
-* @property 	elements 	Array 		array of objects or strings
-* @method 		String 		toHtml()	string representation of the class. Each element should be respond to 'toHtml'.
-*/
-function Content(){
-	if(!(this instanceof Content)){return new Content();}
+ * Content class.
+ * @property 	elements 	Array 		array of objects or strings
+ * @method 		String 		toHtml()	string representation of the class. Each element should be respond to 'toHtml'.
+ */
+
+function Content() {
+	"use strict";
+	if (!(this instanceof Content)) {
+		return new Content();
+	}
 	this.elements = [];
-	this.length = function(){
+	this.length = function () {
 		return this.elements.length;
 	};
-	this.toHtml = function(){
-		var output = '';
-		var len = this.length();
-		for(var i = 0; i < len; i++){
-			var elem = this.elements[i];
-			switch(typeof elem){
-				case 'string':
-					output += elem;
-					break;
-				case 'number':
-					output += elem.toString();
-					break;
-				case 'object':
-					output += ('toHtml' in elem) ? elem.toHtml() : ' no string representation fir the element! ';
-					break;
+	this.toHtml = function () {
+		var i, elem, output = '',
+			len = this.length();
+		for (i = 0; i < len; i++) {
+			elem = this.elements[i];
+			switch (typeof elem) {
+			case 'string':
+				output += elem;
+				break;
+			case 'number':
+				output += elem.toString();
+				break;
+			case 'object':
+				output += elem.hasOwnProperty('toHtml') ? elem.toHtml() : ' no string representation for the element! ';
+				break;
 			}
 		}
 		return output;
@@ -189,13 +229,16 @@ function Content(){
  */
 
 function Cell() {
-	if(!(this instanceof Cell)){return new Cell();}
+	"use strict";
+	if (!(this instanceof Cell)) {
+		return new Cell();
+	}
 	this.style = new TableCellAttributes();
-	this.width = function() {
+	this.width = function () {
 		return this.style.width;
 	};
 	this.content = new Content();
-	this.toHtml = function() {
+	this.toHtml = function () {
 		return '<td width="' + this.width() + '" style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
 	};
 }
@@ -218,59 +261,63 @@ function Cell() {
  */
 
 function Row() {
-	if(!(this instanceof Row)){return new Row();}
+	"use strict";
+	if (!(this instanceof Row)) {
+		return new Row();
+	}
 	this.style = new TableRowAttributes();
 	this.content = [];
 
-	this.width = function(){
-		return ('width' in this.style) ? this.style.width : '';
+	this.width = function () {
+		return this.style.hasOwnProperty('width') ? this.style.width : '';
 	};
 
-	this.toHtml = function() {
-		var htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">';
-		var cellsNumber = this.numOfCells();
-		for(var i = 0; i < cellsNumber; i++){
+	this.toHtml = function () {
+		var i, 
+			htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">',
+			cellsNumber = this.numOfCells();
+		for (i = 0; i < cellsNumber; i++) {
 			htmlRow += this.cells()[i].toHtml();
 		}
 		htmlRow += '</tr>';
 		return htmlRow;
 
 	};
-	this.numOfCells = function() {
+	this.numOfCells = function () {
 		return this.content.length;
 	};
 
-	this.cells = function(){
-		var output = [];
-		var len = this.numOfCells();
-		for(var i = 0; i < len; i++){
-			var cell = new Cell();
+	this.cells = function () {
+		var i, cell, 
+			output = [],
+			len = this.numOfCells();
+		for (i = 0; i < len; i++) {
+			cell = new Cell();
 			cell.style = this.cellStyles[i];
 			cell.content = this.content[i];
 			output.push(cell);
-
-		};
+		}
 		return output;
 	};
 
-	this.dropCell = function(num) {
+	this.dropCell = function (num) {
 		var elem = this.cells[num];
-		if ((typeof elem) !== 'undefined') {
+		if (elem !== undefined) {
 			this.content.splice(num, 1);
 			return elem;
 		}
 	};
 
-	this.insertCell = function(cell, pos) {
+	this.insertCell = function (cell, pos) {
 		var elem = this.content[pos];
-		if ((typeof elem) !== 'undefined') {
+		if (elem !== undefined) {
 			this.content.splice(pos, 0, cell);
-		}else{
-			this.content.push(cell);	
+		} else {
+			this.content.push(cell);
 		}
 	};
 
-	this.appendCell = function(cell){
+	this.appendCell = function (cell) {
 		this.insertCell(cell, this.length());
 	};
 }
@@ -291,32 +338,45 @@ function Row() {
 * @method 		String 		toHtml() 	html representation of the table
 
 */
+
 function Table() {
-	if(!(this instanceof Table)){return new Table();}
+	"use strict";
+	if (!(this instanceof Table)) {
+		return new Table();
+	}
 	this.style = new TableAttributes();
 	this.rowStyle = new TableRowAttributes();
 	this.cellStyles = [];
 	this.content = [];
-	this.numOfCols = function(){
+	this.numOfCols = function () {
 		return this.content[0].length;
 	};
-	this.numOfRows = function(){
+	this.numOfRows = function () {
 		return this.content.length;
 	};
 
-	this.isRegular = function(){
+	this.isRegular = function () {
+		var isAllArrays, firstRowLength;
 		// check if each element is an array
-		var isAllArrays = this.content.every(function(elem){return Array.isArray(elem)});
-		if(!isAllArrays) return false;
-		var firstRowLength = this.content[0].length;
-		return this.content.every(function(arr){ return arr.length === firstRowLength;});
+		isAllArrays = this.content.every(function (elem) {
+			return Array.isArray(elem);
+		});
+		if (!isAllArrays) {
+			return false;
+		}
+		firstRowLength = this.content[0].length;
+		return this.content.every(function (arr) {
+			return arr.length === firstRowLength;
+		});
 	};
 
-	this.rows = function(){
-		var output = [];
-		var len = this.numOfRows();
-		for(var i = 0; i < len; i++){
-			var row = new Row();
+	this.rows = function () {
+		var i, 
+			row,
+			output = [],
+			len = this.numOfRows();
+		for (i = 0; i < len; i++) {
+			row = new Row();
 			row.style = this.rowStyle;
 			row.cellStyles = this.cellStyles;
 			row.content = this.content[i];
@@ -326,33 +386,39 @@ function Table() {
 	};
 
 
-	this.toHtml = function(){
-		var output = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
-		var len = this.rows().length;
-		for(var i = 0; i < len; i++){
+	this.toHtml = function () {
+		var output, len, i;
+		output = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
+		len = this.rows().length;
+		for (i = 0; i < len; i++) {
 			output += this.rows()[i].toHtml();
 		}
 		output += '</tbody></table>';
-		return output; 
+		return output;
 	};
 
 
-	this.width = function(){
-		return ('width' in this.style) ? this.style.width : '';
+	this.width = function () {
+		return this.style.hasOwnProperty('width') ? this.style.width : '';
 	};
-
 
 
 }
 
 function PlainTable() {
-	if(!(this instanceof PlainTable)){return new PlainTable();}
+	"use strict";
+	if (!(this instanceof PlainTable)) {
+		return new PlainTable();
+	}
 }
 PlainTable.prototype = new Table();
 
 
 function FramedTable() {
-	if(!(this instanceof FramedTableAttributes)){return new FramedTableAttributes();}
+	"use strict";
+	if (!(this instanceof FramedTableAttributes)) {
+		return new FramedTableAttributes();
+	}
 	this.style = new FramedTableAttributes();
 }
 FramedTable.prototype = new Table();
