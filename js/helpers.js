@@ -160,7 +160,7 @@ var fileExt = function (str) {
  * @return   String
  */
 var validateWidth = function (str) {
-    "use strict";
+        "use strict";
         var unit, output = false,
             units = {
                 'integer': ['px', 'pt'],
@@ -181,41 +181,64 @@ var validateWidth = function (str) {
     };
 
 /**
-* Represents a quantity divided in "value" and "measure". 
-* @property     value       Number
-* @property     measure     String
-*/
+ * Represents a quantity divided in "value" and "measure".
+ * @param        value       Number
+ * @param        measure     String|null
+ * @property     value       Number
+ * @property     measure     String
+ */
 
-function Unit(value, measure){
+function Unit(value, measure) {
     "use strict";
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);
     }
-    if(isNaN(value) ){
+    if (isNaN(value) && (value !== undefined)) {
         throw new Error('the first arg is a not a number!');
     }
-  if(!(typeof measure === 'string' || (!measure))){
+    if ((typeof measure !== 'string') && (measure !== undefined)) {
         throw new Error('the second arg is a not a string!');
     }
 
-    this.value = value;
-    this.measure = measure || '';
+    this.value = value || 0;
+    this.measure = measure ? measure.trim() : '';
+
+    this.add = function(unit){
+        var result;
+        if(!(unit instanceof Unit)) {
+            unit = toUnit(unit);
+        };
+        if(unit.measure !== this.measure){
+            throw new Error("these Unit instances can not be summed up!");
+        }
+        return new Unit(this.value + unit.value, unit.measure);
+    };
+    this.sub = function(unit){
+        var result;
+        if(!(unit instanceof Unit)) {
+            unit = toUnit(unit);
+        };
+        if(unit.measure !== this.measure){
+            throw new Error("these Unit instances can not be subtracted!");
+        }
+        return new Unit(this.value - unit.value, unit.measure);
+    }
+
 }
 
-    /**
-     * Divide the string into the value and the measurement unit.
-     * If the length is given in "em" or "%", it is left as it is.
-     * @param    str    String      '12px', '10m', '12.1 s', '32.2r'
-     * @return   Object     object with keys "value" and "unit"
-     */
+/**
+ * Divide the string into the value and the measurement unit.
+ * If the length is given in "em" or "%", it is left as it is.
+ * @param    str    String      '12px', '10m', '12.1 s', '32.2r'
+ * @return   Object     object with keys "value" and "unit"
+ */
 var toUnit = function (str) {
-    "use strict";
-
-    str = str.toString();
-    var number = parseFloat(str);
-    if (isNaN(number)) {
-        return false;
-    }
-    var unit = str.replace(number.toString(), '').trim();
-    return new Unit(number, unit);
+        "use strict";
+        str = str ? str.toString() : '0';
+        var number = parseFloat(str);
+        if (isNaN(number)) {
+            return false;
+        }
+        var unit = str.replace(number.toString(), '').trim();
+        return new Unit(number, unit);
     };

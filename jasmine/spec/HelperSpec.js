@@ -74,13 +74,79 @@ describe('Validation the calculated width', function(){
     });
 });
 
+describe('It has a class Unit', function(){
+    it('creates instances of Unit class', function(){
+        var u1 = new Unit(1, 'cm');
+        var u2 = new Unit(29.50206, 'l');
+        var u3 = new Unit(2.5);
+        var u4 = new Unit(1, '');
+        var u5 = new Unit(12, 'cm ');
+        var u6 = new Unit(0.5, ' cm');
+        var u7 = new Unit();
+
+        expect([u1.value, u1.measure]).toEqual([1, 'cm']);
+        expect([u2.value, u2.measure]).toEqual([29.50206, 'l']);
+        expect([u3.value, u3.measure]).toEqual([2.5, '']);
+        expect([u4.value, u4.measure]).toEqual([1, '']);
+        expect([u5.value, u5.measure]).toEqual([12, 'cm']);
+        expect([u6.value, u6.measure]).toEqual([0.5, 'cm']);
+        expect([u7.value, u7.measure]).toEqual([0, '']);
+    });
+
+    it('adds two instances of Unit class', function(){
+        var u1 = new Unit(10.4, 'cm');
+        var u2 = new Unit(2.3, 'cm');
+        var u3 = new Unit(2.5);
+        var u4 = new Unit(1, '');
+
+        var s1 = u1.add(u2);
+        var s2 = u3.add(u4);
+        var s3 = u1.add(u2).add(u2);
+        expect([s1.value, s1.measure]).toEqual([12.7, 'cm']);
+        expect([s2.value, s2.measure]).toEqual([3.5, '']);
+        expect([s3.value, s3.measure]).toEqual([15, 'cm']);
+        expect(function(){
+            return u1.add(u3);   
+        }).toThrow(new Error("these Unit instances can not be summed up!"));
+    });
+
+
+    it('subtracts two instances of Unit class', function(){
+        var u1 = new Unit(10, 'cm');
+        var u2 = new Unit(2, 'cm');
+        var u3 = new Unit(2);
+        var u4 = new Unit(1, '');
+
+        var s1 = u1.sub(u2);
+        var s2 = u3.sub(u4);
+        var s3 = u1.sub(u2).sub(u2);
+        expect([s1.value, s1.measure]).toEqual([8, 'cm']);
+        expect([s2.value, s2.measure]).toEqual([1, '']);
+        expect([s3.value, s3.measure]).toEqual([6, 'cm']);
+        expect(function(){
+            return u1.sub(u3);   
+        }).toThrow(new Error("these Unit instances can not be subtracted!"));
+    });
+
+
+});
+
 describe('Splitting quantity in value and measure', function(){
     it('splits', function(){
-        expect(toUnit('10px')).toEqual({value: 10, measure: 'px'});
-        expect(toUnit('20')).toEqual({value: 20, measure: ''});
-        expect(toUnit('20 em')).toEqual({value: 20, measure: 'em'});
-        expect(toUnit('0.3221s')).toEqual({value: 0.3221, measure: 's'});
-        expect(toUnit(0.3221)).toEqual({value: 0.3221, measure: ''});
-        expect(toUnit('s')).toBe(false);
+        var u1 = toUnit('10px');
+        var u2 = toUnit();
+        var u3 = toUnit('');
+        var u4 = toUnit('20');
+        var u5 = toUnit('0.3221s');
+        var u6 = toUnit(0.3221);
+        var u7 = toUnit('s');
+
+        expect([u1.value, u1.measure]).toEqual([10, 'px']);
+        expect([u2.value, u2.measure]).toEqual([0, '']);
+        expect([u3.value, u3.measure]).toEqual([0, '']);
+        expect([u4.value, u4.measure]).toEqual([20, '']);
+        expect([u5.value, u5.measure]).toEqual([0.3221, 's']);
+        expect([u6.value, u6.measure]).toEqual([0.3221, '']);
+        expect(u7).toBe(false);
     });
 });

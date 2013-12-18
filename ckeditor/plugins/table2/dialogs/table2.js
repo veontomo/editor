@@ -39,6 +39,7 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
         var borderWidth = startElem.getComputedStyle('border-width');
         var padding = startElem.getComputedStyle('padding');
         console.log('rawWidth, borderWidth, padding: ' + rawWidth + ' ' + borderWidth + ' ' + padding);
+        console.log('rawWidth, borderWidth, padding: ' + toUnit(rawWidth).value + ' ' + toUnit(borderWidth).value + ' ' + toUnit(padding).value);
         // validateWidth()  function is defined in js/helpers.js
         return validateWidth(rawWidth);
     }
@@ -147,11 +148,11 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
             // defining styles
             var stylesTable = new TableAttributes();
             if(borderWidth > 0){
-                stylesTable['border-width'] = borderWidth + 'px';
+                stylesTable['border-width'] = borderWidth;
                 stylesTable['border-color'] = 'rgb(0, 0, 0)';
 
             }
-            stylesTable.setWidth(tableWidth + 'px');
+            stylesTable.setWidth(tableWidth);
             
             stylesTable['border-spacing'] = '0px ' + spaceBtwRows + 'px';
 
