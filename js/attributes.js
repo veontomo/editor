@@ -96,11 +96,14 @@ function TableAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
+	this["cell-spacing"] = '0px 0px';
 	this.margin = 0;
 	this.padding = 0;
 	this.width = 0;
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
+	this["border-collapse"] = "collapse";
+	this["border-spacing"] = "0";
 }
 TableAttributes.prototype = new Attributes();
 
