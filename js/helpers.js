@@ -181,13 +181,6 @@ var validateWidth = function (str) {
     };
 
 /**
-* Simplified version of the exception class
-*/
-function Exception(message){
-    this.message = message;
-}
-
-/**
 * Represents a quantity divided in "value" and "measure". 
 * @property     value       Number
 * @property     measure     String
@@ -199,10 +192,10 @@ function Unit(value, measure){
         return new Unit(value, measure);
     }
     if(isNaN(value) ){
-        throw new Exception('the first arg is a not a number!');
+        throw new Error('the first arg is a not a number!');
     }
   if(!(typeof measure === 'string' || (!measure))){
-        throw new Exception('the second arg is a not a string!');
+        throw new Error('the second arg is a not a string!');
     }
 
     this.value = value;
