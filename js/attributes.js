@@ -397,20 +397,3 @@ function Table() {
 		return this.style.hasOwnProperty('width') ? this.style.width : '';
 	};
 }
-
-function PlainTable() {
-	"use strict";
-	if (!(this instanceof PlainTable)) {
-		return new PlainTable();
-	}
-}
-PlainTable.prototype = new Table();
-
-function FramedTable() {
-	"use strict";
-	if (!(this instanceof FramedTableAttributes)) {
-		return new FramedTableAttributes();
-	}
-	this.style = new FramedTableAttributes();
-}
-FramedTable.prototype = new Table();

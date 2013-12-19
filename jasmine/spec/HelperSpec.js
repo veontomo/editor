@@ -166,23 +166,3 @@ describe('It has a class Unit', function(){
 
 
 });
-
-describe('Splitting quantity in value and measure', function(){
-    it('splits', function(){
-        var u1 = toUnit('10px');
-        var u2 = toUnit();
-        var u3 = toUnit('');
-        var u4 = toUnit('20');
-        var u5 = toUnit('0.3221s');
-        var u6 = toUnit(0.3221);
-        var u7 = toUnit('s');
-
-        expect([u1.value, u1.measure]).toEqual([10, 'px']);
-        expect([u2.value, u2.measure]).toEqual([0, '']);
-        expect([u3.value, u3.measure]).toEqual([0, '']);
-        expect([u4.value, u4.measure]).toEqual([20, '']);
-        expect([u5.value, u5.measure]).toEqual([0.3221, 's']);
-        expect([u6.value, u6.measure]).toEqual([0.3221, '']);
-        expect(u7).toBe(false);
-    });
-});
