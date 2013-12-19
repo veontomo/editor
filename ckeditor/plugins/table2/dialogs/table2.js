@@ -161,17 +161,21 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
 
 
             // calculating widths
-            var tableWidth = parentWidth().value; // the width in px
+            var tableWidth = parentWidth().value;       // the width in px
             var trWidth = tableWidth - 2 * borderWidth;
+            var spaceTop = parseInt(spaceBtwRows/2);    // padding-top for the rows (cast to integer)
+            var spaceBottom = spaceBtwRows - spaceTop;  // padding-bottom 
             var tdWidth = columnWidths(trWidth - 2 * borderWidthRow, colWidths); // array of column widths
-            console.log('calculated parameters: tableWidth ' + tableWidth + ', borderWidth ' + borderWidth + ', trWidth ' + trWidth + ', tdWidth ' + tdWidth);
+
+
             
-            //////////
+
             var table = new Table();
             var tableStyle = new TableAttributes();
             var rowStyle = new TableRowAttributes();
 
             tableStyle.setWidth(tableWidth);
+            tableStyle["border-spacing"] = '0px 2px';
 
             rowStyle.setWidth(trWidth);
             var contentLine = [], cellStyles = [];
@@ -182,20 +186,27 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                 cellStyles.push(tableCellAttr);
             }
 
+            if(borderWidth > 0){
+                tableStyle['border-width'] = borderWidth;
+                tableStyle['border-color'] = '#000000';
+            }
+
 
             if(isFramed){
-                tableStyle['border-width'] = borderWidth;
-                tableStyle['border-color'] = 'rgb(0, 0, 0)';
-
                 table.cellStyles = [rowStyle];
                 // setting props of the nested table
                 var nested = new Table();
                 var nestedStyle = new TableAttributes();
                 nestedStyle["border-width"] = borderWidthRow;
+                nestedStyle["border-color"] = "#000000";
                 nestedStyle.setWidth(trWidth);
-                nestedStyle["border-color"] = "rgb(0, 0, 0)";
+                nestedStyle["margin-top"] = spaceTop;
+                nestedStyle["margin-bottom"] = spaceBottom;
+
                 var nestedRowStyle = new TableRowAttributes();
                 nestedRowStyle.setWidth(trWidth - 2 * borderWidthRow);
+                nestedRowStyle["border-width"] = borderWidthRow;
+                nestedRowStyle["border-color"] = "#000000";
                 var nestedCellStyles = cellStyles;
                 var nestedContent = contentLine;
 
@@ -208,6 +219,8 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
                     table.content.push([nested]);
                 }
             }else{
+                rowStyle["margin-top"] = spaceTop;
+                rowStyle["margin-bottom"] = spaceBottom;
                 table.cellStyles = cellStyles;
                 for(var i = 0; i < rows; i++){
                     table.content.push(contentLine);

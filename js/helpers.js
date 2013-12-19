@@ -28,14 +28,15 @@ function target_exists(fileName) {
  * @return            Array      array of numbers
  */
 var sanitize = function (arr) {
-        var sanitized = [];
-        var len = arr.length;
-        for (var i = 0; i < len; i++) {
-            var tmp = parseFloat(arr[i]);
-            sanitized[i] = isNaN(tmp) ? 0 : Math.abs(tmp);
-        }
-        return sanitized;
-    };
+    var i, tmp,
+        sanitized = [],
+        len = arr.length;
+    for (i = 0; i < len; i++) {
+        tmp = parseFloat(arr[i]);
+        sanitized[i] = isNaN(tmp) ? 0 : Math.abs(tmp);
+    }
+    return sanitized;
+};
 
 /**
  * calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
@@ -44,12 +45,14 @@ var sanitize = function (arr) {
  * @return   number
  */
 var trace = function (arr) {
-        var accum = 0;
-        for (num in arr) {
-            accum = accum + arr[num];
-        }
-        return accum;
-    };
+    var accum = 0,
+        len = arr.length,
+        i;
+    for (i = 0; i < len; i++) {
+        accum = accum + arr[i];
+    }
+    return accum;
+};
 
 /**
  * normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.
@@ -61,27 +64,28 @@ var trace = function (arr) {
  * @return   Array   array of numbers 
  */
 var normalize = function (arr) {
-        var total = trace(arr);
-        var len = arr.length;
-        var areAllZeroes = arr.every(function (elem) {
+    var total = trace(arr),
+        len = arr.length,
+        result = [],
+        i,
+        areAllZeroes = arr.every(function (elem) {
             return elem === 0;
         });
-        if (areAllZeroes) {
-            arr = arr.map(function (arg) {
-                return 1;
-            });
-            total = len;
+    if (areAllZeroes) {
+        arr = arr.map(function (arg) {
+            return 1;
+        });
+        total = len;
+    }
+    if (total === 0) {
+        result = arr;
+    } else {
+        for (i = 0; i < len; i++) {
+            result[i] = arr[i] / total;
         }
-        var result = [];
-        if (total === 0) {
-            result = arr;
-        } else {
-            for (var i = 0; i < len; i++) {
-                result[i] = arr[i] / total;
-            }
-        }
-        return result;
-    };
+    }
+    return result;
+};
 
 
 /**
@@ -94,14 +98,15 @@ var normalize = function (arr) {
  * @return   Array       array of numbers
  */
 var splitWeighted = function (overall, pieces) {
-        var norm = normalize(sanitize(pieces));
-        var result = [];
-        var len = norm.length;
-        for (var i = 0; i < len; i++) {
-            result[i] = overall * norm[i];
-        }
-        return result;
-    };
+    var norm = normalize(sanitize(pieces)),
+        result = [],
+        len = norm.length,
+        i;
+    for (i = 0; i < len; i++) {
+        result[i] = overall * norm[i];
+    }
+    return result;
+};
 
 
 /**
@@ -123,24 +128,24 @@ var roundUp = function (arr) {
  * @return               Array    array of integers    
  */
 var columnWidths = function (overall, pieces) {
-        return roundUp(splitWeighted(overall, pieces));
-    }
+    return roundUp(splitWeighted(overall, pieces));
+};
 
 
-    /**
-     * Deletes the protocol name from the url.
-     * Everything until the first occurence of '://' will be removed (inclusively).
-     * @example  'http://www.test.com'      -> 'www.test.com'
-     *           'www.test.com'             -> 'www.test.com'
-     * @param    url     String
-     * @return   String  url without protocol name
-     */
+/**
+ * Deletes the protocol name from the url.
+ * Everything until the first occurence of '://' will be removed (inclusively).
+ * @example  'http://www.test.com'      -> 'www.test.com'
+ *           'www.test.com'             -> 'www.test.com'
+ * @param    url     String
+ * @return   String  url without protocol name
+ */
 var dropProtocol = function (str) {
-        var delimiter = '://';
-        var pattern = '^[^' + delimiter + ']+' + delimiter;
-        var re = new RegExp(pattern, 'gi');
-        return str.replace(re, '');
-    };
+    var delimiter = '://',
+        pattern = '^[^' + delimiter + ']+' + delimiter,
+        re = new RegExp(pattern, 'gi');
+    return str.replace(re, '');
+};
 
 
 /** 
@@ -203,27 +208,26 @@ function Unit(value, measure) {
     this.value = value || 0;
     this.measure = measure ? measure.trim() : '';
 
-    this.add = function(unit){
+    this.add = function (unit) {
         var result;
-        if(!(unit instanceof Unit)) {
+        if (!(unit instanceof Unit)) {
             unit = toUnit(unit);
-        };
-        if(unit.measure !== this.measure){
+        }
+        if (unit.measure !== this.measure) {
             throw new Error("these Unit instances can not be summed up!");
         }
         return new Unit(this.value + unit.value, unit.measure);
     };
-    this.sub = function(unit){
+    this.sub = function (unit) {
         var result;
-        if(!(unit instanceof Unit)) {
+        if (!(unit instanceof Unit)) {
             unit = toUnit(unit);
-        };
-        if(unit.measure !== this.measure){
+        }
+        if (unit.measure !== this.measure) {
             throw new Error("these Unit instances can not be subtracted!");
         }
         return new Unit(this.value - unit.value, unit.measure);
-    }
-
+    };
 }
 
 /**
@@ -233,12 +237,13 @@ function Unit(value, measure) {
  * @return   Object     object with keys "value" and "unit"
  */
 var toUnit = function (str) {
-        "use strict";
-        str = str ? str.toString() : '0';
-        var number = parseFloat(str);
-        if (isNaN(number)) {
-            return false;
-        }
-        var unit = str.replace(number.toString(), '').trim();
-        return new Unit(number, unit);
-    };
+    "use strict";
+    str = str ? str.toString() : '0';
+    var number = parseFloat(str),
+        unit;
+    if (isNaN(number)) {
+        return false;
+    }
+    unit = str.replace(number.toString(), '').trim();
+    return new Unit(number, unit);
+};

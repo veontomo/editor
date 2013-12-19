@@ -32,28 +32,31 @@ var toString = function (obj, unit) {
 	};
 
 /**
- * Sets width, min-width and max-width to the value given as the argument.
- * This function is supposed to be added to prototypes of different objects.
- * @param mixed w
+ * Sets width, min-width and max-width of the object.
+ * @param 	obj 	Object 		object which width is to be set.
+ * @param 	w 		mixed		width value
  * @return void
  */
 var setMinMaxWidth = function (obj, w) {
-		"use strict";
-		obj.width = w;
-		obj["max-width"] = obj.width;
-		obj["min-width"] = obj.width;
-	};
+	"use strict";
+	if(typeof obj !== 'object'){
+		throw new Error('Can not set a property of a non-object!');
+	} if(w === undefined){
+		throw new Error("Width value is not set!"); 
+	}
+	obj.width = w; 
+	obj['max-width'] =  w; 
+	obj['min-width'] =  w; 
+}; 
 
 function Attributes() {
-	"use strict";
-	if (!(this instanceof Attributes)) {
-		return new Attributes();
-	}
+	"use strict"; 
+	if (!(this instanceof Attributes)) {return new Attributes(); } 
 	this.toString = function () {
 		return toString(this);
 	};
 	this.setWidth = function (w) {
-		return setMinMaxWidth(this, w);
+		setMinMaxWidth(this, w);
 	};
 }
 
@@ -96,14 +99,11 @@ function TableAttributes() {
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = 0;
-	this["cell-spacing"] = '0px 0px';
-	this.margin = 0;
-	this.padding = 0;
-	this.width = 0;
-	this["max-width"] = this.width;
-	this["min-width"] = this.width;
-	this["border-collapse"] = "collapse";
-	this["border-spacing"] = "0";
+	this.margin 	= 0;
+	this.padding 	= 0;
+	this.width 		= 0;
+	this["max-width"] 	= this.width;
+	this["min-width"] 	= this.width;
 }
 TableAttributes.prototype = new Attributes();
 
@@ -244,7 +244,7 @@ function Cell() {
 	};
 	this.content = new Content();
 	this.toHtml = function () {
-		return '<td width="' + this.width() + '" style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
+		return '<td style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
 	};
 }
 
@@ -276,7 +276,7 @@ function Row() {
 	};
 
 	this.toHtml = function () {
-		var i, htmlRow = '<tr width="' + this.width() + '" style="' + this.style.toString() + '">',
+		var i, htmlRow = '<tr style="' + this.style.toString() + '">',
 			cellsNumber = this.numOfCells();
 		for (i = 0; i < cellsNumber; i++) {
 			htmlRow += this.cells()[i].toHtml();
@@ -382,13 +382,14 @@ function Table() {
 	};
 
 	this.toHtml = function () {
-		var output, len, i;
-		output = '<table width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
+		var output, len, i,
+			tableTag = 'table';
+		output = '<' + tableTag + ' width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
 		len = this.rows().length;
 		for (i = 0; i < len; i++) {
 			output += this.rows()[i].toHtml();
 		}
-		output += '</tbody></table>';
+		output += '</tbody></' + tableTag + '>';
 		return output;
 	};
 
