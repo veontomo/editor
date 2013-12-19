@@ -83,6 +83,9 @@ describe('It has a class Unit', function(){
         var u5 = new Unit(12, 'cm ');
         var u6 = new Unit(0.5, ' cm');
         var u7 = new Unit();
+        var u8 = new Unit('10.1cm');
+        var u9 = new Unit('10.1');
+        var u10 = new Unit('');
 
         expect([u1.value, u1.measure]).toEqual([1, 'cm']);
         expect([u2.value, u2.measure]).toEqual([29.50206, 'l']);
@@ -91,7 +94,40 @@ describe('It has a class Unit', function(){
         expect([u5.value, u5.measure]).toEqual([12, 'cm']);
         expect([u6.value, u6.measure]).toEqual([0.5, 'cm']);
         expect([u7.value, u7.measure]).toEqual([0, '']);
+        expect([u8.value, u8.measure]).toEqual([10.1, 'cm']);
+        expect([u9.value, u9.measure]).toEqual([10.1, '']);
+        expect([u10.value, u10.measure]).toEqual([0, '']);
+        expect(new Unit(u8)).toEqual(u8);
+
+        expect(function(){
+            new Unit('a string');
+        }).toThrow('Can not convert into a Unit object!')
     });
+
+    it('checks whether two Unit objects have the same unit of measurements', function(){
+        var u1 = new Unit(1, 'cm');
+        var u2 = new Unit(29.50206, 'l');
+        var u3 = new Unit(2.5);
+        var u4 = new Unit(1, '');
+        var u5 = new Unit(12, 'cm ');
+        var u6 = new Unit(0.5, ' cm');
+        var u7 = new Unit();
+        var u8 = new Unit('10.1cm');
+        var u9 = new Unit('10.1');
+
+        expect(u1.isLikeAs(u2)).toBe(false);
+        expect(u1.isLikeAs(u3)).toBe(false);
+        expect(u1.isLikeAs(u5)).toBe(true);
+        expect(u1.isLikeAs(u8)).toBe(true);
+        expect(u4.isLikeAs(u1)).toBe(false);
+        expect(u4.isLikeAs(u7)).toBe(true);
+        expect(u1.isLikeAs("10")).toBe(false);
+        expect(u9.isLikeAs("10")).toBe(true);
+        expect(u9.isLikeAs("a string")).toBe(false);
+
+
+
+    })
 
     it('adds two instances of Unit class', function(){
         var u1 = new Unit(10.4, 'cm');

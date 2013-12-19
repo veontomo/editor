@@ -28,15 +28,14 @@ function target_exists(fileName) {
  * @return            Array      array of numbers
  */
 var sanitize = function (arr) {
-    var i, tmp,
-        sanitized = [],
-        len = arr.length;
-    for (i = 0; i < len; i++) {
-        tmp = parseFloat(arr[i]);
-        sanitized[i] = isNaN(tmp) ? 0 : Math.abs(tmp);
-    }
-    return sanitized;
-};
+        var i, tmp, sanitized = [],
+            len = arr.length;
+        for (i = 0; i < len; i++) {
+            tmp = parseFloat(arr[i]);
+            sanitized[i] = isNaN(tmp) ? 0 : Math.abs(tmp);
+        }
+        return sanitized;
+    };
 
 /**
  * calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
@@ -45,14 +44,14 @@ var sanitize = function (arr) {
  * @return   number
  */
 var trace = function (arr) {
-    var accum = 0,
-        len = arr.length,
-        i;
-    for (i = 0; i < len; i++) {
-        accum = accum + arr[i];
-    }
-    return accum;
-};
+        var accum = 0,
+            len = arr.length,
+            i;
+        for (i = 0; i < len; i++) {
+            accum = accum + arr[i];
+        }
+        return accum;
+    };
 
 /**
  * normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.
@@ -64,28 +63,28 @@ var trace = function (arr) {
  * @return   Array   array of numbers 
  */
 var normalize = function (arr) {
-    var total = trace(arr),
-        len = arr.length,
-        result = [],
-        i,
-        areAllZeroes = arr.every(function (elem) {
-            return elem === 0;
-        });
-    if (areAllZeroes) {
-        arr = arr.map(function (arg) {
-            return 1;
-        });
-        total = len;
-    }
-    if (total === 0) {
-        result = arr;
-    } else {
-        for (i = 0; i < len; i++) {
-            result[i] = arr[i] / total;
+        var total = trace(arr),
+            len = arr.length,
+            result = [],
+            i,
+            areAllZeroes = arr.every(function (elem) {
+                return elem === 0;
+            });
+        if (areAllZeroes) {
+            arr = arr.map(function (arg) {
+                return 1;
+            });
+            total = len;
         }
-    }
-    return result;
-};
+        if (total === 0) {
+            result = arr;
+        } else {
+            for (i = 0; i < len; i++) {
+                result[i] = arr[i] / total;
+            }
+        }
+        return result;
+    };
 
 
 /**
@@ -98,15 +97,15 @@ var normalize = function (arr) {
  * @return   Array       array of numbers
  */
 var splitWeighted = function (overall, pieces) {
-    var norm = normalize(sanitize(pieces)),
-        result = [],
-        len = norm.length,
-        i;
-    for (i = 0; i < len; i++) {
-        result[i] = overall * norm[i];
-    }
-    return result;
-};
+        var norm = normalize(sanitize(pieces)),
+            result = [],
+            len = norm.length,
+            i;
+        for (i = 0; i < len; i++) {
+            result[i] = overall * norm[i];
+        }
+        return result;
+    };
 
 
 /**
@@ -128,8 +127,8 @@ var roundUp = function (arr) {
  * @return               Array    array of integers    
  */
 var columnWidths = function (overall, pieces) {
-    return roundUp(splitWeighted(overall, pieces));
-};
+        return roundUp(splitWeighted(overall, pieces));
+    };
 
 
 /**
@@ -141,11 +140,11 @@ var columnWidths = function (overall, pieces) {
  * @return   String  url without protocol name
  */
 var dropProtocol = function (str) {
-    var delimiter = '://',
-        pattern = '^[^' + delimiter + ']+' + delimiter,
-        re = new RegExp(pattern, 'gi');
-    return str.replace(re, '');
-};
+        var delimiter = '://',
+            pattern = '^[^' + delimiter + ']+' + delimiter,
+            re = new RegExp(pattern, 'gi');
+        return str.replace(re, '');
+    };
 
 
 /** 
@@ -191,59 +190,70 @@ var validateWidth = function (str) {
  * @param        measure     String|null
  * @property     value       Number
  * @property     measure     String
+ * @method       Boolean     isLikeAs(Object)   true, if the argument can be cast to the current object with the same "measurement" property. False otherwise.
+ * @method       Object      add(Object)        sums up the current Unit instance with its argument
+ * @method       Object      sub(Object)        subtracts the argument from the current Unit instance
  */
 
 function Unit(value, measure) {
     "use strict";
+    var parsedValue, parsedMeasure;
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);
     }
-    if (isNaN(value) && (value !== undefined)) {
-        throw new Error('the first arg is a not a number!');
+    if (value instanceof Unit) {
+        return value;
     }
     if ((typeof measure !== 'string') && (measure !== undefined)) {
         throw new Error('the second arg is a not a string!');
     }
-
-    this.value = value || 0;
-    this.measure = measure ? measure.trim() : '';
+    measure = (measure || '').trim();
+    switch (typeof value) {
+    case 'number':
+        this.value = value;
+        this.measure = measure;
+        break;
+    case 'string':
+        parsedValue = value === '' ? 0 : parseFloat(value);
+        if (isNaN(parsedValue)) {
+            throw new Error("Can not convert into a Unit object!");
+        }
+        parsedMeasure = value.replace(parsedValue.toString(), '').trim();
+        this.value = parsedValue;
+        this.measure = measure || parsedMeasure;
+        break;
+    default:
+        this.value = 0;
+        this.measure = '';
+    }
+    this.isLikeAs = function (obj) {
+        if (!(obj instanceof Unit)) {
+            try {
+                obj = new Unit(obj);
+            } catch (err) {
+                return false;
+            }
+        }
+        return this.measure === obj.measure;
+    };
 
     this.add = function (unit) {
         var result;
-        if (!(unit instanceof Unit)) {
-            unit = toUnit(unit);
-        }
-        if (unit.measure !== this.measure) {
+        if (!this.isLikeAs(unit)) {
             throw new Error("these Unit instances can not be summed up!");
+        } else {
+            unit = new Unit(unit);
+            return new Unit(this.value + unit.value, this.measure);
         }
-        return new Unit(this.value + unit.value, unit.measure);
     };
+
     this.sub = function (unit) {
         var result;
-        if (!(unit instanceof Unit)) {
-            unit = toUnit(unit);
-        }
-        if (unit.measure !== this.measure) {
+        if (!this.isLikeAs(unit)) {
             throw new Error("these Unit instances can not be subtracted!");
+        } else {
+            unit = new Unit(unit);
+            return new Unit(this.value - unit.value, this.measure);
         }
-        return new Unit(this.value - unit.value, unit.measure);
     };
 }
-
-/**
- * Divide the string into the value and the measurement unit.
- * If the length is given in "em" or "%", it is left as it is.
- * @param    str    String      '12px', '10m', '12.1 s', '32.2r'
- * @return   Object     object with keys "value" and "unit"
- */
-var toUnit = function (str) {
-    "use strict";
-    str = str ? str.toString() : '0';
-    var number = parseFloat(str),
-        unit;
-    if (isNaN(number)) {
-        return false;
-    }
-    unit = str.replace(number.toString(), '').trim();
-    return new Unit(number, unit);
-};

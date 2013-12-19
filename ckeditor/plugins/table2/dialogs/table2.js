@@ -44,27 +44,25 @@ CKEDITOR.dialog.add('table2Dialog', function(editor) {
     * @return Object    available width for the children as Unit object (with properties "value" and "measure")
     */
     var parentWidth = function(){
-        var startElem = editor.getSelection().getStartElement(),
-            rawWidth = toUnit(startElem.getComputedStyle('width')),
-            borderWidthL = toUnit(startElem.getComputedStyle('border-width-left')),
-            borderWidthR = toUnit(startElem.getComputedStyle('border-width-right')),
-            paddingL = toUnit(startElem.getComputedStyle('padding-left')),
-            paddingR = toUnit(startElem.getComputedStyle('padding-right'));
-
-            if(borderWidthL.value === 0){
-                borderWidthL.measure = rawWidth.measure;
-            }
-            if(borderWidthR.value === 0){
-                borderWidthR.measure = rawWidth.measure;
-            }
-            if(paddingL.value === 0){
-                paddingL.measure = rawWidth.measure;
-            }
-            if(paddingR.value === 0){
-                paddingR.measure = rawWidth.measure;
-            }
-           output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
-
+        var startElem = editor.getSelection().getStartElement();
+        var rawWidth = new Unit(startElem.getComputedStyle('width'));
+        var borderWidthL = new Unit(startElem.getComputedStyle('border-width-left'));
+        var borderWidthR = new Unit(startElem.getComputedStyle('border-width-right'));
+        var paddingL = new Unit(startElem.getComputedStyle('padding-left'));
+        var paddingR = new Unit(startElem.getComputedStyle('padding-right')); 
+        if(borderWidthL.value === 0){
+            borderWidthL.measure = rawWidth.measure;
+        }
+        if(borderWidthR.value === 0){
+            borderWidthR.measure = rawWidth.measure;
+        }
+        if(paddingL.value === 0){
+            paddingL.measure = rawWidth.measure;
+        }
+        if(paddingR.value === 0){
+            paddingR.measure = rawWidth.measure;
+        }
+        output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
         return output;
     }
 

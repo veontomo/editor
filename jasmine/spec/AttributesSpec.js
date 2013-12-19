@@ -595,6 +595,4 @@ it('creates nested tables', function(){
 
     expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1<table width="second table width" style="second table style"><tbody><tr style="table 2 row style"><td style="first cell of the second table style">content of unique cell of table 2</td></tr></tbody></table> no string representation for the element! </td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
 });
-
-
 });
