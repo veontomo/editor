@@ -28,10 +28,10 @@ function target_exists(fileName) {
  * @return            Array      array of numbers
  */
 var sanitize = function (arr) {
-        var sanitized = [];
-        var len = arr.length;
-        for (var i = 0; i < len; i++) {
-            var tmp = parseFloat(arr[i]);
+        var i, tmp, sanitized = [],
+            len = arr.length;
+        for (i = 0; i < len; i++) {
+            tmp = parseFloat(arr[i]);
             sanitized[i] = isNaN(tmp) ? 0 : Math.abs(tmp);
         }
         return sanitized;
@@ -44,9 +44,11 @@ var sanitize = function (arr) {
  * @return   number
  */
 var trace = function (arr) {
-        var accum = 0;
-        for (num in arr) {
-            accum = accum + arr[num];
+        var accum = 0,
+            len = arr.length,
+            i;
+        for (i = 0; i < len; i++) {
+            accum = accum + arr[i];
         }
         return accum;
     };
@@ -61,22 +63,23 @@ var trace = function (arr) {
  * @return   Array   array of numbers 
  */
 var normalize = function (arr) {
-        var total = trace(arr);
-        var len = arr.length;
-        var areAllZeroes = arr.every(function (elem) {
-            return elem === 0;
-        });
+        var total = trace(arr),
+            len = arr.length,
+            result = [],
+            i,
+            areAllZeroes = arr.every(function (elem) {
+                return elem === 0;
+            });
         if (areAllZeroes) {
             arr = arr.map(function (arg) {
                 return 1;
             });
             total = len;
         }
-        var result = [];
         if (total === 0) {
             result = arr;
         } else {
-            for (var i = 0; i < len; i++) {
+            for (i = 0; i < len; i++) {
                 result[i] = arr[i] / total;
             }
         }
@@ -94,10 +97,11 @@ var normalize = function (arr) {
  * @return   Array       array of numbers
  */
 var splitWeighted = function (overall, pieces) {
-        var norm = normalize(sanitize(pieces));
-        var result = [];
-        var len = norm.length;
-        for (var i = 0; i < len; i++) {
+        var norm = normalize(sanitize(pieces)),
+            result = [],
+            len = norm.length,
+            i;
+        for (i = 0; i < len; i++) {
             result[i] = overall * norm[i];
         }
         return result;
@@ -124,21 +128,21 @@ var roundUp = function (arr) {
  */
 var columnWidths = function (overall, pieces) {
         return roundUp(splitWeighted(overall, pieces));
-    }
+    };
 
 
-    /**
-     * Deletes the protocol name from the url.
-     * Everything until the first occurence of '://' will be removed (inclusively).
-     * @example  'http://www.test.com'      -> 'www.test.com'
-     *           'www.test.com'             -> 'www.test.com'
-     * @param    url     String
-     * @return   String  url without protocol name
-     */
+/**
+ * Deletes the protocol name from the url.
+ * Everything until the first occurence of '://' will be removed (inclusively).
+ * @example  'http://www.test.com'      -> 'www.test.com'
+ *           'www.test.com'             -> 'www.test.com'
+ * @param    url     String
+ * @return   String  url without protocol name
+ */
 var dropProtocol = function (str) {
-        var delimiter = '://';
-        var pattern = '^[^' + delimiter + ']+' + delimiter;
-        var re = new RegExp(pattern, 'gi');
+        var delimiter = '://',
+            pattern = '^[^' + delimiter + ']+' + delimiter,
+            re = new RegExp(pattern, 'gi');
         return str.replace(re, '');
     };
 
@@ -186,59 +190,70 @@ var validateWidth = function (str) {
  * @param        measure     String|null
  * @property     value       Number
  * @property     measure     String
+ * @method       Boolean     isLikeAs(Object)   true, if the argument can be cast to the current object with the same "measurement" property. False otherwise.
+ * @method       Object      add(Object)        sums up the current Unit instance with its argument
+ * @method       Object      sub(Object)        subtracts the argument from the current Unit instance
  */
 
 function Unit(value, measure) {
     "use strict";
+    var parsedValue, parsedMeasure;
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);
     }
-    if (isNaN(value) && (value !== undefined)) {
-        throw new Error('the first arg is a not a number!');
+    if (value instanceof Unit) {
+        return value;
     }
     if ((typeof measure !== 'string') && (measure !== undefined)) {
         throw new Error('the second arg is a not a string!');
     }
-
-    this.value = value || 0;
-    this.measure = measure ? measure.trim() : '';
-
-    this.add = function(unit){
-        var result;
-        if(!(unit instanceof Unit)) {
-            unit = toUnit(unit);
-        };
-        if(unit.measure !== this.measure){
-            throw new Error("these Unit instances can not be summed up!");
+    measure = (measure || '').trim();
+    switch (typeof value) {
+    case 'number':
+        this.value = value;
+        this.measure = measure;
+        break;
+    case 'string':
+        parsedValue = value === '' ? 0 : parseFloat(value);
+        if (isNaN(parsedValue)) {
+            throw new Error("Can not convert into a Unit object!");
         }
-        return new Unit(this.value + unit.value, unit.measure);
-    };
-    this.sub = function(unit){
-        var result;
-        if(!(unit instanceof Unit)) {
-            unit = toUnit(unit);
-        };
-        if(unit.measure !== this.measure){
-            throw new Error("these Unit instances can not be subtracted!");
-        }
-        return new Unit(this.value - unit.value, unit.measure);
+        parsedMeasure = value.replace(parsedValue.toString(), '').trim();
+        this.value = parsedValue;
+        this.measure = measure || parsedMeasure;
+        break;
+    default:
+        this.value = 0;
+        this.measure = '';
     }
-
-}
-
-/**
- * Divide the string into the value and the measurement unit.
- * If the length is given in "em" or "%", it is left as it is.
- * @param    str    String      '12px', '10m', '12.1 s', '32.2r'
- * @return   Object     object with keys "value" and "unit"
- */
-var toUnit = function (str) {
-        "use strict";
-        str = str ? str.toString() : '0';
-        var number = parseFloat(str);
-        if (isNaN(number)) {
-            return false;
+    this.isLikeAs = function (obj) {
+        if (!(obj instanceof Unit)) {
+            try {
+                obj = new Unit(obj);
+            } catch (err) {
+                return false;
+            }
         }
-        var unit = str.replace(number.toString(), '').trim();
-        return new Unit(number, unit);
+        return this.measure === obj.measure;
     };
+
+    this.add = function (unit) {
+        var result;
+        if (!this.isLikeAs(unit)) {
+            throw new Error("these Unit instances can not be summed up!");
+        } else {
+            unit = new Unit(unit);
+            return new Unit(this.value + unit.value, this.measure);
+        }
+    };
+
+    this.sub = function (unit) {
+        var result;
+        if (!this.isLikeAs(unit)) {
+            throw new Error("these Unit instances can not be subtracted!");
+        } else {
+            unit = new Unit(unit);
+            return new Unit(this.value - unit.value, this.measure);
+        }
+    };
+}

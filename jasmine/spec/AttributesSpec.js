@@ -1,9 +1,3 @@
-describe('creates attribute object with required attributes', function() {
-    var textAtt = new TextAttributes();
-    var textAttDefault = new TextAttributes();
-
-});
-
 describe('String representation', function() {
     it('converts object into a string', function() {
         var Obj1 = {
@@ -27,8 +21,63 @@ describe('String representation', function() {
         expect(toString(Obj3)).toEqual('width: 10px;color: red;string: 10;border: 12px;');
         expect(toString(Obj3, 'mm')).toEqual('width: 10mm;color: red;string: 10;border: 12mm;');
     });
-
 });
+
+describe('Setting the width property of an object', function(){
+    it('sets the width property of an empty object to be equal ot a number', function(){
+        var obj = {},
+            value = 10.6;
+        expect(obj.hasOwnProperty('width')).toBe(false);
+        expect(obj.hasOwnProperty('min-width')).toBe(false);
+        expect(obj.hasOwnProperty('max-width')).toBe(false);
+        
+        setMinMaxWidth(obj, value);
+        expect(obj.width).toEqual(value);
+        expect(obj.hasOwnProperty('width')).toBe(true);
+        expect(obj.hasOwnProperty('min-width')).toBe(true);
+        expect(obj.hasOwnProperty('max-width')).toBe(true);
+        expect(obj.width).toEqual(value);
+        expect(obj['min-width']).toEqual(value);
+        expect(obj['max-width']).toEqual(value);
+    });
+    it('sets the width property of an empty object to be equal to a string', function(){
+        var obj = {},
+            value = "width";
+
+        setMinMaxWidth(obj, value);
+        expect(obj.hasOwnProperty('width')).toBe(true);
+        expect(obj.hasOwnProperty('min-width')).toBe(true);
+        expect(obj.hasOwnProperty('max-width')).toBe(true);
+        expect(obj.width).toEqual(value);
+        expect(obj['min-width']).toEqual(value);
+        expect(obj['max-width']).toEqual(value);
+    });
+    it('sets the width property of an empty object to be equal to an object', function(){
+        var obj = {},
+            value = {name: 'foo'};
+
+        setMinMaxWidth(obj, value);
+        expect(obj.hasOwnProperty('width')).toBe(true);
+        expect(obj.hasOwnProperty('min-width')).toBe(true);
+        expect(obj.hasOwnProperty('max-width')).toBe(true);
+        expect(obj.width).toEqual(value);
+        expect(obj['min-width']).toEqual(value);
+        expect(obj['max-width']).toEqual(value);
+    });
+    
+    it('throws an error when width argument is not set', function(){
+        var obj = {};
+        expect(function(){setMinMaxWidth(obj)}).toThrow("Width value is not set!");
+        expect(obj.hasOwnProperty('width')).toBe(false);
+        expect(obj.hasOwnProperty('min-width')).toBe(false);
+        expect(obj.hasOwnProperty('max-width')).toBe(false);
+    });
+
+    it('throws an error if the target is not of Object type', function(){
+        expect(function(){setMinMaxWidth('a string')}).toThrow('Can not set a property of a non-object!');
+        expect(function(){setMinMaxWidth()}).toThrow('Can not set a property of a non-object!');
+    });
+})
 
 describe('Content', function() {
     var content;
@@ -107,7 +156,7 @@ describe('Cell-related code', function() {
 
         cell.style = cellAttr;
         cell.content = new Content();
-        expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles"></td>');
+        expect(cell.toHtml()).toEqual('<td style="stub for styles"></td>');
         expect(cellAttr.toString).toHaveBeenCalled();
 
 
@@ -116,7 +165,7 @@ describe('Cell-related code', function() {
         spyOn(content, 'toHtml').andCallFake(function() {
             return 'content';
         });
-        expect(cell.toHtml()).toEqual('<td width="stub for width" style="stub for styles">content</td>');
+        expect(cell.toHtml()).toEqual('<td style="stub for styles">content</td>');
     });
 
 });
@@ -258,7 +307,8 @@ describe('Row-related code', function() {
         expect(c1.toHtml).toHaveBeenCalled();
         expect(c2.toHtml).toHaveBeenCalled();
         expect(rowStyle.toString).toHaveBeenCalled();
-        expect(htmlRow).toEqual('<tr width="row width" style="row styles">cell1 html codecell2 html code</tr>');
+        //expect(htmlRow).toEqual('<tr width="row width" style="row styles">cell1 html codecell2 html code</tr>');
+        expect(htmlRow).toEqual('<tr style="row styles">cell1 html codecell2 html code</tr>');
     });
 });
 
@@ -463,7 +513,7 @@ describe('Table-related code', function() {
         table1.rowStyle = table1rowStyle;
         table1.cellStyles = [table1cell1Style, table1cell2Style, table1cell3Style];
         table1.content = [[table1content1, table1content2, table1content3]];
-        expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr width="table 1 row width" style="first row style"><td width="cell 1 width" style="first cell style">content of cell 1</td><td width="cell 2 width" style="second cell style">content of cell 2</td><td width="cell 1 width" style="third cell style">content of cell 3</td></tr></tbody></table>');
+        expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1</td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
     });
 
 it('creates nested tables', function(){
@@ -543,8 +593,6 @@ it('creates nested tables', function(){
     table1content2.elements.push('content of cell 2');
     table1content3.elements.push('content of cell 3');
 
-    expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr width="table 1 row width" style="first row style"><td width="cell 1 width" style="first cell style">content of cell 1<table width="second table width" style="second table style"><tbody><tr width="table 2 row width" style="table 2 row style"><td width="cell 1 width" style="first cell of the second table style">content of unique cell of table 2</td></tr></tbody></table> no string representation for the element! </td><td width="cell 2 width" style="second cell style">content of cell 2</td><td width="cell 1 width" style="third cell style">content of cell 3</td></tr></tbody></table>');
+    expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1<table width="second table width" style="second table style"><tbody><tr style="table 2 row style"><td style="first cell of the second table style">content of unique cell of table 2</td></tr></tbody></table> no string representation for the element! </td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
 });
-
-
 });
