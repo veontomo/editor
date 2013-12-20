@@ -1,46 +1,46 @@
-describe("file extension", function() {
-    it("gives the file extension", function() {
+/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth*/
+describe("file extension", function () {
+    it("gives the file extension", function () {
         expect(fileExt('c:/folder/test.exe')).toEqual('exe');
         expect(fileExt('c:/folder/testexe')).toEqual('');
     });
 });
 
-describe("table2 helper functions", function() {
-    it("transforms each element of the input array into a non-negative number", function() {
+describe("table2 helper functions", function () {
+    it("transforms each element of the input array into a non-negative number", function () {
         expect(sanitize([1, 2, 3])).toEqual([1, 2, 3]);
         expect(sanitize([1.1, 2.4, 2])).toEqual([1.1, 2.4, 2]);
         expect(sanitize(["4", -3, 3.2, "a"])).toEqual([4, 3, 3.2, 0]);
     });
 
-    it("calculates the trace of the array", function(){
-    	expect(trace([1, 3, 5])).toEqual(9);
-    	expect(trace([])).toEqual(0);
-    	expect(trace([1.1, 2.3, -10])).toEqual(1.1 + 2.3 - 10);
+    it("calculates the trace of the array", function () {
+        expect(trace([1, 3, 5])).toEqual(9);
+        expect(trace([])).toEqual(0);
+        expect(trace([1.1, 2.3, -10])).toEqual(1.1 + 2.3 - 10);
     });
 
-    it("normalizes the array", function(){
-    	expect(normalize([1, 2, 2])).toEqual([0.2, 0.4, 0.4]);
-    	expect(normalize([0, 0, 0, 0])).toEqual([0.25, 0.25, 0.25, 0.25]); 	// all zeroes in the array
-    	expect(normalize([2, -2])).toEqual([2, -2]); 						// zero trace 
-
+    it("normalizes the array", function () {
+        expect(normalize([1, 2, 2])).toEqual([0.2, 0.4, 0.4]);
+        expect(normalize([0, 0, 0, 0])).toEqual([0.25, 0.25, 0.25, 0.25]); // all zeroes in the array
+        expect(normalize([2, -2])).toEqual([2, -2]); // zero trace 
     });
 
-    it("splits the number in terms with specified weights", function(){
-    	expect(splitWeighted(10, [1, 2, 2])).toEqual([2, 4, 4]);
-    	expect(splitWeighted(30, [4, 2, 3, 1])).toEqual([12, 6, 9, 3]);
-    	expect(splitWeighted(30, [4, 2, 0])).toEqual([20, 10, 0]);
+    it("splits the number in terms with specified weights", function () {
+        expect(splitWeighted(10, [1, 2, 2])).toEqual([2, 4, 4]);
+        expect(splitWeighted(30, [4, 2, 3, 1])).toEqual([12, 6, 9, 3]);
+        expect(splitWeighted(30, [4, 2, 0])).toEqual([20, 10, 0]);
     });
 
-    it("rounds each elements of the array", function(){
-    	expect(roundUp([1, 2, 5, 0, 4])).toEqual([1, 2, 5, 0, 4]);
-    	expect(roundUp([2.2, 5.6, 0, 4.5])).toEqual([2, 6, 0, 5]);
-    	expect(roundUp([-2.8, 3.4, 4.993])).toEqual([-3, 3, 5]);
+    it("rounds each elements of the array", function () {
+        expect(roundUp([1, 2, 5, 0, 4])).toEqual([1, 2, 5, 0, 4]);
+        expect(roundUp([2.2, 5.6, 0, 4.5])).toEqual([2, 6, 0, 5]);
+        expect(roundUp([-2.8, 3.4, 4.993])).toEqual([-3, 3, 5]);
     });
- 
+
 });
 
-describe("drop protocol", function() {
-    it("drops protocol", function() {
+describe("drop protocol", function () {
+    it("drops protocol", function () {
         expect(dropProtocol('http://www.test.com')).toEqual("www.test.com");
         expect(dropProtocol('https://www.test.com')).toEqual("www.test.com");
         expect(dropProtocol('ftp://www.test.com')).toEqual("www.test.com");
@@ -50,8 +50,8 @@ describe("drop protocol", function() {
     });
 });
 
-describe('Validation the calculated width', function(){
-    it('makes the width to be valid', function(){
+describe('Validation the calculated width', function () {
+    it('makes the width to be valid', function () {
         expect(validateWidth('10px')).toEqual('10px');
         expect(validateWidth('20.92px ')).toEqual('20px');
         expect(validateWidth('340 px')).toEqual('340px');
@@ -74,18 +74,18 @@ describe('Validation the calculated width', function(){
     });
 });
 
-describe('It has a class Unit', function(){
-    it('creates instances of Unit class', function(){
-        var u1 = new Unit(1, 'cm');
-        var u2 = new Unit(29.50206, 'l');
-        var u3 = new Unit(2.5);
-        var u4 = new Unit(1, '');
-        var u5 = new Unit(12, 'cm ');
-        var u6 = new Unit(0.5, ' cm');
-        var u7 = new Unit();
-        var u8 = new Unit('10.1cm');
-        var u9 = new Unit('10.1');
-        var u10 = new Unit('');
+describe('It has a class Unit', function () {
+    it('creates instances of Unit class', function () {
+        var u1 = new Unit(1, 'cm'),
+            u2 = new Unit(29.50206, 'l'),
+            u3 = new Unit(2.5),
+            u4 = new Unit(1, ''),
+            u5 = new Unit(12, 'cm '),
+            u6 = new Unit(0.5, ' cm'),
+            u7 = new Unit(),
+            u8 = new Unit('10.1cm'),
+            u9 = new Unit('10.1'),
+            u10 = new Unit('');
 
         expect([u1.value, u1.measure]).toEqual([1, 'cm']);
         expect([u2.value, u2.measure]).toEqual([29.50206, 'l']);
@@ -99,21 +99,21 @@ describe('It has a class Unit', function(){
         expect([u10.value, u10.measure]).toEqual([0, '']);
         expect(new Unit(u8)).toEqual(u8);
 
-        expect(function(){
-            new Unit('a string');
-        }).toThrow('Can not convert into a Unit object!')
+        expect(function () {
+            var foo = new Unit('a string');
+        }).toThrow('Can not convert into a Unit object!');
     });
 
-    it('checks whether two Unit objects have the same unit of measurements', function(){
-        var u1 = new Unit(1, 'cm');
-        var u2 = new Unit(29.50206, 'l');
-        var u3 = new Unit(2.5);
-        var u4 = new Unit(1, '');
-        var u5 = new Unit(12, 'cm ');
-        var u6 = new Unit(0.5, ' cm');
-        var u7 = new Unit();
-        var u8 = new Unit('10.1cm');
-        var u9 = new Unit('10.1');
+    it('checks whether two Unit objects have the same unit of measurements', function () {
+        var u1 = new Unit(1, 'cm'),
+            u2 = new Unit(29.50206, 'l'),
+            u3 = new Unit(2.5),
+            u4 = new Unit(1, ''),
+            u5 = new Unit(12, 'cm '),
+            u6 = new Unit(0.5, ' cm'),
+            u7 = new Unit(),
+            u8 = new Unit('10.1cm'),
+            u9 = new Unit('10.1');
 
         expect(u1.isLikeAs(u2)).toBe(false);
         expect(u1.isLikeAs(u3)).toBe(false);
@@ -124,45 +124,38 @@ describe('It has a class Unit', function(){
         expect(u1.isLikeAs("10")).toBe(false);
         expect(u9.isLikeAs("10")).toBe(true);
         expect(u9.isLikeAs("a string")).toBe(false);
+    });
 
-
-
-    })
-
-    it('adds two instances of Unit class', function(){
-        var u1 = new Unit(10.4, 'cm');
-        var u2 = new Unit(2.3, 'cm');
-        var u3 = new Unit(2.5);
-        var u4 = new Unit(1, '');
-
-        var s1 = u1.add(u2);
-        var s2 = u3.add(u4);
-        var s3 = u1.add(u2).add(u2);
+    it('adds two instances of Unit class', function () {
+        var u1 = new Unit(10.4, 'cm'),
+            u2 = new Unit(2.3, 'cm'),
+            u3 = new Unit(2.5),
+            u4 = new Unit(1, ''),
+            s1 = u1.add(u2),
+            s2 = u3.add(u4),
+            s3 = u1.add(u2).add(u2);
         expect([s1.value, s1.measure]).toEqual([12.7, 'cm']);
         expect([s2.value, s2.measure]).toEqual([3.5, '']);
         expect([s3.value, s3.measure]).toEqual([15, 'cm']);
-        expect(function(){
-            return u1.add(u3);   
+        expect(function () {
+            return u1.add(u3);
         }).toThrow(new Error("these Unit instances can not be summed up!"));
     });
 
 
-    it('subtracts two instances of Unit class', function(){
-        var u1 = new Unit(10, 'cm');
-        var u2 = new Unit(2, 'cm');
-        var u3 = new Unit(2);
-        var u4 = new Unit(1, '');
-
-        var s1 = u1.sub(u2);
-        var s2 = u3.sub(u4);
-        var s3 = u1.sub(u2).sub(u2);
+    it('subtracts two instances of Unit class', function () {
+        var u1 = new Unit(10, 'cm'),
+            u2 = new Unit(2, 'cm'),
+            u3 = new Unit(2),
+            u4 = new Unit(1, ''),
+            s1 = u1.sub(u2),
+            s2 = u3.sub(u4),
+            s3 = u1.sub(u2).sub(u2);
         expect([s1.value, s1.measure]).toEqual([8, 'cm']);
         expect([s2.value, s2.measure]).toEqual([1, '']);
         expect([s3.value, s3.measure]).toEqual([6, 'cm']);
-        expect(function(){
-            return u1.sub(u3);   
+        expect(function () {
+            return u1.sub(u3);
         }).toThrow(new Error("these Unit instances can not be subtracted!"));
     });
-
-
 });
