@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/attributes.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
+	<script type="text/javascript" src="js/test.js"></script>
 	<title>Creatore di newsletter</title>
 
 	<?php
@@ -26,6 +27,19 @@
 		<h1>
 			Algoritmo
 		</h1>
+		<div id="time">
+		</div>
+		<div id="time2">
+		</div>
+		<script>
+			setInterval(function(){
+			var date = new Date(),
+				time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+			document.getElementById('time').innerHTML = time;
+		}, 1000);
+		</script>
+
+
 		La procedura preliminaria sarebbe questa:
 		<ol>
 			<li>
@@ -108,6 +122,7 @@
 	</form>
 	<div class="editor">
 		<textarea name="editor">
+			<p id="qqq">paragrafo</p>
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
