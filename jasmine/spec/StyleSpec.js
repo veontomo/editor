@@ -127,7 +127,7 @@ describe('Cell-related code', function() {
 
     beforeEach(function() {
         cell = new Cell();
-        cellAttr = new TableCellAttributes();
+        cellAttr = new TableCellStyle();
     });
 
 
@@ -204,10 +204,10 @@ describe('Row-related code', function() {
     });
 
     it('gives the cells of the row', function(){
-        var style = new TableRowAttributes();
+        var style = new TableRowStyle();
         var content = ['c1', 'c2'];
-        var cell0Style = new TableCellAttributes();
-        var cell1Style = new TableCellAttributes();
+        var cell0Style = new TableCellStyle();
+        var cell1Style = new TableCellStyle();
 
         row.content = content;
         row.style = style;
@@ -283,7 +283,7 @@ describe('Row-related code', function() {
     it('gets html representation of the row', function() {
         var c1 = new Content(),
             c2 = new Content(),
-            rowStyle = new TableRowAttributes();
+            rowStyle = new TableRowStyle();
 
         rowStyle.width = 'row width';
         spyOn(c1, 'toHtml').andCallFake(function() {
@@ -412,10 +412,10 @@ describe('Table-related code', function() {
     });
 
     it('gets the rows of the table', function() {
-        var cell0Style = new TableCellAttributes();
-        var cell1Style = new TableCellAttributes();
-        var cell2Style = new TableCellAttributes();
-        var rowStyle = new TableRowAttributes();
+        var cell0Style = new TableCellStyle();
+        var cell1Style = new TableCellStyle();
+        var cell2Style = new TableCellStyle();
+        var rowStyle = new TableRowStyle();
 
         var content = [
             ['c00', 'c01', 'c02'],
@@ -442,7 +442,7 @@ describe('Table-related code', function() {
     })
 
     it('gets html representation of the table', function() {
-        var tableStyle = new TableAttributes();
+        var tableStyle = new TableStyle();
 
         var row0 = new Row();
         var row1 = new Row();
@@ -472,11 +472,11 @@ describe('Table-related code', function() {
 
     it('creates complete table', function(){
         var table1 = new Table();
-        var table1Style = new TableAttributes();
-        var table1rowStyle = new TableRowAttributes();
-        var table1cell1Style = new TableCellAttributes();
-        var table1cell2Style = new TableCellAttributes();
-        var table1cell3Style = new TableCellAttributes();
+        var table1Style = new TableStyle();
+        var table1rowStyle = new TableRowStyle();
+        var table1cell1Style = new TableCellStyle();
+        var table1cell2Style = new TableCellStyle();
+        var table1cell3Style = new TableCellStyle();
         var table1content1 = new Content();
         var table1content2 = new Content();
         var table1content3 = new Content();
@@ -518,11 +518,11 @@ describe('Table-related code', function() {
 
 it('creates nested tables', function(){
     var table1 = new Table();
-    var table1Style = new TableAttributes();
-    var table1rowStyle = new TableRowAttributes();
-    var table1cell1Style = new TableCellAttributes();
-    var table1cell2Style = new TableCellAttributes();
-    var table1cell3Style = new TableCellAttributes();
+    var table1Style = new TableStyle();
+    var table1rowStyle = new TableRowStyle();
+    var table1cell1Style = new TableCellStyle();
+    var table1cell2Style = new TableCellStyle();
+    var table1cell3Style = new TableCellStyle();
     var table1content1 = new Content();
     var table1content2 = new Content();
     var table1content3 = new Content();
@@ -553,9 +553,9 @@ it('creates nested tables', function(){
     });
 
     var table2 = new Table();
-    var table2Style = new TableAttributes();
-    var table2rowStyle = new TableRowAttributes();
-    var table2cell1Style = new TableCellAttributes();
+    var table2Style = new TableStyle();
+    var table2rowStyle = new TableRowStyle();
+    var table2cell1Style = new TableCellStyle();
     var table2content1 = new Content();
 
     spyOn(table2, 'width').andCallFake(function(){

@@ -1,4 +1,4 @@
-/*global CKEDITOR, Unit, Table, columnWidths, Table, TableAttributes, TableRowAttributes, TableCellAttributes, Content 
+/*global CKEDITOR, Unit, Table, columnWidths, Table, TableStyle, TableRowStyle, TableCellStyle, Content 
 */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
     var INPUTCOLWIDTHNAME = 'widthCol',
@@ -186,8 +186,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
             table = new Table();
-            tableStyle = new TableAttributes();
-            rowStyle = new TableRowAttributes();
+            tableStyle = new TableStyle();
+            rowStyle = new TableRowStyle();
             contentLine = [];
             cellStyles = [];
 
@@ -198,7 +198,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             rowStyle.setWidth(trWidth);
             for (i = 0; i < cols; i++) {
                 contentLine.push(new Content("&curren;"));
-                var tableCellAttr = new TableCellAttributes();
+                var tableCellAttr = new TableCellStyle();
                 tableCellAttr.setWidth(tdWidth[i]);
                 cellStyles.push(tableCellAttr);
             }
@@ -213,14 +213,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 table.cellStyles = [rowStyle];
                 // setting props of the nested table
                 var nested = new Table();
-                var nestedStyle = new TableAttributes();
+                var nestedStyle = new TableStyle();
                 nestedStyle["border-width"] = borderWidthRow;
                 nestedStyle["border-color"] = "#00ff00";
                 nestedStyle.setWidth(trWidth);
                 nestedStyle["margin-top"] = spaceTop;
                 nestedStyle["margin-bottom"] = spaceBottom;
 
-                var nestedRowStyle = new TableRowAttributes();
+                var nestedRowStyle = new TableRowStyle();
                 nestedRowStyle.setWidth(trWidth - 2 * borderWidthRow);
                 nestedRowStyle["border-width"] = borderWidthRow;
                 nestedRowStyle["border-color"] = "#0000ff";

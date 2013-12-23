@@ -49,9 +49,9 @@ var setMinMaxWidth = function (obj, w) {
 	obj['min-width'] =  w; 
 }; 
 
-function Attributes() {
+function Style() {
 	"use strict"; 
-	if (!(this instanceof Attributes)) {return new Attributes(); } 
+	if (!(this instanceof Style)) {return new Style(); } 
 	this.toString = function () {
 		return toString(this);
 	};
@@ -61,13 +61,13 @@ function Attributes() {
 }
 
 /** 
- * Some data containers with default values of their attributes.
+ * Some data containers with default values of their Style.
  */
 
-function TextAttributes() {
+function TextStyle() {
 	"use strict";
-	if (!(this instanceof TextAttributes)) {
-		return new TextAttributes();
+	if (!(this instanceof TextStyle)) {
+		return new TextStyle();
 	}
 	this["font-size"] = "12px";
 	this.color = "#000000";
@@ -75,12 +75,12 @@ function TextAttributes() {
 	this.padding = "0px";
 	this.margin = "0px";
 }
-TextAttributes.prototype = new Attributes();
+TextStyle.prototype = new Style();
 
-function LinkAttributes() {
+function LinkStyle() {
 	"use strict";
-	if (!(this instanceof LinkAttributes)) {
-		return new LinkAttributes();
+	if (!(this instanceof LinkStyle)) {
+		return new LinkStyle();
 	}
 	this["text-decoration"] = "underline";
 	this["font-size"] = 12;
@@ -89,12 +89,12 @@ function LinkAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-LinkAttributes.prototype = new Attributes();
+LinkStyle.prototype = new Style();
 
-function TableAttributes() {
+function TableStyle() {
 	"use strict";
-	if (!(this instanceof TableAttributes)) {
-		return new TableAttributes();
+	if (!(this instanceof TableStyle)) {
+		return new TableStyle();
 	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
@@ -106,12 +106,12 @@ function TableAttributes() {
 	this["min-width"] 	= this.width;
 	this['border-collapse'] = 'collapse';
 }
-TableAttributes.prototype = new Attributes();
+TableStyle.prototype = new Style();
 
-function TableRowAttributes() {
+function TableRowStyle() {
 	"use strict";
-	if (!(this instanceof TableRowAttributes)) {
-		return new TableRowAttributes();
+	if (!(this instanceof TableRowStyle)) {
+		return new TableRowStyle();
 	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
@@ -122,12 +122,12 @@ function TableRowAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableRowAttributes.prototype = new Attributes();
+TableRowStyle.prototype = new Style();
 
-function TableCellAttributes() {
+function TableCellStyle() {
 	"use strict";
-	if (!(this instanceof TableCellAttributes)) {
-		return new TableCellAttributes();
+	if (!(this instanceof TableCellStyle)) {
+		return new TableCellStyle();
 	}
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
@@ -138,12 +138,12 @@ function TableCellAttributes() {
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
 }
-TableCellAttributes.prototype = new Attributes();
+TableCellStyle.prototype = new Style();
 
-function ImageAttributes() {
+function ImageStyle() {
 	"use strict";
-	if (!(this instanceof ImageAttributes)) {
-		return new ImageAttributes();
+	if (!(this instanceof ImageStyle)) {
+		return new ImageStyle();
 	}
 	this["border-width"] = 0;
 	this["border-style"] = "solid";
@@ -153,22 +153,22 @@ function ImageAttributes() {
 	this.width = 0;
 	this.height = 0;
 }
-ImageAttributes.prototype = new Attributes();
+ImageStyle.prototype = new Style();
 
-function ListAttributes() {
+function ListStyle() {
 	"use strict";
-	if (!(this instanceof ListAttributes)) {
-		return new ListAttributes();
+	if (!(this instanceof ListStyle)) {
+		return new ListStyle();
 	}
 	this.padding = 0;
 	this.margin = 0;
 }
-ListAttributes.prototype.toString = new Attributes();
+ListStyle.prototype.toString = new Style();
 
-function ListItemAttributes() {
+function ListItemStyle() {
 	"use strict";
-	if (!(this instanceof ListItemAttributes)) {
-		return new ListItemAttributes();
+	if (!(this instanceof ListItemStyle)) {
+		return new ListItemStyle();
 	}
 	this["font-size"] = 12;
 	this.color = "#000000";
@@ -176,7 +176,7 @@ function ListItemAttributes() {
 	this.padding = 0;
 	this.margin = 0;
 }
-ListItemAttributes.prototype.toString = new Attributes();
+ListItemStyle.prototype.toString = new Style();
 
 
 /**
@@ -229,7 +229,7 @@ function Cell() {
 	if (!(this instanceof Cell)) {
 		return new Cell();
 	}
-	this.style = new TableCellAttributes();
+	this.style = new TableCellStyle();
 	this.width = function () {
 		return this.style.width;
 	};
@@ -241,7 +241,7 @@ function Cell() {
 
 /** 
  * Table row. Contains style attribute and array of table cells.
- * @property 	style 				Object 						the row attributes
+ * @property 	style 				Object 						the row Style
  * @property 	cellStyles 			Array 						array of TableCellAttribute instances
  * @property 	content 			Array 						array of Content instances
  * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
@@ -259,7 +259,7 @@ function Row() {
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
-	this.style = new TableRowAttributes();
+	this.style = new TableRowStyle();
 	this.content = [];
 
 	this.width = function () {
@@ -333,8 +333,8 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
-	this.style = new TableAttributes();
-	this.rowStyle = new TableRowAttributes();
+	this.style = new TableStyle();
+	this.rowStyle = new TableRowStyle();
 	this.cellStyles = [];
 	this.content = [];
 	this.numOfCols = function () {
