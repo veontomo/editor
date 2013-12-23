@@ -124,7 +124,6 @@
 	</form>
 	<div class="editor">
 		<textarea name="editor">
-			<p id="qqq">paragrafo</p>
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>

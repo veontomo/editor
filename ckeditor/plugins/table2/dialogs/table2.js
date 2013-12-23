@@ -50,7 +50,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
      * The element width is supposed to be greater than zero and hence to have a unit of measurement (e.g. 'px'). 
      * If not set, widths of other attributes are equal to zero without unit of measurement. In this case one has to set the unit of measurement
      * equal to the element width.
-     * @return Object    available width for the children as Unit object (with properties "value" and "measure")
+     * @return integer    available width for the children as Unit object (with properties "value" and "measure")
      */
         parentWidth = function () {
             var startElem = editor.getSelection().getStartElement(),
@@ -73,6 +73,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 paddingR.measure = rawWidth.measure;
             }
             output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
+            output.value = Math.round(output.value);
             return output;
         };
 
@@ -166,7 +167,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 isFramed,
                 tableWidth,
                 trWidth,
-                spaceTop, spaceBottom, tdWidth;
+                spaceTop, spaceBottom, tdWidth, tableCellAttr, nested, nestedStyle, nestedRowStyle, nestedCellStyles, nestedContent, tableHtml, tableElem;
 
             // read inserted values 
             for (i = 0; i < cols; i++) {
@@ -198,34 +199,34 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             rowStyle.setWidth(trWidth);
             for (i = 0; i < cols; i++) {
                 contentLine.push(new Content("&curren;"));
-                var tableCellAttr = new TableCellStyle();
+                tableCellAttr = new TableCellStyle();
                 tableCellAttr.setWidth(tdWidth[i]);
                 cellStyles.push(tableCellAttr);
             }
 
             if (borderWidth > 0) {
                 tableStyle['border-width'] = borderWidth;
-                tableStyle['border-color'] = '#ff0000';
+                tableStyle['border-color'] = '#000000';
             }
 
 
             if (isFramed) {
                 table.cellStyles = [rowStyle];
                 // setting props of the nested table
-                var nested = new Table();
-                var nestedStyle = new TableStyle();
+                nested = new Table();
+                nestedStyle = new TableStyle();
                 nestedStyle["border-width"] = borderWidthRow;
-                nestedStyle["border-color"] = "#00ff00";
+                nestedStyle["border-color"] = "#000000";
                 nestedStyle.setWidth(trWidth);
                 nestedStyle["margin-top"] = spaceTop;
                 nestedStyle["margin-bottom"] = spaceBottom;
 
-                var nestedRowStyle = new TableRowStyle();
+                nestedRowStyle = new TableRowStyle();
                 nestedRowStyle.setWidth(trWidth - 2 * borderWidthRow);
                 nestedRowStyle["border-width"] = borderWidthRow;
-                nestedRowStyle["border-color"] = "#0000ff";
-                var nestedCellStyles = cellStyles;
-                var nestedContent = contentLine;
+                nestedRowStyle["border-color"] = "#000000";
+                nestedCellStyles = cellStyles;
+                nestedContent = contentLine;
 
                 nested.style = nestedStyle;
                 nested.rowStyle = nestedRowStyle;
@@ -247,9 +248,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             table.style = tableStyle;
             table.rowStyle = rowStyle;
 
-            var tableHtml = table.toHtml();
+            tableHtml = table.toHtml();
 
-            var tableElem = CKEDITOR.dom.element.createFromHtml(tableHtml);
+            tableElem = CKEDITOR.dom.element.createFromHtml(tableHtml);
             editor.insertElement(tableElem);
 
             // assigning events 
@@ -258,7 +259,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 return false;
             }, function(){
                 var attr = $(this).attr('style'),
-                    noShadow = attr.replace(/box-shadow:.*;/i, '');
+                    noShadow = attr.replace(/box-shadow:[^;]+;/i, '');
                 $(this).attr('style', noShadow);
             });
 
