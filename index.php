@@ -4,7 +4,9 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="JSON-js/json2.js"></script>
+<!--	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script> -->
+	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
@@ -43,7 +45,7 @@
 		La procedura preliminaria sarebbe questa:
 		<ol>
 			<li>
-				Definiamo una costante <code>LARGHEZZA</code> per impostare la larghezza della newsletter. Inizializiamola con valore 500.
+				Definiamo una costante <code>LARGHEZZA</code> per impostare la larghezza della newsletter. Inizializziamola con valore 500.
 			</li>
 			<li>
 				Creiamo una tabella larga <code>LARGHEZZA</code> pixel che serve come contenitore per tutto ci&ograve; che segue. 

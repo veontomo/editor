@@ -205,7 +205,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
             if (borderWidth > 0) {
                 tableStyle['border-width'] = borderWidth;
-                tableStyle['border-color'] = '#000000';
+                tableStyle['border-color'] = '#ff0000';
             }
 
 
@@ -215,7 +215,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 var nested = new Table();
                 var nestedStyle = new TableAttributes();
                 nestedStyle["border-width"] = borderWidthRow;
-                nestedStyle["border-color"] = "#000000";
+                nestedStyle["border-color"] = "#00ff00";
                 nestedStyle.setWidth(trWidth);
                 nestedStyle["margin-top"] = spaceTop;
                 nestedStyle["margin-bottom"] = spaceBottom;
@@ -223,7 +223,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 var nestedRowStyle = new TableRowAttributes();
                 nestedRowStyle.setWidth(trWidth - 2 * borderWidthRow);
                 nestedRowStyle["border-width"] = borderWidthRow;
-                nestedRowStyle["border-color"] = "#000000";
+                nestedRowStyle["border-color"] = "#0000ff";
                 var nestedCellStyles = cellStyles;
                 var nestedContent = contentLine;
 

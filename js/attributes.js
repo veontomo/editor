@@ -104,18 +104,9 @@ function TableAttributes() {
 	this.width 		= 0;
 	this["max-width"] 	= this.width;
 	this["min-width"] 	= this.width;
+	this['border-collapse'] = 'collapse';
 }
 TableAttributes.prototype = new Attributes();
-
-function FramedTableAttributes() {
-	"use strict";
-	if (!(this instanceof FramedTableAttributes)) {
-		return new FramedTableAttributes();
-	}
-	this['border-width'] = 1;
-	this['border-color'] = 'rgb(0, 0, 0)';
-}
-FramedTableAttributes.prototype = new TableAttributes();
 
 function TableRowAttributes() {
 	"use strict";
