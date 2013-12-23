@@ -1,5 +1,5 @@
 describe('String representation', function() {
-    it('converts object into a string', function() {
+    it('converts object into an inline style string', function() {
         var Obj1 = {
             'width': 10,
             'color': 'red',
@@ -22,6 +22,31 @@ describe('String representation', function() {
         expect(toString(Obj3, 'mm')).toEqual('width: 10mm;color: red;string: 10;border: 12mm;');
     });
 });
+
+describe('String representation 2', function() {
+    it('converts object into a string', function() {
+        var Obj1 = {
+            'width': 10,
+            'color': 'red',
+            'string': '10',
+            'function': function() {},
+        };
+        var Obj2 = {};
+        var Obj3 = {
+            'width': 10,
+            'color': 'red',
+            'string': '10',
+            'function': function() {
+                return 'foo';
+            },
+            'border': 12,
+        };
+        expect(toString2(Obj1)).toEqual('width="10" color="red" string="10"');
+        expect(toString2(Obj2)).toEqual('');
+        expect(toString2(Obj3)).toEqual('width="10" color="red" string="10" border="12"');
+    });
+});
+
 
 describe('Setting the width property of an object', function(){
     it('sets the width property of an empty object to be equal ot a number', function(){

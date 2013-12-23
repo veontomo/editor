@@ -31,6 +31,30 @@ var toString = function (obj, unit) {
 		return styles;
 	};
 
+/** 
+ * Produces a string of attributes and values
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @param   obj     Object     
+ * @return 			String 			a union of substrings; each substring is of this format: 'attribute="value"', btw the substrings there is a separator ' '.
+  */
+var toString2 = function (obj) {
+		"use strict";
+		var val, valType, attr, output = [];
+		for (attr in obj) {
+			if (obj.hasOwnProperty(attr)) {
+				val = obj[attr];
+				valType = typeof val;
+				// avoid adding method to the output
+				if (valType === 'string' || valType === 'number'){
+					output.push(attr + '="' + String(val) + '"');	
+				}
+			}
+		}
+		return output.join(' ');
+	};
+
+
 /**
  * Sets width, min-width and max-width of the object.
  * @param 	obj 	Object 		object which width is to be set.
