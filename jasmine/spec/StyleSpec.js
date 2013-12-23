@@ -501,14 +501,14 @@ describe('Table-related code', function() {
         spyOn(tableStyle, 'toString').andCallFake(function() {
             return 'table styles';
         });
-        spyOn(table, 'width').andCallFake(function() {
-            return 'table width';
+        spyOn(table, 'attributesString').andCallFake(function() {
+            return 'all-table-attributes';
         });
         spyOn(table, 'rows').andCallFake(function() {
             return [row0, row1];
         });
 
-        expect(table.toHtml()).toEqual('<table width="table width" style="table styles"><tbody>zero row htmlfirst row html</tbody></table>');
+        expect(table.toHtml()).toEqual('<table all-table-attributes style="table styles"><tbody>zero row htmlfirst row html</tbody></table>');
 
 
     });
@@ -524,8 +524,8 @@ describe('Table-related code', function() {
             table1content2 = new Content(),
             table1content3 = new Content();
 
-        spyOn(table1, 'width').andCallFake(function(){
-            return 'first table width';
+        spyOn(table1, 'attributesString').andCallFake(function(){
+            return 'first-table-attributes';
         });
         spyOn(table1Style, 'toString').andCallFake(function(){
             return 'first table style';
@@ -556,87 +556,98 @@ describe('Table-related code', function() {
         table1.rowStyle = table1rowStyle;
         table1.cellStyles = [table1cell1Style, table1cell2Style, table1cell3Style];
         table1.content = [[table1content1, table1content2, table1content3]];
-        expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1</td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
+        expect(table1.toHtml()).toEqual('<table first-table-attributes style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1</td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
     });
 
-it('creates nested tables', function(){
-    var table1 = new Table(),
-        table1Style = new TableStyle(),
-        table1rowStyle = new TableRowStyle(),
-        table1cell1Style = new TableCellStyle(),
-        table1cell2Style = new TableCellStyle(),
-        table1cell3Style = new TableCellStyle(),
-        table1content1 = new Content(),
-        table1content2 = new Content(),
-        table1content3 = new Content(),
-        table2 = new Table(),
-        table2Style = new TableStyle(),
-        table2rowStyle = new TableRowStyle(),
-        table2cell1Style = new TableCellStyle(),
-        table2content1 = new Content();
-
-
-    spyOn(table1, 'width').andCallFake(function(){
-        return 'first table width';
-    });
-    spyOn(table1Style, 'toString').andCallFake(function(){
-        return 'first table style';
+    it('creates proper table attributes', function(){
+        var ts = new TableStyle(),
+            ta = new TableAttributes();
+        ts.width = 112;
+        ta.cellpadding = 14;
+        ta.cellspacing = '19';
+        table.style = ts;
+        table.attributes = ta;
+        expect(table.attributesString()).toEqual('cellpadding="14" cellspacing="19" width="112"');
     });
 
-    table1rowStyle.setWidth('table 1 row width');
-    spyOn(table1rowStyle, 'toString').andCallFake(function(){
-        return 'first row style';
+    it('creates nested tables', function(){
+        var table1 = new Table(),
+            table1Style = new TableStyle(),
+            table1rowStyle = new TableRowStyle(),
+            table1cell1Style = new TableCellStyle(),
+            table1cell2Style = new TableCellStyle(),
+            table1cell3Style = new TableCellStyle(),
+            table1content1 = new Content(),
+            table1content2 = new Content(),
+            table1content3 = new Content(),
+            table2 = new Table(),
+            table2Style = new TableStyle(),
+            table2rowStyle = new TableRowStyle(),
+            table2cell1Style = new TableCellStyle(),
+            table2content1 = new Content();
+
+
+        spyOn(table1, 'attributesString').andCallFake(function(){
+            return 'first-table-attributes';
+        });
+        spyOn(table1Style, 'toString').andCallFake(function(){
+            return 'first table style';
+        });
+
+        table1rowStyle.setWidth('table 1 row width');
+        spyOn(table1rowStyle, 'toString').andCallFake(function(){
+            return 'first row style';
+        });
+
+        table1cell1Style.setWidth('cell 1 width');
+        spyOn(table1cell1Style, 'toString').andCallFake(function(){
+            return 'first cell style';
+        });
+        table1cell2Style.setWidth('cell 2 width');
+        spyOn(table1cell2Style, 'toString').andCallFake(function(){
+            return 'second cell style';
+        });
+        table1cell3Style.setWidth('cell 1 width');
+        spyOn(table1cell3Style, 'toString').andCallFake(function(){
+            return 'third cell style';
+        });
+
+
+        spyOn(table2, 'attributesString').andCallFake(function(){
+            return 'second-table-attributes';
+        });
+        spyOn(table2Style, 'toString').andCallFake(function(){
+            return 'second table style';
+        });
+        table2rowStyle.setWidth('table 2 row width');
+        spyOn(table2rowStyle, 'toString').andCallFake(function(){
+            return 'table 2 row style';
+        });
+
+        table2cell1Style.setWidth('cell 1 width');
+        spyOn(table2cell1Style, 'toString').andCallFake(function(){
+            return 'first cell of the second table style';
+        });
+
+
+        table2content1.elements.push('content of unique cell of table 2');
+
+        table2.style = table2Style;
+        table2.rowStyle = table2rowStyle;
+        table2.cellStyles = [table2cell1Style];
+        table2.content = [[table2content1]];
+
+        table1.style = table1Style;
+        table1.rowStyle = table1rowStyle;
+        table1.cellStyles = [table1cell1Style, table1cell2Style, table1cell3Style];
+        table1.content = [[table1content1, table1content2, table1content3]];
+
+        table1content1.elements.push('content of cell 1');
+        table1content1.elements.push(table2);
+        table1content1.elements.push({'an object without toHtml() method': 0});
+        table1content2.elements.push('content of cell 2');
+        table1content3.elements.push('content of cell 3');
+
+        expect(table1.toHtml()).toEqual('<table first-table-attributes style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1<table second-table-attributes style="second table style"><tbody><tr style="table 2 row style"><td style="first cell of the second table style">content of unique cell of table 2</td></tr></tbody></table> no string representation for the element! </td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
     });
-
-    table1cell1Style.setWidth('cell 1 width');
-    spyOn(table1cell1Style, 'toString').andCallFake(function(){
-        return 'first cell style';
-    });
-    table1cell2Style.setWidth('cell 2 width');
-    spyOn(table1cell2Style, 'toString').andCallFake(function(){
-        return 'second cell style';
-    });
-    table1cell3Style.setWidth('cell 1 width');
-    spyOn(table1cell3Style, 'toString').andCallFake(function(){
-        return 'third cell style';
-    });
-
-
-    spyOn(table2, 'width').andCallFake(function(){
-        return 'second table width';
-    });
-    spyOn(table2Style, 'toString').andCallFake(function(){
-        return 'second table style';
-    });
-    table2rowStyle.setWidth('table 2 row width');
-    spyOn(table2rowStyle, 'toString').andCallFake(function(){
-        return 'table 2 row style';
-    });
-
-    table2cell1Style.setWidth('cell 1 width');
-    spyOn(table2cell1Style, 'toString').andCallFake(function(){
-        return 'first cell of the second table style';
-    });
-
-
-    table2content1.elements.push('content of unique cell of table 2');
-
-    table2.style = table2Style;
-    table2.rowStyle = table2rowStyle;
-    table2.cellStyles = [table2cell1Style];
-    table2.content = [[table2content1]];
-
-    table1.style = table1Style;
-    table1.rowStyle = table1rowStyle;
-    table1.cellStyles = [table1cell1Style, table1cell2Style, table1cell3Style];
-    table1.content = [[table1content1, table1content2, table1content3]];
-
-    table1content1.elements.push('content of cell 1');
-    table1content1.elements.push(table2);
-    table1content1.elements.push({'an object without toHtml() method': 0});
-    table1content2.elements.push('content of cell 2');
-    table1content3.elements.push('content of cell 3');
-
-    expect(table1.toHtml()).toEqual('<table width="first table width" style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1<table width="second table width" style="second table style"><tbody><tr style="table 2 row style"><td style="first cell of the second table style">content of unique cell of table 2</td></tr></tbody></table> no string representation for the element! </td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
-});
 });

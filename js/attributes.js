@@ -153,7 +153,7 @@ function TableStyle() {
 	this.width 		= 0;
 	this["max-width"] 	= this.width;
 	this["min-width"] 	= this.width;
-	this['border-collapse'] = 'collapse';
+	// this['border-collapse'] = 'collapse';
 }
 TableStyle.prototype = new Style();
 
@@ -382,6 +382,7 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
+	this.attributes = new TableAttributes();
 	this.style = new TableStyle();
 	this.rowStyle = new TableRowStyle();
 	this.cellStyles = [];
@@ -421,10 +422,17 @@ function Table() {
 		return output;
 	};
 
+	this.attributesString = function(){
+		var width = this.style.width;
+		var ta = this.attributes;
+		ta.width = width;
+		return ta.toString();
+	}
+
 	this.toHtml = function () {
 		var output, len, i,
 			tableTag = 'table';
-		output = '<' + tableTag + ' width="' + this.width() + '" style="' + this.style.toString() + '"><tbody>';
+		output = '<' + tableTag + ' ' + this.attributesString() + ' style="' + this.style.toString() + '"><tbody>';
 		len = this.rows().length;
 		for (i = 0; i < len; i++) {
 			output += this.rows()[i].toHtml();
