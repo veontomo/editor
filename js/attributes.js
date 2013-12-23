@@ -73,6 +73,9 @@ var setMinMaxWidth = function (obj, w) {
 	obj['min-width'] =  w; 
 }; 
 
+/**
+* Style object. To be used as inline style of html tags
+*/
 function Style() {
 	"use strict"; 
 	if (!(this instanceof Style)) {return new Style(); } 
@@ -84,10 +87,32 @@ function Style() {
 	};
 }
 
+/**
+* Attribute object. To be used as inline attributes of html tags
+*/
+function Attributes() {
+	"use strict";
+	if (!(this instanceof Attributes)) {return new Attributes(); } 
+	this.toString = function () {
+		return toString2(this);
+	};
+}
+
+/**
+* Table attribute object. To be used as inline attributes of html tags
+*/
+function TableAttributes(){
+	"use strict";
+	if (!(this instanceof TableAttributes)) {return new TableAttributes(); }
+	this.cellpadding = 0;
+	this.cellspacing = 0;
+}
+
+TableAttributes.prototype = new Attributes();
+
 /** 
  * Some data containers with default values of their Style.
  */
-
 function TextStyle() {
 	"use strict";
 	if (!(this instanceof TextStyle)) {

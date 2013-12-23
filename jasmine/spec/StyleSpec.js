@@ -1,20 +1,21 @@
+/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
             'width': 10,
             'color': 'red',
             'string': '10',
-            'function': function() {},
-        };
-        var Obj2 = {};
-        var Obj3 = {
+            'function': function() {}
+        },
+            Obj2 = {},
+            Obj3 = {
             'width': 10,
             'color': 'red',
             'string': '10',
             'function': function() {
                 return 'foo';
             },
-            'border': 12,
+            'border': 12
         };
         expect(toString(Obj1)).toEqual('width: 10px;color: red;string: 10;');
         expect(toString(Obj2)).toEqual('');
@@ -29,17 +30,17 @@ describe('String representation 2', function() {
             'width': 10,
             'color': 'red',
             'string': '10',
-            'function': function() {},
-        };
-        var Obj2 = {};
-        var Obj3 = {
+            'function': function() {}
+        },
+            Obj2 = {},
+            Obj3 = {
             'width': 10,
             'color': 'red',
             'string': '10',
             'function': function() {
                 return 'foo';
             },
-            'border': 12,
+            'border': 12
         };
         expect(toString2(Obj1)).toEqual('width="10" color="red" string="10"');
         expect(toString2(Obj2)).toEqual('');
@@ -47,6 +48,26 @@ describe('String representation 2', function() {
     });
 });
 
+describe('Transforms table attributes into a string', function() {
+    it('converts object into a string', function() {
+        var ta = new TableAttributes();
+        expect(ta.hasOwnProperty('cellpadding')).toBe(true);
+        expect(ta.hasOwnProperty('cellspacing')).toBe(true);
+
+        ta.cellpadding = 11;
+        ta.cellspacing = "2837";
+        expect(ta.toString()).toEqual('cellpadding="11" cellspacing="2837"');
+
+        ta.property = "a property";
+        expect(ta.toString()).toEqual('cellpadding="11" cellspacing="2837" property="a property"');
+
+        delete ta.cellpadding;
+        expect(ta.toString()).toEqual('cellspacing="2837" property="a property"');
+
+        ta.cellspacing = null; // only string and number valued attributes are displayed
+        expect(ta.toString()).toEqual('property="a property"');
+    });
+});
 
 describe('Setting the width property of an object', function(){
     it('sets the width property of an empty object to be equal ot a number', function(){
@@ -92,17 +113,17 @@ describe('Setting the width property of an object', function(){
     
     it('throws an error when width argument is not set', function(){
         var obj = {};
-        expect(function(){setMinMaxWidth(obj)}).toThrow("Width value is not set!");
+        expect(function(){setMinMaxWidth(obj);}).toThrow("Width value is not set!");
         expect(obj.hasOwnProperty('width')).toBe(false);
         expect(obj.hasOwnProperty('min-width')).toBe(false);
         expect(obj.hasOwnProperty('max-width')).toBe(false);
     });
 
     it('throws an error if the target is not of Object type', function(){
-        expect(function(){setMinMaxWidth('a string')}).toThrow('Can not set a property of a non-object!');
-        expect(function(){setMinMaxWidth()}).toThrow('Can not set a property of a non-object!');
+        expect(function(){setMinMaxWidth('a string');}).toThrow('Can not set a property of a non-object!');
+        expect(function(){setMinMaxWidth();}).toThrow('Can not set a property of a non-object!');
     });
-})
+});
 
 describe('Content', function() {
     var content;
@@ -126,13 +147,14 @@ describe('Content', function() {
     });
 
     it('has toHtml method', function() {
-        var elem0 = 1;
-        var elem1 = 'element2';
-        var elem2 = {
-            'a dummy method': 1
-        };
+        var elem0 = 1,
+            elem1 = 'element2',
+            elem2 = {
+                'a dummy method': 1
+            },
+            htmlContent;
         content.elements = [elem0, elem1];
-        var htmlContent = content.toHtml();
+        htmlContent = content.toHtml();
         expect(typeof htmlContent).toBe("string");
         expect(htmlContent).toEqual('1element2');
 
@@ -141,14 +163,11 @@ describe('Content', function() {
         expect(typeof htmlContent).toBe("string");
         expect(htmlContent.indexOf(elem1) !== -1).toBe(true);
     });
-
-
-})
+});
 
 
 describe('Cell-related code', function() {
-    var cell;
-    var cellAttr;
+    var cell, cellAttr;
 
     beforeEach(function() {
         cell = new Cell();
@@ -229,22 +248,23 @@ describe('Row-related code', function() {
     });
 
     it('gives the cells of the row', function(){
-        var style = new TableRowStyle();
-        var content = ['c1', 'c2'];
-        var cell0Style = new TableCellStyle();
-        var cell1Style = new TableCellStyle();
+        var style = new TableRowStyle(),
+            content = ['c1', 'c2'],
+            cell0Style = new TableCellStyle(),
+            cell1Style = new TableCellStyle(),
+            cells;
 
         row.content = content;
         row.style = style;
         row.cellStyles = [cell0Style, cell1Style];
 
-        var cells = row.cells();
+        cells = row.cells();
         expect(cells.length).toEqual(2);
         expect(cells[0].style).toBe(cell0Style);
         expect(cells[0].content).toBe(content[0]);
         expect(cells[1].style).toBe(cell1Style);
         expect(cells[1].content).toBe(content[1]);
-    })
+    });
 
     xit('deletes the cell', function() {
         row.cells = [1, 2, 3, 'a', 'b'];
@@ -308,7 +328,8 @@ describe('Row-related code', function() {
     it('gets html representation of the row', function() {
         var c1 = new Content(),
             c2 = new Content(),
-            rowStyle = new TableRowStyle();
+            rowStyle = new TableRowStyle(),
+            htmlRow;
 
         rowStyle.width = 'row width';
         spyOn(c1, 'toHtml').andCallFake(function() {
@@ -328,7 +349,7 @@ describe('Row-related code', function() {
         row.style = rowStyle;
         row.content = [c1, c2];
 
-        var htmlRow = row.toHtml();
+        htmlRow = row.toHtml();
         expect(c1.toHtml).toHaveBeenCalled();
         expect(c2.toHtml).toHaveBeenCalled();
         expect(rowStyle.toString).toHaveBeenCalled();
@@ -433,44 +454,41 @@ describe('Table-related code', function() {
             'foo': 'xxx'
         };
         expect(table.width()).toEqual('');
-
     });
 
     it('gets the rows of the table', function() {
-        var cell0Style = new TableCellStyle();
-        var cell1Style = new TableCellStyle();
-        var cell2Style = new TableCellStyle();
-        var rowStyle = new TableRowStyle();
-
-        var content = [
-            ['c00', 'c01', 'c02'],
-            ['c10', 'c11', 'c12']
-        ];
-        var cellStyles = [cell0Style, cell1Style, cell2Style];
+        var cell0Style = new TableCellStyle(),
+            cell1Style = new TableCellStyle(),
+            cell2Style = new TableCellStyle(),
+            rowStyle = new TableRowStyle(),
+            content = [
+                ['c00', 'c01', 'c02'],
+                ['c10', 'c11', 'c12']
+            ],
+            cellStyles = [cell0Style, cell1Style, cell2Style],
+            rows;
 
         table.content = content;
         table.rowStyle = rowStyle;
         table.cellStyles = cellStyles;
 
-        var rows = table.rows();
+        rows = table.rows();
         expect(rows.length).toEqual(2);
         expect(rows[0] instanceof Row).toBe(true);
         expect(rows[0].style).toEqual(rowStyle);
         expect(rows[0].cellStyles).toEqual(cellStyles);
         expect(rows[0].content).toEqual(content[0]);
 
-
         expect(rows[1] instanceof Row).toBe(true);
         expect(rows[1].style).toEqual(rowStyle);
         expect(rows[1].cellStyles).toEqual(cellStyles);
         expect(rows[1].content).toEqual(content[1]);
-    })
+    });
 
     it('gets html representation of the table', function() {
-        var tableStyle = new TableStyle();
-
-        var row0 = new Row();
-        var row1 = new Row();
+        var tableStyle = new TableStyle(),
+            row0 = new Row(),
+            row1 = new Row();
         spyOn(row0, 'toHtml').andCallFake(function() {
             return 'zero row html';
         });
@@ -496,15 +514,15 @@ describe('Table-related code', function() {
     });
 
     it('creates complete table', function(){
-        var table1 = new Table();
-        var table1Style = new TableStyle();
-        var table1rowStyle = new TableRowStyle();
-        var table1cell1Style = new TableCellStyle();
-        var table1cell2Style = new TableCellStyle();
-        var table1cell3Style = new TableCellStyle();
-        var table1content1 = new Content();
-        var table1content2 = new Content();
-        var table1content3 = new Content();
+        var table1 = new Table(),
+            table1Style = new TableStyle(),
+            table1rowStyle = new TableRowStyle(),
+            table1cell1Style = new TableCellStyle(),
+            table1cell2Style = new TableCellStyle(),
+            table1cell3Style = new TableCellStyle(),
+            table1content1 = new Content(),
+            table1content2 = new Content(),
+            table1content3 = new Content();
 
         spyOn(table1, 'width').andCallFake(function(){
             return 'first table width';
@@ -542,15 +560,21 @@ describe('Table-related code', function() {
     });
 
 it('creates nested tables', function(){
-    var table1 = new Table();
-    var table1Style = new TableStyle();
-    var table1rowStyle = new TableRowStyle();
-    var table1cell1Style = new TableCellStyle();
-    var table1cell2Style = new TableCellStyle();
-    var table1cell3Style = new TableCellStyle();
-    var table1content1 = new Content();
-    var table1content2 = new Content();
-    var table1content3 = new Content();
+    var table1 = new Table(),
+        table1Style = new TableStyle(),
+        table1rowStyle = new TableRowStyle(),
+        table1cell1Style = new TableCellStyle(),
+        table1cell2Style = new TableCellStyle(),
+        table1cell3Style = new TableCellStyle(),
+        table1content1 = new Content(),
+        table1content2 = new Content(),
+        table1content3 = new Content(),
+        table2 = new Table(),
+        table2Style = new TableStyle(),
+        table2rowStyle = new TableRowStyle(),
+        table2cell1Style = new TableCellStyle(),
+        table2content1 = new Content();
+
 
     spyOn(table1, 'width').andCallFake(function(){
         return 'first table width';
@@ -577,11 +601,6 @@ it('creates nested tables', function(){
         return 'third cell style';
     });
 
-    var table2 = new Table();
-    var table2Style = new TableStyle();
-    var table2rowStyle = new TableRowStyle();
-    var table2cell1Style = new TableCellStyle();
-    var table2content1 = new Content();
 
     spyOn(table2, 'width').andCallFake(function(){
         return 'second table width';
@@ -614,7 +633,7 @@ it('creates nested tables', function(){
 
     table1content1.elements.push('content of cell 1');
     table1content1.elements.push(table2);
-    table1content1.elements.push({'an object without toHtml() method': 0})
+    table1content1.elements.push({'an object without toHtml() method': 0});
     table1content2.elements.push('content of cell 2');
     table1content3.elements.push('content of cell 3');
 
