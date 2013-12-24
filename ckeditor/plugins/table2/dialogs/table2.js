@@ -194,7 +194,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
             tableStyle.setWidth(tableWidth);
-            tableStyle["border-spacing"] = '0px 2px';
+            // tableStyle["border-spacing"] = '0px 2px';
 
             rowStyle.setWidth(trWidth);
             for (i = 0; i < cols; i++) {
