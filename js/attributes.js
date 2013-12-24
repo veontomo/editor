@@ -270,6 +270,7 @@ function Content(str) {
 /**
  * Table cell. It is completely characterized by its styles.
  * @property 	style 				Object 	TableCellAttribute
+ * @property 	attributes 			Object 	Attributes
  * @property 	content 			Object 	content of the cell.
  * @method 		toHtml() 			String 	html representation of the element
  */
@@ -295,6 +296,7 @@ function Cell() {
 /** 
  * Table row. Contains style attribute and array of table cells.
  * @property 	style 				Object 						the row Style
+ * @property 	attributes 			Object 						Attributes
  * @property 	cellStyles 			Array 						array of TableCellAttribute instances
  * @property 	content 			Array 						array of Content instances
  * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
