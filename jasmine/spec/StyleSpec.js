@@ -1,4 +1,4 @@
-/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes */
+/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -167,49 +167,55 @@ describe('Content', function() {
 
 
 describe('Cell-related code', function() {
-    var cell, cellAttr;
+    var cell, cellStyle;
 
     beforeEach(function() {
         cell = new Cell();
-        cellAttr = new TableCellStyle();
+        cellStyle = new TableCellStyle();
     });
 
 
     it('retrieves the width from the style attribute', function() {
-        cellAttr.width = 11;
-        cell.style = cellAttr;
+        cellStyle.width = 11;
+        cell.style = cellStyle;
         expect(cell.width()).toEqual(11);
 
-        cellAttr.width = 0;
-        cell.style = cellAttr;
+        cellStyle.width = 0;
+        cell.style = cellStyle;
         expect(cell.width()).toEqual(0);
 
-        cellAttr.width = '';
-        cell.style = cellAttr;
+        cellStyle.width = '';
+        cell.style = cellStyle;
         expect(cell.width()).toEqual('');
     });
 
     it('gets html representation of the cell', function() {
-        cellAttr.dummyAttr = "it has to be ignored";
-        spyOn(cellAttr, 'toString').andCallFake(function() {
+        var cellAttr = new Attributes(),
+            content;
+        cellStyle.dummyAttr = "it has to be ignored";
+        spyOn(cellStyle, 'toString').andCallFake(function() {
             return 'stub for styles';
         });
         spyOn(cell, 'width').andCallFake(function() {
             return 'stub for width';
         });
+        spyOn(cellAttr, 'toString').andCallFake(function() {
+            return 'cell attribute';
+        });
 
-        cell.style = cellAttr;
+        cell.style = cellStyle;
+        cell.attributes = cellAttr;
         cell.content = new Content();
-        expect(cell.toHtml()).toEqual('<td style="stub for styles"></td>');
+        expect(cell.toHtml()).toEqual('<td cell attribute style="stub for styles"></td>');
         expect(cellAttr.toString).toHaveBeenCalled();
 
 
-        var content = new Content();
+        content = new Content();
         cell.content = content;
         spyOn(content, 'toHtml').andCallFake(function() {
             return 'content';
         });
-        expect(cell.toHtml()).toEqual('<td style="stub for styles">content</td>');
+        expect(cell.toHtml()).toEqual('<td cell attribute style="stub for styles">content</td>');
     });
 
 });
@@ -329,9 +335,11 @@ describe('Row-related code', function() {
         var c1 = new Content(),
             c2 = new Content(),
             rowStyle = new TableRowStyle(),
+            rowAttr = new Attributes(),
             htmlRow;
 
         rowStyle.width = 'row width';
+
         spyOn(c1, 'toHtml').andCallFake(function() {
             return 'cell1 html code';
         });
@@ -341,6 +349,10 @@ describe('Row-related code', function() {
         spyOn(rowStyle, 'toString').andCallFake(function() {
             return 'row styles';
         });
+        spyOn(rowAttr, 'toString').andCallFake(function() {
+            return 'row attributes';
+        });
+
 
         spyOn(row, 'cells').andCallFake(function(){
             return [c1, c2];
@@ -348,13 +360,14 @@ describe('Row-related code', function() {
 
         row.style = rowStyle;
         row.content = [c1, c2];
+        row.attributes = rowAttr;
 
         htmlRow = row.toHtml();
         expect(c1.toHtml).toHaveBeenCalled();
         expect(c2.toHtml).toHaveBeenCalled();
         expect(rowStyle.toString).toHaveBeenCalled();
         //expect(htmlRow).toEqual('<tr width="row width" style="row styles">cell1 html codecell2 html code</tr>');
-        expect(htmlRow).toEqual('<tr style="row styles">cell1 html codecell2 html code</tr>');
+        expect(htmlRow).toEqual('<tr row attributes style="row styles">cell1 html codecell2 html code</tr>');
     });
 });
 

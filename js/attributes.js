@@ -279,13 +279,16 @@ function Cell() {
 	if (!(this instanceof Cell)) {
 		return new Cell();
 	}
+	this.attributes = new Attributes();
 	this.style = new TableCellStyle();
 	this.width = function () {
 		return this.style.width;
 	};
 	this.content = new Content();
 	this.toHtml = function () {
-		return '<td style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
+		var attr = this.attributes.toString();
+		attr = attr ? (attr + ' ') : '';
+		return '<td ' + attr + 'style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
 	};
 }
 
@@ -309,6 +312,7 @@ function Row() {
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
+	this.attributes = new Attributes();
 	this.style = new TableRowStyle();
 	this.content = [];
 
@@ -317,7 +321,9 @@ function Row() {
 	};
 
 	this.toHtml = function () {
-		var i, htmlRow = '<tr style="' + this.style.toString() + '">',
+		var i,
+			rowAttr = this.attributes.toString(),
+			htmlRow = '<tr ' + (rowAttr ? rowAttr + ' ' : '') + 'style="' + this.style.toString() + '">',
 			cellsNumber = this.numOfCells();
 		for (i = 0; i < cellsNumber; i++) {
 			htmlRow += this.cells()[i].toHtml();
