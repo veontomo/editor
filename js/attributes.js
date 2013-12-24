@@ -424,11 +424,11 @@ function Table() {
 	};
 
 	this.attributesString = function(){
-		var width = this.style.width;
-		var ta = this.attributes;
+		var width = this.style.width,
+			ta = this.attributes;
 		ta.width = width;
 		return ta.toString();
-	}
+	};
 
 	this.toHtml = function () {
 		var output, len, i,

@@ -1,81 +1,85 @@
+/*global CKEDITOR, location
+ */
+
 /**
  * Drops the table row. If after that the table remains empty, removes it as well.
  */
-var dropRow = function(ed){
-	var row = ed.getSelection().getStartElement().getAscendant('tr', true);
-	var parentTable = row.getAscendant('table');
-	row.remove();
-	// calculating the numebb of children of the table after removing the row
-	var tableLength = parentTable.findOne('tbody').getChildren().count();
-	if (tableLength === 0) {
-		parentTable.remove();
-	}
-}
-
-/**
-* Converts the first letter of the string into the upper case
-* If the string is empty, the output is empty string as well.
-* @param 	str 	String
-* @return 			String
-*/
-var firstLetterUpperCase = function(str){
-    return str.substring(0,1).toUpperCase() + str.substring(1);
-}
-
-/**
-* Inserts a row at a specified position with respect to the selected element.
-* The command to insert the row is obtained by capitalizing the second argument 
-* and appending it to the string 'insert'. Example: if pos is 'after', the command
-* to be executed is 'insertAfter'.
-* @param 	ed 		CKEDITOR.editor 
-* @param 	pos 	String 	where to insert the element with respect to the current one. 
-*/
-var insertRow = function(ed, pos){
-	console.log('add row ' + pos);
-	var tag = 'tr'; // tag to replicate
-	var currentRow = ed.getSelection().getStartElement().getAscendant(tag, true);
-	var newElement = new CKEDITOR.dom.element(tag);
-
-	var operation = 'insert' + firstLetterUpperCase(pos);
-	if(operation in newElement) {
-		newElement[operation](currentRow);
-	}else{
-		return null;
-	}
-
-	currentRow.copyAttributes(newElement);
-	var currentChildren = currentRow.getChildren();
-	var childNum = currentChildren.count();
-	for (var i = 0;  i < childNum; i++) {
-		var child = currentChildren.getItem(i);
-		var newChild = new CKEDITOR.dom.element(child.getName());
-		newChild.setHtml('&curren;');
-		newElement.append(newChild);
-		child.copyAttributes(newChild);
+var dropRow = function (ed) {
+		var row = ed.getSelection().getStartElement().getAscendant('tr', true),
+			parentTable = row.getAscendant('table'),
+			tableLength;
+		row.remove();
+		// calculating the number of children of the table after removing the row
+		tableLength = parentTable.findOne('tbody').getChildren().count();
+		if (tableLength === 0) {
+			parentTable.remove();
+		}
 	};
-}
+
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param 	str 	String
+ * @return 			String
+ */
+var firstLetterUpperCase = function (str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	};
+
+/**
+ * Inserts a row at a specified position with respect to the selected element.
+ * The command to insert the row is obtained by capitalizing the second argument
+ * and appending it to the string 'insert'. Example: if pos is 'after', the command
+ * to be executed is 'insertAfter'.
+ * @param 	ed 		CKEDITOR.editor
+ * @param 	pos 	String 	where to insert the element with respect to the current one.
+ */
+var insertRow = function (ed, pos) {
+		var tag = 'tr',
+			// tag to replicate
+			currentRow = ed.getSelection().getStartElement().getAscendant(tag, true),
+			newElement = new CKEDITOR.dom.element(tag),
+			operation = 'insert' + firstLetterUpperCase(pos),
+			currentChildren = currentRow.getChildren(),
+			childNum = currentChildren.count(),
+			i, child, newChild;
+
+		if (newElement[operation] !== undefined) {
+			newElement[operation](currentRow);
+		} else {
+			console.log('no ' + operation + ' in newElement');
+			return null;
+		}
+
+		currentRow.copyAttributes(newElement);
+		for (i = 0; i < childNum; i++) {
+			child = currentChildren.getItem(i);
+			newChild = new CKEDITOR.dom.element(child.getName());
+			newChild.setHtml('&curren;');
+			newElement.append(newChild);
+			child.copyAttributes(newChild);
+		}
+	};
 
 CKEDITOR.plugins.add('table2', {
-
 	// Register the icons.
 	icons: 'table2',
-
 	// The plugin initialization logic goes inside this method.
-	init: function(editor) {
+	init: function (editor) {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2AddRowBefore', {
-			exec: function(editor) {
+			exec: function (editor) {
 				insertRow(editor, 'before');
 			}
 		});
 		editor.addCommand('table2AddRowAfter', {
-			exec: function(editor) {
+			exec: function (editor) {
 				insertRow(editor, 'after');
 			}
 		});
 		editor.addCommand('table2DeleteRow', {
-			exec: function(editor) {
+			exec: function (editor) {
 				dropRow(editor);
 			}
 		});
@@ -122,7 +126,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 
-			editor.contextMenu.addListener(function(element) {
+			editor.contextMenu.addListener(function (element) {
 				if (element.getAscendant('tr', true)) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
@@ -132,7 +136,7 @@ CKEDITOR.plugins.add('table2', {
 				}
 			});
 
-			editor.contextMenu.addListener(function(element) {
+			editor.contextMenu.addListener(function (element) {
 				if (element.getAscendant('table', true)) {
 					return {
 						table2Item: CKEDITOR.TRISTATE_OFF
