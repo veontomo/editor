@@ -1,19 +1,6 @@
-/*var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
-$.post('php/saveDraft.php', 
-	{'data': editorContent}, 
-		function(filename){
-			console.log("data sent and file name is recieved: " + filename);
-			$(location).attr('href', 'php/downloadFile.php?filename='+filename); 
-	}
-)
-*//**
- * The abbr dialog definition.
- *
- * Created out of the CKEditor Plugin SDK:
- * http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_1
- */
+/*global CKEDITOR, location
+*/
 
-// Our dialog definition.
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 	return {
 		// Basic properties of the dialog window: title, minimum size.
@@ -31,31 +18,29 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 				// The tab contents.
 				elements: [
 					{
-						// Text input field for the file name.
 						type: 'text',
 						id: 'filename',
 						label: editor.lang.common.name,
-
-						// Validation checking whether the field is not empty.
-						default: "template.html"
-					},
+						"default": "template.html"
+					}
 				]
-			},
+			}
 		],
 
-		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
-			var fileName = this.getValueOf( 'tab-general', 'filename' );
-			var editorContent = editor.document.getBody().getHtml();
-			var fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" + 
-				editorContent +  "\n</body></html>";
+			var fileName = this.getValueOf('tab-general', 'filename'),
+				editorContent = editor.document.getBody().getHtml(),
+				fileContent, sanitizedContent;
+			sanitizedContent = editorContent.replace(/\t/g, ' ');
+			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" + 
+				sanitizedContent +  "\n</body></html>";
 			$.post('php/saveDraft.php', 
 				{'data': fileContent, 'filename': fileName}, 
 					function(filename){
 						console.log("data sent and file name is recieved: " + filename);
-						$(location).attr('href', 'php/downloadFile.php?filename='+filename); 
+						$(location).attr('href', 'php/downloadFile.php?filename=' + filename); 
 				}
-			)
+			);
 		}
 	};
 });

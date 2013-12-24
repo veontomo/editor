@@ -198,7 +198,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
             rowStyle.setWidth(trWidth);
             for (i = 0; i < cols; i++) {
-                contentLine.push(new Content("&curren;"));
+                contentLine.push(new Content("-"));
                 tableCellAttr = new TableCellStyle();
                 tableCellAttr.setWidth(tdWidth[i]);
                 cellStyles.push(tableCellAttr);

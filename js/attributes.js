@@ -186,6 +186,7 @@ function TableCellStyle() {
 	this.width = 0;
 	this["max-width"] = this.width;
 	this["min-width"] = this.width;
+	this['vertical-align'] = 'top';
 }
 TableCellStyle.prototype = new Style();
 
