@@ -376,6 +376,8 @@ function Row() {
 * Table. The table rows should have the same number of cells.
 * @property 	style 		Object 		table styles
 * @property 	rowStyle 	Object 		the style of each row of the table
+* @property 	rowAttrs 	Object 		Attributes object representing the attributes of each row
+* @property 	cellAttrs 	Array 		array of Attributes objects, each representing the attributes of of the cell.
 * @property 	cellStyles 	Array 		each element of the array is a cell style object
 * @property 	content 	Array 		two-dimensional array. Each element of the array is an instance of Content().
 * @method 		Number 		numOfCols()	the number of columns in the first row. It is retrieved from the property "content".

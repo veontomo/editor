@@ -26,6 +26,7 @@
 </head>
 <body>
 	<article class="algorithm">
+		<a href="jasmine/"><img src="images/TDD.png"></a>
 		<h1>
 			Algoritmo
 		</h1>
@@ -117,7 +118,10 @@
 			</li>
 		</ol>
 	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">Andare ai template</a></div>
+
 	</article>
+
+
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
