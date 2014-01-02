@@ -65,13 +65,33 @@ var setMinMaxWidth = function (obj, w) {
 	"use strict";
 	if(typeof obj !== 'object'){
 		throw new Error('Can not set a property of a non-object!');
-	} if(w === undefined){
+	} 
+	if(w === undefined){
 		throw new Error("Width value is not set!"); 
 	}
 	obj.width = w; 
 	obj['max-width'] =  w; 
 	obj['min-width'] =  w; 
 }; 
+
+/** 
+* Gets property from the object.
+* @param 	{Object} 	obj 	an object
+* @param 	{String} 	prop 	property name to retrieve
+* @return 	{mixed} 	property value of the object
+*/
+function getProperty(obj, prop){
+	"use strict";
+	if(typeof obj !== 'object'){
+		throw new Error('Not an object!');
+	} 
+	if(prop === undefined){
+		throw new Error("Property name missing!"); 
+	}
+	if(obj.hasOwnProperty(prop)){
+		return obj[prop];
+	}
+}
 
 /**
 * Style object. To be used as inline style of html tags. 
@@ -287,14 +307,15 @@ function Cell() {
 	this.attr = new Attributes();
 	this.style = new TableCellStyle();
 	this.content = new Content();
+	// is it all worth it?!
 	this.styleProperty = function (prop) {
-		return this.style[prop];
+		return getProperty(this.style, prop);
 	};
 	// insert the width parameter inside the Attribute and Style properties
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
-	}
+	};
 
 	this.toHtml = function () {
 		var attr = this.attr.toString();
@@ -305,87 +326,49 @@ function Cell() {
 
 /** 
  * Table row.
- * @property 	{Object} 			style 						styles of the row
- * @property 	{Object} 			attributes					attributes of the row
- * @property 	{Array} 			cellStyles					array of TableCellAttribute instances
- * @property 	{Array} 			cellAttrs 					array of Attributes() corresponding to each cell of the row
- * @property 	{Array} 			content 					array of Content instances
- * @method 		{String} 			width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
+ * @property 	{Object} 			attr						row attributes
+ * @property 	{Object} 			style 						row styles
+ * @property 	{Array} 			cells 						array of Cell instances
+ * @method 		{String} 			styleProperty(String) 		gets the property of the row from the its style.
+ * @method 		{void}				setWidth(width) 			sets width of the cell, writing value of "width" both to the attribute and style properties 
  * @method 		{String} 			toHtml() 					html representation of the element
- * @method 		{Integer}			numOfCells() 				the number of cells in the row
- * @method 		{Array}				cells()						array of Cell instances. "style", "attributes" and "content" property of each element is equal 
- * to the corresp. element of "cellStyles", "cellAttrs" and "content" of this instance.
- * @method 		{Object|null} 		dropCell(Number) 			removes the element from the array of the cells
- * @method  	{void}				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
- * the cell will be appended to the end of cell array.
- * @method  	{void}				appendCell(Object)			appends the cell to the row cells
  */
 function Row() {
 	"use strict";
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
-	this.attributes = new Attributes();
+	this.attr = new Attributes();
 	this.style = new TableRowStyle();
-	this.cellAttrs = [];
+	this.cells = [];
 
-	this.content = [];
+	// is it all worth it?!
+	this.styleProperty = function (prop) {
+		return getProperty(this.style, prop);
+	};
 
-	this.width = function () {
-		return this.style.hasOwnProperty('width') ? this.style.width : '';
+	// insert the width parameter inside the Attribute and Style properties
+	this.setWidth = function(w){
+		setMinMaxWidth(this.style, w);
+		this.attr.width = w;
 	};
 
 	this.toHtml = function () {
-		var i,
-			rowAttr = this.attributes.toString(),
-			htmlRow = '<tr ' + (rowAttr ? rowAttr + ' ' : '') + 'style="' + this.style.toString() + '">',
-			cellsNumber = this.numOfCells();
+		var i, rowAttr, rowStyle, htmlRow, styleStr, attrStr, cellsNumber;
+		rowAttr = this.attr.toString();
+		rowStyle = this.style.toString();
+		attrStr = rowAttr.trim() ? ' ' + rowAttr : '';
+		styleStr = rowStyle.trim() ? ' style="' + rowStyle + '"' : '';
+		htmlRow = '<tr' + attrStr + styleStr + '>';
+		cellsNumber = this.cells.length;
 		for (i = 0; i < cellsNumber; i++) {
-			htmlRow += this.cells()[i].toHtml();
+			htmlRow += this.cells[i].toHtml();
 		}
 		htmlRow += '</tr>';
 		return htmlRow;
 
 	};
-	this.numOfCells = function () {
-		return this.content.length;
-	};
-
-	this.cells = function () {
-		var i, cell, output = [],
-			len = this.numOfCells();
-		for (i = 0; i < len; i++) {
-			cell = new Cell();
-			cell.style = this.cellStyles[i];
-			cell.content = this.content[i];
-			cell.attributes = this.cellAttrs[i];
-			output.push(cell);
-		}
-		return output;
-	};
-
-	this.dropCell = function (num) {
-		var elem = this.cells[num];
-		if (elem !== undefined) {
-			this.content.splice(num, 1);
-			return elem;
-		}
-	};
-
-	this.insertCell = function (cell, pos) {
-		var elem = this.content[pos];
-		if (elem !== undefined) {
-			this.content.splice(pos, 0, cell);
-		} else {
-			this.content.push(cell);
-		}
-	};
-
-	this.appendCell = function (cell) {
-		this.insertCell(cell, this.length());
-	};
 }
-
 /** 
 * Table. The table rows should have the same number of cells.
 * @property 	{Object} 	attributes 		table attributes

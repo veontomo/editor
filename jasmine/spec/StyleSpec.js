@@ -1,4 +1,5 @@
-/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes */
+/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, 
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -67,6 +68,38 @@ describe('Transforms table attributes into a string', function() {
         ta.cellspacing = null; // only string and number valued attributes are displayed
         expect(ta.toString()).toEqual('property="a property"');
     });
+});
+
+describe('Getting property from the object', function(){
+    it('gets a string-valued property of the object', function(){
+        var obj = {'a property': 'property value'};
+        expect(getProperty(obj, 'a property')).toEqual('property value');
+    });
+
+    it('gets an object-valued property of the object', function(){
+        var value = {},
+            obj = {'prop': value};
+        expect(getProperty(obj, 'prop')).toEqual(value);
+    });
+
+    it('throws an error when getting a property of a non-object', function(){
+        expect(function(){
+            getProperty(1, 'prop');
+        }).toThrow('Not an object!');
+    });
+
+    it('throws an error when omitting a property name', function(){
+        expect(function(){
+            getProperty({});
+        }).toThrow('Property name missing!');
+    });
+
+    it('returns "undefined" if the object does not have the property', function(){
+        expect(getProperty({}, 'prop')).not.toBeDefined();
+    });
+
+
+
 });
 
 describe('Setting the width property of an object', function(){
@@ -166,21 +199,16 @@ describe('Content', function() {
 });
 
 
-describe('Cell-related code', function() {
+describe('Cell-related functionality', function() {
     var cell, cellStyle, cellAttr, cellContent;
 
     beforeEach(function() {
         cell = new Cell();
-        cellStyle = new TableCellStyle(), 
-        cellAttr = new Attributes(), 
+        cellStyle = new TableCellStyle();
+        cellAttr = new Attributes();
         cellContent = new Content();
 
     });
-
-    afterEach(function() {
-        delete cell, cellStyle, cellAttr, cellContent;
-    });
-
 
     it('retrieves property of type "string" from the style', function() {
         cellStyle['a property'] = 'cell property value';
@@ -232,6 +260,111 @@ describe('Cell-related code', function() {
         expect(cell.toHtml()).toEqual('<td cell attributes style="cell style">cell content</td>');
     });
 });
+
+describe('Row-related functionality', function(){
+    var row, rowAttr, rowStyle, cells;
+    beforeEach(function(){
+        row = new Row();
+        rowAttr = new Attributes();
+        rowStyle = new TableRowStyle();
+        cells = [];
+    });
+
+    it('retrieves property of type "string" from the style', function() {
+        rowStyle['a property'] = 'row property value';
+        row.style = rowStyle;
+        expect(row.styleProperty('a property')).toEqual('row property value');
+    });
+
+    it('retrieves property of type "Number" from the style', function() {
+        rowStyle['a-property'] = 12.6;
+        row.style = rowStyle;
+        expect(row.styleProperty('a-property')).toEqual(12.6);
+    });
+
+    it('retrieves non-existing property from the style', function() {
+        if (rowStyle.hasOwnProperty('row property')) {
+            delete rowStyle['row property'];
+        }
+        row.style = rowStyle;
+        expect(row.styleProperty('row property')).not.toBeDefined();
+    });
+
+    it('sets the width of the row', function(){
+        row.setWidth(15);
+        expect(row.styleProperty('width')).toEqual(15);
+        expect(row.styleProperty('min-width')).toEqual(15);
+        expect(row.styleProperty('max-width')).toEqual(15);
+        expect(row.attr.width).toEqual(15);
+    });
+
+    it('generates html code of the row if attributes and styles are not empty', function(){
+        var cell1 = new Cell(),
+            cell2 = new Cell(),
+            cell3 = new Cell();
+
+        spyOn(cell1, 'toHtml').andCallFake(function(){
+            return 'cell 1 ';
+        });
+        spyOn(cell2, 'toHtml').andCallFake(function(){
+            return 'cell 2 html ';
+        });
+        spyOn(cell3, 'toHtml').andCallFake(function(){
+            return 'cell 3 content';
+        });
+
+        spyOn(rowAttr, 'toString').andCallFake(function(){
+            return 'row attributes';
+        });
+        spyOn(rowStyle, 'toString').andCallFake(function(){
+            return 'row styles';
+        });
+        row.attr = rowAttr;
+        row.style = rowStyle;
+        row.cells = [cell1, cell2, cell3];
+        expect(row.toHtml()).toEqual('<tr row attributes style="row styles">cell 1 cell 2 html cell 3 content</tr>');
+    });
+
+    it('generates html code of the row if attribute is empty', function(){
+        var cell1 = new Cell();
+
+        spyOn(cell1, 'toHtml').andCallFake(function(){
+            return 'cell 1';
+        });
+
+        spyOn(rowAttr, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(rowStyle, 'toString').andCallFake(function(){
+            return 'row styles';
+        });
+        row.attr = rowAttr;
+        row.style = rowStyle;
+        row.cells = [cell1];
+        expect(row.toHtml()).toEqual('<tr style="row styles">cell 1</tr>');
+    });
+
+
+    it('generates html code of the row if the style is empty', function(){
+        var cell1 = new Cell();
+
+        spyOn(cell1, 'toHtml').andCallFake(function(){
+            return 'cell 1';
+        });
+
+        spyOn(rowAttr, 'toString').andCallFake(function(){
+            return 'row attributes';
+        });
+        spyOn(rowStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        row.attr = rowAttr;
+        row.style = rowStyle;
+        row.cells = [cell1];
+        expect(row.toHtml()).toEqual('<tr row attributes>cell 1</tr>');
+    });
+});
+
 
 
 // describe('Row-related code', function() {
