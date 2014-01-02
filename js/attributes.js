@@ -272,10 +272,11 @@ function Content(str) {
 
 /**
  * Table cell. It is completely characterized by its styles.
- * @property 	{Object} 		style 		TableCellAttribute
- * @property 	{Object} 		attributes 	Attributes
- * @property 	{Object} 		content 	content of the cell.
- * @method 		{String}		toHtml() 	html representation of the element
+ * @property 	{Object} 			style 		TableCellAttribute
+ * @property 	{Object} 			attr 		Attributes
+ * @property 	{Object} 			content 	content of the cell.
+ * @method 		toHtml() 			html representation of the element
+ * @method 		setWidth(width) 	sets width of the cell, writing value of "width" both to the attribute and style properties 
  */
 
 function Cell() {
@@ -283,14 +284,18 @@ function Cell() {
 	if (!(this instanceof Cell)) {
 		return new Cell();
 	}
-	this.attributes = new Attributes();
+	this.attr = new Attributes();
 	this.style = new TableCellStyle();
 	this.width = function () {
 		return this.style.width;
 	};
+	this.setWidth = function(w){
+		setMinMaxWidth(this.style, w);
+		this.attr.width = w;
+	}
 	this.content = new Content();
 	this.toHtml = function () {
-		var attr = this.attributes.toString();
+		var attr = this.attr.toString();
 		attr = attr ? (attr + ' ') : '';
 		return '<td ' + attr + 'style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
 	};
