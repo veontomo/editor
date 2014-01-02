@@ -1,4 +1,4 @@
-/*global CKEDITOR, Unit, Table, columnWidths, Table, TableStyle, TableRowStyle, TableCellStyle, Content 
+/*global CKEDITOR, Unit, Table, columnWidths, Table, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes
 */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
     var INPUTCOLWIDTHNAME = 'widthCol',
@@ -162,12 +162,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 contentLine = [],
                 cellStyles = [],
                 colWidths = [],
-                inputField,
-                i,
-                isFramed,
-                tableWidth,
-                trWidth,
-                spaceTop, spaceBottom, tdWidth, tableCellAttr, nested, nestedStyle, nestedRowStyle, nestedCellStyles, nestedContent, tableHtml, tableElem;
+                inputField, i, isFramed, tableWidth, trWidth, spaceTop, spaceBottom, tdWidth, tableAttr,
+                tableCellAttr, nested, nestedStyle, nestedRowStyle, nestedCellStyles, nestedContent, tableHtml, tableElem;
 
             // read inserted values 
             for (i = 0; i < cols; i++) {
@@ -185,8 +181,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             spaceBottom = spaceBtwRows - spaceTop; // padding-bottom 
             tdWidth = columnWidths(trWidth - 2 * borderWidthRow, colWidths); // array of column widths
 
-
+            // prepare objects useful in what follows
             table = new Table();
+            tableAttr = new TableAttributes();
             tableStyle = new TableStyle();
             rowStyle = new TableRowStyle();
             contentLine = [];
@@ -194,9 +191,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
             tableStyle.setWidth(tableWidth);
-            // tableStyle["border-spacing"] = '0px 2px';
-
             rowStyle.setWidth(trWidth);
+            tableAttr['data-marker'] = 'table';
+            table.attributes = tableAttr;
+
             for (i = 0; i < cols; i++) {
                 contentLine.push(new Content("-"));
                 tableCellAttr = new TableCellStyle();

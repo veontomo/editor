@@ -74,7 +74,8 @@ var setMinMaxWidth = function (obj, w) {
 }; 
 
 /**
-* Style object. To be used as inline style of html tags
+* Style object. To be used as inline style of html tags. 
+* @example 	<... style="width: 100px; color: red;">
 */
 function Style() {
 	"use strict"; 
@@ -89,6 +90,7 @@ function Style() {
 
 /**
 * Attribute object. To be used as inline attributes of html tags
+* @example 	<... class="example" id="tag" ... >
 */
 function Attributes() {
 	"use strict";
@@ -374,6 +376,7 @@ function Row() {
 
 /** 
 * Table. The table rows should have the same number of cells.
+* @property 	attributes 	Object 		table attributes
 * @property 	style 		Object 		table styles
 * @property 	rowStyle 	Object 		the style of each row of the table
 * @property 	rowAttrs 	Object 		Attributes object representing the attributes of each row

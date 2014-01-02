@@ -15,14 +15,12 @@
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="js/test.js"></script>
 	<title>Creatore di newsletter</title>
-
-	<?php
-	require 'php/fileContent.php';
-	if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']) && ($_FILES['fileInput']['error'] === 0)){
-		$fileContent = fileContent(file_get_contents($_FILES['fileInput']['tmp_name']));
-
-	}
-	?>
+<?php
+require 'php/fileContent.php';
+if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']) && ($_FILES['fileInput']['error'] === 0)){
+	$fileContent = fileContent(file_get_contents($_FILES['fileInput']['tmp_name']));
+}
+?>
 </head>
 <body>
 	<article class="algorithm">
