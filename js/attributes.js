@@ -5,9 +5,9 @@
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @param   obj     Object     
- * @param 	unit 	String|null 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
- * @return 			String 			a concatenation of substrings; each substring is of this format: "attribute: value;".
+ * @param   {Object}     	obj  	an object which string reperesentation should be generated.   
+ * @param 	{String|null} 	unit 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
+ * @return 	{String}		a concatenation of substrings; each substring is of this format: "attribute: value;".
  * @example "padding: 0px;margin: 10px;color: #ababab;"
  */
 var toString = function (obj, unit) {
@@ -35,8 +35,8 @@ var toString = function (obj, unit) {
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @param   obj     Object     
- * @return 			String 			a union of substrings; each substring is of this format: 'attribute="value"', btw the substrings there is a separator ' '.
+ * @param   {Object}    obj     
+ * @return 	{String} 	String 			a union of substrings; each substring is of this format: 'attribute="value"', btw the substrings there is a separator ' '.
   */
 var toString2 = function (obj) {
 		"use strict";
@@ -57,9 +57,9 @@ var toString2 = function (obj) {
 
 /**
  * Sets width, min-width and max-width of the object.
- * @param 	obj 	Object 		object which width is to be set.
- * @param 	w 		mixed		width value
- * @return void
+ * @param 	{Object} 	obj 		object which width is to be set.
+ * @param 	{mixed} 	w			width value
+ * @return 	{void}
  */
 var setMinMaxWidth = function (obj, w) {
 	"use strict";
@@ -76,6 +76,7 @@ var setMinMaxWidth = function (obj, w) {
 /**
 * Style object. To be used as inline style of html tags. 
 * @example 	<... style="width: 100px; color: red;">
+* @method {String} 	toString 	string representation of the Style
 */
 function Style() {
 	"use strict"; 
@@ -233,9 +234,9 @@ ListItemStyle.prototype.toString = new Style();
 
 /**
  * Content class.
- * @param 		str 		String 		a sring that will be inserted by default in the array "elements".
- * @property 	elements 	Array 		array of objects or strings
- * @method 		String 		toHtml()	string representation of the class. Each element should respond to 'toHtml' method.
+ * @param 		{String} 	str 		a sring that will be inserted by default in the array "elements".
+ * @property 	{Array} 	elements 	array of objects or strings
+ * @method 		{String} 	toHtml()	string representation of the class. Each element should respond to 'toHtml' method.
  */
 
 function Content(str) {
@@ -271,10 +272,10 @@ function Content(str) {
 
 /**
  * Table cell. It is completely characterized by its styles.
- * @property 	style 				Object 	TableCellAttribute
- * @property 	attributes 			Object 	Attributes
- * @property 	content 			Object 	content of the cell.
- * @method 		toHtml() 			String 	html representation of the element
+ * @property 	{Object} 		style 		TableCellAttribute
+ * @property 	{Object} 		attributes 	Attributes
+ * @property 	{Object} 		content 	content of the cell.
+ * @method 		{String}		toHtml() 	html representation of the element
  */
 
 function Cell() {
@@ -297,19 +298,20 @@ function Cell() {
 
 /** 
  * Table row. Contains style attribute and array of table cells.
- * @property 	style 				Object 						the row Style
- * @property 	attributes 			Object 						Attributes
- * @property 	cellStyles 			Array 						array of TableCellAttribute instances
- * @property 	content 			Array 						array of Content instances
- * @method 		String 				width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
- * @method 		String 				toHtml() 					html representation of the element
- * @method 		Integer				numOfCells() 				the number of cells in the row
- * @method 		Array				cells 						array of Cell instances. "style" property of each element is equal to the corresp. element of "cellStyles" of this instance,
- * and "content" property is equal to the corresp. elem of "content" if this instance.
- * @method 		Object|null 		dropCell(Number) 			removes the element from the array of the cells
- * @method  	void				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
+ * @property 	{Object} 			style 						styles of the row
+ * @property 	{Object} 			attributes					attributes of the row
+ * @property 	{Array} 			cellStyles					array of TableCellAttribute instances
+ * @property 	{Array} 			cellAttrs 					array of Attributes() corresponding to each cell of the row
+ * @property 	{Array} 			content 					array of Content instances
+ * @method 		{String} 			width() 					gets the width of the row from the style attribute. If not set, empty string is returned.
+ * @method 		{String} 			toHtml() 					html representation of the element
+ * @method 		{Integer}			numOfCells() 				the number of cells in the row
+ * @method 		{Array}				cells()						array of Cell instances. "style", "attributes" and "content" property of each element is equal 
+ * to the corresp. element of "cellStyles", "cellAttrs" and "content" of this instance.
+ * @method 		{Object|null} 		dropCell(Number) 			removes the element from the array of the cells
+ * @method  	{void}				insertCell(Object, Number)	inserts cell into the given position of the row. If the position is not a valid index, then
  * the cell will be appended to the end of cell array.
- * @method  	void				appendCell(Object)			appends the cell to the row cells
+ * @method  	{void}				appendCell(Object)			appends the cell to the row cells
  */
 function Row() {
 	"use strict";
@@ -318,6 +320,8 @@ function Row() {
 	}
 	this.attributes = new Attributes();
 	this.style = new TableRowStyle();
+	this.cellAttrs = [];
+
 	this.content = [];
 
 	this.width = function () {
@@ -347,6 +351,7 @@ function Row() {
 			cell = new Cell();
 			cell.style = this.cellStyles[i];
 			cell.content = this.content[i];
+			cell.attributes = this.cellAttrs[i];
 			output.push(cell);
 		}
 		return output;
@@ -376,20 +381,20 @@ function Row() {
 
 /** 
 * Table. The table rows should have the same number of cells.
-* @property 	attributes 	Object 		table attributes
-* @property 	style 		Object 		table styles
-* @property 	rowStyle 	Object 		the style of each row of the table
-* @property 	rowAttrs 	Object 		Attributes object representing the attributes of each row
-* @property 	cellAttrs 	Array 		array of Attributes objects, each representing the attributes of of the cell.
-* @property 	cellStyles 	Array 		each element of the array is a cell style object
-* @property 	content 	Array 		two-dimensional array. Each element of the array is an instance of Content().
-* @method 		Number 		numOfCols()	the number of columns in the first row. It is retrieved from the property "content".
-* @method 		Number 		numOfRows()	the number of table rows. It is retrieved from the property "content".
-* @method 		Array 		rows() 		array, each element of which is an instance of Row, which "style" property is equal to "rowStyle" one of this instance, 
+* @property 	{Object} 	attributes 		table attributes
+* @property 	{Object} 	style 		table styles
+* @property 	{Object} 	rowStyle 		the style of each row of the table
+* @property 	{Object} 	rowAttr 		Attributes object representing the attributes of each row
+* @property 	{Array} 	cellAttrs 		array of Attributes objects, each representing the attributes of of the cell.
+* @property 	{Array} 	cellStyles 		each element of the array is a cell style object
+* @property 	{Array} 	content 		two-dimensional array. Each element of the array is an instance of Content().
+* @method 		{Number} 	numOfCols()	the number of columns in the first row. It is retrieved from the property "content".
+* @method 		{Number} 	numOfRows()	the number of table rows. It is retrieved from the property "content".
+* @method 		{Array} 	rows() 		array, each element of which is an instance of Row, which "style" property is equal to "rowStyle" one of this instance, 
 * "cellStyles" is equal to "cellStyles" of this instance, "content" is equal to corresponding sub-element of "content" of this instance.
-* @method 		Boolean 	isRegular 	true, if each element of the property "content" contains arrays of the same length. False otherwise.
-* @method 		Number 		width()		table width. It is retrieved from the "style" property.
-* @method 		String 		toHtml() 	html representation of the table
+* @method 		{Boolean} 	isRegular 	true, if each element of the property "content" contains arrays of the same length. False otherwise.
+* @method 		{Number} 	width()		table width. It is retrieved from the "style" property.
+* @method 		{String} 	toHtml() 	html representation of the table
 */
 function Table() {
 	"use strict";
@@ -399,6 +404,8 @@ function Table() {
 	this.attributes = new TableAttributes();
 	this.style = new TableStyle();
 	this.rowStyle = new TableRowStyle();
+	this.rowAttr = new Attributes();
+	this.cellAttrs = [];
 	this.cellStyles = [];
 	this.content = [];
 	this.numOfCols = function () {
@@ -430,6 +437,7 @@ function Table() {
 			row = new Row();
 			row.style = this.rowStyle;
 			row.cellStyles = this.cellStyles;
+			row.attributes = this.rowAttr;
 			row.content = this.content[i];
 			output.push(row);
 		}

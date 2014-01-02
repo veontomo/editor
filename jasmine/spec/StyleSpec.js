@@ -533,6 +533,10 @@ describe('Table-related code', function() {
             table1cell1Style = new TableCellStyle(),
             table1cell2Style = new TableCellStyle(),
             table1cell3Style = new TableCellStyle(),
+            table1cell1Attr = new Attributes(),
+            table1cell2Attr = new Attributes(),
+            table1cell3Attr = new Attributes(),
+
             table1content1 = new Content(),
             table1content2 = new Content(),
             table1content3 = new Content();
@@ -561,6 +565,17 @@ describe('Table-related code', function() {
             return 'third cell style';
         });
 
+        spyOn(table1cell1Attr, 'toString').andCallFake(function(){
+            return 'first cell attr';
+        });
+        spyOn(table1cell2Attr, 'toString').andCallFake(function(){
+            return 'second cell attr';
+        });
+        spyOn(table1cell3Attr, 'toString').andCallFake(function(){
+            return 'third cell attr';
+        });
+
+
         table1content1.elements.push('content of cell 1');
         table1content2.elements.push('content of cell 2');
         table1content3.elements.push('content of cell 3');
@@ -568,6 +583,7 @@ describe('Table-related code', function() {
         table1.style = table1Style;
         table1.rowStyle = table1rowStyle;
         table1.cellStyles = [table1cell1Style, table1cell2Style, table1cell3Style];
+        table1.cellAttrs = [table1cell1Attr, table1cell2Attr, table1cell3Attr];
         table1.content = [[table1content1, table1content2, table1content3]];
         expect(table1.toHtml()).toEqual('<table first-table-attributes style="first table style"><tbody><tr style="first row style"><td style="first cell style">content of cell 1</td><td style="second cell style">content of cell 2</td><td style="third cell style">content of cell 3</td></tr></tbody></table>');
     });
