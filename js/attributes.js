@@ -366,7 +366,6 @@ function Row() {
 		}
 		htmlRow += '</tr>';
 		return htmlRow;
-
 	};
 }
 /** 
@@ -391,69 +390,35 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
-	this.attributes = new TableAttributes();
+	this.attr = new TableAttributes();
 	this.style = new TableStyle();
-	this.rowStyle = new TableRowStyle();
-	this.rowAttr = new Attributes();
-	this.cellAttrs = [];
-	this.cellStyles = [];
-	this.content = [];
-	this.numOfCols = function () {
-		return this.content[0].length;
-	};
-	this.numOfRows = function () {
-		return this.content.length;
+	this.rows = [];
+
+	// is it all worth it?!
+	this.styleProperty = function (prop) {
+		return getProperty(this.style, prop);
 	};
 
-	this.isRegular = function () {
-		var isAllArrays, firstRowLength;
-		// check if each element is an array
-		isAllArrays = this.content.every(function (elem) {
-			return Array.isArray(elem);
-		});
-		if (!isAllArrays) {
-			return false;
-		}
-		firstRowLength = this.content[0].length;
-		return this.content.every(function (arr) {
-			return arr.length === firstRowLength;
-		});
+	// insert the width parameter inside the Attribute and Style properties
+	this.setWidth = function(w){
+		setMinMaxWidth(this.style, w);
+		this.attr.width = w;
 	};
 
-	this.rows = function () {
-		var i, row, output = [],
-			len = this.numOfRows();
-		for (i = 0; i < len; i++) {
-			row = new Row();
-			row.style = this.rowStyle;
-			row.cellStyles = this.cellStyles;
-			row.attributes = this.rowAttr;
-			row.content = this.content[i];
-			output.push(row);
-		}
-		return output;
-	};
-
-	this.attributesString = function(){
-		var width = this.style.width,
-			ta = this.attributes;
-		ta.width = width;
-		return ta.toString();
-	};
-
+	
 	this.toHtml = function () {
-		var output, len, i,
-			tableTag = 'table';
-		output = '<' + tableTag + ' ' + this.attributesString() + ' style="' + this.style.toString() + '"><tbody>';
-		len = this.rows().length;
-		for (i = 0; i < len; i++) {
-			output += this.rows()[i].toHtml();
+		var i, tableAttr, tableStyle, htmlTable, styleStr, attrStr, rowsNumber;
+		tableAttr = this.attr.toString();
+		tableStyle = this.style.toString();
+		attrStr = tableAttr.trim() ? ' ' + tableAttr : '';
+		styleStr = tableStyle.trim() ? ' style="' + tableStyle + '"' : '';
+		htmlTable = '<table' + attrStr + styleStr + '>';
+		rowsNumber = this.rows.length;
+		for (i = 0; i < rowsNumber; i++) {
+			htmlTable += this.rows[i].toHtml();
 		}
-		output += '</tbody></' + tableTag + '>';
-		return output;
+		htmlTable += '</table>';
+		return htmlTable;
 	};
 
-	this.width = function () {
-		return this.style.hasOwnProperty('width') ? this.style.width : '';
-	};
 }

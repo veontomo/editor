@@ -365,7 +365,114 @@ describe('Row-related functionality', function(){
     });
 });
 
+describe('Table-related code', function(){
+    var table = new Table(),
+        tableAttr = new Attributes(),
+        tableStyle = new TableStyle(),
+        row1 = new Row(),
+        row2 = new Row(),
+        row3 = new Row();
+    
+    it('retrieves property of type "string" from the style', function() {
+         tableStyle['a property'] = 'table property value';
+         table.style = tableStyle;
+         expect(table.styleProperty('a property')).toEqual('table property value');
+     });
 
+     it('retrieves property of type "Number" from the style', function() {
+         tableStyle['a-property'] = 12.6;
+         table.style = tableStyle;
+         expect(table.styleProperty('a-property')).toEqual(12.6);
+     });
+
+     it('retrieves non-existing property from the style', function() {
+         if (tableStyle.hasOwnProperty('row property')) {
+             delete tableStyle['row property'];
+         }
+         table.style = tableStyle;
+         expect(table.styleProperty('row property')).not.toBeDefined();
+     });
+
+     it('sets the width of the row', function(){
+         table.setWidth(15);
+         expect(table.styleProperty('width')).toEqual(15);
+         expect(table.styleProperty('min-width')).toEqual(15);
+         expect(table.styleProperty('max-width')).toEqual(15);
+         expect(table.attr.width).toEqual(15);
+     });
+
+     it('generates html code of the row if attributes and styles are not empty', function(){
+         spyOn(row1, 'toHtml').andCallFake(function(){
+             return 'row 1 ';
+         });
+         spyOn(row2, 'toHtml').andCallFake(function(){
+             return 'row 2 html ';
+         });
+         spyOn(row3, 'toHtml').andCallFake(function(){
+             return 'row 3 content';
+         });
+
+         spyOn(tableAttr, 'toString').andCallFake(function(){
+             return 'table attributes';
+         });
+         spyOn(tableStyle, 'toString').andCallFake(function(){
+             return 'table styles';
+         });
+         table.attr = tableAttr;
+         table.style = tableStyle;
+         table.rows = [row1, row2, row3];
+         expect(table.toHtml()).toEqual('<table table attributes style="table styles">row 1 row 2 html row 3 content</table>');
+     });
+
+
+     it('generates html code of the row if attribute is empty', function(){
+         spyOn(row1, 'toHtml').andCallFake(function(){
+             return 'row 1 ';
+         });
+         spyOn(row2, 'toHtml').andCallFake(function(){
+             return 'row 2 html ';
+         });
+         spyOn(row3, 'toHtml').andCallFake(function(){
+             return 'row 3 content';
+         });
+
+         spyOn(tableAttr, 'toString').andCallFake(function(){
+             return '';
+         });
+         spyOn(tableStyle, 'toString').andCallFake(function(){
+             return 'table styles';
+         });
+         table.attr = tableAttr;
+         table.style = tableStyle;
+         table.rows = [row1, row2, row3];
+         expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
+     });
+
+     it('generates html code of the row if style is empty', function(){
+         spyOn(row1, 'toHtml').andCallFake(function(){
+             return 'row 1 ';
+         });
+         spyOn(row2, 'toHtml').andCallFake(function(){
+             return 'row 2 html ';
+         });
+         spyOn(row3, 'toHtml').andCallFake(function(){
+             return 'row 3 content';
+         });
+
+         spyOn(tableAttr, 'toString').andCallFake(function(){
+             return 'table attributes';
+         });
+         spyOn(tableStyle, 'toString').andCallFake(function(){
+             return '';
+         });
+         table.attr = tableAttr;
+         table.style = tableStyle;
+         table.rows = [row1, row2, row3];
+         expect(table.toHtml()).toEqual('<table table attributes>row 1 row 2 html row 3 content</table>');
+     });
+
+     
+});
 
 // describe('Row-related code', function() {
 //     var row;
