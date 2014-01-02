@@ -167,20 +167,39 @@ describe('Content', function() {
 
 
 describe('Cell-related code', function() {
-    var cell, 
-        cellStyle = new TableCellStyle, 
-        cellAttr = new Attributes(), 
-        cellContent = new Content();
+    var cell, cellStyle, cellAttr, cellContent;
 
     beforeEach(function() {
         cell = new Cell();
+        cellStyle = new TableCellStyle(), 
+        cellAttr = new Attributes(), 
+        cellContent = new Content();
+
+    });
+
+    afterEach(function() {
+        delete cell, cellStyle, cellAttr, cellContent;
     });
 
 
-    it('retrieves the width from the style property', function() {
-        cellStyle.width = 'cell width';
+    it('retrieves property of type "string" from the style', function() {
+        cellStyle['a property'] = 'cell property value';
         cell.style = cellStyle;
-        expect(cell.width()).toEqual('cell width');
+        expect(cell.styleProperty('a property')).toEqual('cell property value');
+    });
+
+    it('retrieves property of type "Number" from the style', function() {
+        cellStyle['a-property'] = 12.6;
+        cell.style = cellStyle;
+        expect(cell.styleProperty('a-property')).toEqual(12.6);
+    });
+
+    it('retrieves non-existing property from the style', function() {
+        if (cellStyle.hasOwnProperty('cell property')) {
+            delete cellStyle['cell property'];
+        }
+        cell.style = cellStyle;
+        expect(cell.styleProperty('cell property')).not.toBeDefined();
     });
 
     it('sets the width of the cell', function(){
@@ -189,10 +208,15 @@ describe('Cell-related code', function() {
         expect(cell.style.width).toEqual(10);
         expect(cell.style['min-width']).toEqual(10);
         expect(cell.style['max-width']).toEqual(10);
-    })
+
+        cell.setWidth(0.992);
+        expect(cell.attr.width).toEqual(0.992);
+        expect(cell.style.width).toEqual(0.992);
+        expect(cell.style['min-width']).toEqual(0.992);
+        expect(cell.style['max-width']).toEqual(0.992);
+    });
 
     it('generates html code of the cell', function(){
-
         spyOn(cellStyle, 'toString').andCallFake(function(){
             return 'cell style';
         });
@@ -206,38 +230,7 @@ describe('Cell-related code', function() {
         cell.style = cellStyle;
         cell.content = cellContent;
         expect(cell.toHtml()).toEqual('<td cell attributes style="cell style">cell content</td>');
-
     });
-
-    // it('gets html representation of the cell', function() {
-    //     var cellAttr = new Attributes(),
-    //         content;
-    //     cellStyle.dummyAttr = "it has to be ignored";
-    //     spyOn(cellStyle, 'toString').andCallFake(function() {
-    //         return 'stub for styles';
-    //     });
-    //     spyOn(cell, 'width').andCallFake(function() {
-    //         return 'stub for width';
-    //     });
-    //     spyOn(cellAttr, 'toString').andCallFake(function() {
-    //         return 'cell attribute';
-    //     });
-
-    //     cell.style = cellStyle;
-    //     cell.attributes = cellAttr;
-    //     cell.content = new Content();
-    //     expect(cell.toHtml()).toEqual('<td cell attribute style="stub for styles"></td>');
-    //     expect(cellAttr.toString).toHaveBeenCalled();
-
-
-    //     content = new Content();
-    //     cell.content = content;
-    //     spyOn(content, 'toHtml').andCallFake(function() {
-    //         return 'content';
-    //     });
-    //     expect(cell.toHtml()).toEqual('<td cell attribute style="stub for styles">content</td>');
-    // });
-
 });
 
 

@@ -271,7 +271,7 @@ function Content(str) {
 
 
 /**
- * Table cell. It is completely characterized by its styles.
+ * Table cell.
  * @property 	{Object} 			style 		TableCellAttribute
  * @property 	{Object} 			attr 		Attributes
  * @property 	{Object} 			content 	content of the cell.
@@ -286,14 +286,16 @@ function Cell() {
 	}
 	this.attr = new Attributes();
 	this.style = new TableCellStyle();
-	this.width = function () {
-		return this.style.width;
+	this.content = new Content();
+	this.styleProperty = function (prop) {
+		return this.style[prop];
 	};
+	// insert the width parameter inside the Attribute and Style properties
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	}
-	this.content = new Content();
+
 	this.toHtml = function () {
 		var attr = this.attr.toString();
 		attr = attr ? (attr + ' ') : '';
@@ -302,7 +304,7 @@ function Cell() {
 }
 
 /** 
- * Table row. Contains style attribute and array of table cells.
+ * Table row.
  * @property 	{Object} 			style 						styles of the row
  * @property 	{Object} 			attributes					attributes of the row
  * @property 	{Array} 			cellStyles					array of TableCellAttribute instances
