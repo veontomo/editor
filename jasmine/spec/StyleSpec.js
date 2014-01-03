@@ -244,7 +244,7 @@ describe('Cell-related functionality', function() {
         expect(cell.style['max-width']).toEqual(0.992);
     });
 
-    it('generates html code of the cell', function(){
+    it('generates html code of the cell if both attributes and styles are present', function(){
         spyOn(cellStyle, 'toString').andCallFake(function(){
             return 'cell style';
         });
@@ -259,6 +259,40 @@ describe('Cell-related functionality', function() {
         cell.content = cellContent;
         expect(cell.toHtml()).toEqual('<td cell attributes style="cell style">cell content</td>');
     });
+
+    it('generates html code of the cell there are no attributes', function(){
+        spyOn(cellStyle, 'toString').andCallFake(function(){
+            return 'cell style';
+        });
+        spyOn(cellAttr, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(cellContent, 'toHtml').andCallFake(function(){
+            return 'cell content';
+        });
+        cell.attr = cellAttr;
+        cell.style = cellStyle;
+        cell.content = cellContent;
+        expect(cell.toHtml()).toEqual('<td style="cell style">cell content</td>');
+    });
+
+    it('generates html code of the cell there are no styles', function(){
+        spyOn(cellStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(cellAttr, 'toString').andCallFake(function(){
+            return 'cell attributes';
+        });
+        spyOn(cellContent, 'toHtml').andCallFake(function(){
+            return 'cell content';
+        });
+        cell.attr = cellAttr;
+        cell.style = cellStyle;
+        cell.content = cellContent;
+        expect(cell.toHtml()).toEqual('<td cell attributes>cell content</td>');
+    });
+
+
 });
 
 describe('Row-related functionality', function(){

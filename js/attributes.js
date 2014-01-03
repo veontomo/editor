@@ -318,9 +318,17 @@ function Cell() {
 	};
 
 	this.toHtml = function () {
-		var attr = this.attr.toString();
-		attr = attr ? (attr + ' ') : '';
-		return '<td ' + attr + 'style="' + this.style.toString() + '">' + this.content.toHtml() + '</td>';
+		var tag = 'td',
+			cellHtml, 
+			attr = this.attr.toString(),
+			style = this.style.toString();
+		if (style){
+			style = 'style="' + style + '"';
+		}
+		cellHtml = '<' + [tag, attr, style].join(' ').replace(/\s+/g, ' ').trim() + '>' ;
+		cellHtml += this.content.toHtml();
+		cellHtml += '</' + tag + '>';
+		return cellHtml;
 	};
 }
 
@@ -354,17 +362,19 @@ function Row() {
 	};
 
 	this.toHtml = function () {
-		var i, rowAttr, rowStyle, htmlRow, styleStr, attrStr, cellsNumber;
+		var i, rowAttr, rowStyle, htmlRow, cellsNumber,
+			tag = 'tr';
 		rowAttr = this.attr.toString();
 		rowStyle = this.style.toString();
-		attrStr = rowAttr.trim() ? ' ' + rowAttr : '';
-		styleStr = rowStyle.trim() ? ' style="' + rowStyle + '"' : '';
-		htmlRow = '<tr' + attrStr + styleStr + '>';
+		if (rowStyle){
+			rowStyle = 'style="' + rowStyle.trim() + '"';
+		}
+		htmlRow = '<' + [tag, rowAttr, rowStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
 		cellsNumber = this.cells.length;
 		for (i = 0; i < cellsNumber; i++) {
 			htmlRow += this.cells[i].toHtml();
 		}
-		htmlRow += '</tr>';
+		htmlRow += '</' + tag + '>';
 		return htmlRow;
 	};
 }
@@ -407,18 +417,19 @@ function Table() {
 
 	
 	this.toHtml = function () {
-		var i, tableAttr, tableStyle, htmlTable, styleStr, attrStr, rowsNumber;
+		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
+			tag = 'table';
 		tableAttr = this.attr.toString();
 		tableStyle = this.style.toString();
-		attrStr = tableAttr.trim() ? ' ' + tableAttr : '';
-		styleStr = tableStyle.trim() ? ' style="' + tableStyle + '"' : '';
-		htmlTable = '<table' + attrStr + styleStr + '>';
+		if (tableStyle){
+			tableStyle = 'style="' + tableStyle + '"';
+		}
+		htmlTable = '<' + [tag, tableAttr, tableStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
 		rowsNumber = this.rows.length;
 		for (i = 0; i < rowsNumber; i++) {
 			htmlTable += this.rows[i].toHtml();
 		}
-		htmlTable += '</table>';
+		htmlTable += '</' + tag + '>';
 		return htmlTable;
 	};
-
 }
