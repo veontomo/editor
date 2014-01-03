@@ -482,13 +482,14 @@ function Content(str) {
 
 
 /**
- * Represents a table cell.
+ * Represents a table cell. The argument is supposed to be passed to the &quot;content&quot; property.
+ * @param {mixed} arg 
  * @class  Cell
  */
-function Cell() {
+function Cell(arg) {
 	&quot;use strict&quot;;
 	if (!(this instanceof Cell)) {
-		return new Cell();
+		return new Cell(arg);
 	}
 	/**
 	 * Attributes of the cell. 
@@ -510,7 +511,7 @@ function Cell() {
 	 * @type {Content}
 	 * @default Content
 	 */
-	this.content = new Content();
+	this.content = new Content(arg);
 	/**	
 	 * Retrieves the value of property from the &quot;style&quot;
 	 * @method styleProperty

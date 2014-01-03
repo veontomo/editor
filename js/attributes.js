@@ -378,13 +378,14 @@ function Content(str) {
 
 
 /**
- * Represents a table cell.
+ * Represents a table cell. The argument is supposed to be passed to the "content" property.
+ * @param {mixed} arg 
  * @class  Cell
  */
-function Cell() {
+function Cell(arg) {
 	"use strict";
 	if (!(this instanceof Cell)) {
-		return new Cell();
+		return new Cell(arg);
 	}
 	/**
 	 * Attributes of the cell. 
@@ -406,7 +407,7 @@ function Cell() {
 	 * @type {Content}
 	 * @default Content
 	 */
-	this.content = new Content();
+	this.content = new Content(arg);
 	/**	
 	 * Retrieves the value of property from the "style"
 	 * @method styleProperty
@@ -416,7 +417,6 @@ function Cell() {
 	this.styleProperty = function (prop) {
 		return getProperty(this.style, prop);
 	};
-	
 	/**
 	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well. 
 	 * It is better to use with an integer argument.

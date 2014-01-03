@@ -1,4 +1,5 @@
-/*global CKEDITOR, Unit, Table, columnWidths, Table, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, 
+TableCellStyle, Content, TableAttributes, NEWSLETTER
 */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
     var INPUTCOLWIDTHNAME = 'widthCol',
@@ -126,7 +127,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                     type: 'text',
                     label: 'Bordo attorno alle righe',
                     width: "40%",
-                    id: 'borderWidthRow',
+                    id: 'nestedBorderWidth',
                     "default": "0"
                 }, {
                     type: 'text',
@@ -154,101 +155,81 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
                 cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
                 borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
-                borderWidthRow = parseInt(dialog.getValueOf('info', 'borderWidthRow'), 10),
+                nestedBorderWidth = parseInt(dialog.getValueOf('info', 'nestedBorderWidth'), 10),
                 spaceBtwRows = parseInt(dialog.getValueOf('info', 'spaceBtwRows'), 10),
             
             // variables to be used in what follows
-                table, tableStyle, rowStyle,
-                contentLine = [],
-                cellStyles = [],
-                colWidths = [],
-                inputField, i, isFramed, tableWidth, trWidth, spaceTop, spaceBottom, tdWidth, tableAttr,
-                tableCellAttr, nested, nestedStyle, nestedRowStyle, nestedCellStyles, nestedContent, tableHtml, tableElem;
+                i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, isFramed, inputField, cellWeights, row, cell, cells,
+                nestedTable, nestedRow, nestedRowWidth, nestedCell, nestedTableStyle;
 
             // read inserted values 
+            cellWeights = [];
             for (i = 0; i < cols; i++) {
                 // in fact, this check is needed only when the user does not change the default number of the table rows
                 inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
-                colWidths[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
+                cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
             }
 
-            isFramed = borderWidthRow > 0; // whether each row should be framed
+            isFramed = nestedBorderWidth > 0; // whether each row should be framed
 
             // calculating widths
-            tableWidth = parentWidth().value; // the width in px
-            trWidth = tableWidth - 2 * borderWidth;
+            tableWidth = Math.min(parentWidth().value, NEWSLETTER.width); // integer, the width in px
+            rowWidth = tableWidth - 2 * borderWidth;
             spaceTop = parseInt(spaceBtwRows / 2, 10); // padding-top for the rows (cast to integer)
             spaceBottom = spaceBtwRows - spaceTop; // padding-bottom 
-            tdWidth = columnWidths(trWidth - 2 * borderWidthRow, colWidths); // array of column widths
+            cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
+
 
             // prepare objects useful in what follows
             table = new Table();
-            tableAttr = new TableAttributes();
-            tableStyle = new TableStyle();
-            rowStyle = new TableRowStyle();
-            contentLine = [];
-            cellStyles = [];
+            table.setWidth(tableWidth);
+            table.attr['data-marker'] = 'table';
 
+            // creating a row
+            row = new Row();
+            row.setWidth(rowWidth);
+            row.attr['data-marker'] = 'row';
 
-            tableStyle.setWidth(tableWidth);
-            rowStyle.setWidth(trWidth);
-            tableAttr['data-marker'] = 'table';
-            table.attributes = tableAttr;
-
-            for (i = 0; i < cols; i++) {
-                contentLine.push(new Content("-"));
-                tableCellAttr = new TableCellStyle();
-                tableCellAttr.setWidth(tdWidth[i]);
-                cellStyles.push(tableCellAttr);
-            }
-
-            if (borderWidth > 0) {
-                tableStyle['border-width'] = borderWidth;
-                tableStyle['border-color'] = '#000000';
-            }
-
-
-            if (isFramed) {
-                table.cellStyles = [rowStyle];
-                // setting props of the nested table
-                nested = new Table();
-                nestedStyle = new TableStyle();
-                nestedStyle["border-width"] = borderWidthRow;
-                nestedStyle["border-color"] = "#000000";
-                nestedStyle.setWidth(trWidth);
-                nestedStyle["margin-top"] = spaceTop;
-                nestedStyle["margin-bottom"] = spaceBottom;
-
-                nestedRowStyle = new TableRowStyle();
-                nestedRowStyle.setWidth(trWidth - 2 * borderWidthRow);
-                nestedRowStyle["border-width"] = borderWidthRow;
-                nestedRowStyle["border-color"] = "#000000";
-                nestedCellStyles = cellStyles;
-                nestedContent = contentLine;
-
-                nested.style = nestedStyle;
-                nested.rowStyle = nestedRowStyle;
-                nested.cellStyles = nestedCellStyles;
-                nested.content.push(nestedContent);
-
-                for (i = 0; i < rows; i++) {
-                    table.content.push([nested]);
+            if(!isFramed){
+                for(i = 0; i < cols; i++){
+                    cell = new Cell('cell');
+                    cell.setWidth(cellWidths[i]);
+                    row.cells.push(cell);
                 }
             } else {
-                rowStyle["margin-top"] = spaceTop;
-                rowStyle["margin-bottom"] = spaceBottom;
-                table.cellStyles = cellStyles;
-                for (i = 0; i < rows; i++) {
-                    table.content.push(contentLine);
+                cell = new Cell();
+                cell.setWidth(rowWidth);
+                nestedTable = new Table();
+                nestedTable.setWidth(cell.styleProperty('width'));
+
+                nestedTableStyle = new TableStyle();
+                nestedTableStyle['border-width'] = nestedBorderWidth;
+                nestedTableStyle['border-color'] = '#000000';
+                nestedTable.style = nestedTableStyle;
+
+                nestedRow = new Row();
+                nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;
+                nestedRow.setWidth(nestedRowWidth);
+
+                for(i = 0; i < cols; i++){
+                    nestedCell = new Cell('nested cell');
+                    nestedCell.setWidth(cellWidths[i]);
+                    nestedRow.cells.push(nestedCell);
                 }
+                nestedTable.rows.push(nestedRow);
+                cell.content.elements.push(nestedTable);
+                row.cells.push(cell);
             }
 
-            table.style = tableStyle;
-            table.rowStyle = rowStyle;
+            // duplicating the row
+            for(i = 0; i < rows; i++){
+                table.rows.push(row);
+            }
 
-            tableHtml = table.toHtml();
 
-            tableElem = CKEDITOR.dom.element.createFromHtml(tableHtml);
+            
+
+            tableElem = CKEDITOR.dom.element.createFromHtml(table.toHtml());
             editor.insertElement(tableElem);
 
             // assigning events 

@@ -259,6 +259,30 @@ describe('Cell-related functionality', function() {
         expect(cell.style['max-width']).toEqual(0.992);
     });
 
+
+    it('fills "content" property with the arguments passed to the constructor', function(){
+        cell = new Cell();
+        expect(cell.content.elements).toEqual([]);
+
+        cell = new Cell(10.21);
+        expect(cell.content.elements).toEqual([10.21]);
+
+        cell = new Cell("a string");
+        expect(cell.content.elements).toEqual(["a string"]);
+
+        cell = new Cell({});
+        expect(cell.content.elements).toEqual([{}]);
+
+        cell = new Cell({'prop': 'val'});
+        expect(cell.content.elements).toEqual([{'prop': 'val'}]);
+
+        cell = new Cell([]);
+        expect(cell.content.elements).toEqual([[]]);
+
+    });
+
+
+
     it('generates html code of the cell if both attributes and styles are present', function(){
         spyOn(cellStyle, 'toString').andCallFake(function(){
             return 'cell style';

@@ -126,7 +126,14 @@
             "extension_for": [],
             "file": "attributes.js",
             "line": 380,
-            "description": "Represents a table cell."
+            "description": "Represents a table cell. The argument is supposed to be passed to the \"content\" property.",
+            "params": [
+                {
+                    "name": "arg",
+                    "description": "",
+                    "type": "Mixed"
+                }
+            ]
         },
         "Row": {
             "name": "Row",
@@ -137,7 +144,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 451,
+            "line": 452,
             "description": "Represents a table row"
         },
         "Table": {
@@ -149,7 +156,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 525,
+            "line": 526,
             "description": "Represents table."
         }
     },
@@ -409,7 +416,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 389,
+            "line": 390,
             "description": "Attributes of the cell.",
             "itemtype": "property",
             "name": "attr",
@@ -419,7 +426,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 396,
+            "line": 397,
             "description": "Styles of the cell",
             "itemtype": "property",
             "name": "style",
@@ -429,7 +436,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 403,
+            "line": 404,
             "description": "Content of the cell",
             "itemtype": "property",
             "name": "content",
@@ -439,7 +446,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 410,
+            "line": 411,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -458,7 +465,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 420,
+            "line": 421,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -473,7 +480,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 431,
+            "line": 432,
             "description": "Generates cell-specific html code with corresponding attributes and styles",
             "itemtype": "method",
             "name": "toHtml",
@@ -485,7 +492,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 460,
+            "line": 461,
             "description": "Attributes of the row.",
             "itemtype": "property",
             "name": "attr",
@@ -495,7 +502,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 467,
+            "line": 468,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -505,7 +512,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 474,
+            "line": 475,
             "description": "Array of cells belonging to the row.",
             "itemtype": "property",
             "name": "cells  array of Cell instances or empty array",
@@ -515,7 +522,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 482,
+            "line": 483,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -534,7 +541,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 492,
+            "line": 493,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -549,7 +556,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 503,
+            "line": 504,
             "description": "Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -561,7 +568,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 534,
+            "line": 535,
             "description": "Attributes of the table.",
             "itemtype": "property",
             "name": "attr",
@@ -571,7 +578,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 541,
+            "line": 542,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -581,7 +588,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 549,
+            "line": 550,
             "description": "Array of rows constituting the table or empty array",
             "itemtype": "property",
             "name": "rows",
@@ -591,7 +598,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 562,
+            "line": 563,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -610,7 +617,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 573,
+            "line": 574,
             "description": "Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
