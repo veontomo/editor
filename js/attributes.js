@@ -181,13 +181,13 @@ function TextStyle() {
 	/**
 	 * Font size
 	 * @property {String} font-size 	Font size, including unit of measurement
-	 * @default  12px
+	 * @default  "12px"
 	 */
 	this["font-size"] = "12px";
 	/**
 	 * Font color
 	 * @property {String}	color 	Font color
-	 * @default #000000
+	 * @default "#000000"
 	 */
 	this.color = "#000000";
 	/**
@@ -199,24 +199,23 @@ function TextStyle() {
 	/**
 	 * Padding value along with unit of measurement
 	 * @property {String} padding
-	 * @default  0px
+	 * @default  "0px"
 	 */
 	this.padding = "0px";
 	/**
 	 * Margin value along with unit of measurement
 	 * @property {String} margin
-	 * @default  0px
+	 * @default  "0px"
 	 */
-
 	this.margin = "0px";
 }
 TextStyle.prototype = new Style();
 
 /**
+ * Represents hyperlink style.
  * @class  LinkStyle
  * @extends Style
  */
-
 function LinkStyle() {
 	"use strict";
 	if (!(this instanceof LinkStyle)) {
@@ -225,30 +224,109 @@ function LinkStyle() {
 	/**
 	 * Text decoration attribute
 	 * @property {String} text-decoration
-	 * @default  underline
+	 * @default  "underline"
 	 */
 	this["text-decoration"] = "underline";
+
+	/**
+	 * Font size
+	 * @property {String|Integer} font size
+	 * @default 12
+	 */
 	this["font-size"] = 12;
+	/**
+	 * Font color attribute
+	 * @property {String} font color
+	 * @default  "blue"
+	 */
 	this.color = "blue";
-	this["font-weight"] = 0;
+	/**
+	 * Font wieght attribute. See html manuals for possible values.
+	 * @property {String|Integer} font weight
+	 * @default  "normal"
+	 */
+	this["font-weight"] = "normal";
+	/**
+	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding = 0;
+	/**
+	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
 	this.margin = 0;
 }
 LinkStyle.prototype = new Style();
 
+/**
+ * Represents table style.
+ * @class  TableStyle
+ * @extends Style
+ */
 function TableStyle() {
 	"use strict";
 	if (!(this instanceof TableStyle)) {
 		return new TableStyle();
 	}
+	/**
+	 * Color of the border table
+	 * @property {String} border-color
+	 * @default  "rgb(255, 255, 255)"
+	 */
 	this["border-color"] = "rgb(255, 255, 255)";
+	/**
+	 * Style of the border table. See html manuals for possible values.
+	 * @property {String} border-style
+	 * @default  "solid"
+	 */
 	this["border-style"] = "solid";
+	/**
+	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} border-width
+	 * @default  0
+	 */
 	this["border-width"] = 0;
+
+	/**
+	 * Margin of the table. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
 	this.margin 	= 0;
+	/**
+	 * Padding of the table. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding 	= 0;
+	/**
+	 * Table width. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} width
+	 * @default  0
+	 */
 	this.width 		= 0;
+	/**
+	 * Table maximal width. It is supposed to be equal to "width" property.
+	 * @property {String|Number} max-width
+	 * @default  0
+	 */
 	this["max-width"] 	= this.width;
+	/**
+	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * @property {String|Number} min-width
+	 * @default  0
+	 */
 	this["min-width"] 	= this.width;
+
+	/**
+	 * Whether to collapse the table borders or not.
+	 * @deprecated Do not use, because it causes problems in MS Outlook.
+	 * @property {String} border-collapse
+	 * @default  0
+	 */
 	// this['border-collapse'] = 'collapse';
 }
 TableStyle.prototype = new Style();

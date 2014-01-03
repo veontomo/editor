@@ -9,6 +9,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Style",
         "Table",
         "TableAttributes",
+        "TableStyle",
         "TextStyle"
     ],
     "modules": [],
