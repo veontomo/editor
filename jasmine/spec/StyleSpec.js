@@ -159,42 +159,57 @@ describe('Setting the width property of an object', function(){
 });
 
 describe('Content', function() {
-    var content;
+    var content, elem0, elem1, elem2, elem3, htmlContent;
     beforeEach(function() {
+        elem0 = 10.1;
+        elem1 = 'element2';
+        elem2 = {'a dummy method': 1};
+        elem3 = {};
         content = new Content();
+        elem2.toHtml = function(){
+            return 'fake';
+        };
+        spyOn(elem3, 'hasOwnProperty').andCallFake(function(){
+            return false;
+        });
     });
 
     it('gives the number of elements it contains', function() {
         content.elements = [];
         expect(content.length()).toEqual(0);
-
-        content.elements = [1, 2, 'a',
-        {}];
+        content.elements = [elem0, elem1, elem2, elem3];
         expect(content.length()).toEqual(4);
-
-        content.elements = ['a',
-        {
-            id: 'some id'
-        }];
+        content.elements = [elem2, elem1];
         expect(content.length()).toEqual(2);
     });
 
-    it('has toHtml method', function() {
-        var elem0 = 1,
-            elem1 = 'element2',
-            elem2 = {
-                'a dummy method': 1
-            },
-            htmlContent;
+    it('toHtml produces a string', function() {
+        content.elements = [];
+        htmlContent = content.toHtml();
+        expect(typeof htmlContent).toBe('string');
+        expect(htmlContent).toEqual('');
         content.elements = [elem0, elem1];
         htmlContent = content.toHtml();
         expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toEqual('1element2');
-
+        expect(htmlContent).toEqual('10.1element2');
         content.elements = [elem0, elem1, elem2];
         htmlContent = content.toHtml();
         expect(typeof htmlContent).toBe("string");
-        expect(htmlContent.indexOf(elem1) !== -1).toBe(true);
+        expect(htmlContent).toBe('10.1element2fake');
+    });
+
+    it('if one of the elements has no toHtml property', function() {
+        content.elements = [elem1, elem2, elem3];
+        htmlContent = content.toHtml();
+        expect(typeof htmlContent).toBe("string");
+        expect(htmlContent).toBe('element2fake<!-- no html representation -->');
+    });
+
+    it('if "elements" property contains a unique object with no toHtml property', function() {
+        content.elements = [elem3];
+        htmlContent = content.toHtml();
+        expect(typeof htmlContent).toBe("string");
+        expect(htmlContent).toBe('<!-- no html representation -->');
     });
 });
 

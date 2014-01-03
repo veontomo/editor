@@ -254,9 +254,10 @@ ListItemStyle.prototype.toString = new Style();
 
 /**
  * Content class.
- * @param 		{String} 	str 		a sring that will be inserted by default in the array "elements".
+ * @param 		{String} 	str 		a string that will be inserted by default in the array "elements".
  * @property 	{Array} 	elements 	array of objects or strings
- * @method 		{String} 	toHtml()	string representation of the class. Each element should respond to 'toHtml' method.
+ * @method 		{String} 	toHtml()	string representation of the class. If an element of "elements" property is of type Object, it must respond to 'toHtml' method.
+ * @method 		{Integer} 	length()	number of the elements
  */
 
 function Content(str) {
@@ -281,7 +282,7 @@ function Content(str) {
 				output += elem.toString();
 				break;
 			case 'object':
-				output += elem.hasOwnProperty('toHtml') ? elem.toHtml() : ' no string representation for the element! ';
+				output += elem.hasOwnProperty('toHtml') ? elem.toHtml() : '<!-- no html representation -->';
 				break;
 			}
 		}
