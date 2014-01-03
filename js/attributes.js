@@ -289,7 +289,6 @@ function TableStyle() {
 	 * @default  0
 	 */
 	this["border-width"] = 0;
-
 	/**
 	 * Margin of the table. If given as a number, the default measurment unit will be appended.
 	 * @property {String|Number} margin
@@ -331,19 +330,64 @@ function TableStyle() {
 }
 TableStyle.prototype = new Style();
 
+/**
+ * Represents table row style.
+ * @class  TableRowStyle
+ * @extends Style
+ */
 function TableRowStyle() {
 	"use strict";
 	if (!(this instanceof TableRowStyle)) {
 		return new TableRowStyle();
 	}
+	/**
+	 * Color of the border table
+	 * @property {String} border-color
+	 * @default  "rgb(255, 255, 255)"
+	 */
 	this["border-color"] = "rgb(255, 255, 255)";
+	/**
+	 * Style of the border table. See html manuals for possible values.
+	 * @property {String} border-style
+	 * @default  "solid"
+	 */
 	this["border-style"] = "solid";
+	/**
+	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} border-width
+	 * @default  0
+	 */
 	this["border-width"] = 0;
-	this.margin = 0;
-	this.padding = 0;
-	this.width = 0;
-	this["max-width"] = this.width;
-	this["min-width"] = this.width;
+	 /**
+	  * Margin of the table. If given as a number, the default measurment unit will be appended.
+	  * @property {String|Number} margin
+	  * @default  0
+	  */
+	 this.margin 	= 0;
+	 /**
+	  * Padding of the table. If given as a number, the default measurment unit will be appended.
+	  * @property {String|Number} padding
+	  * @default  0
+	  */
+	 this.padding 	= 0;
+	 /**
+	  * Table width. If given as a number, the default measurment unit will be appended.
+	  * @property {String|Number} width
+	  * @default  0
+	  */
+	 this.width 		= 0;
+	 /**
+	  * Table maximal width. It is supposed to be equal to "width" property.
+	  * @property {String|Number} max-width
+	  * @default  0
+	  */
+	 this["max-width"] 	= this.width;
+	 /**
+	  * Table minimal width. It is supposed to be equal to "width" property.
+	  * @property {String|Number} min-width
+	  * @default  0
+	  */
+	 this["min-width"] 	= this.width;
 }
 TableRowStyle.prototype = new Style();
 
@@ -352,6 +396,11 @@ function TableCellStyle() {
 	if (!(this instanceof TableCellStyle)) {
 		return new TableCellStyle();
 	}
+	/**
+	 * Color of the border table
+	 * @property {String} border-color
+	 * @default  "rgb(255, 255, 255)"
+	 */
 	this["border-color"] = "rgb(255, 255, 255)";
 	this["border-style"] = "solid";
 	this["border-width"] = "0px";
