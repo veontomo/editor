@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/attributes.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
-	<script type="text/javascript" src="js/test.js"></script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>
 <?php
 require 'php/fileContent.php';
@@ -27,53 +27,59 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<a href="jasmine/"><img src="images/TDD.png"></a>
 		<a href="js/out/"><img src="images/yui-logo.png" />API</a>
 		<h1>
-			Algoritmo
+			Preliminarie
 		</h1>
-		<div id="time">
-		</div>
-		<div id="time2">
-		</div>
-		<script>
-			setInterval(function(){
-			var date = new Date(),
-				time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-			document.getElementById('time').innerHTML = time;
-		}, 1000);
-		</script>
-
-
-		La procedura preliminaria sarebbe questa:
 		<ol>
 			<li>
-				Definiamo una costante <code>LARGHEZZA</code> per impostare la larghezza della newsletter. Inizializziamola con valore 500.
+				Definiamo una costante <code>LARGHEZZA</code> per usarla come larghezza massima degli elementi nella newsletter.
 			</li>
 			<li>
-				Creiamo una tabella larga <code>LARGHEZZA</code> pixel che serve come contenitore per tutto ci&ograve; che segue. 
+				Per qualsiasi elemento vale questo formula per lo spazio disponibile:
+				<script type="math/tex; mode=display">
+					E_{width} = P_{width} - 2\, P_{border-width} - 2\, P_{padding} - 2\, E_{margin},
+				</script>
+				dove 
+				<script type="math/tex; mode=inline">
+					E
+				</script>
+				&egrave; un elemento e 
+				<script type="math/tex; mode=inline">
+					P
+				</script>
+				&egrave; il suo parent.
 			</li>
+		</ol>
+
+
+		<h1>
+			Algoritmo
+		</h1>
+		<ol>
 			<li>
-				Regole per tabelle:
+				Quando va inserita una tabella, bisogna seguire le instuzioni:
 				<ul>
+					<li>
+						Larghezza della tabella deve essere uguale allo spazio disponibile dentro il suo elemento parent, ma non superiore a <code>LARGHEZZA</code>.
+					</li>
 					<li>
 						Per intera tabella devono essere specificati gli attributi:
 						<ol>
-							<li><code>width, min-width, max-width</code>.<br> La larghezza della tabella deve essere uguale alla larghezza del suo parent.</li>
+							<li><code>width, min-width, max-width</code>.<br></li>
 							<li><code>padding</code></li>
 							<li><code>margin</code></li>
 							<li><code>border-width, border-color, border-style</code></li>
-							<li>border tra le celle deve essere impostato esplicitamente!</li>
-							<li>gli spazi tra le celle devono essere impostate esplicitamente!</li>
+							<li><code>cellpadding="0"</code> e <code>cellspacing="0"</code></li>
 							<li>il border deve essere usato per tutta tabella e non per le sue righe o celle.</li>
 						</ol>
-
 					</li>
 					<li>
 						Per le righe
 						<ol>
 							<li>
-								Ogni riga della tabella deve avere l&#39;attributo <code>width, min-width, max-width</code> che deve essere uguale alla larghezza del suo parent.
+								Ogni riga della tabella deve avere gli attributi <code>width, min-width, max-width</code> che devono essere uguali tra di loro ed essere uguale allo spazio disponibile dentro il suo elemento parent.
 							</li>
 							<li>
-								Ogni riga della tabella deve avere lo stesso numero delle celle.
+								Ogni riga della tabella deve avere lo stesso numero delle celle. Gli attributi e gli stili di ogni riga devono essere uguali tra di loro.
 							</li>
 							<li>
 								Il border deve essere resettato esplicitamente!
@@ -84,14 +90,27 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 						Per le celle:
 						<ol>
 							<li>
-								Ogni cella della tabella deve avere l&#39;attributo <code>width, min-width, max-width</code>. La somma di larghezza delle celle
-								deve essere uguale alla larghezza della riga parent.
+								Ogni cella della tabella deve avere l&#39;attributo <code>width, min-width, max-width</code>. La somma di larghezze delle celle
+								<script type="math/tex; mode=inline">
+									C^{(i)}
+								</script>
+								deve essere uguale alla larghezza della riga
+								<script type="math/tex; mode=inline">
+									R
+								</script>
+								:
+								<script type="math/tex; mode=display">
+									\sum_{i=1}^{\#\, cells} C_{width}^{(i)} = R
+								</script>
 							</li>
 							<li>
-								Il border deve essere resettato esplicitamente!
+								Il border deve essere resettato esplicitamente: <code>border-width="0"</code>, <code>border-style="solid"</code>, <code>border-color="#000000"</code>.
 							</li>
 							<li>
-								<code>margin</code> e <code>padding</code> deve essere specificato esplicitamente!
+								<code>margin</code> deve essere azzerato.
+							</li>
+							<li>
+								<code>padding</code> deve essere specificato esplicitamente.
 							</li>
 							<li>
 								Ogni colonna della tabella deve avere le celle della stessa larghezza!
@@ -102,7 +121,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				</ul>
 			</li>
 			<li>
-				Per immagini bisogna specificare:
+				Quando va inserita un&#39;immagine, bisogna specificare:
 				<ol>
 					<li>
 						attributi <code>width</code> e <code>height</code> che devono essere uguali alla larghezza e altezza dell&#39;immagine. 

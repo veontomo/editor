@@ -225,7 +225,7 @@ function Style() {
 	}
 	/**
 	 * Generates string representation of this object (as inline styles)
-	 * @method {String} 	toString 	string representation of this object
+	 * @method {String} 	toString
 	 * @return {String} 	html-like string for this object
 	 * @example The return value might be one of this form: style=&quot;width: 100px; color: red;&quot;
 	 */
@@ -270,14 +270,14 @@ function TableAttributes(){
 	&quot;use strict&quot;;
 	if (!(this instanceof TableAttributes)) {return new TableAttributes(); }
 	/**
-	 * Defines cellpadding attribute of the table
-	 * @property 	{Number} 	cellpadding 	value of cell padding in px
+	 * Cellpadding attribute of the table. It is supposed that measurement unit is &quot;px&quot;.
+	 * @property 	{Number} 	cellpadding
 	 * @default  	0
 	 */
 	this.cellpadding = 0;
 	/**
-	 * Defines cellspacing attribute of the table
-	 * @property {Number} cellspacing 	value of cell spacing in px
+	 * Cellspacing attribute of the table. It is supposed that measurement unit is &quot;px&quot;.
+	 * @property {Number} cellspacing
 	 * @default  0
 	 */
 	this.cellspacing = 0;
@@ -295,8 +295,8 @@ function TextStyle() {
 		return new TextStyle();
 	}
 	/**
-	 * Font size
-	 * @property {String} font-size 	Font size, including unit of measurement
+	 * Font size, including unit of measurement.
+	 * @property {String} font-size 
 	 * @default  &quot;12px&quot;
 	 */
 	this[&quot;font-size&quot;] = &quot;12px&quot;;
@@ -308,8 +308,8 @@ function TextStyle() {
 	this.color = &quot;#000000&quot;;
 	/**
 	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
-	 * @property {String|Integer} font-weight 	Font weight
-	 * @default normal
+	 * @property {String|Integer} font-weight
+	 * @default &quot;normal&quot;
 	 */
 	this[&quot;font-weight&quot;] = &quot;normal&quot;;
 	/**
@@ -555,7 +555,7 @@ function TableCellStyle() {
 	this.width = 0;
 	/**
 	 * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
-	 * @property {String|Number} min-width
+	 * @property {String|Number} max-width
 	 * @default  0
 	 */
 	this[&quot;max-width&quot;] = this.width;
@@ -680,7 +680,7 @@ function ListItemStyle() {
 
 	/**
 	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
-	 * @property {String|Integer} font-weight 	Font weight
+	 * @property {String|Integer} font-weight
 	 * @default &quot;normal&quot;
 	 */
 	this[&quot;font-weight&quot;] = &#x27;normal&#x27;;
@@ -848,7 +848,7 @@ function Row() {
 	this.style = new TableRowStyle();
 	/**
 	 * Array of cells belonging to the row.
-	 * @property {Array} cells  array of Cell instances or empty array
+	 * @property {Array} cells
 	 * @type {Array}
 	 * @default []
 	 */

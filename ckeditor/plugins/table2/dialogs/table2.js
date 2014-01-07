@@ -173,7 +173,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             isFramed = nestedBorderWidth > 0; // whether each row should be framed
 
             // calculating widths
-            tableWidth = Math.min(parentWidth().value, NEWSLETTER.width); // integer, the width in px
+            tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
             rowWidth = tableWidth - 2 * borderWidth;
             spaceTop = parseInt(spaceBtwRows / 2, 10); // padding-top for the rows (cast to integer)
             spaceBottom = spaceBtwRows - spaceTop; // padding-bottom 
@@ -200,12 +200,12 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 cell = new Cell();
                 cell.setWidth(rowWidth);
                 nestedTable = new Table();
-                nestedTable.setWidth(cell.styleProperty('width'));
 
                 nestedTableStyle = new TableStyle();
                 nestedTableStyle['border-width'] = nestedBorderWidth;
                 nestedTableStyle['border-color'] = '#000000';
                 nestedTable.style = nestedTableStyle;
+                nestedTable.setWidth(cell.styleProperty('width'));
 
                 nestedRow = new Row();
                 nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;
@@ -225,9 +225,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             for(i = 0; i < rows; i++){
                 table.rows.push(row);
             }
-
-
-            
 
             tableElem = CKEDITOR.dom.element.createFromHtml(table.toHtml());
             editor.insertElement(tableElem);
