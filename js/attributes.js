@@ -193,7 +193,7 @@ function TextStyle() {
 	/**
 	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
 	 * @property {String|Integer} font-weight 	Font weight
-	 * @default normal
+	 * @default "normal"
 	 */
 	this["font-weight"] = "normal";
 	/**
