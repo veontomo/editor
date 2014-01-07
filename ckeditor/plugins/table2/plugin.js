@@ -5,14 +5,17 @@
  * Drops the table row. If after that the table remains empty, removes it as well.
  */
 var dropRow = function (ed) {
-		var row = ed.getSelection().getStartElement().getAscendant('tr', true),
-			parentTable = row.getAscendant('table'),
+		var row = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=row]'),
+			parentTable = row.closest('table'),
 			tableLength;
-		row.remove();
-		// calculating the number of children of the table after removing the row
-		tableLength = parentTable.findOne('tbody').getChildren().count();
-		if (tableLength === 0) {
-			parentTable.remove();
+		if(row){
+			row.remove();
+			// calculating the number of children of the table after removing the row
+			tableLength = parentTable.find('tbody').children().length;
+			if (tableLength === 0) {
+				parentTable.remove();
+			}
+
 		}
 	};
 
@@ -127,7 +130,8 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				if (element.getAscendant('tr', true)) {
+				var el = $(element.$).closest('tr[data-marker=row]');
+				if (el) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
 						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
