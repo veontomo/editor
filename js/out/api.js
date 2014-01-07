@@ -6,6 +6,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Content",
         "ImageStyle",
         "LinkStyle",
+        "ListItemStyle",
+        "ListStyle",
         "Row",
         "Style",
         "Table",

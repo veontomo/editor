@@ -247,13 +247,13 @@ function LinkStyle() {
 	 */
 	this["font-weight"] = "normal";
 	/**
-	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * Padding.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding = 0;
 	/**
-	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * Margin.
 	 * @property {String|Number} margin
 	 * @default  0
 	 */
@@ -284,25 +284,25 @@ function TableStyle() {
 	 */
 	this["border-style"] = "solid";
 	/**
-	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * Width of the border table.
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
 	this["border-width"] = 0;
 	/**
-	 * Margin of the table. If given as a number, the default measurment unit will be appended.
+	 * Margin of the table.
 	 * @property {String|Number} margin
 	 * @default  0
 	 */
 	this.margin 	= 0;
 	/**
-	 * Padding of the table. If given as a number, the default measurment unit will be appended.
+	 * Padding of the table.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding 	= 0;
 	/**
-	 * Table width. If given as a number, the default measurment unit will be appended.
+	 * Table width.
 	 * @property {String|Number} width
 	 * @default  0
 	 */
@@ -353,25 +353,25 @@ function TableRowStyle() {
 	 */
 	this["border-style"] = "solid";
 	/**
-	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * Width of the border table.
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
 	this["border-width"] = 0;
 	 /**
-	  * Margin of the table. If given as a number, the default measurment unit will be appended.
+	  * Margin of the table.
 	  * @property {String|Number} margin
 	  * @default  0
 	  */
 	 this.margin 	= 0;
 	 /**
-	  * Padding of the table. If given as a number, the default measurment unit will be appended.
+	  * Padding of the table.
 	  * @property {String|Number} padding
 	  * @default  0
 	  */
 	 this.padding 	= 0;
 	 /**
-	  * Table width. If given as a number, the default measurment unit will be appended.
+	  * Table width.
 	  * @property {String|Number} width
 	  * @default  0
 	  */
@@ -414,25 +414,25 @@ function TableCellStyle() {
 	 */
 	this["border-style"] = "solid";
 	/**
-	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * Width of the border table.
 	 * @property {String|Number} border-width
 	 * @default  "0px"
 	 */
 	this["border-width"] = "0px";
 	/**
-	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * Padding.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding = 0;
 	/**
-	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * Margin.
 	 * @property {String|Number} margin
 	 * @default  0
 	 */
 	this.margin = 0;
 	/**
-	 * Table width. If given as a number, the default measurment unit will be appended.
+	 * Table width.
 	 * @property {String|Number} width
 	 * @default  0
 	 */
@@ -469,7 +469,7 @@ function ImageStyle() {
 		return new ImageStyle();
 	}
 	/**
-	 * Width of the border around the image. If given as a number, the default measurment unit will be appended.
+	 * Width of the border around the image.
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
@@ -487,25 +487,25 @@ function ImageStyle() {
 	 */
 	this["border-color"] = "rgb(255, 255, 255)";
 	/**
-	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * Padding.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding = 0;
 	/**
-	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * Margin.
 	 * @property {String|Number} margin
 	 * @default  0
 	 */
 	this.margin = 0;
 	/**
-	 * Image width. If given as a number, the default measurment unit will be appended.
+	 * Image width.
 	 * @property {String|Number} width
 	 * @default  0
 	 */
 	this.width = 0;
 	/**
-	 * Image height. If given as a number, the default measurment unit will be appended.
+	 * Image height.
 	 * @property {String|Number} height
 	 * @default  0
 	 */
@@ -524,13 +524,13 @@ function ListStyle() {
 		return new ListStyle();
 	}
 	/**
-	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * Padding.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding = 0;
 	/**
-	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * Margin.
 	 * @property {String|Number} margin
 	 * @default  0
 	 */
@@ -538,15 +538,47 @@ function ListStyle() {
 }
 ListStyle.prototype.toString = new Style();
 
+/**
+ * Represents list item styles.
+ * @class	ListItemStyle
+ * @extends	Style
+ */
 function ListItemStyle() {
 	"use strict";
 	if (!(this instanceof ListItemStyle)) {
 		return new ListItemStyle();
 	}
+	/**
+	 * Font size of the  text in the list.
+	 * @property {String|Number} font-size
+	 * @default 12
+	 */
 	this["font-size"] = 12;
+	/**
+	 * Text color of the list item content.
+	 * @property {String} color
+	 * @type {String}
+	 * @default "#000000"
+	 */
 	this.color = "#000000";
-	this["font-weight"] = 0;
+
+	/**
+	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
+	 * @property {String|Integer} font-weight 	Font weight
+	 * @default "normal"
+	 */
+	this["font-weight"] = 'normal';
+	/**
+	 * Padding.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding = 0;
+	/**
+	 * Margin.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
 	this.margin = 0;
 }
 ListItemStyle.prototype.toString = new Style();

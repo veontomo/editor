@@ -14,6 +14,8 @@
                 "TableRowStyle": 1,
                 "TableCellStyle": 1,
                 "ImageStyle": 1,
+                "ListStyle": 1,
+                "ListItemStyle": 1,
                 "Content": 1,
                 "Cell": 1,
                 "Row": 1,
@@ -154,6 +156,32 @@
             "description": "Represents image styles.",
             "extends": "Style"
         },
+        "ListStyle": {
+            "name": "ListStyle",
+            "shortname": "ListStyle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "attributes.js",
+            "line": 516,
+            "description": "Represents image styles.",
+            "extends": "Style"
+        },
+        "ListItemStyle": {
+            "name": "ListItemStyle",
+            "shortname": "ListItemStyle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "attributes.js",
+            "line": 541,
+            "description": "Represents list item styles.",
+            "extends": "Style"
+        },
         "Content": {
             "name": "Content",
             "shortname": "Content",
@@ -163,7 +191,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 540,
+            "line": 587,
             "description": "This class is used to encompass other objects.",
             "params": [
                 {
@@ -182,7 +210,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 592,
+            "line": 639,
             "description": "Represents a table cell. The argument is supposed to be passed to the \"content\" property.",
             "params": [
                 {
@@ -201,7 +229,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 663,
+            "line": 710,
             "description": "Represents a table row"
         },
         "Table": {
@@ -213,7 +241,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "attributes.js",
-            "line": 738,
+            "line": 785,
             "description": "Represents table."
         }
     },
@@ -466,7 +494,7 @@
         {
             "file": "attributes.js",
             "line": 249,
-            "description": "Padding. If given as a number, the default measurment unit will be appended.",
+            "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
             "type": "String|Number",
@@ -476,7 +504,7 @@
         {
             "file": "attributes.js",
             "line": 255,
-            "description": "Margin. If given as a number, the default measurment unit will be appended.",
+            "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
             "type": "String|Number",
@@ -506,7 +534,7 @@
         {
             "file": "attributes.js",
             "line": 286,
-            "description": "Width of the border table. If given as a number, the default measurment unit will be appended.",
+            "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
             "type": "String|Number",
@@ -516,7 +544,7 @@
         {
             "file": "attributes.js",
             "line": 292,
-            "description": "Margin of the table. If given as a number, the default measurment unit will be appended.",
+            "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
             "type": "String|Number",
@@ -526,7 +554,7 @@
         {
             "file": "attributes.js",
             "line": 298,
-            "description": "Padding of the table. If given as a number, the default measurment unit will be appended.",
+            "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
             "type": "String|Number",
@@ -536,7 +564,7 @@
         {
             "file": "attributes.js",
             "line": 304,
-            "description": "Table width. If given as a number, the default measurment unit will be appended.",
+            "description": "Table width.",
             "itemtype": "property",
             "name": "width",
             "type": "String|Number",
@@ -598,7 +626,7 @@
         {
             "file": "attributes.js",
             "line": 355,
-            "description": "Width of the border table. If given as a number, the default measurment unit will be appended.",
+            "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
             "type": "String|Number",
@@ -608,7 +636,7 @@
         {
             "file": "attributes.js",
             "line": 361,
-            "description": "Margin of the table. If given as a number, the default measurment unit will be appended.",
+            "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
             "type": "String|Number",
@@ -618,7 +646,7 @@
         {
             "file": "attributes.js",
             "line": 367,
-            "description": "Padding of the table. If given as a number, the default measurment unit will be appended.",
+            "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
             "type": "String|Number",
@@ -628,7 +656,7 @@
         {
             "file": "attributes.js",
             "line": 373,
-            "description": "Table width. If given as a number, the default measurment unit will be appended.",
+            "description": "Table width.",
             "itemtype": "property",
             "name": "width",
             "type": "String|Number",
@@ -678,7 +706,7 @@
         {
             "file": "attributes.js",
             "line": 416,
-            "description": "Width of the border table. If given as a number, the default measurment unit will be appended.",
+            "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
             "type": "String|Number",
@@ -688,7 +716,7 @@
         {
             "file": "attributes.js",
             "line": 422,
-            "description": "Padding. If given as a number, the default measurment unit will be appended.",
+            "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
             "type": "String|Number",
@@ -698,7 +726,7 @@
         {
             "file": "attributes.js",
             "line": 428,
-            "description": "Margin. If given as a number, the default measurment unit will be appended.",
+            "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
             "type": "String|Number",
@@ -708,7 +736,7 @@
         {
             "file": "attributes.js",
             "line": 434,
-            "description": "Table width. If given as a number, the default measurment unit will be appended.",
+            "description": "Table width.",
             "itemtype": "property",
             "name": "width",
             "type": "String|Number",
@@ -748,7 +776,7 @@
         {
             "file": "attributes.js",
             "line": 471,
-            "description": "Width of the border around the image. If given as a number, the default measurment unit will be appended.",
+            "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
             "type": "String|Number",
@@ -778,7 +806,7 @@
         {
             "file": "attributes.js",
             "line": 489,
-            "description": "Padding. If given as a number, the default measurment unit will be appended.",
+            "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
             "type": "String|Number",
@@ -788,7 +816,7 @@
         {
             "file": "attributes.js",
             "line": 495,
-            "description": "Margin. If given as a number, the default measurment unit will be appended.",
+            "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
             "type": "String|Number",
@@ -798,7 +826,7 @@
         {
             "file": "attributes.js",
             "line": 501,
-            "description": "Image width. If given as a number, the default measurment unit will be appended.",
+            "description": "Image width.",
             "itemtype": "property",
             "name": "width",
             "type": "String|Number",
@@ -808,7 +836,7 @@
         {
             "file": "attributes.js",
             "line": 507,
-            "description": "Image height. If given as a number, the default measurment unit will be appended.",
+            "description": "Image height.",
             "itemtype": "property",
             "name": "height",
             "type": "String|Number",
@@ -817,7 +845,77 @@
         },
         {
             "file": "attributes.js",
-            "line": 550,
+            "line": 526,
+            "description": "Padding.",
+            "itemtype": "property",
+            "name": "padding",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 532,
+            "description": "Margin.",
+            "itemtype": "property",
+            "name": "margin",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 551,
+            "description": "Font size of the  text in the list.",
+            "itemtype": "property",
+            "name": "font-size",
+            "type": "String|Number",
+            "default": "12",
+            "class": "ListItemStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 557,
+            "description": "Text color of the list item content.",
+            "itemtype": "property",
+            "name": "color",
+            "type": "{String}",
+            "default": "\"#000000\"",
+            "class": "ListItemStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 565,
+            "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
+            "itemtype": "property",
+            "name": "font-weight \tFont weight",
+            "type": "String|Integer",
+            "default": "\"normal\"",
+            "class": "ListItemStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 571,
+            "description": "Padding.",
+            "itemtype": "property",
+            "name": "padding",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListItemStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 577,
+            "description": "Margin.",
+            "itemtype": "property",
+            "name": "margin",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListItemStyle"
+        },
+        {
+            "file": "attributes.js",
+            "line": 597,
             "description": "Container of items. If an item has a method \"toHtml\", it will be applied when transforming the whole Content object into a string.",
             "itemtype": "property",
             "name": "elements",
@@ -827,7 +925,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 557,
+            "line": 604,
             "description": "The number of items in the \"elements\" property",
             "itemtype": "method",
             "name": "length",
@@ -839,7 +937,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 565,
+            "line": 612,
             "description": "Transforms the object into html form.  If item of the \"elements\" property is of Object type, then it should have \"toHtml\" method which is to be applied to the item.",
             "itemtype": "method",
             "name": "toHtml",
@@ -851,7 +949,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 602,
+            "line": 649,
             "description": "Attributes of the cell.",
             "itemtype": "property",
             "name": "attr",
@@ -861,7 +959,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 609,
+            "line": 656,
             "description": "Styles of the cell",
             "itemtype": "property",
             "name": "style",
@@ -871,7 +969,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 616,
+            "line": 663,
             "description": "Content of the cell",
             "itemtype": "property",
             "name": "content",
@@ -881,7 +979,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 623,
+            "line": 670,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -900,7 +998,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 632,
+            "line": 679,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -915,7 +1013,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 643,
+            "line": 690,
             "description": "Generates cell-specific html code with corresponding attributes and styles",
             "itemtype": "method",
             "name": "toHtml",
@@ -927,7 +1025,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 672,
+            "line": 719,
             "description": "Attributes of the row.",
             "itemtype": "property",
             "name": "attr",
@@ -937,7 +1035,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 679,
+            "line": 726,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -947,7 +1045,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 686,
+            "line": 733,
             "description": "Array of cells belonging to the row.",
             "itemtype": "property",
             "name": "cells  array of Cell instances or empty array",
@@ -957,7 +1055,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 694,
+            "line": 741,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -976,7 +1074,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 704,
+            "line": 751,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -991,7 +1089,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 715,
+            "line": 762,
             "description": "Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -1003,7 +1101,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 747,
+            "line": 794,
             "description": "Attributes of the table.",
             "itemtype": "property",
             "name": "attr",
@@ -1013,7 +1111,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 754,
+            "line": 801,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -1023,7 +1121,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 762,
+            "line": 809,
             "description": "Array of rows constituting the table or empty array",
             "itemtype": "property",
             "name": "rows",
@@ -1033,7 +1131,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 775,
+            "line": 822,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -1052,7 +1150,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 786,
+            "line": 833,
             "description": "Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
