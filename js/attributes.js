@@ -513,12 +513,27 @@ function ImageStyle() {
 }
 ImageStyle.prototype = new Style();
 
+/**
+ * Represents image styles.
+ * @class	ListStyle
+ * @extends	Style
+ */
 function ListStyle() {
 	"use strict";
 	if (!(this instanceof ListStyle)) {
 		return new ListStyle();
 	}
+	/**
+	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding = 0;
+	/**
+	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
 	this.margin = 0;
 }
 ListStyle.prototype.toString = new Style();
