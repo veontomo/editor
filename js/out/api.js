@@ -4,11 +4,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "Attributes",
         "Cell",
         "Content",
+        "ImageStyle",
         "LinkStyle",
         "Row",
         "Style",
         "Table",
         "TableAttributes",
+        "TableCellStyle",
         "TableRowStyle",
         "TableStyle",
         "TextStyle"

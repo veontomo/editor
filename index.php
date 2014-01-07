@@ -25,6 +25,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 <body>
 	<article class="algorithm">
 		<a href="jasmine/"><img src="images/TDD.png"></a>
+		<a href="js/out/"><img src="images/yui-logo.png" />API</a>
 		<h1>
 			Algoritmo
 		</h1>
@@ -115,8 +116,8 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				</ol>
 			</li>
 		</ol>
-	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">Andare ai template</a></div>
-
+	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">i template</a></div>
+	
 	</article>
 
 

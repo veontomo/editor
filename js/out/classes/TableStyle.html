@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TextStyle</title>
+    <title>TableStyle</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -106,7 +106,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>TextStyle Class</h1>
+                        <h1>TableStyle Class</h1>
 <div class="box meta">
     
 
@@ -118,7 +118,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l171"><code>attributes.js:171</code></a>
+            Defined in: <a href="../files/attributes.js.html#l264"><code>attributes.js:264</code></a>
         </div>
     
 
@@ -130,7 +130,7 @@
 
 
 <div class="box intro">
-    <p>Text specific style class.</p>
+    <p>Represents table style.</p>
 
 </div>
 
@@ -177,22 +177,31 @@
 
                     <ul class="index-list properties extends">
                         
+                            <li class="index-item property deprecated">
+                                <a href="#property_border-collapse">border-collapse</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
                             <li class="index-item property">
-                                <a href="#property_color 	Font color">color 	Font color</a>
+                                <a href="#property_border-color">border-color</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_font-size 	Font size, including unit of measurement">font-size 	Font size, including unit of measurement</a>
+                                <a href="#property_border-style">border-style</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_font-weight 	Font weight">font-weight 	Font weight</a>
+                                <a href="#property_border-width">border-width</a>
 
                                 
                                 
@@ -206,7 +215,28 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_max-width">max-width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_min-width">min-width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_padding">padding</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_width">width</a>
 
                                 
                                 
@@ -313,8 +343,59 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_color 	Font color" class="property item">
-    <h3 class="name"><code>color 	Font color</code></h3>
+                    <div id="property_border-collapse" class="property item deprecated">
+    <h3 class="name"><code>border-collapse</code></h3>
+    <span class="type">String</span>
+
+    
+        <span class="flag deprecated" title="Do not use, because it causes problems in MS Outlook.">deprecated</span>
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l323"><code>attributes.js:323</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Do not use, because it causes problems in MS Outlook.</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether to collapse the table borders or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_border-color" class="property item">
+    <h3 class="name"><code>border-color</code></h3>
     <span class="type">String</span>
 
     
@@ -336,7 +417,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l187"><code>attributes.js:187</code></a>
+        <a href="../files/attributes.js.html#l274"><code>attributes.js:274</code></a>
         
         </p>
 
@@ -346,12 +427,12 @@
     </div>
 
     <div class="description">
-        <p>Font color</p>
+        <p>Color of the border table</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#000000&quot;</p>
+        <p><strong>Default:</strong> &quot;rgb(255, 255, 255)&quot;</p>
     
 
     
@@ -360,8 +441,8 @@
 </div>
 
                 
-                    <div id="property_font-size 	Font size, including unit of measurement" class="property item">
-    <h3 class="name"><code>font-size 	Font size, including unit of measurement</code></h3>
+                    <div id="property_border-style" class="property item">
+    <h3 class="name"><code>border-style</code></h3>
     <span class="type">String</span>
 
     
@@ -383,7 +464,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l181"><code>attributes.js:181</code></a>
+        <a href="../files/attributes.js.html#l280"><code>attributes.js:280</code></a>
         
         </p>
 
@@ -393,12 +474,12 @@
     </div>
 
     <div class="description">
-        <p>Font size</p>
+        <p>Style of the border table. See html manuals for possible values.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;12px&quot;</p>
+        <p><strong>Default:</strong> &quot;solid&quot;</p>
     
 
     
@@ -407,9 +488,9 @@
 </div>
 
                 
-                    <div id="property_font-weight 	Font weight" class="property item">
-    <h3 class="name"><code>font-weight 	Font weight</code></h3>
-    <span class="type">String | Integer</span>
+                    <div id="property_border-width" class="property item">
+    <h3 class="name"><code>border-width</code></h3>
+    <span class="type">String | Number</span>
 
     
 
@@ -430,7 +511,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l193"><code>attributes.js:193</code></a>
+        <a href="../files/attributes.js.html#l286"><code>attributes.js:286</code></a>
         
         </p>
 
@@ -440,12 +521,12 @@
     </div>
 
     <div class="description">
-        <p>Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.</p>
+        <p>Width of the border table. If given as a number, the default measurment unit will be appended.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> normal</p>
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -456,7 +537,7 @@
                 
                     <div id="property_margin" class="property item">
     <h3 class="name"><code>margin</code></h3>
-    <span class="type">String</span>
+    <span class="type">String | Number</span>
 
     
 
@@ -477,7 +558,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l205"><code>attributes.js:205</code></a>
+        <a href="../files/attributes.js.html#l292"><code>attributes.js:292</code></a>
         
         </p>
 
@@ -487,12 +568,106 @@
     </div>
 
     <div class="description">
-        <p>Margin value along with unit of measurement</p>
+        <p>Margin of the table. If given as a number, the default measurment unit will be appended.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;0px&quot;</p>
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_max-width" class="property item">
+    <h3 class="name"><code>max-width</code></h3>
+    <span class="type">String | Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l310"><code>attributes.js:310</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Table maximal width. It is supposed to be equal to &quot;width&quot; property.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_min-width" class="property item">
+    <h3 class="name"><code>min-width</code></h3>
+    <span class="type">String | Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l316"><code>attributes.js:316</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Table minimal width. It is supposed to be equal to &quot;width&quot; property.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -503,7 +678,7 @@
                 
                     <div id="property_padding" class="property item">
     <h3 class="name"><code>padding</code></h3>
-    <span class="type">String</span>
+    <span class="type">String | Number</span>
 
     
 
@@ -524,7 +699,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l199"><code>attributes.js:199</code></a>
+        <a href="../files/attributes.js.html#l298"><code>attributes.js:298</code></a>
         
         </p>
 
@@ -534,12 +709,59 @@
     </div>
 
     <div class="description">
-        <p>Padding value along with unit of measurement</p>
+        <p>Padding of the table. If given as a number, the default measurment unit will be appended.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;0px&quot;</p>
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_width" class="property item">
+    <h3 class="name"><code>width</code></h3>
+    <span class="type">String | Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l304"><code>attributes.js:304</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Table width. If given as a number, the default measurment unit will be appended.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     

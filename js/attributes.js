@@ -6,7 +6,7 @@
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @method  toString
+ * @func  toString
  * @param   {Object}     	obj  	an object which string reperesentation should be generated.   
  * @param 	{String|null} 	unit 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return 	{String}		a concatenation of substrings; each substring is of this format: "attribute: value;".
@@ -37,7 +37,7 @@ var toString = function (obj, unit) {
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @method  toString2
+ * @func  toString2
  * @param   {Object}    obj     
  * @return 	{String} 	String 		a union of substrings; each substring is of this format: 'attribute="value"', between the substrings there is a separator ' '.
  */
@@ -60,7 +60,7 @@ var toString2 = function (obj) {
 
 /**
  * Sets width, min-width and max-width of the object.
- * @method  setMinMaxWidth
+ * @func  setMinMaxWidth
  * @param 	{Object} 	obj 		object which width is to be set.
  * @param 	{mixed} 	w			width value
  * @return 	{void}
@@ -80,7 +80,7 @@ var setMinMaxWidth = function (obj, w) {
 
 /** 
 * Gets property value from the object.
-* @method 	getProperty
+* @func 	getProperty
 * @param 	{Object} 	obj 	an object
 * @param 	{String} 	prop 	property name to retrieve
 * @return 	{mixed} 	property value of the object
@@ -136,7 +136,7 @@ function Attributes() {
 	} 
 	/**
 	 * Generates string representation of this object (as html attributes)
-	 * @method {String} 	toString 	string representation of this object
+	 * @method {String} 	toString
 	 * @return {String} 	html-like string for this object
 	 * @example The return value might be one of this form: <b>class="example" id="tag"</b>
 	 */
@@ -391,6 +391,11 @@ function TableRowStyle() {
 }
 TableRowStyle.prototype = new Style();
 
+/**
+ * Represents table cell styles.
+ * @class	TableCellStyle
+ * @extends	Style
+ */
 function TableCellStyle() {
 	"use strict";
 	if (!(this instanceof TableCellStyle)) {
@@ -402,28 +407,108 @@ function TableCellStyle() {
 	 * @default  "rgb(255, 255, 255)"
 	 */
 	this["border-color"] = "rgb(255, 255, 255)";
+	/**
+	 * Style of the border table. See html manuals for possible values.
+	 * @property {String} border-style
+	 * @default  "solid"
+	 */
 	this["border-style"] = "solid";
+	/**
+	 * Width of the border table. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} border-width
+	 * @default  "0px"
+	 */
 	this["border-width"] = "0px";
-	this.margin = 0;
+	/**
+	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding = 0;
+	/**
+	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
+	this.margin = 0;
+	/**
+	 * Table width. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} width
+	 * @default  0
+	 */
 	this.width = 0;
+	/**
+	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * @property {String|Number} min-width
+	 * @default  0
+	 */
 	this["max-width"] = this.width;
+	/**
+	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * @property {String|Number} min-width
+	 * @default  0
+	 */
 	this["min-width"] = this.width;
+	/**
+	 * Vertical align of the cell content.
+	 * @property {String} vertical-align
+	 * @default  0
+	 */
 	this['vertical-align'] = 'top';
 }
 TableCellStyle.prototype = new Style();
 
+/**
+ * Represents image styles.
+ * @class	ImageStyle
+ * @extends	Style
+ */
 function ImageStyle() {
 	"use strict";
 	if (!(this instanceof ImageStyle)) {
 		return new ImageStyle();
 	}
+	/**
+	 * Width of the border around the image. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} border-width
+	 * @default  0
+	 */
 	this["border-width"] = 0;
+	/**
+	 * Style of the border around the image. See html manuals for possible values.
+	 * @property {String} border-style
+	 * @default  "solid"
+	 */
 	this["border-style"] = "solid";
+	/**
+	 * Color of the border around the image.
+	 * @property {String} border-color
+	 * @default  "rgb(255, 255, 255)"
+	 */
 	this["border-color"] = "rgb(255, 255, 255)";
+	/**
+	 * Padding. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} padding
+	 * @default  0
+	 */
 	this.padding = 0;
+	/**
+	 * Margin. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} margin
+	 * @default  0
+	 */
 	this.margin = 0;
+	/**
+	 * Image width. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} width
+	 * @default  0
+	 */
 	this.width = 0;
+	/**
+	 * Image height. If given as a number, the default measurment unit will be appended.
+	 * @property {String|Number} height
+	 * @default  0
+	 */
 	this.height = 0;
 }
 ImageStyle.prototype = new Style();
@@ -649,6 +734,7 @@ function Row() {
 		return htmlRow;
 	};
 }
+
 /** 
 * Represents table.
 * @class  Table
