@@ -2,6 +2,14 @@
 */
 
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
+	var timeNow = new Date(),
+		templateName = 'template' + [
+			timeNow.getFullYear(), 
+			timeNow.getMonth() + 1, 
+			timeNow.getUTCDate(), 
+			timeNow.getUTCHours(), 
+			timeNow.getUTCMinutes()
+		].join('-') + '.html';
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: 'Scaricare il file',
@@ -21,7 +29,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 						type: 'text',
 						id: 'filename',
 						label: editor.lang.common.name,
-						"default": "template.html"
+						"default": templateName
 					}
 				]
 			}

@@ -160,7 +160,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             
             // variables to be used in what follows
                 i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, isFramed, inputField, cellWeights, row, cell, cells,
-                nestedTable, nestedRow, nestedRowWidth, nestedCell, nestedTableStyle;
+                nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, nestedTableStyle;
 
             // read inserted values 
             cellWeights = [];
@@ -175,20 +175,38 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             // calculating widths
             tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
             rowWidth = tableWidth - 2 * borderWidth;
-            spaceTop = parseInt(spaceBtwRows / 2, 10); // padding-top for the rows (cast to integer)
-            spaceBottom = spaceBtwRows - spaceTop; // padding-bottom 
+            spaceTop = parseInt(spaceBtwRows / 2, 10); // top white space for each row (cast to integer)
+            spaceBottom = spaceBtwRows - spaceTop; // bottom white space for each row
             cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
 
 
             // prepare objects useful in what follows
             table = new Table();
-            table.setWidth(tableWidth);
             table.attr['data-marker'] = 'table';
+
+            tableStyle = new TableStyle();
+            tableStyle.setWidth(tableWidth);
+            tableStyle['border-width'] = borderWidth;
+            tableStyle['border-color'] = '#000000';
+            
+            tableStyle['border-spacing'] = '0px ' + spaceBtwRows + 'px';
+
+            table.style = tableStyle;
+            
 
             // creating a row
             row = new Row();
-            row.setWidth(rowWidth);
             row.attr['data-marker'] = 'row';
+
+            rowStyle = new TableRowStyle();
+            rowStyle.setWidth(rowWidth);
+            rowStyle['margin-top'] = spaceTop;
+            rowStyle['margin-bottom'] = spaceBottom;
+
+
+            row.style = rowStyle;
+
+
 
             if(!isFramed){
                 for(i = 0; i < cols; i++){
@@ -204,8 +222,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 nestedTableStyle = new TableStyle();
                 nestedTableStyle['border-width'] = nestedBorderWidth;
                 nestedTableStyle['border-color'] = '#000000';
+                nestedTableStyle['margin'] = spaceBtwRows;
+                nestedTableStyle.setWidth(cell.styleProperty('width'));
+
                 nestedTable.style = nestedTableStyle;
-                nestedTable.setWidth(cell.styleProperty('width'));
+
 
                 nestedRow = new Row();
                 nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;

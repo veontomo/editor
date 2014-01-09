@@ -1,12 +1,11 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-
 /** 
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @func  toString
+ * @module 	attributes
  * @param   {Object}     	obj  	an object which string reperesentation should be generated.   
  * @param 	{String|null} 	unit 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return 	{String}		a concatenation of substrings; each substring is of this format: "attribute: value;".
@@ -37,7 +36,7 @@ var toString = function (obj, unit) {
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @func  toString2
+ * @module 	attributes
  * @param   {Object}    obj     
  * @return 	{String} 	String 		a union of substrings; each substring is of this format: 'attribute="value"', between the substrings there is a separator ' '.
  */
@@ -60,7 +59,7 @@ var toString2 = function (obj) {
 
 /**
  * Sets width, min-width and max-width of the object.
- * @func  setMinMaxWidth
+ * @module 	attributes
  * @param 	{Object} 	obj 		object which width is to be set.
  * @param 	{mixed} 	w			width value
  * @return 	{void}
@@ -80,7 +79,7 @@ var setMinMaxWidth = function (obj, w) {
 
 /** 
 * Gets property value from the object.
-* @func 	getProperty
+* @module 	attributes
 * @param 	{Object} 	obj 	an object
 * @param 	{String} 	prop 	property name to retrieve
 * @return 	{mixed} 	property value of the object
@@ -100,6 +99,7 @@ function getProperty(obj, prop){
 
 /**
 * This class is supposed to characterize inline styles of html tags.
+* @module 	attributes
 * @class  Style
 */
 function Style() {
@@ -118,6 +118,7 @@ function Style() {
 	};
 	/**
 	 * Imposes the width, min-width and max-width
+	 * @method {void}	setWidth
 	 * @param {mixed} 	w  value of width
 	 */
 	this.setWidth = function (w) {
@@ -127,6 +128,7 @@ function Style() {
 
 /**
 * This class is supposed to define attributes of html tags 
+* @module 	attributes
 * @class  Attributes
 */
 function Attributes() {
@@ -147,6 +149,7 @@ function Attributes() {
 
 /**
 * Table-specific attributes. 
+* @module 	attributes
 * @extends Attributes
 * @class  TableAttributes
 */
@@ -170,6 +173,7 @@ TableAttributes.prototype = new Attributes();
 
 /** 
  * Text specific style class. 
+ * @module 	attributes
  * @extends Style
  * @class  TextStyle
  */
@@ -213,6 +217,7 @@ TextStyle.prototype = new Style();
 
 /**
  * Represents hyperlink style.
+ * @module 	attributes
  * @class  LinkStyle
  * @extends Style
  */
@@ -263,6 +268,7 @@ LinkStyle.prototype = new Style();
 
 /**
  * Represents table style.
+ * @module 	attributes
  * @class  TableStyle
  * @extends Style
  */
@@ -332,6 +338,7 @@ TableStyle.prototype = new Style();
 
 /**
  * Represents table row style.
+ * @module 	attributes
  * @class  TableRowStyle
  * @extends Style
  */
@@ -393,6 +400,7 @@ TableRowStyle.prototype = new Style();
 
 /**
  * Represents table cell styles.
+ * @module 	attributes
  * @class	TableCellStyle
  * @extends	Style
  */
@@ -460,6 +468,7 @@ TableCellStyle.prototype = new Style();
 
 /**
  * Represents image styles.
+ * @module 	attributes
  * @class	ImageStyle
  * @extends	Style
  */
@@ -515,6 +524,7 @@ ImageStyle.prototype = new Style();
 
 /**
  * Represents image styles.
+ * @module 	attributes
  * @class	ListStyle
  * @extends	Style
  */
@@ -540,6 +550,7 @@ ListStyle.prototype.toString = new Style();
 
 /**
  * Represents list item styles.
+ * @module 	attributes
  * @class	ListItemStyle
  * @extends	Style
  */
@@ -586,6 +597,7 @@ ListItemStyle.prototype.toString = new Style();
 
 /**
  * This class is used to encompass other objects.
+ * @module 	attributes
  * @class  		Content
  * @param 		{String} 	str 		an optional argument that will be inserted when creating property "elements".
  */
@@ -638,6 +650,7 @@ function Content(str) {
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
+ * @module 	attributes
  * @param {mixed} arg 
  * @class  Cell
  */
@@ -709,6 +722,7 @@ function Cell(arg) {
 
 /** 
  * Represents a table row
+ * @module 	attributes
  * @class  Row
  */
 function Row() {
@@ -784,6 +798,7 @@ function Row() {
 
 /** 
 * Represents table.
+* @module 	attributes
 * @class  Table
 */
 function Table() {

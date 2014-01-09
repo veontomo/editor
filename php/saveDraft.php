@@ -7,7 +7,8 @@
 */
 if(isset($_POST['data'])){
 	$fileNameSanitized =  preg_replace("/(\.){2,}[,;\\ \/]*/", "\1", htmlspecialchars($_POST['filename']));
-	$fileName = !empty($fileNameSanitized) ? $fileNameSanitized : 'template.html';
+
+	$fileName = !empty($fileNameSanitized) ? $fileNameSanitized : 'template ' . date('Y-m-d-H-i', time()) . '.html';
 	$fullPath = 'repo'.DIRECTORY_SEPARATOR.$fileName;
 	$content = $_POST['data'];
 	// remove old file (if any)

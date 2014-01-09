@@ -17,11 +17,11 @@ function target_exists(fileName) {
     });
 }
 
-
 /**
  * transforms each element of the input array into a non-negative number. 
  * If an element is negative, its absolute value is used.
  * If an element fails to be converted to a number, it is substituted by zero.
+ * @module    helpers
  * @example   [1.1, 2.4, 2] -> [1.1, 2.4, 2],  
  *            ["4", -3, 3.2, "a"] -> [4, 3, 3.2, 0]
  * @param    arr      Array      array of numbers
@@ -39,8 +39,9 @@ var sanitize = function (arr) {
 
 /**
  * calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
+ * @module     helpers
  * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
- * @param arr    array of numbers
+ * @param    arr    array of numbers
  * @return   number
  */
 var trace = function (arr) {
@@ -56,6 +57,7 @@ var trace = function (arr) {
 /**
  * normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.
  * If not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.
+ * @module     helpers
  * @example     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]
  *              [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]   
  *              [0, 0]          -> [ 0.5, 0.5]
@@ -90,6 +92,7 @@ var normalize = function (arr) {
 /**
  * Slices the first argument according to the weights given by the second argument.
  * The elements of the second array are supposed to be non-negative numbers. 
+ * @module     helpers
  * @example   (10, [1, 2, 2])    -> [2, 4, 4],  
  *            (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]
  * @param    overall     Number  a number to be splitted
@@ -110,6 +113,7 @@ var splitWeighted = function (overall, pieces) {
 
 /**
  * rounds each elements of the array
+ * @module     helpers
  * @example [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]
  * @param    arr    Array       array of numbers
  * @return          Array       array of integers 
@@ -122,6 +126,7 @@ var roundUp = function (arr) {
 
 /**
  * composition of roundUp and splitWeighted
+ * @module     helpers
  * @param    overall     Number   table width
  * @param    pieces      Array    array of nambers
  * @return               Array    array of integers    
@@ -134,6 +139,7 @@ var columnWidths = function (overall, pieces) {
 /**
  * Deletes the protocol name from the url.
  * Everything until the first occurence of '://' will be removed (inclusively).
+ * @module     helpers
  * @example  'http://www.test.com'      -> 'www.test.com'
  *           'www.test.com'             -> 'www.test.com'
  * @param    url     String
@@ -149,6 +155,7 @@ var dropProtocol = function (str) {
 
 /** 
  * Gives file extension
+ * @module   helpers
  * @param    fileName   String      name of file
  * @return   String     file extension
  */
@@ -160,6 +167,7 @@ var fileExt = function (str) {
 /**
  * Gives the validated width. If the width is given in "px" or "pt", the integer part is given.
  * If the length is given in "em" or "%", it is left as it is.
+ * @module   helpers
  * @param    str    String
  * @return   String
  */
@@ -186,6 +194,7 @@ var validateWidth = function (str) {
 
 /**
  * Represents a quantity divided in "value" and "measure".
+ * @module       helpers
  * @param        value       Number
  * @param        measure     String|null
  * @property     value       Number
