@@ -497,7 +497,6 @@ describe('Table-related code', function(){
          expect(table.toHtml()).toEqual('<table table attributes style="table styles">row 1 row 2 html row 3 content</table>');
      });
 
-
      it('generates html code of the row if attribute is empty', function(){
          spyOn(row1, 'toHtml').andCallFake(function(){
              return 'row 1 ';

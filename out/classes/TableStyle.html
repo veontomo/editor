@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ImageStyle</title>
+    <title>TableStyle</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,10 +75,6 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/attributes.html">attributes</a></li>
-            
-                <li><a href="../modules/helpers.html">helpers</a></li>
-            
             </ul>
         </div>
     </div>
@@ -114,22 +110,22 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ImageStyle Class</h1>
+                        <h1>TableStyle Class</h1>
 <div class="box meta">
     
 
     
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l469"><code>attributes.js:469</code></a>
+        <div class="extends">
+            Extends <a href="..\classes\Style.html" class="crosslink">Style</a>
         </div>
     
 
     
-        
-            Module: <a href="../modules/attributes.html">attributes</a>
-        
+        <div class="foundat">
+            Defined in: <a href="../files/js_attributes.js.html#l265"><code>js\attributes.js:265</code></a>
+        </div>
+    
+
     
 
     
@@ -138,7 +134,7 @@
 
 
 <div class="box intro">
-    <p>Represents image styles.</p>
+    <p>Represents table style.</p>
 
 </div>
 
@@ -148,6 +144,8 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
@@ -161,12 +159,43 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_setWidth">setWidth</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_toString">toString</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
+                        
+                            <li class="index-item property deprecated">
+                                <a href="#property_border-collapse">border-collapse</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_border-color">border-color</a>
@@ -190,14 +219,21 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_height">height</a>
+                                <a href="#property_margin">margin</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_margin">margin</a>
+                                <a href="#property_max-width">max-width</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_min-width">min-width</a>
 
                                 
                                 
@@ -227,10 +263,232 @@
         </div>
 
         
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_setWidth" class="method item inherited">
+    <h3 class="name"><code>setWidth</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>w</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Style.html#method_setWidth">Style</a>:
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l119"><code>js\attributes.js:119</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Imposes the width, min-width and max-width</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">w</code>
+                        <span class="type">Mixed</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>value of width</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_toString" class="method item inherited">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Style.html#method_toString">Style</a>:
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l110"><code>js\attributes.js:110</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Generates string representation of this object (as inline styles)</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>html-like string for this object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <p> The return value might be one of this form: style=&quot;width: 100px; color: red;&quot;</p>
+
+            </div>
+        </div>
+    
+</div>
+
+                
+            </div>
+        
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_border-collapse" class="property item deprecated">
+    <h3 class="name"><code>border-collapse</code></h3>
+    <span class="type">String</span>
+
+    
+        <span class="flag deprecated" title="Do not use, because it causes problems in MS Outlook.">deprecated</span>
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l324"><code>js\attributes.js:324</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Do not use, because it causes problems in MS Outlook.</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether to collapse the table borders or not.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_border-color" class="property item">
@@ -256,7 +514,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l492"><code>attributes.js:492</code></a>
+        <a href="../files/js_attributes.js.html#l275"><code>js\attributes.js:275</code></a>
         
         </p>
 
@@ -266,12 +524,12 @@
     </div>
 
     <div class="description">
-        <p>Color of the border around the image.</p>
+        <p>Color of the border table</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#FFFFFF&quot;</p>
+        <p><strong>Default:</strong> &quot;rgb(255, 255, 255)&quot;</p>
     
 
     
@@ -303,7 +561,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l486"><code>attributes.js:486</code></a>
+        <a href="../files/js_attributes.js.html#l281"><code>js\attributes.js:281</code></a>
         
         </p>
 
@@ -313,7 +571,7 @@
     </div>
 
     <div class="description">
-        <p>Style of the border around the image. See html manuals for possible values.</p>
+        <p>Style of the border table. See html manuals for possible values.</p>
 
     </div>
 
@@ -350,7 +608,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l480"><code>attributes.js:480</code></a>
+        <a href="../files/js_attributes.js.html#l287"><code>js\attributes.js:287</code></a>
         
         </p>
 
@@ -360,54 +618,7 @@
     </div>
 
     <div class="description">
-        <p>Width of the border around the image.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l516"><code>attributes.js:516</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Image height.</p>
+        <p>Width of the border table.</p>
 
     </div>
 
@@ -444,7 +655,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l504"><code>attributes.js:504</code></a>
+        <a href="../files/js_attributes.js.html#l293"><code>js\attributes.js:293</code></a>
         
         </p>
 
@@ -454,7 +665,101 @@
     </div>
 
     <div class="description">
-        <p>Margin.</p>
+        <p>Margin of the table.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_max-width" class="property item">
+    <h3 class="name"><code>max-width</code></h3>
+    <span class="type">String | Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l311"><code>js\attributes.js:311</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Table maximal width. It is supposed to be equal to &quot;width&quot; property.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_min-width" class="property item">
+    <h3 class="name"><code>min-width</code></h3>
+    <span class="type">String | Number</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l317"><code>js\attributes.js:317</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Table minimal width. It is supposed to be equal to &quot;width&quot; property.</p>
 
     </div>
 
@@ -491,7 +796,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l498"><code>attributes.js:498</code></a>
+        <a href="../files/js_attributes.js.html#l299"><code>js\attributes.js:299</code></a>
         
         </p>
 
@@ -501,7 +806,7 @@
     </div>
 
     <div class="description">
-        <p>Padding.</p>
+        <p>Padding of the table.</p>
 
     </div>
 
@@ -538,7 +843,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l510"><code>attributes.js:510</code></a>
+        <a href="../files/js_attributes.js.html#l305"><code>js\attributes.js:305</code></a>
         
         </p>
 
@@ -548,7 +853,7 @@
     </div>
 
     <div class="description">
-        <p>Image width.</p>
+        <p>Table width.</p>
 
     </div>
 

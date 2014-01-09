@@ -7,14 +7,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             // adds input fields to set the widths of the table columns
             var element = CKEDITOR.document.getById('columnWidthTable'),
                 title = CKEDITOR.document.getById('columnWidthTableTitle'),
-                children,
-                length,
-                i,
-                td,
-                inputField,
-                colWidthInput,
-                tr,
-                colNum;
+                children, length, i, td, inputField, colWidthInput, tr, colNum;
 
             title.setHtml('');
             children = element.getChildren();
@@ -43,16 +36,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             }
         },
 
-    /**
-     * Returns the width of the parent element available for its children.
-     * 
-     * available width = (element width) - (element left border width) - (element right border width) - (element left margin) - (element right margin)
-     * 
-     * The element width is supposed to be greater than zero and hence to have a unit of measurement (e.g. 'px'). 
-     * If not set, widths of other attributes are equal to zero without unit of measurement. In this case one has to set the unit of measurement
-     * equal to the element width.
-     * @return integer    available width for the children as Unit object (with properties "value" and "measure")
-     */
+        /**
+         * Returns the width of the parent element available for its children.
+         * 
+         * available width = (element width) - (element left border width) - (element right border width) - (element left margin) - (element right margin)
+         * 
+         * The element width is supposed to be greater than zero and hence to have a unit of measurement (e.g. 'px'). 
+         * If not set, widths of other attributes are equal to zero without unit of measurement. In this case one has to set the unit of measurement
+         * equal to the element width.
+         * @return integer    available width for the children as Unit object (with properties "value" and "measure")
+         */
         parentWidth = function () {
             var startElem = editor.getSelection().getStartElement(),
                 rawWidth = new Unit(startElem.getComputedStyle('width')),
@@ -151,16 +144,15 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
         // This method is invoked once a user clicks the OK button, confirming the dialog.
         onOk: function () {
             var dialog = this,
-            // user input
+                // user input
                 rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
                 cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
                 borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
                 nestedBorderWidth = parseInt(dialog.getValueOf('info', 'nestedBorderWidth'), 10),
                 spaceBtwRows = parseInt(dialog.getValueOf('info', 'spaceBtwRows'), 10),
-            
-            // variables to be used in what follows
-                i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, isFramed, inputField, cellWeights, row, cell, cells,
-                nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, nestedTableStyle;
+
+                // variables to be used in what follows
+                i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, isFramed, inputField, cellWeights, row, cell, cells, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle;
 
             // read inserted values 
             cellWeights = [];
@@ -171,7 +163,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             }
 
             isFramed = nestedBorderWidth > 0; // whether each row should be framed
-
             // calculating widths
             tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
             rowWidth = tableWidth - 2 * borderWidth;
@@ -179,60 +170,80 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             spaceBottom = spaceBtwRows - spaceTop; // bottom white space for each row
             cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
 
-
             // prepare objects useful in what follows
             table = new Table();
             table.attr['data-marker'] = 'table';
+            table.attr.border = borderWidth;
 
             tableStyle = new TableStyle();
             tableStyle.setWidth(tableWidth);
-            tableStyle['border-width'] = borderWidth;
-            tableStyle['border-color'] = '#000000';
-            
+            if (borderWidth) {
+                tableStyle['border-width'] = borderWidth;
+                tableStyle['border-style'] = 'solid';
+                tableStyle['border-color'] = '#000000';
+            }
             tableStyle['border-spacing'] = '0px ' + spaceBtwRows + 'px';
 
             table.style = tableStyle;
-            
-
             // creating a row
             row = new Row();
             row.attr['data-marker'] = 'row';
 
             rowStyle = new TableRowStyle();
             rowStyle.setWidth(rowWidth);
-            rowStyle['margin-top'] = spaceTop;
-            rowStyle['margin-bottom'] = spaceBottom;
-
-
+            // rowStyle['margin-top'] = spaceTop;
+            // rowStyle['margin-bottom'] = spaceBottom;
             row.style = rowStyle;
 
-
-
-            if(!isFramed){
-                for(i = 0; i < cols; i++){
+            if (!isFramed) {
+                for (i = 0; i < cols; i++) {
                     cell = new Cell('cell');
-                    cell.setWidth(cellWidths[i]);
+
+                    cellStyle = new TableCellStyle();
+                    cellStyle.setWidth(cellWidths[i]);
+                    if (spaceTop) {
+                        cellStyle['margin-top'] = spaceTop;
+                    }
+                    if (spaceBottom) {
+                        cellStyle['margin-bottom'] = spaceBottom;
+                    }
+
+                    cell.style = cellStyle;
                     row.cells.push(cell);
                 }
             } else {
                 cell = new Cell();
-                cell.setWidth(rowWidth);
+
+                cellStyle = new TableCellStyle();
+                cellStyle.setWidth(rowWidth);
+                if (spaceTop) {
+                    cellStyle['padding-top'] = spaceTop;
+                }
+                if (spaceBottom) {
+                    cellStyle['padding-bottom'] = spaceBottom;
+                }
+
+                cell.style = cellStyle;
+
                 nestedTable = new Table();
+                nestedTable.attr.border = nestedBorderWidth;
 
                 nestedTableStyle = new TableStyle();
                 nestedTableStyle['border-width'] = nestedBorderWidth;
                 nestedTableStyle['border-color'] = '#000000';
-                nestedTableStyle['margin'] = spaceBtwRows;
+                nestedTableStyle['border-style'] = 'solid';
+                nestedTableStyle['margin-top'] = spaceTop;
+                nestedTableStyle['margin-bottom'] = spaceBottom;
+
                 nestedTableStyle.setWidth(cell.styleProperty('width'));
 
                 nestedTable.style = nestedTableStyle;
-
 
                 nestedRow = new Row();
                 nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;
                 nestedRow.setWidth(nestedRowWidth);
 
-                for(i = 0; i < cols; i++){
+                for (i = 0; i < cols; i++) {
                     nestedCell = new Cell('nested cell');
                     nestedCell.setWidth(cellWidths[i]);
                     nestedRow.cells.push(nestedCell);
@@ -243,7 +254,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             }
 
             // duplicating the row
-            for(i = 0; i < rows; i++){
+            for (i = 0; i < rows; i++) {
                 table.rows.push(row);
             }
 
@@ -251,10 +262,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             editor.insertElement(tableElem);
 
             // assigning events 
-            $(tableElem.$).find('td').hover(function(){
-                $(this).css('box-shadow',  '0.1em 0em 0.2em 0em #000000');
+            $(tableElem.$).find('td').hover(function () {
+                $(this).css('box-shadow', '0.1em 0em 0.2em 0em #000000');
                 return false;
-            }, function(){
+            }, function () {
                 var attr = $(this).attr('style'),
                     noShadow = attr.replace(/box-shadow:[^;]+;/i, '');
                 $(this).attr('style', noShadow);

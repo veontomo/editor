@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ImageStyle</title>
+    <title>Content</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,10 +75,6 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/attributes.html">attributes</a></li>
-            
-                <li><a href="../modules/helpers.html">helpers</a></li>
-            
             </ul>
         </div>
     </div>
@@ -114,7 +110,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ImageStyle Class</h1>
+                        <h1>Content Class</h1>
 <div class="box meta">
     
 
@@ -122,14 +118,10 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l469"><code>attributes.js:469</code></a>
+            Defined in: <a href="../files/js_attributes.js.html#l588"><code>js\attributes.js:588</code></a>
         </div>
     
 
-    
-        
-            Module: <a href="../modules/attributes.html">attributes</a>
-        
     
 
     
@@ -138,7 +130,7 @@
 
 
 <div class="box intro">
-    <p>Represents image styles.</p>
+    <p>This class is used to encompass other objects.</p>
 
 </div>
 
@@ -148,6 +140,8 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
@@ -161,6 +155,28 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_length">length</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_toHtml">toHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
                 <div class="index-section properties">
@@ -169,49 +185,7 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_border-color">border-color</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_border-style">border-style</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_border-width">border-width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_height">height</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_margin">margin</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_padding">padding</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
+                                <a href="#property_elements">elements</a>
 
                                 
                                 
@@ -227,15 +201,163 @@
         </div>
 
         
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_length" class="method item">
+    <h3 class="name"><code>length</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Integer</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l605"><code>js\attributes.js:605</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The number of items in the &quot;elements&quot; property</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Integer</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toHtml" class="method item">
+    <h3 class="name"><code>toHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l613"><code>js\attributes.js:613</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_border-color" class="property item">
-    <h3 class="name"><code>border-color</code></h3>
-    <span class="type">String</span>
+                    <div id="property_elements" class="property item">
+    <h3 class="name"><code>elements</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -256,7 +378,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l492"><code>attributes.js:492</code></a>
+        <a href="../files/js_attributes.js.html#l598"><code>js\attributes.js:598</code></a>
         
         </p>
 
@@ -266,294 +388,12 @@
     </div>
 
     <div class="description">
-        <p>Color of the border around the image.</p>
+        <p>Container of items. If an item has a method &quot;toHtml&quot;, it will be applied when transforming the whole Content object into a string.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#FFFFFF&quot;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_border-style" class="property item">
-    <h3 class="name"><code>border-style</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l486"><code>attributes.js:486</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Style of the border around the image. See html manuals for possible values.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> &quot;solid&quot;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_border-width" class="property item">
-    <h3 class="name"><code>border-width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l480"><code>attributes.js:480</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Width of the border around the image.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l516"><code>attributes.js:516</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Image height.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_margin" class="property item">
-    <h3 class="name"><code>margin</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l504"><code>attributes.js:504</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Margin.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_padding" class="property item">
-    <h3 class="name"><code>padding</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l498"><code>attributes.js:498</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Padding.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l510"><code>attributes.js:510</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Image width.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
+        <p><strong>Default:</strong> [str]</p>
     
 
     

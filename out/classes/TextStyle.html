@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ImageStyle</title>
+    <title>TextStyle</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,10 +75,6 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/attributes.html">attributes</a></li>
-            
-                <li><a href="../modules/helpers.html">helpers</a></li>
-            
             </ul>
         </div>
     </div>
@@ -114,22 +110,22 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ImageStyle Class</h1>
+                        <h1>TextStyle Class</h1>
 <div class="box meta">
     
 
     
-
-    
-        <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l469"><code>attributes.js:469</code></a>
+        <div class="extends">
+            Extends <a href="..\classes\Style.html" class="crosslink">Style</a>
         </div>
     
 
     
-        
-            Module: <a href="../modules/attributes.html">attributes</a>
-        
+        <div class="foundat">
+            Defined in: <a href="../files/js_attributes.js.html#l172"><code>js\attributes.js:172</code></a>
+        </div>
+    
+
     
 
     
@@ -138,7 +134,7 @@
 
 
 <div class="box intro">
-    <p>Represents image styles.</p>
+    <p>Text specific style class.</p>
 
 </div>
 
@@ -148,6 +144,8 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
@@ -161,36 +159,51 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_setWidth">setWidth</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_toString">toString</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property">
-                                <a href="#property_border-color">border-color</a>
+                                <a href="#property_color 	Font color">color 	Font color</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_border-style">border-style</a>
+                                <a href="#property_font-size">font-size</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_border-width">border-width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_height">height</a>
+                                <a href="#property_font-weight">font-weight</a>
 
                                 
                                 
@@ -210,13 +223,6 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
-
-                                
-                                
-                            </li>
-                        
                     </ul>
                 </div>
             
@@ -227,14 +233,185 @@
         </div>
 
         
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_setWidth" class="method item inherited">
+    <h3 class="name"><code>setWidth</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>w</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Style.html#method_setWidth">Style</a>:
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l119"><code>js\attributes.js:119</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Imposes the width, min-width and max-width</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">w</code>
+                        <span class="type">Mixed</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>value of width</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_toString" class="method item inherited">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Style.html#method_toString">Style</a>:
+            
+        
+        
+        <a href="../files/js_attributes.js.html#l110"><code>js\attributes.js:110</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Generates string representation of this object (as inline styles)</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>html-like string for this object</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <p> The return value might be one of this form: style=&quot;width: 100px; color: red;&quot;</p>
+
+            </div>
+        </div>
+    
+</div>
+
+                
+            </div>
+        
 
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_border-color" class="property item">
-    <h3 class="name"><code>border-color</code></h3>
+                    <div id="property_color 	Font color" class="property item">
+    <h3 class="name"><code>color 	Font color</code></h3>
     <span class="type">String</span>
 
     
@@ -256,7 +433,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l492"><code>attributes.js:492</code></a>
+        <a href="../files/js_attributes.js.html#l188"><code>js\attributes.js:188</code></a>
         
         </p>
 
@@ -266,12 +443,12 @@
     </div>
 
     <div class="description">
-        <p>Color of the border around the image.</p>
+        <p>Font color</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#FFFFFF&quot;</p>
+        <p><strong>Default:</strong> &quot;#000000&quot;</p>
     
 
     
@@ -280,8 +457,8 @@
 </div>
 
                 
-                    <div id="property_border-style" class="property item">
-    <h3 class="name"><code>border-style</code></h3>
+                    <div id="property_font-size" class="property item">
+    <h3 class="name"><code>font-size</code></h3>
     <span class="type">String</span>
 
     
@@ -303,7 +480,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l486"><code>attributes.js:486</code></a>
+        <a href="../files/js_attributes.js.html#l182"><code>js\attributes.js:182</code></a>
         
         </p>
 
@@ -313,12 +490,12 @@
     </div>
 
     <div class="description">
-        <p>Style of the border around the image. See html manuals for possible values.</p>
+        <p>Font size, including unit of measurement.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;solid&quot;</p>
+        <p><strong>Default:</strong> &quot;12px&quot;</p>
     
 
     
@@ -327,9 +504,9 @@
 </div>
 
                 
-                    <div id="property_border-width" class="property item">
-    <h3 class="name"><code>border-width</code></h3>
-    <span class="type">String | Number</span>
+                    <div id="property_font-weight" class="property item">
+    <h3 class="name"><code>font-weight</code></h3>
+    <span class="type">String | Integer</span>
 
     
 
@@ -350,7 +527,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l480"><code>attributes.js:480</code></a>
+        <a href="../files/js_attributes.js.html#l194"><code>js\attributes.js:194</code></a>
         
         </p>
 
@@ -360,59 +537,12 @@
     </div>
 
     <div class="description">
-        <p>Width of the border around the image.</p>
+        <p>Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_height" class="property item">
-    <h3 class="name"><code>height</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l516"><code>attributes.js:516</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Image height.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
+        <p><strong>Default:</strong> &quot;normal&quot;</p>
     
 
     
@@ -423,7 +553,7 @@
                 
                     <div id="property_margin" class="property item">
     <h3 class="name"><code>margin</code></h3>
-    <span class="type">String | Number</span>
+    <span class="type">String</span>
 
     
 
@@ -444,7 +574,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l504"><code>attributes.js:504</code></a>
+        <a href="../files/js_attributes.js.html#l206"><code>js\attributes.js:206</code></a>
         
         </p>
 
@@ -454,12 +584,12 @@
     </div>
 
     <div class="description">
-        <p>Margin.</p>
+        <p>Margin value along with unit of measurement</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
+        <p><strong>Default:</strong> &quot;0px&quot;</p>
     
 
     
@@ -470,7 +600,7 @@
                 
                     <div id="property_padding" class="property item">
     <h3 class="name"><code>padding</code></h3>
-    <span class="type">String | Number</span>
+    <span class="type">String</span>
 
     
 
@@ -491,7 +621,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l498"><code>attributes.js:498</code></a>
+        <a href="../files/js_attributes.js.html#l200"><code>js\attributes.js:200</code></a>
         
         </p>
 
@@ -501,59 +631,12 @@
     </div>
 
     <div class="description">
-        <p>Padding.</p>
+        <p>Padding value along with unit of measurement</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l510"><code>attributes.js:510</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Image width.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
+        <p><strong>Default:</strong> &quot;0px&quot;</p>
     
 
     

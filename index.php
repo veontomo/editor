@@ -84,6 +84,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 							<li>
 								Il border deve essere resettato esplicitamente!
 							</li>
+							<li>
+								Se si vuole uno spazio tra le righe, bisogna impostare gli attributi <code>padding-top</code> e <code>padding-bottom</code> con gli stessi valori per tutte le celle della riga.
+							</li>
 						</ol>
 					</li>
 					<li>
@@ -114,6 +117,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 							</li>
 							<li>
 								Ogni colonna della tabella deve avere le celle della stessa larghezza!
+							</li>
+							<li>
+								Se si vuole avere uno spazio tra le righe, bisogna impostare gli attributi <code>padding-top</code> e <code>padding-bottom</code> con gli stessi valori per tutte le celle della stessa riga.
 							</li>
 						</ol>
 
