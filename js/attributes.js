@@ -333,6 +333,12 @@ function TableStyle() {
 	 * @default  0
 	 */
 	// this['border-collapse'] = 'collapse';
+	/**
+	 * Border spacing. 
+	 * @property {String} border-spacing
+	 * @default '0px 0px'
+	 */
+	this['border-spacing'] = '0px 0px';
 }
 TableStyle.prototype = new Style();
 

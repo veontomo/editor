@@ -180,7 +180,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 tableStyle['border-style'] = 'solid';
                 tableStyle['border-color'] = '#000000';
             }
-            tableStyle['border-spacing'] = '0px ' + 0*spaceBtwRows + 'px';
 
             table.style = tableStyle;
             // creating a row
@@ -232,7 +231,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 nestedTableStyle['border-style'] = 'solid';
                 nestedTableStyle['margin-top'] = spaceTop;
                 nestedTableStyle['margin-bottom'] = spaceBottom;
-                nestedTableStyle['border-spacing'] = '0px ' + 0*spaceBtwRows + 'px';
 
                 nestedTableStyle.setWidth(cell.styleProperty('width'));
 

@@ -8,7 +8,7 @@ var dropRow = function (ed) {
 		var row = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=row]'),
 			parentTable = row.closest('table'),
 			tableLength;
-		if(row){
+		if (row) {
 			row.remove();
 			// calculating the number of children of the table after removing the row
 			tableLength = parentTable.find('tbody').children().length;

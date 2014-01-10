@@ -68,7 +68,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "attributes.js",
-            "line": 799,
+            "line": 805,
             "description": "Produces a string of properties in inline-style fashion\nThis function is supposed to be added to prototypes of different objects.\nIt takse into consideration only properties, methods are ignored.\nIf attribite value is a number, the measurement unit will be appended.",
             "params": [
                 {
@@ -214,7 +214,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 339,
+            "line": 345,
             "description": "Represents table row style."
         },
         "TableCellStyle": {
@@ -228,7 +228,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 401,
+            "line": 407,
             "description": "Represents table cell styles."
         },
         "ImageStyle": {
@@ -242,7 +242,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 469,
+            "line": 475,
             "description": "Represents image styles."
         },
         "ListStyle": {
@@ -256,7 +256,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 525,
+            "line": 531,
             "description": "Represents image styles."
         },
         "ListItemStyle": {
@@ -270,7 +270,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 551,
+            "line": 557,
             "description": "Represents list item styles."
         },
         "Content": {
@@ -284,7 +284,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 598,
+            "line": 604,
             "description": "This class is used to encompass other objects."
         },
         "Cell": {
@@ -298,7 +298,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 651,
+            "line": 657,
             "description": "Represents a table cell. The argument is supposed to be passed to the \"content\" property.",
             "params": [
                 {
@@ -319,7 +319,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 723,
+            "line": 729,
             "description": "Represents a table row"
         },
         "Table": {
@@ -333,7 +333,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 799,
+            "line": 805,
             "description": "Represents table."
         }
     },
@@ -550,7 +550,7 @@
             "itemtype": "property",
             "name": "border-style",
             "type": "String",
-            "default": "\"solid\"",
+            "default": "\"none\"",
             "class": "TableStyle",
             "module": "attributes"
         },
@@ -635,7 +635,18 @@
         },
         {
             "file": "attributes.js",
-            "line": 350,
+            "line": 336,
+            "description": "Border spacing.",
+            "itemtype": "property",
+            "name": "border-spacing",
+            "type": "String",
+            "default": "'0px 0px'",
+            "class": "TableStyle",
+            "module": "attributes"
+        },
+        {
+            "file": "attributes.js",
+            "line": 356,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -646,18 +657,18 @@
         },
         {
             "file": "attributes.js",
-            "line": 356,
+            "line": 362,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
             "type": "String",
-            "default": "\"solid\"",
+            "default": "\"none\"",
             "class": "TableRowStyle",
             "module": "attributes"
         },
         {
             "file": "attributes.js",
-            "line": 362,
+            "line": 368,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -668,7 +679,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 368,
+            "line": 374,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -679,7 +690,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 374,
+            "line": 380,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -690,7 +701,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 380,
+            "line": 386,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -701,7 +712,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 386,
+            "line": 392,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -712,7 +723,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 392,
+            "line": 398,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -723,7 +734,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 412,
+            "line": 418,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -734,18 +745,18 @@
         },
         {
             "file": "attributes.js",
-            "line": 418,
+            "line": 424,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
             "type": "String",
-            "default": "\"solid\"",
+            "default": "\"none\"",
             "class": "TableCellStyle",
             "module": "attributes"
         },
         {
             "file": "attributes.js",
-            "line": 424,
+            "line": 430,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -756,7 +767,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 430,
+            "line": 436,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -767,7 +778,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 436,
+            "line": 442,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -778,7 +789,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 442,
+            "line": 448,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -789,7 +800,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 448,
+            "line": 454,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -800,7 +811,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 454,
+            "line": 460,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -811,7 +822,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 460,
+            "line": 466,
             "description": "Vertical align of the cell content.",
             "itemtype": "property",
             "name": "vertical-align",
@@ -822,7 +833,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 480,
+            "line": 486,
             "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
@@ -833,18 +844,18 @@
         },
         {
             "file": "attributes.js",
-            "line": 486,
+            "line": 492,
             "description": "Style of the border around the image. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
             "type": "String",
-            "default": "\"solid\"",
+            "default": "\"none\"",
             "class": "ImageStyle",
             "module": "attributes"
         },
         {
             "file": "attributes.js",
-            "line": 492,
+            "line": 498,
             "description": "Color of the border around the image.",
             "itemtype": "property",
             "name": "border-color",
@@ -855,7 +866,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 498,
+            "line": 504,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -866,7 +877,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 504,
+            "line": 510,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -877,7 +888,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 510,
+            "line": 516,
             "description": "Image width.",
             "itemtype": "property",
             "name": "width",
@@ -888,7 +899,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 516,
+            "line": 522,
             "description": "Image height.",
             "itemtype": "property",
             "name": "height",
@@ -899,7 +910,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 536,
+            "line": 542,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -910,7 +921,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 542,
+            "line": 548,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -921,7 +932,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 562,
+            "line": 568,
             "description": "Font size of the  text in the list.",
             "itemtype": "property",
             "name": "font-size",
@@ -932,7 +943,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 568,
+            "line": 574,
             "description": "Text color of the list item content.",
             "itemtype": "property",
             "name": "color",
@@ -943,7 +954,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 576,
+            "line": 582,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -954,7 +965,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 582,
+            "line": 588,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -965,7 +976,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 588,
+            "line": 594,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -976,7 +987,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 609,
+            "line": 615,
             "description": "Container of items. If an item has a method \"toHtml\", it will be applied when transforming the whole Content object into a string.",
             "itemtype": "property",
             "name": "elements",
@@ -987,7 +998,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 616,
+            "line": 622,
             "description": "The number of items in the \"elements\" property",
             "itemtype": "method",
             "name": "length",
@@ -1000,7 +1011,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 624,
+            "line": 630,
             "description": "Transforms the object into html form.  If item of the \"elements\" property is of Object type, then it should have \"toHtml\" method which is to be applied to the item.",
             "itemtype": "method",
             "name": "toHtml",
@@ -1013,7 +1024,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 662,
+            "line": 668,
             "description": "Attributes of the cell.",
             "itemtype": "property",
             "name": "attr",
@@ -1024,7 +1035,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 669,
+            "line": 675,
             "description": "Styles of the cell",
             "itemtype": "property",
             "name": "style",
@@ -1035,7 +1046,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 676,
+            "line": 682,
             "description": "Content of the cell",
             "itemtype": "property",
             "name": "content",
@@ -1046,7 +1057,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 683,
+            "line": 689,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -1066,7 +1077,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 692,
+            "line": 698,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -1082,7 +1093,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 703,
+            "line": 709,
             "description": "Generates cell-specific html code with corresponding attributes and styles",
             "itemtype": "method",
             "name": "toHtml",
@@ -1095,7 +1106,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 733,
+            "line": 739,
             "description": "Attributes of the row.",
             "itemtype": "property",
             "name": "attr",
@@ -1106,7 +1117,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 740,
+            "line": 746,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -1117,7 +1128,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 747,
+            "line": 753,
             "description": "Array of cells belonging to the row.",
             "itemtype": "property",
             "name": "cells",
@@ -1128,7 +1139,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 755,
+            "line": 761,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -1148,7 +1159,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 765,
+            "line": 771,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well. \nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -1164,7 +1175,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 776,
+            "line": 782,
             "description": "Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -1177,7 +1188,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 809,
+            "line": 815,
             "description": "Attributes of the table.",
             "itemtype": "property",
             "name": "attr",
@@ -1188,7 +1199,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 816,
+            "line": 822,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -1199,7 +1210,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 824,
+            "line": 830,
             "description": "Array of rows constituting the table or empty array",
             "itemtype": "property",
             "name": "rows",
@@ -1210,7 +1221,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 837,
+            "line": 843,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -1230,7 +1241,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 848,
+            "line": 854,
             "description": "Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
