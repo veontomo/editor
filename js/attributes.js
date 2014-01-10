@@ -850,6 +850,51 @@ function Table() {
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	};
+	/**
+	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance: 
+	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style' 
+	 * 2. in 'attr' property, sets up 'border' property. 
+	 * Note that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.
+	 * @method  setBorder
+	 * @param {Object} borderInfo  Object containing 'width', 'color' and 'style' fo the border to set.
+	 * @default  border-width is set to 1, border-color is set to #000000, border-style is set to solid.
+	 * @return {void}
+	 */
+	this.setBorder = function(borderInfo){
+		var bw, bc, bs;
+		if (borderInfo === undefined){
+			borderInfo = {'width': 1, 'color': '#000000', 'style': 'solid'};
+		}
+		bw = borderInfo.width ? borderInfo.width : 1;
+		bc = borderInfo.color ? borderInfo.color : '#000000';
+		bs = borderInfo.style ? borderInfo.style : 'solid';
+
+		this.style['border-width'] = bw;
+		this.style['border-color'] = bc;
+		this.style['border-style'] = bs;
+		this.attr.border = bw;
+	};
+	/**
+	 * Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:
+	 * 1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'
+	 * 2. in 'attr' property, deletes 'border' property. 
+	 * @method  removeBorder
+	 * @return {void}
+	 */
+	this.removeBorder = function(){
+		if (this.style.hasOwnProperty('border-width')) {
+			delete this.style['border-width'];
+		}
+		if (this.style.hasOwnProperty('border-color')) {
+			delete this.style['border-color'];
+		}
+		this.style['border-style'] = 'none';
+
+		if (this.attr.hasOwnProperty('border')) {
+			delete this.attr.border;
+		}
+	};
+
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()

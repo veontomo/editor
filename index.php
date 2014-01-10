@@ -48,6 +48,10 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				</script>
 				&egrave; il suo parent.
 			</li>
+			<li>
+				Valore predefinito per il bordo &egrave; <code>border-style: none;</code>. Per impostare un bordo, si deve specificare attributi <code>border-width</code> e <code>border-color</code>.
+				Quando invece si toglie il bordo, gli attributi <code>border-width</code> e <code>border-color</code> devono essere tolti e attributo <code>border-style</code> deve essere uguale a <code>none</code>.
+ 			</li>
 		</ol>
 
 

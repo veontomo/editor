@@ -191,6 +191,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             // rowStyle['margin-top'] = spaceTop;
             // rowStyle['margin-bottom'] = spaceBottom;
             row.style = rowStyle;
+            table.setBorder({'width': borderWidth, 'color': '#000000', 'style': 'solid'});
 
             if (nestedBorderWidth === 0) {
                 for (i = 0; i < cols; i++) {
@@ -226,15 +227,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
                 nestedTable.attr.border = nestedBorderWidth;
 
                 nestedTableStyle = new TableStyle();
-                nestedTableStyle['border-width'] = nestedBorderWidth;
-                nestedTableStyle['border-color'] = '#000000';
-                nestedTableStyle['border-style'] = 'solid';
+                // nestedTableStyle['border-width'] = nestedBorderWidth;
+                // nestedTableStyle['border-color'] = '#000000';
+                // nestedTableStyle['border-style'] = 'solid';
                 nestedTableStyle['margin-top'] = spaceTop;
                 nestedTableStyle['margin-bottom'] = spaceBottom;
 
                 nestedTableStyle.setWidth(cell.styleProperty('width'));
 
                 nestedTable.style = nestedTableStyle;
+                nestedTable.setBorder({'width': nestedBorderWidth, 'color': '#000000', 'style': 'solid'});
 
                 nestedRow = new Row();
                 nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;

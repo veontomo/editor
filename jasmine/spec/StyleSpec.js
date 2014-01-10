@@ -478,14 +478,14 @@ describe('Table-related code', function(){
      });
 
      it('retrieves non-existing property from the style', function() {
-         if (tableStyle.hasOwnProperty('row property')) {
-             delete tableStyle['row property'];
+         if (tableStyle.hasOwnProperty('a table property')) {
+             delete tableStyle['a table property'];
          }
          table.style = tableStyle;
-         expect(table.styleProperty('row property')).not.toBeDefined();
+         expect(table.styleProperty('a table property')).not.toBeDefined();
      });
 
-     it('sets the width of the row', function(){
+     it('sets the width of the table', function(){
          table.setWidth(15);
          expect(table.styleProperty('width')).toEqual(15);
          expect(table.styleProperty('min-width')).toEqual(15);
@@ -493,7 +493,7 @@ describe('Table-related code', function(){
          expect(table.attr.width).toEqual(15);
      });
 
-     it('generates html code of the row if attributes and styles are not empty', function(){
+     it('generates html code of the table if attributes and styles are not empty', function(){
          spyOn(row1, 'toHtml').andCallFake(function(){
              return 'row 1 ';
          });
@@ -516,7 +516,7 @@ describe('Table-related code', function(){
          expect(table.toHtml()).toEqual('<table table attributes style="table styles">row 1 row 2 html row 3 content</table>');
      });
 
-     it('generates html code of the row if attribute is empty', function(){
+     it('generates html code of the table if attribute is empty', function(){
          spyOn(row1, 'toHtml').andCallFake(function(){
              return 'row 1 ';
          });
@@ -539,7 +539,7 @@ describe('Table-related code', function(){
          expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
      });
 
-     it('generates html code of the row if style is empty', function(){
+    it('generates html code of the table if style is empty', function(){
          spyOn(row1, 'toHtml').andCallFake(function(){
              return 'row 1 ';
          });
@@ -562,8 +562,75 @@ describe('Table-related code', function(){
          expect(table.toHtml()).toEqual('<table table attributes>row 1 row 2 html row 3 content</table>');
      });
 
-     
+    it('sets the default values for the table border', function(){
+        expect(table.hasOwnProperty('setBorder')).toBe(true);
+        table.setBorder();
+        expect(table.style['border-width']).toBeDefined();
+        expect(table.style['border-color']).toBeDefined();
+        expect(table.style['border-style']).toBeDefined();
+        expect(table.attr.border).toBeDefined();
+    });
+
+
+    it('sets a border of the table', function(){
+        expect(table.hasOwnProperty('setBorder')).toBe(true);
+        table.setBorder({'width': 1, 'color': 'red', 'style': 'solid'});
+        expect(table.style['border-width']).toBe(1);
+        expect(table.style['border-color']).toBe('red');
+        expect(table.style['border-style']).toBe('solid');
+        expect(table.attr.border).toBeDefined();
+    });
+
+    it('sets a border of the table form incomplete input: no width', function(){
+        expect(table.hasOwnProperty('setBorder')).toBe(true);
+        table.setBorder({'color': 'red', 'style': 'solid'});
+        expect(table.style['border-width']).toBeDefined();
+        expect(table.style['border-color']).toBe('red');
+        expect(table.style['border-style']).toBe('solid');
+        expect(table.attr.border).toBeDefined();
+    });
+
+    it('sets a border of the table form incomplete input: no color', function(){
+        expect(table.hasOwnProperty('setBorder')).toBe(true);
+        table.setBorder({'width': 9, 'style': 'solid'});
+        expect(table.style['border-color']).toBeDefined();
+        expect(table.style['border-width']).toBe(9);
+        expect(table.style['border-style']).toBe('solid');
+        expect(table.attr.border).toBe(9);
+    });
+
+    it('sets a border of the table form incomplete input: no style', function(){
+        expect(table.hasOwnProperty('setBorder')).toBe(true);
+        table.setBorder({'width': 19, 'color': 'nice color'});
+        expect(table.style['border-width']).toBe(19);
+        expect(table.style['border-color']).toBe('nice color');
+        expect(table.style['border-style']).toBeDefined();
+        expect(table.attr.border).toBe(19);
+    });
+
+
+    it('resets the border of the table', function(){
+        // setting up the border-related properties to some dumb values
+        table.style['border-width'] = 'border width';
+        table.style['border-color'] = 'border color';
+        table.style['border-style'] = 'border style';
+        table.attr.border = 'border';
+        // remove border
+        expect(table.hasOwnProperty('removeBorder')).toBe(true);
+        table.removeBorder();
+
+        expect(table.style.hasOwnProperty('border-width')).toBe(false);
+        expect(table.style.hasOwnProperty('border-color')).toBe(false);
+        expect(table.style.hasOwnProperty('border-style')).toBe(true);
+        expect(table.style['border-style']).toBe('none');
+        expect(table.attr.hasOwnProperty('border')).toBe(false);
+
+    });
+
+
 });
+
+
 
 // describe('Row-related code', function() {
 //     var row;
