@@ -282,7 +282,7 @@ function TableStyle() {
 	 * @property {String} border-color
 	 * @default  "#FFFFFF"
 	 */
-	this["border-color"] = "#FFFFFF";
+	// this["border-color"] = "#FFFFFF";
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
@@ -294,7 +294,7 @@ function TableStyle() {
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	this["border-width"] = 0;
+	// this["border-width"] = 0;
 	/**
 	 * Margin of the table.
 	 * @property {String|Number} margin
@@ -352,7 +352,7 @@ function TableRowStyle() {
 	 * @property {String} border-color
 	 * @default  "#FFFFFF"
 	 */
-	this["border-color"] = "#FFFFFF"; //white color
+	// this["border-color"] = "#FFFFFF"; //white color
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
@@ -364,7 +364,7 @@ function TableRowStyle() {
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	this["border-width"] = 0;
+	// this["border-width"] = 0;
 	 /**
 	  * Margin of the table.
 	  * @property {String|Number} margin
@@ -414,7 +414,7 @@ function TableCellStyle() {
 	 * @property {String} border-color
 	 * @default  "#FFFFFF"
 	 */
-	this["border-color"] = "#FFFFFF";
+	// this["border-color"] = "#FFFFFF";
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
@@ -426,7 +426,7 @@ function TableCellStyle() {
 	 * @property {String|Number} border-width
 	 * @default  "0px"
 	 */
-	this["border-width"] = "0px";
+	// this["border-width"] = "0px";
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
@@ -482,7 +482,7 @@ function ImageStyle() {
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	this["border-width"] = 0;
+	// this["border-width"] = 0;
 	/**
 	 * Style of the border around the image. See html manuals for possible values.
 	 * @property {String} border-style
@@ -494,7 +494,7 @@ function ImageStyle() {
 	 * @property {String} border-color
 	 * @default  "#FFFFFF"
 	 */
-	this["border-color"] = "#FFFFFF";
+	// this["border-color"] = "#FFFFFF";
 	/**
 	 * Padding.
 	 * @property {String|Number} padding

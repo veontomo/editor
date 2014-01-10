@@ -225,6 +225,25 @@ describe('Cell-related functionality', function() {
 
     });
 
+    it('overrides previously set properties', function(){
+        cellStyle['a property'] = 'a property value';
+        cell.style = cellStyle;
+        expect(cell.style.hasOwnProperty('a property')).toBe(true);
+        expect(cell.style['a property']).toBe('a property value');
+        cell = new Cell();
+        expect(cell.style.hasOwnProperty('a property')).toBe(false);
+    });
+
+    it('overrides a previously set default property', function(){
+        var prop = 'padding';
+        expect(cell.style.hasOwnProperty(prop)).toBe(true);
+        cell.style[prop] = 'modified value';
+        cell = new Cell();
+        expect(cell.style.hasOwnProperty(prop)).toBe(true);
+        expect(cell.style[prop]).not.toBe('modified value');
+    });
+
+
     it('retrieves property of type "string" from the style', function() {
         cellStyle['a property'] = 'cell property value';
         cell.style = cellStyle;
