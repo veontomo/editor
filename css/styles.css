@@ -22,3 +22,8 @@ code {
 .warning{
 	color: red;
 }
+
+.NB:before{
+	content: "NB:";
+	font-weight: bold;
+}

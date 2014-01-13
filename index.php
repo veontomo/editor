@@ -144,6 +144,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 					</li>
 				</ol>
 			</li>
+			<li>
+				Per i font: impostare <code>font-color</code>, <code>font-size</code>, <code>font-family</code>. 
+				<div class="NB">
+					Gmail toglie l&#39;attributo <code>font-color</code> se il valore 
+				corrisponde a colore nero (<code>#000000</code>, <code>black</code> or <code>rgb(0, 0, 0)</code>). Quind&igrave; bisogna impostare un colore che sia molto simile a nero: per esempio, <code>#000001</code> o <code>rgb(0, 0, 1)</code>.
+				</div>
+			</li>
 		</ol>
 	<div class="template_logo"><a href="../newsletter_first_try/index.php#list"><img src="images/templates_icon.png" width="48px" height="48px">i template</a></div>
 	

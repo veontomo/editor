@@ -1,15 +1,15 @@
 ------------------------------------------------------------
-without tbody tag - 09/01/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+tabella senza bordi: color rgb(0,0,0) vs #000000 vs black - 13/01/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
-Email Iniziali : 1
-Email Senza Doppioni : 1
+Email Iniziali : 5
+Email Senza Doppioni : 5
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
-Email Senza BlackList : 1
-Data/Ora Inizio Spedizione : 09/01/2014 / 16:00:21
-Data/Ora Fine Spedizione : 09/01/2014 / 16:00:24
+Email Senza BlackList : 5
+Data/Ora Inizio Spedizione : 13/01/2014 / 10:30:03
+Data/Ora Fine Spedizione : 13/01/2014 / 10:30:19
 
-Spediti : 1
+Spediti : 5
 
 Configurazione : 
   Manda un'Email per ogni Indirizzo

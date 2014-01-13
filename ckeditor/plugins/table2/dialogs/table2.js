@@ -68,6 +68,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             }
             output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
             output.value = Math.round(output.value);
+            console.log('output of parentWidth ' + output);
+            console.log('padding: ' + startElem.getComputedStyle('padding'));
+
             return output;
         };
 
@@ -175,11 +178,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
             tableStyle = new TableStyle();
             tableStyle.setWidth(tableWidth);
-            if (borderWidth) {
-                tableStyle['border-width'] = borderWidth;
-                tableStyle['border-style'] = 'solid';
-                tableStyle['border-color'] = '#000000';
-            }
+            // if (borderWidth) {
+            //     tableStyle['border-width'] = borderWidth;
+            //     tableStyle['border-style'] = 'solid';
+            //     tableStyle['border-color'] = '#000000';
+            // }
 
             table.style = tableStyle;
             // creating a row
@@ -191,7 +194,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
             // rowStyle['margin-top'] = spaceTop;
             // rowStyle['margin-bottom'] = spaceBottom;
             row.style = rowStyle;
-            table.setBorder({'width': borderWidth, 'color': '#000000', 'style': 'solid'});
+            if (borderWidth) {
+                table.setBorder({'width': borderWidth, 'color': '#000000', 'style': 'solid'});
+            }
 
             if (nestedBorderWidth === 0) {
                 for (i = 0; i < cols; i++) {

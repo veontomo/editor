@@ -311,9 +311,9 @@ function TextStyle() {
 	/**
 	 * Font color
 	 * @property {String}	color 	Font color
-	 * @default &quot;#000000&quot;
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = &quot;#000000&quot;;
+	this.color = &quot;#000001&quot;;
 	/**
 	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
 	 * @property {String|Integer} font-weight
@@ -589,6 +589,12 @@ function TableCellStyle() {
 	 * @default  0
 	 */
 	this[&#x27;vertical-align&#x27;] = &#x27;top&#x27;;
+	/**
+	 * Font color
+	 * @property {String} color
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+	 */
+	this.color = &#x27;#000001&#x27;;
 }
 TableCellStyle.prototype = new Style();
 
@@ -695,9 +701,9 @@ function ListItemStyle() {
 	 * Text color of the list item content.
 	 * @property {String} color
 	 * @type {String}
-	 * @default &quot;#000000&quot;
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = &quot;#000000&quot;;
+	this.color = &quot;#000001&quot;;
 
 	/**
 	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
@@ -970,6 +976,51 @@ function Table() {
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	};
+	/**
+	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance: 
+	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27; 
+	 * 2. in &#x27;attr&#x27; property, sets up &#x27;border&#x27; property. 
+	 * Note that if after setting the border there is an assigment of &#x27;style&#x27; or &#x27;attr&#x27; property, then some info about the border might be overwritten.
+	 * @method  setBorder
+	 * @param {Object} borderInfo  Object containing &#x27;width&#x27;, &#x27;color&#x27; and &#x27;style&#x27; fo the border to set.
+	 * @default  border-width is set to 1, border-color is set to #000000, border-style is set to solid.
+	 * @return {void}
+	 */
+	this.setBorder = function(borderInfo){
+		var bw, bc, bs;
+		if (borderInfo === undefined){
+			borderInfo = {&#x27;width&#x27;: 1, &#x27;color&#x27;: &#x27;#000000&#x27;, &#x27;style&#x27;: &#x27;solid&#x27;};
+		}
+		bw = borderInfo.width || 1;
+		bc = borderInfo.color || &#x27;#000000&#x27;;
+		bs = borderInfo.style || &#x27;solid&#x27;;
+
+		this.style[&#x27;border-width&#x27;] = bw;
+		this.style[&#x27;border-color&#x27;] = bc;
+		this.style[&#x27;border-style&#x27;] = bs;
+		this.attr.border = bw;
+	};
+	/**
+	 * Removes the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
+	 * 1. in &#x27;style&#x27; property, deletes the properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and sets up &#x27;border-style&#x27; to &#x27;none&#x27;
+	 * 2. in &#x27;attr&#x27; property, deletes &#x27;border&#x27; property. 
+	 * @method  removeBorder
+	 * @return {void}
+	 */
+	this.removeBorder = function(){
+		if (this.style.hasOwnProperty(&#x27;border-width&#x27;)) {
+			delete this.style[&#x27;border-width&#x27;];
+		}
+		if (this.style.hasOwnProperty(&#x27;border-color&#x27;)) {
+			delete this.style[&#x27;border-color&#x27;];
+		}
+		this.style[&#x27;border-style&#x27;] = &#x27;none&#x27;;
+
+		if (this.attr.hasOwnProperty(&#x27;border&#x27;)) {
+			delete this.attr.border;
+		}
+	};
+
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()

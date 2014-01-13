@@ -191,9 +191,9 @@ function TextStyle() {
 	/**
 	 * Font color
 	 * @property {String}	color 	Font color
-	 * @default "#000000"
+	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = "#000000";
+	this.color = "#000001";
 	/**
 	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
 	 * @property {String|Integer} font-weight
@@ -469,6 +469,12 @@ function TableCellStyle() {
 	 * @default  0
 	 */
 	this['vertical-align'] = 'top';
+	/**
+	 * Font color
+	 * @property {String} color
+	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+	 */
+	this.color = '#000001';
 }
 TableCellStyle.prototype = new Style();
 
@@ -575,9 +581,9 @@ function ListItemStyle() {
 	 * Text color of the list item content.
 	 * @property {String} color
 	 * @type {String}
-	 * @default "#000000"
+	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = "#000000";
+	this.color = "#000001";
 
 	/**
 	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
@@ -865,9 +871,9 @@ function Table() {
 		if (borderInfo === undefined){
 			borderInfo = {'width': 1, 'color': '#000000', 'style': 'solid'};
 		}
-		bw = borderInfo.width ? borderInfo.width : 1;
-		bc = borderInfo.color ? borderInfo.color : '#000000';
-		bs = borderInfo.style ? borderInfo.style : 'solid';
+		bw = borderInfo.width || 1;
+		bc = borderInfo.color || '#000000';
+		bs = borderInfo.style || 'solid';
 
 		this.style['border-width'] = bw;
 		this.style['border-color'] = bc;
