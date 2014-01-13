@@ -86,6 +86,15 @@ CKEDITOR.plugins.add('table2', {
 				dropRow(editor);
 			}
 		});
+		editor.addCommand('table2DeleteTable', {
+			exec: function (ed) {
+				console.log("!!!remove table!");
+				var table = $(ed.getSelection().getStartElement().$).closest('table[data-marker=table]');
+				if (table) {
+					table.remove();
+				}
+			}
+		});
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('Table2', {
@@ -127,6 +136,12 @@ CKEDITOR.plugins.add('table2', {
 				command: 'table2DeleteRow',
 				group: 'table2Group'
 			});
+			editor.addMenuItem('table2DeleteTable', {
+				label: editor.lang.table.deleteTable,
+				icon: this.path + 'icons/deleteTable.png',
+				command: 'table2DeleteTable',
+				group: 'table2Group'
+			});
 
 
 			editor.contextMenu.addListener(function (element) {
@@ -135,16 +150,17 @@ CKEDITOR.plugins.add('table2', {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
 						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
-						table2DeleteRow: CKEDITOR.TRISTATE_OFF
+						table2DeleteRow: CKEDITOR.TRISTATE_OFF,
 					};
 				}
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				if (element.getAscendant('table', true)) {
+				var el = $(element.$).closest('table[data-marker=table]');
+				if (el) {
 					return {
-						table2Item: CKEDITOR.TRISTATE_OFF
-					};
+						table2DeleteTable: CKEDITOR.TRISTATE_OFF
+					}
 				}
 			});
 
