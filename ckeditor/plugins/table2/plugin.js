@@ -39,7 +39,9 @@ var firstLetterUpperCase = function (str) {
  */
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
-			currentRow = ed.getSelection().getStartElement().getAscendant(tag, true),
+		
+			// currentRow = ed.getSelection().getStartElement().getAscendant(tag, true),
+			currentRow = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=row]'),
 			newElement = new CKEDITOR.dom.element(tag),
 			operation = 'insert' + firstLetterUpperCase(pos),
 			currentChildren = currentRow.getChildren(),
@@ -155,7 +157,8 @@ CKEDITOR.plugins.add('table2', {
 
 			editor.contextMenu.addListener(function (element) {
 				var el = $(element.$).closest('table[data-marker=table]');
-				if (el.length) {
+				console.log('el length: ' + el.length);
+				if (el && el.length) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF
 					};
