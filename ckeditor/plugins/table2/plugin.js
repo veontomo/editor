@@ -39,27 +39,40 @@ var firstLetterUpperCase = function (str) {
  */
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
-		
-			// currentRow = ed.getSelection().getStartElement().getAscendant(tag, true),
-			currentRow = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=row]'),
-			newElement = new CKEDITOR.dom.element(tag),
-			operation = 'insert' + firstLetterUpperCase(pos),
-			currentChildren = currentRow.getChildren(),
-			childNum = currentChildren.count(),
-			i, child, newChild;
-
+			dataMarkerAttr = 'data-marker',
+			dataMarkerVal = 'row',
+			currentElem = ed.getSelection().getStartElement(),
+			newElement, operation, currentChildren, childNum, i, child, newChild,
+			row = currentElem.getAscendant(tag, true);
+		console.log('current elem: tag ' + row.getName() + ', data-marker : ' + row.getAttribute(dataMarkerAttr) );
+		console.log('name == dataMarkerVal: ' + (row.getName() === tag));
+		console.log('attr == dataMarkerVal: ' + (row.getAttribute(dataMarkerAttr) === dataMarkerVal));
+			
+		while(!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))){
+			row = row.getParent();
+			// whether the newly defined element exists and is of CKEDITOR type
+			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)){
+				console.log('element is not found');
+				return false; // exit point, in case no element is found in the 
+			}
+		}	
+		newElement = new CKEDITOR.dom.element(tag);
+		operation = 'insert' + firstLetterUpperCase(pos);
+		currentChildren = row.getChildren();
+		childNum = currentChildren.count();
+			
 		if (newElement[operation] !== undefined) {
-			newElement[operation](currentRow);
+			newElement[operation](row);
 		} else {
 			console.log('no ' + operation + ' in newElement');
 			return null;
 		}
 
-		currentRow.copyAttributes(newElement);
+		row.copyAttributes(newElement);
 		for (i = 0; i < childNum; i++) {
 			child = currentChildren.getItem(i);
 			newChild = new CKEDITOR.dom.element(child.getName());
-			newChild.setHtml('&curren;');
+			newChild.setHtml(row.getChild(i).getHtml());
 			newElement.append(newChild);
 			child.copyAttributes(newChild);
 		}
