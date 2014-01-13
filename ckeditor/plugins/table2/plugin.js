@@ -39,7 +39,6 @@ var firstLetterUpperCase = function (str) {
  */
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
-			// tag to replicate
 			currentRow = ed.getSelection().getStartElement().getAscendant(tag, true),
 			newElement = new CKEDITOR.dom.element(tag),
 			operation = 'insert' + firstLetterUpperCase(pos),
@@ -88,9 +87,8 @@ CKEDITOR.plugins.add('table2', {
 		});
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				console.log("!!!remove table!");
 				var table = $(ed.getSelection().getStartElement().$).closest('table[data-marker=table]');
-				if (table) {
+				if (table.length) {
 					table.remove();
 				}
 			}
@@ -146,26 +144,23 @@ CKEDITOR.plugins.add('table2', {
 
 			editor.contextMenu.addListener(function (element) {
 				var el = $(element.$).closest('tr[data-marker=row]');
-				if (el) {
+				if (el.length) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
 						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
-						table2DeleteRow: CKEDITOR.TRISTATE_OFF,
+						table2DeleteRow: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});
 
 			editor.contextMenu.addListener(function (element) {
 				var el = $(element.$).closest('table[data-marker=table]');
-				if (el) {
+				if (el.length) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF
-					}
+					};
 				}
 			});
-
-
 		}
-
 	}
 });
