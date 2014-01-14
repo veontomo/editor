@@ -268,6 +268,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			editor.insertElement(tableElem);
 			// assigning events 
 			$(tableElem.$).hover(function () {
+				// hovering table row
 				$(this).find('tr').hover(function () {
 					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
 				}, function () {

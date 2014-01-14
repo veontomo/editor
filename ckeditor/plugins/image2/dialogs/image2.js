@@ -1,3 +1,5 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, ImageStyle */
 /*var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
 $.post('php/saveDraft.php', 
 	{'data': editorContent}, 
@@ -35,10 +37,22 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						type: 'text',
 						id: 'imageUrl',
 						label: editor.lang.common.url,
-
-						// Validation checking whether the field is not empty.
+						validate: function(){
+							var isOk = Boolean(this.getValue().trim());
+							if (!isOk){
+								var warningField = CKEDITOR.document.getById('warning');
+								warningField.setHtml(editor.lang.common.invalidValue);
+							}
+							return isOk;
+						},
 						default: ""
 					},
+					{
+						// alternative text
+						type: 'html',
+						html: '<div id="warning" style="color:red;"></div>'
+					},
+
 					{
 						// alternative text
 						type: 'text',
@@ -48,6 +62,8 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						// Validation checking whether the field is not empty.
 						default: ""
 					},
+
+
 				]
 			},
 		],
@@ -55,6 +71,8 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			var dialog = this;
+			// removes eventual warning text			
+			CKEDITOR.document.getById('warning').setHtml('');
 
 			// user input
 			var textAlt = dialog.getValueOf('tab-general', 'textAlt');
@@ -62,11 +80,16 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 
 			var elem = editor.document.createElement('img');
 			elem.setAttribute('alt', textAlt);
+			elem.setAttribute('title', textAlt);
 			elem.setAttribute('src', imageUrl);
 
 			// Calculate image width and height. This block should stay after "src" attribute is assigned.
 			var imH = elem.$.height;
 			var imW = elem.$.width;
+
+			if (!(imW && imH)) {
+				alert('Non riesco a ricavare dimensioni dell\'immagine');
+			}
 
 			elem.setAttribute('width', imW);
 			elem.setAttribute('height', imH);
