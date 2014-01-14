@@ -102,6 +102,18 @@ describe('Getting property from the object', function(){
 
 });
 
+describe('creates a style object from a string', function(){
+    it('creates styles from a string', function(){
+        var s = new Style('a:10; color: some color; another-attr: un altro valore;');
+        expect(s.hasOwnProperty('a')).toBe(true);
+        expect(s.a).toBe(10);
+        expect(s.hasOwnProperty('color')).toBe(true);
+        expect(s.color).toBe('some color');
+        expect(s.hasOwnProperty('another-attr')).toBe(true);
+        expect(s['another-attr']).toBe('un altro valore');
+    })
+});
+
 describe('Setting the width property of an object', function(){
     it('sets the width property of an empty object to be equal ot a number', function(){
         var obj = {},

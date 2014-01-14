@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var INPUTCOLWIDTHNAME = 'widthCol',
@@ -267,18 +267,35 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			editor.insertElement(tableElem);
 			// assigning events 
-			$(tableElem.$).hover(function () {
-				// hovering table row
-				$(this).find('tr').hover(function () {
-					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
-				}, function () {
-					// get inline styles of the element
+			$(tableElem.$).hover(
+				function () {
+					// hovering the whole table
+					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAA00');
+					// hovering table row
+					$(this).find('tr').hover(
+						function () {
+							$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
+						}, 
+						function () {
+							// unhovering the table row
+							var attr = $(this).attr('style'),
+								style = new Style(attr);
+							if (style.hasOwnProperty('box-shadow')){
+								delete style['box-shadow'];	
+							}
+							$(this).attr('style', style.toString());
+						}
+					);
+				}, function(){
+					// unhovering table
 					var attr = $(this).attr('style'),
-						// drops any info corresponding to box-shadow attribute
-						noShadow = attr.replace(/\s*box-shadow:\s*(\d+(\.\d+)?(em|px)?\s+){3,4}(rgb\((\s*\d+\s*,?){3}\)|#[a-f0-9]{3,6});/i, ''); 
-					$(this).attr('style', noShadow); // apply updated style
-				});
-			});
+						style = new Style(attr);
+					if (style.hasOwnProperty('box-shadow')){
+						delete style['box-shadow'];	
+					}
+					$(this).attr('style', style.toString());
+				}
+			);
 		}
 	};
 });

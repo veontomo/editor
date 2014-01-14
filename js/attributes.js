@@ -100,12 +100,36 @@ function getProperty(obj, prop){
 /**
 * This class is supposed to characterize inline styles of html tags.
 * @module 	attributes
-* @class  Style
+* @param 	{string} str 	string of label-value pairs
+* @class  	Style
 */
-function Style() {
+function Style(str) {
 	"use strict"; 
 	if (!(this instanceof Style)) {
 		return new Style();
+	}
+
+	/**
+	 * Fill in the properties with the values from the argument if any
+	 */
+	if (typeof str === 'string'){
+		var attr = str.split(';'),
+			len = attr.length,
+			i, pair, key, value;
+		// parse each attribute/value pair
+		for (i = 0; i < len; i++){
+			pair = attr[i].split(':');
+			// ignore if there is more than one semicolon
+			if (pair.length !== 2){
+				continue;
+			}
+			key = pair[0].trim();
+			value =  pair[1].trim();
+			if(parseFloat(value)){
+				value = parseFloat(value);
+			}
+			this[key] = value;
+		}
 	}
 	/**
 	 * Generates string representation of this object (as inline styles)
