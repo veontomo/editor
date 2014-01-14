@@ -44,16 +44,13 @@ var insertRow = function (ed, pos) {
 			currentElem = ed.getSelection().getStartElement(),
 			newElement, operation, currentChildren, childNum, i, child, newChild,
 			row = currentElem.getAscendant(tag, true);
-		console.log('current elem: tag ' + row.getName() + ', data-marker : ' + row.getAttribute(dataMarkerAttr) );
-		console.log('name == dataMarkerVal: ' + (row.getName() === tag));
-		console.log('attr == dataMarkerVal: ' + (row.getAttribute(dataMarkerAttr) === dataMarkerVal));
 			
+		// looking for the table row marked as data-marker="row"
 		while(!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))){
 			row = row.getParent();
 			// whether the newly defined element exists and is of CKEDITOR type
 			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)){
-				console.log('element is not found');
-				return false; // exit point, in case no element is found in the 
+				return null; // exit in case no element is found in the DOM
 			}
 		}	
 		newElement = new CKEDITOR.dom.element(tag);
@@ -170,7 +167,6 @@ CKEDITOR.plugins.add('table2', {
 
 			editor.contextMenu.addListener(function (element) {
 				var el = $(element.$).closest('table[data-marker=table]');
-				console.log('el length: ' + el.length);
 				if (el && el.length) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF
