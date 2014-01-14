@@ -1,3 +1,6 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, LinkStyle, dropProtocol */
+
 function target_exists(fileName) {
     $.ajax({
         url: fileName,
@@ -9,7 +12,6 @@ function target_exists(fileName) {
         },
         success: function () {
             console.debug("file " + fileName + " is found");
-            var output = true;
         }
     }).complete(function () {
         console.debug("ajax finished");
@@ -73,7 +75,7 @@ var normalize = function (arr) {
                 return elem === 0;
             });
         if (areAllZeroes) {
-            arr = arr.map(function (arg) {
+            arr = arr.map(function () {
                 return 1;
             });
             total = len;
@@ -247,22 +249,28 @@ function Unit(value, measure) {
     };
 
     this.add = function (unit) {
-        var result;
         if (!this.isLikeAs(unit)) {
             throw new Error("these Unit instances can not be summed up!");
-        } else {
-            unit = new Unit(unit);
-            return new Unit(this.value + unit.value, this.measure);
-        }
+        } 
+        unit = new Unit(unit);
+        return new Unit(this.value + unit.value, this.measure);
+        
     };
 
     this.sub = function (unit) {
-        var result;
         if (!this.isLikeAs(unit)) {
             throw new Error("these Unit instances can not be subtracted!");
-        } else {
-            unit = new Unit(unit);
-            return new Unit(this.value - unit.value, this.measure);
         }
+        unit = new Unit(unit);
+        return new Unit(this.value - unit.value, this.measure);
+        
     };
 }
+
+function specialChar(str){
+    if (typeof str !== 'string'){
+        return null;
+    }
+    return str;
+}
+

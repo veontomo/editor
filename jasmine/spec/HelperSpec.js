@@ -159,3 +159,15 @@ describe('It has a class Unit', function () {
         }).toThrow(new Error("these Unit instances can not be subtracted!"));
     });
 });
+
+describe('Escaping special characters', function(){
+    it('leaves "normal" characters', function(){
+        var str = "abcdef";
+        expect(specialChar(str)).toBe(str);
+    });
+
+    it('escapes special characters', function(){
+        var str = "à ò è";
+        expect(specialChar(str)).toBe("&#224; &#242; &#232;");
+    });
+});
