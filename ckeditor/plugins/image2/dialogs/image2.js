@@ -1,21 +1,5 @@
 /*jslint plusplus: true, white: true */
 /*global CKEDITOR, ImageStyle */
-/*var editorContent = CKEDITOR.instances.editor.document.getBody().getHtml();
-$.post('php/saveDraft.php', 
-	{'data': editorContent}, 
-		function(filename){
-			console.log("data sent and file name is recieved: " + filename);
-			$(location).attr('href', 'php/downloadFile.php?filename='+filename); 
-	}
-)
-*//**
- * The abbr dialog definition.
- *
- * Created out of the CKEditor Plugin SDK:
- * http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_1
- */
-
-// Our dialog definition.
 CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 	return {
 		// Basic properties of the dialog window: title, minimum size.

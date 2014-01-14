@@ -1,3 +1,6 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, LinkStyle, dropProtocol */
+
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     return {
         title: editor.lang.link.info,
@@ -44,10 +47,12 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            var node = this.getParentEditor().getSelection();
-            var sel = node.getNative();
-            var hrefComplete = node.getStartElement().getAttribute('href');
-            var href = hrefComplete ? dropProtocol(hrefComplete) : ''; // see helpers.js for the definitions of dropProtocol() and other functions.
+            var node = this.getParentEditor().getSelection(),
+                // sel = node.getNative(),
+                sel = node.getStartElement().getHtml(),
+                hrefComplete = node.getStartElement().getAttribute('href'),
+                href = hrefComplete ? dropProtocol(hrefComplete) : ''; // see helpers.js for the definitions of dropProtocol() and other functions.
+                console.log(node.getStartElement().getHtml());
 
             this.setValueOf('tab-general', 'text', sel);
             this.setValueOf('tab-general', 'href', href);
@@ -63,18 +68,16 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 var aTagContent = linkText || link;
 
                 var underlined = this.getValueOf('tab-general', 'underlined');
-                var stylesLink = new LinkAttributes();
+                var stylesLink = new LinkStyle();
                 stylesLink["text-decoration"] = underlined ? 'underline' : 'none';
 
                 var aTag = editor.document.createElement('a');
                 aTag.setAttribute('href', link);
                 aTag.setAttribute('style', stylesLink.toString());
-                aTag.setAttribute('target', '_blank');
                 aTag.setHtml(aTagContent);                
                 editor.insertElement(aTag);
             }else{
                 // url is not provided, so let's insert the linkText as a plain text
-
                 editor.insertHtml(linkText);
             }
         }

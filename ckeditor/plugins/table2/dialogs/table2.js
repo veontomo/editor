@@ -2,6 +2,21 @@
 /*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
+	/**
+	 * Drops inline attribute named attrName from DOM element
+	 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
+	 * @param  {string} attrName 	this attribute name will be dropped.
+	 * @return {void}
+	 */
+	var dropInlineStyleAttr = function(element, attrName){
+		// unhovering table
+		var attr = element.attr('style'),
+			style = new Style(attr);
+		if (style.hasOwnProperty(attrName)){
+			delete style[attrName];	
+		}
+		element.attr('style', style.toString());
+	};
 	var INPUTCOLWIDTHNAME = 'widthCol',
 		// draw input fields for column width
 		drawColumns = function () {
@@ -270,7 +285,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			$(tableElem.$).hover(
 				function () {
 					// hovering the whole table
-					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAA00');
+					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
 					// hovering table row
 					$(this).find('tr').hover(
 						function () {
@@ -278,22 +293,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, 
 						function () {
 							// unhovering the table row
-							var attr = $(this).attr('style'),
-								style = new Style(attr);
-							if (style.hasOwnProperty('box-shadow')){
-								delete style['box-shadow'];	
-							}
-							$(this).attr('style', style.toString());
+							var that = this;
+							dropInlineStyleAttr($(that), 'box-shadow');
 						}
 					);
 				}, function(){
 					// unhovering table
-					var attr = $(this).attr('style'),
-						style = new Style(attr);
-					if (style.hasOwnProperty('box-shadow')){
-						delete style['box-shadow'];	
-					}
-					$(this).attr('style', style.toString());
+					var that = this;
+					dropInlineStyleAttr($(that), 'box-shadow');
 				}
 			);
 		}
