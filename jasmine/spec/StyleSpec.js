@@ -1,12 +1,13 @@
+/*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, 
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
             'width': 10,
             'color': 'red',
             'string': '10',
-            'function': function() {}
+            'function': function() {return 'dummy function';}
         },
             Obj2 = {},
             Obj3 = {
@@ -31,7 +32,7 @@ describe('String representation 2', function() {
             'width': 10,
             'color': 'red',
             'string': '10',
-            'function': function() {}
+            'function': function() {return 'dummy function';}
         },
             Obj2 = {},
             Obj3 = {
@@ -111,7 +112,7 @@ describe('creates a style object from a string', function(){
         expect(s.color).toBe('some color');
         expect(s.hasOwnProperty('another-attr')).toBe(true);
         expect(s['another-attr']).toBe('un altro valore');
-    })
+    });
 });
 
 describe('Setting the width property of an object', function(){
@@ -366,12 +367,11 @@ describe('Cell-related functionality', function() {
 });
 
 describe('Row-related functionality', function(){
-    var row, rowAttr, rowStyle, cells;
+    var row, rowAttr, rowStyle;
     beforeEach(function(){
         row = new Row();
         rowAttr = new Attributes();
         rowStyle = new TableRowStyle();
-        cells = [];
     });
 
     it('retrieves property of type "string" from the style', function() {
