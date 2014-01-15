@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, ImageStyle */
+/*global CKEDITOR, ImageStyle, alert */
 CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 	return {
 		// Basic properties of the dialog window: title, minimum size.
