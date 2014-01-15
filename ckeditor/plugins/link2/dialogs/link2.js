@@ -27,7 +27,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         if (!isOk){
                             var warningField = CKEDITOR.document.getById('linkWarning');
                             warningField.setHtml(editor.lang.common.invalidValue);
-                        } 
+                        }
                         return isOk;
                     }
                 }]
@@ -88,11 +88,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 var aTag = editor.document.createElement('a');
                 aTag.setAttribute('href', link);
                 aTag.setAttribute('style', stylesLink.toString());
-                aTag.setHtml(aTagContent);                
-                editor.insertElement(aTag);
+                aTag.setHtml(aTagContent);
+                // editor.insertElement(aTag);
             }else{
                 // url is not provided, so let's insert the linkText as a plain text
-                editor.insertHtml(linkText);
+                // editor.insertHtml(linkText);
             }
         }
     };
