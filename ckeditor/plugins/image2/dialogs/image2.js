@@ -54,7 +54,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			var dialog = this;
-			// removes eventual warning text			
+			// removes eventual warning text
 			CKEDITOR.document.getById('warning').setHtml('');
 
 			// user input
@@ -84,7 +84,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 			elem.setAttribute('style', stylesImage.toString());
 
 			// Inserts the element at the editor caret position.
-			editor.insertElement(elem);		
+			editor.insertElement(elem);
 		}
 	};
 });

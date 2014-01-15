@@ -29,7 +29,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                             warningField.setHtml(editor.lang.common.invalidValue);
                         }
                         return isOk;
-                    }
+                    },
+                    "default": 'stupid link'
                 }]
             },
             {
@@ -64,15 +65,40 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 // sel = node.getNative(),
                 sel = node.getStartElement().getHtml(),
                 hrefComplete = node.getStartElement().getAttribute('href'),
-                href = hrefComplete ? dropProtocol(hrefComplete) : ''; // see helpers.js for the definitions of dropProtocol() and other functions.
-                console.log(node.getStartElement().getHtml());
+                // see helpers.js for the definitions of dropProtocol() and other functions.
+                href = hrefComplete ? dropProtocol(hrefComplete) : '';
 
-            this.setValueOf('tab-general', 'text', sel);
-            this.setValueOf('tab-general', 'href', href);
-            console.log(node.getType());
+            // this.setValueOf('tab-general', 'text', sel);
+            // this.setValueOf('tab-general', 'href', href);
         },
 
         onOk: function() {
+            var msg,
+                node = this.getParentEditor().getSelection();
+                // sel = node.getNative(),
+                // sel = node.getStartElement().getHtml(),
+                // hrefComplete = node.getStartElement().getAttribute('href');
+            switch (node.getType()){
+                case CKEDITOR.SELECTION_NONE:
+                    msg = 'nothing is selected';
+                    break;
+                case CKEDITOR.SELECTION_TEXT:
+                    msg = 'text is selected';
+                    break;
+                case CKEDITOR.SELECTION_ELEMENT:
+                    msg = 'element is selected';
+                    break;
+            }
+            console.log(msg);
+
+            var ranges = node.getRanges();
+            console.log('selected text: ', node.getSelectedText());
+            console.log('selected elem: ', node.getSelectedElement());
+            console.log('ranges: ', ranges);
+            console.log('ranges[0]: ', ranges[0]);
+            console.log('native: ', node.getNative());
+
+
             var linkRaw = this.getValueOf('tab-general', 'href');
             var linkText = this.getValueOf('tab-general', 'text');
 
@@ -89,9 +115,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 aTag.setAttribute('href', link);
                 aTag.setAttribute('style', stylesLink.toString());
                 aTag.setHtml(aTagContent);
+                console.log('insertion disabled: ' + aTag);
                 // editor.insertElement(aTag);
-            }else{
+            } else {
                 // url is not provided, so let's insert the linkText as a plain text
+                console.log('insertion disabled: ' + linkText);
                 // editor.insertHtml(linkText);
             }
         }
