@@ -39,7 +39,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 			var fileName = this.getValueOf('tab-general', 'filename'),
 				editorContent = editor.document.getBody().getHtml(),
 				fileContent, sanitizedContent;
-			sanitizedContent = editorContent.replace(/\t/g, ' ');
+			sanitizedContent = specialChar(editorContent.replace(/\t/g, ' '));
 			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" + 
 				sanitizedContent +  "\n</body></html>";
 			$.post('php/saveDraft.php', 
