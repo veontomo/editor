@@ -271,6 +271,17 @@ function specialChar(str){
     if (typeof str !== 'string'){
         return null;
     }
-    return str;
+    var len, i, code, output = '';
+    len = str.length;
+    console.log('input: ' + str + ', len: ' + len);
+    for (i = 0; i < len; i++){
+        code = str.charCodeAt(i);
+        if(code > 31 && code < 126){
+            output += str[i];
+        } else {
+            output += '&#' + code + ';';
+        }
+    }
+    return output;
 }
 

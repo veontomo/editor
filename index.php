@@ -168,6 +168,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			}?>
 	</textarea>
 	</div>
-
 </body>
 </html>

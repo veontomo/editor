@@ -1,4 +1,5 @@
-/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth*/
+/*jslint plusplus: true, white: true */
+/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth, specialChar*/
 describe("file extension", function () {
     it("gives the file extension", function () {
         expect(fileExt('c:/folder/test.exe')).toEqual('exe');
@@ -100,7 +101,7 @@ describe('It has a class Unit', function () {
         expect(new Unit(u8)).toEqual(u8);
 
         expect(function () {
-            var foo = new Unit('a string');
+            u1 = new Unit('a string');
         }).toThrow('Can not convert into a Unit object!');
     });
 
@@ -110,7 +111,6 @@ describe('It has a class Unit', function () {
             u3 = new Unit(2.5),
             u4 = new Unit(1, ''),
             u5 = new Unit(12, 'cm '),
-            u6 = new Unit(0.5, ' cm'),
             u7 = new Unit(),
             u8 = new Unit('10.1cm'),
             u9 = new Unit('10.1');
@@ -161,13 +161,31 @@ describe('It has a class Unit', function () {
 });
 
 describe('Escaping special characters', function(){
-    it('leaves "normal" characters', function(){
-        var str = "abcdef";
+    it('does not change "safe" characters', function(){
+        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%&\\/^\"'<>_"; 
         expect(specialChar(str)).toBe(str);
+    });
+
+    it('escapes single character à', function(){
+        var str = 'à';
+        expect(specialChar(str)).toBe("&#224;");
+    });
+
+    it('leaves & untouched', function(){
+        expect(specialChar('&')).toBe('&');
+        expect(specialChar('abcd&ef')).toBe('abcd&ef');
+        expect(specialChar('&ef')).toBe('&ef');
+        expect(specialChar('abc&')).toBe('abc&');
     });
 
     it('escapes special characters', function(){
         var str = "à ò è";
         expect(specialChar(str)).toBe("&#224; &#242; &#232;");
     });
+
+    it('escapes only special characters in mixed strings', function(){
+        var str = "<div style=\"color:red;\">01 à A ò (È) è</div>";
+        expect(specialChar(str)).toBe("<div style=\"color:red;\">01 &#224; A &#242; (&#200;) &#232;</div>");
+    });
+
 });
