@@ -267,6 +267,12 @@ function Unit(value, measure) {
     };
 }
 
+/**
+ * Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é
+ * and not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125]. 
+ * @param  {string}     str   
+ * @return {string}
+ */
 function specialChar(str){
     if (typeof str !== 'string'){
         return null;
