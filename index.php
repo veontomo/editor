@@ -166,6 +166,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 64px;" title="torta" width="64" />
 	</textarea>
 	</div>
 </body>

@@ -17,13 +17,26 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 children: [{
                     type: 'html',
                     html: 'http://',
-                    style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;'
+                    style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;',
                 }, {
                     type: 'text',
                     id: 'href',
-                    style: 'padding-left: 0px; margin: 0; float: left; width: 100%;'
+                    style: 'padding-left: 0px; margin: 0; float: left; width: 100%;',
+                    validate: function(){
+                        var isOk = Boolean(this.getValue().trim());
+                        if (!isOk){
+                            var warningField = CKEDITOR.document.getById('linkWarning');
+                            warningField.setHtml(editor.lang.common.invalidValue);
+                        } 
+                        return isOk;
+                    }
                 }]
-            }, {
+            },
+            {
+                type: 'html',
+                html: '<div id="linkWarning" style="color:red;"></div>'
+            },
+            {
                 type: 'hbox',
                 widths: ['10%', '90%'],
                 children: [{
@@ -56,6 +69,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
             this.setValueOf('tab-general', 'text', sel);
             this.setValueOf('tab-general', 'href', href);
+            console.log(node.getType());
         },
 
         onOk: function() {

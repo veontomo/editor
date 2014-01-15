@@ -32,7 +32,6 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						default: ""
 					},
 					{
-						// alternative text
 						type: 'html',
 						html: '<div id="warning" style="color:red;"></div>'
 					},
