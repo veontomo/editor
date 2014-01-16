@@ -75,7 +75,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     switch (startCont.type){
                         case CKEDITOR.NODE_ELEMENT:
                             linkContent = startCont.getHtml();
-                            linkHref = startCont.getAttribute('href');
+                            linkHref = decodeURI(dropProtocol(startCont.getAttribute('href') || ''));
                             break;
                         case CKEDITOR.NODE_TEXT:
                             linkContent = startCont.getText();

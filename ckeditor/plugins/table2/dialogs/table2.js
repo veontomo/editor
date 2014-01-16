@@ -13,7 +13,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		var attr = element.attr('style'),
 			style = new Style(attr);
 		if (style.hasOwnProperty(attrName)){
-			delete style[attrName];	
+			delete style[attrName];
 		}
 		element.attr('style', style.toString());
 	};
@@ -170,7 +170,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// variables to be used in what follows
 				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle, tableStr;
 
-			// read inserted values 
+			// read inserted values
 			cellWeights = [];
 			for (i = 0; i < cols; i++) {
 				// in fact, this check is needed only when the user does not change the default number of the table rows
@@ -234,8 +234,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellStyle = new TableCellStyle();
 				cellStyle.setWidth(rowWidth);
 				delete cellStyle.padding;
-				cellStyle['padding-left'] = nestedBorderWidth;
-				cellStyle['padding-right'] = nestedBorderWidth;
+				cellStyle['padding-left'] = 0;
+				cellStyle['padding-right'] = 0;
 				cellStyle['padding-top'] = spaceTop;
 				cellStyle['padding-bottom'] = spaceBottom;
 				// console.log('cell for framed table: ');
@@ -281,7 +281,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			editor.insertElement(tableElem);
-			// assigning events 
+			// assigning events
 			$(tableElem.$).hover(
 				function () {
 					// hovering the whole table
@@ -290,7 +290,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					$(this).find('tr').hover(
 						function () {
 							$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
-						}, 
+						},
 						function () {
 							// unhovering the table row
 							var that = this;
