@@ -30,7 +30,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         }
                         return isOk;
                     },
-                    "default": 'stupid link'
+                    "default": 'www.stupid.link'
                 }]
             },
             {
@@ -47,7 +47,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 }, {
                     type: 'text',
                     id: 'text',
-                    style: 'padding-left: 0px; margin: 0; float: left; width: 100%;'
+                    style: 'padding-left: 0px; margin: 0; float: left; width: 100%;',
+                    "default": "descrizione del link"
                 }]
             }, {
                 type: 'html',
@@ -61,67 +62,54 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            var node = this.getParentEditor().getSelection(),
+            // var node = this.getParentEditor().getSelection(),
                 // sel = node.getNative(),
-                sel = node.getStartElement().getHtml(),
-                hrefComplete = node.getStartElement().getAttribute('href'),
+                // sel = node.getStartElement().getHtml(),
+                // hrefComplete = node.getStartElement().getAttribute('href'),
                 // see helpers.js for the definitions of dropProtocol() and other functions.
-                href = hrefComplete ? dropProtocol(hrefComplete) : '';
+                // href = hrefComplete ? dropProtocol(hrefComplete) : '';
 
             // this.setValueOf('tab-general', 'text', sel);
             // this.setValueOf('tab-general', 'href', href);
         },
 
         onOk: function() {
-            var msg,
-                node = this.getParentEditor().getSelection();
-                // sel = node.getNative(),
-                // sel = node.getStartElement().getHtml(),
-                // hrefComplete = node.getStartElement().getAttribute('href');
-            switch (node.getType()){
-                case CKEDITOR.SELECTION_NONE:
-                    msg = 'nothing is selected';
-                    break;
-                case CKEDITOR.SELECTION_TEXT:
-                    msg = 'text is selected';
-                    break;
-                case CKEDITOR.SELECTION_ELEMENT:
-                    msg = 'element is selected';
-                    break;
-            }
-            console.log(msg);
+            var node = this.getParentEditor().getSelection(),
+                range = node.getRanges()[0],
+                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined;
+            // user input
+            linkHrefRaw = this.getValueOf('tab-general', 'href');
+            linkContentRaw = this.getValueOf('tab-general', 'text');
+            isUnderlined = this.getValueOf('tab-general', 'underlined');
 
-            var ranges = node.getRanges();
-            console.log('selected text: ', node.getSelectedText());
-            console.log('selected elem: ', node.getSelectedElement());
-            console.log('ranges: ', ranges);
-            console.log('ranges[0]: ', ranges[0]);
-            console.log('native: ', node.getNative());
+            linkHref = 'http://' + encodeURI(dropProtocol(linkHrefRaw));
 
-
-            var linkRaw = this.getValueOf('tab-general', 'href');
-            var linkText = this.getValueOf('tab-general', 'text');
-
-            if(linkRaw){
-                // if url is provided
-                var link = 'http://' + encodeURI(dropProtocol(linkRaw));
-                var aTagContent = linkText || link;
-
-                var underlined = this.getValueOf('tab-general', 'underlined');
-                var stylesLink = new LinkStyle();
-                stylesLink["text-decoration"] = underlined ? 'underline' : 'none';
-
-                var aTag = editor.document.createElement('a');
-                aTag.setAttribute('href', link);
-                aTag.setAttribute('style', stylesLink.toString());
-                aTag.setHtml(aTagContent);
-                console.log('insertion disabled: ' + aTag);
-                // editor.insertElement(aTag);
+            // the range might contain nothing (to be a collapsed one)
+            if (range.collapsed){
+                linkContent = linkContentRaw;
             } else {
-                // url is not provided, so let's insert the linkText as a plain text
-                console.log('insertion disabled: ' + linkText);
-                // editor.insertHtml(linkText);
+                // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
+                switch (range.startContainer.type){
+                    case CKEDITOR.NODE_ELEMENT:
+                        linkContent = range.startContainer.getHtml();
+                        break;
+                    case CKEDITOR.NODE_TEXT:
+                        linkContent = range.startContainer.getText();
+                        break;
+                    default:
+                        linkContent = '';
+                }
+
             }
+            linkStyle = new LinkStyle();
+            linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
+
+            linkElement = editor.document.createElement('a');
+            linkElement.setAttribute('href', linkHref);
+            linkElement.setAttribute('style', linkStyle.toString());
+            linkElement.setHtml(linkContent);
+            editor.insertElement(linkElement);
+
         }
     };
 });
