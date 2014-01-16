@@ -182,9 +182,12 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// calculating widths
 			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
 			rowWidth = tableWidth - 2 * borderWidth;
-			spaceTop = parseInt(vSpace / 2, 10); // top white space for each row (cast to integer)
-			spaceBottom = vSpace - spaceTop; // bottom white space for each row
+			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
+			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
+
+
+
 			// prepare objects useful in what follows
 			table = new Table();
 			table.attr['data-marker'] = 'table';
@@ -192,11 +195,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			tableStyle = new TableStyle();
 			tableStyle.setWidth(tableWidth);
-			// if (borderWidth) {
-			//     tableStyle['border-width'] = borderWidth;
-			//     tableStyle['border-style'] = 'solid';
-			//     tableStyle['border-color'] = '#000000';
-			// }
 			table.style = tableStyle;
 			// creating a row
 			row = new Row();
@@ -222,8 +220,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					cellStyle = new TableCellStyle();
 					cellStyle.setWidth(cellWidths[i]);
 					delete cellStyle.padding;
-					cellStyle['padding-left'] = 0;
-					cellStyle['padding-right'] = 0;
+					cellStyle['padding-left'] = hSpace;
+					cellStyle['padding-right'] = hSpace;
 					cellStyle['padding-top'] = spaceTop;
 					cellStyle['padding-bottom'] = spaceBottom;
 					cell.style = cellStyle;
@@ -235,8 +233,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellStyle = new TableCellStyle();
 				cellStyle.setWidth(rowWidth);
 				delete cellStyle.padding;
-				cellStyle['padding-left'] = 0;
-				cellStyle['padding-right'] = 0;
+				cellStyle['padding-left'] = hSpace;
+				cellStyle['padding-right'] = hSpace;
 				cellStyle['padding-top'] = spaceTop;
 				cellStyle['padding-bottom'] = spaceBottom;
 				// console.log('cell for framed table: ');
