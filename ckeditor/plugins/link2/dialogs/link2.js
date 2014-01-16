@@ -2,6 +2,7 @@
 /*global CKEDITOR, LinkStyle, dropProtocol */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
+    var warningFieldId = 'linkWarning';
     return {
         title: editor.lang.link.info,
         minWidth: 400,
@@ -25,12 +26,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     validate: function(){
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
-                            var warningField = CKEDITOR.document.getById('linkWarning');
+                            var warningField = CKEDITOR.document.getById(warningFieldId);
                             warningField.setHtml(editor.lang.common.invalidValue);
                         }
                         return isOk;
-                    },
-                    "default": 'www.stupid.link'
+                    }
                 }]
             },
             {
@@ -62,18 +62,37 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            // var node = this.getParentEditor().getSelection(),
-                // sel = node.getNative(),
-                // sel = node.getStartElement().getHtml(),
-                // hrefComplete = node.getStartElement().getAttribute('href'),
-                // see helpers.js for the definitions of dropProtocol() and other functions.
-                // href = hrefComplete ? dropProtocol(hrefComplete) : '';
-
-            // this.setValueOf('tab-general', 'text', sel);
-            // this.setValueOf('tab-general', 'href', href);
+            var node = this.getParentEditor().getSelection(),
+                range = node.getRanges()[0],
+                startCont,
+                // assigning default values for the url attribute and the link text
+                linkHref = '',
+                linkContent = '';
+                if (!range.collapsed) {
+                    // selection is not empty
+                    startCont = range.startContainer;
+                    // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
+                    switch (startCont.type){
+                        case CKEDITOR.NODE_ELEMENT:
+                            linkContent = startCont.getHtml();
+                            linkHref = startCont.getAttribute('href');
+                            break;
+                        case CKEDITOR.NODE_TEXT:
+                            linkContent = startCont.getText();
+                            break;
+                    }
+                }
+                this.setValueOf('tab-general', 'text', linkContent);
+                this.setValueOf('tab-general', 'href', linkHref);
+        },
+        onCancel: function(){
+            // clear the value of the warning field
+            CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
         onOk: function() {
+            // clear the value of the warning field
+            CKEDITOR.document.getById(warningFieldId).setHtml('');
             var node = this.getParentEditor().getSelection(),
                 range = node.getRanges()[0],
                 linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined;
