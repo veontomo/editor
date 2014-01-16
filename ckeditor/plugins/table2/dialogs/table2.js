@@ -2,6 +2,10 @@
 /*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
+	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
+	var tableCell = '<td style="border: 2px solid #aeaeae;min-width: 2em;">&nbsp;</td>';
+	var tableRow = '<tr style="padding: 0.5em">' + tableCell + tableCell + tableCell + tableCell + '</tr>';
+	var tableIcon = '<table><tbody> ' + tableRow + tableRow + tableRow + tableRow + tableRow + '</tbody></table>';
 	/**
 	 * Drops inline attribute named attrName from DOM element
 	 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
@@ -90,7 +94,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 	return {
 		// Basic properties of the dialog window: title, minimum size.
-		title: editor.lang.common.generalTab,
+		title: editor.lang.table.title,
 		minWidth: 300,
 		minHeight: 300,
 
@@ -108,7 +112,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					id: 'tblRows',
 					style: 'padding-top: 8em;margin-left:60%; margin-right: 0px;',
 					"default": "3",
-					width: "50%"
+					'inputStyle': inputStyle
 				}, {
 					type: "vbox",
 					children: [{
@@ -116,34 +120,34 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.table.columns,
 						id: 'tblCols',
 						"default": '1',
-						width: "20%",
+						'inputStyle': inputStyle,
 						onChange: drawColumns
 					}, {
 						type: 'html',
-						'html': '<img src="images/spreadsheet.png" width="128" height="128">'
+						'html': tableIcon //'<img src="images/spreadsheet.png" width="128" height="128">'
 					}]
 				}]
 			}, {
 				type: 'hbox',
-				widths: ['30%', '30%'],
 				children: [{
 					type: 'text',
 					id: 'borderWidth',
 					label: 'Cornice',
 					"default": "0",
-					width: "40%"
+					'inputStyle': inputStyle
 				}, {
 					type: 'text',
 					label: 'Bordo attorno alle righe',
 					width: "40%",
 					id: 'nestedBorderWidth',
-					"default": "0"
+					"default": "0",
+					'inputStyle': inputStyle
 				}, {
 					type: 'text',
 					label: 'Spazio tra le righe',
 					"default": "1",
 					id: 'spaceBtwRows',
-					width: "40%"
+					'inputStyle': inputStyle
 				}]
 			}, {
 				type: 'vbox',
