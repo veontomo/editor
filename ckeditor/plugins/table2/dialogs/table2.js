@@ -139,13 +139,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: editor.lang.image.vSpace + ' (px)',
 				"default": "1",
-				id: 'spaceBtwRows',
+				id: 'vSpace',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
 				label: editor.lang.image.hSpace + ' (px)',
 				"default": "1",
-				id: 'paddingHor',
+				id: 'hSpace',
 				'inputStyle': inputStyle
 			}, {
 				type: 'html',
@@ -165,7 +165,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
 				borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
 				nestedBorderWidth = parseInt(dialog.getValueOf('info', 'nestedBorderWidth'), 10),
-				spaceBtwRows = parseInt(dialog.getValueOf('info', 'spaceBtwRows'), 10),
+				vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
+				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
 				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle, tableStr;
@@ -181,8 +182,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// calculating widths
 			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
 			rowWidth = tableWidth - 2 * borderWidth;
-			spaceTop = parseInt(spaceBtwRows / 2, 10); // top white space for each row (cast to integer)
-			spaceBottom = spaceBtwRows - spaceTop; // bottom white space for each row
+			spaceTop = parseInt(vSpace / 2, 10); // top white space for each row (cast to integer)
+			spaceBottom = vSpace - spaceTop; // bottom white space for each row
 			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
 			// prepare objects useful in what follows
 			table = new Table();
