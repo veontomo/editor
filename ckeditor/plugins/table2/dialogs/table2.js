@@ -3,9 +3,10 @@
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
-	var tableCell = '<td style="border: 2px solid #aeaeae;min-width: 2em;">&nbsp;</td>';
-	var tableRow = '<tr style="padding: 0.5em">' + tableCell + tableCell + tableCell + tableCell + '</tr>';
-	var tableIcon = '<table><tbody> ' + tableRow + tableRow + tableRow + tableRow + tableRow + '</tbody></table>';
+	// var columnWidthStyle = 'min-width: 3em; text-align: center;';
+	// var tableCell = '<td style="border: 2px solid #aeaeae;min-width: 2em;">&nbsp;</td>';
+	// var tableRow = '<tr style="padding: 0.5em">' + tableCell + tableCell + tableCell + tableCell + '</tr>';
+	// var tableIcon = '<table><tbody> ' + tableRow + tableRow + tableRow + tableRow + tableRow + '</tbody></table>';
 	/**
 	 * Drops inline attribute named attrName from DOM element
 	 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
@@ -46,8 +47,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					inputField = new CKEDITOR.dom.element('input');
 					inputField.setAttribute('type', 'text');
 					inputField.setAttribute('id', INPUTCOLWIDTHNAME + i);
-					inputField.setAttribute('width', '50');
+					// inputField.setAttribute('width', '50');
 					inputField.setAttribute('class', 'cke_dialog_ui_input_text');
+					inputField.setStyle('min-width', '2em');
+					inputField.setStyle('max-width', '5em');
+					inputField.setStyle('text-align', 'center');
 					td.append(inputField);
 					tr.append(td);
 				}
@@ -102,64 +106,56 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		contents: [{
 			id: "info",
 			label: editor.lang.table.title,
-			elements: [{
-				type: "hbox",
-				widths: ['50%', '50%'],
-				styles: ["vertical-align:middle"],
-				children: [{
-					type: "text",
-					label: editor.lang.table.rows,
-					id: 'tblRows',
-					style: 'padding-top: 8em;margin-left:60%; margin-right: 0px;',
-					"default": "3",
-					'inputStyle': inputStyle
-				}, {
-					type: "vbox",
-					children: [{
-						type: "text",
-						label: editor.lang.table.columns,
-						id: 'tblCols',
-						"default": '1',
-						'inputStyle': inputStyle,
-						onChange: drawColumns
-					}, {
-						type: 'html',
-						'html': tableIcon //'<img src="images/spreadsheet.png" width="128" height="128">'
-					}]
-				}]
+			elements: [
+			{
+				type: 'text',
+				label: editor.lang.table.rows,
+				id: 'tblRows',
+				"default": '1',
+				'inputStyle': inputStyle,
+
+			},
+			{
+				type: "text",
+				label: editor.lang.table.columns,
+				id: 'tblCols',
+				'default': '1',
+				'inputStyle': inputStyle,
+				onChange: drawColumns
+			},
+			{
+				type: 'text',
+				id: 'borderWidth',
+				label: editor.lang.table.border + ' (px)',
+				'default': '0',
+				'inputStyle': inputStyle
 			}, {
-				type: 'hbox',
-				children: [{
-					type: 'text',
-					id: 'borderWidth',
-					label: 'Cornice',
-					"default": "0",
-					'inputStyle': inputStyle
-				}, {
-					type: 'text',
-					label: 'Bordo attorno alle righe',
-					width: "40%",
-					id: 'nestedBorderWidth',
-					"default": "0",
-					'inputStyle': inputStyle
-				}, {
-					type: 'text',
-					label: 'Spazio tra le righe',
-					"default": "1",
-					id: 'spaceBtwRows',
-					'inputStyle': inputStyle
-				}]
+				type: 'text',
+				label: 'Bordo attorno alle righe (px)',
+				id: 'nestedBorderWidth',
+				'default': '0',
+				'inputStyle': inputStyle
 			}, {
-				type: 'vbox',
-				children: [{
-					type: 'html',
-					html: '<div id="columnWidthTableTitle"></div>'
-				}, {
-					type: 'html',
-					widths: ['100%'],
-					html: '<div id="columnWidthTable"></div>'
-				}]
-			}]
+				type: 'text',
+				label: editor.lang.image.vSpace + ' (px)',
+				"default": "1",
+				id: 'spaceBtwRows',
+				'inputStyle': inputStyle
+			}, {
+				type: 'text',
+				label: editor.lang.image.hSpace + ' (px)',
+				"default": "1",
+				id: 'paddingHor',
+				'inputStyle': inputStyle
+			}, {
+				type: 'html',
+				html: '<div id="columnWidthTableTitle"></div>'
+			}, {
+				type: 'html',
+				html: '<div id="columnWidthTable"></div>',
+			}
+
+			]
 		}],
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function () {
