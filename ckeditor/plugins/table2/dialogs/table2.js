@@ -184,7 +184,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowWidth = tableWidth - 2 * borderWidth;
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
-			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
+			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth - 2 * hSpace, cellWeights); // array of column widths
 
 
 
@@ -248,7 +248,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				nestedTableStyle['margin-top'] = spaceTop;
 				nestedTableStyle['margin-bottom'] = spaceBottom;
 
-				nestedTableStyle.setWidth(cell.styleProperty('width'));
+				nestedTableStyle.setWidth(cell.styleProperty('width') - cellStyle['padding-left'] - cellStyle['padding-right']);
 
 				nestedTable.style = nestedTableStyle;
 				nestedTable.setBorder({
