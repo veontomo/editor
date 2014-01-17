@@ -144,7 +144,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}, {
 				type: 'text',
 				label: editor.lang.image.hSpace + ' (px)',
-				"default": "1",
+				"default": "0",
 				id: 'hSpace',
 				'inputStyle': inputStyle
 			}, {
