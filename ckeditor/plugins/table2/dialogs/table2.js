@@ -216,6 +216,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
 			if (nestedBorderWidth === 0) {
+
 				for (i = 0; i < cols; i++) {
 					cell = new Cell();
 					cellStyle = new TableCellStyle();
@@ -268,9 +269,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					nestedCell.setWidth(cellWidths[i]);
 					nestedRow.cells.push(nestedCell);
 				}
-				nestedTable.rows.push(nestedRow);
-				cell.content.elements.push(nestedTable);
-				row.cells.push(cell);
+				nestedTable.appendRow(nestedRow);
+				cell.insert(nestedTable);
+				row.appendCell(cell);
 			}
 
 			// duplicating the row
