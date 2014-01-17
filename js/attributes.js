@@ -695,6 +695,14 @@ function Cell(arg) {
 		return new Cell(arg);
 	}
 	/**
+	 * Type of the object. Set to value "Cell" for the objects of this type.
+	 * @method {string} getType
+	 * @return {string}
+	 */
+	this.getType = function(){
+		return "Cell";
+	};
+	/**
 	 * Attributes of the cell.
 	 * @property {Attributes} attr
 	 * @type {Attributes}
@@ -743,7 +751,7 @@ function Cell(arg) {
 	 */
 	 this.insert = function(item){
 	 	this.content.elements.push(item);
-	 }
+	 };
 	/**
 	 * Generates cell-specific html code with corresponding attributes and styles
 	 * @method toHtml
@@ -774,6 +782,15 @@ function Row() {
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
+	/**
+	 * Type of the object. Return "Row" for the objects of this type.
+	 * @pmethod {string} getType
+	 * @return {string}
+	 */
+	this.getType = function(){
+		return "Row";
+	};
+
 	/**
 	* Attributes of the row.
 	* @property {Attributes} attr
@@ -816,6 +833,7 @@ function Row() {
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	};
+
 	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
 	 * @method appendCell
@@ -823,9 +841,9 @@ function Row() {
 	 * @return {void}
 	 */
 	this.appendCell = function(cell){
-		// find out with what name the Row object is registered
-		var cellName = (new Cell()).constructor.name;
-		if (cell.constructor.name !== cellName){
+		// find out with what name the Cell object is registered
+		var cellType = (new Cell()).getType();
+		if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
 			throw new Error('The argument is not of the Cell type!');
 		}
 		this.cells.push(cell);
@@ -864,6 +882,16 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
+
+	/**
+	 * Type of the object. Returns "Table" for the objects of this type.
+	 * @method  {string} getType
+	 * @return  {string}
+	 */
+	this.getType = function(){
+		return "Table";
+	};
+
 	/**
 	* Attributes of the table.
 	* @property {TableAttributes} attr
@@ -900,8 +928,8 @@ function Table() {
 	 */
 	this.appendRow = function(row){
 		// find out with what name the Row object is registered
-		var rowName = (new Row()).constructor.name;
-		if (row.constructor.name !== rowName){
+		var rowType = (new Row()).getType();
+		if (typeof(row.getType) !== 'function' || row.getType() !== rowType){
 			throw new Error('The argument is not of the Row type!');
 		}
 		this.rows.push(row);

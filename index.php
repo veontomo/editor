@@ -173,6 +173,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 74px;" title="torta" width="74" />
  -->
 
-
 </body>
 </html>

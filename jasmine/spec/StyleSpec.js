@@ -238,6 +238,10 @@ describe('Cell-related functionality', function() {
 
     });
 
+    it('creates object with type attribute "Cell"', function(){
+        expect(cell.getType()).toBe("Cell");
+    });
+
     it('overrides previously set properties', function(){
         cellStyle['a property'] = 'a property value';
         cell.style = cellStyle;
@@ -381,6 +385,11 @@ describe('Row-related functionality', function(){
         rowStyle = new TableRowStyle();
     });
 
+    it('creates object with type attribute "table row object"', function(){
+        expect(row.getType()).toBe("Row");
+    });
+
+
     it('retrieves property of type "string" from the style', function() {
         rowStyle['a property'] = 'row property value';
         row.style = rowStyle;
@@ -412,8 +421,8 @@ describe('Row-related functionality', function(){
     it('throws exception if a non-Cell object is appended to the row cells', function(){
        var cell = new Cell();
        // prentend that the cell is not a cell
-       spyOn(cell, 'constructor').andCallFake(function(){
-           return {'name': 'not a cell'};
+       spyOn(cell, 'getType').andCallFake(function(){
+           return "not a cell";
        });
        expect(function(){
            row.appendCell(cell);
@@ -503,12 +512,19 @@ describe('Row-related functionality', function(){
 });
 
 describe('Table-related functionality', function(){
-    var table = new Table(),
-        tableAttr = new Attributes(),
-        tableStyle = new TableStyle(),
-        row1 = new Row(),
-        row2 = new Row(),
+    var table, tableAttr, tableStyle, row1, row2, row3;
+    beforeEach(function(){
+        table = new Table();
+        tableAttr = new Attributes();
+        tableStyle = new TableStyle();
+        row1 = new Row();
+        row2 = new Row();
         row3 = new Row();
+    });
+
+    it('creates object of type "Table"', function(){
+        expect(table.getType()).toBe("Table");
+    });
 
     it('retrieves property of type "string" from the style', function() {
          tableStyle['a property'] = 'table property value';
@@ -540,8 +556,8 @@ describe('Table-related functionality', function(){
 
      it('throws exception if a non-Row type is appended to the rows', function(){
         // prentend that the row is not a row
-        spyOn(row1, 'constructor').andCallFake(function(){
-            return {'name': 'not a row'};
+        spyOn(row1, 'getType').andCallFake(function(){
+            return "not a row";
         });
         expect(function(){
             table.appendRow(row1);
@@ -553,9 +569,9 @@ describe('Table-related functionality', function(){
         expect(table.rows.length).toBe(0);
         table.appendRow(row1);
         expect(table.rows.length).toBe(1);
-        table.appendRow(row2);
+        table.appendRow(row3);
         expect(table.rows.length).toBe(2);
-        table.appendRow(row1);
+        table.appendRow(row3);
         expect(table.rows.length).toBe(3);
      });
 
