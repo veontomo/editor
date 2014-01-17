@@ -798,13 +798,36 @@ function Row() {
 	* @default Attributes
 	*/
 	this.attr = new Attributes();
+
 	/**
-	 * Styles of the row
+	* Attribute setter.
+	* @method setAtr
+	* @param {String|Object} attr
+	* @return {void}
+	*/
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+
+	/**
+	 * Styles of the row.
 	 * @property {TableCellStyle} style
 	 * @type {TableCellStyle}
 	 * @default TableRowStyle
 	 */
 	this.style = new TableRowStyle();
+
+	/**
+	* Style setter.
+	* @method setStyle
+	* @param {String|Object} stl
+	* @return {void}
+	*/
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
 	/**
 	 * Array of cells belonging to the row.
 	 * @property {Array} cells
@@ -870,6 +893,38 @@ function Row() {
 		htmlRow += '</' + tag + '>';
 		return htmlRow;
 	};
+
+	/**
+	 * Populates the attributes from a string that is an html repersentation of some row.
+	 * It takes a string that is an html representation of a row and update current object
+	 * parameters such that it will correspond to the html representation.
+	 * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	 * (eventually up to presence/absence of some parameters and attributes).
+	 *
+	 * @method loadFromHtml
+	 * @param {String} htmlStr
+	 * @return {void}
+	 */
+	this.loadFromHtml = function (htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString('<table>' + htmlStr + '</table>', "text/html"),
+			node = doc.getElementsByTagName('tr')[0],
+			attrs = node.attributes,
+			nodeStyle = node.getAttribute('style'),
+			attrObj = {},
+			len = attrs.length,
+			i, attr;
+			console.log(doc, node);
+		for (i = 0; i < len; i++){
+			attr = attrs[i];
+			if (attr.name !== 'style'){
+				attrObj[attr.name] = attr.value;
+			}
+		}
+		this.setStyle(nodeStyle);
+		this.setAttr(attrObj);
+	};
+
 }
 
 /**
@@ -1043,7 +1098,7 @@ function Table() {
 	 * (eventually up to presence/absence of some parameters and attributes).
 	 *
 	 * @method loadFromHtml
-	 * @param {String} html
+	 * @param {String} htmlStr
 	 * @return {void}
 	 */
 	this.loadFromHtml = function (htmlStr){

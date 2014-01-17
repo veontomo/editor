@@ -98,9 +98,6 @@ describe('Getting property from the object', function(){
     it('returns "undefined" if the object does not have the property', function(){
         expect(getProperty({}, 'prop')).not.toBeDefined();
     });
-
-
-
 });
 
 describe('creates a style object from a string', function(){
@@ -373,8 +370,6 @@ describe('Cell-related functionality', function() {
         cell.content = cellContent;
         expect(cell.toHtml()).toEqual('<td cell attributes>cell content</td>');
     });
-
-
 });
 
 describe('Row-related functionality', function(){
@@ -490,7 +485,6 @@ describe('Row-related functionality', function(){
         expect(row.toHtml()).toEqual('<tr style="row styles">cell 1</tr>');
     });
 
-
     it('generates html code of the row if the style is empty', function(){
         var cell1 = new Cell();
 
@@ -508,6 +502,19 @@ describe('Row-related functionality', function(){
         row.style = rowStyle;
         row.cells = [cell1];
         expect(row.toHtml()).toEqual('<tr row attributes>cell 1</tr>');
+    });
+
+    it('loads info from html representation of the row', function(){
+        spyOn(row, 'setStyle');
+        spyOn(row, 'setAttr');
+        var rowHtml = '<tr style="table row style" rowattr1="attribute value" rowattr2="another attribute value"><td></td></tr>';
+        row.loadFromHtml(rowHtml);
+
+        expect(row.setStyle).toHaveBeenCalledWith('table row style');
+        expect(row.setAttr).toHaveBeenCalledWith({
+            'rowattr1': "attribute value",
+            'rowattr2': 'another attribute value'
+        });
     });
 });
 
