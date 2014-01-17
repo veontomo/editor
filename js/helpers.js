@@ -20,11 +20,11 @@ function target_exists(fileName) {
 }
 
 /**
- * transforms each element of the input array into a non-negative number. 
+ * transforms each element of the input array into a non-negative number.
  * If an element is negative, its absolute value is used.
  * If an element fails to be converted to a number, it is substituted by zero.
  * @module    helpers
- * @example   [1.1, 2.4, 2] -> [1.1, 2.4, 2],  
+ * @example   [1.1, 2.4, 2] -> [1.1, 2.4, 2],
  *            ["4", -3, 3.2, "a"] -> [4, 3, 3.2, 0]
  * @param    arr      Array      array of numbers
  * @return            Array      array of numbers
@@ -61,10 +61,10 @@ var trace = function (arr) {
  * If not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.
  * @module     helpers
  * @example     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]
- *              [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]   
+ *              [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]
  *              [0, 0]          -> [ 0.5, 0.5]
  * @param    Array   array of numbers
- * @return   Array   array of numbers 
+ * @return   Array   array of numbers
  */
 var normalize = function (arr) {
         var total = trace(arr),
@@ -93,9 +93,9 @@ var normalize = function (arr) {
 
 /**
  * Slices the first argument according to the weights given by the second argument.
- * The elements of the second array are supposed to be non-negative numbers. 
+ * The elements of the second array are supposed to be non-negative numbers.
  * @module     helpers
- * @example   (10, [1, 2, 2])    -> [2, 4, 4],  
+ * @example   (10, [1, 2, 2])    -> [2, 4, 4],
  *            (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]
  * @param    overall     Number  a number to be splitted
  * @param    pieces      Array   array of weigths
@@ -118,7 +118,7 @@ var splitWeighted = function (overall, pieces) {
  * @module     helpers
  * @example [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]
  * @param    arr    Array       array of numbers
- * @return          Array       array of integers 
+ * @return          Array       array of integers
  */
 var roundUp = function (arr) {
         return arr.map(function (elem) {
@@ -131,7 +131,7 @@ var roundUp = function (arr) {
  * @module     helpers
  * @param    overall     Number   table width
  * @param    pieces      Array    array of nambers
- * @return               Array    array of integers    
+ * @return               Array    array of integers
  */
 var columnWidths = function (overall, pieces) {
         return roundUp(splitWeighted(overall, pieces));
@@ -155,7 +155,7 @@ var dropProtocol = function (str) {
     };
 
 
-/** 
+/**
  * Gives file extension
  * @module   helpers
  * @param    fileName   String      name of file
@@ -251,10 +251,10 @@ function Unit(value, measure) {
     this.add = function (unit) {
         if (!this.isLikeAs(unit)) {
             throw new Error("these Unit instances can not be summed up!");
-        } 
+        }
         unit = new Unit(unit);
         return new Unit(this.value + unit.value, this.measure);
-        
+
     };
 
     this.sub = function (unit) {
@@ -263,14 +263,14 @@ function Unit(value, measure) {
         }
         unit = new Unit(unit);
         return new Unit(this.value - unit.value, this.measure);
-        
+
     };
 }
 
 /**
  * Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é
- * and not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125]. 
- * @param  {string}     str   
+ * and not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].
+ * @param  {string}     str
  * @return {string}
  */
 function specialChar(str){
@@ -279,7 +279,6 @@ function specialChar(str){
     }
     var len, i, code, output = '';
     len = str.length;
-    console.log('input: ' + str + ', len: ' + len);
     for (i = 0; i < len; i++){
         code = str.charCodeAt(i);
         if(code > 31 && code < 126){

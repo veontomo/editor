@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table, 
+/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
 Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
@@ -122,7 +122,7 @@ describe('Setting the width property of an object', function(){
         expect(obj.hasOwnProperty('width')).toBe(false);
         expect(obj.hasOwnProperty('min-width')).toBe(false);
         expect(obj.hasOwnProperty('max-width')).toBe(false);
-        
+
         setMinMaxWidth(obj, value);
         expect(obj.width).toEqual(value);
         expect(obj.hasOwnProperty('width')).toBe(true);
@@ -156,7 +156,7 @@ describe('Setting the width property of an object', function(){
         expect(obj['min-width']).toEqual(value);
         expect(obj['max-width']).toEqual(value);
     });
-    
+
     it('throws an error when width argument is not set', function(){
         var obj = {};
         expect(function(){setMinMaxWidth(obj);}).toThrow("Width value is not set!");
@@ -313,7 +313,14 @@ describe('Cell-related functionality', function() {
 
     });
 
+    it('appends elements to the cell content', function(){
+        expect(cell.content.elements.length).toBe(0);
+        cell.insert('an item');
+        expect(cell.content.elements.length).toBe(1);
+        cell.insert('another item');
+        expect(cell.content.elements.length).toBe(2);
 
+    });
 
     it('generates html code of the cell if both attributes and styles are present', function(){
         spyOn(cellStyle, 'toString').andCallFake(function(){
@@ -402,6 +409,32 @@ describe('Row-related functionality', function(){
         expect(row.attr.width).toEqual(15);
     });
 
+    it('throws exception if a non-Cell object is appended to the row cells', function(){
+       var cell = new Cell();
+       // prentend that the cell is not a cell
+       spyOn(cell, 'constructor').andCallFake(function(){
+           return {'name': 'not a cell'};
+       });
+       expect(function(){
+           row.appendCell(cell);
+       }).toThrow('The argument is not of the Cell type!');
+    });
+
+
+    it('appends a cell to the existing cells', function(){
+        var cell1 = new Cell(),
+            cell2 = new Cell(),
+            cell3 = new Cell();
+
+       expect(row.cells.length).toBe(0);
+       row.appendCell(cell1);
+       expect(row.cells.length).toBe(1);
+       row.appendCell(cell2);
+       expect(row.cells.length).toBe(2);
+       row.appendCell(cell3);
+       expect(row.cells.length).toBe(3);
+    });
+
     it('generates html code of the row if attributes and styles are not empty', function(){
         var cell1 = new Cell(),
             cell2 = new Cell(),
@@ -469,14 +502,14 @@ describe('Row-related functionality', function(){
     });
 });
 
-describe('Table-related code', function(){
+describe('Table-related functionality', function(){
     var table = new Table(),
         tableAttr = new Attributes(),
         tableStyle = new TableStyle(),
         row1 = new Row(),
         row2 = new Row(),
         row3 = new Row();
-    
+
     it('retrieves property of type "string" from the style', function() {
          tableStyle['a property'] = 'table property value';
          table.style = tableStyle;
@@ -503,6 +536,27 @@ describe('Table-related code', function(){
          expect(table.styleProperty('min-width')).toEqual(15);
          expect(table.styleProperty('max-width')).toEqual(15);
          expect(table.attr.width).toEqual(15);
+     });
+
+     it('throws exception if a non-Row type is appended to the rows', function(){
+        // prentend that the row is not a row
+        spyOn(row1, 'constructor').andCallFake(function(){
+            return {'name': 'not a row'};
+        });
+        expect(function(){
+            table.appendRow(row1);
+        }).toThrow('The argument is not of the Row type!');
+     });
+
+
+     it('appends a row to the existing rows', function(){
+        expect(table.rows.length).toBe(0);
+        table.appendRow(row1);
+        expect(table.rows.length).toBe(1);
+        table.appendRow(row2);
+        expect(table.rows.length).toBe(2);
+        table.appendRow(row1);
+        expect(table.rows.length).toBe(3);
      });
 
      it('generates html code of the table if attributes and styles are not empty', function(){

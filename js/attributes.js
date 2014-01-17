@@ -1,12 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/** 
+/**
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
  * @module 	attributes
- * @param   {Object}     	obj  	an object which string reperesentation should be generated.   
+ * @param   {Object}     	obj  	an object which string reperesentation should be generated.
  * @param 	{String|null} 	unit 	a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return 	{String}		a concatenation of substrings; each substring is of this format: "attribute: value;".
  * @example The return value is of the form: "padding: 0px;margin: 10px;color: #ababab;"
@@ -32,12 +32,12 @@ var toString = function (obj, unit) {
 		return styles;
 	};
 
-/** 
+/**
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
  * @module 	attributes
- * @param   {Object}    obj     
+ * @param   {Object}    obj
  * @return 	{String} 	String 		a union of substrings; each substring is of this format: 'attribute="value"', between the substrings there is a separator ' '.
  */
 var toString2 = function (obj) {
@@ -49,7 +49,7 @@ var toString2 = function (obj) {
 				valType = typeof val;
 				// avoid adding method to the output
 				if (valType === 'string' || valType === 'number'){
-					output.push(attr + '="' + String(val) + '"');	
+					output.push(attr + '="' + String(val) + '"');
 				}
 			}
 		}
@@ -68,16 +68,16 @@ var setMinMaxWidth = function (obj, w) {
 	"use strict";
 	if(typeof obj !== 'object'){
 		throw new Error('Can not set a property of a non-object!');
-	} 
-	if(w === undefined){
-		throw new Error("Width value is not set!"); 
 	}
-	obj.width = w; 
-	obj['max-width'] =  w; 
-	obj['min-width'] =  w; 
-}; 
+	if(w === undefined){
+		throw new Error("Width value is not set!");
+	}
+	obj.width = w;
+	obj['max-width'] =  w;
+	obj['min-width'] =  w;
+};
 
-/** 
+/**
 * Gets property value from the object.
 * @module 	attributes
 * @param 	{Object} 	obj 	an object
@@ -88,9 +88,9 @@ function getProperty(obj, prop){
 	"use strict";
 	if(typeof obj !== 'object'){
 		throw new Error('Not an object!');
-	} 
+	}
 	if(prop === undefined){
-		throw new Error("Property name missing!"); 
+		throw new Error("Property name missing!");
 	}
 	if(obj.hasOwnProperty(prop)){
 		return obj[prop];
@@ -104,7 +104,7 @@ function getProperty(obj, prop){
 * @class  	Style
 */
 function Style(str) {
-	"use strict"; 
+	"use strict";
 	if (!(this instanceof Style)) {
 		return new Style();
 	}
@@ -120,15 +120,14 @@ function Style(str) {
 		for (i = 0; i < len; i++){
 			pair = attr[i].split(':');
 			// ignore if there is more than one semicolon
-			if (pair.length !== 2){
-				continue;
+			if (pair.length === 2){
+				key = pair[0].trim();
+				value =  pair[1].trim();
+				if(parseFloat(value)){
+					value = parseFloat(value);
+				}
+				this[key] = value;
 			}
-			key = pair[0].trim();
-			value =  pair[1].trim();
-			if(parseFloat(value)){
-				value = parseFloat(value);
-			}
-			this[key] = value;
 		}
 	}
 	/**
@@ -151,15 +150,15 @@ function Style(str) {
 }
 
 /**
-* This class is supposed to define attributes of html tags 
+* This class is supposed to define attributes of html tags
 * @module 	attributes
 * @class  Attributes
 */
 function Attributes() {
 	"use strict";
 	if (!(this instanceof Attributes)) {
-		return new Attributes(); 
-	} 
+		return new Attributes();
+	}
 	/**
 	 * Generates string representation of this object (as html attributes)
 	 * @method {String} 	toString
@@ -172,7 +171,7 @@ function Attributes() {
 }
 
 /**
-* Table-specific attributes. 
+* Table-specific attributes.
 * @module 	attributes
 * @extends Attributes
 * @class  TableAttributes
@@ -195,8 +194,8 @@ function TableAttributes(){
 }
 TableAttributes.prototype = new Attributes();
 
-/** 
- * Text specific style class. 
+/**
+ * Text specific style class.
  * @module 	attributes
  * @extends Style
  * @class  TextStyle
@@ -208,7 +207,7 @@ function TextStyle() {
 	}
 	/**
 	 * Font size, including unit of measurement.
-	 * @property {String} font-size 
+	 * @property {String} font-size
 	 * @default  "12px"
 	 */
 	this["font-size"] = "12px";
@@ -358,7 +357,7 @@ function TableStyle() {
 	 */
 	// this['border-collapse'] = 'collapse';
 	/**
-	 * Border spacing. 
+	 * Border spacing.
 	 * @property {String} border-spacing
 	 * @default '0px 0px'
 	 */
@@ -658,9 +657,9 @@ function Content(str) {
 		return this.elements.length;
 	};
 	/**
-	 * Transforms the object into html form.  If item of the "elements" property is of Object type, then it should have "toHtml" method which is to be applied to the item. 
+	 * Transforms the object into html form.  If item of the "elements" property is of Object type, then it should have "toHtml" method which is to be applied to the item.
 	 * @method toHtml
-	 * @return {String} 
+	 * @return {String}
 	 */
 	this.toHtml = function () {
 		var i, elem, output = '',
@@ -687,7 +686,7 @@ function Content(str) {
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
  * @module 	attributes
- * @param {mixed} arg 
+ * @param {mixed} arg
  * @class  Cell
  */
 function Cell(arg) {
@@ -696,7 +695,7 @@ function Cell(arg) {
 		return new Cell(arg);
 	}
 	/**
-	 * Attributes of the cell. 
+	 * Attributes of the cell.
 	 * @property {Attributes} attr
 	 * @type {Attributes}
 	 * @default Attributes
@@ -716,7 +715,7 @@ function Cell(arg) {
 	 * @default Content
 	 */
 	this.content = new Content(arg);
-	/**	
+	/**
 	 * Retrieves the value of property from the "style"
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -726,7 +725,7 @@ function Cell(arg) {
 		return getProperty(this.style, prop);
 	};
 	/**
-	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well. 
+	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well.
 	 * It is better to use with an integer argument.
 	 * @method  setWidth
 	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. "10px", "14.1em" etc) or a number (i.e. 200, 10).
@@ -737,13 +736,22 @@ function Cell(arg) {
 	};
 
 	/**
+	 * Insert the argument into the cell content
+	 * @method insert
+	 * @param {any} item
+	 * @return {void}
+	 */
+	 this.insert = function(item){
+	 	this.content.elements.push(item);
+	 }
+	/**
 	 * Generates cell-specific html code with corresponding attributes and styles
 	 * @method toHtml
 	 * @return {String} html representation of the cell
 	 */
 	this.toHtml = function () {
 		var tag = 'td',
-			cellHtml, 
+			cellHtml,
 			attr = this.attr.toString(),
 			style = this.style.toString();
 		if (style){
@@ -756,7 +764,7 @@ function Cell(arg) {
 	};
 }
 
-/** 
+/**
  * Represents a table row
  * @module 	attributes
  * @class  Row
@@ -767,7 +775,7 @@ function Row() {
 		return new Row();
 	}
 	/**
-	* Attributes of the row. 
+	* Attributes of the row.
 	* @property {Attributes} attr
 	* @type {Attributes}
 	* @default Attributes
@@ -788,7 +796,7 @@ function Row() {
 	 */
 	this.cells = [];
 
-	/**	
+	/**
 	 * Retrieves the value of property from the "style"
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -799,7 +807,7 @@ function Row() {
 	};
 
 	/**
-	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well. 
+	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well.
 	 * It is better to use with an integer argument.
 	 * @method  setWidth
 	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. "10px", "14.1em" etc) or a number (i.e. 200, 10).
@@ -807,6 +815,20 @@ function Row() {
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
+	};
+	/**
+	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+	 * @method appendCell
+	 * @param {Object} cell  a cell to be appended.
+	 * @return {void}
+	 */
+	this.appendCell = function(cell){
+		// find out with what name the Row object is registered
+		var cellName = (new Cell()).constructor.name;
+		if (cell.constructor.name !== cellName){
+			throw new Error('The argument is not of the Cell type!');
+		}
+		this.cells.push(cell);
 	};
 
 	/**
@@ -832,7 +854,7 @@ function Row() {
 	};
 }
 
-/** 
+/**
 * Represents table.
 * @module 	attributes
 * @class  Table
@@ -843,7 +865,7 @@ function Table() {
 		return new Table();
 	}
 	/**
-	* Attributes of the table. 
+	* Attributes of the table.
 	* @property {TableAttributes} attr
 	* @type {TableAttributes}
 	* @default TableAttributes
@@ -870,7 +892,22 @@ function Table() {
 		return getProperty(this.style, prop);
 	};
 
-	/**	
+	/**
+	 * Append a row to the exisiting rows.
+	 * @param {Object} row  a row to be appended
+	 * @property {Object} appendRow
+	 * @return {void}
+	 */
+	this.appendRow = function(row){
+		// find out with what name the Row object is registered
+		var rowName = (new Row()).constructor.name;
+		if (row.constructor.name !== rowName){
+			throw new Error('The argument is not of the Row type!');
+		}
+		this.rows.push(row);
+	};
+
+	/**
 	 * Retrieves the value of property from the "style"
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -881,9 +918,9 @@ function Table() {
 		this.attr.width = w;
 	};
 	/**
-	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance: 
-	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style' 
-	 * 2. in 'attr' property, sets up 'border' property. 
+	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance:
+	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'
+	 * 2. in 'attr' property, sets up 'border' property.
 	 * Note that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.
 	 * @method  setBorder
 	 * @param {Object} borderInfo  Object containing 'width', 'color' and 'style' fo the border to set.
@@ -907,7 +944,7 @@ function Table() {
 	/**
 	 * Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:
 	 * 1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'
-	 * 2. in 'attr' property, deletes 'border' property. 
+	 * 2. in 'attr' property, deletes 'border' property.
 	 * @method  removeBorder
 	 * @return {void}
 	 */
