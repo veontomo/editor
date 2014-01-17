@@ -213,16 +213,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				});
 			}
 
-
-
 			if (nestedBorderWidth === 0) {
-
 				for (i = 0; i < cols; i++) {
 					cell = new Cell();
 					cellStyle = new TableCellStyle();
-
 					cell.insert('cell');
-
 					cellStyle.setWidth(cellWidths[i]);
 					delete cellStyle.padding;
 					cellStyle['padding-left'] = hSpace;
@@ -244,9 +239,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// console.log('cell for framed table: ');
 				// console.table(cellStyle);
 				cell.style = cellStyle;
-
 				nestedTable = new Table();
-
 				nestedTableStyle = new TableStyle();
 				nestedTableStyle['margin-top'] = spaceTop;
 				nestedTableStyle['margin-bottom'] = spaceBottom;

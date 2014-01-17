@@ -893,12 +893,33 @@ function Table() {
 	};
 
 	/**
+	 * Imposes attributes of the row
+	 * @method setAttr
+	 * @param {Object} attr
+	 * @return {void}
+	 */
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+	/**
 	* Attributes of the table.
 	* @property {TableAttributes} attr
 	* @type {TableAttributes}
 	* @default TableAttributes
 	*/
 	this.attr = new TableAttributes();
+
+	/**
+	 * Imposes style of the row
+	 * @method setStyle
+	 * @param {Object} stl
+	 * @return {void}
+	 */
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
 	/**
 	 * Styles of the row
 	 * @property {TableStyle} style
@@ -906,6 +927,7 @@ function Table() {
 	 * @default TableStyle
 	 */
 	this.style = new TableStyle();
+
 
 	/**
 	 * Array of rows constituting the table or empty array
@@ -1011,5 +1033,35 @@ function Table() {
 		}
 		htmlTable += '</' + tag + '>';
 		return htmlTable;
+	};
+
+	/**
+	 * Populates the attributes from a string that is an html repersentation of some table.
+	 * It takes a string that is an html representation of a table and update current object
+	 * parameters such that it will correspond to the html representation.
+	 * In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	 * (eventually up to presence/absence of some parameters and attributes).
+	 *
+	 * @method loadFromHtml
+	 * @param {String} html
+	 * @return {void}
+	 */
+	this.loadFromHtml = function (htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, "text/html"),
+			node = doc.getElementsByTagName('table')[0],
+			attrs = node.attributes,
+			nodeStyle = node.getAttribute('style'),
+			attrObj = {},
+			len = attrs.length,
+			i, attr;
+		for (i = 0; i < len; i++){
+			attr = attrs[i];
+			if (attr.name !== 'style'){
+				attrObj[attr.name] = attr.value;
+			}
+		}
+		this.setStyle(nodeStyle);
+		this.setAttr(attrObj);
 	};
 }

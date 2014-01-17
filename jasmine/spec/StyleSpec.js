@@ -706,6 +706,18 @@ describe('Table-related functionality', function(){
         expect(table.style.hasOwnProperty('border-style')).toBe(true);
         expect(table.style['border-style']).toBe('none');
         expect(table.attr.hasOwnProperty('border')).toBe(false);
+    });
+
+    it('retrieves info about table from its html representation', function(){
+        spyOn(table, 'setStyle');
+        spyOn(table, 'setAttr');
+        spyOn(table, 'appendRow');
+
+        var htmlTable = '<table style="table style" width="table width" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>';
+        table.loadFromHtml(htmlTable);
+
+        expect(table.setStyle).toHaveBeenCalledWith('table style');
+        expect(table.setAttr).toHaveBeenCalledWith({'width': 'table width',  'border': 'table border'});
 
     });
 
