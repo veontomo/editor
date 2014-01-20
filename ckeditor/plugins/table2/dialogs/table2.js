@@ -169,7 +169,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle, tableStr, isFramed;
+				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr,
+				nestedTableStyle = new TableStyle(),
+				nestedCellStyle = new TableCellStyle(),
+				nestedRowStyle,  tableStr, isFramed;
 
 			// read inserted values
 			cellWeights = [];
@@ -188,10 +191,32 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			isFramed = nestedBorderWidth > 0;
 
-
 			table = isFramed ? (new Grating()) : (new Table());
+
+			// the whole table styles and properties
+			tableStyle = new TableStyle();
+			tableAttr  = new TableAttributes();
+
+			// impose styles and attribute values
+			tableStyle.setWidth(tableWidth);
+			tableAttr['data-marker'] = table.getType();
+
+
+			// binding the styles and attributes with the table object
+			table.attr = tableAttr;
+			table.style = tableStyle;
+			if (borderWidth>0){
+				table.setBorder({
+					'width': borderWidth,
+					'color': '#000000',
+					'style': 'solid'
+				});
+			}
+
+
+			// creating table row
 			row   = new Row();
-			console.log('type  of created: ', table.getType());
+
 
 			// fill in the row with the cells
 			for (i = 0; i < cols; i++) {
@@ -211,18 +236,20 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// clone the row created above
 			for (i = 0; i < rows; i++){
 				table.appendRow(row);
-			};
+			}
 
 			if (isFramed){
 				nestedRowStyle =  new TableRowStyle();
 				nestedCellStyle = new TableCellStyle();
-				nestedTableCell = new TableStyle();
+				nestedTableStyle = new TableStyle();
 				// here one should impose the styles
-
+				nestedTableStyle['border-width'] = nestedBorderWidth;
+				nestedTableStyle['border-color'] = "#000001";
+				nestedTableStyle['border-style'] = "solid";
 				// apply the styles  to the table
-				table.nestedRowStyle   = nestedRowStyle;
-				table.nestedCellStyle  = nestedCellStyle;
-				table.nestedTableStyle = nestedTableStyle;
+				table.bogusRowStyle   = nestedRowStyle;
+				table.bogusCellStyle  = nestedCellStyle;
+				table.bogusTableStyle = nestedTableStyle;
 			}
 
 
