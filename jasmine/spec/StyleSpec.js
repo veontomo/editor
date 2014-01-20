@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, FramedTable */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -727,7 +727,52 @@ describe('Table-related functionality', function(){
         expect(table.setAttr).toHaveBeenCalledWith({'width': 'table width',  'border': 'table border'});
 
     });
-
-
 });
 
+describe('FramedTable-related functionality', function(){
+    it('inherits from Table()', function(){
+        expect(FramedTable.prototype instanceof Table).toBe(true);
+    });
+
+    it('has additional parameter for the border', function(){
+        var ft = new FramedTable();
+        expect(ft.hasOwnProperty('borderStyle')).toBe(true);
+        expect(ft.borderStyle.constructor.name).toBe("Style");
+    });
+
+
+    it('generates html code of the table if attributes and styles are not empty', function(){
+        var table = new FramedTable(),
+            row1 = new Row(),
+            row2 = new Row(),
+            row3 = new Row(),
+            tableAttr = new TableAttributes(),
+            tableStyle = new TableStyle(),
+            rowBorder = new Style();
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html';
+        });
+        spyOn(row3, 'toHtml').andCallFake(function(){
+            return 'row 3 content';
+        });
+
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return 'table attributes';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
+        });
+        spyOn(rowBorder, 'toString').andCallFake(function(){
+            return 'border styles';
+        });
+
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.borderStyle = rowBorder;
+        table.rows = [row1, row2, row3];
+        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr><td><table style="border styles">row 1</table></td></tr><tr><td><table style="border styles">row 2 html</table></td></tr><tr><td><table style="border styles">row 3 content</table></td></tr></table>');
+    });
+});

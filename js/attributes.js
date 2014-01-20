@@ -1,5 +1,7 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
+/*global DOMParser */
+
 /**
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
@@ -983,7 +985,6 @@ function Table() {
 	 */
 	this.style = new TableStyle();
 
-
 	/**
 	 * Array of rows constituting the table or empty array
 	 * @property {Array} rows
@@ -1069,7 +1070,8 @@ function Table() {
 
 
 	/**
-	 * Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * Generates table-specific html code with corresponding attributes and styles.
+	 * Creation of the row-related html of each row is delegated to Row::toHtml()
 	 * @method toHtml
 	 * @return {String} html representation of the row
 	 */
@@ -1120,3 +1122,55 @@ function Table() {
 		this.setAttr(attrObj);
 	};
 }
+
+
+/**
+ * Represents a table with bordered rows.
+ * @module   attributes
+ * @class    FramedTable
+ * @inherits Table
+ */
+function FramedTable(){
+	"use strict";
+	if (!(this instanceof FramedTable)) {
+		return new FramedTable();
+	}
+
+	/**
+	 * Style of the border around each row of the table.
+	 */
+	this.borderStyle = new Style();
+	this.borderStyle['border-width'] = 1;
+	this.borderStyle['border-color'] = '#000001';
+	this.borderStyle['border-style'] = 'solid';
+
+	/**
+	 * Generates table-specific html code with corresponding attributes and styles.
+	 * Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * @method toHtml
+	 * @return {String} html representation of the row
+	 */
+	this.toHtml = function () {
+		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
+			// string representation of the border style
+			borderStyle = this.borderStyle.toString(),
+			tag = 'table';
+		tableAttr = this.attr.toString();
+		tableStyle = this.style.toString();
+		if (tableStyle){
+			tableStyle = 'style="' + tableStyle + '"';
+		}
+		htmlTable = '<' + [tag, tableAttr, tableStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
+		rowsNumber = this.rows.length;
+		for (i = 0; i < rowsNumber; i++) {
+			htmlTable += '<tr><td><table style="' + borderStyle + '">';
+			htmlTable += this.rows[i].toHtml();
+			htmlTable += '</table></td></tr>';
+		}
+		htmlTable += '</' + tag + '>';
+		return htmlTable;
+	};
+
+
+}
+FramedTable.prototype = new Table();
