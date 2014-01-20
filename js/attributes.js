@@ -58,6 +58,42 @@ var toString2 = function (obj) {
 		return output.join(' ');
 	};
 
+/**
+ * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
+ * If the right arguments is not given, the left one is used.
+ * @param  {String} left
+ * @param  {String} middle
+ * @param  {String} right
+ * @return {String|Null}
+ */
+var sandwichWith = function (left, middle, right){
+	var m, r;
+	if ((typeof middle === "string") || (typeof left === "string")){
+		r = right || left;
+		m = middle.trim();
+		return m ? left + m + r : '';
+	}
+};
+String.prototype.sandwichWith = function (left, right){
+	return sandwichWith(left, this, right);
+};
+
+/**
+ * Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.
+ * @param {Array} arr
+ * @param {String} glue glue string
+ * @return {String}
+ */
+var concatDropSpaces = function (arr, glue){
+	if (glue === undefined){
+		glue = ' ';
+	}
+	return arr.join(glue).replace(/\s+/g, ' ').trim();
+};
+Array.prototype.concatDropSpaces = function(glue){
+	return concatDropSpaces(this, glue);
+};
+
 
 /**
  * Sets width, min-width and max-width of the object.
@@ -149,6 +185,42 @@ function Style(str) {
 	this.setWidth = function (w) {
 		setMinMaxWidth(this, w);
 	};
+}
+
+/**
+ * Styles specific for the table border.
+ * @module  attributes
+ * @extends Style
+ * @class BorderStyle
+ */
+function BorderStyle(){
+	"use strict";
+	if (!(this instanceof Style)) {
+		return new Style();
+	}
+
+	/**
+	 * border width in px
+	 * @property {String|Number} border-width
+	 * @default  1px
+	 */
+	this['border-width'] = '1px';
+
+	/**
+	 * border style. Possible values: none, solid, dotted etc.
+	 * @property {String} border-style
+	 * @default  'solid'
+	 */
+	this['border-style'] = 'solid';
+
+	/**
+	 * border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)
+	 * otherwise some web browsers (e.g. GMail) will remove it and substitute it with its own one.
+	 * @property {String} border-color
+	 * @default  #000001
+	 */
+	this['border-color'] = '#000001';
+
 }
 
 /**
@@ -1079,11 +1151,8 @@ function Table() {
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			tag = 'table';
 		tableAttr = this.attr.toString();
-		tableStyle = this.style.toString();
-		if (tableStyle){
-			tableStyle = 'style="' + tableStyle + '"';
-		}
-		htmlTable = '<' + [tag, tableAttr, tableStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
+		tableStyle = this.style.toString().sandwichWith('style="', '"');
+		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
 		rowsNumber = this.rows.length;
 		for (i = 0; i < rowsNumber; i++) {
 			htmlTable += this.rows[i].toHtml();
@@ -1127,8 +1196,8 @@ function Table() {
 /**
  * Represents a table with bordered rows.
  * @module   attributes
+ * @extends  Table
  * @class    FramedTable
- * @inherits Table
  */
 function FramedTable(){
 	"use strict";
@@ -1137,12 +1206,22 @@ function FramedTable(){
 	}
 
 	/**
-	 * Style of the border around each row of the table.
+	 * Style of the row containing a single cell.
+	 * @property {Style} nestedRowStyle
 	 */
-	this.borderStyle = new Style();
-	this.borderStyle['border-width'] = 1;
-	this.borderStyle['border-color'] = '#000001';
-	this.borderStyle['border-style'] = 'solid';
+	this.nestedRowStyle = new Style();
+
+	/**
+	 * Style of the  the cell which fills the whole row.
+	 * @property {Style} nestedCellStyle
+	 */
+	this.nestedCellStyle = new Style();
+
+	/**
+	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+	 * @property {Style} nestedTableStyle
+	 */
+	this.nestedTableStyle = new Style();
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
@@ -1153,24 +1232,24 @@ function FramedTable(){
 	this.toHtml = function () {
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			// string representation of the border style
-			borderStyle = this.borderStyle.toString(),
+			nestedRowStyle =   this.nestedRowStyle.toString().sandwichWith('style="','"'),
+			nestedCellStyle =  this.nestedCellStyle.toString().sandwichWith('style="','"'),
+			nestedTableStyle = this.nestedTableStyle.toString().sandwichWith('style="','"'),
 			tag = 'table';
 		tableAttr = this.attr.toString();
-		tableStyle = this.style.toString();
-		if (tableStyle){
-			tableStyle = 'style="' + tableStyle + '"';
-		}
-		htmlTable = '<' + [tag, tableAttr, tableStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
+		tableStyle = this.style.toString().sandwichWith('style="','"');
+
+		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
 		rowsNumber = this.rows.length;
 		for (i = 0; i < rowsNumber; i++) {
-			htmlTable += '<tr><td><table style="' + borderStyle + '">';
+			htmlTable += ['tr', nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
+				['td', nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
+				[tag, nestedTableStyle].concatDropSpaces().sandwichWith('<', '>');
 			htmlTable += this.rows[i].toHtml();
-			htmlTable += '</table></td></tr>';
+			htmlTable += tag.sandwichWith('</', '>') +'</td></tr>';
 		}
 		htmlTable += '</' + tag + '>';
 		return htmlTable;
 	};
-
-
 }
 FramedTable.prototype = new Table();

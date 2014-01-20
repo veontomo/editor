@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/FramedTable.html">FramedTable</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
@@ -120,13 +124,15 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/** 
+/*global DOMParser */
+
+/**
  * Produces a string of properties in inline-style fashion
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
  * @module 	attributes
- * @param   {Object}     	obj  	an object which string reperesentation should be generated.   
+ * @param   {Object}     	obj  	an object which string reperesentation should be generated.
  * @param 	{String|null} 	unit 	a mesurement unit to be added to the numerical attribute values. By default, it is set to &#x27;px&#x27;.
  * @return 	{String}		a concatenation of substrings; each substring is of this format: &quot;attribute: value;&quot;.
  * @example The return value is of the form: &quot;padding: 0px;margin: 10px;color: #ababab;&quot;
@@ -152,12 +158,12 @@ var toString = function (obj, unit) {
 		return styles;
 	};
 
-/** 
+/**
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
  * @module 	attributes
- * @param   {Object}    obj     
+ * @param   {Object}    obj
  * @return 	{String} 	String 		a union of substrings; each substring is of this format: &#x27;attribute=&quot;value&quot;&#x27;, between the substrings there is a separator &#x27; &#x27;.
  */
 var toString2 = function (obj) {
@@ -169,12 +175,48 @@ var toString2 = function (obj) {
 				valType = typeof val;
 				// avoid adding method to the output
 				if (valType === &#x27;string&#x27; || valType === &#x27;number&#x27;){
-					output.push(attr + &#x27;=&quot;&#x27; + String(val) + &#x27;&quot;&#x27;);	
+					output.push(attr + &#x27;=&quot;&#x27; + String(val) + &#x27;&quot;&#x27;);
 				}
 			}
 		}
 		return output.join(&#x27; &#x27;);
 	};
+
+/**
+ * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
+ * If the right arguments is not given, the left one is used.
+ * @param  {String} left
+ * @param  {String} middle
+ * @param  {String} right
+ * @return {String|Null}
+ */
+var sandwichWith = function (left, middle, right){
+	var m, r;
+	if ((typeof middle === &quot;string&quot;) || (typeof left === &quot;string&quot;)){
+		r = right || left;
+		m = middle.trim();
+		return m ? left + m + r : &#x27;&#x27;;
+	}
+};
+String.prototype.sandwichWith = function (left, right){
+	return sandwichWith(left, this, right);
+};
+
+/**
+ * Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.
+ * @param {Array} arr
+ * @param {String} glue glue string
+ * @return {String}
+ */
+var concatDropSpaces = function (arr, glue){
+	if (glue === undefined){
+		glue = &#x27; &#x27;;
+	}
+	return arr.join(glue).replace(/\s+/g, &#x27; &#x27;).trim();
+};
+Array.prototype.concatDropSpaces = function(glue){
+	return concatDropSpaces(this, glue);
+};
 
 
 /**
@@ -188,16 +230,16 @@ var setMinMaxWidth = function (obj, w) {
 	&quot;use strict&quot;;
 	if(typeof obj !== &#x27;object&#x27;){
 		throw new Error(&#x27;Can not set a property of a non-object!&#x27;);
-	} 
-	if(w === undefined){
-		throw new Error(&quot;Width value is not set!&quot;); 
 	}
-	obj.width = w; 
-	obj[&#x27;max-width&#x27;] =  w; 
-	obj[&#x27;min-width&#x27;] =  w; 
-}; 
+	if(w === undefined){
+		throw new Error(&quot;Width value is not set!&quot;);
+	}
+	obj.width = w;
+	obj[&#x27;max-width&#x27;] =  w;
+	obj[&#x27;min-width&#x27;] =  w;
+};
 
-/** 
+/**
 * Gets property value from the object.
 * @module 	attributes
 * @param 	{Object} 	obj 	an object
@@ -208,9 +250,9 @@ function getProperty(obj, prop){
 	&quot;use strict&quot;;
 	if(typeof obj !== &#x27;object&#x27;){
 		throw new Error(&#x27;Not an object!&#x27;);
-	} 
+	}
 	if(prop === undefined){
-		throw new Error(&quot;Property name missing!&quot;); 
+		throw new Error(&quot;Property name missing!&quot;);
 	}
 	if(obj.hasOwnProperty(prop)){
 		return obj[prop];
@@ -220,12 +262,35 @@ function getProperty(obj, prop){
 /**
 * This class is supposed to characterize inline styles of html tags.
 * @module 	attributes
-* @class  Style
+* @param 	{string} str 	string of label-value pairs
+* @class  	Style
 */
-function Style() {
-	&quot;use strict&quot;; 
+function Style(str) {
+	&quot;use strict&quot;;
 	if (!(this instanceof Style)) {
 		return new Style();
+	}
+
+	/**
+	 * Fill in the properties with the values from the argument if any
+	 */
+	if (typeof str === &#x27;string&#x27;){
+		var attr = str.split(&#x27;;&#x27;),
+			len = attr.length,
+			i, pair, key, value;
+		// parse each attribute/value pair
+		for (i = 0; i &lt; len; i++){
+			pair = attr[i].split(&#x27;:&#x27;);
+			// ignore if there is more than one semicolon
+			if (pair.length === 2){
+				key = pair[0].trim();
+				value =  pair[1].trim();
+				if(parseFloat(value)){
+					value = parseFloat(value);
+				}
+				this[key] = value;
+			}
+		}
 	}
 	/**
 	 * Generates string representation of this object (as inline styles)
@@ -247,15 +312,51 @@ function Style() {
 }
 
 /**
-* This class is supposed to define attributes of html tags 
+ * Styles specific for the table border.
+ * @module  attributes
+ * @extends Style
+ * @class BorderStyle
+ */
+function BorderStyle(){
+	&quot;use strict&quot;;
+	if (!(this instanceof Style)) {
+		return new Style();
+	}
+
+	/**
+	 * border width in px
+	 * @property {String|Number} border-width
+	 * @default  1px
+	 */
+	this[&#x27;border-width&#x27;] = &#x27;1px&#x27;;
+
+	/**
+	 * border style. Possible values: none, solid, dotted etc.
+	 * @property {String} border-style
+	 * @default  &#x27;solid&#x27;
+	 */
+	this[&#x27;border-style&#x27;] = &#x27;solid&#x27;;
+
+	/**
+	 * border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)
+	 * otherwise some web browsers (e.g. GMail) will remove it and substitute it with its own one.
+	 * @property {String} border-color
+	 * @default  #000001
+	 */
+	this[&#x27;border-color&#x27;] = &#x27;#000001&#x27;;
+
+}
+
+/**
+* This class is supposed to define attributes of html tags
 * @module 	attributes
 * @class  Attributes
 */
 function Attributes() {
 	&quot;use strict&quot;;
 	if (!(this instanceof Attributes)) {
-		return new Attributes(); 
-	} 
+		return new Attributes();
+	}
 	/**
 	 * Generates string representation of this object (as html attributes)
 	 * @method {String} 	toString
@@ -268,7 +369,7 @@ function Attributes() {
 }
 
 /**
-* Table-specific attributes. 
+* Table-specific attributes.
 * @module 	attributes
 * @extends Attributes
 * @class  TableAttributes
@@ -291,8 +392,8 @@ function TableAttributes(){
 }
 TableAttributes.prototype = new Attributes();
 
-/** 
- * Text specific style class. 
+/**
+ * Text specific style class.
  * @module 	attributes
  * @extends Style
  * @class  TextStyle
@@ -304,7 +405,7 @@ function TextStyle() {
 	}
 	/**
 	 * Font size, including unit of measurement.
-	 * @property {String} font-size 
+	 * @property {String} font-size
 	 * @default  &quot;12px&quot;
 	 */
 	this[&quot;font-size&quot;] = &quot;12px&quot;;
@@ -454,7 +555,7 @@ function TableStyle() {
 	 */
 	// this[&#x27;border-collapse&#x27;] = &#x27;collapse&#x27;;
 	/**
-	 * Border spacing. 
+	 * Border spacing.
 	 * @property {String} border-spacing
 	 * @default &#x27;0px 0px&#x27;
 	 */
@@ -754,9 +855,9 @@ function Content(str) {
 		return this.elements.length;
 	};
 	/**
-	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item. 
+	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
 	 * @method toHtml
-	 * @return {String} 
+	 * @return {String}
 	 */
 	this.toHtml = function () {
 		var i, elem, output = &#x27;&#x27;,
@@ -783,7 +884,7 @@ function Content(str) {
 /**
  * Represents a table cell. The argument is supposed to be passed to the &quot;content&quot; property.
  * @module 	attributes
- * @param {mixed} arg 
+ * @param {mixed} arg
  * @class  Cell
  */
 function Cell(arg) {
@@ -792,7 +893,15 @@ function Cell(arg) {
 		return new Cell(arg);
 	}
 	/**
-	 * Attributes of the cell. 
+	 * Type of the object. Set to value &quot;Cell&quot; for the objects of this type.
+	 * @method {string} getType
+	 * @return {string}
+	 */
+	this.getType = function(){
+		return &quot;Cell&quot;;
+	};
+	/**
+	 * Attributes of the cell.
 	 * @property {Attributes} attr
 	 * @type {Attributes}
 	 * @default Attributes
@@ -812,7 +921,7 @@ function Cell(arg) {
 	 * @default Content
 	 */
 	this.content = new Content(arg);
-	/**	
+	/**
 	 * Retrieves the value of property from the &quot;style&quot;
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -822,7 +931,7 @@ function Cell(arg) {
 		return getProperty(this.style, prop);
 	};
 	/**
-	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well. 
+	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
 	 * It is better to use with an integer argument.
 	 * @method  setWidth
 	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc) or a number (i.e. 200, 10).
@@ -833,13 +942,22 @@ function Cell(arg) {
 	};
 
 	/**
+	 * Insert the argument into the cell content
+	 * @method insert
+	 * @param {any} item
+	 * @return {void}
+	 */
+	 this.insert = function(item){
+	 	this.content.elements.push(item);
+	 };
+	/**
 	 * Generates cell-specific html code with corresponding attributes and styles
 	 * @method toHtml
 	 * @return {String} html representation of the cell
 	 */
 	this.toHtml = function () {
 		var tag = &#x27;td&#x27;,
-			cellHtml, 
+			cellHtml,
 			attr = this.attr.toString(),
 			style = this.style.toString();
 		if (style){
@@ -852,7 +970,7 @@ function Cell(arg) {
 	};
 }
 
-/** 
+/**
  * Represents a table row
  * @module 	attributes
  * @class  Row
@@ -863,19 +981,51 @@ function Row() {
 		return new Row();
 	}
 	/**
-	* Attributes of the row. 
+	 * Type of the object. Return &quot;Row&quot; for the objects of this type.
+	 * @pmethod {string} getType
+	 * @return {string}
+	 */
+	this.getType = function(){
+		return &quot;Row&quot;;
+	};
+
+	/**
+	* Attributes of the row.
 	* @property {Attributes} attr
 	* @type {Attributes}
 	* @default Attributes
 	*/
 	this.attr = new Attributes();
+
 	/**
-	 * Styles of the row
+	* Attribute setter.
+	* @method setAtr
+	* @param {String|Object} attr
+	* @return {void}
+	*/
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+
+	/**
+	 * Styles of the row.
 	 * @property {TableCellStyle} style
 	 * @type {TableCellStyle}
 	 * @default TableRowStyle
 	 */
 	this.style = new TableRowStyle();
+
+	/**
+	* Style setter.
+	* @method setStyle
+	* @param {String|Object} stl
+	* @return {void}
+	*/
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
 	/**
 	 * Array of cells belonging to the row.
 	 * @property {Array} cells
@@ -884,7 +1034,7 @@ function Row() {
 	 */
 	this.cells = [];
 
-	/**	
+	/**
 	 * Retrieves the value of property from the &quot;style&quot;
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -895,7 +1045,7 @@ function Row() {
 	};
 
 	/**
-	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well. 
+	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
 	 * It is better to use with an integer argument.
 	 * @method  setWidth
 	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc) or a number (i.e. 200, 10).
@@ -903,6 +1053,21 @@ function Row() {
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
+	};
+
+	/**
+	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+	 * @method appendCell
+	 * @param {Object} cell  a cell to be appended.
+	 * @return {void}
+	 */
+	this.appendCell = function(cell){
+		// find out with what name the Cell object is registered
+		var cellType = (new Cell()).getType();
+		if (typeof(cell.getType) !== &#x27;function&#x27; || cell.getType() !== cellType){
+			throw new Error(&#x27;The argument is not of the Cell type!&#x27;);
+		}
+		this.cells.push(cell);
 	};
 
 	/**
@@ -926,9 +1091,41 @@ function Row() {
 		htmlRow += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
 		return htmlRow;
 	};
+
+	/**
+	 * Populates the attributes from a string that is an html repersentation of some row.
+	 * It takes a string that is an html representation of a row and update current object
+	 * parameters such that it will correspond to the html representation.
+	 * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	 * (eventually up to presence/absence of some parameters and attributes).
+	 *
+	 * @method loadFromHtml
+	 * @param {String} htmlStr
+	 * @return {void}
+	 */
+	this.loadFromHtml = function (htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString(&#x27;&lt;table&gt;&#x27; + htmlStr + &#x27;&lt;/table&gt;&#x27;, &quot;text/html&quot;),
+			node = doc.getElementsByTagName(&#x27;tr&#x27;)[0],
+			attrs = node.attributes,
+			nodeStyle = node.getAttribute(&#x27;style&#x27;),
+			attrObj = {},
+			len = attrs.length,
+			i, attr;
+			console.log(doc, node);
+		for (i = 0; i &lt; len; i++){
+			attr = attrs[i];
+			if (attr.name !== &#x27;style&#x27;){
+				attrObj[attr.name] = attr.value;
+			}
+		}
+		this.setStyle(nodeStyle);
+		this.setAttr(attrObj);
+	};
+
 }
 
-/** 
+/**
 * Represents table.
 * @module 	attributes
 * @class  Table
@@ -938,13 +1135,44 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
+
 	/**
-	* Attributes of the table. 
+	 * Type of the object. Returns &quot;Table&quot; for the objects of this type.
+	 * @method  {string} getType
+	 * @return  {string}
+	 */
+	this.getType = function(){
+		return &quot;Table&quot;;
+	};
+
+	/**
+	 * Imposes attributes of the row
+	 * @method setAttr
+	 * @param {Object} attr
+	 * @return {void}
+	 */
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+	/**
+	* Attributes of the table.
 	* @property {TableAttributes} attr
 	* @type {TableAttributes}
 	* @default TableAttributes
 	*/
 	this.attr = new TableAttributes();
+
+	/**
+	 * Imposes style of the row
+	 * @method setStyle
+	 * @param {Object} stl
+	 * @return {void}
+	 */
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
 	/**
 	 * Styles of the row
 	 * @property {TableStyle} style
@@ -966,7 +1194,22 @@ function Table() {
 		return getProperty(this.style, prop);
 	};
 
-	/**	
+	/**
+	 * Append a row to the exisiting rows.
+	 * @param {Object} row  a row to be appended
+	 * @property {Object} appendRow
+	 * @return {void}
+	 */
+	this.appendRow = function(row){
+		// find out with what name the Row object is registered
+		var rowType = (new Row()).getType();
+		if (typeof(row.getType) !== &#x27;function&#x27; || row.getType() !== rowType){
+			throw new Error(&#x27;The argument is not of the Row type!&#x27;);
+		}
+		this.rows.push(row);
+	};
+
+	/**
 	 * Retrieves the value of property from the &quot;style&quot;
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
@@ -977,9 +1220,9 @@ function Table() {
 		this.attr.width = w;
 	};
 	/**
-	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance: 
-	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27; 
-	 * 2. in &#x27;attr&#x27; property, sets up &#x27;border&#x27; property. 
+	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
+	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27;
+	 * 2. in &#x27;attr&#x27; property, sets up &#x27;border&#x27; property.
 	 * Note that if after setting the border there is an assigment of &#x27;style&#x27; or &#x27;attr&#x27; property, then some info about the border might be overwritten.
 	 * @method  setBorder
 	 * @param {Object} borderInfo  Object containing &#x27;width&#x27;, &#x27;color&#x27; and &#x27;style&#x27; fo the border to set.
@@ -1003,7 +1246,7 @@ function Table() {
 	/**
 	 * Removes the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
 	 * 1. in &#x27;style&#x27; property, deletes the properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and sets up &#x27;border-style&#x27; to &#x27;none&#x27;
-	 * 2. in &#x27;attr&#x27; property, deletes &#x27;border&#x27; property. 
+	 * 2. in &#x27;attr&#x27; property, deletes &#x27;border&#x27; property.
 	 * @method  removeBorder
 	 * @return {void}
 	 */
@@ -1023,7 +1266,8 @@ function Table() {
 
 
 	/**
-	 * Generates table-specific html code with corresponding attributes and styles. Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * Generates table-specific html code with corresponding attributes and styles.
+	 * Creation of the row-related html of each row is delegated to Row::toHtml()
 	 * @method toHtml
 	 * @return {String} html representation of the row
 	 */
@@ -1031,11 +1275,8 @@ function Table() {
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			tag = &#x27;table&#x27;;
 		tableAttr = this.attr.toString();
-		tableStyle = this.style.toString();
-		if (tableStyle){
-			tableStyle = &#x27;style=&quot;&#x27; + tableStyle + &#x27;&quot;&#x27;;
-		}
-		htmlTable = &#x27;&lt;&#x27; + [tag, tableAttr, tableStyle].join(&#x27; &#x27;).replace(/\s+/g, &#x27; &#x27;).trim() + &#x27;&gt;&#x27;;
+		tableStyle = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;);
+		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 		rowsNumber = this.rows.length;
 		for (i = 0; i &lt; rowsNumber; i++) {
 			htmlTable += this.rows[i].toHtml();
@@ -1043,7 +1284,100 @@ function Table() {
 		htmlTable += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
 		return htmlTable;
 	};
+
+	/**
+	 * Populates the attributes from a string that is an html repersentation of some table.
+	 * It takes a string that is an html representation of a table and update current object
+	 * parameters such that it will correspond to the html representation.
+	 * In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	 * (eventually up to presence/absence of some parameters and attributes).
+	 *
+	 * @method loadFromHtml
+	 * @param {String} htmlStr
+	 * @return {void}
+	 */
+	this.loadFromHtml = function (htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, &quot;text/html&quot;),
+			node = doc.getElementsByTagName(&#x27;table&#x27;)[0],
+			attrs = node.attributes,
+			nodeStyle = node.getAttribute(&#x27;style&#x27;),
+			attrObj = {},
+			len = attrs.length,
+			i, attr;
+		for (i = 0; i &lt; len; i++){
+			attr = attrs[i];
+			if (attr.name !== &#x27;style&#x27;){
+				attrObj[attr.name] = attr.value;
+			}
+		}
+		this.setStyle(nodeStyle);
+		this.setAttr(attrObj);
+	};
 }
+
+
+/**
+ * Represents a table with bordered rows.
+ * @module   attributes
+ * @extends  Table
+ * @class    FramedTable
+ */
+function FramedTable(){
+	&quot;use strict&quot;;
+	if (!(this instanceof FramedTable)) {
+		return new FramedTable();
+	}
+
+	/**
+	 * Style of the row containing a single cell.
+	 * @property {Style} nestedRowStyle
+	 */
+	this.nestedRowStyle = new Style();
+
+	/**
+	 * Style of the  the cell which fills the whole row.
+	 * @property {Style} nestedCellStyle
+	 */
+	this.nestedCellStyle = new Style();
+
+	/**
+	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+	 * @property {Style} nestedTableStyle
+	 */
+	this.nestedTableStyle = new Style();
+
+	/**
+	 * Generates table-specific html code with corresponding attributes and styles.
+	 * Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * @method toHtml
+	 * @return {String} html representation of the row
+	 */
+	this.toHtml = function () {
+		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
+			// string representation of the border style
+			nestedRowStyle =   this.nestedRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
+			nestedCellStyle =  this.nestedCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
+			nestedTableStyle = this.nestedTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
+			tag = &#x27;table&#x27;;
+		tableAttr = this.attr.toString();
+		tableStyle = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;);
+
+		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+		rowsNumber = this.rows.length;
+		for (i = 0; i &lt; rowsNumber; i++) {
+			htmlTable += [&#x27;tr&#x27;, nestedRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
+				[&#x27;td&#x27;, nestedCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
+				[tag, nestedTableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+			htmlTable += this.rows[i].toHtml();
+			htmlTable += tag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) +&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;
+		}
+		htmlTable += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
+		return htmlTable;
+	};
+}
+FramedTable.prototype = new Table();
+
     </pre>
 </div>
 

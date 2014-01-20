@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, FramedTable */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, FramedTable, concat, sandwichWith */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -48,6 +48,55 @@ describe('String representation 2', function() {
         expect(toString2(Obj2)).toEqual('');
         expect(toString2(Obj3)).toEqual('width="10" color="red" string="10" border="12"');
     });
+});
+
+describe('Hotdogs a string', function(){
+    it('if a sausage is not empty, inserts it btw the left and right parts', function(){
+        expect(sandwichWith('bread ', 'sausage', ' ketchup')).toBe('bread sausage ketchup');
+        expect(sandwichWith('bread ', 'sausage')).toBe('bread sausagebread ');
+        expect(sandwichWith('', 'sausage', '')).toBe('sausage');
+        expect(sandwichWith('', 'sausage')).toBe('sausage');
+    });
+
+    it('if a sausage is empty, empty string is returned', function(){
+        expect(sandwichWith('bread ', '', ' ketchup')).toBe('');
+        expect(sandwichWith('bread ', '')).toBe('');
+        expect(sandwichWith('', '')).toBe('');
+    });
+});
+
+describe('Concatenates elements of array, replacing a multiple spaces with a single one', function(){
+    var arr;
+    it('concatenates elements of a non-empty array', function(){
+        arr = ['element 1', 'element 2', 'element3'];
+        expect(concatDropSpaces(arr, ' ')).toBe('element 1 element 2 element3');
+        expect(concatDropSpaces(arr, '-')).toBe('element 1-element 2-element3');
+        expect(concatDropSpaces(arr)).toBe('element 1 element 2 element3');
+        expect(concatDropSpaces(arr, '')).toBe('element 1element 2element3');
+    });
+    it('concatenates elements of an empty array', function(){
+        arr = [];
+        expect(concatDropSpaces(arr, ' ')).toBe('');
+        expect(concatDropSpaces(arr, '-')).toBe('');
+        expect(concatDropSpaces(arr)).toBe('');
+        expect(concatDropSpaces(arr, '')).toBe('');
+    });
+    it('removes trailing spaces', function(){
+        arr = ['        element 1', 'element 2', 'element3        '];
+        expect(concatDropSpaces(arr, ' ')).toBe('element 1 element 2 element3');
+        expect(concatDropSpaces(arr, '-')).toBe('element 1-element 2-element3');
+        expect(concatDropSpaces(arr)).toBe('element 1 element 2 element3');
+        expect(concatDropSpaces(arr, '')).toBe('element 1element 2element3');
+    });
+    it('removes spaces if array has a single element', function(){
+        arr = ['        '];
+        expect(concatDropSpaces(arr, ' ')).toBe('');
+        expect(concatDropSpaces(arr, '-')).toBe('');
+        expect(concatDropSpaces(arr)).toBe('');
+        expect(concatDropSpaces(arr, '')).toBe('');
+    });
+
+
 });
 
 describe('Transforms table attributes into a string', function() {
@@ -730,49 +779,92 @@ describe('Table-related functionality', function(){
 });
 
 describe('FramedTable-related functionality', function(){
-    it('inherits from Table()', function(){
-        expect(FramedTable.prototype instanceof Table).toBe(true);
-    });
-
-    it('has additional parameter for the border', function(){
-        var ft = new FramedTable();
-        expect(ft.hasOwnProperty('borderStyle')).toBe(true);
-        expect(ft.borderStyle.constructor.name).toBe("Style");
-    });
-
-
-    it('generates html code of the table if attributes and styles are not empty', function(){
-        var table = new FramedTable(),
-            row1 = new Row(),
-            row2 = new Row(),
-            row3 = new Row(),
-            tableAttr = new TableAttributes(),
-            tableStyle = new TableStyle(),
-            rowBorder = new Style();
+    var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle;
+    beforeEach(function(){
+        table = new FramedTable();
+        row1 = new Row();
+        row2 = new Row();
+        row3 = new Row();
+        tableAttr =  new TableAttributes();
+        tableStyle = new TableStyle();
+        nestedRowStyle =    new Style();
+        nestedCellStyle =   new Style();
+        nestedTableStyle =  new Style();
         spyOn(row1, 'toHtml').andCallFake(function(){
             return 'row 1';
         });
         spyOn(row2, 'toHtml').andCallFake(function(){
-            return 'row 2 html';
+            return 'row 2';
         });
         spyOn(row3, 'toHtml').andCallFake(function(){
             return 'row 3 content';
         });
 
+    });
+
+    it('inherits from Table()', function(){
+        expect(FramedTable.prototype instanceof Table).toBe(true);
+    });
+
+    it('has additional property for the nested row', function(){
+        var ft = new FramedTable();
+        expect(ft.hasOwnProperty('nestedRowStyle')).toBe(true);
+        expect(ft.nestedRowStyle.constructor.name).toBe('Style');
+    });
+
+    it('has additional property for the nested cell', function(){
+        var ft = new FramedTable();
+        expect(ft.hasOwnProperty('nestedCellStyle')).toBe(true);
+        expect(ft.nestedCellStyle.constructor.name).toBe('Style');
+    });
+
+    it('has additional property for the nested table', function(){
+        var ft = new FramedTable();
+        expect(ft.hasOwnProperty('nestedTableStyle')).toBe(true);
+        expect(ft.nestedTableStyle.constructor.name).toBe('Style');
+    });
+
+
+
+
+    it('generates html code of the framed rows if all nested elements have non-empty styles', function(){
         spyOn(tableAttr, 'toString').andCallFake(function(){
             return 'table attributes';
         });
         spyOn(tableStyle, 'toString').andCallFake(function(){
             return 'table styles';
         });
-        spyOn(rowBorder, 'toString').andCallFake(function(){
-            return 'border styles';
+        spyOn(nestedRowStyle, 'toString').andCallFake(function(){
+            return 'nested row styles';
+        });
+        spyOn(nestedCellStyle, 'toString').andCallFake(function(){
+            return 'nested cell styles';
+        });
+        spyOn(nestedTableStyle, 'toString').andCallFake(function(){
+            return 'nested table styles';
+        });
+
+
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2];
+        table.nestedRowStyle = nestedRowStyle;
+        table.nestedCellStyle = nestedCellStyle;
+        table.nestedTableStyle = nestedTableStyle;
+        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 1</table></td></tr><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 2</table></td></tr></table>');
+    });
+
+    xit('generates html code of the framed rows if the border style (of the rows) is empty', function(){
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return 'table attributes';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
         });
 
         table.attr = tableAttr;
         table.style = tableStyle;
-        table.borderStyle = rowBorder;
         table.rows = [row1, row2, row3];
-        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr><td><table style="border styles">row 1</table></td></tr><tr><td><table style="border styles">row 2 html</table></td></tr><tr><td><table style="border styles">row 3 content</table></td></tr></table>');
+        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr><td><table>row 1</table></td></tr><tr><td><table>row 2 html</table></td></tr><tr><td><table>row 3 content</table></td></tr></table>');
     });
 });

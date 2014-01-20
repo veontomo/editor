@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
+/*global CKEDITOR, Unit, Table, columnWidths, Table, FramedTable, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -189,8 +189,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
 			// prepare objects useful in what follows
-			table = new Table();
-			table.attr['data-marker'] = 'table';
+			table = nestedBorderWidth === 0 ? (new Table()) : (new Table());
+			table.attr['data-marker'] = nestedBorderWidth === 0 ? 'table' : 'framedtable';
 			table.attr.border = borderWidth;
 
 			tableStyle = new TableStyle();
@@ -198,7 +198,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			table.style = tableStyle;
 			// creating a row
 			row = new Row();
-			row.attr['data-marker'] = 'row';
+			row.attr['data-marker'] = nestedBorderWidth === 0 ? 'row' : 'framedrow';
 
 			rowStyle = new TableRowStyle();
 			rowStyle.setWidth(rowWidth);

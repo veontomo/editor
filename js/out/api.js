@@ -2,8 +2,10 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Attributes",
+        "BorderStyle",
         "Cell",
         "Content",
+        "FramedTable",
         "ImageStyle",
         "LinkStyle",
         "ListItemStyle",
@@ -30,7 +32,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "helpers",
             "name": "helpers",
-            "description": "transforms each element of the input array into a non-negative number. \nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero."
+            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero."
         }
     ]
 } };

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Table</title>
+    <title>FramedTable</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,15 +118,19 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Table Class</h1>
+                        <h1>FramedTable Class</h1>
 <div class="box meta">
     
 
     
+        <div class="extends">
+            Extends <a href="..\classes\Table.html" class="crosslink">Table</a>
+        </div>
+    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l1004"><code>attributes.js:1004</code></a>
+            Defined in: <a href="../files/attributes.js.html#l1196"><code>attributes.js:1196</code></a>
         </div>
     
 
@@ -142,7 +146,7 @@
 
 
 <div class="box intro">
-    <p>Represents table.</p>
+    <p>Represents a table with bordered rows.</p>
 
 </div>
 
@@ -170,58 +174,58 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_getType">getType</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_loadFromHtml">loadFromHtml</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_removeBorder">removeBorder</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setAttr">setAttr</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setBorder">setBorder</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setStyle">setStyle</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_styleProperty">styleProperty</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_toHtml">toHtml</a>
 
                                 
@@ -236,16 +240,16 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
-                            <li class="index-item property">
+                            <li class="index-item property inherited">
                                 <a href="#property_appendRow">appendRow</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
+                            <li class="index-item property inherited">
                                 <a href="#property_attr">attr</a>
 
                                 
@@ -253,13 +257,34 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_rows">rows</a>
+                                <a href="#property_nestedCellStyle">nestedCellStyle</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_nestedRowStyle">nestedRowStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_nestedTableStyle">nestedTableStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property inherited">
+                                <a href="#property_rows">rows</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property inherited">
                                 <a href="#property_style">style</a>
 
                                 
@@ -280,7 +305,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_getType" class="method item">
+                    <div id="method_getType" class="method item inherited">
     <h3 class="name"><code>getType</code></h3>
 
     
@@ -308,11 +333,8 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_getType">Table</a>:
             
         
         
@@ -351,7 +373,7 @@
 </div>
 
                 
-                    <div id="method_loadFromHtml" class="method item">
+                    <div id="method_loadFromHtml" class="method item inherited">
     <h3 class="name"><code>loadFromHtml</code></h3>
 
     
@@ -389,11 +411,8 @@
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_loadFromHtml">Table</a>:
             
         
         
@@ -431,7 +450,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -459,7 +478,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
 </div>
 
                 
-                    <div id="method_removeBorder" class="method item">
+                    <div id="method_removeBorder" class="method item inherited">
     <h3 class="name"><code>removeBorder</code></h3>
 
     
@@ -487,11 +506,8 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_removeBorder">Table</a>:
             
         
         
@@ -506,7 +522,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
     </div>
 
     <div class="description">
-        <p>Removes the border of the table. It updates the properties &#39;attr&#39; and &#39;style&#39; of the instance:</p>
+        <p><p>Removes the border of the table. It updates the properties &#39;attr&#39; and &#39;style&#39; of the instance:</p></p>
 <ol>
 <li>in &#39;style&#39; property, deletes the properties: &#39;border-width&#39;, &#39;border-color&#39; and sets up &#39;border-style&#39; to &#39;none&#39;</li>
 <li>in &#39;attr&#39; property, deletes &#39;border&#39; property.</li>
@@ -534,7 +550,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
 </div>
 
                 
-                    <div id="method_setAttr" class="method item">
+                    <div id="method_setAttr" class="method item inherited">
     <h3 class="name"><code>setAttr</code></h3>
 
     
@@ -572,11 +588,8 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_setAttr">Table</a>:
             
         
         
@@ -610,7 +623,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -638,7 +651,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
 </div>
 
                 
-                    <div id="method_setBorder" class="method item">
+                    <div id="method_setBorder" class="method item inherited">
     <h3 class="name"><code>setBorder</code></h3>
 
     
@@ -676,11 +689,8 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_setBorder">Table</a>:
             
         
         
@@ -695,7 +705,7 @@ In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be simila
     </div>
 
     <div class="description">
-        <p>Set the border of the table. It updates the properties &#39;attr&#39; and &#39;style&#39; of the instance:</p>
+        <p><p>Set the border of the table. It updates the properties &#39;attr&#39; and &#39;style&#39; of the instance:</p></p>
 <ol>
 <li>in &#39;style&#39; property, sets up the following properties: &#39;border-width&#39;, &#39;border-color&#39; and &#39;border-style&#39;</li>
 <li>in &#39;attr&#39; property, sets up &#39;border&#39; property.
@@ -748,7 +758,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 </div>
 
                 
-                    <div id="method_setStyle" class="method item">
+                    <div id="method_setStyle" class="method item inherited">
     <h3 class="name"><code>setStyle</code></h3>
 
     
@@ -786,11 +796,8 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_setStyle">Table</a>:
             
         
         
@@ -824,7 +831,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
                     
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -852,7 +859,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 </div>
 
                 
-                    <div id="method_styleProperty" class="method item">
+                    <div id="method_styleProperty" class="method item inherited">
     <h3 class="name"><code>styleProperty</code></h3>
 
     
@@ -890,11 +897,8 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_styleProperty">Table</a>:
             
         
         
@@ -984,16 +988,16 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Table.html#method_toHtml">
+                Table
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/attributes.js.html#l1144"><code>attributes.js:1144</code></a>
+        <a href="../files/attributes.js.html#l1226"><code>attributes.js:1226</code></a>
         
         </p>
 
@@ -1039,7 +1043,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_appendRow" class="property item">
+                    <div id="property_appendRow" class="property item inherited">
     <h3 class="name"><code>appendRow</code></h3>
     <span class="type">Object</span>
 
@@ -1054,11 +1058,8 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#property_appendRow">Table</a>:
             
         
         
@@ -1104,7 +1105,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_attr" class="property item">
+                    <div id="property_attr" class="property item inherited">
     <h3 class="name"><code>attr</code></h3>
     <span class="type"><a href="..\classes\TableAttributes.html" class="crosslink">TableAttributes</a></span>
 
@@ -1119,11 +1120,8 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#property_attr">Table</a>:
             
         
         
@@ -1151,9 +1149,9 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_rows" class="property item">
-    <h3 class="name"><code>rows</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_nestedCellStyle" class="property item">
+    <h3 class="name"><code>nestedCellStyle</code></h3>
+    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
 
     
 
@@ -1171,6 +1169,138 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
                 
                 Defined in
                 
+            
+        
+        
+        <a href="../files/attributes.js.html#l1214"><code>attributes.js:1214</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style of the  the cell which fills the whole row.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_nestedRowStyle" class="property item">
+    <h3 class="name"><code>nestedRowStyle</code></h3>
+    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l1208"><code>attributes.js:1208</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style of the row containing a single cell.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_nestedTableStyle" class="property item">
+    <h3 class="name"><code>nestedTableStyle</code></h3>
+    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l1220"><code>attributes.js:1220</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rows" class="property item inherited">
+    <h3 class="name"><code>rows</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Table.html#property_rows">Table</a>:
             
         
         
@@ -1198,7 +1328,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_style" class="property item">
+                    <div id="property_style" class="property item inherited">
     <h3 class="name"><code>style</code></h3>
     <span class="type"><a href="..\classes\TableStyle.html" class="crosslink">TableStyle</a></span>
 
@@ -1213,11 +1343,8 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\Table.html#property_style">Table</a>:
             
         
         

@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/FramedTable.html">FramedTable</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
@@ -122,7 +126,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l735"><code>attributes.js:735</code></a>
+            Defined in: <a href="../files/attributes.js.html#l849"><code>attributes.js:849</code></a>
         </div>
     
 
@@ -167,6 +171,34 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_appendCell">appendCell</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_loadFromHtml">loadFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setAtr">setAtr</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setStyle">setStyle</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method">
                                 <a href="#method_setWidth">setWidth</a>
@@ -234,6 +266,427 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_appendCell" class="method item">
+    <h3 class="name"><code>appendCell</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cell</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l934"><code>attributes.js:934</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cell</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>a cell to be appended.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadFromHtml" class="method item">
+    <h3 class="name"><code>loadFromHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>htmlStr</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l971"><code>attributes.js:971</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Populates the attributes from a string that is an html repersentation of some row.
+It takes a string that is an html representation of a row and update current object
+parameters such that it will correspond to the html representation.
+In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+(eventually up to presence/absence of some parameters and attributes).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">htmlStr</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setAtr" class="method item">
+    <h3 class="name"><code>setAtr</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>attr</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l876"><code>attributes.js:876</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attribute setter.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">attr</code>
+                        <span class="type">String | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setStyle" class="method item">
+    <h3 class="name"><code>setStyle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>stl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l895"><code>attributes.js:895</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style setter.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">stl</code>
+                        <span class="type">String | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_setWidth" class="method item">
     <h3 class="name"><code>setWidth</code></h3>
 
@@ -276,7 +729,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l777"><code>attributes.js:777</code></a>
+        <a href="../files/attributes.js.html#l923"><code>attributes.js:923</code></a>
         
         </p>
 
@@ -287,7 +740,7 @@
     </div>
 
     <div class="description">
-        <p>Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well. 
+        <p>Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
 It is better to use with an integer argument.</p>
 
     </div>
@@ -370,7 +823,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/attributes.js.html#l767"><code>attributes.js:767</code></a>
+        <a href="../files/attributes.js.html#l913"><code>attributes.js:913</code></a>
         
         </p>
 
@@ -465,7 +918,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/attributes.js.html#l788"><code>attributes.js:788</code></a>
+        <a href="../files/attributes.js.html#l949"><code>attributes.js:949</code></a>
         
         </p>
 
@@ -533,7 +986,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/attributes.js.html#l745"><code>attributes.js:745</code></a>
+        <a href="../files/attributes.js.html#l868"><code>attributes.js:868</code></a>
         
         </p>
 
@@ -580,7 +1033,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/attributes.js.html#l759"><code>attributes.js:759</code></a>
+        <a href="../files/attributes.js.html#l905"><code>attributes.js:905</code></a>
         
         </p>
 
@@ -627,7 +1080,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/attributes.js.html#l752"><code>attributes.js:752</code></a>
+        <a href="../files/attributes.js.html#l887"><code>attributes.js:887</code></a>
         
         </p>
 
@@ -637,7 +1090,7 @@ It is better to use with an integer argument.</p>
     </div>
 
     <div class="description">
-        <p>Styles of the row</p>
+        <p>Styles of the row.</p>
 
     </div>
 
