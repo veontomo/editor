@@ -23,7 +23,7 @@
                 "Cell": 1,
                 "Row": 1,
                 "Table": 1,
-                "FramedTable": 1
+                "Grating": 1
             },
             "fors": {},
             "namespaces": {}
@@ -66,7 +66,7 @@
                 "Cell": 1,
                 "Row": 1,
                 "Table": 1,
-                "FramedTable": 1
+                "Grating": 1
             },
             "fors": {},
             "namespaces": {},
@@ -362,9 +362,9 @@
             "line": 1004,
             "description": "Represents table."
         },
-        "FramedTable": {
-            "name": "FramedTable",
-            "shortname": "FramedTable",
+        "Grating": {
+            "name": "Grating",
+            "shortname": "Grating",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1652,37 +1652,37 @@
         },
         {
             "file": "attributes.js",
-            "line": 1208,
-            "description": "Style of the row containing a single cell.",
-            "itemtype": "property",
-            "name": "nestedRowStyle",
-            "type": "Style",
-            "class": "FramedTable",
-            "module": "attributes"
-        },
-        {
-            "file": "attributes.js",
-            "line": 1214,
-            "description": "Style of the  the cell which fills the whole row.",
-            "itemtype": "property",
-            "name": "nestedCellStyle",
-            "type": "Style",
-            "class": "FramedTable",
-            "module": "attributes"
-        },
-        {
-            "file": "attributes.js",
-            "line": 1220,
+            "line": 1212,
             "description": "Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.",
             "itemtype": "property",
-            "name": "nestedTableStyle",
-            "type": "Style",
-            "class": "FramedTable",
+            "name": "bogusTableStyle",
+            "type": "TableStyle",
+            "class": "Grating",
             "module": "attributes"
         },
         {
             "file": "attributes.js",
-            "line": 1226,
+            "line": 1218,
+            "description": "Style of the row containing a single cell.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "Style",
+            "class": "Grating",
+            "module": "attributes"
+        },
+        {
+            "file": "attributes.js",
+            "line": 1224,
+            "description": "Style of the  the cell which fills the whole row.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "TableCellStyle",
+            "class": "Grating",
+            "module": "attributes"
+        },
+        {
+            "file": "attributes.js",
+            "line": 1231,
             "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -1690,7 +1690,7 @@
                 "description": "html representation of the row",
                 "type": "String"
             },
-            "class": "FramedTable",
+            "class": "Grating",
             "module": "attributes"
         },
         {

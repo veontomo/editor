@@ -169,7 +169,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle, tableStr;
+				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, nestedTable, nestedRow, nestedRowWidth, nestedCell, tableStyle, rowStyle, cellStyle, nestedTableStyle, tableStr, isFramed;
 
 			// read inserted values
 			cellWeights = [];
@@ -186,33 +186,45 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth - 2 * hSpace, cellWeights); // array of column widths
 
+			isFramed = nestedBorderWidth > 0;
 
 
+			table = isFramed ? (new Grating()) : (new Table());
+			row   = new Row();
+			console.log('type  of created: ', table.getType());
 
-			if (nestedBorderWidth === 0){
-				table = new Grating();
-				row = new Row();
-
-				// fill in the row with the cells
-				for (i = 0; i < cols; i++) {
-					cell = new Cell('cell');
-					cellStyle = new TableCellStyle();
-					// imposing cell styles and attributes
-					cellStyle.setWidth(cellWidths[i]);
-					delete cellStyle.padding;
-					cellStyle['padding-left'] = hSpace;
-					cellStyle['padding-right'] = hSpace;
-					cellStyle['padding-top'] = spaceTop;
-					cellStyle['padding-bottom'] = spaceBottom;
-					cell.style = cellStyle;
-					// add the newly created cell to the row
-					row.appendCell(cell);
-				}
-				// clone the row created above
-				for (i = 0; i < rows; i++){
-					table.appendRow(row);
-				};
+			// fill in the row with the cells
+			for (i = 0; i < cols; i++) {
+				cell = new Cell('cell');
+				cellStyle = new TableCellStyle();
+				// imposing cell styles and attributes
+				cellStyle.setWidth(cellWidths[i]);
+				delete cellStyle.padding;
+				cellStyle['padding-left'] = hSpace;
+				cellStyle['padding-right'] = hSpace;
+				cellStyle['padding-top'] = spaceTop;
+				cellStyle['padding-bottom'] = spaceBottom;
+				cell.style = cellStyle;
+				// add the newly created cell to the row
+				row.appendCell(cell);
 			}
+			// clone the row created above
+			for (i = 0; i < rows; i++){
+				table.appendRow(row);
+			};
+
+			if (isFramed){
+				nestedRowStyle =  new TableRowStyle();
+				nestedCellStyle = new TableCellStyle();
+				nestedTableCell = new TableStyle();
+				// here one should impose the styles
+
+				// apply the styles  to the table
+				table.nestedRowStyle   = nestedRowStyle;
+				table.nestedCellStyle  = nestedCellStyle;
+				table.nestedTableStyle = nestedTableStyle;
+			}
+
 
 			// // prepare objects useful in what follows
 			// table = nestedBorderWidth === 0 ? (new Table()) : (new Table());

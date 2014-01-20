@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>FramedTable</title>
+    <title>Grating</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -49,7 +49,7 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
-                <li><a href="../classes/FramedTable.html">FramedTable</a></li>
+                <li><a href="../classes/Grating.html">Grating</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
@@ -118,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>FramedTable Class</h1>
+                        <h1>Grating Class</h1>
 <div class="box meta">
     
 
@@ -257,21 +257,21 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_nestedCellStyle">nestedCellStyle</a>
+                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_nestedRowStyle">nestedRowStyle</a>
+                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_nestedTableStyle">nestedTableStyle</a>
+                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
 
                                 
                                 
@@ -997,7 +997,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1226"><code>attributes.js:1226</code></a>
+        <a href="../files/attributes.js.html#l1231"><code>attributes.js:1231</code></a>
         
         </p>
 
@@ -1149,9 +1149,9 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_nestedCellStyle" class="property item">
-    <h3 class="name"><code>nestedCellStyle</code></h3>
-    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
+                    <div id="property_bogusTableStyle" class="property item">
+    <h3 class="name"><code>bogusTableStyle</code></h3>
+    <span class="type"><a href="..\classes\TableStyle.html" class="crosslink">TableStyle</a></span>
 
     
 
@@ -1172,7 +1172,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1214"><code>attributes.js:1214</code></a>
+        <a href="../files/attributes.js.html#l1212"><code>attributes.js:1212</code></a>
         
         </p>
 
@@ -1182,7 +1182,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     </div>
 
     <div class="description">
-        <p>Style of the  the cell which fills the whole row.</p>
+        <p>Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.</p>
 
     </div>
 
@@ -1194,8 +1194,8 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_nestedRowStyle" class="property item">
-    <h3 class="name"><code>nestedRowStyle</code></h3>
+                    <div id="property_bogusTableStyle" class="property item">
+    <h3 class="name"><code>bogusTableStyle</code></h3>
     <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
 
     
@@ -1217,7 +1217,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1208"><code>attributes.js:1208</code></a>
+        <a href="../files/attributes.js.html#l1218"><code>attributes.js:1218</code></a>
         
         </p>
 
@@ -1239,9 +1239,9 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_nestedTableStyle" class="property item">
-    <h3 class="name"><code>nestedTableStyle</code></h3>
-    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
+                    <div id="property_bogusTableStyle" class="property item">
+    <h3 class="name"><code>bogusTableStyle</code></h3>
+    <span class="type"><a href="..\classes\TableCellStyle.html" class="crosslink">TableCellStyle</a></span>
 
     
 
@@ -1262,7 +1262,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1220"><code>attributes.js:1220</code></a>
+        <a href="../files/attributes.js.html#l1224"><code>attributes.js:1224</code></a>
         
         </p>
 
@@ -1272,7 +1272,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     </div>
 
     <div class="description">
-        <p>Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.</p>
+        <p>Style of the  the cell which fills the whole row.</p>
 
     </div>
 

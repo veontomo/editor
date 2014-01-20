@@ -49,7 +49,7 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
-                <li><a href="../classes/FramedTable.html">FramedTable</a></li>
+                <li><a href="../classes/Grating.html">Grating</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
@@ -1112,7 +1112,7 @@ function Row() {
 			attrObj = {},
 			len = attrs.length,
 			i, attr;
-			console.log(doc, node);
+			// console.log(doc, node);
 		for (i = 0; i &lt; len; i++){
 			attr = attrs[i];
 			if (attr.name !== &#x27;style&#x27;){
@@ -1321,31 +1321,36 @@ function Table() {
  * Represents a table with bordered rows.
  * @module   attributes
  * @extends  Table
- * @class    FramedTable
+ * @class    Grating
  */
-function FramedTable(){
+function Grating(){
 	&quot;use strict&quot;;
-	if (!(this instanceof FramedTable)) {
-		return new FramedTable();
+	if (!(this instanceof Grating)) {
+		return new Grating();
 	}
 
-	/**
-	 * Style of the row containing a single cell.
-	 * @property {Style} nestedRowStyle
-	 */
-	this.nestedRowStyle = new Style();
-
-	/**
-	 * Style of the  the cell which fills the whole row.
-	 * @property {Style} nestedCellStyle
-	 */
-	this.nestedCellStyle = new Style();
+	this.getType = function(){
+		return &quot;Grating&quot;;
+	};
 
 	/**
 	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
-	 * @property {Style} nestedTableStyle
+	 * @property {TableStyle} bogusTableStyle
 	 */
-	this.nestedTableStyle = new Style();
+	this.bogusTableStyle = new TableStyle();
+
+	/**
+	 * Style of the row containing a single cell.
+	 * @property {Style} bogusTableStyle
+	 */
+	this.bogusRowStyle = new TableRowStyle();
+
+	/**
+	 * Style of the  the cell which fills the whole row.
+	 * @property {TableCellStyle} bogusTableStyle
+	 */
+	this.bogusCellStyle = new TableCellStyle();
+
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
@@ -1354,12 +1359,17 @@ function FramedTable(){
 	 * @return {String} html representation of the row
 	 */
 	this.toHtml = function () {
+		console.log(&#x27;this: &#x27;, this);
+		console.log(&#x27;nested row style: &#x27;, this.bogusRowStyle);
+		console.log(&#x27;nested cell style: &#x27;, this.bogusCellStyle);
+		console.log(&#x27;nested table style: &#x27;, this.bogusTableStyle);
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			// string representation of the border style
-			nestedRowStyle =   this.nestedRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
-			nestedCellStyle =  this.nestedCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
-			nestedTableStyle = this.nestedTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;),
+			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
+			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
+			nsTblSt = this.bogusTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
 			tag = &#x27;table&#x27;;
+
 		tableAttr = this.attr.toString();
 		tableStyle = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;,&#x27;&quot;&#x27;);
 
@@ -1368,7 +1378,7 @@ function FramedTable(){
 		for (i = 0; i &lt; rowsNumber; i++) {
 			htmlTable += [&#x27;tr&#x27;, nestedRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
 				[&#x27;td&#x27;, nestedCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
-				[tag, nestedTableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+				[tag, nsTblSt].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 			htmlTable += this.rows[i].toHtml();
 			htmlTable += tag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) +&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;
 		}
@@ -1376,7 +1386,7 @@ function FramedTable(){
 		return htmlTable;
 	};
 }
-FramedTable.prototype = new Table();
+Grating.prototype = new Table();
 
     </pre>
 </div>

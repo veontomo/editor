@@ -808,24 +808,21 @@ describe('Grating-related functionality', function(){
 
     it('has additional property for the nested row', function(){
         var ft = new Grating();
-        expect(ft.hasOwnProperty('nestedRowStyle')).toBe(true);
-        expect(ft.nestedRowStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusRowStyle')).toBe(true);
+        expect(ft.bogusRowStyle.constructor.name).toBe('Style');
     });
 
     it('has additional property for the nested cell', function(){
         var ft = new Grating();
-        expect(ft.hasOwnProperty('nestedCellStyle')).toBe(true);
-        expect(ft.nestedCellStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusCellStyle')).toBe(true);
+        expect(ft.bogusCellStyle.constructor.name).toBe('Style');
     });
 
     it('has additional property for the nested table', function(){
         var ft = new Grating();
-        expect(ft.hasOwnProperty('nestedTableStyle')).toBe(true);
-        expect(ft.nestedTableStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusTableStyle')).toBe(true);
+        expect(ft.bogusTableStyle.constructor.name).toBe('Style');
     });
-
-
-
 
     it('generates html code of the framed rows if all nested elements have non-empty styles', function(){
         spyOn(tableAttr, 'toString').andCallFake(function(){
@@ -848,9 +845,9 @@ describe('Grating-related functionality', function(){
         table.attr = tableAttr;
         table.style = tableStyle;
         table.rows = [row1, row2];
-        table.nestedRowStyle = nestedRowStyle;
-        table.nestedCellStyle = nestedCellStyle;
-        table.nestedTableStyle = nestedTableStyle;
+        table.bogusRowStyle = nestedRowStyle;
+        table.bogusCellStyle = nestedCellStyle;
+        table.bogusTableStyle = nestedTableStyle;
         expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 1</table></td></tr><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 2</table></td></tr></table>');
     });
 
