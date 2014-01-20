@@ -1197,12 +1197,12 @@ function Table() {
  * Represents a table with bordered rows.
  * @module   attributes
  * @extends  Table
- * @class    FramedTable
+ * @class    Grating
  */
-function FramedTable(){
+function Grating(){
 	"use strict";
-	if (!(this instanceof FramedTable)) {
-		return new FramedTable();
+	if (!(this instanceof Grating)) {
+		return new Grating();
 	}
 
 	/**
@@ -1232,9 +1232,9 @@ function FramedTable(){
 	this.toHtml = function () {
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			// string representation of the border style
-			nestedRowStyle =   this.nestedRowStyle.toString().sandwichWith('style="','"'),
-			nestedCellStyle =  this.nestedCellStyle.toString().sandwichWith('style="','"'),
-			nestedTableStyle = this.nestedTableStyle.toString().sandwichWith('style="','"'),
+			nestedRowStyle =   this.nestedRowStyle.toString().sandwichWith('style="', '"'),
+			nestedCellStyle =  this.nestedCellStyle.toString().sandwichWith('style="', '"'),
+			nestedTableStyle = this.nestedTableStyle.toString().sandwichWith('style="', '"'),
 			tag = 'table';
 		tableAttr = this.attr.toString();
 		tableStyle = this.style.toString().sandwichWith('style="','"');
@@ -1252,4 +1252,4 @@ function FramedTable(){
 		return htmlTable;
 	};
 }
-FramedTable.prototype = new Table();
+Grating.prototype = new Table();

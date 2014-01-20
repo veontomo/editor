@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, FramedTable, concat, sandwichWith */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -778,10 +778,10 @@ describe('Table-related functionality', function(){
     });
 });
 
-describe('FramedTable-related functionality', function(){
+describe('Grating-related functionality', function(){
     var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle;
     beforeEach(function(){
-        table = new FramedTable();
+        table = new Grating();
         row1 = new Row();
         row2 = new Row();
         row3 = new Row();
@@ -803,23 +803,23 @@ describe('FramedTable-related functionality', function(){
     });
 
     it('inherits from Table()', function(){
-        expect(FramedTable.prototype instanceof Table).toBe(true);
+        expect(Grating.prototype instanceof Table).toBe(true);
     });
 
     it('has additional property for the nested row', function(){
-        var ft = new FramedTable();
+        var ft = new Grating();
         expect(ft.hasOwnProperty('nestedRowStyle')).toBe(true);
         expect(ft.nestedRowStyle.constructor.name).toBe('Style');
     });
 
     it('has additional property for the nested cell', function(){
-        var ft = new FramedTable();
+        var ft = new Grating();
         expect(ft.hasOwnProperty('nestedCellStyle')).toBe(true);
         expect(ft.nestedCellStyle.constructor.name).toBe('Style');
     });
 
     it('has additional property for the nested table', function(){
-        var ft = new FramedTable();
+        var ft = new Grating();
         expect(ft.hasOwnProperty('nestedTableStyle')).toBe(true);
         expect(ft.nestedTableStyle.constructor.name).toBe('Style');
     });

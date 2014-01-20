@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, FramedTable, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -188,36 +188,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
 
-			// prepare objects useful in what follows
-			table = nestedBorderWidth === 0 ? (new Table()) : (new Table());
-			table.attr['data-marker'] = nestedBorderWidth === 0 ? 'table' : 'framedtable';
-			table.attr.border = borderWidth;
 
-			tableStyle = new TableStyle();
-			tableStyle.setWidth(tableWidth);
-			table.style = tableStyle;
-			// creating a row
-			row = new Row();
-			row.attr['data-marker'] = nestedBorderWidth === 0 ? 'row' : 'framedrow';
+			if (nestedBorderWidth === 0){
+				table = new Grating();
+				row = new Row();
 
-			rowStyle = new TableRowStyle();
-			rowStyle.setWidth(rowWidth);
-			// rowStyle['margin-top'] = spaceTop;
-			// rowStyle['margin-bottom'] = spaceBottom;
-			row.style = rowStyle;
-			if (borderWidth) {
-				table.setBorder({
-					'width': borderWidth,
-					'color': '#000000',
-					'style': 'solid'
-				});
-			}
-
-			if (nestedBorderWidth === 0) {
+				// fill in the row with the cells
 				for (i = 0; i < cols; i++) {
-					cell = new Cell();
+					cell = new Cell('cell');
 					cellStyle = new TableCellStyle();
-					cell.insert('cell');
+					// imposing cell styles and attributes
 					cellStyle.setWidth(cellWidths[i]);
 					delete cellStyle.padding;
 					cellStyle['padding-left'] = hSpace;
@@ -225,53 +205,100 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					cellStyle['padding-top'] = spaceTop;
 					cellStyle['padding-bottom'] = spaceBottom;
 					cell.style = cellStyle;
-					row.cells.push(cell);
+					// add the newly created cell to the row
+					row.appendCell(cell);
 				}
-			} else {
-				cell = new Cell();
-				cellStyle = new TableCellStyle();
-				cellStyle.setWidth(rowWidth);
-				delete cellStyle.padding;
-				cellStyle['padding-left'] = hSpace;
-				cellStyle['padding-right'] = hSpace;
-				cellStyle['padding-top'] = spaceTop;
-				cellStyle['padding-bottom'] = spaceBottom;
-				// console.log('cell for framed table: ');
-				// console.table(cellStyle);
-				cell.style = cellStyle;
-				nestedTable = new Table();
-				nestedTableStyle = new TableStyle();
-				nestedTableStyle['margin-top'] = spaceTop;
-				nestedTableStyle['margin-bottom'] = spaceBottom;
-
-				nestedTableStyle.setWidth(cell.styleProperty('width') - cellStyle['padding-left'] - cellStyle['padding-right']);
-
-				nestedTable.style = nestedTableStyle;
-				nestedTable.setBorder({
-					'width': nestedBorderWidth,
-					'color': '#000000',
-					'style': 'solid'
-				});
-
-				nestedRow = new Row();
-				nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;
-				nestedRow.setWidth(nestedRowWidth);
-
-				for (i = 0; i < cols; i++) {
-					nestedCell = new Cell('nested cell');
-					nestedCell.setWidth(cellWidths[i]);
-					nestedRow.cells.push(nestedCell);
-				}
-				nestedTable.appendRow(nestedRow);
-				cell.insert(nestedTable);
-				row.appendCell(cell);
+				// clone the row created above
+				for (i = 0; i < rows; i++){
+					table.appendRow(row);
+				};
 			}
 
-			// duplicating the row
-			for (i = 0; i < rows; i++) {
-				table.rows.push(row);
+			// // prepare objects useful in what follows
+			// table = nestedBorderWidth === 0 ? (new Table()) : (new Table());
+			// table.attr['data-marker'] = nestedBorderWidth === 0 ? 'table' : 'Grating';
+			// table.attr.border = borderWidth;
 
-			}
+			// tableStyle = new TableStyle();
+			// tableStyle.setWidth(tableWidth);
+			// table.style = tableStyle;
+
+			// // creating a row
+			// row = new Row();
+			// row.attr['data-marker'] = nestedBorderWidth === 0 ? 'row' : 'framedrow';
+
+			// rowStyle = new TableRowStyle();
+			// rowStyle.setWidth(rowWidth);
+			// // rowStyle['margin-top'] = spaceTop;
+			// // rowStyle['margin-bottom'] = spaceBottom;
+			// row.style = rowStyle;
+			// if (borderWidth) {
+			// 	table.setBorder({
+			// 		'width': borderWidth,
+			// 		'color': '#000000',
+			// 		'style': 'solid'
+			// 	});
+			// }
+
+			// if (nestedBorderWidth === 0) {
+			// 	for (i = 0; i < cols; i++) {
+			// 		cell = new Cell();
+			// 		cellStyle = new TableCellStyle();
+			// 		cell.insert('cell');
+			// 		cellStyle.setWidth(cellWidths[i]);
+			// 		delete cellStyle.padding;
+			// 		cellStyle['padding-left'] = hSpace;
+			// 		cellStyle['padding-right'] = hSpace;
+			// 		cellStyle['padding-top'] = spaceTop;
+			// 		cellStyle['padding-bottom'] = spaceBottom;
+			// 		cell.style = cellStyle;
+			// 		row.cells.push(cell);
+			// 	}
+			// } else {
+			// 	cell = new Cell();
+			// 	cellStyle = new TableCellStyle();
+			// 	cellStyle.setWidth(rowWidth);
+			// 	delete cellStyle.padding;
+			// 	cellStyle['padding-left'] = hSpace;
+			// 	cellStyle['padding-right'] = hSpace;
+			// 	cellStyle['padding-top'] = spaceTop;
+			// 	cellStyle['padding-bottom'] = spaceBottom;
+			// 	// console.log('cell for framed table: ');
+			// 	// console.table(cellStyle);
+			// 	cell.style = cellStyle;
+			// 	nestedTable = new Table();
+			// 	nestedTableStyle = new TableStyle();
+			// 	nestedTableStyle['margin-top'] = spaceTop;
+			// 	nestedTableStyle['margin-bottom'] = spaceBottom;
+
+			// 	nestedTableStyle.setWidth(cell.styleProperty('width') - cellStyle['padding-left'] - cellStyle['padding-right']);
+
+			// 	nestedTable.style = nestedTableStyle;
+			// 	nestedTable.setBorder({
+			// 		'width': nestedBorderWidth,
+			// 		'color': '#000000',
+			// 		'style': 'solid'
+			// 	});
+
+			// 	nestedRow = new Row();
+			// 	nestedRowWidth = nestedTable.styleProperty('width') - 2 * nestedBorderWidth;
+			// 	nestedRow.setWidth(nestedRowWidth);
+
+			// 	for (i = 0; i < cols; i++) {
+			// 		nestedCell = new Cell('nested cell');
+			// 		nestedCell.setWidth(cellWidths[i]);
+			// 		nestedRow.cells.push(nestedCell);
+			// 	}
+			// 	nestedTable.appendRow(nestedRow);
+			// 	cell.insert(nestedTable);
+			// 	row.appendCell(cell);
+			// }
+
+			// // duplicating the row
+			// for (i = 0; i < rows; i++) {
+			// 	table.rows.push(row);
+
+			// }
 			tableStr = table.toHtml();
 
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
