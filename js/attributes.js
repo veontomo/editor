@@ -1220,35 +1220,7 @@ function Table() {
 		return htmlTable;
 	};
 
-	/**
-	 * Populates the attributes from a string that is an html repersentation of some table.
-	 * It takes a string that is an html representation of a table and update current object
-	 * parameters such that it will correspond to the html representation.
-	 * In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
-	 * (eventually up to presence/absence of some parameters and attributes).
-	 *
-	 * @method loadFromHtml
-	 * @param {String} htmlStr
-	 * @return {void}
-	 */
-	this.loadFromHtml = function (htmlStr){
-		var parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, "text/html"),
-			node = doc.getElementsByTagName('table')[0],
-			attrs = node.attributes,
-			nodeStyle = node.getAttribute('style'),
-			attrObj = {},
-			len = attrs.length,
-			i, attr;
-		for (i = 0; i < len; i++){
-			attr = attrs[i];
-			if (attr.name !== 'style'){
-				attrObj[attr.name] = attr.value;
-			}
-		}
-		this.setStyle(nodeStyle);
-		this.setAttr(attrObj);
-	};
+
 }
 
 
@@ -1343,3 +1315,141 @@ function Grating(){
 	};
 }
 Grating.prototype = new Table();
+
+
+/**
+ * Transforms a cell-html string into Cell object
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+var createCellFromHtml = function(htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString('<table><tbody><tr>' + htmlStr + '</tr></tbody></table>', "text/html"),
+			node = doc.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0],
+			cell, attrs, i, nodeStyle, attrName, len, children, childNum, child,
+			attr = new Attributes();
+
+		// creating object
+		cell = new Cell();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute('style');
+		cell.style = new Style(nodeStyle);
+
+		// imposing its attributes
+		attrs = node.attributes;
+		len = attrs.length;
+		for (i = 0; i < len; i++){
+			attrName = attrs[i];
+			if (attrName.name !== 'style'){
+				attr[attrName.name] = attrName.value;
+			}
+		}
+
+		children = node.children;
+		childNum = children.length;
+		for (i = 0; i < childNum; i++){
+			child = children[i];
+			if(child.tagName === "TD"){
+				console.log('inserting into cell');
+				cell.insert(child.outerHTML);
+			}
+		}
+		cell.attr = attr;
+		return cell;
+};
+
+/**
+ * Transforms a row-html string into Row object
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+var createRowFromHtml = function(htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString('<table><tbody>' + htmlStr + '</tbody></table>', "text/html"),
+			node = doc.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0],
+			attrs, i, nodeStyle, attrName, len, children, childNum, child, row, cell,
+			attr = new Attributes();
+
+		// creating object
+		row = new Row();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute('style');
+		row.style = new Style(nodeStyle);
+
+		// imposing its attributes
+		attrs = node.attributes;
+		len = attrs.length;
+		for (i = 0; i < len; i++){
+			attrName = attrs[i];
+			if (attrName.name !== 'style'){
+				attr[attrName.name] = attrName.value;
+			}
+		}
+
+		children = node.children;
+		childNum = children.length;
+		for (i = 0; i < childNum; i++){
+			child = children[i];
+			if(child.tagName === "TD"){
+				cell = createCellFromHtml(child.outerHTML);
+				row.appendCell(cell);
+			}
+		}
+		row.attr = attr;
+		return row;
+};
+
+
+/**
+ * Creates an object representation from a string that is an html repersentation of a table.
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+var createTableFromHtml = function(htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, "text/html"),
+			node = doc.getElementsByTagName('table'),
+			tableType, output, attrs, i, nodeStyle, attrName, len, children, childNum, child, row,
+			attr = new Attributes();
+		if (node.length > 1){
+			throw new Error('Exactly one table tag is expected to be in the string');
+		}
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+		tableType = node.getAttribute('data-marker');
+
+		// creating object
+		output = (tableType === "grating") ? (new Grating()) : (new Table());
+
+		// imposing its styles
+		nodeStyle = node.getAttribute('style');
+		output.style = new Style(nodeStyle);
+
+		// imposing its attributes
+		attrs = node.attributes;
+		len = attrs.length;
+		for (i = 0; i < len; i++){
+			attrName = attrs[i];
+			if (attrName.name !== 'style'){
+				attr[attrName.name] = attrName.value;
+			}
+		}
+		// node contains only one node TBODY
+		children = node.children[0].children;
+		childNum = children.length;
+		for (i = 0; i < childNum; i++){
+			child = children[i];
+
+			if(child.tagName === "TR"){
+				console.log(child);
+				row = createRowFromHtml(child.outerHTML);
+				output.appendRow(row);
+			}
+		}
+		output.attr = attr;
+		return output;
+};

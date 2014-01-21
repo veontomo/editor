@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -847,18 +847,6 @@ describe('Table-related functionality', function(){
         expect(table.attr.hasOwnProperty('border')).toBe(false);
     });
 
-    it('retrieves info about table from its html representation', function(){
-        spyOn(table, 'setStyle');
-        spyOn(table, 'setAttr');
-        spyOn(table, 'appendRow');
-
-        var htmlTable = '<table style="table style" width="table width" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>';
-        table.loadFromHtml(htmlTable);
-
-        expect(table.setStyle).toHaveBeenCalledWith('table style');
-        expect(table.setAttr).toHaveBeenCalledWith({'width': 'table width',  'border': 'table border'});
-
-    });
 });
 
 describe('Grating-related functionality', function(){
@@ -959,4 +947,71 @@ describe('Grating-related functionality', function(){
 
         expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 1</table></td></tr><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 2</table></td></tr></table>');
     });
+});
+
+describe('Transform html table to an object', function(){
+    it('creates Table object if data-marker attribute is equal to "table"', function(){
+        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable);
+        expect(obj1.getType()).toBe('Table');
+    });
+
+    it('creates Grating object if data-marker attribute is equal to "grating"', function(){
+        var htmlTable = '<table data-marker="grating" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable);
+        expect(obj1.getType()).toBe('Grating');
+    });
+
+    it('creates Table object if data-marker attribute is not set', function(){
+        var htmlTable = '<table style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable);
+        expect(obj1.getType()).toBe('Table');
+    });
+
+    it('sets styles if data-marker attribute is equal to "table"', function(){
+        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable);
+        expect(obj1.getType()).toBe('Table');
+        expect(obj1.style.hasOwnProperty('color')).toBe(true);
+        expect(obj1.style.color).toBe('red');
+    });
+
+    it('sets multiple styles if data-marker attribute is equal to "table"', function(){
+        var htmlTable = '<table data-marker="table" style="color:red;border-style:solid" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable),
+            style = obj1.style;
+        expect(obj1.getType()).toBe('Table');
+        expect(style.hasOwnProperty('color')).toBe(true);
+        expect(style.color).toBe('red');
+        expect(style.hasOwnProperty('border-style')).toBe(true);
+        expect(style['border-style']).toBe('solid');
+
+    });
+
+    it('sets attributes if data-marker attribute is equal to "table"', function(){
+        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+            obj1 = createTableFromHtml(htmlTable),
+            attr = obj1.attr;
+        expect(obj1.getType()).toBe('Table');
+        expect(attr.hasOwnProperty('data-marker')).toBe(true);
+        expect(attr['data-marker']).toBe('table');
+        expect(attr.hasOwnProperty('width')).toBe(true);
+        expect(attr.width).toBe('30');
+        expect(attr.hasOwnProperty('border')).toBe(true);
+        expect(attr.border).toBe('table border');
+
+    });
+
+    it('retrieves rows', function(){
+        var htmlTable = '<table data-marker="table"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>',
+            obj = createTableFromHtml(htmlTable);
+        expect(obj.getType()).toBe('Table');
+        expect(obj.rows.length).toBe(2);
+        expect(obj.rows[0].cells.length).toBe(2);
+        expect(obj.rows[1].cells.length).toBe(2);
+
+
+    });
+
+
 });
