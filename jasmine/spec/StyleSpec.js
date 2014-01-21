@@ -862,7 +862,7 @@ describe('Table-related functionality', function(){
 });
 
 describe('Grating-related functionality', function(){
-    var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle;
+    var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle, nestedCellAttr, nestedRowAttr, nestedTableAttr;
     beforeEach(function(){
         table = new Grating();
         row1 = new Row();
@@ -873,6 +873,10 @@ describe('Grating-related functionality', function(){
         nestedRowStyle =    new Style();
         nestedCellStyle =   new Style();
         nestedTableStyle =  new Style();
+        nestedRowAttr =    new Attributes();
+        nestedCellAttr =   new Attributes();
+        nestedTableAttr =  new Attributes();
+
         spyOn(row1, 'toHtml').andCallFake(function(){
             return 'row 1';
         });
@@ -893,21 +897,29 @@ describe('Grating-related functionality', function(){
         var ft = new Grating();
         expect(ft.hasOwnProperty('bogusRowStyle')).toBe(true);
         expect(ft.bogusRowStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusRowAttr')).toBe(true);
+        expect(ft.bogusRowAttr.constructor.name).toBe('Attributes');
+
     });
 
     it('has additional property for the nested cell', function(){
         var ft = new Grating();
         expect(ft.hasOwnProperty('bogusCellStyle')).toBe(true);
         expect(ft.bogusCellStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusCellAttr')).toBe(true);
+        expect(ft.bogusCellAttr.constructor.name).toBe('Attributes');
+
     });
 
     it('has additional property for the nested table', function(){
         var ft = new Grating();
         expect(ft.hasOwnProperty('bogusTableStyle')).toBe(true);
         expect(ft.bogusTableStyle.constructor.name).toBe('Style');
+        expect(ft.hasOwnProperty('bogusTableAttr')).toBe(true);
+        expect(ft.bogusTableAttr.constructor.name).toBe('Attributes');
     });
 
-    it('generates html code of the framed rows if all nested elements have non-empty styles', function(){
+    it('generates html code of the framed rows if all nested elements have non-empty styles and attributes', function(){
         spyOn(tableAttr, 'toString').andCallFake(function(){
             return 'table attributes';
         });
@@ -923,6 +935,16 @@ describe('Grating-related functionality', function(){
         spyOn(nestedTableStyle, 'toString').andCallFake(function(){
             return 'nested table styles';
         });
+        spyOn(nestedRowAttr, 'toString').andCallFake(function(){
+            return 'nested row attr ';
+        });
+        spyOn(nestedCellAttr, 'toString').andCallFake(function(){
+            return 'nested cell attr ';
+        });
+        spyOn(nestedTableAttr, 'toString').andCallFake(function(){
+            return 'nested table attr ';
+        });
+
 
 
         table.attr = tableAttr;
@@ -931,20 +953,10 @@ describe('Grating-related functionality', function(){
         table.bogusRowStyle = nestedRowStyle;
         table.bogusCellStyle = nestedCellStyle;
         table.bogusTableStyle = nestedTableStyle;
-        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 1</table></td></tr><tr style="nested row styles"><td style="nested cell styles"><table style="nested table styles">row 2</table></td></tr></table>');
-    });
+        table.bogusRowAttr = nestedRowAttr;
+        table.bogusCellAttr = nestedCellAttr;
+        table.bogusTableAttr = nestedTableAttr;
 
-    xit('generates html code of the framed rows if the border style (of the rows) is empty', function(){
-        spyOn(tableAttr, 'toString').andCallFake(function(){
-            return 'table attributes';
-        });
-        spyOn(tableStyle, 'toString').andCallFake(function(){
-            return 'table styles';
-        });
-
-        table.attr = tableAttr;
-        table.style = tableStyle;
-        table.rows = [row1, row2, row3];
-        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr><td><table>row 1</table></td></tr><tr><td><table>row 2 html</table></td></tr><tr><td><table>row 3 content</table></td></tr></table>');
+        expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 1</table></td></tr><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 2</table></td></tr></table>');
     });
 });
