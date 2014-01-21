@@ -33,7 +33,7 @@ CKEDITOR.editorConfig = function( config ) {
 	    [ 'list', 'indent', 'blocks', 'align'],
 	    [ 'Bold', 'Italic' ]
 	];*/
-	
+
 	config.allowedContent = true;
 
 	config.extraPlugins = 'download,image2,table2,link2,list2,upload';
