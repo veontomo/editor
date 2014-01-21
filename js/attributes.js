@@ -200,12 +200,12 @@ function Style(str) {
 		if (typeof stl !== 'object'){
 			throw new Error('Argument of Object type is expected!');
 		}
-		var attr;
-		for (attr in stl){
-			if (stl.hasOwnProperty(attr)){
-				this[attr] = stl[attr];
+		var styleProp;
+		for (styleProp in stl){
+			if (stl.hasOwnProperty(styleProp)){
+				this[styleProp] = stl[styleProp];
 			}
-		};
+		}
 	};
 
 	/**
@@ -299,7 +299,7 @@ function Attributes() {
 			if (stl.hasOwnProperty(attr)){
 				this[attr] = stl[attr];
 			}
-		};
+		}
 	};
 }
 
@@ -1275,10 +1275,24 @@ function Grating(){
 	this.bogusTableStyle = new TableStyle();
 
 	/**
+	 * Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusTableAttr = new Attributes();
+
+	/**
 	 * Style of the row containing a single cell.
 	 * @property {Style} bogusTableStyle
 	 */
 	this.bogusRowStyle = new TableRowStyle();
+
+	/**
+	 * Attributes of the row containing a single cell.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusRowAttr = new Attributes();
+
+
 
 	/**
 	 * Style of the  the cell which fills the whole row.
@@ -1288,21 +1302,28 @@ function Grating(){
 
 
 	/**
+	 * Attributes of the  the cell which fills the whole row.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusCellAttr = new Attributes();
+
+
+
+	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
 	 * Creation of the row-related html of each row is delegated to Row::toHtml()
 	 * @method toHtml
 	 * @return {String} html representation of the row
 	 */
 	this.toHtml = function () {
-		console.log('this: ', this);
-		console.log('nested row style: ', this.bogusRowStyle);
-		console.log('nested cell style: ', this.bogusCellStyle);
-		console.log('nested table style: ', this.bogusTableStyle);
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			// string representation of the border style
 			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith('style="', '"'),
+			nestedRowAttr =   this.bogusRowAttr.toString(),
 			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith('style="', '"'),
+			nestedCellAttr =  this.bogusCellAttr.toString(),
 			nsTblSt = this.bogusTableStyle.toString().sandwichWith('style="', '"'),
+			nsTblAttr = this.bogusTableAttr.toString(),
 			tag = 'table';
 
 		tableAttr = this.attr.toString();
@@ -1311,9 +1332,9 @@ function Grating(){
 		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
 		rowsNumber = this.rows.length;
 		for (i = 0; i < rowsNumber; i++) {
-			htmlTable += ['tr', nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
-				['td', nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
-				[tag, nsTblSt].concatDropSpaces().sandwichWith('<', '>');
+			htmlTable += ['tr', nestedRowAttr, nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
+				['td', nestedCellAttr, nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
+				[tag, nsTblAttr, nsTblSt].concatDropSpaces().sandwichWith('<', '>');
 			htmlTable += this.rows[i].toHtml();
 			htmlTable += tag.sandwichWith('</', '>') +'</td></tr>';
 		}

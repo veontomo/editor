@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle, Content, TableAttributes, NEWSLETTER, Style
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle,  Attributes,Content, TableAttributes, NEWSLETTER, Style
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -169,7 +169,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle,
+				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
 				nestedTableStyle = new TableStyle(),
 				nestedCellStyle = new TableCellStyle(),
 				nestedRowStyle,  tableStr, isFramed;
@@ -214,17 +214,21 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				});
 			}
 
-
 			// creating table row
 			row  = new Row();
 			rowStyle = new TableRowStyle();
+			rowAttr = new Attributes();
 
 			// imposing the row styles and attributes
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
+			if (!isFramed){
+				rowAttr['data-marker'] = tableAttr['data-marker'] + 'Row';
+			}
 
 			// binding the styles to the row
 			row.style = rowStyle;
+			row.attr = rowAttr;
 
 			// fill in the row with the cells
 			for (i = 0; i < cols; i++) {
@@ -260,6 +264,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				nestedTableStyle['border-style'] = "solid";
 				// apply the styles  to the table
 				table.bogusRowStyle   = nestedRowStyle;
+				table.bogusRowAttr['data-marker'] = tableAttr['data-marker'] + 'Row';
 				table.bogusCellStyle  = nestedCellStyle;
 				table.bogusTableStyle = nestedTableStyle;
 			}
