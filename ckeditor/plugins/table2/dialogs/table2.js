@@ -133,7 +133,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: 'Bordo attorno alle righe (px)',
 				id: 'nestedBorderWidth',
-				'default': '4',
+				'default': '0',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
@@ -223,7 +223,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
 			if (!isFramed){
-				rowAttr['data-marker'] = tableAttr['data-marker'] + 'Row';
+				rowAttr['data-marker'] =  'Row';
 			}
 
 			// binding the styles to the row
@@ -264,7 +264,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				nestedTableStyle['border-style'] = "solid";
 				// apply the styles  to the table
 				table.bogusRowStyle   = nestedRowStyle;
-				table.bogusRowAttr['data-marker'] = tableAttr['data-marker'] + 'Row';
+				table.bogusRowAttr['data-marker'] = 'Row';
 				table.bogusCellStyle  = nestedCellStyle;
 				table.bogusTableStyle = nestedTableStyle;
 			}

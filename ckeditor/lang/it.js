@@ -621,7 +621,8 @@ CKEDITOR.lang['it'] = {
             "menu": "Colonna",
             "insertBefore": "Inserisci Colonna Prima",
             "insertAfter": "Inserisci Colonna Dopo",
-            "deleteColumn": "Elimina colonne"
+            "deleteColumn": "Elimina colonne",
+            "resize": "Ridimensionare colonne"
         },
         "columns": "Colonne",
         "deleteTable": "Cancella Tabella",
@@ -642,7 +643,7 @@ CKEDITOR.lang['it'] = {
             "menu": "Riga",
             "insertBefore": "Inserisci Riga Prima",
             "insertAfter": "Inserisci Riga Dopo",
-            "deleteRow": "Elimina righe"
+            "deleteRow": "Elimina righe",
         },
         "rows": "Righe",
         "summary": "Indice",

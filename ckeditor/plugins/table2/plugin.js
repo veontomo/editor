@@ -1,11 +1,10 @@
-/*global CKEDITOR, location
- */
-
+/*global CKEDITOR, location */
+/*jslint plusplus: true, white: true */
 /**
  * Drops the table row. If after that the table remains empty, removes it as well.
  */
 var dropRow = function (ed) {
-		var row = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=row]'),
+		var row = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=Row]'),
 			parentTable = row.closest('table'),
 			tableLength;
 		if (row) {
@@ -40,11 +39,11 @@ var firstLetterUpperCase = function (str) {
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
 			dataMarkerAttr = 'data-marker',
-			dataMarkerVal = 'row',
+			dataMarkerVal = 'Row',
 			currentElem = ed.getSelection().getStartElement(),
 			newElement, operation, currentChildren, childNum, i, child, newChild,
 			row = currentElem.getAscendant(tag, true);
-			
+
 		// looking for the table row marked as data-marker="row"
 		while(!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))){
 			row = row.getParent();
@@ -52,12 +51,12 @@ var insertRow = function (ed, pos) {
 			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)){
 				return null; // exit in case no element is found in the DOM
 			}
-		}	
+		}
 		newElement = new CKEDITOR.dom.element(tag);
 		operation = 'insert' + firstLetterUpperCase(pos);
 		currentChildren = row.getChildren();
 		childNum = currentChildren.count();
-			
+
 		if (newElement[operation] !== undefined) {
 			newElement[operation](row);
 		} else {
@@ -97,9 +96,15 @@ CKEDITOR.plugins.add('table2', {
 				dropRow(editor);
 			}
 		});
+		editor.addCommand('table2ResizeColumns', {
+			exec: function (editor) {
+				return null;
+			}
+		});
+
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = $(ed.getSelection().getStartElement().$).closest('table[data-marker=table]');
+				var table = $(ed.getSelection().getStartElement().$).closest('table[data-marker=Table]');
 				if (table.length) {
 					table.remove();
 				}
@@ -146,6 +151,13 @@ CKEDITOR.plugins.add('table2', {
 				command: 'table2DeleteRow',
 				group: 'table2Group'
 			});
+			editor.addMenuItem('table2ResizeColumns', {
+				label:  editor.lang.table.column.resize || 'Resize Columns',
+				icon: this.path + 'icons/resizeColumns.png',
+				command: 'table2ResizeColumns',
+				group: 'table2Group'
+			});
+
 			editor.addMenuItem('table2DeleteTable', {
 				label: editor.lang.table.deleteTable,
 				icon: this.path + 'icons/deleteTable.png',
@@ -155,7 +167,7 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('tr[data-marker=row]');
+				var el = $(element.$).closest('tr[data-marker=Row]');
 				if (el.length) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
@@ -166,10 +178,11 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('table[data-marker=table]');
+				var el = $(element.$).closest('table[data-marker=Table]');
 				if (el && el.length) {
 					return {
-						table2DeleteTable: CKEDITOR.TRISTATE_OFF
+						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
+						table2ResizeColumns: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});
