@@ -96,6 +96,27 @@ Array.prototype.concatDropSpaces = function(glue){
 
 
 /**
+ * Merge two objects. If non-object is given, an error is thrown.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object}
+ */
+var appendObject = function (obj1, obj2){
+	if ((typeof obj1 !== 'object') || (typeof obj2 !== 'object')){
+		throw new Error('Both arguments of appendObject must be of Object type!');
+	}
+	var output = obj1,
+		attr;
+	for (attr in obj2){
+		if (obj2.hasOwnProperty(attr)){
+			output[attr] = obj2[attr];
+		}
+	}
+	return output;
+
+};
+
+/**
  * Sets width, min-width and max-width of the object.
  * @module 	attributes
  * @param 	{Object} 	obj 		object which width is to be set.
@@ -168,6 +189,25 @@ function Style(str) {
 			}
 		}
 	}
+
+	/**
+	 * Appends object. If non-object is given, error is thrown.
+	 * @method appendStyle
+	 * @param {Object} stl style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		if (typeof stl !== 'object'){
+			throw new Error('Argument of Object type is expected!');
+		}
+		var attr;
+		for (attr in stl){
+			if (stl.hasOwnProperty(attr)){
+				this[attr] = stl[attr];
+			}
+		};
+	};
+
 	/**
 	 * Generates string representation of this object (as inline styles)
 	 * @method {String} 	toString
@@ -185,6 +225,7 @@ function Style(str) {
 	this.setWidth = function (w) {
 		setMinMaxWidth(this, w);
 	};
+
 }
 
 /**
@@ -241,6 +282,24 @@ function Attributes() {
 	 */
 	this.toString = function () {
 		return toString2(this);
+	};
+
+	/**
+	 * Appends object. If non-object is given, error is thrown. This is a copy-paste of Styles::appendStyle
+	 * @method appendAttribute
+	 * @param {Object} stl style to be appended
+	 * @return {void}
+	 */
+	this.appendAttribute = function(stl){
+		if (typeof stl !== 'object'){
+			throw new Error('Argument of Object type is expected!');
+		}
+		var attr;
+		for (attr in stl){
+			if (stl.hasOwnProperty(attr)){
+				this[attr] = stl[attr];
+			}
+		};
 	};
 }
 

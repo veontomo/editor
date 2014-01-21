@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -62,6 +62,46 @@ describe('Hotdogs a string', function(){
         expect(sandwichWith('bread ', '', ' ketchup')).toBe('');
         expect(sandwichWith('bread ', '')).toBe('');
         expect(sandwichWith('', '')).toBe('');
+    });
+});
+
+describe('merges two objects', function(){
+    it('throws error if at least one of the arguments is not of Object type', function(){
+        expect(function(){
+            appendObject('a', 1);
+        }).toThrow('Both arguments of appendObject must be of Object type!');
+    });
+
+    it('merges two objects with non overlapping properties', function(){
+        var obj1 = {},
+            obj2 = {},
+            obj;
+        obj1.a = 'value';
+        obj1.b = 20.1;
+        obj1['a-b'] = '10';
+        obj2.e = true;
+        obj2.f = 'test';
+        obj = appendObject(obj1, obj2);
+        expect(obj.a).toBe('value');
+        expect(obj.b).toBe(20.1);
+        expect(obj['a-b']).toBe('10');
+        expect(obj.e).toBe(true);
+        expect(obj.f).toBe('test');
+    });
+    it('merges two objects with some overlapping properties', function(){
+        var obj1 = {},
+            obj2 = {},
+            obj;
+        obj1.a = 'value';
+        obj1.b = 20.1;
+        obj1['a-b'] = '10';
+        obj2.a = true;
+        obj2.f = 'test';
+        obj = appendObject(obj1, obj2);
+        expect(obj.a).toBe(true);
+        expect(obj.b).toBe(20.1);
+        expect(obj['a-b']).toBe('10');
+        expect(obj.f).toBe('test');
     });
 });
 
@@ -158,6 +198,49 @@ describe('creates a style object from a string', function(){
         expect(s.color).toBe('some color');
         expect(s.hasOwnProperty('another-attr')).toBe(true);
         expect(s['another-attr']).toBe('un altro valore');
+    });
+});
+
+describe('appends object attributes to the style object', function(){
+    it('throws an error if non-object is given', function(){
+        var st = new Style();
+        expect(function(){
+            st.appendStyle(1);
+        }).toThrow('Argument of Object type is expected!');
+        expect(function(){
+            st.appendStyle('string');
+        }).toThrow('Argument of Object type is expected!');
+        expect(function(){
+            st.appendStyle({});
+        }).not.toThrow('Argument of Object type is expected!');
+    });
+
+    it('appends non-overlapping properties to the styles', function(){
+        var st = new Style();
+        st.a = 1;
+        st['a key'] = 'key value';
+        st.appendStyle({'b': 3.2, 'long key': 'a string'});
+        expect(st.hasOwnProperty('a')).toBe(true);
+        expect(st.a).toBe(1);
+        expect(st.hasOwnProperty('a key')).toBe(true);
+        expect(st['a key']).toBe('key value');
+        expect(st.hasOwnProperty('b')).toBe(true);
+        expect(st.b).toBe(3.2);
+        expect(st.hasOwnProperty('long key')).toBe(true);
+        expect(st['long key']).toBe('a string');
+    });
+
+    it('appends an object that has the same properties', function(){
+        var st = new Style();
+        st.a = 1;
+        st['a key'] = 'key value';
+        st.appendStyle({'a': true, 'long key': 'a string'});
+        expect(st.hasOwnProperty('a')).toBe(true);
+        expect(st.a).toBe(true);
+        expect(st.hasOwnProperty('a key')).toBe(true);
+        expect(st['a key']).toBe('key value');
+        expect(st.hasOwnProperty('long key')).toBe(true);
+        expect(st['long key']).toBe('a string');
     });
 });
 
