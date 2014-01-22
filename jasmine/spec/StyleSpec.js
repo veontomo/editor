@@ -201,6 +201,87 @@ describe('creates a style object from a string', function(){
     });
 });
 
+describe('creates a style object from an object', function(){
+    it('creates styles from a string', function(){
+        var s = new Style({'a':10,
+            'color': 'some color',
+            'another-attr': 'un altro valore',
+            'func': function(){return 1;},
+            'bool': true
+        });
+        expect(s.hasOwnProperty('a')).toBe(true);
+        expect(s.a).toBe(10);
+        expect(s.hasOwnProperty('color')).toBe(true);
+        expect(s.color).toBe('some color');
+        expect(s.hasOwnProperty('another-attr')).toBe(true);
+        expect(s['another-attr']).toBe('un altro valore');
+        expect(s.hasOwnProperty('func')).toBe(false);
+        expect(s.hasOwnProperty('bool')).toBe(false);
+    });
+});
+
+
+describe('creates a style object', function(){
+    it('from a string', function(){
+        var s = new Style('a:10; color: some color; another-attr: un altro valore;');
+        expect(s.hasOwnProperty('a')).toBe(true);
+        expect(s.a).toBe(10);
+        expect(s.hasOwnProperty('color')).toBe(true);
+        expect(s.color).toBe('some color');
+        expect(s.hasOwnProperty('another-attr')).toBe(true);
+        expect(s['another-attr']).toBe('un altro valore');
+    });
+
+    it('from an object', function(){
+        var s = new Style({'a':10,
+            'color': 'some color',
+            'another-attr': 'un altro valore',
+            'func': function(){return 1;},
+            'bool': true
+        });
+        expect(s.hasOwnProperty('a')).toBe(true);
+        expect(s.a).toBe(10);
+        expect(s.hasOwnProperty('color')).toBe(true);
+        expect(s.color).toBe('some color');
+        expect(s.hasOwnProperty('another-attr')).toBe(true);
+        expect(s['another-attr']).toBe('un altro valore');
+        expect(s.hasOwnProperty('func')).toBe(false);
+        expect(s.hasOwnProperty('bool')).toBe(false);
+    });
+});
+
+
+describe('creates an attribute object', function(){
+    it('from a string', function(){
+        var attr = new Attributes('a:10; color: some color; another-attr: un altro valore;');
+        expect(attr.hasOwnProperty('a')).toBe(true);
+        expect(attr.a).toBe(10);
+        expect(attr.hasOwnProperty('color')).toBe(true);
+        expect(attr.color).toBe('some color');
+        expect(attr.hasOwnProperty('another-attr')).toBe(true);
+        expect(attr['another-attr']).toBe('un altro valore');
+    });
+
+    it('from an object', function(){
+        var attr = new Attributes({'a':10,
+            'color': 'some color',
+            'another-attr': 'un altro valore',
+            'func': function(){return 1;},
+            'bool': true
+        });
+        expect(attr.hasOwnProperty('a')).toBe(true);
+        expect(attr.a).toBe(10);
+        expect(attr.hasOwnProperty('color')).toBe(true);
+        expect(attr.color).toBe('some color');
+        expect(attr.hasOwnProperty('another-attr')).toBe(true);
+        expect(attr['another-attr']).toBe('un altro valore');
+        expect(attr.hasOwnProperty('func')).toBe(false);
+        expect(attr.hasOwnProperty('bool')).toBe(false);
+    });
+
+});
+
+
 describe('appends object attributes to the style object', function(){
     it('throws an error if non-object is given', function(){
         var st = new Style();
@@ -952,25 +1033,25 @@ describe('Grating-related functionality', function(){
 describe('Transform html table to an object', function(){
     it('creates Table object if data-marker attribute is equal to "table"', function(){
         var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable);
+            obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Table');
     });
 
     it('creates Grating object if data-marker attribute is equal to "grating"', function(){
         var htmlTable = '<table data-marker="grating" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable);
+            obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Grating');
     });
 
     it('creates Table object if data-marker attribute is not set', function(){
         var htmlTable = '<table style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable);
+            obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Table');
     });
 
     it('sets styles if data-marker attribute is equal to "table"', function(){
         var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable);
+            obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Table');
         expect(obj1.style.hasOwnProperty('color')).toBe(true);
         expect(obj1.style.color).toBe('red');
@@ -978,7 +1059,7 @@ describe('Transform html table to an object', function(){
 
     it('sets multiple styles if data-marker attribute is equal to "table"', function(){
         var htmlTable = '<table data-marker="table" style="color:red;border-style:solid" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable),
+            obj1 = htmlTable.createTableFromHtml(),
             style = obj1.style;
         expect(obj1.getType()).toBe('Table');
         expect(style.hasOwnProperty('color')).toBe(true);
@@ -990,7 +1071,7 @@ describe('Transform html table to an object', function(){
 
     it('sets attributes if data-marker attribute is equal to "table"', function(){
         var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = createTableFromHtml(htmlTable),
+            obj1 = htmlTable.createTableFromHtml(),
             attr = obj1.attr;
         expect(obj1.getType()).toBe('Table');
         expect(attr.hasOwnProperty('data-marker')).toBe(true);
@@ -999,19 +1080,165 @@ describe('Transform html table to an object', function(){
         expect(attr.width).toBe('30');
         expect(attr.hasOwnProperty('border')).toBe(true);
         expect(attr.border).toBe('table border');
-
     });
 
     it('retrieves rows', function(){
         var htmlTable = '<table data-marker="table"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>',
-            obj = createTableFromHtml(htmlTable);
+            obj = htmlTable.createTableFromHtml();
         expect(obj.getType()).toBe('Table');
         expect(obj.rows.length).toBe(2);
-        expect(obj.rows[0].cells.length).toBe(2);
-        expect(obj.rows[1].cells.length).toBe(2);
+    });
+});
+
+
+describe('Converts html row string into Row object', function(){
+    it('gets styles of the row', function(){
+        var rowHtml = '<tr style="color: red; width: 1; strange-attr: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
+            row = rowHtml.createRowFromHtml(),
+            st = row.style;
+        expect(st.hasOwnProperty('color')).toBe(true);
+        expect(st.color).toBe('red');
+        expect(st.hasOwnProperty('width')).toBe(true);
+        expect(st.width).toBe(1);
+        expect(st.hasOwnProperty('strange-attr')).toBe(true);
+        expect(st['strange-attr']).toBe('haha');
+    });
+
+    it('gets attributes of the row', function(){
+        var rowHtml = '<tr color="red" width="1" strange-attr="haha"><td></td><td></td><td></td><td></td><td></td></tr>',
+            row = rowHtml.createRowFromHtml(),
+            attr = row.attr;
+        expect(attr.hasOwnProperty('color')).toBe(true);
+        expect(attr.color).toBe('red');
+        expect(attr.hasOwnProperty('width')).toBe(true);
+        expect(attr.width).toBe("1");
+        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
+        expect(attr['strange-attr']).toBe('haha');
+    });
+
+    it('gets both styles and attributes of the row', function(){
+        var rowHtml = '<tr underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
+            row = rowHtml.createRowFromHtml(),
+            st = row.style,
+            attr = row.attr;
+        expect(st.hasOwnProperty('color')).toBe(true);
+        expect(st.color).toBe('red');
+        expect(st.hasOwnProperty('width')).toBe(true);
+        expect(st.width).toBe(1);
+        expect(st.hasOwnProperty('strange-param')).toBe(true);
+        expect(st['strange-param']).toBe('haha');
+        expect(attr.hasOwnProperty('underlined')).toBe(true);
+        expect(attr.underlined).toBe('why not');
+        expect(attr.hasOwnProperty('width')).toBe(true);
+        expect(attr.width).toBe("98");
+        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
+        expect(attr['strange-attr']).toBe('wierd');
+    });
+
+    it('gets correct number of the cells in non-empty row', function(){
+        var rowHtml = '<tr><td></td><td></td><td></td><td></td><td></td></tr>',
+            row = rowHtml.createRowFromHtml();
+        expect(row.cells.length).toBe(5);
+
+    });
+
+    it('gets correct number of the cells in empty row', function(){
+        var rowHtml = '<tr></tr>',
+            row = rowHtml.createRowFromHtml();
+        expect(row.cells.length).toBe(0);
+    });
+});
+
+describe('Converts html table cell in to Cell object', function(){
+    it('gets styles of the cell', function(){
+        var cellHtml = '<td style="color: red; width: 1; strange-attr: haha"></td>',
+            cell = cellHtml.createCellFromHtml(),
+            st = cell.style;
+        expect(st.hasOwnProperty('color')).toBe(true);
+        expect(st.color).toBe('red');
+        expect(st.hasOwnProperty('width')).toBe(true);
+        expect(st.width).toBe(1);
+        expect(st.hasOwnProperty('strange-attr')).toBe(true);
+        expect(st['strange-attr']).toBe('haha');
+    });
+
+    it('gets attributes of the cell', function(){
+        var cellHtml = '<td color="red" width="1" strange-attr="haha"></td>',
+            cell = cellHtml.createCellFromHtml(),
+            attr = cell.attr;
+        expect(attr.hasOwnProperty('color')).toBe(true);
+        expect(attr.color).toBe('red');
+        expect(attr.hasOwnProperty('width')).toBe(true);
+        expect(attr.width).toBe("1");
+        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
+        expect(attr['strange-attr']).toBe('haha');
+    });
+
+    it('gets both styles and attributes of the cell', function(){
+        var cellHtml = '<td underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"></td>',
+            cell = cellHtml.createCellFromHtml(),
+            st = cell.style,
+            attr = cell.attr;
+        expect(st.hasOwnProperty('color')).toBe(true);
+        expect(st.color).toBe('red');
+        expect(st.hasOwnProperty('width')).toBe(true);
+        expect(st.width).toBe(1);
+        expect(st.hasOwnProperty('strange-param')).toBe(true);
+        expect(st['strange-param']).toBe('haha');
+        expect(attr.hasOwnProperty('underlined')).toBe(true);
+        expect(attr.underlined).toBe('why not');
+        expect(attr.hasOwnProperty('width')).toBe(true);
+        expect(attr.width).toBe("98");
+        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
+        expect(attr['strange-attr']).toBe('wierd');
+    });
+
+    it('gets the correct content of the cell elements', function(){
+        var cellHtml = '<td>cell content</td>',
+            cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(1);
+        expect(cell.content.elements[0]).toBe('cell content');
+
+        cellHtml = '<td><div>a</div><div>b</div></td>';
+        cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(2);
+        expect(cell.content.elements[0]).toBe('<div>a</div>');
+        expect(cell.content.elements[1]).toBe('<div>b</div>');
+
+        cellHtml = '<td><div>a</div>plain text<div>b</div></td>';
+        cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(3);
+        expect(cell.content.elements[0]).toBe('<div>a</div>');
+        expect(cell.content.elements[1]).toBe('plain text');
+        expect(cell.content.elements[2]).toBe('<div>b</div>');
+
+
+        cellHtml = '<td><div>a</div><div>b</div><table><tr><td></td></tr></table></td>';
+        cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(3);
+        expect(cell.content.elements[0]).toBe('<div>a</div>');
+        expect(cell.content.elements[1]).toBe('<div>b</div>');
+
+    });
+
+    it('recognizes a nested table inside a cell', function(){
+        var cellHtml = '<td><table><tr><td></td></tr></table></td>',
+            cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(1);
+        expect(cell.content.elements[0].hasOwnProperty('getType')).toBe(true);
+        expect(cell.content.elements[0].getType()).toBe('Table');
+
+        cellHtml = '<td>text outside<table><tr><td></td></tr></table></td>';
+        cell = cellHtml.createCellFromHtml();
+        expect(cell.content.elements.length).toBe(2);
+        expect(cell.content.elements[0]).toBe('text outside');
+        expect(cell.content.elements[1].hasOwnProperty('getType')).toBe(true);
+        expect(cell.content.elements[1].getType()).toBe('Table');
 
 
     });
+
+
 
 
 });

@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser */
+/*global DOMParser, Node */
 
 /**
  * Produces a string of properties in inline-style fashion
@@ -57,6 +57,25 @@ var toString2 = function (obj) {
 		}
 		return output.join(' ');
 	};
+
+/**
+ * Flatten the object. This function was written because Node::attributes returns attributes in format.
+ * Example {'1': {name: "width", value:"100", ...}, '2': {name: "color", value:"black", ...}, ...}
+ * returns {"width":"100", "color":"black", ...}
+ * @param {Object} obj
+  */
+ var flatten = function (obj){
+ 	var attr, value, output = {};
+ 	for (attr in obj){
+ 		if (obj.hasOwnProperty(attr)){
+ 			value = obj[attr];
+ 			if (typeof value === 'object'){
+ 				output[value.name] = value.value;
+ 			}
+ 		}
+ 	}
+ 	return output;
+ };
 
 /**
  * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
@@ -159,22 +178,23 @@ function getProperty(obj, prop){
 /**
 * This class is supposed to characterize inline styles of html tags.
 * @module 	attributes
-* @param 	{string} str 	string of label-value pairs
+* @param 	{string|object} style 	string of label-value pairs or object.
 * @class  	Style
 */
-function Style(str) {
+function Style(style) {
 	"use strict";
 	if (!(this instanceof Style)) {
-		return new Style();
+		return new Style(style);
 	}
+	var attr, len, i, pair, key, value;
 
 	/**
 	 * Fill in the properties with the values from the argument if any
 	 */
-	if (typeof str === 'string'){
-		var attr = str.split(';'),
-			len = attr.length,
-			i, pair, key, value;
+	if (typeof style === 'string'){
+		attr = style.split(';');
+		len = attr.length;
+
 		// parse each attribute/value pair
 		for (i = 0; i < len; i++){
 			pair = attr[i].split(':');
@@ -186,6 +206,16 @@ function Style(str) {
 					value = parseFloat(value);
 				}
 				this[key] = value;
+			}
+		}
+	}
+	if (typeof style === 'object'){
+		for (key in style){
+			if (style.hasOwnProperty(key)){
+				value = style[key];
+				if (typeof value === 'string' || typeof value === 'number'){
+					this[key] = value;
+				}
 			}
 		}
 	}
@@ -267,12 +297,46 @@ function BorderStyle(){
 /**
 * This class is supposed to define attributes of html tags
 * @module 	attributes
+* @param {string|object} attr  a string or object from which this object properties are to be created.
 * @class  Attributes
 */
-function Attributes() {
+function Attributes(attr) {
 	"use strict";
 	if (!(this instanceof Attributes)) {
-		return new Attributes();
+		return new Attributes(attr);
+	}
+	var attrs, len, i, pair, key, value;
+	/**
+	 * Fill in the properties with the values from the argument if any
+	 */
+	if (typeof attr === 'string'){
+		attrs = attr.split(';');
+		len = attrs.length;
+
+		// parse each attribute/value pair
+		for (i = 0; i < len; i++){
+			pair = attrs[i].split(':');
+			// ignore if there is more than one semicolon
+			if (pair.length === 2){
+				key = pair[0].trim();
+				value =  pair[1].trim();
+				if(parseFloat(value)){
+					value = parseFloat(value);
+				}
+				this[key] = value;
+			}
+		}
+	}
+	if (typeof attr === 'object'){
+		for (key in attr){
+			if (attr.hasOwnProperty(key)){
+				value = attr[key];
+				// console.log('key: value', '(' + (typeof key) + ')', key, '('+ (typeof value) + ')', value );
+				if (typeof value === 'string' || typeof value === 'number'){
+					this[key] = value;
+				}
+			}
+		}
 	}
 	/**
 	 * Generates string representation of this object (as html attributes)
@@ -294,14 +358,15 @@ function Attributes() {
 		if (typeof stl !== 'object'){
 			throw new Error('Argument of Object type is expected!');
 		}
-		var attr;
-		for (attr in stl){
-			if (stl.hasOwnProperty(attr)){
-				this[attr] = stl[attr];
+		var attrs2;
+		for (attrs2 in stl){
+			if (stl.hasOwnProperty(attrs2)){
+				this[attrs2] = stl[attrs2];
 			}
 		}
 	};
 }
+// Attributes.inherits(Style);
 
 /**
 * Table-specific attributes.
@@ -934,7 +999,7 @@ function Row() {
 
 	/**
 	* Attribute setter.
-	* @method setAtr
+	* @method setAttr
 	* @param {String|Object} attr
 	* @return {void}
 	*/
@@ -1322,12 +1387,19 @@ Grating.prototype = new Table();
  * @param {String} htmlStr
  * @return {Object}
  */
-var createCellFromHtml = function(htmlStr){
-		var parser = new DOMParser(),
-			doc = parser.parseFromString('<table><tbody><tr>' + htmlStr + '</tr></tbody></table>', "text/html"),
-			node = doc.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0],
-			cell, attrs, i, nodeStyle, attrName, len, children, childNum, child,
-			attr = new Attributes();
+String.prototype.createCellFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			newParser = new DOMParser(),
+			fullTable = '<table><tbody><tr>' + htmlStr + '</tr></tbody></table>',
+			doc = parser.parseFromString(fullTable, "text/html"),
+			newDoc,
+			node = doc.getElementsByTagName('td'),
+			cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
 
 		// creating object
 		cell = new Cell();
@@ -1337,25 +1409,37 @@ var createCellFromHtml = function(htmlStr){
 		cell.style = new Style(nodeStyle);
 
 		// imposing its attributes
-		attrs = node.attributes;
-		len = attrs.length;
-		for (i = 0; i < len; i++){
-			attrName = attrs[i];
-			if (attrName.name !== 'style'){
-				attr[attrName.name] = attrName.value;
-			}
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty('style')){
+			delete attrs.style;
 		}
+		cell.attr = new Attributes(attrs);
+		// console.log('node', node);
 
-		children = node.children;
-		childNum = children.length;
-		for (i = 0; i < childNum; i++){
-			child = children[i];
-			if(child.tagName === "TD"){
-				console.log('inserting into cell');
-				cell.insert(child.outerHTML);
+		id = "uniqueDivIdThatMustBeInThisDocument" + Math.floor((Math.random()*99)+1);
+		nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
+
+		newDoc = newParser.parseFromString(nodeText, 'text/html');
+		nodeContent = newDoc.getElementById(id);
+
+		elems = nodeContent.childNodes;
+
+		elemsNum = elems.length;
+		for (i = 0; i < elemsNum; i++){
+			currentElem = elems[i];
+			console.log(currentElem, currentElem.nodeName, currentElem.nodeType);
+			switch (currentElem.nodeType){
+				case Node.TEXT_NODE:
+					elem = currentElem.textContent;
+					break;
+				case Node.ELEMENT_NODE:
+					elem = (currentElem.nodeName === "TABLE") ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
+					break;
+				default:
+					elem = currentElem.nodeValue;
 			}
+			cell.insert(elem);
 		}
-		cell.attr = attr;
 		return cell;
 };
 
@@ -1364,14 +1448,18 @@ var createCellFromHtml = function(htmlStr){
  * @param {String} htmlStr
  * @return {Object}
  */
-var createRowFromHtml = function(htmlStr){
-		var parser = new DOMParser(),
-			doc = parser.parseFromString('<table><tbody>' + htmlStr + '</tbody></table>', "text/html"),
-			node = doc.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0],
-			attrs, i, nodeStyle, attrName, len, children, childNum, child, row, cell,
-			attr = new Attributes();
-
-		// creating object
+String.prototype.createRowFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			fullTable  = '<table><tbody>' + htmlStr + '</tbody></table>',
+			doc = parser.parseFromString(fullTable, "text/html"),
+			node = doc.getElementsByTagName('tr'),
+			attrs, i, nodeStyle, cellsNum, currentCell, row, cell, cells;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+		// object to return
 		row = new Row();
 
 		// imposing its styles
@@ -1379,25 +1467,22 @@ var createRowFromHtml = function(htmlStr){
 		row.style = new Style(nodeStyle);
 
 		// imposing its attributes
-		attrs = node.attributes;
-		len = attrs.length;
-		for (i = 0; i < len; i++){
-			attrName = attrs[i];
-			if (attrName.name !== 'style'){
-				attr[attrName.name] = attrName.value;
-			}
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty('style')){
+			delete attrs.style;
 		}
+		row.attr = new Attributes(attrs);
 
-		children = node.children;
-		childNum = children.length;
-		for (i = 0; i < childNum; i++){
-			child = children[i];
-			if(child.tagName === "TD"){
-				cell = createCellFromHtml(child.outerHTML);
+		cells = node.children;
+		cellsNum = cells.length;
+		// console.log('numero di celle rilevate:', childNum);
+		for (i = 0; i < cellsNum; i++){
+			currentCell = cells[i];
+			if(currentCell.tagName === "TD"){
+				cell = currentCell.outerHTML.createCellFromHtml();
 				row.appendCell(cell);
 			}
 		}
-		row.attr = attr;
 		return row;
 };
 
@@ -1407,15 +1492,12 @@ var createRowFromHtml = function(htmlStr){
  * @param {String} htmlStr
  * @return {Object}
  */
-var createTableFromHtml = function(htmlStr){
-		var parser = new DOMParser(),
+String.prototype.createTableFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
 			doc = parser.parseFromString(htmlStr, "text/html"),
 			node = doc.getElementsByTagName('table'),
-			tableType, output, attrs, i, nodeStyle, attrName, len, children, childNum, child, row,
-			attr = new Attributes();
-		if (node.length > 1){
-			throw new Error('Exactly one table tag is expected to be in the string');
-		}
+			tableType, table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
 		if (node.length === 0){
 			return null;
 		}
@@ -1423,33 +1505,30 @@ var createTableFromHtml = function(htmlStr){
 		tableType = node.getAttribute('data-marker');
 
 		// creating object
-		output = (tableType === "grating") ? (new Grating()) : (new Table());
+		table = (tableType === "grating") ? (new Grating()) : (new Table());
 
 		// imposing its styles
 		nodeStyle = node.getAttribute('style');
-		output.style = new Style(nodeStyle);
+		table.style = new Style(nodeStyle);
+
 
 		// imposing its attributes
-		attrs = node.attributes;
-		len = attrs.length;
-		for (i = 0; i < len; i++){
-			attrName = attrs[i];
-			if (attrName.name !== 'style'){
-				attr[attrName.name] = attrName.value;
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty('style')){
+			delete attrs.style;
+		}
+		table.attr = new Attributes(attrs);
+		// the only child of the table is always tbody
+		rows = node.children[0].children;
+		rowsNum = rows.length;
+		// console.log('numero di righe rilevate:', childNum);
+		for (i = 0; i < rowsNum; i++){
+			currentRow = rows[i];
+			if(currentRow.tagName === "TR"){
+				// console.log(child);
+				row = currentRow.outerHTML.createRowFromHtml();
+				table.appendRow(row);
 			}
 		}
-		// node contains only one node TBODY
-		children = node.children[0].children;
-		childNum = children.length;
-		for (i = 0; i < childNum; i++){
-			child = children[i];
-
-			if(child.tagName === "TR"){
-				console.log(child);
-				row = createRowFromHtml(child.outerHTML);
-				output.appendRow(row);
-			}
-		}
-		output.attr = attr;
-		return output;
+		return table;
 };
