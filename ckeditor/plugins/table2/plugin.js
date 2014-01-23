@@ -1,34 +1,6 @@
 /*global CKEDITOR, location, NEWSLETTER, Table */
 /*jslint plusplus: true, white: true */
 /**
- * Drops the table row. If after that the table remains empty, removes it as well.
- */
-console.log(NEWSLETTER);
-var dropRow = function (ed) {
-		var row = $(ed.getSelection().getStartElement().$).closest('tr[' + NEWSLETTER['marker-name'] + '=Row]'),
-			parentTable = row.closest('table'),
-			tableLength;
-		if (row) {
-			row.remove();
-			// calculating the number of children of the table after removing the row
-			tableLength = parentTable.find('tbody').children().length;
-			if (tableLength === 0) {
-				parentTable.remove();
-			}
-
-		}
-	};
-/**
- * Converts the first letter of the string into the upper case
- * If the string is empty, the output is empty string as well.
- * @param 	str 	String
- * @return 			String
- */
-var firstLetterUpperCase = function (str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
-	};
-
-/**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
  * @param {CKEDITOR.dom.element} elem
  * @param  {function} filter
@@ -46,6 +18,36 @@ var findAscendant = function(elem, filter){
 	}
 	return null;
 };
+
+/**
+ * Drops the table row. If after removing the table becomes empty, then removes it as well.
+ */
+var dropRow = function (ed) {
+	var row = findAscendant(ed.getSelection().getStartElement(), function(el){
+			return ((el.getName() === "tr") && (el.getAttribute(NEWSLETTER['marker-name']) === "Row"));
+		}),
+		parentTable, tableLength;
+	if (row) {
+		parentTable = findAscendant(row, function(el){
+			return el.getName() === 'table';
+		});
+		row.remove();
+		// calculating the number of remaining rows
+		tableLength = parentTable.getElementsByTag('tr').count();
+		if (tableLength === 0) {
+			parentTable.remove();
+		}
+	}
+};
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param 	str 	String
+ * @return 			String
+ */
+var firstLetterUpperCase = function (str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	};
 
 /**
  * Inserts a row at a specified position with respect to the selected element.
@@ -118,7 +120,7 @@ CKEDITOR.plugins.add('table2', {
 			exec: function (editor) {
 				var currentElem = editor.getSelection().getStartElement(),
 					elem = findAscendant(currentElem, function(el){
-						return el.getName() === "table" &&
+						return el.getName() === 'table' &&
 							el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 				});
 				if(elem){
@@ -130,8 +132,10 @@ CKEDITOR.plugins.add('table2', {
 
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = $(ed.getSelection().getStartElement().$).closest('table[' + NEWSLETTER['marker-name']  + '=Table]');
-				if (table.length) {
+				var table = findAscendant(ed.getSelection().getStartElement(), function(el){
+						return el.getName() === 'table';
+				});
+				if (table) {
 					table.remove();
 				}
 			}
