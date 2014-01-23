@@ -119,11 +119,14 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2ResizeColumns', {
 			exec: function (editor) {
 				var currentElem = editor.getSelection().getStartElement(),
-				elem = findAscendant(currentElem, function(el){
-					return el.getName() === "table" && el.getAttribute(NEWSLETTER['attribute-name']) === (new Table()).getType();
+					elem = findAscendant(currentElem, function(el){
+						return el.getName() === "table" &&
+							el.getAttribute(NEWSLETTER['attribute-name']) === (new Table()).getType();
 				});
 				if(elem){
-					console.log(elem.getAttribute('style'));
+					var currentTable = elem.getOuterHtml().createTableFromHtml();
+					console.log(currentTable);
+
 
 				}
 			}

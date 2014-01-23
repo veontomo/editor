@@ -1284,8 +1284,6 @@ function Table() {
 		htmlTable += '</' + tag + '>';
 		return htmlTable;
 	};
-
-
 }
 
 
@@ -1329,22 +1327,17 @@ function Grating(){
 	 */
 	this.bogusRowAttr = new Attributes();
 
-
-
 	/**
 	 * Style of the  the cell which fills the whole row.
 	 * @property {TableCellStyle} bogusTableStyle
 	 */
 	this.bogusCellStyle = new TableCellStyle();
 
-
 	/**
 	 * Attributes of the  the cell which fills the whole row.
 	 * @property {Attribute} bogusTableStyle
 	 */
 	this.bogusCellAttr = new Attributes();
-
-
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
@@ -1380,7 +1373,6 @@ function Grating(){
 	};
 }
 Grating.prototype = new Table();
-
 
 /**
  * Transforms a cell-html string into Cell object
@@ -1427,7 +1419,6 @@ String.prototype.createCellFromHtml = function(){
 		elemsNum = elems.length;
 		for (i = 0; i < elemsNum; i++){
 			currentElem = elems[i];
-			console.log(currentElem, currentElem.nodeName, currentElem.nodeType);
 			switch (currentElem.nodeType){
 				case Node.TEXT_NODE:
 					elem = currentElem.textContent;

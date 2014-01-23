@@ -758,6 +758,7 @@ describe('Table-related functionality', function(){
          expect(table.styleProperty('a-property')).toEqual(12.6);
      });
 
+
      it('retrieves non-existing property from the style', function() {
          if (tableStyle.hasOwnProperty('a table property')) {
              delete tableStyle['a table property'];
@@ -784,6 +785,7 @@ describe('Table-related functionality', function(){
         }).toThrow('The argument is not of the Row type!');
      });
 
+     it('gets column widths')
 
      it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
@@ -1218,7 +1220,6 @@ describe('Converts html table cell in to Cell object', function(){
         expect(cell.content.elements.length).toBe(3);
         expect(cell.content.elements[0]).toBe('<div>a</div>');
         expect(cell.content.elements[1]).toBe('<div>b</div>');
-
     });
 
     it('recognizes a nested table inside a cell', function(){
@@ -1234,11 +1235,6 @@ describe('Converts html table cell in to Cell object', function(){
         expect(cell.content.elements[0]).toBe('text outside');
         expect(cell.content.elements[1].hasOwnProperty('getType')).toBe(true);
         expect(cell.content.elements[1].getType()).toBe('Table');
-
-
     });
-
-
-
 
 });

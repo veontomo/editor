@@ -124,7 +124,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser */
+/*global DOMParser, Node */
 
 /**
  * Produces a string of properties in inline-style fashion
@@ -183,6 +183,25 @@ var toString2 = function (obj) {
 	};
 
 /**
+ * Flatten the object. This function was written because Node::attributes returns attributes in format.
+ * Example {&#x27;1&#x27;: {name: &quot;width&quot;, value:&quot;100&quot;, ...}, &#x27;2&#x27;: {name: &quot;color&quot;, value:&quot;black&quot;, ...}, ...}
+ * returns {&quot;width&quot;:&quot;100&quot;, &quot;color&quot;:&quot;black&quot;, ...}
+ * @param {Object} obj
+  */
+ var flatten = function (obj){
+ 	var attr, value, output = {};
+ 	for (attr in obj){
+ 		if (obj.hasOwnProperty(attr)){
+ 			value = obj[attr];
+ 			if (typeof value === &#x27;object&#x27;){
+ 				output[value.name] = value.value;
+ 			}
+ 		}
+ 	}
+ 	return output;
+ };
+
+/**
  * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
  * If the right arguments is not given, the left one is used.
  * @param  {String} left
@@ -218,6 +237,27 @@ Array.prototype.concatDropSpaces = function(glue){
 	return concatDropSpaces(this, glue);
 };
 
+
+/**
+ * Merge two objects. If non-object is given, an error is thrown.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object}
+ */
+var appendObject = function (obj1, obj2){
+	if ((typeof obj1 !== &#x27;object&#x27;) || (typeof obj2 !== &#x27;object&#x27;)){
+		throw new Error(&#x27;Both arguments of appendObject must be of Object type!&#x27;);
+	}
+	var output = obj1,
+		attr;
+	for (attr in obj2){
+		if (obj2.hasOwnProperty(attr)){
+			output[attr] = obj2[attr];
+		}
+	}
+	return output;
+
+};
 
 /**
  * Sets width, min-width and max-width of the object.
@@ -262,22 +302,23 @@ function getProperty(obj, prop){
 /**
 * This class is supposed to characterize inline styles of html tags.
 * @module 	attributes
-* @param 	{string} str 	string of label-value pairs
+* @param 	{string|object} style 	string of label-value pairs or object.
 * @class  	Style
 */
-function Style(str) {
+function Style(style) {
 	&quot;use strict&quot;;
 	if (!(this instanceof Style)) {
-		return new Style();
+		return new Style(style);
 	}
+	var attr, len, i, pair, key, value;
 
 	/**
 	 * Fill in the properties with the values from the argument if any
 	 */
-	if (typeof str === &#x27;string&#x27;){
-		var attr = str.split(&#x27;;&#x27;),
-			len = attr.length,
-			i, pair, key, value;
+	if (typeof style === &#x27;string&#x27;){
+		attr = style.split(&#x27;;&#x27;);
+		len = attr.length;
+
 		// parse each attribute/value pair
 		for (i = 0; i &lt; len; i++){
 			pair = attr[i].split(&#x27;:&#x27;);
@@ -292,6 +333,35 @@ function Style(str) {
 			}
 		}
 	}
+	if (typeof style === &#x27;object&#x27;){
+		for (key in style){
+			if (style.hasOwnProperty(key)){
+				value = style[key];
+				if (typeof value === &#x27;string&#x27; || typeof value === &#x27;number&#x27;){
+					this[key] = value;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Appends object. If non-object is given, error is thrown.
+	 * @method appendStyle
+	 * @param {Object} stl style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		if (typeof stl !== &#x27;object&#x27;){
+			throw new Error(&#x27;Argument of Object type is expected!&#x27;);
+		}
+		var styleProp;
+		for (styleProp in stl){
+			if (stl.hasOwnProperty(styleProp)){
+				this[styleProp] = stl[styleProp];
+			}
+		}
+	};
+
 	/**
 	 * Generates string representation of this object (as inline styles)
 	 * @method {String} 	toString
@@ -309,6 +379,7 @@ function Style(str) {
 	this.setWidth = function (w) {
 		setMinMaxWidth(this, w);
 	};
+
 }
 
 /**
@@ -350,12 +421,46 @@ function BorderStyle(){
 /**
 * This class is supposed to define attributes of html tags
 * @module 	attributes
+* @param {string|object} attr  a string or object from which this object properties are to be created.
 * @class  Attributes
 */
-function Attributes() {
+function Attributes(attr) {
 	&quot;use strict&quot;;
 	if (!(this instanceof Attributes)) {
-		return new Attributes();
+		return new Attributes(attr);
+	}
+	var attrs, len, i, pair, key, value;
+	/**
+	 * Fill in the properties with the values from the argument if any
+	 */
+	if (typeof attr === &#x27;string&#x27;){
+		attrs = attr.split(&#x27;;&#x27;);
+		len = attrs.length;
+
+		// parse each attribute/value pair
+		for (i = 0; i &lt; len; i++){
+			pair = attrs[i].split(&#x27;:&#x27;);
+			// ignore if there is more than one semicolon
+			if (pair.length === 2){
+				key = pair[0].trim();
+				value =  pair[1].trim();
+				if(parseFloat(value)){
+					value = parseFloat(value);
+				}
+				this[key] = value;
+			}
+		}
+	}
+	if (typeof attr === &#x27;object&#x27;){
+		for (key in attr){
+			if (attr.hasOwnProperty(key)){
+				value = attr[key];
+				// console.log(&#x27;key: value&#x27;, &#x27;(&#x27; + (typeof key) + &#x27;)&#x27;, key, &#x27;(&#x27;+ (typeof value) + &#x27;)&#x27;, value );
+				if (typeof value === &#x27;string&#x27; || typeof value === &#x27;number&#x27;){
+					this[key] = value;
+				}
+			}
+		}
 	}
 	/**
 	 * Generates string representation of this object (as html attributes)
@@ -366,7 +471,26 @@ function Attributes() {
 	this.toString = function () {
 		return toString2(this);
 	};
+
+	/**
+	 * Appends object. If non-object is given, error is thrown. This is a copy-paste of Styles::appendStyle
+	 * @method appendAttribute
+	 * @param {Object} stl style to be appended
+	 * @return {void}
+	 */
+	this.appendAttribute = function(stl){
+		if (typeof stl !== &#x27;object&#x27;){
+			throw new Error(&#x27;Argument of Object type is expected!&#x27;);
+		}
+		var attrs2;
+		for (attrs2 in stl){
+			if (stl.hasOwnProperty(attrs2)){
+				this[attrs2] = stl[attrs2];
+			}
+		}
+	};
 }
+// Attributes.inherits(Style);
 
 /**
 * Table-specific attributes.
@@ -999,7 +1123,7 @@ function Row() {
 
 	/**
 	* Attribute setter.
-	* @method setAtr
+	* @method setAttr
 	* @param {String|Object} attr
 	* @return {void}
 	*/
@@ -1284,36 +1408,6 @@ function Table() {
 		htmlTable += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
 		return htmlTable;
 	};
-
-	/**
-	 * Populates the attributes from a string that is an html repersentation of some table.
-	 * It takes a string that is an html representation of a table and update current object
-	 * parameters such that it will correspond to the html representation.
-	 * In other words, (new Table()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
-	 * (eventually up to presence/absence of some parameters and attributes).
-	 *
-	 * @method loadFromHtml
-	 * @param {String} htmlStr
-	 * @return {void}
-	 */
-	this.loadFromHtml = function (htmlStr){
-		var parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, &quot;text/html&quot;),
-			node = doc.getElementsByTagName(&#x27;table&#x27;)[0],
-			attrs = node.attributes,
-			nodeStyle = node.getAttribute(&#x27;style&#x27;),
-			attrObj = {},
-			len = attrs.length,
-			i, attr;
-		for (i = 0; i &lt; len; i++){
-			attr = attrs[i];
-			if (attr.name !== &#x27;style&#x27;){
-				attrObj[attr.name] = attr.value;
-			}
-		}
-		this.setStyle(nodeStyle);
-		this.setAttr(attrObj);
-	};
 }
 
 
@@ -1340,10 +1434,22 @@ function Grating(){
 	this.bogusTableStyle = new TableStyle();
 
 	/**
+	 * Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusTableAttr = new Attributes();
+
+	/**
 	 * Style of the row containing a single cell.
 	 * @property {Style} bogusTableStyle
 	 */
 	this.bogusRowStyle = new TableRowStyle();
+
+	/**
+	 * Attributes of the row containing a single cell.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusRowAttr = new Attributes();
 
 	/**
 	 * Style of the  the cell which fills the whole row.
@@ -1351,6 +1457,11 @@ function Grating(){
 	 */
 	this.bogusCellStyle = new TableCellStyle();
 
+	/**
+	 * Attributes of the  the cell which fills the whole row.
+	 * @property {Attribute} bogusTableStyle
+	 */
+	this.bogusCellAttr = new Attributes();
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
@@ -1359,15 +1470,14 @@ function Grating(){
 	 * @return {String} html representation of the row
 	 */
 	this.toHtml = function () {
-		console.log(&#x27;this: &#x27;, this);
-		console.log(&#x27;nested row style: &#x27;, this.bogusRowStyle);
-		console.log(&#x27;nested cell style: &#x27;, this.bogusCellStyle);
-		console.log(&#x27;nested table style: &#x27;, this.bogusTableStyle);
 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
 			// string representation of the border style
 			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
+			nestedRowAttr =   this.bogusRowAttr.toString(),
 			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
+			nestedCellAttr =  this.bogusCellAttr.toString(),
 			nsTblSt = this.bogusTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
+			nsTblAttr = this.bogusTableAttr.toString(),
 			tag = &#x27;table&#x27;;
 
 		tableAttr = this.attr.toString();
@@ -1376,9 +1486,9 @@ function Grating(){
 		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 		rowsNumber = this.rows.length;
 		for (i = 0; i &lt; rowsNumber; i++) {
-			htmlTable += [&#x27;tr&#x27;, nestedRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
-				[&#x27;td&#x27;, nestedCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
-				[tag, nsTblSt].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+			htmlTable += [&#x27;tr&#x27;, nestedRowAttr, nestedRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
+				[&#x27;td&#x27;, nestedCellAttr, nestedCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;) +
+				[tag, nsTblAttr, nsTblSt].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 			htmlTable += this.rows[i].toHtml();
 			htmlTable += tag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) +&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;
 		}
@@ -1387,6 +1497,156 @@ function Grating(){
 	};
 }
 Grating.prototype = new Table();
+
+/**
+ * Transforms a cell-html string into Cell object
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+String.prototype.createCellFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			newParser = new DOMParser(),
+			fullTable = &#x27;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&#x27; + htmlStr + &#x27;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
+			doc = parser.parseFromString(fullTable, &quot;text/html&quot;),
+			newDoc,
+			node = doc.getElementsByTagName(&#x27;td&#x27;),
+			cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+
+		// creating object
+		cell = new Cell();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute(&#x27;style&#x27;);
+		cell.style = new Style(nodeStyle);
+
+		// imposing its attributes
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+			delete attrs.style;
+		}
+		cell.attr = new Attributes(attrs);
+		// console.log(&#x27;node&#x27;, node);
+
+		id = &quot;uniqueDivIdThatMustBeInThisDocument&quot; + Math.floor((Math.random()*99)+1);
+		nodeText = &#x27;&lt;div id=&quot;&#x27;+ id +&#x27;&quot;&gt;&#x27; + node.innerHTML + &#x27;&lt;/div&gt;&#x27;;
+
+		newDoc = newParser.parseFromString(nodeText, &#x27;text/html&#x27;);
+		nodeContent = newDoc.getElementById(id);
+
+		elems = nodeContent.childNodes;
+
+		elemsNum = elems.length;
+		for (i = 0; i &lt; elemsNum; i++){
+			currentElem = elems[i];
+			switch (currentElem.nodeType){
+				case Node.TEXT_NODE:
+					elem = currentElem.textContent;
+					break;
+				case Node.ELEMENT_NODE:
+					elem = (currentElem.nodeName === &quot;TABLE&quot;) ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
+					break;
+				default:
+					elem = currentElem.nodeValue;
+			}
+			cell.insert(elem);
+		}
+		return cell;
+};
+
+/**
+ * Transforms a row-html string into Row object
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+String.prototype.createRowFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
+			doc = parser.parseFromString(fullTable, &quot;text/html&quot;),
+			node = doc.getElementsByTagName(&#x27;tr&#x27;),
+			attrs, i, nodeStyle, cellsNum, currentCell, row, cell, cells;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+		// object to return
+		row = new Row();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute(&#x27;style&#x27;);
+		row.style = new Style(nodeStyle);
+
+		// imposing its attributes
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+			delete attrs.style;
+		}
+		row.attr = new Attributes(attrs);
+
+		cells = node.children;
+		cellsNum = cells.length;
+		// console.log(&#x27;numero di celle rilevate:&#x27;, childNum);
+		for (i = 0; i &lt; cellsNum; i++){
+			currentCell = cells[i];
+			if(currentCell.tagName === &quot;TD&quot;){
+				cell = currentCell.outerHTML.createCellFromHtml();
+				row.appendCell(cell);
+			}
+		}
+		return row;
+};
+
+
+/**
+ * Creates an object representation from a string that is an html repersentation of a table.
+ * @param {String} htmlStr
+ * @return {Object}
+ */
+String.prototype.createTableFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, &quot;text/html&quot;),
+			node = doc.getElementsByTagName(&#x27;table&#x27;),
+			tableType, table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+		tableType = node.getAttribute(&#x27;data-marker&#x27;);
+
+		// creating object
+		table = (tableType === &quot;grating&quot;) ? (new Grating()) : (new Table());
+
+		// imposing its styles
+		nodeStyle = node.getAttribute(&#x27;style&#x27;);
+		table.style = new Style(nodeStyle);
+
+
+		// imposing its attributes
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+			delete attrs.style;
+		}
+		table.attr = new Attributes(attrs);
+		// the only child of the table is always tbody
+		rows = node.children[0].children;
+		rowsNum = rows.length;
+		// console.log(&#x27;numero di righe rilevate:&#x27;, childNum);
+		for (i = 0; i &lt; rowsNum; i++){
+			currentRow = rows[i];
+			if(currentRow.tagName === &quot;TR&quot;){
+				// console.log(child);
+				row = currentRow.outerHTML.createRowFromHtml();
+				table.appendRow(row);
+			}
+		}
+		return table;
+};
 
     </pre>
 </div>
