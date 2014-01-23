@@ -80,7 +80,6 @@ var insertRow = function (ed, pos) {
 		if (newElement[operation] !== undefined) {
 			newElement[operation](row);
 		} else {
-			console.log('no ' + operation + ' in newElement');
 			return null;
 		}
 
@@ -197,8 +196,10 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('tr[' + NEWSLETTER['marker-name'] + '=Row]');
-				if (el.length) {
+				var el = findAscendant(element, function (el){
+					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === 'Row');
+				});
+				if (el) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
 						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
@@ -208,8 +209,10 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('table[' + NEWSLETTER['marker-name'] + '=Table]');
-				if (el && el.length) {
+				var el = findAscendant(element, function (el){
+					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === 'Table');
+				});
+				if (el) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
 						table2ResizeColumns: CKEDITOR.TRISTATE_OFF
