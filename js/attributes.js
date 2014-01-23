@@ -1491,23 +1491,21 @@ String.prototype.createRowFromHtml = function(){
  * Only one table is supposed to be processed at a time, so the string to be processed is to
  * be of the following form <table ...> ... </table>. Inside the tag, there should be tags "tr"
  * that will be processed one by one by function String::createRowFromHtml().
- * @param {String} htmlStr
- * @return {Object} Table
+ * @return {Table}
  */
 String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
 			doc = parser.parseFromString(htmlStr, "text/html"),
 			node = doc.getElementsByTagName('table'),
-			tableType, table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
 		if (node.length === 0){
 			return null;
 		}
 		node = node[0];
-		tableType = node.getAttribute('data-marker');
 
 		// creating object
-		table = (tableType === "grating") ? (new Grating()) : (new Table());
+		table = new Table();
 
 		// imposing its styles
 		nodeStyle = node.getAttribute('style');
@@ -1528,6 +1526,52 @@ String.prototype.createTableFromHtml = function(){
 			currentRow = rows[i];
 			if(currentRow.tagName === "TR"){
 				// console.log(child);
+				row = currentRow.outerHTML.createRowFromHtml();
+				table.appendRow(row);
+			}
+		}
+		return table;
+};
+
+/**
+ * Creates an object representation from a string that is an html repersentation of a table which
+ * rows are with borders. The method is similar String::createTableFromHtml().
+ * @todo  not implemented correctly so far: the properties bogusTableStyle, bogusTableAttr,
+ * bogusCellStyle, bogusCellAttr, bogusRowStyle, bogusRowAttr are so far not filled in.
+ * @return {Grating}
+ */
+String.prototype.createGratingFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, 'text/html'),
+			node = doc.getElementsByTagName('table'),
+			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+
+
+		// creating object
+		table = new Grating();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute('style');
+		table.style = new Style(nodeStyle);
+
+
+		// imposing its attributes
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty('style')){
+			delete attrs.style;
+		}
+		table.attr = new Attributes(attrs);
+		// the only child of the table is always tbody
+		rows = node.children[0].children;
+		rowsNum = rows.length;
+		for (i = 0; i < rowsNum; i++){
+			currentRow = rows[i];
+			if(currentRow.tagName === "TR"){
 				row = currentRow.outerHTML.createRowFromHtml();
 				table.appendRow(row);
 			}

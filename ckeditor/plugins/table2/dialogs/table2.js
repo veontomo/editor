@@ -199,7 +199,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// impose styles and attribute values
 			tableStyle.setWidth(tableWidth);
-			tableAttr['data-marker'] = table.getType();
+			tableAttr[NEWSLETTER['marker-name']] = table.getType();
 			tableStyle['padding-left'] = hSpace;
 			tableStyle['padding-right'] = hSpace;
 
@@ -223,7 +223,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
 			if (!isFramed){
-				rowAttr['data-marker'] =  'Row';
+				rowAttr[NEWSLETTER['marker-name']] =  'Row';
 			}
 
 			// binding the styles to the row
@@ -264,7 +264,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				nestedTableStyle['border-style'] = "solid";
 				// apply the styles  to the table
 				table.bogusRowStyle   = nestedRowStyle;
-				table.bogusRowAttr['data-marker'] = 'Row';
+				table.bogusRowAttr[NEWSLETTER['marker-name']] = 'Row';
 				table.bogusCellStyle  = nestedCellStyle;
 				table.bogusTableStyle = nestedTableStyle;
 			}

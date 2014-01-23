@@ -5,7 +5,7 @@
  */
 console.log(NEWSLETTER);
 var dropRow = function (ed) {
-		var row = $(ed.getSelection().getStartElement().$).closest('tr[' + NEWSLETTER['marker-name'] + ']=Row]'),
+		var row = $(ed.getSelection().getStartElement().$).closest('tr[' + NEWSLETTER['marker-name'] + '=Row]'),
 			parentTable = row.closest('table'),
 			tableLength;
 		if (row) {
@@ -62,7 +62,6 @@ var insertRow = function (ed, pos) {
 			currentElem = ed.getSelection().getStartElement(),
 			newElement, operation, currentChildren, childNum, i, child, newChild,
 			row = currentElem.getAscendant(tag, true);
-
 		// looking for the table row marked as data-marker="row"
 		while(!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))){
 			row = row.getParent();
@@ -131,7 +130,7 @@ CKEDITOR.plugins.add('table2', {
 
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = $(ed.getSelection().getStartElement().$).closest('table[' + NEWSLETTER['marker-name']  + ']=Table]');
+				var table = $(ed.getSelection().getStartElement().$).closest('table[' + NEWSLETTER['marker-name']  + '=Table]');
 				if (table.length) {
 					table.remove();
 				}
@@ -194,7 +193,7 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('tr[data-marker=Row]');
+				var el = $(element.$).closest('tr[' + NEWSLETTER['marker-name'] + '=Row]');
 				if (el.length) {
 					return {
 						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
@@ -205,7 +204,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = $(element.$).closest('table[data-marker=Table]');
+				var el = $(element.$).closest('table[' + NEWSLETTER['marker-name'] + '=Table]');
 				if (el && el.length) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
