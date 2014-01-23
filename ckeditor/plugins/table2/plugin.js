@@ -1,10 +1,11 @@
-/*global CKEDITOR, location */
+/*global CKEDITOR, location, NEWSLETTER, Table */
 /*jslint plusplus: true, white: true */
 /**
  * Drops the table row. If after that the table remains empty, removes it as well.
  */
+console.log(NEWSLETTER);
 var dropRow = function (ed) {
-		var row = $(ed.getSelection().getStartElement().$).closest('tr[data-marker=Row]'),
+		var row = $(ed.getSelection().getStartElement().$).closest('tr[' + NEWSLETTER['marker-name'] + ']=Row]'),
 			parentTable = row.closest('table'),
 			tableLength;
 		if (row) {
@@ -44,9 +45,7 @@ var findAscendant = function(elem, filter){
 		elem = elem.getParent();
 	}
 	return null;
-
-
-}
+};
 
 /**
  * Inserts a row at a specified position with respect to the selected element.
@@ -58,7 +57,7 @@ var findAscendant = function(elem, filter){
  */
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
-			dataMarkerAttr = 'data-marker',
+			dataMarkerAttr = NEWSLETTER['marker-name'],
 			dataMarkerVal = 'Row',
 			currentElem = ed.getSelection().getStartElement(),
 			newElement, operation, currentChildren, childNum, i, child, newChild,
@@ -121,20 +120,18 @@ CKEDITOR.plugins.add('table2', {
 				var currentElem = editor.getSelection().getStartElement(),
 					elem = findAscendant(currentElem, function(el){
 						return el.getName() === "table" &&
-							el.getAttribute(NEWSLETTER['attribute-name']) === (new Table()).getType();
+							el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 				});
 				if(elem){
 					var currentTable = elem.getOuterHtml().createTableFromHtml();
 					console.log(currentTable);
-
-
 				}
 			}
 		});
 
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = $(ed.getSelection().getStartElement().$).closest('table[data-marker=Table]');
+				var table = $(ed.getSelection().getStartElement().$).closest('table[' + NEWSLETTER['marker-name']  + ']=Table]');
 				if (table.length) {
 					table.remove();
 				}

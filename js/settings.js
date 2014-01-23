@@ -1,4 +1,4 @@
 var NEWSLETTER = {
-	'maxWidth': 500,
-	'attribute-name': 'data-marker' // an attribute to be used to mark the table
+	'maxWidth': 500, // massima largezza di tabella
+	'marker-name': 'data-marker', // an attribute to mark objects
 };

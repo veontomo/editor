@@ -1375,22 +1375,25 @@ function Grating(){
 Grating.prototype = new Table();
 
 /**
- * Transforms a cell-html string into Cell object
- * @param {String} htmlStr
- * @return {Object}
+ * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
+ * following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
+ * as a "supported" ones, the corresponding functions will be called to transform them into objects.
+ * For the moment, the only supported element is "Table".
+ * @param {String}  htmlStr
+ * @return {Object} Cell
  */
 String.prototype.createCellFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
 			newParser = new DOMParser(),
 			fullTable = '<table><tbody><tr>' + htmlStr + '</tr></tbody></table>',
-			doc = parser.parseFromString(fullTable, "text/html"),
-			newDoc,
+			doc = parser.parseFromString(fullTable, 'text/html'),
 			node = doc.getElementsByTagName('td'),
-			cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+			newDoc,	cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
 		if (node.length === 0){
 			return null;
 		}
+		// process the first cell in the list of cells. The remaining cells are to be processed at their turn (when each of the becomes first)
 		node = node[0];
 
 		// creating object
@@ -1406,9 +1409,12 @@ String.prototype.createCellFromHtml = function(){
 			delete attrs.style;
 		}
 		cell.attr = new Attributes(attrs);
-		// console.log('node', node);
 
-		id = "uniqueDivIdThatMustBeInThisDocument" + Math.floor((Math.random()*99)+1);
+		// create a fictious div containing the cell and assign a unique id to it
+		id = "fakeDivId" + Math.floor((Math.random()*99)+1);
+		while (doc.getElementById(id)){
+			id += Math.floor((Math.random()*99)+1);
+		}
 		nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
 
 		newDoc = newParser.parseFromString(nodeText, 'text/html');
@@ -1424,7 +1430,7 @@ String.prototype.createCellFromHtml = function(){
 					elem = currentElem.textContent;
 					break;
 				case Node.ELEMENT_NODE:
-					elem = (currentElem.nodeName === "TABLE") ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
+					elem = (currentElem.nodeName === 'TABLE') ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
 					break;
 				default:
 					elem = currentElem.nodeValue;
@@ -1435,20 +1441,23 @@ String.prototype.createCellFromHtml = function(){
 };
 
 /**
- * Transforms a row-html string into Row object
- * @param {String} htmlStr
- * @return {Object}
+ * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
+ * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
+ * processed one by one by function String::createCellFromHtml().
+ * @param {String} 	htmlStr
+ * @return {Object} Row
  */
 String.prototype.createRowFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
 			fullTable  = '<table><tbody>' + htmlStr + '</tbody></table>',
-			doc = parser.parseFromString(fullTable, "text/html"),
+			doc = parser.parseFromString(fullTable, 'text/html'),
 			node = doc.getElementsByTagName('tr'),
 			attrs, i, nodeStyle, cellsNum, currentCell, row, cell, cells;
 		if (node.length === 0){
 			return null;
 		}
+		// the first table row is to be processed. The remaining ones will be processed at thier turn.
 		node = node[0];
 		// object to return
 		row = new Row();
@@ -1466,7 +1475,6 @@ String.prototype.createRowFromHtml = function(){
 
 		cells = node.children;
 		cellsNum = cells.length;
-		// console.log('numero di celle rilevate:', childNum);
 		for (i = 0; i < cellsNum; i++){
 			currentCell = cells[i];
 			if(currentCell.tagName === "TD"){
@@ -1480,8 +1488,11 @@ String.prototype.createRowFromHtml = function(){
 
 /**
  * Creates an object representation from a string that is an html repersentation of a table.
+ * Only one table is supposed to be processed at a time, so the string to be processed is to
+ * be of the following form <table ...> ... </table>. Inside the tag, there should be tags "tr"
+ * that will be processed one by one by function String::createRowFromHtml().
  * @param {String} htmlStr
- * @return {Object}
+ * @return {Object} Table
  */
 String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
