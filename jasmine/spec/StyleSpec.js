@@ -505,6 +505,26 @@ describe('Cell-related functionality', function() {
         expect(cell.style['max-width']).toEqual(0.992);
     });
 
+    it('gets the width of the cell', function(){
+        cell.style.width = 20;
+        expect(cell.getWidth()).toBe(20);
+
+        cell.style.width = 20.3;
+        expect(cell.getWidth()).toBe(20.3);
+
+        cell.style.width = '31';
+        expect(cell.getWidth()).toBe(31);
+
+        cell.style.width = '192px';
+        expect(cell.getWidth()).toBe(192);
+
+        cell.style.width = '192em';
+        expect(cell.getWidth()).toBe('192em');
+
+
+
+    });
+
 
     it('fills "content" property with the arguments passed to the constructor', function(){
         cell = new Cell();
@@ -586,8 +606,11 @@ describe('Cell-related functionality', function() {
 });
 
 describe('Row-related functionality', function(){
-    var row, rowAttr, rowStyle;
+    var row, rowAttr, rowStyle, cell1, cell2, cell3;
     beforeEach(function(){
+        cell1 = new Cell();
+        cell2 = new Cell();
+        cell3 = new Cell();
         row = new Row();
         rowAttr = new Attributes();
         rowStyle = new TableRowStyle();
@@ -639,9 +662,9 @@ describe('Row-related functionality', function(){
 
 
     it('appends a cell to the existing cells', function(){
-        var cell1 = new Cell(),
-            cell2 = new Cell(),
-            cell3 = new Cell();
+        // var cell1 = new Cell(),
+        //     cell2 = new Cell(),
+        //     cell3 = new Cell();
 
        expect(row.cells.length).toBe(0);
        row.appendCell(cell1);
@@ -652,10 +675,34 @@ describe('Row-related functionality', function(){
        expect(row.cells.length).toBe(3);
     });
 
+    it('gets widths of the cells', function(){
+        spyOn(cell1, 'getWidth').andCallFake(function(){
+            return 'cell 1 width';
+        });
+        spyOn(cell2, 'getWidth').andCallFake(function(){
+            return 'cell 2 width';
+        });
+
+        row.cells = [cell1, cell2];
+        expect(row.getCellWidths().length).toBe(2);
+        expect(row.getCellWidths()[0]).toBe('cell 1 width');
+        expect(row.getCellWidths()[1]).toBe('cell 2 width');
+
+        row.cells = [cell1];
+        expect(row.getCellWidths().length).toBe(1);
+        expect(row.getCellWidths()[0]).toBe('cell 1 width');
+
+        row.cells = [];
+        expect(row.getCellWidths().length).toBe(0);
+
+
+
+    });
+
     it('generates html code of the row if attributes and styles are not empty', function(){
-        var cell1 = new Cell(),
-            cell2 = new Cell(),
-            cell3 = new Cell();
+        // var cell1 = new Cell(),
+        //     cell2 = new Cell(),
+        //     cell3 = new Cell();
 
         spyOn(cell1, 'toHtml').andCallFake(function(){
             return 'cell 1 ';
@@ -680,7 +727,7 @@ describe('Row-related functionality', function(){
     });
 
     it('generates html code of the row if attribute is empty', function(){
-        var cell1 = new Cell();
+        cell1 = new Cell();
 
         spyOn(cell1, 'toHtml').andCallFake(function(){
             return 'cell 1';
@@ -699,7 +746,7 @@ describe('Row-related functionality', function(){
     });
 
     it('generates html code of the row if the style is empty', function(){
-        var cell1 = new Cell();
+        // var cell1 = new Cell();
 
         spyOn(cell1, 'toHtml').andCallFake(function(){
             return 'cell 1';
@@ -785,7 +832,30 @@ describe('Table-related functionality', function(){
         }).toThrow('The argument is not of the Row type!');
      });
 
-     it('gets column widths')
+     it('gets column widths', function(){
+        spyOn(row1, 'getCellWidths').andCallFake(function(){
+            return 'cell widths of row 1';
+        });
+        spyOn(row2, 'getCellWidths').andCallFake(function(){
+            return 'cell widths of row 2';
+        });
+        spyOn(row3, 'getCellWidths').andCallFake(function(){
+            return 'cell widths of row 3';
+        });
+        table.rows = [row1, row2, row3];
+        expect(table.getColWidths().length).toBe(3);
+        expect(table.getColWidths()[0]).toBe('cell widths of row 1');
+        expect(table.getColWidths()[1]).toBe('cell widths of row 2');
+        expect(table.getColWidths()[2]).toBe('cell widths of row 3');
+
+        table.rows = [row1, row3];
+        expect(table.getColWidths().length).toBe(2);
+        expect(table.getColWidths()[0]).toBe('cell widths of row 1');
+        expect(table.getColWidths()[1]).toBe('cell widths of row 3');
+
+        table.rows = [];
+        expect(table.getColWidths().length).toBe(0);
+     });
 
      it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
@@ -1039,7 +1109,7 @@ describe('Transform html table to an object', function(){
         expect(obj1.getType()).toBe('Table');
     });
 
-    it('creates Grating object if data-marker attribute is equal to "grating"', function(){
+    xit('creates Grating object if data-marker attribute is equal to "grating"', function(){
         var htmlTable = '<table data-marker="grating" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
             obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Grating');

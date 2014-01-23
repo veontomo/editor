@@ -942,6 +942,25 @@ function Cell(arg) {
 	};
 
 	/**
+	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
+	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
+	 * @return {Number|String}
+	 */
+	this.getWidth = function(){
+		var raw = this.style.width,
+			raw2;
+		if (raw){
+			raw = raw.toString().trim().replace(/px$/, '');
+			// try to parse it to a number. Under this operation whatever string at the end gets removed
+			raw2 = parseFloat(raw, 10);
+			if (raw2.toString() === raw){
+				raw = raw2;
+			}
+		}
+		return raw;
+	};
+
+	/**
 	 * Insert the argument into the cell content
 	 * @method insert
 	 * @param {any} item
@@ -1053,6 +1072,20 @@ function Row() {
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
+	};
+
+	/**
+	 * Gets an array of the widths of the cell inside the row.
+	 * @return {array}
+	 */
+	this.getCellWidths = function(){
+		var output = [],
+			cellNum = this.cells.length,
+			i;
+		for (i = 0; i < cellNum; i++){
+			output.push(this.cells[i].getWidth());
+		}
+		return output;
 	};
 
 	/**
@@ -1219,6 +1252,22 @@ function Table() {
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	};
+
+	/**
+	 * Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]
+	 * where w_ij is width of the cell located in the row i and column j.
+	 * @method  getColWidths
+	 * @return {Array}
+	 */
+	this.getColWidths = function(){
+		var output = [],
+			rowsNum = this.rows.length, i;
+		for (i = 0; i < rowsNum; i++){
+			output.push(this.rows[i].getCellWidths());
+		}
+		return output;
+	};
+
 	/**
 	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance:
 	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'
@@ -1243,6 +1292,7 @@ function Table() {
 		this.style['border-style'] = bs;
 		this.attr.border = bw;
 	};
+
 	/**
 	 * Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:
 	 * 1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'
@@ -1496,7 +1546,7 @@ String.prototype.createRowFromHtml = function(){
 String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, "text/html"),
+			doc = parser.parseFromString(htmlStr, 'text/html'),
 			node = doc.getElementsByTagName('table'),
 			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
 		if (node.length === 0){
