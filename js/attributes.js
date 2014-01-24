@@ -1075,7 +1075,8 @@ function Row() {
 	};
 
 	/**
-	 * Gets an array of the widths of the cell inside the row.
+	 * Gets an array of the widths of the cells inside the row.
+	 * @method getCellWidths
 	 * @return {array}
 	 */
 	this.getCellWidths = function(){
@@ -1089,9 +1090,26 @@ function Row() {
 	};
 
 	/**
+	 * Sets widths of the cells inside the row.
+	 * @method setCellWidths
+	 * @param {Array} profile          each elements if this array is a width of the corresp. cell in the row.
+	 * @return {void}
+	 */
+	this.setCellWidths = function(profile){
+		var len = profile.length,
+			i;
+		if (this.cells.length === len){
+			for (i = 0; i < len; i++){
+				this.cells[i].setWidth(profile[i]);
+			}
+		}
+	};
+
+
+	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
 	 * @method appendCell
-	 * @param {Object} cell  a cell to be appended.
+	 * @param {Object} cell            a cell to be appended.
 	 * @return {void}
 	 */
 	this.appendCell = function(cell){
@@ -1267,6 +1285,20 @@ function Table() {
 		}
 		return output;
 	};
+
+	/**
+	 * Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.
+	 * @method  setProfile
+	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
+	 */
+	this.setProfile = function(profile){
+		var len = this.rows.length,
+			i;
+		for (i = 0; i < len; i++){
+			this.rows[i].setCellWidths(profile);
+		}
+	};
+
 
 	/**
 	 * Whether all rows in the table have the same cell widths.

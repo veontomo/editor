@@ -662,10 +662,6 @@ describe('Row-related functionality', function(){
 
 
     it('appends a cell to the existing cells', function(){
-        // var cell1 = new Cell(),
-        //     cell2 = new Cell(),
-        //     cell3 = new Cell();
-
        expect(row.cells.length).toBe(0);
        row.appendCell(cell1);
        expect(row.cells.length).toBe(1);
@@ -694,16 +690,41 @@ describe('Row-related functionality', function(){
 
         row.cells = [];
         expect(row.getCellWidths().length).toBe(0);
-
-
-
     });
 
-    it('generates html code of the row if attributes and styles are not empty', function(){
-        // var cell1 = new Cell(),
-        //     cell2 = new Cell(),
-        //     cell3 = new Cell();
+    it('calls corresponding methods to set widths of the cells of the row', function(){
+        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
+        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
+        spyOn(cell3, 'setWidth').andCallFake(function(){return null;});
+        row.cells = [cell1, cell2, cell3];
+        row.setCellWidths([1, 12, 0.11]);
+        expect(cell1.setWidth).toHaveBeenCalledWith(1);
+        expect(cell2.setWidth).toHaveBeenCalledWith(12);
+        expect(cell3.setWidth).toHaveBeenCalledWith(0.11);
+    });
 
+    it('does not call methods to set cell widths if input array length is different from the cells number', function(){
+        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
+        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
+        row.cells = [cell1, cell2];
+        row.setCellWidths([235, 211, 21]);
+        expect(cell1.setWidth).not.toHaveBeenCalled();
+        expect(cell2.setWidth).not.toHaveBeenCalled();
+    });
+
+    it('does not call methods to set cell widths if input array length is different from the cells number', function(){
+        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
+        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
+        spyOn(cell3, 'setWidth').andCallFake(function(){return null;});
+        row.cells = [cell1, cell2, cell3];
+        row.setCellWidths([235, 211]);
+        expect(cell1.setWidth).not.toHaveBeenCalled();
+        expect(cell2.setWidth).not.toHaveBeenCalled();
+        expect(cell3.setWidth).not.toHaveBeenCalled();
+    });
+
+
+    it('generates html code of the row if attributes and styles are not empty', function(){
         spyOn(cell1, 'toHtml').andCallFake(function(){
             return 'cell 1 ';
         });
@@ -822,7 +843,7 @@ describe('Table-related functionality', function(){
          expect(table.attr.width).toEqual(15);
      });
 
-     it('throws exception if a non-Row type is appended to the rows', function(){
+    it('throws exception if a non-Row type is appended to the rows', function(){
         // prentend that the row is not a row
         spyOn(row1, 'getType').andCallFake(function(){
             return "not a row";
@@ -832,7 +853,7 @@ describe('Table-related functionality', function(){
         }).toThrow('The argument is not of the Row type!');
      });
 
-     it('gets "matrix" of widths', function(){
+    it('gets "matrix" of widths', function(){
         spyOn(row1, 'getCellWidths').andCallFake(function(){
             return 'cell widths of row 1';
         });
@@ -855,9 +876,21 @@ describe('Table-related functionality', function(){
 
         table.rows = [];
         expect(table.getMatrix().length).toBe(0);
-     });
+    });
 
-     it('decides whether the rows have the same "cell profile"', function(){
+
+    it('sets "profile" of the table', function(){
+        spyOn(row1, 'setCellWidths').andCallFake(function(){return null;});
+        spyOn(row2, 'setCellWidths').andCallFake(function(){return null;});
+        spyOn(row3, 'setCellWidths').andCallFake(function(){return null;});
+        table.rows = [row1, row2, row3];
+        table.setProfile('anything');
+        expect(row1.setCellWidths).toHaveBeenCalledWith('anything');
+        expect(row2.setCellWidths).toHaveBeenCalledWith('anything');
+        expect(row3.setCellWidths).toHaveBeenCalledWith('anything');
+    });
+
+    it('decides whether the rows have the same "cell profile"', function(){
         spyOn(table, 'getMatrix').andCallFake(function(){
             return [[1, 2, 3], [1, 2, 3]];
         });
@@ -1003,7 +1036,6 @@ describe('Table-related functionality', function(){
         expect(table.style['border-style']).toBeDefined();
         expect(table.attr.border).toBe(19);
     });
-
 
     it('resets the border of the table', function(){
         // setting up the border-related properties to some dumb values
