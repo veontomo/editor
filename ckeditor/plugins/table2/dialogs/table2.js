@@ -13,15 +13,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	 * @param  {string} attrName 	this attribute name will be dropped.
 	 * @return {void}
 	 */
-	var dropInlineStyleAttr = function(element, attrName){
-		// unhovering table
-		var attr = element.attr('style'),
-			style = new Style(attr);
-		if (style.hasOwnProperty(attrName)){
-			delete style[attrName];
-		}
-		element.attr('style', style.toString());
-	};
+
 	var INPUTCOLWIDTHNAME = 'widthCol',
 		// draw input fields for column width
 		drawColumns = function () {
@@ -269,33 +261,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				table.bogusTableStyle = nestedTableStyle;
 			}
 
-
 			tableStr = table.toHtml();
-
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
-			editor.insertElement(tableElem);
-			// assigning events
-			$(tableElem.$).hover(
-				function () {
-					// hovering the whole table
-					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
-					// hovering table row
-					$(this).find('tr').hover(
-						function () {
-							$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
-						},
-						function () {
-							// unhovering the table row
-							var that = this;
-							dropInlineStyleAttr($(that), 'box-shadow');
-						}
-					);
-				}, function(){
-					// unhovering table
-					var that = this;
-					dropInlineStyleAttr($(that), 'box-shadow');
-				}
-			);
+			// call a custom method to insert the table and assign hovering effects on it
+			editor.insertTableWithHoverEff(tableElem);
 		}
 	};
 });

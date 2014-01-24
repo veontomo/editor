@@ -20,16 +20,6 @@ var findAscendant = function (elem, filter) {
 	};
 
 
-var dropInlineStyleAttr = function(element, attrName){
-	// unhovering table
-	var attr = element.attr('style'),
-		style = new Style(attr);
-	if (style.hasOwnProperty(attrName)){
-		delete style[attrName];
-	}
-	element.attr('style', style.toString());
-};
-
 /**
  * Drops the table row. If after removing the table becomes empty, then removes it as well.
  */
@@ -328,32 +318,8 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			table.remove();
-			editor.insertElement(tableElem);
-			// this is a copy-paste of the code in table.js.
-			// DRY it by creating a separate function that takes care of table insertion.
-			$(tableElem.$).hover(
-				function () {
-					// hovering the whole table
-					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
-					// hovering table row
-					$(this).find('tr').hover(
-						function () {
-							$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAAA');
-						},
-						function () {
-							// unhovering the table row
-							var that = this;
-							dropInlineStyleAttr($(that), 'box-shadow');
-						}
-					);
-				}, function(){
-					// unhovering table
-					var that = this;
-					dropInlineStyleAttr($(that), 'box-shadow');
-				}
-			);
-
-
+			// call a custom method to insert the table and assign hovering effects on it
+			editor.insertTableWithHoverEff(tableElem);
 		}
 	};
 });
