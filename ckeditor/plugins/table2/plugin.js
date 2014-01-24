@@ -252,20 +252,9 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				unit = 'px',
 				cellWidthStr = profile.map(function(el){
 						return el + ' ' + unit;
-					}).join(' + '),
-				appendPxObj = new CKEDITOR.dom.element('span');
-			appendPxObj.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
+					}).join(' + ');
 
-			var infoColElems = infoCol.getChildren(),
-				infoColLen = infoColElems.count();
-			// delete all but first elements in the "infoCol" element
-			if (infoColLen > 1){
-				for(i=infoColLen-1; i > 0; i--){
-					infoColElems.getItem(i).remove();
-				}
-			}
-
-			// infoCol.append(appendPxObj);
+			// override the field with current info about cell widths
 			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
 			// input fields for resizing
@@ -288,18 +277,22 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				if (i < colNum - 1){
 					colField.on('change', function(){
 						var allButLast = 0, last, j,
-							currentInput = parseInt(this.getValue(), 10);
-						inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
+							currentInput = parseInt(this.getValue(), 10),
+							lastOld,
+							inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
 						len = inputFields2.count();
 						for (j = 0; j < len - 1; j++){
 							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
 						}
+						// value of the last cell before any modifications
+						lastOld = parseInt(inputFields2.getItem(len - 1).getValue(), 10);
+						// if positive, the last cell should have this width
 						last = totWidth - allButLast;
 						if (last > 0){
 							inputFields2.getItem(len - 1).setValue(last);
 						} else {
-							inputFields2.getItem(len - 1).setValue(0);
-							this.setValue(currentInput+last);
+							// re-impose the previous value of the input field
+							this.setValue(currentInput + last - lastOld);
 						}
 					});
 				} else {
