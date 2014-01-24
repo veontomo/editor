@@ -1,4 +1,4 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Style */
+/*global CKEDITOR, location, NEWSLETTER, Table, Style, trace */
 /*jslint plusplus: true, white: true */
 /**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
@@ -214,17 +214,18 @@ CKEDITOR.plugins.add('table2', {
 CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 	return {
 		title: editor.lang.table.column.resize,
-		minWidth: 400,
-		minHeight: 200,
+		minWidth: "80em",
+		minHeight: "10em",
 		contents: [{
 			id: 'tab1',
 			label: 'Columns Resize',
 			elements: [{
 				type: 'html',
-				html: '<div id="infoCol">Dimensioni attuali delle colonne:</div>',
+				html: '<div id="infoCol"></div>',
 			}, {
 				type: 'html',
 				html: '<div id="hiddenDiv">Dimensioni desiderate:</div>'
+				// onChange: updateCellWidthInputs
 			}
 			]
 		}
@@ -233,8 +234,8 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 		onShow: function () {
 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
-				colField, i;
-			var currentElem = editor.getSelection().getStartElement(),
+				colField, i,
+				currentElem = editor.getSelection().getStartElement(),
 				table = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
@@ -245,12 +246,15 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			}
 
 			var tableObj = table.getOuterHtml().createTableFromHtml(),
-				profile = tableObj.getMatrix()[0],
-				appendPx = profile.map(function(el){
-						return el + 'px';
-					}).join(' '),
+				profile = tableObj.getProfile(),
+				totWidth = trace(profile),
+				colNum = profile.length,
+				unit = 'px',
+				cellWidthStr = profile.map(function(el){
+						return el + ' ' + unit;
+					}).join(' + '),
 				appendPxObj = new CKEDITOR.dom.element('span');
-			appendPxObj.setHtml(appendPx);
+			appendPxObj.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
 			var infoColElems = infoCol.getChildren(),
 				infoColLen = infoColElems.count();
@@ -261,7 +265,8 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				}
 			}
 
-			infoCol.append(appendPxObj);
+			// infoCol.append(appendPxObj);
+			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
 			// input fields for resizing
 			var inputFields = hiddenDiv.getElementsByTag('input'),
@@ -270,15 +275,37 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			for (i = len-1; i >= 0; i--){
 				inputFields.getItem(i).remove();
 			}
-
-			for (i = 0; i < profile.length; i++){
+			// appending input fields for insertion of the cell widths
+			for (i = 0; i < colNum; i++){
 				colField = new CKEDITOR.dom.element('input');
 				colField.setAttribute('type', 'text');
 				colField.setAttribute('id', 'colField' + i);
 				colField.setValue(profile[i]);
 				colField.setAttribute('class', 'cke_dialog_ui_input_text');
-				colField.setStyle('width', '3em');
+				colField.setStyle('width', '5em');
 				colField.setStyle('text-align', 'center');
+				// to all but last field, attach listeners that "validate" user input
+				if (i < colNum - 1){
+					colField.on('change', function(){
+						var allButLast = 0, last, j,
+							currentInput = parseInt(this.getValue(), 10);
+						inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
+						len = inputFields2.count();
+						for (j = 0; j < len - 1; j++){
+							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
+						}
+						last = totWidth - allButLast;
+						if (last > 0){
+							inputFields2.getItem(len - 1).setValue(last);
+						} else {
+							inputFields2.getItem(len - 1).setValue(0);
+							this.setValue(currentInput+last);
+						}
+					});
+				} else {
+					// the last field is made non-editable
+					colField.setAttribute('disabled', 'true');
+				}
 				hiddenDiv.append(colField);
 			}
 		},

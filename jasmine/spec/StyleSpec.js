@@ -913,7 +913,6 @@ describe('Table-related functionality', function(){
         expect(profile[2]).toBe(3);
     });
 
-
     it('decides whether the rows have the same "cell profile"', function(){
         spyOn(table, 'getMatrix').andCallFake(function(){
             return [[1, 2, 3], [1, 2, 3]];
