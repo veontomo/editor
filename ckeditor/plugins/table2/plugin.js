@@ -296,7 +296,29 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 		},
 
 		onOk: function () {
-			console.log('this part is yet to be done');
+			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
+				inputFields = hiddenDiv.getElementsByTag('input'),
+				len = inputFields.count(),
+				userInput = [],
+				currentElem, table, currentTable, tableStr, tableElem,
+				i;
+			for (i = 0; i < len; i++){
+				userInput[i] = parseInt(inputFields.getItem(i).getValue(), 10);
+			}
+
+			currentElem = editor.getSelection().getStartElement();
+			table = findAscendant(currentElem, function(el){
+				return el.getName() === 'table' &&
+					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+			});
+			currentTable = table.getOuterHtml().createTableFromHtml();
+			currentTable.setProfile(userInput);
+
+			tableStr = currentTable.toHtml();
+			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
+			table.remove();
+			editor.insertElement(tableElem);
+
 		}
 	};
 });
