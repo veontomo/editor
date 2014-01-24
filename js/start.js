@@ -28,14 +28,10 @@ $(document).ready(function () {
 			element.attr('style', style.toString());
 		};
 
-
-
-		console.log('CKEDITOR.editor.insertTableWithHoverEff');
-
 		/**
-		 * Inserts table and applies hover effect on it. It might be a wrong way of
-		 * doing this, but I wanted to avoid repetitions. It is based on
-		 * CKEDITOR.editor.insertElement() method.
+		 * Inserts table and applies hover effect on it.
+		 * It is based on CKEDITOR.editor.insertElement() method.
+		 * This approach might be wrong but I wanted to avoid repetitions.
 		 * @param  {CKEDITOR.dom.element}	table
 		 * @return {[type]}       [description]
 		 */
