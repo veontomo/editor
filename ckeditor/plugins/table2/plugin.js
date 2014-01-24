@@ -236,7 +236,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				html: '<div id="infoCol">Dimensioni attuali delle colonne:</div>',
 			}, {
 				type: 'html',
-				html: '<div id="hiddenDiv"><div>Dimensioni desiderate:</div></div>'
+				html: '<div id="hiddenDiv">Dimensioni desiderate:</div>'
 			}
 			]
 		}
@@ -244,24 +244,40 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 
 		onShow: function () {
 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
-				colField;
+				infoCol  = 	CKEDITOR.document.getById('infoCol'),
+				colField, i;
 			var currentElem = editor.getSelection().getStartElement(),
 				table = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 			});
-			if(table){
-				var tableObj = table.getOuterHtml().createTableFromHtml(),
-					profile = tableObj.getMatrix()[0],
-					appendPx = profile.map(function(el){
-							return el + 'px';
-						}).join(' ');
+			// exit if the table is not found
+			if (!table){
+				return null;
+			}
 
-			};
+			var tableObj = table.getOuterHtml().createTableFromHtml(),
+				profile = tableObj.getMatrix()[0],
+				appendPx = profile.map(function(el){
+						return el + 'px';
+					}).join(' '),
+				appendPxObj = new CKEDITOR.dom.element('span');
+			appendPxObj.setHtml(appendPx);
 
+			var infoColElems = infoCol.getChildren(),
+				infoColLen = infoColElems.count();
+			// delete all but first elements in the "infoCol" element
+			if (infoColLen > 1){
+				for(i=infoColLen-1; i > 0; i--){
+					infoColElems.getItem(i).remove();
+				}
+			}
+
+			infoCol.append(appendPxObj);
+
+			// input fields for resizing
 			var inputFields = hiddenDiv.getElementsByTag('input'),
-				len = inputFields.count(),
-				i;
+				len = inputFields.count();
 			// remove the items starting from the end.
 			for (i = len-1; i >= 0; i--){
 				inputFields.getItem(i).remove();
@@ -280,12 +296,6 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 		},
 
 		onOk: function () {
-			// var dialog = this,
-			// 	abbr = this.element;
-
-			// this.commitContent(abbr);
-
-			// if (this.insertMode) editor.insertElement(abbr);
 			console.log('this part is yet to be done');
 		}
 	};
