@@ -6,39 +6,39 @@
  * @param  {function} filter
  * @return {CKEDITOR.dom.element|null}
  */
-var findAscendant = function(elem, filter){
-	if (typeof filter !== 'function'){
-		return null;
-	}
-	while(elem && elem.type  === CKEDITOR.NODE_ELEMENT){
-		if (filter(elem)){
-			return elem;
+var findAscendant = function (elem, filter) {
+		if (typeof filter !== 'function') {
+			return null;
 		}
-		elem = elem.getParent();
-	}
-	return null;
-};
+		while (elem && elem.type === CKEDITOR.NODE_ELEMENT) {
+			if (filter(elem)) {
+				return elem;
+			}
+			elem = elem.getParent();
+		}
+		return null;
+	};
 
 /**
  * Drops the table row. If after removing the table becomes empty, then removes it as well.
  */
 var dropRow = function (ed) {
-	var row = findAscendant(ed.getSelection().getStartElement(), function(el){
+		var row = findAscendant(ed.getSelection().getStartElement(), function (el) {
 			return ((el.getName() === "tr") && (el.getAttribute(NEWSLETTER['marker-name']) === "Row"));
 		}),
-		parentTable, tableLength;
-	if (row) {
-		parentTable = findAscendant(row, function(el){
-			return el.getName() === 'table';
-		});
-		row.remove();
-		// calculating the number of remaining rows
-		tableLength = parentTable.getElementsByTag('tr').count();
-		if (tableLength === 0) {
-			parentTable.remove();
+			parentTable, tableLength;
+		if (row) {
+			parentTable = findAscendant(row, function (el) {
+				return el.getName() === 'table';
+			});
+			row.remove();
+			// calculating the number of remaining rows
+			tableLength = parentTable.getElementsByTag('tr').count();
+			if (tableLength === 0) {
+				parentTable.remove();
+			}
 		}
-	}
-};
+	};
 /**
  * Converts the first letter of the string into the upper case
  * If the string is empty, the output is empty string as well.
@@ -62,13 +62,12 @@ var insertRow = function (ed, pos) {
 			dataMarkerAttr = NEWSLETTER['marker-name'],
 			dataMarkerVal = 'Row',
 			currentElem = ed.getSelection().getStartElement(),
-			newElement, operation, currentChildren, childNum, i, child, newChild,
-			row = currentElem.getAscendant(tag, true);
+			newElement, operation, currentChildren, childNum, i, child, newChild, row = currentElem.getAscendant(tag, true);
 		// looking for the table row marked as data-marker="row"
-		while(!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))){
+		while (!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))) {
 			row = row.getParent();
 			// whether the newly defined element exists and is of CKEDITOR type
-			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)){
+			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)) {
 				return null; // exit in case no element is found in the DOM
 			}
 		}
@@ -100,6 +99,7 @@ CKEDITOR.plugins.add('table2', {
 	init: function (editor) {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
+		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
 				insertRow(editor, 'before');
@@ -115,24 +115,23 @@ CKEDITOR.plugins.add('table2', {
 				dropRow(editor);
 			}
 		});
-		editor.addCommand('table2ResizeColumns', {
-			exec: function (editor) {
-				var currentElem = editor.getSelection().getStartElement(),
-					elem = findAscendant(currentElem, function(el){
-						return el.getName() === 'table' &&
-							el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
-				});
-				if(elem){
-					var currentTable = elem.getOuterHtml().createTableFromHtml();
-					console.log(currentTable);
-				}
-			}
-		});
-
+		// editor.addCommand('table2ResizeColumns', {
+		// 	exec: function (editor) {
+		// 		var currentElem = editor.getSelection().getStartElement(),
+		// 			elem = findAscendant(currentElem, function(el){
+		// 				return el.getName() === 'table' &&
+		// 					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+		// 		});
+		// 		if(elem){
+		// 			var currentTable = elem.getOuterHtml().createTableFromHtml();
+		// 			console.log(currentTable.getColWidths());
+		// 		}
+		// 	}
+		// });
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = findAscendant(ed.getSelection().getStartElement(), function(el){
-						return el.getName() === 'table';
+				var table = findAscendant(ed.getSelection().getStartElement(), function (el) {
+					return el.getName() === 'table';
 				});
 				if (table) {
 					table.remove();
@@ -181,7 +180,7 @@ CKEDITOR.plugins.add('table2', {
 				group: 'table2Group'
 			});
 			editor.addMenuItem('table2ResizeColumns', {
-				label:  editor.lang.table.column.resize || 'Resize Columns',
+				label: editor.lang.table.column.resize || 'Resize Columns',
 				icon: this.path + 'icons/resizeColumns.png',
 				command: 'table2ResizeColumns',
 				group: 'table2Group'
@@ -196,7 +195,7 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				var el = findAscendant(element, function (el){
+				var el = findAscendant(element, function (el) {
 					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === 'Row');
 				});
 				if (el) {
@@ -209,7 +208,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = findAscendant(element, function (el){
+				var el = findAscendant(element, function (el) {
 					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === 'Table');
 				});
 				if (el) {
@@ -221,4 +220,73 @@ CKEDITOR.plugins.add('table2', {
 			});
 		}
 	}
+});
+
+
+CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
+	return {
+		title: editor.lang.table.column.resize,
+		minWidth: 400,
+		minHeight: 200,
+		contents: [{
+			id: 'tab1',
+			label: 'Columns Resize',
+			elements: [{
+				type: 'html',
+				html: '<div id="infoCol">Dimensioni attuali delle colonne:</div>',
+			}, {
+				type: 'html',
+				html: '<div id="hiddenDiv"><div>Dimensioni desiderate:</div></div>'
+			}
+			]
+		}
+		],
+
+		onShow: function () {
+			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
+				colField;
+			var currentElem = editor.getSelection().getStartElement(),
+				table = findAscendant(currentElem, function(el){
+					return el.getName() === 'table' &&
+						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+			});
+			if(table){
+				var tableObj = table.getOuterHtml().createTableFromHtml(),
+					profile = tableObj.getMatrix()[0],
+					appendPx = profile.map(function(el){
+							return el + 'px';
+						}).join(' ');
+
+			};
+
+			var inputFields = hiddenDiv.getElementsByTag('input'),
+				len = inputFields.count(),
+				i;
+			// remove the items starting from the end.
+			for (i = len-1; i >= 0; i--){
+				inputFields.getItem(i).remove();
+			}
+
+			for (i = 0; i < profile.length; i++){
+				colField = new CKEDITOR.dom.element('input');
+				colField.setAttribute('type', 'text');
+				colField.setAttribute('id', 'colField' + i);
+				colField.setValue(profile[i]);
+				colField.setAttribute('class', 'cke_dialog_ui_input_text');
+				colField.setStyle('width', '3em');
+				colField.setStyle('text-align', 'center');
+				hiddenDiv.append(colField);
+			}
+		},
+
+		onOk: function () {
+			// var dialog = this,
+			// 	abbr = this.element;
+
+			// this.commitContent(abbr);
+
+			// if (this.insertMode) editor.insertElement(abbr);
+			console.log('this part is yet to be done');
+		}
+	};
 });

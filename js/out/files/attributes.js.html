@@ -1066,6 +1066,25 @@ function Cell(arg) {
 	};
 
 	/**
+	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
+	 * if it is measured in &quot;px&quot;, then the measurment unit is removed and the number is returned.
+	 * @return {Number|String}
+	 */
+	this.getWidth = function(){
+		var raw = this.style.width,
+			raw2;
+		if (raw){
+			raw = raw.toString().trim().replace(/px$/, &#x27;&#x27;);
+			// try to parse it to a number. Under this operation whatever string at the end gets removed
+			raw2 = parseFloat(raw, 10);
+			if (raw2.toString() === raw){
+				raw = raw2;
+			}
+		}
+		return raw;
+	};
+
+	/**
 	 * Insert the argument into the cell content
 	 * @method insert
 	 * @param {any} item
@@ -1177,6 +1196,20 @@ function Row() {
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
+	};
+
+	/**
+	 * Gets an array of the widths of the cell inside the row.
+	 * @return {array}
+	 */
+	this.getCellWidths = function(){
+		var output = [],
+			cellNum = this.cells.length,
+			i;
+		for (i = 0; i &lt; cellNum; i++){
+			output.push(this.cells[i].getWidth());
+		}
+		return output;
 	};
 
 	/**
@@ -1343,6 +1376,22 @@ function Table() {
 		setMinMaxWidth(this.style, w);
 		this.attr.width = w;
 	};
+
+	/**
+	 * Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]
+	 * where w_ij is width of the cell located in the row i and column j.
+	 * @method  getColWidths
+	 * @return {Array}
+	 */
+	this.getColWidths = function(){
+		var output = [],
+			rowsNum = this.rows.length, i;
+		for (i = 0; i &lt; rowsNum; i++){
+			output.push(this.rows[i].getCellWidths());
+		}
+		return output;
+	};
+
 	/**
 	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
 	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27;
@@ -1367,6 +1416,7 @@ function Table() {
 		this.style[&#x27;border-style&#x27;] = bs;
 		this.attr.border = bw;
 	};
+
 	/**
 	 * Removes the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
 	 * 1. in &#x27;style&#x27; property, deletes the properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and sets up &#x27;border-style&#x27; to &#x27;none&#x27;
@@ -1499,22 +1549,25 @@ function Grating(){
 Grating.prototype = new Table();
 
 /**
- * Transforms a cell-html string into Cell object
- * @param {String} htmlStr
- * @return {Object}
+ * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
+ * following form: &lt;td ... &gt; ... &lt;/td&gt;. Inside the tag, there might be other nodes. If they are recognized
+ * as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.
+ * For the moment, the only supported element is &quot;Table&quot;.
+ * @param {String}  htmlStr
+ * @return {Object} Cell
  */
 String.prototype.createCellFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
 			newParser = new DOMParser(),
 			fullTable = &#x27;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&#x27; + htmlStr + &#x27;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-			doc = parser.parseFromString(fullTable, &quot;text/html&quot;),
-			newDoc,
+			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
 			node = doc.getElementsByTagName(&#x27;td&#x27;),
-			cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+			newDoc,	cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
 		if (node.length === 0){
 			return null;
 		}
+		// process the first cell in the list of cells. The remaining cells are to be processed at their turn (when each of the becomes first)
 		node = node[0];
 
 		// creating object
@@ -1530,9 +1583,12 @@ String.prototype.createCellFromHtml = function(){
 			delete attrs.style;
 		}
 		cell.attr = new Attributes(attrs);
-		// console.log(&#x27;node&#x27;, node);
 
-		id = &quot;uniqueDivIdThatMustBeInThisDocument&quot; + Math.floor((Math.random()*99)+1);
+		// create a fictious div containing the cell and assign a unique id to it
+		id = &quot;fakeDivId&quot; + Math.floor((Math.random()*99)+1);
+		while (doc.getElementById(id)){
+			id += Math.floor((Math.random()*99)+1);
+		}
 		nodeText = &#x27;&lt;div id=&quot;&#x27;+ id +&#x27;&quot;&gt;&#x27; + node.innerHTML + &#x27;&lt;/div&gt;&#x27;;
 
 		newDoc = newParser.parseFromString(nodeText, &#x27;text/html&#x27;);
@@ -1548,7 +1604,7 @@ String.prototype.createCellFromHtml = function(){
 					elem = currentElem.textContent;
 					break;
 				case Node.ELEMENT_NODE:
-					elem = (currentElem.nodeName === &quot;TABLE&quot;) ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
+					elem = (currentElem.nodeName === &#x27;TABLE&#x27;) ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
 					break;
 				default:
 					elem = currentElem.nodeValue;
@@ -1559,20 +1615,23 @@ String.prototype.createCellFromHtml = function(){
 };
 
 /**
- * Transforms a row-html string into Row object
- * @param {String} htmlStr
- * @return {Object}
+ * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
+ * following form: &lt;tr ... &gt; ... &lt;/tr&gt;. Inside the tag, there might be elements &quot;td&quot; that will be
+ * processed one by one by function String::createCellFromHtml().
+ * @param {String} 	htmlStr
+ * @return {Object} Row
  */
 String.prototype.createRowFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
 			fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-			doc = parser.parseFromString(fullTable, &quot;text/html&quot;),
+			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
 			node = doc.getElementsByTagName(&#x27;tr&#x27;),
 			attrs, i, nodeStyle, cellsNum, currentCell, row, cell, cells;
 		if (node.length === 0){
 			return null;
 		}
+		// the first table row is to be processed. The remaining ones will be processed at thier turn.
 		node = node[0];
 		// object to return
 		row = new Row();
@@ -1590,7 +1649,6 @@ String.prototype.createRowFromHtml = function(){
 
 		cells = node.children;
 		cellsNum = cells.length;
-		// console.log(&#x27;numero di celle rilevate:&#x27;, childNum);
 		for (i = 0; i &lt; cellsNum; i++){
 			currentCell = cells[i];
 			if(currentCell.tagName === &quot;TD&quot;){
@@ -1604,23 +1662,24 @@ String.prototype.createRowFromHtml = function(){
 
 /**
  * Creates an object representation from a string that is an html repersentation of a table.
- * @param {String} htmlStr
- * @return {Object}
+ * Only one table is supposed to be processed at a time, so the string to be processed is to
+ * be of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags &quot;tr&quot;
+ * that will be processed one by one by function String::createRowFromHtml().
+ * @return {Table}
  */
 String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
 			parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, &quot;text/html&quot;),
+			doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
 			node = doc.getElementsByTagName(&#x27;table&#x27;),
-			tableType, table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
 		if (node.length === 0){
 			return null;
 		}
 		node = node[0];
-		tableType = node.getAttribute(&#x27;data-marker&#x27;);
 
 		// creating object
-		table = (tableType === &quot;grating&quot;) ? (new Grating()) : (new Table());
+		table = new Table();
 
 		// imposing its styles
 		nodeStyle = node.getAttribute(&#x27;style&#x27;);
@@ -1641,6 +1700,52 @@ String.prototype.createTableFromHtml = function(){
 			currentRow = rows[i];
 			if(currentRow.tagName === &quot;TR&quot;){
 				// console.log(child);
+				row = currentRow.outerHTML.createRowFromHtml();
+				table.appendRow(row);
+			}
+		}
+		return table;
+};
+
+/**
+ * Creates an object representation from a string that is an html repersentation of a table which
+ * rows are with borders. The method is similar String::createTableFromHtml().
+ * @todo  not implemented correctly so far: the properties bogusTableStyle, bogusTableAttr,
+ * bogusCellStyle, bogusCellAttr, bogusRowStyle, bogusRowAttr are so far not filled in.
+ * @return {Grating}
+ */
+String.prototype.createGratingFromHtml = function(){
+		var htmlStr = this,
+			parser = new DOMParser(),
+			doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
+			node = doc.getElementsByTagName(&#x27;table&#x27;),
+			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+		if (node.length === 0){
+			return null;
+		}
+		node = node[0];
+
+
+		// creating object
+		table = new Grating();
+
+		// imposing its styles
+		nodeStyle = node.getAttribute(&#x27;style&#x27;);
+		table.style = new Style(nodeStyle);
+
+
+		// imposing its attributes
+		attrs = flatten(node.attributes);
+		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+			delete attrs.style;
+		}
+		table.attr = new Attributes(attrs);
+		// the only child of the table is always tbody
+		rows = node.children[0].children;
+		rowsNum = rows.length;
+		for (i = 0; i &lt; rowsNum; i++){
+			currentRow = rows[i];
+			if(currentRow.tagName === &quot;TR&quot;){
 				row = currentRow.outerHTML.createRowFromHtml();
 				table.appendRow(row);
 			}

@@ -1256,14 +1256,51 @@ function Table() {
 	/**
 	 * Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]
 	 * where w_ij is width of the cell located in the row i and column j.
-	 * @method  getColWidths
+	 * @method  getMatrix
 	 * @return {Array}
 	 */
-	this.getColWidths = function(){
+	this.getMatrix = function(){
 		var output = [],
 			rowsNum = this.rows.length, i;
 		for (i = 0; i < rowsNum; i++){
 			output.push(this.rows[i].getCellWidths());
+		}
+		return output;
+	};
+
+	/**
+	 * Whether all rows in the table have the same cell widths.
+	 * @method sameWidth
+	 * @return {Boolean} true, if all rows have the same cells' widths, false otherwise.
+	 */
+	this.isSameWidths = function(){
+		var matrix = this.getMatrix(),
+			rowsNum = matrix.length,
+			output = true,
+			firstRow, firstRowLen, i, j;
+		// only if the number of rows is bigger than 1
+		if (rowsNum > 1){
+			// compare the first row with the rest
+			firstRow = matrix[0];
+			firstRowLen = firstRow.length;
+			for (i = 1; i < rowsNum; i++){
+				if (matrix[i].length !== firstRowLen){
+					output = false;
+					break;
+				}
+				// compare element by element
+				for (j = 0; j < firstRowLen; j++){
+					if(matrix[i][j] !== firstRow[j]){
+						output = false;
+						break;
+					}
+				}
+				// exit as well from outer loop if necessary
+				if (!output){
+					break;
+				}
+
+			}
 		}
 		return output;
 	};

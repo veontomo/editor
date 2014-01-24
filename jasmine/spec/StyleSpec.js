@@ -832,7 +832,7 @@ describe('Table-related functionality', function(){
         }).toThrow('The argument is not of the Row type!');
      });
 
-     it('gets column widths', function(){
+     it('gets "matrix" of widths', function(){
         spyOn(row1, 'getCellWidths').andCallFake(function(){
             return 'cell widths of row 1';
         });
@@ -843,19 +843,41 @@ describe('Table-related functionality', function(){
             return 'cell widths of row 3';
         });
         table.rows = [row1, row2, row3];
-        expect(table.getColWidths().length).toBe(3);
-        expect(table.getColWidths()[0]).toBe('cell widths of row 1');
-        expect(table.getColWidths()[1]).toBe('cell widths of row 2');
-        expect(table.getColWidths()[2]).toBe('cell widths of row 3');
+        expect(table.getMatrix().length).toBe(3);
+        expect(table.getMatrix()[0]).toBe('cell widths of row 1');
+        expect(table.getMatrix()[1]).toBe('cell widths of row 2');
+        expect(table.getMatrix()[2]).toBe('cell widths of row 3');
 
         table.rows = [row1, row3];
-        expect(table.getColWidths().length).toBe(2);
-        expect(table.getColWidths()[0]).toBe('cell widths of row 1');
-        expect(table.getColWidths()[1]).toBe('cell widths of row 3');
+        expect(table.getMatrix().length).toBe(2);
+        expect(table.getMatrix()[0]).toBe('cell widths of row 1');
+        expect(table.getMatrix()[1]).toBe('cell widths of row 3');
 
         table.rows = [];
-        expect(table.getColWidths().length).toBe(0);
+        expect(table.getMatrix().length).toBe(0);
      });
+
+     it('decides whether the rows have the same "cell profile"', function(){
+        spyOn(table, 'getMatrix').andCallFake(function(){
+            return [[1, 2, 3], [1, 2, 3]];
+        });
+        expect(table.isSameWidths()).toBe(true);
+
+        table = new Table();
+        spyOn(table, 'getMatrix').andCallFake(function(){
+            return [[], [1, 2, 3]];
+        });
+        expect(table.isSameWidths()).toBe(false);
+
+        table = new Table();
+        spyOn(table, 'getMatrix').andCallFake(function(){
+            return [[], []];
+        });
+        expect(table.isSameWidths()).toBe(true);
+
+
+     });
+
 
      it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
