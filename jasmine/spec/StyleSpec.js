@@ -890,6 +890,30 @@ describe('Table-related functionality', function(){
         expect(row3.setCellWidths).toHaveBeenCalledWith('anything');
     });
 
+    it('gets profile of the table with not the same cell width among the table rows', function(){
+        spyOn(table, 'isSameWidths').andCallFake(function(){
+            return false;
+        });
+        expect(table.getProfile()).toBe(null);
+    });
+
+    it('gets profile of the table with the same cell width among the table rows', function(){
+        spyOn(table, 'isSameWidths').andCallFake(function(){
+            return true;
+        });
+        // if Table::isSameWidth returns true, only first element of getMatrix will be considered
+        spyOn(table, 'getMatrix').andCallFake(function(){
+            return [[6, 400, 3], "whatever it is"];
+        });
+
+        var profile = table.getProfile();
+        expect(profile.length).toBe(3);
+        expect(profile[0]).toBe(6);
+        expect(profile[1]).toBe(400);
+        expect(profile[2]).toBe(3);
+    });
+
+
     it('decides whether the rows have the same "cell profile"', function(){
         spyOn(table, 'getMatrix').andCallFake(function(){
             return [[1, 2, 3], [1, 2, 3]];
@@ -907,8 +931,6 @@ describe('Table-related functionality', function(){
             return [[], []];
         });
         expect(table.isSameWidths()).toBe(true);
-
-
      });
 
 

@@ -116,19 +116,6 @@ CKEDITOR.plugins.add('table2', {
 				dropRow(editor);
 			}
 		});
-		// editor.addCommand('table2ResizeColumns', {
-		// 	exec: function (editor) {
-		// 		var currentElem = editor.getSelection().getStartElement(),
-		// 			elem = findAscendant(currentElem, function(el){
-		// 				return el.getName() === 'table' &&
-		// 					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
-		// 		});
-		// 		if(elem){
-		// 			var currentTable = elem.getOuterHtml().createTableFromHtml();
-		// 			console.log(currentTable.getColWidths());
-		// 		}
-		// 	}
-		// });
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
 				var table = findAscendant(ed.getSelection().getStartElement(), function (el) {

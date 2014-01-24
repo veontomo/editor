@@ -1287,6 +1287,16 @@ function Table() {
 	};
 
 	/**
+	 * Returns array of widths of the cells in the table rows if all rows
+	 * have the same cell widths. Otherwise Null is returned.
+	 * @method  getProfile
+	 * @return {Array|Null}
+	 */
+	this.getProfile = function (){
+		return this.isSameWidths() ? this.getMatrix()[0] : null;
+	};
+
+	/**
 	 * Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.
 	 * @method  setProfile
 	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
