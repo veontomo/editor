@@ -19,7 +19,6 @@ var findAscendant = function (elem, filter) {
 		return null;
 	};
 
-
 /**
  * Drops the table row. If after removing the table becomes empty, then removes it as well.
  */
@@ -205,13 +204,21 @@ CKEDITOR.plugins.add('table2', {
 			editor.contextMenu.addListener(function (element) {
 				var el = findAscendant(element, function (el) {
 					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === 'Table');
-				});
+				}),
+				menuObj, elemObj;
 				if (el) {
-					return {
-						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
-						table2ResizeColumns: CKEDITOR.TRISTATE_OFF,
-						table2DropColumn: CKEDITOR.TRISTATE_OFF
+					menuObj = {
+						table2DeleteTable: CKEDITOR.TRISTATE_OFF
 					};
+
+					// some get info about clicked table
+					elemObj = el.getOuterHtml().createTableFromHtml();
+					// if the table has more than one column, than add possibility to drop columns and to resize them.
+					if (elemObj.colNum() > 1){
+						menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
+						menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
+					}
+					return menuObj;
 				}
 			});
 		}
@@ -348,112 +355,36 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 			id: 'tab1',
 			label: 'Togliere colonna',
 			elements: [{
-				type: 'html',
-				html: '<div id="infoLine">La prima riga</div>',
-			}, {
-				type: 'html',
-				html: '<div id="cells">Dimensioni desiderate:</div>'
-			}
-			]
+				type: 'text',
+				label: editor.lang.table.column.deleteColumn,
+				id: 'colNum',
+				validate: function(){
+					var inputValue = this.getValue();
+					return inputValue === (parseInt(inputValue, 10).toString());
+				}
+			}]
 		}
 		],
 
-		onShow: function () {
-			var hiddenDiv = CKEDITOR.document.getById('cells'),
-				infoLine  = 	CKEDITOR.document.getById('infoLine'),
-				colField, i,
-				currentElem = editor.getSelection().getStartElement(),
-				table = findAscendant(currentElem, function(el){
+		onOk: function () {
+			var currentElem = editor.getSelection().getStartElement(),
+				tableElem = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
-			});
-			// exit if the table is not found
-			if (!table){
-				return null;
+				}),
+				tableObj = tableElem.getOuterHtml().createTableFromHtml(),
+				colNum = tableObj.colNum(),
+				colToDrop, tableStr, tableElem2;
+			// user input for the column number to drop: range from 1 to colNum
+			colToDrop = parseInt(this.getValueOf('tab1', 'colNum'), 10);
+			if (colToDrop >= 1 && colToDrop <= colNum){
+				tableObj.dropColumn(colToDrop - 1);
 			}
-
-			var tableObj = table.getOuterHtml().createTableFromHtml(),
-				profile = tableObj.getProfile(),
-				totWidth = trace(profile),
-				colNum = profile.length,
-				unit = 'px',
-				cellWidthStr = profile.map(function(el){
-						return el + ' ' + unit;
-					}).join(' + ');
-
-			// override the field with current info about cell widths
-			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
-
-			// input fields for resizing
-			var inputFields = hiddenDiv.getElementsByTag('input'),
-				len = inputFields.count();
-			// remove the items starting from the end.
-			for (i = len-1; i >= 0; i--){
-				inputFields.getItem(i).remove();
-			}
-			// appending input fields for insertion of the cell widths
-			for (i = 0; i < colNum; i++){
-				colField = new CKEDITOR.dom.element('input');
-				colField.setAttribute('type', 'text');
-				colField.setAttribute('id', 'colField' + i);
-				colField.setValue(profile[i]);
-				colField.setAttribute('class', 'cke_dialog_ui_input_text');
-				colField.setStyle('width', '5em');
-				colField.setStyle('text-align', 'center');
-				// to all but last field, attach listeners that "validate" user input
-				if (i < colNum - 1){
-					colField.on('change', function(){
-						var allButLast = 0, last, j,
-							currentInput = parseInt(this.getValue(), 10),
-							lastOld,
-							inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
-						len = inputFields2.count();
-						for (j = 0; j < len - 1; j++){
-							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
-						}
-						// value of the last cell before any modifications
-						lastOld = parseInt(inputFields2.getItem(len - 1).getValue(), 10);
-						// if positive, the last cell should have this width
-						last = totWidth - allButLast;
-						if (last > 0){
-							inputFields2.getItem(len - 1).setValue(last);
-						} else {
-							// re-impose the previous value of the input field
-							this.setValue(currentInput + last - lastOld);
-						}
-					});
-				} else {
-					// the last field is made non-editable
-					colField.setAttribute('disabled', 'true');
-				}
-				hiddenDiv.append(colField);
-			}
-		},
-
-		onOk: function () {
-			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
-				inputFields = hiddenDiv.getElementsByTag('input'),
-				len = inputFields.count(),
-				userInput = [],
-				currentElem, table, currentTable, tableStr, tableElem,
-				i;
-			for (i = 0; i < len; i++){
-				userInput[i] = parseInt(inputFields.getItem(i).getValue(), 10);
-			}
-
-			currentElem = editor.getSelection().getStartElement();
-			table = findAscendant(currentElem, function(el){
-				return el.getName() === 'table' &&
-					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
-			});
-			currentTable = table.getOuterHtml().createTableFromHtml();
-			currentTable.setProfile(userInput);
-
-			tableStr = currentTable.toHtml();
-			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
-			table.remove();
+			tableStr = tableObj.toHtml();
+			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
+			tableElem.remove();
 			// call a custom method to insert the table and assign hovering effects on it
-			editor.insertTableWithHoverEff(tableElem);
+			editor.insertTableWithHoverEff(tableElem2);
 		}
 	};
 });
