@@ -161,7 +161,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
+				i, table, tableWidth, tableElem, cellWidths, rowWidth, rowContentWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
 				nestedTableStyle = new TableStyle(),
 				nestedCellStyle = new TableCellStyle(),
 				nestedRowStyle,  tableStr, isFramed;
@@ -177,9 +177,19 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// calculating widths
 			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
 			rowWidth = tableWidth - 2 * borderWidth - 2 * hSpace;
+			rowContentWidth = rowWidth - 2 * nestedBorderWidth;
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
-			cellWidths = columnWidths(rowWidth - 2 * nestedBorderWidth, cellWeights); // array of column widths
+
+			// if at least one of the calculated widths becomes negative, then exit
+			if ([tableWidth, rowWidth, rowContentWidth, spaceTop, spaceBottom].some(function(el){
+				return el < 0;
+			})){
+				return null;
+			}
+
+
+			cellWidths = columnWidths(rowContentWidth, cellWeights); // array of column widths
 
 			isFramed = nestedBorderWidth > 0;
 
