@@ -101,6 +101,8 @@ CKEDITOR.plugins.add('table2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
+		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
+
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
 				insertRow(editor, 'before');
@@ -173,11 +175,16 @@ CKEDITOR.plugins.add('table2', {
 				command: 'table2ResizeColumns',
 				group: 'table2Group'
 			});
-
 			editor.addMenuItem('table2DeleteTable', {
 				label: editor.lang.table.deleteTable,
 				icon: this.path + 'icons/deleteTable.png',
 				command: 'table2DeleteTable',
+				group: 'table2Group'
+			});
+			editor.addMenuItem('table2DropColumn', {
+				label: editor.lang.table.column.deleteColumn,
+				icon: this.path + 'icons/deleteColumn.png',
+				command: 'table2DropColumn',
 				group: 'table2Group'
 			});
 
@@ -202,7 +209,8 @@ CKEDITOR.plugins.add('table2', {
 				if (el) {
 					return {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
-						table2ResizeColumns: CKEDITOR.TRISTATE_OFF
+						table2ResizeColumns: CKEDITOR.TRISTATE_OFF,
+						table2DropColumn: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});
@@ -234,6 +242,125 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 		onShow: function () {
 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
+				colField, i,
+				currentElem = editor.getSelection().getStartElement(),
+				table = findAscendant(currentElem, function(el){
+					return el.getName() === 'table' &&
+						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+			});
+			// exit if the table is not found
+			if (!table){
+				return null;
+			}
+
+			var tableObj = table.getOuterHtml().createTableFromHtml(),
+				profile = tableObj.getProfile(),
+				totWidth = trace(profile),
+				colNum = profile.length,
+				unit = 'px',
+				cellWidthStr = profile.map(function(el){
+						return el + ' ' + unit;
+					}).join(' + ');
+
+			// override the field with current info about cell widths
+			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
+
+			// input fields for resizing
+			var inputFields = hiddenDiv.getElementsByTag('input'),
+				len = inputFields.count();
+			// remove the items starting from the end.
+			for (i = len-1; i >= 0; i--){
+				inputFields.getItem(i).remove();
+			}
+			// appending input fields for insertion of the cell widths
+			for (i = 0; i < colNum; i++){
+				colField = new CKEDITOR.dom.element('input');
+				colField.setAttribute('type', 'text');
+				colField.setAttribute('id', 'colField' + i);
+				colField.setValue(profile[i]);
+				colField.setAttribute('class', 'cke_dialog_ui_input_text');
+				colField.setStyle('width', '5em');
+				colField.setStyle('text-align', 'center');
+				// to all but last field, attach listeners that "validate" user input
+				if (i < colNum - 1){
+					colField.on('change', function(){
+						var allButLast = 0, last, j,
+							currentInput = parseInt(this.getValue(), 10),
+							lastOld,
+							inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
+						len = inputFields2.count();
+						for (j = 0; j < len - 1; j++){
+							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
+						}
+						// value of the last cell before any modifications
+						lastOld = parseInt(inputFields2.getItem(len - 1).getValue(), 10);
+						// if positive, the last cell should have this width
+						last = totWidth - allButLast;
+						if (last > 0){
+							inputFields2.getItem(len - 1).setValue(last);
+						} else {
+							// re-impose the previous value of the input field
+							this.setValue(currentInput + last - lastOld);
+						}
+					});
+				} else {
+					// the last field is made non-editable
+					colField.setAttribute('disabled', 'true');
+				}
+				hiddenDiv.append(colField);
+			}
+		},
+
+		onOk: function () {
+			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
+				inputFields = hiddenDiv.getElementsByTag('input'),
+				len = inputFields.count(),
+				userInput = [],
+				currentElem, table, currentTable, tableStr, tableElem,
+				i;
+			for (i = 0; i < len; i++){
+				userInput[i] = parseInt(inputFields.getItem(i).getValue(), 10);
+			}
+
+			currentElem = editor.getSelection().getStartElement();
+			table = findAscendant(currentElem, function(el){
+				return el.getName() === 'table' &&
+					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+			});
+			currentTable = table.getOuterHtml().createTableFromHtml();
+			currentTable.setProfile(userInput);
+
+			tableStr = currentTable.toHtml();
+			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
+			table.remove();
+			// call a custom method to insert the table and assign hovering effects on it
+			editor.insertTableWithHoverEff(tableElem);
+		}
+	};
+});
+
+CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
+	return {
+		title: editor.lang.table.column.deleteColumn,
+		minWidth: "80em",
+		minHeight: "10em",
+		contents: [{
+			id: 'tab1',
+			label: 'Togliere colonna',
+			elements: [{
+				type: 'html',
+				html: '<div id="infoLine">La prima riga</div>',
+			}, {
+				type: 'html',
+				html: '<div id="cells">Dimensioni desiderate:</div>'
+			}
+			]
+		}
+		],
+
+		onShow: function () {
+			var hiddenDiv = CKEDITOR.document.getById('cells'),
+				infoLine  = 	CKEDITOR.document.getById('infoLine'),
 				colField, i,
 				currentElem = editor.getSelection().getStartElement(),
 				table = findAscendant(currentElem, function(el){

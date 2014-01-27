@@ -1130,6 +1130,7 @@ function Row() {
 	 * If there is no right neighbour, then it is assigned to the left one:
 	 * | a | b | c | xxx | -> | a | b | c       |
 	 * If a cell to delete does not exist, nothing is performed.
+	 * @method dropCell
 	 * @param  {Number}    cellNum   cell number to delete. Numeration starts with 0.
 	 * @return {void}
 	 */
@@ -1153,6 +1154,15 @@ function Row() {
 		}
 
 	};
+
+	/**
+	 * Gives the number of cells in the row.
+	 * @method cellNum
+	 * @return {Number}
+	 */
+	this.cellNum = function(){
+		return this.cells.length;
+	}
 
 	/**
 	 * Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()
@@ -1344,8 +1354,9 @@ function Table() {
 
 
 	/**
-	 * Drops specified column from the table. The operations is delegated to the Row::dropCell()
-	 * @param  {integer} 	colNum  number of the column to delete. Numeration starts with 0.
+	 * Drops specified column from the table. The operation is delegated to the Row::dropCell()
+	 * @method dropColumn
+	 * @param  {integer} 	colNum  the number of the column to delete. Numeration starts with 0.
 	 * @return {void}
 	 */
 	this.dropColumn = function(colNum){
@@ -1354,6 +1365,33 @@ function Table() {
 		for (i = 0; i < rowsNum; i++){
 			this.rows[i].dropCell(colNum);
 		}
+	};
+
+	/**
+	 * Gives the number of columns in the table or null if not all rows have the same number of cells.
+	 * The operation is delegated to the Row::cellNum().
+	 * @method  colNum
+	 * @return {Number|null}
+	 */
+	this.colNum = function(){
+		var rowNum = this.rows.length,
+			firstRowCellNum, i;
+		// if table has no rows, return 0 as number of column
+		if (rowNum === 0){
+			return 0;
+		}
+		firstRowCellNum = this.rows[0].cellNum();
+		// if the table has a unique row
+		if (rowNum === 1){
+			return firstRowCellNum;
+		}
+
+		for (i = 1; i < rowNum; i++){
+			if (this.rows[i].cellNum() !== firstRowCellNum){
+				return null;
+			}
+		}
+		return firstRowCellNum;
 	};
 
 	/**

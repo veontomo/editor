@@ -606,7 +606,7 @@ describe('Cell-related functionality', function() {
 });
 
 describe('Row-related functionality', function(){
-    var row, rowAttr, rowStyle, cell1, cell2, cell3;
+    var row, rowAttr, rowStyle, cell1, cell2, cell3, cell4;
     beforeEach(function(){
         cell1 = new Cell();
         cell2 = new Cell();
@@ -761,7 +761,7 @@ describe('Row-related functionality', function(){
         expect(row.cells[2].getWidth()).toBe(210);
     });
 
-    it('deletes a non-existing cell (cell number corresponds to a non-existing cell)', function(){
+    it('when asked to delete a non-existing cell (cell number corresponds to a non-existing cell), nothing is done to the table', function(){
         cell1.setWidth(200);
         cell2.setWidth(110);
         cell3.setWidth(150);
@@ -773,7 +773,14 @@ describe('Row-related functionality', function(){
         expect(row.cells[2].getWidth()).toBe(150);
     });
 
-
+    it('gets the number of cells in the row', function(){
+        row.cells = [cell1, cell2, cell3];
+        expect(row.cellNum()).toBe(3);
+        row.cells = [cell3, cell1];
+        expect(row.cellNum()).toBe(2);
+        row.cells = [];
+        expect(row.cellNum()).toBe(0);
+    });
 
     it('generates html code of the row if attributes and styles are not empty', function(){
         spyOn(cell1, 'toHtml').andCallFake(function(){
@@ -1084,7 +1091,6 @@ describe('Table-related functionality', function(){
         expect(table.attr.border).toBeDefined();
     });
 
-
     it('sets a border of the table', function(){
         expect(table.hasOwnProperty('setBorder')).toBe(true);
         table.setBorder({'width': 1, 'color': 'red', 'style': 'solid'});
@@ -1137,6 +1143,70 @@ describe('Table-related functionality', function(){
         expect(table.style['border-style']).toBe('none');
         expect(table.attr.hasOwnProperty('border')).toBe(false);
     });
+
+
+    it ('gives the number of the column in the table: all columns have the same number of cells', function(){
+        spyOn(row1, 'cellNum').andCallFake(function(){
+            return 5;
+        });
+        spyOn(row2, 'cellNum').andCallFake(function(){
+            return 5;
+        });
+        spyOn(row3, 'cellNum').andCallFake(function(){
+            return 5;
+        });
+
+        table.rows = [row1, row2, row3];
+        expect(table.colNum()).toBe(5);
+        expect(row1.cellNum).toHaveBeenCalled();
+        expect(row2.cellNum).toHaveBeenCalled();
+        expect(row3.cellNum).toHaveBeenCalled();
+    });
+
+
+    it ('gives the number of the column in the table: columns have different number of cells', function(){
+        spyOn(row1, 'cellNum').andCallFake(function(){
+            return 3;
+        });
+        spyOn(row2, 'cellNum').andCallFake(function(){
+            return 2;
+        });
+        spyOn(row3, 'cellNum').andCallFake(function(){
+            return 3;
+        });
+
+        table.rows = [row1, row2, row3];
+        expect(table.colNum()).toBe(null);
+        expect(row1.cellNum).toHaveBeenCalled();
+        expect(row2.cellNum).toHaveBeenCalled();
+        expect(row3.cellNum).not.toHaveBeenCalled(); // not necessary
+    });
+
+    it ('gives the number of the column in the table with empty rows', function(){
+        spyOn(row1, 'cellNum').andCallFake(function(){
+            return 0;
+        });
+        spyOn(row2, 'cellNum').andCallFake(function(){
+            return 0;
+        });
+
+        table.rows = [row1, row2];
+        expect(table.colNum()).toBe(0);
+        expect(row1.cellNum).toHaveBeenCalled();
+        expect(row2.cellNum).toHaveBeenCalled();
+    });
+
+    it ('gives the number of the column in the table with a single row', function(){
+        spyOn(row1, 'cellNum').andCallFake(function(){
+            return 20;
+        });
+        table.rows = [row1];
+        expect(table.colNum()).toBe(20);
+        expect(row1.cellNum).toHaveBeenCalled();
+    });
+
+
+
 
 });
 
