@@ -1162,7 +1162,7 @@ function Row() {
 	 */
 	this.cellNum = function(){
 		return this.cells.length;
-	}
+	};
 
 	/**
 	 * Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()
@@ -1425,7 +1425,6 @@ function Table() {
 				if (!output){
 					break;
 				}
-
 			}
 		}
 		return output;
@@ -1477,6 +1476,22 @@ function Table() {
 		}
 	};
 
+	/**
+	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
+	 * false otherwise.
+	 * @method isFramed
+	 * @return {Boolean}     true if all table rows have border around
+	 */
+	this.isFramed = function(){
+		// if at least one of the bogus parameters is set, the table is considered as being framed.
+		return (this.bogusRowStyle   ||
+				this.bogusRowAttr    ||
+				this.bogusCellStyle  ||
+				this.bogusCellAttr   ||
+				this.bogusTableStyle ||
+				this.bogusTableAttr);
+	};
+
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
@@ -1497,6 +1512,66 @@ function Table() {
 		htmlTable += '</' + tag + '>';
 		return htmlTable;
 	};
+
+	/**
+	 * Style of the row containing a single cell. It is used to created to a table with framed lines.
+	 * It is supposed that all properties
+	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {Style} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusRowStyle = null; // new TableRowStyle();
+
+	/**
+	 * Attributes of the row containing a single cell. It is used to created to a table with framed lines.
+	 * It is supposed that all properties
+	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {Attribute} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusRowAttr = null; // new Attributes();
+
+	/**
+	 * Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.
+	 * It is supposed that all properties
+	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {TableCellStyle} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusCellStyle = null; // new TableCellStyle();
+
+	/**
+	 * Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.
+	 * It is supposed that all properties
+	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {Attribute} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusCellAttr = null; // new Attributes();
+
+	/**
+	 * Style of the  the table that will be inserted into the single cell to create a table with framed lines.
+	 * It is supposed that all properties
+	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {TableStyle} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusTableStyle = null; // new TableStyle();
+
+	/**
+	 * Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.
+ 	 * It is supposed that all properties
+ 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+	 * are simultaneously null or set.
+	 * @property {Attribute} bogusTableStyle
+	 * @default  null
+	 */
+	this.bogusTableAttr = null; // new Attributes();
 }
 
 
