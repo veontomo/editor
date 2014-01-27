@@ -1199,7 +1199,8 @@ function Row() {
 	};
 
 	/**
-	 * Gets an array of the widths of the cell inside the row.
+	 * Gets an array of the widths of the cells inside the row.
+	 * @method getCellWidths
 	 * @return {array}
 	 */
 	this.getCellWidths = function(){
@@ -1213,9 +1214,26 @@ function Row() {
 	};
 
 	/**
+	 * Sets widths of the cells inside the row.
+	 * @method setCellWidths
+	 * @param {Array} profile          each elements if this array is a width of the corresp. cell in the row.
+	 * @return {void}
+	 */
+	this.setCellWidths = function(profile){
+		var len = profile.length,
+			i;
+		if (this.cells.length === len){
+			for (i = 0; i &lt; len; i++){
+				this.cells[i].setWidth(profile[i]);
+			}
+		}
+	};
+
+
+	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
 	 * @method appendCell
-	 * @param {Object} cell  a cell to be appended.
+	 * @param {Object} cell            a cell to be appended.
 	 * @return {void}
 	 */
 	this.appendCell = function(cell){
@@ -1225,6 +1243,21 @@ function Row() {
 			throw new Error(&#x27;The argument is not of the Cell type!&#x27;);
 		}
 		this.cells.push(cell);
+	};
+
+
+	/**
+	 * Drops the cell in the row. If the cell is utmost left, the freed space is then
+	 * assigned to its right neighbour:
+     * |xxx| a | b   | c | -&gt; |     a | b   | c |
+     * | a |xxx| b   | c | -&gt; | a |     b   | c |
+	 * If there is no right neighbour, then it is assigned to the left one:
+	 * | a | b | c | xxx | -&gt; | a | b | c       |
+	 * @param  {Number}    cellNum   cell number to delete. Numeration starts with 0.
+	 * @return {void}
+	 */
+	this.dropCell = function(cellNum){
+
 	};
 
 	/**
@@ -1380,14 +1413,88 @@ function Table() {
 	/**
 	 * Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]
 	 * where w_ij is width of the cell located in the row i and column j.
-	 * @method  getColWidths
+	 * @method  getMatrix
 	 * @return {Array}
 	 */
-	this.getColWidths = function(){
+	this.getMatrix = function(){
 		var output = [],
 			rowsNum = this.rows.length, i;
 		for (i = 0; i &lt; rowsNum; i++){
 			output.push(this.rows[i].getCellWidths());
+		}
+		return output;
+	};
+
+	/**
+	 * Returns array of widths of the cells in the table rows if all rows
+	 * have the same cell widths. Otherwise Null is returned.
+	 * @method  getProfile
+	 * @return {Array|Null}
+	 */
+	this.getProfile = function (){
+		return this.isSameWidths() ? this.getMatrix()[0] : null;
+	};
+
+	/**
+	 * Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.
+	 * @method  setProfile
+	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
+	 */
+	this.setProfile = function(profile){
+		var len = this.rows.length,
+			i;
+		for (i = 0; i &lt; len; i++){
+			this.rows[i].setCellWidths(profile);
+		}
+	};
+
+
+	/**
+	 * Drops specified column from the table. The operations is delegated to the Row::dropCell()
+	 * @param  {integer} 	colNum  number of the column to delete. Numeration starts with 0.
+	 * @return {void}
+	 */
+	this.dropColumn = function(colNum){
+		var rowsNum = this.rows.length,
+		i;
+		for (i = 0; i &lt; rowsNum; i++){
+			this.rows[i].dropCell(colNum);
+		}
+	};
+
+	/**
+	 * Whether all rows in the table have the same cell widths.
+	 * @method sameWidth
+	 * @return {Boolean} true, if all rows have the same cells&#x27; widths, false otherwise.
+	 */
+	this.isSameWidths = function(){
+		var matrix = this.getMatrix(),
+			rowsNum = matrix.length,
+			output = true,
+			firstRow, firstRowLen, i, j;
+		// only if the number of rows is bigger than 1
+		if (rowsNum &gt; 1){
+			// compare the first row with the rest
+			firstRow = matrix[0];
+			firstRowLen = firstRow.length;
+			for (i = 1; i &lt; rowsNum; i++){
+				if (matrix[i].length !== firstRowLen){
+					output = false;
+					break;
+				}
+				// compare element by element
+				for (j = 0; j &lt; firstRowLen; j++){
+					if(matrix[i][j] !== firstRow[j]){
+						output = false;
+						break;
+					}
+				}
+				// exit as well from outer loop if necessary
+				if (!output){
+					break;
+				}
+
+			}
 		}
 		return output;
 	};

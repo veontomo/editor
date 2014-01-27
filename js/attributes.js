@@ -1121,6 +1121,39 @@ function Row() {
 		this.cells.push(cell);
 	};
 
+
+	/**
+	 * Drops the cell in the row. If the cell is utmost left, the freed space is then
+	 * assigned to its right neighbour:
+     * |xxx| a | b   | c | -> |     a | b   | c |
+     * | a |xxx| b   | c | -> | a |     b   | c |
+	 * If there is no right neighbour, then it is assigned to the left one:
+	 * | a | b | c | xxx | -> | a | b | c       |
+	 * If a cell to delete does not exist, nothing is performed.
+	 * @param  {Number}    cellNum   cell number to delete. Numeration starts with 0.
+	 * @return {void}
+	 */
+	this.dropCell = function(cellNum){
+		var acceptor, acceptorWidth, currentCell, currentCellWidth;
+		if (cellNum < this.cells.length){
+			if (this.cells[cellNum + 1] !== undefined){
+				acceptor = this.cells[cellNum + 1];
+			} else {
+				if (this.cells[cellNum - 1] !== undefined){
+				acceptor = this.cells[cellNum - 1];
+				}
+			}
+			if (acceptor){
+				acceptorWidth = acceptor.getWidth();
+				currentCell = this.cells[cellNum];
+				currentCellWidth = currentCell.getWidth();
+				acceptor.setWidth(acceptorWidth + currentCellWidth);
+			}
+			this.cells.splice(cellNum, 1);
+		}
+
+	};
+
 	/**
 	 * Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()
 	 * @method toHtml
@@ -1309,6 +1342,19 @@ function Table() {
 		}
 	};
 
+
+	/**
+	 * Drops specified column from the table. The operations is delegated to the Row::dropCell()
+	 * @param  {integer} 	colNum  number of the column to delete. Numeration starts with 0.
+	 * @return {void}
+	 */
+	this.dropColumn = function(colNum){
+		var rowsNum = this.rows.length,
+		i;
+		for (i = 0; i < rowsNum; i++){
+			this.rows[i].dropCell(colNum);
+		}
+	};
 
 	/**
 	 * Whether all rows in the table have the same cell widths.

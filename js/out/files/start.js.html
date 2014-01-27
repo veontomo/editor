@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>attributes</title>
+    <title>start.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,157 +118,75 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>attributes Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: start.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, Style */
+$(document).ready(function () {
+	var editor = CKEDITOR.replace(&#x27;editor&#x27;, {
+		customConfig: &#x27;../settings/editor_config.js&#x27;
+	});
+	// once the editor is loaded, insert a table inside
+	editor.on(&#x27;instanceReady&#x27;, function () {
+		// disabling default plugins by removing them from the context menu
+		var menuItemsToRemove = [&#x27;table&#x27;, &#x27;tabledelete&#x27;, &#x27;link&#x27;, &#x27;unlink&#x27;];
+		menuItemsToRemove.forEach(function (item) {
+			editor.removeMenuItem(item);
+		});
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l1447"><code>attributes.js:1447</code></a>
-        </div>
-    
+		/**
+		 * Drops inline attribute named attrName from DOM element
+		 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery &quot;attr&quot; method.
+		 * @param  {string} attrName 	this attribute name will be dropped.
+		 * @return {void}
+		 */
+		var dropInlineStyleAttr = function(element, attrName){
+			// unhovering table
+			var attr = element.attr(&#x27;style&#x27;),
+				style = new Style(attr);
+			if (style.hasOwnProperty(attrName)){
+				delete style[attrName];
+			}
+			element.attr(&#x27;style&#x27;, style.toString());
+		};
 
-    
-</div>
+		/**
+		 * Inserts table and applies hover effect on it.
+		 * It is based on CKEDITOR.editor.insertElement() method.
+		 * This approach might be wrong but I wanted to avoid repetitions.
+		 * @param  {CKEDITOR.dom.element}	table
+		 * @return {[type]}       [description]
+		 */
+		CKEDITOR.editor.prototype.insertTableWithHoverEff = function(table){
+			this.insertElement(table);
+			$(table.$).hover(
+				function () {
+					// hovering the whole table
+					$(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.05em 0.2em 0.05em #AAAAFF&#x27;);
+					// hovering table row
+					$(this).find(&#x27;tr&#x27;).hover(
+						function () {
+							$(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.05em 0.2em 0.05em #AAAAAA&#x27;);
+						},
+						function () {
+							// unhovering the table row
+							var that = this;
+							dropInlineStyleAttr($(that), &#x27;box-shadow&#x27;);
+						}
+					);
+				}, function(){
+					// unhovering table
+					var that = this;
+					dropInlineStyleAttr($(that), &#x27;box-shadow&#x27;);
+				}
+			);
 
-
-
-<div class="box intro">
-    <p>Produces a string of properties in inline-style fashion
-This function is supposed to be added to prototypes of different objects.
-It takse into consideration only properties, methods are ignored.
-If attribite value is a number, the measurement unit will be appended.</p>
-
-</div>
-
-
-    <div class="example">
-        <h4>Example:</h4>
-        <div class="example-content">
-            <p> The return value is of the form: &quot;padding: 0px;margin: 10px;color: #ababab;&quot;</p>
-
-        </div>
-    </div>
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Attributes.html">
-                        Attributes
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/BorderStyle.html">
-                        BorderStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Cell.html">
-                        Cell
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Content.html">
-                        Content
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Grating.html">
-                        Grating
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/ImageStyle.html">
-                        ImageStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/LinkStyle.html">
-                        LinkStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/ListItemStyle.html">
-                        ListItemStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/ListStyle.html">
-                        ListStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Row.html">
-                        Row
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Style.html">
-                        Style
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Table.html">
-                        Table
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/TableAttributes.html">
-                        TableAttributes
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/TableCellStyle.html">
-                        TableCellStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/TableRowStyle.html">
-                        TableRowStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/TableStyle.html">
-                        TableStyle
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/TextStyle.html">
-                        TextStyle
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+		};
+	});
+});
+    </pre>
 </div>
 
                     </div>

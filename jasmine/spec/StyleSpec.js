@@ -611,6 +611,7 @@ describe('Row-related functionality', function(){
         cell1 = new Cell();
         cell2 = new Cell();
         cell3 = new Cell();
+        cell4 = new Cell();
         row = new Row();
         rowAttr = new Attributes();
         rowStyle = new TableRowStyle();
@@ -723,6 +724,56 @@ describe('Row-related functionality', function(){
         expect(cell3.setWidth).not.toHaveBeenCalled();
     });
 
+    it('deletes the right-most cell in the row', function(){
+        cell1.setWidth(200);
+        cell2.setWidth(110);
+        cell3.setWidth(150);
+        row.cells = [cell1, cell2, cell3];
+        row.dropCell(0);
+        expect(row.cells.length).toBe(2);
+        expect(row.cells[0].getWidth()).toBe(310);
+        expect(row.cells[1].getWidth()).toBe(150);
+    });
+
+    it('deletes a middle cell in the row', function(){
+        cell1.setWidth(200);
+        cell2.setWidth(110);
+        cell3.setWidth(150);
+        cell4.setWidth(50);
+        row.cells = [cell1, cell2, cell3, cell4];
+        row.dropCell(1);
+        expect(row.cells.length).toBe(3);
+        expect(row.cells[0].getWidth()).toBe(200);
+        expect(row.cells[1].getWidth()).toBe(260);
+        expect(row.cells[2].getWidth()).toBe(50);
+    });
+
+    it('deletes the left-most cell in the row', function(){
+        cell1.setWidth(200);
+        cell2.setWidth(110);
+        cell3.setWidth(150);
+        cell4.setWidth(60);
+        row.cells = [cell1, cell2, cell3, cell4];
+        row.dropCell(3);
+        expect(row.cells.length).toBe(3);
+        expect(row.cells[0].getWidth()).toBe(200);
+        expect(row.cells[1].getWidth()).toBe(110);
+        expect(row.cells[2].getWidth()).toBe(210);
+    });
+
+    it('deletes a non-existing cell (cell number corresponds to a non-existing cell)', function(){
+        cell1.setWidth(200);
+        cell2.setWidth(110);
+        cell3.setWidth(150);
+        row.cells = [cell1, cell2, cell3];
+        row.dropCell(row.cells.length + 10); // delete non-existing cell
+        expect(row.cells.length).toBe(3);
+        expect(row.cells[0].getWidth()).toBe(200);
+        expect(row.cells[1].getWidth()).toBe(110);
+        expect(row.cells[2].getWidth()).toBe(150);
+    });
+
+
 
     it('generates html code of the row if attributes and styles are not empty', function(){
         spyOn(cell1, 'toHtml').andCallFake(function(){
@@ -820,20 +871,20 @@ describe('Table-related functionality', function(){
          expect(table.styleProperty('a property')).toEqual('table property value');
      });
 
-     it('retrieves property of type "Number" from the style', function() {
-         tableStyle['a-property'] = 12.6;
-         table.style = tableStyle;
-         expect(table.styleProperty('a-property')).toEqual(12.6);
-     });
+    it('retrieves property of type "Number" from the style', function() {
+        tableStyle['a-property'] = 12.6;
+        table.style = tableStyle;
+        expect(table.styleProperty('a-property')).toEqual(12.6);
+    });
 
 
-     it('retrieves non-existing property from the style', function() {
+    it('retrieves non-existing property from the style', function() {
          if (tableStyle.hasOwnProperty('a table property')) {
              delete tableStyle['a table property'];
          }
          table.style = tableStyle;
          expect(table.styleProperty('a table property')).not.toBeDefined();
-     });
+    });
 
      it('sets the width of the table', function(){
          table.setWidth(15);
@@ -932,8 +983,20 @@ describe('Table-related functionality', function(){
         expect(table.isSameWidths()).toBe(true);
      });
 
+    it('calls a method of the Row() object to delete a column', function(){
+        spyOn(row1, 'dropCell').andCallFake(function(){return null;});
+        spyOn(row2, 'dropCell').andCallFake(function(){return null;});
+        spyOn(row3, 'dropCell').andCallFake(function(){return null;});
+        table.rows = [row1, row2, row3];
+        table.dropColumn(0);
+        expect(row1.dropCell).toHaveBeenCalled();
+        expect(row2.dropCell).toHaveBeenCalled();
+        expect(row3.dropCell).toHaveBeenCalled();
+        // the number of rows remains the same
+        expect(table.rows.length).toBe(3);
+    });
 
-     it('appends a row to the existing rows', function(){
+    it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
         table.appendRow(row1);
         expect(table.rows.length).toBe(1);
