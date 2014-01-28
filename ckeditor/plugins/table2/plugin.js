@@ -107,6 +107,7 @@ CKEDITOR.plugins.add('table2', {
 				insertRow(editor, 'before');
 			}
 		});
+
 		editor.addCommand('table2AddRowAfter', {
 			exec: function (editor) {
 				insertRow(editor, 'after');

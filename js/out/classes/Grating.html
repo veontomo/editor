@@ -130,7 +130,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l1447"><code>attributes.js:1447</code></a>
+            Defined in: <a href="../files/attributes.js.html#l1614"><code>attributes.js:1614</code></a>
         </div>
     
 
@@ -177,6 +177,20 @@
                     <ul class="index-list methods extends">
                         
                             <li class="index-item method inherited">
+                                <a href="#method_colNum">colNum</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_dropColumn">dropColumn</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
                                 <a href="#method_getMatrix">getMatrix</a>
 
                                 
@@ -192,6 +206,13 @@
                         
                             <li class="index-item method inherited">
                                 <a href="#method_getType">getType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_isFramed">isFramed</a>
 
                                 
                                 
@@ -277,42 +298,7 @@
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
+                            <li class="index-item property inherited inherited">
                                 <a href="#property_bogusTableStyle">bogusTableStyle</a>
 
                                 
@@ -345,6 +331,177 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_colNum" class="method item inherited">
+    <h3 class="name"><code>colNum</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_colNum">Table</a>:
+            
+        
+        
+        <a href="../files/attributes.js.html#l1370"><code>attributes.js:1370</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gives the number of columns in the table or null if not all rows have the same number of cells.
+The operation is delegated to the Row::cellNum().</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dropColumn" class="method item inherited">
+    <h3 class="name"><code>dropColumn</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>colNum</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_dropColumn">Table</a>:
+            
+        
+        
+        <a href="../files/attributes.js.html#l1356"><code>attributes.js:1356</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Drops specified column from the table. The operation is delegated to the Row::dropCell()</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">colNum</code>
+                        <span class="type">Integer</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>the number of the column to delete. Numeration starts with 0.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
 
                 
                     <div id="method_getMatrix" class="method item inherited">
@@ -380,7 +537,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l1289"><code>attributes.js:1289</code></a>
+        <a href="../files/attributes.js.html#l1317"><code>attributes.js:1317</code></a>
         
         </p>
 
@@ -449,7 +606,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1304"><code>attributes.js:1304</code></a>
+        <a href="../files/attributes.js.html#l1332"><code>attributes.js:1332</code></a>
         
         </p>
 
@@ -518,7 +675,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1205"><code>attributes.js:1205</code></a>
+        <a href="../files/attributes.js.html#l1233"><code>attributes.js:1233</code></a>
         
         </p>
 
@@ -544,6 +701,78 @@ have the same cell widths. Otherwise Null is returned.</p>
                     
                         <span class="type">String</span>:
                     
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_isFramed" class="method item inherited">
+    <h3 class="name"><code>isFramed</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_isFramed">Table</a>:
+            
+        
+        
+        <a href="../files/attributes.js.html#l1479"><code>attributes.js:1479</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gives true if all table rows have border around (that is, each row is nothing but a table with border)
+false otherwise. It at least one of the properties, corresponding to the &quot;bogus&quot; elements is set, then
+the table is considered as being framed and hence all its rows will be framed.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>true if all table rows have border around</p>
+
                 
             </div>
         </div>
@@ -586,7 +815,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1403"><code>attributes.js:1403</code></a>
+        <a href="../files/attributes.js.html#l1458"><code>attributes.js:1458</code></a>
         
         </p>
 
@@ -658,7 +887,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1341"><code>attributes.js:1341</code></a>
+        <a href="../files/attributes.js.html#l1397"><code>attributes.js:1397</code></a>
         
         </p>
 
@@ -738,7 +967,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1214"><code>attributes.js:1214</code></a>
+        <a href="../files/attributes.js.html#l1242"><code>attributes.js:1242</code></a>
         
         </p>
 
@@ -839,7 +1068,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1378"><code>attributes.js:1378</code></a>
+        <a href="../files/attributes.js.html#l1433"><code>attributes.js:1433</code></a>
         
         </p>
 
@@ -942,7 +1171,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1314"><code>attributes.js:1314</code></a>
+        <a href="../files/attributes.js.html#l1342"><code>attributes.js:1342</code></a>
         
         </p>
 
@@ -1032,7 +1261,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1232"><code>attributes.js:1232</code></a>
+        <a href="../files/attributes.js.html#l1260"><code>attributes.js:1260</code></a>
         
         </p>
 
@@ -1133,7 +1362,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1278"><code>attributes.js:1278</code></a>
+        <a href="../files/attributes.js.html#l1306"><code>attributes.js:1306</code></a>
         
         </p>
 
@@ -1192,7 +1421,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 </div>
 
                 
-                    <div id="method_toHtml" class="method item">
+                    <div id="method_toHtml" class="method item inherited">
     <h3 class="name"><code>toHtml</code></h3>
 
     
@@ -1219,16 +1448,13 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 
     <div class="meta">
         
-            <p>Inherited from
-            <a href="..\classes\Table.html#method_toHtml">
-                Table
-            </a>
             
-            but overwritten in
+                <p>Inherited from
+                <a href="..\classes\Table.html#method_toHtml">Table</a>:
             
         
         
-        <a href="../files/attributes.js.html#l1499"><code>attributes.js:1499</code></a>
+        <a href="../files/attributes.js.html#l1512"><code>attributes.js:1512</code></a>
         
         </p>
 
@@ -1255,8 +1481,6 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
                     
                         <span class="type">String</span>:
                     
-                    <p>html representation of the row</p>
-
                 
             </div>
         </div>
@@ -1294,7 +1518,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1263"><code>attributes.js:1263</code></a>
+        <a href="../files/attributes.js.html#l1291"><code>attributes.js:1291</code></a>
         
         </p>
 
@@ -1356,7 +1580,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1224"><code>attributes.js:1224</code></a>
+        <a href="../files/attributes.js.html#l1252"><code>attributes.js:1252</code></a>
         
         </p>
 
@@ -1380,97 +1604,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type"><a href="..\classes\TableStyle.html" class="crosslink">TableStyle</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l1463"><code>attributes.js:1463</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type">Attribute</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l1469"><code>attributes.js:1469</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
+                    <div id="property_bogusTableStyle" class="property item inherited">
     <h3 class="name"><code>bogusTableStyle</code></h3>
     <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
 
@@ -1484,16 +1618,16 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="..\classes\Table.html#property_bogusTableStyle">
+                Table
+            </a>
             
-                
-                <p>
-                
-                Defined in
-                
+            but overwritten in
             
         
         
-        <a href="../files/attributes.js.html#l1475"><code>attributes.js:1475</code></a>
+        <a href="../files/attributes.js.html#l1552"><code>attributes.js:1552</code></a>
         
         </p>
 
@@ -1503,145 +1637,15 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
     </div>
 
     <div class="description">
-        <p>Style of the row containing a single cell.</p>
+        <p>Style of the row containing a single cell. It is used to created to a table with framed lines.
+It is supposed that all properties
+bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+are simultaneously null or set.</p>
 
     </div>
 
     
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type">Attribute</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l1481"><code>attributes.js:1481</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attributes of the row containing a single cell.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type"><a href="..\classes\TableCellStyle.html" class="crosslink">TableCellStyle</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l1487"><code>attributes.js:1487</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Style of the  the cell which fills the whole row.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type">Attribute</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributes.js.html#l1493"><code>attributes.js:1493</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attributes of the  the cell which fills the whole row.</p>
-
-    </div>
-
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -1670,7 +1674,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1250"><code>attributes.js:1250</code></a>
+        <a href="../files/attributes.js.html#l1278"><code>attributes.js:1278</code></a>
         
         </p>
 
@@ -1714,7 +1718,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1242"><code>attributes.js:1242</code></a>
+        <a href="../files/attributes.js.html#l1270"><code>attributes.js:1270</code></a>
         
         </p>
 

@@ -1703,7 +1703,8 @@ function Table() {
  * following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
  * as a "supported" ones, the corresponding functions will be called to transform them into objects.
  * For the moment, the only supported element is "Table".
- * @param {String}  htmlStr
+ * @module  String
+ * @method createCellFromHtml
  * @return {Object} Cell
  */
 String.prototype.createCellFromHtml = function(){
@@ -1768,7 +1769,8 @@ String.prototype.createCellFromHtml = function(){
  * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
  * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
  * processed one by one by function String::createCellFromHtml().
- * @param {String} 	htmlStr
+ * @module String
+ * @method createRowFromHtml
  * @return {Object} Row
  */
 String.prototype.createRowFromHtml = function(){
@@ -1809,45 +1811,136 @@ String.prototype.createRowFromHtml = function(){
 		return row;
 };
 
+/**
+ * Returns true, if tableHtml is an html code corresponding to a table each row of which
+ * contains just one cell, and this cell in its turn contains only one table.
+ * Returns false otherwise.
+ * @module  String
+ * @method  isFramedTable
+ * @return  {Boolean} [description]
+ */
+String.prototype.isFramedTable = function (){
+	var tableHtml = this,
+		parser = new DOMParser(),
+		doc = parser.parseFromString(tableHtml, 'text/html'),
+		node = doc.getElementsByTagName('table'),
+		isFramed = true,
+		tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
+
+		// it would be very nice to use this approach, but doc.evaluate always returns "undefined"
+		// try{
+		// 	var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
+		// 	console.log('evaluate: ', tmp);
+		// } catch (ex){
+		// 	console.log("Error! ", ex);
+		// }
+
+		if (node.length === 0){
+			return false;
+		}
+		node = node[0];
+
+		// parsing the table structure to decide whether this is a framed table or a regular one.
+		tableChildren = node.children[0].children;   // all rows of  the table
+		tableChildrenLen = tableChildren.length;
+		for (i = 0; i < tableChildrenLen; i++) {
+			currentElem = tableChildren[i];          // current row
+			elemChildren = currentElem.children;     // all cells inside the row
+			if (elemChildren.length !== 1 ){
+				isFramed = false;
+				break;
+			}
+			nestedElem = elemChildren[0];     // first cell inside the row
+			if (nestedElem.tagName !== 'TD'){
+				isFramed = false;
+				break;
+			}
+			nestedElemChildren = nestedElem.children;
+			if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
+				isFramed = false;
+				break;
+			}
+		}
+		return isFramed;
+};
 
 /**
  * Creates an object representation from a string that is an html repersentation of a table.
  * Only one table is supposed to be processed at a time, so the string to be processed is to
  * be of the following form <table ...> ... </table>. Inside the tag, there should be tags "tr"
  * that will be processed one by one by function String::createRowFromHtml().
+ * @module  String
+ * @method createTableFromHtml
  * @return {Table}
  */
 String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
+			isFramed = htmlStr.isFramedTable(),
 			parser = new DOMParser(),
 			doc = parser.parseFromString(htmlStr, 'text/html'),
 			node = doc.getElementsByTagName('table'),
-			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+
+			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
+			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
 		if (node.length === 0){
 			return null;
 		}
 		node = node[0];
 
-		// creating object
+		// creating table
 		table = new Table();
 
-		// imposing its styles
+		// imposing table styles
 		nodeStyle = node.getAttribute('style');
 		table.style = new Style(nodeStyle);
-
-
-		// imposing its attributes
+		// imposing table attributes
 		attrs = flatten(node.attributes);
 		if (attrs.hasOwnProperty('style')){
 			delete attrs.style;
 		}
 		table.attr = new Attributes(attrs);
+
 		// the only child of the table is always tbody
 		rows = node.children[0].children;
 		rowsNum = rows.length;
+
+		if (isFramed){
+			bogusRowStyle = node.querySelector('tr').getAttribute('style');
+			bogusCellStyle = node.querySelector('tr td').getAttribute('style');
+			bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
+
+			bogusRowAttr = flatten(node.querySelector('tr').attributes);
+			if (bogusRowAttr.hasOwnProperty('style')){
+				delete bogusRowAttr.style;
+			}
+
+			bogusCellAttr = flatten(node.querySelector('tr td').attributes);
+			if (bogusCellAttr.hasOwnProperty('style')){
+				delete bogusCellAttr.style;
+			}
+
+			bogusTableAttr = flatten(node.querySelector('tr td table').attributes);
+			if (bogusTableAttr.hasOwnProperty('style')){
+				delete bogusTableAttr.style;
+			}
+			table.bogusRowStyle = new Style(bogusRowStyle);
+			table.bogusRowAttr = new Attributes(bogusRowAttr);
+			table.bogusCellStyle = new Style(bogusCellStyle);
+			table.bogusCellAttr = new Attributes(bogusCellAttr);
+			table.bogusTableStyle = new Style(bogusTableStyle);
+			table.bogusTableAttr = new Attributes(bogusTableAttr);
+		}
+
+
 		// console.log('numero di righe rilevate:', childNum);
 		for (i = 0; i < rowsNum; i++){
-			currentRow = rows[i];
+			if (isFramed){
+				currentRow = rows[i].querySelector('td table tr');
+				console.log(currentRow);
+			} else {
+				currentRow = rows[i];
+			}
+
 			if(currentRow.tagName === "TR"){
 				// console.log(child);
 				row = currentRow.outerHTML.createRowFromHtml();

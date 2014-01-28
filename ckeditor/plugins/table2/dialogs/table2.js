@@ -193,7 +193,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			isFramed = nestedBorderWidth > 0;
 
-			table = isFramed ? (new Grating()) : (new Table());
+			table = new Table();
 
 			// the whole table styles and properties
 			tableStyle = new TableStyle();
@@ -266,6 +266,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				nestedTableStyle['border-style'] = "solid";
 				// apply the styles  to the table
 				table.bogusRowStyle   = nestedRowStyle;
+				table.bogusRowAttr = new Attributes();
 				table.bogusRowAttr[NEWSLETTER['marker-name']] = 'Row';
 				table.bogusCellStyle  = nestedCellStyle;
 				table.bogusTableStyle = nestedTableStyle;
