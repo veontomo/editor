@@ -1478,39 +1478,75 @@ function Table() {
 
 	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise.
+	 * false otherwise. It at least one of the properties, corresponding to the "bogus" elements is set, then
+	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
 	 * @return {Boolean}     true if all table rows have border around
 	 */
 	this.isFramed = function(){
-		// if at least one of the bogus parameters is set, the table is considered as being framed.
-		return (this.bogusRowStyle   ||
-				this.bogusRowAttr    ||
-				this.bogusCellStyle  ||
-				this.bogusCellAttr   ||
-				this.bogusTableStyle ||
-				this.bogusTableAttr);
+		// if at least one of these properties is set, the table is considered as being framed.
+		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
+							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+			that = this;
+		return propertyList.some(function(prop){
+			return that.hasOwnProperty(prop) && that[prop];
+		});
 	};
 
+	/**
+	 * Deletes properties that are responsable for the frames around the table rows.
+	 * @return {void}
+	 */
+	this.removeFrame = function(){
+		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
+							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+			propertyListLen = propertyList.length,
+			i;
+		for (i = 0; i < propertyListLen; i++){
+			if(this.hasOwnProperty(propertyList[i])){
+				delete this[propertyList[i]];
+			}
+		}
+	};
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
 	 * Creation of the row-related html of each row is delegated to Row::toHtml()
 	 * @method toHtml
-	 * @return {String} html representation of the row
+	 * @return {String}
 	 */
 	this.toHtml = function () {
-		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
-			tag = 'table';
-		tableAttr = this.attr.toString();
-		tableStyle = this.style.toString().sandwichWith('style="', '"');
-		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
+		var prologue = '', epilogue = '', tableTag = 'table', rowTag = 'tr', cellTag = 'td',
+			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
+			bogusRowHtml, bogusCellHtml, bogusTableHtml, tableAttr, tableStyle, tableHtml, i, rowsNumber;
+
+		if (this.isFramed()){
+			// some preliminaries for the framed tables
+			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : '';
+			bogusRowStyle   = this.bogusRowStyle   ? this.bogusRowStyle.toString().sandwichWith('style="', '"') : '';
+			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : '';
+			bogusCellStyle  = this.bogusCellStyle  ? this.bogusCellStyle.toString().sandwichWith('style="', '"') : '';
+			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : '';
+			bogusTableStyle = this.bogusTableStyle ? this.bogusTableStyle.toString().sandwichWith('style="', '"') : '';
+
+			bogusRowHtml = [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces().sandwichWith('<', '>');
+			bogusCellHtml = [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces().sandwichWith('<', '>');
+			bogusTableHtml = [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces().sandwichWith('<', '>');
+
+			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
+			prologue = tableTag.sandwichWith('</', '>') + cellTag.sandwichWith('</', '>') + rowTag.sandwichWith('</', '>');
+		}
+		tableAttr  = this.attr  ? this.attr.toString() : '';
+		tableStyle = this.style ? this.style.toString().sandwichWith('style="', '"') : '';
+		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
 		rowsNumber = this.rows.length;
 		for (i = 0; i < rowsNumber; i++) {
-			htmlTable += this.rows[i].toHtml();
+			tableHtml += epilogue;
+			tableHtml += this.rows[i].toHtml();
+			tableHtml += prologue;
 		}
-		htmlTable += '</' + tag + '>';
-		return htmlTable;
+		tableHtml += tableTag.sandwichWith('</', '>');
+		return tableHtml;
 	};
 
 	/**
@@ -1581,86 +1617,86 @@ function Table() {
  * @extends  Table
  * @class    Grating
  */
-function Grating(){
-	"use strict";
-	if (!(this instanceof Grating)) {
-		return new Grating();
-	}
+// function Grating(){
+// 	"use strict";
+// 	if (!(this instanceof Grating)) {
+// 		return new Grating();
+// 	}
 
-	this.getType = function(){
-		return "Grating";
-	};
+// 	this.getType = function(){
+// 		return "Grating";
+// 	};
 
-	/**
-	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
-	 * @property {TableStyle} bogusTableStyle
-	 */
-	this.bogusTableStyle = new TableStyle();
+// 	/**
+// 	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+// 	 * @property {TableStyle} bogusTableStyle
+// 	 */
+// 	this.bogusTableStyle = new TableStyle();
 
-	/**
-	 * Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.
-	 * @property {Attribute} bogusTableStyle
-	 */
-	this.bogusTableAttr = new Attributes();
+// 	/**
+// 	 * Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.
+// 	 * @property {Attribute} bogusTableStyle
+// 	 */
+// 	this.bogusTableAttr = new Attributes();
 
-	/**
-	 * Style of the row containing a single cell.
-	 * @property {Style} bogusTableStyle
-	 */
-	this.bogusRowStyle = new TableRowStyle();
+// 	/**
+// 	 * Style of the row containing a single cell.
+// 	 * @property {Style} bogusTableStyle
+// 	 */
+// 	this.bogusRowStyle = new TableRowStyle();
 
-	/**
-	 * Attributes of the row containing a single cell.
-	 * @property {Attribute} bogusTableStyle
-	 */
-	this.bogusRowAttr = new Attributes();
+// 	/**
+// 	 * Attributes of the row containing a single cell.
+// 	 * @property {Attribute} bogusTableStyle
+// 	 */
+// 	this.bogusRowAttr = new Attributes();
 
-	/**
-	 * Style of the  the cell which fills the whole row.
-	 * @property {TableCellStyle} bogusTableStyle
-	 */
-	this.bogusCellStyle = new TableCellStyle();
+// 	/**
+// 	 * Style of the  the cell which fills the whole row.
+// 	 * @property {TableCellStyle} bogusTableStyle
+// 	 */
+// 	this.bogusCellStyle = new TableCellStyle();
 
-	/**
-	 * Attributes of the  the cell which fills the whole row.
-	 * @property {Attribute} bogusTableStyle
-	 */
-	this.bogusCellAttr = new Attributes();
+// 	/**
+// 	 * Attributes of the  the cell which fills the whole row.
+// 	 * @property {Attribute} bogusTableStyle
+// 	 */
+// 	this.bogusCellAttr = new Attributes();
 
-	/**
-	 * Generates table-specific html code with corresponding attributes and styles.
-	 * Creation of the row-related html of each row is delegated to Row::toHtml()
-	 * @method toHtml
-	 * @return {String} html representation of the row
-	 */
-	this.toHtml = function () {
-		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
-			// string representation of the border style
-			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith('style="', '"'),
-			nestedRowAttr =   this.bogusRowAttr.toString(),
-			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith('style="', '"'),
-			nestedCellAttr =  this.bogusCellAttr.toString(),
-			nsTblSt = this.bogusTableStyle.toString().sandwichWith('style="', '"'),
-			nsTblAttr = this.bogusTableAttr.toString(),
-			tag = 'table';
+// 	*
+// 	 * Generates table-specific html code with corresponding attributes and styles.
+// 	 * Creation of the row-related html of each row is delegated to Row::toHtml()
+// 	 * @method toHtml
+// 	 * @return {String} html representation of the row
 
-		tableAttr = this.attr.toString();
-		tableStyle = this.style.toString().sandwichWith('style="','"');
+// 	this.toHtml = function () {
+// 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
+// 			// string representation of the border style
+// 			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith('style="', '"'),
+// 			nestedRowAttr =   this.bogusRowAttr.toString(),
+// 			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith('style="', '"'),
+// 			nestedCellAttr =  this.bogusCellAttr.toString(),
+// 			nsTblSt = this.bogusTableStyle.toString().sandwichWith('style="', '"'),
+// 			nsTblAttr = this.bogusTableAttr.toString(),
+// 			tag = 'table';
 
-		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
-		rowsNumber = this.rows.length;
-		for (i = 0; i < rowsNumber; i++) {
-			htmlTable += ['tr', nestedRowAttr, nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
-				['td', nestedCellAttr, nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
-				[tag, nsTblAttr, nsTblSt].concatDropSpaces().sandwichWith('<', '>');
-			htmlTable += this.rows[i].toHtml();
-			htmlTable += tag.sandwichWith('</', '>') +'</td></tr>';
-		}
-		htmlTable += '</' + tag + '>';
-		return htmlTable;
-	};
-}
-Grating.prototype = new Table();
+// 		tableAttr = this.attr.toString();
+// 		tableStyle = this.style.toString().sandwichWith('style="','"');
+
+// 		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
+// 		rowsNumber = this.rows.length;
+// 		for (i = 0; i < rowsNumber; i++) {
+// 			htmlTable += ['tr', nestedRowAttr, nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
+// 				['td', nestedCellAttr, nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
+// 				[tag, nsTblAttr, nsTblSt].concatDropSpaces().sandwichWith('<', '>');
+// 			htmlTable += this.rows[i].toHtml();
+// 			htmlTable += tag.sandwichWith('</', '>') +'</td></tr>';
+// 		}
+// 		htmlTable += '</' + tag + '>';
+// 		return htmlTable;
+// 	};
+// }
+// Grating.prototype = new Table();
 
 /**
  * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
@@ -1821,48 +1857,48 @@ String.prototype.createTableFromHtml = function(){
 		return table;
 };
 
-/**
- * Creates an object representation from a string that is an html repersentation of a table which
- * rows are with borders. The method is similar String::createTableFromHtml().
- * @todo  not implemented correctly so far: the properties bogusTableStyle, bogusTableAttr,
- * bogusCellStyle, bogusCellAttr, bogusRowStyle, bogusRowAttr are so far not filled in.
- * @return {Grating}
- */
-String.prototype.createGratingFromHtml = function(){
-		var htmlStr = this,
-			parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, 'text/html'),
-			node = doc.getElementsByTagName('table'),
-			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
-		if (node.length === 0){
-			return null;
-		}
-		node = node[0];
+// /**
+//  * Creates an object representation from a string that is an html repersentation of a table which
+//  * rows are with borders. The method is similar String::createTableFromHtml().
+//  * @todo  not implemented correctly so far: the properties bogusTableStyle, bogusTableAttr,
+//  * bogusCellStyle, bogusCellAttr, bogusRowStyle, bogusRowAttr are so far not filled in.
+//  * @return {Grating}
+//  */
+// String.prototype.createGratingFromHtml = function(){
+// 		var htmlStr = this,
+// 			parser = new DOMParser(),
+// 			doc = parser.parseFromString(htmlStr, 'text/html'),
+// 			node = doc.getElementsByTagName('table'),
+// 			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
+// 		if (node.length === 0){
+// 			return null;
+// 		}
+// 		node = node[0];
 
 
-		// creating object
-		table = new Grating();
+// 		// creating object
+// 		table = new Grating();
 
-		// imposing its styles
-		nodeStyle = node.getAttribute('style');
-		table.style = new Style(nodeStyle);
+// 		// imposing its styles
+// 		nodeStyle = node.getAttribute('style');
+// 		table.style = new Style(nodeStyle);
 
 
-		// imposing its attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty('style')){
-			delete attrs.style;
-		}
-		table.attr = new Attributes(attrs);
-		// the only child of the table is always tbody
-		rows = node.children[0].children;
-		rowsNum = rows.length;
-		for (i = 0; i < rowsNum; i++){
-			currentRow = rows[i];
-			if(currentRow.tagName === "TR"){
-				row = currentRow.outerHTML.createRowFromHtml();
-				table.appendRow(row);
-			}
-		}
-		return table;
-};
+// 		// imposing its attributes
+// 		attrs = flatten(node.attributes);
+// 		if (attrs.hasOwnProperty('style')){
+// 			delete attrs.style;
+// 		}
+// 		table.attr = new Attributes(attrs);
+// 		// the only child of the table is always tbody
+// 		rows = node.children[0].children;
+// 		rowsNum = rows.length;
+// 		for (i = 0; i < rowsNum; i++){
+// 			currentRow = rows[i];
+// 			if(currentRow.tagName === "TR"){
+// 				row = currentRow.outerHTML.createRowFromHtml();
+// 				table.appendRow(row);
+// 			}
+// 		}
+// 		return table;
+// };

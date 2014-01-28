@@ -858,7 +858,8 @@ describe('Row-related functionality', function(){
 });
 
 describe('Table-related functionality', function(){
-    var table, tableAttr, tableStyle, row1, row2, row3;
+    var table, tableAttr, tableStyle, row1, row2, row3,
+        bogusTableAttr, bogusTableStyle, bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle;
     beforeEach(function(){
         table = new Table();
         tableAttr = new Attributes();
@@ -866,6 +867,12 @@ describe('Table-related functionality', function(){
         row1 = new Row();
         row2 = new Row();
         row3 = new Row();
+        bogusTableAttr = new Attributes();
+        bogusTableStyle = new Style();
+        bogusRowAttr  = new Attributes();
+        bogusRowStyle  = new Style();
+        bogusCellAttr  = new Attributes();
+        bogusCellStyle  = new Style();
     });
 
     it('creates object of type "Table"', function(){
@@ -884,22 +891,21 @@ describe('Table-related functionality', function(){
         expect(table.styleProperty('a-property')).toEqual(12.6);
     });
 
-
     it('retrieves non-existing property from the style', function() {
-         if (tableStyle.hasOwnProperty('a table property')) {
-             delete tableStyle['a table property'];
-         }
-         table.style = tableStyle;
-         expect(table.styleProperty('a table property')).not.toBeDefined();
+        if (tableStyle.hasOwnProperty('a table property')) {
+            delete tableStyle['a table property'];
+        }
+        table.style = tableStyle;
+        expect(table.styleProperty('a table property')).not.toBeDefined();
     });
 
-     it('sets the width of the table', function(){
-         table.setWidth(15);
-         expect(table.styleProperty('width')).toEqual(15);
-         expect(table.styleProperty('min-width')).toEqual(15);
-         expect(table.styleProperty('max-width')).toEqual(15);
-         expect(table.attr.width).toEqual(15);
-     });
+    it('sets the width of the table', function(){
+        table.setWidth(15);
+        expect(table.styleProperty('width')).toEqual(15);
+        expect(table.styleProperty('min-width')).toEqual(15);
+        expect(table.styleProperty('max-width')).toEqual(15);
+        expect(table.attr.width).toEqual(15);
+    });
 
     it('throws exception if a non-Row type is appended to the rows', function(){
         // prentend that the row is not a row
@@ -935,7 +941,6 @@ describe('Table-related functionality', function(){
         table.rows = [];
         expect(table.getMatrix().length).toBe(0);
     });
-
 
     it('sets "profile" of the table', function(){
         spyOn(row1, 'setCellWidths').andCallFake(function(){return null;});
@@ -1013,53 +1018,30 @@ describe('Table-related functionality', function(){
         expect(table.rows.length).toBe(3);
      });
 
-     it('generates html code of the table if attributes and styles are not empty', function(){
-         spyOn(row1, 'toHtml').andCallFake(function(){
-             return 'row 1 ';
-         });
-         spyOn(row2, 'toHtml').andCallFake(function(){
-             return 'row 2 html ';
-         });
-         spyOn(row3, 'toHtml').andCallFake(function(){
-             return 'row 3 content';
-         });
+    it('generates html code of the table if attribute and style properties are both present', function(){
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1 ';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html ';
+        });
+        spyOn(row3, 'toHtml').andCallFake(function(){
+            return 'row 3 content';
+        });
 
-         spyOn(tableAttr, 'toString').andCallFake(function(){
-             return 'table attributes';
-         });
-         spyOn(tableStyle, 'toString').andCallFake(function(){
-             return 'table styles';
-         });
-         table.attr = tableAttr;
-         table.style = tableStyle;
-         table.rows = [row1, row2, row3];
-         expect(table.toHtml()).toEqual('<table table attributes style="table styles">row 1 row 2 html row 3 content</table>');
-     });
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return 'attributes for the table';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
+        });
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2, row3];
+        expect(table.toHtml()).toEqual('<table attributes for the table style="table styles">row 1 row 2 html row 3 content</table>');
+    });
 
-     it('generates html code of the table if attribute is empty', function(){
-         spyOn(row1, 'toHtml').andCallFake(function(){
-             return 'row 1 ';
-         });
-         spyOn(row2, 'toHtml').andCallFake(function(){
-             return 'row 2 html ';
-         });
-         spyOn(row3, 'toHtml').andCallFake(function(){
-             return 'row 3 content';
-         });
-
-         spyOn(tableAttr, 'toString').andCallFake(function(){
-             return '';
-         });
-         spyOn(tableStyle, 'toString').andCallFake(function(){
-             return 'table styles';
-         });
-         table.attr = tableAttr;
-         table.style = tableStyle;
-         table.rows = [row1, row2, row3];
-         expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
-     });
-
-    it('generates html code of the table if style is empty', function(){
+    it('generates html code of the table if style property is empty', function(){
          spyOn(row1, 'toHtml').andCallFake(function(){
              return 'row 1 ';
          });
@@ -1080,7 +1062,145 @@ describe('Table-related functionality', function(){
          table.style = tableStyle;
          table.rows = [row1, row2, row3];
          expect(table.toHtml()).toEqual('<table table attributes>row 1 row 2 html row 3 content</table>');
-     });
+    });
+
+    it('generates html code of the table if attribute property is empty', function(){
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1 ';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html ';
+        });
+        spyOn(row3, 'toHtml').andCallFake(function(){
+            return 'row 3 content';
+        });
+
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
+        });
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2, row3];
+        expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
+    });
+
+    it('generates html code of the table if both attribute and style properties are empty', function(){
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1 ';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html ';
+        });
+        spyOn(row3, 'toHtml').andCallFake(function(){
+            return 'row 3 content';
+        });
+
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2, row3];
+        expect(table.toHtml()).toEqual('<table>row 1 row 2 html row 3 content</table>');
+    });
+
+
+    it('generates html code of the framed table: all bogus attributes and styles are present', function(){
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html';
+        });
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return 'table attr';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
+        });
+        spyOn(bogusTableStyle, 'toString').andCallFake(function(){
+            return 'bogus table styles';
+        });
+        spyOn(bogusTableAttr, 'toString').andCallFake(function(){
+            return 'bogus table attributes';
+        });
+        spyOn(bogusCellStyle, 'toString').andCallFake(function(){
+            return 'bogus cell styles';
+        });
+        spyOn(bogusCellAttr, 'toString').andCallFake(function(){
+            return 'bogus cell attributes';
+        });
+        spyOn(bogusRowStyle, 'toString').andCallFake(function(){
+            return 'bogus row styles';
+        });
+        spyOn(bogusRowAttr, 'toString').andCallFake(function(){
+            return 'bogus row attributes';
+        });
+
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2];
+        table.bogusRowAttr = bogusRowAttr;
+        table.bogusRowStyle = bogusRowStyle;
+        table.bogusCellAttr = bogusCellAttr;
+        table.bogusCellStyle = bogusCellStyle;
+        table.bogusTableAttr = bogusTableAttr;
+        table.bogusTableStyle = bogusTableStyle;
+
+        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes style="bogus row styles"><td bogus cell attributes style="bogus cell styles"><table bogus table attributes style="bogus table styles">row 1</table></td></tr><tr bogus row attributes style="bogus row styles"><td bogus cell attributes style="bogus cell styles"><table bogus table attributes style="bogus table styles">row 2 html</table></td></tr></table>');
+    });
+
+
+it('generates html code of the framed table: bogus attributes are present, styles - not', function(){
+    spyOn(row1, 'toHtml').andCallFake(function(){
+        return 'row 1';
+    });
+    spyOn(row2, 'toHtml').andCallFake(function(){
+        return 'row 2 html';
+    });
+    spyOn(tableAttr, 'toString').andCallFake(function(){
+        return 'table attr';
+    });
+    spyOn(tableStyle, 'toString').andCallFake(function(){
+        return 'table styles';
+    });
+    spyOn(bogusTableStyle, 'toString').andCallFake(function(){
+        return '';
+    });
+    spyOn(bogusTableAttr, 'toString').andCallFake(function(){
+        return 'bogus table attributes';
+    });
+    spyOn(bogusCellStyle, 'toString').andCallFake(function(){
+        return '';
+    });
+    spyOn(bogusCellAttr, 'toString').andCallFake(function(){
+        return 'bogus cell attributes';
+    });
+    spyOn(bogusRowStyle, 'toString').andCallFake(function(){
+        return '';
+    });
+    spyOn(bogusRowAttr, 'toString').andCallFake(function(){
+        return 'bogus row attributes';
+    });
+
+    table.attr = tableAttr;
+    table.style = tableStyle;
+    table.rows = [row1, row2];
+    table.bogusRowAttr = bogusRowAttr;
+    table.bogusRowStyle = bogusRowStyle;
+    table.bogusCellAttr = bogusCellAttr;
+    table.bogusCellStyle = bogusCellStyle;
+    table.bogusTableAttr = bogusTableAttr;
+    table.bogusTableStyle = bogusTableStyle;
+    expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 1</table></td></tr><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 2 html</table></td></tr></table>');
+    });
+
 
     it('sets the default values for the table border', function(){
         expect(table.hasOwnProperty('setBorder')).toBe(true);
@@ -1145,7 +1265,7 @@ describe('Table-related functionality', function(){
     });
 
 
-    it ('gives the number of the column in the table: all columns have the same number of cells', function(){
+    it('gives the number of the column in the table: all columns have the same number of cells', function(){
         spyOn(row1, 'cellNum').andCallFake(function(){
             return 5;
         });
@@ -1164,7 +1284,7 @@ describe('Table-related functionality', function(){
     });
 
 
-    it ('gives the number of the column in the table: columns have different number of cells', function(){
+    it('gives the number of the column in the table: columns have different number of cells', function(){
         spyOn(row1, 'cellNum').andCallFake(function(){
             return 3;
         });
@@ -1182,7 +1302,7 @@ describe('Table-related functionality', function(){
         expect(row3.cellNum).not.toHaveBeenCalled(); // not necessary
     });
 
-    it ('gives the number of the column in the table with empty rows', function(){
+    it('gives the number of the column in the table with empty rows', function(){
         spyOn(row1, 'cellNum').andCallFake(function(){
             return 0;
         });
@@ -1196,7 +1316,7 @@ describe('Table-related functionality', function(){
         expect(row2.cellNum).toHaveBeenCalled();
     });
 
-    it ('gives the number of the column in the table with a single row', function(){
+    it('gives the number of the column in the table with a single row', function(){
         spyOn(row1, 'cellNum').andCallFake(function(){
             return 20;
         });
@@ -1205,12 +1325,46 @@ describe('Table-related functionality', function(){
         expect(row1.cellNum).toHaveBeenCalled();
     });
 
+    it('says that the table is framed if at least one of the properties is set', function(){
+        expect(table.isFramed()).toBe(false);
+        table.bogusTableStyle = 'anything';
+        expect(table.isFramed()).toBe(true);
+
+        table = new Table();
+        expect(table.isFramed()).toBe(false);
+        table.bogusTableAttr = 'anything';
+        table.bogusRowAttr = 'whatever';
+        expect(table.isFramed()).toBe(true);
+
+        table = new Table();
+        expect(table.isFramed()).toBe(false);
+        table.bogusTableAttr = 'anything';
+        table.bogusTableStyle = 'whatever';
+        table.bogusRowStyle = 'anything';
+        table.bogusRowAttr = 'whatever';
+        table.bogusCellAttr = 'anything';
+        table.bogusCellStyle = 'whatever';
+        expect(table.isFramed()).toBe(true);
+    });
+
+    it('removes the properties that make the table be framed', function(){
+        expect(table.isFramed()).toBe(false);
+        table.bogusTableAttr = 'anything';
+        expect(table.isFramed()).toBe(true);
+
+        table.removeFrame();
+        expect(table.isFramed()).toBe(false);
+
+        // remove again
+        table.removeFrame();
+        expect(table.isFramed()).toBe(false);
+    });
 
 
 
 });
 
-describe('Grating-related functionality', function(){
+xdescribe('Grating-related functionality', function(){
     var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle, nestedCellAttr, nestedRowAttr, nestedTableAttr;
     beforeEach(function(){
         table = new Grating();
@@ -1346,7 +1500,6 @@ describe('Transform html table to an object', function(){
         expect(style.color).toBe('red');
         expect(style.hasOwnProperty('border-style')).toBe(true);
         expect(style['border-style']).toBe('solid');
-
     });
 
     it('sets attributes if data-marker attribute is equal to "table"', function(){
@@ -1368,6 +1521,8 @@ describe('Transform html table to an object', function(){
         expect(obj.getType()).toBe('Table');
         expect(obj.rows.length).toBe(2);
     });
+
+    it();
 });
 
 
@@ -1514,5 +1669,4 @@ describe('Converts html table cell in to Cell object', function(){
         expect(cell.content.elements[1].hasOwnProperty('getType')).toBe(true);
         expect(cell.content.elements[1].getType()).toBe('Table');
     });
-
 });
