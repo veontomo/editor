@@ -993,7 +993,7 @@ describe('Table-related functionality', function(){
             return [[], []];
         });
         expect(table.isSameWidths()).toBe(true);
-     });
+    });
 
     it('calls a method of the Row() object to delete a column', function(){
         spyOn(row1, 'dropCell').andCallFake(function(){return null;});
@@ -1016,7 +1016,7 @@ describe('Table-related functionality', function(){
         expect(table.rows.length).toBe(2);
         table.appendRow(row3);
         expect(table.rows.length).toBe(3);
-     });
+    });
 
     it('generates html code of the table if attribute and style properties are both present', function(){
         spyOn(row1, 'toHtml').andCallFake(function(){
@@ -1157,48 +1157,48 @@ describe('Table-related functionality', function(){
     });
 
 
-it('generates html code of the framed table: bogus attributes are present, styles - not', function(){
-    spyOn(row1, 'toHtml').andCallFake(function(){
-        return 'row 1';
-    });
-    spyOn(row2, 'toHtml').andCallFake(function(){
-        return 'row 2 html';
-    });
-    spyOn(tableAttr, 'toString').andCallFake(function(){
-        return 'table attr';
-    });
-    spyOn(tableStyle, 'toString').andCallFake(function(){
-        return 'table styles';
-    });
-    spyOn(bogusTableStyle, 'toString').andCallFake(function(){
-        return '';
-    });
-    spyOn(bogusTableAttr, 'toString').andCallFake(function(){
-        return 'bogus table attributes';
-    });
-    spyOn(bogusCellStyle, 'toString').andCallFake(function(){
-        return '';
-    });
-    spyOn(bogusCellAttr, 'toString').andCallFake(function(){
-        return 'bogus cell attributes';
-    });
-    spyOn(bogusRowStyle, 'toString').andCallFake(function(){
-        return '';
-    });
-    spyOn(bogusRowAttr, 'toString').andCallFake(function(){
-        return 'bogus row attributes';
-    });
+    it('generates html code of the framed table: bogus attributes are present, styles - not', function(){
+        spyOn(row1, 'toHtml').andCallFake(function(){
+            return 'row 1';
+        });
+        spyOn(row2, 'toHtml').andCallFake(function(){
+            return 'row 2 html';
+        });
+        spyOn(tableAttr, 'toString').andCallFake(function(){
+            return 'table attr';
+        });
+        spyOn(tableStyle, 'toString').andCallFake(function(){
+            return 'table styles';
+        });
+        spyOn(bogusTableStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(bogusTableAttr, 'toString').andCallFake(function(){
+            return 'bogus table attributes';
+        });
+        spyOn(bogusCellStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(bogusCellAttr, 'toString').andCallFake(function(){
+            return 'bogus cell attributes';
+        });
+        spyOn(bogusRowStyle, 'toString').andCallFake(function(){
+            return '';
+        });
+        spyOn(bogusRowAttr, 'toString').andCallFake(function(){
+            return 'bogus row attributes';
+        });
 
-    table.attr = tableAttr;
-    table.style = tableStyle;
-    table.rows = [row1, row2];
-    table.bogusRowAttr = bogusRowAttr;
-    table.bogusRowStyle = bogusRowStyle;
-    table.bogusCellAttr = bogusCellAttr;
-    table.bogusCellStyle = bogusCellStyle;
-    table.bogusTableAttr = bogusTableAttr;
-    table.bogusTableStyle = bogusTableStyle;
-    expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 1</table></td></tr><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 2 html</table></td></tr></table>');
+        table.attr = tableAttr;
+        table.style = tableStyle;
+        table.rows = [row1, row2];
+        table.bogusRowAttr = bogusRowAttr;
+        table.bogusRowStyle = bogusRowStyle;
+        table.bogusCellAttr = bogusCellAttr;
+        table.bogusCellStyle = bogusCellStyle;
+        table.bogusTableAttr = bogusTableAttr;
+        table.bogusTableStyle = bogusTableStyle;
+        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 1</table></td></tr><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 2 html</table></td></tr></table>');
     });
 
 
@@ -1359,140 +1359,25 @@ it('generates html code of the framed table: bogus attributes are present, style
         table.removeFrame();
         expect(table.isFramed()).toBe(false);
     });
-
-
-
 });
 
-// xdescribe('Grating-related functionality', function(){
-//     var table, row1, row2, row3, tableAttr, tableStyle, nestedRowStyle, nestedCellStyle, nestedTableStyle, nestedCellAttr, nestedRowAttr, nestedTableAttr;
-//     beforeEach(function(){
-//         table = new Grating();
-//         row1 = new Row();
-//         row2 = new Row();
-//         row3 = new Row();
-//         tableAttr =  new TableAttributes();
-//         tableStyle = new TableStyle();
-//         nestedRowStyle =    new Style();
-//         nestedCellStyle =   new Style();
-//         nestedTableStyle =  new Style();
-//         nestedRowAttr =    new Attributes();
-//         nestedCellAttr =   new Attributes();
-//         nestedTableAttr =  new Attributes();
-
-//         spyOn(row1, 'toHtml').andCallFake(function(){
-//             return 'row 1';
-//         });
-//         spyOn(row2, 'toHtml').andCallFake(function(){
-//             return 'row 2';
-//         });
-//         spyOn(row3, 'toHtml').andCallFake(function(){
-//             return 'row 3 content';
-//         });
-
-//     });
-
-//     it('inherits from Table()', function(){
-//         expect(Grating.prototype instanceof Table).toBe(true);
-//     });
-
-//     it('has additional property for the nested row', function(){
-//         var ft = new Grating();
-//         expect(ft.hasOwnProperty('bogusRowStyle')).toBe(true);
-//         expect(ft.bogusRowStyle.constructor.name).toBe('Style');
-//         expect(ft.hasOwnProperty('bogusRowAttr')).toBe(true);
-//         expect(ft.bogusRowAttr.constructor.name).toBe('Attributes');
-
-//     });
-
-//     it('has additional property for the nested cell', function(){
-//         var ft = new Grating();
-//         expect(ft.hasOwnProperty('bogusCellStyle')).toBe(true);
-//         expect(ft.bogusCellStyle.constructor.name).toBe('Style');
-//         expect(ft.hasOwnProperty('bogusCellAttr')).toBe(true);
-//         expect(ft.bogusCellAttr.constructor.name).toBe('Attributes');
-
-//     });
-
-//     it('has additional property for the nested table', function(){
-//         var ft = new Grating();
-//         expect(ft.hasOwnProperty('bogusTableStyle')).toBe(true);
-//         expect(ft.bogusTableStyle.constructor.name).toBe('Style');
-//         expect(ft.hasOwnProperty('bogusTableAttr')).toBe(true);
-//         expect(ft.bogusTableAttr.constructor.name).toBe('Attributes');
-//     });
-
-//     it('generates html code of the framed rows if all nested elements have non-empty styles and attributes', function(){
-//         spyOn(tableAttr, 'toString').andCallFake(function(){
-//             return 'table attributes';
-//         });
-//         spyOn(tableStyle, 'toString').andCallFake(function(){
-//             return 'table styles';
-//         });
-//         spyOn(nestedRowStyle, 'toString').andCallFake(function(){
-//             return 'nested row styles';
-//         });
-//         spyOn(nestedCellStyle, 'toString').andCallFake(function(){
-//             return 'nested cell styles';
-//         });
-//         spyOn(nestedTableStyle, 'toString').andCallFake(function(){
-//             return 'nested table styles';
-//         });
-//         spyOn(nestedRowAttr, 'toString').andCallFake(function(){
-//             return 'nested row attr ';
-//         });
-//         spyOn(nestedCellAttr, 'toString').andCallFake(function(){
-//             return 'nested cell attr ';
-//         });
-//         spyOn(nestedTableAttr, 'toString').andCallFake(function(){
-//             return 'nested table attr ';
-//         });
-
-
-
-//         table.attr = tableAttr;
-//         table.style = tableStyle;
-//         table.rows = [row1, row2];
-//         table.bogusRowStyle = nestedRowStyle;
-//         table.bogusCellStyle = nestedCellStyle;
-//         table.bogusTableStyle = nestedTableStyle;
-//         table.bogusRowAttr = nestedRowAttr;
-//         table.bogusCellAttr = nestedCellAttr;
-//         table.bogusTableAttr = nestedTableAttr;
-
-//         expect(table.toHtml()).toEqual('<table table attributes style="table styles"><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 1</table></td></tr><tr nested row attr style="nested row styles"><td nested cell attr style="nested cell styles"><table nested table attr style="nested table styles">row 2</table></td></tr></table>');
-//     });
-// });
-
 describe('Transform html table to an object', function(){
-    xit('creates Table object if data-marker attribute is equal to "table"', function(){
-        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+    it('creates Table object if data-marker attribute is not set', function(){
+        var htmlTable = '<table><tbody><tr><td></td><td></td></tr></tbody></table>',
             obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Table');
     });
 
-    // xit('creates Grating object if data-marker attribute is equal to "grating"', function(){
-    //     var htmlTable = '<table data-marker="grating" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-    //         obj1 = htmlTable.createTableFromHtml();
-    //     expect(obj1.getType()).toBe('Grating');
-    // });
-
-    xit('creates Table object if data-marker attribute is not set', function(){
-        var htmlTable = '<table style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = htmlTable.createTableFromHtml();
-        expect(obj1.getType()).toBe('Table');
-    });
-
-    xit('sets styles if data-marker attribute is equal to "table"', function(){
-        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+    it('retrieves styles of the Table object', function(){
+        var htmlTable = '<table style="color:red;"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
             obj1 = htmlTable.createTableFromHtml();
         expect(obj1.getType()).toBe('Table');
         expect(obj1.style.hasOwnProperty('color')).toBe(true);
         expect(obj1.style.color).toBe('red');
     });
 
-    xit('sets multiple styles if data-marker attribute is equal to "table"', function(){
-        var htmlTable = '<table data-marker="table" style="color:red;border-style:solid" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+    it('retrieves multiple styles of the Table object', function(){
+        var htmlTable = '<table style="color:red;border-style:solid"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
             obj1 = htmlTable.createTableFromHtml(),
             style = obj1.style;
         expect(obj1.getType()).toBe('Table');
@@ -1502,13 +1387,11 @@ describe('Transform html table to an object', function(){
         expect(style['border-style']).toBe('solid');
     });
 
-    xit('sets attributes if data-marker attribute is equal to "table"', function(){
-        var htmlTable = '<table data-marker="table" style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
+    it('retrieves attributes of the Table object', function(){
+        var htmlTable = '<table style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
             obj1 = htmlTable.createTableFromHtml(),
             attr = obj1.attr;
         expect(obj1.getType()).toBe('Table');
-        expect(attr.hasOwnProperty('data-marker')).toBe(true);
-        expect(attr['data-marker']).toBe('table');
         expect(attr.hasOwnProperty('width')).toBe(true);
         expect(attr.width).toBe('30');
         expect(attr.hasOwnProperty('border')).toBe(true);
@@ -1522,86 +1405,43 @@ describe('Transform html table to an object', function(){
         expect(obj.rows.length).toBe(2);
     });
 
-    // it('recognizes framed tables', function(){
-    //     // a framed table with 2 rows and 2 cells in each row
-    //     var framedTable = '<table border="3" cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: solid;margin: 0px;padding: 0px 13px;width: 500px;max-width: 500px;min-width: 500px;border-spacing: 0px;border-width: 3px;border-color: rgb(0, 0, 0);"><tbody><tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;padding: 0px;margin: 0px;width: 0px;max-width: 0px;min-width: 0px;vertical-align: top;color: #000001;padding-top: 5px;padding-bottom: 5px;"><table style="border-style: solid;margin: 0px;padding: 0px;width: 0px;max-width: 0px;min-width: 0px;border-spacing: 0px 0px;border-width: 2px;border-color: #000001;"><tbody><tr style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td></tr></tbody></table></td></tr><tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;padding: 0px;margin: 0px;width: 0px;max-width: 0px;min-width: 0px;vertical-align: top;color: #000001;padding-top: 5px;padding-bottom: 5px;"><table style="border-style: solid;margin: 0px;padding: 0px;width: 0px;max-width: 0px;min-width: 0px;border-spacing: 0px 0px;border-width: 2px;border-color: #000001;"><tbody><tr style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td></tr></tbody></table></td></tr></tbody></table>',
-    //         tableObj = framedTable.createTableFromHtml(),
-    //         bogusRowAttr = tableObj.bogusRowAttr,
-    //         bogusRowStyle = tableObj.bogusRowStyle,
-    //         bogusCellAttr = tableObj.bogusCellAttr,
-    //         bogusCellStyle = tableObj.bogusCellStyle,
-    //         bogusTableAttr = tableObj.bogusTableAttr,
-    //         bogusTableStyle = tableObj.bogusTableStyle;
-
-    //         expect(tableObj.rows.length).toBe(2);
-    //         expect(tableObj.colNum()).toBe(2);
-
-    //         expect(bogusRowStyle['max-width']).toBe(468);
-    //         expect(bogusRowAttr['data-marker']).toBe('Row');
-
-    //         expect(bogusCellStyle['vertical-align']).toBe('top');
-
-    //         expect(bogusTableStyle['border-style']).toBe('solid');
-    // });
-    // it('recognizes framed tables', function(){
-    //     // a framed table with 2 rows and 2 cells in each row
-    //     var framedTable = '<table border="3" cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: solid;margin: 0px;padding: 0px 13px;width: 500px;max-width: 500px;min-width: 500px;border-spacing: 0px;border-width: 3px;border-color: rgb(0, 0, 0);"><tbody><tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;padding: 0px;margin: 0px;width: 0px;max-width: 0px;min-width: 0px;vertical-align: top;color: #000001;padding-top: 5px;padding-bottom: 5px;"><table style="border-style: solid;margin: 0px;padding: 0px;width: 0px;max-width: 0px;min-width: 0px;border-spacing: 0px 0px;border-width: 2px;border-color: #000001;"><tbody><tr style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td></tr></tbody></table></td></tr><tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;padding: 0px;margin: 0px;width: 0px;max-width: 0px;min-width: 0px;vertical-align: top;color: #000001;padding-top: 5px;padding-bottom: 5px;"><table style="border-style: solid;margin: 0px;padding: 0px;width: 0px;max-width: 0px;min-width: 0px;border-spacing: 0px 0px;border-width: 2px;border-color: #000001;"><tbody><tr style="border-style: none;margin: 0px;padding: 0px;width: 468px;max-width: 468px;min-width: 468px;"><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td><td style="border-style: none;margin: 0px;width: 232px;max-width: 232px;min-width: 232px;vertical-align: top;color: #000001;padding-left: 0px;padding-right: 0px;padding-top: 5px;padding-bottom: 5px;">cell</td></tr></tbody></table></td></tr></tbody></table>',
-    //         tableObj = framedTable.createTableFromHtml(),
-    //         bogusRowAttr = tableObj.bogusRowAttr,
-    //         bogusRowStyle = tableObj.bogusRowStyle,
-    //         bogusCellAttr = tableObj.bogusCellAttr,
-    //         bogusCellStyle = tableObj.bogusCellStyle,
-    //         bogusTableAttr = tableObj.bogusTableAttr,
-    //         bogusTableStyle = tableObj.bogusTableStyle;
-
-    //         expect(tableObj.rows.length).toBe(2);
-    //         expect(tableObj.colNum()).toBe(2);
-
-    //         expect(bogusRowStyle['max-width']).toBe(468);
-    //         expect(bogusRowAttr['data-marker']).toBe('Row');
-
-    //         expect(bogusCellStyle['vertical-align']).toBe('top');
-
-    //         expect(bogusTableStyle['border-style']).toBe('solid');
-    // });
-
-    it('recognizes simple framed tables', function(){
+    it('recognizes framed table with all styles and attributes', function(){
         // a framed table with 2 rows and 3 cells in each row
         var framedTable = '<table cohesion="Retinoid" thermal-modulation="87"\
                                 style="embrace: metrics; scenarios: orthogonal">  \
-    <tbody>  \
-        <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
-            <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
-                style="total: interactive; secured: line; next: generation"> \
-            <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
-                <tbody> \
-                    <tr style="structure: executive; attitude: oriented" secured="line">  \
-                        <td  sharable="explicit"  style="benchmark: 29px;margin: 0px;">Row 1 cell 1</td> \
-                        <td  dynamic="Focused"  style="firmware: 13.21">Row 1 cell 2</td> \
-                        <td  function="Progressive" moratorium="hybrid" \
-                            style="service-desk: 29px;capacity: 0px;">Row 1 cell 3</td> \
-                    </tr> \
-                </tbody> \
-            </table> \
-            </td> \
-        </tr> \
-        <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
-            <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
-                style="total: interactive; secured: line; next: generation"> \
-            <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
-                <tbody> \
-                    <tr style="workforce: oriented; width: 235px" focus="group">  \
-                        <td  open="secondary"  style="upward: trending;margin: 0px;">Row 2 cell 1</td> \
-                        <td  moratorium="dynamic"  style="firmware: composite; protocol: advanced">Row 2 cell 2</td> \
-                        <td  complexity="regional" audio="lingual" \
-                            style="Verbarmetabola: false; retiform: enabled;">Row 2 cell 3</td> \
-                    </tr> \
-                </tbody> \
-            </table> \
-            </td> \
-        </tr> \
-    </tbody> \
-</table>',
+            <tbody>  \
+                <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
+                    <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
+                        style="total: interactive; secured: line; next: generation"> \
+                    <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
+                        <tbody> \
+                            <tr style="structure: executive; attitude: oriented" secured="line">  \
+                                <td  sharable="explicit"  style="benchmark: 29px;margin: 0px;">Row 1 cell 1</td> \
+                                <td  dynamic="Focused"  style="firmware: 13.21">Row 1 cell 2</td> \
+                                <td  function="Progressive" moratorium="hybrid" \
+                                    style="service-desk: 29px;capacity: 0px;">Row 1 cell 3</td> \
+                            </tr> \
+                        </tbody> \
+                    </table> \
+                    </td> \
+                </tr> \
+                <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
+                    <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
+                        style="total: interactive; secured: line; next: generation"> \
+                    <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
+                        <tbody> \
+                            <tr style="workforce: oriented; width: 235px" focus="group">  \
+                                <td  open="secondary"  style="upward: trending;margin: 0px;">Row 2 cell 1</td> \
+                                <td  moratorium="dynamic"  style="firmware: composite; protocol: advanced">Row 2 cell 2</td> \
+                                <td  complexity="regional" audio="lingual" \
+                                    style="Verbarmetabola: false; retiform: enabled;">Row 2 cell 3</td> \
+                            </tr> \
+                        </tbody> \
+                    </table> \
+                    </td> \
+                </tr> \
+            </tbody> \
+        </table>',
             tableObj        = framedTable.createTableFromHtml(),
             tableStyle      = tableObj.style,
             tableAttr       = tableObj.attr,
@@ -1690,13 +1530,7 @@ describe('Transform html table to an object', function(){
             expect(c23.attr.complexity).toBe('regional');
             expect(c23.attr.audio).toBe('lingual');
             expect(c23.content.elements[0]).toBe('Row 2 cell 3');
-
-
     });
-
-
-
-
 });
 
 describe('decides whether the html code corresponds to a framed table or not', function(){
@@ -1728,7 +1562,6 @@ describe('decides whether the html code corresponds to a framed table or not', f
         var tableHtml = '<table><tbody><tr><td><table><tbody><tr><td>cell 1</td></tr></tbody></table></td></tr><tr><td><table><tbody><tr><td>cell 1</td></tr></tbody></table></td></tr><tr><td><table><tbody><tr><td>cell 1</td></tr></tbody></table></td></tr></tbody></table>';
         expect(tableHtml.isFramedTable()).toBe(true);
     });
-
     it('3 x 3 framed table', function(){
         var tableHtml = '<table><tbody><tr><td><table><tbody><tr><td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table></td></tr><tr><td><table><tbody><tr><td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table></td></tr><tr><td><table><tbody><tr><td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table></td></tr></tbody></table>';
         expect(tableHtml.isFramedTable()).toBe(true);
