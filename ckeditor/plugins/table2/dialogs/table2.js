@@ -161,10 +161,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, rowContentWidth, spaceTop, spaceBottom, inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
-				nestedTableStyle = new TableStyle(),
-				nestedCellStyle = new TableCellStyle(),
-				nestedRowStyle,  tableStr, isFramed;
+				i, table, tableWidth, tableElem, cellWidths, rowWidth, rowContentWidth, spaceTop, spaceBottom,
+				inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
+				nestedTableStyle, nestedCellStyle, nestedRowStyle, nestedRowAttr,  tableStr, isFramed;
 
 			// read inserted values
 			cellWeights = [];
@@ -222,7 +221,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowAttr = new Attributes();
 
 			// imposing the row styles and attributes
-			rowStyle.setWidth(rowWidth);
+			rowStyle.setWidth(rowContentWidth);
 			rowStyle.padding = 0;
 			if (!isFramed){
 				rowAttr[NEWSLETTER['marker-name']] =  'Row';
@@ -253,21 +252,27 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 
 			if (isFramed){
-				nestedRowStyle =  new TableRowStyle();
-				nestedCellStyle = new TableCellStyle();
+				nestedRowStyle   = new TableRowStyle();
+				nestedRowAttr    = new Attributes();
+				nestedCellStyle  = new TableCellStyle();
 				nestedTableStyle = new TableStyle();
+
 				// here one should impose the styles
-				nestedRowStyle.setWidth(rowWidth);
+				nestedRowStyle.setWidth(rowContentWidth);
+				nestedRowAttr[NEWSLETTER['marker-name']] = 'Row';
 				nestedCellStyle['padding-top'] = spaceTop;
 				nestedCellStyle['padding-bottom'] = spaceBottom;
+				nestedCellStyle['padding-left'] = 0;
+				nestedCellStyle['padding-right'] = 0;
 
 				nestedTableStyle['border-width'] = nestedBorderWidth;
 				nestedTableStyle['border-color'] = "#000001";
 				nestedTableStyle['border-style'] = "solid";
+				nestedTableStyle.setWidth(rowContentWidth);
+
 				// apply the styles  to the table
 				table.bogusRowStyle   = nestedRowStyle;
-				table.bogusRowAttr = new Attributes();
-				table.bogusRowAttr[NEWSLETTER['marker-name']] = 'Row';
+				table.bogusRowAttr    = nestedRowAttr;
 				table.bogusCellStyle  = nestedCellStyle;
 				table.bogusTableStyle = nestedTableStyle;
 			}

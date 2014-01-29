@@ -121,7 +121,7 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
 				var table = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					return el.getName() === 'table';
+					return ((el.getName() === 'table') && (el.getAttribute(NEWSLETTER['marker-name']) === 'Table'));
 				});
 				if (table) {
 					table.remove();

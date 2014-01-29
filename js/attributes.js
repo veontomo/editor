@@ -1835,12 +1835,12 @@ String.prototype.createTableFromHtml = function(){
 			if (bogusTableAttr.hasOwnProperty('style')){
 				delete bogusTableAttr.style;
 			}
-			table.bogusRowStyle = new Style(bogusRowStyle);
-			table.bogusRowAttr = new Attributes(bogusRowAttr);
-			table.bogusCellStyle = new Style(bogusCellStyle);
-			table.bogusCellAttr = new Attributes(bogusCellAttr);
+			table.bogusRowStyle   = new Style(bogusRowStyle);
+			table.bogusRowAttr    = new Attributes(bogusRowAttr);
+			table.bogusCellStyle  = new Style(bogusCellStyle);
+			table.bogusCellAttr   = new Attributes(bogusCellAttr);
 			table.bogusTableStyle = new Style(bogusTableStyle);
-			table.bogusTableAttr = new Attributes(bogusTableAttr);
+			table.bogusTableAttr  = new Attributes(bogusTableAttr);
 		}
 
 
@@ -1848,7 +1848,6 @@ String.prototype.createTableFromHtml = function(){
 		for (i = 0; i < rowsNum; i++){
 			if (isFramed){
 				currentRow = rows[i].querySelector('td table tr');
-				console.log(currentRow);
 			} else {
 				currentRow = rows[i];
 			}
