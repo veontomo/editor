@@ -83,6 +83,7 @@ var toString2 = function (obj) {
  * @param  {String} left
  * @param  {String} middle
  * @param  {String} right
+ * @type   String|Null
  * @return {String|Null}
  */
 var sandwichWith = function (left, middle, right){
@@ -1001,7 +1002,7 @@ function Row() {
 	}
 	/**
 	 * Type of the object. Return "Row" for the objects of this type.
-	 * @pmethod {string} getType
+	 * @method {string} getType
 	 * @return {string}
 	 */
 	this.getType = function(){
@@ -1216,7 +1217,6 @@ function Row() {
 		this.setStyle(nodeStyle);
 		this.setAttr(attrObj);
 	};
-
 }
 
 /**
@@ -1610,100 +1610,12 @@ function Table() {
 	this.bogusTableAttr = null; // new Attributes();
 }
 
-
-/**
- * Represents a table with bordered rows.
- * @module   attributes
- * @extends  Table
- * @class    Grating
- */
-// function Grating(){
-// 	"use strict";
-// 	if (!(this instanceof Grating)) {
-// 		return new Grating();
-// 	}
-
-// 	this.getType = function(){
-// 		return "Grating";
-// 	};
-
-// 	/**
-// 	 * Style of the  the table that will be inserted into the single cell. This table is supposed to be framed.
-// 	 * @property {TableStyle} bogusTableStyle
-// 	 */
-// 	this.bogusTableStyle = new TableStyle();
-
-// 	/**
-// 	 * Attributes of the  the table that will be inserted into the single cell. This table is supposed to be framed.
-// 	 * @property {Attribute} bogusTableStyle
-// 	 */
-// 	this.bogusTableAttr = new Attributes();
-
-// 	/**
-// 	 * Style of the row containing a single cell.
-// 	 * @property {Style} bogusTableStyle
-// 	 */
-// 	this.bogusRowStyle = new TableRowStyle();
-
-// 	/**
-// 	 * Attributes of the row containing a single cell.
-// 	 * @property {Attribute} bogusTableStyle
-// 	 */
-// 	this.bogusRowAttr = new Attributes();
-
-// 	/**
-// 	 * Style of the  the cell which fills the whole row.
-// 	 * @property {TableCellStyle} bogusTableStyle
-// 	 */
-// 	this.bogusCellStyle = new TableCellStyle();
-
-// 	/**
-// 	 * Attributes of the  the cell which fills the whole row.
-// 	 * @property {Attribute} bogusTableStyle
-// 	 */
-// 	this.bogusCellAttr = new Attributes();
-
-// 	*
-// 	 * Generates table-specific html code with corresponding attributes and styles.
-// 	 * Creation of the row-related html of each row is delegated to Row::toHtml()
-// 	 * @method toHtml
-// 	 * @return {String} html representation of the row
-
-// 	this.toHtml = function () {
-// 		var i, tableAttr, tableStyle, htmlTable, rowsNumber,
-// 			// string representation of the border style
-// 			nestedRowStyle =   this.bogusRowStyle.toString().sandwichWith('style="', '"'),
-// 			nestedRowAttr =   this.bogusRowAttr.toString(),
-// 			nestedCellStyle =  this.bogusCellStyle.toString().sandwichWith('style="', '"'),
-// 			nestedCellAttr =  this.bogusCellAttr.toString(),
-// 			nsTblSt = this.bogusTableStyle.toString().sandwichWith('style="', '"'),
-// 			nsTblAttr = this.bogusTableAttr.toString(),
-// 			tag = 'table';
-
-// 		tableAttr = this.attr.toString();
-// 		tableStyle = this.style.toString().sandwichWith('style="','"');
-
-// 		htmlTable = [tag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
-// 		rowsNumber = this.rows.length;
-// 		for (i = 0; i < rowsNumber; i++) {
-// 			htmlTable += ['tr', nestedRowAttr, nestedRowStyle].concatDropSpaces().sandwichWith('<', '>') +
-// 				['td', nestedCellAttr, nestedCellStyle].concatDropSpaces().sandwichWith('<', '>') +
-// 				[tag, nsTblAttr, nsTblSt].concatDropSpaces().sandwichWith('<', '>');
-// 			htmlTable += this.rows[i].toHtml();
-// 			htmlTable += tag.sandwichWith('</', '>') +'</td></tr>';
-// 		}
-// 		htmlTable += '</' + tag + '>';
-// 		return htmlTable;
-// 	};
-// }
-// Grating.prototype = new Table();
-
 /**
  * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
  * following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
  * as a "supported" ones, the corresponding functions will be called to transform them into objects.
  * For the moment, the only supported element is "Table".
- * @module  String
+ * @module  attributes
  * @method createCellFromHtml
  * @return {Object} Cell
  */
@@ -1769,7 +1681,7 @@ String.prototype.createCellFromHtml = function(){
  * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
  * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
  * processed one by one by function String::createCellFromHtml().
- * @module String
+ * @module  attributes
  * @method createRowFromHtml
  * @return {Object} Row
  */
@@ -1815,7 +1727,7 @@ String.prototype.createRowFromHtml = function(){
  * Returns true, if tableHtml is an html code corresponding to a table each row of which
  * contains just one cell, and this cell in its turn contains only one table.
  * Returns false otherwise.
- * @module  String
+ * @module  attributes
  * @method  isFramedTable
  * @return  {Boolean} [description]
  */
@@ -1867,9 +1779,9 @@ String.prototype.isFramedTable = function (){
 /**
  * Creates an object representation from a string that is an html repersentation of a table.
  * Only one table is supposed to be processed at a time, so the string to be processed is to
- * be of the following form <table ...> ... </table>. Inside the tag, there should be tags "tr"
+ * be of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags "tr"
  * that will be processed one by one by function String::createRowFromHtml().
- * @module  String
+ * @module  attributes
  * @method createTableFromHtml
  * @return {Table}
  */
@@ -1949,49 +1861,3 @@ String.prototype.createTableFromHtml = function(){
 		}
 		return table;
 };
-
-// /**
-//  * Creates an object representation from a string that is an html repersentation of a table which
-//  * rows are with borders. The method is similar String::createTableFromHtml().
-//  * @todo  not implemented correctly so far: the properties bogusTableStyle, bogusTableAttr,
-//  * bogusCellStyle, bogusCellAttr, bogusRowStyle, bogusRowAttr are so far not filled in.
-//  * @return {Grating}
-//  */
-// String.prototype.createGratingFromHtml = function(){
-// 		var htmlStr = this,
-// 			parser = new DOMParser(),
-// 			doc = parser.parseFromString(htmlStr, 'text/html'),
-// 			node = doc.getElementsByTagName('table'),
-// 			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
-// 		if (node.length === 0){
-// 			return null;
-// 		}
-// 		node = node[0];
-
-
-// 		// creating object
-// 		table = new Grating();
-
-// 		// imposing its styles
-// 		nodeStyle = node.getAttribute('style');
-// 		table.style = new Style(nodeStyle);
-
-
-// 		// imposing its attributes
-// 		attrs = flatten(node.attributes);
-// 		if (attrs.hasOwnProperty('style')){
-// 			delete attrs.style;
-// 		}
-// 		table.attr = new Attributes(attrs);
-// 		// the only child of the table is always tbody
-// 		rows = node.children[0].children;
-// 		rowsNum = rows.length;
-// 		for (i = 0; i < rowsNum; i++){
-// 			currentRow = rows[i];
-// 			if(currentRow.tagName === "TR"){
-// 				row = currentRow.outerHTML.createRowFromHtml();
-// 				table.appendRow(row);
-// 			}
-// 		}
-// 		return table;
-// };

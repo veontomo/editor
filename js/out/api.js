@@ -5,7 +5,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "BorderStyle",
         "Cell",
         "Content",
-        "Grating",
         "ImageStyle",
         "LinkStyle",
         "ListItemStyle",

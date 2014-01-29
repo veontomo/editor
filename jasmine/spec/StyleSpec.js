@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xit, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, Grating, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml */
+/*global describe, it, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -135,8 +135,6 @@ describe('Concatenates elements of array, replacing a multiple spaces with a sin
         expect(concatDropSpaces(arr)).toBe('');
         expect(concatDropSpaces(arr, '')).toBe('');
     });
-
-
 });
 
 describe('Transforms table attributes into a string', function() {
@@ -220,7 +218,6 @@ describe('creates a style object from an object', function(){
     });
 });
 
-
 describe('creates a style object', function(){
     it('from a string', function(){
         var s = new Style('a:10; color: some color; another-attr: un altro valore;');
@@ -278,9 +275,7 @@ describe('creates an attribute object', function(){
         expect(attr.hasOwnProperty('func')).toBe(false);
         expect(attr.hasOwnProperty('bool')).toBe(false);
     });
-
 });
-
 
 describe('appends object attributes to the style object', function(){
     it('throws an error if non-object is given', function(){
@@ -435,7 +430,6 @@ describe('Content', function() {
         expect(htmlContent).toBe('<!-- no html representation -->');
     });
 });
-
 
 describe('Cell-related functionality', function() {
     var cell, cellStyle, cellAttr, cellContent;
@@ -883,7 +877,7 @@ describe('Table-related functionality', function(){
          tableStyle['a property'] = 'table property value';
          table.style = tableStyle;
          expect(table.styleProperty('a property')).toEqual('table property value');
-     });
+    });
 
     it('retrieves property of type "Number" from the style', function() {
         tableStyle['a-property'] = 12.6;
