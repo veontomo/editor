@@ -101,6 +101,20 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
+		editor.addCommand('table2InsertColumnBefore', {
+			exec: function(ed){
+				console.log('insert a column');
+				var elem = ed.getSelection().getStartElement(),
+					row;
+				parentRow = findAscendant(ed.getSelection().getStartElement(), function (el) {
+					console.log(el.getName());
+					return (el.getName() === 'tr');
+				});
+
+				console.log('index of the cell in the row', elem.getIndex());
+
+			}
+		});
 
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
@@ -187,6 +201,13 @@ CKEDITOR.plugins.add('table2', {
 				command: 'table2DropColumn',
 				group: 'table2Group'
 			});
+			editor.addMenuItem('table2InsertColumnBefore', {
+				label: editor.lang.table.column.insertBefore,
+				icon: this.path + 'icons/insertColumn.png',
+				command: 'table2InsertColumnBefore',
+				group: 'table2Group'
+			});
+
 
 
 			editor.contextMenu.addListener(function (element) {
@@ -209,7 +230,8 @@ CKEDITOR.plugins.add('table2', {
 				menuObj, elemObj;
 				if (el) {
 					menuObj = {
-						table2DeleteTable: CKEDITOR.TRISTATE_OFF
+						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
+						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF
 					};
 
 					// some get info about clicked table
