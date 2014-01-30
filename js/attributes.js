@@ -288,7 +288,7 @@ function Style(style) {
 
 		}
 		return output;
-	}
+	};
 
 }
 

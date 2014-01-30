@@ -125,18 +125,18 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: 'Bordo attorno alle righe (px)',
 				id: 'frameWidth',
-				'default': '6',
+				'default': '0',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
 				label: editor.lang.image.vSpace + ' (px)',
-				"default": "10",
+				'default': '1',
 				id: 'vSpace',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
 				label: editor.lang.image.hSpace + ' (px)',
-				"default": "13",
+				'default': '1',
 				id: 'hSpace',
 				'inputStyle': inputStyle
 			}, {
@@ -163,9 +163,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// variables to be used in what follows
 				bogusRowAttr, bogusRowStyle,  bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
 				parentElemStyle, bogusRowWidth, bogusCellWidth, bogusTableWidth,
-				i, table, tableWidth, tableElem, cellWidths, rowWidth, rowContentWidth, spaceTop, spaceBottom,
+				i, table, tableWidth, tableElem, cellWidths, rowWidth,
+				// rowContentWidth,
+				spaceTop, spaceBottom,
 				inputField, cellWeights, row, cell, tableStyle, tableAttr, rowStyle, rowAttr, cellStyle,
-				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed;
+				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed,
+				allWidths = [];
+
 
 			// read inserted values
 			cellWeights = [];
@@ -175,24 +179,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
 			}
 
-
 			// calculating widths
 			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
-			rowWidth = tableWidth - 2 * borderWidth - 2 * hSpace;
-			rowContentWidth = rowWidth - 2 * frameWidth;
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
-
-			// if at least one of the calculated widths becomes negative, then exit
-			if ([tableWidth, rowWidth, rowContentWidth, spaceTop, spaceBottom].some(function(el){
-				return el < 0;
-			})){
-				return null;
-			}
-
-			editor.filter.allow( 'table[!style]');
-
-			cellWidths = columnWidths(rowContentWidth, cellWeights); // array of column widths
 
 			isFramed = frameWidth > 0;
 
@@ -218,6 +208,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					'style': 'solid'
 				});
 			}
+			allWidths.push({'value': tableWidth, 'descr': 'larghezza della tabella'});
 
 			// creating table row
 			row  = new Row();
@@ -240,13 +231,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// calculating widths of the bogus elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
 				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorder().width;
+
 				bogusRowStyle.setWidth(bogusRowWidth);
+				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
 				bogusRowStyle.padding = 0;
 				bogusRowStyle.margin  = 0;
 				bogusRowAttr[NEWSLETTER['marker-name']] =  'Row';
 
 				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
+				allWidths.push({'value': bogusCellWidth, 'descr': 'larghezza della cella fittizia'});
+
 				// if remains zero, then in MS Outlook the cell content overlaps the border
 				// and latter becomes invisible
 				bogusCellStyle['padding-left'] = frameWidth;
@@ -257,6 +252,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				bogusTableWidth = bogusCellStyle.width - bogusCellStyle['padding-left'] - bogusCellStyle['padding-right'];
 				bogusTableStyle.setWidth(bogusTableWidth);
+				allWidths.push({'value': bogusTableWidth, 'descr': 'larghezza della tabella fittizia'});
+
 				bogusTableStyle['border-style'] = 'solid';
 				bogusTableStyle['border-color'] = '#000000';
 				bogusTableStyle['border-width'] = frameWidth;
@@ -306,6 +303,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);
+				allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
 				delete cellStyle.padding;
 				cellStyle['padding-left']  = (i === 0) ? hSpace : 0;        // add space to the left for the first cell
 				cellStyle['padding-right'] = (i === cols - 1) ? hSpace : 0; // add space to the right for the last cell
@@ -325,31 +323,18 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				table.appendRow(row);
 			}
 
-			// if (false && isFramed){
-			// 	nestedRowStyle   = new TableRowStyle();
-			// 	nestedRowAttr    = new Attributes();
-			// 	nestedCellStyle  = new TableCellStyle();
-			// 	nestedTableStyle = new TableStyle();
-
-			// 	// here one should impose the styles
-			// 	nestedRowStyle.setWidth(rowContentWidth);
-			// 	nestedRowAttr[NEWSLETTER['marker-name']] = 'Row';
-			// 	nestedCellStyle['padding-top'] = spaceTop;
-			// 	nestedCellStyle['padding-bottom'] = spaceBottom;
-			// 	nestedCellStyle['padding-left'] = 0;
-			// 	nestedCellStyle['padding-right'] = 0;
-
-			// 	nestedTableStyle['border-width'] = frameWidth;
-			// 	nestedTableStyle['border-color'] = "#000001";
-			// 	nestedTableStyle['border-style'] = "solid";
-			// 	nestedTableStyle.setWidth(rowContentWidth);
-
-			// 	// apply the styles  to the table
-			// 	table.bogusRowStyle   = nestedRowStyle;
-			// 	table.bogusRowAttr    = nestedRowAttr;
-			// 	table.bogusCellStyle  = nestedCellStyle;
-			// 	table.bogusTableStyle = nestedTableStyle;
-			// }
+			// if at least one of the values becomes negative, flash alert message
+			if (allWidths.some(
+				function(el){
+					var result = el.value < 0;
+					if (result){
+						alert('Rilevato un numero negativo:' + el.value + "\n(" + el.descr + ")\nLa tabella non sarà inserita." );
+					}
+					return result;
+				}))
+			{
+				return null;
+			}
 
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
