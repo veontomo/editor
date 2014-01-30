@@ -243,6 +243,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				bogusRowStyle.setWidth(bogusRowWidth);
 				bogusRowStyle.padding = 0;
 				bogusRowStyle.margin  = 0;
+				bogusRowAttr[NEWSLETTER['marker-name']] =  'Row';
 
 				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
@@ -279,7 +280,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
-			rowAttr[NEWSLETTER['marker-name']] =  'Row';
+			if (!isFramed){
+				rowAttr[NEWSLETTER['marker-name']] =  'Row';
+			}
+
 
 			// binding the row properties and the row object
 			row.style = rowStyle;
