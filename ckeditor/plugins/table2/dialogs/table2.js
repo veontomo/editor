@@ -244,12 +244,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				bogusRowStyle.padding = 0;
 				bogusRowStyle.margin  = 0;
 
-				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding;
+				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
-				bogusCellStyle.padding = 0;
+				// if remains zero, then in MS Outlook the cell content overlaps the border
+				// and latter becomes invisible
+				bogusCellStyle['padding-left'] = frameWidth;
+				bogusCellStyle['padding-right'] = frameWidth;
+				bogusCellStyle['padding-top'] = spaceTop;
+				bogusCellStyle['padding-bottom'] = spaceBottom;
 				bogusCellStyle.margin  = 0;
 
-				bogusTableWidth = bogusCellStyle.width - 2 * bogusCellStyle.padding;
+				bogusTableWidth = bogusCellStyle.width - bogusCellStyle['padding-left'] - bogusCellStyle['padding-right'];
 				bogusTableStyle.setWidth(bogusTableWidth);
 				bogusTableStyle['border-style'] = 'solid';
 				bogusTableStyle['border-color'] = '#000000';
@@ -271,9 +276,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 
 			// impose row styles and attributes
-			console.log(parentElemStyle);
 			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
-			console.log('rowWidth: ',rowWidth);
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
 			rowAttr[NEWSLETTER['marker-name']] =  'Row';
