@@ -119,13 +119,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				id: 'borderWidth',
 				label: editor.lang.table.border + ' (px)',
-				'default': '3',
+				'default': '0',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
 				label: 'Bordo attorno alle righe (px)',
-				id: 'nestedBorderWidth',
-				'default': '0',
+				id: 'frameWidth',
+				'default': '6',
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
@@ -156,14 +156,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
 				cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
 				borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
-				nestedBorderWidth = parseInt(dialog.getValueOf('info', 'nestedBorderWidth'), 10),
+				frameWidth = parseInt(dialog.getValueOf('info', 'frameWidth'), 10),
 				vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
+				bogusRowAttr, bogusRowStyle,  bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
+				parentElemStyle, bogusRowWidth, bogusCellWidth, bogusTableWidth,
 				i, table, tableWidth, tableElem, cellWidths, rowWidth, rowContentWidth, spaceTop, spaceBottom,
-				inputField, cellWeights, row, cell, cellStyle, tableStyle, tableAttr, rowStyle, rowAttr,
-				nestedTableStyle, nestedCellStyle, nestedRowStyle, nestedRowAttr,  tableStr, isFramed;
+				inputField, cellWeights, row, cell, tableStyle, tableAttr, rowStyle, rowAttr, cellStyle,
+				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed;
 
 			// read inserted values
 			cellWeights = [];
@@ -173,10 +175,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
 			}
 
+
 			// calculating widths
 			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
 			rowWidth = tableWidth - 2 * borderWidth - 2 * hSpace;
-			rowContentWidth = rowWidth - 2 * nestedBorderWidth;
+			rowContentWidth = rowWidth - 2 * frameWidth;
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 
@@ -187,10 +190,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				return null;
 			}
 
+			editor.filter.allow( 'table[!style]');
 
 			cellWidths = columnWidths(rowContentWidth, cellWeights); // array of column widths
 
-			isFramed = nestedBorderWidth > 0;
+			isFramed = frameWidth > 0;
 
 			table = new Table();
 
@@ -201,13 +205,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// impose styles and attribute values
 			tableStyle.setWidth(tableWidth);
 			tableAttr[NEWSLETTER['marker-name']] = table.getType();
-			tableStyle['padding-left'] = hSpace;
-			tableStyle['padding-right'] = hSpace;
+			tableStyle.margin = 0;
+			tableStyle.padding = 0;
 
-			// binding the styles and attributes with the table object
+			// binding the styles and attributes and the table object
 			table.attr = tableAttr;
 			table.style = tableStyle;
-			if (borderWidth>0){
+			if (borderWidth > 0){
 				table.setBorder({
 					'width': borderWidth,
 					'color': '#000000',
@@ -220,29 +224,92 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowStyle = new TableRowStyle();
 			rowAttr = new Attributes();
 
-			// imposing the row styles and attributes
-			rowStyle.setWidth(rowContentWidth);
-			rowStyle.padding = 0;
-			if (!isFramed){
-				rowAttr[NEWSLETTER['marker-name']] =  'Row';
+			// By default, table style is a parent style for the nested rows.
+			// The properties of the the nested elements will be calculated based on this style.
+			parentElemStyle = tableStyle;
+
+			if (isFramed){
+				// creating bogus styles and attributes
+				bogusRowAttr    = new Attributes();
+				bogusRowStyle   = new TableRowStyle();
+				bogusCellAttr   = new Attributes();
+				bogusCellStyle  = new TableCellStyle();
+				bogusTableAttr  = new TableAttributes();
+				bogusTableStyle = new TableStyle();
+
+				// calculating widths of the bogus elements
+				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
+				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorder().width;
+				bogusRowStyle.setWidth(bogusRowWidth);
+				bogusRowStyle.padding = 0;
+				bogusRowStyle.margin  = 0;
+
+				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding;
+				bogusCellStyle.setWidth(bogusCellWidth);
+				bogusCellStyle.padding = 0;
+				bogusCellStyle.margin  = 0;
+
+				bogusTableWidth = bogusCellStyle.width - 2 * bogusCellStyle.padding;
+				bogusTableStyle.setWidth(bogusTableWidth);
+				bogusTableStyle['border-style'] = 'solid';
+				bogusTableStyle['border-color'] = '#000000';
+				bogusTableStyle['border-width'] = frameWidth;
+				bogusTableAttr.border = frameWidth;
+
+				// binding attributes and styles with the objects
+				table.bogusTableStyle = bogusTableStyle;
+				table.bogusTableAttr  = bogusTableAttr;
+				table.bogusRowStyle   = bogusRowStyle;
+				table.bogusRowAttr    = bogusRowAttr;
+				table.bogusCellStyle  = bogusCellStyle;
+				table.bogusCellAttr   = bogusCellAttr;
+
+				// defining a parent style. The properties of the the nested elements
+				// will be calculated based on this style.
+				parentElemStyle = bogusTableStyle;
+
 			}
 
-			// binding the styles to the row
+			// impose row styles and attributes
+			console.log(parentElemStyle);
+			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
+			console.log('rowWidth: ',rowWidth);
+			rowStyle.setWidth(rowWidth);
+			rowStyle.padding = 0;
+			rowAttr[NEWSLETTER['marker-name']] =  'Row';
+
+			// binding the row properties and the row object
 			row.style = rowStyle;
 			row.attr = rowAttr;
 
 			// fill in the row with the cells
+			allCellsWidth = rowStyle.width - rowStyle.padding;     // sum of all cell widths
+			cellWidths = columnWidths(allCellsWidth, cellWeights); // array of column widths
+
+			// creating cells to be inserted into the row
 			for (i = 0; i < cols; i++) {
+				// It is better to recreate objects for every cell
+				// in order to avoid influence of previously imposed values
 				cell = new Cell('cell');
 				cellStyle = new TableCellStyle();
+				cellAttr = new Attributes();
+
 				// imposing cell styles and attributes
-				cellStyle.setWidth(cellWidths[i]);
+
+				// adjust width of the first and the last cell
+				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
+				cellStyle.setWidth(cellWidth);
 				delete cellStyle.padding;
-				cellStyle['padding-left'] = 0;
-				cellStyle['padding-right'] = 0;
+				cellStyle['padding-left']  = (i === 0) ? hSpace : 0;        // add space to the left for the first cell
+				cellStyle['padding-right'] = (i === cols - 1) ? hSpace : 0; // add space to the right for the last cell
 				cellStyle['padding-top'] = spaceTop;
 				cellStyle['padding-bottom'] = spaceBottom;
+				cellStyle.margin = 0;
+
+				// binding the styles and attributes and the object
 				cell.style = cellStyle;
+				cell.attr = cellAttr;
+
 				// add the newly created cell to the row
 				row.appendCell(cell);
 			}
@@ -251,31 +318,31 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				table.appendRow(row);
 			}
 
-			if (isFramed){
-				nestedRowStyle   = new TableRowStyle();
-				nestedRowAttr    = new Attributes();
-				nestedCellStyle  = new TableCellStyle();
-				nestedTableStyle = new TableStyle();
+			// if (false && isFramed){
+			// 	nestedRowStyle   = new TableRowStyle();
+			// 	nestedRowAttr    = new Attributes();
+			// 	nestedCellStyle  = new TableCellStyle();
+			// 	nestedTableStyle = new TableStyle();
 
-				// here one should impose the styles
-				nestedRowStyle.setWidth(rowContentWidth);
-				nestedRowAttr[NEWSLETTER['marker-name']] = 'Row';
-				nestedCellStyle['padding-top'] = spaceTop;
-				nestedCellStyle['padding-bottom'] = spaceBottom;
-				nestedCellStyle['padding-left'] = 0;
-				nestedCellStyle['padding-right'] = 0;
+			// 	// here one should impose the styles
+			// 	nestedRowStyle.setWidth(rowContentWidth);
+			// 	nestedRowAttr[NEWSLETTER['marker-name']] = 'Row';
+			// 	nestedCellStyle['padding-top'] = spaceTop;
+			// 	nestedCellStyle['padding-bottom'] = spaceBottom;
+			// 	nestedCellStyle['padding-left'] = 0;
+			// 	nestedCellStyle['padding-right'] = 0;
 
-				nestedTableStyle['border-width'] = nestedBorderWidth;
-				nestedTableStyle['border-color'] = "#000001";
-				nestedTableStyle['border-style'] = "solid";
-				nestedTableStyle.setWidth(rowContentWidth);
+			// 	nestedTableStyle['border-width'] = frameWidth;
+			// 	nestedTableStyle['border-color'] = "#000001";
+			// 	nestedTableStyle['border-style'] = "solid";
+			// 	nestedTableStyle.setWidth(rowContentWidth);
 
-				// apply the styles  to the table
-				table.bogusRowStyle   = nestedRowStyle;
-				table.bogusRowAttr    = nestedRowAttr;
-				table.bogusCellStyle  = nestedCellStyle;
-				table.bogusTableStyle = nestedTableStyle;
-			}
+			// 	// apply the styles  to the table
+			// 	table.bogusRowStyle   = nestedRowStyle;
+			// 	table.bogusRowAttr    = nestedRowAttr;
+			// 	table.bogusCellStyle  = nestedCellStyle;
+			// 	table.bogusTableStyle = nestedTableStyle;
+			// }
 
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);

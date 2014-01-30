@@ -257,6 +257,39 @@ function Style(style) {
 		setMinMaxWidth(this, w);
 	};
 
+
+	/**
+	 * returns object with keys 'width', 'color', 'style' describing the border.
+	 * If the Style object has 'border-style' equal to 'none', then in the
+	 * return object, the key 'width' is set to 0.
+	 * If 'border-style' is not 'none' and 'border-width' is present, then in the
+	 * return object, the key 'width' the 'border-width' value.
+	 * Otherwise, the 'width' key is not present.
+	 * @return {Object}
+	 */
+	this.getBorder = function(){
+		var output = {};
+		if (this.hasOwnProperty('border-width')){
+			output.width = this['border-width'];
+		}
+		if (this.hasOwnProperty('border-color')){
+			output.color = this['border-color'];
+		}
+
+		if (this.hasOwnProperty('border-style')){
+			if(this['border-style'] === 'none'){
+				output.width = 0;
+				if (output.hasOwnProperty('color')){
+					delete output.color;
+				}
+			} else {
+				output.style = this['border-style'];
+			}
+
+		}
+		return output;
+	}
+
 }
 
 /**

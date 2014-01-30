@@ -320,6 +320,9 @@ describe('appends object attributes to the style object', function(){
     });
 });
 
+
+
+
 describe('Setting the width property of an object', function(){
     it('sets the width property of an empty object to be equal ot a number', function(){
         var obj = {},
@@ -373,6 +376,69 @@ describe('Setting the width property of an object', function(){
     it('throws an error if the target is not of Object type', function(){
         expect(function(){setMinMaxWidth('a string');}).toThrow('Can not set a property of a non-object!');
         expect(function(){setMinMaxWidth();}).toThrow('Can not set a property of a non-object!');
+    });
+});
+
+describe('Style functionality', function(){
+    it('sets width parameters', function(){
+        var st = new Style();
+        expect(typeof st.setWidth).toBe('function');
+        st.setWidth(200);
+        expect(st.width).toBe(200);
+        expect(st['min-width']).toBe(200);
+        expect(st['max-width']).toBe(200);
+
+        st.setWidth(9212);
+        expect(st.width).toBe(9212);
+        expect(st['min-width']).toBe(9212);
+        expect(st['max-width']).toBe(9212);
+    });
+
+    it('gets the border width', function(){
+        var st = new Style(),
+            bord = 1;
+        st['border-style'] = 'none';
+        bord = st.getBorder();
+        expect(bord.width).toBe(0);
+
+        st = new Style();
+        st['border-style'] = 'whatever but not none';
+        st['border-width'] = 23;
+        delete st['border-color'];
+        bord = st.getBorder();
+        expect(bord.width).toBe(23);
+        expect(bord.style).toBe('whatever but not none');
+        expect(bord.hasOwnProperty('color')).toBe(false);
+
+        st = new Style();
+        st['border-style'] = 'whatever but not none';
+        st['border-width'] = 223;
+        st['border-color'] = 'nice color';
+        bord = st.getBorder();
+        expect(bord.width).toBe(223);
+        expect(bord.style).toBe('whatever but not none');
+        expect(bord.color).toBe('nice color');
+
+
+        st = new Style();
+        st['border-style'] = 'whatever but not none';
+        delete st['border-width'];
+        delete st['border-color'];
+        bord = st.getBorder();
+        expect(bord.style).toBe('whatever but not none');
+        expect(bord.hasOwnProperty('color')).toBe(false);
+        expect(bord.hasOwnProperty('width')).toBe(false);
+
+        st = new Style();
+        delete st['border-style'];
+        st['border-width'] = 43;
+        delete st['border-color'];
+        bord = st.getBorder();
+        expect(bord.width).toBe(43);
+        expect(bord.hasOwnProperty('color')).toBe(false);
+        expect(bord.hasOwnProperty('style')).toBe(false);
+
+
     });
 });
 
