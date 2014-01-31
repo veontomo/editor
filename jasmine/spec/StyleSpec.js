@@ -864,9 +864,6 @@ describe('Row-related functionality:', function(){
             row.insertCellAt(-1, 'not a cell');
         }).not.toThrow('Trying to insert non-cell object!');
         expect(function(){
-            row.insertCellAt(20, 'not a cell');
-        }).not.toThrow('Trying to insert non-cell object!');
-        expect(function(){
             row.insertCellAt(21, 'not a cell');
         }).not.toThrow('Trying to insert non-cell object!');
     });
@@ -892,15 +889,26 @@ describe('Row-related functionality:', function(){
         expect(row.cells[3]).toBe(cell3);
     });
 
-    it('inserts a cell at the end', function(){
+    it('inserts a cell before the end', function(){
         row.cells = [cell1, cell2, cell3];
         var c = new Cell('new cell');
         row.insertCellAt(2, c);
         expect(row.cells[0]).toBe(cell1);
         expect(row.cells[1]).toBe(cell2);
+        expect(row.cells[2]).toBe(c);
+        expect(row.cells[3]).toBe(cell3);
+    });
+
+    it('inserts a cell at the end', function(){
+        row.cells = [cell1, cell2, cell3];
+        var c = new Cell('new cell');
+        row.insertCellAt(3, c);
+        expect(row.cells[0]).toBe(cell1);
+        expect(row.cells[1]).toBe(cell2);
         expect(row.cells[2]).toBe(cell3);
         expect(row.cells[3]).toBe(c);
     });
+
 
 
     it('generates html code of the row if attributes and styles are not empty', function(){

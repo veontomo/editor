@@ -103,27 +103,35 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				console.log('insert a column');
-				var cell, cellObj, cellIndex, parentTable, prevCell, prevCellObj, cellWidth;
+				var cell, cellObj, cellIndex, parentTable, prevCell, prevCellObj, cellWidth,
+					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile;
+
 				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					console.log(el.getName());
 					var marker = (new Cell()).getType();
 					return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
+
 				cellIndex = cell.getIndex();
 				cellObj = cell.getOuterHtml().createCellFromHtml();
 				// split the cell width into two integers (provided the cell width is integer)
 				cellWidth = cellObj.getWidth();
 				cellWidthL = parseInt(cellWidth/2, 10);
-				cellWidthR = cellWidth - cellWidthL, 10;
+				cellWidthR = cellWidth - cellWidthL;
 
-				console.log(cellWidth);
+				cellObj.setWidth(cellWidthR);
+
 				// find parent row and parent table to be sure that we treat a cell and not a bogus cell.
 				parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					console.log(el.getName());
 					var marker = (new Table()).getType();
-					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
+					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
+				tableObj = parentTable.getOuterHtml().createTableFromHtml();
+				tableProfile = tableObj.getProfile();
+				console.log('original profile: ', tableProfile, trace(tableProfile));
+
+				cellToInsert = new Cell('cella');
+				cellToInsertAttr = cellObj.attr;
+				cellToInsertStyle = cellObj.style;
 
 				if (cell.hasPrevious()){
 					prevCell = cell.getPrevious();
@@ -132,10 +140,32 @@ CKEDITOR.plugins.add('table2', {
 					prevCellWidth = prevCellObj.getWidth();
 					prevCellWidthL = parseInt(prevCellWidth/2, 10);
 					prevCellWidthR = prevCellWidth - prevCellWidthL;
+					tableProfile[cellIndex - 1] = prevCellWidthL;
 				} else {
 					prevCellWidthL = 0;
 					prevCellWidthR = 0;
 				}
+				tableProfile[cellIndex] = cellWidthR;
+				console.log('length: ',tableProfile.length, 'index: ', cellIndex);
+				if (cellIndex < tableProfile.length - 1){
+					tableProfile.splice(cellIndex, 0, prevCellWidthR + cellWidthL);
+				} else {
+					tableProfile.push(prevCellWidthR + cellWidthL);
+				}
+
+
+				console.log('new profile: ', tableProfile, trace(tableProfile));
+
+				tableObj.insertColumnAt(cellIndex, cellToInsert);
+				tableObj.setProfile(tableProfile);
+
+				newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
+				parentTable.remove();
+				// call a custom method to insert the table and assign hovering effects on it
+				editor.insertTableWithHoverEff(newTable);
+
+
+
 			}
 		});
 

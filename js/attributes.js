@@ -1142,7 +1142,8 @@ function Row() {
 
 	/**
 	 * Inserts a cell "cell" into position "pos" of the row.
-	 * The position must be valid position in the row before before insertion.
+	 * After insertion, the row length increases by 1. Therefore, "pos"
+	 * is the index with which the cell is referenced in the row after insertion.
 	 * @method insertCellAt
 	 * @param  {Cell}   cell
 	 * @param  {Number} pos
@@ -1150,17 +1151,17 @@ function Row() {
 	 */
 	this.insertCellAt = function(pos, cell){
 		var cellNum = this.cellNum();
-		if (pos >= 0 && cellNum > 0 && pos < cellNum){
+		if (pos >= 0 && cellNum > 0 && pos <= cellNum){
 			var cellType = (new Cell()).getType();
 			if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
 				throw new Error('Trying to insert non-cell object!');
 			}
-			if (pos === cellNum - 1){
+			if (pos === cellNum){
 				this.cells.push(cell);
 			} else {
 				this.cells.splice(pos, 0, cell);
 			}
-		}
+	}
 		return null;
 	}
 
@@ -1411,9 +1412,10 @@ function Table() {
 
 	/**
 	 * Inserts a cell "cell" into a given position "pos" of each row of the table.
-	 * "pos" must be a valid cell number into a table before inserting.
-	 * If a table has 5 columns, the valid cell numbers are 0, 1, 2, 3 and 4.
-	 * After inserting, the number of the column increases by 1.
+	 * If the table has 5 columns, then after insertion it will have 5+1=6 columns.
+	 * Position "pos" will correspond to the index of the inserted cell in the row after insertion.
+	 * "pos" must be a valid cell number into the table after insertion. So, for the example above,
+	 * the valid values for "pos" are 0, 1, 2, 3, 4 and 5.
 	 * @method insertColumnAt
 	 * @param  {Cell} 	cell
 	 * @param  {Number} pos
