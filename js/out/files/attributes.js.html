@@ -379,6 +379,39 @@ function Style(style) {
 		setMinMaxWidth(this, w);
 	};
 
+
+	/**
+	 * returns object with keys &#x27;width&#x27;, &#x27;color&#x27;, &#x27;style&#x27; describing the border.
+	 * If the Style object has &#x27;border-style&#x27; equal to &#x27;none&#x27;, then in the
+	 * return object, the key &#x27;width&#x27; is set to 0.
+	 * If &#x27;border-style&#x27; is not &#x27;none&#x27; and &#x27;border-width&#x27; is present, then in the
+	 * return object, the key &#x27;width&#x27; the &#x27;border-width&#x27; value.
+	 * Otherwise, the &#x27;width&#x27; key is not present.
+	 * @return {Object}
+	 */
+	this.getBorder = function(){
+		var output = {};
+		if (this.hasOwnProperty(&#x27;border-width&#x27;)){
+			output.width = this[&#x27;border-width&#x27;];
+		}
+		if (this.hasOwnProperty(&#x27;border-color&#x27;)){
+			output.color = this[&#x27;border-color&#x27;];
+		}
+
+		if (this.hasOwnProperty(&#x27;border-style&#x27;)){
+			if(this[&#x27;border-style&#x27;] === &#x27;none&#x27;){
+				output.width = 0;
+				if (output.hasOwnProperty(&#x27;color&#x27;)){
+					delete output.color;
+				}
+			} else {
+				output.style = this[&#x27;border-style&#x27;];
+			}
+
+		}
+		return output;
+	};
+
 }
 
 /**
@@ -1067,6 +1100,7 @@ function Cell(arg) {
 	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
 	 * if it is measured in &quot;px&quot;, then the measurment unit is removed and the number is returned.
+	 * @method getWidth
 	 * @return {Number|String}
 	 */
 	this.getWidth = function(){
@@ -1957,12 +1991,12 @@ String.prototype.createTableFromHtml = function(){
 			if (bogusTableAttr.hasOwnProperty(&#x27;style&#x27;)){
 				delete bogusTableAttr.style;
 			}
-			table.bogusRowStyle = new Style(bogusRowStyle);
-			table.bogusRowAttr = new Attributes(bogusRowAttr);
-			table.bogusCellStyle = new Style(bogusCellStyle);
-			table.bogusCellAttr = new Attributes(bogusCellAttr);
+			table.bogusRowStyle   = new Style(bogusRowStyle);
+			table.bogusRowAttr    = new Attributes(bogusRowAttr);
+			table.bogusCellStyle  = new Style(bogusCellStyle);
+			table.bogusCellAttr   = new Attributes(bogusCellAttr);
 			table.bogusTableStyle = new Style(bogusTableStyle);
-			table.bogusTableAttr = new Attributes(bogusTableAttr);
+			table.bogusTableAttr  = new Attributes(bogusTableAttr);
 		}
 
 
@@ -1970,7 +2004,6 @@ String.prototype.createTableFromHtml = function(){
 		for (i = 0; i &lt; rowsNum; i++){
 			if (isFramed){
 				currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
-				console.log(currentRow);
 			} else {
 				currentRow = rows[i];
 			}

@@ -978,6 +978,7 @@ function Cell(arg) {
 	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
 	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
+	 * @method getWidth
 	 * @return {Number|String}
 	 */
 	this.getWidth = function(){
@@ -1139,6 +1140,29 @@ function Row() {
 		}
 	};
 
+	/**
+	 * Inserts a cell "cell" into position "pos" of the row.
+	 * The position must be valid position in the row before before insertion.
+	 * @method insertCellAt
+	 * @param  {Cell}   cell
+	 * @param  {Number} pos
+	 * @return {void}
+	 */
+	this.insertCellAt = function(pos, cell){
+		var cellNum = this.cellNum();
+		if (pos >= 0 && cellNum > 0 && pos < cellNum){
+			var cellType = (new Cell()).getType();
+			if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
+				throw new Error('Trying to insert non-cell object!');
+			}
+			if (pos === cellNum - 1){
+				this.cells.push(cell);
+			} else {
+				this.cells.splice(pos, 0, cell);
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
@@ -1385,6 +1409,28 @@ function Table() {
 		}
 	};
 
+	/**
+	 * Inserts a cell "cell" into a given position "pos" of each row of the table.
+	 * "pos" must be a valid cell number into a table before inserting.
+	 * If a table has 5 columns, the valid cell numbers are 0, 1, 2, 3 and 4.
+	 * After inserting, the number of the column increases by 1.
+	 * @method insertColumnAt
+	 * @param  {Cell} 	cell
+	 * @param  {Number} pos
+	 * @return {void}
+	 */
+	this.insertColumnAt = function(pos, cell){
+		cell = cell || (new Cell());
+		var colNum = this.colNum(),
+			rowNum = this.rows.length,
+			i;
+		if (colNum > 0 && pos >= 0 && pos < colNum){
+			for (i = 0; i < rowNum; i++){
+				this.rows[i].insertCellAt(pos, cell);
+			};
+		}
+		return null;
+	}
 
 	/**
 	 * Drops specified column from the table. The operation is delegated to the Row::dropCell()

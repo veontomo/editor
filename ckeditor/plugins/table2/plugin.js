@@ -1,4 +1,4 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Style, trace */
+/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace */
 /*jslint plusplus: true, white: true */
 /**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
@@ -104,21 +104,38 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
 				console.log('insert a column');
-				var cell, cellIndex, parentRow, parentTable;
+				var cell, cellObj, cellIndex, parentTable, prevCell, prevCellObj, cellWidth;
 				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					console.log(el.getName());
-					return (el.getName() === 'td');
+					var marker = (new Cell()).getType();
+					return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
 				cellIndex = cell.getIndex();
+				cellObj = cell.getOuterHtml().createCellFromHtml();
+				// split the cell width into two integers (provided the cell width is integer)
+				cellWidth = cellObj.getWidth();
+				cellWidthL = parseInt(cellWidth/2, 10);
+				cellWidthR = cellWidth - cellWidthL, 10;
 
+				console.log(cellWidth);
 				// find parent row and parent table to be sure that we treat a cell and not a bogus cell.
-				parentRow = findAscendant(ed.getSelection().getStartElement(), function (el) {
+				parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					console.log(el.getName());
-					return (el.getName() === 'tr');
+					var marker = (new Table()).getType();
+					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
 
-				console.log('index of the cell in the row', cellIndex);
-
+				if (cell.hasPrevious()){
+					prevCell = cell.getPrevious();
+					prevCellObj = prevCell.getOuterHtml().createCellFromHtml();
+					// split the cell width into two integers (provided the cell width is integer)
+					prevCellWidth = prevCellObj.getWidth();
+					prevCellWidthL = parseInt(prevCellWidth/2, 10);
+					prevCellWidthR = prevCellWidth - prevCellWidthL;
+				} else {
+					prevCellWidthL = 0;
+					prevCellWidthR = 0;
+				}
 			}
 		});
 

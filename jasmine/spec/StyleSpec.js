@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml, jasmine */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -497,7 +497,7 @@ describe('Content', function() {
     });
 });
 
-describe('Cell-related functionality', function() {
+describe('Cell-related functionality:', function() {
     var cell, cellStyle, cellAttr, cellContent;
 
     beforeEach(function() {
@@ -665,7 +665,7 @@ describe('Cell-related functionality', function() {
     });
 });
 
-describe('Row-related functionality', function(){
+describe('Row-related functionality:', function(){
     var row, rowAttr, rowStyle, cell1, cell2, cell3, cell4;
     beforeEach(function(){
         cell1 = new Cell();
@@ -842,6 +842,67 @@ describe('Row-related functionality', function(){
         expect(row.cellNum()).toBe(0);
     });
 
+    it('throws an error if trying to insert non-cell object into a valid position', function(){
+        spyOn(row, 'cellNum').andCallFake(function(){return 8;});
+        expect(function(){
+            row.insertCellAt(0, 'not a cell');
+        }).toThrow('Trying to insert non-cell object!');
+        expect(function(){
+            row.insertCellAt(1, 'not a cell');
+        }).toThrow('Trying to insert non-cell object!');
+        expect(function(){
+            row.insertCellAt(4, 'not a cell');
+        }).toThrow('Trying to insert non-cell object!');
+        expect(function(){
+            row.insertCellAt(7, 'not a cell');
+        }).toThrow('Trying to insert non-cell object!');
+    });
+
+    it('does not throw an error if trying to insert non-cell object into non valid position', function(){
+        spyOn(row, 'cellNum').andCallFake(function(){return 20;});
+        expect(function(){
+            row.insertCellAt(-1, 'not a cell');
+        }).not.toThrow('Trying to insert non-cell object!');
+        expect(function(){
+            row.insertCellAt(20, 'not a cell');
+        }).not.toThrow('Trying to insert non-cell object!');
+        expect(function(){
+            row.insertCellAt(21, 'not a cell');
+        }).not.toThrow('Trying to insert non-cell object!');
+    });
+
+
+    it('inserts a cell in the middle position', function(){
+        row.cells = [cell1, cell2, cell3];
+        var c = new Cell('new cell');
+        row.insertCellAt(1, c);
+        expect(row.cells[0]).toBe(cell1);
+        expect(row.cells[1]).toBe(c);
+        expect(row.cells[2]).toBe(cell2);
+        expect(row.cells[3]).toBe(cell3);
+    });
+
+    it('inserts a cell at the beginning', function(){
+        row.cells = [cell1, cell2, cell3];
+        var c = new Cell('new cell');
+        row.insertCellAt(0, c);
+        expect(row.cells[0]).toBe(c);
+        expect(row.cells[1]).toBe(cell1);
+        expect(row.cells[2]).toBe(cell2);
+        expect(row.cells[3]).toBe(cell3);
+    });
+
+    it('inserts a cell at the end', function(){
+        row.cells = [cell1, cell2, cell3];
+        var c = new Cell('new cell');
+        row.insertCellAt(2, c);
+        expect(row.cells[0]).toBe(cell1);
+        expect(row.cells[1]).toBe(cell2);
+        expect(row.cells[2]).toBe(cell3);
+        expect(row.cells[3]).toBe(c);
+    });
+
+
     it('generates html code of the row if attributes and styles are not empty', function(){
         spyOn(cell1, 'toHtml').andCallFake(function(){
             return 'cell 1 ';
@@ -917,7 +978,7 @@ describe('Row-related functionality', function(){
     });
 });
 
-describe('Table-related functionality', function(){
+describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3,
         bogusTableAttr, bogusTableStyle, bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle;
     beforeEach(function(){
@@ -1067,6 +1128,99 @@ describe('Table-related functionality', function(){
         // the number of rows remains the same
         expect(table.rows.length).toBe(3);
     });
+
+    it('does  not insert a cell if pos is too big', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 5;});
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(7, "cell");
+        expect(row1.insertCellAt).not.toHaveBeenCalled();
+        expect(row2.insertCellAt).not.toHaveBeenCalled();
+        expect(row3.insertCellAt).not.toHaveBeenCalled();
+
+    });
+
+    it('does  not insert a cell if pos is negative', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 5;});
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(-1, "cell");
+        expect(row1.insertCellAt).not.toHaveBeenCalled();
+        expect(row2.insertCellAt).not.toHaveBeenCalled();
+        expect(row3.insertCellAt).not.toHaveBeenCalled();
+
+    });
+
+    it('does  not insert a cell if pos is equal to the number of columns ', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 5;});
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(5, "cell");
+        expect(row1.insertCellAt).not.toHaveBeenCalled();
+        expect(row2.insertCellAt).not.toHaveBeenCalled();
+        expect(row3.insertCellAt).not.toHaveBeenCalled();
+
+    });
+
+    it('calls a method to insert cell', function(){
+        var c = new Cell();
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(1, c);
+        expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
+        expect(row2.insertCellAt).toHaveBeenCalledWith(1, c);
+        expect(row3.insertCellAt).toHaveBeenCalledWith(1, c);
+    });
+
+    it('calls a method to insert cell at the beginning of the row', function(){
+        var c = new Cell();
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(0, c);
+        expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
+        expect(row2.insertCellAt).toHaveBeenCalledWith(0, c);
+        expect(row3.insertCellAt).toHaveBeenCalledWith(0, c);
+    });
+
+    it('calls a method to insert cell at the end of the row', function(){
+        var c = new Cell();
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(table, 'colNum').andCallFake(function(){return 10;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(9, c);
+        expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
+        expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
+        expect(row3.insertCellAt).toHaveBeenCalledWith(9, c);
+    });
+
+
+    it('calls a method to insert cell if cell is not provided', function(){
+        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(2);
+        expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+        expect(row2.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+        expect(row3.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+    });
+
+
 
     it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
