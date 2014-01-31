@@ -1,4 +1,4 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace */
+/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace, crack */
 /*jslint plusplus: true, white: true */
 /**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
@@ -103,8 +103,8 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				var cell, cellObj, cellIndex, parentTable, prevCell, prevCellObj, cellWidth,
-					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj, cellWidthL, cellWidthR, prevCellWidth, prevCellWidthR, prevCellWidthL;
+				var cell, cellObj, cellIndex, parentTable, newTableProfile,
+					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj;
 				// find the current cell, and not a bogus cell
 				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					var marker = (new Cell()).getType();
@@ -121,46 +121,13 @@ CKEDITOR.plugins.add('table2', {
 				// create objects in order to retrieve their properties
 				cellObj = cell.getOuterHtml().createCellFromHtml();
 				tableObj = parentTable.getOuterHtml().createTableFromHtml();
-				// split the cell width into two integers (provided the cell width is integer)
-				cellWidth = cellObj.getWidth();
-
 				tableProfile = tableObj.getProfile();
-				console.log('original profile: ', tableProfile, trace(tableProfile));
 				newTableProfile = crack(tableProfile, cellIndex);
-				console.log('alternative profile:', newTableProfile, trace(newTableProfile));
-				console.log(trace(newTableProfile), trace(tableProfile));
 
 				cellToInsert = new Cell('cella');
 				cellToInsertAttr = cellObj.attr;
 				cellToInsertStyle = cellObj.style;
 
-				// if (cell.hasPrevious()){
-				// 	prevCell = cell.getPrevious();
-				// 	prevCellObj = prevCell.getOuterHtml().createCellFromHtml();
-				// 	// split the cell width into two integers (provided the cell width is integer)
-
-				// 	cellWidthL = parseInt(cellWidth/3, 10);
-				// 	cellWidthR = cellWidth - cellWidthL;
-
-				// 	prevCellWidth = prevCellObj.getWidth();
-				// 	prevCellWidthL = parseInt((2*prevCellWidth)/3, 10);
-				// 	prevCellWidthR = prevCellWidth - prevCellWidthL;
-				// 	tableProfile[cellIndex - 1] = prevCellWidthL;
-				// } else {
-				// 	cellWidthL = parseInt(cellWidth/2, 10);
-				// 	cellWidthR = cellWidth - cellWidthL;
-				// 	prevCellWidthL = 0;
-				// 	prevCellWidthR = 0;
-				// }
-				// tableProfile[cellIndex] = cellWidthR;
-
-				// console.log('length: ',tableProfile.length, 'index: ', cellIndex);
-				// console.log(trace(newTableProfile), trace(tableProfile));
-				// if (cellIndex < tableProfile.length - 1){
-				// 	tableProfile.splice(cellIndex, 0, prevCellWidthR + cellWidthL);
-				// } else {
-				// 	tableProfile.push(prevCellWidthR + cellWidthL);
-				// }
 				// binding the styles and attributes to the newly created cell
 				cellToInsert.attr = cellToInsertAttr;
 				cellToInsert.style = cellToInsertStyle;
@@ -175,9 +142,6 @@ CKEDITOR.plugins.add('table2', {
 				parentTable.remove();
 				// call a custom method to insert the table and assign hovering effects on it
 				editor.insertTableWithHoverEff(newTable);
-
-
-
 			}
 		});
 
