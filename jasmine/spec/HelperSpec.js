@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth, specialChar*/
+/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth, specialChar, crack*/
 describe("file extension", function () {
     it("gives the file extension", function () {
         expect(fileExt('c:/folder/test.exe')).toEqual('exe');
@@ -23,7 +23,7 @@ describe("table2 helper functions", function () {
     it("normalizes the array", function () {
         expect(normalize([1, 2, 2])).toEqual([0.2, 0.4, 0.4]);
         expect(normalize([0, 0, 0, 0])).toEqual([0.25, 0.25, 0.25, 0.25]); // all zeroes in the array
-        expect(normalize([2, -2])).toEqual([2, -2]); // zero trace 
+        expect(normalize([2, -2])).toEqual([2, -2]); // zero trace
     });
 
     it("splits the number in terms with specified weights", function () {
@@ -162,7 +162,7 @@ describe('It has a class Unit', function () {
 
 describe('Escaping special characters', function(){
     it('does not change "safe" characters', function(){
-        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%&\\/^\"'<>_"; 
+        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%&\\/^\"'<>_";
         expect(specialChar(str)).toBe(str);
     });
 
@@ -187,5 +187,67 @@ describe('Escaping special characters', function(){
         var str = "<div style=\"color:red;\">01 à A ò (È) è</div>";
         expect(specialChar(str)).toBe("<div style=\"color:red;\">01 &#224; A &#242; (&#200;) &#232;</div>");
     });
+
+});
+
+
+describe('cracking array element:', function(){
+    it('cracks the only element in two integers', function(){
+        var arr = [10],
+            arr2 = crack(arr, 0);
+        expect(arr2.length).toBe(2);
+        expect(parseInt(arr2[0], 10)).toBe(arr2[0]);
+        expect(parseInt(arr2[1], 10)).toBe(arr2[1]);
+        expect(trace(arr2)).toBe(trace(arr));
+
+        arr = [27];
+        arr2 = crack(arr, 0);
+        expect(arr2.length).toBe(2);
+        expect(trace(arr2)).toBe(27);
+    });
+
+    it('cracks the very first element in two integers parts', function(){
+        var arr = [11, 20, 10],
+            arr2 = crack(arr, 0);
+        expect(arr2.length).toBe(4);
+        expect(arr2.every(function(el){
+            return el === parseInt(el, 10);
+        }));
+        expect(trace(arr2)).toBe(trace(arr));
+
+        arr = [34, 20, 10];
+        arr2 = crack(arr, 0);
+        expect(arr2.length).toBe(4);
+        expect(arr2.every(function(el){
+            return el === parseInt(el, 10);
+        }));
+        expect(trace(arr2)).toBe(trace(arr));
+    });
+
+    it('cracks the second element', function(){
+        var arr = [11, 20, 10],
+            arr2 = crack(arr, 1);
+        expect(arr2.length).toBe(4);
+        expect(arr2.every(function(el){
+            return el === parseInt(el, 10);
+        }));
+        expect(trace(arr2)).toBe(trace(arr));
+        console.log(arr, arr2);
+
+        arr = [34, 20, 10];
+        arr2 = crack(arr, 1);
+        expect(arr.length).toBe(3);
+        expect(arr2.length).toBe(4);
+        expect(arr2.every(function(el){
+            return el === parseInt(el, 10);
+        }));
+        expect(trace(arr2)).toBe(trace(arr));
+        console.log(arr, arr2);
+        console.log(crack([124, 125, 125, 124], 1));
+    });
+
+[124, 125, 125, 124]
+
+
 
 });

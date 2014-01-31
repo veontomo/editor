@@ -104,60 +104,72 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
 				var cell, cellObj, cellIndex, parentTable, prevCell, prevCellObj, cellWidth,
-					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile;
-
+					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj, cellWidthL, cellWidthR, prevCellWidth, prevCellWidthR, prevCellWidthL;
+				// find the current cell, and not a bogus cell
 				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					var marker = (new Cell()).getType();
 					return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
-
-				cellIndex = cell.getIndex();
-				cellObj = cell.getOuterHtml().createCellFromHtml();
-				// split the cell width into two integers (provided the cell width is integer)
-				cellWidth = cellObj.getWidth();
-				cellWidthL = parseInt(cellWidth/2, 10);
-				cellWidthR = cellWidth - cellWidthL;
-
-				cellObj.setWidth(cellWidthR);
-
-				// find parent row and parent table to be sure that we treat a cell and not a bogus cell.
+				// find parent table to be sure that we treat a cell and not a bogus cell.
 				parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					var marker = (new Table()).getType();
 					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 				});
+
+				cellIndex = cell.getIndex();
+
+				// create objects in order to retrieve their properties
+				cellObj = cell.getOuterHtml().createCellFromHtml();
 				tableObj = parentTable.getOuterHtml().createTableFromHtml();
+				// split the cell width into two integers (provided the cell width is integer)
+				cellWidth = cellObj.getWidth();
+
 				tableProfile = tableObj.getProfile();
 				console.log('original profile: ', tableProfile, trace(tableProfile));
+				newTableProfile = crack(tableProfile, cellIndex);
+				console.log('alternative profile:', newTableProfile, trace(newTableProfile));
+				console.log(trace(newTableProfile), trace(tableProfile));
 
 				cellToInsert = new Cell('cella');
 				cellToInsertAttr = cellObj.attr;
 				cellToInsertStyle = cellObj.style;
 
-				if (cell.hasPrevious()){
-					prevCell = cell.getPrevious();
-					prevCellObj = prevCell.getOuterHtml().createCellFromHtml();
-					// split the cell width into two integers (provided the cell width is integer)
-					prevCellWidth = prevCellObj.getWidth();
-					prevCellWidthL = parseInt(prevCellWidth/2, 10);
-					prevCellWidthR = prevCellWidth - prevCellWidthL;
-					tableProfile[cellIndex - 1] = prevCellWidthL;
-				} else {
-					prevCellWidthL = 0;
-					prevCellWidthR = 0;
-				}
-				tableProfile[cellIndex] = cellWidthR;
-				console.log('length: ',tableProfile.length, 'index: ', cellIndex);
-				if (cellIndex < tableProfile.length - 1){
-					tableProfile.splice(cellIndex, 0, prevCellWidthR + cellWidthL);
-				} else {
-					tableProfile.push(prevCellWidthR + cellWidthL);
-				}
+				// if (cell.hasPrevious()){
+				// 	prevCell = cell.getPrevious();
+				// 	prevCellObj = prevCell.getOuterHtml().createCellFromHtml();
+				// 	// split the cell width into two integers (provided the cell width is integer)
 
+				// 	cellWidthL = parseInt(cellWidth/3, 10);
+				// 	cellWidthR = cellWidth - cellWidthL;
 
-				console.log('new profile: ', tableProfile, trace(tableProfile));
+				// 	prevCellWidth = prevCellObj.getWidth();
+				// 	prevCellWidthL = parseInt((2*prevCellWidth)/3, 10);
+				// 	prevCellWidthR = prevCellWidth - prevCellWidthL;
+				// 	tableProfile[cellIndex - 1] = prevCellWidthL;
+				// } else {
+				// 	cellWidthL = parseInt(cellWidth/2, 10);
+				// 	cellWidthR = cellWidth - cellWidthL;
+				// 	prevCellWidthL = 0;
+				// 	prevCellWidthR = 0;
+				// }
+				// tableProfile[cellIndex] = cellWidthR;
+
+				// console.log('length: ',tableProfile.length, 'index: ', cellIndex);
+				// console.log(trace(newTableProfile), trace(tableProfile));
+				// if (cellIndex < tableProfile.length - 1){
+				// 	tableProfile.splice(cellIndex, 0, prevCellWidthR + cellWidthL);
+				// } else {
+				// 	tableProfile.push(prevCellWidthR + cellWidthL);
+				// }
+				// binding the styles and attributes to the newly created cell
+				cellToInsert.attr = cellToInsertAttr;
+				cellToInsert.style = cellToInsertStyle;
+
+				// console.log('new profile: ', tableProfile, trace(tableProfile));
 
 				tableObj.insertColumnAt(cellIndex, cellToInsert);
-				tableObj.setProfile(tableProfile);
+				// tableObj.setProfile(tableProfile);
+				tableObj.setProfile(newTableProfile);
 
 				newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
 				parentTable.remove();
