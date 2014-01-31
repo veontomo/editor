@@ -104,14 +104,20 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
 				console.log('insert a column');
-				var elem = ed.getSelection().getStartElement(),
-					row;
+				var cell, cellIndex, parentRow, parentTable;
+				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
+					console.log(el.getName());
+					return (el.getName() === 'td');
+				});
+				cellIndex = cell.getIndex();
+
+				// find parent row and parent table to be sure that we treat a cell and not a bogus cell.
 				parentRow = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					console.log(el.getName());
 					return (el.getName() === 'tr');
 				});
 
-				console.log('index of the cell in the row', elem.getIndex());
+				console.log('index of the cell in the row', cellIndex);
 
 			}
 		});
@@ -134,8 +140,10 @@ CKEDITOR.plugins.add('table2', {
 		});
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var table = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					return ((el.getName() === 'table') && (el.getAttribute(NEWSLETTER['marker-name']) === 'Table'));
+				var tableMarker = (new Table()).getType(), // string with which tables are marked
+					table = findAscendant(ed.getSelection().getStartElement(), function (el) {
+					return ((el.getName() === 'table') &&
+						(el.getAttribute(NEWSLETTER['marker-name']) === tableMarker));
 				});
 				if (table) {
 					table.remove();
@@ -211,8 +219,9 @@ CKEDITOR.plugins.add('table2', {
 
 
 			editor.contextMenu.addListener(function (element) {
-				var el = findAscendant(element, function (el) {
-					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === 'Row');
+				var rowMarker = (new Row()).getType(), // string with which rows are marked
+					el = findAscendant(element, function (el) {
+					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === rowMarker);
 				});
 				if (el) {
 					return {
@@ -224,8 +233,9 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = findAscendant(element, function (el) {
-					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === 'Table');
+				var tableMarker = (new Table()).getType(), // string with which tables are marked
+					el = findAscendant(element, function (el) {
+					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
 				}),
 				menuObj, elemObj;
 				if (el) {

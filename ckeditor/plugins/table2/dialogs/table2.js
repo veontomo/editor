@@ -236,7 +236,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
 				bogusRowStyle.padding = 0;
 				bogusRowStyle.margin  = 0;
-				bogusRowAttr[NEWSLETTER['marker-name']] =  'Row';
+				// mark the bogus row
+				bogusRowAttr[NEWSLETTER['marker-name']] =  row.getType();
 
 				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
@@ -270,17 +271,15 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// defining a parent style. The properties of the the nested elements
 				// will be calculated based on this style.
 				parentElemStyle = bogusTableStyle;
-
+			} else {
+				// if the table is not framed, mark the row
+				rowAttr[NEWSLETTER['marker-name']] =  row.getType();
 			}
 
 			// impose row styles and attributes
 			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
-			if (!isFramed){
-				rowAttr[NEWSLETTER['marker-name']] =  'Row';
-			}
-
 
 			// binding the row properties and the row object
 			row.style = rowStyle;
@@ -299,7 +298,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellAttr = new Attributes();
 
 				// imposing cell styles and attributes
-
+				// mark the cell
+				cellAttr[NEWSLETTER['marker-name']] = cell.getType();
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);
