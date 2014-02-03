@@ -1,4 +1,4 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace, crack */
+/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace, crack, Attributes */
 /*jslint plusplus: true, white: true */
 /**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
@@ -54,8 +54,8 @@ var firstLetterUpperCase = function (str) {
  * The command to insert the row is obtained by capitalizing the second argument
  * and appending it to the string 'insert'. Example: if pos is 'after', the command
  * to be executed is 'insertAfter'.
- * @param 	ed 		CKEDITOR.editor
- * @param 	pos 	String 	where to insert the element with respect to the current one.
+ * @param {Object}	ed 		CKEDITOR.editor
+ * @param {String}	pos 	String 	where to insert the element with respect to the current one.
  */
 var insertRow = function (ed, pos) {
 		var tag = 'tr',
@@ -92,6 +92,79 @@ var insertRow = function (ed, pos) {
 		}
 	};
 
+
+/**
+ * Inserts a column in the table. The localtion of the column to insert is given by the second
+ * argument that admits two values "before" and "after" and is inserted before or after the column
+ * of the selected cell, respectively.
+ * @param  {Object} ed       CKEDITOR.editor
+ * @param  {String} pos      "before" or "after": location of the column to insert w.r.t. the current cell
+ * @return {void}
+ */
+var insertColumn = function(ed, pos){
+	if (pos !== 'before' && pos !== 'after'){
+		return null;
+	}
+	var cell, cellObj, cellObjStyle, cellObjAttr, cellIndex, parentTable, newTableProfile,
+		cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj,
+		// offset to be added for the insertion of the column
+		offset;
+
+	// find the current cell, and not a bogus cell
+	cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
+		var marker = (new Cell()).getType();
+		return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
+	});
+	// find parent table to be sure that we treat a cell and not a bogus cell.
+	parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
+		var marker = (new Table()).getType();
+		return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
+	});
+
+	cellIndex = cell.getIndex();
+	// create objects in order to retrieve their properties
+	cellObj = cell.getOuterHtml().createCellFromHtml();
+	tableObj = parentTable.getOuterHtml().createTableFromHtml();
+	cellObjStyle = cellObj.style;
+	cellObjAttr = cellObj.attr;
+	tableProfile = tableObj.getProfile();
+
+	newTableProfile = crack(tableProfile, cellIndex);
+	console.log('table profile: ', tableProfile);
+	console.log('new table profile: ', newTableProfile);
+
+	cellToInsert = new Cell('cella');
+	cellToInsertAttr = new Attributes(cellObjAttr.toString());
+	cellToInsertStyle = new Style(cellObjStyle);
+
+
+	if (pos === 'before'){
+		offset = 0;
+		cellToInsertStyle['padding-right'] = 0;
+		tableObj.appendStyleToCol(cellIndex, 'padding-left: 0px');
+	}
+
+	if (pos === 'after'){
+		offset = 1;
+		cellToInsertStyle['padding-left'] = 0;
+		tableObj.appendStyleToCol(cellIndex, 'padding-right: 0px');
+	}
+
+
+	// binding the styles and attributes to the newly created cell
+	cellToInsert.attr  = cellToInsertAttr;
+	cellToInsert.style = cellToInsertStyle;
+
+	// offset variable is responsible for insertion 'before' or 'after'
+	tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
+	tableObj.setProfile(newTableProfile);
+
+	newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
+	parentTable.remove();
+	// call a custom method to insert the table and assign hovering effects on it
+	ed.insertTableWithHoverEff(newTable);
+};
+
 CKEDITOR.plugins.add('table2', {
 	// Register the icons.
 	icons: 'table2',
@@ -103,47 +176,16 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				var cell, cellObj, cellIndex, parentTable, newTableProfile,
-					cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj;
-				// find the current cell, and not a bogus cell
-				cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					var marker = (new Cell()).getType();
-					return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
-				});
-				// find parent table to be sure that we treat a cell and not a bogus cell.
-				parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
-					var marker = (new Table()).getType();
-					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
-				});
-
-				cellIndex = cell.getIndex();
-
-				// create objects in order to retrieve their properties
-				cellObj = cell.getOuterHtml().createCellFromHtml();
-				tableObj = parentTable.getOuterHtml().createTableFromHtml();
-				tableProfile = tableObj.getProfile();
-				newTableProfile = crack(tableProfile, cellIndex);
-
-				cellToInsert = new Cell('cella');
-				cellToInsertAttr = cellObj.attr;
-				cellToInsertStyle = cellObj.style;
-
-				// binding the styles and attributes to the newly created cell
-				cellToInsert.attr = cellToInsertAttr;
-				cellToInsert.style = cellToInsertStyle;
-
-				// console.log('new profile: ', tableProfile, trace(tableProfile));
-
-				tableObj.insertColumnAt(cellIndex, cellToInsert);
-				// tableObj.setProfile(tableProfile);
-				tableObj.setProfile(newTableProfile);
-
-				newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
-				parentTable.remove();
-				// call a custom method to insert the table and assign hovering effects on it
-				editor.insertTableWithHoverEff(newTable);
+				insertColumn(ed, 'before');
 			}
 		});
+
+		editor.addCommand('table2InsertColumnAfter', {
+			exec: function(ed){
+				insertColumn(ed, 'after');
+			}
+		});
+
 
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
@@ -239,6 +281,13 @@ CKEDITOR.plugins.add('table2', {
 				group: 'table2Group'
 			});
 
+			editor.addMenuItem('table2InsertColumnAfter', {
+				label: editor.lang.table.column.insertAfter,
+				icon: this.path + 'icons/insertColumn.png',
+				command: 'table2InsertColumnAfter',
+				group: 'table2Group'
+			});
+
 
 
 			editor.contextMenu.addListener(function (element) {
@@ -264,7 +313,8 @@ CKEDITOR.plugins.add('table2', {
 				if (el) {
 					menuObj = {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
-						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF
+						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF,
+						table2InsertColumnAfter: CKEDITOR.TRISTATE_OFF
 					};
 
 					// some get info about clicked table

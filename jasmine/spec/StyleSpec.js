@@ -1285,40 +1285,32 @@ describe('Table-related functionality:', function(){
         expect(table.rows.length).toBe(3);
     });
 
-    it('does  not insert a cell if pos is too big', function(){
+    it('Throws an error if position index is too big', function(){
         spyOn(table, 'colNum').andCallFake(function(){return 5;});
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        table.rows = [row1, row2, row3];
-        table.insertColumnAt(7, "cell");
-        expect(row1.insertCellAt).not.toHaveBeenCalled();
-        expect(row2.insertCellAt).not.toHaveBeenCalled();
-        expect(row3.insertCellAt).not.toHaveBeenCalled();
+        expect(function(){
+            table.insertColumnAt(7, "cell");
+        }).toThrow('Wrong index for the cell to insert!')
     });
 
-    it('does  not insert a cell if pos is negative', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 5;});
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        table.rows = [row1, row2, row3];
-        table.insertColumnAt(-1, "cell");
-        expect(row1.insertCellAt).not.toHaveBeenCalled();
-        expect(row2.insertCellAt).not.toHaveBeenCalled();
-        expect(row3.insertCellAt).not.toHaveBeenCalled();
+    it('Throws an error if position index is negative', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        expect(function(){
+            table.insertColumnAt(-2, "cell");
+        }).toThrow('Wrong index for the cell to insert!')
     });
 
-    it('does  not insert a cell if pos is equal to the number of columns ', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 5;});
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        table.rows = [row1, row2, row3];
-        table.insertColumnAt(5, "cell");
-        expect(row1.insertCellAt).not.toHaveBeenCalled();
-        expect(row2.insertCellAt).not.toHaveBeenCalled();
-        expect(row3.insertCellAt).not.toHaveBeenCalled();
+    it('Throws an error if position index is greater than the number of columns', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        expect(function(){
+            table.insertColumnAt(4, "cell");
+        }).toThrow('Wrong index for the cell to insert!')
+    });
+
+    it('Does not throw any error if position index is equal to the number of columns', function(){
+        spyOn(table, 'colNum').andCallFake(function(){return 3;});
+        expect(function(){
+            table.insertColumnAt(3, "cell");
+        }).not.toThrow('Wrong index for the cell to insert!')
     });
 
     it('calls a method to insert cell', function(){
@@ -1347,7 +1339,7 @@ describe('Table-related functionality:', function(){
         expect(row3.insertCellAt).toHaveBeenCalledWith(0, c);
     });
 
-    it('calls a method to insert cell at the end of the row', function(){
+    it('calls a method to insert cell at one position before the end of the row', function(){
         var c = new Cell();
         spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
         spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
@@ -1358,6 +1350,19 @@ describe('Table-related functionality:', function(){
         expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
         expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
         expect(row3.insertCellAt).toHaveBeenCalledWith(9, c);
+    });
+
+    it('calls a method to insert cell at the end of the row (appending a cell)', function(){
+        var c = new Cell();
+        spyOn(row1, 'appendCell').andCallFake(function(){return null;});
+        spyOn(row2, 'appendCell').andCallFake(function(){return null;});
+        spyOn(row3, 'appendCell').andCallFake(function(){return null;});
+        spyOn(table, 'colNum').andCallFake(function(){return 10;});
+        table.rows = [row1, row2, row3];
+        table.insertColumnAt(10, c);
+        expect(row1.appendCell).toHaveBeenCalledWith(c);
+        expect(row2.appendCell).toHaveBeenCalledWith(c);
+        expect(row3.appendCell).toHaveBeenCalledWith(c);
     });
 
 

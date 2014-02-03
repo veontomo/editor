@@ -206,7 +206,7 @@ describe('cracking array element:', function(){
         expect(trace(arr2)).toBe(27);
     });
 
-    it('cracks the very first element in two integers parts', function(){
+    it('cracks the very first element in two integer parts', function(){
         var arr = [11, 20, 10],
             arr2 = crack(arr, 0);
         expect(arr2.length).toBe(4);
@@ -224,7 +224,7 @@ describe('cracking array element:', function(){
         expect(trace(arr2)).toBe(trace(arr));
     });
 
-    it('cracks the second element', function(){
+    it('cracks the second element in two integer parts', function(){
         var arr = [11, 20, 10],
             arr2 = crack(arr, 1);
         expect(arr2.length).toBe(4);

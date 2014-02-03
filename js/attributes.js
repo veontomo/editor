@@ -1460,11 +1460,19 @@ function Table() {
 		var colNum = this.colNum(),
 			rowNum = this.rows.length,
 			i;
-		if (colNum > 0 && pos >= 0 && pos < colNum){
+
+		if (colNum <= 0 || pos < 0 || pos > colNum){
+			throw new Error('Wrong index for the cell to insert!');
+		}
+		if (pos < colNum){
 			for (i = 0; i < rowNum; i++){
 				this.rows[i].insertCellAt(pos, cell);
-
-}		}
+			}
+		} else {
+			for (i = 0; i < rowNum; i++){
+				this.rows[i].appendCell(cell);
+			}
+		}
 		return null;
 	};
 
