@@ -130,11 +130,9 @@ var insertColumn = function(ed, pos){
 	tableProfile = tableObj.getProfile();
 
 	newTableProfile = crack(tableProfile, cellIndex);
-	console.log('table profile: ', tableProfile);
-	console.log('new table profile: ', newTableProfile);
 
 	cellToInsert = new Cell('cella');
-	cellToInsertAttr = new Attributes(cellObjAttr.toString());
+	cellToInsertAttr = new Attributes(cellObjAttr);
 	cellToInsertStyle = new Style(cellObjStyle);
 
 
@@ -186,7 +184,6 @@ CKEDITOR.plugins.add('table2', {
 			}
 		});
 
-
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
 				insertRow(editor, 'before');
@@ -198,11 +195,13 @@ CKEDITOR.plugins.add('table2', {
 				insertRow(editor, 'after');
 			}
 		});
+
 		editor.addCommand('table2DeleteRow', {
 			exec: function (editor) {
 				dropRow(editor);
 			}
 		});
+
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
 				var tableMarker = (new Table()).getType(), // string with which tables are marked
@@ -228,7 +227,6 @@ CKEDITOR.plugins.add('table2', {
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('table2Dialog', this.path + 'dialogs/table2.js');
-
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('table2Group');

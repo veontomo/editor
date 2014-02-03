@@ -39,8 +39,26 @@ $(document).ready(function () {
 			this.insertElement(table);
 			$(table.$).hover(
 				function () {
+					$(this).find('td[data-marker="Cell"]').hover(
+						function(){
+							var cellNumber = $(this).index(),
+								tableParent = $(this).parents('table[data-marker="Table"]');
+							tableParent.find('tr[data-marker="Row"] td[data-marker="Cell"]:nth-child(' + cellNumber + ')').length;
+							tableParent.find('tr[data-marker="Row"] td[data-marker="Cell"]:nth-child(' + (cellNumber + 1) + ')').css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AA00FF');
+							// $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AA00FF');
+						},
+						function(){
+							var allCells = $(this).parents('table[data-marker="Table"]').find('td[data-marker="Cell"]'),
+								i,
+								len = allCells.length;
+							for (i = 0; i < len; i++){
+								dropInlineStyleAttr($(allCells[i]), 'box-shadow');
+							}
+
+						}
+					);
 					// hovering the whole table
-					$(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
+					// $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
 					// hovering table row
 					$(this).find('tr').hover(
 						function () {
