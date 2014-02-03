@@ -77,7 +77,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "attributes.js",
-            "line": 1256,
+            "line": 1280,
             "description": "Produces a string of properties in inline-style fashion\nThis function is supposed to be added to prototypes of different objects.\nIt takse into consideration only properties, methods are ignored.\nIf attribite value is a number, the measurement unit will be appended.",
             "params": [
                 {
@@ -372,7 +372,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "attributes.js",
-            "line": 1256,
+            "line": 1280,
             "description": "Represents table."
         }
     },
@@ -1546,7 +1546,32 @@
         },
         {
             "file": "attributes.js",
-            "line": 1144,
+            "line": 1143,
+            "description": "Inserts a cell \"cell\" into position \"pos\" of the row.\nAfter insertion, the row length increases by 1. Therefore, \"pos\"\nis the index with which the cell is referenced in the row after insertion.",
+            "itemtype": "method",
+            "name": "insertCellAt",
+            "params": [
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                },
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "attributes"
+        },
+        {
+            "file": "attributes.js",
+            "line": 1168,
             "description": "Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.",
             "itemtype": "method",
             "name": "appendCell",
@@ -1566,7 +1591,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1160,
+            "line": 1184,
             "description": "Drops the cell in the row. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf a cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "dropCell",
@@ -1586,7 +1611,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1193,
+            "line": 1217,
             "description": "Gives the number of cells in the row.",
             "itemtype": "method",
             "name": "cellNum",
@@ -1599,7 +1624,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1202,
+            "line": 1226,
             "description": "Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -1612,7 +1637,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1224,
+            "line": 1248,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -1632,7 +1657,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1267,
+            "line": 1291,
             "description": "Type of the object. Returns \"Table\" for the objects of this type.",
             "itemtype": "method",
             "name": "getType",
@@ -1646,7 +1671,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1276,
+            "line": 1300,
             "description": "Imposes attributes of the row",
             "itemtype": "method",
             "name": "setAttr",
@@ -1666,7 +1691,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1286,
+            "line": 1310,
             "description": "Attributes of the table.",
             "itemtype": "property",
             "name": "attr",
@@ -1677,7 +1702,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1294,
+            "line": 1318,
             "description": "Imposes style of the row",
             "itemtype": "method",
             "name": "setStyle",
@@ -1697,7 +1722,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1304,
+            "line": 1328,
             "description": "Styles of the row",
             "itemtype": "property",
             "name": "style",
@@ -1708,7 +1733,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1312,
+            "line": 1336,
             "description": "Array of rows constituting the table or empty array",
             "itemtype": "property",
             "name": "rows",
@@ -1719,7 +1744,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1325,
+            "line": 1349,
             "description": "Append a row to the exisiting rows.",
             "itemtype": "property",
             "name": "appendRow",
@@ -1740,7 +1765,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1340,
+            "line": 1364,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -1760,7 +1785,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1351,
+            "line": 1375,
             "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
             "itemtype": "method",
             "name": "getMatrix",
@@ -1773,7 +1798,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1366,
+            "line": 1390,
             "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise Null is returned.",
             "itemtype": "method",
             "name": "getProfile",
@@ -1786,7 +1811,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1376,
+            "line": 1400,
             "description": "Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.",
             "itemtype": "method",
             "name": "setProfile",
@@ -1802,7 +1827,32 @@
         },
         {
             "file": "attributes.js",
-            "line": 1390,
+            "line": 1413,
+            "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
+            "itemtype": "method",
+            "name": "insertColumnAt",
+            "params": [
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                },
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "attributes"
+        },
+        {
+            "file": "attributes.js",
+            "line": 1437,
             "description": "Drops specified column from the table. The operation is delegated to the Row::dropCell()",
             "itemtype": "method",
             "name": "dropColumn",
@@ -1822,7 +1872,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1404,
+            "line": 1451,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the Row::cellNum().",
             "itemtype": "method",
             "name": "colNum",
@@ -1835,7 +1885,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1431,
+            "line": 1478,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "sameWidth",
@@ -1848,7 +1898,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1467,
+            "line": 1514,
             "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
             "itemtype": "method",
             "name": "setBorder",
@@ -1869,7 +1919,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1492,
+            "line": 1539,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -1882,7 +1932,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1513,
+            "line": 1560,
             "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
             "itemtype": "method",
             "name": "isFramed",
@@ -1895,7 +1945,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1530,
+            "line": 1577,
             "description": "Deletes properties that are responsable for the frames around the table rows.",
             "return": {
                 "description": "",
@@ -1906,7 +1956,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1546,
+            "line": 1593,
             "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -1919,7 +1969,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1586,
+            "line": 1633,
             "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1930,7 +1980,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1596,
+            "line": 1643,
             "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1941,7 +1991,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1606,
+            "line": 1653,
             "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1952,7 +2002,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1616,
+            "line": 1663,
             "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1963,7 +2013,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1626,
+            "line": 1673,
             "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1974,7 +2024,7 @@
         },
         {
             "file": "attributes.js",
-            "line": 1636,
+            "line": 1683,
             "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -1997,6 +2047,29 @@
             "return": {
                 "description": "",
                 "type": "String"
+            },
+            "class": "",
+            "module": "helpers"
+        },
+        {
+            "file": "helpers.js",
+            "line": 293,
+            "description": "Splits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of integers",
+                    "type": "Array"
+                },
+                {
+                    "name": "pos",
+                    "description": "index of the element, before which an element will be inserted",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
             },
             "class": "",
             "module": "helpers"
@@ -2270,11 +2343,15 @@
         },
         {
             "message": "Missing item type\nDeletes properties that are responsable for the frames around the table rows.",
-            "line": " attributes.js:1530"
+            "line": " attributes.js:1577"
         },
         {
             "message": "Missing item type\nReplaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
             "line": " helpers.js:270"
+        },
+        {
+            "message": "Missing item type\nSplits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
+            "line": " helpers.js:293"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

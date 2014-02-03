@@ -124,7 +124,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l1256"><code>attributes.js:1256</code></a>
+            Defined in: <a href="../files/attributes.js.html#l1280"><code>attributes.js:1280</code></a>
         </div>
     
 
@@ -200,6 +200,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getType">getType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_insertColumnAt">insertColumnAt</a>
 
                                 
                                 
@@ -398,7 +405,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l1404"><code>attributes.js:1404</code></a>
+        <a href="../files/attributes.js.html#l1451"><code>attributes.js:1451</code></a>
         
         </p>
 
@@ -480,7 +487,7 @@ The operation is delegated to the Row::cellNum().</p>
             
         
         
-        <a href="../files/attributes.js.html#l1390"><code>attributes.js:1390</code></a>
+        <a href="../files/attributes.js.html#l1437"><code>attributes.js:1437</code></a>
         
         </p>
 
@@ -575,7 +582,7 @@ The operation is delegated to the Row::cellNum().</p>
             
         
         
-        <a href="../files/attributes.js.html#l1351"><code>attributes.js:1351</code></a>
+        <a href="../files/attributes.js.html#l1375"><code>attributes.js:1375</code></a>
         
         </p>
 
@@ -647,7 +654,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1366"><code>attributes.js:1366</code></a>
+        <a href="../files/attributes.js.html#l1390"><code>attributes.js:1390</code></a>
         
         </p>
 
@@ -719,7 +726,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1267"><code>attributes.js:1267</code></a>
+        <a href="../files/attributes.js.html#l1291"><code>attributes.js:1291</code></a>
         
         </p>
 
@@ -744,6 +751,135 @@ have the same cell widths. Otherwise Null is returned.</p>
                 
                     
                         <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_insertColumnAt" class="method item">
+    <h3 class="name"><code>insertColumnAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cell</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/attributes.js.html#l1413"><code>attributes.js:1413</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Inserts a cell &quot;cell&quot; into a given position &quot;pos&quot; of each row of the table.
+If the table has 5 columns, then after insertion it will have 5+1=6 columns.
+Position &quot;pos&quot; will correspond to the index of the inserted cell in the row after insertion.
+&quot;pos&quot; must be a valid cell number into the table after insertion. So, for the example above,
+the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cell</code>
+                        <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
                     
                 
             </div>
@@ -790,7 +926,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1513"><code>attributes.js:1513</code></a>
+        <a href="../files/attributes.js.html#l1560"><code>attributes.js:1560</code></a>
         
         </p>
 
@@ -865,7 +1001,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1492"><code>attributes.js:1492</code></a>
+        <a href="../files/attributes.js.html#l1539"><code>attributes.js:1539</code></a>
         
         </p>
 
@@ -940,7 +1076,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1431"><code>attributes.js:1431</code></a>
+        <a href="../files/attributes.js.html#l1478"><code>attributes.js:1478</code></a>
         
         </p>
 
@@ -1023,7 +1159,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1276"><code>attributes.js:1276</code></a>
+        <a href="../files/attributes.js.html#l1300"><code>attributes.js:1300</code></a>
         
         </p>
 
@@ -1127,7 +1263,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1467"><code>attributes.js:1467</code></a>
+        <a href="../files/attributes.js.html#l1514"><code>attributes.js:1514</code></a>
         
         </p>
 
@@ -1233,7 +1369,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1376"><code>attributes.js:1376</code></a>
+        <a href="../files/attributes.js.html#l1400"><code>attributes.js:1400</code></a>
         
         </p>
 
@@ -1326,7 +1462,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1294"><code>attributes.js:1294</code></a>
+        <a href="../files/attributes.js.html#l1318"><code>attributes.js:1318</code></a>
         
         </p>
 
@@ -1430,7 +1566,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1340"><code>attributes.js:1340</code></a>
+        <a href="../files/attributes.js.html#l1364"><code>attributes.js:1364</code></a>
         
         </p>
 
@@ -1525,7 +1661,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1546"><code>attributes.js:1546</code></a>
+        <a href="../files/attributes.js.html#l1593"><code>attributes.js:1593</code></a>
         
         </p>
 
@@ -1592,7 +1728,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1325"><code>attributes.js:1325</code></a>
+        <a href="../files/attributes.js.html#l1349"><code>attributes.js:1349</code></a>
         
         </p>
 
@@ -1657,7 +1793,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1286"><code>attributes.js:1286</code></a>
+        <a href="../files/attributes.js.html#l1310"><code>attributes.js:1310</code></a>
         
         </p>
 
@@ -1704,7 +1840,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1586"><code>attributes.js:1586</code></a>
+        <a href="../files/attributes.js.html#l1633"><code>attributes.js:1633</code></a>
         
         </p>
 
@@ -1754,7 +1890,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1596"><code>attributes.js:1596</code></a>
+        <a href="../files/attributes.js.html#l1643"><code>attributes.js:1643</code></a>
         
         </p>
 
@@ -1804,7 +1940,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1606"><code>attributes.js:1606</code></a>
+        <a href="../files/attributes.js.html#l1653"><code>attributes.js:1653</code></a>
         
         </p>
 
@@ -1854,7 +1990,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1616"><code>attributes.js:1616</code></a>
+        <a href="../files/attributes.js.html#l1663"><code>attributes.js:1663</code></a>
         
         </p>
 
@@ -1904,7 +2040,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1626"><code>attributes.js:1626</code></a>
+        <a href="../files/attributes.js.html#l1673"><code>attributes.js:1673</code></a>
         
         </p>
 
@@ -1954,7 +2090,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1636"><code>attributes.js:1636</code></a>
+        <a href="../files/attributes.js.html#l1683"><code>attributes.js:1683</code></a>
         
         </p>
 
@@ -2004,7 +2140,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1312"><code>attributes.js:1312</code></a>
+        <a href="../files/attributes.js.html#l1336"><code>attributes.js:1336</code></a>
         
         </p>
 
@@ -2051,7 +2187,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1304"><code>attributes.js:1304</code></a>
+        <a href="../files/attributes.js.html#l1328"><code>attributes.js:1328</code></a>
         
         </p>
 

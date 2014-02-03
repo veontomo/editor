@@ -1262,6 +1262,30 @@ function Row() {
 		}
 	};
 
+	/**
+	 * Inserts a cell &quot;cell&quot; into position &quot;pos&quot; of the row.
+	 * After insertion, the row length increases by 1. Therefore, &quot;pos&quot;
+	 * is the index with which the cell is referenced in the row after insertion.
+	 * @method insertCellAt
+	 * @param  {Cell}   cell
+	 * @param  {Number} pos
+	 * @return {void}
+	 */
+	this.insertCellAt = function(pos, cell){
+		var cellNum = this.cellNum();
+		if (pos &gt;= 0 &amp;&amp; cellNum &gt; 0 &amp;&amp; pos &lt;= cellNum){
+			var cellType = (new Cell()).getType();
+			if (typeof(cell.getType) !== &#x27;function&#x27; || cell.getType() !== cellType){
+				throw new Error(&#x27;Trying to insert non-cell object!&#x27;);
+			}
+			if (pos === cellNum){
+				this.cells.push(cell);
+			} else {
+				this.cells.splice(pos, 0, cell);
+			}
+	}
+		return null;
+	}
 
 	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
@@ -1508,6 +1532,29 @@ function Table() {
 		}
 	};
 
+	/**
+	 * Inserts a cell &quot;cell&quot; into a given position &quot;pos&quot; of each row of the table.
+	 * If the table has 5 columns, then after insertion it will have 5+1=6 columns.
+	 * Position &quot;pos&quot; will correspond to the index of the inserted cell in the row after insertion.
+	 * &quot;pos&quot; must be a valid cell number into the table after insertion. So, for the example above,
+	 * the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.
+	 * @method insertColumnAt
+	 * @param  {Cell} 	cell
+	 * @param  {Number} pos
+	 * @return {void}
+	 */
+	this.insertColumnAt = function(pos, cell){
+		cell = cell || (new Cell());
+		var colNum = this.colNum(),
+			rowNum = this.rows.length,
+			i;
+		if (colNum &gt; 0 &amp;&amp; pos &gt;= 0 &amp;&amp; pos &lt; colNum){
+			for (i = 0; i &lt; rowNum; i++){
+				this.rows[i].insertCellAt(pos, cell);
+			};
+		}
+		return null;
+	}
 
 	/**
 	 * Drops specified column from the table. The operation is delegated to the Row::dropCell()

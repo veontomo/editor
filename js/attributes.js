@@ -1004,6 +1004,23 @@ function Cell(arg) {
 	 this.insert = function(item){
 	 	this.content.elements.push(item);
 	 };
+
+	/**
+	 * Appends style to the cell.
+	 * @method appendStyle
+	 * @param  {Style|Obj}   stl   style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		// !!! stub
+		if ((typeof stl !== 'string') && (typeof stl !== 'object') ) {
+			throw new Error("Wrong argument type! Style, string or Object expected.");
+		}
+		var stlObj = new Style(stl);
+		this.style.appendStyle(stlObj);
+
+		return null;
+	};
 	/**
 	 * Generates cell-specific html code with corresponding attributes and styles
 	 * @method toHtml
@@ -1163,7 +1180,7 @@ function Row() {
 			}
 	}
 		return null;
-	}
+	};
 
 	/**
 	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
@@ -1221,6 +1238,23 @@ function Row() {
 	 */
 	this.cellNum = function(){
 		return this.cells.length;
+	};
+
+	/**
+	 * Appends style to the cell of the row.
+	 * @param  {Number}       cellNum       cell number to which the style is to be appended.
+	 * @param  {Style|Object} stl           style or object to be appended
+	 * @return {void}
+	 */
+	this.appendStyleToCell = function (cellNum, stl){
+		var cellNumInt = parseInt(cellNum, 10),
+			rowLen = this.cellNum();
+		if (cellNum === cellNumInt && cellNum >= 0 && cellNum < rowLen) {
+			this.cells[cellNum].appendStyle(stl);
+		} else {
+			throw new Error('The cell is not found!');
+		}
+		return null;
 	};
 
 	/**
@@ -1429,10 +1463,10 @@ function Table() {
 		if (colNum > 0 && pos >= 0 && pos < colNum){
 			for (i = 0; i < rowNum; i++){
 				this.rows[i].insertCellAt(pos, cell);
-			};
-		}
+
+}		}
 		return null;
-	}
+	};
 
 	/**
 	 * Drops specified column from the table. The operation is delegated to the Row::dropCell()
@@ -1588,6 +1622,30 @@ function Table() {
 				delete this[propertyList[i]];
 			}
 		}
+	};
+
+	/**
+	 * Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()
+	 * on each of the table rows.
+	 * @method appendStyleToCol
+	 * @param  {Number}        colNum    column number to which the style is to be appended.
+	 * @param  {Style|Object}  style     Style or Object to be appended
+	 * @return {void}
+	 */
+	this.appendStyleToCol = function(colNum, style){
+		var colNumInt = parseInt(colNum, 10),
+			colLen = this.colNum(),
+			rowLen = this.rows.length,
+			i;
+		if (colNumInt === colNum && colNum >= 0 && colNum < colLen) {
+			for (i = 0; i < rowLen; i++){
+				this.rows[i].appendStyleToCell(colNum, style);
+			}
+		} else {
+			throw new Error('The column is not present!');
+		}
+
+
 	};
 
 	/**

@@ -412,7 +412,44 @@ function specialChar(str){
     return output;
 }
 
+/**
+ * Splits array element at position &quot;pos&quot; in two parts in such a way that the trace of the original array
+ * is equal to the trace of the output array. If it is the first element of the array to be splitted, then
+ * it is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour
+ * and the element are taken off 1/3 and these two parts are given to the newly created element that is inserted
+ * between the neighbour and the element: [a, b, ...] -&gt; [2/3 a, 1/3 (a + b), 2/3 b, ...]
+ * @param  {Array}  arr     array of integers
+ * @param  {Number} pos     index of the element, before which an element will be inserted
+ * @return {Array}          array of integers
+ */
+function crack(arr, pos){
+    var orig, orig1, orig2,
+        output = [],
+        len = arr.length,
+        i;
+    for(i = 0; i &lt; len; i++){
+        output[i] = arr[i];
+    }
+    if (pos === 0){
+        orig = output[0];
+        orig1 = parseInt(orig/2, 10);
+        orig2 = orig - orig1;
+        neighbourDonor = 0;
 
+    }
+    if(pos &gt; 0 &amp;&amp; pos &lt; arr.length){
+        orig = output[pos];
+        orig1 = parseInt(2*orig/3, 10);
+        orig2 = orig - orig1;
+        neighbour = arr[pos-1];
+        neighbour1 = parseInt(2 * neighbour/3, 10);
+        neighbourDonor = neighbour - neighbour1;
+        output[pos-1] = neighbour1;
+    };
+    output[pos] = orig1;
+    output.splice(pos, 0, orig2 + neighbourDonor);
+    return output;
+}
     </pre>
 </div>
 

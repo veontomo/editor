@@ -232,7 +232,6 @@ describe('cracking array element:', function(){
             return el === parseInt(el, 10);
         }));
         expect(trace(arr2)).toBe(trace(arr));
-        console.log(arr, arr2);
 
         arr = [34, 20, 10];
         arr2 = crack(arr, 1);
@@ -242,12 +241,7 @@ describe('cracking array element:', function(){
             return el === parseInt(el, 10);
         }));
         expect(trace(arr2)).toBe(trace(arr));
-        console.log(arr, arr2);
-        console.log(crack([124, 125, 125, 124], 1));
     });
-
-[124, 125, 125, 124]
-
 
 
 });

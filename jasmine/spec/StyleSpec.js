@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, toString, toString2, setMinMaxWidth, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml, jasmine */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, getProperty, Style, concat, sandwichWith, mergeObjects, concatDropSpaces, appendObject, createTableFromHtml, jasmine, appendStyleToCell */
 describe('String representation', function() {
     it('converts object into an inline style string', function() {
         var Obj1 = {
@@ -505,7 +505,6 @@ describe('Cell-related functionality:', function() {
         cellStyle = new TableCellStyle();
         cellAttr = new Attributes();
         cellContent = new Content();
-
     });
 
     it('creates object with type attribute "Cell"', function(){
@@ -529,7 +528,6 @@ describe('Cell-related functionality:', function() {
         expect(cell.style.hasOwnProperty(prop)).toBe(true);
         expect(cell.style[prop]).not.toBe('modified value');
     });
-
 
     it('retrieves property of type "string" from the style', function() {
         cellStyle['a property'] = 'cell property value';
@@ -580,11 +578,7 @@ describe('Cell-related functionality:', function() {
 
         cell.style.width = '192em';
         expect(cell.getWidth()).toBe('192em');
-
-
-
     });
-
 
     it('fills "content" property with the arguments passed to the constructor', function(){
         cell = new Cell();
@@ -604,7 +598,6 @@ describe('Cell-related functionality:', function() {
 
         cell = new Cell([]);
         expect(cell.content.elements).toEqual([[]]);
-
     });
 
     it('appends elements to the cell content', function(){
@@ -613,7 +606,87 @@ describe('Cell-related functionality:', function() {
         expect(cell.content.elements.length).toBe(1);
         cell.insert('another item');
         expect(cell.content.elements.length).toBe(2);
+    });
 
+    describe('appends style to the cell:', function(){
+        it('throws an error if the argument is a number', function(){
+            expect(function(){
+                cell.appendStyle(122321);
+            }).toThrow('Wrong argument type! Style, string or Object expected.');
+        });
+        it('throws an error if the argument is a Boolean', function(){
+            expect(function(){
+                cell.appendStyle(true);
+            }).toThrow('Wrong argument type! Style, string or Object expected.');
+            expect(function(){
+                cell.appendStyle(false);
+            }).toThrow('Wrong argument type! Style, string or Object expected.');
+        });
+        it('Does not throw an error if the argument is an object', function(){
+            expect(function(){
+                cell.appendStyle({'a': 10});
+            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
+        });
+        it('Does not throw an error if the argument is a Style object', function(){
+            expect(function(){
+                cell.appendStyle({'a': 10});
+            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
+        });
+        it('Does not throw an error if the argument is a string', function(){
+            expect(function(){
+                cell.appendStyle('a string');
+            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
+        });
+
+        it('Appends style if it is given as a string', function(){
+            if (cell.style.hasOwnProperty('an-attribute')){
+                delete cell.style['an-attribute'];
+            }
+            cell.appendStyle('an-attribute: attribute-value');
+            expect(cell.styleProperty('an-attribute')).toBe('attribute-value');
+        });
+
+        it('Appends style if it is given as a Style object', function(){
+            var st = new Style();
+            st['attribute'] = 201.29;
+            cell.appendStyle(st);
+            expect(cell.styleProperty('attribute')).toBe(201.29);
+        });
+
+        it('Appends style if it is given as an object', function(){
+            cell.appendStyle({'modular': 'no', 'speed': 21.9});
+            expect(cell.styleProperty('modular')).toBe('no');
+            expect(cell.styleProperty('speed')).toBe(21.9);
+        });
+
+        it('Does not overrides non-overlapping attributes', function(){
+            var st = new Style();
+            st.leverage = 'virtual';
+            st.help = 981.87;
+            st['knowledge-driven'] = '34';
+            cell.style = st;
+            cell.appendStyle({'modular': 'no', 'speed': 21.9});
+            expect(cell.styleProperty('modular')).toBe('no');
+            expect(cell.styleProperty('speed')).toBe(21.9);
+            expect(cell.styleProperty('leverage')).toBe('virtual');
+            expect(cell.styleProperty('help')).toBe(981.87);
+            expect(cell.styleProperty('knowledge-driven')).toBe('34');
+        });
+
+        it('Overrides overlapping attributes', function(){
+            var st = new Style();
+            st.leverage = 'virtual';
+            st.help = 981.87;
+            st['knowledge-driven'] = '34';
+            st.modular = 923;
+            cell.style = st;
+            cell.appendStyle({'modular': 'no', 'speed': 21.9});
+            expect(cell.styleProperty('modular')).toBe('no');
+            expect(cell.styleProperty('speed')).toBe(21.9);
+            expect(cell.styleProperty('leverage')).toBe('virtual');
+            expect(cell.styleProperty('help')).toBe(981.87);
+            expect(cell.styleProperty('knowledge-driven')).toBe('34');
+        });
     });
 
     it('generates html code of the cell if both attributes and styles are present', function(){
@@ -910,6 +983,81 @@ describe('Row-related functionality:', function(){
     });
 
 
+    describe('append style to a cell:', function(){
+        it('Throws an error if the cell number is negative', function(){
+            expect(function(){
+                row.appendStyleToCell(-1, "whatever");
+            }).toThrow('The cell is not found!');
+        });
+        it('Throws an error if the cell number is not integer', function(){
+            expect(function(){
+                row.appendStyleToCell(1.34, "whatever");
+            }).toThrow('The cell is not found!');
+        });
+        it('Throws an error if the cell number is too big', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){
+                return 3;
+            });
+            expect(function(){
+                row.appendStyleToCell(5, "whatever");
+            }).toThrow('The cell is not found!');
+        });
+        it('Throws an error if the cell number is equal to number of the cells', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){
+                return 5;
+            });
+            expect(function(){
+                row.appendStyleToCell(5, "whatever");
+            }).toThrow('The cell is not found!');
+        });
+        it('Does not throw any error if the cell number is one less than the number of the cells', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){
+                return 12;
+            });
+            expect(function(){
+                row.appendStyleToCell(11, "whatever");
+            }).not.toThrow('The cell is not found!');
+        });
+        it('calls append Style method on a middle cell of the row', function(){
+            spyOn(cell1, 'appendStyle');
+            spyOn(cell2, 'appendStyle');
+            spyOn(cell3, 'appendStyle');
+            spyOn(cell4, 'appendStyle');
+            row.cells = [cell1, cell2, cell3, cell4];
+            row.appendStyleToCell(2, "whatever");
+            expect(cell1.appendStyle).not.toHaveBeenCalled();
+            expect(cell2.appendStyle).not.toHaveBeenCalled();
+            expect(cell3.appendStyle).toHaveBeenCalledWith("whatever");
+            expect(cell4.appendStyle).not.toHaveBeenCalled();
+        });
+
+        it('calls append Style method on the first cell of the row', function(){
+            spyOn(cell1, 'appendStyle');
+            spyOn(cell2, 'appendStyle');
+            spyOn(cell3, 'appendStyle');
+            row.cells = [cell1, cell2, cell3];
+            row.appendStyleToCell(0, "whatever");
+            expect(cell1.appendStyle).toHaveBeenCalledWith("whatever");
+            expect(cell2.appendStyle).not.toHaveBeenCalled();
+            expect(cell3.appendStyle).not.toHaveBeenCalled();
+        });
+
+        it('calls append Style method on the last cell of the row', function(){
+            spyOn(cell1, 'appendStyle');
+            spyOn(cell2, 'appendStyle');
+            spyOn(cell3, 'appendStyle');
+            spyOn(cell4, 'appendStyle');
+            row.cells = [cell1, cell2, cell3, cell4];
+            row.appendStyleToCell(3, "whatever");
+            expect(cell1.appendStyle).not.toHaveBeenCalled();
+            expect(cell2.appendStyle).not.toHaveBeenCalled();
+            expect(cell3.appendStyle).not.toHaveBeenCalled();
+            expect(cell4.appendStyle).toHaveBeenCalledWith("whatever");
+        });
+
+
+
+    });
 
     it('generates html code of the row if attributes and styles are not empty', function(){
         spyOn(cell1, 'toHtml').andCallFake(function(){
@@ -1147,7 +1295,6 @@ describe('Table-related functionality:', function(){
         expect(row1.insertCellAt).not.toHaveBeenCalled();
         expect(row2.insertCellAt).not.toHaveBeenCalled();
         expect(row3.insertCellAt).not.toHaveBeenCalled();
-
     });
 
     it('does  not insert a cell if pos is negative', function(){
@@ -1160,7 +1307,6 @@ describe('Table-related functionality:', function(){
         expect(row1.insertCellAt).not.toHaveBeenCalled();
         expect(row2.insertCellAt).not.toHaveBeenCalled();
         expect(row3.insertCellAt).not.toHaveBeenCalled();
-
     });
 
     it('does  not insert a cell if pos is equal to the number of columns ', function(){
@@ -1173,7 +1319,6 @@ describe('Table-related functionality:', function(){
         expect(row1.insertCellAt).not.toHaveBeenCalled();
         expect(row2.insertCellAt).not.toHaveBeenCalled();
         expect(row3.insertCellAt).not.toHaveBeenCalled();
-
     });
 
     it('calls a method to insert cell', function(){
@@ -1229,6 +1374,68 @@ describe('Table-related functionality:', function(){
     });
 
 
+    describe('appends style to a single column:', function(){
+        it('Throw an error if column number is not integer ', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 12;
+            });
+            expect(function(){
+                table.appendStyleToCol(10.32, "whatever");
+            }).toThrow('The column is not present!');
+        });
+
+        it('Throw an error if column number is negative', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 1;
+            });
+            expect(function(){
+                table.appendStyleToCol(-3, "whatever");
+            }).toThrow('The column is not present!');
+        });
+
+        it('Throw an error if column number is too big', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 5;
+            });
+            expect(function(){
+                table.appendStyleToCol(7, "whatever");
+            }).toThrow('The column is not present!');
+        });
+
+        it('Throw an error if column number is equal to the number of columns', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 6;
+            });
+            expect(function(){
+                table.appendStyleToCol(6, "whatever");
+            }).toThrow('The column is not present!');
+        });
+
+        it('Does not throw an error if column number is one less than the overall column number', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 6;
+            });
+            expect(function(){
+                table.appendStyleToCol(5, "whatever");
+            }).not.toThrow('The column is not present!');
+        });
+
+
+
+        it('calls append style method to each row', function(){
+            spyOn(table, 'colNum').andCallFake(function(){
+                return 5;
+            });
+            spyOn(row1, 'appendStyleToCell').andCallFake(function(){return null;});
+            spyOn(row2, 'appendStyleToCell').andCallFake(function(){return null;});
+            spyOn(row3, 'appendStyleToCell').andCallFake(function(){return null;});
+            table.rows = [row1, row2, row3];
+            table.appendStyleToCol(2, "whatever");
+            expect(row1.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
+            expect(row2.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
+            expect(row3.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
+        });
+    });
 
     it('appends a row to the existing rows', function(){
         expect(table.rows.length).toBe(0);
