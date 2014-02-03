@@ -459,16 +459,37 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 			id: 'tab1',
 			label: 'Togliere colonna',
 			elements: [{
-				type: 'text',
-				label: editor.lang.table.column.deleteColumn,
-				id: 'colNum',
-				validate: function(){
-					var inputValue = this.getValue();
-					return inputValue === (parseInt(inputValue, 10).toString());
-				}
+				type: 'html',
+				html: 'Sei sicuro di voler eliminare la colonna evidenziata?',
+				// id: 'colNum',
+				// validate: function(){
+				// 	var inputValue = this.getValue();
+				// 	return inputValue === (parseInt(inputValue, 10).toString());
+				// }
 			}]
 		}
 		],
+
+		onShow: function(){
+			var currentElem = editor.getSelection().getStartElement(),
+				tableElem = findAscendant(currentElem, function(el){
+					return el.getName() === 'table' &&
+						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+				}),
+				cellElem = findAscendant(currentElem, function(el){
+					return el.getName() === 'td' &&
+						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Cell()).getType();
+				}),
+				cellNumber = cellElem.getIndex(),
+				columnElems = tableElem.find('tr[data-marker="Row"] td[data-marker="Cell"]:nth-child('+ (cellNumber + 1) +')'),
+				len = columnElems.count(),
+				i,
+				boxShadowValues = '0.05em 0.0em 0.5em 0.05em red';
+
+				for (i = 0; i < len; i++){
+					$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
+				}
+		},
 
 		onOk: function () {
 			var currentElem = editor.getSelection().getStartElement(),
@@ -476,13 +497,20 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 					return el.getName() === 'table' &&
 						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 				}),
+				cellElem = findAscendant(currentElem, function(el){
+					return el.getName() === 'td' &&
+						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Cell()).getType();
+				}),
+				// column number to drop
+				cellNumber = cellElem.getIndex(),
+
 				tableObj = tableElem.getOuterHtml().createTableFromHtml(),
 				colNum = tableObj.colNum(),
-				colToDrop, tableStr, tableElem2;
-			// user input for the column number to drop: range from 1 to colNum
-			colToDrop = parseInt(this.getValueOf('tab1', 'colNum'), 10);
-			if (colToDrop >= 1 && colToDrop <= colNum){
-				tableObj.dropColumn(colToDrop - 1);
+				tableStr, tableElem2;
+
+
+			if (cellNumber >= 0 && cellNumber < colNum){
+				tableObj.dropColumn(cellNumber);
 			}
 			tableStr = tableObj.toHtml();
 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
