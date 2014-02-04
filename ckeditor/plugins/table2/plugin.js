@@ -205,9 +205,10 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
 				var tableMarker = (new Table()).getType(), // string with which tables are marked
+					markerName = NEWSLETTER['marker-name'],
 					table = findAscendant(ed.getSelection().getStartElement(), function (el) {
 					return ((el.getName() === 'table') &&
-						(el.getAttribute(NEWSLETTER['marker-name']) === tableMarker));
+						(el.getAttribute(markerName) === tableMarker));
 				});
 				if (table) {
 					table.remove();
@@ -286,12 +287,11 @@ CKEDITOR.plugins.add('table2', {
 				group: 'table2Group'
 			});
 
-
-
 			editor.contextMenu.addListener(function (element) {
-				var rowMarker = (new Row()).getType(), // string with which rows are marked
+				var rowMarker = (new Row()).getType(), // the label by which the rows are marked
+					markerName  = NEWSLETTER['marker-name'],
 					el = findAscendant(element, function (el) {
-					return (el.getName() === 'tr' && el.getAttribute(NEWSLETTER['marker-name']) === rowMarker);
+					return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
 				});
 				if (el) {
 					return {
@@ -344,7 +344,6 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			}, {
 				type: 'html',
 				html: '<div id="hiddenDiv">Dimensioni desiderate:</div>'
-				// onChange: updateCellWidthInputs
 			}
 			]
 		}
@@ -354,10 +353,12 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
 				colField, i,
+				markerName  = NEWSLETTER['marker-name'],
+				tableMarker = (new Table()).getType(),
 				currentElem = editor.getSelection().getStartElement(),
 				table = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
-						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+						el.getAttribute(markerName) === tableMarker;
 			});
 			// exit if the table is not found
 			if (!table){
@@ -453,38 +454,38 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 	return {
 		title: editor.lang.table.column.deleteColumn,
-		minWidth: "80em",
-		minHeight: "10em",
+		minWidth: '80em',
+		minHeight: '10em',
 		contents: [{
 			id: 'tab1',
 			label: 'Togliere colonna',
 			elements: [{
 				type: 'html',
 				html: 'Sei sicuro di voler eliminare la colonna evidenziata?',
-				// id: 'colNum',
-				// validate: function(){
-				// 	var inputValue = this.getValue();
-				// 	return inputValue === (parseInt(inputValue, 10).toString());
-				// }
 			}]
 		}
 		],
 
 		onShow: function(){
 			var currentElem = editor.getSelection().getStartElement(),
+				markerName  = NEWSLETTER['marker-name'],
+				rowMarker   = (new Row()).getType(),
+				cellMarker  = (new Cell()).getType(),
+				tableMarker = (new Table()).getType(),
 				tableElem = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
-						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+						el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = findAscendant(currentElem, function(el){
 					return el.getName() === 'td' &&
-						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Cell()).getType();
+						el.getAttribute(markerName) === cellMarker;
 				}),
 				cellNumber = cellElem.getIndex(),
-				columnElems = tableElem.find('tr[data-marker="Row"] td[data-marker="Cell"]:nth-child('+ (cellNumber + 1) +')'),
+				columnElems = tableElem.find('tr[' + markerName + '="' + rowMarker + '"] td[' +
+					markerName + '="' + cellMarker + '"]:nth-child('+ (cellNumber + 1) +')'),
 				len = columnElems.count(),
 				i,
-				boxShadowValues = '0.05em 0.0em 0.5em 0.05em red';
+				boxShadowValues = '0.05em 0.05em 0.5em 0.05em #8B0000';
 
 				for (i = 0; i < len; i++){
 					$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
@@ -492,14 +493,17 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 		},
 
 		onOk: function () {
-			var currentElem = editor.getSelection().getStartElement(),
+			var markerName  = NEWSLETTER['marker-name'],
+				cellMarker  = (new Cell()).getType(),
+				tableMarker = (new Table()).getType(),
+				currentElem = editor.getSelection().getStartElement(),
 				tableElem = findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
-						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+						el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = findAscendant(currentElem, function(el){
 					return el.getName() === 'td' &&
-						el.getAttribute(NEWSLETTER['marker-name'] ) === (new Cell()).getType();
+						el.getAttribute(markerName) === cellMarker;
 				}),
 				// column number to drop
 				cellNumber = cellElem.getIndex(),
