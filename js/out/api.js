@@ -7,6 +7,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Content",
         "ImageStyle",
         "LinkStyle",
+        "List",
+        "ListItem",
         "ListItemStyle",
         "ListStyle",
         "Row",
@@ -19,6 +21,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TextStyle"
     ],
     "modules": [
+        "HtmlElements",
         "attributes",
         "helpers"
     ],
@@ -32,6 +35,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "helpers",
             "name": "helpers",
             "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero."
+        },
+        {
+            "displayName": "HtmlElements",
+            "name": "HtmlElements",
+            "description": "This class is used to represent a list item."
         }
     ]
 } };

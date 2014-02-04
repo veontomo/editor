@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
                 <li><a href="../classes/ListStyle.html">ListStyle</a></li>
@@ -80,6 +84,8 @@
                 <li><a href="../modules/attributes.html">attributes</a></li>
             
                 <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
             
             </ul>
         </div>
@@ -121,7 +127,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Style */
+/*global CKEDITOR, Style, Row, Cell, Table, NEWSLETTER */
 $(document).ready(function () {
 	var editor = CKEDITOR.replace(&#x27;editor&#x27;, {
 		customConfig: &#x27;../settings/editor_config.js&#x27;
@@ -161,12 +167,37 @@ $(document).ready(function () {
 			this.insertElement(table);
 			$(table.$).hover(
 				function () {
+					var markerName  = NEWSLETTER[&#x27;marker-name&#x27;],
+						tableMarker = (new Table()).getType(),
+						rowMarker   = (new Row()).getType(),
+						cellMarker  = (new Cell()).getType();
+					$(this).find(&#x27;td[data-marker=&quot;Cell&quot;]&#x27;).hover(
+						function(){
+							var cellNumber = $(this).index(),
+								tableParent = $(this).parents(&#x27;table[&#x27; + markerName +&#x27;=&quot;&#x27; + tableMarker + &#x27;&quot;]&#x27;),
+								boxShadowValues = &#x27;0.05em 0.0em 0.5em 0.05em #AAAAAA&#x27;,
+								cellSelector = &#x27;tr[&#x27; + markerName +&#x27;=&quot;&#x27;+ rowMarker +&#x27;&quot;] td[&#x27; + markerName +&#x27;=&quot;&#x27; +
+									cellMarker + &#x27;&quot;]:nth-child(&#x27; + (cellNumber + 1) + &#x27;)&#x27;;
+							tableParent.find(cellSelector).css(&#x27;box-shadow&#x27;, boxShadowValues);
+						},
+						function(){
+							var cellsSelector = &#x27;td[&#x27; + markerName +&#x27;=&quot;&#x27; + cellMarker + &#x27;&quot;]&#x27;,
+								tableSelector = &#x27;table[&#x27; + markerName +&#x27;=&quot;&#x27; + tableMarker + &#x27;&quot;]&#x27;,
+								allCells = $(this).parents(tableSelector).find(cellsSelector),
+								i,
+								len = allCells.length;
+							for (i = 0; i &lt; len; i++){
+								dropInlineStyleAttr($(allCells[i]), &#x27;box-shadow&#x27;);
+							}
+
+						}
+					);
 					// hovering the whole table
-					$(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.05em 0.2em 0.05em #AAAAFF&#x27;);
+					// $(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.05em 0.2em 0.05em #AAAAFF&#x27;);
 					// hovering table row
 					$(this).find(&#x27;tr&#x27;).hover(
 						function () {
-							$(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.05em 0.2em 0.05em #AAAAAA&#x27;);
+							$(this).css(&#x27;box-shadow&#x27;, &#x27;0.05em 0.0em 0.5em 0.05em #AAAAAA&#x27;);
 						},
 						function () {
 							// unhovering the table row

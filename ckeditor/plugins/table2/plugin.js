@@ -39,15 +39,6 @@ var dropRow = function (ed) {
 			}
 		}
 	};
-/**
- * Converts the first letter of the string into the upper case
- * If the string is empty, the output is empty string as well.
- * @param 	str 	String
- * @return 			String
- */
-var firstLetterUpperCase = function (str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
-	};
 
 /**
  * Inserts a row at a specified position with respect to the selected element.

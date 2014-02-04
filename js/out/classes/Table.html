@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
                 <li><a href="../classes/ListStyle.html">ListStyle</a></li>
@@ -80,6 +84,8 @@
                 <li><a href="../modules/attributes.html">attributes</a></li>
             
                 <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
             
             </ul>
         </div>
@@ -124,13 +130,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributes.js.html#l1280"><code>attributes.js:1280</code></a>
+            Defined in: <a href="../files/table.js.html#l5"><code>table.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/attributes.html">attributes</a>
+            Module: <a href="../modules/HtmlElements.html">HtmlElements</a>
         
     
 
@@ -169,6 +175,13 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_appendStyleToCol">appendStyleToCol</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method">
                                 <a href="#method_colNum">colNum</a>
@@ -369,6 +382,134 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_appendStyleToCol" class="method item">
+    <h3 class="name"><code>appendStyleToCol</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>colNum</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>style</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/table.js.html#l326"><code>table.js:326</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()
+on each of the table rows.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">colNum</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>column number to which the style is to be appended.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">style</code>
+                        <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Style or Object to be appended</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_colNum" class="method item">
     <h3 class="name"><code>colNum</code></h3>
 
@@ -405,7 +546,7 @@
             
         
         
-        <a href="../files/attributes.js.html#l1451"><code>attributes.js:1451</code></a>
+        <a href="../files/table.js.html#l184"><code>table.js:184</code></a>
         
         </p>
 
@@ -487,7 +628,7 @@ The operation is delegated to the Row::cellNum().</p>
             
         
         
-        <a href="../files/attributes.js.html#l1437"><code>attributes.js:1437</code></a>
+        <a href="../files/table.js.html#l170"><code>table.js:170</code></a>
         
         </p>
 
@@ -582,7 +723,7 @@ The operation is delegated to the Row::cellNum().</p>
             
         
         
-        <a href="../files/attributes.js.html#l1375"><code>attributes.js:1375</code></a>
+        <a href="../files/table.js.html#l100"><code>table.js:100</code></a>
         
         </p>
 
@@ -654,7 +795,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1390"><code>attributes.js:1390</code></a>
+        <a href="../files/table.js.html#l115"><code>table.js:115</code></a>
         
         </p>
 
@@ -726,7 +867,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1291"><code>attributes.js:1291</code></a>
+        <a href="../files/table.js.html#l16"><code>table.js:16</code></a>
         
         </p>
 
@@ -813,7 +954,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1413"><code>attributes.js:1413</code></a>
+        <a href="../files/table.js.html#l138"><code>table.js:138</code></a>
         
         </p>
 
@@ -926,7 +1067,7 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1560"><code>attributes.js:1560</code></a>
+        <a href="../files/table.js.html#l293"><code>table.js:293</code></a>
         
         </p>
 
@@ -1001,7 +1142,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1539"><code>attributes.js:1539</code></a>
+        <a href="../files/table.js.html#l272"><code>table.js:272</code></a>
         
         </p>
 
@@ -1076,7 +1217,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1478"><code>attributes.js:1478</code></a>
+        <a href="../files/table.js.html#l211"><code>table.js:211</code></a>
         
         </p>
 
@@ -1159,7 +1300,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1300"><code>attributes.js:1300</code></a>
+        <a href="../files/table.js.html#l25"><code>table.js:25</code></a>
         
         </p>
 
@@ -1263,7 +1404,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/attributes.js.html#l1514"><code>attributes.js:1514</code></a>
+        <a href="../files/table.js.html#l247"><code>table.js:247</code></a>
         
         </p>
 
@@ -1369,7 +1510,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1400"><code>attributes.js:1400</code></a>
+        <a href="../files/table.js.html#l125"><code>table.js:125</code></a>
         
         </p>
 
@@ -1462,7 +1603,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1318"><code>attributes.js:1318</code></a>
+        <a href="../files/table.js.html#l43"><code>table.js:43</code></a>
         
         </p>
 
@@ -1566,7 +1707,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1364"><code>attributes.js:1364</code></a>
+        <a href="../files/table.js.html#l89"><code>table.js:89</code></a>
         
         </p>
 
@@ -1661,7 +1802,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/attributes.js.html#l1593"><code>attributes.js:1593</code></a>
+        <a href="../files/table.js.html#l350"><code>table.js:350</code></a>
         
         </p>
 
@@ -1728,7 +1869,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1349"><code>attributes.js:1349</code></a>
+        <a href="../files/table.js.html#l74"><code>table.js:74</code></a>
         
         </p>
 
@@ -1793,7 +1934,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1310"><code>attributes.js:1310</code></a>
+        <a href="../files/table.js.html#l35"><code>table.js:35</code></a>
         
         </p>
 
@@ -1840,7 +1981,7 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
             
         
         
-        <a href="../files/attributes.js.html#l1633"><code>attributes.js:1633</code></a>
+        <a href="../files/table.js.html#l390"><code>table.js:390</code></a>
         
         </p>
 
@@ -1890,7 +2031,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1643"><code>attributes.js:1643</code></a>
+        <a href="../files/table.js.html#l400"><code>table.js:400</code></a>
         
         </p>
 
@@ -1940,7 +2081,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1653"><code>attributes.js:1653</code></a>
+        <a href="../files/table.js.html#l410"><code>table.js:410</code></a>
         
         </p>
 
@@ -1990,7 +2131,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1663"><code>attributes.js:1663</code></a>
+        <a href="../files/table.js.html#l420"><code>table.js:420</code></a>
         
         </p>
 
@@ -2040,7 +2181,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1673"><code>attributes.js:1673</code></a>
+        <a href="../files/table.js.html#l430"><code>table.js:430</code></a>
         
         </p>
 
@@ -2090,7 +2231,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1683"><code>attributes.js:1683</code></a>
+        <a href="../files/table.js.html#l440"><code>table.js:440</code></a>
         
         </p>
 
@@ -2140,7 +2281,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1336"><code>attributes.js:1336</code></a>
+        <a href="../files/table.js.html#l61"><code>table.js:61</code></a>
         
         </p>
 
@@ -2187,7 +2328,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/attributes.js.html#l1328"><code>attributes.js:1328</code></a>
+        <a href="../files/table.js.html#l53"><code>table.js:53</code></a>
         
         </p>
 

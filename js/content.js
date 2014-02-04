@@ -4,14 +4,14 @@
 
 /**
  * This class is used to encompass other objects.
- * @module 	attributes
+ * @module 	    HtmlElements
  * @class  		Content
  * @param 		{String} 	str 		an optional argument that will be inserted when creating property "elements".
  */
 function Content(str) {
 	"use strict";
 	if (!(this instanceof Content)) {
-		return new Content();
+		return new Content(str);
 	}
 	/**
 	 * Container of items. If an item has a method "toHtml", it will be applied when transforming the whole Content object into a string.
@@ -27,6 +27,15 @@ function Content(str) {
 	 */
 	this.length = function () {
 		return this.elements.length;
+	};
+
+	/**
+	 * Appends the element to the array Content::elements.
+	 * @param  {Object}       elem
+	 * @return {void}
+	 */
+	this.appendElem = function(elem){
+		this.elements.push(elem);
 	};
 	/**
 	 * Transforms the object into html form.  If item of the "elements" property is of Object type, then it should have "toHtml" method which is to be applied to the item.

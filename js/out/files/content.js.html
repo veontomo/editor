@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ListStyle</title>
+    <title>content.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -122,191 +122,75 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ListStyle Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: content.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/attributesStyle.js.html#l616"><code>attributesStyle.js:616</code></a>
-        </div>
-    
+/**
+ * This class is used to encompass other objects.
+ * @module 	    HtmlElements
+ * @class  		Content
+ * @param 		{String} 	str 		an optional argument that will be inserted when creating property &quot;elements&quot;.
+ */
+function Content(str) {
+	&quot;use strict&quot;;
+	if (!(this instanceof Content)) {
+		return new Content(str);
+	}
+	/**
+	 * Container of items. If an item has a method &quot;toHtml&quot;, it will be applied when transforming the whole Content object into a string.
+	 * @property {Array} elements
+	 * @default  [str]
+	 */
+	this.elements = str ? [str] : [];
 
-    
-        
-            Module: <a href="../modules/attributes.html">attributes</a>
-        
-    
+	/**
+	 * The number of items in the &quot;elements&quot; property
+	 * @method length
+	 * @return {Integer}
+	 */
+	this.length = function () {
+		return this.elements.length;
+	};
 
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>Represents image styles.</p>
-
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_margin">margin</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_padding">padding</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_margin" class="property item">
-    <h3 class="name"><code>margin</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributesStyle.js.html#l633"><code>attributesStyle.js:633</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Margin.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_padding" class="property item">
-    <h3 class="name"><code>padding</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/attributesStyle.js.html#l627"><code>attributesStyle.js:627</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Padding.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-    </div>
+	/**
+	 * Appends the element to the array Content::elements.
+	 * @param  {Object}       elem
+	 * @return {void}
+	 */
+	this.appendElem = function(elem){
+		this.elements.push(elem);
+	};
+	/**
+	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
+	 * @method toHtml
+	 * @return {String}
+	 */
+	this.toHtml = function () {
+		var i, elem, output = &#x27;&#x27;,
+			len = this.length();
+		for (i = 0; i &lt; len; i++) {
+			elem = this.elements[i];
+			switch (typeof elem) {
+			case &#x27;string&#x27;:
+				output += elem;
+				break;
+			case &#x27;number&#x27;:
+				output += elem.toString();
+				break;
+			case &#x27;object&#x27;:
+				output += elem.hasOwnProperty(&#x27;toHtml&#x27;) ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
+				break;
+			}
+		}
+		return output;
+	};
+}
+    </pre>
 </div>
 
                     </div>

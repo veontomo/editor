@@ -1,3 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>table.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
+            
+                <li><a href="../classes/ListStyle.html">ListStyle</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/Style.html">Style</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyle.html">TableCellStyle</a></li>
+            
+                <li><a href="../classes/TableRowStyle.html">TableRowStyle</a></li>
+            
+                <li><a href="../classes/TableStyle.html">TableStyle</a></li>
+            
+                <li><a href="../classes/TextStyle.html">TextStyle</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: table.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
 /*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth */
@@ -8,18 +136,18 @@
 * @class  Table
 */
 function Table() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
 
 	/**
-	 * Type of the object. Returns "Table" for the objects of this type.
+	 * Type of the object. Returns &quot;Table&quot; for the objects of this type.
 	 * @method  {string} getType
 	 * @return  {string}
 	 */
 	this.getType = function(){
-		return "Table";
+		return &quot;Table&quot;;
 	};
 
 	/**
@@ -80,14 +208,14 @@ function Table() {
 	this.appendRow = function(row){
 		// find out with what name the Row object is registered
 		var rowType = (new Row()).getType();
-		if (typeof(row.getType) !== 'function' || row.getType() !== rowType){
-			throw new Error('The argument is not of the Row type!');
+		if (typeof(row.getType) !== &#x27;function&#x27; || row.getType() !== rowType){
+			throw new Error(&#x27;The argument is not of the Row type!&#x27;);
 		}
 		this.rows.push(row);
 	};
 
 	/**
-	 * Retrieves the value of property from the "style"
+	 * Retrieves the value of property from the &quot;style&quot;
 	 * @method styleProperty
 	 * @param  {String} 	prop 	property name which value should be retrieved
 	 * @return {String|Number}
@@ -106,7 +234,7 @@ function Table() {
 	this.getMatrix = function(){
 		var output = [],
 			rowsNum = this.rows.length, i;
-		for (i = 0; i < rowsNum; i++){
+		for (i = 0; i &lt; rowsNum; i++){
 			output.push(this.rows[i].getCellWidths());
 		}
 		return output;
@@ -130,17 +258,17 @@ function Table() {
 	this.setProfile = function(profile){
 		var len = this.rows.length,
 			i;
-		for (i = 0; i < len; i++){
+		for (i = 0; i &lt; len; i++){
 			this.rows[i].setCellWidths(profile);
 		}
 	};
 
 	/**
-	 * Inserts a cell "cell" into a given position "pos" of each row of the table.
+	 * Inserts a cell &quot;cell&quot; into a given position &quot;pos&quot; of each row of the table.
 	 * If the table has 5 columns, then after insertion it will have 5+1=6 columns.
-	 * Position "pos" will correspond to the index of the inserted cell in the row after insertion.
-	 * "pos" must be a valid cell number into the table after insertion. So, for the example above,
-	 * the valid values for "pos" are 0, 1, 2, 3, 4 and 5.
+	 * Position &quot;pos&quot; will correspond to the index of the inserted cell in the row after insertion.
+	 * &quot;pos&quot; must be a valid cell number into the table after insertion. So, for the example above,
+	 * the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.
 	 * @method insertColumnAt
 	 * @param  {Cell} 	cell
 	 * @param  {Number} pos
@@ -152,15 +280,15 @@ function Table() {
 			rowNum = this.rows.length,
 			i;
 
-		if (colNum <= 0 || pos < 0 || pos > colNum){
-			throw new Error('Wrong index for the cell to insert!');
+		if (colNum &lt;= 0 || pos &lt; 0 || pos &gt; colNum){
+			throw new Error(&#x27;Wrong index for the cell to insert!&#x27;);
 		}
-		if (pos < colNum){
-			for (i = 0; i < rowNum; i++){
+		if (pos &lt; colNum){
+			for (i = 0; i &lt; rowNum; i++){
 				this.rows[i].insertCellAt(pos, cell);
 			}
 		} else {
-			for (i = 0; i < rowNum; i++){
+			for (i = 0; i &lt; rowNum; i++){
 				this.rows[i].appendCell(cell);
 			}
 		}
@@ -176,7 +304,7 @@ function Table() {
 	this.dropColumn = function(colNum){
 		var rowsNum = this.rows.length,
 		i;
-		for (i = 0; i < rowsNum; i++){
+		for (i = 0; i &lt; rowsNum; i++){
 			this.rows[i].dropCell(colNum);
 		}
 	};
@@ -200,7 +328,7 @@ function Table() {
 			return firstRowCellNum;
 		}
 
-		for (i = 1; i < rowNum; i++){
+		for (i = 1; i &lt; rowNum; i++){
 			if (this.rows[i].cellNum() !== firstRowCellNum){
 				return null;
 			}
@@ -211,7 +339,7 @@ function Table() {
 	/**
 	 * Whether all rows in the table have the same cell widths.
 	 * @method sameWidth
-	 * @return {Boolean} true, if all rows have the same cells' widths, false otherwise.
+	 * @return {Boolean} true, if all rows have the same cells&#x27; widths, false otherwise.
 	 */
 	this.isSameWidths = function(){
 		var matrix = this.getMatrix(),
@@ -219,17 +347,17 @@ function Table() {
 			output = true,
 			firstRow, firstRowLen, i, j;
 		// only if the number of rows is bigger than 1
-		if (rowsNum > 1){
+		if (rowsNum &gt; 1){
 			// compare the first row with the rest
 			firstRow = matrix[0];
 			firstRowLen = firstRow.length;
-			for (i = 1; i < rowsNum; i++){
+			for (i = 1; i &lt; rowsNum; i++){
 				if (matrix[i].length !== firstRowLen){
 					output = false;
 					break;
 				}
 				// compare element by element
-				for (j = 0; j < firstRowLen; j++){
+				for (j = 0; j &lt; firstRowLen; j++){
 					if(matrix[i][j] !== firstRow[j]){
 						output = false;
 						break;
@@ -245,65 +373,65 @@ function Table() {
 	};
 
 	/**
-	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance:
-	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'
-	 * 2. in 'attr' property, sets up 'border' property.
-	 * Note that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.
+	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
+	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27;
+	 * 2. in &#x27;attr&#x27; property, sets up &#x27;border&#x27; property.
+	 * Note that if after setting the border there is an assigment of &#x27;style&#x27; or &#x27;attr&#x27; property, then some info about the border might be overwritten.
 	 * @method  setBorder
-	 * @param {Object} borderInfo  Object containing 'width', 'color' and 'style' fo the border to set.
+	 * @param {Object} borderInfo  Object containing &#x27;width&#x27;, &#x27;color&#x27; and &#x27;style&#x27; fo the border to set.
 	 * @default  border-width is set to 1, border-color is set to #000000, border-style is set to solid.
 	 * @return {void}
 	 */
 	this.setBorder = function(borderInfo){
 		var bw, bc, bs;
 		if (borderInfo === undefined){
-			borderInfo = {'width': 1, 'color': '#000000', 'style': 'solid'};
+			borderInfo = {&#x27;width&#x27;: 1, &#x27;color&#x27;: &#x27;#000000&#x27;, &#x27;style&#x27;: &#x27;solid&#x27;};
 		}
 		bw = borderInfo.width || 1;
-		bc = borderInfo.color || '#000000';
-		bs = borderInfo.style || 'solid';
+		bc = borderInfo.color || &#x27;#000000&#x27;;
+		bs = borderInfo.style || &#x27;solid&#x27;;
 
-		this.style['border-width'] = bw;
-		this.style['border-color'] = bc;
-		this.style['border-style'] = bs;
+		this.style[&#x27;border-width&#x27;] = bw;
+		this.style[&#x27;border-color&#x27;] = bc;
+		this.style[&#x27;border-style&#x27;] = bs;
 		this.attr.border = bw;
 	};
 
 	/**
-	 * Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:
-	 * 1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'
-	 * 2. in 'attr' property, deletes 'border' property.
+	 * Removes the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
+	 * 1. in &#x27;style&#x27; property, deletes the properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and sets up &#x27;border-style&#x27; to &#x27;none&#x27;
+	 * 2. in &#x27;attr&#x27; property, deletes &#x27;border&#x27; property.
 	 * @method  removeBorder
 	 * @return {void}
 	 */
 	this.removeBorder = function(){
-		if (this.style.hasOwnProperty('border-width')) {
-			delete this.style['border-width'];
+		if (this.style.hasOwnProperty(&#x27;border-width&#x27;)) {
+			delete this.style[&#x27;border-width&#x27;];
 		}
-		if (this.style.hasOwnProperty('border-color')) {
-			delete this.style['border-color'];
+		if (this.style.hasOwnProperty(&#x27;border-color&#x27;)) {
+			delete this.style[&#x27;border-color&#x27;];
 		}
-		this.style['border-style'] = 'none';
+		this.style[&#x27;border-style&#x27;] = &#x27;none&#x27;;
 
-		if (this.attr.hasOwnProperty('border')) {
+		if (this.attr.hasOwnProperty(&#x27;border&#x27;)) {
 			delete this.attr.border;
 		}
 	};
 
 	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise. It at least one of the properties, corresponding to the "bogus" elements is set, then
+	 * false otherwise. It at least one of the properties, corresponding to the &quot;bogus&quot; elements is set, then
 	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
 	 * @return {Boolean}     true if all table rows have border around
 	 */
 	this.isFramed = function(){
 		// if at least one of these properties is set, the table is considered as being framed.
-		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
-							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+		var propertyList = [&#x27;bogusRowStyle&#x27;, &#x27;bogusRowAttr&#x27;, &#x27;bogusCellStyle&#x27;,
+							&#x27;bogusCellAttr&#x27;, &#x27;bogusTableStyle&#x27;, &#x27;bogusTableAttr&#x27;],
 			that = this;
 		return propertyList.some(function(prop){
-			return that.hasOwnProperty(prop) && that[prop];
+			return that.hasOwnProperty(prop) &amp;&amp; that[prop];
 		});
 	};
 
@@ -312,11 +440,11 @@ function Table() {
 	 * @return {void}
 	 */
 	this.removeFrame = function(){
-		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
-							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+		var propertyList = [&#x27;bogusRowStyle&#x27;, &#x27;bogusRowAttr&#x27;, &#x27;bogusCellStyle&#x27;,
+							&#x27;bogusCellAttr&#x27;, &#x27;bogusTableStyle&#x27;, &#x27;bogusTableAttr&#x27;],
 			propertyListLen = propertyList.length,
 			i;
-		for (i = 0; i < propertyListLen; i++){
+		for (i = 0; i &lt; propertyListLen; i++){
 			if(this.hasOwnProperty(propertyList[i])){
 				delete this[propertyList[i]];
 			}
@@ -336,12 +464,12 @@ function Table() {
 			colLen = this.colNum(),
 			rowLen = this.rows.length,
 			i;
-		if (colNumInt === colNum && colNum >= 0 && colNum < colLen) {
-			for (i = 0; i < rowLen; i++){
+		if (colNumInt === colNum &amp;&amp; colNum &gt;= 0 &amp;&amp; colNum &lt; colLen) {
+			for (i = 0; i &lt; rowLen; i++){
 				this.rows[i].appendStyleToCell(colNum, style);
 			}
 		} else {
-			throw new Error('The column is not present!');
+			throw new Error(&#x27;The column is not present!&#x27;);
 		}
 
 
@@ -354,36 +482,36 @@ function Table() {
 	 * @return {String}
 	 */
 	this.toHtml = function () {
-		var prologue = '', epilogue = '', tableTag = 'table', rowTag = 'tr', cellTag = 'td',
+		var prologue = &#x27;&#x27;, epilogue = &#x27;&#x27;, tableTag = &#x27;table&#x27;, rowTag = &#x27;tr&#x27;, cellTag = &#x27;td&#x27;,
 			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
 			bogusRowHtml, bogusCellHtml, bogusTableHtml, tableAttr, tableStyle, tableHtml, i, rowsNumber;
 
 		if (this.isFramed()){
 			// some preliminaries for the framed tables
-			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : '';
-			bogusRowStyle   = this.bogusRowStyle   ? this.bogusRowStyle.toString().sandwichWith('style="', '"') : '';
-			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : '';
-			bogusCellStyle  = this.bogusCellStyle  ? this.bogusCellStyle.toString().sandwichWith('style="', '"') : '';
-			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : '';
-			bogusTableStyle = this.bogusTableStyle ? this.bogusTableStyle.toString().sandwichWith('style="', '"') : '';
+			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : &#x27;&#x27;;
+			bogusRowStyle   = this.bogusRowStyle   ? this.bogusRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : &#x27;&#x27;;
+			bogusCellStyle  = this.bogusCellStyle  ? this.bogusCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : &#x27;&#x27;;
+			bogusTableStyle = this.bogusTableStyle ? this.bogusTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
 
-			bogusRowHtml = [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces().sandwichWith('<', '>');
-			bogusCellHtml = [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces().sandwichWith('<', '>');
-			bogusTableHtml = [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces().sandwichWith('<', '>');
+			bogusRowHtml = [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+			bogusCellHtml = [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+			bogusTableHtml = [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 
 			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
-			prologue = tableTag.sandwichWith('</', '>') + cellTag.sandwichWith('</', '>') + rowTag.sandwichWith('</', '>');
+			prologue = tableTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) + cellTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) + rowTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;);
 		}
-		tableAttr  = this.attr  ? this.attr.toString() : '';
-		tableStyle = this.style ? this.style.toString().sandwichWith('style="', '"') : '';
-		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
+		tableAttr  = this.attr  ? this.attr.toString() : &#x27;&#x27;;
+		tableStyle = this.style ? this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
 		rowsNumber = this.rows.length;
-		for (i = 0; i < rowsNumber; i++) {
+		for (i = 0; i &lt; rowsNumber; i++) {
 			tableHtml += epilogue;
 			tableHtml += this.rows[i].toHtml();
 			tableHtml += prologue;
 		}
-		tableHtml += tableTag.sandwichWith('</', '>');
+		tableHtml += tableTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;);
 		return tableHtml;
 	};
 
@@ -459,17 +587,17 @@ function Table() {
 String.prototype.isFramedTable = function (){
 	var tableHtml = this,
 		parser = new DOMParser(),
-		doc = parser.parseFromString(tableHtml, 'text/html'),
-		node = doc.getElementsByTagName('table'),
+		doc = parser.parseFromString(tableHtml, &#x27;text/html&#x27;),
+		node = doc.getElementsByTagName(&#x27;table&#x27;),
 		isFramed = true,
 		tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
 
-		// it would be very nice to use this approach, but doc.evaluate always returns "undefined"
+		// it would be very nice to use this approach, but doc.evaluate always returns &quot;undefined&quot;
 		// try{
-		// 	var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
-		// 	console.log('evaluate: ', tmp);
+		// 	var tmp = doc.evaluate(&#x27;//*&#x27;, doc, null, XPathResult.ANY_TYPE, tmp);
+		// 	console.log(&#x27;evaluate: &#x27;, tmp);
 		// } catch (ex){
-		// 	console.log("Error! ", ex);
+		// 	console.log(&quot;Error! &quot;, ex);
 		// }
 
 		if (node.length === 0){
@@ -480,7 +608,7 @@ String.prototype.isFramedTable = function (){
 		// parsing the table structure to decide whether this is a framed table or a regular one.
 		tableChildren = node.children[0].children;   // all rows of  the table
 		tableChildrenLen = tableChildren.length;
-		for (i = 0; i < tableChildrenLen; i++) {
+		for (i = 0; i &lt; tableChildrenLen; i++) {
 			currentElem = tableChildren[i];          // current row
 			elemChildren = currentElem.children;     // all cells inside the row
 			if (elemChildren.length !== 1 ){
@@ -488,12 +616,12 @@ String.prototype.isFramedTable = function (){
 				break;
 			}
 			nestedElem = elemChildren[0];     // first cell inside the row
-			if (nestedElem.tagName !== 'TD'){
+			if (nestedElem.tagName !== &#x27;TD&#x27;){
 				isFramed = false;
 				break;
 			}
 			nestedElemChildren = nestedElem.children;
-			if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
+			if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== &#x27;TABLE&#x27;){
 				isFramed = false;
 				break;
 			}
@@ -504,7 +632,7 @@ String.prototype.isFramedTable = function (){
 /**
  * Creates an object representation from a string that is an html repersentation of a table.
  * Only one table is supposed to be processed at a time, so the string to be processed is to
- * be of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags "tr"
+ * be of the following form &amp;lt;table ...&amp;gt; ... &amp;lt;/table&amp;gt;. Inside the tag, there should be tags &quot;tr&quot;
  * that will be processed one by one by function String::createRowFromHtml().
  * @module  HtmlElements
  * @method createTableFromHtml
@@ -514,8 +642,8 @@ String.prototype.createTableFromHtml = function(){
 		var htmlStr = this,
 			isFramed = htmlStr.isFramedTable(),
 			parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, 'text/html'),
-			node = doc.getElementsByTagName('table'),
+			doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
+			node = doc.getElementsByTagName(&#x27;table&#x27;),
 
 			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
 			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
@@ -528,11 +656,11 @@ String.prototype.createTableFromHtml = function(){
 		table = new Table();
 
 		// imposing table styles
-		nodeStyle = node.getAttribute('style');
+		nodeStyle = node.getAttribute(&#x27;style&#x27;);
 		table.style = new Style(nodeStyle);
 		// imposing table attributes
 		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty('style')){
+		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
 			delete attrs.style;
 		}
 		table.attr = new Attributes(attrs);
@@ -542,23 +670,22 @@ String.prototype.createTableFromHtml = function(){
 		rowsNum = rows.length;
 
 		if (isFramed){
-			console.log('the table seems to be framed');
-			bogusRowStyle = node.querySelector('tr').getAttribute('style');
-			bogusCellStyle = node.querySelector('tr td').getAttribute('style');
-			bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
+			bogusRowStyle = node.querySelector(&#x27;tr&#x27;).getAttribute(&#x27;style&#x27;);
+			bogusCellStyle = node.querySelector(&#x27;tr td&#x27;).getAttribute(&#x27;style&#x27;);
+			bogusTableStyle = node.querySelector(&#x27;tr td table&#x27;).getAttribute(&#x27;style&#x27;);
 
-			bogusRowAttr = flatten(node.querySelector('tr').attributes);
-			if (bogusRowAttr.hasOwnProperty('style')){
+			bogusRowAttr = flatten(node.querySelector(&#x27;tr&#x27;).attributes);
+			if (bogusRowAttr.hasOwnProperty(&#x27;style&#x27;)){
 				delete bogusRowAttr.style;
 			}
 
-			bogusCellAttr = flatten(node.querySelector('tr td').attributes);
-			if (bogusCellAttr.hasOwnProperty('style')){
+			bogusCellAttr = flatten(node.querySelector(&#x27;tr td&#x27;).attributes);
+			if (bogusCellAttr.hasOwnProperty(&#x27;style&#x27;)){
 				delete bogusCellAttr.style;
 			}
 
-			bogusTableAttr = flatten(node.querySelector('tr td table').attributes);
-			if (bogusTableAttr.hasOwnProperty('style')){
+			bogusTableAttr = flatten(node.querySelector(&#x27;tr td table&#x27;).attributes);
+			if (bogusTableAttr.hasOwnProperty(&#x27;style&#x27;)){
 				delete bogusTableAttr.style;
 			}
 			table.bogusRowStyle   = new Style(bogusRowStyle);
@@ -570,15 +697,15 @@ String.prototype.createTableFromHtml = function(){
 		}
 
 
-		// console.log('numero di righe rilevate:', childNum);
-		for (i = 0; i < rowsNum; i++){
+		// console.log(&#x27;numero di righe rilevate:&#x27;, childNum);
+		for (i = 0; i &lt; rowsNum; i++){
 			if (isFramed){
-				currentRow = rows[i].querySelector('td table tr');
+				currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
 			} else {
 				currentRow = rows[i];
 			}
 
-			if(currentRow.tagName === "TR"){
+			if(currentRow.tagName === &quot;TR&quot;){
 				// console.log(child);
 				row = currentRow.outerHTML.createRowFromHtml();
 				table.appendRow(row);
@@ -586,3 +713,22 @@ String.prototype.createTableFromHtml = function(){
 		}
 		return table;
 };
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

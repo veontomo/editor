@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>BorderStyle</title>
+    <title>ListItem</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -122,25 +122,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>BorderStyle Class</h1>
+                        <h1>ListItem Class</h1>
 <div class="box meta">
     
 
     
-        <div class="extends">
-            Extends <a href="..\classes\Style.html" class="crosslink">Style</a>
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/attributesStyle.js.html#l121"><code>attributesStyle.js:121</code></a>
+            Defined in: <a href="../files/list.js.html#l5"><code>list.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/attributes.html">attributes</a>
+            Module: <a href="../modules/HtmlElements.html">HtmlElements</a>
         
     
 
@@ -150,7 +146,7 @@
 
 
 <div class="box intro">
-    <p>Styles specific for the table border.</p>
+    <p>This class is used to represent a list item.</p>
 
 </div>
 
@@ -178,24 +174,24 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
-                            <li class="index-item method inherited">
-                                <a href="#method_appendStyle">appendStyle</a>
+                            <li class="index-item method">
+                                <a href="#method_appendElem">appendElem</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method inherited">
-                                <a href="#method_setWidth">setWidth</a>
+                            <li class="index-item method">
+                                <a href="#method_length">length</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method inherited">
-                                <a href="#method_toString">toString</a>
+                            <li class="index-item method">
+                                <a href="#method_toHtml">toHtml</a>
 
                                 
                                 
@@ -209,24 +205,24 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_border-color">border-color</a>
+                                <a href="#property_attr">attr</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_border-style">border-style</a>
+                                <a href="#property_content">content</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_border-width">border-width</a>
+                                <a href="#property_style">style</a>
 
                                 
                                 
@@ -246,8 +242,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_appendStyle" class="method item inherited">
-    <h3 class="name"><code>appendStyle</code></h3>
+                    <div id="method_appendElem" class="method item">
+    <h3 class="name"><code>appendElem</code></h3>
 
     
         <div class="args">
@@ -255,7 +251,7 @@
             
                 <li class="arg">
                     
-                        <code>stl</code>
+                        <code>elem</code>
                     
                 </li>
             
@@ -284,12 +280,15 @@
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="..\classes\Style.html#method_appendStyle">Style</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/attributesStyle.js.html#l50"><code>attributesStyle.js:50</code></a>
+        <a href="../files/list.js.html#l40"><code>list.js:40</code></a>
         
         </p>
 
@@ -300,7 +299,7 @@
     </div>
 
     <div class="description">
-        <p>Appends object. If non-object is given, error is thrown.</p>
+        <p>Appends the element to the content of the list item.</p>
 
     </div>
 
@@ -312,15 +311,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">stl</code>
-                        <span class="type">Object</span>
+                        <code class="param-name">elem</code>
+                        <span class="type">Any</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>style to be appended</p>
-
+                         
                     </div>
 
                     
@@ -348,23 +346,17 @@
 </div>
 
                 
-                    <div id="method_setWidth" class="method item inherited">
-    <h3 class="name"><code>setWidth</code></h3>
+                    <div id="method_length" class="method item">
+    <h3 class="name"><code>length</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>w</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
     
 
     
@@ -382,12 +374,15 @@
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="..\classes\Style.html#method_setWidth">Style</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/attributesStyle.js.html#l77"><code>attributesStyle.js:77</code></a>
+        <a href="../files/list.js.html#l50"><code>list.js:50</code></a>
         
         </p>
 
@@ -398,44 +393,32 @@
     </div>
 
     <div class="description">
-        <p>Imposes the width, min-width and max-width</p>
+        <p>Returns the number of elements inside its content. Delegates to Content::length().</p>
 
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">w</code>
-                        <span class="type">Mixed</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>value of width</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
+        <div class="returns">
+            <h4>Returns:</h4>
 
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="method_toString" class="method item inherited">
-    <h3 class="name"><code>toString</code></h3>
+                    <div id="method_toHtml" class="method item">
+    <h3 class="name"><code>toHtml</code></h3>
 
     
         <span class="paren">()</span>
@@ -462,12 +445,15 @@
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="..\classes\Style.html#method_toString">Style</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/attributesStyle.js.html#l68"><code>attributesStyle.js:68</code></a>
+        <a href="../files/list.js.html#l59"><code>list.js:59</code></a>
         
         </p>
 
@@ -478,7 +464,7 @@
     </div>
 
     <div class="description">
-        <p>Generates string representation of this object (as inline styles)</p>
+        <p>Gives html representation of the instance.</p>
 
     </div>
 
@@ -493,22 +479,13 @@
                     
                         <span class="type">String</span>:
                     
-                    <p>html-like string for this object</p>
+                    <p>html representation of an instance of this class.</p>
 
                 
             </div>
         </div>
     
 
-    
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <p> The return value might be one of this form: style=&quot;width: 100px; color: red;&quot;</p>
-
-            </div>
-        </div>
     
 </div>
 
@@ -521,9 +498,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_border-color" class="property item">
-    <h3 class="name"><code>border-color</code></h3>
-    <span class="type">String</span>
+                    <div id="property_attr" class="property item">
+    <h3 class="name"><code>attr</code></h3>
+    <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a></span>
 
     
 
@@ -544,7 +521,7 @@
             
         
         
-        <a href="../files/attributesStyle.js.html#l147"><code>attributesStyle.js:147</code></a>
+        <a href="../files/list.js.html#l16"><code>list.js:16</code></a>
         
         </p>
 
@@ -554,13 +531,12 @@
     </div>
 
     <div class="description">
-        <p>border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)
-otherwise some web browsers (e.g. GMail) will remove it and substitute it with its own one.</p>
+        <p>List item attributes</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> #000001</p>
+        <p><strong>Default:</strong> Attributes()</p>
     
 
     
@@ -569,9 +545,9 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
 </div>
 
                 
-                    <div id="property_border-style" class="property item">
-    <h3 class="name"><code>border-style</code></h3>
-    <span class="type">String</span>
+                    <div id="property_content" class="property item">
+    <h3 class="name"><code>content</code></h3>
+    <span class="type"><a href="..\classes\Content.html" class="crosslink">Content</a></span>
 
     
 
@@ -592,7 +568,7 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
             
         
         
-        <a href="../files/attributesStyle.js.html#l140"><code>attributesStyle.js:140</code></a>
+        <a href="../files/list.js.html#l32"><code>list.js:32</code></a>
         
         </p>
 
@@ -602,12 +578,12 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
     </div>
 
     <div class="description">
-        <p>border style. Possible values: none, solid, dotted etc.</p>
+        <p>Content of the list item.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &#x27;solid&#x27;</p>
+        <p><strong>Default:</strong> Content()</p>
     
 
     
@@ -616,9 +592,9 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
 </div>
 
                 
-                    <div id="property_border-width" class="property item">
-    <h3 class="name"><code>border-width</code></h3>
-    <span class="type">String | Number</span>
+                    <div id="property_style" class="property item">
+    <h3 class="name"><code>style</code></h3>
+    <span class="type"><a href="..\classes\ListItemStyle.html" class="crosslink">ListItemStyle</a></span>
 
     
 
@@ -639,7 +615,7 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
             
         
         
-        <a href="../files/attributesStyle.js.html#l133"><code>attributesStyle.js:133</code></a>
+        <a href="../files/list.js.html#l24"><code>list.js:24</code></a>
         
         </p>
 
@@ -649,12 +625,12 @@ otherwise some web browsers (e.g. GMail) will remove it and substitute it with i
     </div>
 
     <div class="description">
-        <p>border width in px</p>
+        <p>List item styles</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 1px</p>
+        <p><strong>Default:</strong> ListItemStyle()</p>
     
 
     

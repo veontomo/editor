@@ -40,6 +40,16 @@ describe("table2 helper functions", function () {
 
 });
 
+describe('it transforms the first letter of the string into upper case, the rest - in lower', function(){
+     it('does its work', function(){
+         expect(onlyFirstLetterUpperCase('alllowercase')).toBe('Alllowercase');
+         expect(onlyFirstLetterUpperCase('f')).toBe('F');
+         expect(onlyFirstLetterUpperCase('')).toBe('');
+         expect(onlyFirstLetterUpperCase('MiXeD')).toBe('Mixed');
+         expect(onlyFirstLetterUpperCase('iNvErSe')).toBe('Inverse');
+    });
+});
+
 describe("drop protocol", function () {
     it("drops protocol", function () {
         expect(dropProtocol('http://www.test.com')).toEqual("www.test.com");

@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
                 <li><a href="../classes/ListStyle.html">ListStyle</a></li>
@@ -80,6 +84,8 @@
                 <li><a href="../modules/attributes.html">attributes</a></li>
             
                 <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
             
             </ul>
         </div>
@@ -423,7 +429,7 @@ function specialChar(str){
  * @return {Array}          array of integers
  */
 function crack(arr, pos){
-    var orig, orig1, orig2,
+    var orig, orig1, orig2, neighbour, neighbour1, neighbourDonor,
         output = [],
         len = arr.length,
         i;
@@ -445,11 +451,188 @@ function crack(arr, pos){
         neighbour1 = parseInt(2 * neighbour/3, 10);
         neighbourDonor = neighbour - neighbour1;
         output[pos-1] = neighbour1;
-    };
+    }
     output[pos] = orig1;
     output.splice(pos, 0, orig2 + neighbourDonor);
     return output;
 }
+
+
+
+/**
+ * Produces a string of properties in inline-style fashion
+ * This function is supposed to be added to prototypes of different objects.
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}        obj     an object which string reperesentation should be generated.
+ * @param   {String|null}   unit    a mesurement unit to be added to the numerical attribute values. By default, it is set to &#x27;px&#x27;.
+ * @return  {String}        a concatenation of substrings; each substring is of this format: &quot;attribute: value;&quot;.
+ * @example The return value is of the form: &quot;padding: 0px;margin: 10px;color: #ababab;&quot;
+ */
+var toString = function (obj, unit) {
+        &quot;use strict&quot;;
+        var val, attr, styles = &quot;&quot;;
+        unit = unit || &#x27;px&#x27;;
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                // avoid adding method to the output
+                val = obj[attr];
+                switch (typeof val) {
+                case &#x27;string&#x27;:
+                    styles += attr + &#x27;: &#x27; + val + &#x27;;&#x27;;
+                    break;
+                case &#x27;number&#x27;:
+                    styles += attr + &#x27;: &#x27; + String(val) + unit + &#x27;;&#x27;;
+                    break;
+                }
+            }
+        }
+        return styles;
+    };
+
+/**
+ * Produces a string of attributes and values
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}    obj
+ * @return  {String}    String      a union of substrings; each substring is of this format: &#x27;attribute=&quot;value&quot;&#x27;, between the substrings there is a separator &#x27; &#x27;.
+ */
+var toString2 = function (obj) {
+        &quot;use strict&quot;;
+        var val, valType, attr, output = [];
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                val = obj[attr];
+                valType = typeof val;
+                // avoid adding method to the output
+                if (valType === &#x27;string&#x27; || valType === &#x27;number&#x27;){
+                    output.push(attr + &#x27;=&quot;&#x27; + String(val) + &#x27;&quot;&#x27;);
+                }
+            }
+        }
+        return output.join(&#x27; &#x27;);
+    };
+
+/**
+ * Flatten the object. This function was written because Node::attributes returns attributes in format.
+ * Example {&#x27;1&#x27;: {name: &quot;width&quot;, value:&quot;100&quot;, ...}, &#x27;2&#x27;: {name: &quot;color&quot;, value:&quot;black&quot;, ...}, ...}
+ * returns {&quot;width&quot;:&quot;100&quot;, &quot;color&quot;:&quot;black&quot;, ...}
+ * @param {Object} obj
+  */
+ var flatten = function (obj){
+    var attr, value, output = {};
+    for (attr in obj){
+        if (obj.hasOwnProperty(attr)){
+            value = obj[attr];
+            if (typeof value === &#x27;object&#x27;){
+                output[value.name] = value.value;
+            }
+        }
+    }
+    return output;
+ };
+
+/**
+ * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
+ * If the right arguments is not given, the left one is used.
+ * @param  {String} left
+ * @param  {String} middle
+ * @param  {String} right
+ * @type   String|Null
+ * @return {String|Null}
+ */
+var sandwichWith = function (left, middle, right){
+    var m, r;
+    if ((typeof middle === &quot;string&quot;) || (typeof left === &quot;string&quot;)){
+        r = right || left;
+        m = middle.trim();
+        return m ? left + m + r : &#x27;&#x27;;
+    }
+};
+String.prototype.sandwichWith = function (left, right){
+    return sandwichWith(left, this, right);
+};
+
+/**
+ * Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.
+ * @param {Array} arr
+ * @param {String} glue glue string
+ * @return {String}
+ */
+var concatDropSpaces = function (arr, glue){
+    if (glue === undefined){
+        glue = &#x27; &#x27;;
+    }
+    return arr.join(glue).replace(/\s+/g, &#x27; &#x27;).trim();
+};
+Array.prototype.concatDropSpaces = function(glue){
+    return concatDropSpaces(this, glue);
+};
+
+
+/**
+ * Merge two objects. If non-object is given, an error is thrown.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object}
+ */
+var appendObject = function (obj1, obj2){
+    if ((typeof obj1 !== &#x27;object&#x27;) || (typeof obj2 !== &#x27;object&#x27;)){
+        throw new Error(&#x27;Both arguments of appendObject must be of Object type!&#x27;);
+    }
+    var output = obj1,
+        attr;
+    for (attr in obj2){
+        if (obj2.hasOwnProperty(attr)){
+            output[attr] = obj2[attr];
+        }
+    }
+    return output;
+
+};
+
+/**
+ * Sets width, min-width and max-width of the object.
+ * @module  attributes
+ * @param   {Object}    obj         object which width is to be set.
+ * @param   {mixed}     w           width value
+ * @return  {void}
+ */
+var setMinMaxWidth = function (obj, w) {
+    &quot;use strict&quot;;
+    if(typeof obj !== &#x27;object&#x27;){
+        throw new Error(&#x27;Can not set a property of a non-object!&#x27;);
+    }
+    if(w === undefined){
+        throw new Error(&quot;Width value is not set!&quot;);
+    }
+    obj.width = w;
+    obj[&#x27;max-width&#x27;] =  w;
+    obj[&#x27;min-width&#x27;] =  w;
+};
+
+/**
+* Gets property value from the object.
+* @module   attributes
+* @param    {Object}    obj     an object
+* @param    {String}    prop    property name to retrieve
+* @return   {mixed}     property value of the object
+*/
+function getProperty(obj, prop){
+    &quot;use strict&quot;;
+    if(typeof obj !== &#x27;object&#x27;){
+        throw new Error(&#x27;Not an object!&#x27;);
+    }
+    if(prop === undefined){
+        throw new Error(&quot;Property name missing!&quot;);
+    }
+    if(obj.hasOwnProperty(prop)){
+        return obj[prop];
+    }
+}
+
     </pre>
 </div>
 

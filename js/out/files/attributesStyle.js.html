@@ -1,3 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>attributesStyle.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
+            
+                <li><a href="../classes/ListStyle.html">ListStyle</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/Style.html">Style</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyle.html">TableCellStyle</a></li>
+            
+                <li><a href="../classes/TableRowStyle.html">TableRowStyle</a></li>
+            
+                <li><a href="../classes/TableStyle.html">TableStyle</a></li>
+            
+                <li><a href="../classes/TextStyle.html">TextStyle</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: attributesStyle.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
 /*global toString, toString2, setMinMaxWidth, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Style*/
@@ -9,7 +137,7 @@
 * @class  	Style
 */
 function Style(style) {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof Style)) {
 		return new Style(style);
 	}
@@ -18,13 +146,13 @@ function Style(style) {
 	/**
 	 * Fill in the properties with the values from the argument if any
 	 */
-	if (typeof style === 'string'){
-		attr = style.split(';');
+	if (typeof style === &#x27;string&#x27;){
+		attr = style.split(&#x27;;&#x27;);
 		len = attr.length;
 
 		// parse each attribute/value pair
-		for (i = 0; i < len; i++){
-			pair = attr[i].split(':');
+		for (i = 0; i &lt; len; i++){
+			pair = attr[i].split(&#x27;:&#x27;);
 			// ignore if there is more than one semicolon
 			if (pair.length === 2){
 				key = pair[0].trim();
@@ -36,11 +164,11 @@ function Style(style) {
 			}
 		}
 	}
-	if (typeof style === 'object'){
+	if (typeof style === &#x27;object&#x27;){
 		for (key in style){
 			if (style.hasOwnProperty(key)){
 				value = style[key];
-				if (typeof value === 'string' || typeof value === 'number'){
+				if (typeof value === &#x27;string&#x27; || typeof value === &#x27;number&#x27;){
 					this[key] = value;
 				}
 			}
@@ -54,8 +182,8 @@ function Style(style) {
 	 * @return {void}
 	 */
 	this.appendStyle = function(stl){
-		if (typeof stl !== 'object'){
-			throw new Error('Argument of Object type is expected!');
+		if (typeof stl !== &#x27;object&#x27;){
+			throw new Error(&#x27;Argument of Object type is expected!&#x27;);
 		}
 		var styleProp;
 		for (styleProp in stl){
@@ -69,7 +197,7 @@ function Style(style) {
 	 * Generates string representation of this object (as inline styles)
 	 * @method {String} 	toString
 	 * @return {String} 	html-like string for this object
-	 * @example The return value might be one of this form: style="width: 100px; color: red;"
+	 * @example The return value might be one of this form: style=&quot;width: 100px; color: red;&quot;
 	 */
 	this.toString = function () {
 		return toString(this);
@@ -85,31 +213,31 @@ function Style(style) {
 
 
 	/**
-	 * returns object with keys 'width', 'color', 'style' describing the border.
-	 * If the Style object has 'border-style' equal to 'none', then in the
-	 * return object, the key 'width' is set to 0.
-	 * If 'border-style' is not 'none' and 'border-width' is present, then in the
-	 * return object, the key 'width' the 'border-width' value.
-	 * Otherwise, the 'width' key is not present.
+	 * returns object with keys &#x27;width&#x27;, &#x27;color&#x27;, &#x27;style&#x27; describing the border.
+	 * If the Style object has &#x27;border-style&#x27; equal to &#x27;none&#x27;, then in the
+	 * return object, the key &#x27;width&#x27; is set to 0.
+	 * If &#x27;border-style&#x27; is not &#x27;none&#x27; and &#x27;border-width&#x27; is present, then in the
+	 * return object, the key &#x27;width&#x27; the &#x27;border-width&#x27; value.
+	 * Otherwise, the &#x27;width&#x27; key is not present.
 	 * @return {Object}
 	 */
 	this.getBorder = function(){
 		var output = {};
-		if (this.hasOwnProperty('border-width')){
-			output.width = this['border-width'];
+		if (this.hasOwnProperty(&#x27;border-width&#x27;)){
+			output.width = this[&#x27;border-width&#x27;];
 		}
-		if (this.hasOwnProperty('border-color')){
-			output.color = this['border-color'];
+		if (this.hasOwnProperty(&#x27;border-color&#x27;)){
+			output.color = this[&#x27;border-color&#x27;];
 		}
 
-		if (this.hasOwnProperty('border-style')){
-			if(this['border-style'] === 'none'){
+		if (this.hasOwnProperty(&#x27;border-style&#x27;)){
+			if(this[&#x27;border-style&#x27;] === &#x27;none&#x27;){
 				output.width = 0;
-				if (output.hasOwnProperty('color')){
+				if (output.hasOwnProperty(&#x27;color&#x27;)){
 					delete output.color;
 				}
 			} else {
-				output.style = this['border-style'];
+				output.style = this[&#x27;border-style&#x27;];
 			}
 
 		}
@@ -125,7 +253,7 @@ function Style(style) {
  * @class BorderStyle
  */
 function BorderStyle(){
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof Style)) {
 		return new Style();
 	}
@@ -135,14 +263,14 @@ function BorderStyle(){
 	 * @property {String|Number} border-width
 	 * @default  1px
 	 */
-	this['border-width'] = '1px';
+	this[&#x27;border-width&#x27;] = &#x27;1px&#x27;;
 
 	/**
 	 * border style. Possible values: none, solid, dotted etc.
 	 * @property {String} border-style
-	 * @default  'solid'
+	 * @default  &#x27;solid&#x27;
 	 */
-	this['border-style'] = 'solid';
+	this[&#x27;border-style&#x27;] = &#x27;solid&#x27;;
 
 	/**
 	 * border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)
@@ -150,7 +278,7 @@ function BorderStyle(){
 	 * @property {String} border-color
 	 * @default  #000001
 	 */
-	this['border-color'] = '#000001';
+	this[&#x27;border-color&#x27;] = &#x27;#000001&#x27;;
 }
 
 /**
@@ -160,7 +288,7 @@ function BorderStyle(){
 * @class  Attributes
 */
 function Attributes(attr) {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof Attributes)) {
 		return new Attributes(attr);
 	}
@@ -168,13 +296,13 @@ function Attributes(attr) {
 	/**
 	 * Fill in the properties with the values from the argument if any
 	 */
-	if (typeof attr === 'string'){
-		attrs = attr.split(';');
+	if (typeof attr === &#x27;string&#x27;){
+		attrs = attr.split(&#x27;;&#x27;);
 		len = attrs.length;
 
 		// parse each attribute/value pair
-		for (i = 0; i < len; i++){
-			pair = attrs[i].split(':');
+		for (i = 0; i &lt; len; i++){
+			pair = attrs[i].split(&#x27;:&#x27;);
 			// ignore if there is more than one semicolon
 			if (pair.length === 2){
 				key = pair[0].trim();
@@ -186,12 +314,12 @@ function Attributes(attr) {
 			}
 		}
 	}
-	if (typeof attr === 'object'){
+	if (typeof attr === &#x27;object&#x27;){
 		for (key in attr){
 			if (attr.hasOwnProperty(key)){
 				value = attr[key];
-				// console.log('key: value', '(' + (typeof key) + ')', key, '('+ (typeof value) + ')', value );
-				if (typeof value === 'string' || typeof value === 'number'){
+				// console.log(&#x27;key: value&#x27;, &#x27;(&#x27; + (typeof key) + &#x27;)&#x27;, key, &#x27;(&#x27;+ (typeof value) + &#x27;)&#x27;, value );
+				if (typeof value === &#x27;string&#x27; || typeof value === &#x27;number&#x27;){
 					this[key] = value;
 				}
 			}
@@ -201,7 +329,7 @@ function Attributes(attr) {
 	 * Generates string representation of this object (as html attributes)
 	 * @method {String} 	toString
 	 * @return {String} 	html-like string for this object
-	 * @example The return value might be one of this form: <b>class="example" id="tag"</b>
+	 * @example The return value might be one of this form: &lt;b&gt;class=&quot;example&quot; id=&quot;tag&quot;&lt;/b&gt;
 	 */
 	this.toString = function () {
 		return toString2(this);
@@ -214,8 +342,8 @@ function Attributes(attr) {
 	 * @return {void}
 	 */
 	this.appendAttribute = function(stl){
-		if (typeof stl !== 'object'){
-			throw new Error('Argument of Object type is expected!');
+		if (typeof stl !== &#x27;object&#x27;){
+			throw new Error(&#x27;Argument of Object type is expected!&#x27;);
 		}
 		var attrs2;
 		for (attrs2 in stl){
@@ -233,16 +361,16 @@ function Attributes(attr) {
 * @class  TableAttributes
 */
 function TableAttributes(){
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof TableAttributes)) {return new TableAttributes(); }
 	/**
-	 * Cellpadding attribute of the table. It is supposed that measurement unit is "px".
+	 * Cellpadding attribute of the table. It is supposed that measurement unit is &quot;px&quot;.
 	 * @property 	{Number} 	cellpadding
 	 * @default  	0
 	 */
 	this.cellpadding = 0;
 	/**
-	 * Cellspacing attribute of the table. It is supposed that measurement unit is "px".
+	 * Cellspacing attribute of the table. It is supposed that measurement unit is &quot;px&quot;.
 	 * @property {Number} cellspacing
 	 * @default  0
 	 */
@@ -257,40 +385,40 @@ TableAttributes.prototype = new Attributes();
  * @class  TextStyle
  */
 function TextStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof TextStyle)) {
 		return new TextStyle();
 	}
 	/**
 	 * Font size, including unit of measurement.
 	 * @property {String} font-size
-	 * @default  "12px"
+	 * @default  &quot;12px&quot;
 	 */
-	this["font-size"] = "12px";
+	this[&quot;font-size&quot;] = &quot;12px&quot;;
 	/**
 	 * Font color
 	 * @property {String}	color 	Font color
-	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = "#000001";
+	this.color = &quot;#000001&quot;;
 	/**
-	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
+	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
 	 * @property {String|Integer} font-weight
-	 * @default "normal"
+	 * @default &quot;normal&quot;
 	 */
-	this["font-weight"] = "normal";
+	this[&quot;font-weight&quot;] = &quot;normal&quot;;
 	/**
 	 * Padding value along with unit of measurement
 	 * @property {String} padding
-	 * @default  "0px"
+	 * @default  &quot;0px&quot;
 	 */
-	this.padding = "0px";
+	this.padding = &quot;0px&quot;;
 	/**
 	 * Margin value along with unit of measurement
 	 * @property {String} margin
-	 * @default  "0px"
+	 * @default  &quot;0px&quot;
 	 */
-	this.margin = "0px";
+	this.margin = &quot;0px&quot;;
 }
 TextStyle.prototype = new Style();
 
@@ -301,35 +429,35 @@ TextStyle.prototype = new Style();
  * @extends Style
  */
 function LinkStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof LinkStyle)) {
 		return new LinkStyle();
 	}
 	/**
 	 * Text decoration attribute
 	 * @property {String} text-decoration
-	 * @default  "underline"
+	 * @default  &quot;underline&quot;
 	 */
-	this["text-decoration"] = "underline";
+	this[&quot;text-decoration&quot;] = &quot;underline&quot;;
 
 	/**
 	 * Font size
 	 * @property {String|Integer} font size
 	 * @default 12
 	 */
-	this["font-size"] = 12;
+	this[&quot;font-size&quot;] = 12;
 	/**
 	 * Font color attribute
 	 * @property {String} font color
-	 * @default  "blue"
+	 * @default  &quot;blue&quot;
 	 */
-	this.color = "blue";
+	this.color = &quot;blue&quot;;
 	/**
 	 * Font wieght attribute. See html manuals for possible values.
 	 * @property {String|Integer} font weight
-	 * @default  "normal"
+	 * @default  &quot;normal&quot;
 	 */
-	this["font-weight"] = "normal";
+	this[&quot;font-weight&quot;] = &quot;normal&quot;;
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
@@ -352,28 +480,28 @@ LinkStyle.prototype = new Style();
  * @extends Style
  */
 function TableStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof TableStyle)) {
 		return new TableStyle();
 	}
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
-	 * @default  "#FFFFFF"
+	 * @default  &quot;#FFFFFF&quot;
 	 */
-	// this["border-color"] = "#FFFFFF";
+	// this[&quot;border-color&quot;] = &quot;#FFFFFF&quot;;
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
-	 * @default  "none"
+	 * @default  &quot;none&quot;
 	 */
-	this["border-style"] = "none";
+	this[&quot;border-style&quot;] = &quot;none&quot;;
 	/**
 	 * Width of the border table.
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	// this["border-width"] = 0;
+	// this[&quot;border-width&quot;] = 0;
 	/**
 	 * Margin of the table.
 	 * @property {String|Number} margin
@@ -393,17 +521,17 @@ function TableStyle() {
 	 */
 	this.width 		= 0;
 	/**
-	 * Table maximal width. It is supposed to be equal to "width" property.
+	 * Table maximal width. It is supposed to be equal to &quot;width&quot; property.
 	 * @property {String|Number} max-width
 	 * @default  0
 	 */
-	this["max-width"] 	= this.width;
+	this[&quot;max-width&quot;] 	= this.width;
 	/**
-	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
 	 * @property {String|Number} min-width
 	 * @default  0
 	 */
-	this["min-width"] 	= this.width;
+	this[&quot;min-width&quot;] 	= this.width;
 
 	/**
 	 * Whether to collapse the table borders or not.
@@ -411,13 +539,13 @@ function TableStyle() {
 	 * @property {String} border-collapse
 	 * @default  0
 	 */
-	// this['border-collapse'] = 'collapse';
+	// this[&#x27;border-collapse&#x27;] = &#x27;collapse&#x27;;
 	/**
 	 * Border spacing.
 	 * @property {String} border-spacing
-	 * @default '0px 0px'
+	 * @default &#x27;0px 0px&#x27;
 	 */
-	this['border-spacing'] = '0px 0px';
+	this[&#x27;border-spacing&#x27;] = &#x27;0px 0px&#x27;;
 }
 TableStyle.prototype = new Style();
 
@@ -428,28 +556,28 @@ TableStyle.prototype = new Style();
  * @extends Style
  */
 function TableRowStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof TableRowStyle)) {
 		return new TableRowStyle();
 	}
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
-	 * @default  "#FFFFFF"
+	 * @default  &quot;#FFFFFF&quot;
 	 */
-	// this["border-color"] = "#FFFFFF"; //white color
+	// this[&quot;border-color&quot;] = &quot;#FFFFFF&quot;; //white color
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
-	 * @default  "none"
+	 * @default  &quot;none&quot;
 	 */
-	this["border-style"] = "none";
+	this[&quot;border-style&quot;] = &quot;none&quot;;
 	/**
 	 * Width of the border table.
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	// this["border-width"] = 0;
+	// this[&quot;border-width&quot;] = 0;
 	 /**
 	  * Margin of the table.
 	  * @property {String|Number} margin
@@ -469,17 +597,17 @@ function TableRowStyle() {
 	  */
 	 this.width 		= 0;
 	 /**
-	  * Table maximal width. It is supposed to be equal to "width" property.
+	  * Table maximal width. It is supposed to be equal to &quot;width&quot; property.
 	  * @property {String|Number} max-width
 	  * @default  0
 	  */
-	 this["max-width"] 	= this.width;
+	 this[&quot;max-width&quot;] 	= this.width;
 	 /**
-	  * Table minimal width. It is supposed to be equal to "width" property.
+	  * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
 	  * @property {String|Number} min-width
 	  * @default  0
 	  */
-	 this["min-width"] 	= this.width;
+	 this[&quot;min-width&quot;] 	= this.width;
 }
 TableRowStyle.prototype = new Style();
 
@@ -490,28 +618,28 @@ TableRowStyle.prototype = new Style();
  * @extends	Style
  */
 function TableCellStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof TableCellStyle)) {
 		return new TableCellStyle();
 	}
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
-	 * @default  "#FFFFFF"
+	 * @default  &quot;#FFFFFF&quot;
 	 */
-	// this["border-color"] = "#FFFFFF";
+	// this[&quot;border-color&quot;] = &quot;#FFFFFF&quot;;
 	/**
 	 * Style of the border table. See html manuals for possible values.
 	 * @property {String} border-style
-	 * @default  "none"
+	 * @default  &quot;none&quot;
 	 */
-	this["border-style"] = "none";
+	this[&quot;border-style&quot;] = &quot;none&quot;;
 	/**
 	 * Width of the border table.
 	 * @property {String|Number} border-width
-	 * @default  "0px"
+	 * @default  &quot;0px&quot;
 	 */
-	// this["border-width"] = "0px";
+	// this[&quot;border-width&quot;] = &quot;0px&quot;;
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
@@ -531,29 +659,29 @@ function TableCellStyle() {
 	 */
 	this.width = 0;
 	/**
-	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
 	 * @property {String|Number} max-width
 	 * @default  0
 	 */
-	this["max-width"] = this.width;
+	this[&quot;max-width&quot;] = this.width;
 	/**
-	 * Table minimal width. It is supposed to be equal to "width" property.
+	 * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
 	 * @property {String|Number} min-width
 	 * @default  0
 	 */
-	this["min-width"] = this.width;
+	this[&quot;min-width&quot;] = this.width;
 	/**
 	 * Vertical align of the cell content.
 	 * @property {String} vertical-align
 	 * @default  0
 	 */
-	this['vertical-align'] = 'top';
+	this[&#x27;vertical-align&#x27;] = &#x27;top&#x27;;
 	/**
 	 * Font color
 	 * @property {String} color
-	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = '#000001';
+	this.color = &#x27;#000001&#x27;;
 }
 TableCellStyle.prototype = new Style();
 
@@ -564,7 +692,7 @@ TableCellStyle.prototype = new Style();
  * @extends	Style
  */
 function ImageStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof ImageStyle)) {
 		return new ImageStyle();
 	}
@@ -573,19 +701,19 @@ function ImageStyle() {
 	 * @property {String|Number} border-width
 	 * @default  0
 	 */
-	// this["border-width"] = 0;
+	// this[&quot;border-width&quot;] = 0;
 	/**
 	 * Style of the border around the image. See html manuals for possible values.
 	 * @property {String} border-style
-	 * @default  "none"
+	 * @default  &quot;none&quot;
 	 */
-	this["border-style"] = "none";
+	this[&quot;border-style&quot;] = &quot;none&quot;;
 	/**
 	 * Color of the border around the image.
 	 * @property {String} border-color
-	 * @default  "#FFFFFF"
+	 * @default  &quot;#FFFFFF&quot;
 	 */
-	// this["border-color"] = "#FFFFFF";
+	// this[&quot;border-color&quot;] = &quot;#FFFFFF&quot;;
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
@@ -620,7 +748,7 @@ ImageStyle.prototype = new Style();
  * @extends	Style
  */
 function ListStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof ListStyle)) {
 		return new ListStyle();
 	}
@@ -646,7 +774,7 @@ ListStyle.prototype = new Style();
  * @extends	Style
  */
 function ListItemStyle() {
-	"use strict";
+	&quot;use strict&quot;;
 	if (!(this instanceof ListItemStyle)) {
 		return new ListItemStyle();
 	}
@@ -655,21 +783,21 @@ function ListItemStyle() {
 	 * @property {String|Number} font-size
 	 * @default 12
 	 */
-	this["font-size"] = 12;
+	this[&quot;font-size&quot;] = 12;
 	/**
 	 * Text color of the list item content.
 	 * @property {String} color
 	 * @type {String}
-	 * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+	 * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
 	 */
-	this.color = "#000001";
+	this.color = &quot;#000001&quot;;
 
 	/**
-	 * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
+	 * Font weight. Some possible values: &quot;normal&quot;, &quot;bold&quot;, &quot;bolder&quot;, 100, 200, ..., 900. See html manuals for more info.
 	 * @property {String|Integer} font-weight
-	 * @default "normal"
+	 * @default &quot;normal&quot;
 	 */
-	this["font-weight"] = 'normal';
+	this[&quot;font-weight&quot;] = &#x27;normal&#x27;;
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
@@ -684,3 +812,22 @@ function ListItemStyle() {
 	this.margin = 0;
 }
 ListItemStyle.prototype = new Style();
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

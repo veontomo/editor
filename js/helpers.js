@@ -20,6 +20,28 @@ function target_exists(fileName) {
 }
 
 /**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var firstLetterUpperCase = function (str) {
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+};
+
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var onlyFirstLetterUpperCase = function (str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    };
+
+
+
+/**
  * transforms each element of the input array into a non-negative number.
  * If an element is negative, its absolute value is used.
  * If an element fails to be converted to a number, it is substituted by zero.

@@ -4,9 +4,9 @@
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
- * @module 	attributes
- * @param {mixed} arg
- * @class  Cell
+ * @module 	HtmlElements
+ * @class   Cell
+ * @param   {mixed} arg
  */
 function Cell(arg) {
 	"use strict";
@@ -100,7 +100,6 @@ function Cell(arg) {
 	 * @return {void}
 	 */
 	this.appendStyle = function(stl){
-		// !!! stub
 		if ((typeof stl !== 'string') && (typeof stl !== 'object') ) {
 			throw new Error("Wrong argument type! Style, string or Object expected.");
 		}
@@ -134,9 +133,9 @@ function Cell(arg) {
  * following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
  * as a "supported" ones, the corresponding functions will be called to transform them into objects.
  * For the moment, the only supported element is "Table".
- * @module  attributes
- * @method createCellFromHtml
- * @return {Object} Cell
+ * @module  HtmlElements
+ * @method  createCellFromHtml
+ * @return  {Object} Cell
  */
 String.prototype.createCellFromHtml = function(){
 		var htmlStr = this,

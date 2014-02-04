@@ -4,8 +4,8 @@
 
 /**
  * Represents a table row
- * @module 	attributes
- * @class  Row
+ * @module 	HtmlElements
+ * @class   Row
  */
 function Row() {
 	"use strict";
@@ -276,7 +276,7 @@ function Row() {
  * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
  * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
  * processed one by one by function String::createCellFromHtml().
- * @module  attributes
+ * @module HtmlElements
  * @method createRowFromHtml
  * @return {Object} Row
  */
