@@ -301,7 +301,7 @@ function specialChar(str){
  * @return {Array}          array of integers
  */
 function crack(arr, pos){
-    var orig, orig1, orig2,
+    var orig, orig1, orig2, neighbour, neighbour1, neighbourDonor,
         output = [],
         len = arr.length,
         i;
@@ -323,8 +323,184 @@ function crack(arr, pos){
         neighbour1 = parseInt(2 * neighbour/3, 10);
         neighbourDonor = neighbour - neighbour1;
         output[pos-1] = neighbour1;
-    };
+    }
     output[pos] = orig1;
     output.splice(pos, 0, orig2 + neighbourDonor);
     return output;
+}
+
+
+
+/**
+ * Produces a string of properties in inline-style fashion
+ * This function is supposed to be added to prototypes of different objects.
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}        obj     an object which string reperesentation should be generated.
+ * @param   {String|null}   unit    a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
+ * @return  {String}        a concatenation of substrings; each substring is of this format: "attribute: value;".
+ * @example The return value is of the form: "padding: 0px;margin: 10px;color: #ababab;"
+ */
+var toString = function (obj, unit) {
+        "use strict";
+        var val, attr, styles = "";
+        unit = unit || 'px';
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                // avoid adding method to the output
+                val = obj[attr];
+                switch (typeof val) {
+                case 'string':
+                    styles += attr + ': ' + val + ';';
+                    break;
+                case 'number':
+                    styles += attr + ': ' + String(val) + unit + ';';
+                    break;
+                }
+            }
+        }
+        return styles;
+    };
+
+/**
+ * Produces a string of attributes and values
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}    obj
+ * @return  {String}    String      a union of substrings; each substring is of this format: 'attribute="value"', between the substrings there is a separator ' '.
+ */
+var toString2 = function (obj) {
+        "use strict";
+        var val, valType, attr, output = [];
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                val = obj[attr];
+                valType = typeof val;
+                // avoid adding method to the output
+                if (valType === 'string' || valType === 'number'){
+                    output.push(attr + '="' + String(val) + '"');
+                }
+            }
+        }
+        return output.join(' ');
+    };
+
+/**
+ * Flatten the object. This function was written because Node::attributes returns attributes in format.
+ * Example {'1': {name: "width", value:"100", ...}, '2': {name: "color", value:"black", ...}, ...}
+ * returns {"width":"100", "color":"black", ...}
+ * @param {Object} obj
+  */
+ var flatten = function (obj){
+    var attr, value, output = {};
+    for (attr in obj){
+        if (obj.hasOwnProperty(attr)){
+            value = obj[attr];
+            if (typeof value === 'object'){
+                output[value.name] = value.value;
+            }
+        }
+    }
+    return output;
+ };
+
+/**
+ * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
+ * If the right arguments is not given, the left one is used.
+ * @param  {String} left
+ * @param  {String} middle
+ * @param  {String} right
+ * @type   String|Null
+ * @return {String|Null}
+ */
+var sandwichWith = function (left, middle, right){
+    var m, r;
+    if ((typeof middle === "string") || (typeof left === "string")){
+        r = right || left;
+        m = middle.trim();
+        return m ? left + m + r : '';
+    }
+};
+String.prototype.sandwichWith = function (left, right){
+    return sandwichWith(left, this, right);
+};
+
+/**
+ * Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.
+ * @param {Array} arr
+ * @param {String} glue glue string
+ * @return {String}
+ */
+var concatDropSpaces = function (arr, glue){
+    if (glue === undefined){
+        glue = ' ';
+    }
+    return arr.join(glue).replace(/\s+/g, ' ').trim();
+};
+Array.prototype.concatDropSpaces = function(glue){
+    return concatDropSpaces(this, glue);
+};
+
+
+/**
+ * Merge two objects. If non-object is given, an error is thrown.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object}
+ */
+var appendObject = function (obj1, obj2){
+    if ((typeof obj1 !== 'object') || (typeof obj2 !== 'object')){
+        throw new Error('Both arguments of appendObject must be of Object type!');
+    }
+    var output = obj1,
+        attr;
+    for (attr in obj2){
+        if (obj2.hasOwnProperty(attr)){
+            output[attr] = obj2[attr];
+        }
+    }
+    return output;
+
+};
+
+/**
+ * Sets width, min-width and max-width of the object.
+ * @module  attributes
+ * @param   {Object}    obj         object which width is to be set.
+ * @param   {mixed}     w           width value
+ * @return  {void}
+ */
+var setMinMaxWidth = function (obj, w) {
+    "use strict";
+    if(typeof obj !== 'object'){
+        throw new Error('Can not set a property of a non-object!');
+    }
+    if(w === undefined){
+        throw new Error("Width value is not set!");
+    }
+    obj.width = w;
+    obj['max-width'] =  w;
+    obj['min-width'] =  w;
+};
+
+/**
+* Gets property value from the object.
+* @module   attributes
+* @param    {Object}    obj     an object
+* @param    {String}    prop    property name to retrieve
+* @return   {mixed}     property value of the object
+*/
+function getProperty(obj, prop){
+    "use strict";
+    if(typeof obj !== 'object'){
+        throw new Error('Not an object!');
+    }
+    if(prop === undefined){
+        throw new Error("Property name missing!");
+    }
+    if(obj.hasOwnProperty(prop)){
+        return obj[prop];
+    }
 }
