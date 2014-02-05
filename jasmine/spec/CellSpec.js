@@ -289,28 +289,29 @@ describe('Converts html table cell in to Cell object', function(){
     it('gets the correct content of the cell elements', function(){
         var cellHtml = '<td>cell content</td>',
             cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(1);
+        expect(cell.content.length()).toBe(1);
         expect(cell.content.elements[0]).toBe('cell content');
 
         cellHtml = '<td><div>a</div><div>b</div></td>';
         cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(2);
-        expect(cell.content.elements[0]).toBe('<div>a</div>');
-        expect(cell.content.elements[1]).toBe('<div>b</div>');
+        expect(cell.content.length()).toBe(2);
+        expect(cell.content.elements[0].elements[0]).toBe('a');
+        expect(cell.content.elements[1].elements[0]).toBe('b');
 
         cellHtml = '<td><div>a</div>plain text<div>b</div></td>';
         cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(3);
-        expect(cell.content.elements[0]).toBe('<div>a</div>');
+        expect(cell.content.length()).toBe(3);
+        expect(cell.content.elements[0].elements[0]).toBe('a');
         expect(cell.content.elements[1]).toBe('plain text');
-        expect(cell.content.elements[2]).toBe('<div>b</div>');
+        expect(cell.content.elements[2].elements[0]).toBe('b');
 
 
         cellHtml = '<td><div>a</div><div>b</div><table><tr><td></td></tr></table></td>';
         cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(3);
-        expect(cell.content.elements[0]).toBe('<div>a</div>');
-        expect(cell.content.elements[1]).toBe('<div>b</div>');
+        expect(cell.content.length()).toBe(3);
+        expect(cell.content.elements[0].elements[0]).toBe('a');
+        expect(cell.content.elements[1].elements[0]).toBe('b');
+        expect(cell.content.elements[2] instanceof Table).toBe(true);
     });
 
     it('recognizes a nested table inside a cell', function(){

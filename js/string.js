@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content */
 
 /**
  * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
@@ -59,18 +59,76 @@ String.prototype.createRowFromHtml = function(){
  * @method  createCellFromHtml
  * @return  {Object} Cell
  */
+// String.prototype.createCellFromHtml = function(){
+//         var htmlStr = this,
+//             parser = new DOMParser(),
+//             newParser = new DOMParser(),
+//             fullTable = '<table><tbody><tr>' + htmlStr + '</tr></tbody></table>',
+//             doc = parser.parseFromString(fullTable, 'text/html'),
+//             node = doc.getElementsByTagName('td'),
+//             newDoc, cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+//         if (node.length === 0){
+//             return null;
+//         }
+//         // process the first cell in the list of cells. The remaining cells are to be processed at their turn (when each of the becomes first)
+//         node = node[0];
+
+//         // creating object
+//         cell = new Cell();
+
+//         // imposing its styles
+//         nodeStyle = node.getAttribute('style');
+//         cell.style = new Style(nodeStyle);
+
+//         // imposing its attributes
+//         attrs = flatten(node.attributes);
+//         if (attrs.hasOwnProperty('style')){
+//             delete attrs.style;
+//         }
+//         cell.attr = new Attributes(attrs);
+
+//         // create a fictious div containing the cell and assign a unique id to it
+//         id = "fakeDivId" + Math.floor((Math.random()*99)+1);
+//         while (doc.getElementById(id)){
+//             id += Math.floor((Math.random()*99)+1);
+//         }
+//         nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
+
+//         newDoc = newParser.parseFromString(nodeText, 'text/html');
+//         nodeContent = newDoc.getElementById(id);
+
+//         elems = nodeContent.childNodes;
+
+//         elemsNum = elems.length;
+//         for (i = 0; i < elemsNum; i++){
+//             currentElem = elems[i];
+//             switch (currentElem.nodeType){
+//                 case Node.TEXT_NODE:
+//                     elem = currentElem.textContent;
+//                     break;
+//                 case Node.ELEMENT_NODE:
+//                     elem = (currentElem.nodeName === 'TABLE') ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
+//                     break;
+//                 default:
+//                     elem = currentElem.nodeValue;
+//             }
+//             cell.insert(elem);
+//         }
+//         return cell;
+// };
+
 String.prototype.createCellFromHtml = function(){
         var htmlStr = this,
             parser = new DOMParser(),
-            newParser = new DOMParser(),
             fullTable = '<table><tbody><tr>' + htmlStr + '</tr></tbody></table>',
             doc = parser.parseFromString(fullTable, 'text/html'),
             node = doc.getElementsByTagName('td'),
-            newDoc, cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
+            cell, attrs, nodeStyle, cellContent;
         if (node.length === 0){
             return null;
         }
-        // process the first cell in the list of cells. The remaining cells are to be processed at their turn (when each of the becomes first)
+        // process the first cell in the list of cells. The remaining cells are to be processed
+        // at their turn (when the cell becomes first)
         node = node[0];
 
         // creating object
@@ -87,35 +145,11 @@ String.prototype.createCellFromHtml = function(){
         }
         cell.attr = new Attributes(attrs);
 
-        // create a fictious div containing the cell and assign a unique id to it
-        id = "fakeDivId" + Math.floor((Math.random()*99)+1);
-        while (doc.getElementById(id)){
-            id += Math.floor((Math.random()*99)+1);
-        }
-        nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
-
-        newDoc = newParser.parseFromString(nodeText, 'text/html');
-        nodeContent = newDoc.getElementById(id);
-
-        elems = nodeContent.childNodes;
-
-        elemsNum = elems.length;
-        for (i = 0; i < elemsNum; i++){
-            currentElem = elems[i];
-            switch (currentElem.nodeType){
-                case Node.TEXT_NODE:
-                    elem = currentElem.textContent;
-                    break;
-                case Node.ELEMENT_NODE:
-                    elem = (currentElem.nodeName === 'TABLE') ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
-                    break;
-                default:
-                    elem = currentElem.nodeValue;
-            }
-            cell.insert(elem);
-        }
+        cellContent = node.innerHTML.inflate();
+        cell.content = cellContent;
         return cell;
 };
+
 
 /**
  * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
@@ -326,4 +360,56 @@ String.prototype.isFramedTable = function (){
             }
         }
         return isFramed;
+};
+
+/*
+ * Creates an instance of Content class and fills in its property "elements" with
+ * the elements recognized inside the string.
+ * @module    String
+ * @class     inflate
+ * @method    inflate
+ * @return    {Content}
+ */
+String.prototype.inflate = function(){
+    var str = this.toString(),
+        parser = new DOMParser(),
+        doc = parser.parseFromString(str, 'text/html'),
+        id = 'uniqueId',
+        output = new Content(),
+        node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
+    // generate a unique id for the overall document
+    while(doc.getElementById(id)){
+        id += String.fromCharCode(Math.floor((Math.random()*25)+65));
+    }
+    // reinitialize the parser and pass the target string wrapped by a div the unique id
+    parser = new DOMParser();
+    doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html');
+    node = doc.getElementById(id);
+    children = node.childNodes;
+    childrenNum = children.length;
+    if (childrenNum > 0){
+        for (i = 0; i < childrenNum; i++){
+            child = children[i];
+            switch (child.nodeType){
+                case Node.TEXT_NODE:
+                    elem = child.textContent;
+                    break;
+                case Node.ELEMENT_NODE:
+                    childHtml = child.outerHTML;
+                    methodName = 'create' + onlyFirstLetterUpperCase(child.nodeName) + 'FromHtml';
+                    methodExists = (typeof childHtml[methodName] === 'function');
+                    // if the method exists, apply it to the string representation of
+                    // the current node. Otherwise, apply recursively the method "inflate"
+                    // to the inner part of the current node. (Under this operation, the external tag
+                    // gets lost, but all children of the node are guaranteed to be processed.)
+                    elem = methodExists ? childHtml[methodName]() : child.innerHTML.inflate();
+                    break;
+                default:
+                    elem = child.nodeValue;
+            }
+            output.appendElem(elem);
+        }
+    }
+    return output;
+
 };

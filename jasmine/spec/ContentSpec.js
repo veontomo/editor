@@ -235,6 +235,4 @@ describe('Content-related functionality', function(){
 		});
 
 	});
-
-
 });
