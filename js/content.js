@@ -30,6 +30,36 @@ function Content(str) {
 	};
 
 	/**
+	 * Gets the element with index "pos". If it does not exist, null is returned.
+	 * @method getElem
+	 * @param  {Number}         pos
+	 * @return {mixed}
+	 */
+	this.getElem = function(pos){
+		return this.elements[pos] || null;
+	};
+
+	/**
+	 * Gets the first element. Delegates to Content::getElem(0)
+	 * @method getFirst
+	 * @return {mixed}
+	 */
+	this.getFirst = function(){
+		return this.getElem(0);
+	};
+
+	/**
+	 * Gets the last element. Delegates to Content::getElem()
+	 * @method getLast
+	 * @return {mixed}
+	 */
+	this.getLast = function(){
+		var len = this.length();
+		return len > 0 ? this.getElem(len - 1) : null;
+	};
+
+
+	/**
 	 * Appends the element to the array Content::elements.
 	 * @param  {Object}       elem
 	 * @return {void}
@@ -37,6 +67,58 @@ function Content(str) {
 	this.appendElem = function(elem){
 		this.elements.push(elem);
 	};
+
+	/**
+	 * Inserts element at position pos inside the array of elements. If the lenght of array "elements"
+	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
+	 * position index is outside that range, an error is thrown. If the position index is equal to N
+	 * (that corresponds to appending the element), then Content::appendElem is called.
+	 * @method  insertElem
+	 * @param  {Number}   pos
+	 * @param  {mixed}    elem
+	 * @return {void}
+	 */
+	this.insertElemAt = function(pos, elem){
+		var len = this.length(),
+			isInt = parseInt(pos, 10) === pos;
+		if (!isInt || pos < 0 || pos > len) {
+			throw new Error('Wrong index to insert the element at!');
+		}
+		if (pos === len){
+			this.appendElem(elem);
+		} else {
+			this.elements.splice(pos, 0, elem);
+		}
+		return null;
+	};
+
+	/**
+	 * Appends element to the array of Content::elements.
+	 * @method   appendElem
+	 * @param    {mixed}           elem
+	 * @return   {void}
+	 */
+	this.appendElem = function(elem){
+		this.elements.push(elem);
+		return null;
+	};
+
+	/**
+	 * Drops the element at the given position and returns it. If element at the position does not exist,
+	 * an error is thrown.
+	 * @method dropElemAt
+	 * @param  {Number}      pos
+	 * @return {mixed}
+	 */
+	this.dropElemAt = function(pos){
+		var elem = this.elements[pos];
+		if (elem === undefined){
+			throw new Error('No element is found at the given position!');
+		}
+		this.elements.splice(pos, 1);
+		return elem;
+	};
+
 	/**
 	 * Transforms the object into html form.  If item of the "elements" property is of Object type, then it should have "toHtml" method which is to be applied to the item.
 	 * @method toHtml

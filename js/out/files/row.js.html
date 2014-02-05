@@ -49,7 +49,13 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -86,6 +92,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -399,52 +407,6 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
-
-/**
- * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
- * following form: &lt;tr ... &gt; ... &lt;/tr&gt;. Inside the tag, there might be elements &quot;td&quot; that will be
- * processed one by one by function String::createCellFromHtml().
- * @module HtmlElements
- * @method createRowFromHtml
- * @return {Object} Row
- */
-String.prototype.createRowFromHtml = function(){
-		var htmlStr = this,
-			parser = new DOMParser(),
-			fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
-			node = doc.getElementsByTagName(&#x27;tr&#x27;),
-			attrs, i, nodeStyle, cellsNum, currentCell, row, cell, cells;
-		if (node.length === 0){
-			return null;
-		}
-		// the first table row is to be processed. The remaining ones will be processed at thier turn.
-		node = node[0];
-		// object to return
-		row = new Row();
-
-		// imposing its styles
-		nodeStyle = node.getAttribute(&#x27;style&#x27;);
-		row.style = new Style(nodeStyle);
-
-		// imposing its attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-			delete attrs.style;
-		}
-		row.attr = new Attributes(attrs);
-
-		cells = node.children;
-		cellsNum = cells.length;
-		for (i = 0; i &lt; cellsNum; i++){
-			currentCell = cells[i];
-			if(currentCell.tagName === &quot;TD&quot;){
-				cell = currentCell.outerHTML.createCellFromHtml();
-				row.appendCell(cell);
-			}
-		}
-		return row;
-};
     </pre>
 </div>
 

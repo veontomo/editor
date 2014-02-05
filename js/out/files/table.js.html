@@ -49,7 +49,13 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -86,6 +92,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -627,91 +635,6 @@ String.prototype.isFramedTable = function (){
 			}
 		}
 		return isFramed;
-};
-
-/**
- * Creates an object representation from a string that is an html repersentation of a table.
- * Only one table is supposed to be processed at a time, so the string to be processed is to
- * be of the following form &amp;lt;table ...&amp;gt; ... &amp;lt;/table&amp;gt;. Inside the tag, there should be tags &quot;tr&quot;
- * that will be processed one by one by function String::createRowFromHtml().
- * @module  HtmlElements
- * @method createTableFromHtml
- * @return {Table}
- */
-String.prototype.createTableFromHtml = function(){
-		var htmlStr = this,
-			isFramed = htmlStr.isFramedTable(),
-			parser = new DOMParser(),
-			doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
-			node = doc.getElementsByTagName(&#x27;table&#x27;),
-
-			table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
-			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
-		if (node.length === 0){
-			return null;
-		}
-		node = node[0];
-
-		// creating table
-		table = new Table();
-
-		// imposing table styles
-		nodeStyle = node.getAttribute(&#x27;style&#x27;);
-		table.style = new Style(nodeStyle);
-		// imposing table attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-			delete attrs.style;
-		}
-		table.attr = new Attributes(attrs);
-
-		// the only child of the table is always tbody
-		rows = node.children[0].children;
-		rowsNum = rows.length;
-
-		if (isFramed){
-			bogusRowStyle = node.querySelector(&#x27;tr&#x27;).getAttribute(&#x27;style&#x27;);
-			bogusCellStyle = node.querySelector(&#x27;tr td&#x27;).getAttribute(&#x27;style&#x27;);
-			bogusTableStyle = node.querySelector(&#x27;tr td table&#x27;).getAttribute(&#x27;style&#x27;);
-
-			bogusRowAttr = flatten(node.querySelector(&#x27;tr&#x27;).attributes);
-			if (bogusRowAttr.hasOwnProperty(&#x27;style&#x27;)){
-				delete bogusRowAttr.style;
-			}
-
-			bogusCellAttr = flatten(node.querySelector(&#x27;tr td&#x27;).attributes);
-			if (bogusCellAttr.hasOwnProperty(&#x27;style&#x27;)){
-				delete bogusCellAttr.style;
-			}
-
-			bogusTableAttr = flatten(node.querySelector(&#x27;tr td table&#x27;).attributes);
-			if (bogusTableAttr.hasOwnProperty(&#x27;style&#x27;)){
-				delete bogusTableAttr.style;
-			}
-			table.bogusRowStyle   = new Style(bogusRowStyle);
-			table.bogusRowAttr    = new Attributes(bogusRowAttr);
-			table.bogusCellStyle  = new Style(bogusCellStyle);
-			table.bogusCellAttr   = new Attributes(bogusCellAttr);
-			table.bogusTableStyle = new Style(bogusTableStyle);
-			table.bogusTableAttr  = new Attributes(bogusTableAttr);
-		}
-
-
-		// console.log(&#x27;numero di righe rilevate:&#x27;, childNum);
-		for (i = 0; i &lt; rowsNum; i++){
-			if (isFramed){
-				currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
-			} else {
-				currentRow = rows[i];
-			}
-
-			if(currentRow.tagName === &quot;TR&quot;){
-				// console.log(child);
-				row = currentRow.outerHTML.createRowFromHtml();
-				table.appendRow(row);
-			}
-		}
-		return table;
 };
     </pre>
 </div>

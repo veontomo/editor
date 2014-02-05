@@ -49,7 +49,13 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -86,6 +92,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -146,6 +154,28 @@ function target_exists(fileName) {
         return true;
     });
 }
+
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var firstLetterUpperCase = function (str) {
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+};
+
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var onlyFirstLetterUpperCase = function (str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    };
+
+
 
 /**
  * transforms each element of the input array into a non-negative number.

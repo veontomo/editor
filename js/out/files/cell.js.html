@@ -49,7 +49,13 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -86,6 +92,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -255,73 +263,6 @@ function Cell(arg) {
 		return cellHtml;
 	};
 }
-
-/**
- * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
- * following form: &lt;td ... &gt; ... &lt;/td&gt;. Inside the tag, there might be other nodes. If they are recognized
- * as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.
- * For the moment, the only supported element is &quot;Table&quot;.
- * @module  HtmlElements
- * @method  createCellFromHtml
- * @return  {Object} Cell
- */
-String.prototype.createCellFromHtml = function(){
-		var htmlStr = this,
-			parser = new DOMParser(),
-			newParser = new DOMParser(),
-			fullTable = &#x27;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&#x27; + htmlStr + &#x27;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
-			node = doc.getElementsByTagName(&#x27;td&#x27;),
-			newDoc,	cell, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText;
-		if (node.length === 0){
-			return null;
-		}
-		// process the first cell in the list of cells. The remaining cells are to be processed at their turn (when each of the becomes first)
-		node = node[0];
-
-		// creating object
-		cell = new Cell();
-
-		// imposing its styles
-		nodeStyle = node.getAttribute(&#x27;style&#x27;);
-		cell.style = new Style(nodeStyle);
-
-		// imposing its attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-			delete attrs.style;
-		}
-		cell.attr = new Attributes(attrs);
-
-		// create a fictious div containing the cell and assign a unique id to it
-		id = &quot;fakeDivId&quot; + Math.floor((Math.random()*99)+1);
-		while (doc.getElementById(id)){
-			id += Math.floor((Math.random()*99)+1);
-		}
-		nodeText = &#x27;&lt;div id=&quot;&#x27;+ id +&#x27;&quot;&gt;&#x27; + node.innerHTML + &#x27;&lt;/div&gt;&#x27;;
-
-		newDoc = newParser.parseFromString(nodeText, &#x27;text/html&#x27;);
-		nodeContent = newDoc.getElementById(id);
-
-		elems = nodeContent.childNodes;
-
-		elemsNum = elems.length;
-		for (i = 0; i &lt; elemsNum; i++){
-			currentElem = elems[i];
-			switch (currentElem.nodeType){
-				case Node.TEXT_NODE:
-					elem = currentElem.textContent;
-					break;
-				case Node.ELEMENT_NODE:
-					elem = (currentElem.nodeName === &#x27;TABLE&#x27;) ? currentElem.outerHTML.createTableFromHtml() : currentElem.outerHTML;
-					break;
-				default:
-					elem = currentElem.nodeValue;
-			}
-			cell.insert(elem);
-		}
-		return cell;
-};
     </pre>
 </div>
 

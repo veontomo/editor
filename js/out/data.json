@@ -58,9 +58,7 @@
         },
         "list.js": {
             "name": "list.js",
-            "modules": {
-                "HtmlElements": 1
-            },
+            "modules": {},
             "classes": {
                 "ListItem": 1,
                 "List": 1
@@ -84,9 +82,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "string.js": {
+            "name": "string.js",
+            "modules": {
+                "String": 1
+            },
+            "classes": {
+                "createRowFromHtml": 1,
+                "createTableFromHtml": 1,
+                "isFramedTable": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "table.js": {
             "name": "table.js",
-            "modules": {},
+            "modules": {
+                "HtmlElements": 1
+            },
             "classes": {
                 "Table": 1
             },
@@ -150,7 +163,7 @@
             "tag": "module",
             "file": "table.js",
             "line": 5,
-            "description": "This class is used to represent a list item.",
+            "description": "Represents table.",
             "params": [
                 {
                     "name": "arg",
@@ -160,8 +173,8 @@
             ],
             "itemtype": "method",
             "return": {
-                "description": "Cell",
-                "type": "Object"
+                "description": "[description]",
+                "type": "Boolean"
             }
         },
         "helpers": {
@@ -172,7 +185,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "helpers.js",
-            "line": 22,
+            "line": 44,
             "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero.",
             "example": [
                 "   [1.1, 2.4, 2] -> [1.1, 2.4, 2],\n           [\"4\", -3, 3.2, \"a\"] -> [4, 3, 3.2, 0]"
@@ -187,6 +200,26 @@
                 "description": "Array      array of numbers"
             },
             "itemtype": "method"
+        },
+        "String": {
+            "name": "String",
+            "submodules": {},
+            "classes": {
+                "createRowFromHtml": 1,
+                "createTableFromHtml": 1,
+                "isFramedTable": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "string.js",
+            "line": 277,
+            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml().",
+            "itemtype": "method",
+            "return": {
+                "description": "Row",
+                "type": "Object"
+            }
         }
     },
     "classes": {
@@ -428,7 +461,7 @@
             "module": "HtmlElements",
             "namespace": "",
             "file": "list.js",
-            "line": 75,
+            "line": 73,
             "description": "This class is used to represent ordered and unordered lists."
         },
         "Row": {
@@ -444,6 +477,48 @@
             "file": "row.js",
             "line": 5,
             "description": "Represents a table row"
+        },
+        "createRowFromHtml": {
+            "name": "createRowFromHtml",
+            "shortname": "createRowFromHtml",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "string.js",
+            "line": 5,
+            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
+        },
+        "createTableFromHtml": {
+            "name": "createTableFromHtml",
+            "shortname": "createTableFromHtml",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "string.js",
+            "line": 190,
+            "description": "Creates an object representation from a string that is an html repersentation of a table.\nOnly one table is supposed to be processed at a time, so the string to be processed is to\nbe of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags \"tr\"\nthat will be processed one by one by function String::createRowFromHtml()."
+        },
+        "isFramedTable": {
+            "name": "isFramedTable",
+            "shortname": "isFramedTable",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "string.js",
+            "line": 277,
+            "description": "Returns true, if tableHtml is an html code corresponding to a table each row of which\ncontains just one cell, and this cell in its turn contains only one table.\nReturns false otherwise."
         },
         "Table": {
             "name": "Table",
@@ -1393,6 +1468,52 @@
         {
             "file": "content.js",
             "line": 32,
+            "description": "Gets the element with index \"pos\". If it does not exist, null is returned.",
+            "itemtype": "method",
+            "name": "getElem",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Mixed"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 42,
+            "description": "Gets the first element. Delegates to Content::getElem(0)",
+            "itemtype": "method",
+            "name": "getFirst",
+            "return": {
+                "description": "",
+                "type": "Mixed"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 51,
+            "description": "Gets the last element. Delegates to Content::getElem()",
+            "itemtype": "method",
+            "name": "getLast",
+            "return": {
+                "description": "",
+                "type": "Mixed"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 62,
             "description": "Appends the element to the array Content::elements.",
             "params": [
                 {
@@ -1410,7 +1531,72 @@
         },
         {
             "file": "content.js",
-            "line": 40,
+            "line": 71,
+            "description": "Inserts element at position pos inside the array of elements. If the lenght of array \"elements\"\nis equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given\nposition index is outside that range, an error is thrown. If the position index is equal to N\n(that corresponds to appending the element), then Content::appendElem is called.",
+            "itemtype": "method",
+            "name": "insertElem",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 95,
+            "description": "Appends element to the array of Content::elements.",
+            "itemtype": "method",
+            "name": "appendElem",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 106,
+            "description": "Drops the element at the given position and returns it. If element at the position does not exist,\nan error is thrown.",
+            "itemtype": "method",
+            "name": "dropElemAt",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Mixed"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "content.js",
+            "line": 122,
             "description": "Transforms the object into html form.  If item of the \"elements\" property is of Object type, then it should have \"toHtml\" method which is to be applied to the item.",
             "itemtype": "method",
             "name": "toHtml",
@@ -1423,7 +1609,39 @@
         },
         {
             "file": "helpers.js",
-            "line": 270,
+            "line": 22,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "helpers.js",
+            "line": 32,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "helpers.js",
+            "line": 292,
             "description": "Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
             "params": [
                 {
@@ -1441,7 +1659,7 @@
         },
         {
             "file": "helpers.js",
-            "line": 293,
+            "line": 315,
             "description": "Splits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
             "params": [
                 {
@@ -1464,7 +1682,7 @@
         },
         {
             "file": "helpers.js",
-            "line": 390,
+            "line": 412,
             "description": "Flatten the object. This function was written because Node::attributes returns attributes in format.\nExample {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...}\nreturns {\"width\":\"100\", \"color\":\"black\", ...}",
             "params": [
                 {
@@ -1478,7 +1696,7 @@
         },
         {
             "file": "helpers.js",
-            "line": 409,
+            "line": 431,
             "description": "Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
             "params": [
                 {
@@ -1507,7 +1725,7 @@
         },
         {
             "file": "helpers.js",
-            "line": 430,
+            "line": 452,
             "description": "Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
             "params": [
                 {
@@ -1530,7 +1748,7 @@
         },
         {
             "file": "helpers.js",
-            "line": 447,
+            "line": 469,
             "description": "Merge two objects. If non-object is given, an error is thrown.",
             "params": [
                 {
@@ -1816,7 +2034,7 @@
         },
         {
             "file": "list.js",
-            "line": 85,
+            "line": 83,
             "description": "Type of the list: 'ul' for unordered  and 'ol' for ordered one.",
             "itemtype": "property",
             "name": "type",
@@ -1827,7 +2045,7 @@
         },
         {
             "file": "list.js",
-            "line": 92,
+            "line": 90,
             "description": "Retrieves type of the list.",
             "itemtype": "method",
             "name": "getType",
@@ -1840,7 +2058,7 @@
         },
         {
             "file": "list.js",
-            "line": 101,
+            "line": 99,
             "description": "Attributes corresponding to the list as a whole object.",
             "itemtype": "property",
             "name": "attr",
@@ -1850,7 +2068,7 @@
         },
         {
             "file": "list.js",
-            "line": 108,
+            "line": 106,
             "description": "Styles corresponding to the list as a whole object.",
             "itemtype": "property",
             "name": "style",
@@ -1860,7 +2078,7 @@
         },
         {
             "file": "list.js",
-            "line": 114,
+            "line": 112,
             "description": "Items of the list.",
             "itemtype": "property",
             "name": "items",
@@ -1871,7 +2089,7 @@
         },
         {
             "file": "list.js",
-            "line": 121,
+            "line": 119,
             "description": "Gets the number of the list items",
             "itemtype": "method",
             "name": "itemNum",
@@ -1884,7 +2102,7 @@
         },
         {
             "file": "list.js",
-            "line": 130,
+            "line": 128,
             "description": "Appends an object to the list items. The object must be a ListItem instance.\nIf not, an error is thrown.",
             "itemtype": "method",
             "name": "appendItem",
@@ -1904,7 +2122,7 @@
         },
         {
             "file": "list.js",
-            "line": 144,
+            "line": 142,
             "description": "Inserts the item at the given position. If the list contains N items, then allowed index for the\nitem to be inserted at is the range [0, N]. Zero index corresponds to insertion at the beginning of the list,\nN - to the end of the list, that is to appending (delegates to List::appendItem). If the index is out\nof this range, an error is thrown. If the item to be inserted is not an instance of ListItem,\nan error is thrown.",
             "itemtype": "method",
             "name": "isertItemAt",
@@ -1929,7 +2147,7 @@
         },
         {
             "file": "list.js",
-            "line": 172,
+            "line": 170,
             "description": "Gives an html representation of the list. If the list has no items, empty string is returned.",
             "itemtype": "method",
             "name": "toHtml",
@@ -2250,7 +2468,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Table",
+            "class": "createRowFromHtml",
             "module": "HtmlElements"
         },
         {
@@ -2268,7 +2486,7 @@
                 "description": "[description]",
                 "type": "[type]"
             },
-            "class": "Table",
+            "class": "createRowFromHtml",
             "module": "HtmlElements"
         },
         {
@@ -2702,31 +2920,39 @@
         },
         {
             "message": "Missing item type\nAppends the element to the array Content::elements.",
-            "line": " content.js:32"
+            "line": " content.js:62"
+        },
+        {
+            "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "line": " helpers.js:22"
+        },
+        {
+            "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "line": " helpers.js:32"
         },
         {
             "message": "Missing item type\nReplaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
-            "line": " helpers.js:270"
+            "line": " helpers.js:292"
         },
         {
             "message": "Missing item type\nSplits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
-            "line": " helpers.js:293"
+            "line": " helpers.js:315"
         },
         {
             "message": "Missing item type\nFlatten the object. This function was written because Node::attributes returns attributes in format.\nExample {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...}\nreturns {\"width\":\"100\", \"color\":\"black\", ...}",
-            "line": " helpers.js:390"
+            "line": " helpers.js:412"
         },
         {
             "message": "Missing item type\nSandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
-            "line": " helpers.js:409"
+            "line": " helpers.js:431"
         },
         {
             "message": "Missing item type\nGlues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
-            "line": " helpers.js:430"
+            "line": " helpers.js:452"
         },
         {
             "message": "Missing item type\nMerge two objects. If non-object is given, an error is thrown.",
-            "line": " helpers.js:447"
+            "line": " helpers.js:469"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

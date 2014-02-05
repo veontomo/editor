@@ -71,76 +71,6 @@ function ListItem() {
 }
 
 /**
- * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
- * following form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized
- * as a "supported" ones, the corresponding functions will be called to transform them into objects.
- * @module  HtmlElements
- * @method  createListItemFromHtml
- * @return  {Object} ListItem
- */
-String.prototype.createListItemFromHtml = function(){
-		var htmlStr = this,
-			parser = new DOMParser(),
-			newParser = new DOMParser(),
-			fullList = '<ul>' + htmlStr + '</ul>', // embedding the table inside 'ul' element.
-			doc = parser.parseFromString(fullList, 'text/html'),
-			node = doc.getElementsByTagName('li'),
-			newDoc,	listItem, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText, methodToCall, nodeName;
-		if (node.length === 0){
-			return null;
-		}
-		// process the first element among the found ones. The remaining elements
-		// are to be processed at their turn (when each of the becomes first)
-		node = node[0];
-
-		// creating object
-		listItem = new ListItem();
-
-		// imposing its styles
-		nodeStyle = node.getAttribute('style');
-		listItem.style = new Style(nodeStyle);
-
-		// imposing its attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty('style')){
-			delete attrs.style;
-		}
-		listItem.attr = new Attributes(attrs);
-
-		// create a fictious div containing the listItem and assign a unique id to it
-		id = "fakeDivId" + Math.floor((Math.random()*99)+1);
-		while (doc.getElementById(id)){
-			id += Math.floor((Math.random()*99)+1);
-		}
-		nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
-
-		newDoc = newParser.parseFromString(nodeText, 'text/html');
-		nodeContent = newDoc.getElementById(id);
-
-		elems = nodeContent.childNodes;
-
-		elemsNum = elems.length;
-		for (i = 0; i < elemsNum; i++){
-			currentElem = elems[i];
-			switch (currentElem.nodeType){
-				case Node.TEXT_NODE:
-					elem = currentElem.textContent;
-					break;
-				case Node.ELEMENT_NODE:
-					nodeName = currentElem.nodeName;
-					methodToCall = 'create' + onlyFirstLetterUpperCase(nodeName) + 'FromHtml';
-					elem = String.prototype.hasOwnProperty(methodToCall) ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML;
-					break;
-				default:
-					elem = currentElem.nodeValue;
-			}
-			listItem.appendElem(elem);
-		}
-		return listItem;
-};
-
-
-/**
  * This class is used to represent ordered and unordered lists.
  * @module 	    HtmlElements
  * @class  		List
@@ -259,6 +189,3 @@ function List() {
 		return html;
 	};
 }
-
-
-

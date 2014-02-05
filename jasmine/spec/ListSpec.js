@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine*/
 
-describe('List-related functionality:', function(){
+xdescribe('List-related functionality:', function(){
     var l, li1, li2, li3, li4;
 
     beforeEach(function(){
@@ -239,7 +239,7 @@ describe('List-related functionality:', function(){
     });
 });
 
-describe('ListItem-related functionality', function(){
+xdescribe('ListItem-related functionality', function(){
     var li, liStyle, liAttr, content;
     beforeEach(function(){
         li = new ListItem();
@@ -334,7 +334,7 @@ describe('ListItem-related functionality', function(){
         });
     });
 
-    describe('Creates ListItem object from its html representation', function(){
+    xdescribe('Creates ListItem object from its html representation', function(){
         it('creates from the simple string', function(){
             var liStr = '<li>text</li>',
                 liObj = liStr.createListItemFromHtml();

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>content.js</title>
+    <title>createRowFromHtml</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -130,157 +130,69 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: content.js</h1>
+                        <h1>createRowFromHtml Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/*jslint white: false */
-/*jslint plusplus: true, white: true */
-/*global DOMParser, Node */
+    
 
-/**
- * This class is used to encompass other objects.
- * @module 	    HtmlElements
- * @class  		Content
- * @param 		{String} 	str 		an optional argument that will be inserted when creating property &quot;elements&quot;.
- */
-function Content(str) {
-	&quot;use strict&quot;;
-	if (!(this instanceof Content)) {
-		return new Content(str);
-	}
-	/**
-	 * Container of items. If an item has a method &quot;toHtml&quot;, it will be applied when transforming the whole Content object into a string.
-	 * @property {Array} elements
-	 * @default  [str]
-	 */
-	this.elements = str ? [str] : [];
+    
+        <div class="foundat">
+            Defined in: <a href="../files/string.js.html#l5"><code>string.js:5</code></a>
+        </div>
+    
 
-	/**
-	 * The number of items in the &quot;elements&quot; property
-	 * @method length
-	 * @return {Integer}
-	 */
-	this.length = function () {
-		return this.elements.length;
-	};
+    
+        
+            Module: <a href="../modules/String.html">String</a>
+        
+    
 
-	/**
-	 * Gets the element with index &quot;pos&quot;. If it does not exist, null is returned.
-	 * @method getElem
-	 * @param  {Number}         pos
-	 * @return {mixed}
-	 */
-	this.getElem = function(pos){
-		return this.elements[pos] || null;
-	};
-
-	/**
-	 * Gets the first element. Delegates to Content::getElem(0)
-	 * @method getFirst
-	 * @return {mixed}
-	 */
-	this.getFirst = function(){
-		return this.getElem(0);
-	};
-
-	/**
-	 * Gets the last element. Delegates to Content::getElem()
-	 * @method getLast
-	 * @return {mixed}
-	 */
-	this.getLast = function(){
-		var len = this.length();
-		return len &gt; 0 ? this.getElem(len - 1) : null;
-	};
+    
+</div>
 
 
-	/**
-	 * Appends the element to the array Content::elements.
-	 * @param  {Object}       elem
-	 * @return {void}
-	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-	};
 
-	/**
-	 * Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
-	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
-	 * position index is outside that range, an error is thrown. If the position index is equal to N
-	 * (that corresponds to appending the element), then Content::appendElem is called.
-	 * @method  insertElem
-	 * @param  {Number}   pos
-	 * @param  {mixed}    elem
-	 * @return {void}
-	 */
-	this.insertElemAt = function(pos, elem){
-		var len = this.length(),
-			isInt = parseInt(pos, 10) === pos;
-		if (!isInt || pos &lt; 0 || pos &gt; len) {
-			throw new Error(&#x27;Wrong index to insert the element at!&#x27;);
-		}
-		if (pos === len){
-			this.appendElem(elem);
-		} else {
-			this.elements.splice(pos, 0, elem);
-		}
-		return null;
-	};
+<div class="box intro">
+    <p>Transforms a row-html string into a Row object. It is supposed that the string to process is of the
+following form: <tr ... > ... </tr>. Inside the tag, there might be elements &quot;td&quot; that will be
+processed one by one by function String::createCellFromHtml().</p>
 
-	/**
-	 * Appends element to the array of Content::elements.
-	 * @method   appendElem
-	 * @param    {mixed}           elem
-	 * @return   {void}
-	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-		return null;
-	};
+</div>
 
-	/**
-	 * Drops the element at the given position and returns it. If element at the position does not exist,
-	 * an error is thrown.
-	 * @method dropElemAt
-	 * @param  {Number}      pos
-	 * @return {mixed}
-	 */
-	this.dropElemAt = function(pos){
-		var elem = this.elements[pos];
-		if (elem === undefined){
-			throw new Error(&#x27;No element is found at the given position!&#x27;);
-		}
-		this.elements.splice(pos, 1);
-		return elem;
-	};
 
-	/**
-	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
-	 * @method toHtml
-	 * @return {String}
-	 */
-	this.toHtml = function () {
-		var i, elem, output = &#x27;&#x27;,
-			len = this.length();
-		for (i = 0; i &lt; len; i++) {
-			elem = this.elements[i];
-			switch (typeof elem) {
-			case &#x27;string&#x27;:
-				output += elem;
-				break;
-			case &#x27;number&#x27;:
-				output += elem.toString();
-				break;
-			case &#x27;object&#x27;:
-				output += elem.hasOwnProperty(&#x27;toHtml&#x27;) ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
-				break;
-			}
-		}
-		return output;
-	};
-}
-    </pre>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

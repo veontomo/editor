@@ -18,10 +18,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "TableCellStyle",
         "TableRowStyle",
         "TableStyle",
-        "TextStyle"
+        "TextStyle",
+        "createRowFromHtml",
+        "createTableFromHtml",
+        "isFramedTable"
     ],
     "modules": [
         "HtmlElements",
+        "String",
         "attributes",
         "helpers"
     ],
@@ -39,7 +43,12 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "HtmlElements",
             "name": "HtmlElements",
-            "description": "This class is used to represent a list item."
+            "description": "Represents table."
+        },
+        {
+            "displayName": "String",
+            "name": "String",
+            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
         }
     ]
 } };
