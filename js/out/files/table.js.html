@@ -138,13 +138,13 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag */
 
 /**
 * Represents table.
-* @module HtmlElements
-* @class  Table
-* @extends {Tag}
+* @module  HtmlElements
+* @class   Table
+* @extends Tag
 */
 function Table() {
 	&quot;use strict&quot;;
@@ -162,14 +162,12 @@ function Table() {
 	};
 
 	/**
-	 * Imposes attributes of the row
-	 * @method setAttr
-	 * @param {Object} attr
-	 * @return {void}
+	 * Html tag corresponding to Table instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  table
 	 */
-	this.setAttr = function(attr){
-		this.attr = attr;
-	};
+	this.name = &#x27;table&#x27;;
 
 	/**
 	* Attributes of the table.
@@ -180,16 +178,6 @@ function Table() {
 	this.attr = new TableAttributes();
 
 	/**
-	 * Imposes style of the row
-	 * @method setStyle
-	 * @param {Object} stl
-	 * @return {void}
-	 */
-	this.setStyle = function(stl){
-		this.style = stl;
-	};
-
-	/**
 	 * Styles of the row
 	 * @property {TableStyle} style
 	 * @type {TableStyle}
@@ -198,47 +186,28 @@ function Table() {
 	this.style = new TableStyle();
 
 	/**
-	 * Array of rows constituting the table or empty array
-	 * @property {Array} rows
-	 * @type {Array}
-	 * @default []
+	 * The number of the rows in the table. Delegates its functionality to Content::length.
+	 * @method  rowNum
+	 * @return {Number}
 	 */
-	this.rows = [];
-
-	/**
-	 * Retrieves the value of property from the &quot;style&quot;
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
+	this.rowNum = function(){
+		return this.content.length();
 	};
 
 	/**
-	 * Append a row to the exisiting rows.
+	 * Append a row to the content property. If object to insert is not a Row instance, error is thrown.
 	 * @method appendRow
 	 * @param {Object} row  a row to be appended
 	 * @return {void}
 	 */
 	this.appendRow = function(row){
 		// find out with what name the Row object is registered
-		var rowType = (new Row()).getType();
-		if (typeof(row.getType) !== &#x27;function&#x27; || row.getType() !== rowType){
+		// var rowType = (new Row()).getType();
+		// if (typeof(row.getType) !== &#x27;function&#x27; || row.getType() !== rowType){
+		if (!(row instanceof Row)){
 			throw new Error(&#x27;The argument is not of the Row type!&#x27;);
 		}
-		this.rows.push(row);
-	};
-
-	/**
-	 * Sets the width in the &quot;style&quot; property.
-	 * @method setWidth
-	 * @param  {Number} 	w
-	 * @return {void}
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
+		this.content.appendElem(row);
 	};
 
 	/**
@@ -249,9 +218,9 @@ function Table() {
 	 */
 	this.getMatrix = function(){
 		var output = [],
-			rowsNum = this.rows.length, i;
+			rowsNum = this.rowNum(), i;
 		for (i = 0; i &lt; rowsNum; i++){
-			output.push(this.rows[i].getCellWidths());
+			output.push(this.getElem(i).getCellWidths());
 		}
 		return output;
 	};
@@ -293,7 +262,7 @@ function Table() {
 	this.insertColumnAt = function(pos, cell){
 		cell = cell || (new Cell());
 		var colNum = this.colNum(),
-			rowNum = this.rows.length,
+			rowNum = this.rowNum(),
 			i;
 
 		if (colNum &lt;= 0 || pos &lt; 0 || pos &gt; colNum){
@@ -301,11 +270,11 @@ function Table() {
 		}
 		if (pos &lt; colNum){
 			for (i = 0; i &lt; rowNum; i++){
-				this.rows[i].insertCellAt(pos, cell);
+				this.getElem(i).insertCellAt(pos, cell);
 			}
 		} else {
 			for (i = 0; i &lt; rowNum; i++){
-				this.rows[i].appendCell(cell);
+				this.getElem(i).appendCell(cell);
 			}
 		}
 		return null;
@@ -478,11 +447,11 @@ function Table() {
 	this.appendStyleToCol = function(colNum, style){
 		var colNumInt = parseInt(colNum, 10),
 			colLen = this.colNum(),
-			rowLen = this.rows.length,
+			rowLen = this.rowNum(),
 			i;
 		if (colNumInt === colNum &amp;&amp; colNum &gt;= 0 &amp;&amp; colNum &lt; colLen) {
 			for (i = 0; i &lt; rowLen; i++){
-				this.rows[i].appendStyleToCell(colNum, style);
+				this.getElem(i).appendStyleToCell(colNum, style);
 			}
 		} else {
 			throw new Error(&#x27;The column is not present!&#x27;);

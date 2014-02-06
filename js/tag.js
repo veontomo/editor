@@ -30,12 +30,73 @@ function Tag() {
 	this.attr = new Attributes();
 
 	/**
+	* Attribute setter.
+	* @method setAttr
+	* @param {String|Object} attr
+	* @return {void}
+	*/
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+	/**
+	 * Appends style to the cell.
+	 * @method appendStyle
+	 * @param  {Style|Obj}   stl   style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		if ((typeof stl !== 'string') && (typeof stl !== 'object') ) {
+			throw new Error("Wrong argument type! Style, string or Object expected.");
+		}
+		var stlObj = new Style(stl);
+		this.style.appendStyle(stlObj);
+
+		return null;
+	};
+
+
+	/**
 	 * Tag styles
 	 * @property {ListItemStyle}       style
 	 * @type     {ListItemStyle}
 	 * @default ListItemStyle()
 	 */
 	this.style = new Style();
+
+	/**
+	* Style setter.
+	* @method setStyle
+	* @param {String|Object} stl
+	* @return {void}
+	*/
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
+	/**
+	 * Retrieves the value of property from the "style"
+	 * @method styleProperty
+	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @return {String|Number}
+	 */
+	this.styleProperty = function (prop) {
+		return getProperty(this.style, prop);
+	};
+
+
+	/**
+	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well.
+	 * It is better to use with an integer argument.
+	 * @method  setWidth
+	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. "10px", "14.1em" etc)
+	 * or a number (i.e. 200, 10).
+	 */
+	this.setWidth = function(w){
+		setMinMaxWidth(this.style, w);
+		this.attr.width = w;
+	};
+
 
 	/**
 	 * Content of the list item.

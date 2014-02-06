@@ -159,13 +159,15 @@ function Cell(arg) {
 	this.getType = function(){
 		return &quot;Cell&quot;;
 	};
+
 	/**
-	 * Attributes of the cell.
-	 * @property {Attributes} attr
-	 * @type {Attributes}
-	 * @default Attributes
+	 * Html tag corresponding to Cell instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  table
 	 */
-	this.attr = new Attributes();
+	this.name = &#x27;td&#x27;;
+
 	/**
 	 * Styles of the cell
 	 * @property {TableCellStyle} style
@@ -173,33 +175,6 @@ function Cell(arg) {
 	 * @default TableCellStyle
 	 */
 	this.style = new TableCellStyle();
-	/**
-	 * Content of the cell
-	 * @property {Content} content
-	 * @type {Content}
-	 * @default Content
-	 */
-	this.content = new Content(arg);
-	/**
-	 * Retrieves the value of property from the &quot;style&quot;
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
-	};
-	/**
-	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
-	 * It is better to use with an integer argument.
-	 * @method  setWidth
-	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc)
-	 * or a number (i.e. 200, 10).
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
-	};
 
 	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
@@ -265,6 +240,7 @@ function Cell(arg) {
 		return cellHtml;
 	};
 }
+Cell.prototype = new Tag();
     </pre>
 </div>
 

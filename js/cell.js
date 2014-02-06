@@ -21,13 +21,23 @@ function Cell(arg) {
 	this.getType = function(){
 		return "Cell";
 	};
+
 	/**
-	 * Attributes of the cell.
-	 * @property {Attributes} attr
-	 * @type {Attributes}
-	 * @default Attributes
+	 * Html tag corresponding to Cell instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  table
 	 */
-	this.attr = new Attributes();
+	this.name = 'td';
+
+	/**
+	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
+	 * @param     {any}       arg
+	 * @type      {Content}
+	 * @return    {void}
+	 */
+	this.content = new Content(arg);
+
 	/**
 	 * Styles of the cell
 	 * @property {TableCellStyle} style
@@ -35,33 +45,6 @@ function Cell(arg) {
 	 * @default TableCellStyle
 	 */
 	this.style = new TableCellStyle();
-	/**
-	 * Content of the cell
-	 * @property {Content} content
-	 * @type {Content}
-	 * @default Content
-	 */
-	this.content = new Content(arg);
-	/**
-	 * Retrieves the value of property from the "style"
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
-	};
-	/**
-	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well.
-	 * It is better to use with an integer argument.
-	 * @method  setWidth
-	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. "10px", "14.1em" etc)
-	 * or a number (i.e. 200, 10).
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
-	};
 
 	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
@@ -94,26 +77,11 @@ function Cell(arg) {
 	 };
 
 	/**
-	 * Appends style to the cell.
-	 * @method appendStyle
-	 * @param  {Style|Obj}   stl   style to be appended
-	 * @return {void}
-	 */
-	this.appendStyle = function(stl){
-		if ((typeof stl !== 'string') && (typeof stl !== 'object') ) {
-			throw new Error("Wrong argument type! Style, string or Object expected.");
-		}
-		var stlObj = new Style(stl);
-		this.style.appendStyle(stlObj);
-
-		return null;
-	};
-	/**
 	 * Generates cell-specific html code with corresponding attributes and styles
 	 * @method toHtml
 	 * @return {String} html representation of the cell
 	 */
-	this.toHtml = function () {
+	this.toHtml2 = function () {
 		var tag = 'td',
 			cellHtml,
 			attr = this.attr.toString(),
@@ -127,3 +95,4 @@ function Cell(arg) {
 		return cellHtml;
 	};
 }
+Cell.prototype = new Tag();

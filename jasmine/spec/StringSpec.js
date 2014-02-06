@@ -18,7 +18,6 @@ describe('Method that converts strings into objects', function(){
 		expect(obj.getElem(0).length()).toBe(3);
 		expect(obj.getElem(1).length()).toBe(1);
 		expect(obj.getElem(2).length()).toBe(1);
-		console.log(obj);
 	});
 
 	it('gets the correct type of the nested elements', function(){

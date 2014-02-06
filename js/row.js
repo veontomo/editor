@@ -1,11 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag */
 
 /**
  * Represents a table row
  * @module 	HtmlElements
  * @class   Row
+ * @extends Tag
  */
 function Row() {
 	"use strict";
@@ -22,23 +23,12 @@ function Row() {
 	};
 
 	/**
-	* Attributes of the row.
-	* @property {Attributes} attr
-	* @type {Attributes}
-	* @default Attributes
-	*/
-	this.attr = new Attributes();
-
-	/**
-	* Attribute setter.
-	* @method setAttr
-	* @param {String|Object} attr
-	* @return {void}
-	*/
-	this.setAttr = function(attr){
-		this.attr = attr;
-	};
-
+	 * Html tag corresponding to Row instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  td
+	 */
+	this.name = 'tr';
 
 	/**
 	 * Styles of the row.
@@ -49,57 +39,27 @@ function Row() {
 	this.style = new TableRowStyle();
 
 	/**
-	* Style setter.
-	* @method setStyle
-	* @param {String|Object} stl
-	* @return {void}
-	*/
-	this.setStyle = function(stl){
-		this.style = stl;
-	};
-
-	/**
-	 * Array of cells belonging to the row.
-	 * @property {Array} cells
-	 * @type {Array}
-	 * @default []
-	 */
-	this.cells = [];
-
-	/**
-	 * Retrieves the value of property from the "style"
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
-	};
-
-	/**
-	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width" and "max-width" are imposed as well.
-	 * It is better to use with an integer argument.
-	 * @method  setWidth
-	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. "10px", "14.1em" etc) or a number (i.e. 200, 10).
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
-	};
-
-	/**
 	 * Gets an array of the widths of the cells inside the row.
 	 * @method getCellWidths
 	 * @return {array}
 	 */
 	this.getCellWidths = function(){
 		var output = [],
-			cellNum = this.cells.length,
+			cellNum = this.cellNum(),
 			i;
 		for (i = 0; i < cellNum; i++){
-			output.push(this.cells[i].getWidth());
+			output.push(this.getElem(i).getWidth());
 		}
 		return output;
+	};
+
+	/**
+	 * Returns the number of cells in the row. Delegates to the length() method of the "content" property.
+	 * @method  cellNum
+	 * @return {Number}
+	 */
+	this.cellNum = function(){
+		return this.content.length();
 	};
 
 	/**
@@ -111,9 +71,9 @@ function Row() {
 	this.setCellWidths = function(profile){
 		var len = profile.length,
 			i;
-		if (this.cells.length === len){
+		if (this.cellNum() === len){
 			for (i = 0; i < len; i++){
-				this.cells[i].setWidth(profile[i]);
+				this.getElem(i).setWidth(profile[i]);
 			}
 		}
 	};
@@ -128,18 +88,14 @@ function Row() {
 	 * @return {void}
 	 */
 	this.insertCellAt = function(pos, cell){
-		var cellNum = this.cellNum();
-		if (pos >= 0 && cellNum > 0 && pos <= cellNum){
-			var cellType = (new Cell()).getType();
-			if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
-				throw new Error('Trying to insert non-cell object!');
-			}
-			if (pos === cellNum){
-				this.cells.push(cell);
-			} else {
-				this.cells.splice(pos, 0, cell);
-			}
-	}
+		// var cellType = (new Cell()).getType();
+		// if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
+		// 	throw new Error('Trying to insert non-cell object!');
+		// }
+		if (!(cell instanceof Cell)){
+			throw new Error('Trying to insert non-cell object!');
+		}
+		this.content.insertElemAt(pos, cell);
 		return null;
 	};
 
@@ -151,11 +107,11 @@ function Row() {
 	 */
 	this.appendCell = function(cell){
 		// find out with what name the Cell object is registered
-		var cellType = (new Cell()).getType();
-		if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
+		// var cellType = (new Cell()).getType();
+		if (!(cell instanceof Cell)){
 			throw new Error('The argument is not of the Cell type!');
 		}
-		this.cells.push(cell);
+		this.content.appendElem(cell);
 	};
 
 
@@ -173,32 +129,23 @@ function Row() {
 	 */
 	this.dropCell = function(cellNum){
 		var acceptor, acceptorWidth, currentCell, currentCellWidth;
-		if (cellNum < this.cells.length){
-			if (this.cells[cellNum + 1] !== undefined){
-				acceptor = this.cells[cellNum + 1];
+		if (cellNum < this.cellNum()){
+			if (this.getElem(cellNum + 1)){
+				acceptor = this.getElem(cellNum + 1);
 			} else {
-				if (this.cells[cellNum - 1] !== undefined){
-				acceptor = this.cells[cellNum - 1];
+				if (this.getElem(cellNum - 1)){
+				acceptor = this.getElem(cellNum - 1);
 				}
 			}
 			if (acceptor){
 				acceptorWidth = acceptor.getWidth();
-				currentCell = this.cells[cellNum];
+				currentCell = this.getElem(cellNum);
 				currentCellWidth = currentCell.getWidth();
 				acceptor.setWidth(acceptorWidth + currentCellWidth);
 			}
-			this.cells.splice(cellNum, 1);
+			this.content.dropElemAt(cellNum);
 		}
 
-	};
-
-	/**
-	 * Gives the number of cells in the row.
-	 * @method cellNum
-	 * @return {Number}
-	 */
-	this.cellNum = function(){
-		return this.cells.length;
 	};
 
 	/**
@@ -211,7 +158,7 @@ function Row() {
 		var cellNumInt = parseInt(cellNum, 10),
 			rowLen = this.cellNum();
 		if (cellNum === cellNumInt && cellNum >= 0 && cellNum < rowLen) {
-			this.cells[cellNum].appendStyle(stl);
+			this.getElem(cellNum).appendStyle(stl);
 		} else {
 			throw new Error('The cell is not found!');
 		}
@@ -232,9 +179,9 @@ function Row() {
 			rowStyle = 'style="' + rowStyle.trim() + '"';
 		}
 		htmlRow = '<' + [tag, rowAttr, rowStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
-		cellsNumber = this.cells.length;
+		cellsNumber = this.cellNum();
 		for (i = 0; i < cellsNumber; i++) {
-			htmlRow += this.cells[i].toHtml();
+			htmlRow += this.getElem(i).toHtml();
 		}
 		htmlRow += '</' + tag + '>';
 		return htmlRow;
@@ -271,3 +218,4 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
+Row.prototype = new Tag();

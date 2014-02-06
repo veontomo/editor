@@ -4,9 +4,9 @@
 
 /**
 * Represents table.
-* @module HtmlElements
-* @class  Table
-* @extends {Tag}
+* @module  HtmlElements
+* @class   Table
+* @extends Tag
 */
 function Table() {
 	"use strict";
@@ -24,14 +24,12 @@ function Table() {
 	};
 
 	/**
-	 * Imposes attributes of the row
-	 * @method setAttr
-	 * @param {Object} attr
-	 * @return {void}
+	 * Html tag corresponding to Table instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  table
 	 */
-	this.setAttr = function(attr){
-		this.attr = attr;
-	};
+	this.name = 'table';
 
 	/**
 	* Attributes of the table.
@@ -42,16 +40,6 @@ function Table() {
 	this.attr = new TableAttributes();
 
 	/**
-	 * Imposes style of the row
-	 * @method setStyle
-	 * @param {Object} stl
-	 * @return {void}
-	 */
-	this.setStyle = function(stl){
-		this.style = stl;
-	};
-
-	/**
 	 * Styles of the row
 	 * @property {TableStyle} style
 	 * @type {TableStyle}
@@ -60,47 +48,28 @@ function Table() {
 	this.style = new TableStyle();
 
 	/**
-	 * Array of rows constituting the table or empty array
-	 * @property {Array} rows
-	 * @type {Array}
-	 * @default []
+	 * The number of the rows in the table. Delegates its functionality to Content::length.
+	 * @method  rowNum
+	 * @return {Number}
 	 */
-	this.rows = [];
-
-	/**
-	 * Retrieves the value of property from the "style"
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
+	this.rowNum = function(){
+		return this.content.length();
 	};
 
 	/**
-	 * Append a row to the exisiting rows.
+	 * Append a row to the content property. If object to insert is not a Row instance, error is thrown.
 	 * @method appendRow
 	 * @param {Object} row  a row to be appended
 	 * @return {void}
 	 */
 	this.appendRow = function(row){
 		// find out with what name the Row object is registered
-		var rowType = (new Row()).getType();
-		if (typeof(row.getType) !== 'function' || row.getType() !== rowType){
+		// var rowType = (new Row()).getType();
+		// if (typeof(row.getType) !== 'function' || row.getType() !== rowType){
+		if (!(row instanceof Row)){
 			throw new Error('The argument is not of the Row type!');
 		}
-		this.rows.push(row);
-	};
-
-	/**
-	 * Sets the width in the "style" property.
-	 * @method setWidth
-	 * @param  {Number} 	w
-	 * @return {void}
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
+		this.content.appendElem(row);
 	};
 
 	/**
@@ -111,9 +80,9 @@ function Table() {
 	 */
 	this.getMatrix = function(){
 		var output = [],
-			rowsNum = this.rows.length, i;
+			rowsNum = this.rowNum(), i;
 		for (i = 0; i < rowsNum; i++){
-			output.push(this.rows[i].getCellWidths());
+			output.push(this.getElem(i).getCellWidths());
 		}
 		return output;
 	};
@@ -155,7 +124,7 @@ function Table() {
 	this.insertColumnAt = function(pos, cell){
 		cell = cell || (new Cell());
 		var colNum = this.colNum(),
-			rowNum = this.rows.length,
+			rowNum = this.rowNum(),
 			i;
 
 		if (colNum <= 0 || pos < 0 || pos > colNum){
@@ -163,11 +132,11 @@ function Table() {
 		}
 		if (pos < colNum){
 			for (i = 0; i < rowNum; i++){
-				this.rows[i].insertCellAt(pos, cell);
+				this.getElem(i).insertCellAt(pos, cell);
 			}
 		} else {
 			for (i = 0; i < rowNum; i++){
-				this.rows[i].appendCell(cell);
+				this.getElem(i).appendCell(cell);
 			}
 		}
 		return null;
@@ -340,11 +309,11 @@ function Table() {
 	this.appendStyleToCol = function(colNum, style){
 		var colNumInt = parseInt(colNum, 10),
 			colLen = this.colNum(),
-			rowLen = this.rows.length,
+			rowLen = this.rowNum(),
 			i;
 		if (colNumInt === colNum && colNum >= 0 && colNum < colLen) {
 			for (i = 0; i < rowLen; i++){
-				this.rows[i].appendStyleToCell(colNum, style);
+				this.getElem(i).appendStyleToCell(colNum, style);
 			}
 		} else {
 			throw new Error('The column is not present!');

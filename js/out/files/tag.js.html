@@ -168,12 +168,57 @@ function Tag() {
 	this.attr = new Attributes();
 
 	/**
+	* Attribute setter.
+	* @method setAttr
+	* @param {String|Object} attr
+	* @return {void}
+	*/
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+
+	/**
 	 * Tag styles
 	 * @property {ListItemStyle}       style
 	 * @type     {ListItemStyle}
 	 * @default ListItemStyle()
 	 */
 	this.style = new Style();
+
+	/**
+	* Style setter.
+	* @method setStyle
+	* @param {String|Object} stl
+	* @return {void}
+	*/
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
+	/**
+	 * Retrieves the value of property from the &quot;style&quot;
+	 * @method styleProperty
+	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @return {String|Number}
+	 */
+	this.styleProperty = function (prop) {
+		return getProperty(this.style, prop);
+	};
+
+
+	/**
+	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
+	 * It is better to use with an integer argument.
+	 * @method  setWidth
+	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc)
+	 * or a number (i.e. 200, 10).
+	 */
+	this.setWidth = function(w){
+		setMinMaxWidth(this.style, w);
+		this.attr.width = w;
+	};
+
 
 	/**
 	 * Content of the list item.
