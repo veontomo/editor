@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>helpers</title>
+    <title>tag.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -132,49 +132,134 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>helpers Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: tag.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/helpers.js.html#l44"><code>helpers.js:44</code></a>
-        </div>
-    
+/**
+ * This class is used to represent a general html tag.
+ * @module 	    HtmlElements
+ * @class  		Tag
+ */
+function Tag() {
+	&quot;use strict&quot;;
+	if (!(this instanceof Tag)) {
+		return new Tag();
+	}
 
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>transforms each element of the input array into a non-negative number.
-If an element is negative, its absolute value is used.
-If an element fails to be converted to a number, it is substituted by zero.</p>
-
-</div>
-
-
-    <div class="example">
-        <h4>Example:</h4>
-        <div class="example-content">
-            <p>   [1.1, 2.4, 2] -&gt; [1.1, 2.4, 2],
-           [&quot;4&quot;, -3, 3.2, &quot;a&quot;] -&gt; [4, 3, 3.2, 0]</p>
-
-        </div>
-    </div>
+	/**
+	 * Tag name
+	 * @property {String}          name
+	 * @default  null
+	 */
+	this.name = null;
 
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-    </div>
+	/**
+	 * Tag attributes
+	 * @property {Attributes}          attr
+	 * @type     {Attributes}
+	 * @default  Attributes()
+	 */
+	this.attr = new Attributes();
 
-    <div class="yui3-u-1-2">
-        
-    </div>
+	/**
+	 * Tag styles
+	 * @property {ListItemStyle}       style
+	 * @type     {ListItemStyle}
+	 * @default ListItemStyle()
+	 */
+	this.style = new Style();
+
+	/**
+	 * Content of the list item.
+	 * @property {Content}             content
+	 * @type     {Content}
+	 * @default  Content()
+	 */
+	this.content = new Content();
+
+	/**
+	 * Gets the element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method getElem
+	 * @param  {Number}    pos
+	 * @return {any}
+	 */
+	this.getElem = function(pos){
+		return this.content.getElem(pos);
+	};
+
+	/**
+	 * Gets the first element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method  getFirst
+	 * @return {any}
+	 */
+	this.getFirst = function(){
+		return this.content.getFirst();
+	};
+
+	/**
+	 * Gets the last element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method  getLast
+	 * @return {any}
+	 */
+	this.getLast = function(){
+		return this.content.getLast();
+	};
+
+	/**
+	 * Inserts an element into given position. Delegates its functionality to the class Content.
+	 * @method  insertElemAt
+	 * @param  {Number} pos
+	 * @param  {any}    elem
+	 * @return {void}
+	 */
+	this.insertElemAt = function(pos, elem){
+		this.content.insertElemAt(pos, elem);
+	};
+
+	/**
+	 * Appends the element to the content of the list item. Delegates to Content::appendElem().
+	 * @method appendElem
+	 * @param  {any}     elem
+	 * @return {void}
+	 */
+	this.appendElem = function(elem){
+		this.content.appendElem(elem);
+	};
+
+	/**
+	 * Returns the number of elements inside its content. Delegates to Content::length().
+	 * @method   length
+	 * @return   {Number}
+	 */
+	this.length = function(){
+		return this.content.length();
+	};
+
+	/**
+	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
+	 * @method toHtml
+	 * @return {String}                html representation of an instance of this class.
+	 */
+	this.toHtml = function(){
+		var tag = this.name,
+			style, attr, html;
+		if (tag){
+			style = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;);
+			attr = this.attr.toString();
+			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27; + this.content.toHtml() + &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
+		} else {
+			html = &#x27;&lt;!-- tag name is missing --&gt;&#x27;;
+		}
+		return html;
+	};
+}
+    </pre>
 </div>
 
                     </div>

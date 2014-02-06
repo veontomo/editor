@@ -1,11 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag */
 
 /**
 * Represents table.
 * @module HtmlElements
 * @class  Table
+* @extends {Tag}
 */
 function Table() {
 	"use strict";
@@ -66,15 +67,20 @@ function Table() {
 	 */
 	this.rows = [];
 
-	// is it all worth it?!
+	/**
+	 * Retrieves the value of property from the "style"
+	 * @method styleProperty
+	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @return {String|Number}
+	 */
 	this.styleProperty = function (prop) {
 		return getProperty(this.style, prop);
 	};
 
 	/**
 	 * Append a row to the exisiting rows.
+	 * @method appendRow
 	 * @param {Object} row  a row to be appended
-	 * @property {Object} appendRow
 	 * @return {void}
 	 */
 	this.appendRow = function(row){
@@ -87,10 +93,10 @@ function Table() {
 	};
 
 	/**
-	 * Retrieves the value of property from the "style"
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
+	 * Sets the width in the "style" property.
+	 * @method setWidth
+	 * @param  {Number} 	w
+	 * @return {void}
 	 */
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
@@ -448,55 +454,4 @@ function Table() {
 	this.bogusTableAttr = null; // new Attributes();
 }
 
-/**
- * Returns true, if tableHtml is an html code corresponding to a table each row of which
- * contains just one cell, and this cell in its turn contains only one table.
- * Returns false otherwise.
- * @module  HtmlElements
- * @method  isFramedTable
- * @return  {Boolean} [description]
- */
-String.prototype.isFramedTable = function (){
-	var tableHtml = this,
-		parser = new DOMParser(),
-		doc = parser.parseFromString(tableHtml, 'text/html'),
-		node = doc.getElementsByTagName('table'),
-		isFramed = true,
-		tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
-
-		// it would be very nice to use this approach, but doc.evaluate always returns "undefined"
-		// try{
-		// 	var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
-		// 	console.log('evaluate: ', tmp);
-		// } catch (ex){
-		// 	console.log("Error! ", ex);
-		// }
-
-		if (node.length === 0){
-			return false;
-		}
-		node = node[0];
-
-		// parsing the table structure to decide whether this is a framed table or a regular one.
-		tableChildren = node.children[0].children;   // all rows of  the table
-		tableChildrenLen = tableChildren.length;
-		for (i = 0; i < tableChildrenLen; i++) {
-			currentElem = tableChildren[i];          // current row
-			elemChildren = currentElem.children;     // all cells inside the row
-			if (elemChildren.length !== 1 ){
-				isFramed = false;
-				break;
-			}
-			nestedElem = elemChildren[0];     // first cell inside the row
-			if (nestedElem.tagName !== 'TD'){
-				isFramed = false;
-				break;
-			}
-			nestedElemChildren = nestedElem.children;
-			if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
-				isFramed = false;
-				break;
-			}
-		}
-		return isFramed;
-};
+Table.prototype = new Tag();

@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="js/start.js"></script>
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/attributesStyle.js"></script>
+	<script type="text/javascript" src="js/tag.js"></script>
 	<script type="text/javascript" src="js/table.js"></script>
 	<script type="text/javascript" src="js/cell.js"></script>
 	<script type="text/javascript" src="js/row.js"></script>

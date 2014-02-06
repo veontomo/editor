@@ -3,9 +3,9 @@
 /*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
 
 /**
- * This class is used to represent a list item.
+ * This class is used to represent a general html tag.
  * @module 	    HtmlElements
- * @class  		ListItem
+ * @class  		Tag
  */
 function Tag() {
 	"use strict";
@@ -35,7 +35,7 @@ function Tag() {
 	 * @type     {ListItemStyle}
 	 * @default ListItemStyle()
 	 */
-	this.style = new ListItemStyle();
+	this.style = new Style();
 
 	/**
 	 * Content of the list item.
@@ -46,7 +46,46 @@ function Tag() {
 	this.content = new Content();
 
 	/**
-	 * Appends the element to the content of the list item.
+	 * Gets the element stored in property "content". Delegates its functionality to the class Content.
+	 * @method getElem
+	 * @param  {Number}    pos
+	 * @return {any}
+	 */
+	this.getElem = function(pos){
+		return this.content.getElem(pos);
+	};
+
+	/**
+	 * Gets the first element stored in property "content". Delegates its functionality to the class Content.
+	 * @method  getFirst
+	 * @return {any}
+	 */
+	this.getFirst = function(){
+		return this.content.getFirst();
+	};
+
+	/**
+	 * Gets the last element stored in property "content". Delegates its functionality to the class Content.
+	 * @method  getLast
+	 * @return {any}
+	 */
+	this.getLast = function(){
+		return this.content.getLast();
+	};
+
+	/**
+	 * Inserts an element into given position. Delegates its functionality to the class Content.
+	 * @method  insertElemAt
+	 * @param  {Number} pos
+	 * @param  {any}    elem
+	 * @return {void}
+	 */
+	this.insertElemAt = function(pos, elem){
+		this.content.insertElemAt(pos, elem);
+	};
+
+	/**
+	 * Appends the element to the content of the list item. Delegates to Content::appendElem().
 	 * @method appendElem
 	 * @param  {any}     elem
 	 * @return {void}
@@ -65,15 +104,20 @@ function Tag() {
 	};
 
 	/**
-	 * Gives html representation of the instance.
+	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
 	 * @method toHtml
 	 * @return {String}                html representation of an instance of this class.
 	 */
 	this.toHtml = function(){
 		var tag = this.name,
-			style = this.style.toString().sandwichWith('style="', '"'),
-			attr = this.attr.toString(),
+			style, attr, html;
+		if (tag){
+			style = this.style.toString().sandwichWith('style="', '"');
+			attr = this.attr.toString();
 			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
+		} else {
+			html = '<!-- tag name is missing -->';
+		}
 		return html;
 	};
 }

@@ -18,6 +18,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TableCellStyle",
         "TableRowStyle",
         "TableStyle",
+        "Tag",
         "TextStyle",
         "createRowFromHtml",
         "createTableFromHtml",

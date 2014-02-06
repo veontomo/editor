@@ -81,6 +81,8 @@
             
                 <li><a href="../classes/TableStyle.html">TableStyle</a></li>
             
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
                 <li><a href="../classes/TextStyle.html">TextStyle</a></li>
             
             </ul>
@@ -142,6 +144,7 @@
 * Represents table.
 * @module HtmlElements
 * @class  Table
+* @extends {Tag}
 */
 function Table() {
 	&quot;use strict&quot;;
@@ -202,15 +205,20 @@ function Table() {
 	 */
 	this.rows = [];
 
-	// is it all worth it?!
+	/**
+	 * Retrieves the value of property from the &quot;style&quot;
+	 * @method styleProperty
+	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @return {String|Number}
+	 */
 	this.styleProperty = function (prop) {
 		return getProperty(this.style, prop);
 	};
 
 	/**
 	 * Append a row to the exisiting rows.
+	 * @method appendRow
 	 * @param {Object} row  a row to be appended
-	 * @property {Object} appendRow
 	 * @return {void}
 	 */
 	this.appendRow = function(row){
@@ -223,10 +231,10 @@ function Table() {
 	};
 
 	/**
-	 * Retrieves the value of property from the &quot;style&quot;
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
+	 * Sets the width in the &quot;style&quot; property.
+	 * @method setWidth
+	 * @param  {Number} 	w
+	 * @return {void}
 	 */
 	this.setWidth = function(w){
 		setMinMaxWidth(this.style, w);
@@ -584,58 +592,7 @@ function Table() {
 	this.bogusTableAttr = null; // new Attributes();
 }
 
-/**
- * Returns true, if tableHtml is an html code corresponding to a table each row of which
- * contains just one cell, and this cell in its turn contains only one table.
- * Returns false otherwise.
- * @module  HtmlElements
- * @method  isFramedTable
- * @return  {Boolean} [description]
- */
-String.prototype.isFramedTable = function (){
-	var tableHtml = this,
-		parser = new DOMParser(),
-		doc = parser.parseFromString(tableHtml, &#x27;text/html&#x27;),
-		node = doc.getElementsByTagName(&#x27;table&#x27;),
-		isFramed = true,
-		tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
-
-		// it would be very nice to use this approach, but doc.evaluate always returns &quot;undefined&quot;
-		// try{
-		// 	var tmp = doc.evaluate(&#x27;//*&#x27;, doc, null, XPathResult.ANY_TYPE, tmp);
-		// 	console.log(&#x27;evaluate: &#x27;, tmp);
-		// } catch (ex){
-		// 	console.log(&quot;Error! &quot;, ex);
-		// }
-
-		if (node.length === 0){
-			return false;
-		}
-		node = node[0];
-
-		// parsing the table structure to decide whether this is a framed table or a regular one.
-		tableChildren = node.children[0].children;   // all rows of  the table
-		tableChildrenLen = tableChildren.length;
-		for (i = 0; i &lt; tableChildrenLen; i++) {
-			currentElem = tableChildren[i];          // current row
-			elemChildren = currentElem.children;     // all cells inside the row
-			if (elemChildren.length !== 1 ){
-				isFramed = false;
-				break;
-			}
-			nestedElem = elemChildren[0];     // first cell inside the row
-			if (nestedElem.tagName !== &#x27;TD&#x27;){
-				isFramed = false;
-				break;
-			}
-			nestedElemChildren = nestedElem.children;
-			if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== &#x27;TABLE&#x27;){
-				isFramed = false;
-				break;
-			}
-		}
-		return isFramed;
-};
+Table.prototype = new Tag();
     </pre>
 </div>
 
