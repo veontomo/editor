@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ckeditor\plugins\table2\dialogs\table2.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
+            
+                <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
+            
+                <li><a href="../classes/ListStyle.html">ListStyle</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/Style.html">Style</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyle.html">TableCellStyle</a></li>
+            
+                <li><a href="../classes/TableRowStyle.html">TableRowStyle</a></li>
+            
+                <li><a href="../classes/TableStyle.html">TableStyle</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/TextStyle.html">TextStyle</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: ckeditor\plugins\table2\dialogs\table2.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle,  Attributes,Content, TableAttributes, NEWSLETTER, Style, alert
+ */
+CKEDITOR.dialog.add(&#x27;table2Dialog&#x27;, function (editor) {
+	var inputStyle = &#x27;min-width: 3em; width: 5em;text-align: center;&#x27;;
+	// var columnWidthStyle = &#x27;min-width: 3em; text-align: center;&#x27;;
+	// var tableCell = &#x27;&lt;td style=&quot;border: 2px solid #aeaeae;min-width: 2em;&quot;&gt;&amp;nbsp;&lt;/td&gt;&#x27;;
+	// var tableRow = &#x27;&lt;tr style=&quot;padding: 0.5em&quot;&gt;&#x27; + tableCell + tableCell + tableCell + tableCell + &#x27;&lt;/tr&gt;&#x27;;
+	// var tableIcon = &#x27;&lt;table&gt;&lt;tbody&gt; &#x27; + tableRow + tableRow + tableRow + tableRow + tableRow + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;;
+	/**
+	 * Drops inline attribute named attrName from DOM element
+	 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery &quot;attr&quot; method.
+	 * @param  {string} attrName 	this attribute name will be dropped.
+	 * @return {void}
+	 */
+
+	var INPUTCOLWIDTHNAME = &#x27;widthCol&#x27;,
+		// draw input fields for column width
+		drawColumns = function () {
+			// adds input fields to set the widths of the table columns
+			var element = CKEDITOR.document.getById(&#x27;columnWidthTable&#x27;),
+				title = CKEDITOR.document.getById(&#x27;columnWidthTableTitle&#x27;),
+				children, length, i, td, inputField, colWidthInput, tr, colNum;
+
+			title.setHtml(&#x27;&#x27;);
+			children = element.getChildren();
+			length = children.count();
+			for (i = 0; i &lt; length; i++) {
+				children.getItem(i).remove();
+			}
+
+			colWidthInput = new CKEDITOR.dom.element(&#x27;table&#x27;);
+			tr = new CKEDITOR.dom.element(&#x27;tr&#x27;);
+			colNum = this.getDialog().getValueOf(&#x27;info&#x27;, &#x27;tblCols&#x27;);
+			colWidthInput.append(tr);
+			if (colNum &gt; 1) {
+				for (i = 0; i &lt; colNum; i++) {
+					td = new CKEDITOR.dom.element(&#x27;td&#x27;);
+					inputField = new CKEDITOR.dom.element(&#x27;input&#x27;);
+					inputField.setAttribute(&#x27;type&#x27;, &#x27;text&#x27;);
+					inputField.setAttribute(&#x27;id&#x27;, INPUTCOLWIDTHNAME + i);
+					// inputField.setAttribute(&#x27;width&#x27;, &#x27;50&#x27;);
+					inputField.setAttribute(&#x27;class&#x27;, &#x27;cke_dialog_ui_input_text&#x27;);
+					inputField.setStyle(&#x27;min-width&#x27;, &#x27;2em&#x27;);
+					inputField.setStyle(&#x27;max-width&#x27;, &#x27;5em&#x27;);
+					inputField.setStyle(&#x27;text-align&#x27;, &#x27;center&#x27;);
+					td.append(inputField);
+					tr.append(td);
+				}
+				element.append(colWidthInput);
+				title.setHtml(&#x27;Fattori con i quali le colonne contribuiscono&lt;br&gt;nella larghezza della tabella:&#x27;);
+			}
+		},
+
+		/**
+		 * Returns the width of the parent element available for its children.
+		 *
+		 * available width = (element width) - (element left border width) - (element right border width) - (element left margin) - (element right margin)
+		 *
+		 * The element width is supposed to be greater than zero and hence to have a unit of measurement (e.g. &#x27;px&#x27;).
+		 * If not set, widths of other attributes are equal to zero without unit of measurement. In this case one has to set the unit of measurement
+		 * equal to the element width.
+		 * @return integer    available width for the children as Unit object (with properties &quot;value&quot; and &quot;measure&quot;)
+		 */
+		parentWidth = function () {
+			var startElem = editor.getSelection().getStartElement(),
+				rawWidth = new Unit(startElem.getComputedStyle(&#x27;width&#x27;)),
+				borderWidthL = new Unit(startElem.getComputedStyle(&#x27;border-width-left&#x27;)),
+				borderWidthR = new Unit(startElem.getComputedStyle(&#x27;border-width-right&#x27;)),
+				paddingL = new Unit(startElem.getComputedStyle(&#x27;padding-left&#x27;)),
+				paddingR = new Unit(startElem.getComputedStyle(&#x27;padding-right&#x27;)),
+				output;
+			if (borderWidthL.value === 0) {
+				borderWidthL.measure = rawWidth.measure;
+			}
+			if (borderWidthR.value === 0) {
+				borderWidthR.measure = rawWidth.measure;
+			}
+			if (paddingL.value === 0) {
+				paddingL.measure = rawWidth.measure;
+			}
+			if (paddingR.value === 0) {
+				paddingR.measure = rawWidth.measure;
+			}
+			output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
+			output.value = Math.round(output.value);
+			return output;
+		};
+
+
+	return {
+		// Basic properties of the dialog window: title, minimum size.
+		title: editor.lang.table.title,
+		minWidth: 300,
+		minHeight: 300,
+
+		// Dialog window contents definition.
+		contents: [{
+			id: &quot;info&quot;,
+			label: editor.lang.table.title,
+			elements: [
+			{
+				type: &#x27;text&#x27;,
+				label: editor.lang.table.rows,
+				id: &#x27;tblRows&#x27;,
+				&quot;default&quot;: &#x27;2&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle,
+
+			},
+			{
+				type: &quot;text&quot;,
+				label: editor.lang.table.columns,
+				id: &#x27;tblCols&#x27;,
+				&#x27;default&#x27;: &#x27;2&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle,
+				onChange: drawColumns
+			},
+			{
+				type: &#x27;text&#x27;,
+				id: &#x27;borderWidth&#x27;,
+				label: editor.lang.table.border + &#x27; (px)&#x27;,
+				&#x27;default&#x27;: &#x27;0&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle
+			}, {
+				type: &#x27;text&#x27;,
+				label: &#x27;Bordo attorno alle righe (px)&#x27;,
+				id: &#x27;frameWidth&#x27;,
+				&#x27;default&#x27;: &#x27;0&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle
+			}, {
+				type: &#x27;text&#x27;,
+				label: editor.lang.image.vSpace + &#x27; (px)&#x27;,
+				&#x27;default&#x27;: &#x27;1&#x27;,
+				id: &#x27;vSpace&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle
+			}, {
+				type: &#x27;text&#x27;,
+				label: editor.lang.image.hSpace + &#x27; (px)&#x27;,
+				&#x27;default&#x27;: &#x27;1&#x27;,
+				id: &#x27;hSpace&#x27;,
+				&#x27;inputStyle&#x27;: inputStyle
+			}, {
+				type: &#x27;html&#x27;,
+				html: &#x27;&lt;div id=&quot;columnWidthTableTitle&quot;&gt;&lt;/div&gt;&#x27;
+			}, {
+				type: &#x27;html&#x27;,
+				html: &#x27;&lt;div id=&quot;columnWidthTable&quot;&gt;&lt;/div&gt;&#x27;,
+			}
+
+			]
+		}],
+		// This method is invoked once a user clicks the OK button, confirming the dialog.
+		onOk: function () {
+			var dialog = this,
+				// user input
+				rows = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;tblRows&#x27;), 10),
+				cols = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;tblCols&#x27;), 10),
+				borderWidth = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;borderWidth&#x27;), 10),
+				frameWidth = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;frameWidth&#x27;), 10),
+				vSpace = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;vSpace&#x27;), 10),
+				hSpace = parseInt(dialog.getValueOf(&#x27;info&#x27;, &#x27;hSpace&#x27;), 10),
+
+				// variables to be used in what follows
+				bogusRowAttr, bogusRowStyle,  bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
+				parentElemStyle, bogusRowWidth, bogusCellWidth, bogusTableWidth,
+				i, table, tableWidth, tableElem, cellWidths, rowWidth,
+				// rowContentWidth,
+				spaceTop, spaceBottom,
+				inputField, cellWeights, row, cell, tableStyle, tableAttr, rowStyle, rowAttr, cellStyle,
+				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed,
+				allWidths = [];
+
+
+			// read inserted values
+			cellWeights = [];
+			for (i = 0; i &lt; cols; i++) {
+				// in fact, this check is needed only when the user does not change the default number of the table rows
+				inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
+				cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
+			}
+
+			// calculating widths
+			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
+			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
+			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
+
+			isFramed = frameWidth &gt; 0;
+
+			table = new Table();
+
+			// the whole table styles and properties
+			tableStyle = new TableStyle();
+			tableAttr  = new TableAttributes();
+
+			// impose styles and attribute values
+			tableStyle.setWidth(tableWidth);
+			tableAttr[NEWSLETTER[&#x27;marker-name&#x27;]] = table.getType();
+			tableStyle.margin = 0;
+			tableStyle.padding = 0;
+
+			// binding the styles and attributes and the table object
+			table.attr = tableAttr;
+			table.style = tableStyle;
+			if (borderWidth &gt; 0){
+				table.setBorder({
+					&#x27;width&#x27;: borderWidth,
+					&#x27;color&#x27;: &#x27;#000000&#x27;,
+					&#x27;style&#x27;: &#x27;solid&#x27;
+				});
+			}
+			allWidths.push({&#x27;value&#x27;: tableWidth, &#x27;descr&#x27;: &#x27;larghezza della tabella&#x27;});
+
+			// creating table row
+			row  = new Row();
+			rowStyle = new TableRowStyle();
+			rowAttr = new Attributes();
+
+			// By default, table style is a parent style for the nested rows.
+			// The properties of the the nested elements will be calculated based on this style.
+			parentElemStyle = tableStyle;
+
+			if (isFramed){
+				// creating bogus styles and attributes
+				bogusRowAttr    = new Attributes();
+				bogusRowStyle   = new TableRowStyle();
+				bogusCellAttr   = new Attributes();
+				bogusCellStyle  = new TableCellStyle();
+				bogusTableAttr  = new TableAttributes();
+				bogusTableStyle = new TableStyle();
+
+				// calculating widths of the bogus elements
+				// NB: if the parent table has no border, then its &#x27;border-width&#x27; attribute is not set!
+				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorder().width;
+
+				bogusRowStyle.setWidth(bogusRowWidth);
+				allWidths.push({&#x27;value&#x27;: bogusRowWidth, &#x27;descr&#x27;: &#x27;larghezza della riga fittizia&#x27;});
+				bogusRowStyle.padding = 0;
+				bogusRowStyle.margin  = 0;
+				// mark the bogus row
+				bogusRowAttr[NEWSLETTER[&#x27;marker-name&#x27;]] =  row.getType();
+
+				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
+				bogusCellStyle.setWidth(bogusCellWidth);
+				allWidths.push({&#x27;value&#x27;: bogusCellWidth, &#x27;descr&#x27;: &#x27;larghezza della cella fittizia&#x27;});
+
+				// if remains zero, then in MS Outlook the cell content overlaps the border
+				// and latter becomes invisible
+				bogusCellStyle[&#x27;padding-left&#x27;] = frameWidth;
+				bogusCellStyle[&#x27;padding-right&#x27;] = frameWidth;
+				bogusCellStyle[&#x27;padding-top&#x27;] = spaceTop;
+				bogusCellStyle[&#x27;padding-bottom&#x27;] = spaceBottom;
+				bogusCellStyle.margin  = 0;
+
+				bogusTableWidth = bogusCellStyle.width - bogusCellStyle[&#x27;padding-left&#x27;] - bogusCellStyle[&#x27;padding-right&#x27;];
+				bogusTableStyle.setWidth(bogusTableWidth);
+				allWidths.push({&#x27;value&#x27;: bogusTableWidth, &#x27;descr&#x27;: &#x27;larghezza della tabella fittizia&#x27;});
+
+				bogusTableStyle[&#x27;border-style&#x27;] = &#x27;solid&#x27;;
+				bogusTableStyle[&#x27;border-color&#x27;] = &#x27;#000000&#x27;;
+				bogusTableStyle[&#x27;border-width&#x27;] = frameWidth;
+				bogusTableAttr.border = frameWidth;
+
+				// binding attributes and styles with the objects
+				table.bogusTableStyle = bogusTableStyle;
+				table.bogusTableAttr  = bogusTableAttr;
+				table.bogusRowStyle   = bogusRowStyle;
+				table.bogusRowAttr    = bogusRowAttr;
+				table.bogusCellStyle  = bogusCellStyle;
+				table.bogusCellAttr   = bogusCellAttr;
+
+				// defining a parent style. The properties of the the nested elements
+				// will be calculated based on this style.
+				parentElemStyle = bogusTableStyle;
+			} else {
+				// if the table is not framed, mark the row
+				rowAttr[NEWSLETTER[&#x27;marker-name&#x27;]] =  row.getType();
+			}
+
+			// impose row styles and attributes
+			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
+			rowStyle.setWidth(rowWidth);
+			rowStyle.padding = 0;
+
+			// binding the row properties and the row object
+			row.style = rowStyle;
+			row.attr = rowAttr;
+
+			// fill in the row with the cells
+			allCellsWidth = rowStyle.width - rowStyle.padding;     // sum of all cell widths
+			cellWidths = columnWidths(allCellsWidth, cellWeights); // array of column widths
+
+			// creating cells to be inserted into the row
+			for (i = 0; i &lt; cols; i++) {
+				// It is better to recreate objects for every cell
+				// in order to avoid influence of previously imposed values
+				cell = new Cell(&#x27;cell&#x27;);
+				cellStyle = new TableCellStyle();
+				cellAttr = new Attributes();
+
+				// imposing cell styles and attributes
+				// mark the cell
+				cellAttr[NEWSLETTER[&#x27;marker-name&#x27;]] = cell.getType();
+				// adjust width of the first and the last cell
+				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
+				cellStyle.setWidth(cellWidth);
+				allWidths.push({&#x27;value&#x27;: cellWidth, &#x27;descr&#x27;: &#x27;larghezza della cella numero &#x27; + i});
+				delete cellStyle.padding;
+				cellStyle[&#x27;padding-left&#x27;]  = (i === 0) ? hSpace : 0;        // add space to the left for the first cell
+				cellStyle[&#x27;padding-right&#x27;] = (i === cols - 1) ? hSpace : 0; // add space to the right for the last cell
+				cellStyle[&#x27;padding-top&#x27;] = spaceTop;
+				cellStyle[&#x27;padding-bottom&#x27;] = spaceBottom;
+				cellStyle.margin = 0;
+
+				// binding the styles and attributes and the object
+				cell.style = cellStyle;
+				cell.attr = cellAttr;
+
+				// add the newly created cell to the row
+				row.appendCell(cell);
+			}
+			// clone the row created above
+			for (i = 0; i &lt; rows; i++){
+				table.appendRow(row);
+			}
+
+			// if at least one of the values becomes negative, flash alert message
+			if (allWidths.some(
+				function(el){
+					var result = el.value &lt; 0;
+					if (result){
+						alert(&#x27;Rilevato un numero negativo:&#x27; + el.value + &quot;\n(&quot; + el.descr + &quot;)\nLa tabella non sarà inserita.&quot; );
+					}
+					return result;
+				}))
+			{
+				return null;
+			}
+
+			tableStr = table.toHtml();
+			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
+			// call a custom method to insert the table and assign hovering effects on it
+			editor.insertTableWithHoverEff(tableElem);
+		}
+	};
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
