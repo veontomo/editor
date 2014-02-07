@@ -43,13 +43,25 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
+            
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
             
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
@@ -69,11 +81,21 @@
             
                 <li><a href="../classes/TableStyle.html">TableStyle</a></li>
             
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
                 <li><a href="../classes/TextStyle.html">TextStyle</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -118,10 +140,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_attributes.js.html#l711"><code>js\attributes.js:711</code></a>
+            Defined in: <a href="../files/js_row.js.html#l5"><code>js\row.js:5</code></a>
         </div>
     
 
+    
+        
+            Module: <a href="../modules/HtmlElements.html">HtmlElements</a>
+        
     
 
     
@@ -161,21 +187,56 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_setWidth">setWidth</a>
+                                <a href="#method_appendCell">appendCell</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_styleProperty">styleProperty</a>
+                                <a href="#method_cellNum">cellNum</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_toHtml">toHtml</a>
+                                <a href="#method_dropCell">dropCell</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getCellWidths">getCellWidths</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getType">getType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_insertCellAt">insertCellAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_loadFromHtml">loadFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setCellWidths">setCellWidths</a>
 
                                 
                                 
@@ -192,14 +253,7 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_attr">attr</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_cells">cells</a>
+                                <a href="#property_name">name</a>
 
                                 
                                 
@@ -226,8 +280,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_setWidth" class="method item">
-    <h3 class="name"><code>setWidth</code></h3>
+                    <div id="method_appendCell" class="method item">
+    <h3 class="name"><code>appendCell</code></h3>
 
     
         <div class="args">
@@ -235,97 +289,7 @@
             
                 <li class="arg">
                     
-                        <code>w</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_attributes.js.html#l752"><code>js\attributes.js:752</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well. 
-It is better to use with an integer argument.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">w</code>
-                        <span class="type">String | Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc) or a number (i.e. 200, 10).</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_styleProperty" class="method item">
-    <h3 class="name"><code>styleProperty</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>prop</code>
+                        <code>cell</code>
                     
                 </li>
             
@@ -335,7 +299,7 @@ It is better to use with an integer argument.</p>
 
     
         <span class="returns-inline">
-            <span class="type">String | Number</span>
+            <span class="type">Void</span>
         </span>
     
 
@@ -362,7 +326,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/js_attributes.js.html#l742"><code>js\attributes.js:742</code></a>
+        <a href="../files/js_row.js.html#l102"><code>js\row.js:102</code></a>
         
         </p>
 
@@ -373,7 +337,7 @@ It is better to use with an integer argument.</p>
     </div>
 
     <div class="description">
-        <p>Retrieves the value of property from the &quot;style&quot;</p>
+        <p>Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.</p>
 
     </div>
 
@@ -385,14 +349,14 @@ It is better to use with an integer argument.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">prop</code>
-                        <span class="type">String</span>
+                        <code class="param-name">cell</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>property name which value should be retrieved</p>
+                        <p>a cell to be appended.</p>
 
                     </div>
 
@@ -410,7 +374,7 @@ It is better to use with an integer argument.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String | Number</span>:
+                        <span class="type">Void</span>:
                     
                 
             </div>
@@ -421,8 +385,261 @@ It is better to use with an integer argument.</p>
 </div>
 
                 
-                    <div id="method_toHtml" class="method item">
-    <h3 class="name"><code>toHtml</code></h3>
+                    <div id="method_cellNum" class="method item">
+    <h3 class="name"><code>cellNum</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l56"><code>js\row.js:56</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the number of cells in the row. Delegates to the length() method of the &quot;content&quot; property.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dropCell" class="method item">
+    <h3 class="name"><code>dropCell</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cellNum</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l118"><code>js\row.js:118</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Drops the cell in the row. If the cell is utmost left, the freed space is then
+assigned to its right neighbour:
+|xxx| a | b   | c | -&gt; |     a | b   | c |
+| a |xxx| b   | c | -&gt; | a |     b   | c |
+If there is no right neighbour, then it is assigned to the left one:
+| a | b | c | xxx | -&gt; | a | b | c       |
+If a cell to delete does not exist, nothing is performed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cellNum</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>cell number to delete. Numeration starts with 0.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getCellWidths" class="method item">
+    <h3 class="name"><code>getCellWidths</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l41"><code>js\row.js:41</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets an array of the widths of the cells inside the row.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getType" class="method item">
+    <h3 class="name"><code>getType</code></h3>
 
     
         <span class="paren">()</span>
@@ -457,7 +674,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/js_attributes.js.html#l763"><code>js\attributes.js:763</code></a>
+        <a href="../files/js_row.js.html#l16"><code>js\row.js:16</code></a>
         
         </p>
 
@@ -468,7 +685,7 @@ It is better to use with an integer argument.</p>
     </div>
 
     <div class="description">
-        <p>Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()</p>
+        <p>Type of the object. Return &quot;Row&quot; for the objects of this type.</p>
 
     </div>
 
@@ -483,8 +700,346 @@ It is better to use with an integer argument.</p>
                     
                         <span class="type">String</span>:
                     
-                    <p>html representation of the row</p>
+                
+            </div>
+        </div>
+    
 
+    
+</div>
+
+                
+                    <div id="method_insertCellAt" class="method item">
+    <h3 class="name"><code>insertCellAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cell</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l81"><code>js\row.js:81</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Inserts a cell &quot;cell&quot; into position &quot;pos&quot; of the row.
+After insertion, the row length increases by 1. Therefore, &quot;pos&quot;
+is the index with which the cell is referenced in the row after insertion.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cell</code>
+                        <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_loadFromHtml" class="method item">
+    <h3 class="name"><code>loadFromHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>htmlStr</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l168"><code>js\row.js:168</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Populates the attributes from a string that is an html repersentation of some row.
+It takes a string that is an html representation of a row and update current object
+parameters such that it will correspond to the html representation.
+In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+(eventually up to presence/absence of some parameters and attributes).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">htmlStr</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setCellWidths" class="method item">
+    <h3 class="name"><code>setCellWidths</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>profile</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_row.js.html#l65"><code>js\row.js:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets widths of the cells inside the row.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">profile</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>each elements if this array is a width of the corresp. cell in the row.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
                 
             </div>
         </div>
@@ -502,9 +1057,9 @@ It is better to use with an integer argument.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_attr" class="property item">
-    <h3 class="name"><code>attr</code></h3>
-    <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a></span>
+                    <div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -525,7 +1080,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/js_attributes.js.html#l720"><code>js\attributes.js:720</code></a>
+        <a href="../files/js_row.js.html#l25"><code>js\row.js:25</code></a>
         
         </p>
 
@@ -535,59 +1090,12 @@ It is better to use with an integer argument.</p>
     </div>
 
     <div class="description">
-        <p>Attributes of the row.</p>
+        <p>Html tag corresponding to Row instances.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> Attributes</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_cells" class="property item">
-    <h3 class="name"><code>cells</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_attributes.js.html#l734"><code>js\attributes.js:734</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Array of cells belonging to the row.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> []</p>
+        <p><strong>Default:</strong> td</p>
     
 
     
@@ -619,7 +1127,7 @@ It is better to use with an integer argument.</p>
             
         
         
-        <a href="../files/js_attributes.js.html#l727"><code>js\attributes.js:727</code></a>
+        <a href="../files/js_row.js.html#l33"><code>js\row.js:33</code></a>
         
         </p>
 
@@ -629,7 +1137,7 @@ It is better to use with an integer argument.</p>
     </div>
 
     <div class="description">
-        <p>Styles of the row</p>
+        <p>Styles of the row.</p>
 
     </div>
 

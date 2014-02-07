@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
+                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/generateId.html">generateId</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
@@ -147,6 +151,7 @@
  * @extends Tag
  */
 function Row() {
+	console.log(&#x27;creating a new Row&#x27;);
 	&quot;use strict&quot;;
 	if (!(this instanceof Row)) {
 		return new Row();
@@ -167,6 +172,8 @@ function Row() {
 	 * @default  td
 	 */
 	this.name = &#x27;tr&#x27;;
+
+	this.content = new Content();
 
 	/**
 	 * Styles of the row.
@@ -301,28 +308,6 @@ function Row() {
 			throw new Error(&#x27;The cell is not found!&#x27;);
 		}
 		return null;
-	};
-
-	/**
-	 * Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()
-	 * @method toHtml
-	 * @return {String} html representation of the row
-	 */
-	this.toHtml = function () {
-		var i, rowAttr, rowStyle, htmlRow, cellsNumber,
-			tag = &#x27;tr&#x27;;
-		rowAttr = this.attr.toString();
-		rowStyle = this.style.toString();
-		if (rowStyle){
-			rowStyle = &#x27;style=&quot;&#x27; + rowStyle.trim() + &#x27;&quot;&#x27;;
-		}
-		htmlRow = &#x27;&lt;&#x27; + [tag, rowAttr, rowStyle].join(&#x27; &#x27;).replace(/\s+/g, &#x27; &#x27;).trim() + &#x27;&gt;&#x27;;
-		cellsNumber = this.cellNum();
-		for (i = 0; i &lt; cellsNumber; i++) {
-			htmlRow += this.getElem(i).toHtml();
-		}
-		htmlRow += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
-		return htmlRow;
 	};
 
 	/**

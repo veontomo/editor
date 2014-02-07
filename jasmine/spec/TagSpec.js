@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Table */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -141,12 +141,5 @@ describe('Tag-related functionality:', function() {
             delete tag.name;
             expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
-
-
-
-
-
     });
-
-
 });

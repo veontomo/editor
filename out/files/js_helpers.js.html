@@ -43,13 +43,25 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
+            
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
             
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
@@ -69,11 +81,21 @@
             
                 <li><a href="../classes/TableStyle.html">TableStyle</a></li>
             
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
                 <li><a href="../classes/TextStyle.html">TextStyle</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -114,6 +136,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, LinkStyle, dropProtocol */
+
 function target_exists(fileName) {
     $.ajax({
         url: fileName,
@@ -125,7 +150,6 @@ function target_exists(fileName) {
         },
         success: function () {
             console.debug(&quot;file &quot; + fileName + &quot; is found&quot;);
-            var output = true;
         }
     }).complete(function () {
         console.debug(&quot;ajax finished&quot;);
@@ -133,12 +157,34 @@ function target_exists(fileName) {
     });
 }
 
+/**
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var firstLetterUpperCase = function (str) {
+    return str.substring(0, 1).toUpperCase() + str.substring(1);
+};
 
 /**
- * transforms each element of the input array into a non-negative number. 
+ * Converts the first letter of the string into the upper case
+ * If the string is empty, the output is empty string as well.
+ * @param   str     String
+ * @return          String
+ */
+var onlyFirstLetterUpperCase = function (str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    };
+
+
+
+/**
+ * transforms each element of the input array into a non-negative number.
  * If an element is negative, its absolute value is used.
  * If an element fails to be converted to a number, it is substituted by zero.
- * @example   [1.1, 2.4, 2] -&gt; [1.1, 2.4, 2],  
+ * @module    helpers
+ * @example   [1.1, 2.4, 2] -&gt; [1.1, 2.4, 2],
  *            [&quot;4&quot;, -3, 3.2, &quot;a&quot;] -&gt; [4, 3, 3.2, 0]
  * @param    arr      Array      array of numbers
  * @return            Array      array of numbers
@@ -155,8 +201,9 @@ var sanitize = function (arr) {
 
 /**
  * calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
+ * @module     helpers
  * @example     [1, 2, 2] -&gt; 1 + 2 + 2 = 5
- * @param arr    array of numbers
+ * @param    arr    array of numbers
  * @return   number
  */
 var trace = function (arr) {
@@ -172,11 +219,12 @@ var trace = function (arr) {
 /**
  * normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.
  * If not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.
+ * @module     helpers
  * @example     [1, 3, 4]       -&gt; [ 0.125, 0.375, 0.5 ]
- *              [2, 0, -1, -1]  -&gt; [ 2, 0, -1, -1 ]   
+ *              [2, 0, -1, -1]  -&gt; [ 2, 0, -1, -1 ]
  *              [0, 0]          -&gt; [ 0.5, 0.5]
  * @param    Array   array of numbers
- * @return   Array   array of numbers 
+ * @return   Array   array of numbers
  */
 var normalize = function (arr) {
         var total = trace(arr),
@@ -187,7 +235,7 @@ var normalize = function (arr) {
                 return elem === 0;
             });
         if (areAllZeroes) {
-            arr = arr.map(function (arg) {
+            arr = arr.map(function () {
                 return 1;
             });
             total = len;
@@ -205,8 +253,9 @@ var normalize = function (arr) {
 
 /**
  * Slices the first argument according to the weights given by the second argument.
- * The elements of the second array are supposed to be non-negative numbers. 
- * @example   (10, [1, 2, 2])    -&gt; [2, 4, 4],  
+ * The elements of the second array are supposed to be non-negative numbers.
+ * @module     helpers
+ * @example   (10, [1, 2, 2])    -&gt; [2, 4, 4],
  *            (30, [4, 2, 3, 1]) -&gt; [12, 6, 9, 3]
  * @param    overall     Number  a number to be splitted
  * @param    pieces      Array   array of weigths
@@ -226,9 +275,10 @@ var splitWeighted = function (overall, pieces) {
 
 /**
  * rounds each elements of the array
+ * @module     helpers
  * @example [1, 2.2, 5.6, 0, 4.5] -&gt; [1, 2, 6, 0, 5]
  * @param    arr    Array       array of numbers
- * @return          Array       array of integers 
+ * @return          Array       array of integers
  */
 var roundUp = function (arr) {
         return arr.map(function (elem) {
@@ -238,9 +288,10 @@ var roundUp = function (arr) {
 
 /**
  * composition of roundUp and splitWeighted
+ * @module     helpers
  * @param    overall     Number   table width
  * @param    pieces      Array    array of nambers
- * @return               Array    array of integers    
+ * @return               Array    array of integers
  */
 var columnWidths = function (overall, pieces) {
         return roundUp(splitWeighted(overall, pieces));
@@ -250,6 +301,7 @@ var columnWidths = function (overall, pieces) {
 /**
  * Deletes the protocol name from the url.
  * Everything until the first occurence of &#x27;://&#x27; will be removed (inclusively).
+ * @module     helpers
  * @example  &#x27;http://www.test.com&#x27;      -&gt; &#x27;www.test.com&#x27;
  *           &#x27;www.test.com&#x27;             -&gt; &#x27;www.test.com&#x27;
  * @param    url     String
@@ -263,8 +315,9 @@ var dropProtocol = function (str) {
     };
 
 
-/** 
+/**
  * Gives file extension
+ * @module   helpers
  * @param    fileName   String      name of file
  * @return   String     file extension
  */
@@ -276,6 +329,7 @@ var fileExt = function (str) {
 /**
  * Gives the validated width. If the width is given in &quot;px&quot; or &quot;pt&quot;, the integer part is given.
  * If the length is given in &quot;em&quot; or &quot;%&quot;, it is left as it is.
+ * @module   helpers
  * @param    str    String
  * @return   String
  */
@@ -302,6 +356,7 @@ var validateWidth = function (str) {
 
 /**
  * Represents a quantity divided in &quot;value&quot; and &quot;measure&quot;.
+ * @module       helpers
  * @param        value       Number
  * @param        measure     String|null
  * @property     value       Number
@@ -354,25 +409,262 @@ function Unit(value, measure) {
     };
 
     this.add = function (unit) {
-        var result;
         if (!this.isLikeAs(unit)) {
             throw new Error(&quot;these Unit instances can not be summed up!&quot;);
-        } else {
-            unit = new Unit(unit);
-            return new Unit(this.value + unit.value, this.measure);
         }
+        unit = new Unit(unit);
+        return new Unit(this.value + unit.value, this.measure);
+
     };
 
     this.sub = function (unit) {
-        var result;
         if (!this.isLikeAs(unit)) {
             throw new Error(&quot;these Unit instances can not be subtracted!&quot;);
-        } else {
-            unit = new Unit(unit);
-            return new Unit(this.value - unit.value, this.measure);
         }
+        unit = new Unit(unit);
+        return new Unit(this.value - unit.value, this.measure);
+
     };
 }
+
+/**
+ * Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é
+ * and not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].
+ * @param  {string}     str
+ * @return {string}
+ */
+function specialChar(str){
+    if (typeof str !== &#x27;string&#x27;){
+        return null;
+    }
+    var len, i, code, output = &#x27;&#x27;;
+    len = str.length;
+    for (i = 0; i &lt; len; i++){
+        code = str.charCodeAt(i);
+        if(code &gt; 31 &amp;&amp; code &lt; 126){
+            output += str[i];
+        } else {
+            output += &#x27;&amp;#&#x27; + code + &#x27;;&#x27;;
+        }
+    }
+    return output;
+}
+
+/**
+ * Splits array element at position &quot;pos&quot; in two parts in such a way that the trace of the original array
+ * is equal to the trace of the output array. If it is the first element of the array to be splitted, then
+ * it is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour
+ * and the element are taken off 1/3 and these two parts are given to the newly created element that is inserted
+ * between the neighbour and the element: [a, b, ...] -&gt; [2/3 a, 1/3 (a + b), 2/3 b, ...]
+ * @param  {Array}  arr     array of integers
+ * @param  {Number} pos     index of the element, before which an element will be inserted
+ * @return {Array}          array of integers
+ */
+function crack(arr, pos){
+    var orig, orig1, orig2, neighbour, neighbour1, neighbourDonor,
+        output = [],
+        len = arr.length,
+        i;
+    for(i = 0; i &lt; len; i++){
+        output[i] = arr[i];
+    }
+    if (pos === 0){
+        orig = output[0];
+        orig1 = parseInt(orig/2, 10);
+        orig2 = orig - orig1;
+        neighbourDonor = 0;
+
+    }
+    if(pos &gt; 0 &amp;&amp; pos &lt; arr.length){
+        orig = output[pos];
+        orig1 = parseInt(2*orig/3, 10);
+        orig2 = orig - orig1;
+        neighbour = arr[pos-1];
+        neighbour1 = parseInt(2 * neighbour/3, 10);
+        neighbourDonor = neighbour - neighbour1;
+        output[pos-1] = neighbour1;
+    }
+    output[pos] = orig1;
+    output.splice(pos, 0, orig2 + neighbourDonor);
+    return output;
+}
+
+
+
+/**
+ * Produces a string of properties in inline-style fashion
+ * This function is supposed to be added to prototypes of different objects.
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}        obj     an object which string reperesentation should be generated.
+ * @param   {String|null}   unit    a mesurement unit to be added to the numerical attribute values. By default, it is set to &#x27;px&#x27;.
+ * @return  {String}        a concatenation of substrings; each substring is of this format: &quot;attribute: value;&quot;.
+ * @example The return value is of the form: &quot;padding: 0px;margin: 10px;color: #ababab;&quot;
+ */
+var toString = function (obj, unit) {
+        &quot;use strict&quot;;
+        var val, attr, styles = &quot;&quot;;
+        unit = unit || &#x27;px&#x27;;
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                // avoid adding method to the output
+                val = obj[attr];
+                switch (typeof val) {
+                case &#x27;string&#x27;:
+                    styles += attr + &#x27;: &#x27; + val + &#x27;;&#x27;;
+                    break;
+                case &#x27;number&#x27;:
+                    styles += attr + &#x27;: &#x27; + String(val) + unit + &#x27;;&#x27;;
+                    break;
+                }
+            }
+        }
+        return styles;
+    };
+
+/**
+ * Produces a string of attributes and values
+ * It takse into consideration only properties, methods are ignored.
+ * If attribite value is a number, the measurement unit will be appended.
+ * @module  attributes
+ * @param   {Object}    obj
+ * @return  {String}    String      a union of substrings; each substring is of this format: &#x27;attribute=&quot;value&quot;&#x27;, between the substrings there is a separator &#x27; &#x27;.
+ */
+var toString2 = function (obj) {
+        &quot;use strict&quot;;
+        var val, valType, attr, output = [];
+        for (attr in obj) {
+            if (obj.hasOwnProperty(attr)) {
+                val = obj[attr];
+                valType = typeof val;
+                // avoid adding method to the output
+                if (valType === &#x27;string&#x27; || valType === &#x27;number&#x27;){
+                    output.push(attr + &#x27;=&quot;&#x27; + String(val) + &#x27;&quot;&#x27;);
+                }
+            }
+        }
+        return output.join(&#x27; &#x27;);
+    };
+
+/**
+ * Flatten the object. This function was written because Node::attributes returns attributes in format.
+ * Example {&#x27;1&#x27;: {name: &quot;width&quot;, value:&quot;100&quot;, ...}, &#x27;2&#x27;: {name: &quot;color&quot;, value:&quot;black&quot;, ...}, ...}
+ * returns {&quot;width&quot;:&quot;100&quot;, &quot;color&quot;:&quot;black&quot;, ...}
+ * @param {Object} obj
+  */
+ var flatten = function (obj){
+    var attr, value, output = {};
+    for (attr in obj){
+        if (obj.hasOwnProperty(attr)){
+            value = obj[attr];
+            if (typeof value === &#x27;object&#x27;){
+                output[value.name] = value.value;
+            }
+        }
+    }
+    return output;
+ };
+
+/**
+ * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.
+ * If the right arguments is not given, the left one is used.
+ * @param  {String} left
+ * @param  {String} middle
+ * @param  {String} right
+ * @type   String|Null
+ * @return {String|Null}
+ */
+var sandwichWith = function (left, middle, right){
+    var m, r;
+    if ((typeof middle === &quot;string&quot;) || (typeof left === &quot;string&quot;)){
+        r = right || left;
+        m = middle.trim();
+        return m ? left + m + r : &#x27;&#x27;;
+    }
+};
+String.prototype.sandwichWith = function (left, right){
+    return sandwichWith(left, this, right);
+};
+
+/**
+ * Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.
+ * @param {Array} arr
+ * @param {String} glue glue string
+ * @return {String}
+ */
+var concatDropSpaces = function (arr, glue){
+    if (glue === undefined){
+        glue = &#x27; &#x27;;
+    }
+    return arr.join(glue).replace(/\s+/g, &#x27; &#x27;).trim();
+};
+Array.prototype.concatDropSpaces = function(glue){
+    return concatDropSpaces(this, glue);
+};
+
+
+/**
+ * Merge two objects. If non-object is given, an error is thrown.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object}
+ */
+var appendObject = function (obj1, obj2){
+    if ((typeof obj1 !== &#x27;object&#x27;) || (typeof obj2 !== &#x27;object&#x27;)){
+        throw new Error(&#x27;Both arguments of appendObject must be of Object type!&#x27;);
+    }
+    var output = obj1,
+        attr;
+    for (attr in obj2){
+        if (obj2.hasOwnProperty(attr)){
+            output[attr] = obj2[attr];
+        }
+    }
+    return output;
+
+};
+
+/**
+ * Sets width, min-width and max-width of the object.
+ * @module  attributes
+ * @param   {Object}    obj         object which width is to be set.
+ * @param   {mixed}     w           width value
+ * @return  {void}
+ */
+var setMinMaxWidth = function (obj, w) {
+    &quot;use strict&quot;;
+    if(typeof obj !== &#x27;object&#x27;){
+        throw new Error(&#x27;Can not set a property of a non-object!&#x27;);
+    }
+    if(w === undefined){
+        throw new Error(&quot;Width value is not set!&quot;);
+    }
+    obj.width = w;
+    obj[&#x27;max-width&#x27;] =  w;
+    obj[&#x27;min-width&#x27;] =  w;
+};
+
+/**
+* Gets property value from the object.
+* @module   attributes
+* @param    {Object}    obj     an object
+* @param    {String}    prop    property name to retrieve
+* @return   {mixed}     property value of the object
+*/
+function getProperty(obj, prop){
+    &quot;use strict&quot;;
+    if(typeof obj !== &#x27;object&#x27;){
+        throw new Error(&#x27;Not an object!&#x27;);
+    }
+    if(prop === undefined){
+        throw new Error(&quot;Property name missing!&quot;);
+    }
+    if(obj.hasOwnProperty(prop)){
+        return obj[prop];
+    }
+}
+
     </pre>
 </div>
 

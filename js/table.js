@@ -13,6 +13,8 @@ function Table() {
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
+	// inherit tag properties
+	Tag.call(this);
 
 	/**
 	 * Type of the object. Returns "Table" for the objects of this type.
@@ -63,9 +65,6 @@ function Table() {
 	 * @return {void}
 	 */
 	this.appendRow = function(row){
-		// find out with what name the Row object is registered
-		// var rowType = (new Row()).getType();
-		// if (typeof(row.getType) !== 'function' || row.getType() !== rowType){
 		if (!(row instanceof Row)){
 			throw new Error('The argument is not of the Row type!');
 		}
@@ -103,10 +102,10 @@ function Table() {
 	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
 	 */
 	this.setProfile = function(profile){
-		var len = this.rows.length,
+		var len = this.rowNum(),
 			i;
 		for (i = 0; i < len; i++){
-			this.rows[i].setCellWidths(profile);
+			this.getElem(i).setCellWidths(profile);
 		}
 	};
 
@@ -149,10 +148,10 @@ function Table() {
 	 * @return {void}
 	 */
 	this.dropColumn = function(colNum){
-		var rowsNum = this.rows.length,
+		var rowsNum = this.rowNum(),
 		i;
 		for (i = 0; i < rowsNum; i++){
-			this.rows[i].dropCell(colNum);
+			this.getElem(i).dropCell(colNum);
 		}
 	};
 
@@ -163,20 +162,20 @@ function Table() {
 	 * @return {Number|null}
 	 */
 	this.colNum = function(){
-		var rowNum = this.rows.length,
+		var rowNum = this.rowNum(),
 			firstRowCellNum, i;
 		// if table has no rows, return 0 as number of column
 		if (rowNum === 0){
 			return 0;
 		}
-		firstRowCellNum = this.rows[0].cellNum();
+		firstRowCellNum = this.getElem(0).cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
 			return firstRowCellNum;
 		}
 
 		for (i = 1; i < rowNum; i++){
-			if (this.rows[i].cellNum() !== firstRowCellNum){
+			if (this.getElem(i).cellNum() !== firstRowCellNum){
 				return null;
 			}
 		}
@@ -352,10 +351,10 @@ function Table() {
 		tableAttr  = this.attr  ? this.attr.toString() : '';
 		tableStyle = this.style ? this.style.toString().sandwichWith('style="', '"') : '';
 		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
-		rowsNumber = this.rows.length;
+		rowsNumber = this.rowNum();
 		for (i = 0; i < rowsNumber; i++) {
 			tableHtml += epilogue;
-			tableHtml += this.rows[i].toHtml();
+			tableHtml += this.getElem(i).toHtml();
 			tableHtml += prologue;
 		}
 		tableHtml += tableTag.sandwichWith('</', '>');
@@ -422,5 +421,4 @@ function Table() {
 	 */
 	this.bogusTableAttr = null; // new Attributes();
 }
-
-Table.prototype = new Tag();
+Table.prototype = Object.create(Tag.prototype);

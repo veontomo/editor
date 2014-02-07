@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
+                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/generateId.html">generateId</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
@@ -146,6 +150,7 @@
  * @class  		Tag
  */
 function Tag() {
+	console.log(&#x27;creating a new Tag&#x27;);
 	&quot;use strict&quot;;
 	if (!(this instanceof Tag)) {
 		return new Tag();
@@ -175,6 +180,22 @@ function Tag() {
 	*/
 	this.setAttr = function(attr){
 		this.attr = attr;
+	};
+
+	/**
+	 * Appends style to the cell.
+	 * @method appendStyle
+	 * @param  {Style|Obj}   stl   style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
+			throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
+		}
+		var stlObj = new Style(stl);
+		this.style.appendStyle(stlObj);
+
+		return null;
 	};
 
 

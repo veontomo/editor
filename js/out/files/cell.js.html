@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
+                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/generateId.html">generateId</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
@@ -138,7 +142,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableCellStyle, setMinMaxWidth, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableCellStyle, setMinMaxWidth, Content, Tag */
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the &quot;content&quot; property.
@@ -169,6 +173,14 @@ function Cell(arg) {
 	this.name = &#x27;td&#x27;;
 
 	/**
+	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
+	 * @property {Content}    content
+	 * @param     {any}       arg
+	 * @type      {Content}
+	 */
+	this.content = new Content(arg);
+
+	/**
 	 * Styles of the cell
 	 * @property {TableCellStyle} style
 	 * @type {TableCellStyle}
@@ -196,49 +208,6 @@ function Cell(arg) {
 		return raw;
 	};
 
-	/**
-	 * Insert the argument into the cell content
-	 * @method insert
-	 * @param {any} item
-	 * @return {void}
-	 */
-	 this.insert = function(item){
-	 	this.content.elements.push(item);
-	 };
-
-	/**
-	 * Appends style to the cell.
-	 * @method appendStyle
-	 * @param  {Style|Obj}   stl   style to be appended
-	 * @return {void}
-	 */
-	this.appendStyle = function(stl){
-		if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
-			throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
-		}
-		var stlObj = new Style(stl);
-		this.style.appendStyle(stlObj);
-
-		return null;
-	};
-	/**
-	 * Generates cell-specific html code with corresponding attributes and styles
-	 * @method toHtml
-	 * @return {String} html representation of the cell
-	 */
-	this.toHtml = function () {
-		var tag = &#x27;td&#x27;,
-			cellHtml,
-			attr = this.attr.toString(),
-			style = this.style.toString();
-		if (style){
-			style = &#x27;style=&quot;&#x27; + style + &#x27;&quot;&#x27;;
-		}
-		cellHtml = &#x27;&lt;&#x27; + [tag, attr, style].join(&#x27; &#x27;).replace(/\s+/g, &#x27; &#x27;).trim() + &#x27;&gt;&#x27; ;
-		cellHtml += this.content.toHtml();
-		cellHtml += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
-		return cellHtml;
-	};
 }
 Cell.prototype = new Tag();
     </pre>

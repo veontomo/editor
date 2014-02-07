@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, getProperty, setMinMaxWidth */
 
 /**
  * This class is used to represent a general html tag.
@@ -93,13 +93,18 @@ function Tag() {
 	 * or a number (i.e. 200, 10).
 	 */
 	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
+	    if(w === undefined){
+	        throw new Error("Width value is not set!");
+	    }
+	    this.style.width = w;
+	    this.style['max-width'] =  w;
+	    this.style['min-width'] =  w;
 		this.attr.width = w;
 	};
 
 
 	/**
-	 * Content of the list item.
+	 * Content of the tag.
 	 * @property {Content}             content
 	 * @type     {Content}
 	 * @default  Content()
@@ -178,6 +183,7 @@ function Tag() {
 			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
 		} else {
 			html = '<!-- tag name is missing -->';
+			console.log(this);
 		}
 		return html;
 	};

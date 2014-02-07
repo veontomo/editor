@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, Tag */
 
 /**
  * This class is used to represent a list item.
@@ -12,6 +12,9 @@ function ListItem() {
 	if (!(this instanceof ListItem)) {
 		return new ListItem();
 	}
+
+	// inherit tag properties
+	Tag.call(this);
 
 	/**
 	 * List item attributes
@@ -28,14 +31,6 @@ function ListItem() {
 	 * @default ListItemStyle()
 	 */
 	this.style = new ListItemStyle();
-
-	/**
-	 * Content of the list item.
-	 * @property {Content}             content
-	 * @type     {Content}
-	 * @default  Content()
-	 */
-	this.content = new Content();
 
 	/**
 	 * Appends the element to the content of the list item.
@@ -69,6 +64,7 @@ function ListItem() {
 		return html;
 	};
 }
+ListItem.prototype = Object.create(Tag.prototype);
 
 /**
  * This class is used to represent ordered and unordered lists.
@@ -80,6 +76,8 @@ function List() {
 	if (!(this instanceof List)) {
 		return new List();
 	}
+	// inherit tag properties
+	Tag.call(this);
 	/**
 	 * Type of the list: 'ul' for unordered  and 'ol' for ordered one.
 	 * @property    {String}   type
@@ -189,3 +187,4 @@ function List() {
 		return html;
 	};
 }
+List.prototype = Object.create(List.prototype);

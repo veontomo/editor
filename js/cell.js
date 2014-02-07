@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableCellStyle, setMinMaxWidth, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableCellStyle, setMinMaxWidth, Content, Tag */
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
@@ -13,6 +13,9 @@ function Cell(arg) {
 	if (!(this instanceof Cell)) {
 		return new Cell(arg);
 	}
+	// inherit tag properties
+	Tag.call(this);
+
 	/**
 	 * Type of the object. Set to value "Cell" for the objects of this type.
 	 * @method {string} getType
@@ -32,9 +35,9 @@ function Cell(arg) {
 
 	/**
 	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
+	 * @property {Content}    content
 	 * @param     {any}       arg
 	 * @type      {Content}
-	 * @return    {void}
 	 */
 	this.content = new Content(arg);
 
@@ -45,6 +48,12 @@ function Cell(arg) {
 	 * @default TableCellStyle
 	 */
 	this.style = new TableCellStyle();
+
+	/**
+	 * Just to make Jasmine happy
+	 */
+	this.attr = new Attributes();
+
 
 	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
@@ -65,34 +74,5 @@ function Cell(arg) {
 		}
 		return raw;
 	};
-
-	/**
-	 * Insert the argument into the cell content
-	 * @method insert
-	 * @param {any} item
-	 * @return {void}
-	 */
-	 this.insert = function(item){
-	 	this.content.elements.push(item);
-	 };
-
-	/**
-	 * Generates cell-specific html code with corresponding attributes and styles
-	 * @method toHtml
-	 * @return {String} html representation of the cell
-	 */
-	this.toHtml2 = function () {
-		var tag = 'td',
-			cellHtml,
-			attr = this.attr.toString(),
-			style = this.style.toString();
-		if (style){
-			style = 'style="' + style + '"';
-		}
-		cellHtml = '<' + [tag, attr, style].join(' ').replace(/\s+/g, ' ').trim() + '>' ;
-		cellHtml += this.content.toHtml();
-		cellHtml += '</' + tag + '>';
-		return cellHtml;
-	};
 }
-Cell.prototype = new Tag();
+Cell.prototype = Object.create(Tag.prototype);

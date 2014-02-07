@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
+                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/generateId.html">generateId</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
@@ -140,7 +144,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/string.js.html#l311"><code>string.js:311</code></a>
+            Defined in: <a href="../files/string.js.html#l348"><code>string.js:348</code></a>
         </div>
     
 
@@ -150,9 +154,10 @@
 
 
 <div class="box intro">
-    <p>Transforms a row-html string into a Row object. It is supposed that the string to process is of the
-following form: <tr ... > ... </tr>. Inside the tag, there might be elements &quot;td&quot; that will be
-processed one by one by function String::createCellFromHtml().</p>
+    <p>Generates a string that can be used as id for the elements of the target string. This means that
+the generated string must be not present among id of the elements of the target string. The argument
+serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
+a symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.</p>
 
 </div>
 
@@ -174,6 +179,18 @@ processed one by one by function String::createCellFromHtml().</p>
                 <li class="module-class">
                     <a href="../classes/createTableFromHtml.html">
                         createTableFromHtml
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/createTagFromHtml.html">
+                        createTagFromHtml
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/generateId.html">
+                        generateId
                     </a>
                 </li>
             

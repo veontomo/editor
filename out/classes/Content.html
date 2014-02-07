@@ -43,13 +43,25 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
+            
+                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
+                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
+            
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
             
                 <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
             
@@ -69,11 +81,21 @@
             
                 <li><a href="../classes/TableStyle.html">TableStyle</a></li>
             
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
                 <li><a href="../classes/TextStyle.html">TextStyle</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/attributes.html">attributes</a></li>
+            
+                <li><a href="../modules/helpers.html">helpers</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
             
             </ul>
         </div>
@@ -118,10 +140,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_attributes.js.html#l588"><code>js\attributes.js:588</code></a>
+            Defined in: <a href="../files/js_content.js.html#l5"><code>js\content.js:5</code></a>
         </div>
     
 
+    
+        
+            Module: <a href="../modules/HtmlElements.html">HtmlElements</a>
+        
     
 
     
@@ -159,6 +185,48 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_appendElem">appendElem</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_dropElemAt">dropElemAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getElem">getElem</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getFirst">getFirst</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getLast">getLast</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_insertElemAt">insertElemAt</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method">
                                 <a href="#method_length">length</a>
@@ -205,6 +273,589 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_appendElem" class="method item">
+    <h3 class="name"><code>appendElem</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>elem</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l95"><code>js\content.js:95</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appends element to the array of Content::elements.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">elem</code>
+                        <span class="type">Mixed</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dropElemAt" class="method item">
+    <h3 class="name"><code>dropElemAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Mixed</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l106"><code>js\content.js:106</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Drops the element at the given position and returns it. If element at the position does not exist,
+an error is thrown.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Mixed</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getElem" class="method item">
+    <h3 class="name"><code>getElem</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Mixed</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l32"><code>js\content.js:32</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the element with index &quot;pos&quot;. If it does not exist, null is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Mixed</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFirst" class="method item">
+    <h3 class="name"><code>getFirst</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Mixed</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l42"><code>js\content.js:42</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the first element. Delegates to Content::getElem(0)</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Mixed</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getLast" class="method item">
+    <h3 class="name"><code>getLast</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Mixed</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l51"><code>js\content.js:51</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the last element. Delegates to Content::getElem()</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Mixed</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_insertElemAt" class="method item">
+    <h3 class="name"><code>insertElemAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>elem</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_content.js.html#l71"><code>js\content.js:71</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
+is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
+position index is outside that range, an error is thrown. If the position index is equal to N
+(that corresponds to appending the element), then Content::appendElem is called.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">elem</code>
+                        <span class="type">Mixed</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_length" class="method item">
     <h3 class="name"><code>length</code></h3>
 
@@ -241,7 +892,7 @@
             
         
         
-        <a href="../files/js_attributes.js.html#l605"><code>js\attributes.js:605</code></a>
+        <a href="../files/js_content.js.html#l23"><code>js\content.js:23</code></a>
         
         </p>
 
@@ -312,7 +963,7 @@
             
         
         
-        <a href="../files/js_attributes.js.html#l613"><code>js\attributes.js:613</code></a>
+        <a href="../files/js_content.js.html#l122"><code>js\content.js:122</code></a>
         
         </p>
 
@@ -378,7 +1029,7 @@
             
         
         
-        <a href="../files/js_attributes.js.html#l598"><code>js\attributes.js:598</code></a>
+        <a href="../files/js_content.js.html#l16"><code>js\content.js:16</code></a>
         
         </p>
 

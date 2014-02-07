@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag, Content */
 
 /**
  * Represents a table row
@@ -13,6 +13,9 @@ function Row() {
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
+	// inherit tag properties
+	Tag.call(this);
+
 	/**
 	 * Type of the object. Return "Row" for the objects of this type.
 	 * @method {string} getType
@@ -166,28 +169,6 @@ function Row() {
 	};
 
 	/**
-	 * Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()
-	 * @method toHtml
-	 * @return {String} html representation of the row
-	 */
-	this.toHtml = function () {
-		var i, rowAttr, rowStyle, htmlRow, cellsNumber,
-			tag = 'tr';
-		rowAttr = this.attr.toString();
-		rowStyle = this.style.toString();
-		if (rowStyle){
-			rowStyle = 'style="' + rowStyle.trim() + '"';
-		}
-		htmlRow = '<' + [tag, rowAttr, rowStyle].join(' ').replace(/\s+/g, ' ').trim() + '>';
-		cellsNumber = this.cellNum();
-		for (i = 0; i < cellsNumber; i++) {
-			htmlRow += this.getElem(i).toHtml();
-		}
-		htmlRow += '</' + tag + '>';
-		return htmlRow;
-	};
-
-	/**
 	 * Populates the attributes from a string that is an html repersentation of some row.
 	 * It takes a string that is an html representation of a row and update current object
 	 * parameters such that it will correspond to the html representation.
@@ -197,6 +178,7 @@ function Row() {
 	 * @method loadFromHtml
 	 * @param {String} htmlStr
 	 * @return {void}
+	 * @depricated
 	 */
 	this.loadFromHtml = function (htmlStr){
 		var parser = new DOMParser(),
@@ -218,4 +200,4 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
-Row.prototype = new Tag();
+Row.prototype = Object.create(Tag.prototype);

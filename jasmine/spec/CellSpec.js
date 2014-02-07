@@ -12,8 +12,28 @@ describe('Cell-related functionality:', function() {
     });
 
     it('creates object with type attribute "Cell"', function(){
+        expect((new Table()).length()).toBe(0);
+        expect((new Tag()).length()).toBe(0);
+        expect((new Cell()).length()).toBe(0);
+        expect((new Row()).length()).toBe(0);
+
         expect(cell.getType()).toBe("Cell");
     });
+
+    it('creates a Cell with empty content', function(){
+        expect((new Table()).length()).toBe(0);
+        expect((new Tag()).length()).toBe(0);
+        expect((new Cell()).length()).toBe(0);
+        expect((new Row()).length()).toBe(0);
+
+        expect(cell.length()).toBe(0);
+    });
+
+    it('creates a Cell with 1 element inside', function(){
+        cell = new Cell('test string');
+        expect(cell.length()).toBe(1);
+    });
+
 
     it('overrides previously set properties', function(){
         cellStyle['a property'] = 'a property value';
@@ -106,9 +126,9 @@ describe('Cell-related functionality:', function() {
 
     it('appends elements to the cell content', function(){
         expect(cell.content.elements.length).toBe(0);
-        cell.insert('an item');
+        cell.appendElem('an item');
         expect(cell.content.elements.length).toBe(1);
-        cell.insert('another item');
+        cell.appendElem('another item');
         expect(cell.content.elements.length).toBe(2);
     });
 
@@ -242,90 +262,3 @@ describe('Cell-related functionality:', function() {
     });
 });
 
-describe('Converts html table cell in to Cell object', function(){
-    it('gets styles of the cell', function(){
-        var cellHtml = '<td style="color: red; width: 1; strange-attr: haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            st = cell.style;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-attr')).toBe(true);
-        expect(st['strange-attr']).toBe('haha');
-    });
-
-    it('gets attributes of the cell', function(){
-        var cellHtml = '<td color="red" width="1" strange-attr="haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            attr = cell.attr;
-        expect(attr.hasOwnProperty('color')).toBe(true);
-        expect(attr.color).toBe('red');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("1");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('haha');
-    });
-
-    it('gets both styles and attributes of the cell', function(){
-        var cellHtml = '<td underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            st = cell.style,
-            attr = cell.attr;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-param')).toBe(true);
-        expect(st['strange-param']).toBe('haha');
-        expect(attr.hasOwnProperty('underlined')).toBe(true);
-        expect(attr.underlined).toBe('why not');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("98");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('wierd');
-    });
-
-    it('gets the correct content of the cell elements', function(){
-        var cellHtml = '<td>cell content</td>',
-            cell = cellHtml.createCellFromHtml();
-        expect(cell.content.length()).toBe(1);
-        expect(cell.content.elements[0]).toBe('cell content');
-
-        cellHtml = '<td><div>a</div><div>b</div></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.content.length()).toBe(2);
-        expect(cell.content.elements[0].elements[0]).toBe('a');
-        expect(cell.content.elements[1].elements[0]).toBe('b');
-
-        cellHtml = '<td><div>a</div>plain text<div>b</div></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.content.length()).toBe(3);
-        expect(cell.content.elements[0].elements[0]).toBe('a');
-        expect(cell.content.elements[1]).toBe('plain text');
-        expect(cell.content.elements[2].elements[0]).toBe('b');
-
-
-        cellHtml = '<td><div>a</div><div>b</div><table><tr><td></td></tr></table></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.content.length()).toBe(3);
-        expect(cell.content.elements[0].elements[0]).toBe('a');
-        expect(cell.content.elements[1].elements[0]).toBe('b');
-        expect(cell.content.elements[2] instanceof Table).toBe(true);
-    });
-
-    it('recognizes a nested table inside a cell', function(){
-        var cellHtml = '<td><table><tr><td></td></tr></table></td>',
-            cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(1);
-        expect(cell.content.elements[0].hasOwnProperty('getType')).toBe(true);
-        expect(cell.content.elements[0].getType()).toBe('Table');
-
-        cellHtml = '<td>text outside<table><tr><td></td></tr></table></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.content.elements.length).toBe(2);
-        expect(cell.content.elements[0]).toBe('text outside');
-        expect(cell.content.elements[1].hasOwnProperty('getType')).toBe(true);
-        expect(cell.content.elements[1].getType()).toBe('Table');
-    });
-});

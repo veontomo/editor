@@ -88,9 +88,11 @@
                 "String": 1
             },
             "classes": {
-                "createRowFromHtml": 1,
+                "generateId": 1,
                 "createTableFromHtml": 1,
-                "isFramedTable": 1
+                "createRowFromHtml": 1,
+                "isFramedTable": 1,
+                "createTagFromHtml": 1
             },
             "fors": {},
             "namespaces": {}
@@ -211,20 +213,29 @@
             "name": "String",
             "submodules": {},
             "classes": {
-                "createRowFromHtml": 1,
+                "generateId": 1,
                 "createTableFromHtml": 1,
-                "isFramedTable": 1
+                "createRowFromHtml": 1,
+                "isFramedTable": 1,
+                "createTagFromHtml": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
             "file": "string.js",
-            "line": 311,
-            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml().",
+            "line": 348,
+            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
             "itemtype": "method",
+            "params": [
+                {
+                    "name": "seed",
+                    "description": "",
+                    "type": "String|Null"
+                }
+            ],
             "return": {
-                "description": "Row",
-                "type": "Object"
+                "description": "",
+                "type": "String"
             }
         }
     },
@@ -484,9 +495,9 @@
             "line": 5,
             "description": "Represents a table row"
         },
-        "createRowFromHtml": {
-            "name": "createRowFromHtml",
-            "shortname": "createRowFromHtml",
+        "generateId": {
+            "name": "generateId",
+            "shortname": "generateId",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -496,7 +507,7 @@
             "namespace": "",
             "file": "string.js",
             "line": 5,
-            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
+            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id."
         },
         "createTableFromHtml": {
             "name": "createTableFromHtml",
@@ -509,8 +520,22 @@
             "module": "String",
             "namespace": "",
             "file": "string.js",
-            "line": 224,
-            "description": "Creates an object representation from a string that is an html repersentation of a table.\nOnly one table is supposed to be processed at a time, so the string to be processed is to\nbe of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags \"tr\"\nthat will be processed one by one by function String::createRowFromHtml()."
+            "line": 220,
+            "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects."
+        },
+        "createRowFromHtml": {
+            "name": "createRowFromHtml",
+            "shortname": "createRowFromHtml",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "string.js",
+            "line": 74,
+            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
         },
         "isFramedTable": {
             "name": "isFramedTable",
@@ -523,8 +548,22 @@
             "module": "String",
             "namespace": "",
             "file": "string.js",
-            "line": 311,
+            "line": 292,
             "description": "Returns true, if tableHtml is an html code corresponding to a table each row of which\ncontains just one cell, and this cell in its turn contains only one table.\nReturns false otherwise."
+        },
+        "createTagFromHtml": {
+            "name": "createTagFromHtml",
+            "shortname": "createTagFromHtml",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "string.js",
+            "line": 348,
+            "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>."
         },
         "Table": {
             "name": "Table",
@@ -1340,6 +1379,23 @@
         {
             "file": "cell.js",
             "line": 33,
+            "description": "Overrides the inherited methods in order to pass the argument to the constructor of Content class.",
+            "itemtype": "property",
+            "name": "content",
+            "type": "{Content}",
+            "class": "Cell",
+            "module": "HtmlElements",
+            "subprops": [
+                {
+                    "name": "arg",
+                    "description": "",
+                    "type": "Any"
+                }
+            ]
+        },
+        {
+            "file": "cell.js",
+            "line": 41,
             "description": "Styles of the cell",
             "itemtype": "property",
             "name": "style",
@@ -1350,66 +1406,13 @@
         },
         {
             "file": "cell.js",
-            "line": 41,
+            "line": 49,
             "description": "Gets the width of the cell as it is present in the style property. It tends to return a number:\nif it is measured in \"px\", then the measurment unit is removed and the number is returned.",
             "itemtype": "method",
             "name": "getWidth",
             "return": {
                 "description": "",
                 "type": "Number|String"
-            },
-            "class": "Cell",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "cell.js",
-            "line": 61,
-            "description": "Insert the argument into the cell content",
-            "itemtype": "method",
-            "name": "insert",
-            "params": [
-                {
-                    "name": "item",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Cell",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "cell.js",
-            "line": 71,
-            "description": "Appends style to the cell.",
-            "itemtype": "method",
-            "name": "appendStyle",
-            "params": [
-                {
-                    "name": "stl",
-                    "description": "style to be appended",
-                    "type": "Style|Obj"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Cell",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "cell.js",
-            "line": 86,
-            "description": "Generates cell-specific html code with corresponding attributes and styles",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "html representation of the cell",
-                "type": "String"
             },
             "class": "Cell",
             "module": "HtmlElements"
@@ -2133,7 +2136,7 @@
         },
         {
             "file": "row.js",
-            "line": 16,
+            "line": 17,
             "description": "Type of the object. Return \"Row\" for the objects of this type.",
             "itemtype": "method",
             "name": "getType",
@@ -2147,7 +2150,7 @@
         },
         {
             "file": "row.js",
-            "line": 25,
+            "line": 26,
             "description": "Html tag corresponding to Row instances.",
             "itemtype": "property",
             "name": "name",
@@ -2158,7 +2161,7 @@
         },
         {
             "file": "row.js",
-            "line": 33,
+            "line": 36,
             "description": "Styles of the row.",
             "itemtype": "property",
             "name": "style",
@@ -2169,7 +2172,7 @@
         },
         {
             "file": "row.js",
-            "line": 41,
+            "line": 44,
             "description": "Gets an array of the widths of the cells inside the row.",
             "itemtype": "method",
             "name": "getCellWidths",
@@ -2182,7 +2185,7 @@
         },
         {
             "file": "row.js",
-            "line": 56,
+            "line": 59,
             "description": "Returns the number of cells in the row. Delegates to the length() method of the \"content\" property.",
             "itemtype": "method",
             "name": "cellNum",
@@ -2195,7 +2198,7 @@
         },
         {
             "file": "row.js",
-            "line": 65,
+            "line": 68,
             "description": "Sets widths of the cells inside the row.",
             "itemtype": "method",
             "name": "setCellWidths",
@@ -2215,7 +2218,7 @@
         },
         {
             "file": "row.js",
-            "line": 81,
+            "line": 84,
             "description": "Inserts a cell \"cell\" into position \"pos\" of the row.\nAfter insertion, the row length increases by 1. Therefore, \"pos\"\nis the index with which the cell is referenced in the row after insertion.",
             "itemtype": "method",
             "name": "insertCellAt",
@@ -2240,7 +2243,7 @@
         },
         {
             "file": "row.js",
-            "line": 102,
+            "line": 105,
             "description": "Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.",
             "itemtype": "method",
             "name": "appendCell",
@@ -2260,7 +2263,7 @@
         },
         {
             "file": "row.js",
-            "line": 118,
+            "line": 121,
             "description": "Drops the cell in the row. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf a cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "dropCell",
@@ -2280,7 +2283,7 @@
         },
         {
             "file": "row.js",
-            "line": 151,
+            "line": 154,
             "description": "Appends style to the cell of the row.",
             "params": [
                 {
@@ -2303,20 +2306,7 @@
         },
         {
             "file": "row.js",
-            "line": 168,
-            "description": "Generates row-specific html code with corresponding attributes and styles. Creation of the cell-related html of each cell is delegated to Cell::toHtml()",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "html representation of the row",
-                "type": "String"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 190,
+            "line": 171,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -2354,7 +2344,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "createRowFromHtml",
+            "class": "generateId",
             "module": "HtmlElements"
         },
         {
@@ -2372,7 +2362,7 @@
                 "description": "[description]",
                 "type": "[type]"
             },
-            "class": "createRowFromHtml",
+            "class": "generateId",
             "module": "HtmlElements"
         },
         {
@@ -2732,7 +2722,7 @@
         },
         {
             "file": "tag.js",
-            "line": 16,
+            "line": 17,
             "description": "Tag name",
             "itemtype": "property",
             "name": "name",
@@ -2743,7 +2733,7 @@
         },
         {
             "file": "tag.js",
-            "line": 24,
+            "line": 25,
             "description": "Tag attributes",
             "itemtype": "property",
             "name": "attr",
@@ -2754,7 +2744,7 @@
         },
         {
             "file": "tag.js",
-            "line": 32,
+            "line": 33,
             "description": "Attribute setter.",
             "itemtype": "method",
             "name": "setAttr",
@@ -2775,6 +2765,26 @@
         {
             "file": "tag.js",
             "line": 43,
+            "description": "Appends style to the cell.",
+            "itemtype": "method",
+            "name": "appendStyle",
+            "params": [
+                {
+                    "name": "stl",
+                    "description": "style to be appended",
+                    "type": "Style|Obj"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "tag.js",
+            "line": 60,
             "description": "Tag styles",
             "itemtype": "property",
             "name": "style",
@@ -2785,7 +2795,7 @@
         },
         {
             "file": "tag.js",
-            "line": 51,
+            "line": 68,
             "description": "Style setter.",
             "itemtype": "method",
             "name": "setStyle",
@@ -2805,7 +2815,7 @@
         },
         {
             "file": "tag.js",
-            "line": 61,
+            "line": 78,
             "description": "Retrieves the value of property from the \"style\"",
             "itemtype": "method",
             "name": "styleProperty",
@@ -2825,7 +2835,7 @@
         },
         {
             "file": "tag.js",
-            "line": 72,
+            "line": 89,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well.\nIt is better to use with an integer argument.",
             "itemtype": "method",
             "name": "setWidth",
@@ -2841,7 +2851,7 @@
         },
         {
             "file": "tag.js",
-            "line": 85,
+            "line": 102,
             "description": "Content of the list item.",
             "itemtype": "property",
             "name": "content",
@@ -2852,7 +2862,7 @@
         },
         {
             "file": "tag.js",
-            "line": 93,
+            "line": 110,
             "description": "Gets the element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getElem",
@@ -2872,7 +2882,7 @@
         },
         {
             "file": "tag.js",
-            "line": 103,
+            "line": 120,
             "description": "Gets the first element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getFirst",
@@ -2885,7 +2895,7 @@
         },
         {
             "file": "tag.js",
-            "line": 112,
+            "line": 129,
             "description": "Gets the last element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getLast",
@@ -2898,7 +2908,7 @@
         },
         {
             "file": "tag.js",
-            "line": 121,
+            "line": 138,
             "description": "Inserts an element into given position. Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "insertElemAt",
@@ -2923,7 +2933,7 @@
         },
         {
             "file": "tag.js",
-            "line": 132,
+            "line": 149,
             "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
             "itemtype": "method",
             "name": "appendElem",
@@ -2943,7 +2953,7 @@
         },
         {
             "file": "tag.js",
-            "line": 142,
+            "line": 159,
             "description": "Returns the number of elements inside its content. Delegates to Content::length().",
             "itemtype": "method",
             "name": "length",
@@ -2956,7 +2966,7 @@
         },
         {
             "file": "tag.js",
-            "line": 151,
+            "line": 168,
             "description": "Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.",
             "itemtype": "method",
             "name": "toHtml",
@@ -3079,7 +3089,7 @@
         },
         {
             "message": "Missing item type\nAppends style to the cell of the row.",
-            "line": " row.js:151"
+            "line": " row.js:154"
         },
         {
             "message": "Missing item type\nDrops inline attribute named attrName from DOM element",

@@ -11,7 +11,7 @@
 function Content(str) {
 	"use strict";
 	if (!(this instanceof Content)) {
-		return new Content(str);
+		return new Content(str || null);
 	}
 	/**
 	 * Container of items. If an item has a method "toHtml", it will be applied when transforming the whole Content object into a string.
@@ -125,7 +125,8 @@ function Content(str) {
 	 * @return {String}
 	 */
 	this.toHtml = function () {
-		var i, elem, output = '',
+		var i, elem,  methodExists,
+			output = '',
 			len = this.length();
 		for (i = 0; i < len; i++) {
 			elem = this.elements[i];
@@ -136,8 +137,9 @@ function Content(str) {
 			case 'number':
 				output += elem.toString();
 				break;
-			case 'object':
-				output += elem.hasOwnProperty('toHtml') ? elem.toHtml() : '<!-- no html representation -->';
+			default:
+				methodExists = (typeof elem.toHtml === 'function');
+				output += methodExists ? elem.toHtml() : '<!-- no html representation -->';
 				break;
 			}
 		}

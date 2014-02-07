@@ -13,6 +13,16 @@ describe('Row-related functionality:', function(){
         rowStyle = new TableRowStyle();
     });
 
+    it('creates a Row with empty content', function(){
+        expect((new Table()).length()).toBe(0);
+        expect((new Tag()).length()).toBe(0);
+        expect((new Cell()).length()).toBe(0);
+        expect((new Row()).length()).toBe(0);
+
+        expect(row.cellNum()).toBe(0);
+        expect(row.length()).toBe(0);
+    });
+
     it('creates object with type attribute "table row object"', function(){
         expect(row.getType()).toBe("Row");
     });
@@ -216,6 +226,10 @@ describe('Row-related functionality:', function(){
             expect(function(){
                 row.insertCellAt(7, 'not a cell');
             }).toThrow('Trying to insert non-cell object!');
+            expect(function(){
+                row.insertCellAt(7, new Tag());
+            }).toThrow('Trying to insert non-cell object!');
+
         });
 
         it('throw an error if trying to insert non-cell object into an invalid position', function(){
@@ -237,8 +251,6 @@ describe('Row-related functionality:', function(){
             expect(content.insertElemAt).toHaveBeenCalledWith('whatever', c);
         });
     });
-
-
 
     describe('append style to a cell:', function(){
         it('Throws an error if the cell number is negative', function(){
@@ -376,75 +388,19 @@ describe('Row-related functionality:', function(){
         row.content.elements = [cell1];
         expect(row.toHtml()).toEqual('<tr row attributes>cell 1</tr>');
     });
+    // the code below logically must be part of String functionality
+    // it('loads info from html representation of the row', function(){
+    //     spyOn(row, 'setStyle');
+    //     spyOn(row, 'setAttr');
+    //     var rowHtml = '<tr style="table row style" rowattr1="attribute value" rowattr2="another attribute value"><td></td></tr>';
+    //     row.loadFromHtml(rowHtml);
 
-    it('loads info from html representation of the row', function(){
-        spyOn(row, 'setStyle');
-        spyOn(row, 'setAttr');
-        var rowHtml = '<tr style="table row style" rowattr1="attribute value" rowattr2="another attribute value"><td></td></tr>';
-        row.loadFromHtml(rowHtml);
+    //     expect(row.setStyle).toHaveBeenCalledWith('table row style');
+    //     expect(row.setAttr).toHaveBeenCalledWith({
+    //         'rowattr1': "attribute value",
+    //         'rowattr2': 'another attribute value'
+    //     });
+    // });
 
-        expect(row.setStyle).toHaveBeenCalledWith('table row style');
-        expect(row.setAttr).toHaveBeenCalledWith({
-            'rowattr1': "attribute value",
-            'rowattr2': 'another attribute value'
-        });
-    });
-});
 
-xdescribe('Converts html row string into Row object', function(){
-    it('gets styles of the row', function(){
-        var rowHtml = '<tr style="color: red; width: 1; strange-attr: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            st = row.style;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-attr')).toBe(true);
-        expect(st['strange-attr']).toBe('haha');
-    });
-
-    it('gets attributes of the row', function(){
-        var rowHtml = '<tr color="red" width="1" strange-attr="haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            attr = row.attr;
-        expect(attr.hasOwnProperty('color')).toBe(true);
-        expect(attr.color).toBe('red');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("1");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('haha');
-    });
-
-    it('gets both styles and attributes of the row', function(){
-        var rowHtml = '<tr underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            st = row.style,
-            attr = row.attr;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-param')).toBe(true);
-        expect(st['strange-param']).toBe('haha');
-        expect(attr.hasOwnProperty('underlined')).toBe(true);
-        expect(attr.underlined).toBe('why not');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("98");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('wierd');
-    });
-
-    it('gets correct number of the cells in non-empty row', function(){
-        var rowHtml = '<tr><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml();
-        expect(row.cellNum()).toBe(5);
-
-    });
-
-    it('gets correct number of the cells in empty row', function(){
-        var rowHtml = '<tr></tr>',
-            row = rowHtml.createRowFromHtml();
-        expect(row.cells.length).toBe(0);
-    });
 });

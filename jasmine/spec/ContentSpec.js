@@ -9,6 +9,11 @@ describe('Content-related functionality', function(){
 
 	describe('The number of elements:', function(){
 		it('gives 0 for the empty Content instance', function(){
+			expect((new Table()).length()).toBe(0);
+			expect((new Tag()).length()).toBe(0);
+			expect((new Cell()).length()).toBe(0);
+			expect((new Row()).length()).toBe(0);
+
 			expect(c.length()).toBe(0);
 		});
 
