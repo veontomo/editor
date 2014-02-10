@@ -27,16 +27,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' }
 	];
 
-	/*config.toolbar = [
-	    [ 'Source', '-', 'Preview', '-', 'Templates' ],
-	    [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
-	    [ 'list', 'indent', 'blocks', 'align'],
-	    [ 'Bold', 'Italic' ]
-	];*/
-
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,list2,upload';
+	config.extraPlugins = 'download,image2,table2,link2,olist2,ulist2,upload';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
