@@ -183,7 +183,6 @@ function Tag() {
 			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
 		} else {
 			html = '<!-- tag name is missing -->';
-			console.log(this);
 		}
 		return html;
 	};

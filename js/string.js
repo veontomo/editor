@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag, List */
 
 /**
  * Generates a string that can be used as id for the elements of the target string. This means that
@@ -148,7 +148,6 @@ String.prototype.createTableFromHtml = function(){
 
         // imposing table styles
         nodeStyle = node.getAttribute('style');
-        console.log('nodeStyle', nodeStyle);
         table.style = new Style(nodeStyle);
         // imposing table attributes
         attrs = flatten(node.attributes);
@@ -162,7 +161,6 @@ String.prototype.createTableFromHtml = function(){
         rowsNum = rows.length;
 
         if (isFramed){
-            console.log('the table seems to be framed');
             bogusRowStyle = node.querySelector('tr').getAttribute('style');
             bogusCellStyle = node.querySelector('tr td').getAttribute('style');
             bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
@@ -203,6 +201,81 @@ String.prototype.createTableFromHtml = function(){
         }
         return table;
 };
+
+/**
+ * Transforms a list string into a List object. The argument listType is used to initialize the
+ * property "name" of the returned instance. If it is not provided, that the node tag-name property is used.
+ * It is supposed that the string to process is of the following form:
+ * <ol ... > ... </ol> or <ul ... > ... </ul>.
+ * Inside the tag, there might be other nodes. If they are recognized as a "supported" ones, the
+ * corresponding functions will be called to transform them into objects.
+ * @module  String
+ * @param   {String}           listType
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object}           List
+ */
+String.prototype.createListFromHtml = function(listType){
+    var str = this.toString(),
+        parser = new DOMParser(),
+        id = str.generateId('fakeId'),
+        doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
+        output = new List(),
+        uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
+        nodeHtml, methodName, methodExists;
+    uniqueNode = doc.getElementById(id);
+    uniqueNodeChildren = uniqueNode.childNodes;
+    if (uniqueNodeChildren.length === 1){
+        node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
+        output.name = listType || node.nodeName.toLowerCase();
+
+        style = node.getAttribute('style');
+        output.style = new Style(style);
+        attrs = flatten(node.attributes);
+        if (attrs.hasOwnProperty('style')){
+            delete attrs.style;
+        }
+        output.attr = new Attributes(attrs);
+        // split the target string on blocks
+        children = node.childNodes;
+        childrenLen = children.length;
+        for(i = 0; i < childrenLen; i++){
+            nodeInternal = children[i];
+            // parsing only list item nodes
+            if (nodeInternal.nodeType === Node.ELEMENT_NODE && nodeInternal.nodeName === 'LI'){
+               nodeHtml = nodeInternal.outerHTML;
+               methodName = 'createListItemFromHtml';
+               methodExists = (typeof nodeHtml[methodName]) === 'function';
+               elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
+               output.appendElem(elem);
+            }
+        }
+    }
+    return output;
+};
+
+/**
+ * Calls String::createListFromHtml('ul') on the target string.
+ * @module  String
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object} List
+ */
+String.prototype.createUlFromHtml = function(){
+    return this.toString().createListFromHtml('ul');
+};
+
+/**
+ * Calls String::createListFromHtml('ol') on the target string.
+ * @module  String
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object} List
+ */
+String.prototype.createOlFromHtml = function(){
+    return this.toString().createListFromHtml('ol');
+};
+
 
 /**
  * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
@@ -383,7 +456,7 @@ String.prototype.createTagFromHtml = function(){
         }
     }
     return output;
-    };
+};
 
 /*
  * Creates an instance of Content class and fills in its property "elements" with
@@ -417,8 +490,7 @@ String.prototype.inflate = function(){
                     methodExists = (typeof childHtml[methodName] === 'function');
                     // if the method exists, apply it to the string representation of
                     // the current node. Otherwise, apply recursively the method "inflate"
-                    // to the inner part of the current node. (Under this operation, the external tag
-                    // gets lost, but all children of the node are guaranteed to be processed.)
+                    // to the inner part of the current node.
                     if (methodExists){
                         elem = childHtml[methodName]();
                     } else {

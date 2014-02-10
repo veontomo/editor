@@ -17,13 +17,12 @@ function ListItem() {
 	Tag.call(this);
 
 	/**
-	 * List item attributes
-	 * @property {Attributes}          attr
-	 * @type     {Attributes}
-	 * @default  Attributes()
+	 * List item html tag.
+	 * @property {String} name
+	 * @type {String}
+	 * @default 'li'
 	 */
-	this.attr = new Attributes();
-
+	this.name = 'li';
 	/**
 	 * List item styles
 	 * @property {ListItemStyle}       style

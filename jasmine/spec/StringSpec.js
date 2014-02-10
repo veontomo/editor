@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row*/
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List*/
 
 describe('generates unique id for the target string', function(){
 	it('if the target string is a plain text', function(){
@@ -328,7 +328,6 @@ describe('Transform html table into an object:', function(){
     });
 
     it('retrieves rows', function(){
-    	console.log(JSON.stringify(new Table()));
         var htmlTable = '<table data-marker="table"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>',
         	obj = htmlTable.createTableFromHtml();
         expect(obj.getType()).toBe('Table');
@@ -517,49 +516,38 @@ describe('Method that converts strings into objects', function(){
 		str = '<table cellpadding="2" cellspacing="5" data-marker="Table" style="border-style: none;margin: 54px;padding: 342px;width: \
 	530px;max-width: 92px;min-width: 32px;border-spacing: 10px 9px;">\
 	<tbody>\
-		<tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 500px;max-width: 500px;min-width: 500px;">\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
-			vertical-align: top;color: rgb(0, 0, 1);padding: 0px 0px 1px 1px;">\
-				cell\
+		<tr data-marker="Row" style="border-style: some-style;margin: 32px;padding: 33px;width: 220px;max-width: 340px;min-width: 554px;">\
+			<td data-marker="Cell" style="border-style: cellborder;margin: 2px;width: 49px;max-width: 29px;min-width: 249px;\
+			vertical-align: top;color: rgb(0, 2221, 1);padding: 2px 4px 1px 1px;">\
+				row 1 cell 1\
 			</td>\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
-			vertical-align: top;color: rgb(0, 0, 1);padding: 0px 1px 1px 0px;">\
-				cell\
-			</td>\
-		</tr>\
-		<tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 500px;max-width: 500px;min-width: 500px;">\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
-			vertical-align: top;color: rgb(0, 0, 1);padding: 0px 0px 1px 1px;">\
-				cell\
-			</td>\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
-			vertical-align: top;color: rgb(0, 0, 1);padding: 0px 1px 1px 0px;">\
-			<ol>\
-				<li style="background: none repeat scroll 0% 0% rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); \
-				padding: 5px 10px;">\
-					la prima voce\
-				</li>\
-				<li style="background: none repeat scroll 0% 0% rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204);\
-				padding: 5px 10px;">\
-					la seconda voce\
-				</li>\
-			</ol>\
+			<td data-marker="Cell2" style="margin: 221px;width: 43px;max-width: 349px;min-width: 243px;\
+			vertical-align: bottom;color: rgb(21, 0, 6);some-attr: 3px 4px 5px 6px;">\
+				row 1 cell 2\
 			</td>\
 		</tr>\
-		<tr style="">\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;\
-			min-width: 249px;vertical-align: top;color: rgb(0, 0, 1);padding: 0px 0px 1px 1px;">\
-				nuova riga\
+		<tr data-marker="Row second" style="border-style: 1em solid nice;margin: 3px;padding: 4px;width: 0px;max-width: 432px;min-width: 485px;">\
+			<td data-marker="Cell1" style="border-style: true;margin: 3px;width: 965px;max-width: 339px;min-width: 234px;\
+			vertical-align: none;color: #FFFKKLL;padding: 1px 2em 3px 33px;">\
+				row 2 cell 1\
 			</td>\
-			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
-				vertical-align: top;color: rgb(0, 0, 1);padding: 0px 1px 1px 0px;">	\
-				modulation\
-			</td>\
-		</tr>\
-	</tbody>\
+			<td data-marker="Cell" style="border-style: false;margin: 34px;width: 94px;max-width: 49px;min-width: 9px;\
+			vertical-align: no;color: rrd;">\
+<ol style="test: true; another-style-value: 100em" power="12watt" length="infinite">\
+	<li style="background: none repeat scroll 0% 0% rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); \
+	padding: 5px 10px;" attr1="test attribute">\
+		la prima voce\
+	</li>\
+	<li style="background: sunshine; frame: 21px ;\
+	funny: 5px 10px;">\
+		la seconda voce\
+	</li>\
+</ol>\
+</td>\
+</tbody>\
 </table>\
 <a href="http://test.com" style="text-decoration: underline;font-size: 12px;color: blue;font-weight: normal;\
-padding: 0px;margin: 0px;">the best image </a>';
+padding: 13px;margin: 32px;" visited="maybe">the best image </a>';
 		obj = str.inflate();
 		expect(obj instanceof Content).toBe(true);
 		expect(obj.length()).toBe(2);
@@ -579,19 +567,125 @@ padding: 0px;margin: 0px;">the best image </a>';
         expect(elem0.style['min-width']).toBe(32);
         expect(elem0.style['max-width']).toBe(92);
         expect(elem0.style['border-spacing']).toBe('10px 9px');
-        console.log(elem0.style);
 
-        expect(elem0.rowNum()).toBe(3);
+        expect(elem0.rowNum()).toBe(2);
 		expect(elem0.colNum()).toBe(2);
-		expect(elem0.getElem(0) instanceof Row).toBe(true);
-		expect(elem0.getElem(1) instanceof Row).toBe(true);
-		expect(elem0.getElem(1).getElem(0) instanceof Cell).toBe(true);
-		expect(elem0.getElem(1).getElem(1) instanceof Cell).toBe(true);
-		expect(elem0.getElem(1).getElem(1).getElem(1) instanceof Tag).toBe(true);
-		expect(elem0.getElem(1).getElem(1).getElem(1).name).toBe('ol');
+
+        var row0 = elem0.getElem(0);
+
+		expect(row0 instanceof Row).toBe(true);
+        expect(row0.style['border-style']).toBe('some-style');
+        expect(row0.style.margin).toBe(32);
+        expect(row0.style.padding).toBe(33);
+        expect(row0.style.width).toBe(220);
+        expect(row0.style['max-width']).toBe(340);
+        expect(row0.style['min-width']).toBe(554);
+        expect(row0.attr['data-marker']).toBe('Row');
+
+        var cell00 = row0.getElem(0),
+            cell01 = row0.getElem(1);
+        // row 1 cell 1
+        expect(cell00 instanceof Cell).toBe(true);
+        expect(cell00.style['border-style']).toBe('cellborder');
+        expect(cell00.style.margin).toBe(2);
+        expect(cell00.style.width).toBe(49);
+        expect(cell00.style['max-width']).toBe(29);
+        expect(cell00.style['min-width']).toBe(249);
+        expect(cell00.style['vertical-align']).toBe('top');
+        expect(cell00.style.color).toBe('rgb(0, 2221, 1)');
+        expect(cell00.style.padding).toBe('2px 4px 1px 1px');
+        expect(cell00.attr['data-marker']).toBe('Cell');
+        expect(cell00.length()).toBe(1);
+        expect(cell00.getElem(0).trim()).toBe('row 1 cell 1');
+        // row 1 cell 2
+        expect(cell01 instanceof Cell).toBe(true);
+        expect(cell01.style['border-style']).toBe(undefined);
+        expect(cell01.style.margin).toBe(221);
+        expect(cell01.style.width).toBe(43);
+        expect(cell01.style['max-width']).toBe(349);
+        expect(cell01.style['min-width']).toBe(243);
+        expect(cell01.style['vertical-align']).toBe('bottom');
+        expect(cell01.style.color).toBe('rgb(21, 0, 6)');
+        expect(cell01.style['some-attr']).toBe('3px 4px 5px 6px');
+        expect(cell01.attr['data-marker']).toBe('Cell2');
+        expect(cell01.length()).toBe(1);
+        expect(cell01.getElem(0).trim()).toBe('row 1 cell 2');
+
+
+        // row 2
+        var row1 = elem0.getElem(1);
+
+        expect(row1 instanceof Row).toBe(true);
+        expect(row1.cellNum()).toBe(2);
+
+        expect(row1.style['border-style']).toBe('1em solid nice');
+        expect(row1.style.margin).toBe(3);
+        expect(row1.style.padding).toBe(4);
+        expect(row1.style.width).toBe('0px');
+        expect(row1.style['max-width']).toBe(432);
+        expect(row1.style['min-width']).toBe(485);
+        expect(row1.attr['data-marker']).toBe('Row second');
+
+        var cell10 = row1.getElem(0),
+            cell11 = row1.getElem(1);
+        // row 2 cell 1
+        expect(cell10 instanceof Cell).toBe(true);
+        expect(cell10.style['border-style']).toBe('true');
+        expect(cell10.style.margin).toBe(3);
+        expect(cell10.style.width).toBe(965);
+        expect(cell10.style['max-width']).toBe(339);
+        expect(cell10.style['min-width']).toBe(234);
+        expect(cell10.style['vertical-align']).toBe('none');
+        expect(cell10.style.color).toBe('#FFFKKLL');
+        expect(cell10.style.padding).toBe('1px 2em 3px 33px');
+        expect(cell10.attr['data-marker']).toBe('Cell1');
+        expect(cell10.length()).toBe(1);
+        expect(cell10.getElem(0).trim()).toBe('row 2 cell 1');
+
+        // row 2 cell 2
+        expect(cell11 instanceof Cell).toBe(true);
+        expect(cell11.style['border-style']).toBe('false');
+        expect(cell11.style.margin).toBe(34);
+        expect(cell11.style.width).toBe(94);
+        expect(cell11.style['max-width']).toBe(49);
+        expect(cell11.style['min-width']).toBe(9);
+        expect(cell11.style['vertical-align']).toBe('no');
+        expect(cell11.style.color).toBe('rrd');
+        expect(cell11.attr['data-marker']).toBe('Cell');
+        expect(cell11.length()).toBe(1);
+        expect(cell11.getElem(0) instanceof List).toBe(true);
+
+        var list = cell11.getElem(0);
+        // style="test: true; another-style-value: 100em" power="12watt" length="infinite"
+        expect(list.style.test).toBe('true');
+        expect(list.style['another-style-value']).toBe(100);
+        expect(list.attr.power).toBe('12watt');
+        expect(list.attr.length).toBe('infinite');
+
+        expect(list.length()).toBe(2);
+        var li1 = list.getElem(0),
+            li2 = list.getElem(1);
+        expect(li1.style.background).toBe('none repeat scroll 0% 0% rgb(238, 238, 238)');
+        expect(li1.style.border).toBe('1px solid rgb(204, 204, 204)');
+        expect(li1.style.padding).toBe('5px 10px');
+        expect(li1.attr.attr1).toBe('test attribute');
+        expect(li1.length()).toBe(1);
+        expect(li1.getElem(0).trim()).toBe('la prima voce');
+
+        expect(li2.style.background).toBe('sunshine');
+        expect(li2.style.frame).toBe(21);
+        expect(li2.style.funny).toBe('5px 10px');
+        expect(li2.length()).toBe(1);
+        expect(li2.getElem(0).trim()).toBe('la seconda voce');
+
 		expect(elem1 instanceof Tag).toBe(true);
 		expect(elem1.name).toBe('a');
+        expect(elem1.style['text-decoration']).toBe('underline');
+        expect(elem1.style['font-size']).toBe(12);
+        expect(elem1.style.color).toBe('blue');
+        expect(elem1.style['font-weight']).toBe('normal');
+        expect(elem1.style.padding).toBe(13);
+        expect(elem1.style.margin).toBe(32);
+        expect(elem1.attr.visited).toBe('maybe');
 	});
-
-
 });
