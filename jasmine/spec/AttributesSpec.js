@@ -189,13 +189,16 @@ describe('Getting property from the object', function(){
 
 describe('creates a style object from a string', function(){
     it('creates styles from a string', function(){
-        var s = new Style('a:10; color: some color; another-attr: un altro valore;');
+        var s = new Style('a:10; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
         expect(s.hasOwnProperty('a')).toBe(true);
         expect(s.a).toBe(10);
         expect(s.hasOwnProperty('color')).toBe(true);
         expect(s.color).toBe('some color');
         expect(s.hasOwnProperty('another-attr')).toBe(true);
         expect(s['another-attr']).toBe('un altro valore');
+        expect(s.hasOwnProperty('bivalued')).toBe(true);
+        expect(s.bivalued).toBe('1px 3px');
+
     });
 });
 
@@ -438,57 +441,3 @@ describe('Style functionality', function(){
     });
 });
 
-describe('Content', function() {
-    var content, elem0, elem1, elem2, elem3, htmlContent;
-    beforeEach(function() {
-        elem0 = 10.1;
-        elem1 = 'element2';
-        elem2 = {'a dummy method': 1};
-        elem3 = {};
-        content = new Content();
-        elem2.toHtml = function(){
-            return 'fake';
-        };
-        spyOn(elem3, 'hasOwnProperty').andCallFake(function(){
-            return false;
-        });
-    });
-
-    it('gives the number of elements it contains', function() {
-        content.elements = [];
-        expect(content.length()).toEqual(0);
-        content.elements = [elem0, elem1, elem2, elem3];
-        expect(content.length()).toEqual(4);
-        content.elements = [elem2, elem1];
-        expect(content.length()).toEqual(2);
-    });
-
-    it('toHtml produces a string', function() {
-        content.elements = [];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe('string');
-        expect(htmlContent).toEqual('');
-        content.elements = [elem0, elem1];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toEqual('10.1element2');
-        content.elements = [elem0, elem1, elem2];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('10.1element2fake');
-    });
-
-    it('if one of the elements has no toHtml property', function() {
-        content.elements = [elem1, elem2, elem3];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('element2fake<!-- no html representation -->');
-    });
-
-    it('if "elements" property contains a unique object with no toHtml property', function() {
-        content.elements = [elem3];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('<!-- no html representation -->');
-    });
-});

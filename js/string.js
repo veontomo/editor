@@ -148,6 +148,7 @@ String.prototype.createTableFromHtml = function(){
 
         // imposing table styles
         nodeStyle = node.getAttribute('style');
+        console.log('nodeStyle', nodeStyle);
         table.style = new Style(nodeStyle);
         // imposing table attributes
         attrs = flatten(node.attributes);

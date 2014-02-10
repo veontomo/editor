@@ -13,6 +13,16 @@ describe('Row-related functionality:', function(){
         rowStyle = new TableRowStyle();
     });
 
+    describe('inherits properly from Tag() class', function(){
+        it('does not affect parent class if an inherited property is changed', function(){
+            row.attr.width = 102;
+            expect((new Row()).attr.width).not.toBe(102);
+            row.style.width = 34;
+            expect((new Row()).style.width).not.toBe(34);
+        });
+    });
+
+
     it('creates a Row with empty content', function(){
         expect((new Table()).length()).toBe(0);
         expect((new Tag()).length()).toBe(0);

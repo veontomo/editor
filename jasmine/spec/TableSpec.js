@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Cell, Row, Table,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Style, createTableFromHtml, jasmine */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Style, createTableFromHtml, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3,
@@ -19,6 +19,16 @@ describe('Table-related functionality:', function(){
         bogusCellAttr  = new Attributes();
         bogusCellStyle  = new Style();
     });
+
+    describe('inherits properly from Tag() class', function(){
+        it('does not affect parent class if an inherited property is changed', function(){
+            table.attr.width = 102;
+            expect((new Table()).attr.width).not.toBe(102);
+            table.style.width = 34;
+            expect((new Table()).style.width).not.toBe(34);
+        });
+    });
+
 
     it('creates object of type "Table"', function(){
         expect(table.getType()).toBe("Table");

@@ -50,12 +50,6 @@ function Cell(arg) {
 	this.style = new TableCellStyle();
 
 	/**
-	 * Just to make Jasmine happy
-	 */
-	this.attr = new Attributes();
-
-
-	/**
 	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
 	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
 	 * @method getWidth
@@ -74,5 +68,7 @@ function Cell(arg) {
 		}
 		return raw;
 	};
+
 }
+// Cell.prototype = new Tag();
 Cell.prototype = Object.create(Tag.prototype);

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell */
+/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row */
 
 describe('Cell-related functionality:', function() {
     var cell, cellStyle, cellAttr, cellContent;
@@ -9,6 +9,15 @@ describe('Cell-related functionality:', function() {
         cellStyle = new TableCellStyle();
         cellAttr = new Attributes();
         cellContent = new Content();
+    });
+
+    describe('inherits properly from Tag() class', function(){
+        it('does not affect parent class if an inherited property is changed', function(){
+            cell.attr.width = 102;
+            expect((new Cell()).attr.width).not.toBe(102);
+            cell.style.width = 34;
+            expect((new Cell()).style.width).not.toBe(34);
+        });
     });
 
     it('creates object with type attribute "Cell"', function(){

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag*/
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row*/
 
 describe('generates unique id for the target string', function(){
 	it('if the target string is a plain text', function(){
@@ -514,8 +514,8 @@ describe('Method that converts strings into objects', function(){
 	});
 
 	it('grasps all elements from the string', function(){
-		str = '<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none;margin: 0px;padding: 0px;width: \
-	500px;max-width: 500px;min-width: 500px;border-spacing: 0px 0px;">\
+		str = '<table cellpadding="2" cellspacing="5" data-marker="Table" style="border-style: none;margin: 54px;padding: 342px;width: \
+	530px;max-width: 92px;min-width: 32px;border-spacing: 10px 9px;">\
 	<tbody>\
 		<tr data-marker="Row" style="border-style: none;margin: 0px;padding: 0px;width: 500px;max-width: 500px;min-width: 500px;">\
 			<td data-marker="Cell" style="border-style: none;margin: 0px;width: 249px;max-width: 249px;min-width: 249px;\
@@ -560,14 +560,37 @@ describe('Method that converts strings into objects', function(){
 </table>\
 <a href="http://test.com" style="text-decoration: underline;font-size: 12px;color: blue;font-weight: normal;\
 padding: 0px;margin: 0px;">the best image </a>';
-	obj = str.inflate();
-	expect(obj instanceof Content).toBe(true);
-	expect(obj.length()).toBe(2);
-	expect(obj.getElem(0) instanceof Table).toBe(true);
-	expect(obj.getElem(0).name).toBe('table');
-	expect(obj.getElem(1) instanceof Tag).toBe(true);
-	expect(obj.getElem(1).name).toBe('a');
+		obj = str.inflate();
+		expect(obj instanceof Content).toBe(true);
+		expect(obj.length()).toBe(2);
+        var elem0 = obj.getElem(0);
+        var elem1 = obj.getElem(1);
+		expect(elem0 instanceof Table).toBe(true);
+		expect(elem0.name).toBe('table');
+        // table attrs
+        expect(elem0.attr.cellpadding).toBe('2');
+        expect(elem0.attr.cellspacing).toBe('5');
+        expect(elem0.attr['data-marker']).toBe('Table');
+        // table styles
+        expect(elem0.style['border-style']).toBe('none');
+        expect(elem0.style.margin).toBe(54);
+        expect(elem0.style.padding).toBe(342);
+        expect(elem0.style.width).toBe(530);
+        expect(elem0.style['min-width']).toBe(32);
+        expect(elem0.style['max-width']).toBe(92);
+        expect(elem0.style['border-spacing']).toBe('10px 9px');
+        console.log(elem0.style);
 
+        expect(elem0.rowNum()).toBe(3);
+		expect(elem0.colNum()).toBe(2);
+		expect(elem0.getElem(0) instanceof Row).toBe(true);
+		expect(elem0.getElem(1) instanceof Row).toBe(true);
+		expect(elem0.getElem(1).getElem(0) instanceof Cell).toBe(true);
+		expect(elem0.getElem(1).getElem(1) instanceof Cell).toBe(true);
+		expect(elem0.getElem(1).getElem(1).getElem(1) instanceof Tag).toBe(true);
+		expect(elem0.getElem(1).getElem(1).getElem(1).name).toBe('ol');
+		expect(elem1 instanceof Tag).toBe(true);
+		expect(elem1.name).toBe('a');
 	});
 
 

@@ -200,4 +200,5 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
+// Row.prototype = new Tag(); wrong way of making inheritance!
 Row.prototype = Object.create(Tag.prototype);
