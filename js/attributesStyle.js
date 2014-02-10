@@ -35,7 +35,7 @@ function Style(style) {
 					if(valueFloat){
 						value = valueFloat;
 					}
-				};
+				}
 				this[key] = value;
 			}
 		}
@@ -267,6 +267,7 @@ function TextStyle() {
 	if (!(this instanceof TextStyle)) {
 		return new TextStyle();
 	}
+	Style.call(this);
 	/**
 	 * Font size, including unit of measurement.
 	 * @property {String} font-size
@@ -642,12 +643,35 @@ function ListStyle() {
 	 * @default  0
 	 */
 	this.padding = 0;
+
 	/**
-	 * Margin.
-	 * @property {String|Number} margin
+	 * Margin left.
+	 * @property {String|Number} margin-left
 	 * @default  0
 	 */
-	this.margin = 0;
+	this['margin-left'] = 40;
+
+	/**
+	 * Margin-right.
+	 * @property {String|Number} margin-right
+	 * @default  0
+	 */
+	this['margin-right'] = 0;
+
+	/**
+	 * Margin-top.
+	 * @property {String|Number} margin-top
+	 * @default  0
+	 */
+	this['margin-top'] = 0;
+
+	/**
+	 * Margin-bottom.
+	 * @property {String|Number} margin-bottom
+	 * @default  0
+	 */
+	this['margin-bottom'] = 0;
+
 }
 ListStyle.prototype = Object.create(Style.prototype);
 

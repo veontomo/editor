@@ -1,3 +1,7 @@
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag, List */
+
 CKEDITOR.dialog.add("list2Dialog", function(editor) {
     return {
         title: editor.lang.link.info,
@@ -70,7 +74,7 @@ CKEDITOR.dialog.add("list2Dialog", function(editor) {
                 aTag.setAttribute('href', link);
                 aTag.setAttribute('style', stylesLink.toString());
                 aTag.setAttribute('target', '_blank');
-                aTag.setHtml(aTagContent);                
+                aTag.setHtml(aTagContent);
                 editor.insertElement(aTag);
             }else{
                 // url is not provided, so let's insert the linkText as a plain text

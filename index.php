@@ -18,6 +18,8 @@
 	<script type="text/javascript" src="js/row.js"></script>
 	<script type="text/javascript" src="js/content.js"></script>
 	<script type="text/javascript" src="js/string.js"></script>
+	<script type="text/javascript" src="js/list.js"></script>
+	<script type="text/javascript" src="js/listItem.js"></script>
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>
