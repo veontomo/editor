@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>attributesStyle.js</title>
+    <title>classes\attributesStyle.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,7 +138,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: attributesStyle.js</h1>
+                        <h1 class="file-heading">File: classes\attributesStyle.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -155,7 +157,7 @@ function Style(style) {
 	if (!(this instanceof Style)) {
 		return new Style(style);
 	}
-	var attr, len, i, pair, key, value;
+	var attr, len, i, pair, key, value, valueFloat;
 
 	/**
 	 * Fill in the properties with the values from the argument if any
@@ -171,8 +173,12 @@ function Style(style) {
 			if (pair.length === 2){
 				key = pair[0].trim();
 				value =  pair[1].trim();
-				if(parseFloat(value)){
-					value = parseFloat(value);
+				// if value contains no spaces, lets try to cast it to number
+				if(value.indexOf(&#x27; &#x27;) === -1){
+					valueFloat = parseFloat(value, 10);
+					if(valueFloat){
+						value = valueFloat;
+					}
 				}
 				this[key] = value;
 			}
@@ -257,7 +263,6 @@ function Style(style) {
 		}
 		return output;
 	};
-
 }
 
 /**
@@ -376,7 +381,10 @@ function Attributes(attr) {
 */
 function TableAttributes(){
 	&quot;use strict&quot;;
-	if (!(this instanceof TableAttributes)) {return new TableAttributes(); }
+	if (!(this instanceof TableAttributes)) {
+		return new TableAttributes();
+	}
+	Attributes.call(this);
 	/**
 	 * Cellpadding attribute of the table. It is supposed that measurement unit is &quot;px&quot;.
 	 * @property 	{Number} 	cellpadding
@@ -390,7 +398,7 @@ function TableAttributes(){
 	 */
 	this.cellspacing = 0;
 }
-TableAttributes.prototype = new Attributes();
+TableAttributes.prototype = Object.create(Attributes.prototype);
 
 /**
  * Text specific style class.
@@ -403,6 +411,7 @@ function TextStyle() {
 	if (!(this instanceof TextStyle)) {
 		return new TextStyle();
 	}
+	Style.call(this);
 	/**
 	 * Font size, including unit of measurement.
 	 * @property {String} font-size
@@ -434,7 +443,7 @@ function TextStyle() {
 	 */
 	this.margin = &quot;0px&quot;;
 }
-TextStyle.prototype = new Style();
+TextStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents hyperlink style.
@@ -447,6 +456,7 @@ function LinkStyle() {
 	if (!(this instanceof LinkStyle)) {
 		return new LinkStyle();
 	}
+	Style.call(this);
 	/**
 	 * Text decoration attribute
 	 * @property {String} text-decoration
@@ -485,7 +495,7 @@ function LinkStyle() {
 	 */
 	this.margin = 0;
 }
-LinkStyle.prototype = new Style();
+LinkStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table style.
@@ -498,6 +508,7 @@ function TableStyle() {
 	if (!(this instanceof TableStyle)) {
 		return new TableStyle();
 	}
+	Style.call(this);
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
@@ -561,7 +572,7 @@ function TableStyle() {
 	 */
 	this[&#x27;border-spacing&#x27;] = &#x27;0px 0px&#x27;;
 }
-TableStyle.prototype = new Style();
+TableStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table row style.
@@ -574,6 +585,7 @@ function TableRowStyle() {
 	if (!(this instanceof TableRowStyle)) {
 		return new TableRowStyle();
 	}
+	Style.call(this);
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
@@ -623,7 +635,7 @@ function TableRowStyle() {
 	  */
 	 this[&quot;min-width&quot;] 	= this.width;
 }
-TableRowStyle.prototype = new Style();
+TableRowStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table cell styles.
@@ -636,6 +648,7 @@ function TableCellStyle() {
 	if (!(this instanceof TableCellStyle)) {
 		return new TableCellStyle();
 	}
+	Style.call(this);
 	/**
 	 * Color of the border table
 	 * @property {String} border-color
@@ -697,7 +710,7 @@ function TableCellStyle() {
 	 */
 	this.color = &#x27;#000001&#x27;;
 }
-TableCellStyle.prototype = new Style();
+TableCellStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
@@ -710,6 +723,7 @@ function ImageStyle() {
 	if (!(this instanceof ImageStyle)) {
 		return new ImageStyle();
 	}
+	Style.call(this);
 	/**
 	 * Width of the border around the image.
 	 * @property {String|Number} border-width
@@ -753,7 +767,7 @@ function ImageStyle() {
 	 */
 	this.height = 0;
 }
-ImageStyle.prototype = new Style();
+ImageStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
@@ -766,20 +780,44 @@ function ListStyle() {
 	if (!(this instanceof ListStyle)) {
 		return new ListStyle();
 	}
+	Style.call(this);
 	/**
 	 * Padding.
 	 * @property {String|Number} padding
 	 * @default  0
 	 */
 	this.padding = 0;
+
 	/**
-	 * Margin.
-	 * @property {String|Number} margin
+	 * Margin left.
+	 * @property {String|Number} margin-left
 	 * @default  0
 	 */
-	this.margin = 0;
+	this[&#x27;margin-left&#x27;] = 40;
+
+	/**
+	 * Margin-right.
+	 * @property {String|Number} margin-right
+	 * @default  0
+	 */
+	this[&#x27;margin-right&#x27;] = 0;
+
+	/**
+	 * Margin-top.
+	 * @property {String|Number} margin-top
+	 * @default  0
+	 */
+	this[&#x27;margin-top&#x27;] = 0;
+
+	/**
+	 * Margin-bottom.
+	 * @property {String|Number} margin-bottom
+	 * @default  0
+	 */
+	this[&#x27;margin-bottom&#x27;] = 0;
+
 }
-ListStyle.prototype = new Style();
+ListStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents list item styles.
@@ -792,6 +830,7 @@ function ListItemStyle() {
 	if (!(this instanceof ListItemStyle)) {
 		return new ListItemStyle();
 	}
+	Style.call(this);
 	/**
 	 * Font size of the  text in the list.
 	 * @property {String|Number} font-size
@@ -825,7 +864,7 @@ function ListItemStyle() {
 	 */
 	this.margin = 0;
 }
-ListItemStyle.prototype = new Style();
+ListItemStyle.prototype = Object.create(Style.prototype);
     </pre>
 </div>
 

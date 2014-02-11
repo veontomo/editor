@@ -12,11 +12,29 @@ describe('Cell-related functionality:', function() {
     });
 
     describe('inherits properly from Tag() class', function(){
-        it('does not affect parent class if an inherited property is changed', function(){
+        it('instance of Cell is an instance of Tag as well', function(){
+            expect(cell instanceof Tag).toBe(true);
+        });
+        it('does not affect parent attr if it is changed in the child', function(){
+            expect((new Cell()).attr.width).not.toBe(102);
             cell.attr.width = 102;
             expect((new Cell()).attr.width).not.toBe(102);
-            cell.style.width = 34;
-            expect((new Cell()).style.width).not.toBe(34);
+            expect(cell.attr.width).toBe(102);
+        });
+        it('does not affect parent style if it is changed in the child', function(){
+            expect((new Cell()).style.width).not.toBe('whatever');
+            cell.style.width = 'whatever';
+            expect((new Cell()).style.width).not.toBe('whatever');
+            expect(cell.style.width).toBe('whatever');
+        });
+
+        it('does not affect parent name property if it is changed in the child', function(){
+            expect((new Tag()).name).toBe(null);
+            expect((new Cell()).name).toBe('td');
+            cell.name = 'whatever';
+            expect((new Tag()).name).toBe(null);
+            expect((new Cell()).name).toBe('td');
+            expect(cell.name).toBe('whatever');
         });
     });
 
@@ -42,7 +60,6 @@ describe('Cell-related functionality:', function() {
         cell = new Cell('test string');
         expect(cell.length()).toBe(1);
     });
-
 
     it('overrides previously set properties', function(){
         cellStyle['a property'] = 'a property value';
@@ -142,35 +159,6 @@ describe('Cell-related functionality:', function() {
     });
 
     describe('appends style to the cell:', function(){
-        it('throws an error if the argument is a number', function(){
-            expect(function(){
-                cell.appendStyle(122321);
-            }).toThrow('Wrong argument type! Style, string or Object expected.');
-        });
-        it('throws an error if the argument is a Boolean', function(){
-            expect(function(){
-                cell.appendStyle(true);
-            }).toThrow('Wrong argument type! Style, string or Object expected.');
-            expect(function(){
-                cell.appendStyle(false);
-            }).toThrow('Wrong argument type! Style, string or Object expected.');
-        });
-        it('Does not throw an error if the argument is an object', function(){
-            expect(function(){
-                cell.appendStyle({'a': 10});
-            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
-        });
-        it('Does not throw an error if the argument is a Style object', function(){
-            expect(function(){
-                cell.appendStyle({'a': 10});
-            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
-        });
-        it('Does not throw an error if the argument is a string', function(){
-            expect(function(){
-                cell.appendStyle('a string');
-            }).not.toThrow('Wrong argument type! Style, string or Object expected.');
-        });
-
         it('Appends style if it is given as a string', function(){
             if (cell.style.hasOwnProperty('an-attribute')){
                 delete cell.style['an-attribute'];

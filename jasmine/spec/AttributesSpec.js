@@ -280,19 +280,6 @@ describe('creates an attribute object', function(){
 });
 
 describe('appends object attributes to the style object', function(){
-    it('throws an error if non-object is given', function(){
-        var st = new Style();
-        expect(function(){
-            st.appendStyle(1);
-        }).toThrow('Argument of Object type is expected!');
-        expect(function(){
-            st.appendStyle('string');
-        }).toThrow('Argument of Object type is expected!');
-        expect(function(){
-            st.appendStyle({});
-        }).not.toThrow('Argument of Object type is expected!');
-    });
-
     it('appends non-overlapping properties to the styles', function(){
         var st = new Style();
         st.a = 1;
@@ -308,13 +295,13 @@ describe('appends object attributes to the style object', function(){
         expect(st['long key']).toBe('a string');
     });
 
-    it('appends an object that has the same properties', function(){
+    it('appends an object that has common properties', function(){
         var st = new Style();
         st.a = 1;
         st['a key'] = 'key value';
-        st.appendStyle({'a': true, 'long key': 'a string'});
+        st.appendStyle({'a': 87, 'long key': 'a string'});
         expect(st.hasOwnProperty('a')).toBe(true);
-        expect(st.a).toBe(true);
+        expect(st.a).toBe(87);
         expect(st.hasOwnProperty('a key')).toBe(true);
         expect(st['a key']).toBe('key value');
         expect(st.hasOwnProperty('long key')).toBe(true);

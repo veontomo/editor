@@ -20,6 +20,7 @@ function Row() {
 	 * Type of the object. Return "Row" for the objects of this type.
 	 * @method {string} getType
 	 * @return {string}
+	 * @deprecated   in favour of getName()
 	 */
 	this.getType = function(){
 		return "Row";
@@ -57,12 +58,12 @@ function Row() {
 	};
 
 	/**
-	 * Returns the number of cells in the row. Delegates to the length() method of the "content" property.
+	 * Alias for length() method of the parent class.
 	 * @method  cellNum
 	 * @return {Number}
 	 */
 	this.cellNum = function(){
-		return this.content.length();
+		return this.length();
 	};
 
 	/**
@@ -74,10 +75,11 @@ function Row() {
 	this.setCellWidths = function(profile){
 		var len = profile.length,
 			i;
-		if (this.cellNum() === len){
-			for (i = 0; i < len; i++){
-				this.getElem(i).setWidth(profile[i]);
-			}
+		if (this.cellNum() !== len){
+			throw new Error('Incompatible array length!');
+		}
+		for (i = 0; i < len; i++){
+			this.getElem(i).setWidth(profile[i]);
 		}
 	};
 
@@ -96,14 +98,15 @@ function Row() {
 		// 	throw new Error('Trying to insert non-cell object!');
 		// }
 		if (!(cell instanceof Cell)){
-			throw new Error('Trying to insert non-cell object!');
+			throw new Error('Only a Cell instance is allowed for insertion!');
 		}
-		this.content.insertElemAt(pos, cell);
+		this.insertElemAt(pos, cell);
 		return null;
 	};
 
 	/**
-	 * Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+	 * Appends a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+	 * Otherwise, a method appendElem of the parent class is called.
 	 * @method appendCell
 	 * @param {Object} cell            a cell to be appended.
 	 * @return {void}
@@ -112,11 +115,21 @@ function Row() {
 		// find out with what name the Cell object is registered
 		// var cellType = (new Cell()).getType();
 		if (!(cell instanceof Cell)){
-			throw new Error('The argument is not of the Cell type!');
+			throw new Error('The argument is not a Cell instance!');
 		}
-		this.content.appendElem(cell);
+		this.appendElem(cell);
 	};
 
+
+	/**
+	 * Alias for dropElemAt().
+	 * @method  dropCellAt
+	 * @param  {Number}  pos
+	 * @return {void}     [description]
+	 */
+	this.dropCellAt = function(pos){
+		this.dropElemAt(pos);
+	}
 
 	/**
 	 * Drops the cell in the row. If the cell is utmost left, the freed space is then
@@ -163,7 +176,7 @@ function Row() {
 		if (cellNum === cellNumInt && cellNum >= 0 && cellNum < rowLen) {
 			this.getElem(cellNum).appendStyle(stl);
 		} else {
-			throw new Error('The cell is not found!');
+			throw new Error('Cell is not found!');
 		}
 		return null;
 	};

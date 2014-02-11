@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>content.js</title>
+    <title>classes\list.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,156 +138,94 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: content.js</h1>
+                        <h1 class="file-heading">File: classes\list.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, Tag, ListItem */
 
 /**
- * This class is used to encompass other objects.
+ * This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used
+ * to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will be set to the first allowed value.
  * @module 	    HtmlElements
- * @class  		Content
- * @param 		{String} 	str 		an optional argument that will be inserted when creating property &quot;elements&quot;.
+ * @param       {Sting}       listType
+ * @class  		List
  */
-function Content(str) {
+function List(listType) {
 	&quot;use strict&quot;;
-	if (!(this instanceof Content)) {
-		return new Content(str);
+	if (!(this instanceof List)) {
+		return new List(listType);
 	}
-	/**
-	 * Container of items. If an item has a method &quot;toHtml&quot;, it will be applied when transforming the whole Content object into a string.
-	 * @property {Array} elements
-	 * @default  [str]
-	 */
-	this.elements = str ? [str] : [];
+	// inherit tag properties
+	Tag.call(this);
 
 	/**
-	 * The number of items in the &quot;elements&quot; property
-	 * @method length
-	 * @return {Integer}
+	 * Array of allowed values for the tag names: [&#x27;ol&#x27;, &#x27;ul&#x27;].
+	 * @property {Array}    allowedNames
+	 * @type     {Array}
+	 * @private
 	 */
-	this.length = function () {
-		return this.elements.length;
+	var allowedNames = [&#x27;ol&#x27;, &#x27;ul&#x27;];
+
+	/**
+	 * Styles corresponding to the list as a whole object.
+	 * @property    {ListStyle} 	style
+	 */
+	this.style = new ListStyle();
+
+	/**
+	 * Html tag corresponding to List object. It is taken from the name provided
+	 * when creating the object: list = new List(&#x27;ul&#x27;). If not provided or  if it
+	 * is provided, but it is not allowed, then the first allowed value is used.
+	 * @property {String}     name
+	 * @type {String}
+	 * @default  &#x27;ol&#x27;
+	 */
+	this.name = allowedNames.indexOf(listType) !== -1 || listType : allowedNames[0];
+
+	/**
+	 * Gets the number of the list items
+	 * @method      itemNum
+	 * @return      {Number}   an integer number
+	 */
+	this.itemNum = function(){
+		return this.content.length();
 	};
 
 	/**
-	 * Gets the element with index &quot;pos&quot;. If it does not exist, null is returned.
-	 * @method getElem
-	 * @param  {Number}         pos
-	 * @return {mixed}
+	 * Appends an object to the list items. The object must be a ListItem instance.
+	 * If not, an error is thrown.
+	 * @method  appendItem
+	 * @param   {ListItem}    item    an instance of ListItem
+	 * @return  {void}
 	 */
-	this.getElem = function(pos){
-		return this.elements[pos] || null;
-	};
-
-	/**
-	 * Gets the first element. Delegates to Content::getElem(0)
-	 * @method getFirst
-	 * @return {mixed}
-	 */
-	this.getFirst = function(){
-		return this.getElem(0);
-	};
-
-	/**
-	 * Gets the last element. Delegates to Content::getElem()
-	 * @method getLast
-	 * @return {mixed}
-	 */
-	this.getLast = function(){
-		var len = this.length();
-		return len &gt; 0 ? this.getElem(len - 1) : null;
-	};
-
-
-	/**
-	 * Appends the element to the array Content::elements.
-	 * @param  {Object}       elem
-	 * @return {void}
-	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-	};
-
-	/**
-	 * Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
-	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
-	 * position index is outside that range, an error is thrown. If the position index is equal to N
-	 * (that corresponds to appending the element), then Content::appendElem is called.
-	 * @method  insertElemAt
-	 * @param  {Number}   pos
-	 * @param  {mixed}    elem
-	 * @return {void}
-	 */
-	this.insertElemAt = function(pos, elem){
-		var len = this.length(),
-			isInt = parseInt(pos, 10) === pos;
-		if (!isInt || pos &lt; 0 || pos &gt; len) {
-			throw new Error(&#x27;Wrong index to insert the element at!&#x27;);
-		}
-		if (pos === len){
-			this.appendElem(elem);
+	this.appendItem = function(item){
+		if (item instanceof ListItem){
+			this.appendElem(item);
 		} else {
-			this.elements.splice(pos, 0, elem);
+			throw new Error(&#x27;The argument is not a ListItem instance!&#x27;);
 		}
-		return null;
 	};
-
 	/**
-	 * Appends element to the array of Content::elements.
-	 * @method   appendElem
-	 * @param    {mixed}           elem
-	 * @return   {void}
+	 * Inserts the item at the given position. If the item to insert is a ListItem instance, then
+	 * Content::insertElemAt() is called. Otherwise, an error is thrown.
+	 * @method    isertItemAt
+	 * @param     {Number}      pos     index of the position of there to insert the item
+	 * @param     {ListItem}    item    item to insert
+	 * @return    {void}
 	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-		return null;
-	};
-
-	/**
-	 * Drops the element at the given position and returns it. If element at the position does not exist,
-	 * an error is thrown.
-	 * @method dropElemAt
-	 * @param  {Number}      pos
-	 * @return {mixed}
-	 */
-	this.dropElemAt = function(pos){
-		var elem = this.elements[pos];
-		if (elem === undefined){
-			throw new Error(&#x27;No element is found at the given position!&#x27;);
+	this.insertItemAt = function(pos, item){
+		if (item instanceof ListItem){
+			this.content.insertElemAt(pos, item);
+		} else {
+			throw new Error(&#x27;The argument is not a ListItem instance!&#x27;);
 		}
-		this.elements.splice(pos, 1);
-		return elem;
-	};
 
-	/**
-	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
-	 * @method toHtml
-	 * @return {String}
-	 */
-	this.toHtml = function () {
-		var i, elem, output = &#x27;&#x27;,
-			len = this.length();
-		for (i = 0; i &lt; len; i++) {
-			elem = this.elements[i];
-			switch (typeof elem) {
-			case &#x27;string&#x27;:
-				output += elem;
-				break;
-			case &#x27;number&#x27;:
-				output += elem.toString();
-				break;
-			case &#x27;object&#x27;:
-				output += elem.hasOwnProperty(&#x27;toHtml&#x27;) ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
-				break;
-			}
-		}
-		return output;
 	};
 }
+List.prototype = Object.create(Tag.prototype);
     </pre>
 </div>
 

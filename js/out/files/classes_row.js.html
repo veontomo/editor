@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>row.js</title>
+    <title>classes\row.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,13 +138,13 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: row.js</h1>
+                        <h1 class="file-heading">File: classes\row.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag, Content */
 
 /**
  * Represents a table row
@@ -151,15 +153,18 @@
  * @extends Tag
  */
 function Row() {
-	console.log(&#x27;creating a new Row&#x27;);
 	&quot;use strict&quot;;
 	if (!(this instanceof Row)) {
 		return new Row();
 	}
+	// inherit tag properties
+	Tag.call(this);
+
 	/**
 	 * Type of the object. Return &quot;Row&quot; for the objects of this type.
 	 * @method {string} getType
 	 * @return {string}
+	 * @deprecated   in favour of getName()
 	 */
 	this.getType = function(){
 		return &quot;Row&quot;;
@@ -172,8 +177,6 @@ function Row() {
 	 * @default  td
 	 */
 	this.name = &#x27;tr&#x27;;
-
-	this.content = new Content();
 
 	/**
 	 * Styles of the row.
@@ -320,6 +323,7 @@ function Row() {
 	 * @method loadFromHtml
 	 * @param {String} htmlStr
 	 * @return {void}
+	 * @depricated
 	 */
 	this.loadFromHtml = function (htmlStr){
 		var parser = new DOMParser(),
@@ -341,7 +345,8 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
-Row.prototype = new Tag();
+// Row.prototype = new Tag(); wrong way of making inheritance!
+Row.prototype = Object.create(Tag.prototype);
     </pre>
 </div>
 

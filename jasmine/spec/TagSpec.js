@@ -7,6 +7,7 @@ describe('Tag-related functionality:', function() {
         tagStyle = new Style();
         tagAttr = new Attributes();
         tag = new Tag();
+        content = new Content();
     });
 
     it('sets styles of the tag', function(){
@@ -17,6 +18,67 @@ describe('Tag-related functionality:', function() {
         expect(tag.style.modular).toBe('frequency');
         expect(tag.style['hot spot']).toBe('outside');
         expect(tag.style.next).toBe('12 March 2014');
+    });
+
+    it('gets width of the object from its style property', function(){
+        tagStyle.width = '20px';
+        tag.style = tagStyle;
+        expect(tag.getWidth()).toBe(20);
+        tagStyle.width = '231em';
+        tag.style = tagStyle;
+        expect(tag.getWidth()).toBe('231em');
+    });
+
+    describe('sets width of the object', function(){
+        it('throws an error if width parameter is not provided', function(){
+            expect(function(){
+                tag.setWidth();
+            }).toThrow('Width value is not set!');
+        });
+
+        it('throws an error if width parameter is empty string', function(){
+            expect(function(){
+                tag.setWidth('');
+            }).toThrow('Width value is not set!');
+        });
+        it('sets arbitrary string as width', function(){
+            tag.setWidth('whatever');
+            expect(tag.style.width).toBe('whatever');
+            expect(tag.style['min-width']).toBe('whatever');
+            expect(tag.style['max-width']).toBe('whatever');
+            expect(tag.attr.width).toBe('whatever');
+        });
+        it('sets zero width', function(){
+            tag.setWidth(0);
+            expect(tag.style.width).toBe(0);
+            expect(tag.style['min-width']).toBe(0);
+            expect(tag.style['max-width']).toBe(0);
+            expect(tag.attr.width).toBe(0);
+        });
+
+        it('sets integer width', function(){
+            tag.setWidth(29);
+            expect(tag.style.width).toBe(29);
+            expect(tag.style['min-width']).toBe(29);
+            expect(tag.style['max-width']).toBe(29);
+            expect(tag.attr.width).toBe(29);
+        });
+
+        it('sets fractional width', function(){
+            tag.setWidth(2.9);
+            expect(tag.style.width).toBe(2.9);
+            expect(tag.style['min-width']).toBe(2.9);
+            expect(tag.style['max-width']).toBe(2.9);
+            expect(tag.attr.width).toBe(2.9);
+        });
+
+        it('sets a string with unit of measurment width', function(){
+            tag.setWidth('72px');
+            expect(tag.style.width).toBe('72px');
+            expect(tag.style['min-width']).toBe('72px');
+            expect(tag.style['max-width']).toBe('72px');
+            expect(tag.attr.width).toBe('72px');
+        });
     });
 
     it('sets attributes of the tag', function(){
@@ -30,15 +92,20 @@ describe('Tag-related functionality:', function() {
     });
 
     it('calls Content::getElem method when retrieving element', function(){
-        content = new Content();
         tag.content = content;
         spyOn(content, 'getElem').andCallFake(function(){return null;});
         tag.getElem('whatever');
         expect(content.getElem).toHaveBeenCalledWith('whatever');
     });
 
+    it('calls Content::appendElem method when appending an element', function(){
+        tag.content = content;
+        spyOn(content, 'appendElem').andCallFake(function(){return null;});
+        tag.appendElem('whatever');
+        expect(content.appendElem).toHaveBeenCalledWith('whatever');
+    });
+
     it('calls Content::getFirst method when retrieving first element', function(){
-        content = new Content();
         tag.content = content;
         spyOn(content, 'getFirst').andCallFake(function(){return null;});
         tag.getFirst();
@@ -46,7 +113,6 @@ describe('Tag-related functionality:', function() {
     });
 
     it('calls Content::getLast method when retrieving last element', function(){
-        content = new Content();
         tag.content = content;
         spyOn(content, 'getLast').andCallFake(function(){return null;});
         tag.getLast();
@@ -54,12 +120,12 @@ describe('Tag-related functionality:', function() {
     });
 
     it('calls Content::insertElemAt method when inserting element', function(){
-        content = new Content();
         tag.content = content;
         spyOn(content, 'insertElemAt').andCallFake(function(){return null;});
         tag.insertElemAt('location', 'element to insert');
         expect(content.insertElemAt).toHaveBeenCalledWith('location', 'element to insert');
     });
+
     it('calls Content::appendElem method when retrieving element', function(){
         content = new Content();
         tag.content = content;
@@ -67,6 +133,21 @@ describe('Tag-related functionality:', function() {
         tag.appendElem('element to insert');
         expect(content.appendElem).toHaveBeenCalledWith('element to insert');
     });
+
+    it('calls Content::length method when retrieving length', function(){
+        spyOn(content, 'length').andCallFake(function(){return 'content length';});
+        tag.content = content;
+        expect(tag.length()).toBe('content length');
+        expect(content.length).toHaveBeenCalled();
+    });
+
+    it('calls Content::dropElemAt method when removing element', function(){
+        spyOn(content, 'dropElemAt');
+        tag.content = content;
+        tag.dropElemAt(764);
+        expect(content.dropElemAt).toHaveBeenCalledWith(764);
+    });
+
     describe('creates html representation of the tag', function(){
         it('if style and attributes are present', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
@@ -89,6 +170,7 @@ describe('Tag-related functionality:', function() {
             tag.name = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag style="styles of the tag">html representation of the content</htmltag>');
         });
+
         it('if attributes are present, style - not', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return '';});
             spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
@@ -99,6 +181,7 @@ describe('Tag-related functionality:', function() {
             tag.name = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag attributes of the tag>html representation of the content</htmltag>');
         });
+
         it('if both style and attributes are not present', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return '';});
             spyOn(tagAttr, 'toString').andCallFake(function(){return '';});
@@ -109,6 +192,7 @@ describe('Tag-related functionality:', function() {
             tag.name = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag>html representation of the content</htmltag>');
         });
+
         it('if content is empty', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
             spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
@@ -122,24 +206,85 @@ describe('Tag-related functionality:', function() {
 
 
         it('if tag name is missing', function(){
-            spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
-            spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
-            tag.style = tagStyle;
-            tag.attr = tagAttr;
-            tag.content = content;
-            delete tag.name;
+            if (tag.hasOwnProperty('name')){
+                delete tag.name;
+            }
             expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
+
         it('if tag name is empty', function(){
-            spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
-            spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
-            tag.style = tagStyle;
-            tag.attr = tagAttr;
-            tag.content = content;
-            delete tag.name;
+            tag.name = '';
+            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
+        });
+
+        it('if tag name is null', function(){
+            tag.name = null;
             expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
     });
+
+    it('calls Style::appendStyle() to append style to the object', function(){
+        spyOn(tagStyle, 'appendStyle').andCallFake(function(){return null;});
+        tag.style = tagStyle;
+        tag.appendStyle('style to append');
+        expect(tagStyle.appendStyle).toHaveBeenCalledWith('style to append');
+    });
+
+    describe('append style to the element:', function(){
+        it('Throws an error if element does not exist', function(){
+            spyOn(tag, 'getElem').andCallFake(function(){return null;});
+            expect(function(){
+                tag.appendStyleToElemAt('any', "whatever");
+            }).toThrow('Can not append style to requested element.');
+            expect(tag.getElem).toHaveBeenCalledWith('any');
+        });
+        it('Throws an error if element exists, but has no style property', function(){
+            expect(function(){
+                spyOn(tag, 'getElem').andCallFake(function(){return {};});
+                tag.appendStyleToElemAt(4, "whatever");
+            }).toThrow('Can not append style to requested element.');
+            expect(tag.getElem).toHaveBeenCalledWith(4);
+        });
+        it('calls append Style method on a middle tag of the tag', function(){
+            var tag1 = new Tag(),
+                tag2 = new Tag(),
+                tag3 = new Tag(),
+                tag4 = new Tag();
+            spyOn(tag1, 'appendStyle');
+            spyOn(tag2, 'appendStyle');
+            spyOn(tag3, 'appendStyle');
+            spyOn(tag4, 'appendStyle');
+            tag.content.elements = [tag1, tag2, tag3, tag4];
+            tag.appendStyleToElemAt(2, "whatever");
+            expect(tag1.appendStyle).not.toHaveBeenCalled();
+            expect(tag2.appendStyle).not.toHaveBeenCalled();
+            expect(tag3.appendStyle).toHaveBeenCalledWith("whatever");
+            expect(tag4.appendStyle).not.toHaveBeenCalled();
+        });
+
+        // it('calls append Style method on the first tag of the tag', function(){
+        //     spyOn(cell1, 'appendStyle');
+        //     spyOn(cell2, 'appendStyle');
+        //     spyOn(cell3, 'appendStyle');
+        //     tag.content.elements = [cell1, cell2, cell3];
+        //     tag.appendStyleToElemAt(0, "whatever");
+        //     expect(cell1.appendStyle).toHaveBeenCalledWith("whatever");
+        //     expect(cell2.appendStyle).not.toHaveBeenCalled();
+        //     expect(cell3.appendStyle).not.toHaveBeenCalled();
+        // });
+
+        // it('calls append Style method on the last tag of the tag', function(){
+        //     spyOn(cell1, 'appendStyle');
+        //     spyOn(cell2, 'appendStyle');
+        //     spyOn(cell3, 'appendStyle');
+        //     spyOn(cell4, 'appendStyle');
+        //     tag.content.elements = [cell1, cell2, cell3, cell4];
+        //     tag.appendStyleToElemAt(3, "whatever");
+        //     expect(cell1.appendStyle).not.toHaveBeenCalled();
+        //     expect(cell2.appendStyle).not.toHaveBeenCalled();
+        //     expect(cell3.appendStyle).not.toHaveBeenCalled();
+        //     expect(cell4.appendStyle).toHaveBeenCalledWith("whatever");
+        // });
+    });
+
 });

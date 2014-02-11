@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>tag.js</title>
+    <title>classes\content.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,193 +138,156 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: tag.js</h1>
+                        <h1 class="file-heading">File: classes\content.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
+/*global DOMParser, Node */
 
 /**
- * This class is used to represent a general html tag.
+ * This class is used to encompass other objects.
  * @module 	    HtmlElements
- * @class  		Tag
+ * @class  		Content
+ * @param 		{String} 	str 		an optional argument that will be inserted when creating property &quot;elements&quot;.
  */
-function Tag() {
-	console.log(&#x27;creating a new Tag&#x27;);
+function Content(str) {
 	&quot;use strict&quot;;
-	if (!(this instanceof Tag)) {
-		return new Tag();
+	if (!(this instanceof Content)) {
+		return new Content(str || null);
 	}
-
 	/**
-	 * Tag name
-	 * @property {String}          name
-	 * @default  null
+	 * Container of items. If an item has a method &quot;toHtml&quot;, it will be applied when transforming the whole Content object into a string.
+	 * @property {Array} elements
+	 * @default  [str]
 	 */
-	this.name = null;
-
+	this.elements = str ? [str] : [];
 
 	/**
-	 * Tag attributes
-	 * @property {Attributes}          attr
-	 * @type     {Attributes}
-	 * @default  Attributes()
+	 * The number of items in the &quot;elements&quot; property
+	 * @method length
+	 * @return {Integer}
 	 */
-	this.attr = new Attributes();
-
-	/**
-	* Attribute setter.
-	* @method setAttr
-	* @param {String|Object} attr
-	* @return {void}
-	*/
-	this.setAttr = function(attr){
-		this.attr = attr;
+	this.length = function () {
+		return this.elements.length;
 	};
 
 	/**
-	 * Appends style to the cell.
-	 * @method appendStyle
-	 * @param  {Style|Obj}   stl   style to be appended
-	 * @return {void}
-	 */
-	this.appendStyle = function(stl){
-		if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
-			throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
-		}
-		var stlObj = new Style(stl);
-		this.style.appendStyle(stlObj);
-
-		return null;
-	};
-
-
-	/**
-	 * Tag styles
-	 * @property {ListItemStyle}       style
-	 * @type     {ListItemStyle}
-	 * @default ListItemStyle()
-	 */
-	this.style = new Style();
-
-	/**
-	* Style setter.
-	* @method setStyle
-	* @param {String|Object} stl
-	* @return {void}
-	*/
-	this.setStyle = function(stl){
-		this.style = stl;
-	};
-
-	/**
-	 * Retrieves the value of property from the &quot;style&quot;
-	 * @method styleProperty
-	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
-	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
-	};
-
-
-	/**
-	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
-	 * It is better to use with an integer argument.
-	 * @method  setWidth
-	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc)
-	 * or a number (i.e. 200, 10).
-	 */
-	this.setWidth = function(w){
-		setMinMaxWidth(this.style, w);
-		this.attr.width = w;
-	};
-
-
-	/**
-	 * Content of the list item.
-	 * @property {Content}             content
-	 * @type     {Content}
-	 * @default  Content()
-	 */
-	this.content = new Content();
-
-	/**
-	 * Gets the element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * Gets the element with index &quot;pos&quot;. If it does not exist, null is returned.
 	 * @method getElem
-	 * @param  {Number}    pos
-	 * @return {any}
+	 * @param  {Number}         pos
+	 * @return {mixed}
 	 */
 	this.getElem = function(pos){
-		return this.content.getElem(pos);
+		return this.elements[pos] || null;
 	};
 
 	/**
-	 * Gets the first element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
-	 * @method  getFirst
-	 * @return {any}
+	 * Gets the first element. Delegates to Content::getElem(0)
+	 * @method getFirst
+	 * @return {mixed}
 	 */
 	this.getFirst = function(){
-		return this.content.getFirst();
+		return this.getElem(0);
 	};
 
 	/**
-	 * Gets the last element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
-	 * @method  getLast
-	 * @return {any}
+	 * Gets the last element. Delegates to Content::getElem()
+	 * @method getLast
+	 * @return {mixed}
 	 */
 	this.getLast = function(){
-		return this.content.getLast();
+		var len = this.length();
+		return len &gt; 0 ? this.getElem(len - 1) : null;
 	};
 
-	/**
-	 * Inserts an element into given position. Delegates its functionality to the class Content.
-	 * @method  insertElemAt
-	 * @param  {Number} pos
-	 * @param  {any}    elem
-	 * @return {void}
-	 */
-	this.insertElemAt = function(pos, elem){
-		this.content.insertElemAt(pos, elem);
-	};
 
 	/**
-	 * Appends the element to the content of the list item. Delegates to Content::appendElem().
-	 * @method appendElem
-	 * @param  {any}     elem
+	 * Appends the element to the array Content::elements.
+	 * @param  {Object}       elem
 	 * @return {void}
 	 */
 	this.appendElem = function(elem){
-		this.content.appendElem(elem);
+		this.elements.push(elem);
 	};
 
 	/**
-	 * Returns the number of elements inside its content. Delegates to Content::length().
-	 * @method   length
-	 * @return   {Number}
+	 * Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
+	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
+	 * position index is outside that range, an error is thrown. If the position index is equal to N
+	 * (that corresponds to appending the element), then Content::appendElem is called.
+	 * @method  insertElemAt
+	 * @param  {Number}   pos
+	 * @param  {mixed}    elem
+	 * @return {void}
 	 */
-	this.length = function(){
-		return this.content.length();
-	};
-
-	/**
-	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
-	 * @method toHtml
-	 * @return {String}                html representation of an instance of this class.
-	 */
-	this.toHtml = function(){
-		var tag = this.name,
-			style, attr, html;
-		if (tag){
-			style = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;);
-			attr = this.attr.toString();
-			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27; + this.content.toHtml() + &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
-		} else {
-			html = &#x27;&lt;!-- tag name is missing --&gt;&#x27;;
+	this.insertElemAt = function(pos, elem){
+		var len = this.length(),
+			isInt = parseInt(pos, 10) === pos;
+		if (!isInt || pos &lt; 0 || pos &gt; len) {
+			throw new Error(&#x27;Wrong index to insert the element at!&#x27;);
 		}
-		return html;
+		if (pos === len){
+			this.appendElem(elem);
+		} else {
+			this.elements.splice(pos, 0, elem);
+		}
+		return null;
+	};
+
+	/**
+	 * Appends element to the array of Content::elements.
+	 * @method   appendElem
+	 * @param    {mixed}           elem
+	 * @return   {void}
+	 */
+	this.appendElem = function(elem){
+		this.elements.push(elem);
+		return null;
+	};
+
+	/**
+	 * Drops the element at the given position and returns it. If element at the position does not exist,
+	 * an error is thrown.
+	 * @method dropElemAt
+	 * @param  {Number}      pos
+	 * @return {mixed}
+	 */
+	this.dropElemAt = function(pos){
+		var elem = this.elements[pos];
+		if (elem === undefined){
+			throw new Error(&#x27;No element is found at the given position!&#x27;);
+		}
+		this.elements.splice(pos, 1);
+		return elem;
+	};
+
+	/**
+	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
+	 * @method toHtml
+	 * @return {String}
+	 */
+	this.toHtml = function () {
+		var i, elem,  methodExists,
+			output = &#x27;&#x27;,
+			len = this.length();
+		for (i = 0; i &lt; len; i++) {
+			elem = this.elements[i];
+			switch (typeof elem) {
+			case &#x27;string&#x27;:
+				output += elem;
+				break;
+			case &#x27;number&#x27;:
+				output += elem.toString();
+				break;
+			default:
+				methodExists = (typeof elem.toHtml === &#x27;function&#x27;);
+				output += methodExists ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
+				break;
+			}
+		}
+		return output;
 	};
 }
     </pre>

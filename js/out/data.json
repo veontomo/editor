@@ -1,8 +1,8 @@
 {
     "project": {},
     "files": {
-        "attributesStyle.js": {
-            "name": "attributesStyle.js",
+        "classes\\attributesStyle.js": {
+            "name": "classes\\attributesStyle.js",
             "modules": {},
             "classes": {
                 "Style": 1,
@@ -21,8 +21,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "cell.js": {
-            "name": "cell.js",
+        "classes\\cell.js": {
+            "name": "classes\\cell.js",
             "modules": {},
             "classes": {
                 "Cell": 1
@@ -30,11 +30,74 @@
             "fors": {},
             "namespaces": {}
         },
-        "content.js": {
-            "name": "content.js",
+        "classes\\content.js": {
+            "name": "classes\\content.js",
             "modules": {},
             "classes": {
                 "Content": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\list.js": {
+            "name": "classes\\list.js",
+            "modules": {},
+            "classes": {
+                "List": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\listItem.js": {
+            "name": "classes\\listItem.js",
+            "modules": {},
+            "classes": {
+                "ListItem": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\row.js": {
+            "name": "classes\\row.js",
+            "modules": {},
+            "classes": {
+                "Row": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\string.js": {
+            "name": "classes\\string.js",
+            "modules": {
+                "String": 1
+            },
+            "classes": {
+                "generateId": 1,
+                "createTableFromHtml": 1,
+                "createRowFromHtml": 1,
+                "createUlFromHtml": 1,
+                "isFramedTable": 1,
+                "createTagFromHtml": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\table.js": {
+            "name": "classes\\table.js",
+            "modules": {
+                "HtmlElements": 1
+            },
+            "classes": {
+                "Table": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\tag.js": {
+            "name": "classes\\tag.js",
+            "modules": {},
+            "classes": {
+                "Tag": 1
             },
             "fors": {},
             "namespaces": {}
@@ -56,64 +119,10 @@
             "fors": {},
             "namespaces": {}
         },
-        "list.js": {
-            "name": "list.js",
-            "modules": {},
-            "classes": {
-                "ListItem": 1,
-                "List": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "row.js": {
-            "name": "row.js",
-            "modules": {},
-            "classes": {
-                "Row": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "start.js": {
             "name": "start.js",
             "modules": {},
             "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "string.js": {
-            "name": "string.js",
-            "modules": {
-                "String": 1
-            },
-            "classes": {
-                "generateId": 1,
-                "createTableFromHtml": 1,
-                "createRowFromHtml": 1,
-                "isFramedTable": 1,
-                "createTagFromHtml": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "table.js": {
-            "name": "table.js",
-            "modules": {
-                "HtmlElements": 1
-            },
-            "classes": {
-                "Table": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "tag.js": {
-            "name": "tag.js",
-            "modules": {},
-            "classes": {
-                "Tag": 1
-            },
             "fors": {},
             "namespaces": {}
         }
@@ -139,8 +148,8 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "attributesStyle.js",
-            "line": 642,
+            "file": "classes\\attributesStyle.js",
+            "line": 678,
             "description": "Produces a string of properties in inline-style fashion\nThis function is supposed to be added to prototypes of different objects.\nIt takse into consideration only properties, methods are ignored.\nIf attribite value is a number, the measurement unit will be appended.",
             "params": [
                 {
@@ -164,8 +173,8 @@
             "classes": {
                 "Cell": 1,
                 "Content": 1,
-                "ListItem": 1,
                 "List": 1,
+                "ListItem": 1,
                 "Row": 1,
                 "Table": 1,
                 "Tag": 1
@@ -173,7 +182,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "tag.js",
+            "file": "classes\\tag.js",
             "line": 5,
             "description": "Represents table.",
             "params": [
@@ -184,6 +193,36 @@
                 }
             ],
             "extends": "Tag"
+        },
+        "String": {
+            "name": "String",
+            "submodules": {},
+            "classes": {
+                "generateId": 1,
+                "createTableFromHtml": 1,
+                "createRowFromHtml": 1,
+                "createUlFromHtml": 1,
+                "isFramedTable": 1,
+                "createTagFromHtml": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "classes\\string.js",
+            "line": 408,
+            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
+            "itemtype": "method",
+            "params": [
+                {
+                    "name": "seed",
+                    "description": "",
+                    "type": "String|Null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            }
         },
         "helpers": {
             "name": "helpers",
@@ -208,35 +247,6 @@
                 "description": "Array      array of numbers"
             },
             "itemtype": "method"
-        },
-        "String": {
-            "name": "String",
-            "submodules": {},
-            "classes": {
-                "generateId": 1,
-                "createTableFromHtml": 1,
-                "createRowFromHtml": 1,
-                "isFramedTable": 1,
-                "createTagFromHtml": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "string.js",
-            "line": 348,
-            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
-            "itemtype": "method",
-            "params": [
-                {
-                    "name": "seed",
-                    "description": "",
-                    "type": "String|Null"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            }
         }
     },
     "classes": {
@@ -250,7 +260,7 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
+            "file": "classes\\attributesStyle.js",
             "line": 5,
             "description": "This class is supposed to characterize inline styles of html tags.",
             "params": [
@@ -271,8 +281,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 121,
+            "file": "classes\\attributesStyle.js",
+            "line": 124,
             "description": "Styles specific for the table border.",
             "extends": "Style"
         },
@@ -286,8 +296,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 156,
+            "file": "classes\\attributesStyle.js",
+            "line": 159,
             "description": "This class is supposed to define attributes of html tags",
             "params": [
                 {
@@ -307,8 +317,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 229,
+            "file": "classes\\attributesStyle.js",
+            "line": 232,
             "description": "Table-specific attributes.",
             "extends": "Attributes"
         },
@@ -322,8 +332,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 253,
+            "file": "classes\\attributesStyle.js",
+            "line": 259,
             "description": "Text specific style class.",
             "extends": "Style"
         },
@@ -337,8 +347,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 297,
+            "file": "classes\\attributesStyle.js",
+            "line": 304,
             "description": "Represents hyperlink style."
         },
         "TableStyle": {
@@ -351,8 +361,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 348,
+            "file": "classes\\attributesStyle.js",
+            "line": 356,
             "description": "Represents table style."
         },
         "TableRowStyle": {
@@ -365,8 +375,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 424,
+            "file": "classes\\attributesStyle.js",
+            "line": 433,
             "description": "Represents table row style."
         },
         "TableCellStyle": {
@@ -379,8 +389,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 486,
+            "file": "classes\\attributesStyle.js",
+            "line": 496,
             "description": "Represents table cell styles."
         },
         "ImageStyle": {
@@ -393,8 +403,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 560,
+            "file": "classes\\attributesStyle.js",
+            "line": 571,
             "description": "Represents image styles."
         },
         "ListStyle": {
@@ -407,8 +417,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 616,
+            "file": "classes\\attributesStyle.js",
+            "line": 628,
             "description": "Represents image styles."
         },
         "ListItemStyle": {
@@ -421,8 +431,8 @@
             "extension_for": [],
             "module": "attributes",
             "namespace": "",
-            "file": "attributesStyle.js",
-            "line": 642,
+            "file": "classes\\attributesStyle.js",
+            "line": 678,
             "description": "Represents list item styles."
         },
         "Cell": {
@@ -435,7 +445,7 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "cell.js",
+            "file": "classes\\cell.js",
             "line": 5,
             "description": "Represents a table cell. The argument is supposed to be passed to the \"content\" property."
         },
@@ -449,23 +459,9 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 5,
             "description": "This class is used to encompass other objects."
-        },
-        "ListItem": {
-            "name": "ListItem",
-            "shortname": "ListItem",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "HtmlElements",
-            "namespace": "",
-            "file": "list.js",
-            "line": 5,
-            "description": "This class is used to represent a list item."
         },
         "List": {
             "name": "List",
@@ -477,9 +473,30 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "list.js",
-            "line": 73,
-            "description": "This class is used to represent ordered and unordered lists."
+            "file": "classes\\list.js",
+            "line": 5,
+            "description": "This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used\nto set the property \"name\". Otherwise, \"name\" property will be set to the first allowed value.",
+            "params": [
+                {
+                    "name": "listType",
+                    "description": "",
+                    "type": "Sting"
+                }
+            ]
+        },
+        "ListItem": {
+            "name": "ListItem",
+            "shortname": "ListItem",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HtmlElements",
+            "namespace": "",
+            "file": "classes\\listItem.js",
+            "line": 5,
+            "description": "This class is used to represent a list item."
         },
         "Row": {
             "name": "Row",
@@ -491,7 +508,7 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "row.js",
+            "file": "classes\\row.js",
             "line": 5,
             "description": "Represents a table row"
         },
@@ -505,7 +522,7 @@
             "extension_for": [],
             "module": "String",
             "namespace": "",
-            "file": "string.js",
+            "file": "classes\\string.js",
             "line": 5,
             "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id."
         },
@@ -519,8 +536,8 @@
             "extension_for": [],
             "module": "String",
             "namespace": "",
-            "file": "string.js",
-            "line": 220,
+            "file": "classes\\string.js",
+            "line": 280,
             "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects."
         },
         "createRowFromHtml": {
@@ -533,9 +550,30 @@
             "extension_for": [],
             "module": "String",
             "namespace": "",
-            "file": "string.js",
+            "file": "classes\\string.js",
             "line": 74,
             "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
+        },
+        "createUlFromHtml": {
+            "name": "createUlFromHtml",
+            "shortname": "createUlFromHtml",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "String",
+            "namespace": "",
+            "file": "classes\\string.js",
+            "line": 268,
+            "description": "Calls String::createListFromHtml('ol') on the target string.",
+            "params": [
+                {
+                    "name": "listType",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
         },
         "isFramedTable": {
             "name": "isFramedTable",
@@ -547,8 +585,8 @@
             "extension_for": [],
             "module": "String",
             "namespace": "",
-            "file": "string.js",
-            "line": 292,
+            "file": "classes\\string.js",
+            "line": 352,
             "description": "Returns true, if tableHtml is an html code corresponding to a table each row of which\ncontains just one cell, and this cell in its turn contains only one table.\nReturns false otherwise."
         },
         "createTagFromHtml": {
@@ -561,8 +599,8 @@
             "extension_for": [],
             "module": "String",
             "namespace": "",
-            "file": "string.js",
-            "line": 348,
+            "file": "classes\\string.js",
+            "line": 408,
             "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>."
         },
         "Table": {
@@ -575,7 +613,7 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "table.js",
+            "file": "classes\\table.js",
             "line": 5,
             "description": "Represents table."
         },
@@ -589,22 +627,22 @@
             "extension_for": [],
             "module": "HtmlElements",
             "namespace": "",
-            "file": "tag.js",
+            "file": "classes\\tag.js",
             "line": 5,
             "description": "This class is used to represent a general html tag."
         }
     },
     "classitems": [
         {
-            "file": "attributesStyle.js",
+            "file": "classes\\attributesStyle.js",
             "line": 18,
             "description": "Fill in the properties with the values from the argument if any",
             "class": "Style",
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 50,
+            "file": "classes\\attributesStyle.js",
+            "line": 54,
             "description": "Appends object. If non-object is given, error is thrown.",
             "itemtype": "method",
             "name": "appendStyle",
@@ -623,8 +661,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 68,
+            "file": "classes\\attributesStyle.js",
+            "line": 72,
             "description": "Generates string representation of this object (as inline styles)",
             "itemtype": "method",
             "name": "toString",
@@ -640,8 +678,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 77,
+            "file": "classes\\attributesStyle.js",
+            "line": 81,
             "description": "Imposes the width, min-width and max-width",
             "itemtype": "method",
             "name": "setWidth",
@@ -657,8 +695,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 87,
+            "file": "classes\\attributesStyle.js",
+            "line": 91,
             "description": "returns object with keys 'width', 'color', 'style' describing the border.\nIf the Style object has 'border-style' equal to 'none', then in the\nreturn object, the key 'width' is set to 0.\nIf 'border-style' is not 'none' and 'border-width' is present, then in the\nreturn object, the key 'width' the 'border-width' value.\nOtherwise, the 'width' key is not present.",
             "return": {
                 "description": "",
@@ -668,8 +706,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 133,
+            "file": "classes\\attributesStyle.js",
+            "line": 136,
             "description": "border width in px",
             "itemtype": "property",
             "name": "border-width",
@@ -679,8 +717,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 140,
+            "file": "classes\\attributesStyle.js",
+            "line": 143,
             "description": "border style. Possible values: none, solid, dotted etc.",
             "itemtype": "property",
             "name": "border-style",
@@ -690,8 +728,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 147,
+            "file": "classes\\attributesStyle.js",
+            "line": 150,
             "description": "border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)\notherwise some web browsers (e.g. GMail) will remove it and substitute it with its own one.",
             "itemtype": "property",
             "name": "border-color",
@@ -701,15 +739,15 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 168,
+            "file": "classes\\attributesStyle.js",
+            "line": 171,
             "description": "Fill in the properties with the values from the argument if any",
             "class": "Attributes",
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 200,
+            "file": "classes\\attributesStyle.js",
+            "line": 203,
             "description": "Generates string representation of this object (as html attributes)",
             "itemtype": "method",
             "name": "toString",
@@ -725,8 +763,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 210,
+            "file": "classes\\attributesStyle.js",
+            "line": 213,
             "description": "Appends object. If non-object is given, error is thrown. This is a copy-paste of Styles::appendStyle",
             "itemtype": "method",
             "name": "appendAttribute",
@@ -745,8 +783,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 238,
+            "file": "classes\\attributesStyle.js",
+            "line": 244,
             "description": "Cellpadding attribute of the table. It is supposed that measurement unit is \"px\".",
             "itemtype": "property",
             "name": "cellpadding",
@@ -756,8 +794,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 244,
+            "file": "classes\\attributesStyle.js",
+            "line": 250,
             "description": "Cellspacing attribute of the table. It is supposed that measurement unit is \"px\".",
             "itemtype": "property",
             "name": "cellspacing",
@@ -767,8 +805,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 264,
+            "file": "classes\\attributesStyle.js",
+            "line": 271,
             "description": "Font size, including unit of measurement.",
             "itemtype": "property",
             "name": "font-size",
@@ -778,8 +816,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 270,
+            "file": "classes\\attributesStyle.js",
+            "line": 277,
             "description": "Font color",
             "itemtype": "property",
             "name": "color \tFont color",
@@ -789,8 +827,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 276,
+            "file": "classes\\attributesStyle.js",
+            "line": 283,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -800,8 +838,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 282,
+            "file": "classes\\attributesStyle.js",
+            "line": 289,
             "description": "Padding value along with unit of measurement",
             "itemtype": "property",
             "name": "padding",
@@ -811,8 +849,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 288,
+            "file": "classes\\attributesStyle.js",
+            "line": 295,
             "description": "Margin value along with unit of measurement",
             "itemtype": "property",
             "name": "margin",
@@ -822,8 +860,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 308,
+            "file": "classes\\attributesStyle.js",
+            "line": 316,
             "description": "Text decoration attribute",
             "itemtype": "property",
             "name": "text-decoration",
@@ -833,8 +871,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 315,
+            "file": "classes\\attributesStyle.js",
+            "line": 323,
             "description": "Font size",
             "itemtype": "property",
             "name": "font size",
@@ -844,8 +882,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 321,
+            "file": "classes\\attributesStyle.js",
+            "line": 329,
             "description": "Font color attribute",
             "itemtype": "property",
             "name": "font color",
@@ -855,8 +893,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 327,
+            "file": "classes\\attributesStyle.js",
+            "line": 335,
             "description": "Font wieght attribute. See html manuals for possible values.",
             "itemtype": "property",
             "name": "font weight",
@@ -866,8 +904,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 333,
+            "file": "classes\\attributesStyle.js",
+            "line": 341,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -877,8 +915,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 339,
+            "file": "classes\\attributesStyle.js",
+            "line": 347,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -888,8 +926,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 359,
+            "file": "classes\\attributesStyle.js",
+            "line": 368,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -899,8 +937,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 365,
+            "file": "classes\\attributesStyle.js",
+            "line": 374,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -910,8 +948,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 371,
+            "file": "classes\\attributesStyle.js",
+            "line": 380,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -921,8 +959,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 377,
+            "file": "classes\\attributesStyle.js",
+            "line": 386,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -932,8 +970,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 383,
+            "file": "classes\\attributesStyle.js",
+            "line": 392,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -943,8 +981,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 389,
+            "file": "classes\\attributesStyle.js",
+            "line": 398,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -954,8 +992,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 395,
+            "file": "classes\\attributesStyle.js",
+            "line": 404,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -965,8 +1003,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 401,
+            "file": "classes\\attributesStyle.js",
+            "line": 410,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -976,8 +1014,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 408,
+            "file": "classes\\attributesStyle.js",
+            "line": 417,
             "description": "Whether to collapse the table borders or not.",
             "deprecated": true,
             "deprecationMessage": "Do not use, because it causes problems in MS Outlook.",
@@ -989,8 +1027,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 415,
+            "file": "classes\\attributesStyle.js",
+            "line": 424,
             "description": "Border spacing.",
             "itemtype": "property",
             "name": "border-spacing",
@@ -1000,8 +1038,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 435,
+            "file": "classes\\attributesStyle.js",
+            "line": 445,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -1011,8 +1049,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 441,
+            "file": "classes\\attributesStyle.js",
+            "line": 451,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1022,8 +1060,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 447,
+            "file": "classes\\attributesStyle.js",
+            "line": 457,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -1033,8 +1071,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 453,
+            "file": "classes\\attributesStyle.js",
+            "line": 463,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -1044,8 +1082,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 459,
+            "file": "classes\\attributesStyle.js",
+            "line": 469,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -1055,8 +1093,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 465,
+            "file": "classes\\attributesStyle.js",
+            "line": 475,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -1066,8 +1104,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 471,
+            "file": "classes\\attributesStyle.js",
+            "line": 481,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1077,8 +1115,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 477,
+            "file": "classes\\attributesStyle.js",
+            "line": 487,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1088,8 +1126,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 497,
+            "file": "classes\\attributesStyle.js",
+            "line": 508,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -1099,8 +1137,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 503,
+            "file": "classes\\attributesStyle.js",
+            "line": 514,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1110,8 +1148,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 509,
+            "file": "classes\\attributesStyle.js",
+            "line": 520,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -1121,8 +1159,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 515,
+            "file": "classes\\attributesStyle.js",
+            "line": 526,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1132,8 +1170,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 521,
+            "file": "classes\\attributesStyle.js",
+            "line": 532,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1143,8 +1181,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 527,
+            "file": "classes\\attributesStyle.js",
+            "line": 538,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -1154,8 +1192,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 533,
+            "file": "classes\\attributesStyle.js",
+            "line": 544,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1165,8 +1203,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 539,
+            "file": "classes\\attributesStyle.js",
+            "line": 550,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1176,8 +1214,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 545,
+            "file": "classes\\attributesStyle.js",
+            "line": 556,
             "description": "Vertical align of the cell content.",
             "itemtype": "property",
             "name": "vertical-align",
@@ -1187,8 +1225,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 551,
+            "file": "classes\\attributesStyle.js",
+            "line": 562,
             "description": "Font color",
             "itemtype": "property",
             "name": "color",
@@ -1198,8 +1236,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 571,
+            "file": "classes\\attributesStyle.js",
+            "line": 583,
             "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
@@ -1209,8 +1247,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 577,
+            "file": "classes\\attributesStyle.js",
+            "line": 589,
             "description": "Style of the border around the image. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1220,8 +1258,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 583,
+            "file": "classes\\attributesStyle.js",
+            "line": 595,
             "description": "Color of the border around the image.",
             "itemtype": "property",
             "name": "border-color",
@@ -1231,8 +1269,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 589,
+            "file": "classes\\attributesStyle.js",
+            "line": 601,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1242,8 +1280,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 595,
+            "file": "classes\\attributesStyle.js",
+            "line": 607,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1253,8 +1291,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 601,
+            "file": "classes\\attributesStyle.js",
+            "line": 613,
             "description": "Image width.",
             "itemtype": "property",
             "name": "width",
@@ -1264,8 +1302,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 607,
+            "file": "classes\\attributesStyle.js",
+            "line": 619,
             "description": "Image height.",
             "itemtype": "property",
             "name": "height",
@@ -1275,8 +1313,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 627,
+            "file": "classes\\attributesStyle.js",
+            "line": 640,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1286,19 +1324,52 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 633,
-            "description": "Margin.",
+            "file": "classes\\attributesStyle.js",
+            "line": 647,
+            "description": "Margin left.",
             "itemtype": "property",
-            "name": "margin",
+            "name": "margin-left",
             "type": "String|Number",
             "default": "0",
             "class": "ListStyle",
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 653,
+            "file": "classes\\attributesStyle.js",
+            "line": 654,
+            "description": "Margin-right.",
+            "itemtype": "property",
+            "name": "margin-right",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListStyle",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 661,
+            "description": "Margin-top.",
+            "itemtype": "property",
+            "name": "margin-top",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListStyle",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 668,
+            "description": "Margin-bottom.",
+            "itemtype": "property",
+            "name": "margin-bottom",
+            "type": "String|Number",
+            "default": "0",
+            "class": "ListStyle",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 690,
             "description": "Font size of the  text in the list.",
             "itemtype": "property",
             "name": "font-size",
@@ -1308,8 +1379,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 659,
+            "file": "classes\\attributesStyle.js",
+            "line": 696,
             "description": "Text color of the list item content.",
             "itemtype": "property",
             "name": "color",
@@ -1319,8 +1390,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 667,
+            "file": "classes\\attributesStyle.js",
+            "line": 704,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -1330,8 +1401,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 673,
+            "file": "classes\\attributesStyle.js",
+            "line": 710,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1341,8 +1412,8 @@
             "module": "attributes"
         },
         {
-            "file": "attributesStyle.js",
-            "line": 679,
+            "file": "classes\\attributesStyle.js",
+            "line": 716,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1352,8 +1423,8 @@
             "module": "attributes"
         },
         {
-            "file": "cell.js",
-            "line": 16,
+            "file": "classes\\cell.js",
+            "line": 19,
             "description": "Type of the object. Set to value \"Cell\" for the objects of this type.",
             "itemtype": "method",
             "name": "getType",
@@ -1362,12 +1433,14 @@
                 "description": "",
                 "type": "String"
             },
+            "deprecated": true,
+            "deprecationMessage": "in favor of getName()",
             "class": "Cell",
             "module": "HtmlElements"
         },
         {
-            "file": "cell.js",
-            "line": 25,
+            "file": "classes\\cell.js",
+            "line": 29,
             "description": "Html tag corresponding to Cell instances.",
             "itemtype": "property",
             "name": "name",
@@ -1377,8 +1450,8 @@
             "module": "HtmlElements"
         },
         {
-            "file": "cell.js",
-            "line": 33,
+            "file": "classes\\cell.js",
+            "line": 37,
             "description": "Overrides the inherited methods in order to pass the argument to the constructor of Content class.",
             "itemtype": "property",
             "name": "content",
@@ -1394,8 +1467,8 @@
             ]
         },
         {
-            "file": "cell.js",
-            "line": 41,
+            "file": "classes\\cell.js",
+            "line": 45,
             "description": "Styles of the cell",
             "itemtype": "property",
             "name": "style",
@@ -1405,8 +1478,8 @@
             "module": "HtmlElements"
         },
         {
-            "file": "cell.js",
-            "line": 49,
+            "file": "classes\\cell.js",
+            "line": 53,
             "description": "Gets the width of the cell as it is present in the style property. It tends to return a number:\nif it is measured in \"px\", then the measurment unit is removed and the number is returned.",
             "itemtype": "method",
             "name": "getWidth",
@@ -1418,7 +1491,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 16,
             "description": "Container of items. If an item has a method \"toHtml\", it will be applied when transforming the whole Content object into a string.",
             "itemtype": "property",
@@ -1429,7 +1502,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 23,
             "description": "The number of items in the \"elements\" property",
             "itemtype": "method",
@@ -1442,7 +1515,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 32,
             "description": "Gets the element with index \"pos\". If it does not exist, null is returned.",
             "itemtype": "method",
@@ -1462,7 +1535,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 42,
             "description": "Gets the first element. Delegates to Content::getElem(0)",
             "itemtype": "method",
@@ -1475,7 +1548,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 51,
             "description": "Gets the last element. Delegates to Content::getElem()",
             "itemtype": "method",
@@ -1488,7 +1561,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 62,
             "description": "Appends the element to the array Content::elements.",
             "params": [
@@ -1506,7 +1579,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 71,
             "description": "Inserts element at position pos inside the array of elements. If the lenght of array \"elements\"\nis equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given\nposition index is outside that range, an error is thrown. If the position index is equal to N\n(that corresponds to appending the element), then Content::appendElem is called.",
             "itemtype": "method",
@@ -1531,7 +1604,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 95,
             "description": "Appends element to the array of Content::elements.",
             "itemtype": "method",
@@ -1551,7 +1624,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 106,
             "description": "Drops the element at the given position and returns it. If element at the position does not exist,\nan error is thrown.",
             "itemtype": "method",
@@ -1571,7 +1644,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "content.js",
+            "file": "classes\\content.js",
             "line": 122,
             "description": "Transforms the object into html form.  If item of the \"elements\" property is of Object type, then it should have \"toHtml\" method which is to be applied to the item.",
             "itemtype": "method",
@@ -1581,6 +1654,985 @@
                 "type": "String"
             },
             "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 20,
+            "description": "Array of allowed values for the tag names: ['ol', 'ul'].",
+            "itemtype": "property",
+            "name": "allowedNames",
+            "type": "{Array}",
+            "access": "private",
+            "tagname": "",
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 28,
+            "description": "Styles corresponding to the list as a whole object.",
+            "itemtype": "property",
+            "name": "style",
+            "type": "ListStyle",
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 34,
+            "description": "Html tag corresponding to List object. It is taken from the name provided\nwhen creating the object: list = new List('ul'). If not provided or  if it\nis provided, but it is not allowed, then the first allowed value is used.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'ol'",
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 44,
+            "description": "Gets the number of the list items",
+            "itemtype": "method",
+            "name": "itemNum",
+            "return": {
+                "description": "an integer number",
+                "type": "Number"
+            },
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 53,
+            "description": "Appends an object to the list items. The object must be a ListItem instance.\nIf not, an error is thrown.",
+            "itemtype": "method",
+            "name": "appendItem",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "an instance of ListItem",
+                    "type": "ListItem"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\list.js",
+            "line": 67,
+            "description": "Inserts the item at the given position. If the item to insert is a ListItem instance, then\nContent::insertElemAt() is called. Otherwise, an error is thrown.",
+            "itemtype": "method",
+            "name": "isertItemAt",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "index of the position of there to insert the item",
+                    "type": "Number"
+                },
+                {
+                    "name": "item",
+                    "description": "item to insert",
+                    "type": "ListItem"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "List",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\listItem.js",
+            "line": 19,
+            "description": "List item html tag.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "'li'",
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\listItem.js",
+            "line": 27,
+            "description": "List item styles",
+            "itemtype": "property",
+            "name": "style",
+            "type": "{ListItemStyle}",
+            "default": "ListItemStyle()",
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\listItem.js",
+            "line": 35,
+            "description": "Appends the element to the content of the list item.",
+            "itemtype": "method",
+            "name": "appendElem",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\listItem.js",
+            "line": 45,
+            "description": "Returns the number of elements inside its content. Delegates to Content::length().",
+            "itemtype": "method",
+            "name": "length",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\listItem.js",
+            "line": 54,
+            "description": "Gives html representation of the instance.",
+            "itemtype": "method",
+            "name": "toHtml",
+            "return": {
+                "description": "html representation of an instance of this class.",
+                "type": "String"
+            },
+            "class": "ListItem",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 19,
+            "description": "Type of the object. Return \"Row\" for the objects of this type.",
+            "itemtype": "method",
+            "name": "getType",
+            "type": "String",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "deprecated": true,
+            "deprecationMessage": "in favour of getName()",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 29,
+            "description": "Html tag corresponding to Row instances.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "td",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 37,
+            "description": "Styles of the row.",
+            "itemtype": "property",
+            "name": "style",
+            "type": "{TableCellStyle}",
+            "default": "TableRowStyle",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 45,
+            "description": "Gets an array of the widths of the cells inside the row.",
+            "itemtype": "method",
+            "name": "getCellWidths",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 60,
+            "description": "Returns the number of cells in the row. Delegates to the length() method of the \"content\" property.",
+            "itemtype": "method",
+            "name": "cellNum",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 69,
+            "description": "Sets widths of the cells inside the row.",
+            "itemtype": "method",
+            "name": "setCellWidths",
+            "params": [
+                {
+                    "name": "profile",
+                    "description": "each elements if this array is a width of the corresp. cell in the row.",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 85,
+            "description": "Inserts a cell \"cell\" into position \"pos\" of the row.\nAfter insertion, the row length increases by 1. Therefore, \"pos\"\nis the index with which the cell is referenced in the row after insertion.",
+            "itemtype": "method",
+            "name": "insertCellAt",
+            "params": [
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                },
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 106,
+            "description": "Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.",
+            "itemtype": "method",
+            "name": "appendCell",
+            "params": [
+                {
+                    "name": "cell",
+                    "description": "a cell to be appended.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 122,
+            "description": "Drops the cell in the row. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf a cell to delete does not exist, nothing is performed.",
+            "itemtype": "method",
+            "name": "dropCell",
+            "params": [
+                {
+                    "name": "cellNum",
+                    "description": "cell number to delete. Numeration starts with 0.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 155,
+            "description": "Appends style to the cell of the row.",
+            "params": [
+                {
+                    "name": "cellNum",
+                    "description": "cell number to which the style is to be appended.",
+                    "type": "Number"
+                },
+                {
+                    "name": "stl",
+                    "description": "style or object to be appended",
+                    "type": "Style|Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 172,
+            "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
+            "itemtype": "method",
+            "name": "loadFromHtml",
+            "params": [
+                {
+                    "name": "htmlStr",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "depricated": "",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 19,
+            "description": "Type of the object. Returns \"Table\" for the objects of this type.",
+            "itemtype": "method",
+            "name": "getType",
+            "type": "String",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "deprecated": true,
+            "deprecationMessage": "in favor of getName()",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 29,
+            "description": "Html tag corresponding to Table instances.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "{String}",
+            "default": "table",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 37,
+            "description": "Attributes of the table.",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "{TableAttributes}",
+            "default": "TableAttributes",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 45,
+            "description": "Styles of the row",
+            "itemtype": "property",
+            "name": "style",
+            "type": "{TableStyle}",
+            "default": "TableStyle",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 53,
+            "description": "The number of the rows in the table. Delegates its functionality to Content::length.",
+            "itemtype": "method",
+            "name": "rowNum",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 62,
+            "description": "Append a row to the content property. If object to insert is not a Row instance, error is thrown.",
+            "itemtype": "method",
+            "name": "appendRow",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "a row to be appended",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 75,
+            "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
+            "itemtype": "method",
+            "name": "getMatrix",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 90,
+            "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise Null is returned.",
+            "itemtype": "method",
+            "name": "getProfile",
+            "return": {
+                "description": "",
+                "type": "Array|Null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 100,
+            "description": "Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.",
+            "itemtype": "method",
+            "name": "setProfile",
+            "params": [
+                {
+                    "name": "profile",
+                    "description": "an array of cell widths that will be applied to each row.",
+                    "type": "Array"
+                }
+            ],
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 113,
+            "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
+            "itemtype": "method",
+            "name": "insertColumnAt",
+            "params": [
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                },
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 145,
+            "description": "Drops specified column from the table. The operation is delegated to the Row::dropCell()",
+            "itemtype": "method",
+            "name": "dropColumn",
+            "params": [
+                {
+                    "name": "colNum",
+                    "description": "the number of the column to delete. Numeration starts with 0.",
+                    "type": "Integer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 159,
+            "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the Row::cellNum().",
+            "itemtype": "method",
+            "name": "colNum",
+            "return": {
+                "description": "",
+                "type": "Number|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 186,
+            "description": "Whether all rows in the table have the same cell widths.",
+            "itemtype": "method",
+            "name": "sameWidth",
+            "return": {
+                "description": "true, if all rows have the same cells' widths, false otherwise.",
+                "type": "Boolean"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 222,
+            "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
+            "itemtype": "method",
+            "name": "setBorder",
+            "params": [
+                {
+                    "name": "borderInfo",
+                    "description": "Object containing 'width', 'color' and 'style' fo the border to set.",
+                    "type": "Object"
+                }
+            ],
+            "default": "border-width is set to 1, border-color is set to #000000, border-style is set to solid.",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 247,
+            "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
+            "itemtype": "method",
+            "name": "removeBorder",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 268,
+            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
+            "itemtype": "method",
+            "name": "isFramed",
+            "return": {
+                "description": "true if all table rows have border around",
+                "type": "Boolean"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 285,
+            "description": "Deletes properties that are responsable for the frames around the table rows.",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 301,
+            "description": "Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()\non each of the table rows.",
+            "itemtype": "method",
+            "name": "appendStyleToCol",
+            "params": [
+                {
+                    "name": "colNum",
+                    "description": "column number to which the style is to be appended.",
+                    "type": "Number"
+                },
+                {
+                    "name": "style",
+                    "description": "Style or Object to be appended",
+                    "type": "Style|Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 325,
+            "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
+            "itemtype": "method",
+            "name": "toHtml",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 365,
+            "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "Style",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 375,
+            "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "Attribute",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 385,
+            "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "TableCellStyle",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 395,
+            "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "Attribute",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 405,
+            "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "TableStyle",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 415,
+            "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
+            "itemtype": "property",
+            "name": "bogusTableStyle",
+            "type": "Attribute",
+            "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 16,
+            "description": "Tag name.To be set explicitely in child classes.",
+            "itemtype": "property",
+            "name": "name",
+            "type": "String",
+            "default": "null",
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 23,
+            "description": "Returns value of the name attribute.",
+            "itemtype": "method",
+            "name": "getName",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 33,
+            "description": "Tag attributes",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "{Attributes}",
+            "default": "Attributes()",
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 41,
+            "description": "Attribute setter.",
+            "itemtype": "method",
+            "name": "setAttr",
+            "params": [
+                {
+                    "name": "attr",
+                    "description": "",
+                    "type": "String|Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 51,
+            "description": "Appends style to the cell.",
+            "itemtype": "method",
+            "name": "appendStyle",
+            "params": [
+                {
+                    "name": "stl",
+                    "description": "style to be appended",
+                    "type": "Style|Obj"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 68,
+            "description": "Tag styles",
+            "itemtype": "property",
+            "name": "style",
+            "type": "{ListItemStyle}",
+            "default": "ListItemStyle()",
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 76,
+            "description": "Style setter.",
+            "itemtype": "method",
+            "name": "setStyle",
+            "params": [
+                {
+                    "name": "stl",
+                    "description": "",
+                    "type": "String|Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 86,
+            "description": "Retrieves the value of property from the \"style\"",
+            "itemtype": "method",
+            "name": "styleProperty",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "property name which value should be retrieved",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String|Number"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 97,
+            "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well.\nIt is better to use with an integer argument.",
+            "itemtype": "method",
+            "name": "setWidth",
+            "params": [
+                {
+                    "name": "w",
+                    "description": "value of the width. Supposed to be either a string (i.e. \"10px\", \"14.1em\" etc)\nor a number (i.e. 200, 10).",
+                    "type": "String|Number"
+                }
+            ],
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 115,
+            "description": "Content of the tag.",
+            "itemtype": "property",
+            "name": "content",
+            "type": "{Content}",
+            "default": "Content()",
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 123,
+            "description": "Gets the element stored in property \"content\". Delegates its functionality to the class Content.",
+            "itemtype": "method",
+            "name": "getElem",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 133,
+            "description": "Gets the first element stored in property \"content\". Delegates its functionality to the class Content.",
+            "itemtype": "method",
+            "name": "getFirst",
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 142,
+            "description": "Gets the last element stored in property \"content\". Delegates its functionality to the class Content.",
+            "itemtype": "method",
+            "name": "getLast",
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 151,
+            "description": "Inserts an element into given position. Delegates its functionality to the class Content.",
+            "itemtype": "method",
+            "name": "insertElemAt",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 162,
+            "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
+            "itemtype": "method",
+            "name": "appendElem",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 172,
+            "description": "Returns the number of elements inside its content. Delegates to Content::length().",
+            "itemtype": "method",
+            "name": "length",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\tag.js",
+            "line": 181,
+            "description": "Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.",
+            "itemtype": "method",
+            "name": "toHtml",
+            "return": {
+                "description": "html representation of an instance of this class.",
+                "type": "String"
+            },
+            "class": "Tag",
             "module": "HtmlElements"
         },
         {
@@ -1596,7 +2648,7 @@
             "return": {
                 "description": "String"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "HtmlElements"
         },
         {
@@ -1612,7 +2664,7 @@
             "return": {
                 "description": "String"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "HtmlElements"
         },
         {
@@ -1630,7 +2682,7 @@
                 "description": "",
                 "type": "String"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "helpers"
         },
         {
@@ -1653,7 +2705,7 @@
                 "description": "array of integers",
                 "type": "Array"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "helpers"
         },
         {
@@ -1667,7 +2719,7 @@
                     "type": "Object"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1696,7 +2748,7 @@
                 "description": "",
                 "type": "String|Null"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1719,7 +2771,7 @@
                 "description": "",
                 "type": "String"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1742,7 +2794,7 @@
                 "description": "",
                 "type": "Object"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1753,7 +2805,7 @@
                 "description": "Returns the Object data after storing it on itself with\n\tproperty name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)\n\tdeleting the oldest entry",
                 "type": "Function(string, Object)"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1767,7 +2819,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1781,7 +2833,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1800,7 +2852,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1823,7 +2875,7 @@
                 "description": "Returns less than 0 if a precedes b, greater than 0 if a follows b",
                 "type": "Number"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1837,7 +2889,7 @@
                     "type": "String"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1851,7 +2903,7 @@
                     "type": "String"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1865,7 +2917,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1879,7 +2931,7 @@
                     "type": "Element|Object"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1898,7 +2950,7 @@
                 "description": "Returns the current document",
                 "type": "Object"
             },
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1912,7 +2964,7 @@
                     "type": "ArrayLike"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
         },
         {
@@ -1926,403 +2978,8 @@
                     "type": "Array|Element"
                 }
             ],
-            "class": "ListItem",
+            "class": "",
             "module": "attributes"
-        },
-        {
-            "file": "list.js",
-            "line": 16,
-            "description": "List item attributes",
-            "itemtype": "property",
-            "name": "attr",
-            "type": "{Attributes}",
-            "default": "Attributes()",
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 24,
-            "description": "List item styles",
-            "itemtype": "property",
-            "name": "style",
-            "type": "{ListItemStyle}",
-            "default": "ListItemStyle()",
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 32,
-            "description": "Content of the list item.",
-            "itemtype": "property",
-            "name": "content",
-            "type": "{Content}",
-            "default": "Content()",
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 40,
-            "description": "Appends the element to the content of the list item.",
-            "itemtype": "method",
-            "name": "appendElem",
-            "params": [
-                {
-                    "name": "elem",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 50,
-            "description": "Returns the number of elements inside its content. Delegates to Content::length().",
-            "itemtype": "method",
-            "name": "length",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 59,
-            "description": "Gives html representation of the instance.",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "html representation of an instance of this class.",
-                "type": "String"
-            },
-            "class": "ListItem",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 83,
-            "description": "Type of the list: 'ul' for unordered  and 'ol' for ordered one.",
-            "itemtype": "property",
-            "name": "type",
-            "type": "String",
-            "default": "'ul'",
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 90,
-            "description": "Retrieves type of the list.",
-            "itemtype": "method",
-            "name": "getType",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 99,
-            "description": "Attributes corresponding to the list as a whole object.",
-            "itemtype": "property",
-            "name": "attr",
-            "type": "Attribute",
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 106,
-            "description": "Styles corresponding to the list as a whole object.",
-            "itemtype": "property",
-            "name": "style",
-            "type": "ListStyle",
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 112,
-            "description": "Items of the list.",
-            "itemtype": "property",
-            "name": "items",
-            "type": "Array",
-            "default": "[]",
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 119,
-            "description": "Gets the number of the list items",
-            "itemtype": "method",
-            "name": "itemNum",
-            "return": {
-                "description": "an integer number",
-                "type": "Number"
-            },
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 128,
-            "description": "Appends an object to the list items. The object must be a ListItem instance.\nIf not, an error is thrown.",
-            "itemtype": "method",
-            "name": "appendItem",
-            "params": [
-                {
-                    "name": "item",
-                    "description": "an instance of ListItem",
-                    "type": "ListItem"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 142,
-            "description": "Inserts the item at the given position. If the list contains N items, then allowed index for the\nitem to be inserted at is the range [0, N]. Zero index corresponds to insertion at the beginning of the list,\nN - to the end of the list, that is to appending (delegates to List::appendItem). If the index is out\nof this range, an error is thrown. If the item to be inserted is not an instance of ListItem,\nan error is thrown.",
-            "itemtype": "method",
-            "name": "isertItemAt",
-            "params": [
-                {
-                    "name": "pos",
-                    "description": "index of the position of there to insert the item",
-                    "type": "Number"
-                },
-                {
-                    "name": "item",
-                    "description": "item to insert",
-                    "type": "ListItem"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "list.js",
-            "line": 170,
-            "description": "Gives an html representation of the list. If the list has no items, empty string is returned.",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "List",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 17,
-            "description": "Type of the object. Return \"Row\" for the objects of this type.",
-            "itemtype": "method",
-            "name": "getType",
-            "type": "String",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 26,
-            "description": "Html tag corresponding to Row instances.",
-            "itemtype": "property",
-            "name": "name",
-            "type": "{String}",
-            "default": "td",
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 36,
-            "description": "Styles of the row.",
-            "itemtype": "property",
-            "name": "style",
-            "type": "{TableCellStyle}",
-            "default": "TableRowStyle",
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 44,
-            "description": "Gets an array of the widths of the cells inside the row.",
-            "itemtype": "method",
-            "name": "getCellWidths",
-            "return": {
-                "description": "",
-                "type": "Array"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 59,
-            "description": "Returns the number of cells in the row. Delegates to the length() method of the \"content\" property.",
-            "itemtype": "method",
-            "name": "cellNum",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 68,
-            "description": "Sets widths of the cells inside the row.",
-            "itemtype": "method",
-            "name": "setCellWidths",
-            "params": [
-                {
-                    "name": "profile",
-                    "description": "each elements if this array is a width of the corresp. cell in the row.",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 84,
-            "description": "Inserts a cell \"cell\" into position \"pos\" of the row.\nAfter insertion, the row length increases by 1. Therefore, \"pos\"\nis the index with which the cell is referenced in the row after insertion.",
-            "itemtype": "method",
-            "name": "insertCellAt",
-            "params": [
-                {
-                    "name": "cell",
-                    "description": "",
-                    "type": "Cell"
-                },
-                {
-                    "name": "pos",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 105,
-            "description": "Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.",
-            "itemtype": "method",
-            "name": "appendCell",
-            "params": [
-                {
-                    "name": "cell",
-                    "description": "a cell to be appended.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 121,
-            "description": "Drops the cell in the row. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf a cell to delete does not exist, nothing is performed.",
-            "itemtype": "method",
-            "name": "dropCell",
-            "params": [
-                {
-                    "name": "cellNum",
-                    "description": "cell number to delete. Numeration starts with 0.",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 154,
-            "description": "Appends style to the cell of the row.",
-            "params": [
-                {
-                    "name": "cellNum",
-                    "description": "cell number to which the style is to be appended.",
-                    "type": "Number"
-                },
-                {
-                    "name": "stl",
-                    "description": "style or object to be appended",
-                    "type": "Style|Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "row.js",
-            "line": 171,
-            "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
-            "itemtype": "method",
-            "name": "loadFromHtml",
-            "params": [
-                {
-                    "name": "htmlStr",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
         },
         {
             "file": "start.js",
@@ -2344,8 +3001,8 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "generateId",
-            "module": "HtmlElements"
+            "class": "",
+            "module": "attributes"
         },
         {
             "file": "start.js",
@@ -2362,623 +3019,15 @@
                 "description": "[description]",
                 "type": "[type]"
             },
-            "class": "generateId",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 17,
-            "description": "Type of the object. Returns \"Table\" for the objects of this type.",
-            "itemtype": "method",
-            "name": "getType",
-            "type": "String",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 26,
-            "description": "Html tag corresponding to Table instances.",
-            "itemtype": "property",
-            "name": "name",
-            "type": "{String}",
-            "default": "table",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 34,
-            "description": "Attributes of the table.",
-            "itemtype": "property",
-            "name": "attr",
-            "type": "{TableAttributes}",
-            "default": "TableAttributes",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 42,
-            "description": "Styles of the row",
-            "itemtype": "property",
-            "name": "style",
-            "type": "{TableStyle}",
-            "default": "TableStyle",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 50,
-            "description": "The number of the rows in the table. Delegates its functionality to Content::length.",
-            "itemtype": "method",
-            "name": "rowNum",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 59,
-            "description": "Append a row to the content property. If object to insert is not a Row instance, error is thrown.",
-            "itemtype": "method",
-            "name": "appendRow",
-            "params": [
-                {
-                    "name": "row",
-                    "description": "a row to be appended",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 75,
-            "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
-            "itemtype": "method",
-            "name": "getMatrix",
-            "return": {
-                "description": "",
-                "type": "Array"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 90,
-            "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise Null is returned.",
-            "itemtype": "method",
-            "name": "getProfile",
-            "return": {
-                "description": "",
-                "type": "Array|Null"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 100,
-            "description": "Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.",
-            "itemtype": "method",
-            "name": "setProfile",
-            "params": [
-                {
-                    "name": "profile",
-                    "description": "an array of cell widths that will be applied to each row.",
-                    "type": "Array"
-                }
-            ],
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 113,
-            "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
-            "itemtype": "method",
-            "name": "insertColumnAt",
-            "params": [
-                {
-                    "name": "cell",
-                    "description": "",
-                    "type": "Cell"
-                },
-                {
-                    "name": "pos",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 145,
-            "description": "Drops specified column from the table. The operation is delegated to the Row::dropCell()",
-            "itemtype": "method",
-            "name": "dropColumn",
-            "params": [
-                {
-                    "name": "colNum",
-                    "description": "the number of the column to delete. Numeration starts with 0.",
-                    "type": "Integer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 159,
-            "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the Row::cellNum().",
-            "itemtype": "method",
-            "name": "colNum",
-            "return": {
-                "description": "",
-                "type": "Number|null"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 186,
-            "description": "Whether all rows in the table have the same cell widths.",
-            "itemtype": "method",
-            "name": "sameWidth",
-            "return": {
-                "description": "true, if all rows have the same cells' widths, false otherwise.",
-                "type": "Boolean"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 222,
-            "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
-            "itemtype": "method",
-            "name": "setBorder",
-            "params": [
-                {
-                    "name": "borderInfo",
-                    "description": "Object containing 'width', 'color' and 'style' fo the border to set.",
-                    "type": "Object"
-                }
-            ],
-            "default": "border-width is set to 1, border-color is set to #000000, border-style is set to solid.",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 247,
-            "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
-            "itemtype": "method",
-            "name": "removeBorder",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 268,
-            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
-            "itemtype": "method",
-            "name": "isFramed",
-            "return": {
-                "description": "true if all table rows have border around",
-                "type": "Boolean"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 285,
-            "description": "Deletes properties that are responsable for the frames around the table rows.",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 301,
-            "description": "Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()\non each of the table rows.",
-            "itemtype": "method",
-            "name": "appendStyleToCol",
-            "params": [
-                {
-                    "name": "colNum",
-                    "description": "column number to which the style is to be appended.",
-                    "type": "Number"
-                },
-                {
-                    "name": "style",
-                    "description": "Style or Object to be appended",
-                    "type": "Style|Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 325,
-            "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 365,
-            "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "Style",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 375,
-            "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "Attribute",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 385,
-            "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "TableCellStyle",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 395,
-            "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "Attribute",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 405,
-            "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "TableStyle",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "table.js",
-            "line": 415,
-            "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
-            "itemtype": "property",
-            "name": "bogusTableStyle",
-            "type": "Attribute",
-            "default": "null",
-            "class": "Table",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 17,
-            "description": "Tag name",
-            "itemtype": "property",
-            "name": "name",
-            "type": "String",
-            "default": "null",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 25,
-            "description": "Tag attributes",
-            "itemtype": "property",
-            "name": "attr",
-            "type": "{Attributes}",
-            "default": "Attributes()",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 33,
-            "description": "Attribute setter.",
-            "itemtype": "method",
-            "name": "setAttr",
-            "params": [
-                {
-                    "name": "attr",
-                    "description": "",
-                    "type": "String|Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 43,
-            "description": "Appends style to the cell.",
-            "itemtype": "method",
-            "name": "appendStyle",
-            "params": [
-                {
-                    "name": "stl",
-                    "description": "style to be appended",
-                    "type": "Style|Obj"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 60,
-            "description": "Tag styles",
-            "itemtype": "property",
-            "name": "style",
-            "type": "{ListItemStyle}",
-            "default": "ListItemStyle()",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 68,
-            "description": "Style setter.",
-            "itemtype": "method",
-            "name": "setStyle",
-            "params": [
-                {
-                    "name": "stl",
-                    "description": "",
-                    "type": "String|Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 78,
-            "description": "Retrieves the value of property from the \"style\"",
-            "itemtype": "method",
-            "name": "styleProperty",
-            "params": [
-                {
-                    "name": "prop",
-                    "description": "property name which value should be retrieved",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String|Number"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 89,
-            "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\" and \"max-width\" are imposed as well.\nIt is better to use with an integer argument.",
-            "itemtype": "method",
-            "name": "setWidth",
-            "params": [
-                {
-                    "name": "w",
-                    "description": "value of the width. Supposed to be either a string (i.e. \"10px\", \"14.1em\" etc)\nor a number (i.e. 200, 10).",
-                    "type": "String|Number"
-                }
-            ],
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 102,
-            "description": "Content of the list item.",
-            "itemtype": "property",
-            "name": "content",
-            "type": "{Content}",
-            "default": "Content()",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 110,
-            "description": "Gets the element stored in property \"content\". Delegates its functionality to the class Content.",
-            "itemtype": "method",
-            "name": "getElem",
-            "params": [
-                {
-                    "name": "pos",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Any"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 120,
-            "description": "Gets the first element stored in property \"content\". Delegates its functionality to the class Content.",
-            "itemtype": "method",
-            "name": "getFirst",
-            "return": {
-                "description": "",
-                "type": "Any"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 129,
-            "description": "Gets the last element stored in property \"content\". Delegates its functionality to the class Content.",
-            "itemtype": "method",
-            "name": "getLast",
-            "return": {
-                "description": "",
-                "type": "Any"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 138,
-            "description": "Inserts an element into given position. Delegates its functionality to the class Content.",
-            "itemtype": "method",
-            "name": "insertElemAt",
-            "params": [
-                {
-                    "name": "pos",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "elem",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 149,
-            "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
-            "itemtype": "method",
-            "name": "appendElem",
-            "params": [
-                {
-                    "name": "elem",
-                    "description": "",
-                    "type": "Any"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 159,
-            "description": "Returns the number of elements inside its content. Delegates to Content::length().",
-            "itemtype": "method",
-            "name": "length",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "tag.js",
-            "line": 168,
-            "description": "Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.",
-            "itemtype": "method",
-            "name": "toHtml",
-            "return": {
-                "description": "html representation of an instance of this class.",
-                "type": "String"
-            },
-            "class": "Tag",
-            "module": "HtmlElements"
+            "class": "",
+            "module": "attributes"
         }
     ],
     "warnings": [
+        {
+            "message": "unknown tag: depricated",
+            "line": " classes\\row.js:172"
+        },
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " jquery-1.10.2.js:1292"
@@ -2993,19 +3042,27 @@
         },
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any",
-            "line": " attributesStyle.js:18"
+            "line": " classes\\attributesStyle.js:18"
         },
         {
             "message": "Missing item type\nreturns object with keys 'width', 'color', 'style' describing the border.\nIf the Style object has 'border-style' equal to 'none', then in the\nreturn object, the key 'width' is set to 0.\nIf 'border-style' is not 'none' and 'border-width' is present, then in the\nreturn object, the key 'width' the 'border-width' value.\nOtherwise, the 'width' key is not present.",
-            "line": " attributesStyle.js:87"
+            "line": " classes\\attributesStyle.js:91"
         },
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any",
-            "line": " attributesStyle.js:168"
+            "line": " classes\\attributesStyle.js:171"
         },
         {
             "message": "Missing item type\nAppends the element to the array Content::elements.",
-            "line": " content.js:62"
+            "line": " classes\\content.js:62"
+        },
+        {
+            "message": "Missing item type\nAppends style to the cell of the row.",
+            "line": " classes\\row.js:155"
+        },
+        {
+            "message": "Missing item type\nDeletes properties that are responsable for the frames around the table rows.",
+            "line": " classes\\table.js:285"
         },
         {
             "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
@@ -3088,20 +3145,12 @@
             "line": " jquery-1.10.2.js:1882"
         },
         {
-            "message": "Missing item type\nAppends style to the cell of the row.",
-            "line": " row.js:154"
-        },
-        {
             "message": "Missing item type\nDrops inline attribute named attrName from DOM element",
             "line": " start.js:15"
         },
         {
             "message": "Missing item type\nInserts table and applies hover effect on it.\nIt is based on CKEDITOR.editor.insertElement() method.\nThis approach might be wrong but I wanted to avoid repetitions.",
             "line": " start.js:31"
-        },
-        {
-            "message": "Missing item type\nDeletes properties that are responsable for the frames around the table rows.",
-            "line": " table.js:285"
         }
     ]
 }

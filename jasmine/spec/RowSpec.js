@@ -1,15 +1,15 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, Cell, Row, Content, TableRowStyle, Attributes, Style, jasmine, Tag*/
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Table, Cell, Row, Content, TableRowStyle, Attributes, Style, jasmine, Tag*/
 
 describe('Row-related functionality:', function(){
-    var row, rowAttr, rowStyle, cell1, cell2, cell3, cell4;
+    var row, rowStyle, cell1, cell2, cell3, cell4;
     beforeEach(function(){
         cell1 = new Cell();
         cell2 = new Cell();
         cell3 = new Cell();
         cell4 = new Cell();
         row = new Row();
-        rowAttr = new Attributes();
+        // rowAttr = new Attributes();
         rowStyle = new TableRowStyle();
     });
 
@@ -20,148 +20,143 @@ describe('Row-related functionality:', function(){
             row.style.width = 34;
             expect((new Row()).style.width).not.toBe(34);
         });
-    });
+        describe('inherits properly from Tag() class', function(){
+            it('instance of Row is an instance of Tag as well', function(){
+                expect(row instanceof Tag).toBe(true);
+            });
+            it('does not affect parent attr if it is changed in the child', function(){
+                expect((new Row()).attr.width).not.toBe(102);
+                row.attr.width = 102;
+                expect((new Row()).attr.width).not.toBe(102);
+                expect(row.attr.width).toBe(102);
+            });
+            it('does not affect parent style if it is changed in the child', function(){
+                expect((new Row()).style.width).not.toBe('whatever');
+                row.style.width = 'whatever';
+                expect((new Row()).style.width).not.toBe('whatever');
+                expect(row.style.width).toBe('whatever');
+            });
 
-
-    it('creates a Row with empty content', function(){
-        expect((new Table()).length()).toBe(0);
-        expect((new Tag()).length()).toBe(0);
-        expect((new Cell()).length()).toBe(0);
-        expect((new Row()).length()).toBe(0);
-
-        expect(row.cellNum()).toBe(0);
-        expect(row.length()).toBe(0);
-    });
-
-    it('creates object with type attribute "table row object"', function(){
-        expect(row.getType()).toBe("Row");
+            it('does not affect parent name property if it is changed in the child', function(){
+                expect((new Tag()).name).toBe(null);
+                expect((new Row()).name).toBe('tr');
+                row.name = 'whatever';
+                expect((new Tag()).name).toBe(null);
+                expect((new Row()).name).toBe('tr');
+                expect(row.name).toBe('whatever');
+            });
+        });
     });
 
     it('has property name set to "tr"', function(){
         expect(row.name).toBe('tr');
     });
 
-    it('retrieves property of type "string" from the style', function() {
-        rowStyle['a property'] = 'row property value';
-        row.style = rowStyle;
-        expect(row.styleProperty('a property')).toEqual('row property value');
+    describe('appends a cell', function(){
+        it('throws an error if not Cell instance is provided', function(){
+            var obj = {};
+            expect(obj instanceof Cell).toBe(false);
+            expect(function(){
+                row.appendCell(obj);
+            }).toThrow('The argument is not a Cell instance!');
+        });
+
+        it('call Content::appendElem when appending cell', function(){
+            spyOn(row, 'appendElem');
+            expect(cell1 instanceof Cell).toBe(true);
+            row.appendCell(cell1);
+            expect(row.appendElem).toHaveBeenCalledWith(cell1);
+        });
     });
 
-    it('retrieves property of type "Number" from the style', function() {
-        rowStyle['a-property'] = 12.6;
-        row.style = rowStyle;
-        expect(row.styleProperty('a-property')).toEqual(12.6);
+    it('calls parent method to get the number of cells in the row', function(){
+        spyOn(row, 'length').andCallFake(function(){return 'parent length';});
+        row.cellNum();
+        expect(row.length).toHaveBeenCalled();
+        expect(row.length()).toBe('parent length');
     });
 
-    it('retrieves non-existing property from the style', function() {
-        if (rowStyle.hasOwnProperty('row property')) {
-            delete rowStyle['row property'];
-        }
-        row.style = rowStyle;
-        expect(row.styleProperty('row property')).not.toBeDefined();
-    });
+    describe('retrieves the style properites', function(){
+        it('if the property is a string', function() {
+            rowStyle['a property'] = 'row property value';
+            row.style = rowStyle;
+            expect(row.styleProperty('a property')).toEqual('row property value');
+        });
 
-    it('sets the width of the row', function(){
-        row.setWidth(15);
-        expect(row.styleProperty('width')).toEqual(15);
-        expect(row.styleProperty('min-width')).toEqual(15);
-        expect(row.styleProperty('max-width')).toEqual(15);
-        expect(row.attr.width).toEqual(15);
-    });
+        it('if the property is a number', function() {
+            rowStyle['a-property'] = 12.6;
+            row.style = rowStyle;
+            expect(row.styleProperty('a-property')).toEqual(12.6);
+        });
 
-    it('throws exception if a non-Cell object is appended to the row cells', function(){
-       // var cell = new Cell();
-       // prentend that the cell is not a cell
-       // spyOn(cell, 'getType').andCallFake(function(){
-           // return "not a cell";
-       // });
-        var foo = jasmine.any(String);
-        expect(foo instanceof Cell).toBe(false);
-        expect(function(){
-           row.appendCell(foo);
-        }).toThrow('The argument is not of the Cell type!');
-
-        foo = jasmine.any(Number);
-        expect(foo instanceof Cell).toBe(false);
-        expect(function(){
-           row.appendCell(foo);
-        }).toThrow('The argument is not of the Cell type!');
-
-        foo = jasmine.any(Object);
-        expect(foo instanceof Cell).toBe(false);
-        expect(function(){
-           row.appendCell(foo);
-        }).toThrow('The argument is not of the Cell type!');
-
-
-        expect(function(){
-           row.appendCell(new Tag());
-        }).toThrow('The argument is not of the Cell type!');
-
-    });
-
-
-    it('appends a cell to the existing cells', function(){
-        row.content.elements = [];
-        expect(row.cellNum()).toBe(0);
-        row.appendCell(cell1);
-        expect(row.cellNum()).toBe(1);
-        row.appendCell(cell2);
-        expect(row.cellNum()).toBe(2);
-        row.appendCell(cell3);
-        expect(row.cellNum()).toBe(3);
+        it('if the property is not set ', function() {
+            if (rowStyle.hasOwnProperty('row property')) {
+                delete rowStyle['row property'];
+            }
+            row.style = rowStyle;
+            expect(row.styleProperty('row property')).not.toBeDefined();
+        });
     });
 
     it('gets widths of the cells', function(){
         spyOn(cell1, 'getWidth').andCallFake(function(){
-            return 'cell 1 width';
+            return 'row 1 width';
         });
         spyOn(cell2, 'getWidth').andCallFake(function(){
-            return 'cell 2 width';
+            return 'row 2 width';
         });
 
         row.content.elements = [cell1, cell2];
         expect(row.getCellWidths().length).toBe(2);
-        expect(row.getCellWidths()[0]).toBe('cell 1 width');
-        expect(row.getCellWidths()[1]).toBe('cell 2 width');
+        expect(row.getCellWidths()[0]).toBe('row 1 width');
+        expect(row.getCellWidths()[1]).toBe('row 2 width');
 
         row.content.elements = [cell1];
         expect(row.getCellWidths().length).toBe(1);
-        expect(row.getCellWidths()[0]).toBe('cell 1 width');
+        expect(row.getCellWidths()[0]).toBe('row 1 width');
 
         row.content.elements = [];
         expect(row.getCellWidths().length).toBe(0);
     });
 
-    it('calls corresponding methods to set widths of the cells of the row', function(){
-        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
-        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
-        spyOn(cell3, 'setWidth').andCallFake(function(){return null;});
-        row.content.elements = [cell1, cell2, cell3];
-        row.setCellWidths([1, 12, 0.11]);
-        expect(cell1.setWidth).toHaveBeenCalledWith(1);
-        expect(cell2.setWidth).toHaveBeenCalledWith(12);
-        expect(cell3.setWidth).toHaveBeenCalledWith(0.11);
+    describe('sets widths of the cells of the row', function(){
+        it('throws an error if the input array length is different from the row cell length', function(){
+            spyOn(row, 'length').andCallFake(function(){return 10;});
+            expect(function(){
+                row.setCellWidths([1, 0.11]);
+            }).toThrow('Incompatible array length!');
+        });
+        it('does not throw an error if the input array length is different from the row cell length', function(){
+            spyOn(row, 'length').andCallFake(function(){return 0;});
+            expect(function(){
+                row.setCellWidths([]);
+            }).not.toThrow('Incompatible array length!');
+        });
+
+        it('calls setWidth() of the Cell instances if the input array length is equal to the row cell length', function(){
+            spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
+            spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
+            spyOn(row, 'length').andCallFake(function(){return 2;});
+            row.content.elements = [cell1, cell2];
+            row.setCellWidths([1, 0.11]);
+            expect(cell1.setWidth).toHaveBeenCalledWith(1);
+            expect(cell2.setWidth).toHaveBeenCalledWith(0.11);
+        });
+        it('does not call setWidth() of the Cell instances if the input array length and the row are both empty', function(){
+            spyOn(row, 'length').andCallFake(function(){return 0;});
+            spyOn(cell1, 'setWidth');
+            spyOn(cell2, 'setWidth');
+            row.content.elements = [cell1, cell2];
+            row.setCellWidths([]);
+            expect(cell1.setWidth).not.toHaveBeenCalled();
+            expect(cell2.setWidth).not.toHaveBeenCalled();
+        });
     });
 
-    it('does not call methods to set cell widths if input array length is different from the cells number', function(){
-        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
-        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
-        row.content.elements = [cell1, cell2];
-        row.setCellWidths([235, 211, 21]);
-        expect(cell1.setWidth).not.toHaveBeenCalled();
-        expect(cell2.setWidth).not.toHaveBeenCalled();
-    });
-
-    it('does not call methods to set cell widths if input array length is different from the cells number', function(){
-        spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
-        spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
-        spyOn(cell3, 'setWidth').andCallFake(function(){return null;});
-        row.content.elements = [cell1, cell2, cell3];
-        row.setCellWidths([235, 211]);
-        expect(cell1.setWidth).not.toHaveBeenCalled();
-        expect(cell2.setWidth).not.toHaveBeenCalled();
-        expect(cell3.setWidth).not.toHaveBeenCalled();
+    it('calls parent method to to delete cell', function(){
+        spyOn(row, 'dropElemAt');
+        row.dropCellAt('position');
+        expect(row.dropElemAt).toHaveBeenCalledWith('position');
     });
 
     it('deletes the first cell in the row', function(){
@@ -202,63 +197,34 @@ describe('Row-related functionality:', function(){
         expect(row.getElem(2).getWidth()).toBe(210);
     });
 
-    it('when asked to delete a non-existing cell (cell number corresponds to a non-existing cell), nothing is done to the table', function(){
+    it('when asked to delete a non-existing cell, the cell widths remain unchanged', function(){
         cell1.setWidth(200);
         cell2.setWidth(110);
         cell3.setWidth(150);
         row.content.elements = [cell1, cell2, cell3];
-        row.dropCell(row.cellNum() + 10); // delete non-existing cell
+        row.dropCell(row.cellNum() + 10); // delete non-existing row
         expect(row.cellNum()).toBe(3);
         expect(row.getElem(0).getWidth()).toBe(200);
         expect(row.getElem(1).getWidth()).toBe(110);
         expect(row.getElem(2).getWidth()).toBe(150);
     });
 
-    it('calls Content::length() method to calculate the number of cells in the row', function(){
-        var content = new Content();
-        spyOn(content, 'length').andCallFake(function(){return 'content output';});
-        row.content = content;
-        expect(row.cellNum()).toBe('content output');
-    });
 
     describe('inserts cell at given position', function(){
-        it('throws an error if trying to insert non-cell object into a valid position', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 8;});
+        it('throws an error if trying to insert a non Cell instance', function(){
+            var obj = {};
+            expect(obj instanceof Cell).toBe(false);
             expect(function(){
-                row.insertCellAt(0, {});
-            }).toThrow('Trying to insert non-cell object!');
-            expect(function(){
-                row.insertCellAt(1, 'foo');
-            }).toThrow('Trying to insert non-cell object!');
-            expect(function(){
-                row.insertCellAt(4, 'not a cell');
-            }).toThrow('Trying to insert non-cell object!');
-            expect(function(){
-                row.insertCellAt(7, 'not a cell');
-            }).toThrow('Trying to insert non-cell object!');
-            expect(function(){
-                row.insertCellAt(7, new Tag());
-            }).toThrow('Trying to insert non-cell object!');
-
+                row.insertCellAt('any position', obj);
+            }).toThrow('Only a Cell instance is allowed for insertion!');
         });
 
-        it('throw an error if trying to insert non-cell object into an invalid position', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 20;});
-            expect(function(){
-                row.insertCellAt(-1, 'not a cell');
-            }).toThrow('Trying to insert non-cell object!');
-            expect(function(){
-                row.insertCellAt(21, 'not a cell');
-            }).toThrow('Trying to insert non-cell object!');
-        });
-
-        it('calls Content::insertElemAt method to insert a Cell', function(){
-            var content = new Content(),
-                c = new Cell('new cell');
-            spyOn(content, 'insertElemAt');
-            row.content = content;
-            row.insertCellAt('whatever', c);
-            expect(content.insertElemAt).toHaveBeenCalledWith('whatever', c);
+        it('calls parent method insertElemAt()', function(){
+            var c = new Cell('new row');
+            spyOn(row, 'insertElemAt');
+            expect(c instanceof Cell).toBe(true);
+            row.insertCellAt(21, c);
+            expect(row.insertElemAt).toHaveBeenCalledWith(21, c);
         });
     });
 
@@ -266,38 +232,38 @@ describe('Row-related functionality:', function(){
         it('Throws an error if the cell number is negative', function(){
             expect(function(){
                 row.appendStyleToCell(-1, "whatever");
-            }).toThrow('The cell is not found!');
+            }).toThrow('Cell is not found!');
         });
-        it('Throws an error if the cell number is not integer', function(){
+        it('Throws an error if the row number is not integer', function(){
             expect(function(){
                 row.appendStyleToCell(1.34, "whatever");
-            }).toThrow('The cell is not found!');
+            }).toThrow('Cell is not found!');
         });
-        it('Throws an error if the cell number is too big', function(){
+        it('Throws an error if the row number is too big', function(){
             spyOn(row, 'cellNum').andCallFake(function(){
                 return 3;
             });
             expect(function(){
                 row.appendStyleToCell(5, "whatever");
-            }).toThrow('The cell is not found!');
+            }).toThrow('Cell is not found!');
         });
-        it('Throws an error if the cell number is equal to number of the cells', function(){
+        it('Throws an error if the row number is equal to number of the cells', function(){
             spyOn(row, 'cellNum').andCallFake(function(){
                 return 5;
             });
             expect(function(){
                 row.appendStyleToCell(5, "whatever");
-            }).toThrow('The cell is not found!');
+            }).toThrow('Cell is not found!');
         });
-        it('Does not throw any error if the cell number is one less than the number of the cells', function(){
+        it('Does not throw any error if the row number is one less than the number of the cells', function(){
             spyOn(row, 'cellNum').andCallFake(function(){
                 return 12;
             });
             expect(function(){
                 row.appendStyleToCell(11, "whatever");
-            }).not.toThrow('The cell is not found!');
+            }).not.toThrow('Cell is not found!');
         });
-        it('calls append Style method on a middle cell of the row', function(){
+        it('calls append Style method on a middle row of the row', function(){
             spyOn(cell1, 'appendStyle');
             spyOn(cell2, 'appendStyle');
             spyOn(cell3, 'appendStyle');
@@ -310,7 +276,7 @@ describe('Row-related functionality:', function(){
             expect(cell4.appendStyle).not.toHaveBeenCalled();
         });
 
-        it('calls append Style method on the first cell of the row', function(){
+        it('calls append Style method on the first row of the row', function(){
             spyOn(cell1, 'appendStyle');
             spyOn(cell2, 'appendStyle');
             spyOn(cell3, 'appendStyle');
@@ -321,7 +287,7 @@ describe('Row-related functionality:', function(){
             expect(cell3.appendStyle).not.toHaveBeenCalled();
         });
 
-        it('calls append Style method on the last cell of the row', function(){
+        it('calls append Style method on the last row of the row', function(){
             spyOn(cell1, 'appendStyle');
             spyOn(cell2, 'appendStyle');
             spyOn(cell3, 'appendStyle');
@@ -333,84 +299,6 @@ describe('Row-related functionality:', function(){
             expect(cell3.appendStyle).not.toHaveBeenCalled();
             expect(cell4.appendStyle).toHaveBeenCalledWith("whatever");
         });
-
-
-
     });
-
-    it('generates html code of the row if attributes and styles are not empty', function(){
-        spyOn(cell1, 'toHtml').andCallFake(function(){
-            return 'cell 1 ';
-        });
-        spyOn(cell2, 'toHtml').andCallFake(function(){
-            return 'cell 2 html ';
-        });
-        spyOn(cell3, 'toHtml').andCallFake(function(){
-            return 'cell 3 content';
-        });
-
-        spyOn(rowAttr, 'toString').andCallFake(function(){
-            return 'row attributes';
-        });
-        spyOn(rowStyle, 'toString').andCallFake(function(){
-            return 'row styles';
-        });
-        row.attr = rowAttr;
-        row.style = rowStyle;
-        row.content.elements = [cell1, cell2, cell3];
-        expect(row.toHtml()).toEqual('<tr row attributes style="row styles">cell 1 cell 2 html cell 3 content</tr>');
-    });
-
-    it('generates html code of the row if attribute is empty', function(){
-        cell1 = new Cell();
-
-        spyOn(cell1, 'toHtml').andCallFake(function(){
-            return 'cell 1';
-        });
-
-        spyOn(rowAttr, 'toString').andCallFake(function(){
-            return '';
-        });
-        spyOn(rowStyle, 'toString').andCallFake(function(){
-            return 'row styles';
-        });
-        row.attr = rowAttr;
-        row.style = rowStyle;
-        row.content.elements = [cell1];
-        expect(row.toHtml()).toEqual('<tr style="row styles">cell 1</tr>');
-    });
-
-    it('generates html code of the row if the style is empty', function(){
-        // var cell1 = new Cell();
-
-        spyOn(cell1, 'toHtml').andCallFake(function(){
-            return 'cell 1';
-        });
-
-        spyOn(rowAttr, 'toString').andCallFake(function(){
-            return 'row attributes';
-        });
-        spyOn(rowStyle, 'toString').andCallFake(function(){
-            return '';
-        });
-        row.attr = rowAttr;
-        row.style = rowStyle;
-        row.content.elements = [cell1];
-        expect(row.toHtml()).toEqual('<tr row attributes>cell 1</tr>');
-    });
-    // the code below logically must be part of String functionality
-    // it('loads info from html representation of the row', function(){
-    //     spyOn(row, 'setStyle');
-    //     spyOn(row, 'setAttr');
-    //     var rowHtml = '<tr style="table row style" rowattr1="attribute value" rowattr2="another attribute value"><td></td></tr>';
-    //     row.loadFromHtml(rowHtml);
-
-    //     expect(row.setStyle).toHaveBeenCalledWith('table row style');
-    //     expect(row.setAttr).toHaveBeenCalledWith({
-    //         'rowattr1': "attribute value",
-    //         'rowattr2': 'another attribute value'
-    //     });
-    // });
-
 
 });

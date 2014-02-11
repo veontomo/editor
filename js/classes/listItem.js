@@ -23,6 +23,7 @@ function ListItem() {
 	 * @default 'li'
 	 */
 	this.name = 'li';
+
 	/**
 	 * List item styles
 	 * @property {ListItemStyle}       style
@@ -41,26 +42,5 @@ function ListItem() {
 		this.content.appendElem(elem);
 	};
 
-	/**
-	 * Returns the number of elements inside its content. Delegates to Content::length().
-	 * @method   length
-	 * @return   {Number}
-	 */
-	this.length = function(){
-		return this.content.length();
-	};
-
-	/**
-	 * Gives html representation of the instance.
-	 * @method toHtml
-	 * @return {String}                html representation of an instance of this class.
-	 */
-	this.toHtml = function(){
-		var tag = 'li',
-			style = this.style.toString().sandwichWith('style="', '"'),
-			attr = this.attr.toString(),
-			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
-		return html;
-	};
 }
 ListItem.prototype = Object.create(Tag.prototype);

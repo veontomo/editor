@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>list.js</title>
+    <title>classes\tag.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,27 +138,44 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: list.js</h1>
+                        <h1 class="file-heading">File: classes\tag.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, getProperty, setMinMaxWidth */
 
 /**
- * This class is used to represent a list item.
+ * This class is used to represent a general html tag.
  * @module 	    HtmlElements
- * @class  		ListItem
+ * @class  		Tag
  */
-function ListItem() {
+function Tag() {
 	&quot;use strict&quot;;
-	if (!(this instanceof ListItem)) {
-		return new ListItem();
+	if (!(this instanceof Tag)) {
+		return new Tag();
 	}
 
 	/**
-	 * List item attributes
+	 * Tag name.To be set explicitely in child classes.
+	 * @property {String}          name
+	 * @default  null
+	 */
+	this.name = null;
+
+	/**
+	 * Returns value of the name attribute.
+	 * @method  getName
+	 * @return  {string}
+	 */
+	this.getName = function(){
+		return this.name;
+	};
+
+
+	/**
+	 * Tag attributes
 	 * @property {Attributes}          attr
 	 * @type     {Attributes}
 	 * @default  Attributes()
@@ -164,15 +183,81 @@ function ListItem() {
 	this.attr = new Attributes();
 
 	/**
-	 * List item styles
+	* Attribute setter.
+	* @method setAttr
+	* @param {String|Object} attr
+	* @return {void}
+	*/
+	this.setAttr = function(attr){
+		this.attr = attr;
+	};
+
+	/**
+	 * Appends style to the cell.
+	 * @method appendStyle
+	 * @param  {Style|Obj}   stl   style to be appended
+	 * @return {void}
+	 */
+	this.appendStyle = function(stl){
+		if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
+			throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
+		}
+		var stlObj = new Style(stl);
+		this.style.appendStyle(stlObj);
+
+		return null;
+	};
+
+
+	/**
+	 * Tag styles
 	 * @property {ListItemStyle}       style
 	 * @type     {ListItemStyle}
 	 * @default ListItemStyle()
 	 */
-	this.style = new ListItemStyle();
+	this.style = new Style();
 
 	/**
-	 * Content of the list item.
+	* Style setter.
+	* @method setStyle
+	* @param {String|Object} stl
+	* @return {void}
+	*/
+	this.setStyle = function(stl){
+		this.style = stl;
+	};
+
+	/**
+	 * Retrieves the value of property from the &quot;style&quot;
+	 * @method styleProperty
+	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @return {String|Number}
+	 */
+	this.styleProperty = function (prop) {
+		return getProperty(this.style, prop);
+	};
+
+
+	/**
+	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
+	 * It is better to use with an integer argument.
+	 * @method  setWidth
+	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc)
+	 * or a number (i.e. 200, 10).
+	 */
+	this.setWidth = function(w){
+	    if(w === undefined){
+	        throw new Error(&quot;Width value is not set!&quot;);
+	    }
+	    this.style.width = w;
+	    this.style[&#x27;max-width&#x27;] =  w;
+	    this.style[&#x27;min-width&#x27;] =  w;
+		this.attr.width = w;
+	};
+
+
+	/**
+	 * Content of the tag.
 	 * @property {Content}             content
 	 * @type     {Content}
 	 * @default  Content()
@@ -180,7 +265,46 @@ function ListItem() {
 	this.content = new Content();
 
 	/**
-	 * Appends the element to the content of the list item.
+	 * Gets the element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method getElem
+	 * @param  {Number}    pos
+	 * @return {any}
+	 */
+	this.getElem = function(pos){
+		return this.content.getElem(pos);
+	};
+
+	/**
+	 * Gets the first element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method  getFirst
+	 * @return {any}
+	 */
+	this.getFirst = function(){
+		return this.content.getFirst();
+	};
+
+	/**
+	 * Gets the last element stored in property &quot;content&quot;. Delegates its functionality to the class Content.
+	 * @method  getLast
+	 * @return {any}
+	 */
+	this.getLast = function(){
+		return this.content.getLast();
+	};
+
+	/**
+	 * Inserts an element into given position. Delegates its functionality to the class Content.
+	 * @method  insertElemAt
+	 * @param  {Number} pos
+	 * @param  {any}    elem
+	 * @return {void}
+	 */
+	this.insertElemAt = function(pos, elem){
+		this.content.insertElemAt(pos, elem);
+	};
+
+	/**
+	 * Appends the element to the content of the list item. Delegates to Content::appendElem().
 	 * @method appendElem
 	 * @param  {any}     elem
 	 * @return {void}
@@ -199,134 +323,19 @@ function ListItem() {
 	};
 
 	/**
-	 * Gives html representation of the instance.
+	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
 	 * @method toHtml
 	 * @return {String}                html representation of an instance of this class.
 	 */
 	this.toHtml = function(){
-		var tag = &#x27;li&#x27;,
-			style = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
-			attr = this.attr.toString(),
-			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27; + this.content.toHtml() + &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
-		return html;
-	};
-}
-
-/**
- * This class is used to represent ordered and unordered lists.
- * @module 	    HtmlElements
- * @class  		List
- */
-function List() {
-	&quot;use strict&quot;;
-	if (!(this instanceof List)) {
-		return new List();
-	}
-	/**
-	 * Type of the list: &#x27;ul&#x27; for unordered  and &#x27;ol&#x27; for ordered one.
-	 * @property    {String}   type
-	 * @default     &#x27;ul&#x27;
-	 */
-	this.type = &#x27;ul&#x27;;
-
-	/**
-	 * Retrieves type of the list.
-	 * @method    getType
-	 * @return    {String}
-	 */
-	this.getType = function(){
-		return this.type;
-	};
-
-	/**
-	 * Attributes corresponding to the list as a whole object.
-	 * @property    {Attribute} 	attr
-	 */
-	this.attr = new Attributes();
-
-
-	/**
-	 * Styles corresponding to the list as a whole object.
-	 * @property    {ListStyle} 	style
-	 */
-	this.style = new ListStyle();
-
-	/**
-	 * Items of the list.
-	 * @property    {Array} items
-	 * @default     []
-	 */
-	this.items = [];
-
-	/**
-	 * Gets the number of the list items
-	 * @method      itemNum
-	 * @return      {Number}   an integer number
-	 */
-	this.itemNum = function(){
-		return this.items.length;
-	};
-
-	/**
-	 * Appends an object to the list items. The object must be a ListItem instance.
-	 * If not, an error is thrown.
-	 * @method  appendItem
-	 * @param   {ListItem}    item    an instance of ListItem
-	 * @return  {void}
-	 */
-	this.appendItem = function(item){
-		if (item instanceof ListItem){
-			this.items.push(item);
-		} else {
-			throw new Error(&#x27;The argument is not a ListItem instance!&#x27;);
-		}
-	};
-	/**
-	 * Inserts the item at the given position. If the list contains N items, then allowed index for the
-	 * item to be inserted at is the range [0, N]. Zero index corresponds to insertion at the beginning of the list,
-	 * N - to the end of the list, that is to appending (delegates to List::appendItem). If the index is out
-	 * of this range, an error is thrown. If the item to be inserted is not an instance of ListItem,
-	 * an error is thrown.
-	 * @method    isertItemAt
-	 * @param     {Number}      pos     index of the position of there to insert the item
-	 * @param     {ListItem}    item    item to insert
-	 * @return    {void}
-	 */
-	this.insertItemAt = function(pos, item){
-		var posInt = parseInt(pos, 10),
-			itemNum = this.itemNum();
-		if (posInt !== pos || pos &lt; 0 || pos &gt; itemNum){
-			throw new Error(&#x27;Wrong index to insert the item at!&#x27;);
-		}
-		if (pos === itemNum){
-			this.appendItem(item);
-		} else {
-			if (item instanceof ListItem){
-				this.items.splice(pos, 0, item);
-			} else {
-				throw new Error(&#x27;The item to insert is not a ListItem instance!&#x27;);
-			}
-		}
-	};
-
-	/**
-	 * Gives an html representation of the list. If the list has no items, empty string is returned.
-	 * @method toHtml
-	 * @return {String}
-	 */
-	this.toHtml = function(){
-		var tag, style, attr, i,
-			len = this.itemNum(),
-			html = &#x27;&#x27;;
-		if (len &gt; 0){
-			tag = this.getType();
+		var tag = this.name,
+			style, attr, html;
+		if (tag){
 			style = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;);
 			attr = this.attr.toString();
-			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27;;
-			for (i = 0; i &lt; len; i++){
-				html += this.items[i].toHtml();
-			}
-			html += &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
+			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27; + this.content.toHtml() + &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
+		} else {
+			html = &#x27;&lt;!-- tag name is missing --&gt;&#x27;;
 		}
 		return html;
 	};

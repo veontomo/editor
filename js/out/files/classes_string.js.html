@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>string.js</title>
+    <title>classes\string.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -54,6 +54,8 @@
                 <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
+            
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
             
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
@@ -136,13 +138,13 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: string.js</h1>
+                        <h1 class="file-heading">File: classes\string.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag, List */
 
 /**
  * Generates a string that can be used as id for the elements of the target string. This means that
@@ -228,6 +230,7 @@ String.prototype.createRowFromHtml = function(){
 			fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
 			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
 			node = doc.getElementsByTagName(&#x27;tr&#x27;),
+            row = new Row(),
 			attrs, i, nodeStyle, cellsNum, currentCell,
             // row = new Row(),
             cell, cells;
@@ -236,14 +239,8 @@ String.prototype.createRowFromHtml = function(){
 		}
 		// the first table row is to be processed. The remaining ones will be processed at thier turn.
 		node = node[0];
-		// object to return
-		row = new Row();
-        var row2 = new Row();
-        console.log(&#x27;a volo: &#x27;, new Row(), new Tag());
-        console.log(&#x27;cell number in newly created row: &#x27; + row2.cellNum());
-        console.log(row2);
 
-		// imposing its styles
+		// imposing styles
 		nodeStyle = node.getAttribute(&#x27;style&#x27;);
 		row.style = new Style(nodeStyle);
 
@@ -256,16 +253,12 @@ String.prototype.createRowFromHtml = function(){
 
 		cells = node.children;
 		cellsNum = cells.length;
-        console.log(&#x27;number of children in the row: &#x27;, cellsNum);
 		for (i = 0; i &lt; cellsNum; i++){
-            console.log(&#x27;loop #&#x27;, i);
-            console.log(&#x27;cell number before appending: &#x27;, row.cellNum());
 			currentCell = cells[i];
 			if(currentCell.tagName === &quot;TD&quot;){
 				cell = currentCell.outerHTML.createCellFromHtml();
 				row.appendCell(cell);
 			}
-            console.log(&#x27;cell number after appending: &#x27;, row.cellNum());
 		}
 		return row;
 };
@@ -312,7 +305,6 @@ String.prototype.createTableFromHtml = function(){
         rowsNum = rows.length;
 
         if (isFramed){
-            console.log(&#x27;the table seems to be framed&#x27;);
             bogusRowStyle = node.querySelector(&#x27;tr&#x27;).getAttribute(&#x27;style&#x27;);
             bogusCellStyle = node.querySelector(&#x27;tr td&#x27;).getAttribute(&#x27;style&#x27;);
             bogusTableStyle = node.querySelector(&#x27;tr td table&#x27;).getAttribute(&#x27;style&#x27;);
@@ -338,10 +330,6 @@ String.prototype.createTableFromHtml = function(){
             table.bogusTableStyle = new Style(bogusTableStyle);
             table.bogusTableAttr  = new Attributes(bogusTableAttr);
         }
-        console.log(&#x27;the table seems to be NOT framed&#x27;);
-
-
-        console.log(&#x27;numero di righe rilevate:&#x27;, rowsNum);
         for (i = 0; i &lt; rowsNum; i++){
             if (isFramed){
                 currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
@@ -352,12 +340,86 @@ String.prototype.createTableFromHtml = function(){
             if(currentRow.tagName === &quot;TR&quot;){
                 // console.log(child);
                 row = currentRow.outerHTML.createRowFromHtml();
-                console.log(&#x27;appending row&#x27;, row);
                 table.appendRow(row);
             }
         }
         return table;
 };
+
+/**
+ * Transforms a list string into a List object. The argument listType is used to initialize the
+ * property &quot;name&quot; of the returned instance. If it is not provided, that the node tag-name property is used.
+ * It is supposed that the string to process is of the following form:
+ * &lt;ol ... &gt; ... &lt;/ol&gt; or &lt;ul ... &gt; ... &lt;/ul&gt;.
+ * Inside the tag, there might be other nodes. If they are recognized as a &quot;supported&quot; ones, the
+ * corresponding functions will be called to transform them into objects.
+ * @module  String
+ * @param   {String}           listType
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object}           List
+ */
+String.prototype.createListFromHtml = function(listType){
+    var str = this.toString(),
+        parser = new DOMParser(),
+        id = str.generateId(&#x27;fakeId&#x27;),
+        doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
+        output = new List(),
+        uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
+        nodeHtml, methodName, methodExists;
+    uniqueNode = doc.getElementById(id);
+    uniqueNodeChildren = uniqueNode.childNodes;
+    if (uniqueNodeChildren.length === 1){
+        node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
+        output.name = listType || node.nodeName.toLowerCase();
+
+        style = node.getAttribute(&#x27;style&#x27;);
+        output.style = new Style(style);
+        attrs = flatten(node.attributes);
+        if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+            delete attrs.style;
+        }
+        output.attr = new Attributes(attrs);
+        // split the target string on blocks
+        children = node.childNodes;
+        childrenLen = children.length;
+        for(i = 0; i &lt; childrenLen; i++){
+            nodeInternal = children[i];
+            // parsing only list item nodes
+            if (nodeInternal.nodeType === Node.ELEMENT_NODE &amp;&amp; nodeInternal.nodeName === &#x27;LI&#x27;){
+               nodeHtml = nodeInternal.outerHTML;
+               methodName = &#x27;createListItemFromHtml&#x27;;
+               methodExists = (typeof nodeHtml[methodName]) === &#x27;function&#x27;;
+               elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
+               output.appendElem(elem);
+            }
+        }
+    }
+    return output;
+};
+
+/**
+ * Calls String::createListFromHtml(&#x27;ul&#x27;) on the target string.
+ * @module  String
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object} List
+ */
+String.prototype.createUlFromHtml = function(){
+    return this.toString().createListFromHtml(&#x27;ul&#x27;);
+};
+
+/**
+ * Calls String::createListFromHtml(&#x27;ol&#x27;) on the target string.
+ * @module  String
+ * @class   createUlFromHtml
+ * @method  createUlFromHtml
+ * @return  {Object} List
+ */
+String.prototype.createOlFromHtml = function(){
+    return this.toString().createListFromHtml(&#x27;ol&#x27;);
+};
+
 
 /**
  * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
@@ -538,7 +600,7 @@ String.prototype.createTagFromHtml = function(){
         }
     }
     return output;
-    };
+};
 
 /*
  * Creates an instance of Content class and fills in its property &quot;elements&quot; with
@@ -551,17 +613,11 @@ String.prototype.createTagFromHtml = function(){
 String.prototype.inflate = function(){
     var str = this.toString(),
         parser = new DOMParser(),
-        doc = parser.parseFromString(str, &#x27;text/html&#x27;),
-        id = &#x27;uniqueId&#x27;,
+        id = str.generateId(&#x27;fakeId&#x27;),
+        doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
         output = new Content(),
         node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
     // generate a unique id for the overall document
-    while(doc.getElementById(id)){
-        id += String.fromCharCode(Math.floor((Math.random()*25)+65));
-    }
-    // reinitialize the parser and pass the target string wrapped by a div the unique id
-    parser = new DOMParser();
-    doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;);
     node = doc.getElementById(id);
     children = node.childNodes;
     childrenNum = children.length;
@@ -578,8 +634,7 @@ String.prototype.inflate = function(){
                     methodExists = (typeof childHtml[methodName] === &#x27;function&#x27;);
                     // if the method exists, apply it to the string representation of
                     // the current node. Otherwise, apply recursively the method &quot;inflate&quot;
-                    // to the inner part of the current node. (Under this operation, the external tag
-                    // gets lost, but all children of the node are guaranteed to be processed.)
+                    // to the inner part of the current node.
                     if (methodExists){
                         elem = childHtml[methodName]();
                     } else {

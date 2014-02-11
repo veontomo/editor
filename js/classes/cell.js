@@ -18,8 +18,9 @@ function Cell(arg) {
 
 	/**
 	 * Type of the object. Set to value "Cell" for the objects of this type.
-	 * @method {string} getType
-	 * @return {string}
+	 * @method {String} getType
+	 * @return {String}
+	 * @deprecated  in favor of getName()
 	 */
 	this.getType = function(){
 		return "Cell";
@@ -49,26 +50,6 @@ function Cell(arg) {
 	 */
 	this.style = new TableCellStyle();
 
-	/**
-	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
-	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
-	 * @method getWidth
-	 * @return {Number|String}
-	 */
-	this.getWidth = function(){
-		var raw = this.style.width,
-			raw2;
-		if (raw){
-			raw = raw.toString().trim().replace(/px$/, '');
-			// try to parse it to a number. Under this operation whatever string at the end gets removed
-			raw2 = parseFloat(raw, 10);
-			if (raw2.toString() === raw){
-				raw = raw2;
-			}
-		}
-		return raw;
-	};
 
 }
-// Cell.prototype = new Tag();
 Cell.prototype = Object.create(Tag.prototype);

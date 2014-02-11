@@ -55,6 +55,8 @@
             
                 <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
             
+                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
+            
                 <li><a href="../classes/generateId.html">generateId</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
@@ -144,7 +146,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/list.js.html#l73"><code>list.js:73</code></a>
+            Defined in: <a href="../files/classes_list.js.html#l5"><code>classes\list.js:5</code></a>
         </div>
     
 
@@ -160,7 +162,8 @@
 
 
 <div class="box intro">
-    <p>This class is used to represent ordered and unordered lists.</p>
+    <p>This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used
+to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will be set to the first allowed value.</p>
 
 </div>
 
@@ -198,13 +201,6 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getType">getType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_isertItemAt">isertItemAt</a>
 
                                 
@@ -213,13 +209,6 @@
                         
                             <li class="index-item method">
                                 <a href="#method_itemNum">itemNum</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_toHtml">toHtml</a>
 
                                 
                                 
@@ -235,15 +224,15 @@
 
                     <ul class="index-list properties">
                         
-                            <li class="index-item property">
-                                <a href="#property_attr">attr</a>
+                            <li class="index-item property private">
+                                <a href="#property_allowedNames">allowedNames</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_items">items</a>
+                                <a href="#property_name">name</a>
 
                                 
                                 
@@ -251,13 +240,6 @@
                         
                             <li class="index-item property">
                                 <a href="#property_style">style</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_type">type</a>
 
                                 
                                 
@@ -323,7 +305,7 @@
             
         
         
-        <a href="../files/list.js.html#l128"><code>list.js:128</code></a>
+        <a href="../files/classes_list.js.html#l53"><code>classes\list.js:53</code></a>
         
         </p>
 
@@ -373,77 +355,6 @@ If not, an error is thrown.</p>
                 
                     
                         <span class="type">Void</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getType" class="method item">
-    <h3 class="name"><code>getType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/list.js.html#l90"><code>list.js:90</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Retrieves type of the list.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
                     
                 
             </div>
@@ -506,7 +417,7 @@ If not, an error is thrown.</p>
             
         
         
-        <a href="../files/list.js.html#l142"><code>list.js:142</code></a>
+        <a href="../files/classes_list.js.html#l67"><code>classes\list.js:67</code></a>
         
         </p>
 
@@ -517,11 +428,8 @@ If not, an error is thrown.</p>
     </div>
 
     <div class="description">
-        <p>Inserts the item at the given position. If the list contains N items, then allowed index for the
-item to be inserted at is the range [0, N]. Zero index corresponds to insertion at the beginning of the list,
-N - to the end of the list, that is to appending (delegates to List::appendItem). If the index is out
-of this range, an error is thrown. If the item to be inserted is not an instance of ListItem,
-an error is thrown.</p>
+        <p>Inserts the item at the given position. If the item to insert is a ListItem instance, then
+Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
 
     </div>
 
@@ -621,7 +529,7 @@ an error is thrown.</p>
             
         
         
-        <a href="../files/list.js.html#l119"><code>list.js:119</code></a>
+        <a href="../files/classes_list.js.html#l44"><code>classes\list.js:44</code></a>
         
         </p>
 
@@ -658,77 +566,6 @@ an error is thrown.</p>
 </div>
 
                 
-                    <div id="method_toHtml" class="method item">
-    <h3 class="name"><code>toHtml</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/list.js.html#l170"><code>list.js:170</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Gives an html representation of the list. If the list has no items, empty string is returned.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
             </div>
         
 
@@ -737,12 +574,14 @@ an error is thrown.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_attr" class="property item">
-    <h3 class="name"><code>attr</code></h3>
-    <span class="type">Attribute</span>
+                    <div id="property_allowedNames" class="property item private">
+    <h3 class="name"><code>allowedNames</code></h3>
+    <span class="type">Array</span>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -760,7 +599,7 @@ an error is thrown.</p>
             
         
         
-        <a href="../files/list.js.html#l99"><code>list.js:99</code></a>
+        <a href="../files/classes_list.js.html#l20"><code>classes\list.js:20</code></a>
         
         </p>
 
@@ -770,7 +609,7 @@ an error is thrown.</p>
     </div>
 
     <div class="description">
-        <p>Attributes corresponding to the list as a whole object.</p>
+        <p>Array of allowed values for the tag names: [&#39;ol&#39;, &#39;ul&#39;].</p>
 
     </div>
 
@@ -782,9 +621,9 @@ an error is thrown.</p>
 </div>
 
                 
-                    <div id="property_items" class="property item">
-    <h3 class="name"><code>items</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -805,7 +644,7 @@ an error is thrown.</p>
             
         
         
-        <a href="../files/list.js.html#l112"><code>list.js:112</code></a>
+        <a href="../files/classes_list.js.html#l34"><code>classes\list.js:34</code></a>
         
         </p>
 
@@ -815,12 +654,14 @@ an error is thrown.</p>
     </div>
 
     <div class="description">
-        <p>Items of the list.</p>
+        <p>Html tag corresponding to List object. It is taken from the name provided
+when creating the object: list = new List(&#39;ul&#39;). If not provided or  if it
+is provided, but it is not allowed, then the first allowed value is used.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> []</p>
+        <p><strong>Default:</strong> &#x27;ol&#x27;</p>
     
 
     
@@ -852,7 +693,7 @@ an error is thrown.</p>
             
         
         
-        <a href="../files/list.js.html#l106"><code>list.js:106</code></a>
+        <a href="../files/classes_list.js.html#l28"><code>classes\list.js:28</code></a>
         
         </p>
 
@@ -866,53 +707,6 @@ an error is thrown.</p>
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/list.js.html#l83"><code>list.js:83</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Type of the list: &#39;ul&#39; for unordered  and &#39;ol&#39; for ordered one.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> &#x27;ul&#x27;</p>
     
 
     

@@ -20,6 +20,7 @@ function Table() {
 	 * Type of the object. Returns "Table" for the objects of this type.
 	 * @method  {string} getType
 	 * @return  {string}
+	 * @deprecated  in favor of getName()
 	 */
 	this.getType = function(){
 		return "Table";

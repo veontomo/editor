@@ -23,6 +23,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "createRowFromHtml",
         "createTableFromHtml",
         "createTagFromHtml",
+        "createUlFromHtml",
         "generateId",
         "isFramedTable"
     ],

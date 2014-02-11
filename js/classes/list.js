@@ -3,23 +3,43 @@
 /*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, Tag, ListItem */
 
 /**
- * This class is used to represent ordered and unordered lists.
+ * This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used
+ * to set the property "name". Otherwise, "name" property will be set to the first allowed value.
  * @module 	    HtmlElements
+ * @param       {Sting}       listType
  * @class  		List
  */
-function List() {
+function List(listType) {
 	"use strict";
 	if (!(this instanceof List)) {
-		return new List();
+		return new List(listType);
 	}
 	// inherit tag properties
 	Tag.call(this);
+
+	/**
+	 * Array of allowed values for the tag names: ['ol', 'ul'].
+	 * @property {Array}    allowedNames
+	 * @type     {Array}
+	 * @private
+	 */
+	var allowedNames = ['ol', 'ul'];
 
 	/**
 	 * Styles corresponding to the list as a whole object.
 	 * @property    {ListStyle} 	style
 	 */
 	this.style = new ListStyle();
+
+	/**
+	 * Html tag corresponding to List object. It is taken from the name provided
+	 * when creating the object: list = new List('ul'). If not provided or  if it
+	 * is provided, but it is not allowed, then the first allowed value is used.
+	 * @property {String}     name
+	 * @type {String}
+	 * @default  'ol'
+	 */
+	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
 
 	/**
 	 * Gets the number of the list items
