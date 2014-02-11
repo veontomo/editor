@@ -365,6 +365,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 						return el + ' ' + unit;
 					}).join(' + ');
 
+			console.log('table: ', table);
 			// override the field with current info about cell widths
 			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
@@ -431,6 +432,9 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 			});
 			currentTable = table.getOuterHtml().createTableFromHtml();
+			console.log('table elem:', table);
+			console.log('outer html:', table.getOuterHtml());
+			console.log('table obj: ', currentTable);
 			currentTable.setProfile(userInput);
 
 			tableStr = currentTable.toHtml();
@@ -438,6 +442,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			table.remove();
 			// call a custom method to insert the table and assign hovering effects on it
 			editor.insertTableWithHoverEff(tableElem);
+			return null;
 		}
 	};
 });

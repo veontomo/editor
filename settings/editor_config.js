@@ -11,7 +11,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.width = '850px';
 	config.height = '500px';
 	// when pressing "ENTER", <br> is inserted, not <p>
-	config.enterMode = CKEDITOR.ENTER_BR;
+	config.enterMode = CKEDITOR.ENTER_P;
 
 	config.disableObjectResizing = true;
 
