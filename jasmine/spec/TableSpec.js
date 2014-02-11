@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Row, Table,
+/*global describe, it, expect, spyOn, beforeEach, Table, Row, Table, Cell,
 Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Style, createTableFromHtml, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
@@ -26,6 +26,34 @@ describe('Table-related functionality:', function(){
             expect((new Table()).attr.width).not.toBe(102);
             table.style.width = 34;
             expect((new Table()).style.width).not.toBe(34);
+        });
+    });
+
+
+    describe('inherits properly from Tag() class', function(){
+        it('instance of Table is an instance of Tag as well', function(){
+            expect(table instanceof Tag).toBe(true);
+        });
+        it('does not affect parent attr if it is changed in the child', function(){
+            expect((new Table()).attr.width).not.toBe(102);
+            table.attr.width = 102;
+            expect((new Table()).attr.width).not.toBe(102);
+            expect(table.attr.width).toBe(102);
+        });
+        it('does not affect parent style if it is changed in the child', function(){
+            expect((new Table()).style.width).not.toBe('whatever');
+            table.style.width = 'whatever';
+            expect((new Table()).style.width).not.toBe('whatever');
+            expect(table.style.width).toBe('whatever');
+        });
+
+        it('does not affect parent name property if it is changed in the child', function(){
+            expect((new Tag()).name).toBe(null);
+            expect((new Table()).name).toBe('table');
+            table.name = 'whatever';
+            expect((new Tag()).name).toBe(null);
+            expect((new Table()).name).toBe('table');
+            expect(table.name).toBe('whatever');
         });
     });
 
@@ -88,33 +116,33 @@ describe('Table-related functionality:', function(){
     it('gets "matrix" of widths', function(){
         expect((new Table()).length()).toBe(0);
         expect((new Tag()).length()).toBe(0);
-        expect((new Cell()).length()).toBe(0);
+        expect((new Table()).length()).toBe(0);
         expect((new Row()).length()).toBe(0);
 
         spyOn(row1, 'getCellWidths').andCallFake(function(){
-            return 'cell widths of row 1';
+            return 'table widths of row 1';
         });
         spyOn(row2, 'getCellWidths').andCallFake(function(){
-            return 'cell widths of row 2';
+            return 'table widths of row 2';
         });
         spyOn(row3, 'getCellWidths').andCallFake(function(){
-            return 'cell widths of row 3';
+            return 'table widths of row 3';
         });
         table.content.elements = [row1, row2, row3];
         expect((new Table()).length()).toBe(0);
         expect((new Tag()).length()).toBe(0);
-        expect((new Cell()).length()).toBe(0);
+        expect((new Table()).length()).toBe(0);
         expect((new Row()).length()).toBe(0);
 
         expect(table.getMatrix().length).toBe(3);
-        expect(table.getMatrix()[0]).toBe('cell widths of row 1');
-        expect(table.getMatrix()[1]).toBe('cell widths of row 2');
-        expect(table.getMatrix()[2]).toBe('cell widths of row 3');
+        expect(table.getMatrix()[0]).toBe('table widths of row 1');
+        expect(table.getMatrix()[1]).toBe('table widths of row 2');
+        expect(table.getMatrix()[2]).toBe('table widths of row 3');
 
         table.content.elements = [row1, row3];
         expect(table.getMatrix().length).toBe(2);
-        expect(table.getMatrix()[0]).toBe('cell widths of row 1');
-        expect(table.getMatrix()[1]).toBe('cell widths of row 3');
+        expect(table.getMatrix()[0]).toBe('table widths of row 1');
+        expect(table.getMatrix()[1]).toBe('table widths of row 3');
 
         table.content.elements = [];
         expect(table.getMatrix().length).toBe(0);
@@ -131,10 +159,10 @@ describe('Table-related functionality:', function(){
         expect(row3.setCellWidths).toHaveBeenCalledWith('anything');
     });
 
-    it('gets profile of the table with not the same cell width among the table.content.elements ', function(){
+    it('gets profile of the table with not the same table width among the table.content.elements ', function(){
         expect((new Table()).length()).toBe(0);
         expect((new Tag()).length()).toBe(0);
-        expect((new Cell()).length()).toBe(0);
+        expect((new Table()).length()).toBe(0);
         expect((new Row()).length()).toBe(0);
 
         spyOn(table, 'isSameWidths').andCallFake(function(){
@@ -143,7 +171,7 @@ describe('Table-related functionality:', function(){
         expect(table.getProfile()).toBe(null);
     });
 
-    it('gets profile of the table with the same cell width among the table.content.elements ', function(){
+    it('gets profile of the table with the same table width among the table.content.elements ', function(){
         spyOn(table, 'isSameWidths').andCallFake(function(){
             return true;
         });
@@ -159,7 +187,7 @@ describe('Table-related functionality:', function(){
         expect(profile[2]).toBe(3);
     });
 
-    it('decides whether the rows have the same "cell profile"', function(){
+    it('decides whether the rows have the same "table profile"', function(){
         spyOn(table, 'getMatrix').andCallFake(function(){
             return [[1, 2, 3], [1, 2, 3]];
         });
@@ -191,97 +219,99 @@ describe('Table-related functionality:', function(){
         expect(table.content.elements .length).toBe(3);
     });
 
-    it('Throws an error if position index is too big', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 5;});
-        expect(function(){
-            table.insertColumnAt(7, "cell");
-        }).toThrow('Wrong index for the cell to insert!');
-    });
+    describe('insert columns', function(){
+        it('Throws an error if position index is too big', function(){
+            spyOn(table, 'colNum').andCallFake(function(){return 5;});
+            expect(function(){
+                table.insertColumnAt(7, "table");
+            }).toThrow('Wrong index for the cell to insert!');
+        });
 
-    it('Throws an error if position index is negative', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        expect(function(){
-            table.insertColumnAt(-2, "cell");
-        }).toThrow('Wrong index for the cell to insert!');
-    });
+        it('Throws an error if position index is negative', function(){
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            expect(function(){
+                table.insertColumnAt(-2, "table");
+            }).toThrow('Wrong index for the cell to insert!');
+        });
 
-    it('Throws an error if position index is greater than the number of columns', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        expect(function(){
-            table.insertColumnAt(4, "cell");
-        }).toThrow('Wrong index for the cell to insert!');
-    });
+        it('Throws an error if position index is greater than the number of columns', function(){
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            expect(function(){
+                table.insertColumnAt(4, "table");
+            }).toThrow('Wrong index for the cell to insert!');
+        });
 
-    it('Does not throw any error if position index is equal to the number of columns', function(){
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        expect(function(){
-            table.insertColumnAt(3, "cell");
-        }).not.toThrow('Wrong index for the cell to insert!');
-    });
+        it('Does not throw any error if position index is equal to the number of columns', function(){
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            expect(function(){
+                table.insertColumnAt(3, "table");
+            }).not.toThrow('Wrong index for the cell to insert!');
+        });
 
-    it('calls a method to insert cell', function(){
-        var c = new Cell();
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        table.content.elements = [row1, row2, row3];
-        table.insertColumnAt(1, c);
-        expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
-        expect(row2.insertCellAt).toHaveBeenCalledWith(1, c);
-        expect(row3.insertCellAt).toHaveBeenCalledWith(1, c);
-    });
-
-    it('calls a method to insert cell at the beginning of the row', function(){
-        var c = new Cell();
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        table.content.elements = [row1, row2, row3];
-        table.insertColumnAt(0, c);
-        expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
-        expect(row2.insertCellAt).toHaveBeenCalledWith(0, c);
-        expect(row3.insertCellAt).toHaveBeenCalledWith(0, c);
-    });
-
-    it('calls a method to insert cell at one position before the end of the row', function(){
-        var c = new Cell();
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(table, 'colNum').andCallFake(function(){return 10;});
-        table.content.elements = [row1, row2, row3];
-        table.insertColumnAt(9, c);
-        expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
-        expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
-        expect(row3.insertCellAt).toHaveBeenCalledWith(9, c);
-    });
-
-    it('calls a method to insert cell at the end of the row (appending a cell)', function(){
-        var c = new Cell();
-        spyOn(row1, 'appendCell').andCallFake(function(){return null;});
-        spyOn(row2, 'appendCell').andCallFake(function(){return null;});
-        spyOn(row3, 'appendCell').andCallFake(function(){return null;});
-        spyOn(table, 'colNum').andCallFake(function(){return 10;});
-        table.content.elements = [row1, row2, row3];
-        table.insertColumnAt(10, c);
-        expect(row1.appendCell).toHaveBeenCalledWith(c);
-        expect(row2.appendCell).toHaveBeenCalledWith(c);
-        expect(row3.appendCell).toHaveBeenCalledWith(c);
-    });
+        it('calls a method to insert table', function(){
+            var c = new Cell();
+            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            table.content.elements = [row1, row2, row3];
+            table.insertColumnAt(1, c);
+            expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
+            expect(row2.insertCellAt).toHaveBeenCalledWith(1, c);
+            expect(row3.insertCellAt).toHaveBeenCalledWith(1, c);
+        });
 
 
-    it('calls a method to insert cell if cell is not provided', function(){
-        spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-        spyOn(table, 'colNum').andCallFake(function(){return 3;});
-        table.content.elements = [row1, row2, row3];
-        table.insertColumnAt(2);
-        expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
-        expect(row2.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
-        expect(row3.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+        it('calls a method to insert cell at the end of the row (appending a column)', function(){
+            var c = new Cell();
+            spyOn(row1, 'appendCell').andCallFake(function(){return null;});
+            spyOn(row2, 'appendCell').andCallFake(function(){return null;});
+            spyOn(row3, 'appendCell').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').andCallFake(function(){return 10;});
+            table.content.elements = [row1, row2, row3];
+            table.insertColumnAt(10, c);
+            expect(row1.appendCell).toHaveBeenCalledWith(c);
+            expect(row2.appendCell).toHaveBeenCalledWith(c);
+            expect(row3.appendCell).toHaveBeenCalledWith(c);
+        });
+
+        it('calls a method to insert column at the beginning of the row', function(){
+            var c = new Table();
+            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            table.content.elements = [row1, row2, row3];
+            table.insertColumnAt(0, c);
+            expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
+            expect(row2.insertCellAt).toHaveBeenCalledWith(0, c);
+            expect(row3.insertCellAt).toHaveBeenCalledWith(0, c);
+        });
+
+        it('calls a method to insert column at one position before the end of the row', function(){
+            var c = new Table();
+            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').andCallFake(function(){return 10;});
+            table.content.elements = [row1, row2, row3];
+            table.insertColumnAt(9, c);
+            expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
+            expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
+            expect(row3.insertCellAt).toHaveBeenCalledWith(9, c);
+        });
+
+        it('calls a method to insert column if cell is not provided', function(){
+            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            table.content.elements = [row1, row2, row3];
+            table.insertColumnAt(2);
+            expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+            expect(row2.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+            expect(row3.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
+        });
     });
 
 
@@ -289,7 +319,7 @@ describe('Table-related functionality:', function(){
         it('Throw an error if column number is not integer ', function(){
             expect((new Table()).length()).toBe(0);
             expect((new Tag()).length()).toBe(0);
-            expect((new Cell()).length()).toBe(0);
+            expect((new Table()).length()).toBe(0);
             expect((new Row()).length()).toBe(0);
 
             spyOn(table, 'colNum').andCallFake(function(){
@@ -477,10 +507,10 @@ describe('Table-related functionality:', function(){
             return 'bogus table attributes';
         });
         spyOn(bogusCellStyle, 'toString').andCallFake(function(){
-            return 'bogus cell styles';
+            return 'bogus table styles';
         });
         spyOn(bogusCellAttr, 'toString').andCallFake(function(){
-            return 'bogus cell attributes';
+            return 'bogus table attributes';
         });
         spyOn(bogusRowStyle, 'toString').andCallFake(function(){
             return 'bogus row styles';
@@ -499,7 +529,7 @@ describe('Table-related functionality:', function(){
         table.bogusTableAttr = bogusTableAttr;
         table.bogusTableStyle = bogusTableStyle;
 
-        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes style="bogus row styles"><td bogus cell attributes style="bogus cell styles"><table bogus table attributes style="bogus table styles">row 1</table></td></tr><tr bogus row attributes style="bogus row styles"><td bogus cell attributes style="bogus cell styles"><table bogus table attributes style="bogus table styles">row 2 html</table></td></tr></table>');
+        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes style="bogus row styles"><td bogus table attributes style="bogus table styles"><table bogus table attributes style="bogus table styles">row 1</table></td></tr><tr bogus row attributes style="bogus row styles"><td bogus table attributes style="bogus table styles"><table bogus table attributes style="bogus table styles">row 2 html</table></td></tr></table>');
     });
 
 
@@ -526,7 +556,7 @@ describe('Table-related functionality:', function(){
             return '';
         });
         spyOn(bogusCellAttr, 'toString').andCallFake(function(){
-            return 'bogus cell attributes';
+            return 'bogus table attributes';
         });
         spyOn(bogusRowStyle, 'toString').andCallFake(function(){
             return '';
@@ -544,7 +574,7 @@ describe('Table-related functionality:', function(){
         table.bogusCellStyle = bogusCellStyle;
         table.bogusTableAttr = bogusTableAttr;
         table.bogusTableStyle = bogusTableStyle;
-        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 1</table></td></tr><tr bogus row attributes><td bogus cell attributes><table bogus table attributes>row 2 html</table></td></tr></table>');
+        expect(table.toHtml()).toEqual('<table table attr style="table styles"><tr bogus row attributes><td bogus table attributes><table bogus table attributes>row 1</table></td></tr><tr bogus row attributes><td bogus table attributes><table bogus table attributes>row 2 html</table></td></tr></table>');
     });
 
 
@@ -614,7 +644,7 @@ describe('Table-related functionality:', function(){
         it('all columns have the same number of cells', function(){
             expect((new Table()).length()).toBe(0);
             expect((new Tag()).length()).toBe(0);
-            expect((new Cell()).length()).toBe(0);
+            expect((new Table()).length()).toBe(0);
             expect((new Row()).length()).toBe(0);
 
             spyOn(row1, 'cellNum').andCallFake(function(){

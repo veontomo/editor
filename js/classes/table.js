@@ -35,7 +35,7 @@ function Table() {
 	this.name = 'table';
 
 	/**
-	* Attributes of the table.
+	* Attributes of the table. Overrides parent property "attr".
 	* @property {TableAttributes} attr
 	* @type {TableAttributes}
 	* @default TableAttributes
@@ -43,7 +43,7 @@ function Table() {
 	this.attr = new TableAttributes();
 
 	/**
-	 * Styles of the row
+	 * Styles of the row. Overrides parent property "style".
 	 * @property {TableStyle} style
 	 * @type {TableStyle}
 	 * @default TableStyle
@@ -51,12 +51,12 @@ function Table() {
 	this.style = new TableStyle();
 
 	/**
-	 * The number of the rows in the table. Delegates its functionality to Content::length.
+	 * The number of the rows in the table. Alias of length() of the parent class.
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
-		return this.content.length();
+		return this.length();
 	};
 
 	/**
