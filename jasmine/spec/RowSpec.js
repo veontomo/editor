@@ -36,14 +36,12 @@ describe('Row-related functionality:', function(){
             expect((new Row()).name).toBe('tr');
             expect(row.name).toBe('whatever');
         });
-
     });
 
     describe('Row::name: tag name for the Row', function(){
         it('has the property name set to "tr"', function(){
             expect(row.name).toBe('tr');
         });
-
     });
 
     describe('Row::appendCell(): appends a cell', function(){
@@ -126,7 +124,7 @@ describe('Row-related functionality:', function(){
     });
 
 
-    describe('Row::dropCell(): deletes the cell', function(){
+    describe('Row::dropCellAt(): deletes the cell', function(){
         it('calls parent method to delete the cell', function(){
             spyOn(row, 'dropElemAt');
             row.dropCellAt('position');
@@ -134,14 +132,14 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    describe('Row::dropCellAt(): deletes a cell and resizes the remaining ones', function(){
+    describe('Row::knockOutCell(): deletes a cell and resizes the remaining ones', function(){
         it('deletes the first cell', function(){
             cell1.setWidth(200);
             cell2.setWidth(110);
             cell3.setWidth(150);
             row.content.elements = [cell1, cell2, cell3];
             expect(row.cellNum()).toBe(3);
-            row.dropCell(0);
+            row.knockOutCell(0);
             expect(row.cellNum()).toBe(2);
             expect(row.getElem(0).getWidth()).toBe(310);
             expect(row.getElem(1).getWidth()).toBe(150);
@@ -153,7 +151,7 @@ describe('Row-related functionality:', function(){
             cell3.setWidth(150);
             cell4.setWidth(50);
             row.content.elements = [cell1, cell2, cell3, cell4];
-            row.dropCell(1);
+            row.knockOutCell(1);
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
             expect(row.getElem(1).getWidth()).toBe(260);
@@ -166,7 +164,7 @@ describe('Row-related functionality:', function(){
             cell3.setWidth(150);
             cell4.setWidth(60);
             row.content.elements = [cell1, cell2, cell3, cell4];
-            row.dropCell(3);
+            row.knockOutCell(3);
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
             expect(row.getElem(1).getWidth()).toBe(110);
@@ -178,7 +176,7 @@ describe('Row-related functionality:', function(){
             cell2.setWidth(110);
             cell3.setWidth(150);
             row.content.elements = [cell1, cell2, cell3];
-            row.dropCell(row.cellNum() + 10); // delete non-existing row
+            row.knockOutCell(row.cellNum() + 10); // delete non-existing row
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
             expect(row.getElem(1).getWidth()).toBe(110);

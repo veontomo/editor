@@ -124,18 +124,19 @@ function Row() {
 	};
 
 	/**
-	 * Drops the cell at the given position and resize the remaining cells. If the cell is utmost left, the freed space is then
+	 * 12/02/2014 11:55: dropCell --> knockOutCell
+	 * Drops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then
 	 * assigned to its right neighbour:
      * |xxx| a | b   | c | -> |     a | b   | c |
      * | a |xxx| b   | c | -> | a |     b   | c |
 	 * If there is no right neighbour, then it is assigned to the left one:
 	 * | a | b | c | xxx | -> | a | b | c       |
 	 * If the cell to delete does not exist, nothing is performed.
-	 * @method dropCell
+	 * @method knockOutCell
 	 * @param  {Number}    cellNum         cell number to delete. Numeration starts with 0.
 	 * @return {void}      after
 	 */
-	this.dropCell = function(cellNum){
+	this.knockOutCell = function(cellNum){
 		var acceptor, acceptorWidth, currentCell, currentCellWidth;
 		if (cellNum < this.cellNum()){
 			if (this.getElem(cellNum + 1)){

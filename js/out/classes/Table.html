@@ -214,7 +214,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_dropColumn">dropColumn</a>
+                                <a href="#method_dropColAt">dropColAt</a>
 
                                 
                                 
@@ -244,7 +244,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_insertColumnAt">insertColumnAt</a>
+                                <a href="#method_insertColAt">insertColAt</a>
 
                                 
                                 
@@ -258,6 +258,20 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_isSameWidth">isSameWidth</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_knockOutCol">knockOutCol</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_removeBorder">removeBorder</a>
 
                                 
@@ -265,14 +279,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_rowNum">rowNum</a>
+                                <a href="#method_resetBogus">resetBogus</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_sameWidth">sameWidth</a>
+                                <a href="#method_rowNum">rowNum</a>
 
                                 
                                 
@@ -317,35 +331,35 @@
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
+                                <a href="#property_bogusCellAttr">bogusCellAttr</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
+                                <a href="#property_bogusCellStyle">bogusCellStyle</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
+                                <a href="#property_bogusRowAttr">bogusRowAttr</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
+                                <a href="#property_bogusRowStyle">bogusRowStyle</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_bogusTableStyle">bogusTableStyle</a>
+                                <a href="#property_bogusTableAttr">bogusTableAttr</a>
 
                                 
                                 
@@ -443,7 +457,7 @@
     </div>
 
     <div class="description">
-        <p>Append a row to the content property. If object to insert is not a Row instance, error is thrown.</p>
+        <p>Appends a row to the content property. If the argument is not a Row instance, an error is thrown.</p>
 
     </div>
 
@@ -462,7 +476,7 @@
                     
 
                     <div class="param-description">
-                        <p>a row to be appended</p>
+                        <p>a row to append. If not a Row instance, an error is thrown.</p>
 
                     </div>
 
@@ -543,7 +557,7 @@
             
         
         
-        <a href="../files/classes_table.js.html#l301"><code>classes\table.js:301</code></a>
+        <a href="../files/classes_table.js.html#l326"><code>classes\table.js:326</code></a>
         
         </p>
 
@@ -655,7 +669,7 @@ on each of the table rows.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l159"><code>classes\table.js:159</code></a>
+        <a href="../files/classes_table.js.html#l183"><code>classes\table.js:183</code></a>
         
         </p>
 
@@ -691,8 +705,8 @@ The operation is delegated to the Row::cellNum().</p>
 </div>
 
                 
-                    <div id="method_dropColumn" class="method item">
-    <h3 class="name"><code>dropColumn</code></h3>
+                    <div id="method_dropColAt" class="method item">
+    <h3 class="name"><code>dropColAt</code></h3>
 
     
         <div class="args">
@@ -737,7 +751,7 @@ The operation is delegated to the Row::cellNum().</p>
             
         
         
-        <a href="../files/classes_table.js.html#l145"><code>classes\table.js:145</code></a>
+        <a href="../files/classes_table.js.html#l169"><code>classes\table.js:169</code></a>
         
         </p>
 
@@ -748,7 +762,7 @@ The operation is delegated to the Row::cellNum().</p>
     </div>
 
     <div class="description">
-        <p>Drops specified column from the table. The operation is delegated to the Row::dropCell()</p>
+        <p>Drops specified column from the table. The operation is delegated to the Row::dropCellAt()</p>
 
     </div>
 
@@ -916,7 +930,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
 
     <div class="description">
         <p>Returns array of widths of the cells in the table rows if all rows
-have the same cell widths. Otherwise Null is returned.</p>
+have the same cell widths. Otherwise null is returned.</p>
 
     </div>
 
@@ -1015,8 +1029,8 @@ have the same cell widths. Otherwise Null is returned.</p>
 </div>
 
                 
-                    <div id="method_insertColumnAt" class="method item">
-    <h3 class="name"><code>insertColumnAt</code></h3>
+                    <div id="method_insertColAt" class="method item">
+    <h3 class="name"><code>insertColAt</code></h3>
 
     
         <div class="args">
@@ -1067,7 +1081,7 @@ have the same cell widths. Otherwise Null is returned.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l113"><code>classes\table.js:113</code></a>
+        <a href="../files/classes_table.js.html#l123"><code>classes\table.js:123</code></a>
         
         </p>
 
@@ -1180,7 +1194,7 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l268"><code>classes\table.js:268</code></a>
+        <a href="../files/classes_table.js.html#l292"><code>classes\table.js:292</code></a>
         
         </p>
 
@@ -1210,6 +1224,184 @@ the table is considered as being framed and hence all its rows will be framed.</
                     
                     <p>true if all table rows have border around</p>
 
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_isSameWidth" class="method item">
+    <h3 class="name"><code>isSameWidth</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l210"><code>classes\table.js:210</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether all rows in the table have the same cell widths.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>true, if all rows have the same cells&#39; widths, false otherwise.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_knockOutCol" class="method item">
+    <h3 class="name"><code>knockOutCol</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>colNum</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l155"><code>classes\table.js:155</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Knocks out given column from the table. The operation is delegated to the Row::knockOutCell()</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">colNum</code>
+                        <span class="type">Integer</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>the number of the column to be knocked out. Numeration starts with 0.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
                 
             </div>
         </div>
@@ -1255,7 +1447,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/classes_table.js.html#l247"><code>classes\table.js:247</code></a>
+        <a href="../files/classes_table.js.html#l271"><code>classes\table.js:271</code></a>
         
         </p>
 
@@ -1271,6 +1463,77 @@ the table is considered as being framed and hence all its rows will be framed.</
 <li>in &#39;style&#39; property, deletes the properties: &#39;border-width&#39;, &#39;border-color&#39; and sets up &#39;border-style&#39; to &#39;none&#39;</li>
 <li>in &#39;attr&#39; property, deletes &#39;border&#39; property.</li>
 </ol>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_resetBogus" class="method item">
+    <h3 class="name"><code>resetBogus</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l309"><code>classes\table.js:309</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Resets bogus properties. After resetting those properties, the table becomes a table without frame.</p>
 
     </div>
 
@@ -1365,79 +1628,6 @@ the table is considered as being framed and hence all its rows will be framed.</
 </div>
 
                 
-                    <div id="method_sameWidth" class="method item">
-    <h3 class="name"><code>sameWidth</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_table.js.html#l186"><code>classes\table.js:186</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Whether all rows in the table have the same cell widths.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>true, if all rows have the same cells&#39; widths, false otherwise.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_setBorder" class="method item">
     <h3 class="name"><code>setBorder</code></h3>
 
@@ -1484,7 +1674,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/classes_table.js.html#l222"><code>classes\table.js:222</code></a>
+        <a href="../files/classes_table.js.html#l246"><code>classes\table.js:246</code></a>
         
         </p>
 
@@ -1519,7 +1709,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
                     
 
                     <div class="param-description">
-                        <p>Object containing &#39;width&#39;, &#39;color&#39; and &#39;style&#39; fo the border to set.</p>
+                        <p>Object containing &#39;width&#39;, &#39;color&#39; and &#39;style&#39; for the border to set.</p>
 
                     </div>
 
@@ -1566,6 +1756,10 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
     
 
     
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
 
     
 
@@ -1601,7 +1795,9 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
     </div>
 
     <div class="description">
-        <p>Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.</p>
+        <p>Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.
+If the array length is different from the number of columns, an error is thrown. Otherwise, it is called
+method of Row::setCellWidths on each table row.</p>
 
     </div>
 
@@ -1631,6 +1827,18 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
@@ -1673,7 +1881,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/classes_table.js.html#l325"><code>classes\table.js:325</code></a>
+        <a href="../files/classes_table.js.html#l350"><code>classes\table.js:350</code></a>
         
         </p>
 
@@ -1764,58 +1972,8 @@ Creation of the row-related html of each row is delegated to Row::toHtml()</p>
 </div>
 
                 
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_table.js.html#l365"><code>classes\table.js:365</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Style of the row containing a single cell. It is used to created to a table with framed lines.
-It is supposed that all properties
-bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-are simultaneously null or set.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> null</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
+                    <div id="property_bogusCellAttr" class="property item">
+    <h3 class="name"><code>bogusCellAttr</code></h3>
     <span class="type">Attribute</span>
 
     
@@ -1837,7 +1995,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l375"><code>classes\table.js:375</code></a>
+        <a href="../files/classes_table.js.html#l420"><code>classes\table.js:420</code></a>
         
         </p>
 
@@ -1847,7 +2005,7 @@ are simultaneously null or set.</p>
     </div>
 
     <div class="description">
-        <p>Attributes of the row containing a single cell. It is used to created to a table with framed lines.
+        <p>Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.
 It is supposed that all properties
 bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 are simultaneously null or set.</p>
@@ -1864,8 +2022,8 @@ are simultaneously null or set.</p>
 </div>
 
                 
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
+                    <div id="property_bogusCellStyle" class="property item">
+    <h3 class="name"><code>bogusCellStyle</code></h3>
     <span class="type"><a href="..\classes\TableCellStyle.html" class="crosslink">TableCellStyle</a></span>
 
     
@@ -1887,7 +2045,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l385"><code>classes\table.js:385</code></a>
+        <a href="../files/classes_table.js.html#l410"><code>classes\table.js:410</code></a>
         
         </p>
 
@@ -1914,8 +2072,8 @@ are simultaneously null or set.</p>
 </div>
 
                 
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
+                    <div id="property_bogusRowAttr" class="property item">
+    <h3 class="name"><code>bogusRowAttr</code></h3>
     <span class="type">Attribute</span>
 
     
@@ -1937,7 +2095,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l395"><code>classes\table.js:395</code></a>
+        <a href="../files/classes_table.js.html#l400"><code>classes\table.js:400</code></a>
         
         </p>
 
@@ -1947,7 +2105,107 @@ are simultaneously null or set.</p>
     </div>
 
     <div class="description">
-        <p>Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.
+        <p>Attributes of the row containing a single cell. It is used to created to a table with framed lines.
+It is supposed that all properties
+bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+are simultaneously null or set.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bogusRowStyle" class="property item">
+    <h3 class="name"><code>bogusRowStyle</code></h3>
+    <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l390"><code>classes\table.js:390</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style of the row containing a single cell. It is used to created to a table with framed lines.
+It is supposed that all properties
+bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
+are simultaneously null or set.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_bogusTableAttr" class="property item">
+    <h3 class="name"><code>bogusTableAttr</code></h3>
+    <span class="type">Attribute</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l440"><code>classes\table.js:440</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.
 It is supposed that all properties
 bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 are simultaneously null or set.</p>
@@ -1987,7 +2245,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/classes_table.js.html#l405"><code>classes\table.js:405</code></a>
+        <a href="../files/classes_table.js.html#l430"><code>classes\table.js:430</code></a>
         
         </p>
 
@@ -1998,56 +2256,6 @@ are simultaneously null or set.</p>
 
     <div class="description">
         <p>Style of the  the table that will be inserted into the single cell to create a table with framed lines.
-It is supposed that all properties
-bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-are simultaneously null or set.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> null</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_bogusTableStyle" class="property item">
-    <h3 class="name"><code>bogusTableStyle</code></h3>
-    <span class="type">Attribute</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_table.js.html#l415"><code>classes\table.js:415</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.
 It is supposed that all properties
 bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 are simultaneously null or set.</p>

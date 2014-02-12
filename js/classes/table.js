@@ -60,16 +60,16 @@ function Table() {
 	};
 
 	/**
-	 * Append a row to the content property. If object to insert is not a Row instance, error is thrown.
-	 * @method appendRow
-	 * @param {Object} row  a row to be appended
-	 * @return {void}
+	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
+	 * @method   appendRow
+	 * @param    {Object} row     a row to append. If not a Row instance, an error is thrown.
+	 * @return   {void}
 	 */
 	this.appendRow = function(row){
 		if (!(row instanceof Row)){
-			throw new Error('The argument is not of the Row type!');
+			throw new Error('The argument is not a Row instance!');
 		}
-		this.content.appendElem(row);
+		this.appendElem(row);
 	};
 
 	/**
@@ -89,7 +89,7 @@ function Table() {
 
 	/**
 	 * Returns array of widths of the cells in the table rows if all rows
-	 * have the same cell widths. Otherwise Null is returned.
+	 * have the same cell widths. Otherwise null is returned.
 	 * @method  getProfile
 	 * @return {Array|Null}
 	 */
@@ -98,13 +98,23 @@ function Table() {
 	};
 
 	/**
-	 * Imposes the widths of all cell in all rows of the table. The operation is delegated to a row methods.
+	 * Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.
+	 * If the array length is different from the number of columns, an error is thrown. Otherwise, it is called
+	 * method of Row::setCellWidths on each table row.
 	 * @method  setProfile
 	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
+	 * @return  {void}
 	 */
 	this.setProfile = function(profile){
 		var len = this.rowNum(),
+			cols = this.colNum(),
 			i;
+		if (!Array.isArray(profile)){
+			throw new Error('Wrong argument type: array expected.');
+		}
+		if (profile.length !== cols){
+			throw new Error('Wrong input array lenght!');
+		}
 		for (i = 0; i < len; i++){
 			this.getElem(i).setCellWidths(profile);
 		}
@@ -116,12 +126,12 @@ function Table() {
 	 * Position "pos" will correspond to the index of the inserted cell in the row after insertion.
 	 * "pos" must be a valid cell number into the table after insertion. So, for the example above,
 	 * the valid values for "pos" are 0, 1, 2, 3, 4 and 5.
-	 * @method insertColumnAt
+	 * @method insertColAt
 	 * @param  {Cell} 	cell
 	 * @param  {Number} pos
 	 * @return {void}
 	 */
-	this.insertColumnAt = function(pos, cell){
+	this.insertColAt = function(pos, cell){
 		cell = cell || (new Cell());
 		var colNum = this.colNum(),
 			rowNum = this.rowNum(),
@@ -143,16 +153,30 @@ function Table() {
 	};
 
 	/**
-	 * Drops specified column from the table. The operation is delegated to the Row::dropCell()
-	 * @method dropColumn
-	 * @param  {integer} 	colNum  the number of the column to delete. Numeration starts with 0.
+	 * Knocks out given column from the table. The operation is delegated to the Row::knockOutCell()
+	 * @method knockOutCol
+	 * @param  {integer} 	colNum        the number of the column to be knocked out. Numeration starts with 0.
 	 * @return {void}
 	 */
-	this.dropColumn = function(colNum){
+	this.knockOutCol = function(colNum){
 		var rowsNum = this.rowNum(),
 		i;
 		for (i = 0; i < rowsNum; i++){
-			this.getElem(i).dropCell(colNum);
+			this.getElem(i).knockOutCell(colNum);
+		}
+	};
+
+	/**
+	 * Drops specified column from the table. The operation is delegated to the Row::dropCellAt()
+	 * @method dropColAt
+	 * @param  {integer} 	colNum           the number of the column to delete. Numeration starts with 0.
+	 * @return {void}
+	 */
+	this.dropColAt = function(colNum){
+		var rowsNum = this.rowNum(),
+		i;
+		for (i = 0; i < rowsNum; i++){
+			this.getElem(i).dropCellAt(colNum);
 		}
 	};
 
@@ -185,7 +209,7 @@ function Table() {
 
 	/**
 	 * Whether all rows in the table have the same cell widths.
-	 * @method sameWidth
+	 * @method isSameWidth
 	 * @return {Boolean} true, if all rows have the same cells' widths, false otherwise.
 	 */
 	this.isSameWidths = function(){
@@ -225,8 +249,8 @@ function Table() {
 	 * 2. in 'attr' property, sets up 'border' property.
 	 * Note that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.
 	 * @method  setBorder
-	 * @param {Object} borderInfo  Object containing 'width', 'color' and 'style' fo the border to set.
-	 * @default  border-width is set to 1, border-color is set to #000000, border-style is set to solid.
+	 * @param   {Object}     borderInfo        Object containing 'width', 'color' and 'style' for the border to set.
+	 * @default border-width is set to 1, border-color is set to #000000, border-style is set to solid.
 	 * @return {void}
 	 */
 	this.setBorder = function(borderInfo){
@@ -283,10 +307,11 @@ function Table() {
 	};
 
 	/**
-	 * Deletes properties that are responsable for the frames around the table rows.
+	 * Resets bogus properties. After resetting those properties, the table becomes a table without frame.
+	 * @method resetBogus
 	 * @return {void}
 	 */
-	this.removeFrame = function(){
+	this.resetBogus = function(){
 		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
 							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
 			propertyListLen = propertyList.length,
@@ -367,7 +392,7 @@ function Table() {
 	 * It is supposed that all properties
 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 	 * are simultaneously null or set.
-	 * @property {Style} bogusTableStyle
+	 * @property {Style} bogusRowStyle
 	 * @default  null
 	 */
 	this.bogusRowStyle = null; // new TableRowStyle();
@@ -377,7 +402,7 @@ function Table() {
 	 * It is supposed that all properties
 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 	 * are simultaneously null or set.
-	 * @property {Attribute} bogusTableStyle
+	 * @property {Attribute} bogusRowAttr
 	 * @default  null
 	 */
 	this.bogusRowAttr = null; // new Attributes();
@@ -387,7 +412,7 @@ function Table() {
 	 * It is supposed that all properties
 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 	 * are simultaneously null or set.
-	 * @property {TableCellStyle} bogusTableStyle
+	 * @property {TableCellStyle} bogusCellStyle
 	 * @default  null
 	 */
 	this.bogusCellStyle = null; // new TableCellStyle();
@@ -397,7 +422,7 @@ function Table() {
 	 * It is supposed that all properties
 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 	 * are simultaneously null or set.
-	 * @property {Attribute} bogusTableStyle
+	 * @property {Attribute} bogusCellAttr
 	 * @default  null
 	 */
 	this.bogusCellAttr = null; // new Attributes();
@@ -417,7 +442,7 @@ function Table() {
  	 * It is supposed that all properties
  	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
 	 * are simultaneously null or set.
-	 * @property {Attribute} bogusTableStyle
+	 * @property {Attribute} bogusTableAttr
 	 * @default  null
 	 */
 	this.bogusTableAttr = null; // new Attributes();
