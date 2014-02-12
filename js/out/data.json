@@ -209,7 +209,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "classes\\string.js",
-            "line": 408,
+            "line": 403,
             "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
             "itemtype": "method",
             "params": [
@@ -537,7 +537,7 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 280,
+            "line": 279,
             "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects."
         },
         "createRowFromHtml": {
@@ -586,7 +586,7 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 352,
+            "line": 349,
             "description": "Returns true, if tableHtml is an html code corresponding to a table each row of which\ncontains just one cell, and this cell in its turn contains only one table.\nReturns false otherwise."
         },
         "createTagFromHtml": {
@@ -600,7 +600,7 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 408,
+            "line": 403,
             "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>."
         },
         "Table": {
@@ -1907,7 +1907,20 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 116,
+            "line": 115,
+            "description": "Returns true if the row contains only one cell and this cell contains a only one element\nthat is a Table() instance. Otherwise, false is returned.",
+            "itemtype": "method",
+            "name": "onlyTableInside",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 133,
             "description": "Alias for dropElemAt().",
             "itemtype": "method",
             "name": "dropCellAt",
@@ -1927,7 +1940,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 126,
+            "line": 143,
             "description": "12/02/2014 11:55: dropCell --> knockOutCell\nDrops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf the cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "knockOutCell",
@@ -1947,7 +1960,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 159,
+            "line": 176,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -1972,7 +1985,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 170,
+            "line": 187,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -2248,11 +2261,11 @@
         {
             "file": "classes\\table.js",
             "line": 292,
-            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
+            "description": "Returns true, if the table content is such that visually it corresponds to a table with framed rows.\nOtherwise, false is returned.",
             "itemtype": "method",
-            "name": "isFramed",
+            "name": "isFragmeted",
             "return": {
-                "description": "true if all table rows have border around",
+                "description": "",
                 "type": "Boolean"
             },
             "class": "Table",
@@ -2260,7 +2273,20 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 309,
+            "line": 312,
+            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
+            "itemtype": "method",
+            "name": "isFramed",
+            "return": {
+                "description": "true, if all table rows have border around",
+                "type": "Boolean"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 329,
             "description": "Resets bogus properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "resetBogus",
@@ -2273,7 +2299,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 326,
+            "line": 346,
             "description": "Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -2298,7 +2324,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 350,
+            "line": 370,
             "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
             "itemtype": "method",
             "name": "toHtml",
@@ -2311,7 +2337,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 390,
+            "line": 410,
             "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowStyle",
@@ -2322,7 +2348,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 400,
+            "line": 420,
             "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowAttr",
@@ -2333,7 +2359,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 410,
+            "line": 430,
             "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellStyle",
@@ -2344,7 +2370,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 420,
+            "line": 440,
             "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellAttr",
@@ -2355,7 +2381,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 430,
+            "line": 450,
             "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -2366,7 +2392,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 440,
+            "line": 460,
             "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableAttr",

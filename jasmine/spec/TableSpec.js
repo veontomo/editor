@@ -733,7 +733,6 @@ describe('Table-related functionality:', function(){
             expect(table.style['border-style']).toBeDefined();
             expect(table.attr.border).toBe('modern');
         });
-
     });
 
     describe('Table::removeBorder(): removes table border attrbutes', function(){
@@ -758,8 +757,6 @@ describe('Table-related functionality:', function(){
             expect(table.style['border-style']).toBe('none');
             expect(table.attr.border).not.toBeDefined();
         });
-
-
     });
 
     describe('Table::rowNum(): gives the number of rows in the table', function(){
@@ -870,7 +867,100 @@ describe('Table-related functionality:', function(){
             expect(table.bogusRowStyle).toBeDefined();
             table.resetBogus();
         });
+    });
 
+    xdescribe('Table::isFragmented(): whether the table looks like a framed table?', function(){
+        var table1, table2, table3, table4, table5, cell1, cell2, cell3, cell4, cell5;
+        beforeEach(function(){
+            table1 = new Table(); cell1 = new Cell();
+            table2 = new Table(); cell2 = new Cell();
+            table3 = new Table(); cell3 = new Cell();
+            table4 = new Table(); cell4 = new Cell();
+            table5 = new Table(); cell5 = new Cell();
+        });
+        it('gives false for empty tables', function(){
+            expect(table.isFragmented()).toBe(false);
+        });
+        it('gives false for empty tables', function(){
+            expect(table.isFragmented()).toBe(false);
+        });
+
+        it('gives true if the only table row has a unique cell with another table inside', function(){
+            cell1.appendElem(table1);
+            row1.appendCell(cell1);
+            table.appendRow(row1);
+            expect(table.isFragmented()).toBe(true);
+        });
+
+        it('gives true if each table row has a unique cell with another table inside', function(){
+            cell1.appendElem(table1);
+            cell2.appendElem(table2);
+            cell3.appendElem(table3);
+            cell4.appendElem(table4);
+            cell5.appendElem(table5);
+
+            row1.appendCell(cell1);
+            row2.appendCell(cell2);
+            row3.appendCell(cell3);
+            row4.appendCell(cell4);
+            row5.appendCell(cell5);
+
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            table.appendRow(row4);
+            table.appendRow(row5);
+
+            expect(table.isFragmented()).toBe(true);
+        });
+
+        it('gives false if the cell of the first row contains no table, while the others - contains exactly 1 table', function(){
+            cell1.appendElem(new Content());
+            cell2.appendElem(table2);
+            cell3.appendElem(table3);
+
+            row1.appendCell(cell1);
+            row2.appendCell(cell2);
+            row3.appendCell(cell3);
+
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+
+            expect(table.isFragmented()).toBe(false);
+        });
+
+        it('gives false if the cell of the last row contains no table, while the others - contains exactly 1 table', function(){
+            cell1.appendElem(table1);
+            cell2.appendElem(table2);
+            cell3.appendElem(new Content());
+
+            row1.appendCell(cell1);
+            row2.appendCell(cell2);
+            row3.appendCell(cell3);
+
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+
+            expect(table.isFragmented()).toBe(false);
+        });
+
+        it('gives false if the cell of a middle row contains no table, while the others - contains exactly 1 table', function(){
+            cell1.appendElem(table1);
+            cell2.appendElem(new Content());
+            cell3.appendElem(table3);
+
+            row1.appendCell(cell1);
+            row2.appendCell(cell2);
+            row3.appendCell(cell3);
+
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+
+            expect(table.isFragmented()).toBe(false);
+        });
 
 
     });

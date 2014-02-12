@@ -256,6 +256,23 @@ function Row() {
 		this.appendElem(cell);
 	};
 
+	/**
+	 * Returns true if the row contains only one cell and this cell contains a only one element
+	 * that is a Table() instance. Otherwise, false is returned.
+	 * @method  onlyTableInside
+	 * @return {Boolean}
+	 */
+	this.onlyTableInside = function(){
+		if (this.cellNum() !== 1){
+			console.log(&#x27;cellNum  is not 1&#x27;);
+			return false;
+		}
+		var cell = this.getFirst();
+		if (cell.length() !== 1){
+			return false;
+		}
+		return (cell.getFirst() instanceof Table);
+	};
 
 	/**
 	 * Alias for dropElemAt().

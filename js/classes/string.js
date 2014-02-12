@@ -276,7 +276,6 @@ String.prototype.createOlFromHtml = function(){
     return this.toString().createListFromHtml('ol');
 };
 
-
 /**
  * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
  * following form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized
@@ -347,8 +346,6 @@ String.prototype.createListItemFromHtml = function(){
         return listItem;
 };
 
-
-
 /**
  * Returns true, if tableHtml is an html code corresponding to a table each row of which
  * contains just one cell, and this cell in its turn contains only one table.
@@ -402,8 +399,6 @@ String.prototype.isFramedTable = function (){
         }
         return isFramed;
 };
-
-
 
 /**
  * Creates an instance of Tag class and fills in its property "elements" with

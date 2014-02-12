@@ -2,13 +2,14 @@
 /*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Table, Cell, Row, Content, TableRowStyle, Attributes, Style, jasmine, Tag*/
 
 describe('Row-related functionality:', function(){
-    var row, cell1, cell2, cell3, cell4;
+    var row, cell1, cell2, cell3, cell4, table;
     beforeEach(function(){
         cell1 = new Cell();
         cell2 = new Cell();
         cell3 = new Cell();
         cell4 = new Cell();
         row = new Row();
+        table = new Table();
     });
 
     describe('inherits properly from Tag() class', function(){
@@ -211,6 +212,41 @@ describe('Row-related functionality:', function(){
             row.appendStyleToCellAt(213, 'style stub');
             expect(row.appendStyleToElemAt).toHaveBeenCalledWith(213, 'style stub');
 
+        });
+    });
+
+    describe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
+        it('gives false, if the row is empty', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){return 0;});
+            expect(row.onlyTableInside()).toBe(false);
+            expect(row.cellNum).toHaveBeenCalled();
+        });
+        it('gives false, if the row contains more than one cell', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){return 25;});
+            expect(row.onlyTableInside()).toBe(false);
+            expect(row.cellNum).toHaveBeenCalled();
+        });
+        it('gives false, if the row contains one cell and the cell has more than one element', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){return 1;});
+            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
+            spyOn(cell1, 'length').andCallFake(function(){return 2;});
+            expect(row.onlyTableInside()).toBe(false);
+            expect(cell1.length).toHaveBeenCalled();
+            expect(row.getFirst).toHaveBeenCalled();
+            expect(row.cellNum).toHaveBeenCalled();
+        });
+
+
+        it('gives true, if the row has unique cell and this cell has a table and nothing more', function(){
+            spyOn(row, 'cellNum').andCallFake(function(){return 1;});
+            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
+            spyOn(cell1, 'length').andCallFake(function(){return 1;});
+            spyOn(cell1, 'getFirst').andCallFake(function(){return new Table;});
+            expect(row.onlyTableInside()).toBe(true);
+            expect(cell1.length).toHaveBeenCalled();
+            expect(row.getFirst).toHaveBeenCalled();
+            expect(row.cellNum).toHaveBeenCalled();
+            expect(cell1.getFirst).toHaveBeenCalled();
         });
     });
 

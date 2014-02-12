@@ -290,11 +290,31 @@ function Table() {
 	};
 
 	/**
+	 * Returns true, if the table content is such that visually it corresponds to a table with framed rows.
+	 * Otherwise, false is returned.
+	 * @method  isFragmeted
+	 * @return {Boolean}
+	 */
+	this.isFragmented = function(){
+		/// !!! stub
+		var outcome = true,
+			rowNum = this.rowNum(),
+			i;
+		if (this.colNum() > 1){
+			return false;
+		}
+		for (i = 0; i < rowNum; i++){
+			outcome = this.getElem(i).getElem(0);
+		}
+		return null;
+	};
+
+	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
 	 * false otherwise. It at least one of the properties, corresponding to the "bogus" elements is set, then
 	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
-	 * @return {Boolean}     true if all table rows have border around
+	 * @return {Boolean}     true, if all table rows have border around
 	 */
 	this.isFramed = function(){
 		// if at least one of these properties is set, the table is considered as being framed.
@@ -302,7 +322,7 @@ function Table() {
 							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
 			that = this;
 		return propertyList.some(function(prop){
-			return that.hasOwnProperty(prop) && that[prop];
+			return (that[prop] !== undefined) &&  that[prop];
 		});
 	};
 

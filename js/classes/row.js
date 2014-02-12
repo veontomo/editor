@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, Table, getProperty, TableRowStyle, Tag, Content */
 
 /**
  * Represents a table row
@@ -112,6 +112,19 @@ function Row() {
 		this.appendElem(cell);
 	};
 
+	/**
+	 * Returns true if the row contains only one cell and this cell contains only one element
+	 * that is a Table() instance. Otherwise, false is returned.
+	 * @method  onlyTableInside
+	 * @return {Boolean}
+	 */
+	this.onlyTableInside = function(){
+		var cell = this.getFirst();
+		if (this.cellNum() !== 1 || cell.length() !== 1){
+			return false;
+		}
+		return (cell.getFirst() instanceof Table);
+	};
 
 	/**
 	 * Alias for dropElemAt().
