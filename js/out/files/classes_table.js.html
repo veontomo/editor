@@ -179,7 +179,7 @@ function Table() {
 	this.name = &#x27;table&#x27;;
 
 	/**
-	* Attributes of the table.
+	* Attributes of the table. Overrides parent property &quot;attr&quot;.
 	* @property {TableAttributes} attr
 	* @type {TableAttributes}
 	* @default TableAttributes
@@ -187,7 +187,7 @@ function Table() {
 	this.attr = new TableAttributes();
 
 	/**
-	 * Styles of the row
+	 * Styles of the row. Overrides parent property &quot;style&quot;.
 	 * @property {TableStyle} style
 	 * @type {TableStyle}
 	 * @default TableStyle
@@ -195,12 +195,12 @@ function Table() {
 	this.style = new TableStyle();
 
 	/**
-	 * The number of the rows in the table. Delegates its functionality to Content::length.
+	 * The number of the rows in the table. Alias of length() of the parent class.
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
-		return this.content.length();
+		return this.length();
 	};
 
 	/**
@@ -457,7 +457,7 @@ function Table() {
 			i;
 		if (colNumInt === colNum &amp;&amp; colNum &gt;= 0 &amp;&amp; colNum &lt; colLen) {
 			for (i = 0; i &lt; rowLen; i++){
-				this.getElem(i).appendStyleToCell(colNum, style);
+				this.getElem(i).appendStyleToCellAt(colNum, style);
 			}
 		} else {
 			throw new Error(&#x27;The column is not present!&#x27;);

@@ -193,21 +193,38 @@ function Tag() {
 	};
 
 	/**
-	 * Appends style to the cell.
+	 * Appends style to the cell. Alias for Style::appendStyle().
 	 * @method appendStyle
 	 * @param  {Style|Obj}   stl   style to be appended
 	 * @return {void}
 	 */
 	this.appendStyle = function(stl){
-		if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
-			throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
-		}
-		var stlObj = new Style(stl);
-		this.style.appendStyle(stlObj);
-
+		// if ((typeof stl !== &#x27;string&#x27;) &amp;&amp; (typeof stl !== &#x27;object&#x27;) ) {
+		// 	throw new Error(&quot;Wrong argument type! Style, string or Object expected.&quot;);
+		// }
+		// var stlObj = new Style(stl);
+		this.style.appendStyle(stl);
 		return null;
 	};
 
+	/**
+	 * Appends style to the element at position pos. It is supposed that such an element exists
+	 * and it has a property &quot;style&quot; which is a Style instance. In this case method
+	 * Style::appendStyle() will be called on this element.
+	 * Otherwise, an error is thrown.
+	 * @method  appendStyleToElemAt
+	 * @param  {Number}   pos
+	 * @param  {any}      stl
+	 * @return {void}
+	 */
+	this.appendStyleToElemAt = function(pos, stl){
+		var elem = this.getElem(pos);
+		if (elem &amp;&amp; (elem.style instanceof Style)){
+			elem.appendStyle(stl);
+		} else {
+			throw new Error(&#x27;Can not append style to requested element.&#x27;);
+		}
+	};
 
 	/**
 	 * Tag styles
@@ -239,20 +256,42 @@ function Tag() {
 
 
 	/**
-	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot; and &quot;max-width&quot; are imposed as well.
-	 * It is better to use with an integer argument.
-	 * @method  setWidth
-	 * @param {String|Number} 	w 	value of the width. Supposed to be either a string (i.e. &quot;10px&quot;, &quot;14.1em&quot; etc)
-	 * or a number (i.e. 200, 10).
+	 * Imposes the value of the width of the &quot;attr&quot; and &quot;style&quot; properties. In the latter, &quot;min-width&quot;
+	 * and &quot;max-width&quot; are imposed as well. It is better to use with an integer argument and without
+	 * unit of measurement (as attr property should not have unit of measurement in its string representation
+	 * when convirting it in html form).
+	 * @method      setWidth
+	 * @param       {String|Number} 	w
+	 * @return      {void}
 	 */
 	this.setWidth = function(w){
-	    if(w === undefined){
-	        throw new Error(&quot;Width value is not set!&quot;);
+	    if(w === undefined || w === &#x27;&#x27;){
+	        throw new Error(&#x27;Width value is not set!&#x27;);
 	    }
 	    this.style.width = w;
 	    this.style[&#x27;max-width&#x27;] =  w;
 	    this.style[&#x27;min-width&#x27;] =  w;
 		this.attr.width = w;
+	};
+
+	/**
+	 * Gets the width of the object as it is present in the style property. It tends to return a number:
+	 * if it is measured in &quot;px&quot;, then the measurment unit is removed and the number is returned.
+	 * @method getWidth
+	 * @return {Number|String}
+	 */
+	this.getWidth = function(){
+		var raw = this.style.width,
+			raw2;
+		if (raw){
+			raw = raw.toString().trim().replace(/px$/, &#x27;&#x27;);
+			// try to parse it to a number. Under this operation whatever string at the end gets removed
+			raw2 = parseFloat(raw, 10);
+			if (raw2.toString() === raw){
+				raw = raw2;
+			}
+		}
+		return raw;
 	};
 
 
@@ -320,6 +359,16 @@ function Tag() {
 	 */
 	this.length = function(){
 		return this.content.length();
+	};
+
+	/**
+	 * Deletes element from &quot;content&quot; property. Delegates its functionalality to Content::dropElemAt().
+	 * @method dropElemAt
+	 * @param  {Number}     pos
+	 * @return {void}
+	 */
+	this.dropElemAt = function(pos){
+		this.content.dropElemAt(pos);
 	};
 
 	/**

@@ -196,19 +196,18 @@ function Style(style) {
 	}
 
 	/**
-	 * Appends object. If non-object is given, error is thrown.
-	 * @method appendStyle
-	 * @param {Object} stl style to be appended
-	 * @return {void}
+	 * Appends style. Converts the argument to a Style object and appends it to existing one.
+	 * Properties with the same name will be overridden.
+	 * @method    appendStyle
+	 * @param     {Any}          stl
+	 * @return    {void}
 	 */
 	this.appendStyle = function(stl){
-		if (typeof stl !== &#x27;object&#x27;){
-			throw new Error(&#x27;Argument of Object type is expected!&#x27;);
-		}
-		var styleProp;
-		for (styleProp in stl){
-			if (stl.hasOwnProperty(styleProp)){
-				this[styleProp] = stl[styleProp];
+		var styleProp,
+			styleObj = new Style(stl);
+		for (styleProp in styleObj){
+			if (styleObj.hasOwnProperty(styleProp) &amp;&amp; (typeof styleObj[styleProp]  !== &#x27;function&#x27;)){
+				this[styleProp] = styleObj[styleProp];
 			}
 		}
 	};

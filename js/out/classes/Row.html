@@ -200,6 +200,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_appendStyleToCellAt">appendStyleToCellAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_cellNum">cellNum</a>
 
                                 
@@ -208,6 +215,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_dropCell">dropCell</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_dropCellAt">dropCellAt</a>
 
                                 
                                 
@@ -236,10 +250,12 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_loadFromHtml">loadFromHtml</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -334,7 +350,7 @@
             
         
         
-        <a href="../files/classes_row.js.html#l106"><code>classes\row.js:106</code></a>
+        <a href="../files/classes_row.js.html#l101"><code>classes\row.js:101</code></a>
         
         </p>
 
@@ -345,7 +361,8 @@
     </div>
 
     <div class="description">
-        <p>Append a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.</p>
+        <p>Appends a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+Otherwise, a method appendElem of the parent class is called.</p>
 
     </div>
 
@@ -358,13 +375,140 @@
                 <li class="param">
                     
                         <code class="param-name">cell</code>
-                        <span class="type">Object</span>
+                        <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>a cell to be appended.</p>
+                        <p>a cell to be appended. If not a Cell instance, an error is thrown.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_appendStyleToCellAt" class="method item">
+    <h3 class="name"><code>appendStyleToCellAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>cellNum</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>stl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_row.js.html#l158"><code>classes\row.js:158</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">cellNum</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>index of the target cell</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">stl</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>style to be appended</p>
 
                     </div>
 
@@ -440,7 +584,7 @@
     </div>
 
     <div class="description">
-        <p>Returns the number of cells in the row. Delegates to the length() method of the &quot;content&quot; property.</p>
+        <p>Alias for length() method of the parent class.</p>
 
     </div>
 
@@ -510,7 +654,7 @@
             
         
         
-        <a href="../files/classes_row.js.html#l122"><code>classes\row.js:122</code></a>
+        <a href="../files/classes_row.js.html#l126"><code>classes\row.js:126</code></a>
         
         </p>
 
@@ -521,13 +665,13 @@
     </div>
 
     <div class="description">
-        <p>Drops the cell in the row. If the cell is utmost left, the freed space is then
+        <p>Drops the cell at the given position and resize the remaining cells. If the cell is utmost left, the freed space is then
 assigned to its right neighbour:
 |xxx| a | b   | c | -&gt; |     a | b   | c |
 | a |xxx| b   | c | -&gt; | a |     b   | c |
 If there is no right neighbour, then it is assigned to the left one:
 | a | b | c | xxx | -&gt; | a | b | c       |
-If a cell to delete does not exist, nothing is performed.</p>
+If the cell to delete does not exist, nothing is performed.</p>
 
     </div>
 
@@ -547,6 +691,113 @@ If a cell to delete does not exist, nothing is performed.</p>
 
                     <div class="param-description">
                         <p>cell number to delete. Numeration starts with 0.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                    <p>after</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dropCellAt" class="method item">
+    <h3 class="name"><code>dropCellAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_row.js.html#l116"><code>classes\row.js:116</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Alias for dropElemAt().</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>index of the cell to de dropped out.</p>
 
                     </div>
 
@@ -773,7 +1024,7 @@ If a cell to delete does not exist, nothing is performed.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l85"><code>classes\row.js:85</code></a>
+        <a href="../files/classes_row.js.html#l86"><code>classes\row.js:86</code></a>
         
         </p>
 
@@ -784,9 +1035,8 @@ If a cell to delete does not exist, nothing is performed.</p>
     </div>
 
     <div class="description">
-        <p>Inserts a cell &quot;cell&quot; into position &quot;pos&quot; of the row.
-After insertion, the row length increases by 1. Therefore, &quot;pos&quot;
-is the index with which the cell is referenced in the row after insertion.</p>
+        <p>Inserts a cell into a given position. If the object to insert is a Cell instance,
+then parent method insertElemAt is called. Otherwise, an error is thrown.</p>
 
     </div>
 
@@ -805,7 +1055,8 @@ is the index with which the cell is referenced in the row after insertion.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>a cell to insert. If not a Cell instance, an error will be thrown.</p>
+
                     </div>
 
                     
@@ -820,7 +1071,8 @@ is the index with which the cell is referenced in the row after insertion.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>position at which the cell is to be inserted.</p>
+
                     </div>
 
                     
@@ -848,7 +1100,7 @@ is the index with which the cell is referenced in the row after insertion.</p>
 </div>
 
                 
-                    <div id="method_loadFromHtml" class="method item">
+                    <div id="method_loadFromHtml" class="method item deprecated">
     <h3 class="name"><code>loadFromHtml</code></h3>
 
     
@@ -872,6 +1124,8 @@ is the index with which the cell is referenced in the row after insertion.</p>
     
 
     
+        <span class="flag deprecated" title="in favour of String::createRowFromHtml()">deprecated</span>
+    
 
     
 
@@ -894,11 +1148,13 @@ is the index with which the cell is referenced in the row after insertion.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l172"><code>classes\row.js:172</code></a>
+        <a href="../files/classes_row.js.html#l169"><code>classes\row.js:169</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: in favour of String::createRowFromHtml()</p>
         
 
         

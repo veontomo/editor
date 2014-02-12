@@ -374,6 +374,7 @@ var validateWidth = function (str) {
 
 function Unit(value, measure) {
     &quot;use strict&quot;;
+    console.log(value, measure);
     var parsedValue, parsedMeasure;
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);

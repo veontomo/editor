@@ -194,28 +194,8 @@ function Cell(arg) {
 	 */
 	this.style = new TableCellStyle();
 
-	/**
-	 * Gets the width of the cell as it is present in the style property. It tends to return a number:
-	 * if it is measured in &quot;px&quot;, then the measurment unit is removed and the number is returned.
-	 * @method getWidth
-	 * @return {Number|String}
-	 */
-	this.getWidth = function(){
-		var raw = this.style.width,
-			raw2;
-		if (raw){
-			raw = raw.toString().trim().replace(/px$/, &#x27;&#x27;);
-			// try to parse it to a number. Under this operation whatever string at the end gets removed
-			raw2 = parseFloat(raw, 10);
-			if (raw2.toString() === raw){
-				raw = raw2;
-			}
-		}
-		return raw;
-	};
 
 }
-// Cell.prototype = new Tag();
 Cell.prototype = Object.create(Tag.prototype);
     </pre>
 </div>

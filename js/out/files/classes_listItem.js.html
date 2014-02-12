@@ -186,27 +186,6 @@ function ListItem() {
 		this.content.appendElem(elem);
 	};
 
-	/**
-	 * Returns the number of elements inside its content. Delegates to Content::length().
-	 * @method   length
-	 * @return   {Number}
-	 */
-	this.length = function(){
-		return this.content.length();
-	};
-
-	/**
-	 * Gives html representation of the instance.
-	 * @method toHtml
-	 * @return {String}                html representation of an instance of this class.
-	 */
-	this.toHtml = function(){
-		var tag = &#x27;li&#x27;,
-			style = this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;),
-			attr = this.attr.toString(),
-			html = &#x27;&lt;&#x27; + [tag, attr, style].concatDropSpaces() + &#x27;&gt;&#x27; + this.content.toHtml() + &#x27;&lt;/&#x27; + tag + &#x27;&gt;&#x27;;
-		return html;
-	};
 }
 ListItem.prototype = Object.create(Tag.prototype);
     </pre>

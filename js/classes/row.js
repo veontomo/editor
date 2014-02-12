@@ -84,36 +84,28 @@ function Row() {
 	};
 
 	/**
-	 * Inserts a cell "cell" into position "pos" of the row.
-	 * After insertion, the row length increases by 1. Therefore, "pos"
-	 * is the index with which the cell is referenced in the row after insertion.
+	 * Inserts a cell into a given position. If the object to insert is a Cell instance,
+	 * then parent method insertElemAt is called. Otherwise, an error is thrown.
 	 * @method insertCellAt
-	 * @param  {Cell}   cell
-	 * @param  {Number} pos
+	 * @param  {Cell}   cell        a cell to insert. If not a Cell instance, an error will be thrown.
+	 * @param  {Number} pos         position at which the cell is to be inserted.
 	 * @return {void}
 	 */
 	this.insertCellAt = function(pos, cell){
-		// var cellType = (new Cell()).getType();
-		// if (typeof(cell.getType) !== 'function' || cell.getType() !== cellType){
-		// 	throw new Error('Trying to insert non-cell object!');
-		// }
 		if (!(cell instanceof Cell)){
 			throw new Error('Only a Cell instance is allowed for insertion!');
 		}
 		this.insertElemAt(pos, cell);
-		return null;
 	};
 
 	/**
 	 * Appends a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
 	 * Otherwise, a method appendElem of the parent class is called.
 	 * @method appendCell
-	 * @param {Object} cell            a cell to be appended.
+	 * @param  {Cell}     cell            a cell to be appended. If not a Cell instance, an error is thrown.
 	 * @return {void}
 	 */
 	this.appendCell = function(cell){
-		// find out with what name the Cell object is registered
-		// var cellType = (new Cell()).getType();
 		if (!(cell instanceof Cell)){
 			throw new Error('The argument is not a Cell instance!');
 		}
@@ -124,24 +116,24 @@ function Row() {
 	/**
 	 * Alias for dropElemAt().
 	 * @method  dropCellAt
-	 * @param  {Number}  pos
-	 * @return {void}     [description]
+	 * @param  {Number}     pos     index of the cell to de dropped out.
+	 * @return {void}
 	 */
 	this.dropCellAt = function(pos){
 		this.dropElemAt(pos);
-	}
+	};
 
 	/**
-	 * Drops the cell in the row. If the cell is utmost left, the freed space is then
+	 * Drops the cell at the given position and resize the remaining cells. If the cell is utmost left, the freed space is then
 	 * assigned to its right neighbour:
      * |xxx| a | b   | c | -> |     a | b   | c |
      * | a |xxx| b   | c | -> | a |     b   | c |
 	 * If there is no right neighbour, then it is assigned to the left one:
 	 * | a | b | c | xxx | -> | a | b | c       |
-	 * If a cell to delete does not exist, nothing is performed.
+	 * If the cell to delete does not exist, nothing is performed.
 	 * @method dropCell
-	 * @param  {Number}    cellNum   cell number to delete. Numeration starts with 0.
-	 * @return {void}
+	 * @param  {Number}    cellNum         cell number to delete. Numeration starts with 0.
+	 * @return {void}      after
 	 */
 	this.dropCell = function(cellNum){
 		var acceptor, acceptorWidth, currentCell, currentCellWidth;
@@ -159,26 +151,19 @@ function Row() {
 				currentCellWidth = currentCell.getWidth();
 				acceptor.setWidth(acceptorWidth + currentCellWidth);
 			}
-			this.content.dropElemAt(cellNum);
+			this.dropElemAt(cellNum);
 		}
-
 	};
 
 	/**
-	 * Appends style to the cell of the row.
-	 * @param  {Number}       cellNum       cell number to which the style is to be appended.
-	 * @param  {Style|Object} stl           style or object to be appended
+	 * Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().
+	 * @method appendStyleToCellAt
+	 * @param  {Number}       cellNum       index of the target cell
+	 * @param  {any}          stl           style to be appended
 	 * @return {void}
 	 */
-	this.appendStyleToCell = function (cellNum, stl){
-		var cellNumInt = parseInt(cellNum, 10),
-			rowLen = this.cellNum();
-		if (cellNum === cellNumInt && cellNum >= 0 && cellNum < rowLen) {
-			this.getElem(cellNum).appendStyle(stl);
-		} else {
-			throw new Error('Cell is not found!');
-		}
-		return null;
+	this.appendStyleToCellAt = function (cellNum, stl){
+		this.appendStyleToElemAt(cellNum, stl);
 	};
 
 	/**
@@ -191,7 +176,7 @@ function Row() {
 	 * @method loadFromHtml
 	 * @param {String} htmlStr
 	 * @return {void}
-	 * @depricated
+	 * @deprecated in favour of String::createRowFromHtml()
 	 */
 	this.loadFromHtml = function (htmlStr){
 		var parser = new DOMParser(),
@@ -213,5 +198,4 @@ function Row() {
 		this.setAttr(attrObj);
 	};
 }
-// Row.prototype = new Tag(); wrong way of making inheritance!
 Row.prototype = Object.create(Tag.prototype);

@@ -183,7 +183,7 @@ function List(listType) {
 	 * @type {String}
 	 * @default  &#x27;ol&#x27;
 	 */
-	this.name = allowedNames.indexOf(listType) !== -1 || listType : allowedNames[0];
+	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
 
 	/**
 	 * Gets the number of the list items

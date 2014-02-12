@@ -313,7 +313,7 @@ function Table() {
 			i;
 		if (colNumInt === colNum && colNum >= 0 && colNum < colLen) {
 			for (i = 0; i < rowLen; i++){
-				this.getElem(i).appendStyleToCell(colNum, style);
+				this.getElem(i).appendStyleToCellAt(colNum, style);
 			}
 		} else {
 			throw new Error('The column is not present!');

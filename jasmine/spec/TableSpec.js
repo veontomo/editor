@@ -372,14 +372,14 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'colNum').andCallFake(function(){
                 return 5;
             });
-            spyOn(row1, 'appendStyleToCell').andCallFake(function(){return null;});
-            spyOn(row2, 'appendStyleToCell').andCallFake(function(){return null;});
-            spyOn(row3, 'appendStyleToCell').andCallFake(function(){return null;});
+            spyOn(row1, 'appendStyleToCellAt').andCallFake(function(){return null;});
+            spyOn(row2, 'appendStyleToCellAt').andCallFake(function(){return null;});
+            spyOn(row3, 'appendStyleToCellAt').andCallFake(function(){return null;});
             table.content.elements = [row1, row2, row3];
             table.appendStyleToCol(2, "whatever");
-            expect(row1.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
-            expect(row2.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
-            expect(row3.appendStyleToCell).toHaveBeenCalledWith(2, "whatever");
+            expect(row1.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
+            expect(row2.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
+            expect(row3.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
         });
     });
 

@@ -65,22 +65,22 @@ function Tag() {
 
 	/**
 	 * Appends style to the element at position pos. It is supposed that such an element exists
-	 * and it has a property "style". In this case method Style::appendStyle() will be called on this element.
-	 * Otherwise,
-	 * @param  {[type]} pos [description]
-	 * @param  {[type]} stl [description]
-	 * @return {[type]}     [description]
+	 * and it has a property "style" which is a Style instance. In this case method
+	 * Style::appendStyle() will be called on this element.
+	 * Otherwise, an error is thrown.
+	 * @method  appendStyleToElemAt
+	 * @param  {Number}   pos
+	 * @param  {any}      stl
+	 * @return {void}
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		var len = this.length(),
-			i,
-			elem = this.getElem(pos);
+		var elem = this.getElem(pos);
 		if (elem && (elem.style instanceof Style)){
 			elem.appendStyle(stl);
 		} else {
 			throw new Error('Can not append style to requested element.');
 		}
-	}
+	};
 
 	/**
 	 * Tag styles
@@ -218,7 +218,7 @@ function Tag() {
 	};
 
 	/**
-	 * Alias for this.content.dropElemAt().
+	 * Deletes element from "content" property. Delegates its functionalality to Content::dropElemAt().
 	 * @method dropElemAt
 	 * @param  {Number}     pos
 	 * @return {void}
