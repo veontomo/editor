@@ -423,6 +423,128 @@ describe('Style functionality', function(){
         expect(bord.width).toBe(43);
         expect(bord.hasOwnProperty('color')).toBe(false);
         expect(bord.hasOwnProperty('style')).toBe(false);
+    });
+
+    describe('Style::length(): gives the number of properties', function(){
+        var emptyStyle;
+        beforeEach(function(){
+            var prop;
+            emptyStyle = new Style();
+            for (prop in emptyStyle){
+                if(typeof emptyStyle[prop] !== 'function'){
+                    delete emptyStyle[prop];
+                }
+            }
+        });
+        it('gets zero for a style without properties', function(){
+            expect(emptyStyle.length()).toBe(0);
+        });
+        it('gets one for a style with just one property', function(){
+            emptyStyle['funny property'] = 'value';
+            expect(emptyStyle.length()).toBe(1);
+        });
+        it('gets zero for a style with just one method', function(){
+            emptyStyle.turnOn = function(){return null;};
+            expect(emptyStyle.length()).toBe(0);
+        });
+
+        it('gets one for a style with just one property and one method', function(){
+            emptyStyle.one = 32.86;
+            emptyStyle['deep inside'] = function(){return null;};
+            expect(emptyStyle.length()).toBe(1);
+        });
+        it('gets one for a style with just one property and two methods', function(){
+            emptyStyle.one = 32.86;
+            emptyStyle['deep inside'] = function(){return null;};
+            emptyStyle.turnOn = function(){return 'turned on';};
+            expect(emptyStyle.length()).toBe(1);
+        });
+        it('gets two for a style with two properties', function(){
+            emptyStyle.one = 32.86;
+            emptyStyle['funny property'] = {};
+            expect(emptyStyle.length()).toBe(2);
+        });
+        it('gets two for a style with two properties and two methods', function(){
+            emptyStyle.one = 32.86;
+            emptyStyle['funny property'] = {};
+            emptyStyle.turnOn = function(){return 'turned on';};
+            emptyStyle['prepare-online'] = function(){return {'prepare': true};};
+            expect(emptyStyle.length()).toBe(2);
+        });
+    });
+
+    describe('Style::isTheSameAs(): compares styles', function(){
+        var emptyStyle, style;
+        beforeEach(function(){
+            var prop;
+            emptyStyle = new Style();
+            style = new Style();
+            for (prop in emptyStyle){
+                if(typeof emptyStyle[prop] !== 'function'){
+                    delete emptyStyle[prop];
+                }
+            }
+        });
+
+
+        it('gives true when comparing an empty method with itself', function(){
+            expect(emptyStyle.isTheSameAs(emptyStyle)).toBe(true);
+        });
+        it('gives true when comparing a non-empty method with itself', function(){
+            style.func = function(foo){ return foo;};
+            expect(style.isTheSameAs(style)).toBe(true);
+        });
+
+        it('gives true, if both styles have no properties', function(){
+            var st = {};
+            expect(emptyStyle.isTheSameAs(st)).toBe(true);
+        });
+        it('gives true, if both styles have no properties and target style has a method', function(){
+            var st = {};
+            emptyStyle.turnOn = function(){return 'turned on';};
+            expect(emptyStyle.isTheSameAs(st)).toBe(true);
+        });
+        it('gives true, if style has no properties and argument has a method', function(){
+            var st = {};
+            st.turnOn = function(){return 'turned on';};
+            expect(emptyStyle.isTheSameAs(st)).toBe(true);
+        });
+
+        it('gives false, if target style has one property and argument does not', function(){
+            var st = {};
+            emptyStyle.prop = 72;
+            expect(emptyStyle.isTheSameAs(st)).toBe(false);
+        });
+
+        it('gives true, if target style and argument have the same properties and values', function(){
+            var st = {'prop': 72, 'width': 'large'};
+            emptyStyle.prop = 72;
+            emptyStyle.width = 'large';
+            expect(emptyStyle.isTheSameAs(st)).toBe(true);
+        });
+
+        it('gives false, if target style and argument have the same properties but different values', function(){
+            var st = {'prop': 72, 'width': 'large'};
+            emptyStyle.prop = 0;
+            emptyStyle.width = 'large';
+            expect(emptyStyle.isTheSameAs(st)).toBe(false);
+        });
+        it('gives false, if the argument has one property more', function(){
+            var st = {'prop': 72, 'width': 'large', 'prop2': 21, 'color': 'blue'};
+            emptyStyle.prop = 72;
+            emptyStyle.width = 'large';
+            emptyStyle.prop2 = 21;
+            expect(emptyStyle.isTheSameAs(st)).toBe(false);
+        });
+
+        it('gives false, if the target has one property more', function(){
+            var st = {'prop': 72, 'width': 'large', 'color': 'blue'};
+            emptyStyle.prop = 72;
+            emptyStyle.width = 'large';
+            emptyStyle.prop2 = 21;
+            emptyStyle.color = 'blue';
+            expect(emptyStyle.isTheSameAs(st)).toBe(false);
+        });
 
 
     });

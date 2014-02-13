@@ -297,7 +297,7 @@ function Table() {
 	};
 
 	/**
-	 * Knocks out given column from the table. The operation is delegated to the Row::knockOutCell()
+	 * Knocks out given column from the table. The operation is delegated to the &#x60;Row::knockOutCell()&#x60;
 	 * @method knockOutCol
 	 * @param  {integer} 	colNum        the number of the column to be knocked out. Numeration starts with 0.
 	 * @return {void}
@@ -311,7 +311,7 @@ function Table() {
 	};
 
 	/**
-	 * Drops specified column from the table. The operation is delegated to the Row::dropCellAt()
+	 * Drops specified column from the table. The operation is delegated to the &#x60;Row::dropCellAt()&#x60;
 	 * @method dropColAt
 	 * @param  {integer} 	colNum           the number of the column to delete. Numeration starts with 0.
 	 * @return {void}
@@ -326,7 +326,7 @@ function Table() {
 
 	/**
 	 * Gives the number of columns in the table or null if not all rows have the same number of cells.
-	 * The operation is delegated to the Row::cellNum().
+	 * The operation is delegated to the &#x60;Row::cellNum()&#x60;.
 	 * @method  colNum
 	 * @return {Number|null}
 	 */
@@ -434,23 +434,20 @@ function Table() {
 	};
 
 	/**
-	 * Returns true, if the table content is such that visually it corresponds to a table with framed rows.
-	 * Otherwise, false is returned.
-	 * @method  isFragmeted
-	 * @return {Boolean}
+	 * Returns true if the table is framed, and false otherwise. It takes table rows and call method
+	 * &#x60;Row::onlyTableInside()&#x60; on each of them until first &quot;false&quot; is encountered.
+	 * &lt;br /&gt;A table is a __framed table__ if all table rows have only one cell and this cell contains
+	 * only one element that is a Table instance.
+	 * @method     isFragmented
+	 * @return     {Boolean}       true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
-		/// !!! stub
-		var outcome = true,
-			rowNum = this.rowNum(),
-			i;
-		if (this.colNum() &gt; 1){
+		if (this.rowNum() === 0){
 			return false;
 		}
-		for (i = 0; i &lt; rowNum; i++){
-			outcome = this.getElem(i).getElem(0);
-		}
-		return null;
+		return this.content.elements.every(function(row){
+			return row.onlyTableInside();
+		});
 	};
 
 	/**
@@ -488,7 +485,7 @@ function Table() {
 	};
 
 	/**
-	 * Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()
+	 * Appends the style to the column. If the column exists, the method call &#x60;Row::appendStyleToCell()&#x60;
 	 * on each of the table rows.
 	 * @method appendStyleToCol
 	 * @param  {Number}        colNum    column number to which the style is to be appended.
@@ -513,7 +510,7 @@ function Table() {
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
-	 * Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * Creation of the row-related html of each row is delegated to &#x60;Row::toHtml()&#x60;
 	 * @method toHtml
 	 * @return {String}
 	 */

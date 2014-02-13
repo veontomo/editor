@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Table, Cell,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Style, createTableFromHtml, jasmine, Tag */
+Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Attributes, createTableFromHtml, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3, row4, row5,
@@ -15,11 +15,11 @@ describe('Table-related functionality:', function(){
         row4 = new Row();
         row5 = new Row();
         bogusTableAttr = new Attributes();
-        bogusTableStyle = new Style();
+        bogusTableStyle = new Attributes();
         bogusRowAttr  = new Attributes();
-        bogusRowStyle  = new Style();
+        bogusRowStyle  = new Attributes();
         bogusCellAttr  = new Attributes();
-        bogusCellStyle  = new Style();
+        bogusCellStyle  = new Attributes();
     });
 
     describe('inherits properly from Tag() class', function(){
@@ -107,42 +107,6 @@ describe('Table-related functionality:', function(){
             expect(matrix[1]).toBe('array of cell widths of the second row');
             expect(matrix[2]).toBe('array of cell widths of the third row');
         });
-
-
-        // it('gets "matrix" of widths', function(){
-        //     expect((new Table()).length()).toBe(0);
-        //     expect((new Tag()).length()).toBe(0);
-        //     expect((new Table()).length()).toBe(0);
-        //     expect((new Row()).length()).toBe(0);
-
-        //     spyOn(row1, 'getCellWidths').andCallFake(function(){
-        //         return 'table widths of row 1';
-        //     });
-        //     spyOn(row2, 'getCellWidths').andCallFake(function(){
-        //         return 'table widths of row 2';
-        //     });
-        //     spyOn(row3, 'getCellWidths').andCallFake(function(){
-        //         return 'table widths of row 3';
-        //     });
-        //     table.content.elements = [row1, row2, row3];
-        //     expect((new Table()).length()).toBe(0);
-        //     expect((new Tag()).length()).toBe(0);
-        //     expect((new Table()).length()).toBe(0);
-        //     expect((new Row()).length()).toBe(0);
-
-        //     expect(table.getMatrix().length).toBe(3);
-        //     expect(table.getMatrix()[0]).toBe('table widths of row 1');
-        //     expect(table.getMatrix()[1]).toBe('table widths of row 2');
-        //     expect(table.getMatrix()[2]).toBe('table widths of row 3');
-
-        //     table.content.elements = [row1, row3];
-        //     expect(table.getMatrix().length).toBe(2);
-        //     expect(table.getMatrix()[0]).toBe('table widths of row 1');
-        //     expect(table.getMatrix()[1]).toBe('table widths of row 3');
-
-        //     table.content.elements = [];
-        //     expect(table.getMatrix().length).toBe(0);
-        // });
     });
 
     describe('Table::setProfile(): sets the widths of the columns', function(){
@@ -869,99 +833,229 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::isFragmented(): whether the table looks like a framed table?', function(){
-        var table1, table2, table3, table4, table5, cell1, cell2, cell3, cell4, cell5;
-        beforeEach(function(){
-            table1 = new Table(); cell1 = new Cell();
-            table2 = new Table(); cell2 = new Cell();
-            table3 = new Table(); cell3 = new Cell();
-            table4 = new Table(); cell4 = new Cell();
-            table5 = new Table(); cell5 = new Cell();
-        });
+    describe('Table::isFragmented(): whether the table looks like a framed table?', function(){
         it('gives false for empty tables', function(){
+            spyOn(table, 'rowNum').andCallFake(function(){return 0;});
             expect(table.isFragmented()).toBe(false);
+            expect(table.rowNum).toHaveBeenCalled();
         });
-        it('gives false for empty tables', function(){
-            expect(table.isFragmented()).toBe(false);
-        });
-
-        it('gives true if the only table row has a unique cell with another table inside', function(){
-            cell1.appendElem(table1);
-            row1.appendCell(cell1);
-            table.appendRow(row1);
+        it('gives true for a table with one row that is framed', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            table.content.elements = [row1];
             expect(table.isFragmented()).toBe(true);
+            expect(row1.onlyTableInside).toHaveBeenCalled();
+        });
+        it('gives false for a table with one row that is not framed', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
+            table.content.elements = [row1];
+            expect(table.isFragmented()).toBe(false);
+            expect(row1.onlyTableInside).toHaveBeenCalled();
         });
 
-        it('gives true if each table row has a unique cell with another table inside', function(){
-            cell1.appendElem(table1);
-            cell2.appendElem(table2);
-            cell3.appendElem(table3);
-            cell4.appendElem(table4);
-            cell5.appendElem(table5);
-
-            row1.appendCell(cell1);
-            row2.appendCell(cell2);
-            row3.appendCell(cell3);
-            row4.appendCell(cell4);
-            row5.appendCell(cell5);
-
-            table.appendRow(row1);
-            table.appendRow(row2);
-            table.appendRow(row3);
-            table.appendRow(row4);
-            table.appendRow(row5);
-
-            expect(table.isFragmented()).toBe(true);
+        it('gives false for a table with 3 rows, where only the last is not framed', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
+            table.content.elements = [row1, row2, row3];
+            expect(table.isFragmented()).toBe(false);
+            // expect(row1.onlyTableInside).toHaveBeenCalled();
+            // expect(row2.onlyTableInside).toHaveBeenCalled();
+            // expect(row3.onlyTableInside).toHaveBeenCalled();
         });
 
-        it('gives false if the cell of the first row contains no table, while the others - contains exactly 1 table', function(){
-            cell1.appendElem(new Content());
-            cell2.appendElem(table2);
-            cell3.appendElem(table3);
+        it('gives false for a table with 3 rows, where only the first is not framed', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
+            table.content.elements = [row1, row2, row3];
+            expect(table.isFragmented()).toBe(false);
+            // expect(row1.onlyTableInside).toHaveBeenCalled();
+            // expect(row2.onlyTableInside).toHaveBeenCalled();
+            // expect(row3.onlyTableInside).toHaveBeenCalled();
+        });
 
-            row1.appendCell(cell1);
-            row2.appendCell(cell2);
-            row3.appendCell(cell3);
-
-            table.appendRow(row1);
-            table.appendRow(row2);
-            table.appendRow(row3);
-
+        it('gives false for a table with 4 rows, where only the second is not framed', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
+            table.content.elements = [row1, row2, row3, row4];
             expect(table.isFragmented()).toBe(false);
         });
 
-        it('gives false if the cell of the last row contains no table, while the others - contains exactly 1 table', function(){
-            cell1.appendElem(table1);
-            cell2.appendElem(table2);
-            cell3.appendElem(new Content());
-
-            row1.appendCell(cell1);
-            row2.appendCell(cell2);
-            row3.appendCell(cell3);
-
-            table.appendRow(row1);
-            table.appendRow(row2);
-            table.appendRow(row3);
-
-            expect(table.isFragmented()).toBe(false);
+        it('calls Row() methods until the first row which is the first that returns false', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
+            table.content.elements = [row1, row2, row3, row4];
+            table.isFragmented();
+            expect(row1.onlyTableInside).toHaveBeenCalled();
+            expect(row2.onlyTableInside).not.toHaveBeenCalled();
+            expect(row3.onlyTableInside).not.toHaveBeenCalled();
+            expect(row4.onlyTableInside).not.toHaveBeenCalled();
         });
 
-        it('gives false if the cell of a middle row contains no table, while the others - contains exactly 1 table', function(){
-            cell1.appendElem(table1);
-            cell2.appendElem(new Content());
-            cell3.appendElem(table3);
-
-            row1.appendCell(cell1);
-            row2.appendCell(cell2);
-            row3.appendCell(cell3);
-
-            table.appendRow(row1);
-            table.appendRow(row2);
-            table.appendRow(row3);
-
-            expect(table.isFragmented()).toBe(false);
+        it('calls Row() methods until the second row which is the first that returns false', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
+            table.content.elements = [row1, row2, row3, row4];
+            table.isFragmented();
+            expect(row1.onlyTableInside).toHaveBeenCalled();
+            expect(row2.onlyTableInside).toHaveBeenCalled();
+            expect(row3.onlyTableInside).not.toHaveBeenCalled();
+            expect(row4.onlyTableInside).not.toHaveBeenCalled();
         });
 
-
+        it('calls Row() methods until the last row which is the first that returns false', function(){
+            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
+            table.content.elements = [row1, row2, row3, row4];
+            table.isFragmented();
+            expect(row1.onlyTableInside).toHaveBeenCalled();
+            expect(row2.onlyTableInside).toHaveBeenCalled();
+            expect(row3.onlyTableInside).toHaveBeenCalled();
+            expect(row4.onlyTableInside).toHaveBeenCalled();
+        });
     });
+
+    describe('Table::getBogusRowStyle(): gets the style of the bogus row', function(){
+        var row1Style, row2Style, row3Style;
+        beforeEach(function(){
+            row1Style = new Attributes();
+            row2Style = new Attributes();
+            row3Style = new Attributes();
+        });
+        it('returns null, if Table::isFragmented returns false', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return false;});
+            expect(table.getBogusRowStyle()).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+        });
+        it('returns row style, if table is fragmented and have one row', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            table.content.elements = [row1];
+            row1.style = row1Style;
+            expect(table.getBogusRowStyle()).toBe(row1Style);
+            expect(table.isFragmented).toHaveBeenCalled();
+        });
+        it('returns row style, if two-row table is fragmented and the rows have equal styles', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1Style, 'isTheSameAs').andCallFake(function(){return true;});
+            table.content.elements = [row1, row2];
+            row1.style = row1Style;
+            row2.style = row2Style;
+            expect(table.getBogusRowStyle()).toBe(row1Style);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1Style.isTheSameAs).toHaveBeenCalledWith(row2Style);
+        });
+        it('returns null, if two-row table is fragmented and the rows have different styles', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1Style, 'isTheSameAs').andCallFake(function(){return false;});
+            table.content.elements = [row1, row2];
+            row1.style = row1Style;
+            row2.style = row2Style;
+            expect(table.getBogusRowStyle()).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1Style.isTheSameAs).toHaveBeenCalledWith(row2Style);
+        });
+
+        it('returns null, if three-row table is fragmented and the second row style is different from the first', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1Style, 'isTheSameAs').andCallFake(function(){return false;});
+            table.content.elements = [row1, row2, row3];
+            row1.style = row1Style;
+            row2.style = row2Style;
+            row3.style = row3Style;
+            expect(table.getBogusRowStyle()).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1Style.isTheSameAs).toHaveBeenCalledWith(row2Style);
+            expect(row1Style.isTheSameAs).not.toHaveBeenCalledWith(row3Style);
+        });
+
+        it('returns null, if three-row table is fragmented and the last row style is different from previous', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1Style, 'isTheSameAs').andCallFake(function(st){return st === row2Style;});
+            table.content.elements = [row1, row2, row3];
+            row1.style = row1Style;
+            row2.style = row2Style;
+            row3.style = row3Style;
+            expect(table.getBogusRowStyle()).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1Style.isTheSameAs).toHaveBeenCalledWith(row2Style);
+            expect(row1Style.isTheSameAs).toHaveBeenCalledWith(row3Style);
+        });
+    });
+
+describe('Table::getBogusRowAttr(): gets the attribute of the bogus row', function(){
+    var row1Attr, row2Attr, row3Attr;
+    beforeEach(function(){
+        row1Attr = new Attributes();
+        row2Attr = new Attributes();
+        row3Attr = new Attributes();
+    });
+    it('returns null, if Table::isFragmented returns false', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return false;});
+        expect(table.getBogusRowAttr()).toBe(null);
+        expect(table.isFragmented).toHaveBeenCalled();
+    });
+    it('returns row style, if table is fragmented and have one row', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+        table.content.elements = [row1];
+        row1.attr = row1Attr;
+        expect(table.getBogusRowAttr()).toBe(row1Attr);
+        expect(table.isFragmented).toHaveBeenCalled();
+    });
+    it('returns row style, if two-row table is fragmented and the rows have equal styles', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+        spyOn(row1Attr, 'isTheSameAs').andCallFake(function(){return true;});
+        table.content.elements = [row1, row2];
+        row1.attr = row1Attr;
+        row2.attr = row2Attr;
+        expect(table.getBogusRowAttr()).toBe(row1Attr);
+        expect(table.isFragmented).toHaveBeenCalled();
+        expect(row1Attr.isTheSameAs).toHaveBeenCalledWith(row2Attr);
+    });
+    it('returns null, if two-row table is fragmented and the rows have different styles', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+        spyOn(row1Attr, 'isTheSameAs').andCallFake(function(){return false;});
+        table.content.elements = [row1, row2];
+        row1.attr = row1Attr;
+        row2.attr = row2Attr;
+        expect(table.getBogusRowAttr()).toBe(null);
+        expect(table.isFragmented).toHaveBeenCalled();
+        expect(row1Attr.isTheSameAs).toHaveBeenCalledWith(row2Attr);
+    });
+
+    it('returns null, if three-row table is fragmented and the second row style is different from the first', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+        spyOn(row1Attr, 'isTheSameAs').andCallFake(function(){return false;});
+        table.content.elements = [row1, row2, row3];
+        row1.attr = row1Attr;
+        row2.attr = row2Attr;
+        row3.attr = row3Attr;
+        expect(table.getBogusRowAttr()).toBe(null);
+        expect(table.isFragmented).toHaveBeenCalled();
+        expect(row1Attr.isTheSameAs).toHaveBeenCalledWith(row2Attr);
+        expect(row1Attr.isTheSameAs).not.toHaveBeenCalledWith(row3Attr);
+    });
+
+    it('returns null, if three-row table is fragmented and the last row style is different from previous', function(){
+        spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+        spyOn(row1Attr, 'isTheSameAs').andCallFake(function(st){return st === row2Attr;});
+        table.content.elements = [row1, row2, row3];
+        row1.attr = row1Attr;
+        row2.attr = row2Attr;
+        row3.attr = row3Attr;
+        expect(table.getBogusRowAttr()).toBe(null);
+        expect(table.isFragmented).toHaveBeenCalled();
+        expect(row1Attr.isTheSameAs).toHaveBeenCalledWith(row2Attr);
+        expect(row1Attr.isTheSameAs).toHaveBeenCalledWith(row3Attr);
+    });
+});
+
+
 });

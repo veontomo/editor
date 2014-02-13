@@ -211,5 +211,54 @@ function Row() {
 		this.setStyle(nodeStyle);
 		this.setAttr(attrObj);
 	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then style of the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusCellStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusCellStyle = function(){
+		return this.onlyTableInside() ? this.getFirst().style : null;
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
+	 * null otherwise.
+	 * @method  getBogusCellAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusCellAttr = function(){
+		return this.onlyTableInside() ? this.getFirst().attr : null;
+	};
+
+
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusTableStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusTableStyle = function(){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst().style : null;
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusTableAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusTableAttr = function(){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst().attr : null;
+	};
+
 }
 Row.prototype = Object.create(Tag.prototype);

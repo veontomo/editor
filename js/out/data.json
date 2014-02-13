@@ -1908,7 +1908,7 @@
         {
             "file": "classes\\row.js",
             "line": 115,
-            "description": "Returns true if the row contains only one cell and this cell contains a only one element\nthat is a Table() instance. Otherwise, false is returned.",
+            "description": "Returns true if the row contains only one cell and this cell contains only one element\nthat is a Table() instance. Otherwise, false is returned.",
             "itemtype": "method",
             "name": "onlyTableInside",
             "return": {
@@ -1920,7 +1920,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 133,
+            "line": 129,
             "description": "Alias for dropElemAt().",
             "itemtype": "method",
             "name": "dropCellAt",
@@ -1940,7 +1940,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 143,
+            "line": 139,
             "description": "12/02/2014 11:55: dropCell --> knockOutCell\nDrops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf the cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "knockOutCell",
@@ -1960,7 +1960,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 176,
+            "line": 172,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -1985,7 +1985,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 187,
+            "line": 183,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -2002,6 +2002,19 @@
             },
             "deprecated": true,
             "deprecationMessage": "in favour of String::createRowFromHtml()",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 215,
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusCellStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
             "class": "Row",
             "module": "HtmlElements"
         },
@@ -2161,7 +2174,7 @@
         {
             "file": "classes\\table.js",
             "line": 155,
-            "description": "Knocks out given column from the table. The operation is delegated to the Row::knockOutCell()",
+            "description": "Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`",
             "itemtype": "method",
             "name": "knockOutCol",
             "params": [
@@ -2181,7 +2194,7 @@
         {
             "file": "classes\\table.js",
             "line": 169,
-            "description": "Drops specified column from the table. The operation is delegated to the Row::dropCellAt()",
+            "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
             "params": [
@@ -2201,7 +2214,7 @@
         {
             "file": "classes\\table.js",
             "line": 183,
-            "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the Row::cellNum().",
+            "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
             "return": {
@@ -2261,11 +2274,11 @@
         {
             "file": "classes\\table.js",
             "line": 292,
-            "description": "Returns true, if the table content is such that visually it corresponds to a table with framed rows.\nOtherwise, false is returned.",
+            "description": "Returns true if the table is framed, and false otherwise. It takes table rows and call method\n`Row::onlyTableInside()` on each of them until first \"false\" is encountered.\n<br />A table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
-            "name": "isFragmeted",
+            "name": "isFragmented",
             "return": {
-                "description": "",
+                "description": "true if the table is framed, and false otherwise",
                 "type": "Boolean"
             },
             "class": "Table",
@@ -2273,7 +2286,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 312,
+            "line": 309,
             "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
             "itemtype": "method",
             "name": "isFramed",
@@ -2286,7 +2299,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 329,
+            "line": 326,
             "description": "Resets bogus properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "resetBogus",
@@ -2299,8 +2312,8 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 346,
-            "description": "Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()\non each of the table rows.",
+            "line": 343,
+            "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
             "params": [
@@ -2324,8 +2337,8 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 370,
-            "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to Row::toHtml()",
+            "line": 367,
+            "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to `Row::toHtml()`",
             "itemtype": "method",
             "name": "toHtml",
             "return": {
@@ -2337,7 +2350,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 410,
+            "line": 407,
             "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowStyle",
@@ -2348,7 +2361,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 420,
+            "line": 417,
             "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowAttr",
@@ -2359,7 +2372,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 430,
+            "line": 427,
             "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellStyle",
@@ -2370,7 +2383,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 440,
+            "line": 437,
             "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellAttr",
@@ -2381,7 +2394,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 450,
+            "line": 447,
             "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -2392,7 +2405,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 460,
+            "line": 457,
             "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableAttr",

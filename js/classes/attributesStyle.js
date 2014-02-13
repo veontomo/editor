@@ -118,6 +118,46 @@ function Style(style) {
 		}
 		return output;
 	};
+
+	/**
+	 * Gets the number of properties of the object (all properties to which the object
+	 * responds and that are not of function type).
+	 * @method  length
+	 * @return {Number}
+	 */
+	this.length = function(){
+		var prop;
+		i = 0;
+		for (prop in this){
+			if (typeof this[prop] !== 'function'){
+				i++;
+			}
+		}
+		return i;
+	};
+
+	/**
+	 * Compares properties of the target and with the proprties of the argument and
+	 * returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
+	 * Otherwise, false is returned.
+	 * @mathod    isTheSameAs
+	 * @param     {Object} 		obj
+	 * @return    {Boolean}
+	 */
+	this.isTheSameAs = function(obj){
+		var prop;
+		for (prop in this){
+			if (this.hasOwnProperty(prop) && (typeof this[prop] !== 'function') && (obj[prop] === undefined || this[prop] !== obj[prop])) {
+				return false;
+			}
+		}
+		for (prop in obj){
+		 	if (obj.hasOwnProperty(prop) && (typeof obj[prop] !== 'function') && (this[prop] === undefined || this[prop] !== obj[prop])){
+		 		return false;
+		 	}
+		}
+		return true;
+	};
 }
 
 /**
@@ -225,6 +265,30 @@ function Attributes(attr) {
 				this[attrs2] = stl[attrs2];
 			}
 		}
+	};
+
+
+	/**
+	 * Compares properties of the target and with the proprties of the argument and
+	 * returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
+	 * Otherwise, false is returned.
+	 * @mathod    isTheSameAs
+	 * @param     {Object} 		obj
+	 * @return    {Boolean}
+	 */
+	this.isTheSameAs = function(obj){
+		var prop;
+		for (prop in this){
+			if (this.hasOwnProperty(prop) && (typeof this[prop] !== 'function') && (obj[prop] === undefined || this[prop] !== obj[prop])) {
+				return false;
+			}
+		}
+		for (prop in obj){
+		 	if (obj.hasOwnProperty(prop) && (typeof obj[prop] !== 'function') && (this[prop] === undefined || this[prop] !== obj[prop])){
+		 		return false;
+		 	}
+		}
+		return true;
 	};
 }
 

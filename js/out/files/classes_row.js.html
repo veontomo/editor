@@ -144,7 +144,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, Tag, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, Table, getProperty, TableRowStyle, Tag, Content */
 
 /**
  * Represents a table row
@@ -257,18 +257,14 @@ function Row() {
 	};
 
 	/**
-	 * Returns true if the row contains only one cell and this cell contains a only one element
+	 * Returns true if the row contains only one cell and this cell contains only one element
 	 * that is a Table() instance. Otherwise, false is returned.
 	 * @method  onlyTableInside
 	 * @return {Boolean}
 	 */
 	this.onlyTableInside = function(){
-		if (this.cellNum() !== 1){
-			console.log(&#x27;cellNum  is not 1&#x27;);
-			return false;
-		}
 		var cell = this.getFirst();
-		if (cell.length() !== 1){
+		if (this.cellNum() !== 1 || cell.length() !== 1){
 			return false;
 		}
 		return (cell.getFirst() instanceof Table);
@@ -358,6 +354,17 @@ function Row() {
 		}
 		this.setStyle(nodeStyle);
 		this.setAttr(attrObj);
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then style of the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusCellStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusCellStyle = function(){
+
 	};
 }
 Row.prototype = Object.create(Tag.prototype);

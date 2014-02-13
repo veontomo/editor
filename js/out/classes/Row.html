@@ -221,6 +221,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getBogusCellStyle">getBogusCellStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getCellWidths">getCellWidths</a>
 
                                 
@@ -469,7 +476,7 @@ Otherwise, a method appendElem of the parent class is called.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l176"><code>classes\row.js:176</code></a>
+        <a href="../files/classes_row.js.html#l172"><code>classes\row.js:172</code></a>
         
         </p>
 
@@ -661,7 +668,7 @@ Otherwise, a method appendElem of the parent class is called.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l133"><code>classes\row.js:133</code></a>
+        <a href="../files/classes_row.js.html#l129"><code>classes\row.js:129</code></a>
         
         </p>
 
@@ -710,6 +717,79 @@ Otherwise, a method appendElem of the parent class is called.</p>
                 
                     
                         <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusCellStyle" class="method item">
+    <h3 class="name"><code>getBogusCellStyle</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_row.js.html#l215"><code>classes\row.js:215</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the row corresponds to a framed row (a row for which method
+<strong>Row::onlyTableInside()</strong> returns true), then style of the cell is returned,
+null otherwise.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>:
                     
                 
             </div>
@@ -1040,7 +1120,7 @@ then parent method insertElemAt is called. Otherwise, an error is thrown.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l143"><code>classes\row.js:143</code></a>
+        <a href="../files/classes_row.js.html#l139"><code>classes\row.js:139</code></a>
         
         </p>
 
@@ -1156,7 +1236,7 @@ If the cell to delete does not exist, nothing is performed.</p>
             
         
         
-        <a href="../files/classes_row.js.html#l187"><code>classes\row.js:187</code></a>
+        <a href="../files/classes_row.js.html#l183"><code>classes\row.js:183</code></a>
         
         </p>
 
@@ -1267,7 +1347,7 @@ In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar 
     </div>
 
     <div class="description">
-        <p>Returns true if the row contains only one cell and this cell contains a only one element
+        <p>Returns true if the row contains only one cell and this cell contains only one element
 that is a Table() instance. Otherwise, false is returned.</p>
 
     </div>

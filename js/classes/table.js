@@ -153,7 +153,7 @@ function Table() {
 	};
 
 	/**
-	 * Knocks out given column from the table. The operation is delegated to the Row::knockOutCell()
+	 * Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`
 	 * @method knockOutCol
 	 * @param  {integer} 	colNum        the number of the column to be knocked out. Numeration starts with 0.
 	 * @return {void}
@@ -167,7 +167,7 @@ function Table() {
 	};
 
 	/**
-	 * Drops specified column from the table. The operation is delegated to the Row::dropCellAt()
+	 * Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`
 	 * @method dropColAt
 	 * @param  {integer} 	colNum           the number of the column to delete. Numeration starts with 0.
 	 * @return {void}
@@ -182,7 +182,7 @@ function Table() {
 
 	/**
 	 * Gives the number of columns in the table or null if not all rows have the same number of cells.
-	 * The operation is delegated to the Row::cellNum().
+	 * The operation is delegated to the `Row::cellNum()`.
 	 * @method  colNum
 	 * @return {Number|null}
 	 */
@@ -290,23 +290,20 @@ function Table() {
 	};
 
 	/**
-	 * Returns true, if the table content is such that visually it corresponds to a table with framed rows.
-	 * Otherwise, false is returned.
-	 * @method  isFragmeted
-	 * @return {Boolean}
+	 * Returns true if the table is framed, and false otherwise. It takes table rows and call method
+	 * `Row::onlyTableInside()` on each of them until first "false" is encountered.
+	 * <br />A table is a __framed table__ if all table rows have only one cell and this cell contains
+	 * only one element that is a Table instance.
+	 * @method     isFragmented
+	 * @return     {Boolean}       true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
-		/// !!! stub
-		var outcome = true,
-			rowNum = this.rowNum(),
-			i;
-		if (this.colNum() > 1){
+		if (this.rowNum() === 0){
 			return false;
 		}
-		for (i = 0; i < rowNum; i++){
-			outcome = this.getElem(i).getElem(0);
-		}
-		return null;
+		return this.content.elements.every(function(row){
+			return row.onlyTableInside();
+		});
 	};
 
 	/**
@@ -344,7 +341,7 @@ function Table() {
 	};
 
 	/**
-	 * Appends the style to the column. If the column exists, the method call Row::appendStyleToCell()
+	 * Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`
 	 * on each of the table rows.
 	 * @method appendStyleToCol
 	 * @param  {Number}        colNum    column number to which the style is to be appended.
@@ -369,7 +366,7 @@ function Table() {
 
 	/**
 	 * Generates table-specific html code with corresponding attributes and styles.
-	 * Creation of the row-related html of each row is delegated to Row::toHtml()
+	 * Creation of the row-related html of each row is delegated to `Row::toHtml()`
 	 * @method toHtml
 	 * @return {String}
 	 */
@@ -466,5 +463,55 @@ function Table() {
 	 * @default  null
 	 */
 	this.bogusTableAttr = null; // new Attributes();
+
+	/**
+	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
+	 * Otherwise, null is returned.
+	 * @method   getBogusRowStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusRowStyle = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var firstRowStyle = this.getFirst().style,
+			rowNum = this.rowNum(),
+			rowStyle, i;
+		if (rowNum === 1){
+			return firstRowStyle;
+		}
+		for (i = 1; i < rowNum; i++){
+			rowStyle = this.getElem(i).style;
+			if (!firstRowStyle.isTheSameAs(rowStyle)){
+				return null;
+			}
+		}
+		return firstRowStyle;
+	};
+
+	/**
+	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
+	 * Otherwise, null is returned.
+	 * @method   getBogusRowStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusRowAttr = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var firstRowStyle = this.getFirst().attr,
+			rowNum = this.rowNum(),
+			rowStyle, i;
+		if (rowNum === 1){
+			return firstRowStyle;
+		}
+		for (i = 1; i < rowNum; i++){
+			rowStyle = this.getElem(i).attr;
+			if (!firstRowStyle.isTheSameAs(rowStyle)){
+				return null;
+			}
+		}
+		return firstRowStyle;
+	};
 }
 Table.prototype = Object.create(Tag.prototype);
