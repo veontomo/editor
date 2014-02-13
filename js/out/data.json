@@ -1,14 +1,20 @@
 {
     "project": {},
     "files": {
+        "classes\\attributes.js": {
+            "name": "classes\\attributes.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "classes\\attributesStyle.js": {
             "name": "classes\\attributesStyle.js",
             "modules": {},
             "classes": {
+                "TableAttributes": 1,
                 "Style": 1,
                 "BorderStyle": 1,
-                "Attributes": 1,
-                "TableAttributes": 1,
                 "TextStyle": 1,
                 "LinkStyle": 1,
                 "TableStyle": 1,
@@ -57,6 +63,17 @@
             "fors": {},
             "namespaces": {}
         },
+        "classes\\property.js": {
+            "name": "classes\\property.js",
+            "modules": {
+                "Property": 1
+            },
+            "classes": {
+                "Property": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "classes\\row.js": {
             "name": "classes\\row.js",
             "modules": {},
@@ -78,6 +95,15 @@
                 "createUlFromHtml": 1,
                 "isFramedTable": 1,
                 "createTagFromHtml": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "classes\\style.js": {
+            "name": "classes\\style.js",
+            "modules": {},
+            "classes": {
+                "Attributes": 1
             },
             "fors": {},
             "namespaces": {}
@@ -132,10 +158,10 @@
             "name": "attributes",
             "submodules": {},
             "classes": {
-                "Style": 1,
-                "BorderStyle": 1,
                 "Attributes": 1,
                 "TableAttributes": 1,
+                "Style": 1,
+                "BorderStyle": 1,
                 "TextStyle": 1,
                 "LinkStyle": 1,
                 "TableStyle": 1,
@@ -149,16 +175,16 @@
             "namespaces": {},
             "tag": "module",
             "file": "classes\\attributesStyle.js",
-            "line": 677,
+            "line": 741,
             "description": "Produces a string of properties in inline-style fashion\nThis function is supposed to be added to prototypes of different objects.\nIt takse into consideration only properties, methods are ignored.\nIf attribite value is a number, the measurement unit will be appended.",
             "params": [
                 {
-                    "name": "style",
-                    "description": "string of label-value pairs or object.",
+                    "name": "obj",
+                    "description": "a string or object from which this object properties are to be created.",
                     "type": "String|object"
                 }
             ],
-            "extends": "Style",
+            "extends": "Attributes",
             "return": {
                 "description": "a concatenation of substrings; each substring is of this format: \"attribute: value;\".",
                 "type": "String"
@@ -193,6 +219,26 @@
                 }
             ],
             "extends": "Tag"
+        },
+        "Property": {
+            "name": "Property",
+            "submodules": {},
+            "classes": {
+                "Property": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "classes\\property.js",
+            "line": 5,
+            "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties. If, in addition, the \"value\" can be\ncast to a number, it will be done.",
+            "params": [
+                {
+                    "name": "input",
+                    "description": "an argument, from which properties will be taken.",
+                    "type": "String|Object"
+                }
+            ]
         },
         "String": {
             "name": "String",
@@ -250,6 +296,42 @@
         }
     },
     "classes": {
+        "Attributes": {
+            "name": "Attributes",
+            "shortname": "Attributes",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "attributes",
+            "namespace": "",
+            "file": "classes\\style.js",
+            "line": 3,
+            "description": "This class is supposed to define attributes of html tags",
+            "params": [
+                {
+                    "name": "attr",
+                    "description": "a string or object from which this object properties are to be created.",
+                    "type": "String|object"
+                }
+            ]
+        },
+        "TableAttributes": {
+            "name": "TableAttributes",
+            "shortname": "TableAttributes",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "attributes",
+            "namespace": "",
+            "file": "classes\\attributesStyle.js",
+            "line": 295,
+            "description": "Table-specific attributes.",
+            "extends": "Attributes"
+        },
         "Style": {
             "name": "Style",
             "shortname": "Style",
@@ -282,45 +364,9 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 123,
+            "line": 163,
             "description": "Styles specific for the table border.",
             "extends": "Style"
-        },
-        "Attributes": {
-            "name": "Attributes",
-            "shortname": "Attributes",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "attributes",
-            "namespace": "",
-            "file": "classes\\attributesStyle.js",
-            "line": 158,
-            "description": "This class is supposed to define attributes of html tags",
-            "params": [
-                {
-                    "name": "attr",
-                    "description": "a string or object from which this object properties are to be created.",
-                    "type": "String|object"
-                }
-            ]
-        },
-        "TableAttributes": {
-            "name": "TableAttributes",
-            "shortname": "TableAttributes",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "attributes",
-            "namespace": "",
-            "file": "classes\\attributesStyle.js",
-            "line": 231,
-            "description": "Table-specific attributes.",
-            "extends": "Attributes"
         },
         "TextStyle": {
             "name": "TextStyle",
@@ -333,7 +379,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 258,
+            "line": 322,
             "description": "Text specific style class.",
             "extends": "Style"
         },
@@ -348,7 +394,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 303,
+            "line": 367,
             "description": "Represents hyperlink style."
         },
         "TableStyle": {
@@ -362,7 +408,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 355,
+            "line": 419,
             "description": "Represents table style."
         },
         "TableRowStyle": {
@@ -376,7 +422,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 432,
+            "line": 496,
             "description": "Represents table row style."
         },
         "TableCellStyle": {
@@ -390,7 +436,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 495,
+            "line": 559,
             "description": "Represents table cell styles."
         },
         "ImageStyle": {
@@ -404,7 +450,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 570,
+            "line": 634,
             "description": "Represents image styles."
         },
         "ListStyle": {
@@ -418,7 +464,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 627,
+            "line": 691,
             "description": "Represents image styles."
         },
         "ListItemStyle": {
@@ -432,7 +478,7 @@
             "module": "attributes",
             "namespace": "",
             "file": "classes\\attributesStyle.js",
-            "line": 677,
+            "line": 741,
             "description": "Represents list item styles."
         },
         "Cell": {
@@ -497,6 +543,20 @@
             "file": "classes\\listItem.js",
             "line": 5,
             "description": "This class is used to represent a list item."
+        },
+        "Property": {
+            "name": "Property",
+            "shortname": "Property",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Property",
+            "namespace": "",
+            "file": "classes\\property.js",
+            "line": 5,
+            "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties. If, in addition, the \"value\" can be\ncast to a number, it will be done."
         },
         "Row": {
             "name": "Row",
@@ -634,6 +694,44 @@
     },
     "classitems": [
         {
+            "file": "classes\\attributes.js",
+            "line": 16,
+            "description": "Generates string representation of this object (as html attributes).\nIt takse into consideration only strings and numbers. The rest is ignored.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "String      a union of substrings; each substring is of this format: 'attribute=\"value\"',\n                                    between the substrings there is a separator ' ' (space).",
+                "type": "String"
+            },
+            "example": [
+                "    The return value might be of this form: class=\"example\" id=\"tag\""
+            ],
+            "class": "Attributes",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributes.js",
+            "line": 53,
+            "description": "Cellpadding attribute of the table. It is supposed that measurement unit is \"px\".",
+            "itemtype": "property",
+            "name": "cellpadding",
+            "type": "Number",
+            "default": "0",
+            "class": "TableAttributes",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributes.js",
+            "line": 59,
+            "description": "Cellspacing attribute of the table. It is supposed that measurement unit is \"px\".",
+            "itemtype": "property",
+            "name": "cellspacing",
+            "type": "Number",
+            "default": "0",
+            "class": "TableAttributes",
+            "module": "attributes"
+        },
+        {
             "file": "classes\\attributesStyle.js",
             "line": 18,
             "description": "Fill in the properties with the values from the argument if any",
@@ -707,7 +805,40 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 135,
+            "line": 122,
+            "description": "Gets the number of properties of the object (all properties to which the object\nresponds and that are not of function type).",
+            "itemtype": "method",
+            "name": "length",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Style",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 139,
+            "description": "Compares properties of the target and with the proprties of the argument and\nreturns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).\nOtherwise, false is returned.",
+            "itemtype": "method",
+            "name": "isTheSameAs",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Style",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 175,
             "description": "border width in px",
             "itemtype": "property",
             "name": "border-width",
@@ -718,7 +849,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 142,
+            "line": 182,
             "description": "border style. Possible values: none, solid, dotted etc.",
             "itemtype": "property",
             "name": "border-style",
@@ -729,7 +860,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 149,
+            "line": 189,
             "description": "border color. In case one wants black color, one should use a color maximally close to the black (e.g. #000001)\notherwise some web browsers (e.g. GMail) will remove it and substitute it with its own one.",
             "itemtype": "property",
             "name": "border-color",
@@ -740,14 +871,14 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 170,
+            "line": 210,
             "description": "Fill in the properties with the values from the argument if any",
             "class": "Attributes",
             "module": "attributes"
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 202,
+            "line": 242,
             "description": "Generates string representation of this object (as html attributes)",
             "itemtype": "method",
             "name": "toString",
@@ -764,7 +895,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 212,
+            "line": 252,
             "description": "Appends object. If non-object is given, error is thrown. This is a copy-paste of Styles::appendStyle",
             "itemtype": "method",
             "name": "appendAttribute",
@@ -784,7 +915,26 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 243,
+            "line": 271,
+            "description": "Compares properties of the target and with the proprties of the argument and\nreturns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).\nOtherwise, false is returned.",
+            "mathod": "isTheSameAs",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Attributes",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\attributesStyle.js",
+            "line": 307,
             "description": "Cellpadding attribute of the table. It is supposed that measurement unit is \"px\".",
             "itemtype": "property",
             "name": "cellpadding",
@@ -795,7 +945,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 249,
+            "line": 313,
             "description": "Cellspacing attribute of the table. It is supposed that measurement unit is \"px\".",
             "itemtype": "property",
             "name": "cellspacing",
@@ -806,7 +956,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 270,
+            "line": 334,
             "description": "Font size, including unit of measurement.",
             "itemtype": "property",
             "name": "font-size",
@@ -817,7 +967,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 276,
+            "line": 340,
             "description": "Font color",
             "itemtype": "property",
             "name": "color \tFont color",
@@ -828,7 +978,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 282,
+            "line": 346,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -839,7 +989,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 288,
+            "line": 352,
             "description": "Padding value along with unit of measurement",
             "itemtype": "property",
             "name": "padding",
@@ -850,7 +1000,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 294,
+            "line": 358,
             "description": "Margin value along with unit of measurement",
             "itemtype": "property",
             "name": "margin",
@@ -861,7 +1011,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 315,
+            "line": 379,
             "description": "Text decoration attribute",
             "itemtype": "property",
             "name": "text-decoration",
@@ -872,7 +1022,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 322,
+            "line": 386,
             "description": "Font size",
             "itemtype": "property",
             "name": "font size",
@@ -883,7 +1033,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 328,
+            "line": 392,
             "description": "Font color attribute",
             "itemtype": "property",
             "name": "font color",
@@ -894,7 +1044,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 334,
+            "line": 398,
             "description": "Font wieght attribute. See html manuals for possible values.",
             "itemtype": "property",
             "name": "font weight",
@@ -905,7 +1055,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 340,
+            "line": 404,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -916,7 +1066,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 346,
+            "line": 410,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -927,7 +1077,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 367,
+            "line": 431,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -938,7 +1088,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 373,
+            "line": 437,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -949,7 +1099,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 379,
+            "line": 443,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -960,7 +1110,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 385,
+            "line": 449,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -971,7 +1121,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 391,
+            "line": 455,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -982,7 +1132,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 397,
+            "line": 461,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -993,7 +1143,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 403,
+            "line": 467,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1004,7 +1154,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 409,
+            "line": 473,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1015,7 +1165,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 416,
+            "line": 480,
             "description": "Whether to collapse the table borders or not.",
             "deprecated": true,
             "deprecationMessage": "Do not use, because it causes problems in MS Outlook.",
@@ -1028,7 +1178,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 423,
+            "line": 487,
             "description": "Border spacing.",
             "itemtype": "property",
             "name": "border-spacing",
@@ -1039,7 +1189,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 444,
+            "line": 508,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -1050,7 +1200,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 450,
+            "line": 514,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1061,7 +1211,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 456,
+            "line": 520,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -1072,7 +1222,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 462,
+            "line": 526,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -1083,7 +1233,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 468,
+            "line": 532,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -1094,7 +1244,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 474,
+            "line": 538,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -1105,7 +1255,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 480,
+            "line": 544,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1116,7 +1266,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 486,
+            "line": 550,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1127,7 +1277,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 507,
+            "line": 571,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -1138,7 +1288,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 513,
+            "line": 577,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1149,7 +1299,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 519,
+            "line": 583,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -1160,7 +1310,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 525,
+            "line": 589,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1171,7 +1321,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 531,
+            "line": 595,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1182,7 +1332,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 537,
+            "line": 601,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -1193,7 +1343,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 543,
+            "line": 607,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1204,7 +1354,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 549,
+            "line": 613,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1215,7 +1365,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 555,
+            "line": 619,
             "description": "Vertical align of the cell content.",
             "itemtype": "property",
             "name": "vertical-align",
@@ -1226,7 +1376,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 561,
+            "line": 625,
             "description": "Font color",
             "itemtype": "property",
             "name": "color",
@@ -1237,7 +1387,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 582,
+            "line": 646,
             "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
@@ -1248,7 +1398,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 588,
+            "line": 652,
             "description": "Style of the border around the image. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1259,7 +1409,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 594,
+            "line": 658,
             "description": "Color of the border around the image.",
             "itemtype": "property",
             "name": "border-color",
@@ -1270,7 +1420,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 600,
+            "line": 664,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1281,7 +1431,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 606,
+            "line": 670,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1292,7 +1442,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 612,
+            "line": 676,
             "description": "Image width.",
             "itemtype": "property",
             "name": "width",
@@ -1303,7 +1453,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 618,
+            "line": 682,
             "description": "Image height.",
             "itemtype": "property",
             "name": "height",
@@ -1314,7 +1464,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 639,
+            "line": 703,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1325,7 +1475,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 646,
+            "line": 710,
             "description": "Margin left.",
             "itemtype": "property",
             "name": "margin-left",
@@ -1336,7 +1486,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 653,
+            "line": 717,
             "description": "Margin-right.",
             "itemtype": "property",
             "name": "margin-right",
@@ -1347,7 +1497,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 660,
+            "line": 724,
             "description": "Margin-top.",
             "itemtype": "property",
             "name": "margin-top",
@@ -1358,7 +1508,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 667,
+            "line": 731,
             "description": "Margin-bottom.",
             "itemtype": "property",
             "name": "margin-bottom",
@@ -1369,7 +1519,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 689,
+            "line": 753,
             "description": "Font size of the  text in the list.",
             "itemtype": "property",
             "name": "font-size",
@@ -1380,7 +1530,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 695,
+            "line": 759,
             "description": "Text color of the list item content.",
             "itemtype": "property",
             "name": "color",
@@ -1391,7 +1541,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 703,
+            "line": 767,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -1402,7 +1552,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 709,
+            "line": 773,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -1413,7 +1563,7 @@
         },
         {
             "file": "classes\\attributesStyle.js",
-            "line": 715,
+            "line": 779,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -1777,6 +1927,66 @@
             "module": "HtmlElements"
         },
         {
+            "file": "classes\\property.js",
+            "line": 21,
+            "description": "Fill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",
+            "class": "Property",
+            "module": "Property"
+        },
+        {
+            "file": "classes\\property.js",
+            "line": 57,
+            "description": "Gets the number of properties of the object (all properties to which the object\nresponds and that are not of function type).",
+            "itemtype": "method",
+            "name": "propNum",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Property",
+            "module": "Property"
+        },
+        {
+            "file": "classes\\property.js",
+            "line": 74,
+            "description": "Compares properties of the target and with the proprties of the argument.\nReturns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).\nOtherwise, false is returned. When making comparison, all methods are ignored.",
+            "itemtype": "method",
+            "name": "isTheSameAs",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Property",
+            "module": "Property"
+        },
+        {
+            "file": "classes\\property.js",
+            "line": 97,
+            "description": "Appends property. Converts the argument to a Property and appends it to the target one.\nProperties with the same name will be overridden.",
+            "itemtype": "method",
+            "name": "appendProperty",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "it will be converted into a Property object and then appended to the target object.",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Property",
+            "module": "Property"
+        },
+        {
             "file": "classes\\row.js",
             "line": 19,
             "description": "Type of the object. Return \"Row\" for the objects of this type.",
@@ -2017,6 +2227,83 @@
             },
             "class": "Row",
             "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 226,
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusCellAttr",
+            "return": {
+                "description": "",
+                "type": "Attributes|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 239,
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusTableStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 251,
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusTableAttr",
+            "return": {
+                "description": "",
+                "type": "Attributes|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\style.js",
+            "line": 16,
+            "description": "Generates string representation of this object (as html inline style).\nIt takse into consideration only strings and numbers. The rest is ignored.\nIf attribite value is a number, the measurement unit will be appended.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "String      a union of substrings; each substring is of this format: 'attribute=\"value\"', between the substrings there is a separator ' '.",
+                "type": "String"
+            },
+            "class": "Attributes",
+            "module": "attributes"
+        },
+        {
+            "file": "classes\\style.js",
+            "line": 38,
+            "description": "Appends style. Alias for the parent method Property::appendProperty()",
+            "itemtype": "method",
+            "name": "appendStyle",
+            "params": [
+                {
+                    "name": "stl",
+                    "description": "it will be passed to the parent method",
+                    "type": "Object|null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Attributes",
+            "module": "attributes"
         },
         {
             "file": "classes\\table.js",
@@ -2411,6 +2698,32 @@
             "name": "bogusTableAttr",
             "type": "Attribute",
             "default": "null",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 467,
+            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
+            "itemtype": "method",
+            "name": "getBogusRowStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 492,
+            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
+            "itemtype": "method",
+            "name": "getBogusRowStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
             "class": "Table",
             "module": "HtmlElements"
         },
@@ -3136,6 +3449,10 @@
     ],
     "warnings": [
         {
+            "message": "unknown tag: mathod",
+            "line": " classes\\attributesStyle.js:271"
+        },
+        {
             "message": "replacing incorrect tag: returns with return",
             "line": " jquery-1.10.2.js:1292"
         },
@@ -3157,11 +3474,23 @@
         },
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any",
-            "line": " classes\\attributesStyle.js:170"
+            "line": " classes\\attributesStyle.js:210"
+        },
+        {
+            "message": "Missing item type\nCompares properties of the target and with the proprties of the argument and\nreturns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).\nOtherwise, false is returned.",
+            "line": " classes\\attributesStyle.js:271"
         },
         {
             "message": "Missing item type\nAppends the element to the array Content::elements.",
             "line": " classes\\content.js:62"
+        },
+        {
+            "message": "Missing item type\nFill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",
+            "line": " classes\\property.js:21"
+        },
+        {
+            "message": "Missing item type\nGenerates string representation of this object (as html inline style).\nIt takse into consideration only strings and numbers. The rest is ignored.\nIf attribite value is a number, the measurement unit will be appended.",
+            "line": " classes\\style.js:16"
         },
         {
             "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",

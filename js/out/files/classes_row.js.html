@@ -73,6 +73,8 @@
             
                 <li><a href="../classes/ListStyle.html">ListStyle</a></li>
             
+                <li><a href="../classes/Property.html">Property</a></li>
+            
                 <li><a href="../classes/Row.html">Row</a></li>
             
                 <li><a href="../classes/Style.html">Style</a></li>
@@ -100,6 +102,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Property.html">Property</a></li>
             
                 <li><a href="../modules/String.html">String</a></li>
             
@@ -364,8 +368,46 @@ function Row() {
 	 * @return  {Style|null}
 	 */
 	this.getBogusCellStyle = function(){
-
+		return this.onlyTableInside() ? this.getFirst().style : null;
 	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
+	 * null otherwise.
+	 * @method  getBogusCellAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusCellAttr = function(){
+		return this.onlyTableInside() ? this.getFirst().attr : null;
+	};
+
+
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusTableStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusTableStyle = function(){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst().style : null;
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,
+	 * null otherwise.
+	 * @method  getBogusTableAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusTableAttr = function(){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst().attr : null;
+	};
+
 }
 Row.prototype = Object.create(Tag.prototype);
     </pre>

@@ -140,7 +140,7 @@ function Style(style) {
 	 * Compares properties of the target and with the proprties of the argument and
 	 * returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
 	 * Otherwise, false is returned.
-	 * @mathod    isTheSameAs
+	 * @method    isTheSameAs
 	 * @param     {Object} 		obj
 	 * @return    {Boolean}
 	 */

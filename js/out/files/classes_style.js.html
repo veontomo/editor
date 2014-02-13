@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>HtmlElements</title>
+    <title>classes\style.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -142,86 +142,63 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>HtmlElements Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: classes\style.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global describe, it, expect, spyOn, beforeEach, Property, toString2 */
+/**
+* This class is supposed to define attributes of html tags
+* @module 	attributes
+* @param {string|object} attr  a string or object from which this object properties are to be created.
+* @class  Attributes
+*/
+function Style(obj) {
+	&quot;use strict&quot;;
+	if (!(this instanceof Style)) {
+		return new Style(obj);
+	}
+	Property.call(this, obj);
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/classes_tag.js.html#l5"><code>classes\tag.js:5</code></a>
-        </div>
-    
+	/**
+	 * Generates string representation of this object (as html inline style).
+	 * It takse into consideration only strings and numbers. The rest is ignored.
+	 * If attribite value is a number, the measurement unit will be appended.
+	 * @param   {Object}    obj
+	 * @return  {String}    String      a union of substrings; each substring is of this format: &#x27;attribute=&quot;value&quot;&#x27;, between the substrings there is a separator &#x27; &#x27;.
+	 */
+	this.toString = function () {
+        var val, valType, attr, output = [];
+        for (attr in this) {
+            if (this.hasOwnProperty(attr)) {
+                val = this[attr];
+                valType = typeof val;
+                // avoid adding method to the output
+                if (valType === &#x27;string&#x27; || valType === &#x27;number&#x27;){
+                    output.push(attr + &#x27;=&quot;&#x27; + String(val) + &#x27;&quot;&#x27;);
+                }
+            }
+        }
+        return output.join(&#x27; &#x27;);
+    };
 
-    
-</div>
+    /**
+     * Appends style. Alias for the parent method Property::appendProperty()
+     * @method  appendStyle
+     * @param   {Object|null}   stl       it will be passed to the parent method
+     * @return  {void}
+     */
+    this.appendStyle = function(stl){
+    	this.appendProperty(stl);
+    }
 
 
-
-<div class="box intro">
-    <p>Represents table.</p>
-
-</div>
+}
+Style.prototype = Object.create(Property.prototype);
 
 
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Cell.html">
-                        Cell
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Content.html">
-                        Content
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/List.html">
-                        List
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/ListItem.html">
-                        ListItem
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Row.html">
-                        Row
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Table.html">
-                        Table
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/Tag.html">
-                        Tag
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

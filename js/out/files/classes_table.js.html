@@ -73,6 +73,8 @@
             
                 <li><a href="../classes/ListStyle.html">ListStyle</a></li>
             
+                <li><a href="../classes/Property.html">Property</a></li>
+            
                 <li><a href="../classes/Row.html">Row</a></li>
             
                 <li><a href="../classes/Style.html">Style</a></li>
@@ -100,6 +102,8 @@
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Property.html">Property</a></li>
             
                 <li><a href="../modules/String.html">String</a></li>
             
@@ -607,6 +611,56 @@ function Table() {
 	 * @default  null
 	 */
 	this.bogusTableAttr = null; // new Attributes();
+
+	/**
+	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
+	 * Otherwise, null is returned.
+	 * @method   getBogusRowStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusRowStyle = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var firstRowStyle = this.getFirst().style,
+			rowNum = this.rowNum(),
+			rowStyle, i;
+		if (rowNum === 1){
+			return firstRowStyle;
+		}
+		for (i = 1; i &lt; rowNum; i++){
+			rowStyle = this.getElem(i).style;
+			if (!firstRowStyle.isTheSameAs(rowStyle)){
+				return null;
+			}
+		}
+		return firstRowStyle;
+	};
+
+	/**
+	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
+	 * Otherwise, null is returned.
+	 * @method   getBogusRowStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusRowAttr = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var firstRowStyle = this.getFirst().attr,
+			rowNum = this.rowNum(),
+			rowStyle, i;
+		if (rowNum === 1){
+			return firstRowStyle;
+		}
+		for (i = 1; i &lt; rowNum; i++){
+			rowStyle = this.getElem(i).attr;
+			if (!firstRowStyle.isTheSameAs(rowStyle)){
+				return null;
+			}
+		}
+		return firstRowStyle;
+	};
 }
 Table.prototype = Object.create(Tag.prototype);
     </pre>

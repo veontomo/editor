@@ -11,6 +11,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ListItem",
         "ListItemStyle",
         "ListStyle",
+        "Property",
         "Row",
         "Style",
         "Table",
@@ -29,6 +30,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "HtmlElements",
+        "Property",
         "String",
         "attributes",
         "helpers"
@@ -48,6 +50,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "HtmlElements",
             "name": "HtmlElements",
             "description": "Represents table."
+        },
+        {
+            "displayName": "Property",
+            "name": "Property",
+            "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties. If, in addition, the \"value\" can be\ncast to a number, it will be done."
         },
         {
             "displayName": "String",

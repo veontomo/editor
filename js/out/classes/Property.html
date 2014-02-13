@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>List</title>
+    <title>Property</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -142,7 +142,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>List Class</h1>
+                        <h1>Property Class</h1>
 <div class="box meta">
     
 
@@ -150,13 +150,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/classes_list.js.html#l5"><code>classes\list.js:5</code></a>
+            Defined in: <a href="../files/classes_property.js.html#l5"><code>classes\property.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/HtmlElements.html">HtmlElements</a>
+            Module: <a href="../modules/Property.html">Property</a>
         
     
 
@@ -166,8 +166,10 @@
 
 
 <div class="box intro">
-    <p>This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used
-to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will be set to the first allowed value.</p>
+    <p>A general Property class. If the argument is an object, then its properties are copied
+into Property instance. If the argument is a string, then it will be splitted according to
+the pattern &quot;key: value;&quot; to populate object properties. If, in addition, the &quot;value&quot; can be
+cast to a number, it will be done.</p>
 
 </div>
 
@@ -180,8 +182,6 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -198,21 +198,21 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_appendItem">appendItem</a>
+                                <a href="#method_appendProperty">appendProperty</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_isertItemAt">isertItemAt</a>
+                                <a href="#method_isTheSameAs">isTheSameAs</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_itemNum">itemNum</a>
+                                <a href="#method_propNum">propNum</a>
 
                                 
                                 
@@ -222,35 +222,6 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
                 </div>
             
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property_allowedNames">allowedNames</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_name">name</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_style">style</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
             
 
             
@@ -263,8 +234,8 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_appendItem" class="method item">
-    <h3 class="name"><code>appendItem</code></h3>
+                    <div id="method_appendProperty" class="method item">
+    <h3 class="name"><code>appendProperty</code></h3>
 
     
         <div class="args">
@@ -272,7 +243,7 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
             
                 <li class="arg">
                     
-                        <code>item</code>
+                        <code>prop</code>
                     
                 </li>
             
@@ -309,7 +280,7 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
             
         
         
-        <a href="../files/classes_list.js.html#l53"><code>classes\list.js:53</code></a>
+        <a href="../files/classes_property.js.html#l97"><code>classes\property.js:97</code></a>
         
         </p>
 
@@ -320,8 +291,8 @@ to set the property &quot;name&quot;. Otherwise, &quot;name&quot; property will 
     </div>
 
     <div class="description">
-        <p>Appends an object to the list items. The object must be a ListItem instance.
-If not, an error is thrown.</p>
+        <p>Appends property. Converts the argument to a Property and appends it to the target one.
+Properties with the same name will be overridden.</p>
 
     </div>
 
@@ -333,14 +304,14 @@ If not, an error is thrown.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">item</code>
-                        <span class="type"><a href="..\classes\ListItem.html" class="crosslink">ListItem</a></span>
+                        <code class="param-name">prop</code>
+                        <span class="type">Any</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>an instance of ListItem</p>
+                        <p>it will be converted into a Property object and then appended to the target object.</p>
 
                     </div>
 
@@ -369,8 +340,8 @@ If not, an error is thrown.</p>
 </div>
 
                 
-                    <div id="method_isertItemAt" class="method item">
-    <h3 class="name"><code>isertItemAt</code></h3>
+                    <div id="method_isTheSameAs" class="method item">
+    <h3 class="name"><code>isTheSameAs</code></h3>
 
     
         <div class="args">
@@ -378,13 +349,7 @@ If not, an error is thrown.</p>
             
                 <li class="arg">
                     
-                        <code>pos</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>item</code>
+                        <code>obj</code>
                     
                 </li>
             
@@ -394,7 +359,7 @@ If not, an error is thrown.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -421,7 +386,7 @@ If not, an error is thrown.</p>
             
         
         
-        <a href="../files/classes_list.js.html#l67"><code>classes\list.js:67</code></a>
+        <a href="../files/classes_property.js.html#l74"><code>classes\property.js:74</code></a>
         
         </p>
 
@@ -432,8 +397,9 @@ If not, an error is thrown.</p>
     </div>
 
     <div class="description">
-        <p>Inserts the item at the given position. If the item to insert is a ListItem instance, then
-Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
+        <p>Compares properties of the target and with the proprties of the argument.
+Returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
+Otherwise, false is returned. When making comparison, all methods are ignored.</p>
 
     </div>
 
@@ -445,31 +411,14 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">pos</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>index of the position of there to insert the item</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">item</code>
-                        <span class="type"><a href="..\classes\ListItem.html" class="crosslink">ListItem</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>item to insert</p>
-
+                         
                     </div>
 
                     
@@ -486,7 +435,7 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Void</span>:
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
@@ -497,8 +446,8 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
 </div>
 
                 
-                    <div id="method_itemNum" class="method item">
-    <h3 class="name"><code>itemNum</code></h3>
+                    <div id="method_propNum" class="method item">
+    <h3 class="name"><code>propNum</code></h3>
 
     
         <span class="paren">()</span>
@@ -533,7 +482,7 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
             
         
         
-        <a href="../files/classes_list.js.html#l44"><code>classes\list.js:44</code></a>
+        <a href="../files/classes_property.js.html#l57"><code>classes\property.js:57</code></a>
         
         </p>
 
@@ -544,7 +493,8 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
     </div>
 
     <div class="description">
-        <p>Gets the number of the list items</p>
+        <p>Gets the number of properties of the object (all properties to which the object
+responds and that are not of function type).</p>
 
     </div>
 
@@ -559,8 +509,6 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>an integer number</p>
-
                 
             </div>
         </div>
@@ -573,153 +521,6 @@ Content::insertElemAt() is called. Otherwise, an error is thrown.</p>
             </div>
         
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_allowedNames" class="property item private">
-    <h3 class="name"><code>allowedNames</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_list.js.html#l20"><code>classes\list.js:20</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Array of allowed values for the tag names: [&#39;ol&#39;, &#39;ul&#39;].</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_name" class="property item">
-    <h3 class="name"><code>name</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_list.js.html#l34"><code>classes\list.js:34</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Html tag corresponding to List object. It is taken from the name provided
-when creating the object: list = new List(&#39;ul&#39;). If not provided or  if it
-is provided, but it is not allowed, then the first allowed value is used.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> &#x27;ol&#x27;</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_style" class="property item">
-    <h3 class="name"><code>style</code></h3>
-    <span class="type"><a href="..\classes\ListStyle.html" class="crosslink">ListStyle</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_list.js.html#l28"><code>classes\list.js:28</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Styles corresponding to the list as a whole object.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
         
 
         
