@@ -43,8 +43,6 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
-                <li><a href="../classes/BorderStyle.html">BorderStyle</a></li>
-            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
@@ -91,13 +89,9 @@
             
                 <li><a href="../classes/Tag.html">Tag</a></li>
             
-                <li><a href="../classes/TextStyle.html">TextStyle</a></li>
-            
             </ul>
 
             <ul id="api-modules" class="apis modules">
-            
-                <li><a href="../modules/attributes.html">attributes</a></li>
             
                 <li><a href="../modules/helpers.html">helpers</a></li>
             
@@ -507,7 +501,7 @@ function crack(arr, pos){
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}        obj     an object which string reperesentation should be generated.
  * @param   {String|null}   unit    a mesurement unit to be added to the numerical attribute values. By default, it is set to &#x27;px&#x27;.
  * @return  {String}        a concatenation of substrings; each substring is of this format: &quot;attribute: value;&quot;.
@@ -538,7 +532,7 @@ var toString = function (obj, unit) {
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}    obj
  * @return  {String}    String      a union of substrings; each substring is of this format: &#x27;attribute=&quot;value&quot;&#x27;, between the substrings there is a separator &#x27; &#x27;.
  */
@@ -638,7 +632,7 @@ var appendObject = function (obj1, obj2){
 
 /**
  * Sets width, min-width and max-width of the object.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}    obj         object which width is to be set.
  * @param   {mixed}     w           width value
  * @return  {void}
@@ -658,7 +652,7 @@ var setMinMaxWidth = function (obj, w) {
 
 /**
 * Gets property value from the object.
-* @module   attributes
+* @module   helpers
 * @param    {Object}    obj     an object
 * @param    {String}    prop    property name to retrieve
 * @return   {mixed}     property value of the object

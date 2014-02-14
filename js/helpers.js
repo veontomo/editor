@@ -359,7 +359,7 @@ function crack(arr, pos){
  * This function is supposed to be added to prototypes of different objects.
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}        obj     an object which string reperesentation should be generated.
  * @param   {String|null}   unit    a mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
  * @return  {String}        a concatenation of substrings; each substring is of this format: "attribute: value;".
@@ -390,7 +390,7 @@ var toString = function (obj, unit) {
  * Produces a string of attributes and values
  * It takse into consideration only properties, methods are ignored.
  * If attribite value is a number, the measurement unit will be appended.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}    obj
  * @return  {String}    String      a union of substrings; each substring is of this format: 'attribute="value"', between the substrings there is a separator ' '.
  */
@@ -490,7 +490,7 @@ var appendObject = function (obj1, obj2){
 
 /**
  * Sets width, min-width and max-width of the object.
- * @module  attributes
+ * @module  helpers
  * @param   {Object}    obj         object which width is to be set.
  * @param   {mixed}     w           width value
  * @return  {void}
@@ -510,7 +510,7 @@ var setMinMaxWidth = function (obj, w) {
 
 /**
 * Gets property value from the object.
-* @module   attributes
+* @module   helpers
 * @param    {Object}    obj     an object
 * @param    {String}    prop    property name to retrieve
 * @return   {mixed}     property value of the object

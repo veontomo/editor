@@ -2,7 +2,6 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Attributes",
-        "BorderStyle",
         "Cell",
         "Content",
         "ImageStyle",
@@ -20,7 +19,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "TableRowStyle",
         "TableStyle",
         "Tag",
-        "TextStyle",
         "createRowFromHtml",
         "createTableFromHtml",
         "createTagFromHtml",
@@ -32,15 +30,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "HtmlElements",
         "Property",
         "String",
-        "attributes",
         "helpers"
     ],
     "allModules": [
-        {
-            "displayName": "attributes",
-            "name": "attributes",
-            "description": "Produces a string of properties in inline-style fashion\nThis function is supposed to be added to prototypes of different objects.\nIt takse into consideration only properties, methods are ignored.\nIf attribite value is a number, the measurement unit will be appended."
-        },
         {
             "displayName": "helpers",
             "name": "helpers",
@@ -54,7 +46,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Property",
             "name": "Property",
-            "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties. If, in addition, the \"value\" can be\ncast to a number, it will be done."
+            "description": "This class defines inline styles of html tags"
         },
         {
             "displayName": "String",

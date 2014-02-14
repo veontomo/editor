@@ -2,9 +2,10 @@
 /*global describe, it, expect, spyOn, beforeEach, Property, toString2 */
 /**
 * This class is supposed to define attributes of html tags
-* @module 	attributes
-* @param {string|object} obj  a string or object from which this object properties are to be created.
-* @class  Attributes
+* @module 	Property
+* @param    {String|Object}    obj       Attributes class variable will be instantiated using this input
+* @class    Attributes
+* @extends  Property
 */
 function Attributes(obj) {
 	"use strict";
@@ -17,9 +18,9 @@ function Attributes(obj) {
 	 * Generates string representation of this object (as html attributes).
 	 * It takse into consideration only strings and numbers. The rest is ignored.
 	 * @method     toString
-	 * @return     {String}    String      a union of substrings; each substring is of this format: 'attribute="value"',
-	 *                                     between the substrings there is a separator ' ' (space).
-	 * @example    The return value might be of this form: class="example" id="tag"
+	 * @return     {String}    a union of substrings; each substring is of this format: 'attribute="value"',
+	 *                         between the substrings there is a separator ' ' (space).
+	 * @example    class="example" id="tag"
 	 */
 	this.toString = function () {
         var val, valType, attr, output = [];
@@ -40,7 +41,7 @@ Attributes.prototype = Object.create(Property.prototype);
 
 /**
 * Table-specific attributes.
-* @module 	attributes
+* @module 	Property
 * @extends Attributes
 * @class  TableAttributes
 */

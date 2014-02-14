@@ -4,7 +4,7 @@
 
 /**
 * This class is supposed to characterize inline styles of html tags.
-* @module 	attributes
+* @module 	attributes__old
 * @param 	{string|object} style 	string of label-value pairs or object.
 * @class  	Style
 */
@@ -162,7 +162,7 @@ function Style(style) {
 
 /**
  * Styles specific for the table border.
- * @module  attributes
+ * @module  attributes__old
  * @extends Style
  * @class BorderStyle
  */
@@ -197,7 +197,7 @@ function BorderStyle(){
 
 /**
 * This class is supposed to define attributes of html tags
-* @module 	attributes
+* @module 	attributes__old
 * @param {string|object} attr  a string or object from which this object properties are to be created.
 * @class  Attributes
 */
@@ -294,7 +294,7 @@ function Attributes(attr) {
 
 /**
 * Table-specific attributes.
-* @module 	attributes
+* @module 	attributes__old
 * @extends Attributes
 * @class  TableAttributes
 */
@@ -321,7 +321,7 @@ TableAttributes.prototype = Object.create(Attributes.prototype);
 
 /**
  * Text specific style class.
- * @module 	attributes
+ * @module 	attributes__old
  * @extends Style
  * @class  TextStyle
  */
@@ -366,7 +366,7 @@ TextStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents hyperlink style.
- * @module 	attributes
+ * @module 	attributes__old
  * @class  LinkStyle
  * @extends Style
  */
@@ -418,7 +418,7 @@ LinkStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table style.
- * @module 	attributes
+ * @module 	attributes__old
  * @class  TableStyle
  * @extends Style
  */
@@ -495,7 +495,7 @@ TableStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table row style.
- * @module 	attributes
+ * @module 	attributes__old
  * @class  TableRowStyle
  * @extends Style
  */
@@ -558,7 +558,7 @@ TableRowStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table cell styles.
- * @module 	attributes
+ * @module 	attributes__old
  * @class	TableCellStyle
  * @extends	Style
  */
@@ -633,7 +633,7 @@ TableCellStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
- * @module 	attributes
+ * @module 	attributes__old
  * @class	ImageStyle
  * @extends	Style
  */
@@ -690,7 +690,7 @@ ImageStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
- * @module 	attributes
+ * @module 	attributes__old
  * @class	ListStyle
  * @extends	Style
  */
@@ -740,7 +740,7 @@ ListStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents list item styles.
- * @module 	attributes
+ * @module 	attributes__old
  * @class	ListItemStyle
  * @extends	Style
  */
