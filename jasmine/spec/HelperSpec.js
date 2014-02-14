@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, Unit, trace, dropProtocol, validateWidth, specialChar, crack*/
+/*global describe, it, expect, fileExt, sanitize, normalize, splitWeighted, roundUp, onlyFirstLetterUpperCase, trace, dropProtocol, validateWidth, specialChar, crack*/
 describe("file extension", function () {
     it("gives the file extension", function () {
         expect(fileExt('c:/folder/test.exe')).toEqual('exe');
@@ -85,90 +85,6 @@ describe('Validation the calculated width', function () {
     });
 });
 
-describe('It has a class Unit', function () {
-    it('creates instances of Unit class', function () {
-        var u1 = new Unit(1, 'cm'),
-            u2 = new Unit(29.50206, 'l'),
-            u3 = new Unit(2.5),
-            u4 = new Unit(1, ''),
-            u5 = new Unit(12, 'cm '),
-            u6 = new Unit(0.5, ' cm'),
-            u7 = new Unit(),
-            u8 = new Unit('10.1cm'),
-            u9 = new Unit('10.1'),
-            u10 = new Unit('');
-
-        expect([u1.value, u1.measure]).toEqual([1, 'cm']);
-        expect([u2.value, u2.measure]).toEqual([29.50206, 'l']);
-        expect([u3.value, u3.measure]).toEqual([2.5, '']);
-        expect([u4.value, u4.measure]).toEqual([1, '']);
-        expect([u5.value, u5.measure]).toEqual([12, 'cm']);
-        expect([u6.value, u6.measure]).toEqual([0.5, 'cm']);
-        expect([u7.value, u7.measure]).toEqual([0, '']);
-        expect([u8.value, u8.measure]).toEqual([10.1, 'cm']);
-        expect([u9.value, u9.measure]).toEqual([10.1, '']);
-        expect([u10.value, u10.measure]).toEqual([0, '']);
-        expect(new Unit(u8)).toEqual(u8);
-
-        expect(function () {
-            u1 = new Unit('a string');
-        }).toThrow('Can not convert into a Unit object!');
-    });
-
-    it('checks whether two Unit objects have the same unit of measurements', function () {
-        var u1 = new Unit(1, 'cm'),
-            u2 = new Unit(29.50206, 'l'),
-            u3 = new Unit(2.5),
-            u4 = new Unit(1, ''),
-            u5 = new Unit(12, 'cm '),
-            u7 = new Unit(),
-            u8 = new Unit('10.1cm'),
-            u9 = new Unit('10.1');
-
-        expect(u1.isLikeAs(u2)).toBe(false);
-        expect(u1.isLikeAs(u3)).toBe(false);
-        expect(u1.isLikeAs(u5)).toBe(true);
-        expect(u1.isLikeAs(u8)).toBe(true);
-        expect(u4.isLikeAs(u1)).toBe(false);
-        expect(u4.isLikeAs(u7)).toBe(true);
-        expect(u1.isLikeAs("10")).toBe(false);
-        expect(u9.isLikeAs("10")).toBe(true);
-        expect(u9.isLikeAs("a string")).toBe(false);
-    });
-
-    it('adds two instances of Unit class', function () {
-        var u1 = new Unit(10.4, 'cm'),
-            u2 = new Unit(2.3, 'cm'),
-            u3 = new Unit(2.5),
-            u4 = new Unit(1, ''),
-            s1 = u1.add(u2),
-            s2 = u3.add(u4),
-            s3 = u1.add(u2).add(u2);
-        expect([s1.value, s1.measure]).toEqual([12.7, 'cm']);
-        expect([s2.value, s2.measure]).toEqual([3.5, '']);
-        expect([s3.value, s3.measure]).toEqual([15, 'cm']);
-        expect(function () {
-            return u1.add(u3);
-        }).toThrow(new Error("these Unit instances can not be summed up!"));
-    });
-
-
-    it('subtracts two instances of Unit class', function () {
-        var u1 = new Unit(10, 'cm'),
-            u2 = new Unit(2, 'cm'),
-            u3 = new Unit(2),
-            u4 = new Unit(1, ''),
-            s1 = u1.sub(u2),
-            s2 = u3.sub(u4),
-            s3 = u1.sub(u2).sub(u2);
-        expect([s1.value, s1.measure]).toEqual([8, 'cm']);
-        expect([s2.value, s2.measure]).toEqual([1, '']);
-        expect([s3.value, s3.measure]).toEqual([6, 'cm']);
-        expect(function () {
-            return u1.sub(u3);
-        }).toThrow(new Error("these Unit instances can not be subtracted!"));
-    });
-});
 
 describe('Escaping special characters', function(){
     it('does not change "safe" characters', function(){
