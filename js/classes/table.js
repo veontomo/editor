@@ -522,5 +522,31 @@ function Table() {
 	this.getBogusRowAttr = function(){
 		return this.getBogusRowProp('attr');
 	};
+
+	/**
+	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
+	 * the same for all rows. Otherwise, null is returned.
+	 * @param  {String}       propName
+	 * @return {Object|null}
+	 */
+	this.getBogusCellProp = function(propName){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var rowNum = this.rowNum(),
+			firstRow = this.getFirst(),
+			firstRowProp, i, currentRowProp;
+		firstRowProp = firstRow.getBogusCellProp(propName);
+		if (rowNum === 1){
+			return firstRowProp;
+		}
+		for (i = 1; i < rowNum; i++){
+			currentRowProp = this.getElem(i).getBogusCellProp(propName);
+			if (!firstRowProp.isTheSameAs(currentRowProp)){
+				return null;
+			}
+		}
+		return firstRowProp;
+	};
 }
 Table.prototype = Object.create(Tag.prototype);
