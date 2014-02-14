@@ -13,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ListStyle",
         "Property",
         "Row",
+        "StringHelper",
         "Style",
         "Table",
         "TableAttributes",
@@ -20,8 +21,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TableRowStyle",
         "TableStyle",
         "Tag",
-        "Unit",
-        "sandwichWith"
+        "Unit"
     ],
     "modules": [
         "Helper",

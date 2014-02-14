@@ -465,28 +465,67 @@ function Table() {
 	this.bogusTableAttr = null; // new Attributes();
 
 	/**
+	 * If the table is fragmented and all rows have the same requested property, then
+	 * this property of the first row is returned. In any other case, null is returned.
+	 * NB: to compare requested property for all rows, this property must be an object
+	 * with boolean-valued method isTheSameAs().
+	 * @method   getBogusRowProp
+	 * @param    {String}         prop      a name of the property to return. All rows shiuld have this property.
+	 * @return   {Object|null}			    the value of the property specified by the argument, if it is the same
+	 *                                      for all rows, null otherwise.
+	 */
+	this.getBogusRowProp = function(prop){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var firstRow = this.getFirst(),
+			rowNum = this.rowNum(),
+			rowProp, i, firstRowProp;
+		if (firstRow.hasOwnProperty(prop)){
+			firstRowProp = firstRow[prop];
+		} else {
+			return null;
+		}
+		if (rowNum === 1){
+			return firstRowProp;
+		}
+		if (typeof firstRowProp.isTheSameAs !== 'function'){
+			return null;
+		}
+		for (i = 1; i < rowNum; i++){
+			rowProp = this.getElem(i)[prop];
+			if (!firstRowProp.isTheSameAs(rowProp)){
+				return null;
+			}
+		}
+		return firstRowProp;
+
+	};
+
+
+	/**
 	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
 	 * Otherwise, null is returned.
 	 * @method   getBogusRowStyle
 	 * @return   {Style|null}
 	 */
 	this.getBogusRowStyle = function(){
-		if (!this.isFragmented()){
-			return null;
-		}
-		var firstRowStyle = this.getFirst().style,
-			rowNum = this.rowNum(),
-			rowStyle, i;
-		if (rowNum === 1){
-			return firstRowStyle;
-		}
-		for (i = 1; i < rowNum; i++){
-			rowStyle = this.getElem(i).style;
-			if (!firstRowStyle.isTheSameAs(rowStyle)){
-				return null;
-			}
-		}
-		return firstRowStyle;
+		// if (!this.isFragmented()){
+		// 	return null;
+		// }
+		// var firstRowStyle = this.getFirst().style,
+		// 	rowNum = this.rowNum(),
+		// 	rowStyle, i;
+		// if (rowNum === 1){
+		// 	return firstRowStyle;
+		// }
+		// for (i = 1; i < rowNum; i++){
+		// 	rowStyle = this.getElem(i).style;
+		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
+		// 		return null;
+		// 	}
+		// }
+		return this.getBogusRowProp('style');
 	};
 
 	/**
@@ -496,22 +535,22 @@ function Table() {
 	 * @return   {Style|null}
 	 */
 	this.getBogusRowAttr = function(){
-		if (!this.isFragmented()){
-			return null;
-		}
-		var firstRowStyle = this.getFirst().attr,
-			rowNum = this.rowNum(),
-			rowStyle, i;
-		if (rowNum === 1){
-			return firstRowStyle;
-		}
-		for (i = 1; i < rowNum; i++){
-			rowStyle = this.getElem(i).attr;
-			if (!firstRowStyle.isTheSameAs(rowStyle)){
-				return null;
-			}
-		}
-		return firstRowStyle;
+		// if (!this.isFragmented()){
+		// 	return null;
+		// }
+		// var firstRowStyle = this.getFirst().attr,
+		// 	rowNum = this.rowNum(),
+		// 	rowStyle, i;
+		// if (rowNum === 1){
+		// 	return firstRowStyle;
+		// }
+		// for (i = 1; i < rowNum; i++){
+		// 	rowStyle = this.getElem(i).attr;
+		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
+		// 		return null;
+		// 	}
+		// }
+		return this.getBogusRowProp('attr');
 	};
 }
 Table.prototype = Object.create(Tag.prototype);

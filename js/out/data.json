@@ -390,7 +390,7 @@
             "description": "Represents a table row"
         },
         "StringHelper": {
-            "name": "sandwichWith",
+            "name": "StringHelper",
             "shortname": "StringHelper",
             "classitems": [],
             "plugins": [],
@@ -2362,6 +2362,26 @@
         {
             "file": "classes\\table.js",
             "line": 467,
+            "description": "Returns style (if the argument is 'style') or attributes (if the argument is 'attr')\nof the first row if the table is fragmented and all rows have the same style or attributes.",
+            "itemtype": "method",
+            "name": "getBogusRowProp",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "a name of the property to return. All rows shiuld have this property.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "the value of the property specified by the argument, if it is the same\n                                     for all rows, null otherwise.",
+                "type": "Object|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 501,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusRowStyle",
@@ -2374,7 +2394,7 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 492,
+            "line": 526,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusRowStyle",
