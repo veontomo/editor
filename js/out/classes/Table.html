@@ -213,14 +213,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getBogusRowProp">getBogusRowProp</a>
+                                <a href="#method_getBogusRowAttr">getBogusRowAttr</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getBogusRowStyle">getBogusRowStyle</a>
+                                <a href="#method_getBogusRowProp">getBogusRowProp</a>
 
                                 
                                 
@@ -830,6 +830,78 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
 </div>
 
                 
+                    <div id="method_getBogusRowAttr" class="method item">
+    <h3 class="name"><code>getBogusRowAttr</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l516"><code>classes\table.js:516</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented and all the rows have the same styles, then this style is returned.
+Otherwise, null is returned. This is an alias for <code>Table::getBogusRowProp(&#39;attr&#39;)</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getBogusRowProp" class="method item">
     <h3 class="name"><code>getBogusRowProp</code></h3>
 
@@ -887,8 +959,10 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
     </div>
 
     <div class="description">
-        <p>Returns style (if the argument is &#39;style&#39;) or attributes (if the argument is &#39;attr&#39;)
-of the first row if the table is fragmented and all rows have the same style or attributes.</p>
+        <p>If the table is fragmented and all rows have the same requested property, then
+this property of the first row is returned. In any other case, null is returned.
+NB: to compare requested property for all rows, this property must be an object
+with boolean-valued method isTheSameAs().</p>
 
     </div>
 
@@ -975,7 +1049,7 @@ of the first row if the table is fragmented and all rows have the same style or 
             
         
         
-        <a href="../files/classes_table.js.html#l526"><code>classes\table.js:526</code></a>
+        <a href="../files/classes_table.js.html#l506"><code>classes\table.js:506</code></a>
         
         </p>
 
@@ -987,79 +1061,7 @@ of the first row if the table is fragmented and all rows have the same style or 
 
     <div class="description">
         <p>If the table is fragmented and all the rows have the same styles, then this style is returned.
-Otherwise, null is returned.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getBogusRowStyle" class="method item">
-    <h3 class="name"><code>getBogusRowStyle</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_table.js.html#l501"><code>classes\table.js:501</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the table is fragmented and all the rows have the same styles, then this style is returned.
-Otherwise, null is returned.</p>
+Otherwise, null is returned. This is an alias for <code>Table::getBogusRowProp(&#39;style&#39;)</code>.</p>
 
     </div>
 

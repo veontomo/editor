@@ -601,8 +601,10 @@ function Table() {
 	this.bogusTableAttr = null; // new Attributes();
 
 	/**
-	 * Returns style (if the argument is &#x27;style&#x27;) or attributes (if the argument is &#x27;attr&#x27;)
-	 * of the first row if the table is fragmented and all rows have the same style or attributes.
+	 * If the table is fragmented and all rows have the same requested property, then
+	 * this property of the first row is returned. In any other case, null is returned.
+	 * NB: to compare requested property for all rows, this property must be an object
+	 * with boolean-valued method isTheSameAs().
 	 * @method   getBogusRowProp
 	 * @param    {String}         prop      a name of the property to return. All rows shiuld have this property.
 	 * @return   {Object|null}			    the value of the property specified by the argument, if it is the same
@@ -623,6 +625,9 @@ function Table() {
 		if (rowNum === 1){
 			return firstRowProp;
 		}
+		if (typeof firstRowProp.isTheSameAs !== &#x27;function&#x27;){
+			return null;
+		}
 		for (i = 1; i &lt; rowNum; i++){
 			rowProp = this.getElem(i)[prop];
 			if (!firstRowProp.isTheSameAs(rowProp)){
@@ -636,51 +641,21 @@ function Table() {
 
 	/**
 	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned.
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusRowProp(&#x27;style&#x27;)&#x60;.
 	 * @method   getBogusRowStyle
 	 * @return   {Style|null}
 	 */
 	this.getBogusRowStyle = function(){
-		// if (!this.isFragmented()){
-		// 	return null;
-		// }
-		// var firstRowStyle = this.getFirst().style,
-		// 	rowNum = this.rowNum(),
-		// 	rowStyle, i;
-		// if (rowNum === 1){
-		// 	return firstRowStyle;
-		// }
-		// for (i = 1; i &lt; rowNum; i++){
-		// 	rowStyle = this.getElem(i).style;
-		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
-		// 		return null;
-		// 	}
-		// }
 		return this.getBogusRowProp(&#x27;style&#x27;);
 	};
 
 	/**
 	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned.
-	 * @method   getBogusRowStyle
-	 * @return   {Style|null}
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusRowProp(&#x27;attr&#x27;)&#x60;.
+	 * @method   getBogusRowAttr
+	 * @return   {Attributes|null}
 	 */
 	this.getBogusRowAttr = function(){
-		// if (!this.isFragmented()){
-		// 	return null;
-		// }
-		// var firstRowStyle = this.getFirst().attr,
-		// 	rowNum = this.rowNum(),
-		// 	rowStyle, i;
-		// if (rowNum === 1){
-		// 	return firstRowStyle;
-		// }
-		// for (i = 1; i &lt; rowNum; i++){
-		// 	rowStyle = this.getElem(i).attr;
-		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
-		// 		return null;
-		// 	}
-		// }
 		return this.getBogusRowProp(&#x27;attr&#x27;);
 	};
 }

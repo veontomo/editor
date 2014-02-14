@@ -505,51 +505,21 @@ function Table() {
 
 	/**
 	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned.
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusRowProp('style')`.
 	 * @method   getBogusRowStyle
 	 * @return   {Style|null}
 	 */
 	this.getBogusRowStyle = function(){
-		// if (!this.isFragmented()){
-		// 	return null;
-		// }
-		// var firstRowStyle = this.getFirst().style,
-		// 	rowNum = this.rowNum(),
-		// 	rowStyle, i;
-		// if (rowNum === 1){
-		// 	return firstRowStyle;
-		// }
-		// for (i = 1; i < rowNum; i++){
-		// 	rowStyle = this.getElem(i).style;
-		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
-		// 		return null;
-		// 	}
-		// }
 		return this.getBogusRowProp('style');
 	};
 
 	/**
 	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned.
-	 * @method   getBogusRowStyle
-	 * @return   {Style|null}
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusRowProp('attr')`.
+	 * @method   getBogusRowAttr
+	 * @return   {Attributes|null}
 	 */
 	this.getBogusRowAttr = function(){
-		// if (!this.isFragmented()){
-		// 	return null;
-		// }
-		// var firstRowStyle = this.getFirst().attr,
-		// 	rowNum = this.rowNum(),
-		// 	rowStyle, i;
-		// if (rowNum === 1){
-		// 	return firstRowStyle;
-		// }
-		// for (i = 1; i < rowNum; i++){
-		// 	rowStyle = this.getElem(i).attr;
-		// 	if (!firstRowStyle.isTheSameAs(rowStyle)){
-		// 		return null;
-		// 	}
-		// }
 		return this.getBogusRowProp('attr');
 	};
 }

@@ -215,23 +215,34 @@ function Row() {
 	/**
 	 * If the row corresponds to a framed row (a row for which method
 	 * __Row::onlyTableInside()__ returns true), then style of the cell is returned,
-	 * null otherwise.
+	 * null otherwise. This is an alias for __Row::getBogusCellProp('style')__.
 	 * @method  getBogusCellStyle
 	 * @return  {Style|null}
 	 */
 	this.getBogusCellStyle = function(){
-		return this.onlyTableInside() ? this.getFirst().style : null;
+		return this.getBogusCellProp('style');
 	};
 
 	/**
 	 * If the row corresponds to a framed row (a row for which method
 	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
-	 * null otherwise.
+	 * null otherwise. This is an alias for __Row::getBogusCellProp('attr')__.
 	 * @method  getBogusCellAttr
 	 * @return  {Attributes|null}
 	 */
 	this.getBogusCellAttr = function(){
-		return this.onlyTableInside() ? this.getFirst().attr : null;
+		return this.getBogusCellProp('attr');
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,
+	 * null otherwise.
+	 * @param  {String}    prop         name of the property to return
+	 * @return {Object}
+	 */
+	this.getBogusCellProp = function(prop){
+		return this.onlyTableInside() ? this.getFirst()[prop] : null;
 	};
 
 
@@ -259,6 +270,7 @@ function Row() {
 		// inside the row there is a cell, inside which there is a table
 		return this.onlyTableInside() ? this.getFirst().getFirst().attr : null;
 	};
+
 
 }
 Row.prototype = Object.create(Tag.prototype);

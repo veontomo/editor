@@ -1288,7 +1288,7 @@
         {
             "file": "classes\\row.js",
             "line": 215,
-            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise.",
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('style')__.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
             "return": {
@@ -1301,7 +1301,7 @@
         {
             "file": "classes\\row.js",
             "line": 226,
-            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise.",
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
             "return": {
@@ -1313,7 +1313,25 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 239,
+            "line": 237,
+            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "name of the property to return",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 250,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -1326,7 +1344,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 251,
+            "line": 262,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -2362,7 +2380,7 @@
         {
             "file": "classes\\table.js",
             "line": 467,
-            "description": "Returns style (if the argument is 'style') or attributes (if the argument is 'attr')\nof the first row if the table is fragmented and all rows have the same style or attributes.",
+            "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getBogusRowProp",
             "params": [
@@ -2381,8 +2399,8 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 501,
-            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
+            "line": 506,
+            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('style')`.",
             "itemtype": "method",
             "name": "getBogusRowStyle",
             "return": {
@@ -2394,13 +2412,13 @@
         },
         {
             "file": "classes\\table.js",
-            "line": 526,
-            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned.",
+            "line": 516,
+            "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('attr')`.",
             "itemtype": "method",
-            "name": "getBogusRowStyle",
+            "name": "getBogusRowAttr",
             "return": {
                 "description": "",
-                "type": "Style|null"
+                "type": "Attributes|null"
             },
             "class": "Table",
             "module": "HtmlElements"
@@ -3443,6 +3461,10 @@
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",
             "line": " classes\\property.js:21"
+        },
+        {
+            "message": "Missing item type\nIf the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
+            "line": " classes\\row.js:237"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

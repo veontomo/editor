@@ -1037,5 +1037,9 @@ describe('Table-related functionality:', function(){
         });
     });
 
+    describe('Table::getBogusCellProp(): gets the requested property of the bogus table', function(){
+
+    });
+
 
 });
