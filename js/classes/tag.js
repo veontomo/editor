@@ -101,13 +101,15 @@ function Tag() {
 	};
 
 	/**
-	 * Retrieves the value of property from the "style"
-	 * @method styleProperty
+	 * Retrieves requested property from the "style" property of the current object.
+	 * @method getStyleProp
 	 * @param  {String} 	prop 	property name which value should be retrieved
-	 * @return {String|Number}
+	 * @return {Any}
 	 */
-	this.styleProperty = function (prop) {
-		return getProperty(this.style, prop);
+	this.getStyleProp = function(prop) {
+		if (this.style.hasOwnProperty(prop)){
+			return this.style[prop];
+		}
 	};
 
 

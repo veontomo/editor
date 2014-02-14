@@ -82,13 +82,13 @@ describe('Cell-related functionality:', function() {
     it('retrieves property of type "string" from the style', function() {
         cellStyle['a property'] = 'cell property value';
         cell.style = cellStyle;
-        expect(cell.styleProperty('a property')).toEqual('cell property value');
+        expect(cell.getStyleProp('a property')).toEqual('cell property value');
     });
 
     it('retrieves property of type "Number" from the style', function() {
         cellStyle['a-property'] = 12.6;
         cell.style = cellStyle;
-        expect(cell.styleProperty('a-property')).toEqual(12.6);
+        expect(cell.getStyleProp('a-property')).toEqual(12.6);
     });
 
     it('retrieves non-existing property from the style', function() {
@@ -96,7 +96,7 @@ describe('Cell-related functionality:', function() {
             delete cellStyle['cell property'];
         }
         cell.style = cellStyle;
-        expect(cell.styleProperty('cell property')).not.toBeDefined();
+        expect(cell.getStyleProp('cell property')).not.toBeDefined();
     });
 
     it('sets the width of the cell', function(){
@@ -164,20 +164,20 @@ describe('Cell-related functionality:', function() {
                 delete cell.style['an-attribute'];
             }
             cell.appendStyle('an-attribute: attribute-value');
-            expect(cell.styleProperty('an-attribute')).toBe('attribute-value');
+            expect(cell.getStyleProp('an-attribute')).toBe('attribute-value');
         });
 
         it('Appends style if it is given as a Style object', function(){
             var st = new Style();
             st.attribute = 201.29;
             cell.appendStyle(st);
-            expect(cell.styleProperty('attribute')).toBe(201.29);
+            expect(cell.getStyleProp('attribute')).toBe(201.29);
         });
 
         it('Appends style if it is given as an object', function(){
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.styleProperty('modular')).toBe('no');
-            expect(cell.styleProperty('speed')).toBe(21.9);
+            expect(cell.getStyleProp('modular')).toBe('no');
+            expect(cell.getStyleProp('speed')).toBe(21.9);
         });
 
         it('Does not overrides non-overlapping attributes', function(){
@@ -187,11 +187,11 @@ describe('Cell-related functionality:', function() {
             st['knowledge-driven'] = '34';
             cell.style = st;
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.styleProperty('modular')).toBe('no');
-            expect(cell.styleProperty('speed')).toBe(21.9);
-            expect(cell.styleProperty('leverage')).toBe('virtual');
-            expect(cell.styleProperty('help')).toBe(981.87);
-            expect(cell.styleProperty('knowledge-driven')).toBe('34');
+            expect(cell.getStyleProp('modular')).toBe('no');
+            expect(cell.getStyleProp('speed')).toBe(21.9);
+            expect(cell.getStyleProp('leverage')).toBe('virtual');
+            expect(cell.getStyleProp('help')).toBe(981.87);
+            expect(cell.getStyleProp('knowledge-driven')).toBe('34');
         });
 
         it('Overrides overlapping attributes', function(){
@@ -202,11 +202,11 @@ describe('Cell-related functionality:', function() {
             st.modular = 923;
             cell.style = st;
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.styleProperty('modular')).toBe('no');
-            expect(cell.styleProperty('speed')).toBe(21.9);
-            expect(cell.styleProperty('leverage')).toBe('virtual');
-            expect(cell.styleProperty('help')).toBe(981.87);
-            expect(cell.styleProperty('knowledge-driven')).toBe('34');
+            expect(cell.getStyleProp('modular')).toBe('no');
+            expect(cell.getStyleProp('speed')).toBe(21.9);
+            expect(cell.getStyleProp('leverage')).toBe('virtual');
+            expect(cell.getStyleProp('help')).toBe(981.87);
+            expect(cell.getStyleProp('knowledge-driven')).toBe('34');
         });
     });
 

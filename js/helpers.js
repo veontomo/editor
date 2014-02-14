@@ -442,15 +442,15 @@ var setMinMaxWidth = function (obj, w) {
 * @param    {String}    prop    property name to retrieve
 * @return   {mixed}     property value of the object
 */
-function getProperty(obj, prop){
-    "use strict";
-    if(typeof obj !== 'object'){
-        throw new Error('Not an object!');
-    }
-    if(prop === undefined){
-        throw new Error("Property name missing!");
-    }
-    if(obj.hasOwnProperty(prop)){
-        return obj[prop];
-    }
-}
+// function getProperty(obj, prop){
+//     "use strict";
+//     if(typeof obj !== 'object'){
+//         throw new Error('Not an object!');
+//     }
+//     if(prop === undefined){
+//         throw new Error("Property name missing!");
+//     }
+//     if(obj.hasOwnProperty(prop)){
+//         return obj[prop];
+//     }
+// }
