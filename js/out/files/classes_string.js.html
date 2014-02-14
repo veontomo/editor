@@ -47,19 +47,9 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
-                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
-            
-                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
-            
-                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
-            
-                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
-            
-                <li><a href="../classes/generateId.html">generateId</a></li>
+                <li><a href="../classes/Helper.html">Helper</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
-            
-                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -75,6 +65,8 @@
             
                 <li><a href="../classes/Row.html">Row</a></li>
             
+                <li><a href="../classes/sandwichWith.html">sandwichWith</a></li>
+            
                 <li><a href="../classes/Style.html">Style</a></li>
             
                 <li><a href="../classes/Table.html">Table</a></li>
@@ -89,11 +81,13 @@
             
                 <li><a href="../classes/Tag.html">Tag</a></li>
             
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/helpers.html">helpers</a></li>
+                <li><a href="../modules/Helper.html">Helper</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
             
@@ -142,7 +136,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableRowStyle, setMinMaxWidth, Row, onlyFirstLetterUpperCase, ListItem, Table, Content, Tag, List */
+/*global DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table, Content, Tag, List */
 
 /**
  * Generates a string that can be used as id for the elements of the target string. This means that
@@ -150,7 +144,7 @@
  * serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
  * a symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.
  * @module  String
- * @class  generateId
+ * @class  StringHelper
  * @method generateId
  * @param  {String|Null} seed
  * @return {String}
@@ -176,41 +170,41 @@ String.prototype.generateId = function(seed){
  * as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.
  * For the moment, the only supported element is &quot;Table&quot;.
  * @module  String
- * @class   createTableFromHtml
+ * @class  StringHelper
  * @method  createCellFromHtml
  * @return  {Object} Cell
  */
 String.prototype.createCellFromHtml = function(){
-        var htmlStr = this,
-            parser = new DOMParser(),
-            fullTable = &#x27;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&#x27; + htmlStr + &#x27;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-            doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
-            node = doc.getElementsByTagName(&#x27;td&#x27;),
-            cell, attrs, nodeStyle, cellContent;
-        if (node.length === 0){
-            return null;
-        }
-        // process the first cell in the list of cells. The remaining cells are to be processed
-        // at their turn (when the cell becomes first)
-        node = node[0];
+    var htmlStr = this,
+        parser = new DOMParser(),
+        fullTable = &#x27;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&#x27; + htmlStr + &#x27;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
+        doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
+        node = doc.getElementsByTagName(&#x27;td&#x27;),
+        cell, attrs, nodeStyle, cellContent;
+    if (node.length === 0){
+        return null;
+    }
+    // process the first cell in the list of cells. The remaining cells are to be processed
+    // at their turn (when the cell becomes first)
+    node = node[0];
 
-        // creating object
-        cell = new Cell();
+    // creating object
+    cell = new Cell();
 
-        // imposing its styles
-        nodeStyle = node.getAttribute(&#x27;style&#x27;);
-        cell.style = new Style(nodeStyle);
+    // imposing its styles
+    nodeStyle = node.getAttribute(&#x27;style&#x27;);
+    cell.style = new Style(nodeStyle);
 
-        // imposing its attributes
-        attrs = flatten(node.attributes);
-        if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-            delete attrs.style;
-        }
-        cell.attr = new Attributes(attrs);
+    // imposing its attributes
+    attrs = Helper.flatten(node.attributes);
+    if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+        delete attrs.style;
+    }
+    cell.attr = new Attributes(attrs);
 
-        cellContent = node.innerHTML.inflate();
-        cell.content = cellContent;
-        return cell;
+    cellContent = node.innerHTML.inflate();
+    cell.content = cellContent;
+    return cell;
 };
 
 /**
@@ -218,47 +212,47 @@ String.prototype.createCellFromHtml = function(){
  * following form: &lt;tr ... &gt; ... &lt;/tr&gt;. Inside the tag, there might be elements &quot;td&quot; that will be
  * processed one by one by function String::createCellFromHtml().
  * @module  String
- * @class   createRowFromHtml
+ * @class  StringHelper
  * @method  createRowFromHtml
  * @return  {Object} Row
  */
 String.prototype.createRowFromHtml = function(){
-		var htmlStr = this,
-			parser = new DOMParser(),
-			fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
-			doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
-			node = doc.getElementsByTagName(&#x27;tr&#x27;),
-            row = new Row(),
-			attrs, i, nodeStyle, cellsNum, currentCell,
-            // row = new Row(),
-            cell, cells;
-		if (node.length === 0){
-			return null;
-		}
-		// the first table row is to be processed. The remaining ones will be processed at thier turn.
-		node = node[0];
+	var htmlStr = this,
+		parser = new DOMParser(),
+		fullTable  = &#x27;&lt;table&gt;&lt;tbody&gt;&#x27; + htmlStr + &#x27;&lt;/tbody&gt;&lt;/table&gt;&#x27;,
+		doc = parser.parseFromString(fullTable, &#x27;text/html&#x27;),
+		node = doc.getElementsByTagName(&#x27;tr&#x27;),
+        row = new Row(),
+		attrs, i, nodeStyle, cellsNum, currentCell,
+        // row = new Row(),
+        cell, cells;
+	if (node.length === 0){
+		return null;
+	}
+	// the first table row is to be processed. The remaining ones will be processed at thier turn.
+	node = node[0];
 
-		// imposing styles
-		nodeStyle = node.getAttribute(&#x27;style&#x27;);
-		row.style = new Style(nodeStyle);
+	// imposing styles
+	nodeStyle = node.getAttribute(&#x27;style&#x27;);
+	row.style = new Style(nodeStyle);
 
-		// imposing its attributes
-		attrs = flatten(node.attributes);
-		if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-			delete attrs.style;
-		}
-		row.attr = new Attributes(attrs);
+	// imposing its attributes
+	attrs = Helper.flatten(node.attributes);
+	if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+		delete attrs.style;
+	}
+	row.attr = new Attributes(attrs);
 
-		cells = node.children;
-		cellsNum = cells.length;
-		for (i = 0; i &lt; cellsNum; i++){
-			currentCell = cells[i];
-			if(currentCell.tagName === &quot;TD&quot;){
-				cell = currentCell.outerHTML.createCellFromHtml();
-				row.appendCell(cell);
-			}
+	cells = node.children;
+	cellsNum = cells.length;
+	for (i = 0; i &lt; cellsNum; i++){
+		currentCell = cells[i];
+		if(currentCell.tagName === &quot;TD&quot;){
+			cell = currentCell.outerHTML.createCellFromHtml();
+			row.appendCell(cell);
 		}
-		return row;
+	}
+	return row;
 };
 
 /**
@@ -267,81 +261,81 @@ String.prototype.createRowFromHtml = function(){
  * be of the following form &amp;lt;table ...&amp;gt; ... &amp;lt;/table&amp;gt;. Inside the tag, there should be tags &quot;tr&quot;
  * that will be processed one by one by function String::createRowFromHtml().
  * @module  String
- * @class   createTableFromHtml
+ * @class  StringHelper
  * @method  createTableFromHtml
  * @return  {Table}
  */
 String.prototype.createTableFromHtml = function(){
-        var htmlStr = this,
-            isFramed = htmlStr.isFramedTable(),
-            parser = new DOMParser(),
-            doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
-            node = doc.getElementsByTagName(&#x27;table&#x27;),
+    var htmlStr = this,
+        isFramed = htmlStr.isFramedTable(),
+        parser = new DOMParser(),
+        doc = parser.parseFromString(htmlStr, &#x27;text/html&#x27;),
+        node = doc.getElementsByTagName(&#x27;table&#x27;),
 
-            table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
-            bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
-        if (node.length === 0){
-            return null;
+        table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
+        bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
+    if (node.length === 0){
+        return null;
+    }
+    node = node[0];
+
+    // creating table
+    table = new Table();
+
+    // imposing table styles
+    nodeStyle = node.getAttribute(&#x27;style&#x27;);
+    table.style = new Style(nodeStyle);
+    // imposing table attributes
+    attrs = Helper.flatten(node.attributes);
+    if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+        delete attrs.style;
+    }
+    table.attr = new Attributes(attrs);
+
+    // the only child of the table is always tbody
+    rows = node.children[0].children;
+    rowsNum = rows.length;
+
+    if (isFramed){
+        bogusRowStyle = node.querySelector(&#x27;tr&#x27;).getAttribute(&#x27;style&#x27;);
+        bogusCellStyle = node.querySelector(&#x27;tr td&#x27;).getAttribute(&#x27;style&#x27;);
+        bogusTableStyle = node.querySelector(&#x27;tr td table&#x27;).getAttribute(&#x27;style&#x27;);
+
+        bogusRowAttr = Helper.flatten(node.querySelector(&#x27;tr&#x27;).attributes);
+        if (bogusRowAttr.hasOwnProperty(&#x27;style&#x27;)){
+            delete bogusRowAttr.style;
         }
-        node = node[0];
 
-        // creating table
-        table = new Table();
-
-        // imposing table styles
-        nodeStyle = node.getAttribute(&#x27;style&#x27;);
-        table.style = new Style(nodeStyle);
-        // imposing table attributes
-        attrs = flatten(node.attributes);
-        if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-            delete attrs.style;
+        bogusCellAttr = Helper.flatten(node.querySelector(&#x27;tr td&#x27;).attributes);
+        if (bogusCellAttr.hasOwnProperty(&#x27;style&#x27;)){
+            delete bogusCellAttr.style;
         }
-        table.attr = new Attributes(attrs);
 
-        // the only child of the table is always tbody
-        rows = node.children[0].children;
-        rowsNum = rows.length;
-
+        bogusTableAttr = Helper.flatten(node.querySelector(&#x27;tr td table&#x27;).attributes);
+        if (bogusTableAttr.hasOwnProperty(&#x27;style&#x27;)){
+            delete bogusTableAttr.style;
+        }
+        table.bogusRowStyle   = new Style(bogusRowStyle);
+        table.bogusRowAttr    = new Attributes(bogusRowAttr);
+        table.bogusCellStyle  = new Style(bogusCellStyle);
+        table.bogusCellAttr   = new Attributes(bogusCellAttr);
+        table.bogusTableStyle = new Style(bogusTableStyle);
+        table.bogusTableAttr  = new Attributes(bogusTableAttr);
+    }
+    for (i = 0; i &lt; rowsNum; i++){
         if (isFramed){
-            bogusRowStyle = node.querySelector(&#x27;tr&#x27;).getAttribute(&#x27;style&#x27;);
-            bogusCellStyle = node.querySelector(&#x27;tr td&#x27;).getAttribute(&#x27;style&#x27;);
-            bogusTableStyle = node.querySelector(&#x27;tr td table&#x27;).getAttribute(&#x27;style&#x27;);
-
-            bogusRowAttr = flatten(node.querySelector(&#x27;tr&#x27;).attributes);
-            if (bogusRowAttr.hasOwnProperty(&#x27;style&#x27;)){
-                delete bogusRowAttr.style;
-            }
-
-            bogusCellAttr = flatten(node.querySelector(&#x27;tr td&#x27;).attributes);
-            if (bogusCellAttr.hasOwnProperty(&#x27;style&#x27;)){
-                delete bogusCellAttr.style;
-            }
-
-            bogusTableAttr = flatten(node.querySelector(&#x27;tr td table&#x27;).attributes);
-            if (bogusTableAttr.hasOwnProperty(&#x27;style&#x27;)){
-                delete bogusTableAttr.style;
-            }
-            table.bogusRowStyle   = new Style(bogusRowStyle);
-            table.bogusRowAttr    = new Attributes(bogusRowAttr);
-            table.bogusCellStyle  = new Style(bogusCellStyle);
-            table.bogusCellAttr   = new Attributes(bogusCellAttr);
-            table.bogusTableStyle = new Style(bogusTableStyle);
-            table.bogusTableAttr  = new Attributes(bogusTableAttr);
+            currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
+        } else {
+            currentRow = rows[i];
         }
-        for (i = 0; i &lt; rowsNum; i++){
-            if (isFramed){
-                currentRow = rows[i].querySelector(&#x27;td table tr&#x27;);
-            } else {
-                currentRow = rows[i];
-            }
 
-            if(currentRow.tagName === &quot;TR&quot;){
-                // console.log(child);
-                row = currentRow.outerHTML.createRowFromHtml();
-                table.appendRow(row);
-            }
+        if(currentRow.tagName === &quot;TR&quot;){
+            // console.log(child);
+            row = currentRow.outerHTML.createRowFromHtml();
+            table.appendRow(row);
         }
-        return table;
+    }
+    return table;
 };
 
 /**
@@ -353,7 +347,7 @@ String.prototype.createTableFromHtml = function(){
  * corresponding functions will be called to transform them into objects.
  * @module  String
  * @param   {String}           listType
- * @class   createUlFromHtml
+ * @class  StringHelper
  * @method  createUlFromHtml
  * @return  {Object}           List
  */
@@ -373,7 +367,7 @@ String.prototype.createListFromHtml = function(listType){
 
         style = node.getAttribute(&#x27;style&#x27;);
         output.style = new Style(style);
-        attrs = flatten(node.attributes);
+        attrs = Helper.flatten(node.attributes);
         if (attrs.hasOwnProperty(&#x27;style&#x27;)){
             delete attrs.style;
         }
@@ -399,7 +393,7 @@ String.prototype.createListFromHtml = function(listType){
 /**
  * Calls String::createListFromHtml(&#x27;ul&#x27;) on the target string.
  * @module  String
- * @class   createUlFromHtml
+ * @class  StringHelper
  * @method  createUlFromHtml
  * @return  {Object} List
  */
@@ -410,7 +404,7 @@ String.prototype.createUlFromHtml = function(){
 /**
  * Calls String::createListFromHtml(&#x27;ol&#x27;) on the target string.
  * @module  String
- * @class   createUlFromHtml
+ * @class  StringHelper
  * @method  createUlFromHtml
  * @return  {Object} List
  */
@@ -423,69 +417,69 @@ String.prototype.createOlFromHtml = function(){
  * following form: &lt;li ... &gt; ... &lt;/li&gt;. Inside the tag, there might be other nodes. If they are recognized
  * as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.
  * @module  String
- * @class   createTableFromHtml
+ * @class  StringHelper
  * @method  createListItemFromHtml
  * @return  {Object} ListItem
  */
 String.prototype.createListItemFromHtml = function(){
-        var htmlStr = this,
-            parser = new DOMParser(),
-            newParser = new DOMParser(),
-            fullList = &#x27;&lt;ul&gt;&#x27; + htmlStr + &#x27;&lt;/ul&gt;&#x27;, // embedding the table inside &#x27;ul&#x27; element.
-            doc = parser.parseFromString(fullList, &#x27;text/html&#x27;),
-            node = doc.getElementsByTagName(&#x27;li&#x27;),
-            newDoc, listItem, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText, methodToCall, nodeName;
-        if (node.length === 0){
-            return null;
+    var htmlStr = this,
+        parser = new DOMParser(),
+        newParser = new DOMParser(),
+        fullList = &#x27;&lt;ul&gt;&#x27; + htmlStr + &#x27;&lt;/ul&gt;&#x27;, // embedding the table inside &#x27;ul&#x27; element.
+        doc = parser.parseFromString(fullList, &#x27;text/html&#x27;),
+        node = doc.getElementsByTagName(&#x27;li&#x27;),
+        newDoc, listItem, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText, methodToCall, nodeName;
+    if (node.length === 0){
+        return null;
+    }
+    // process the first element among the found ones. The remaining elements
+    // are to be processed at their turn (when each of the becomes first)
+    node = node[0];
+
+    // creating object
+    listItem = new ListItem();
+
+    // imposing its styles
+    nodeStyle = node.getAttribute(&#x27;style&#x27;);
+    listItem.style = new Style(nodeStyle);
+
+    // imposing its attributes
+    attrs = Helper.flatten(node.attributes);
+    if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+        delete attrs.style;
+    }
+    listItem.attr = new Attributes(attrs);
+
+    // create a fictious div containing the listItem and assign a unique id to it
+    id = &#x27;fakeDivId&#x27; + Math.floor((Math.random()*99)+1);
+    while (doc.getElementById(id)){
+        id += Math.floor((Math.random()*99)+1);
+    }
+    nodeText = &#x27;&lt;div id=&quot;&#x27;+ id +&#x27;&quot;&gt;&#x27; + node.innerHTML + &#x27;&lt;/div&gt;&#x27;;
+
+    newDoc = newParser.parseFromString(nodeText, &#x27;text/html&#x27;);
+    nodeContent = newDoc.getElementById(id);
+
+    elems = nodeContent.childNodes;
+
+    elemsNum = elems.length;
+    for (i = 0; i &lt; elemsNum; i++){
+        currentElem = elems[i];
+        switch (currentElem.nodeType){
+            case Node.TEXT_NODE:
+                elem = currentElem.textContent;
+                break;
+            case Node.ELEMENT_NODE:
+                nodeName = currentElem.nodeName;
+                methodToCall = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(nodeName) + &#x27;FromHtml&#x27;;
+                elem = String.prototype.hasOwnProperty(methodToCall) ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML;
+                break;
+            default:
+                elem = currentElem.nodeValue;
         }
-        // process the first element among the found ones. The remaining elements
-        // are to be processed at their turn (when each of the becomes first)
-        node = node[0];
-
-        // creating object
-        listItem = new ListItem();
-
-        // imposing its styles
-        nodeStyle = node.getAttribute(&#x27;style&#x27;);
-        listItem.style = new Style(nodeStyle);
-
-        // imposing its attributes
-        attrs = flatten(node.attributes);
-        if (attrs.hasOwnProperty(&#x27;style&#x27;)){
-            delete attrs.style;
-        }
-        listItem.attr = new Attributes(attrs);
-
-        // create a fictious div containing the listItem and assign a unique id to it
-        id = &quot;fakeDivId&quot; + Math.floor((Math.random()*99)+1);
-        while (doc.getElementById(id)){
-            id += Math.floor((Math.random()*99)+1);
-        }
-        nodeText = &#x27;&lt;div id=&quot;&#x27;+ id +&#x27;&quot;&gt;&#x27; + node.innerHTML + &#x27;&lt;/div&gt;&#x27;;
-
-        newDoc = newParser.parseFromString(nodeText, &#x27;text/html&#x27;);
-        nodeContent = newDoc.getElementById(id);
-
-        elems = nodeContent.childNodes;
-
-        elemsNum = elems.length;
-        for (i = 0; i &lt; elemsNum; i++){
-            currentElem = elems[i];
-            switch (currentElem.nodeType){
-                case Node.TEXT_NODE:
-                    elem = currentElem.textContent;
-                    break;
-                case Node.ELEMENT_NODE:
-                    nodeName = currentElem.nodeName;
-                    methodToCall = &#x27;create&#x27; + onlyFirstLetterUpperCase(nodeName) + &#x27;FromHtml&#x27;;
-                    elem = String.prototype.hasOwnProperty(methodToCall) ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML;
-                    break;
-                default:
-                    elem = currentElem.nodeValue;
-            }
-            listItem.appendElem(elem);
-        }
-        return listItem;
+        listItem.appendElem(elem);
+    }
+    return listItem;
 };
 
 /**
@@ -493,7 +487,7 @@ String.prototype.createListItemFromHtml = function(){
  * contains just one cell, and this cell in its turn contains only one table.
  * Returns false otherwise.
  * @module  String
- * @class   isFramedTable
+ * @class  StringHelper
  * @method  isFramedTable
  * @return  {Boolean}
  */
@@ -547,7 +541,7 @@ String.prototype.isFramedTable = function (){
  * the elements recognized inside the string. It is supposed that the string is of the
  * form &lt;tag [tag-attributes] [style=&quot;...&quot;]&gt;....&lt;/tag&gt;.
  * @module    String
- * @class     createTagFromHtml
+ * @class  StringHelper
  * @method    createTagFromHtml
  * @return    {Content}
  */
@@ -569,7 +563,7 @@ String.prototype.createTagFromHtml = function(){
 
             style = node.getAttribute(&#x27;style&#x27;);
             output.style = new Style(style);
-            attrs = flatten(node.attributes);
+            attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty(&#x27;style&#x27;)){
                 delete attrs.style;
             }
@@ -584,7 +578,7 @@ String.prototype.createTagFromHtml = function(){
                 }
                 if (nodeInternal.nodeType === Node.ELEMENT_NODE){
                     nodeHtml = nodeInternal.outerHTML;
-                    methodName = &#x27;create&#x27; + onlyFirstLetterUpperCase(nodeInternal.nodeName) + &#x27;FromHtml&#x27;;
+                    methodName = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(nodeInternal.nodeName) + &#x27;FromHtml&#x27;;
                     methodExists = (typeof nodeHtml[methodName]) === &#x27;function&#x27;;
                     elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
                 }
@@ -599,7 +593,7 @@ String.prototype.createTagFromHtml = function(){
  * Creates an instance of Content class and fills in its property &quot;elements&quot; with
  * the elements recognized inside the string.
  * @module    String
- * @class     inflate
+ * @class  StringHelper
  * @method    inflate
  * @return    {Content}
  */
@@ -623,7 +617,7 @@ String.prototype.inflate = function(){
                     break;
                 case Node.ELEMENT_NODE:
                     childHtml = child.outerHTML;
-                    methodName = &#x27;create&#x27; + onlyFirstLetterUpperCase(child.nodeName) + &#x27;FromHtml&#x27;;
+                    methodName = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(child.nodeName) + &#x27;FromHtml&#x27;;
                     methodExists = (typeof childHtml[methodName] === &#x27;function&#x27;);
                     // if the method exists, apply it to the string representation of
                     // the current node. Otherwise, apply recursively the method &quot;inflate&quot;
@@ -642,6 +636,19 @@ String.prototype.inflate = function(){
     }
     return output;
 };
+
+/**
+ * Sandwiches the target string first and the second arguments. Delegates to Helpers::sandwichWith().
+ * @method sandwichWith
+ * @class  StringHelper
+ * @param  {String}    left
+ * @param  {String}    right
+ * @return {String}
+ */
+String.prototype.sandwichWith = function (left, right){
+    return Helper.sandwichWith(left, this, right);
+};
+
     </pre>
 </div>
 

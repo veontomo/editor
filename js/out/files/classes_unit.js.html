@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>isFramedTable</title>
+    <title>classes\unit.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -47,19 +47,9 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
-                <li><a href="../classes/createRowFromHtml.html">createRowFromHtml</a></li>
-            
-                <li><a href="../classes/createTableFromHtml.html">createTableFromHtml</a></li>
-            
-                <li><a href="../classes/createTagFromHtml.html">createTagFromHtml</a></li>
-            
-                <li><a href="../classes/createUlFromHtml.html">createUlFromHtml</a></li>
-            
-                <li><a href="../classes/generateId.html">generateId</a></li>
+                <li><a href="../classes/Helper.html">Helper</a></li>
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
-            
-                <li><a href="../classes/isFramedTable.html">isFramedTable</a></li>
             
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
@@ -75,6 +65,8 @@
             
                 <li><a href="../classes/Row.html">Row</a></li>
             
+                <li><a href="../classes/sandwichWith.html">sandwichWith</a></li>
+            
                 <li><a href="../classes/Style.html">Style</a></li>
             
                 <li><a href="../classes/Table.html">Table</a></li>
@@ -89,11 +81,13 @@
             
                 <li><a href="../classes/Tag.html">Tag</a></li>
             
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/helpers.html">helpers</a></li>
+                <li><a href="../modules/Helper.html">Helper</a></li>
             
                 <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
             
@@ -136,69 +130,103 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>isFramedTable Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: classes\unit.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/classes_string.js.html#l349"><code>classes\string.js:349</code></a>
-        </div>
-    
+/**
+ * Represents a quantity divided in &quot;value&quot; and &quot;measure&quot;.
+ * @module       Helper
+ * @param {Number}            value
+ * @param {String|null}       measure
+ * @class  Unit
+ */
 
-    
-        
-            Module: <a href="../modules/String.html">String</a>
-        
-    
+function Unit(value, measure) {
+    &quot;use strict&quot;;
+    // console.log(value, measure);
+    var parsedValue, parsedMeasure;
+    if (!(this instanceof Unit)) {
+        return new Unit(value, measure);
+    }
+    if (value instanceof Unit) {
+        return value;
+    }
+    if ((typeof measure !== &#x27;string&#x27;) &amp;&amp; (measure !== undefined)) {
+        throw new Error(&#x27;the second arg is a not a string!&#x27;);
+    }
+    measure = (measure || &#x27;&#x27;).trim();
+    switch (typeof value) {
+    case &#x27;number&#x27;:
+        this.value = value;
+        this.measure = measure;
+        break;
+    case &#x27;string&#x27;:
+        parsedValue = value === &#x27;&#x27; ? 0 : parseFloat(value);
+        if (isNaN(parsedValue)) {
+            throw new Error(&quot;Can not convert into a Unit object!&quot;);
+        }
+        parsedMeasure = value.replace(parsedValue.toString(), &#x27;&#x27;).trim();
+        this.value = parsedValue;
+        this.measure = measure || parsedMeasure;
+        break;
+    default:
+        this.value = 0;
+        this.measure = &#x27;&#x27;;
+    }
 
-    
-</div>
+    /**
+     * Compares the target with the argument. Returns true, if the argument can be cast to the target type
+     * with the same &quot;measurement&quot; property. False otherwise.
+     * @method  isLikeAs
+     * @param   {obj}     obj
+     * @return  {Boolean}
+     */
+    this.isLikeAs = function (obj) {
+        if (!(obj instanceof Unit)) {
+            try {
+                obj = new Unit(obj);
+            } catch (err) {
+                return false;
+            }
+        }
+        return this.measure === obj.measure;
+    };
+    /**
+     * Sums up the target and the argument. If they have different units of measurement, an error is thrown.
+     * @method  add
+     * @param   {Unit}   unit
+     * @return  {Unit}   the sum of the target and the argument.
+     */
+    this.add = function (unit) {
+        if (!this.isLikeAs(unit)) {
+            throw new Error(&quot;These Unit instances can not be summed up!&quot;);
+        }
+        unit = new Unit(unit);
+        return new Unit(this.value + unit.value, this.measure);
+
+    };
 
 
+    /**
+     * Subtracts the argument from the target. The argument is converted to a Unit object,
+     * then its sign is changed and the method Unit::add() is called.
+     * @method   sub
+     * @param   {Unit}   obj         it will be first converted to a Unit instance.
+     * @return  {Unit}   the difference between target and the argument.
+     */
+    this.sub = function (obj) {
+        var unit = new Unit(obj),
+            negative = new Unit(-unit.value, unit.measure);
+        return this.add(negative);
+    };
+}
 
-<div class="box intro">
-    <p>Returns true, if tableHtml is an html code corresponding to a table each row of which
-contains just one cell, and this cell in its turn contains only one table.
-Returns false otherwise.</p>
-
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>

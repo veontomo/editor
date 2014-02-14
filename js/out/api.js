@@ -4,6 +4,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Attributes",
         "Cell",
         "Content",
+        "Helper",
         "ImageStyle",
         "LinkStyle",
         "List",
@@ -19,24 +20,20 @@ YUI.add("yuidoc-meta", function(Y) {
         "TableRowStyle",
         "TableStyle",
         "Tag",
-        "createRowFromHtml",
-        "createTableFromHtml",
-        "createTagFromHtml",
-        "createUlFromHtml",
-        "generateId",
-        "isFramedTable"
+        "Unit",
+        "sandwichWith"
     ],
     "modules": [
+        "Helper",
         "HtmlElements",
         "Property",
-        "String",
-        "helpers"
+        "String"
     ],
     "allModules": [
         {
-            "displayName": "helpers",
-            "name": "helpers",
-            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero."
+            "displayName": "Helper",
+            "name": "Helper",
+            "description": "Represents a quantity divided in \"value\" and \"measure\"."
         },
         {
             "displayName": "HtmlElements",

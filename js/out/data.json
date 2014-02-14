@@ -71,12 +71,7 @@
                 "String": 1
             },
             "classes": {
-                "generateId": 1,
-                "createTableFromHtml": 1,
-                "createRowFromHtml": 1,
-                "createUlFromHtml": 1,
-                "isFramedTable": 1,
-                "createTagFromHtml": 1
+                "StringHelper": 1
             },
             "fors": {},
             "namespaces": {}
@@ -119,12 +114,23 @@
             "fors": {},
             "namespaces": {}
         },
+        "classes\\unit.js": {
+            "name": "classes\\unit.js",
+            "modules": {
+                "Helper": 1
+            },
+            "classes": {
+                "Unit": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "helpers.js": {
             "name": "helpers.js",
-            "modules": {
-                "helpers": 1
+            "modules": {},
+            "classes": {
+                "Helper": 1
             },
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -206,18 +212,13 @@
             "name": "String",
             "submodules": {},
             "classes": {
-                "generateId": 1,
-                "createTableFromHtml": 1,
-                "createRowFromHtml": 1,
-                "createUlFromHtml": 1,
-                "isFramedTable": 1,
-                "createTagFromHtml": 1
+                "StringHelper": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
             "file": "classes\\string.js",
-            "line": 403,
+            "line": 504,
             "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
             "itemtype": "method",
             "params": [
@@ -232,29 +233,32 @@
                 "type": "String"
             }
         },
-        "helpers": {
-            "name": "helpers",
+        "Helper": {
+            "name": "Helper",
             "submodules": {},
-            "classes": {},
+            "classes": {
+                "Unit": 1,
+                "Helper": 1
+            },
             "fors": {},
             "namespaces": {},
             "tag": "module",
             "file": "helpers.js",
-            "line": 44,
-            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero.",
-            "example": [
-                "   [1.1, 2.4, 2] -> [1.1, 2.4, 2],\n           [\"4\", -3, 3.2, \"a\"] -> [4, 3, 3.2, 0]"
-            ],
+            "line": 4,
+            "description": "Represents a quantity divided in \"value\" and \"measure\".",
             "params": [
                 {
-                    "name": "arr",
-                    "description": "Array      array of numbers"
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "measure",
+                    "description": "",
+                    "type": "String|null"
                 }
             ],
-            "return": {
-                "description": "Array      array of numbers"
-            },
-            "itemtype": "method"
+            "type": "{Object}"
         }
     },
     "classes": {
@@ -385,9 +389,9 @@
             "line": 5,
             "description": "Represents a table row"
         },
-        "generateId": {
-            "name": "generateId",
-            "shortname": "generateId",
+        "StringHelper": {
+            "name": "sandwichWith",
+            "shortname": "StringHelper",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -396,85 +400,20 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 5,
-            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id."
-        },
-        "createTableFromHtml": {
-            "name": "createTableFromHtml",
-            "shortname": "createTableFromHtml",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "String",
-            "namespace": "",
-            "file": "classes\\string.js",
-            "line": 279,
-            "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects."
-        },
-        "createRowFromHtml": {
-            "name": "createRowFromHtml",
-            "shortname": "createRowFromHtml",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "String",
-            "namespace": "",
-            "file": "classes\\string.js",
-            "line": 74,
-            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml()."
-        },
-        "createUlFromHtml": {
-            "name": "createUlFromHtml",
-            "shortname": "createUlFromHtml",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "String",
-            "namespace": "",
-            "file": "classes\\string.js",
-            "line": 268,
-            "description": "Calls String::createListFromHtml('ol') on the target string.",
+            "line": 504,
+            "description": "Sandwiches the target string first and the second arguments. Delegates to Helpers::sandwichWith().",
             "params": [
                 {
                     "name": "listType",
                     "description": "",
                     "type": "String"
                 }
-            ]
-        },
-        "isFramedTable": {
-            "name": "isFramedTable",
-            "shortname": "isFramedTable",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "String",
-            "namespace": "",
-            "file": "classes\\string.js",
-            "line": 349,
-            "description": "Returns true, if tableHtml is an html code corresponding to a table each row of which\ncontains just one cell, and this cell in its turn contains only one table.\nReturns false otherwise."
-        },
-        "createTagFromHtml": {
-            "name": "createTagFromHtml",
-            "shortname": "createTagFromHtml",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "String",
-            "namespace": "",
-            "file": "classes\\string.js",
-            "line": 403,
-            "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>."
+            ],
+            "itemtype": "method",
+            "return": {
+                "description": "",
+                "type": "String"
+            }
         },
         "Style": {
             "name": "Style",
@@ -622,6 +561,46 @@
             "file": "classes\\tag.js",
             "line": 5,
             "description": "This class is used to represent a general html tag."
+        },
+        "Unit": {
+            "name": "Unit",
+            "shortname": "Unit",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Helper",
+            "namespace": "",
+            "file": "classes\\unit.js",
+            "line": 5,
+            "description": "Represents a quantity divided in \"value\" and \"measure\".",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "measure",
+                    "description": "",
+                    "type": "String|null"
+                }
+            ]
+        },
+        "Helper": {
+            "name": "Helper",
+            "shortname": "Helper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Helper",
+            "namespace": "",
+            "file": "helpers.js",
+            "line": 4,
+            "description": "Set of useful functions"
         }
     },
     "classitems": [
@@ -2540,9 +2519,9 @@
         {
             "file": "classes\\tag.js",
             "line": 103,
-            "description": "Retrieves the value of property from the \"style\"",
+            "description": "Retrieves requested property from the \"style\" property of the current object.",
             "itemtype": "method",
-            "name": "styleProperty",
+            "name": "getStyleProp",
             "params": [
                 {
                     "name": "prop",
@@ -2552,14 +2531,14 @@
             ],
             "return": {
                 "description": "",
-                "type": "String|Number"
+                "type": "Any"
             },
             "class": "Tag",
             "module": "HtmlElements"
         },
         {
             "file": "classes\\tag.js",
-            "line": 114,
+            "line": 116,
             "description": "Imposes the value of the width of the \"attr\" and \"style\" properties. In the latter, \"min-width\"\nand \"max-width\" are imposed as well. It is better to use with an integer argument and without\nunit of measurement (as attr property should not have unit of measurement in its string representation\nwhen convirting it in html form).",
             "itemtype": "method",
             "name": "setWidth",
@@ -2579,7 +2558,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 133,
+            "line": 135,
             "description": "Gets the width of the object as it is present in the style property. It tends to return a number:\nif it is measured in \"px\", then the measurment unit is removed and the number is returned.",
             "itemtype": "method",
             "name": "getWidth",
@@ -2592,7 +2571,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 154,
+            "line": 156,
             "description": "Content of the tag.",
             "itemtype": "property",
             "name": "content",
@@ -2603,7 +2582,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 162,
+            "line": 164,
             "description": "Gets the element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getElem",
@@ -2623,7 +2602,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 172,
+            "line": 174,
             "description": "Gets the first element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getFirst",
@@ -2636,7 +2615,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 181,
+            "line": 183,
             "description": "Gets the last element stored in property \"content\". Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "getLast",
@@ -2649,7 +2628,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 190,
+            "line": 192,
             "description": "Inserts an element into given position. Delegates its functionality to the class Content.",
             "itemtype": "method",
             "name": "insertElemAt",
@@ -2674,7 +2653,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 201,
+            "line": 203,
             "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
             "itemtype": "method",
             "name": "appendElem",
@@ -2694,7 +2673,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 211,
+            "line": 213,
             "description": "Returns the number of elements inside its content. Delegates to Content::length().",
             "itemtype": "method",
             "name": "length",
@@ -2707,7 +2686,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 220,
+            "line": 222,
             "description": "Deletes element from \"content\" property. Delegates its functionalality to Content::dropElemAt().",
             "itemtype": "method",
             "name": "dropElemAt",
@@ -2727,7 +2706,7 @@
         },
         {
             "file": "classes\\tag.js",
-            "line": 230,
+            "line": 232,
             "description": "Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.",
             "itemtype": "method",
             "name": "toHtml",
@@ -2739,41 +2718,71 @@
             "module": "HtmlElements"
         },
         {
-            "file": "helpers.js",
-            "line": 22,
-            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "file": "classes\\unit.js",
+            "line": 46,
+            "description": "Compares the target with the argument. Returns true, if the argument can be cast to the target type\nwith the same \"measurement\" property. False otherwise.",
+            "itemtype": "method",
+            "name": "isLikeAs",
             "params": [
                 {
-                    "name": "str",
-                    "description": "String"
+                    "name": "obj",
+                    "description": "",
+                    "type": "Obj"
                 }
             ],
             "return": {
-                "description": "String"
+                "description": "",
+                "type": "Boolean"
             },
-            "class": "",
-            "module": "HtmlElements"
+            "class": "Unit",
+            "module": "Helper"
         },
         {
-            "file": "helpers.js",
-            "line": 32,
-            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "file": "classes\\unit.js",
+            "line": 63,
+            "description": "Sums up the target and the argument. If they have different units of measurement, an error is thrown.",
+            "itemtype": "method",
+            "name": "add",
             "params": [
                 {
-                    "name": "str",
-                    "description": "String"
+                    "name": "unit",
+                    "description": "",
+                    "type": "Unit"
                 }
             ],
             "return": {
-                "description": "String"
+                "description": "the sum of the target and the argument.",
+                "type": "Unit"
             },
-            "class": "",
-            "module": "HtmlElements"
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\unit.js",
+            "line": 79,
+            "description": "Subtracts the argument from the target. The argument is converted to a Unit object,\nthen its sign is changed and the method Unit::add() is called.",
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "it will be first converted to a Unit instance.",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "the difference between target and the argument.",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 293,
-            "description": "Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
+            "line": 30,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "itemtype": "method",
+            "name": "firstLetterUpperCase",
             "params": [
                 {
                     "name": "str",
@@ -2785,13 +2794,266 @@
                 "description": "",
                 "type": "String"
             },
-            "class": "",
-            "module": "helpers"
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 316,
+            "line": 41,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "itemtype": "method",
+            "name": "onlyFirstLetterUpperCase",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 53,
+            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero.",
+            "itemtype": "method",
+            "name": "sanitize",
+            "example": [
+                "   [1.1, 2.4, 2] -> [1.1, 2.4, 2],\n           [\"4\", -3, 3.2, \"a\"] -> [4, 3, 3.2, 0]"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 73,
+            "description": "calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.",
+            "itemtype": "method",
+            "name": "trace",
+            "example": [
+                "     [1, 2, 2] -> 1 + 2 + 2 = 5"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 90,
+            "description": "normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.\nIf not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.",
+            "itemtype": "method",
+            "name": "normalize",
+            "example": [
+                "     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]",
+                "     [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]",
+                "     [0, 0]          -> [ 0.5, 0.5]"
+            ],
+            "params": [
+                {
+                    "name": "Array",
+                    "description": "of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 124,
+            "description": "Slices the first argument according to the weights given by the second argument.\nThe elements of the second array are supposed to be non-negative numbers.",
+            "itemtype": "method",
+            "name": "splitWeighted",
+            "example": [
+                "   (10, [1, 2, 2])    -> [2, 4, 4],\n           (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]"
+            ],
+            "params": [
+                {
+                    "name": "overall",
+                    "description": "a number to be splitted",
+                    "type": "Number"
+                },
+                {
+                    "name": "pieces",
+                    "description": "array of weigths",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 146,
+            "description": "rounds each elements of the array",
+            "itemtype": "method",
+            "name": "roundUp",
+            "example": [
+                " [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 160,
+            "description": "composition of roundUp and splitWeighted",
+            "itemtype": "method",
+            "name": "columnWidths",
+            "params": [
+                {
+                    "name": "overall",
+                    "description": "table width",
+                    "type": "Number"
+                },
+                {
+                    "name": "pieces",
+                    "description": "array of nambers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 172,
+            "description": "Deletes the protocol name from the url.\nEverything until the first occurence of '://' will be removed (inclusively).",
+            "itemtype": "method",
+            "name": "dropProtocol",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "example": [
+                "  'http://www.test.com'      -> 'www.test.com'",
+                "  'www.test.com'             -> 'www.test.com'"
+            ],
+            "return": {
+                "description": "url without protocol name",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 188,
+            "description": "Gives file extension.",
+            "itemtype": "method",
+            "name": "fileExt",
+            "params": [
+                {
+                    "name": "fileName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 199,
+            "description": "Gives the validated width. If the width is given in \"px\" or \"pt\", the integer part is given.\nIf the length is given in \"em\" or \"%\", it is left as it is.",
+            "itemtype": "method",
+            "name": "validateWidth",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 227,
+            "description": "Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
+            "itemtype": "method",
+            "name": "specialChar",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "helpers.js",
+            "line": 251,
             "description": "Splits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
+            "itemtype": "method",
+            "name": "crack",
             "params": [
                 {
                     "name": "arr",
@@ -2808,13 +3070,15 @@
                 "description": "array of integers",
                 "type": "Array"
             },
-            "class": "",
-            "module": "helpers"
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 413,
-            "description": "Flatten the object. This function was written because Node::attributes returns attributes in format.\nExample {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...}\nreturns {\"width\":\"100\", \"color\":\"black\", ...}",
+            "line": 291,
+            "description": "Flatten the object. This function was written because Node::attributes returns attributes in format.",
+            "itemtype": "method",
+            "name": "flatten",
             "params": [
                 {
                     "name": "obj",
@@ -2822,13 +3086,22 @@
                     "type": "Object"
                 }
             ],
-            "class": "",
-            "module": "helpers"
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "example": [
+                " {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...} -> {\"width\":\"100\", \"color\":\"black\", ...}"
+            ],
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 432,
+            "line": 311,
             "description": "Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
+            "itemtype": "method",
+            "name": "sandwichWith",
             "params": [
                 {
                     "name": "left",
@@ -2851,13 +3124,15 @@
                 "description": "",
                 "type": "String|Null"
             },
-            "class": "",
-            "module": "helpers"
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 453,
+            "line": 330,
             "description": "Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
+            "itemtype": "method",
+            "name": "concatDropSpaces",
             "params": [
                 {
                     "name": "arr",
@@ -2874,31 +3149,33 @@
                 "description": "",
                 "type": "String"
             },
-            "class": "",
-            "module": "helpers"
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "helpers.js",
-            "line": 470,
-            "description": "Merge two objects. If non-object is given, an error is thrown.",
+            "line": 345,
+            "description": "Sets width, min-width and max-width of the object.",
+            "itemtype": "method",
+            "name": "setMinMaxWidth",
             "params": [
                 {
-                    "name": "obj1",
-                    "description": "",
+                    "name": "obj",
+                    "description": "object which width is to be set.",
                     "type": "Object"
                 },
                 {
-                    "name": "obj2",
-                    "description": "",
-                    "type": "Object"
+                    "name": "w",
+                    "description": "width value",
+                    "type": "Mixed"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Object"
+                "type": "Void"
             },
-            "class": "",
-            "module": "helpers"
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2909,7 +3186,7 @@
                 "type": "Function(string, Object)"
             },
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2923,7 +3200,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2937,7 +3214,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2956,7 +3233,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2979,7 +3256,7 @@
                 "type": "Number"
             },
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -2993,7 +3270,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3007,7 +3284,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3021,7 +3298,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3035,7 +3312,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3054,7 +3331,7 @@
                 "type": "Object"
             },
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3068,7 +3345,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "jquery-1.10.2.js",
@@ -3082,7 +3359,7 @@
                 }
             ],
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "start.js",
@@ -3105,7 +3382,7 @@
                 "type": "Void"
             },
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         },
         {
             "file": "start.js",
@@ -3123,7 +3400,7 @@
                 "type": "[type]"
             },
             "class": "",
-            "module": "helpers"
+            "module": "Helper"
         }
     ],
     "warnings": [
@@ -3146,38 +3423,6 @@
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",
             "line": " classes\\property.js:21"
-        },
-        {
-            "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
-            "line": " helpers.js:22"
-        },
-        {
-            "message": "Missing item type\nConverts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
-            "line": " helpers.js:32"
-        },
-        {
-            "message": "Missing item type\nReplaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
-            "line": " helpers.js:293"
-        },
-        {
-            "message": "Missing item type\nSplits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
-            "line": " helpers.js:316"
-        },
-        {
-            "message": "Missing item type\nFlatten the object. This function was written because Node::attributes returns attributes in format.\nExample {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...}\nreturns {\"width\":\"100\", \"color\":\"black\", ...}",
-            "line": " helpers.js:413"
-        },
-        {
-            "message": "Missing item type\nSandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
-            "line": " helpers.js:432"
-        },
-        {
-            "message": "Missing item type\nGlues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
-            "line": " helpers.js:453"
-        },
-        {
-            "message": "Missing item type\nMerge two objects. If non-object is given, an error is thrown.",
-            "line": " helpers.js:470"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

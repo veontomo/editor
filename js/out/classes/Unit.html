@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TableRowStyle</title>
+    <title>Unit</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -130,7 +130,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>TableRowStyle Class</h1>
+                        <h1>Unit Class</h1>
 <div class="box meta">
     
 
@@ -138,13 +138,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/classes_style.js.html#l202"><code>classes\style.js:202</code></a>
+            Defined in: <a href="../files/classes_unit.js.html#l5"><code>classes\unit.js:5</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Property.html">Property</a>
+            Module: <a href="../modules/Helper.html">Helper</a>
         
     
 
@@ -154,7 +154,7 @@
 
 
 <div class="box intro">
-    <p>Represents table row style.</p>
+    <p>Represents a quantity divided in &quot;value&quot; and &quot;measure&quot;.</p>
 
 </div>
 
@@ -165,8 +165,8 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -177,64 +177,27 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
+                    <ul class="index-list methods">
                         
-                            <li class="index-item property">
-                                <a href="#property_border-color">border-color</a>
+                            <li class="index-item method">
+                                <a href="#method_add">add</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_border-style">border-style</a>
+                            <li class="index-item method">
+                                <a href="#method_isLikeAs">isLikeAs</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property">
-                                <a href="#property_border-width">border-width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_margin">margin</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_max-width">max-width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_min-width">min-width</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_padding">padding</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_width">width</a>
+                            <li class="index-item method">
+                                <a href="#method_sub">sub</a>
 
                                 
                                 
@@ -247,18 +210,41 @@
             
 
             
+
+            
         </div>
 
         
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="property_border-color" class="property item">
-    <h3 class="name"><code>border-color</code></h3>
-    <span class="type">String</span>
+                    <div id="method_add" class="method item">
+    <h3 class="name"><code>add</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>unit</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>
+        </span>
+    
+
+    
+
+    
 
     
 
@@ -279,9 +265,10 @@
             
         
         
-        <a href="../files/classes_style.js.html#l214"><code>classes\style.js:214</code></a>
+        <a href="../files/classes_unit.js.html#l63"><code>classes\unit.js:63</code></a>
         
         </p>
+
 
         
 
@@ -289,23 +276,81 @@
     </div>
 
     <div class="description">
-        <p>Color of the border table</p>
+        <p>Sums up the target and the argument. If they have different units of measurement, an error is thrown.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#FFFFFF&quot;</p>
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">unit</code>
+                        <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>:
+                    
+                    <p>the sum of the target and the argument.</p>
+
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="property_border-style" class="property item">
-    <h3 class="name"><code>border-style</code></h3>
-    <span class="type">String</span>
+                    <div id="method_isLikeAs" class="method item">
+    <h3 class="name"><code>isLikeAs</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>obj</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
 
     
 
@@ -326,9 +371,10 @@
             
         
         
-        <a href="../files/classes_style.js.html#l220"><code>classes\style.js:220</code></a>
+        <a href="../files/classes_unit.js.html#l46"><code>classes\unit.js:46</code></a>
         
         </p>
+
 
         
 
@@ -336,23 +382,80 @@
     </div>
 
     <div class="description">
-        <p>Style of the border table. See html manuals for possible values.</p>
+        <p>Compares the target with the argument. Returns true, if the argument can be cast to the target type
+with the same &quot;measurement&quot; property. False otherwise.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &quot;none&quot;</p>
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">obj</code>
+                        <span class="type">Obj</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="property_border-width" class="property item">
-    <h3 class="name"><code>border-width</code></h3>
-    <span class="type">String | Number</span>
+                    <div id="method_sub" class="method item">
+    <h3 class="name"><code>sub</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>obj</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>
+        </span>
+    
+
+    
+
+    
 
     
 
@@ -373,9 +476,10 @@
             
         
         
-        <a href="../files/classes_style.js.html#l226"><code>classes\style.js:226</code></a>
+        <a href="../files/classes_unit.js.html#l79"><code>classes\unit.js:79</code></a>
         
         </p>
+
 
         
 
@@ -383,249 +487,51 @@
     </div>
 
     <div class="description">
-        <p>Width of the border table.</p>
+        <p>Subtracts the argument from the target. The argument is converted to a Unit object,
+then its sign is changed and the method Unit::add() is called.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> 0</p>
-    
+        <div class="params">
+            <h4>Parameters:</h4>
 
-    
-
-    
-</div>
-
-                
-                    <div id="property_margin" class="property item">
-    <h3 class="name"><code>margin</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
+            <ul class="params-list">
             
-                
-                <p>
-                
-                Defined in
-                
+                <li class="param">
+                    
+                        <code class="param-name">obj</code>
+                        <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>it will be first converted to a Unit instance.</p>
+
+                    </div>
+
+                    
+                </li>
             
-        
-        
-        <a href="../files/classes_style.js.html#l232"><code>classes\style.js:232</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Margin of the table.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
+            </ul>
+        </div>
     
 
     
+        <div class="returns">
+            <h4>Returns:</h4>
 
-    
-</div>
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Unit.html" class="crosslink">Unit</a></span>:
+                    
+                    <p>the difference between target and the argument.</p>
 
                 
-                    <div id="property_max-width" class="property item">
-    <h3 class="name"><code>max-width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_style.js.html#l250"><code>classes\style.js:250</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Table maximal width. It is supposed to be equal to &quot;width&quot; property.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_min-width" class="property item">
-    <h3 class="name"><code>min-width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_style.js.html#l256"><code>classes\style.js:256</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Table minimal width. It is supposed to be equal to &quot;width&quot; property.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_padding" class="property item">
-    <h3 class="name"><code>padding</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_style.js.html#l238"><code>classes\style.js:238</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Padding of the table.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_width" class="property item">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">String | Number</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/classes_style.js.html#l244"><code>classes\style.js:244</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Table width.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
+            </div>
+        </div>
     
 
     
@@ -633,6 +539,8 @@
 
                 
             </div>
+        
+
         
 
         
