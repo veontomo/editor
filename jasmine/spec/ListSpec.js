@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine*/
+/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine, Tag*/
 
 describe('List-related functionality:', function(){
     var l, li1, li2, li3, li4;
@@ -46,17 +46,16 @@ describe('List-related functionality:', function(){
     });
     describe('List::appendItem(): appends items to the list', function(){
         it('throws an error if appending not a ListItem object', function(){
-            l.items = [];
             expect(function(){
                 l.appendItem("as");
             }).toThrow('The argument is not a ListItem instance!');
             expect(l.itemNum()).toBe(0);
         });
         it('calls parent method Tag::appendElem', function(){
-            var li = new ListItem();
+            li1 = new ListItem();
             spyOn(l, 'appendElem');
-            l.appendItem(li);
-            expect(l.appendElem).toHaveBeenCalledWith(li);
+            l.appendItem(li1);
+            expect(l.appendElem).toHaveBeenCalledWith(li1);
         });
     });
 
@@ -68,10 +67,10 @@ describe('List-related functionality:', function(){
         });
 
         it('calls parent method Tag::insertElemAt()', function(){
-            li = new ListItem();
+            li1 = new ListItem();
             spyOn(l, 'insertElemAt');
-            l.insertItemAt('pos', li);
-            expect(l.insertElemAt).toHaveBeenCalledWith('pos', li);
+            l.insertItemAt('pos', li1);
+            expect(l.insertElemAt).toHaveBeenCalledWith('pos', li1);
         });
     });
 

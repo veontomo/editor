@@ -22,6 +22,11 @@ describe('Attribute-related functionality', function(){
             expect(attr.new).toBe('no');
             expect(attr.hasOwnProperty('update')).toBe(false);
         });
+
+        it('prevents accidental call without "new"', function(){
+            attr = Attributes();
+            expect(attr instanceof Attributes).toBe(true);
+        });
     });
     describe('Attributes::toString(): generates string representation', function(){
         it('if the attribute is empty, empty string is returned', function(){

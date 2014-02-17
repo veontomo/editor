@@ -1267,6 +1267,27 @@ describe('Table-related functionality:', function(){
         });
 
         it('rearrange the table if it is fragmented', function(){
+            var c1 = new Cell(), // bogusRowAttr = {},
+                c2 = new Cell(), // bogusRowStyle = {},
+                c3 = new Cell(), // bogusCellAttr = {},
+                t1 = new Table(),// bogusCellStyle = {},
+                t2 = new Table(),// bogusTableAttr = {},
+                t3 = new Table();// bogusTableStyle = {};
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'getBogusRowAttr').andCallFake(function(){return bogusRowAttr;});
+            spyOn(table, 'getBogusRowStyle').andCallFake(function(){return bogusRowStyle;});
+            spyOn(table, 'getBogusCellAttr').andCallFake(function(){return bogusCellAttr;});
+            spyOn(table, 'getBogusCellStyle').andCallFake(function(){return bogusCellStyle;});
+            spyOn(table, 'getBogusTableAttr').andCallFake(function(){return bogusTableAttr;});
+            spyOn(table, 'getBogusTableStyle').andCallFake(function(){return bogusTableStyle;});
+
+            spyOn(row1, 'getFirst').andCallFake(function(){return c1;});
+            spyOn(row2, 'getFirst').andCallFake(function(){return c2;});
+            spyOn(row3, 'getFirst').andCallFake(function(){return c3;});
+            spyOn(c1, 'getFirst').andCallFake(function(){return t1;});
+            spyOn(c2, 'getFirst').andCallFake(function(){return t2;});
+            spyOn(c3, 'getFirst').andCallFake(function(){return t3;});
+            table.content.elements = [row1, row2, row3];
 
         });
     });
