@@ -1037,13 +1037,12 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusCellProp(): gets the requested property of the bogus table', function(){
+    describe('Table::getBogusCellProp(): gets the requested property of the bogus cell', function(){
         var row1CellProp;
         it('returns null, if Table::isFragmented returns false', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return false;});
             spyOn(row1, 'getBogusCellProp');
             expect(table.getBogusCellProp('anything')).toBe(null);
-            expect(table.isFragmented).toHaveBeenCalled();
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).not.toHaveBeenCalled();
         });
@@ -1112,6 +1111,89 @@ describe('Table-related functionality:', function(){
             expect(row1CellProp.isTheSameAs).toHaveBeenCalledWith('bogus prop of row 2');
             expect(row1CellProp.isTheSameAs).toHaveBeenCalledWith('bogus prop of row 3');
         });
+    });
+
+
+    describe('Table::getBogusTableProp(): gets the requested property of the bogus table', function(){
+        it('returns null, if Table::isFragmented returns false', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return false;});
+            expect(table.getBogusTableProp('anything')).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+        });
+        it('returns requested property, if table is fragmented and has unique row', function(){
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1, 'getBogusTableProp').andCallFake(function(){return 'requested property';});
+            table.content.elements = [row1];
+            expect(table.getBogusTableProp('prop name')).toBe('requested property');
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop name');
+        });
+        it('returns requested property, if table is fragmented and has two rows with the equal properties', function(){
+            var row1FakeProp = {'isTheSameAs': function(){return true;}},
+                row2FakeProp = {'dumb': true};
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
+            spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
+            table.content.elements = [row1, row2];
+            expect(table.getBogusTableProp('prop name')).toBe(row1FakeProp);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row2.getBogusTableProp).toHaveBeenCalledWith('prop name');
+        });
+
+        it('returns null, if table is fragmented and has two rows with not equal properties', function(){
+            var row1FakeProp = {'isTheSameAs': function(){return false;}},
+                row2FakeProp = {'dumb': true};
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
+            spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
+            table.content.elements = [row1, row2];
+            expect(table.getBogusTableProp('prop name')).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row2.getBogusTableProp).toHaveBeenCalledWith('prop name');
+        });
+
+        it('returns null, if table is fragmented and has three rows and the second row has different (from the first row one\'s) property', function(){
+            var row1FakeProp = {'isTheSameAs': function(){return null;}}, // stub
+                row2FakeProp = {'dumb': 1}, // stub
+                row3FakeProp = {'dumb': 2}; // stub
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
+            spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
+            spyOn(row3, 'getBogusTableProp').andCallFake(function(){return row3FakeProp;});
+            // returns false when given the second row fake
+            spyOn(row1FakeProp, 'isTheSameAs').andCallFake(function(obj){return obj !== row2FakeProp;});
+            table.content.elements = [row1, row2, row3];
+            expect(table.getBogusTableProp('prop name')).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row2.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row3.getBogusTableProp).not.toHaveBeenCalledWith('prop name');
+            expect(row1FakeProp.isTheSameAs).toHaveBeenCalledWith(row2FakeProp);
+            expect(row1FakeProp.isTheSameAs).not.toHaveBeenCalledWith(row3FakeProp);
+        });
+
+        it('returns null, if table is fragmented and has three rows and the third row has different (from the previous rows\') property', function(){
+            var row1FakeProp = {'isTheSameAs': function(){return null;}},
+                row2FakeProp = {'dumb': 2},
+                row3FakeProp = {'dumb': 3};
+            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
+            spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
+            spyOn(row3, 'getBogusTableProp').andCallFake(function(){return row3FakeProp;});
+            // this spy returns true for row2FakeProp and false otherwise
+            spyOn(row1FakeProp, 'isTheSameAs').andCallFake(function(prop){return prop === row2FakeProp;});
+            table.content.elements = [row1, row2, row3];
+            expect(table.getBogusTableProp('prop name')).toBe(null);
+            expect(table.isFragmented).toHaveBeenCalled();
+            expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row2.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row3.getBogusTableProp).toHaveBeenCalledWith('prop name');
+            expect(row1FakeProp.isTheSameAs).toHaveBeenCalledWith(row2FakeProp);
+            expect(row1FakeProp.isTheSameAs).toHaveBeenCalledWith(row3FakeProp);
+        });
+
 
 
 

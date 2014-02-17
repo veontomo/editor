@@ -238,37 +238,48 @@ function Row() {
 	 * If the row corresponds to a framed row (a row for which method
 	 * __Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,
 	 * null otherwise.
-	 * @param  {String}    prop         name of the property to return
+	 * @method  getBogusCellProp
+	 * @param  {String}    prop         name of the property to return (intended values: "style" or "attr")
 	 * @return {Object}
 	 */
 	this.getBogusCellProp = function(prop){
 		return this.onlyTableInside() ? this.getFirst()[prop] : null;
 	};
 
+	/**
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then requested property name of the table inside the cell inside the row is returned,
+	 * null otherwise.
+	 * @method  getBogusTableProp
+	 * @param  {String}         prop        name of the property to return (intended values: "style" or "attr")
+	 * @return {Object|null}
+	 */
+	this.getBogusTableProp = function(prop){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst()[prop] : null;
+	};
 
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method
-	 * __Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,
-	 * null otherwise.
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then style of the table inside the cell is returned, null otherwise.
+	 * This is an alias for __Row::getBogusTableProp('style')__.
 	 * @method  getBogusTableStyle
 	 * @return  {Style|null}
 	 */
 	this.getBogusTableStyle = function(){
-		// inside the row there is a cell, inside which there is a table
-		return this.onlyTableInside() ? this.getFirst().getFirst().style : null;
+		return this.getBogusTableProp('style');
 	};
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method
-	 * __Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,
-	 * null otherwise.
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then attribute of the table inside the cell is returned, null otherwise.
+	 * This is an alias for __Row::getBogusTableProp('attr')__.
 	 * @method  getBogusTableAttr
 	 * @return  {Attributes|null}
 	 */
 	this.getBogusTableAttr = function(){
-		// inside the row there is a cell, inside which there is a table
-		return this.onlyTableInside() ? this.getFirst().getFirst().attr : null;
+		return this.getBogusTableProp('attr');
 	};
 
 

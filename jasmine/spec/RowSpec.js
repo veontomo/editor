@@ -264,50 +264,54 @@ describe('Row-related functionality:', function(){
     });
 
     describe('Row::getBogusCellAttr(): gets attributes of the bogus cell', function(){
-        it('returns null, if onlyTableInside returns false', function(){
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
-            expect(row.getBogusCellAttr()).toBe(null);
+        it('calls Row::getBogusCellProp("attr")', function(){
+            spyOn(row, 'getBogusCellProp');
+            row.getBogusCellAttr();
+            expect(row.getBogusCellProp).toHaveBeenCalledWith('attr');
         });
-        it('returns cell style, if onlyTableInside returns true', function(){
-            var attr = new Attributes();
-            attr.funny = 'very';
+    });
+
+    describe('Row::getBogusCellProp(): gets requested property of the bogus cell', function(){
+        it('calls Row::getBogusCellProp("style")', function(){
+            spyOn(row, 'getBogusCellProp');
+            row.getBogusCellStyle();
+            expect(row.getBogusCellProp).toHaveBeenCalledWith('style');
+        });
+    });
+
+    describe('Row::getBogusTableProp(): gets requested property of the bogus table', function(){
+        it('returns null, if onlyTableInside returns null', function(){
+            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+            expect(row.getBogusTableProp()).toBe(null);
+            expect(row.onlyTableInside).toHaveBeenCalled();
+        });
+        it('returns requested property, if onlyTableInside returns true', function(){
+            var c = new Cell(),
+                dumbProp = {'content': 'for dumb property'},
+                t = {'fakeProp': dumbProp};
             spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            cell1.attr = attr;
-            expect(row.getBogusCellAttr()).toBe(attr);
+            spyOn(row, 'getFirst').andCallFake(function(){return c;});
+            spyOn(c, 'getFirst').andCallFake(function(){return t;});
+            expect(row.getBogusTableProp('fakeProp')).toBe(dumbProp);
+            expect(row.onlyTableInside).toHaveBeenCalled();
+            expect(row.getFirst).toHaveBeenCalled();
+            expect(c.getFirst).toHaveBeenCalled();
         });
     });
 
     describe('Row::getBogusTableStyle(): gets styles of the bogus table', function(){
-        it('returns null, if onlyTableInside returns false', function(){
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
-            expect(row.getBogusTableStyle()).toBe(null);
-        });
-        it('returns table style, if onlyTableInside returns true', function(){
-            var st = new Style('modus: vivendis'),
-                table = new Table();
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            spyOn(cell1, 'getFirst').andCallFake(function(){return table;});
-            table.style = st;
-            expect(row.getBogusTableStyle()).toBe(st);
+        it('calls Row::getBogusTableProp("style")', function(){
+            spyOn(row, 'getBogusTableProp');
+            row.getBogusTableStyle();
+            expect(row.getBogusTableProp).toHaveBeenCalledWith('style');
         });
     });
 
-    describe('Row::getBogusCellAttr(): gets attributes of the bogus cell', function(){
-        it('returns null, if onlyTableInside returns false', function(){
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
-            expect(row.getBogusCellAttr()).toBe(null);
-        });
-        it('returns cell style, if onlyTableInside returns true', function(){
-            var attr = new Attributes(),
-                table = new Table();
-            attr.funny = 'very';
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            spyOn(cell1, 'getFirst').andCallFake(function(){return table;});
-            table.attr = attr;
-            expect(row.getBogusTableAttr()).toBe(attr);
+    describe('Row::getBogusTableAttr(): gets attributes of the bogus table', function(){
+        it('calls Row::getBogusTableProp("attr")', function(){
+            spyOn(row, 'getBogusTableProp');
+            row.getBogusTableAttr();
+            expect(row.getBogusTableProp).toHaveBeenCalledWith('attr');
         });
     });
 

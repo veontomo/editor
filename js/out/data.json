@@ -1315,10 +1315,12 @@
             "file": "classes\\row.js",
             "line": 237,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusCellProp",
             "params": [
                 {
                     "name": "prop",
-                    "description": "name of the property to return",
+                    "description": "name of the property to return (intended values: \"style\" or \"attr\")",
                     "type": "String"
                 }
             ],
@@ -1331,7 +1333,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 250,
+            "line": 251,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -1344,13 +1346,33 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 262,
+            "line": 263,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
             "return": {
                 "description": "",
                 "type": "Attributes|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 275,
+            "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then requested property name of the table inside the cell inside the row is returned,\nnull otherwise.",
+            "itemtype": "method",
+            "name": "getBogusTableProp",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "name of the property to return (intended values: \"style\" or \"attr\")",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object|null"
             },
             "class": "Row",
             "module": "HtmlElements"
@@ -2424,6 +2446,24 @@
             "module": "HtmlElements"
         },
         {
+            "file": "classes\\table.js",
+            "line": 526,
+            "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
+            "params": [
+                {
+                    "name": "propName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
             "file": "classes\\tag.js",
             "line": 16,
             "description": "Tag name.To be set explicitely in child classes.",
@@ -3463,8 +3503,8 @@
             "line": " classes\\property.js:21"
         },
         {
-            "message": "Missing item type\nIf the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
-            "line": " classes\\row.js:237"
+            "message": "Missing item type\nIf the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
+            "line": " classes\\table.js:526"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

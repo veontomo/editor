@@ -374,7 +374,8 @@ function Row() {
 	 * If the row corresponds to a framed row (a row for which method
 	 * __Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,
 	 * null otherwise.
-	 * @param  {String}    prop         name of the property to return
+	 * @method  getBogusCellProp
+	 * @param  {String}    prop         name of the property to return (intended values: &quot;style&quot; or &quot;attr&quot;)
 	 * @return {Object}
 	 */
 	this.getBogusCellProp = function(prop){
@@ -405,6 +406,18 @@ function Row() {
 	this.getBogusTableAttr = function(){
 		// inside the row there is a cell, inside which there is a table
 		return this.onlyTableInside() ? this.getFirst().getFirst().attr : null;
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then requested property name of the table inside the cell inside the row is returned,
+	 * null otherwise.
+	 * @method  getBogusTableProp
+	 * @param  {String}         prop        name of the property to return (intended values: &quot;style&quot; or &quot;attr&quot;)
+	 * @return {Object|null}
+	 */
+	this.getBogusTableProp = function(prop){
+		return this.onlyTableInside() ? this.getFirst().getFirst()[prop] : null;
 	};
 
 

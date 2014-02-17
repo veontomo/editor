@@ -526,7 +526,8 @@ function Table() {
 	/**
 	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
-	 * @param  {String}       propName
+	 * @method  getBogusCellProp
+	 * @param  {String}      propName            requested property (supposed to be "style" or "attr")
 	 * @return {Object|null}
 	 */
 	this.getBogusCellProp = function(propName){
@@ -547,6 +548,34 @@ function Table() {
 			}
 		}
 		return firstRowProp;
+	};
+
+	/**
+	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
+	 * the same for all rows. Otherwise, null is returned.
+	 * @method  getBogusTableProp
+	 * @param   {String}     propName            requested property (supposed to be "style" or "attr")
+	 * @return  {Object|null}
+	 */
+	this.getBogusTableProp = function(propName){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var rowNum = this.rowNum(),
+			firstRow = this.getFirst(),
+			firstRowProp, i, currentRowProp;
+		firstRowProp = firstRow.getBogusTableProp(propName);
+		if (rowNum === 1){
+			return firstRowProp;
+		}
+		for (i = 1; i < rowNum; i++){
+			currentRowProp = this.getElem(i).getBogusTableProp(propName);
+			if (!firstRowProp.isTheSameAs(currentRowProp)){
+				return null;
+			}
+		}
+		return firstRowProp;
+
 	};
 }
 Table.prototype = Object.create(Tag.prototype);
