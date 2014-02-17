@@ -24,8 +24,9 @@ describe('Attribute-related functionality', function(){
         });
 
         it('prevents accidental call without "new"', function(){
-            attr = Attributes();
-            expect(attr instanceof Attributes).toBe(true);
+            var attr2 = Attributes('attr');
+            expect(attr2 instanceof Attributes).toBe(true);
+
         });
     });
     describe('Attributes::toString(): generates string representation', function(){
