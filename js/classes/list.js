@@ -47,7 +47,7 @@ function List(listType) {
 	 * @return      {Number}   an integer number
 	 */
 	this.itemNum = function(){
-		return this.content.length();
+		return this.length();
 	};
 
 	/**
@@ -74,9 +74,9 @@ function List(listType) {
 	 */
 	this.insertItemAt = function(pos, item){
 		if (item instanceof ListItem){
-			this.content.insertElemAt(pos, item);
+			this.insertElemAt(pos, item);
 		} else {
-			throw new Error('The argument is not a ListItem instance!');
+			throw new Error('The item to insert is not a ListItem instance!');
 		}
 
 	};

@@ -1,48 +1,50 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine*/
 
-xdescribe('List-related functionality:', function(){
+describe('List-related functionality:', function(){
     var l, li1, li2, li3, li4;
 
     beforeEach(function(){
         l = new List();
     });
 
-    describe('inherits properly from Tag() class', function(){
+    describe('List::constructor(): inherits from Tag() class', function(){
         it('does not affect parent class if an inherited property is changed', function(){
             l.attr.width = 102;
             expect((new List()).attr.width).not.toBe(102);
             l.style.width = 34;
             expect((new List()).style.width).not.toBe(34);
         });
+        it('List is an instance of List class', function(){
+            expect(l instanceof List).toBe(true);
+        });
+        it('List is an instance of Tag class', function(){
+            expect(l instanceof Tag).toBe(true);
+        });
+
     });
 
 
     describe('Basic properties:', function(){
         it('A list object contains nesessary attributes', function(){
-            expect(l.hasOwnProperty('type')).toBe(true);
-            expect(l.type === 'ol' || l.type === 'ul').toBe(true);
-            expect(l.hasOwnProperty('getType')).toBe(true);
-            expect(typeof l.getType).toBe('function');
+            expect(l.hasOwnProperty('name')).toBe(true);
+            expect(l.name === 'ol' || l.name === 'ul').toBe(true);
             expect(l.hasOwnProperty('attr')).toBe(true);
             expect(l.hasOwnProperty('style')).toBe(true);
-            expect(l.hasOwnProperty('items')).toBe(true);
-            expect(Array.isArray(l.items)).toBe(true);
-        });
-
-        it('gives the number of items in the list', function(){
-            l.items = [10, [], "33", {}];
-            expect(l.itemNum()).toBe(4);
-            l.items = [];
-            expect(l.itemNum()).toBe(0);
-            l.items = ["first", [{'a':2}, 'aa']];
-            expect(l.itemNum()).toBe(2);
-            l.items = [[[["core"]]]];
-            expect(l.itemNum()).toBe(1);
+            expect(l.hasOwnProperty('content')).toBe(true);
         });
     });
+    describe('List::itemNum(): gives the number of items in the list', function(){
+        it('calls parent method Tag::length()', function(){
+            spyOn(l, 'length').andCallFake(function(){
+                return 'item number';
+            });
+            expect(l.itemNum()).toBe('item number');
+            expect(l.length).toHaveBeenCalled();
+        });
 
-    describe('appends items to the list', function(){
+    });
+    describe('List::appendItem(): appends items to the list', function(){
         it('throws an error if appending not a ListItem object', function(){
             l.items = [];
             expect(function(){
@@ -50,114 +52,30 @@ xdescribe('List-related functionality:', function(){
             }).toThrow('The argument is not a ListItem instance!');
             expect(l.itemNum()).toBe(0);
         });
-        it('appends a ListItem object to the empty item list', function(){
+        it('calls parent method Tag::appendElem', function(){
             var li = new ListItem();
-            l.items = [];
+            spyOn(l, 'appendElem');
             l.appendItem(li);
-            expect(l.itemNum()).toBe(1);
-        });
-        it('appends a ListItem object', function(){
-            var li = new ListItem();
-            l.items = ['already', 'inserted', 'elements'];
-            l.appendItem(li);
-            expect(l.itemNum()).toBe(4);
+            expect(l.appendElem).toHaveBeenCalledWith(li);
         });
     });
 
-    describe('inserts item into a given position', function(){
-        it('throws an error if the index is negative', function(){
+    describe('List::insertItemAt(): inserts item into a given position', function(){
+        it('throws an error if trying to insert non ListItem instance', function(){
             expect(function(){
-                l.insertItemAt(-2, "whatever");
-            }).toThrow('Wrong index to insert the item at!');
-        });
-        it('throws an error if index is to big', function(){
-            spyOn(l, 'itemNum').andCallFake(function(){
-                return 12;
-            });
-            expect(function(){
-                l.insertItemAt(15, "whatever");
-            }).toThrow('Wrong index to insert the item at!');
-        });
-        it('throws an error if index is different from 0 when inserting into the empty list', function(){
-            l.items = [];
-            expect(function(){
-                l.insertItemAt(1, "whatever");
-            }).toThrow('Wrong index to insert the item at!');
-            expect(function(){
-                l.insertItemAt(-1, "whatever");
-            }).toThrow('Wrong index to insert the item at!');
-        });
-
-        it('throws an error if trying to insert non ListItem instance at a valid position', function(){
-            spyOn(l, 'itemNum').andCallFake(function(){return 5;});
-            expect(function(){
-                l.insertItemAt(0, "not a ListItem");
+                l.insertItemAt('whatever position', "not a ListItem");
             }).toThrow('The item to insert is not a ListItem instance!');
-            expect(function(){
-                l.insertItemAt(3, "not a ListItem");
-            }).toThrow('The item to insert is not a ListItem instance!');
-            expect(function(){
-                l.insertItemAt(5, "not a ListItem");
-            }).toThrow(); // inserting at the end is delegated to the List::appendItem() method
         });
 
-        it('inserts at the beginning of non-empty list', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            l.items = [li1, li2, li3];
-            l.insertItemAt(0, li4);
-            expect(l.itemNum()).toBe(4);
-            expect(l.items[0]).toBe(li4);
-            expect(l.items[1]).toBe(li1);
-            expect(l.items[2]).toBe(li2);
-            expect(l.items[3]).toBe(li3);
-        });
-
-        it('inserts in the middle of non-empty list', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            l.items = [li1, li2, li3];
-            l.insertItemAt(1, li4);
-            expect(l.itemNum()).toBe(4);
-            expect(l.items[0]).toBe(li1);
-            expect(l.items[1]).toBe(li4);
-            expect(l.items[2]).toBe(li2);
-            expect(l.items[3]).toBe(li3);
-        });
-
-        it('inserts just before-the-end non-empty list', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            l.items = [li1, li2, li3];
-            l.insertItemAt(2, li4);
-            expect(l.itemNum()).toBe(4);
-            expect(l.items[0]).toBe(li1);
-            expect(l.items[1]).toBe(li2);
-            expect(l.items[2]).toBe(li4);
-            expect(l.items[3]).toBe(li3);
-        });
-
-        it('calls "appendItem" when inserting at the end of the list', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            spyOn(l, 'appendItem').andCallFake(function(){
-                return null;
-            });
-            l.items = [li1, li2, li3];
-            l.insertItemAt(3, "anything");
-            expect(l.appendItem).toHaveBeenCalledWith("anything");
+        it('calls parent method Tag::insertElemAt()', function(){
+            li = new ListItem();
+            spyOn(l, 'insertElemAt');
+            l.insertItemAt('pos', li);
+            expect(l.insertElemAt).toHaveBeenCalledWith('pos', li);
         });
     });
 
-    describe('creates html representation of the list', function(){
+    xdescribe('creates html representation of the list', function(){
         it('gives empty string if the list has no items', function(){
             l.items = [];
             expect(l.toHtml()).toBe('');
