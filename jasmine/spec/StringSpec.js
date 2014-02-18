@@ -1,68 +1,481 @@
 /*jslint plusplus: true, white: true */
 /*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List*/
 
-describe('Constructs a Tag object from its html representation', function(){
-	var str, tag;
-    it('Generates a Tag object', function(){
-        str  = '<customtag>inside the first tag</customtag>';
-        tag = str.createTagFromHtml();
-        expect(tag instanceof Tag).toBe(true);
+describe('String-related functionality', function(){
+
+    describe('String::createTagFromHtml(): constructs a Tag object from its html representation', function(){
+        var str, tag;
+        beforeEach(function(){
+            str = '<customtag margin="92" lesson="modular" finish="no" id="logo" style="margin:92; modular: yes; on-load: finish">content</customtag>';
+            tag = str.createTagFromHtml();
+        });
+
+        it('Generates a Tag object from a custom tag', function(){
+            expect(tag instanceof Tag).toBe(true);
+        });
+        it('Populates Tag::name', function(){
+            expect(tag.name).toBe('customtag');
+        });
+        it('Populates Tag::styles', function(){
+            expect(tag.style.margin).toBe(92);
+            expect(tag.style.modular).toBe('yes');
+            expect(tag.style['on-load']).toBe('finish');
+        });
+        it('Tag::style contains only imposed properties', function(){
+            var prop = tag.style,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('margin');
+            expect(propNames[1]).toBe('modular');
+            expect(propNames[2]).toBe('on-load');
+        });
+        it('Populates tag::attr', function(){
+            expect(tag.attr.margin).toBe('92');
+            expect(tag.attr.lesson).toBe('modular');
+            expect(tag.attr.finish).toBe('no');
+            expect(tag.attr.id).toBe('logo');
+        });
+        it('Tag::attr contains only imposed properties', function(){
+            var prop = tag.attr,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('finish');
+            expect(propNames[1]).toBe('id');
+            expect(propNames[2]).toBe('lesson');
+            expect(propNames[3]).toBe('margin');
+
+        });
+        it('Recognizes nested tags', function(){
+            str  = '<customtag>inside the first tag<nestedtag>inside the nested tag</nestedtag></customtag>';
+            tag = str.createTagFromHtml();
+            expect(tag.length()).toBe(2);
+            expect(tag.getElem(0)).toBe('inside the first tag');
+            expect(tag.getElem(1) instanceof Tag).toBe(true);
+            expect(tag.getElem(1).name).toBe('nestedtag');
+            expect(tag.getElem(1).length()).toBe(1);
+            expect(tag.getElem(1).getElem(0)).toBe('inside the nested tag');
+        });
     });
 
-    it('Generates a Tag object even if a subclass exists', function(){
-        str  = '<table><tr><td>inside the first tag</td></tr></table>';
-        tag = str.createTagFromHtml();
-        expect(tag instanceof Tag).toBe(true);
-        expect(tag instanceof Table).toBe(false);
+    describe('String::createCellFromHtml(): constructs a Cell object from its html representation', function(){
+        var cellHtml, cell, st, attr;
+        beforeEach(function(){
+            cellHtml = '<td style="color: red; width: 1; strange-attr: haha" underlined="why not" width="98">cell</td>';
+            cell = cellHtml.createCellFromHtml();
+            st = cell.style;
+            attr = cell.attr;
+        });
+        it('Populates Cell::style of the cell', function(){
+            expect(st.color).toBe('red');
+            expect(st.width).toBe(1);
+            expect(st['strange-attr']).toBe('haha');
+        });
+        it('Cell::style contains only imposed properties', function(){
+            var prop = st,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+
+            expect(propNames[0]).toBe('color');
+            expect(propNames[1]).toBe('strange-attr');
+            expect(propNames[2]).toBe('width');
+        });
+
+        it('Populates Cell::attr of the cell', function(){
+            expect(attr.underlined).toBe('why not');
+            expect(attr.width).toBe('98');
+        });
+        it('Cell::attr contains only imposed properties', function(){
+            var prop = attr,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+
+            expect(propNames[0]).toBe('underlined');
+            expect(propNames[1]).toBe('width');
+        });
+
+        it('Cell::content has a string if the target tag contains only one string', function(){
+            expect(cell.length()).toBe(1);
+            expect(cell.getElem(0)).toBe('cell');
+        });
+        it('Cell::content contains two objects if the target tag contains two divs', function(){
+            cellHtml = '<td><div>a</div><div>b</div></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.length()).toBe(2);
+            expect(cell.getElem(0).name).toBe('div');
+            expect(cell.getElem(0).getElem(0)).toBe('a');
+            expect(cell.getElem(1).name).toBe('div');
+            expect(cell.getElem(1).getElem(0)).toBe('b');
+        });
+
+        it('Cell::content has a string and objects, if the target tag contains a string, a div and a custom tag', function(){
+            cellHtml = '<td><div>a</div>plain text<customtag>b</customtag></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.length()).toBe(3);
+            expect(cell.getElem(0).name).toBe('div');
+            expect(cell.getElem(0).getElem(0)).toBe('a');
+            expect(cell.getElem(1)).toBe('plain text');
+            expect(cell.getElem(2).name).toBe('customtag');
+            expect(cell.getElem(2).getElem(0)).toBe('b');
+        });
+
+        it('Cell::content is empty if the target tag contains only white spaces', function(){
+            cellHtml = '<td>    </td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.content.elements.length).toBe(0);
+        });
+
+        it('Cell::content contains one objects if the target tag contains white spaces before div', function(){
+            cellHtml = '<td>    <div>a</div></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.length()).toBe(1);
+            expect(cell.getElem(0).name).toBe('div');
+            expect(cell.getElem(0).getElem(0)).toBe('a');
+        });
+
+
+
+        it('recognizes a nested table inside a cell', function(){
+            cellHtml = '<td><table><tr><td></td></tr></table></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.length()).toBe(1);
+            expect(cell.getElem(0).hasOwnProperty('getType')).toBe(true);
+            expect(cell.getElem(0).getType()).toBe('Table');
+
+            cellHtml = '<td>text outside<table><tr><td></td></tr></table></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.length()).toBe(2);
+            expect(cell.getElem(0)).toBe('text outside');
+            expect(cell.getElem(1).name).toBe('table');
+
+            cellHtml = '<td><div>a</div><div>b</div><table><tr><td></td></tr></table></td>';
+            cell = cellHtml.createCellFromHtml();
+            expect(cell.content.length()).toBe(3);
+            expect(cell.getElem(0).name).toBe('div');
+            expect(cell.getElem(0).getElem(0)).toBe('a');
+            expect(cell.getElem(1).name).toBe('div');
+            expect(cell.getElem(1).getElem(0)).toBe('b');
+            expect(cell.getElem(2).name).toBe('table');
+        });
+    });
+
+    describe('String::createRowFromHtml(): constructs a Row object from its html representation', function(){
+        var rowHtml, row, st, attr;
+        beforeEach(function(){
+            rowHtml = '<tr style="color: red; width: 1; strange-attr: haha" color="red" width="1" strange-attr="haha"><td></td><td></td><td></td><td></td><td></td></tr>';
+            row = rowHtml.createRowFromHtml();
+            st = row.style;
+            attr = row.attr;
+        });
+        it('Populates Row::style of the row', function(){
+            expect(st.color).toBe('red');
+            expect(st.width).toBe(1);
+            expect(st['strange-attr']).toBe('haha');
+        });
+
+        it('Cell::style contains only imposed properties', function(){
+            var prop = st,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('color');
+            expect(propNames[1]).toBe('strange-attr');
+            expect(propNames[2]).toBe('width');
+        });
+
+
+        it('Populates Row::attr of the row', function(){
+            expect(attr.color).toBe('red');
+            expect(attr.width).toBe("1");
+            expect(attr['strange-attr']).toBe('haha');
+        });
+
+        it('Cell::attr contains only imposed properties', function(){
+            var prop = attr,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('color');
+            expect(propNames[1]).toBe('strange-attr');
+            expect(propNames[2]).toBe('width');
+        });
+
+        describe('Row::cellNum(): gets the number of cells in the row', function(){
+            // var rowHtml, row;
+            it('Row::cellNum(): returns zero for empty row', function(){
+                rowHtml = '<tr></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(0);
+            });
+            it('Row::cellNum(): returns one for a row with one empty cell ', function(){
+                rowHtml = '<tr><td></td></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(1);
+            });
+            it('Row::cellNum(): returns one for a row with one non-empty cell ', function(){
+                rowHtml = '<tr><td>text<div>inside div</div></td></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(1);
+            });
+            it('Row::cellNum(): returns 2 for a row with two empty cells', function(){
+                rowHtml = '<tr><td></td><td></td></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(2);
+            });
+            it('Row::cellNum(): returns 2 for a row with two non-empty cells', function(){
+                rowHtml = '<tr><td>hello</td><td><span>ciao!</span></td></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(2);
+            });
+            it('Row::cellNum(): returns 5 for a row with two non-empty cells', function(){
+                rowHtml = '<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>';
+                row = rowHtml.createRowFromHtml();
+                expect(row.content.elements.length).toBe(5);
+            });
+        });
     });
 
 
-    it('Gets the tag name', function(){
-        str  = '<customtag>content</customtag>';
-        tag = str.createTagFromHtml();
-        expect(tag instanceof Tag).toBe(true);
-        expect(tag.name).toBe('customtag');
-        expect(tag.length()).toBe(1);
-        expect(tag.getElem(0)).toBe('content');
+    describe('String::createTableFromHtml(): constructs a Table object from its html representation', function(){
+        var htmlTable, table, st, attr;
+        beforeEach(function(){
+             htmlTable = '<table style="color:red;border-style:solid" data-marker="30" border="table border"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>';
+             table = htmlTable.createTableFromHtml();
+             st = table.style;
+             attr = table.attr;
+        });
+        it('creates Table object from a string', function(){
+            expect(table instanceof Table).toBe(true);
+        });
+
+        it('Populates Table::style of the table', function(){
+            expect(st.color).toBe('red');
+            expect(st['border-style']).toBe('solid');
+        });
+
+        it('Table::style contains only imposed properties', function(){
+            var prop = st,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('border-style');
+            expect(propNames[1]).toBe('color');
+        });
+
+
+        it('Populates Table::attr of the table', function(){
+            expect(attr.border).toBe('table border');
+            expect(attr['data-marker']).toBe('30');
+        });
+
+        it('Table::attr contains only imposed properties', function(){
+            var prop = attr,
+                propNames = Object.getOwnPropertyNames(prop).filter(function(el){
+                    return (prop[el] && ((typeof prop[el]) !== 'function'));
+                }).sort();
+            expect(propNames[0]).toBe('border');
+            expect(propNames[1]).toBe('data-marker');
+        });
+
+        it('Table::content is empty for empty table', function(){
+            htmlTable = '<table></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(0);
+            htmlTable = '<table><tbody></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(0);
+        });
+
+        it('Table::content has one element for 1 x 1 table', function(){
+            htmlTable = '<table><tbody><tr><td></td></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(1);
+        });
+
+        it('Table::content has one element for 1 x 2 table', function(){
+            htmlTable = '<table><tbody><tr><td>cell 1</td><td>cell 2</td></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(1);
+        });
+
+
+        it('Table::content has two elements for 2 x 1 table', function(){
+            htmlTable = '<table><tbody><tr><td>cell 1</td></tr><tr><td>cell 2</td></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(2);
+        });
+
+        it('Table::content has two elements for 2 x 0 table', function(){
+            htmlTable = '<table><tbody><tr></tr><tr></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(2);
+        });
+
+
+        it('Table::content has two elements for 2 x 3 table', function(){
+            htmlTable = '<table><tbody><tr><td>cell 1 1</td><td>cell 1 2</td><td>cell 1 3</td></tr>\
+                <tr><td>cell 2 1</td><td>cell 2 2</td><td>cell 2 3</td></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(2);
+        });
+
+        it('Table::content has three elements for 4 x 1 table', function(){
+            htmlTable = '<table><tbody><tr><td>cell 1 1</td></tr>\
+                <tr><td>cell 2 1</td></tr>\
+                <tr><td>cell 3 1</td></tr>\
+                <tr><td>cell 4 1</td></tr></tbody></table>';
+            table = htmlTable.createTableFromHtml();
+            expect(table.content.elements.length).toBe(4);
+        });
+
+
+        it('recognizes framed table with all styles and attributes', function(){
+            // a framed table with 2 rows and 3 cells in each row
+            var framedTable = '<table cohesion="Retinoid" thermal-modulation="87"\
+                                    style="embrace: metrics; scenarios: orthogonal">  \
+                <tbody>  \
+                    <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
+                        <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
+                            style="total: interactive; secured: line; next: generation"> \
+                        <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
+                            <tbody> \
+                                <tr style="structure: executive; attitude: oriented" secured="line">  \
+                                    <td  sharable="explicit"  style="benchmark: 29px;margin: 0px;">Row 1 cell 1</td> \
+                                    <td  dynamic="Focused"  style="firmware: 13.21">Row 1 cell 2</td> \
+                                    <td  function="Progressive" moratorium="hybrid" \
+                                        style="service-desk: 29px;capacity: 0px;">Row 1 cell 3</td> \
+                                </tr> \
+                            </tbody> \
+                        </table> \
+                        </td> \
+                    </tr> \
+                    <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
+                        <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
+                            style="total: interactive; secured: line; next: generation"> \
+                        <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
+                            <tbody> \
+                                <tr style="workforce: oriented; width: 235px" focus="group">  \
+                                    <td  open="secondary"  style="upward: trending;margin: 0px;">Row 2 cell 1</td> \
+                                    <td  moratorium="dynamic"  style="firmware: composite; protocol: advanced">Row 2 cell 2</td> \
+                                    <td  complexity="regional" audio="lingual" \
+                                        style="Verbarmetabola: false; retiform: enabled;">Row 2 cell 3</td> \
+                                </tr> \
+                            </tbody> \
+                        </table> \
+                        </td> \
+                    </tr> \
+                </tbody> \
+            </table>',
+                tableObj        = framedTable.createTableFromHtml(),
+                tableStyle      = tableObj.style,
+                tableAttr       = tableObj.attr,
+                bogusRowAttr    = tableObj.bogusRowAttr,
+                bogusRowStyle   = tableObj.bogusRowStyle,
+                bogusCellAttr   = tableObj.bogusCellAttr,
+                bogusCellStyle  = tableObj.bogusCellStyle,
+                bogusTableAttr  = tableObj.bogusTableAttr,
+                bogusTableStyle = tableObj.bogusTableStyle,
+                row1, row1Style, row1Attr, row2, row2Style, row2Attr,
+                c11, c12, c13, c21, c22, c23;
+
+                expect(tableObj instanceof Table).toBe(true);
+                expect(tableObj.isFragmented()).toBe(true);
+
+                console.log(tableObj.getElem(0).style);
+                console.log(tableObj.getElem(1).style);
+                console.log(tableObj.getElem(0).style.isTheSameAs(tableObj.getElem(1).style));
+
+                console.log(tableObj.getElem(0).attr);
+                console.log(tableObj.getElem(1).attr);
+                console.log(tableObj.getElem(0).attr.isTheSameAs(tableObj.getElem(1).attr));
+
+
+                expect(tableObj.length()).toBe(2);
+                expect(tableObj.colNum()).toBe(3);
+
+                expect(tableStyle.embrace).toBe('metrics');
+                expect(tableStyle.scenarios).toBe('orthogonal');
+                expect(tableAttr.cohesion).toBe('Retinoid');
+                expect(tableAttr['thermal-modulation']).toBe('87');
+
+                expect(bogusRowStyle['double-trouble']).toBe('no');
+                expect(bogusRowStyle.hierarchy).toBe('seamless');
+                expect(bogusRowAttr.reflex).toBe('low');
+                expect(bogusRowAttr.honor).toBe('20');
+
+                expect(bogusCellStyle.total).toBe('interactive');
+                expect(bogusCellStyle.secured).toBe('line');
+                expect(bogusCellStyle.next).toBe('generation');
+                expect(bogusCellAttr.multimedia).toBe('Organic and natural');
+                expect(bogusCellAttr.paradigm).toBe('Assimilated 24/7');
+
+                expect(bogusTableStyle.digitized).toBe('systematic');
+                expect(bogusTableStyle.synergy).toBe(20);
+                expect(bogusTableAttr.asynchronous).toBe('solid');
+
+                // row 1:
+                row1 = tableObj.getElem(0);
+                row1Style = row1.style;
+                row1Attr = row1.attr;
+                expect(row1Style.structure).toBe('executive');
+                expect(row1Style.attitude).toBe('oriented');
+                expect(row1Attr.secured).toBe('line');
+
+                c11 = row1.getElem(0);
+                expect(c11.style.benchmark).toBe(29);
+                expect(c11.style.margin).toBe('0px');
+                expect(c11.attr.sharable).toBe('explicit');
+                expect(c11.getElem(0)).toBe('Row 1 cell 1');
+
+                c12 = row1.getElem(1);
+                expect(c12.style.firmware).toBe(13.21);
+                expect(c12.attr.dynamic).toBe('Focused');
+                expect(c12.getElem(0)).toBe('Row 1 cell 2');
+
+                c13 = row1.getElem(2);
+                expect(c13.style['service-desk']).toBe(29);
+                expect(c13.style.capacity).toBe('0px');
+                expect(c13.attr.function).toBe('Progressive');
+                expect(c13.attr.moratorium).toBe('hybrid');
+                expect(c13.getElem(0)).toBe('Row 1 cell 3');
+
+                // row 2:
+                row2 = tableObj.getElem(1);
+                row2Style = row2.style;
+                row2Attr = row2.attr;
+                expect(row2Style.workforce).toBe('oriented');
+                expect(row2Style.width).toBe(235);
+                expect(row2Attr.focus).toBe('group');
+
+                c21 = row2.getElem(0);
+                expect(c21.style.upward).toBe('trending');
+                expect(c21.style.margin).toBe('0px');
+                expect(c21.attr.open).toBe('secondary');
+                expect(c21.getElem(0)).toBe('Row 2 cell 1');
+
+                c22 = row2.getElem(1);
+                expect(c22.style.firmware).toBe('composite');
+                expect(c22.style.protocol).toBe('advanced');
+                expect(c22.attr.moratorium).toBe('dynamic');
+                expect(c22.getElem(0)).toBe('Row 2 cell 2');
+
+
+                c23 = row2.getElem(2);
+                expect(c23.style.Verbarmetabola).toBe('false');
+                expect(c23.style.retiform).toBe('enabled');
+                expect(c23.attr.complexity).toBe('regional');
+                expect(c23.attr.audio).toBe('lingual');
+                expect(c23.getElem(0)).toBe('Row 2 cell 3');
+        });
     });
 
-    it('Gets the tag styles', function(){
-        str  = '<customTag style="margin:92; modular: yes; on-load: finish"></customTag>';
-        tag = str.createTagFromHtml();
-        expect(tag.style.margin).toBe(92);
-        expect(tag.style.modular).toBe('yes');
-        expect(tag.style['on-load']).toBe('finish');
-    });
 
-    it('Gets the tag attributes', function(){
-        str  = '<customTag margin="92" lesson="modular" finish="no"></customTag>';
-        tag = str.createTagFromHtml();
-        expect(tag.attr.margin).toBe('92');
-        expect(tag.attr.lesson).toBe('modular');
-        expect(tag.attr.finish).toBe('no');
-    });
 
-    it('Gets the nested tags', function(){
-        str  = '<customtag>inside the first tag<nestedtag>inside the nested tag</nestedtag></customtag>';
-        tag = str.createTagFromHtml();
-        expect(tag.length()).toBe(2);
-        expect(tag.getElem(0)).toBe('inside the first tag');
-        expect(tag.getElem(1) instanceof Tag).toBe(true);
-        expect(tag.getElem(1).name).toBe('nestedtag');
-        expect(tag.getElem(1).length()).toBe(1);
-        expect(tag.getElem(1).getElem(0)).toBe('inside the nested tag');
-    });
-
-    it('Recognizes table as a nested tag', function(){
-        str  = '<customtag>inside the first tag<table><tbody><tr><td>inside the nested tag</td></tr></tbody></table></customtag>';
-        tag = str.createTagFromHtml();
-        expect(tag.length()).toBe(2);
-        expect(tag.getElem(0)).toBe('inside the first tag');
-        expect(tag.getElem(1) instanceof Table).toBe(true);
-        expect(tag.getElem(1).name).toBe('table');
-    });
 });
-
+// this is not responsability of this String, but of Table
 xdescribe('Decides whether the html code corresponds to a framed table or not:', function(){
     it('1 x 1 table, without frame', function(){
        var tableHtml = '<table><tbody><tr><td>cell</td></tr></tbody></table>';
@@ -98,328 +511,9 @@ xdescribe('Decides whether the html code corresponds to a framed table or not:',
     });
 });
 
-describe('Converts html table cell in to Cell object', function(){
-    it('gets styles of the cell', function(){
-        var cellHtml = '<td style="color: red; width: 1; strange-attr: haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            st = cell.style;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-attr')).toBe(true);
-        expect(st['strange-attr']).toBe('haha');
-    });
-
-    it('gets attributes of the cell', function(){
-        var cellHtml = '<td color="red" width="1" strange-attr="haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            attr = cell.attr;
-        expect(attr.hasOwnProperty('color')).toBe(true);
-        expect(attr.color).toBe('red');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("1");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('haha');
-    });
-
-    it('gets both styles and attributes of the cell', function(){
-        var cellHtml = '<td underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"></td>',
-            cell = cellHtml.createCellFromHtml(),
-            st = cell.style,
-            attr = cell.attr;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-param')).toBe(true);
-        expect(st['strange-param']).toBe('haha');
-        expect(attr.hasOwnProperty('underlined')).toBe(true);
-        expect(attr.underlined).toBe('why not');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("98");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('wierd');
-    });
-
-    it('gets the correct content of the cell elements', function(){
-        var cellHtml = '<td>cell content</td>',
-            cell = cellHtml.createCellFromHtml();
-        expect(cell.length()).toBe(1);
-        expect(cell.getElem(0)).toBe('cell content');
-
-        cellHtml = '<td><div>a</div><div>b</div></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.length()).toBe(2);
-        expect(cell.getElem(0).name).toBe('div');
-        expect(cell.getElem(0).getElem(0)).toBe('a');
-        expect(cell.getElem(1).name).toBe('div');
-        expect(cell.getElem(1).getElem(0)).toBe('b');
-
-        cellHtml = '<td><div>a</div>plain text<div>b</div></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.length()).toBe(3);
-        expect(cell.getElem(0).name).toBe('div');
-        expect(cell.getElem(0).getElem(0)).toBe('a');
-        expect(cell.getElem(1)).toBe('plain text');
-        expect(cell.getElem(2).name).toBe('div');
-        expect(cell.getElem(2).getElem(0)).toBe('b');
-    });
-
-    it('recognizes a nested table inside a cell', function(){
-        var cellHtml = '<td><table><tr><td></td></tr></table></td>',
-            cell = cellHtml.createCellFromHtml();
-        expect(cell.length()).toBe(1);
-        expect(cell.getElem(0).hasOwnProperty('getType')).toBe(true);
-        expect(cell.getElem(0).getType()).toBe('Table');
-
-        cellHtml = '<td>text outside<table><tr><td></td></tr></table></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.length()).toBe(2);
-        expect(cell.getElem(0)).toBe('text outside');
-        expect(cell.getElem(1).name).toBe('table');
-
-        cellHtml = '<td><div>a</div><div>b</div><table><tr><td></td></tr></table></td>';
-        cell = cellHtml.createCellFromHtml();
-        expect(cell.content.length()).toBe(3);
-        expect(cell.getElem(0).name).toBe('div');
-        expect(cell.getElem(0).getElem(0)).toBe('a');
-        expect(cell.getElem(1).name).toBe('div');
-        expect(cell.getElem(1).getElem(0)).toBe('b');
-        expect(cell.getElem(2).name).toBe('table');
-    });
-});
-
-describe('Converts html row string into Row object', function(){
-    it('gets styles of the row', function(){
-        var rowHtml = '<tr style="color: red; width: 1; strange-attr: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            st = row.style;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-attr')).toBe(true);
-        expect(st['strange-attr']).toBe('haha');
-    });
-
-    it('gets attributes of the row', function(){
-        var rowHtml = '<tr color="red" width="1" strange-attr="haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            attr = row.attr;
-        expect(attr.hasOwnProperty('color')).toBe(true);
-        expect(attr.color).toBe('red');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("1");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('haha');
-    });
-
-    it('gets both styles and attributes of the row', function(){
-        var rowHtml = '<tr underlined="why not" width="98" strange-attr="wierd" style="color: red; width: 1; strange-param: haha"><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml(),
-            st = row.style,
-            attr = row.attr;
-        expect(st.hasOwnProperty('color')).toBe(true);
-        expect(st.color).toBe('red');
-        expect(st.hasOwnProperty('width')).toBe(true);
-        expect(st.width).toBe(1);
-        expect(st.hasOwnProperty('strange-param')).toBe(true);
-        expect(st['strange-param']).toBe('haha');
-        expect(attr.hasOwnProperty('underlined')).toBe(true);
-        expect(attr.underlined).toBe('why not');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe("98");
-        expect(attr.hasOwnProperty('strange-attr')).toBe(true);
-        expect(attr['strange-attr']).toBe('wierd');
-    });
-
-    it('gets correct number of the cells in non-empty row', function(){
-        var rowHtml = '<tr><td></td><td></td><td></td><td></td><td></td></tr>',
-            row = rowHtml.createRowFromHtml();
-        expect(row.cellNum()).toBe(5);
-    });
-
-    it('gets correct number of the cells in empty row', function(){
-        var rowHtml = '<tr></tr>',
-            row = rowHtml.createRowFromHtml();
-        expect(row.cellNum()).toBe(0);
-    });
-});
-
-describe('Transform html table into an object:', function(){
-    it('creates Table object if data-marker attribute is not set', function(){
-        var htmlTable = '<table><tbody><tr><td></td><td></td></tr></tbody></table>',
-            obj1 = htmlTable.createTableFromHtml();
-        expect(obj1.getType()).toBe('Table');
-    });
-
-    it('retrieves styles of the Table object', function(){
-        var htmlTable = '<table style="color:red;"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = htmlTable.createTableFromHtml();
-        expect(obj1.getType()).toBe('Table');
-        expect(obj1.style.hasOwnProperty('color')).toBe(true);
-        expect(obj1.style.color).toBe('red');
-    });
-
-    it('retrieves multiple styles of the Table object', function(){
-        var htmlTable = '<table style="color:red;border-style:solid"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = htmlTable.createTableFromHtml(),
-            style = obj1.style;
-        expect(obj1.getType()).toBe('Table');
-        expect(style.hasOwnProperty('color')).toBe(true);
-        expect(style.color).toBe('red');
-        expect(style.hasOwnProperty('border-style')).toBe(true);
-        expect(style['border-style']).toBe('solid');
-    });
-
-    it('retrieves attributes of the Table object', function(){
-        var htmlTable = '<table style="color:red;" width="30" border="table border"><tbody><tr style="first row style"><td></td><td></td></tr></tbody></table>',
-            obj1 = htmlTable.createTableFromHtml(),
-            attr = obj1.attr;
-        expect(obj1.getType()).toBe('Table');
-        expect(attr.hasOwnProperty('width')).toBe(true);
-        expect(attr.width).toBe('30');
-        expect(attr.hasOwnProperty('border')).toBe(true);
-        expect(attr.border).toBe('table border');
-    });
-
-    it('retrieves rows', function(){
-        var htmlTable = '<table data-marker="table"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>',
-        	obj = htmlTable.createTableFromHtml();
-        expect(obj.getType()).toBe('Table');
-        expect(obj.rowNum()).toBe(2);
 
 
-    });
 
-    xit('recognizes framed table with all styles and attributes', function(){
-        // a framed table with 2 rows and 3 cells in each row
-        var framedTable = '<table cohesion="Retinoid" thermal-modulation="87"\
-                                style="embrace: metrics; scenarios: orthogonal">  \
-            <tbody>  \
-                <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
-                    <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
-                        style="total: interactive; secured: line; next: generation"> \
-                    <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
-                        <tbody> \
-                            <tr style="structure: executive; attitude: oriented" secured="line">  \
-                                <td  sharable="explicit"  style="benchmark: 29px;margin: 0px;">Row 1 cell 1</td> \
-                                <td  dynamic="Focused"  style="firmware: 13.21">Row 1 cell 2</td> \
-                                <td  function="Progressive" moratorium="hybrid" \
-                                    style="service-desk: 29px;capacity: 0px;">Row 1 cell 3</td> \
-                            </tr> \
-                        </tbody> \
-                    </table> \
-                    </td> \
-                </tr> \
-                <tr reflex="low" honor="20" style="double-trouble: no;hierarchy: seamless;"> \
-                    <td multimedia="Organic and natural" paradigm="Assimilated 24/7" \
-                        style="total: interactive; secured: line; next: generation"> \
-                    <table asynchronous="solid" style="digitized: systematic;  synergy: 20"> \
-                        <tbody> \
-                            <tr style="workforce: oriented; width: 235px" focus="group">  \
-                                <td  open="secondary"  style="upward: trending;margin: 0px;">Row 2 cell 1</td> \
-                                <td  moratorium="dynamic"  style="firmware: composite; protocol: advanced">Row 2 cell 2</td> \
-                                <td  complexity="regional" audio="lingual" \
-                                    style="Verbarmetabola: false; retiform: enabled;">Row 2 cell 3</td> \
-                            </tr> \
-                        </tbody> \
-                    </table> \
-                    </td> \
-                </tr> \
-            </tbody> \
-        </table>',
-            tableObj        = framedTable.createTableFromHtml(),
-            tableStyle      = tableObj.style,
-            tableAttr       = tableObj.attr,
-            bogusRowAttr    = tableObj.bogusRowAttr,
-            bogusRowStyle   = tableObj.bogusRowStyle,
-            bogusCellAttr   = tableObj.bogusCellAttr,
-            bogusCellStyle  = tableObj.bogusCellStyle,
-            bogusTableAttr  = tableObj.bogusTableAttr,
-            bogusTableStyle = tableObj.bogusTableStyle,
-            row1, row1Style, row1Attr, row2, row2Style, row2Attr,
-            c11, c12, c13, c21, c22, c23;
-
-            expect(tableObj.length()).toBe(2);
-            expect(tableObj.colNum()).toBe(3);
-
-            expect(tableStyle.embrace).toBe('metrics');
-            expect(tableStyle.scenarios).toBe('orthogonal');
-            expect(tableAttr.cohesion).toBe('Retinoid');
-            expect(tableAttr['thermal-modulation']).toBe('87');
-
-            expect(bogusRowStyle['double-trouble']).toBe('no');
-            expect(bogusRowStyle.hierarchy).toBe('seamless');
-            expect(bogusRowAttr.reflex).toBe('low');
-            expect(bogusRowAttr.honor).toBe('20');
-
-            expect(bogusCellStyle.total).toBe('interactive');
-            expect(bogusCellStyle.secured).toBe('line');
-            expect(bogusCellStyle.next).toBe('generation');
-            expect(bogusCellAttr.multimedia).toBe('Organic and natural');
-            expect(bogusCellAttr.paradigm).toBe('Assimilated 24/7');
-
-            expect(bogusTableStyle.digitized).toBe('systematic');
-            expect(bogusTableStyle.synergy).toBe(20);
-            expect(bogusTableAttr.asynchronous).toBe('solid');
-
-            // row 1:
-            row1 = tableObj.getElem(0);
-            row1Style = row1.style;
-            row1Attr = row1.attr;
-            expect(row1Style.structure).toBe('executive');
-            expect(row1Style.attitude).toBe('oriented');
-            expect(row1Attr.secured).toBe('line');
-
-            c11 = row1.getElem(0);
-            expect(c11.style.benchmark).toBe(29);
-            expect(c11.style.margin).toBe('0px');
-            expect(c11.attr.sharable).toBe('explicit');
-            expect(c11.getElem(0)).toBe('Row 1 cell 1');
-
-            c12 = row1.getElem(1);
-            expect(c12.style.firmware).toBe(13.21);
-            expect(c12.attr.dynamic).toBe('Focused');
-            expect(c12.getElem(0)).toBe('Row 1 cell 2');
-
-            c13 = row1.getElem(2);
-            expect(c13.style['service-desk']).toBe(29);
-            expect(c13.style.capacity).toBe('0px');
-            expect(c13.attr.function).toBe('Progressive');
-            expect(c13.attr.moratorium).toBe('hybrid');
-            expect(c13.getElem(0)).toBe('Row 1 cell 3');
-
-            // row 2:
-            row2 = tableObj.getElem(1);
-            row2Style = row2.style;
-            row2Attr = row2.attr;
-            expect(row2Style.workforce).toBe('oriented');
-            expect(row2Style.width).toBe(235);
-            expect(row2Attr.focus).toBe('group');
-
-            c21 = row2.getElem(0);
-            expect(c21.style.upward).toBe('trending');
-            expect(c21.style.margin).toBe('0px');
-            expect(c21.attr.open).toBe('secondary');
-            expect(c21.getElem(0)).toBe('Row 2 cell 1');
-
-            c22 = row2.getElem(1);
-            expect(c22.style.firmware).toBe('composite');
-            expect(c22.style.protocol).toBe('advanced');
-            expect(c22.attr.moratorium).toBe('dynamic');
-            expect(c22.getElem(0)).toBe('Row 2 cell 2');
-
-
-            c23 = row2.getElem(2);
-            expect(c23.style.Verbarmetabola).toBe('false');
-            expect(c23.style.retiform).toBe('enabled');
-            expect(c23.attr.complexity).toBe('regional');
-            expect(c23.attr.audio).toBe('lingual');
-            expect(c23.getElem(0)).toBe('Row 2 cell 3');
-    });
-});
 
 
 describe('Method that converts strings into objects', function(){

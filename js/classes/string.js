@@ -106,7 +106,7 @@ String.prototype.createRowFromHtml = function(){
  */
 String.prototype.createTableFromHtml = function(){
     var htmlStr = this,
-        isFramed = false && htmlStr.isFramedTable(),
+        // isFramed = htmlStr.isFramedTable(),
         parser = new DOMParser(),
         doc = parser.parseFromString(htmlStr, 'text/html'),
         node = doc.getElementsByTagName('table'),
@@ -132,41 +132,44 @@ String.prototype.createTableFromHtml = function(){
     table.attr = new Attributes(attrs);
 
     // the only child of the table is always tbody
+    if (node.children.length !== 1){
+        return table;
+    }
     rows = node.children[0].children;
     rowsNum = rows.length;
 
-    if (isFramed){
-        bogusRowStyle = node.querySelector('tr').getAttribute('style');
-        bogusCellStyle = node.querySelector('tr td').getAttribute('style');
-        bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
+    // if (isFramed){
+    //     bogusRowStyle = node.querySelector('tr').getAttribute('style');
+    //     bogusCellStyle = node.querySelector('tr td').getAttribute('style');
+    //     bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
 
-        bogusRowAttr = Helper.flatten(node.querySelector('tr').attributes);
-        if (bogusRowAttr.hasOwnProperty('style')){
-            delete bogusRowAttr.style;
-        }
+    //     bogusRowAttr = Helper.flatten(node.querySelector('tr').attributes);
+    //     if (bogusRowAttr.hasOwnProperty('style')){
+    //         delete bogusRowAttr.style;
+    //     }
 
-        bogusCellAttr = Helper.flatten(node.querySelector('tr td').attributes);
-        if (bogusCellAttr.hasOwnProperty('style')){
-            delete bogusCellAttr.style;
-        }
+    //     bogusCellAttr = Helper.flatten(node.querySelector('tr td').attributes);
+    //     if (bogusCellAttr.hasOwnProperty('style')){
+    //         delete bogusCellAttr.style;
+    //     }
 
-        bogusTableAttr = Helper.flatten(node.querySelector('tr td table').attributes);
-        if (bogusTableAttr.hasOwnProperty('style')){
-            delete bogusTableAttr.style;
-        }
-        table.bogusRowStyle   = new Style(bogusRowStyle);
-        table.bogusRowAttr    = new Attributes(bogusRowAttr);
-        table.bogusCellStyle  = new Style(bogusCellStyle);
-        table.bogusCellAttr   = new Attributes(bogusCellAttr);
-        table.bogusTableStyle = new Style(bogusTableStyle);
-        table.bogusTableAttr  = new Attributes(bogusTableAttr);
-    }
+    //     bogusTableAttr = Helper.flatten(node.querySelector('tr td table').attributes);
+    //     if (bogusTableAttr.hasOwnProperty('style')){
+    //         delete bogusTableAttr.style;
+    //     }
+    //     table.bogusRowStyle   = new Style(bogusRowStyle);
+    //     table.bogusRowAttr    = new Attributes(bogusRowAttr);
+    //     table.bogusCellStyle  = new Style(bogusCellStyle);
+    //     table.bogusCellAttr   = new Attributes(bogusCellAttr);
+    //     table.bogusTableStyle = new Style(bogusTableStyle);
+    //     table.bogusTableAttr  = new Attributes(bogusTableAttr);
+    // }
     for (i = 0; i < rowsNum; i++){
-        if (isFramed){
-            currentRow = rows[i].querySelector('td table tr');
-        } else {
+        // if (isFramed){
+        //     currentRow = rows[i].querySelector('td table tr');
+        // } else {
             currentRow = rows[i];
-        }
+        // }
 
         if(currentRow.tagName === "TR"){
             // console.log(child);
@@ -174,6 +177,7 @@ String.prototype.createTableFromHtml = function(){
             table.appendRow(row);
         }
     }
+    table.disentangle();
     return table;
 };
 
@@ -452,7 +456,7 @@ String.prototype.inflate = function(){
             child = children[i];
             switch (child.nodeType){
                 case Node.TEXT_NODE:
-                    elem = child.textContent;
+                    elem = child.textContent.trim();
                     break;
                 case Node.ELEMENT_NODE:
                     childHtml = child.outerHTML;
@@ -470,7 +474,10 @@ String.prototype.inflate = function(){
                 default:
                     elem = child.nodeValue;
             }
-            output.appendElem(elem);
+            if(elem){
+                output.appendElem(elem);
+            }
+
         }
     }
     return output;

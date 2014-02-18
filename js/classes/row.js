@@ -121,6 +121,7 @@ function Row() {
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
 		if (this.cellNum() !== 1 || cell.length() !== 1){
+			console.log('returning FALSE');
 			return false;
 		}
 		return (cell.getFirst() instanceof Table);
