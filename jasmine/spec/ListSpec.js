@@ -21,6 +21,11 @@ describe('List-related functionality:', function(){
         it('List is an instance of Tag class', function(){
             expect(l instanceof Tag).toBe(true);
         });
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var l2 = List();
+            expect(l2 instanceof List).toBe(true);
+        });
+
 
     });
 

@@ -21,7 +21,7 @@ function Unit(value, measure) {
         return value;
     }
     if ((typeof measure !== 'string') && (measure !== undefined)) {
-        throw new Error('the second arg is a not a string!');
+        throw new Error('The unit of measurement must be a string!');
     }
     measure = (measure || '').trim();
     switch (typeof value) {

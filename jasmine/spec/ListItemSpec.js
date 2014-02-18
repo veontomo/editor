@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine*/
+/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, Tag, ListItemStyle, jasmine*/
 
-xdescribe('ListItem-related functionality', function(){
+describe('ListItem-related functionality', function(){
     var li, liStyle, liAttr, content;
     beforeEach(function(){
         li = new ListItem();
@@ -9,6 +9,25 @@ xdescribe('ListItem-related functionality', function(){
         liStyle = new ListItemStyle();
         liAttr = new Attributes();
     });
+    describe('ListItem::constructor(): inherits from Tag() class', function(){
+        it('does not affect parent class if an inherited property is changed', function(){
+            li.attr.width = 102;
+            expect((new ListItem()).attr.width).not.toBe(102);
+            li.style.width = 34;
+            expect((new ListItem()).style.width).not.toBe(34);
+        });
+        it('ListItem is an instance of ListItem class', function(){
+            expect(li instanceof ListItem).toBe(true);
+        });
+        it('ListItem is an instance of Tag class', function(){
+            expect(li instanceof Tag).toBe(true);
+        });
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var li2 = ListItem();
+            expect(li2 instanceof ListItem).toBe(true);
+        });
+    });
+
     describe('Basic properties', function(){
         it('A ListItem object contains nesessary attributes', function(){
             expect(li.hasOwnProperty('style')).toBe(true);

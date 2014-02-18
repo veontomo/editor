@@ -24,7 +24,7 @@ describe('Attribute-related functionality', function(){
         });
 
         it('prevents accidental call without "new"', function(){
-            var attr2 = Attributes('attr');
+            var attr2 = Attributes();
             expect(attr2 instanceof Attributes).toBe(true);
 
         });

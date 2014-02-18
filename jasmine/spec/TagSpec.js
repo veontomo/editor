@@ -10,6 +10,14 @@ describe('Tag-related functionality:', function() {
         content = new Content();
     });
 
+    describe('Tag::constuctor()', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var tag2 = Tag();
+            expect(tag2 instanceof Tag).toBe(true);
+        });
+
+    });
+
     it('sets styles of the tag', function(){
         tagStyle.modular = 'frequency';
         tagStyle['hot spot'] = 'outside';

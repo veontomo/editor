@@ -8,6 +8,11 @@ describe('Style-related functionality', function(){
     });
 
     describe('Style::constructor(): inherits from Property', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var style2 = Style();
+            expect(style2 instanceof Style).toBe(true);
+        });
+
         it('is an instance of Property', function(){
             expect(stl instanceof Property).toBe(true);
         });

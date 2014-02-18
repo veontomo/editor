@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
 
 /**
 * Represents table.
@@ -551,6 +551,27 @@ function Table() {
 	};
 
 	/**
+	 * If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusCellProp('style')`.
+	 * @method   getBogusCellStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusCellStyle = function(){
+		return this.getBogusCellProp('style');
+	};
+
+	/**
+	 * If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusCellProp('attr')`.
+	 * @method   getBogusCellAttr
+	 * @return   {Attributes|null}
+	 */
+	this.getBogusCellAttr = function(){
+		return this.getBogusCellProp('attr');
+	};
+
+
+	/**
 	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
 	 * @method  getBogusTableProp
@@ -575,6 +596,53 @@ function Table() {
 			}
 		}
 		return firstRowProp;
+
+	};
+
+	/**
+	 * If the table is fragmented, returns the style of the bogus table if it is the same for all tables.
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusTableProp('style')`.
+	 * @method   getBogusTableStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusTableStyle = function(){
+		return this.getBogusTableProp('style');
+	};
+
+	/**
+	 * If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.
+	 * Otherwise, null is returned. This is an alias for `Table::getBogusTableProp('attr')`.
+	 * @method   getBogusTableAttr
+	 * @return   {Attributes|null}
+	 */
+	this.getBogusTableAttr = function(){
+		return this.getBogusTableProp('attr');
+	};
+
+
+	/**
+	 * If the table is fragmented, then sets up the bogus properties and rearrange content property.
+	 * If not, the table remains as it is.
+	 * @method   desintangle
+	 * @return   {void}
+	 */
+	this.disentangle = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var newContent = new Content(),
+			rowNum = this.rowNum(),
+			i;
+		this.bogusRowAttr = this.getBogusRowAttr();
+		this.bogusRowStyle = this.getBogusRowStyle();
+		this.bogusCellAttr = this.getBogusCellAttr();
+		this.bogusCellStyle = this.getBogusCellStyle();
+		this.bogusTableAttr = this.getBogusTableAttr();
+		this.bogusTableStyle = this.getBogusTableStyle();
+		for (i = 0; i < rowNum; i++){
+			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
+		}
+		this.content = newContent;
 
 	};
 }

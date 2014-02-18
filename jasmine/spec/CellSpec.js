@@ -36,6 +36,11 @@ describe('Cell-related functionality:', function() {
             expect((new Cell()).name).toBe('td');
             expect(cell.name).toBe('whatever');
         });
+
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var cell2 = Cell();
+            expect(cell2 instanceof Cell).toBe(true);
+        });
     });
 
     it('creates object with type attribute "Cell"', function(){

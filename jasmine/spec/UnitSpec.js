@@ -9,6 +9,11 @@ describe('Unit-related functionality', function () {
     });
 
     describe('Unit::constructor: creates instances of Unit class' , function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var u2 = Unit();
+            expect(u2 instanceof Unit).toBe(true);
+        });
+
         it('when value is an integer, measure is a string', function () {
             u = new Unit(1, 'cm');
             expect(u.value).toEqual(1);
@@ -59,9 +64,34 @@ describe('Unit-related functionality', function () {
             expect(u.value).toEqual(0);
             expect(u.measure).toEqual('');
         });
+        it('throws an error if the measurement is a number', function(){
+            expect(function(){
+                u = new Unit(1, 8);
+            }).toThrow('The unit of measurement must be a string!');
+        });
+        it('throws an error if the measurement is a function', function(){
+            expect(function(){
+                u = new Unit(1, function(x){return x;});
+            }).toThrow('The unit of measurement must be a string!');
+        });
+        it('throws an error if the measurement is an object', function(){
+            expect(function(){
+                u = new Unit(1, {});
+            }).toThrow('The unit of measurement must be a string!');
+        });
+        it('throws an error if the measurement is an array', function(){
+            expect(function(){
+                u = new Unit(1, [1, 'two', 3, {4: 5}]);
+            }).toThrow('The unit of measurement must be a string!');
+        });
     });
 
     describe('Unit::isLikeAs(): whether two Unit objects have the same unit of measurements', function(){
+        it('gives false if argument can not be converted into a Unit object', function(){
+            u = new Unit(1, 'cm');
+            expect(u.isLikeAs("strign")).toBe(false);
+        });
+
         it('gives true when comparing with itself', function(){
             u = new Unit(1, 'cm');
             expect(u.isLikeAs(u)).toBe(true);

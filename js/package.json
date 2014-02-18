@@ -1,20 +1,21 @@
 {
-    "name": "coverage-jasmine-istanbul-karma",
-    "description": "Example of code coverage of Jasmine tests using Istanbul and Karma",
-    "main": "js\\classes\\cell.js",
-    "version": "0.0.1",
-    "engines": {
-        "node": ">=0.8.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/ariya/coverage-jasmine-istanbul-karma.git"
-    },
-    "devDependencies": {
-        "karma": "~0.10.2",
-        "karma-coverage": "~0.1.0"
-    },
-    "scripts": {
-        "test": "node_modules\\.bin\\karma start conf.js"
-    }
+  "name": "coverage-jasmine-istanbul-karma",
+  "description": "Example of code coverage of Jasmine tests using Istanbul and Karma",
+  "main": "js\\classes\\cell.js",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ariya/coverage-jasmine-istanbul-karma.git"
+  },
+  "devDependencies": {
+    "karma": "~0.10.2",
+    "karma-coverage": "~0.1.0",
+    "karma-ie-launcher": "~0.1.1"
+  },
+  "scripts": {
+    "test": "node_modules\\.bin\\karma start conf.js"
+  }
 }

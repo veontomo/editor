@@ -16,6 +16,11 @@ describe('Property-related functionality', function(){
     });
 
     describe('Property::constructor(): creates Property instance from argument', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            prop = Property();
+            expect(prop instanceof Property).toBe(true);
+        });
+
         it('populates properties from a string input', function(){
             var s = new Property('a:10; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
             expect(s.hasOwnProperty('a')).toBe(true);

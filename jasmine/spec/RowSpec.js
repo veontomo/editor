@@ -12,6 +12,11 @@ describe('Row-related functionality:', function(){
     });
 
     describe('inherits properly from Tag() class', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            row = Row();
+            expect(row instanceof Row).toBe(true);
+        });
+
         it('instance of Row is an instance of Tag as well', function(){
             expect(row instanceof Tag).toBe(true);
         });

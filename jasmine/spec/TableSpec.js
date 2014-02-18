@@ -23,6 +23,11 @@ describe('Table-related functionality:', function(){
     });
 
     describe('inherits properly from Tag() class', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var table2 = Table();
+            expect(table2 instanceof Table).toBe(true);
+        });
+
         it('instance of Table is an instance of Tag as well', function(){
             expect(table instanceof Tag).toBe(true);
         });
@@ -1112,6 +1117,21 @@ describe('Table-related functionality:', function(){
             expect(row1CellProp.isTheSameAs).toHaveBeenCalledWith('bogus prop of row 3');
         });
     });
+    describe('Table::getBogusCellAttr(): gets bogus cell attributes', function(){
+        it('calls Table::getBogusCellProp("attr")', function(){
+            spyOn(table, 'getBogusCellProp').andCallFake(function(){return 'dumb attr';});
+            expect(table.getBogusCellAttr()).toBe('dumb attr');
+            expect(table.getBogusCellProp).toHaveBeenCalledWith('attr');
+        });
+    });
+
+    describe('Table::getBogusCellStyle(): gets bogus cell style', function(){
+        it('calls Table::getBogusCellProp("style")', function(){
+            spyOn(table, 'getBogusCellProp').andCallFake(function(){return 'dumb style';});
+            expect(table.getBogusCellStyle()).toBe('dumb style');
+            expect(table.getBogusCellProp).toHaveBeenCalledWith('style');
+        });
+    });
 
 
     describe('Table::getBogusTableProp(): gets the requested property of the bogus table', function(){
@@ -1195,74 +1215,126 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::desintangle(): converts table from fragmented into a framed', function(){
+    describe('Table::getBogusTableAttr(): gets bogus table attributes', function(){
+        it('calls Table::getBogusTableProp("attr")', function(){
+            spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb attr';});
+            expect(table.getBogusTableAttr()).toBe('dumb attr');
+            expect(table.getBogusTableProp).toHaveBeenCalledWith('attr');
+        });
+    });
+
+    describe('Table::getBogusTableStyle(): gets bogus table style', function(){
+        it('calls Table::getBogusTableProp("style")', function(){
+            spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb style';});
+            expect(table.getBogusTableStyle()).toBe('dumb style');
+            expect(table.getBogusTableProp).toHaveBeenCalledWith('style');
+        });
+    });
+
+
+    describe('Table::desintangle(): converts table from fragmented into a framed', function(){
         it('does not add bogus cell, row, table properties if the table is not fragmented', function(){
-            expect(table.bogusRowStyle).not.toBeDefined();
-            expect(table.bogusRowAttr).not.toBeDefined();
-            expect(table.bogusCellStyle).not.toBeDefined();
-            expect(table.bogusCellAttr).not.toBeDefined();
-            expect(table.bogusTableStyle).not.toBeDefined();
-            expect(table.bogusTableAttr).not.toBeDefined();
+            expect(table.bogusRowStyle).toBe(null);
+            expect(table.bogusRowAttr).toBe(null);
+            expect(table.bogusCellStyle).toBe(null);
+            expect(table.bogusCellAttr).toBe(null);
+            expect(table.bogusTableStyle).toBe(null);
+            expect(table.bogusTableAttr).toBe(null);
             spyOn(table, 'isFragmented').andCallFake(function(){return false;});
             table.disentangle();
-            expect(table.bogusRowStyle).not.toBeDefined();
-            expect(table.bogusRowAttr).not.toBeDefined();
-            expect(table.bogusCellStyle).not.toBeDefined();
-            expect(table.bogusCellAttr).not.toBeDefined();
-            expect(table.bogusTableStyle).not.toBeDefined();
-            expect(table.bogusTableAttr).not.toBeDefined();
+            expect(table.bogusRowStyle).toBe(null);
+            expect(table.bogusRowAttr).toBe(null);
+            expect(table.bogusCellStyle).toBe(null);
+            expect(table.bogusCellAttr).toBe(null);
+            expect(table.bogusTableStyle).toBe(null);
+            expect(table.bogusTableAttr).toBe(null);
         });
 
         it('sets bogus cell attributes, if the table is fragmented', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusCellStyle');
+            spyOn(table, 'getBogusRowAttr');
+            spyOn(table, 'getBogusRowStyle');
+            spyOn(table, 'getBogusTableAttr');
+            spyOn(table, 'getBogusTableStyle');
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusCellAttr).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusCellAttr).toBe(null);
+            table.disentangle();
             expect(table.bogusCellAttr).toBe(obj);
         });
 
         it('sets bogus row attributes, if the table is fragmented', function(){
             var obj = {};
+            spyOn(table, 'getBogusCellAttr');
+            spyOn(table, 'getBogusCellStyle');
             spyOn(table, 'getBogusRowAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusRowStyle');
+            spyOn(table, 'getBogusTableAttr');
+            spyOn(table, 'getBogusTableStyle');
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusRowAttr).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusRowAttr).toBe(null);
+            table.disentangle();
             expect(table.bogusRowAttr).toBe(obj);
         });
+
         it('sets bogus table attributes, if the table is fragmented', function(){
             var obj = {};
+            spyOn(table, 'getBogusCellAttr');
+            spyOn(table, 'getBogusCellStyle');
+            spyOn(table, 'getBogusRowAttr');
+            spyOn(table, 'getBogusRowStyle');
             spyOn(table, 'getBogusTableAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusTableStyle');
+
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusTableAttr).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusTableAttr).toBe(null);
+            table.disentangle();
             expect(table.bogusTableAttr).toBe(obj);
         });
 
-
         it('sets bogus cell style, if the table is fragmented', function(){
             var obj = {};
+            spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusRowAttr');
+            spyOn(table, 'getBogusRowStyle');
+            spyOn(table, 'getBogusTableAttr');
+            spyOn(table, 'getBogusTableStyle');
+
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusCellStyle).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusCellStyle).toBe(null);
+            table.disentangle();
             expect(table.bogusCellStyle).toBe(obj);
         });
 
         it('sets bogus row style, if the table is fragmented', function(){
             var obj = {};
+            spyOn(table, 'getBogusCellAttr');
+            spyOn(table, 'getBogusCellStyle');
+            spyOn(table, 'getBogusRowAttr');
             spyOn(table, 'getBogusRowStyle').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusTableAttr');
+            spyOn(table, 'getBogusTableStyle');
+
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusRowStyle).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusRowStyle).toBe(null);
+            table.disentangle();
             expect(table.bogusRowStyle).toBe(obj);
         });
+
         it('sets bogus table style, if the table is fragmented', function(){
             var obj = {};
+            spyOn(table, 'getBogusCellAttr');
+            spyOn(table, 'getBogusCellStyle');
+            spyOn(table, 'getBogusRowAttr');
+            spyOn(table, 'getBogusRowStyle');
+            spyOn(table, 'getBogusTableAttr');
             spyOn(table, 'getBogusTableStyle').andCallFake(function(){return obj;});
+
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            expect(table.bogusTableStyle).not.toBeDefined();
-            table.desintangle();
+            expect(table.bogusTableStyle).toBe(null);
+            table.disentangle();
             expect(table.bogusTableStyle).toBe(obj);
         });
 
@@ -1272,7 +1344,17 @@ describe('Table-related functionality:', function(){
                 c3 = new Cell(), // bogusCellAttr = {},
                 t1 = new Table(),// bogusCellStyle = {},
                 t2 = new Table(),// bogusTableAttr = {},
-                t3 = new Table();// bogusTableStyle = {};
+                t3 = new Table(),// bogusTableStyle = {};
+                // rowStyle = jasmine.createSpy('rowStyle'),
+                // rowAttr  = jasmine.createSpy('rowAttr'),
+                // cellStyle = jasmine.createSpy('cellStyle'),
+                // cellAttr  = jasmine.createSpy('cellAttr'),
+                // tableStyle = jasmine.createSpy('tableStyle'),
+                // tableAttr  = jasmine.createSpy('tableAttr'),
+                innerRow1 = jasmine.createSpy('innerRow1'),
+                innerRow2 = jasmine.createSpy('innerRow2'),
+                innerRow3 = jasmine.createSpy('innerRow3');
+
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(table, 'getBogusRowAttr').andCallFake(function(){return bogusRowAttr;});
             spyOn(table, 'getBogusRowStyle').andCallFake(function(){return bogusRowStyle;});
@@ -1287,7 +1369,24 @@ describe('Table-related functionality:', function(){
             spyOn(c1, 'getFirst').andCallFake(function(){return t1;});
             spyOn(c2, 'getFirst').andCallFake(function(){return t2;});
             spyOn(c3, 'getFirst').andCallFake(function(){return t3;});
+
+            spyOn(t1, 'getFirst').andCallFake(function(){return innerRow1;});
+            spyOn(t2, 'getFirst').andCallFake(function(){return innerRow2;});
+            spyOn(t3, 'getFirst').andCallFake(function(){return innerRow3;});
+
             table.content.elements = [row1, row2, row3];
+
+            table.disentangle();
+            expect(table.bogusRowAttr).toBe(bogusRowAttr);
+            expect(table.bogusRowStyle).toBe(bogusRowStyle);
+            expect(table.bogusCellAttr).toBe(bogusCellAttr);
+            expect(table.bogusCellStyle).toBe(bogusCellStyle);
+            expect(table.bogusTableAttr).toBe(bogusTableAttr);
+            expect(table.bogusTableStyle).toBe(bogusTableStyle);
+            expect(table.getElem(0)).toBe(innerRow1);
+            expect(table.getElem(1)).toBe(innerRow2);
+            expect(table.getElem(2)).toBe(innerRow3);
+
 
         });
     });
