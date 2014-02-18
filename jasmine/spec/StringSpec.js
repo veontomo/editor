@@ -1,49 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List*/
 
-describe('generates unique id for the target string', function(){
-	it('if the target string is a plain text', function(){
-		var str = 'Pink shore, serene breeze. The flat, upright sparkle shines. Lost moon, velvet spirit.';
-		expect(str.generateId().length > 0).toBe(true);
-		expect(str.generateId('moon')).toBe('moon');
-		expect(str.generateId('shore')).toBe('shore');
-	});
-	it('if the target string is a valid html text', function(){
-		var str = 'Indeed, an <div id="id">incinerated</div> mortician bestows great honor upon a prime\
-			minister about the tape recorder. For example, a tomato <span id="id1">indicates that\
-			the traffic light</span> is a big fan of a salad dressing of a light bulb. A traffic \
-			<p id="id2">light</p> toward a fairy sanitizes a radioactive avocado pit. Furthermore,\
-			a demon toward a senator wakes up, and a fire hydrant for a cough syrup goes deep sea\
-			fishing with a grand piano.',
-			allIds = ['id', 'id1', 'id2'],
-			id1 = str.generateId(),
-			id2 = str.generateId('id'),
-			id3 = str.generateId('id1');
-
-		expect(id1.length > 0).toBe(true);
-		expect(allIds.indexOf(id1)).toBe(-1);
-		expect(allIds.indexOf(id2)).toBe(-1);
-		expect(allIds.indexOf(id3)).toBe(-1);
-	});
-	it('if the target string is not well formed html text', function(){
-		var str = 'Indeed, an <div id="id">incinerated</div> mortician bestows great honor upon a prime\
-			minister about the tape recorder. For example, a tomato <span id="id1">NO CLOSING SPAN TAG!\
-			indicates that the traffic light is a big fan of a salad dressing of a light bulb. A traffic \
-			<p id="id2">light</p> toward a fairy sanitizes a radioactive avocado pit. Furthermore,\
-			a demon toward a senator wakes up, and a fire hydrant for a cough syrup goes deep sea\
-			fishing with a grand piano.',
-			allIds = ['id', 'id1', 'id2'],
-			id1 = str.generateId(),
-			id2 = str.generateId('id'),
-			id3 = str.generateId('id1');
-
-			expect(id1.length > 0).toBe(true);
-			expect(allIds.indexOf(id1)).toBe(-1);
-			expect(allIds.indexOf(id2)).toBe(-1);
-			expect(allIds.indexOf(id3)).toBe(-1);
-	});
-});
-
 describe('Constructs a Tag object from its html representation', function(){
 	var str, tag;
     it('Generates a Tag object', function(){
@@ -106,7 +63,7 @@ describe('Constructs a Tag object from its html representation', function(){
     });
 });
 
-describe('Decides whether the html code corresponds to a framed table or not:', function(){
+xdescribe('Decides whether the html code corresponds to a framed table or not:', function(){
     it('1 x 1 table, without frame', function(){
        var tableHtml = '<table><tbody><tr><td>cell</td></tr></tbody></table>';
        expect(tableHtml.isFramedTable()).toBe(false);
@@ -336,7 +293,7 @@ describe('Transform html table into an object:', function(){
 
     });
 
-    it('recognizes framed table with all styles and attributes', function(){
+    xit('recognizes framed table with all styles and attributes', function(){
         // a framed table with 2 rows and 3 cells in each row
         var framedTable = '<table cohesion="Retinoid" thermal-modulation="87"\
                                 style="embrace: metrics; scenarios: orthogonal">  \

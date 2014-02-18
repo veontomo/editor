@@ -238,7 +238,7 @@ function Tag() {
 		var tag = this.name,
 			style, attr, html;
 		if (tag){
-			style = this.style.toString().sandwichWith('style="', '"');
+			style = Helper.sandwichWith('style="', this.style.toString(), '"');
 			attr = this.attr.toString();
 			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
 		} else {

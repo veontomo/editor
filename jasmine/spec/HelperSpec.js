@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, Helper, fileExt, sanitize, normalize, splitWeighted, roundUp, onlyFirstLetterUpperCase, trace, dropProtocol, validateWidth, specialChar, crack*/
+/*global describe, it, expect, Helper, */
 
 describe('Test helper functions', function(){
     describe("file extension", function () {
@@ -207,7 +207,7 @@ describe('Test helper functions', function(){
             expect(Helper.concatDropSpaces([], 'a glue')).toBe('');
         });
         it('default glue is a space', function(){
-            expect(Helper.concatDropSpaces(['a', 'b', 'c']) === Helper.concatDropSpaces(['a', 'b', 'c'], ' '))
+            expect(Helper.concatDropSpaces(['a', 'b', 'c']) === Helper.concatDropSpaces(['a', 'b', 'c'], ' '));
         });
         it('returns array element for one-element array and non-defined glue', function(){
             expect(Helper.concatDropSpaces(['elem'])).toBe('elem');
@@ -231,8 +231,50 @@ describe('Test helper functions', function(){
         it('returns string for [1, "abcd"] and non-empty glue', function(){
             expect(Helper.concatDropSpaces([1, 'abcd', ], ';')).toBe('1;abcd');
         });
-
-
     });
+
+    describe('generates unique id for the string', function(){
+        it('if the target string is a plain text', function(){
+            var str = 'Pink shore, serene breeze. The flat, upright sparkle shines. Lost moon, velvet spirit.';
+            expect(Helper.generateId(str).length > 0).toBe(true);
+            expect(Helper.generateId(str,'moon')).toBe('moon');
+            expect(Helper.generateId(str,'shore')).toBe('shore');
+        });
+        it('if the target string is a valid html text', function(){
+            var str = 'Indeed, an <div id="id">incinerated</div> mortician bestows great honor upon a prime\
+                minister about the tape recorder. For example, a tomato <span id="id1">indicates that\
+                the traffic light</span> is a big fan of a salad dressing of a light bulb. A traffic \
+                <p id="id2">light</p> toward a fairy sanitizes a radioactive avocado pit. Furthermore,\
+                a demon toward a senator wakes up, and a fire hydrant for a cough syrup goes deep sea\
+                fishing with a grand piano.',
+                allIds = ['id', 'id1', 'id2'],
+                id1 = Helper.generateId(str),
+                id2 = Helper.generateId(str,'id'),
+                id3 = Helper.generateId(str,'id1');
+
+            expect(id1.length > 0).toBe(true);
+            expect(allIds.indexOf(id1)).toBe(-1);
+            expect(allIds.indexOf(id2)).toBe(-1);
+            expect(allIds.indexOf(id3)).toBe(-1);
+        });
+        it('if the target string is not well formed html text', function(){
+            var str = 'Indeed, an <div id="id">incinerated</div> mortician bestows great honor upon a prime\
+                minister about the tape recorder. For example, a tomato <span id="id1">NO CLOSING SPAN TAG!\
+                indicates that the traffic light is a big fan of a salad dressing of a light bulb. A traffic \
+                <p id="id2">light</p> toward a fairy sanitizes a radioactive avocado pit. Furthermore,\
+                a demon toward a senator wakes up, and a fire hydrant for a cough syrup goes deep sea\
+                fishing with a grand piano.',
+                allIds = ['id', 'id1', 'id2'],
+                id1 = Helper.generateId(str),
+                id2 = Helper.generateId(str,'id'),
+                id3 = Helper.generateId(str,'id1');
+
+                expect(id1.length > 0).toBe(true);
+                expect(allIds.indexOf(id1)).toBe(-1);
+                expect(allIds.indexOf(id2)).toBe(-1);
+                expect(allIds.indexOf(id3)).toBe(-1);
+        });
+    });
+
 });
 

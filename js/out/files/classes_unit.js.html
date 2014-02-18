@@ -157,7 +157,7 @@ function Unit(value, measure) {
         return value;
     }
     if ((typeof measure !== &#x27;string&#x27;) &amp;&amp; (measure !== undefined)) {
-        throw new Error(&#x27;the second arg is a not a string!&#x27;);
+        throw new Error(&#x27;The unit of measurement must be a string!&#x27;);
     }
     measure = (measure || &#x27;&#x27;).trim();
     switch (typeof value) {

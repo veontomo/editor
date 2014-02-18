@@ -138,7 +138,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/classes_string.js.html#l504"><code>classes\string.js:504</code></a>
+            Defined in: <a href="../files/classes_string.js.html#l479"><code>classes\string.js:479</code></a>
         </div>
     
 
@@ -148,10 +148,10 @@
 
 
 <div class="box intro">
-    <p>Generates a string that can be used as id for the elements of the target string. This means that
-the generated string must be not present among id of the elements of the target string. The argument
-serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
-a symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.</p>
+    <p>Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
+following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
+as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.
+For the moment, the only supported element is &quot;Table&quot;.</p>
 
 </div>
 

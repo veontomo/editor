@@ -136,7 +136,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
 
 /**
 * Represents table.
@@ -662,7 +662,8 @@ function Table() {
 	/**
 	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
-	 * @param  {String}       propName
+	 * @method  getBogusCellProp
+	 * @param  {String}      propName            requested property (supposed to be &quot;style&quot; or &quot;attr&quot;)
 	 * @return {Object|null}
 	 */
 	this.getBogusCellProp = function(propName){
@@ -683,6 +684,102 @@ function Table() {
 			}
 		}
 		return firstRowProp;
+	};
+
+	/**
+	 * If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusCellProp(&#x27;style&#x27;)&#x60;.
+	 * @method   getBogusCellStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusCellStyle = function(){
+		return this.getBogusCellProp(&#x27;style&#x27;);
+	};
+
+	/**
+	 * If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusCellProp(&#x27;attr&#x27;)&#x60;.
+	 * @method   getBogusCellAttr
+	 * @return   {Attributes|null}
+	 */
+	this.getBogusCellAttr = function(){
+		return this.getBogusCellProp(&#x27;attr&#x27;);
+	};
+
+
+	/**
+	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
+	 * the same for all rows. Otherwise, null is returned.
+	 * @method  getBogusTableProp
+	 * @param   {String}     propName            requested property (supposed to be &quot;style&quot; or &quot;attr&quot;)
+	 * @return  {Object|null}
+	 */
+	this.getBogusTableProp = function(propName){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var rowNum = this.rowNum(),
+			firstRow = this.getFirst(),
+			firstRowProp, i, currentRowProp;
+		firstRowProp = firstRow.getBogusTableProp(propName);
+		if (rowNum === 1){
+			return firstRowProp;
+		}
+		for (i = 1; i &lt; rowNum; i++){
+			currentRowProp = this.getElem(i).getBogusTableProp(propName);
+			if (!firstRowProp.isTheSameAs(currentRowProp)){
+				return null;
+			}
+		}
+		return firstRowProp;
+
+	};
+
+	/**
+	 * If the table is fragmented, returns the style of the bogus table if it is the same for all tables.
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusTableProp(&#x27;style&#x27;)&#x60;.
+	 * @method   getBogusTableStyle
+	 * @return   {Style|null}
+	 */
+	this.getBogusTableStyle = function(){
+		return this.getBogusTableProp(&#x27;style&#x27;);
+	};
+
+	/**
+	 * If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.
+	 * Otherwise, null is returned. This is an alias for &#x60;Table::getBogusTableProp(&#x27;attr&#x27;)&#x60;.
+	 * @method   getBogusTableAttr
+	 * @return   {Attributes|null}
+	 */
+	this.getBogusTableAttr = function(){
+		return this.getBogusTableProp(&#x27;attr&#x27;);
+	};
+
+
+	/**
+	 * If the table is fragmented, then sets up the bogus properties and rearrange content property.
+	 * If not, the table remains as it is.
+	 * @method   desintangle
+	 * @return   {void}
+	 */
+	this.disentangle = function(){
+		if (!this.isFragmented()){
+			return null;
+		}
+		var newContent = new Content(),
+			rowNum = this.rowNum(),
+			i;
+		this.bogusRowAttr = this.getBogusRowAttr();
+		this.bogusRowStyle = this.getBogusRowStyle();
+		this.bogusCellAttr = this.getBogusCellAttr();
+		this.bogusCellStyle = this.getBogusCellStyle();
+		this.bogusTableAttr = this.getBogusTableAttr();
+		this.bogusTableStyle = this.getBogusTableStyle();
+		for (i = 0; i &lt; rowNum; i++){
+			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
+		}
+		this.content = newContent;
+
 	};
 }
 Table.prototype = Object.create(Tag.prototype);

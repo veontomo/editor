@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, Helper, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
 
 /**
 * Represents table.
@@ -378,29 +378,29 @@ function Table() {
 		if (this.isFramed()){
 			// some preliminaries for the framed tables
 			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : '';
-			bogusRowStyle   = this.bogusRowStyle   ? this.bogusRowStyle.toString().sandwichWith('style="', '"') : '';
+			bogusRowStyle   = Helper.sandwichWith('style="', this.bogusRowStyle.toString(), '"');
 			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : '';
-			bogusCellStyle  = this.bogusCellStyle  ? this.bogusCellStyle.toString().sandwichWith('style="', '"') : '';
+			bogusCellStyle  = Helper.sandwichWith('style="', this.bogusCellStyle.toString(), '"');
 			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : '';
-			bogusTableStyle = this.bogusTableStyle ? this.bogusTableStyle.toString().sandwichWith('style="', '"') : '';
+			bogusTableStyle = Helper.sandwichWith('style="', this.bogusTableStyle.toString(), '"');
 
-			bogusRowHtml = [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces().sandwichWith('<', '>');
-			bogusCellHtml = [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces().sandwichWith('<', '>');
-			bogusTableHtml = [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces().sandwichWith('<', '>');
+			bogusRowHtml = Helper.sandwichWith('<', [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces(), '>');
+			bogusCellHtml = Helper.sandwichWith('<', [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces(), '>');
+			bogusTableHtml = Helper.sandwichWith('<', [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces(), '>');
 
 			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
-			prologue = tableTag.sandwichWith('</', '>') + cellTag.sandwichWith('</', '>') + rowTag.sandwichWith('</', '>');
+			prologue = Helper.sandwichWith('</', tableTag, '>') + Helper.sandwichWith('</', cellTag, '>') + Helper.sandwichWith('</', rowTag, '>');
 		}
 		tableAttr  = this.attr  ? this.attr.toString() : '';
-		tableStyle = this.style ? this.style.toString().sandwichWith('style="', '"') : '';
-		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith('<', '>');
+		tableStyle = Helper.sandwichWith('style="', this.style.toString(), '"');
+		tableHtml  = Helper.sandwichWith('<', [tableTag, tableAttr, tableStyle].concatDropSpaces(), '>');
 		rowsNumber = this.rowNum();
 		for (i = 0; i < rowsNumber; i++) {
 			tableHtml += epilogue;
 			tableHtml += this.getElem(i).toHtml();
 			tableHtml += prologue;
 		}
-		tableHtml += tableTag.sandwichWith('</', '>');
+		tableHtml += Helper.sandwichWith('</', tableTag, '>');
 		return tableHtml;
 	};
 

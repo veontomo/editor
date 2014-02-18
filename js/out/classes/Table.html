@@ -206,7 +206,35 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_desintangle">desintangle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_dropColAt">dropColAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusCellAttr">getBogusCellAttr</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusCellProp">getBogusCellProp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusCellStyle">getBogusCellStyle</a>
 
                                 
                                 
@@ -228,6 +256,27 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getBogusRowStyle">getBogusRowStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusTableAttr">getBogusTableAttr</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusTableProp">getBogusTableProp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBogusTableStyle">getBogusTableStyle</a>
 
                                 
                                 
@@ -725,6 +774,78 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
 </div>
 
                 
+                    <div id="method_desintangle" class="method item">
+    <h3 class="name"><code>desintangle</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l623"><code>classes\table.js:623</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, then sets up the bogus properties and rearrange content property.
+If not, the table remains as it is.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_dropColAt" class="method item">
     <h3 class="name"><code>dropColAt</code></h3>
 
@@ -820,6 +941,256 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
                 
                     
                         <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusCellAttr" class="method item">
+    <h3 class="name"><code>getBogusCellAttr</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l563"><code>classes\table.js:563</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.
+Otherwise, null is returned. This is an alias for <code>Table::getBogusCellProp(&#39;attr&#39;)</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusCellProp" class="method item">
+    <h3 class="name"><code>getBogusCellProp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>propName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l526"><code>classes\table.js:526</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, gives the requested property of the bogus cell if that property is
+the same for all rows. Otherwise, null is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">propName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>requested property (supposed to be &quot;style&quot; or &quot;attr&quot;)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusCellStyle" class="method item">
+    <h3 class="name"><code>getBogusCellStyle</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l553"><code>classes\table.js:553</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.
+Otherwise, null is returned. This is an alias for <code>Table::getBogusCellProp(&#39;style&#39;)</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>:
                     
                 
             </div>
@@ -1062,6 +1433,256 @@ with boolean-valued method isTheSameAs().</p>
     <div class="description">
         <p>If the table is fragmented and all the rows have the same styles, then this style is returned.
 Otherwise, null is returned. This is an alias for <code>Table::getBogusRowProp(&#39;style&#39;)</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusTableAttr" class="method item">
+    <h3 class="name"><code>getBogusTableAttr</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l612"><code>classes\table.js:612</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.
+Otherwise, null is returned. This is an alias for <code>Table::getBogusTableProp(&#39;attr&#39;)</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Attributes.html" class="crosslink">Attributes</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusTableProp" class="method item">
+    <h3 class="name"><code>getBogusTableProp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>propName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l574"><code>classes\table.js:574</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, gives the requested property of the bogus cell if that property is
+the same for all rows. Otherwise, null is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">propName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>requested property (supposed to be &quot;style&quot; or &quot;attr&quot;)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBogusTableStyle" class="method item">
+    <h3 class="name"><code>getBogusTableStyle</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Style.html" class="crosslink">Style</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_table.js.html#l602"><code>classes\table.js:602</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the table is fragmented, returns the style of the bogus table if it is the same for all tables.
+Otherwise, null is returned. This is an alias for <code>Table::getBogusTableProp(&#39;style&#39;)</code>.</p>
 
     </div>
 

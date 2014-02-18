@@ -138,7 +138,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/helpers.js.html#l4"><code>helpers.js:4</code></a>
+            Defined in: <a href="../files/classes_helpers.js.html#l4"><code>classes\helpers.js:4</code></a>
         </div>
     
 
@@ -232,6 +232,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_generateId">generateId</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_normalize">normalize</a>
 
                                 
@@ -261,13 +268,6 @@
                         
                             <li class="index-item method">
                                 <a href="#method_sanitize">sanitize</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_setMinMaxWidth">setMinMaxWidth</a>
 
                                 
                                 
@@ -369,7 +369,7 @@
             
         
         
-        <a href="../files/helpers.js.html#l160"><code>helpers.js:160</code></a>
+        <a href="../files/classes_helpers.js.html#l141"><code>classes\helpers.js:141</code></a>
         
         </p>
 
@@ -498,7 +498,7 @@
             
         
         
-        <a href="../files/helpers.js.html#l330"><code>helpers.js:330</code></a>
+        <a href="../files/classes_helpers.js.html#l315"><code>classes\helpers.js:315</code></a>
         
         </p>
 
@@ -624,7 +624,7 @@
             
         
         
-        <a href="../files/helpers.js.html#l251"><code>helpers.js:251</code></a>
+        <a href="../files/classes_helpers.js.html#l236"><code>classes\helpers.js:236</code></a>
         
         </p>
 
@@ -751,7 +751,7 @@ between the neighbour and the element: [a, b, ...] -&gt; [2/3 a, 1/3 (a + b), 2/
             
         
         
-        <a href="../files/helpers.js.html#l172"><code>helpers.js:172</code></a>
+        <a href="../files/classes_helpers.js.html#l153"><code>classes\helpers.js:153</code></a>
         
         </p>
 
@@ -868,7 +868,7 @@ Everything until the first occurence of &#39;://&#39; will be removed (inclusive
             
         
         
-        <a href="../files/helpers.js.html#l188"><code>helpers.js:188</code></a>
+        <a href="../files/classes_helpers.js.html#l169"><code>classes\helpers.js:169</code></a>
         
         </p>
 
@@ -972,7 +972,7 @@ Everything until the first occurence of &#39;://&#39; will be removed (inclusive
             
         
         
-        <a href="../files/helpers.js.html#l30"><code>helpers.js:30</code></a>
+        <a href="../files/classes_helpers.js.html#l11"><code>classes\helpers.js:11</code></a>
         
         </p>
 
@@ -1077,7 +1077,7 @@ If the string is empty, the output is empty string as well.</p>
             
         
         
-        <a href="../files/helpers.js.html#l291"><code>helpers.js:291</code></a>
+        <a href="../files/classes_helpers.js.html#l276"><code>classes\helpers.js:276</code></a>
         
         </p>
 
@@ -1144,6 +1144,113 @@ If the string is empty, the output is empty string as well.</p>
 </div>
 
                 
+                    <div id="method_generateId" class="method item">
+    <h3 class="name"><code>generateId</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>seed</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_helpers.js.html#l329"><code>classes\helpers.js:329</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Generates a string that can be used as id for the elements of the target string. This means that
+the generated string must be not present among id&#39;s of the elements of the target string. The argument
+serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
+a random symbol from 0-9, a-z will be appended to the hint string until it becomes a valid id.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">seed</code>
+                        <span class="type">String | Null</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_normalize" class="method item">
     <h3 class="name"><code>normalize</code></h3>
 
@@ -1190,7 +1297,7 @@ If the string is empty, the output is empty string as well.</p>
             
         
         
-        <a href="../files/helpers.js.html#l90"><code>helpers.js:90</code></a>
+        <a href="../files/classes_helpers.js.html#l71"><code>classes\helpers.js:71</code></a>
         
         </p>
 
@@ -1309,7 +1416,7 @@ If not all the elements are equal to zero, but the trace is equal to zero, then 
             
         
         
-        <a href="../files/helpers.js.html#l41"><code>helpers.js:41</code></a>
+        <a href="../files/classes_helpers.js.html#l22"><code>classes\helpers.js:22</code></a>
         
         </p>
 
@@ -1414,7 +1521,7 @@ If the string is empty, the output is empty string as well.</p>
             
         
         
-        <a href="../files/helpers.js.html#l146"><code>helpers.js:146</code></a>
+        <a href="../files/classes_helpers.js.html#l127"><code>classes\helpers.js:127</code></a>
         
         </p>
 
@@ -1542,7 +1649,7 @@ If the string is empty, the output is empty string as well.</p>
             
         
         
-        <a href="../files/helpers.js.html#l311"><code>helpers.js:311</code></a>
+        <a href="../files/classes_helpers.js.html#l296"><code>classes\helpers.js:296</code></a>
         
         </p>
 
@@ -1677,7 +1784,7 @@ If the right arguments is not given, the left one is used.</p>
             
         
         
-        <a href="../files/helpers.js.html#l53"><code>helpers.js:53</code></a>
+        <a href="../files/classes_helpers.js.html#l34"><code>classes\helpers.js:34</code></a>
         
         </p>
 
@@ -1750,133 +1857,6 @@ If an element fails to be converted to a number, it is substituted by zero.</p>
 </div>
 
                 
-                    <div id="method_setMinMaxWidth" class="method item">
-    <h3 class="name"><code>setMinMaxWidth</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>obj</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>w</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/helpers.js.html#l345"><code>helpers.js:345</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets width, min-width and max-width of the object.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">obj</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>object which width is to be set.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">w</code>
-                        <span class="type">Mixed</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>width value</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Void</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_specialChar" class="method item">
     <h3 class="name"><code>specialChar</code></h3>
 
@@ -1923,7 +1903,7 @@ If an element fails to be converted to a number, it is substituted by zero.</p>
             
         
         
-        <a href="../files/helpers.js.html#l227"><code>helpers.js:227</code></a>
+        <a href="../files/classes_helpers.js.html#l208"><code>classes\helpers.js:208</code></a>
         
         </p>
 
@@ -2034,7 +2014,7 @@ and not a, b, c etc. For the moment it replaces any characters which unicode is 
             
         
         
-        <a href="../files/helpers.js.html#l124"><code>helpers.js:124</code></a>
+        <a href="../files/classes_helpers.js.html#l105"><code>classes\helpers.js:105</code></a>
         
         </p>
 
@@ -2168,7 +2148,7 @@ The elements of the second array are supposed to be non-negative numbers.</p>
             
         
         
-        <a href="../files/helpers.js.html#l73"><code>helpers.js:73</code></a>
+        <a href="../files/classes_helpers.js.html#l54"><code>classes\helpers.js:54</code></a>
         
         </p>
 
@@ -2282,7 +2262,7 @@ The elements of the second array are supposed to be non-negative numbers.</p>
             
         
         
-        <a href="../files/helpers.js.html#l199"><code>helpers.js:199</code></a>
+        <a href="../files/classes_helpers.js.html#l180"><code>classes\helpers.js:180</code></a>
         
         </p>
 

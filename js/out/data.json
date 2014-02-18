@@ -29,6 +29,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "classes\\helpers.js": {
+            "name": "classes\\helpers.js",
+            "modules": {},
+            "classes": {
+                "Helper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "classes\\list.js": {
             "name": "classes\\list.js",
             "modules": {},
@@ -125,15 +134,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "helpers.js": {
-            "name": "helpers.js",
-            "modules": {},
-            "classes": {
-                "Helper": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "jquery-1.10.2.js": {
             "name": "jquery-1.10.2.js",
             "modules": {},
@@ -208,44 +208,20 @@
             ],
             "extends": "Tag"
         },
-        "String": {
-            "name": "String",
-            "submodules": {},
-            "classes": {
-                "StringHelper": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "classes\\string.js",
-            "line": 504,
-            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.",
-            "itemtype": "method",
-            "params": [
-                {
-                    "name": "seed",
-                    "description": "",
-                    "type": "String|Null"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            }
-        },
         "Helper": {
             "name": "Helper",
             "submodules": {},
             "classes": {
-                "Unit": 1,
-                "Helper": 1
+                "Helper": 1,
+                "Unit": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "helpers.js",
-            "line": 4,
+            "file": "classes\\unit.js",
+            "line": 5,
             "description": "Represents a quantity divided in \"value\" and \"measure\".",
+            "type": "{Object}",
             "params": [
                 {
                     "name": "value",
@@ -257,8 +233,32 @@
                     "description": "",
                     "type": "String|null"
                 }
-            ],
-            "type": "{Object}"
+            ]
+        },
+        "String": {
+            "name": "String",
+            "submodules": {},
+            "classes": {
+                "StringHelper": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "classes\\string.js",
+            "line": 479,
+            "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.\nFor the moment, the only supported element is \"Table\".",
+            "itemtype": "method",
+            "return": {
+                "description": "Cell",
+                "type": "Object"
+            },
+            "params": [
+                {
+                    "name": "listType",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
         }
     },
     "classes": {
@@ -325,6 +325,20 @@
             "file": "classes\\content.js",
             "line": 5,
             "description": "This class is used to encompass other objects."
+        },
+        "Helper": {
+            "name": "Helper",
+            "shortname": "Helper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Helper",
+            "namespace": "",
+            "file": "classes\\helpers.js",
+            "line": 4,
+            "description": "Set of useful functions"
         },
         "List": {
             "name": "List",
@@ -400,7 +414,7 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 504,
+            "line": 479,
             "description": "Sandwiches the target string first and the second arguments. Delegates to Helpers::sandwichWith().",
             "params": [
                 {
@@ -587,20 +601,6 @@
                     "type": "String|null"
                 }
             ]
-        },
-        "Helper": {
-            "name": "Helper",
-            "shortname": "Helper",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Helper",
-            "namespace": "",
-            "file": "helpers.js",
-            "line": 4,
-            "description": "Set of useful functions"
         }
     },
     "classitems": [
@@ -862,6 +862,401 @@
             },
             "class": "Content",
             "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 11,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "itemtype": "method",
+            "name": "firstLetterUpperCase",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 22,
+            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
+            "itemtype": "method",
+            "name": "onlyFirstLetterUpperCase",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 34,
+            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero.",
+            "itemtype": "method",
+            "name": "sanitize",
+            "example": [
+                "   [1.1, 2.4, 2] -> [1.1, 2.4, 2],\n           [\"4\", -3, 3.2, \"a\"] -> [4, 3, 3.2, 0]"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 54,
+            "description": "calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.",
+            "itemtype": "method",
+            "name": "trace",
+            "example": [
+                "     [1, 2, 2] -> 1 + 2 + 2 = 5"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 71,
+            "description": "normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.\nIf not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.",
+            "itemtype": "method",
+            "name": "normalize",
+            "example": [
+                "     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]",
+                "     [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]",
+                "     [0, 0]          -> [ 0.5, 0.5]"
+            ],
+            "params": [
+                {
+                    "name": "Array",
+                    "description": "of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 105,
+            "description": "Slices the first argument according to the weights given by the second argument.\nThe elements of the second array are supposed to be non-negative numbers.",
+            "itemtype": "method",
+            "name": "splitWeighted",
+            "example": [
+                "   (10, [1, 2, 2])    -> [2, 4, 4],\n           (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]"
+            ],
+            "params": [
+                {
+                    "name": "overall",
+                    "description": "a number to be splitted",
+                    "type": "Number"
+                },
+                {
+                    "name": "pieces",
+                    "description": "array of weigths",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of numbers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 127,
+            "description": "rounds each elements of the array",
+            "itemtype": "method",
+            "name": "roundUp",
+            "example": [
+                " [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]"
+            ],
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of numbers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 141,
+            "description": "composition of roundUp and splitWeighted",
+            "itemtype": "method",
+            "name": "columnWidths",
+            "params": [
+                {
+                    "name": "overall",
+                    "description": "table width",
+                    "type": "Number"
+                },
+                {
+                    "name": "pieces",
+                    "description": "array of nambers",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 153,
+            "description": "Deletes the protocol name from the url.\nEverything until the first occurence of '://' will be removed (inclusively).",
+            "itemtype": "method",
+            "name": "dropProtocol",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "example": [
+                "  'http://www.test.com'      -> 'www.test.com'",
+                "  'www.test.com'             -> 'www.test.com'"
+            ],
+            "return": {
+                "description": "url without protocol name",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 169,
+            "description": "Gives file extension.",
+            "itemtype": "method",
+            "name": "fileExt",
+            "params": [
+                {
+                    "name": "fileName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 180,
+            "description": "Gives the validated width. If the width is given in \"px\" or \"pt\", the integer part is given.\nIf the length is given in \"em\" or \"%\", it is left as it is.",
+            "itemtype": "method",
+            "name": "validateWidth",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 208,
+            "description": "Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
+            "itemtype": "method",
+            "name": "specialChar",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 236,
+            "description": "Splits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
+            "itemtype": "method",
+            "name": "crack",
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "array of integers",
+                    "type": "Array"
+                },
+                {
+                    "name": "pos",
+                    "description": "index of the element, before which an element will be inserted",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "array of integers",
+                "type": "Array"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 276,
+            "description": "Flatten the object. This function was written because Node::attributes returns attributes in format.",
+            "itemtype": "method",
+            "name": "flatten",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "example": [
+                " {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...} -> {\"width\":\"100\", \"color\":\"black\", ...}"
+            ],
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 296,
+            "description": "Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
+            "itemtype": "method",
+            "name": "sandwichWith",
+            "params": [
+                {
+                    "name": "left",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "middle",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "right",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "type": "String|Null",
+            "return": {
+                "description": "",
+                "type": "String|Null"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 315,
+            "description": "Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
+            "itemtype": "method",
+            "name": "concatDropSpaces",
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "glue",
+                    "description": "glue string",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "classes\\helpers.js",
+            "line": 329,
+            "description": "Generates a string that can be used as id for the elements of the target string. This means that\nthe generated string must be not present among id's of the elements of the target string. The argument\nserves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,\na random symbol from 0-9, a-z will be appended to the hint string until it becomes a valid id.",
+            "itemtype": "method",
+            "name": "generateId",
+            "params": [
+                {
+                    "name": "seed",
+                    "description": "",
+                    "type": "String|Null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
         },
         {
             "file": "classes\\list.js",
@@ -1333,33 +1728,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 251,
-            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the table inside the cell is returned,\nnull otherwise.",
-            "itemtype": "method",
-            "name": "getBogusTableStyle",
-            "return": {
-                "description": "",
-                "type": "Style|null"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "classes\\row.js",
-            "line": 263,
-            "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then attribute of the table inside the cell is returned,\nnull otherwise.",
-            "itemtype": "method",
-            "name": "getBogusTableAttr",
-            "return": {
-                "description": "",
-                "type": "Attributes|null"
-            },
-            "class": "Row",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "classes\\row.js",
-            "line": 275,
+            "line": 249,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then requested property name of the table inside the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -1373,6 +1742,32 @@
             "return": {
                 "description": "",
                 "type": "Object|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 263,
+            "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then style of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('style')__.",
+            "itemtype": "method",
+            "name": "getBogusTableStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\row.js",
+            "line": 274,
+            "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then attribute of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('attr')__.",
+            "itemtype": "method",
+            "name": "getBogusTableAttr",
+            "return": {
+                "description": "",
+                "type": "Attributes|null"
             },
             "class": "Row",
             "module": "HtmlElements"
@@ -2449,16 +2844,103 @@
             "file": "classes\\table.js",
             "line": 526,
             "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
+            "itemtype": "method",
+            "name": "getBogusCellProp",
             "params": [
                 {
                     "name": "propName",
-                    "description": "",
+                    "description": "requested property (supposed to be \"style\" or \"attr\")",
                     "type": "String"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Object|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 553,
+            "description": "If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('style')`.",
+            "itemtype": "method",
+            "name": "getBogusCellStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 563,
+            "description": "If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('attr')`.",
+            "itemtype": "method",
+            "name": "getBogusCellAttr",
+            "return": {
+                "description": "",
+                "type": "Attributes|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 574,
+            "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
+            "itemtype": "method",
+            "name": "getBogusTableProp",
+            "params": [
+                {
+                    "name": "propName",
+                    "description": "requested property (supposed to be \"style\" or \"attr\")",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 602,
+            "description": "If the table is fragmented, returns the style of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('style')`.",
+            "itemtype": "method",
+            "name": "getBogusTableStyle",
+            "return": {
+                "description": "",
+                "type": "Style|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 612,
+            "description": "If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('attr')`.",
+            "itemtype": "method",
+            "name": "getBogusTableAttr",
+            "return": {
+                "description": "",
+                "type": "Attributes|null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "classes\\table.js",
+            "line": 623,
+            "description": "If the table is fragmented, then sets up the bogus properties and rearrange content property.\nIf not, the table remains as it is.",
+            "itemtype": "method",
+            "name": "desintangle",
+            "return": {
+                "description": "",
+                "type": "Void"
             },
             "class": "Table",
             "module": "HtmlElements"
@@ -2856,406 +3338,6 @@
             "module": "Helper"
         },
         {
-            "file": "helpers.js",
-            "line": 30,
-            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
-            "itemtype": "method",
-            "name": "firstLetterUpperCase",
-            "params": [
-                {
-                    "name": "str",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 41,
-            "description": "Converts the first letter of the string into the upper case\nIf the string is empty, the output is empty string as well.",
-            "itemtype": "method",
-            "name": "onlyFirstLetterUpperCase",
-            "params": [
-                {
-                    "name": "str",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 53,
-            "description": "transforms each element of the input array into a non-negative number.\nIf an element is negative, its absolute value is used.\nIf an element fails to be converted to a number, it is substituted by zero.",
-            "itemtype": "method",
-            "name": "sanitize",
-            "example": [
-                "   [1.1, 2.4, 2] -> [1.1, 2.4, 2],\n           [\"4\", -3, 3.2, \"a\"] -> [4, 3, 3.2, 0]"
-            ],
-            "params": [
-                {
-                    "name": "arr",
-                    "description": "array of numbers",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of numbers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 73,
-            "description": "calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.",
-            "itemtype": "method",
-            "name": "trace",
-            "example": [
-                "     [1, 2, 2] -> 1 + 2 + 2 = 5"
-            ],
-            "params": [
-                {
-                    "name": "arr",
-                    "description": "array of numbers",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 90,
-            "description": "normalizes the array. If all elements are equal to zero, then the elements are to be normallized uniformally.\nIf not all the elements are equal to zero, but the trace is equal to zero, then the input array is returned.",
-            "itemtype": "method",
-            "name": "normalize",
-            "example": [
-                "     [1, 3, 4]       -> [ 0.125, 0.375, 0.5 ]",
-                "     [2, 0, -1, -1]  -> [ 2, 0, -1, -1 ]",
-                "     [0, 0]          -> [ 0.5, 0.5]"
-            ],
-            "params": [
-                {
-                    "name": "Array",
-                    "description": "of numbers",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of numbers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 124,
-            "description": "Slices the first argument according to the weights given by the second argument.\nThe elements of the second array are supposed to be non-negative numbers.",
-            "itemtype": "method",
-            "name": "splitWeighted",
-            "example": [
-                "   (10, [1, 2, 2])    -> [2, 4, 4],\n           (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]"
-            ],
-            "params": [
-                {
-                    "name": "overall",
-                    "description": "a number to be splitted",
-                    "type": "Number"
-                },
-                {
-                    "name": "pieces",
-                    "description": "array of weigths",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of numbers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 146,
-            "description": "rounds each elements of the array",
-            "itemtype": "method",
-            "name": "roundUp",
-            "example": [
-                " [1, 2.2, 5.6, 0, 4.5] -> [1, 2, 6, 0, 5]"
-            ],
-            "params": [
-                {
-                    "name": "arr",
-                    "description": "array of numbers",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of integers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 160,
-            "description": "composition of roundUp and splitWeighted",
-            "itemtype": "method",
-            "name": "columnWidths",
-            "params": [
-                {
-                    "name": "overall",
-                    "description": "table width",
-                    "type": "Number"
-                },
-                {
-                    "name": "pieces",
-                    "description": "array of nambers",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of integers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 172,
-            "description": "Deletes the protocol name from the url.\nEverything until the first occurence of '://' will be removed (inclusively).",
-            "itemtype": "method",
-            "name": "dropProtocol",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "example": [
-                "  'http://www.test.com'      -> 'www.test.com'",
-                "  'www.test.com'             -> 'www.test.com'"
-            ],
-            "return": {
-                "description": "url without protocol name",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 188,
-            "description": "Gives file extension.",
-            "itemtype": "method",
-            "name": "fileExt",
-            "params": [
-                {
-                    "name": "fileName",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 199,
-            "description": "Gives the validated width. If the width is given in \"px\" or \"pt\", the integer part is given.\nIf the length is given in \"em\" or \"%\", it is left as it is.",
-            "itemtype": "method",
-            "name": "validateWidth",
-            "params": [
-                {
-                    "name": "str",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 227,
-            "description": "Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é\nand not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].",
-            "itemtype": "method",
-            "name": "specialChar",
-            "params": [
-                {
-                    "name": "str",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 251,
-            "description": "Splits array element at position \"pos\" in two parts in such a way that the trace of the original array\nis equal to the trace of the output array. If it is the first element of the array to be splitted, then\nit is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour\nand the element are taken off 1/3 and these two parts are given to the newly created element that is inserted\nbetween the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]",
-            "itemtype": "method",
-            "name": "crack",
-            "params": [
-                {
-                    "name": "arr",
-                    "description": "array of integers",
-                    "type": "Array"
-                },
-                {
-                    "name": "pos",
-                    "description": "index of the element, before which an element will be inserted",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "array of integers",
-                "type": "Array"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 291,
-            "description": "Flatten the object. This function was written because Node::attributes returns attributes in format.",
-            "itemtype": "method",
-            "name": "flatten",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Object"
-            },
-            "example": [
-                " {'1': {name: \"width\", value:\"100\", ...}, '2': {name: \"color\", value:\"black\", ...}, ...} -> {\"width\":\"100\", \"color\":\"black\", ...}"
-            ],
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 311,
-            "description": "Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.\nIf the right arguments is not given, the left one is used.",
-            "itemtype": "method",
-            "name": "sandwichWith",
-            "params": [
-                {
-                    "name": "left",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "middle",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "right",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "type": "String|Null",
-            "return": {
-                "description": "",
-                "type": "String|Null"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 330,
-            "description": "Glues all elements of the array, replace trailing spaces and repaces multiple spaces with a single one.",
-            "itemtype": "method",
-            "name": "concatDropSpaces",
-            "params": [
-                {
-                    "name": "arr",
-                    "description": "",
-                    "type": "Array"
-                },
-                {
-                    "name": "glue",
-                    "description": "glue string",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
-            "file": "helpers.js",
-            "line": 345,
-            "description": "Sets width, min-width and max-width of the object.",
-            "itemtype": "method",
-            "name": "setMinMaxWidth",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "object which width is to be set.",
-                    "type": "Object"
-                },
-                {
-                    "name": "w",
-                    "description": "width value",
-                    "type": "Mixed"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Helper",
-            "module": "Helper"
-        },
-        {
             "file": "jquery-1.10.2.js",
             "line": 1292,
             "description": "Create key-value caches of limited size",
@@ -3501,10 +3583,6 @@
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",
             "line": " classes\\property.js:21"
-        },
-        {
-            "message": "Missing item type\nIf the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
-            "line": " classes\\table.js:526"
         },
         {
             "message": "Missing item type\nCreate key-value caches of limited size",

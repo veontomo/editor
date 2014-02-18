@@ -2,31 +2,6 @@
 /*jslint plusplus: true, white: true */
 /*global DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table, Content, Tag, List */
 
-/**
- * Generates a string that can be used as id for the elements of the target string. This means that
- * the generated string must be not present among id of the elements of the target string. The argument
- * serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
- * a symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.
- * @module  String
- * @class  StringHelper
- * @method generateId
- * @param  {String|Null} seed
- * @return {String}
- */
-String.prototype.generateId = function(seed){
-    var str = this.toString(),
-        parser = new DOMParser(),
-        doc = parser.parseFromString(str, 'text/html'),
-        id,
-        pool = '0123456789abcdefghijklmnopqrstuvwxyz',
-        poolLen = pool.length;
-        id = seed || pool.substr(Math.floor(Math.random()*(poolLen+1)), 1) + pool.substr(Math.floor(Math.random()*(poolLen+1)), 1);
-    // generate a unique id for the overall document
-    while(doc.getElementById(id)){
-        id += pool.substr(Math.floor(Math.random()*(poolLen+1)), 1);
-    }
-    return id;
-};
 
 /**
  * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
@@ -131,7 +106,7 @@ String.prototype.createRowFromHtml = function(){
  */
 String.prototype.createTableFromHtml = function(){
     var htmlStr = this,
-        isFramed = htmlStr.isFramedTable(),
+        isFramed = false && htmlStr.isFramedTable(),
         parser = new DOMParser(),
         doc = parser.parseFromString(htmlStr, 'text/html'),
         node = doc.getElementsByTagName('table'),
@@ -218,7 +193,7 @@ String.prototype.createTableFromHtml = function(){
 String.prototype.createListFromHtml = function(listType){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId('fakeId'),
+        id = Helper.generateId(str, 'fakeId'),
         doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
         output = new List(),
         uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
@@ -355,50 +330,50 @@ String.prototype.createListItemFromHtml = function(){
  * @method  isFramedTable
  * @return  {Boolean}
  */
-String.prototype.isFramedTable = function (){
-    var tableHtml = this,
-        parser = new DOMParser(),
-        doc = parser.parseFromString(tableHtml, 'text/html'),
-        node = doc.getElementsByTagName('table'),
-        isFramed = true,
-        tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
+// String.prototype.isFramedTable = function (){
+//     var tableHtml = this,
+//         parser = new DOMParser(),
+//         doc = parser.parseFromString(tableHtml, 'text/html'),
+//         node = doc.getElementsByTagName('table'),
+//         isFramed = true,
+//         tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
 
-        // it would be very nice to use this approach, but doc.evaluate always returns "undefined"
-        // try{
-        //  var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
-        //  console.log('evaluate: ', tmp);
-        // } catch (ex){
-        //  console.log("Error! ", ex);
-        // }
+//         // it would be very nice to use this approach, but doc.evaluate always returns "undefined"
+//         // try{
+//         //  var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
+//         //  console.log('evaluate: ', tmp);
+//         // } catch (ex){
+//         //  console.log("Error! ", ex);
+//         // }
 
-        if (node.length === 0){
-            return false;
-        }
-        node = node[0];
+//         if (node.length === 0){
+//             return false;
+//         }
+//         node = node[0];
 
-        // parsing the table structure to decide whether this is a framed table or a regular one.
-        tableChildren = node.children[0].children;   // all rows of  the table
-        tableChildrenLen = tableChildren.length;
-        for (i = 0; i < tableChildrenLen; i++) {
-            currentElem = tableChildren[i];          // current row
-            elemChildren = currentElem.children;     // all cells inside the row
-            if (elemChildren.length !== 1 ){
-                isFramed = false;
-                break;
-            }
-            nestedElem = elemChildren[0];     // first cell inside the row
-            if (nestedElem.tagName !== 'TD'){
-                isFramed = false;
-                break;
-            }
-            nestedElemChildren = nestedElem.children;
-            if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
-                isFramed = false;
-                break;
-            }
-        }
-        return isFramed;
-};
+//         // parsing the table structure to decide whether this is a framed table or a regular one.
+//         tableChildren = node.children[0].children;   // all rows of  the table
+//         tableChildrenLen = tableChildren.length;
+//         for (i = 0; i < tableChildrenLen; i++) {
+//             currentElem = tableChildren[i];          // current row
+//             elemChildren = currentElem.children;     // all cells inside the row
+//             if (elemChildren.length !== 1 ){
+//                 isFramed = false;
+//                 break;
+//             }
+//             nestedElem = elemChildren[0];     // first cell inside the row
+//             if (nestedElem.tagName !== 'TD'){
+//                 isFramed = false;
+//                 break;
+//             }
+//             nestedElemChildren = nestedElem.children;
+//             if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
+//                 isFramed = false;
+//                 break;
+//             }
+//         }
+//         return isFramed;
+// };
 
 /**
  * Creates an instance of Tag class and fills in its property "elements" with
@@ -412,7 +387,7 @@ String.prototype.isFramedTable = function (){
 String.prototype.createTagFromHtml = function(){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId('fakeId'),
+        id = Helper.generateId(str, 'fakeId'),
         doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
         output = new Tag(),
         uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
@@ -464,7 +439,7 @@ String.prototype.createTagFromHtml = function(){
 String.prototype.inflate = function(){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId('fakeId'),
+        id = Helper.generateId(str, 'fakeId'),
         doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
         output = new Content(),
         node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
@@ -499,16 +474,4 @@ String.prototype.inflate = function(){
         }
     }
     return output;
-};
-
-/**
- * Sandwiches the target string first and the second arguments. Delegates to Helpers::sandwichWith().
- * @class  StringHelper
- * @method sandwichWith
- * @param  {String}    left
- * @param  {String}    right
- * @return {String}
- */
-String.prototype.sandwichWith = function (left, right){
-    return Helper.sandwichWith(left, this, right);
 };

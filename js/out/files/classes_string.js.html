@@ -138,31 +138,6 @@
 /*jslint plusplus: true, white: true */
 /*global DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table, Content, Tag, List */
 
-/**
- * Generates a string that can be used as id for the elements of the target string. This means that
- * the generated string must be not present among id of the elements of the target string. The argument
- * serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
- * a symbo from range 0-9, a-z will be appended to the hint string until it becomes a valid id.
- * @module  String
- * @class  StringHelper
- * @method generateId
- * @param  {String|Null} seed
- * @return {String}
- */
-String.prototype.generateId = function(seed){
-    var str = this.toString(),
-        parser = new DOMParser(),
-        doc = parser.parseFromString(str, &#x27;text/html&#x27;),
-        id,
-        pool = &#x27;0123456789abcdefghijklmnopqrstuvwxyz&#x27;,
-        poolLen = pool.length;
-        id = seed || pool.substr(Math.floor(Math.random()*(poolLen+1)), 1) + pool.substr(Math.floor(Math.random()*(poolLen+1)), 1);
-    // generate a unique id for the overall document
-    while(doc.getElementById(id)){
-        id += pool.substr(Math.floor(Math.random()*(poolLen+1)), 1);
-    }
-    return id;
-};
 
 /**
  * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
@@ -354,7 +329,7 @@ String.prototype.createTableFromHtml = function(){
 String.prototype.createListFromHtml = function(listType){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId(&#x27;fakeId&#x27;),
+        id = Helper.generateId(str, &#x27;fakeId&#x27;),
         doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
         output = new List(),
         uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
@@ -548,7 +523,7 @@ String.prototype.isFramedTable = function (){
 String.prototype.createTagFromHtml = function(){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId(&#x27;fakeId&#x27;),
+        id = Helper.generateId(str, &#x27;fakeId&#x27;),
         doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
         output = new Tag(),
         uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
@@ -600,7 +575,7 @@ String.prototype.createTagFromHtml = function(){
 String.prototype.inflate = function(){
     var str = this.toString(),
         parser = new DOMParser(),
-        id = str.generateId(&#x27;fakeId&#x27;),
+        id = Helper.generateId(str, &#x27;fakeId&#x27;),
         doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
         output = new Content(),
         node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
