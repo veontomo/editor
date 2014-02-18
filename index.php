@@ -32,9 +32,15 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 </head>
 <body>
 	<article class="algorithm">
-		<a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
-		<a href="js/out/"><img src="images/yui-logo.png" width="100px"/>API</a>
-		<a href="js/classes/coverage/Firefox 27.0.0 (Windows)/"><img src="images/karma.png" width="100px" />Firefox</a>
+		<div class="panel">
+			<a href="js/out/"><img src="images/yui-logo.png" width="100px"/>API</a>
+		</div>
+		<div class="panel">
+			<a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
+		</div>
+		<div class="panel"><a href="js/classes/coverage/Firefox 27.0.0 (Windows)/">
+			<img src="images/coverage.png" width="100px" />Firefox</a>
+		</div>
 		<h1>
 			Preliminarie
 		</h1>

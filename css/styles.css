@@ -27,3 +27,11 @@ code {
 	content: "NB:";
 	font-weight: bold;
 }
+
+.panel{
+	width: 10%;
+	max-width: 100px;
+	display: inline;
+	margin: 0.5em;
+	text-align: left;
+}
