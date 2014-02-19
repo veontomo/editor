@@ -147,7 +147,7 @@
 * @extends Tag
 */
 function Table() {
-	&quot;use strict&quot;;
+	// &quot;use strict&quot;;
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
@@ -288,6 +288,19 @@ function Table() {
 			}
 		}
 		return null;
+	};
+
+	/**
+	 * insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .
+	 * @method  insertColumnAt
+	 * @param  {pos}      pos
+	 * @param  {cell}     cell
+	 * @return {void}
+	 * @deprecated  Use Table::insertColAt() directly.
+	 */
+	this.insertColumnAt = function(pos, cell){
+		console.log(&#x27;Table::insertColumnAt() was called. Try to eliminate this call.&#x27;);
+		this.insertColAt(pos, cell);
 	};
 
 	/**
@@ -781,8 +794,9 @@ function Table() {
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
 		this.content = newContent;
-
 	};
+
+
 }
 Table.prototype = Object.create(Tag.prototype);
     </pre>

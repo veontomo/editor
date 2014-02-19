@@ -259,7 +259,6 @@ function Row() {
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
 		if (this.cellNum() !== 1 || cell.length() !== 1){
-			console.log(&#x27;returning FALSE&#x27;);
 			return false;
 		}
 		return (cell.getFirst() instanceof Table);
@@ -307,6 +306,20 @@ function Row() {
 			this.dropElemAt(cellNum);
 		}
 	};
+
+	/**
+	 * dropCell was renamed into Row::knockOutCell(). So, this method is added for back-compatibility .
+	 * @method  dropCell
+	 * @param  {pos}      pos
+	 * @param  {cell}     cell
+	 * @return {void}
+	 * @deprecated  Use Row::knockOutCell() directly.
+	 */
+	this.dropCell = function(pos, cell){
+		console.log(&#x27;Table::insertColumnAt() was called. Try to eliminate this call.&#x27;);
+		this.insertColAt(pos, cell);
+	};
+
 
 	/**
 	 * Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().

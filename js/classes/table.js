@@ -9,7 +9,7 @@
 * @extends Tag
 */
 function Table() {
-	"use strict";
+	// "use strict";
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
@@ -153,6 +153,19 @@ function Table() {
 	};
 
 	/**
+	 * insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .
+	 * @method  insertColumnAt
+	 * @param  {pos}      pos
+	 * @param  {cell}     cell
+	 * @return {void}
+	 * @deprecated  Use Table::insertColAt() directly.
+	 */
+	this.insertColumnAt = function(pos, cell){
+		console.log('Table::insertColumnAt() was called. Try to eliminate this call.');
+		this.insertColAt(pos, cell);
+	};
+
+	/**
 	 * Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`
 	 * @method knockOutCol
 	 * @param  {integer} 	colNum        the number of the column to be knocked out. Numeration starts with 0.
@@ -165,6 +178,20 @@ function Table() {
 			this.getElem(i).knockOutCell(colNum);
 		}
 	};
+
+	/**
+	 * dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .
+	 * @method  dropColumn
+	 * @param  {pos}      pos
+	 * @param  {cell}     cell
+	 * @return {void}
+	 * @deprecated  Use Table::knockOutCol() directly.
+	 */
+	this.dropColumn = function(pos, cell){
+		console.log('Table::dropColumn() was called. Try to eliminate this call by using Table::knockOutCol() directly.');
+		this.knockOutCol(pos, cell);
+	};
+
 
 	/**
 	 * Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`
@@ -290,7 +317,7 @@ function Table() {
 	};
 
 	/**
-	 * Returns true if the table is framed, and false otherwise. It takes table rows and call method
+	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and call method
 	 * `Row::onlyTableInside()` on each of them until first "false" is encountered.
 	 * <br />A table is a __framed table__ if all table rows have only one cell and this cell contains
 	 * only one element that is a Table instance.
@@ -308,7 +335,7 @@ function Table() {
 
 	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise. It at least one of the properties, corresponding to the "bogus" elements is set, then
+	 * false otherwise. If at least one of the properties, corresponding to the "bogus" elements is set, then
 	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
 	 * @return {Boolean}     true, if all table rows have border around
@@ -643,7 +670,8 @@ function Table() {
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
 		this.content = newContent;
-
 	};
+
+
 }
 Table.prototype = Object.create(Tag.prototype);

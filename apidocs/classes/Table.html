@@ -314,6 +314,15 @@
                                 
                             </li>
                         
+                            <li class="index-item method deprecated">
+                                <a href="#method_insertColumnAt">insertColumnAt</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
                             <li class="index-item method">
                                 <a href="#method_isFragmented">isFragmented</a>
 
@@ -628,7 +637,7 @@
             
         
         
-        <a href="../files/js_classes_table.js.html#l343"><code>js\classes\table.js:343</code></a>
+        <a href="../files/js_classes_table.js.html#l356"><code>js\classes\table.js:356</code></a>
         
         </p>
 
@@ -740,7 +749,7 @@ on each of the table rows.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l183"><code>js\classes\table.js:183</code></a>
+        <a href="../files/js_classes_table.js.html#l196"><code>js\classes\table.js:196</code></a>
         
         </p>
 
@@ -812,7 +821,7 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l623"><code>js\classes\table.js:623</code></a>
+        <a href="../files/js_classes_table.js.html#l636"><code>js\classes\table.js:636</code></a>
         
         </p>
 
@@ -894,7 +903,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l169"><code>js\classes\table.js:169</code></a>
+        <a href="../files/js_classes_table.js.html#l182"><code>js\classes\table.js:182</code></a>
         
         </p>
 
@@ -989,7 +998,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l563"><code>js\classes\table.js:563</code></a>
+        <a href="../files/js_classes_table.js.html#l576"><code>js\classes\table.js:576</code></a>
         
         </p>
 
@@ -1071,7 +1080,7 @@ Otherwise, null is returned. This is an alias for <code>Table::getBogusCellProp(
             
         
         
-        <a href="../files/js_classes_table.js.html#l526"><code>js\classes\table.js:526</code></a>
+        <a href="../files/js_classes_table.js.html#l539"><code>js\classes\table.js:539</code></a>
         
         </p>
 
@@ -1167,7 +1176,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l553"><code>js\classes\table.js:553</code></a>
+        <a href="../files/js_classes_table.js.html#l566"><code>js\classes\table.js:566</code></a>
         
         </p>
 
@@ -1239,7 +1248,7 @@ Otherwise, null is returned. This is an alias for <code>Table::getBogusCellProp(
             
         
         
-        <a href="../files/js_classes_table.js.html#l516"><code>js\classes\table.js:516</code></a>
+        <a href="../files/js_classes_table.js.html#l529"><code>js\classes\table.js:529</code></a>
         
         </p>
 
@@ -1321,7 +1330,7 @@ Otherwise, null is returned. This is an alias for <code>Table::getBogusRowProp(&
             
         
         
-        <a href="../files/js_classes_table.js.html#l467"><code>js\classes\table.js:467</code></a>
+        <a href="../files/js_classes_table.js.html#l480"><code>js\classes\table.js:480</code></a>
         
         </p>
 
@@ -1422,7 +1431,7 @@ with boolean-valued method isTheSameAs().</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l506"><code>js\classes\table.js:506</code></a>
+        <a href="../files/js_classes_table.js.html#l519"><code>js\classes\table.js:519</code></a>
         
         </p>
 
@@ -1494,7 +1503,7 @@ Otherwise, null is returned. This is an alias for <code>Table::getBogusRowProp(&
             
         
         
-        <a href="../files/js_classes_table.js.html#l612"><code>js\classes\table.js:612</code></a>
+        <a href="../files/js_classes_table.js.html#l625"><code>js\classes\table.js:625</code></a>
         
         </p>
 
@@ -1576,7 +1585,7 @@ Otherwise, null is returned. This is an alias for <code>Table::getBogusTableProp
             
         
         
-        <a href="../files/js_classes_table.js.html#l574"><code>js\classes\table.js:574</code></a>
+        <a href="../files/js_classes_table.js.html#l587"><code>js\classes\table.js:587</code></a>
         
         </p>
 
@@ -1672,7 +1681,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l602"><code>js\classes\table.js:602</code></a>
+        <a href="../files/js_classes_table.js.html#l615"><code>js\classes\table.js:615</code></a>
         
         </p>
 
@@ -2056,6 +2065,135 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
 </div>
 
                 
+                    <div id="method_insertColumnAt" class="method item deprecated">
+    <h3 class="name"><code>insertColumnAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>pos</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cell</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="Use Table::insertColAt() directly.">deprecated</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_table.js.html#l155"><code>js\classes\table.js:155</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: Use Table::insertColAt() directly.</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">pos</code>
+                        <span class="type">Pos</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cell</code>
+                        <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_isFragmented" class="method item">
     <h3 class="name"><code>isFragmented</code></h3>
 
@@ -2092,7 +2230,7 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l292"><code>js\classes\table.js:292</code></a>
+        <a href="../files/js_classes_table.js.html#l305"><code>js\classes\table.js:305</code></a>
         
         </p>
 
@@ -2168,7 +2306,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l309"><code>js\classes\table.js:309</code></a>
+        <a href="../files/js_classes_table.js.html#l322"><code>js\classes\table.js:322</code></a>
         
         </p>
 
@@ -2243,7 +2381,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/js_classes_table.js.html#l210"><code>js\classes\table.js:210</code></a>
+        <a href="../files/js_classes_table.js.html#l223"><code>js\classes\table.js:223</code></a>
         
         </p>
 
@@ -2326,7 +2464,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/js_classes_table.js.html#l155"><code>js\classes\table.js:155</code></a>
+        <a href="../files/js_classes_table.js.html#l168"><code>js\classes\table.js:168</code></a>
         
         </p>
 
@@ -2421,7 +2559,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/js_classes_table.js.html#l271"><code>js\classes\table.js:271</code></a>
+        <a href="../files/js_classes_table.js.html#l284"><code>js\classes\table.js:284</code></a>
         
         </p>
 
@@ -2496,7 +2634,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/js_classes_table.js.html#l326"><code>js\classes\table.js:326</code></a>
+        <a href="../files/js_classes_table.js.html#l339"><code>js\classes\table.js:339</code></a>
         
         </p>
 
@@ -2648,7 +2786,7 @@ the table is considered as being framed and hence all its rows will be framed.</
             
         
         
-        <a href="../files/js_classes_table.js.html#l246"><code>js\classes\table.js:246</code></a>
+        <a href="../files/js_classes_table.js.html#l259"><code>js\classes\table.js:259</code></a>
         
         </p>
 
@@ -2855,7 +2993,7 @@ method of Row::setCellWidths on each table row.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l367"><code>js\classes\table.js:367</code></a>
+        <a href="../files/js_classes_table.js.html#l380"><code>js\classes\table.js:380</code></a>
         
         </p>
 
@@ -2969,7 +3107,7 @@ Creation of the row-related html of each row is delegated to <code>Row::toHtml()
             
         
         
-        <a href="../files/js_classes_table.js.html#l437"><code>js\classes\table.js:437</code></a>
+        <a href="../files/js_classes_table.js.html#l450"><code>js\classes\table.js:450</code></a>
         
         </p>
 
@@ -3019,7 +3157,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l427"><code>js\classes\table.js:427</code></a>
+        <a href="../files/js_classes_table.js.html#l440"><code>js\classes\table.js:440</code></a>
         
         </p>
 
@@ -3069,7 +3207,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l417"><code>js\classes\table.js:417</code></a>
+        <a href="../files/js_classes_table.js.html#l430"><code>js\classes\table.js:430</code></a>
         
         </p>
 
@@ -3119,7 +3257,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l407"><code>js\classes\table.js:407</code></a>
+        <a href="../files/js_classes_table.js.html#l420"><code>js\classes\table.js:420</code></a>
         
         </p>
 
@@ -3169,7 +3307,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l457"><code>js\classes\table.js:457</code></a>
+        <a href="../files/js_classes_table.js.html#l470"><code>js\classes\table.js:470</code></a>
         
         </p>
 
@@ -3219,7 +3357,7 @@ are simultaneously null or set.</p>
             
         
         
-        <a href="../files/js_classes_table.js.html#l447"><code>js\classes\table.js:447</code></a>
+        <a href="../files/js_classes_table.js.html#l460"><code>js\classes\table.js:460</code></a>
         
         </p>
 

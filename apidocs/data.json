@@ -1697,7 +1697,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 130,
+            "line": 129,
             "description": "Alias for dropElemAt().",
             "itemtype": "method",
             "name": "dropCellAt",
@@ -1717,7 +1717,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 140,
+            "line": 139,
             "description": "12/02/2014 11:55: dropCell --> knockOutCell\nDrops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf the cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "knockOutCell",
@@ -1737,7 +1737,34 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 173,
+            "line": 172,
+            "description": "dropCell was renamed into Row::knockOutCell(). So, this method is added for back-compatibility .",
+            "itemtype": "method",
+            "name": "dropCell",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Pos"
+                },
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "deprecated": true,
+            "deprecationMessage": "Use Row::knockOutCell() directly.",
+            "class": "Row",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\row.js",
+            "line": 186,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -1762,7 +1789,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 184,
+            "line": 197,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -1784,7 +1811,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 216,
+            "line": 229,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('style')__.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
@@ -1797,7 +1824,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 227,
+            "line": 240,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
@@ -1810,7 +1837,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 238,
+            "line": 251,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusCellProp",
@@ -1830,7 +1857,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 250,
+            "line": 263,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then requested property name of the table inside the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -1850,7 +1877,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 264,
+            "line": 277,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then style of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('style')__.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -1863,7 +1890,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 275,
+            "line": 288,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then attribute of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -2669,6 +2696,33 @@
         {
             "file": "js\\classes\\table.js",
             "line": 155,
+            "description": "insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .",
+            "itemtype": "method",
+            "name": "insertColumnAt",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Pos"
+                },
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "deprecated": true,
+            "deprecationMessage": "Use Table::insertColAt() directly.",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\table.js",
+            "line": 168,
             "description": "Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`",
             "itemtype": "method",
             "name": "knockOutCol",
@@ -2688,7 +2742,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 169,
+            "line": 182,
             "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
@@ -2708,7 +2762,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 183,
+            "line": 196,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
@@ -2721,7 +2775,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 210,
+            "line": 223,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "isSameWidth",
@@ -2734,7 +2788,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 246,
+            "line": 259,
             "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
             "itemtype": "method",
             "name": "setBorder",
@@ -2755,7 +2809,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 271,
+            "line": 284,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -2768,7 +2822,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 292,
+            "line": 305,
             "description": "Returns true if the table is framed, and false otherwise. It takes table rows and call method\n`Row::onlyTableInside()` on each of them until first \"false\" is encountered.\n<br />A table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
             "name": "isFragmented",
@@ -2781,7 +2835,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 309,
+            "line": 322,
             "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
             "itemtype": "method",
             "name": "isFramed",
@@ -2794,7 +2848,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 326,
+            "line": 339,
             "description": "Resets bogus properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "resetBogus",
@@ -2807,7 +2861,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 343,
+            "line": 356,
             "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -2832,7 +2886,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 367,
+            "line": 380,
             "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to `Row::toHtml()`",
             "itemtype": "method",
             "name": "toHtml",
@@ -2845,7 +2899,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 407,
+            "line": 420,
             "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowStyle",
@@ -2856,7 +2910,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 417,
+            "line": 430,
             "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowAttr",
@@ -2867,7 +2921,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 427,
+            "line": 440,
             "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellStyle",
@@ -2878,7 +2932,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 437,
+            "line": 450,
             "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellAttr",
@@ -2889,7 +2943,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 447,
+            "line": 460,
             "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -2900,7 +2954,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 457,
+            "line": 470,
             "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableAttr",
@@ -2911,7 +2965,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 467,
+            "line": 480,
             "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getBogusRowProp",
@@ -2931,7 +2985,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 506,
+            "line": 519,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('style')`.",
             "itemtype": "method",
             "name": "getBogusRowStyle",
@@ -2944,7 +2998,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 516,
+            "line": 529,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusRowAttr",
@@ -2957,7 +3011,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 526,
+            "line": 539,
             "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusCellProp",
@@ -2977,7 +3031,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 553,
+            "line": 566,
             "description": "If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('style')`.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
@@ -2990,7 +3044,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 563,
+            "line": 576,
             "description": "If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
@@ -3003,7 +3057,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 574,
+            "line": 587,
             "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -3023,7 +3077,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 602,
+            "line": 615,
             "description": "If the table is fragmented, returns the style of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('style')`.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -3036,7 +3090,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 612,
+            "line": 625,
             "description": "If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -3049,7 +3103,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 623,
+            "line": 636,
             "description": "If the table is fragmented, then sets up the bogus properties and rearrange content property.\nIf not, the table remains as it is.",
             "itemtype": "method",
             "name": "desintangle",

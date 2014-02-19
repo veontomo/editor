@@ -357,7 +357,7 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 
 
 			if (cellNumber >= 0 && cellNumber < colNum){
-				tableObj.dropColumn(cellNumber);
+				tableObj.knockOutCol(cellNumber);
 			}
 			tableStr = tableObj.toHtml();
 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);

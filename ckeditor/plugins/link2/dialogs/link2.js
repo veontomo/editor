@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, LinkStyle, dropProtocol */
+/*global CKEDITOR, LinkStyle, Helper */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning';
@@ -75,7 +75,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     switch (startCont.type){
                         case CKEDITOR.NODE_ELEMENT:
                             linkContent = startCont.getHtml();
-                            linkHref = decodeURI(dropProtocol(startCont.getAttribute('href') || ''));
+                            linkHref = decodeURI(Helper.dropProtocol(startCont.getAttribute('href') || ''));
                             break;
                         case CKEDITOR.NODE_TEXT:
                             linkContent = startCont.getText();
@@ -101,7 +101,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             linkContentRaw = this.getValueOf('tab-general', 'text');
             isUnderlined = this.getValueOf('tab-general', 'underlined');
 
-            linkHref = 'http://' + encodeURI(dropProtocol(linkHrefRaw));
+            linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
 
             // the range might contain nothing (to be a collapsed one)
             if (range.collapsed){
