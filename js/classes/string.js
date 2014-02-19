@@ -110,9 +110,7 @@ String.prototype.createTableFromHtml = function(){
         parser = new DOMParser(),
         doc = parser.parseFromString(htmlStr, 'text/html'),
         node = doc.getElementsByTagName('table'),
-
-        table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row,
-        bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle;
+        table, attrs, i, nodeStyle, rows, rowsNum, currentRow, row;
     if (node.length === 0){
         return null;
     }
@@ -138,45 +136,15 @@ String.prototype.createTableFromHtml = function(){
     rows = node.children[0].children;
     rowsNum = rows.length;
 
-    // if (isFramed){
-    //     bogusRowStyle = node.querySelector('tr').getAttribute('style');
-    //     bogusCellStyle = node.querySelector('tr td').getAttribute('style');
-    //     bogusTableStyle = node.querySelector('tr td table').getAttribute('style');
-
-    //     bogusRowAttr = Helper.flatten(node.querySelector('tr').attributes);
-    //     if (bogusRowAttr.hasOwnProperty('style')){
-    //         delete bogusRowAttr.style;
-    //     }
-
-    //     bogusCellAttr = Helper.flatten(node.querySelector('tr td').attributes);
-    //     if (bogusCellAttr.hasOwnProperty('style')){
-    //         delete bogusCellAttr.style;
-    //     }
-
-    //     bogusTableAttr = Helper.flatten(node.querySelector('tr td table').attributes);
-    //     if (bogusTableAttr.hasOwnProperty('style')){
-    //         delete bogusTableAttr.style;
-    //     }
-    //     table.bogusRowStyle   = new Style(bogusRowStyle);
-    //     table.bogusRowAttr    = new Attributes(bogusRowAttr);
-    //     table.bogusCellStyle  = new Style(bogusCellStyle);
-    //     table.bogusCellAttr   = new Attributes(bogusCellAttr);
-    //     table.bogusTableStyle = new Style(bogusTableStyle);
-    //     table.bogusTableAttr  = new Attributes(bogusTableAttr);
-    // }
     for (i = 0; i < rowsNum; i++){
-        // if (isFramed){
-        //     currentRow = rows[i].querySelector('td table tr');
-        // } else {
-            currentRow = rows[i];
-        // }
-
+        currentRow = rows[i];
         if(currentRow.tagName === "TR"){
-            // console.log(child);
             row = currentRow.outerHTML.createRowFromHtml();
             table.appendRow(row);
         }
     }
+    // if the table turns out to be framed, "disentanlement" will pull out properties of
+    // bogus cells, rows and tables
     table.disentangle();
     return table;
 };
@@ -325,59 +293,6 @@ String.prototype.createListItemFromHtml = function(){
     return listItem;
 };
 
-/**
- * Returns true, if tableHtml is an html code corresponding to a table each row of which
- * contains just one cell, and this cell in its turn contains only one table.
- * Returns false otherwise.
- * @module  String
- * @class  StringHelper
- * @method  isFramedTable
- * @return  {Boolean}
- */
-// String.prototype.isFramedTable = function (){
-//     var tableHtml = this,
-//         parser = new DOMParser(),
-//         doc = parser.parseFromString(tableHtml, 'text/html'),
-//         node = doc.getElementsByTagName('table'),
-//         isFramed = true,
-//         tableChildren, tableChildrenLen, currentElem, elemChildren, nestedElem, nestedElemChildren, i;
-
-//         // it would be very nice to use this approach, but doc.evaluate always returns "undefined"
-//         // try{
-//         //  var tmp = doc.evaluate('//*', doc, null, XPathResult.ANY_TYPE, tmp);
-//         //  console.log('evaluate: ', tmp);
-//         // } catch (ex){
-//         //  console.log("Error! ", ex);
-//         // }
-
-//         if (node.length === 0){
-//             return false;
-//         }
-//         node = node[0];
-
-//         // parsing the table structure to decide whether this is a framed table or a regular one.
-//         tableChildren = node.children[0].children;   // all rows of  the table
-//         tableChildrenLen = tableChildren.length;
-//         for (i = 0; i < tableChildrenLen; i++) {
-//             currentElem = tableChildren[i];          // current row
-//             elemChildren = currentElem.children;     // all cells inside the row
-//             if (elemChildren.length !== 1 ){
-//                 isFramed = false;
-//                 break;
-//             }
-//             nestedElem = elemChildren[0];     // first cell inside the row
-//             if (nestedElem.tagName !== 'TD'){
-//                 isFramed = false;
-//                 break;
-//             }
-//             nestedElemChildren = nestedElem.children;
-//             if (nestedElemChildren.length !== 1 || nestedElemChildren[0].tagName !== 'TABLE'){
-//                 isFramed = false;
-//                 break;
-//             }
-//         }
-//         return isFramed;
-// };
 
 /**
  * Creates an instance of Tag class and fills in its property "elements" with
