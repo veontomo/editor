@@ -1,6 +1,17 @@
 {
     "project": {},
     "files": {
+        "classes\\CKHelper.js": {
+            "name": "classes\\CKHelper.js",
+            "modules": {
+                "CKHelper": 1
+            },
+            "classes": {
+                "CKHelper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "classes\\attributes.js": {
             "name": "classes\\attributes.js",
             "modules": {},
@@ -150,6 +161,22 @@
         }
     },
     "modules": {
+        "CKHelper": {
+            "name": "CKHelper",
+            "submodules": {},
+            "classes": {
+                "CKHelper": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "classes\\CKHelper.js",
+            "line": 4,
+            "description": "Collection of functions used by various plugins of the CKEditor.",
+            "type": "{Object}",
+            "version": "0.0.1",
+            "author": "A.Shcherbakov"
+        },
         "Property": {
             "name": "Property",
             "submodules": {},
@@ -170,7 +197,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "classes\\style.js",
-            "line": 447,
+            "line": 465,
             "description": "This class defines inline styles of html tags",
             "params": [
                 {
@@ -245,7 +272,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "classes\\string.js",
-            "line": 479,
+            "line": 382,
             "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.\nFor the moment, the only supported element is \"Table\".",
             "itemtype": "method",
             "return": {
@@ -262,6 +289,20 @@
         }
     },
     "classes": {
+        "CKHelper": {
+            "name": "CKHelper",
+            "shortname": "CKHelper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "CKHelper",
+            "namespace": "",
+            "file": "classes\\CKHelper.js",
+            "line": 4,
+            "description": "Collection of functions used by various plugins of the CKEditor."
+        },
         "Attributes": {
             "name": "Attributes",
             "shortname": "Attributes",
@@ -414,20 +455,15 @@
             "module": "String",
             "namespace": "",
             "file": "classes\\string.js",
-            "line": 479,
-            "description": "Sandwiches the target string first and the second arguments. Delegates to Helpers::sandwichWith().",
+            "line": 382,
+            "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>.",
             "params": [
                 {
                     "name": "listType",
                     "description": "",
                     "type": "String"
                 }
-            ],
-            "itemtype": "method",
-            "return": {
-                "description": "",
-                "type": "String"
-            }
+            ]
         },
         "Style": {
             "name": "Style",
@@ -461,7 +497,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 73,
+            "line": 91,
             "description": "Represents table style."
         },
         "LinkStyle": {
@@ -475,7 +511,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 150,
+            "line": 168,
             "description": "Represents hyperlink style."
         },
         "TableRowStyle": {
@@ -489,7 +525,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 202,
+            "line": 220,
             "description": "Represents table row style."
         },
         "TableCellStyle": {
@@ -503,7 +539,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 265,
+            "line": 283,
             "description": "Represents table cell styles."
         },
         "ImageStyle": {
@@ -517,7 +553,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 340,
+            "line": 358,
             "description": "Represents image styles."
         },
         "ListStyle": {
@@ -531,7 +567,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 397,
+            "line": 415,
             "description": "Represents image styles."
         },
         "ListItemStyle": {
@@ -545,7 +581,7 @@
             "module": "Property",
             "namespace": "",
             "file": "classes\\style.js",
-            "line": 447,
+            "line": 465,
             "description": "Represents list item styles."
         },
         "Table": {
@@ -604,6 +640,97 @@
         }
     },
     "classitems": [
+        {
+            "file": "classes\\CKHelper.js",
+            "line": 13,
+            "description": "Finds the nearest ascendant of the \"elem\" for which \"filter\" returns true",
+            "itemtype": "method",
+            "name": "findAscendant",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "CKEDITOR.dom.element"
+                },
+                {
+                    "name": "filter",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "CKEDITOR.dom.element|null"
+            },
+            "class": "CKHelper",
+            "module": "CKHelper"
+        },
+        {
+            "file": "classes\\CKHelper.js",
+            "line": 33,
+            "description": "Drops the table row. If after removing the table becomes empty, then removes it as well.",
+            "itemtype": "method",
+            "name": "dropRow",
+            "params": [
+                {
+                    "name": "ed",
+                    "description": "Represents an editor instance.",
+                    "type": "CKEditor.editor"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Null"
+            },
+            "class": "CKHelper",
+            "module": "CKHelper"
+        },
+        {
+            "file": "classes\\CKHelper.js",
+            "line": 56,
+            "description": "Inserts a row at a specified position with respect to the selected element.\nThe command to insert the row is obtained by capitalizing the second argument\nand appending it to the string 'insert'. Example: if pos is 'after', the command\nto be executed is 'insertAfter'.",
+            "itemtype": "method",
+            "name": "insertRow",
+            "params": [
+                {
+                    "name": "ed",
+                    "description": "Represents an editor instance.",
+                    "type": "CKEDITOR.editor"
+                },
+                {
+                    "name": "pos",
+                    "description": "where to insert the element with respect to the current one.",
+                    "type": "String"
+                }
+            ],
+            "class": "CKHelper",
+            "module": "CKHelper"
+        },
+        {
+            "file": "classes\\CKHelper.js",
+            "line": 100,
+            "description": "Inserts a column in the table. The localtion of the column to insert is given by the second\nargument that admits two values \"before\" and \"after\" and is inserted before or after the column\nof the selected cell, respectively.",
+            "itemtype": "method",
+            "name": "insertColumn",
+            "params": [
+                {
+                    "name": "ed",
+                    "description": "Represents an editor instance.",
+                    "type": "CKEDITOR.editor"
+                },
+                {
+                    "name": "pos",
+                    "description": "\"before\" or \"after\": location of the column to insert w.r.t. the current cell",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CKHelper",
+            "module": "CKHelper"
+        },
         {
             "file": "classes\\attributes.js",
             "line": 17,
@@ -1595,7 +1722,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 129,
+            "line": 130,
             "description": "Alias for dropElemAt().",
             "itemtype": "method",
             "name": "dropCellAt",
@@ -1615,7 +1742,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 139,
+            "line": 140,
             "description": "12/02/2014 11:55: dropCell --> knockOutCell\nDrops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then\nassigned to its right neighbour:\n|xxx| a | b   | c | -> |     a | b   | c |\n| a |xxx| b   | c | -> | a |     b   | c |\nIf there is no right neighbour, then it is assigned to the left one:\n| a | b | c | xxx | -> | a | b | c       |\nIf the cell to delete does not exist, nothing is performed.",
             "itemtype": "method",
             "name": "knockOutCell",
@@ -1635,7 +1762,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 172,
+            "line": 173,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -1660,7 +1787,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 183,
+            "line": 184,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -1682,7 +1809,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 215,
+            "line": 216,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('style')__.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
@@ -1695,7 +1822,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 226,
+            "line": 227,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
@@ -1708,7 +1835,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 237,
+            "line": 238,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusCellProp",
@@ -1728,7 +1855,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 249,
+            "line": 250,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then requested property name of the table inside the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -1748,7 +1875,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 263,
+            "line": 264,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then style of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('style')__.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -1761,7 +1888,7 @@
         },
         {
             "file": "classes\\row.js",
-            "line": 274,
+            "line": 275,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then attribute of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -1837,7 +1964,20 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 85,
+            "line": 70,
+            "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no property\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no property 'border-color', then it will not be set.",
+            "itemtype": "method",
+            "name": "getBorderInfo",
+            "return": {
+                "description": "object of the form {'width': ..., 'color': ..., 'style': ...}",
+                "type": "Object"
+            },
+            "class": "Style",
+            "module": "Property"
+        },
+        {
+            "file": "classes\\style.js",
+            "line": 103,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -1848,7 +1988,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 91,
+            "line": 109,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -1859,7 +1999,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 97,
+            "line": 115,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -1870,7 +2010,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 103,
+            "line": 121,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -1881,7 +2021,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 109,
+            "line": 127,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -1892,7 +2032,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 115,
+            "line": 133,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -1903,7 +2043,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 121,
+            "line": 139,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -1914,7 +2054,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 127,
+            "line": 145,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -1925,7 +2065,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 134,
+            "line": 152,
             "description": "Whether to collapse the table borders or not.",
             "deprecated": true,
             "deprecationMessage": "Do not use, because it causes problems in MS Outlook.",
@@ -1938,7 +2078,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 141,
+            "line": 159,
             "description": "Border spacing.",
             "itemtype": "property",
             "name": "border-spacing",
@@ -1949,7 +2089,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 162,
+            "line": 180,
             "description": "Text decoration attribute",
             "itemtype": "property",
             "name": "text-decoration",
@@ -1960,7 +2100,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 169,
+            "line": 187,
             "description": "Font size",
             "itemtype": "property",
             "name": "font size",
@@ -1971,7 +2111,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 175,
+            "line": 193,
             "description": "Font color attribute",
             "itemtype": "property",
             "name": "font color",
@@ -1982,7 +2122,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 181,
+            "line": 199,
             "description": "Font wieght attribute. See html manuals for possible values.",
             "itemtype": "property",
             "name": "font weight",
@@ -1993,7 +2133,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 187,
+            "line": 205,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2004,7 +2144,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 193,
+            "line": 211,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2015,7 +2155,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 214,
+            "line": 232,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -2026,7 +2166,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 220,
+            "line": 238,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2037,7 +2177,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 226,
+            "line": 244,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -2048,7 +2188,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 232,
+            "line": 250,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -2059,7 +2199,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 238,
+            "line": 256,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -2070,7 +2210,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 244,
+            "line": 262,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -2081,7 +2221,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 250,
+            "line": 268,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -2092,7 +2232,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 256,
+            "line": 274,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -2103,7 +2243,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 277,
+            "line": 295,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -2114,7 +2254,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 283,
+            "line": 301,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2125,7 +2265,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 289,
+            "line": 307,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -2136,7 +2276,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 295,
+            "line": 313,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2147,7 +2287,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 301,
+            "line": 319,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2158,7 +2298,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 307,
+            "line": 325,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -2169,7 +2309,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 313,
+            "line": 331,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -2180,7 +2320,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 319,
+            "line": 337,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -2191,7 +2331,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 325,
+            "line": 343,
             "description": "Vertical align of the cell content.",
             "itemtype": "property",
             "name": "vertical-align",
@@ -2202,7 +2342,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 331,
+            "line": 349,
             "description": "Font color",
             "itemtype": "property",
             "name": "color",
@@ -2213,7 +2353,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 352,
+            "line": 370,
             "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
@@ -2224,7 +2364,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 358,
+            "line": 376,
             "description": "Style of the border around the image. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2235,7 +2375,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 364,
+            "line": 382,
             "description": "Color of the border around the image.",
             "itemtype": "property",
             "name": "border-color",
@@ -2246,7 +2386,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 370,
+            "line": 388,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2257,7 +2397,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 376,
+            "line": 394,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2268,7 +2408,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 382,
+            "line": 400,
             "description": "Image width.",
             "itemtype": "property",
             "name": "width",
@@ -2279,7 +2419,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 388,
+            "line": 406,
             "description": "Image height.",
             "itemtype": "property",
             "name": "height",
@@ -2290,7 +2430,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 409,
+            "line": 427,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2301,7 +2441,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 416,
+            "line": 434,
             "description": "Margin left.",
             "itemtype": "property",
             "name": "margin-left",
@@ -2312,7 +2452,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 423,
+            "line": 441,
             "description": "Margin-right.",
             "itemtype": "property",
             "name": "margin-right",
@@ -2323,7 +2463,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 430,
+            "line": 448,
             "description": "Margin-top.",
             "itemtype": "property",
             "name": "margin-top",
@@ -2334,7 +2474,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 437,
+            "line": 455,
             "description": "Margin-bottom.",
             "itemtype": "property",
             "name": "margin-bottom",
@@ -2345,7 +2485,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 459,
+            "line": 477,
             "description": "Font size of the  text in the list.",
             "itemtype": "property",
             "name": "font-size",
@@ -2356,7 +2496,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 465,
+            "line": 483,
             "description": "Text color of the list item content.",
             "itemtype": "property",
             "name": "color",
@@ -2367,7 +2507,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 473,
+            "line": 491,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -2378,7 +2518,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 479,
+            "line": 497,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2389,7 +2529,7 @@
         },
         {
             "file": "classes\\style.js",
-            "line": 485,
+            "line": 503,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -3564,6 +3704,10 @@
         }
     ],
     "warnings": [
+        {
+            "message": "unknown tag: version",
+            "line": " classes\\CKHelper.js:4"
+        },
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " jquery-1.10.2.js:1292"

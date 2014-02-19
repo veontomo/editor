@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>classes\CKHelper.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyle.html">ListItemStyle</a></li>
+            
+                <li><a href="../classes/ListStyle.html">ListStyle</a></li>
+            
+                <li><a href="../classes/Property.html">Property</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/StringHelper.html">StringHelper</a></li>
+            
+                <li><a href="../classes/Style.html">Style</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyle.html">TableCellStyle</a></li>
+            
+                <li><a href="../classes/TableRowStyle.html">TableRowStyle</a></li>
+            
+                <li><a href="../classes/TableStyle.html">TableStyle</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Property.html">Property</a></li>
+            
+                <li><a href="../modules/String.html">String</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: classes\CKHelper.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style */
+/*jslint plusplus: true, white: true */
+
+/**
+ * Collection of functions used by various plugins of the CKEditor.
+ * @module CKHelper
+ * @class  CKHelper
+ * @type {Object}
+ * @version 0.0.1
+ * @author A.Shcherbakov
+ */
+var CKHelper = {
+	/**
+	 * Finds the nearest ascendant of the &quot;elem&quot; for which &quot;filter&quot; returns true
+	 * @method     findAscendant
+	 * @param      {CKEDITOR.dom.element}        elem
+	 * @param      {function}                    filter
+	 * @return     {CKEDITOR.dom.element|null}
+	 */
+	findAscendant: function (elem, filter) {
+		if (typeof filter !== &#x27;function&#x27;) {
+			return null;
+		}
+		while (elem &amp;&amp; elem.type === CKEDITOR.NODE_ELEMENT) {
+			if (filter(elem)) {
+				return elem;
+			}
+			elem = elem.getParent();
+		}
+		return null;
+	},
+
+	/**
+	 * Drops the table row. If after removing the table becomes empty, then removes it as well.
+	 * @method     dropRow
+	 * @param      {CKEditor.editor}        ed             Represents an editor instance.
+	 * @return     {null}
+	 */
+	dropRow: function (ed) {
+		var row = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			return ((el.getName() === &quot;tr&quot;) &amp;&amp; (el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === &quot;Row&quot;));
+		}),
+			parentTable, tableLength;
+		if (row) {
+			parentTable = CKHelper.findAscendant(row, function (el) {
+				return el.getName() === &#x27;table&#x27;;
+			});
+			row.remove();
+			// calculating the number of remaining rows
+			tableLength = parentTable.getElementsByTag(&#x27;tr&#x27;).count();
+			if (tableLength === 0) {
+				parentTable.remove();
+			}
+		}
+	},
+	/**
+	 * Inserts a row at a specified position with respect to the selected element.
+	 * The command to insert the row is obtained by capitalizing the second argument
+	 * and appending it to the string &#x27;insert&#x27;. Example: if pos is &#x27;after&#x27;, the command
+	 * to be executed is &#x27;insertAfter&#x27;.
+	 * @method     insertRow
+	 * @param      {CKEDITOR.editor}	 ed        Represents an editor instance.
+	 * @param      {String}	             pos 	   where to insert the element with respect to the current one.
+	 */
+	insertRow: function (ed, pos) {
+		var tag = &#x27;tr&#x27;,
+			dataMarkerAttr = NEWSLETTER[&#x27;marker-name&#x27;],
+			dataMarkerVal = &#x27;Row&#x27;,
+			currentElem = ed.getSelection().getStartElement(),
+			newElement, operation, currentChildren, childNum, i, child, newChild, row = currentElem.getAscendant(tag, true);
+		// looking for the table row marked as data-marker=&quot;row&quot;
+		while (!((row.getName() === tag) &amp;&amp; (row.getAttribute(dataMarkerAttr) === dataMarkerVal))) {
+			row = row.getParent();
+			// whether the newly defined element exists and is of CKEDITOR type
+			if (!(row &amp;&amp; row.type === CKEDITOR.NODE_ELEMENT)) {
+				return null; // exit in case no element is found in the DOM
+			}
+		}
+		newElement = new CKEDITOR.dom.element(tag);
+		operation = &#x27;insert&#x27; + Helper.firstLetterUpperCase(pos);
+		currentChildren = row.getChildren();
+		childNum = currentChildren.count();
+
+		if (newElement[operation] !== undefined) {
+			newElement[operation](row);
+		} else {
+			return null;
+		}
+
+		row.copyAttributes(newElement);
+		for (i = 0; i &lt; childNum; i++) {
+			child = currentChildren.getItem(i);
+			newChild = new CKEDITOR.dom.element(child.getName());
+			newChild.setHtml(row.getChild(i).getHtml());
+			newElement.append(newChild);
+			child.copyAttributes(newChild);
+		}
+	},
+
+	/**
+	 * Inserts a column in the table. The localtion of the column to insert is given by the second
+	 * argument that admits two values &quot;before&quot; and &quot;after&quot; and is inserted before or after the column
+	 * of the selected cell, respectively.
+	 * @method     insertColumn
+	 * @param      {CKEDITOR.editor} ed                 Represents an editor instance.
+	 * @param      {String}          pos                &quot;before&quot; or &quot;after&quot;: location of the column to insert w.r.t. the current cell
+	 * @return     {void}
+	 */
+	insertColumn: function(ed, pos){
+		if (pos !== &#x27;before&#x27; &amp;&amp; pos !== &#x27;after&#x27;){
+			return null;
+		}
+		var cell, cellObj, cellObjStyle, cellObjAttr, cellIndex, parentTable, newTableProfile,
+			cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj,
+			// offset to be added for the insertion of the column
+			offset;
+
+		// find the current cell, and not a bogus cell
+		cell = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Cell()).getType();
+			return (el.getName() === &#x27;td&#x27; &amp;&amp; el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === marker);
+		});
+		// find parent table to be sure that we treat a cell and not a bogus cell.
+		parentTable = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Table()).getType();
+			return (el.getName() === &#x27;table&#x27; &amp;&amp; el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === marker);
+		});
+
+		cellIndex = cell.getIndex();
+		// create objects in order to retrieve their properties
+		cellObj = cell.getOuterHtml().createCellFromHtml();
+		tableObj = parentTable.getOuterHtml().createTableFromHtml();
+		cellObjStyle = cellObj.style;
+		cellObjAttr = cellObj.attr;
+		tableProfile = tableObj.getProfile();
+
+		newTableProfile = Helper.crack(tableProfile, cellIndex);
+
+		cellToInsert = new Cell(&#x27;cella&#x27;);
+		cellToInsertAttr = new Attributes(cellObjAttr);
+		cellToInsertStyle = new Style(cellObjStyle);
+
+
+		if (pos === &#x27;before&#x27;){
+			offset = 0;
+			cellToInsertStyle[&#x27;padding-right&#x27;] = 0;
+			tableObj.appendStyleToCol(cellIndex, &#x27;padding-left: 0px&#x27;);
+		}
+
+		if (pos === &#x27;after&#x27;){
+			offset = 1;
+			cellToInsertStyle[&#x27;padding-left&#x27;] = 0;
+			tableObj.appendStyleToCol(cellIndex, &#x27;padding-right: 0px&#x27;);
+		}
+
+
+		// binding the styles and attributes to the newly created cell
+		cellToInsert.attr  = cellToInsertAttr;
+		cellToInsert.style = cellToInsertStyle;
+
+		// offset variable is responsible for insertion &#x27;before&#x27; or &#x27;after&#x27;
+		tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
+		tableObj.setProfile(newTableProfile);
+
+		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
+		parentTable.remove();
+		// call a custom method to insert the table and assign hovering effects on it
+		ed.insertTableWithHoverEff(newTable);
+	}
+
+
+};
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

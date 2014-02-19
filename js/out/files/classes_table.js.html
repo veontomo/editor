@@ -45,6 +45,8 @@
             
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/Helper.html">Helper</a></li>
@@ -86,6 +88,8 @@
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
             
@@ -136,7 +140,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, Helper, getProperty, TableStyle, TableAttributes, Row, setMinMaxWidth, Tag, Content */
 
 /**
 * Represents table.
@@ -514,29 +518,29 @@ function Table() {
 		if (this.isFramed()){
 			// some preliminaries for the framed tables
 			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : &#x27;&#x27;;
-			bogusRowStyle   = this.bogusRowStyle   ? this.bogusRowStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			bogusRowStyle   = Helper.sandwichWith(&#x27;style=&quot;&#x27;, this.bogusRowStyle.toString(), &#x27;&quot;&#x27;);
 			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : &#x27;&#x27;;
-			bogusCellStyle  = this.bogusCellStyle  ? this.bogusCellStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			bogusCellStyle  = Helper.sandwichWith(&#x27;style=&quot;&#x27;, this.bogusCellStyle.toString(), &#x27;&quot;&#x27;);
 			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : &#x27;&#x27;;
-			bogusTableStyle = this.bogusTableStyle ? this.bogusTableStyle.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			bogusTableStyle = Helper.sandwichWith(&#x27;style=&quot;&#x27;, this.bogusTableStyle.toString(), &#x27;&quot;&#x27;);
 
-			bogusRowHtml = [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
-			bogusCellHtml = [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
-			bogusTableHtml = [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+			bogusRowHtml = Helper.sandwichWith(&#x27;&lt;&#x27;, [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces(), &#x27;&gt;&#x27;);
+			bogusCellHtml = Helper.sandwichWith(&#x27;&lt;&#x27;, [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces(), &#x27;&gt;&#x27;);
+			bogusTableHtml = Helper.sandwichWith(&#x27;&lt;&#x27;, [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces(), &#x27;&gt;&#x27;);
 
 			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
-			prologue = tableTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) + cellTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;) + rowTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;);
+			prologue = Helper.sandwichWith(&#x27;&lt;/&#x27;, tableTag, &#x27;&gt;&#x27;) + Helper.sandwichWith(&#x27;&lt;/&#x27;, cellTag, &#x27;&gt;&#x27;) + Helper.sandwichWith(&#x27;&lt;/&#x27;, rowTag, &#x27;&gt;&#x27;);
 		}
 		tableAttr  = this.attr  ? this.attr.toString() : &#x27;&#x27;;
-		tableStyle = this.style ? this.style.toString().sandwichWith(&#x27;style=&quot;&#x27;, &#x27;&quot;&#x27;) : &#x27;&#x27;;
-		tableHtml  = [tableTag, tableAttr, tableStyle].concatDropSpaces().sandwichWith(&#x27;&lt;&#x27;, &#x27;&gt;&#x27;);
+		tableStyle = Helper.sandwichWith(&#x27;style=&quot;&#x27;, this.style.toString(), &#x27;&quot;&#x27;);
+		tableHtml  = Helper.sandwichWith(&#x27;&lt;&#x27;, [tableTag, tableAttr, tableStyle].concatDropSpaces(), &#x27;&gt;&#x27;);
 		rowsNumber = this.rowNum();
 		for (i = 0; i &lt; rowsNumber; i++) {
 			tableHtml += epilogue;
 			tableHtml += this.getElem(i).toHtml();
 			tableHtml += prologue;
 		}
-		tableHtml += tableTag.sandwichWith(&#x27;&lt;/&#x27;, &#x27;&gt;&#x27;);
+		tableHtml += Helper.sandwichWith(&#x27;&lt;/&#x27;, tableTag, &#x27;&gt;&#x27;);
 		return tableHtml;
 	};
 

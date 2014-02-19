@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="js/classes/string.js"></script>
 
 	<script type="text/javascript" src="js/settings.js"></script>
+	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>
 <?php

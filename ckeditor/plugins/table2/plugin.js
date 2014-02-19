@@ -1,158 +1,5 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, Helper, Attributes */
+/*global CKEDITOR, NEWSLETTER, Table, Row, Cell,  Helper, CKHelper */
 /*jslint plusplus: true, white: true */
-/**
- * Finds the nearest ascendant of the "elem" for which "filter" returns true
- * @param {CKEDITOR.dom.element} elem
- * @param  {function} filter
- * @return {CKEDITOR.dom.element|null}
- */
-var findAscendant = function (elem, filter) {
-		if (typeof filter !== 'function') {
-			return null;
-		}
-		while (elem && elem.type === CKEDITOR.NODE_ELEMENT) {
-			if (filter(elem)) {
-				return elem;
-			}
-			elem = elem.getParent();
-		}
-		return null;
-	};
-
-/**
- * Drops the table row. If after removing the table becomes empty, then removes it as well.
- */
-var dropRow = function (ed) {
-		var row = findAscendant(ed.getSelection().getStartElement(), function (el) {
-			return ((el.getName() === "tr") && (el.getAttribute(NEWSLETTER['marker-name']) === "Row"));
-		}),
-			parentTable, tableLength;
-		if (row) {
-			parentTable = findAscendant(row, function (el) {
-				return el.getName() === 'table';
-			});
-			row.remove();
-			// calculating the number of remaining rows
-			tableLength = parentTable.getElementsByTag('tr').count();
-			if (tableLength === 0) {
-				parentTable.remove();
-			}
-		}
-	};
-
-/**
- * Inserts a row at a specified position with respect to the selected element.
- * The command to insert the row is obtained by capitalizing the second argument
- * and appending it to the string 'insert'. Example: if pos is 'after', the command
- * to be executed is 'insertAfter'.
- * @param {Object}	ed 		CKEDITOR.editor
- * @param {String}	pos 	String 	where to insert the element with respect to the current one.
- */
-var insertRow = function (ed, pos) {
-		var tag = 'tr',
-			dataMarkerAttr = NEWSLETTER['marker-name'],
-			dataMarkerVal = 'Row',
-			currentElem = ed.getSelection().getStartElement(),
-			newElement, operation, currentChildren, childNum, i, child, newChild, row = currentElem.getAscendant(tag, true);
-		// looking for the table row marked as data-marker="row"
-		while (!((row.getName() === tag) && (row.getAttribute(dataMarkerAttr) === dataMarkerVal))) {
-			row = row.getParent();
-			// whether the newly defined element exists and is of CKEDITOR type
-			if (!(row && row.type === CKEDITOR.NODE_ELEMENT)) {
-				return null; // exit in case no element is found in the DOM
-			}
-		}
-		newElement = new CKEDITOR.dom.element(tag);
-		operation = 'insert' + Helper.firstLetterUpperCase(pos);
-		currentChildren = row.getChildren();
-		childNum = currentChildren.count();
-
-		if (newElement[operation] !== undefined) {
-			newElement[operation](row);
-		} else {
-			return null;
-		}
-
-		row.copyAttributes(newElement);
-		for (i = 0; i < childNum; i++) {
-			child = currentChildren.getItem(i);
-			newChild = new CKEDITOR.dom.element(child.getName());
-			newChild.setHtml(row.getChild(i).getHtml());
-			newElement.append(newChild);
-			child.copyAttributes(newChild);
-		}
-	};
-
-
-/**
- * Inserts a column in the table. The localtion of the column to insert is given by the second
- * argument that admits two values "before" and "after" and is inserted before or after the column
- * of the selected cell, respectively.
- * @param  {Object} ed       CKEDITOR.editor
- * @param  {String} pos      "before" or "after": location of the column to insert w.r.t. the current cell
- * @return {void}
- */
-var insertColumn = function(ed, pos){
-	if (pos !== 'before' && pos !== 'after'){
-		return null;
-	}
-	var cell, cellObj, cellObjStyle, cellObjAttr, cellIndex, parentTable, newTableProfile,
-		cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj,
-		// offset to be added for the insertion of the column
-		offset;
-
-	// find the current cell, and not a bogus cell
-	cell = findAscendant(ed.getSelection().getStartElement(), function (el) {
-		var marker = (new Cell()).getType();
-		return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
-	});
-	// find parent table to be sure that we treat a cell and not a bogus cell.
-	parentTable = findAscendant(ed.getSelection().getStartElement(), function (el) {
-		var marker = (new Table()).getType();
-		return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
-	});
-
-	cellIndex = cell.getIndex();
-	// create objects in order to retrieve their properties
-	cellObj = cell.getOuterHtml().createCellFromHtml();
-	tableObj = parentTable.getOuterHtml().createTableFromHtml();
-	cellObjStyle = cellObj.style;
-	cellObjAttr = cellObj.attr;
-	tableProfile = tableObj.getProfile();
-
-	newTableProfile = Helper.crack(tableProfile, cellIndex);
-
-	cellToInsert = new Cell('cella');
-	cellToInsertAttr = new Attributes(cellObjAttr);
-	cellToInsertStyle = new Style(cellObjStyle);
-
-
-	if (pos === 'before'){
-		offset = 0;
-		cellToInsertStyle['padding-right'] = 0;
-		tableObj.appendStyleToCol(cellIndex, 'padding-left: 0px');
-	}
-
-	if (pos === 'after'){
-		offset = 1;
-		cellToInsertStyle['padding-left'] = 0;
-		tableObj.appendStyleToCol(cellIndex, 'padding-right: 0px');
-	}
-
-
-	// binding the styles and attributes to the newly created cell
-	cellToInsert.attr  = cellToInsertAttr;
-	cellToInsert.style = cellToInsertStyle;
-
-	// offset variable is responsible for insertion 'before' or 'after'
-	tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
-	tableObj.setProfile(newTableProfile);
-
-	newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
-	parentTable.remove();
-	// call a custom method to insert the table and assign hovering effects on it
-	ed.insertTableWithHoverEff(newTable);
-};
 
 CKEDITOR.plugins.add('table2', {
 	// Register the icons.
@@ -165,31 +12,31 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				insertColumn(ed, 'before');
+				CKHelper.insertColumn(ed, 'before');
 			}
 		});
 
 		editor.addCommand('table2InsertColumnAfter', {
 			exec: function(ed){
-				insertColumn(ed, 'after');
+				CKHelper.insertColumn(ed, 'after');
 			}
 		});
 
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (editor) {
-				insertRow(editor, 'before');
+				CKHelper.insertRow(editor, 'before');
 			}
 		});
 
 		editor.addCommand('table2AddRowAfter', {
 			exec: function (editor) {
-				insertRow(editor, 'after');
+				CKHelper.insertRow(editor, 'after');
 			}
 		});
 
 		editor.addCommand('table2DeleteRow', {
 			exec: function (editor) {
-				dropRow(editor);
+				CKHelper.dropRow(editor);
 			}
 		});
 
@@ -197,7 +44,7 @@ CKEDITOR.plugins.add('table2', {
 			exec: function (ed) {
 				var tableMarker = (new Table()).getType(), // string with which tables are marked
 					markerName = NEWSLETTER['marker-name'],
-					table = findAscendant(ed.getSelection().getStartElement(), function (el) {
+					table = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
 					return ((el.getName() === 'table') &&
 						(el.getAttribute(markerName) === tableMarker));
 				});
@@ -281,7 +128,7 @@ CKEDITOR.plugins.add('table2', {
 			editor.contextMenu.addListener(function (element) {
 				var rowMarker = (new Row()).getType(), // the label by which the rows are marked
 					markerName  = NEWSLETTER['marker-name'],
-					el = findAscendant(element, function (el) {
+					el = CKHelper.findAscendant(element, function (el) {
 					return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
 				});
 				if (el) {
@@ -295,7 +142,7 @@ CKEDITOR.plugins.add('table2', {
 
 			editor.contextMenu.addListener(function (element) {
 				var tableMarker = (new Table()).getType(), // string with which tables are marked
-					el = findAscendant(element, function (el) {
+					el = CKHelper.findAscendant(element, function (el) {
 					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
 				}),
 				menuObj, elemObj;
@@ -347,7 +194,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				markerName  = NEWSLETTER['marker-name'],
 				tableMarker = (new Table()).getType(),
 				currentElem = editor.getSelection().getStartElement(),
-				table = findAscendant(currentElem, function(el){
+				table = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(markerName) === tableMarker;
 			});
@@ -427,7 +274,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			}
 
 			currentElem = editor.getSelection().getStartElement();
-			table = findAscendant(currentElem, function(el){
+			table = CKHelper.findAscendant(currentElem, function(el){
 				return el.getName() === 'table' &&
 					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
 			});
@@ -468,11 +315,11 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 				rowMarker   = (new Row()).getType(),
 				cellMarker  = (new Cell()).getType(),
 				tableMarker = (new Table()).getType(),
-				tableElem = findAscendant(currentElem, function(el){
+				tableElem = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(markerName) === tableMarker;
 				}),
-				cellElem = findAscendant(currentElem, function(el){
+				cellElem = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'td' &&
 						el.getAttribute(markerName) === cellMarker;
 				}),
@@ -493,11 +340,11 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 				cellMarker  = (new Cell()).getType(),
 				tableMarker = (new Table()).getType(),
 				currentElem = editor.getSelection().getStartElement(),
-				tableElem = findAscendant(currentElem, function(el){
+				tableElem = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
 						el.getAttribute(markerName) === tableMarker;
 				}),
-				cellElem = findAscendant(currentElem, function(el){
+				cellElem = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'td' &&
 						el.getAttribute(markerName) === cellMarker;
 				}),

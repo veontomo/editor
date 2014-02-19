@@ -45,6 +45,8 @@
             
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/Helper.html">Helper</a></li>
@@ -86,6 +88,8 @@
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
             
@@ -184,6 +188,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_appendStyle">appendStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBorderInfo">getBorderInfo</a>
 
                                 
                                 
@@ -315,6 +326,81 @@
                     
                         <span class="type">Void</span>:
                     
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBorderInfo" class="method item">
+    <h3 class="name"><code>getBorderInfo</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/classes_style.js.html#l70"><code>classes\style.js:70</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no property
+&#39;border-style&#39;, then &#39;none&#39; will be used. If the Style has no &#39;border-width&#39;, then zero will be used.
+If the Style has no property &#39;border-color&#39;, then it will not be set.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>object of the form {&#39;width&#39;: ..., &#39;color&#39;: ..., &#39;style&#39;: ...}</p>
+
                 
             </div>
         </div>

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, LinkStyle, dropProtocol */
+/*global CKEDITOR, DOMParser */
 
 /**
  * Set of useful functions

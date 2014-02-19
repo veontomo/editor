@@ -45,6 +45,8 @@
             
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/Helper.html">Helper</a></li>
@@ -86,6 +88,8 @@
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
             
@@ -201,6 +205,24 @@ function Style(obj) {
         this.width = w;
         this[&#x27;min-width&#x27;] = w;
         this[&#x27;max-width&#x27;] = w;
+    };
+
+    /**
+     * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no property
+     * &#x27;border-style&#x27;, then &#x27;none&#x27; will be used. If the Style has no &#x27;border-width&#x27;, then zero will be used.
+     * If the Style has no property &#x27;border-color&#x27;, then it will not be set.
+     * @method  getBorderInfo
+     * @return {Object}              object of the form {&#x27;width&#x27;: ..., &#x27;color&#x27;: ..., &#x27;style&#x27;: ...}
+     */
+    this.getBorderInfo = function(){
+        var output = {};
+        output.width = this[&#x27;border-width&#x27;] || 0;
+        output.style = this[&#x27;border-style&#x27;] || &#x27;none&#x27;;
+        if (this[&#x27;border-color&#x27;]){
+            output.color = this[&#x27;border-color&#x27;];
+        }
+        return output;
+
     };
 
 }
