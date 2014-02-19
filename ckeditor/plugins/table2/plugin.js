@@ -1,4 +1,4 @@
-/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, trace, crack, Attributes */
+/*global CKEDITOR, location, NEWSLETTER, Table, Row, Cell, Style, Helper, Attributes */
 /*jslint plusplus: true, white: true */
 /**
  * Finds the nearest ascendant of the "elem" for which "filter" returns true
@@ -63,7 +63,7 @@ var insertRow = function (ed, pos) {
 			}
 		}
 		newElement = new CKEDITOR.dom.element(tag);
-		operation = 'insert' + firstLetterUpperCase(pos);
+		operation = 'insert' + Helper.firstLetterUpperCase(pos);
 		currentChildren = row.getChildren();
 		childNum = currentChildren.count();
 
@@ -120,7 +120,7 @@ var insertColumn = function(ed, pos){
 	cellObjAttr = cellObj.attr;
 	tableProfile = tableObj.getProfile();
 
-	newTableProfile = crack(tableProfile, cellIndex);
+	newTableProfile = Helper.crack(tableProfile, cellIndex);
 
 	cellToInsert = new Cell('cella');
 	cellToInsertAttr = new Attributes(cellObjAttr);
@@ -358,7 +358,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 
 			var tableObj = table.getOuterHtml().createTableFromHtml(),
 				profile = tableObj.getProfile(),
-				totWidth = trace(profile),
+				totWidth = Helper.trace(profile),
 				colNum = profile.length,
 				unit = 'px',
 				cellWidthStr = profile.map(function(el){

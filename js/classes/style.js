@@ -67,6 +67,24 @@ function Style(obj) {
         this['max-width'] = w;
     };
 
+    /**
+     * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no property
+     * 'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.
+     * If the Style has no property 'border-color', then it will not be set.
+     * @method  getBorderInfo
+     * @return {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
+     */
+    this.getBorderInfo = function(){
+        var output = {};
+        output.width = this['border-width'] || 0;
+        output.style = this['border-style'] || 'none';
+        if (this['border-color']){
+            output.color = this['border-color'];
+        }
+        return output;
+
+    };
+
 }
 Style.prototype = Object.create(Property.prototype);
 

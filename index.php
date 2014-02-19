@@ -10,16 +10,21 @@
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
-	<script type="text/javascript" src="js/helpers.js"></script>
-	<script type="text/javascript" src="js/classes/attributesStyle.js"></script>
+
+	<script type="text/javascript" src="js/classes/helpers.js"></script>
+	<script type="text/javascript" src="js/classes/unit.js"></script>
+	<script type="text/javascript" src="js/classes/property.js"></script>
+	<script type="text/javascript" src="js/classes/attributes.js"></script>
+	<script type="text/javascript" src="js/classes/style.js"></script>
+	<script type="text/javascript" src="js/classes/content.js"></script>
 	<script type="text/javascript" src="js/classes/tag.js"></script>
 	<script type="text/javascript" src="js/classes/table.js"></script>
 	<script type="text/javascript" src="js/classes/cell.js"></script>
 	<script type="text/javascript" src="js/classes/row.js"></script>
-	<script type="text/javascript" src="js/classes/content.js"></script>
-	<script type="text/javascript" src="js/classes/string.js"></script>
-	<script type="text/javascript" src="js/classes/list.js"></script>
 	<script type="text/javascript" src="js/classes/listItem.js"></script>
+	<script type="text/javascript" src="js/classes/list.js"></script>
+	<script type="text/javascript" src="js/classes/string.js"></script>
+
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>

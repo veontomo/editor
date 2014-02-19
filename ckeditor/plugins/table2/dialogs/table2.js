@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle,  Attributes,Content, TableAttributes, NEWSLETTER, Style, alert
+/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle,  Attributes,Content, TableAttributes, NEWSLETTER, Style, alert, Helper
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -230,7 +230,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// calculating widths of the bogus elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorder().width;
+				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorderInfo().width;
 
 				bogusRowStyle.setWidth(bogusRowWidth);
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
@@ -277,7 +277,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 
 			// impose row styles and attributes
-			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorder().width;
+			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorderInfo().width;
 			rowStyle.setWidth(rowWidth);
 			rowStyle.padding = 0;
 
@@ -287,7 +287,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// fill in the row with the cells
 			allCellsWidth = rowStyle.width - rowStyle.padding;     // sum of all cell widths
-			cellWidths = columnWidths(allCellsWidth, cellWeights); // array of column widths
+			cellWidths = Helper.columnWidths(allCellsWidth, cellWeights); // array of column widths
 
 			// creating cells to be inserted into the row
 			for (i = 0; i < cols; i++) {

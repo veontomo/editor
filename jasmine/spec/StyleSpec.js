@@ -52,6 +52,43 @@ describe('Style-related functionality', function(){
         });
     });
 
+    describe('Style::getBorderInfo(): returns the border info ', function(){
+        var stl;
+        beforeEach(function(){
+            stl = new Style();
+        });
+
+        it('style is "none", if it is not present in Style', function(){
+            delete stl['border-style'];
+            console.log(Object.getOwnPropertyNames(stl));
+            console.log(stl);
+            expect(stl.getBorderInfo().style).toBe('none');
+        });
+        it('style is equal to value of border-style property in Style', function(){
+            stl['border-style'] = 'nice style';
+            expect(stl.getBorderInfo().style).toBe('nice style');
+        });
+        it('width is 0, if border-width is not present in Style', function(){
+            delete stl['border-width'];
+            expect(stl.getBorderInfo().width).toBe(0);
+        });
+        it('width is equal to value of border-width in Style', function(){
+            stl['border-width'] = 102;
+            expect(stl.getBorderInfo().width).toBe(102);
+        });
+        it('color missing if it is missing in Style', function(){
+            delete stl['border-color'];
+            expect(stl.getBorderInfo().hasOwnProperty('color')).toBe(false);
+        });
+
+        it('color is equal to value of border-color in Style', function(){
+            stl['border-color'] = 'nice color';
+            expect(stl.getBorderInfo().color).toBe('nice color');
+        });
+
+
+    });
+
     describe('Style::appendStyle(): appends style', function(){
         it('calls parent method Propery::appendProperty()', function(){
             spyOn(stl, 'appendProperty').andCallFake(function(){return null;});

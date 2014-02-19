@@ -332,7 +332,7 @@ describe('String-related functionality', function(){
         });
 
 
-        it('recognizes framed table with all styles and attributes', function(){
+        xit('recognizes framed table with all styles and attributes', function(){
             // a framed table with 2 rows and 3 cells in each row
             var framedTable = '<table cohesion="Retinoid" thermal-modulation="87"\
                                     style="embrace: metrics; scenarios: orthogonal">  \
