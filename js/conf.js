@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: 'classes',
     autoWatch: true,
@@ -17,6 +17,7 @@ module.exports = function(config) {
       'listItem.js',
       'list.js',
       'string.js',
+      'CKHelper.js',
       '..\\..\\jasmine\\spec\\HelperSpec.js',
       '..\\..\\jasmine\\spec\\UnitSpec.js',
       '..\\..\\jasmine\\spec\\StyleSpec.js',
