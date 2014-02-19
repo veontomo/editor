@@ -4,16 +4,20 @@
 
 
 /**
- * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
- * following form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized
- * as a "supported" ones, the corresponding functions will be called to transform them into objects.
- * For the moment, the only supported element is "Table".
- * @module  String
+ * These are methods to convert strings into different objects.
+ * @module  Helper
  * @class  StringHelper
- * @method  createCellFromHtml
- * @return  {Object} Cell
+ * @version  0.0.2
+ * @author A.Shcherbakov
  */
 String.prototype.createCellFromHtml = function(){
+    /**
+     * Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
+     * following form: `<td ... > ... </td>`. Inside the tag, there might be other nodes. If they are recognized
+     * as a "supported" ones, the corresponding functions will be called to transform them into objects.
+     * @method  createCellFromHtml
+     * @return  {Cell|null}
+     */
     var htmlStr = this,
         parser = new DOMParser(),
         fullTable = '<table><tbody><tr>' + htmlStr + '</tr></tbody></table>',
@@ -46,16 +50,14 @@ String.prototype.createCellFromHtml = function(){
     return cell;
 };
 
-/**
- * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
- * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
- * processed one by one by function String::createCellFromHtml().
- * @module  String
- * @class  StringHelper
- * @method  createRowFromHtml
- * @return  {Object} Row
- */
 String.prototype.createRowFromHtml = function(){
+    /**
+     * Transforms a row-html string into a Row object. It is supposed that the string to process is of the
+     * following form: <tr ... > ... </tr>. Inside the tag, there might be elements "td" that will be
+     * processed one by one by function String::createCellFromHtml().
+     * @method  createRowFromHtml
+     * @return  {Object} Row
+     */
 	var htmlStr = this,
 		parser = new DOMParser(),
 		fullTable  = '<table><tbody>' + htmlStr + '</tbody></table>',
@@ -94,19 +96,16 @@ String.prototype.createRowFromHtml = function(){
 	return row;
 };
 
-/**
- * Creates an object representation from a string that is an html repersentation of a table.
- * Only one table is supposed to be processed at a time, so the string to be processed is to
- * be of the following form &lt;table ...&gt; ... &lt;/table&gt;. Inside the tag, there should be tags "tr"
- * that will be processed one by one by function String::createRowFromHtml().
- * @module  String
- * @class  StringHelper
- * @method  createTableFromHtml
- * @return  {Table}
- */
 String.prototype.createTableFromHtml = function(){
+    /**
+     * Creates an object representation from a string that is an html repersentation of a table.
+     * Only one table is supposed to be processed at a time, so the string to be processed is to
+     * be of the following form `<table ...> ... </table>`. Inside the tag, there should be tags "tr"
+     * that will be processed one by one by function String::createRowFromHtml().
+     * @method  createTableFromHtml
+     * @return  {Table|null}
+     */
     var htmlStr = this,
-        // isFramed = htmlStr.isFramedTable(),
         parser = new DOMParser(),
         doc = parser.parseFromString(htmlStr, 'text/html'),
         node = doc.getElementsByTagName('table'),
@@ -149,20 +148,18 @@ String.prototype.createTableFromHtml = function(){
     return table;
 };
 
-/**
- * Transforms a list string into a List object. The argument listType is used to initialize the
- * property "name" of the returned instance. If it is not provided, that the node tag-name property is used.
- * It is supposed that the string to process is of the following form:
- * <ol ... > ... </ol> or <ul ... > ... </ul>.
- * Inside the tag, there might be other nodes. If they are recognized as a "supported" ones, the
- * corresponding functions will be called to transform them into objects.
- * @module  String
- * @param   {String}           listType
- * @class  StringHelper
- * @method  createUlFromHtml
- * @return  {Object}           List
- */
 String.prototype.createListFromHtml = function(listType){
+    /**
+     * Transforms a list string into a List object. The argument listType is used to initialize the
+     * property "name" of the returned instance. If it is not provided, that the node tag-name property is used.
+     * It is supposed that the string to process is of the following form:
+     * `<ol ... > ... </ol>` or `<ul ... > ... </ul>`.
+     * Inside the tag, there might be other nodes. If they are recognized as a "supported" ones, the
+     * corresponding functions will be called to transform them into objects.
+     * @method   createListFromHtml
+     * @param    {String}           listType: ul or li
+     * @return   {List|null}
+     */
     var str = this.toString(),
         parser = new DOMParser(),
         id = Helper.generateId(str, 'fakeId'),
@@ -201,45 +198,38 @@ String.prototype.createListFromHtml = function(listType){
     return output;
 };
 
-/**
- * Calls String::createListFromHtml('ul') on the target string.
- * @module  String
- * @class  StringHelper
- * @method  createUlFromHtml
- * @return  {Object} List
- */
 String.prototype.createUlFromHtml = function(){
+    /**
+     * Calls String::createListFromHtml('ul') on the target string.
+     * @method  createUlFromHtml
+     * @return  {List|null}
+     */
+
     return this.toString().createListFromHtml('ul');
 };
 
-/**
- * Calls String::createListFromHtml('ol') on the target string.
- * @module  String
- * @class  StringHelper
- * @method  createUlFromHtml
- * @return  {Object} List
- */
 String.prototype.createOlFromHtml = function(){
+    /**
+     * Calls String::createListFromHtml('ol') on the target string.
+     * @method  createOlFromHtml
+     * @return  {List|null}
+     */
     return this.toString().createListFromHtml('ol');
 };
 
-/**
- * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
- * following form: <li ... > ... </li>. Inside the tag, there might be other nodes. If they are recognized
- * as a "supported" ones, the corresponding functions will be called to transform them into objects.
- * @module  String
- * @class  StringHelper
- * @method  createListItemFromHtml
- * @return  {Object} ListItem
- */
 String.prototype.createListItemFromHtml = function(){
+    /**
+     * Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
+     * following form: `<li ... > ... </li>`. Inside the tag, there might be other nodes. If they are recognized
+     * as a "supported" ones, the corresponding functions will be called to transform them into objects.
+     * @method  createListItemFromHtml
+     * @return  {ListItem|null}
+     */
     var htmlStr = this,
         parser = new DOMParser(),
-        newParser = new DOMParser(),
-        fullList = '<ul>' + htmlStr + '</ul>', // embedding the table inside 'ul' element.
-        doc = parser.parseFromString(fullList, 'text/html'),
+        doc = parser.parseFromString('<ul>' + htmlStr + '</ul>', 'text/html'),
         node = doc.getElementsByTagName('li'),
-        newDoc, listItem, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, id, nodeContent, nodeText, methodToCall, nodeName;
+        listItem, attrs, i, nodeStyle, elem, elems, elemsNum, currentElem, methodToCall, methodExists, nodeName;
     if (node.length === 0){
         return null;
     }
@@ -260,19 +250,7 @@ String.prototype.createListItemFromHtml = function(){
         delete attrs.style;
     }
     listItem.attr = new Attributes(attrs);
-
-    // create a fictious div containing the listItem and assign a unique id to it
-    id = 'fakeDivId' + Math.floor((Math.random()*99)+1);
-    while (doc.getElementById(id)){
-        id += Math.floor((Math.random()*99)+1);
-    }
-    nodeText = '<div id="'+ id +'">' + node.innerHTML + '</div>';
-
-    newDoc = newParser.parseFromString(nodeText, 'text/html');
-    nodeContent = newDoc.getElementById(id);
-
-    elems = nodeContent.childNodes;
-
+    elems = node.childNodes;
     elemsNum = elems.length;
     for (i = 0; i < elemsNum; i++){
         currentElem = elems[i];
@@ -283,7 +261,8 @@ String.prototype.createListItemFromHtml = function(){
             case Node.ELEMENT_NODE:
                 nodeName = currentElem.nodeName;
                 methodToCall = 'create' + Helper.onlyFirstLetterUpperCase(nodeName) + 'FromHtml';
-                elem = String.prototype.hasOwnProperty(methodToCall) ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML;
+                methodExists = String.prototype.hasOwnProperty(methodToCall);
+                elem = methodExists ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML.createTagFromHtml();
                 break;
             default:
                 elem = currentElem.nodeValue;
@@ -293,17 +272,15 @@ String.prototype.createListItemFromHtml = function(){
     return listItem;
 };
 
-
-/**
- * Creates an instance of Tag class and fills in its property "elements" with
- * the elements recognized inside the string. It is supposed that the string is of the
- * form <tag [tag-attributes] [style="..."]>....</tag>.
- * @module    String
- * @class  StringHelper
- * @method    createTagFromHtml
- * @return    {Content}
- */
 String.prototype.createTagFromHtml = function(){
+    /**
+     * Creates an instance of Tag class and fills in its property "elements" with
+     * the elements recognized inside the string. It is supposed that the string is of the
+     * form `<tag [tag-attributes] [style="..."]>....</tag>`.
+     * @method    createTagFromHtml
+     * @return    {Content|null}
+     */
+
     var str = this.toString(),
         parser = new DOMParser(),
         id = Helper.generateId(str, 'fakeId'),
@@ -347,15 +324,13 @@ String.prototype.createTagFromHtml = function(){
     return output;
 };
 
-/*
- * Creates an instance of Content class and fills in its property "elements" with
- * the elements recognized inside the string.
- * @module    String
- * @class  StringHelper
- * @method    inflate
- * @return    {Content}
- */
 String.prototype.inflate = function(){
+    /*
+     * Creates an instance of Content class and fills in its property "elements" with
+     * the elements recognized inside the string.
+     * @method    inflate
+     * @return    {Content}
+     */
     var str = this.toString(),
         parser = new DOMParser(),
         id = Helper.generateId(str, 'fakeId'),

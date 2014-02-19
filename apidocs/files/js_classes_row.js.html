@@ -95,8 +95,6 @@
             
                 <li><a href="../modules/Property.html">Property</a></li>
             
-                <li><a href="../modules/String.html">String</a></li>
-            
             </ul>
         </div>
     </div>
@@ -310,14 +308,13 @@ function Row() {
 	/**
 	 * dropCell was renamed into Row::knockOutCell(). So, this method is added for back-compatibility .
 	 * @method  dropCell
-	 * @param  {pos}      pos
-	 * @param  {cell}     cell
+	 * @param  {Number}      cellNum
 	 * @return {void}
 	 * @deprecated  Use Row::knockOutCell() directly.
 	 */
-	this.dropCell = function(pos, cell){
-		console.log(&#x27;Table::insertColumnAt() was called. Try to eliminate this call.&#x27;);
-		this.insertColAt(pos, cell);
+	this.dropCell = function(cellNum){
+		console.log(&#x27;Table::dropCell() was called. Try to eliminate this call.&#x27;);
+		this.knockOutCell(cellNum);
 	};
 
 

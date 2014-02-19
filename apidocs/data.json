@@ -89,9 +89,7 @@
         },
         "js\\classes\\string.js": {
             "name": "js\\classes\\string.js",
-            "modules": {
-                "String": 1
-            },
+            "modules": {},
             "classes": {
                 "StringHelper": 1
             },
@@ -155,6 +153,7 @@
             "classes": {
                 "CKHelper": 1,
                 "Helper": 1,
+                "StringHelper": 1,
                 "Unit": 1
             },
             "fors": {},
@@ -236,31 +235,6 @@
                 }
             ],
             "extends": "Tag"
-        },
-        "String": {
-            "name": "String",
-            "submodules": {},
-            "classes": {
-                "StringHelper": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "js\\classes\\string.js",
-            "line": 382,
-            "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: <td ... > ... </td>. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.\nFor the moment, the only supported element is \"Table\".",
-            "itemtype": "method",
-            "return": {
-                "description": "Cell",
-                "type": "Object"
-            },
-            "params": [
-                {
-                    "name": "listType",
-                    "description": "",
-                    "type": "String"
-                }
-            ]
         }
     },
     "classes": {
@@ -427,18 +401,11 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "String",
+            "module": "Helper",
             "namespace": "",
             "file": "js\\classes\\string.js",
-            "line": 382,
-            "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform <tag [tag-attributes] [style=\"...\"]>....</tag>.",
-            "params": [
-                {
-                    "name": "listType",
-                    "description": "",
-                    "type": "String"
-                }
-            ]
+            "line": 6,
+            "description": "These are methods to convert strings into different objects."
         },
         "Style": {
             "name": "Style",
@@ -1743,14 +1710,9 @@
             "name": "dropCell",
             "params": [
                 {
-                    "name": "pos",
+                    "name": "cellNum",
                     "description": "",
-                    "type": "Pos"
-                },
-                {
-                    "name": "cell",
-                    "description": "",
-                    "type": "Cell"
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -1764,7 +1726,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 186,
+            "line": 185,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -1789,7 +1751,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 197,
+            "line": 196,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -1811,7 +1773,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 229,
+            "line": 228,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then style of the cell is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('style')__.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
@@ -1824,7 +1786,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 240,
+            "line": 239,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then cell attributes object is returned,\nnull otherwise. This is an alias for __Row::getBogusCellProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
@@ -1837,7 +1799,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 251,
+            "line": 250,
             "description": "If the row corresponds to a framed row (a row for which method\n__Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusCellProp",
@@ -1857,7 +1819,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 263,
+            "line": 262,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then requested property name of the table inside the cell inside the row is returned,\nnull otherwise.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -1877,7 +1839,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 277,
+            "line": 276,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then style of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('style')__.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -1890,7 +1852,7 @@
         },
         {
             "file": "js\\classes\\row.js",
-            "line": 288,
+            "line": 287,
             "description": "If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__\nreturns true), then attribute of the table inside the cell is returned, null otherwise.\nThis is an alias for __Row::getBogusTableProp('attr')__.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -1900,6 +1862,117 @@
             },
             "class": "Row",
             "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 14,
+            "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: `<td ... > ... </td>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
+            "itemtype": "method",
+            "name": "createCellFromHtml",
+            "return": {
+                "description": "",
+                "type": "Cell|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 54,
+            "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml().",
+            "itemtype": "method",
+            "name": "createRowFromHtml",
+            "return": {
+                "description": "Row",
+                "type": "Object"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 100,
+            "description": "Creates an object representation from a string that is an html repersentation of a table.\nOnly one table is supposed to be processed at a time, so the string to be processed is to\nbe of the following form `<table ...> ... </table>`. Inside the tag, there should be tags \"tr\"\nthat will be processed one by one by function String::createRowFromHtml().",
+            "itemtype": "method",
+            "name": "createTableFromHtml",
+            "return": {
+                "description": "",
+                "type": "Table|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 152,
+            "description": "Transforms a list string into a List object. The argument listType is used to initialize the\nproperty \"name\" of the returned instance. If it is not provided, that the node tag-name property is used.\nIt is supposed that the string to process is of the following form:\n`<ol ... > ... </ol>` or `<ul ... > ... </ul>`.\nInside the tag, there might be other nodes. If they are recognized as a \"supported\" ones, the\ncorresponding functions will be called to transform them into objects.",
+            "itemtype": "method",
+            "name": "createListFromHtml",
+            "params": [
+                {
+                    "name": "listType",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "List",
+                "type": "List|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 202,
+            "description": "Calls String::createListFromHtml('ul') on the target string.",
+            "itemtype": "method",
+            "name": "createUlFromHtml",
+            "return": {
+                "description": "",
+                "type": "List|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 212,
+            "description": "Calls String::createListFromHtml('ol') on the target string.",
+            "itemtype": "method",
+            "name": "createOlFromHtml",
+            "return": {
+                "description": "",
+                "type": "List|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 221,
+            "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: `<li ... > ... </li>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
+            "itemtype": "method",
+            "name": "createListItemFromHtml",
+            "return": {
+                "description": "",
+                "type": "ListItem|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 276,
+            "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform `<tag [tag-attributes] [style=\"...\"]>....</tag>`.",
+            "itemtype": "method",
+            "name": "createTagFromHtml",
+            "return": {
+                "description": "",
+                "type": "Content|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
         },
         {
             "file": "js\\classes\\style.js",
@@ -2743,6 +2816,33 @@
         {
             "file": "js\\classes\\table.js",
             "line": 182,
+            "description": "dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .",
+            "itemtype": "method",
+            "name": "dropColumn",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Pos"
+                },
+                {
+                    "name": "cell",
+                    "description": "",
+                    "type": "Cell"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "deprecated": true,
+            "deprecationMessage": "Use Table::knockOutCol() directly.",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\table.js",
+            "line": 196,
             "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
@@ -2762,7 +2862,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 196,
+            "line": 210,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
@@ -2775,7 +2875,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 223,
+            "line": 237,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "isSameWidth",
@@ -2788,7 +2888,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 259,
+            "line": 273,
             "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
             "itemtype": "method",
             "name": "setBorder",
@@ -2809,7 +2909,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 284,
+            "line": 298,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -2822,8 +2922,8 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 305,
-            "description": "Returns true if the table is framed, and false otherwise. It takes table rows and call method\n`Row::onlyTableInside()` on each of them until first \"false\" is encountered.\n<br />A table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
+            "line": 319,
+            "description": "Returns true if the table is fragmented, and false otherwise. It takes table rows and call method\n`Row::onlyTableInside()` on each of them until first \"false\" is encountered.\n<br />A table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
             "name": "isFragmented",
             "return": {
@@ -2835,8 +2935,8 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 322,
-            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. It at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
+            "line": 336,
+            "description": "Gives true if all table rows have border around (that is, each row is nothing but a table with border)\nfalse otherwise. If at least one of the properties, corresponding to the \"bogus\" elements is set, then\nthe table is considered as being framed and hence all its rows will be framed.",
             "itemtype": "method",
             "name": "isFramed",
             "return": {
@@ -2848,7 +2948,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 339,
+            "line": 353,
             "description": "Resets bogus properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "resetBogus",
@@ -2861,7 +2961,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 356,
+            "line": 370,
             "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -2886,7 +2986,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 380,
+            "line": 394,
             "description": "Generates table-specific html code with corresponding attributes and styles.\nCreation of the row-related html of each row is delegated to `Row::toHtml()`",
             "itemtype": "method",
             "name": "toHtml",
@@ -2899,7 +2999,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 420,
+            "line": 434,
             "description": "Style of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowStyle",
@@ -2910,7 +3010,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 430,
+            "line": 444,
             "description": "Attributes of the row containing a single cell. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusRowAttr",
@@ -2921,7 +3021,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 440,
+            "line": 454,
             "description": "Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellStyle",
@@ -2932,7 +3032,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 450,
+            "line": 464,
             "description": "Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusCellAttr",
@@ -2943,7 +3043,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 460,
+            "line": 474,
             "description": "Style of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableStyle",
@@ -2954,7 +3054,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 470,
+            "line": 484,
             "description": "Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.\nIt is supposed that all properties\nbogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr\nare simultaneously null or set.",
             "itemtype": "property",
             "name": "bogusTableAttr",
@@ -2965,7 +3065,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 480,
+            "line": 494,
             "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getBogusRowProp",
@@ -2985,7 +3085,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 519,
+            "line": 533,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('style')`.",
             "itemtype": "method",
             "name": "getBogusRowStyle",
@@ -2998,7 +3098,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 529,
+            "line": 543,
             "description": "If the table is fragmented and all the rows have the same styles, then this style is returned.\nOtherwise, null is returned. This is an alias for `Table::getBogusRowProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusRowAttr",
@@ -3011,7 +3111,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 539,
+            "line": 553,
             "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusCellProp",
@@ -3031,7 +3131,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 566,
+            "line": 580,
             "description": "If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('style')`.",
             "itemtype": "method",
             "name": "getBogusCellStyle",
@@ -3044,7 +3144,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 576,
+            "line": 590,
             "description": "If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.\nOtherwise, null is returned. This is an alias for `Table::getBogusCellProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusCellAttr",
@@ -3057,7 +3157,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 587,
+            "line": 601,
             "description": "If the table is fragmented, gives the requested property of the bogus cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getBogusTableProp",
@@ -3077,7 +3177,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 615,
+            "line": 629,
             "description": "If the table is fragmented, returns the style of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('style')`.",
             "itemtype": "method",
             "name": "getBogusTableStyle",
@@ -3090,7 +3190,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 625,
+            "line": 639,
             "description": "If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.\nOtherwise, null is returned. This is an alias for `Table::getBogusTableProp('attr')`.",
             "itemtype": "method",
             "name": "getBogusTableAttr",
@@ -3103,7 +3203,7 @@
         },
         {
             "file": "js\\classes\\table.js",
-            "line": 636,
+            "line": 650,
             "description": "If the table is fragmented, then sets up the bogus properties and rearrange content property.\nIf not, the table remains as it is.",
             "itemtype": "method",
             "name": "desintangle",
@@ -3511,6 +3611,10 @@
         {
             "message": "unknown tag: version",
             "line": " js\\classes\\CKHelper.js:4"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " js\\classes\\string.js:6"
         },
         {
             "message": "Missing item type\nAppends the element to the array Content::elements.",

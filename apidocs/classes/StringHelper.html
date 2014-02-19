@@ -95,8 +95,6 @@
             
                 <li><a href="../modules/Property.html">Property</a></li>
             
-                <li><a href="../modules/String.html">String</a></li>
-            
             </ul>
         </div>
     </div>
@@ -140,13 +138,13 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_classes_string.js.html#l382"><code>js\classes\string.js:382</code></a>
+            Defined in: <a href="../files/js_classes_string.js.html#l6"><code>js\classes\string.js:6</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/String.html">String</a>
+            Module: <a href="../modules/Helper.html">Helper</a>
         
     
 
@@ -156,9 +154,7 @@
 
 
 <div class="box intro">
-    <p>Creates an instance of Tag class and fills in its property &quot;elements&quot; with
-the elements recognized inside the string. It is supposed that the string is of the
-form <tag [tag-attributes] [style="..."]>....</tag>.</p>
+    <p>These are methods to convert strings into different objects.</p>
 
 </div>
 
@@ -168,6 +164,8 @@ form <tag [tag-attributes] [style="..."]>....</tag>.</p>
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
         
@@ -179,6 +177,70 @@ form <tag [tag-attributes] [style="..."]>....</tag>.</p>
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_createCellFromHtml">createCellFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createListFromHtml">createListFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createListItemFromHtml">createListItemFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createOlFromHtml">createOlFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createRowFromHtml">createRowFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createTableFromHtml">createTableFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createTagFromHtml">createTagFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_createUlFromHtml">createUlFromHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
 
@@ -187,6 +249,633 @@ form <tag [tag-attributes] [style="..."]>....</tag>.</p>
             
         </div>
 
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_createCellFromHtml" class="method item">
+    <h3 class="name"><code>createCellFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l14"><code>js\classes\string.js:14</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms a cell-html string into Cell object. It is supposed that the string to process is of the
+following form: <code>&lt;td ... &gt; ... &lt;/td&gt;</code>. Inside the tag, there might be other nodes. If they are recognized
+as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Cell.html" class="crosslink">Cell</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createListFromHtml" class="method item">
+    <h3 class="name"><code>createListFromHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>listType</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l152"><code>js\classes\string.js:152</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms a list string into a List object. The argument listType is used to initialize the
+property &quot;name&quot; of the returned instance. If it is not provided, that the node tag-name property is used.
+It is supposed that the string to process is of the following form:
+<code>&lt;ol ... &gt; ... &lt;/ol&gt;</code> or <code>&lt;ul ... &gt; ... &lt;/ul&gt;</code>.
+Inside the tag, there might be other nodes. If they are recognized as a &quot;supported&quot; ones, the
+corresponding functions will be called to transform them into objects.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">listType</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>:
+                    
+                    <p>List</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createListItemFromHtml" class="method item">
+    <h3 class="name"><code>createListItemFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\ListItem.html" class="crosslink">ListItem</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l221"><code>js\classes\string.js:221</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms a list item string into a ListItem object. It is supposed that the string to process is of the
+following form: <code>&lt;li ... &gt; ... &lt;/li&gt;</code>. Inside the tag, there might be other nodes. If they are recognized
+as a &quot;supported&quot; ones, the corresponding functions will be called to transform them into objects.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\ListItem.html" class="crosslink">ListItem</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createOlFromHtml" class="method item">
+    <h3 class="name"><code>createOlFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l212"><code>js\classes\string.js:212</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calls String::createListFromHtml(&#39;ol&#39;) on the target string.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createRowFromHtml" class="method item">
+    <h3 class="name"><code>createRowFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l54"><code>js\classes\string.js:54</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms a row-html string into a Row object. It is supposed that the string to process is of the
+following form: <tr ... > ... </tr>. Inside the tag, there might be elements &quot;td&quot; that will be
+processed one by one by function String::createCellFromHtml().</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Row</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createTableFromHtml" class="method item">
+    <h3 class="name"><code>createTableFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Table.html" class="crosslink">Table</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l100"><code>js\classes\string.js:100</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates an object representation from a string that is an html repersentation of a table.
+Only one table is supposed to be processed at a time, so the string to be processed is to
+be of the following form <code>&lt;table ...&gt; ... &lt;/table&gt;</code>. Inside the tag, there should be tags &quot;tr&quot;
+that will be processed one by one by function String::createRowFromHtml().</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Table.html" class="crosslink">Table</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createTagFromHtml" class="method item">
+    <h3 class="name"><code>createTagFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\Content.html" class="crosslink">Content</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l276"><code>js\classes\string.js:276</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates an instance of Tag class and fills in its property &quot;elements&quot; with
+the elements recognized inside the string. It is supposed that the string is of the
+form <code>&lt;tag [tag-attributes] [style=&quot;...&quot;]&gt;....&lt;/tag&gt;</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\Content.html" class="crosslink">Content</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_createUlFromHtml" class="method item">
+    <h3 class="name"><code>createUlFromHtml</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_string.js.html#l202"><code>js\classes\string.js:202</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calls String::createListFromHtml(&#39;ul&#39;) on the target string.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="..\classes\List.html" class="crosslink">List</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

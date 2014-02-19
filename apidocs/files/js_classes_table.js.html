@@ -95,8 +95,6 @@
             
                 <li><a href="../modules/Property.html">Property</a></li>
             
-                <li><a href="../modules/String.html">String</a></li>
-            
             </ul>
         </div>
     </div>
@@ -318,6 +316,20 @@ function Table() {
 	};
 
 	/**
+	 * dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .
+	 * @method  dropColumn
+	 * @param  {pos}      pos
+	 * @param  {cell}     cell
+	 * @return {void}
+	 * @deprecated  Use Table::knockOutCol() directly.
+	 */
+	this.dropColumn = function(pos, cell){
+		console.log(&#x27;Table::dropColumn() was called. Try to eliminate this call by using Table::knockOutCol() directly.&#x27;);
+		this.knockOutCol(pos, cell);
+	};
+
+
+	/**
 	 * Drops specified column from the table. The operation is delegated to the &#x60;Row::dropCellAt()&#x60;
 	 * @method dropColAt
 	 * @param  {integer} 	colNum           the number of the column to delete. Numeration starts with 0.
@@ -441,7 +453,7 @@ function Table() {
 	};
 
 	/**
-	 * Returns true if the table is framed, and false otherwise. It takes table rows and call method
+	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and call method
 	 * &#x60;Row::onlyTableInside()&#x60; on each of them until first &quot;false&quot; is encountered.
 	 * &lt;br /&gt;A table is a __framed table__ if all table rows have only one cell and this cell contains
 	 * only one element that is a Table instance.
@@ -459,7 +471,7 @@ function Table() {
 
 	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise. It at least one of the properties, corresponding to the &quot;bogus&quot; elements is set, then
+	 * false otherwise. If at least one of the properties, corresponding to the &quot;bogus&quot; elements is set, then
 	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
 	 * @return {Boolean}     true, if all table rows have border around
