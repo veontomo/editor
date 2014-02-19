@@ -25,18 +25,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "Unit"
     ],
     "modules": [
-        "CKHelper",
         "Helper",
         "HtmlElements",
         "Property",
         "String"
     ],
     "allModules": [
-        {
-            "displayName": "CKHelper",
-            "name": "CKHelper",
-            "description": "Collection of functions used by various plugins of the CKEditor."
-        },
         {
             "displayName": "Helper",
             "name": "Helper",

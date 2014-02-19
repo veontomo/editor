@@ -3,11 +3,11 @@
 
 /**
  * Collection of functions used by various plugins of the CKEditor.
- * @module CKHelper
- * @class  CKHelper
- * @type {Object}
- * @version 0.0.1
- * @author A.Shcherbakov
+ * @module    Helper
+ * @class     CKHelper
+ * @type      {Object}
+ * @version   0.0.1
+ * @author    A.Shcherbakov
  */
 var CKHelper = {
 	/**

@@ -7,9 +7,7 @@
     "files": {
         "js\\classes\\CKHelper.js": {
             "name": "js\\classes\\CKHelper.js",
-            "modules": {
-                "CKHelper": 1
-            },
+            "modules": {},
             "classes": {
                 "CKHelper": 1
             },
@@ -151,21 +149,35 @@
         }
     },
     "modules": {
-        "CKHelper": {
-            "name": "CKHelper",
+        "Helper": {
+            "name": "Helper",
             "submodules": {},
             "classes": {
-                "CKHelper": 1
+                "CKHelper": 1,
+                "Helper": 1,
+                "Unit": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "js\\classes\\CKHelper.js",
-            "line": 4,
-            "description": "Collection of functions used by various plugins of the CKEditor.",
+            "file": "js\\classes\\unit.js",
+            "line": 5,
+            "description": "Represents a quantity divided in \"value\" and \"measure\".",
             "type": "{Object}",
             "version": "0.0.1",
-            "author": "A.Shcherbakov"
+            "author": "A.Shcherbakov",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "measure",
+                    "description": "",
+                    "type": "String|null"
+                }
+            ]
         },
         "Property": {
             "name": "Property",
@@ -225,33 +237,6 @@
             ],
             "extends": "Tag"
         },
-        "Helper": {
-            "name": "Helper",
-            "submodules": {},
-            "classes": {
-                "Helper": 1,
-                "Unit": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "js\\classes\\unit.js",
-            "line": 5,
-            "description": "Represents a quantity divided in \"value\" and \"measure\".",
-            "type": "{Object}",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "measure",
-                    "description": "",
-                    "type": "String|null"
-                }
-            ]
-        },
         "String": {
             "name": "String",
             "submodules": {},
@@ -287,7 +272,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "CKHelper",
+            "module": "Helper",
             "namespace": "",
             "file": "js\\classes\\CKHelper.js",
             "line": 4,
@@ -653,7 +638,7 @@
                 "type": "CKEDITOR.dom.element|null"
             },
             "class": "CKHelper",
-            "module": "CKHelper"
+            "module": "Helper"
         },
         {
             "file": "js\\classes\\CKHelper.js",
@@ -673,7 +658,7 @@
                 "type": "Null"
             },
             "class": "CKHelper",
-            "module": "CKHelper"
+            "module": "Helper"
         },
         {
             "file": "js\\classes\\CKHelper.js",
@@ -694,7 +679,7 @@
                 }
             ],
             "class": "CKHelper",
-            "module": "CKHelper"
+            "module": "Helper"
         },
         {
             "file": "js\\classes\\CKHelper.js",
@@ -719,7 +704,7 @@
                 "type": "Void"
             },
             "class": "CKHelper",
-            "module": "CKHelper"
+            "module": "Helper"
         },
         {
             "file": "js\\classes\\attributes.js",
