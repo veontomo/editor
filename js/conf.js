@@ -34,6 +34,10 @@ module.exports = function (config) {
     browsers: ['Firefox'],
     reporters: ['progress', 'coverage'],
     preprocessors: { '*.js': ['coverage'] },
+    coverageReporter: {
+      type : 'html',
+      dir : '..\\coverage'
+    },
     singleRun: true
   });
 };
