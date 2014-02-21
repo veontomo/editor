@@ -53,15 +53,12 @@ describe('Style-related functionality', function(){
     });
 
     describe('Style::getBorderInfo(): returns the border info ', function(){
-        var stl;
         beforeEach(function(){
             stl = new Style();
         });
 
         it('style is "none", if it is not present in Style', function(){
             delete stl['border-style'];
-            console.log(Object.getOwnPropertyNames(stl));
-            console.log(stl);
             expect(stl.getBorderInfo().style).toBe('none');
         });
         it('style is equal to value of border-style property in Style', function(){

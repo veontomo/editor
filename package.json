@@ -1,4 +1,22 @@
-{ "devDependencies" : {
-    "cucumber": "latest"
+{
+  "name": "coverage-jasmine-istanbul-karma",
+  "description": "Code coverage of Jasmine tests using Istanbul and Karma",
+  "main": "",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ariya/coverage-jasmine-istanbul-karma.git"
+  },
+  "devDependencies": {
+	"karma": "~0.10.2",
+	"karma-coverage": "~0.1.0",
+	"karma-ie-launcher": "~0.1.1",
+	"cucumber": "latest"
+  },
+  "scripts": {
+    "test": "node_modules\\.bin\\karma start test\\conf.js"
   }
 }

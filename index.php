@@ -4,7 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-	<script type="text/javascript" src="JSON-js/json2.js"></script>
+<!--	<script type="text/javascript" src="JSON-js/json2.js"></script> -->
 <!--	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script> -->
 	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
@@ -44,7 +44,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<div class="panel">
 			<a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
 		</div>
-		<div class="panel"><a href="js/coverage/Firefox 27.0.0 (Windows)/">
+		<div class="panel"><a href="test/coverage/Firefox 27.0.0 (Windows)/index.html">
 			<img src="images/coverage.png" width="100px" />Firefox</a>
 		</div>
 		<h1>

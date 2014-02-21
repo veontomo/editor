@@ -2,7 +2,7 @@
   "name": "coverage-jasmine-istanbul-karma",
   "description": "Code coverage of Jasmine tests using Istanbul and Karma",
   "main": "",
-  "basePath": "coverage",
+  "basePath": "",
   "version": "0.0.1",
   "engines": {
     "node": ">=0.8.0"

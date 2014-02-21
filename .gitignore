@@ -1,3 +1,5 @@
 vendor/*
 js/coverage/*
 apidocs/*
+npm-debug.log
+test/coverage/*.json
