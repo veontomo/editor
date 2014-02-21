@@ -1,5 +1,5 @@
 vendor/*
-js/coverage/*
 apidocs/*
 npm-debug.log
+test/coverage/*
 test/coverage/*.json
