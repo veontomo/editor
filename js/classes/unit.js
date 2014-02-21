@@ -5,9 +5,9 @@
 /**
  * Represents a quantity divided in "value" and "measure".
  * @module       Helper
+ * @class  Unit
  * @param {Number}            value
  * @param {String|null}       measure
- * @class  Unit
  */
 
 function Unit(value, measure) {

@@ -1,13 +1,15 @@
-/*global CKEDITOR, location
-*/
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+
+/*global CKEDITOR, Helper, location */
 
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 	var timeNow = new Date(),
 		templateName = 'template' + [
-			timeNow.getFullYear(), 
-			timeNow.getMonth() + 1, 
-			timeNow.getUTCDate(), 
-			timeNow.getUTCHours(), 
+			timeNow.getFullYear(),
+			timeNow.getMonth() + 1,
+			timeNow.getUTCDate(),
+			timeNow.getUTCHours(),
 			timeNow.getUTCMinutes()
 		].join('-') + '.html';
 	return {
@@ -39,14 +41,14 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 			var fileName = this.getValueOf('tab-general', 'filename'),
 				editorContent = editor.document.getBody().getHtml(),
 				fileContent, sanitizedContent;
-			sanitizedContent = specialChar(editorContent.replace(/\t/g, ' '));
-			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" + 
+			sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, ' '));
+			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" +
 				sanitizedContent +  "\n</body></html>";
-			$.post('php/saveDraft.php', 
-				{'data': fileContent, 'filename': fileName}, 
+			$.post('php/saveDraft.php',
+				{'data': fileContent, 'filename': fileName},
 					function(filename){
 						console.log("data sent and file name is recieved: " + filename);
-						$(location).attr('href', 'php/downloadFile.php?filename=' + filename); 
+						$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
 				}
 			);
 		}

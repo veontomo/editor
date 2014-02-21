@@ -180,7 +180,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 
 			// calculating widths
-			tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
+			try {
+				tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
+			} catch (e){
+				console.log(e);
+				console.log(NEWSLETTER.maxWidth);
+				tableWidth = NEWSLETTER.maxWidth; // integer, the width in px
+			}
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 
