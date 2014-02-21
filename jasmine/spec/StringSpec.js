@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List*/
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem*/
 
 describe('String-related functionality', function(){
 
@@ -527,12 +527,12 @@ describe('String-related functionality', function(){
                 });
 
                 it('grasps all elements from the string', function(){
-                    str = '<table cellpadding="2" cellspacing="5" data-marker="Table" style="border-style: none;margin: 54px;padding: 342px;width: \
+                    str = '<table cellpadding="2" cellspacing="5" data-marker="Table" style="border-style: outset;margin: 54px;padding: 342px;width: \
                 530px;max-width: 92px;min-width: 32px;border-spacing: 10px 9px;">\
                 <tbody>\
-                    <tr data-marker="Row" style="border-style: some-style;margin: 32px;padding: 33px;width: 220px;max-width: 340px;min-width: 554px;">\
-                        <td data-marker="Cell" style="border-style: cellborder;margin: 2px;width: 49px;max-width: 29px;min-width: 249px;\
-                        vertical-align: top;color: rgb(0, 2221, 1);padding: 2px 4px 1px 1px;">\
+                    <tr data-marker="Row" style="border-style: solid;margin: 32px;padding: 33px;width: 220px;max-width: 340px;min-width: 554px;">\
+                        <td data-marker="Cell" style="border-style: dotted;margin: 2px;width: 49px;max-width: 29px;min-width: 249px;\
+                        vertical-align: top;color: rgb(10, 20, 30);padding: 2px 4px 1px 1px;">\
                             row 1 cell 1\
                         </td>\
                         <td data-marker="Cell2" style="margin: 221px;width: 43px;max-width: 349px;min-width: 243px;\
@@ -540,19 +540,19 @@ describe('String-related functionality', function(){
                             row 1 cell 2\
                         </td>\
                     </tr>\
-                    <tr data-marker="Row second" style="border-style: 1em solid nice;margin: 3px;padding: 4px;width: 0px;max-width: 432px;min-width: 485px;">\
-                        <td data-marker="Cell1" style="border-style: true;margin: 3px;width: 965px;max-width: 339px;min-width: 234px;\
-                        vertical-align: none;color: #FFFKKLL;padding: 1px 2em 3px 33px;">\
+                    <tr data-marker="Row second" style="border-style: groove;margin: 3px;padding: 4px;width: 0px;max-width: 432px;min-width: 485px;">\
+                        <td data-marker="Cell1" style="border-style: dashed;margin: 3px;width: 965px;max-width: 339px;min-width: 234px;\
+                        vertical-align: middle;color: yellow;padding: 1px 2em 3px 33px;">\
                             row 2 cell 1\
                         </td>\
-                        <td data-marker="Cell" style="border-style: false;margin: 34px;width: 94px;max-width: 49px;min-width: 9px;\
-                        vertical-align: no;color: rrd;">\
+                        <td data-marker="Cell" style="border-style: double;margin: 34px;width: 94px;max-width: 49px;min-width: 9px;\
+                        vertical-align: baseline;color: red;">\
             <ol style="test: true; another-style-value: 100em" power="12watt" length="infinite">\
-                <li style="background: none repeat scroll 0% 0% rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); \
+                <li style="background: rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); \
                 padding: 5px 10px;" attr1="test attribute">\
                     la prima voce\
                 </li>\
-                <li style="background: sunshine; frame: 21px ;\
+                <li style="background: blue; frame: 21px ;\
                 funny: 5px 10px;">\
                     la seconda voce\
                 </li>\
@@ -574,7 +574,7 @@ describe('String-related functionality', function(){
                     expect(elem0.attr.cellspacing).toBe('5');
                     expect(elem0.attr['data-marker']).toBe('Table');
                     // table styles
-                    expect(elem0.style['border-style']).toBe('none');
+                    expect(elem0.style['border-style']).toBe('outset');
                     expect(elem0.style.margin).toBe(54);
                     expect(elem0.style.padding).toBe(342);
                     expect(elem0.style.width).toBe(530);
@@ -586,9 +586,9 @@ describe('String-related functionality', function(){
                     expect(elem0.colNum()).toBe(2);
 
                     var row0 = elem0.getElem(0);
-
                     expect(row0 instanceof Row).toBe(true);
-                    expect(row0.style['border-style']).toBe('some-style');
+
+                    expect(row0.style['border-style']).toBe('solid');
                     expect(row0.style.margin).toBe(32);
                     expect(row0.style.padding).toBe(33);
                     expect(row0.style.width).toBe(220);
@@ -600,20 +600,20 @@ describe('String-related functionality', function(){
                         cell01 = row0.getElem(1);
                     // row 1 cell 1
                     expect(cell00 instanceof Cell).toBe(true);
-                    expect(cell00.style['border-style']).toBe('cellborder');
+                    expect(cell00.style['border-style']).toBe('dotted');
                     expect(cell00.style.margin).toBe(2);
                     expect(cell00.style.width).toBe(49);
                     expect(cell00.style['max-width']).toBe(29);
                     expect(cell00.style['min-width']).toBe(249);
                     expect(cell00.style['vertical-align']).toBe('top');
-                    expect(cell00.style.color).toBe('rgb(0, 2221, 1)');
+                    expect(cell00.style.color).toBe('rgb(10, 20, 30)');
                     expect(cell00.style.padding).toBe('2px 4px 1px 1px');
                     expect(cell00.attr['data-marker']).toBe('Cell');
                     expect(cell00.length()).toBe(1);
                     expect(cell00.getElem(0).trim()).toBe('row 1 cell 1');
                     // row 1 cell 2
                     expect(cell01 instanceof Cell).toBe(true);
-                    expect(cell01.style['border-style']).toBe(undefined);
+                    expect(cell01.style['border-style']).not.toBeDefined();
                     expect(cell01.style.margin).toBe(221);
                     expect(cell01.style.width).toBe(43);
                     expect(cell01.style['max-width']).toBe(349);
@@ -632,7 +632,7 @@ describe('String-related functionality', function(){
                     expect(row1 instanceof Row).toBe(true);
                     expect(row1.cellNum()).toBe(2);
 
-                    expect(row1.style['border-style']).toBe('1em solid nice');
+                    expect(row1.style['border-style']).toBe('groove');
                     expect(row1.style.margin).toBe(3);
                     expect(row1.style.padding).toBe(4);
                     expect(row1.style.width).toBe('0px');
@@ -644,13 +644,13 @@ describe('String-related functionality', function(){
                         cell11 = row1.getElem(1);
                     // row 2 cell 1
                     expect(cell10 instanceof Cell).toBe(true);
-                    expect(cell10.style['border-style']).toBe('true');
+                    expect(cell10.style['border-style']).toBe('dashed');
                     expect(cell10.style.margin).toBe(3);
                     expect(cell10.style.width).toBe(965);
                     expect(cell10.style['max-width']).toBe(339);
                     expect(cell10.style['min-width']).toBe(234);
-                    expect(cell10.style['vertical-align']).toBe('none');
-                    expect(cell10.style.color).toBe('#FFFKKLL');
+                    expect(cell10.style['vertical-align']).toBe('middle');
+                    expect(cell10.style.color).toBe('yellow');
                     expect(cell10.style.padding).toBe('1px 2em 3px 33px');
                     expect(cell10.attr['data-marker']).toBe('Cell1');
                     expect(cell10.length()).toBe(1);
@@ -658,13 +658,13 @@ describe('String-related functionality', function(){
 
                     // row 2 cell 2
                     expect(cell11 instanceof Cell).toBe(true);
-                    expect(cell11.style['border-style']).toBe('false');
+                    expect(cell11.style['border-style']).toBe('double');
                     expect(cell11.style.margin).toBe(34);
                     expect(cell11.style.width).toBe(94);
                     expect(cell11.style['max-width']).toBe(49);
                     expect(cell11.style['min-width']).toBe(9);
-                    expect(cell11.style['vertical-align']).toBe('no');
-                    expect(cell11.style.color).toBe('rrd');
+                    expect(cell11.style['vertical-align']).toBe('baseline');
+                    expect(cell11.style.color).toBe('red');
                     expect(cell11.attr['data-marker']).toBe('Cell');
                     expect(cell11.length()).toBe(1);
                     expect(cell11.getElem(0) instanceof List).toBe(true);
@@ -679,14 +679,14 @@ describe('String-related functionality', function(){
                     expect(list.length()).toBe(2);
                     var li1 = list.getElem(0),
                         li2 = list.getElem(1);
-                    expect(li1.style.background).toBe('none repeat scroll 0% 0% rgb(238, 238, 238)');
+                    expect(li1.style.background).toBe('rgb(238, 238, 238)');
                     expect(li1.style.border).toBe('1px solid rgb(204, 204, 204)');
                     expect(li1.style.padding).toBe('5px 10px');
                     expect(li1.attr.attr1).toBe('test attribute');
                     expect(li1.length()).toBe(1);
                     expect(li1.getElem(0).trim()).toBe('la prima voce');
 
-                    expect(li2.style.background).toBe('sunshine');
+                    expect(li2.style.background).toBe('blue');
                     expect(li2.style.frame).toBe(21);
                     expect(li2.style.funny).toBe('5px 10px');
                     expect(li2.length()).toBe(1);
