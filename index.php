@@ -44,8 +44,11 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<div class="panel">
 			<a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
 		</div>
-		<div class="panel"><a href="test/coverage/Firefox 27.0.0 (Windows)/index.html">
-			<img src="images/coverage.png" width="100px" />Firefox</a>
+		<div class="panel">
+			<img src="images/coverage.png" width="100px" />
+			<a href="test/coverage/Firefox 27.0.0 (Windows)/index.html">Firefox	</a>
+			<a href="test/coverage/Chrome 33.0.1750 (Windows)/index.html">Chrome</a>
+			<a href="test/coverage/IE 11.0.0 (Windows)/index.html">IE</a>
 		</div>
 		<h1>
 			Preliminarie

@@ -3,6 +3,7 @@
 
 describe('Style-related functionality', function(){
     var stl;
+
     beforeEach(function(){
         stl = new Style();
     });
@@ -17,15 +18,15 @@ describe('Style-related functionality', function(){
             expect(stl instanceof Property).toBe(true);
         });
         it('populates properties from the argument', function(){
-            stl = new Style('a: 10; new: yes');
+            stl = new Style('a: 10; b: yes');
             expect(stl.a).toBe(10);
-            expect(stl.new).toBe('yes');
+            expect(stl.b).toBe('yes');
         });
         it('populates properties from the argument', function(){
-            stl = new Style({'a': 10, 'new': 'no', 'update': function(){return null;}, 'format': 'A4'});
+            stl = new Style({'a': 10, 'b': 'no', 'update': function(){return null;}, 'format': 'A4'});
             expect(stl.format).toBe('A4');
             expect(stl.a).toBe(10);
-            expect(stl.new).toBe('no');
+            expect(stl.b).toBe('no');
             expect(stl.hasOwnProperty('update')).toBe(false);
         });
     });
@@ -82,8 +83,6 @@ describe('Style-related functionality', function(){
             stl['border-color'] = 'nice color';
             expect(stl.getBorderInfo().color).toBe('nice color');
         });
-
-
     });
 
     describe('Style::appendStyle(): appends style', function(){
@@ -129,7 +128,6 @@ describe('Style-related functionality', function(){
             expect(stl['max-width']).toBe('20px');
             expect(stl['min-width']).toBe('20px');
         });
-
     });
 });
 
