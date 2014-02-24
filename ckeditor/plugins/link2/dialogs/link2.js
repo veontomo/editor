@@ -64,24 +64,32 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         onShow: function() {
             var node = this.getParentEditor().getSelection(),
                 range = node.getRanges()[0],
-                startCont,
+                fakeDiv = editor.document.createElement('div'),
+                startCont, selection,
                 // assigning default values for the url attribute and the link text
                 linkHref = '',
                 linkContent = '';
-                if (!range.collapsed) {
-                    // selection is not empty
-                    startCont = range.startContainer;
-                    // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
-                    switch (startCont.type){
-                        case CKEDITOR.NODE_ELEMENT:
-                            linkContent = startCont.getHtml();
-                            linkHref = decodeURI(Helper.dropProtocol(startCont.getAttribute('href') || ''));
-                            break;
-                        case CKEDITOR.NODE_TEXT:
-                            linkContent = startCont.getText();
-                            break;
-                    }
-                }
+
+                // console.log(node, node.getRanges(), node.getRanges().length);
+                fakeDiv.append(range.cloneContents());
+                selection = fakeDiv.getHtml().inflate();
+                console.log(selection);
+                // if (!range.collapsed) {
+                //     // selection is not empty
+                //     startCont = range.startContainer;
+                //     // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
+                //     switch (startCont.type){
+                //         case CKEDITOR.NODE_ELEMENT:
+                //             linkContent = startCont.getHtml();
+                //             linkHref = decodeURI(Helper.dropProtocol(startCont.getAttribute('href') || ''));
+                //             break;
+                //         case CKEDITOR.NODE_TEXT:
+                //             linkContent = startCont.getText();
+                //             break;
+                //     }
+                // }
+                linkContent = selection.length() === 1 && typeof selection.getFirst() === 'string' ? selection.getFirst() : '...';
+                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Tag) && selection.getFirst().attr.hasOwnProperty('href') ? selection.getFirst().attr.href : '';
                 this.setValueOf('tab-general', 'text', linkContent);
                 this.setValueOf('tab-general', 'href', linkHref);
         },

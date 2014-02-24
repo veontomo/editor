@@ -19,7 +19,8 @@
             "modules": {},
             "classes": {
                 "Attributes": 1,
-                "TableAttributes": 1
+                "TableAttributes": 1,
+                "LinkAttributes": 1
             },
             "fors": {},
             "namespaces": {}
@@ -47,6 +48,15 @@
             "modules": {},
             "classes": {
                 "Helper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\link.js": {
+            "name": "js\\classes\\link.js",
+            "modules": {},
+            "classes": {
+                "Link": 1
             },
             "fors": {},
             "namespaces": {}
@@ -184,6 +194,7 @@
             "classes": {
                 "Attributes": 1,
                 "TableAttributes": 1,
+                "LinkAttributes": 1,
                 "Property": 1,
                 "Style": 1,
                 "TableStyle": 1,
@@ -215,6 +226,7 @@
             "classes": {
                 "Cell": 1,
                 "Content": 1,
+                "Link": 1,
                 "List": 1,
                 "ListItem": 1,
                 "Row": 1,
@@ -288,6 +300,21 @@
             "description": "Table-specific attributes.",
             "extends": "Attributes"
         },
+        "LinkAttributes": {
+            "name": "LinkAttributes",
+            "shortname": "LinkAttributes",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Property",
+            "namespace": "",
+            "file": "js\\classes\\attributes.js",
+            "line": 70,
+            "description": "Table-specific attributes.",
+            "extends": "Attributes"
+        },
         "Cell": {
             "name": "Cell",
             "shortname": "Cell",
@@ -329,6 +356,20 @@
             "file": "js\\classes\\helpers.js",
             "line": 4,
             "description": "Set of useful functions"
+        },
+        "Link": {
+            "name": "Link",
+            "shortname": "Link",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HtmlElements",
+            "namespace": "",
+            "file": "js\\classes\\link.js",
+            "line": 4,
+            "description": "This class is represent an html link tag \"a\"."
         },
         "List": {
             "name": "List",
@@ -566,19 +607,7 @@
             "namespace": "",
             "file": "js\\classes\\unit.js",
             "line": 5,
-            "description": "Represents a quantity divided in \"value\" and \"measure\".",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "measure",
-                    "description": "",
-                    "type": "String|null"
-                }
-            ]
+            "description": "Represents a quantity divided in \"value\" and \"measure\"."
         }
     },
     "classitems": [
@@ -709,6 +738,50 @@
             "type": "Number",
             "default": "0",
             "class": "TableAttributes",
+            "module": "Property"
+        },
+        {
+            "file": "js\\classes\\attributes.js",
+            "line": 82,
+            "description": "The URL of the link.",
+            "itemtype": "property",
+            "name": "url",
+            "type": "String",
+            "default": "(empty string)",
+            "class": "LinkAttributes",
+            "module": "Property"
+        },
+        {
+            "file": "js\\classes\\attributes.js",
+            "line": 90,
+            "description": "Url getter.",
+            "itemtype": "method",
+            "name": "getUrl",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "LinkAttributes",
+            "module": "Property"
+        },
+        {
+            "file": "js\\classes\\attributes.js",
+            "line": 99,
+            "description": "Url setter. Native javascript function `encodeURI()` will be applied to the argument.",
+            "itemtype": "method",
+            "name": "setUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "`encodeURI()` is to be applied when assigning to this.url",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "LinkAttributes",
             "module": "Property"
         },
         {
@@ -1328,6 +1401,59 @@
             "module": "Helper"
         },
         {
+            "file": "js\\classes\\link.js",
+            "line": 18,
+            "description": "Link attributes.",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "{LinkAttributes}",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\link.js",
+            "line": 30,
+            "description": "link styles.",
+            "itemtype": "property",
+            "name": "style",
+            "type": "{LinkStyles}",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\link.js",
+            "line": 37,
+            "description": "Url getter. Calles {LinkAttributes.getUrl()}",
+            "itemtype": "method",
+            "name": "getUrl",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\link.js",
+            "line": 46,
+            "description": "Url setter. Calles method {{#crossLink \"LinkAttributes/setUrl:method\"}}LinkAttributes::setUrl(){{/crossLink}}",
+            "itemtype": "method",
+            "name": "setUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
             "file": "js\\classes\\list.js",
             "line": 20,
             "description": "Array of allowed values for the tag names: ['ol', 'ul'].",
@@ -1910,13 +2036,13 @@
             "name": "createListFromHtml",
             "params": [
                 {
-                    "name": "listType",
-                    "description": "",
+                    "name": "listType:",
+                    "description": "ul or li",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "List",
+                "description": "",
                 "type": "List|null"
             },
             "class": "StringHelper",

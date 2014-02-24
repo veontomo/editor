@@ -53,6 +53,10 @@
             
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkAttributes.html">LinkAttributes</a></li>
+            
                 <li><a href="../classes/LinkStyle.html">LinkStyle</a></li>
             
                 <li><a href="../classes/List.html">List</a></li>
@@ -293,8 +297,8 @@ String.prototype.createListFromHtml = function(listType){
      * Inside the tag, there might be other nodes. If they are recognized as a &quot;supported&quot; ones, the
      * corresponding functions will be called to transform them into objects.
      * @method   createListFromHtml
-     * @param    {String}           listType
-     * @return   {List|null}           List
+     * @param    {String}           listType: ul or li
+     * @return   {List|null}
      */
     var str = this.toString(),
         parser = new DOMParser(),

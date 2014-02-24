@@ -3,3 +3,4 @@ apidocs/*
 npm-debug.log
 test/coverage/*
 test/coverage/*.json
+node_modules/*

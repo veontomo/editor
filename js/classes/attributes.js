@@ -65,3 +65,47 @@ function TableAttributes(attr){
 	this.cellspacing = 0;
 }
 TableAttributes.prototype = Object.create(Attributes.prototype);
+
+
+/**
+* Table-specific attributes.
+* @module 	Property
+* @extends Attributes
+* @class  LinkAttributes
+*/
+function LinkAttributes(attr){
+	"use strict";
+	if (!(this instanceof LinkAttributes)) {
+		return new LinkAttributes(attr);
+	}
+	Attributes.call(this, attr);
+	/**
+	 * The URL of the link.
+	 * @property 	{String} 	url
+	 * @default  	(empty string)
+	 */
+	this.url = '';
+
+
+	/**
+	 * Url getter.
+	 * @method  getUrl
+	 * @return  {String}
+	 */
+	this.getUrl =  function(){
+		return this.url;
+	};
+
+	/**
+	 * Url setter. Native javascript function `encodeURI()` will be applied to the argument.
+	 * @method  setUrl
+	 * @param   {String}         url               `encodeURI()` is to be applied when assigning to this.url
+	 * @return  {String}
+	 */
+	this.setUrl =  function(url){
+		this.url = encodeURI(url);
+	};
+
+
+}
+LinkAttributes.prototype = Object.create(Attributes.prototype);
