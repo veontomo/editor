@@ -237,19 +237,10 @@ describe('Content-related functionality', function(){
 	});
 
 	describe('Content::toHtml(): generate html representation', function() {
-	    var content, elem0, elem1, elem2, elem3, htmlContent;
+	    var content, elem, htmlContent;
 	    beforeEach(function() {
-	        elem0 = 10.1;
-	        elem1 = 'element2';
-	        elem2 = {'a dummy method': 1};
-	        elem3 = {};
+	        elem = {};
 	        content = new Content();
-	        elem2.toHtml = function(){
-	            return 'fake';
-	        };
-	        spyOn(elem3, 'hasOwnProperty').andCallFake(function(){
-	            return false;
-	        });
 	    });
 
 	    it('Produces empty string if "elements" property is empty', function() {
@@ -274,10 +265,18 @@ describe('Content-related functionality', function(){
 	    });
 
 	    it('Produces html comment if the content element is an Object without toHtml() method', function() {
-	        content.elements = [elem3];
+	        content.elements = [elem];
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('<!-- no html representation -->');
+	    });
+
+	    it('Produces html comment if the content element is an Object with toHtml() method', function() {
+	    	elem = {foo: 1, toHtml: function(){return 'elem representation';}};
+	        content.elements = [elem];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toBe('elem representation');
 	    });
 
 
@@ -289,11 +288,19 @@ describe('Content-related functionality', function(){
 	    });
 
 	    it('Produces a string if one of the elements has no toHtml property', function() {
-	        content.elements = ['.', elem3, 'how are you?'];
+	        content.elements = ['.', elem, 'how are you?'];
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('.<!-- no html representation -->how are you?');
 	    });
+	    it('Produces a string if all elements have html representation', function() {
+	    	elem = {foo: [1,2,3], toHtml: function(){return 'elem str';}};
+	        content.elements = ['waiting for the Sun', elem, 'how are you?'];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toBe('waiting for the Sunelem strhow are you?');
+	    });
+
 	});
 
 });

@@ -59,14 +59,6 @@ function Content(str) {
 	};
 
 
-	/**
-	 * Appends the element to the array Content::elements.
-	 * @param  {Object}       elem
-	 * @return {void}
-	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-	};
 
 	/**
 	 * Inserts element at position pos inside the array of elements. If the lenght of array "elements"
