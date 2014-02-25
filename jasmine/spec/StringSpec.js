@@ -702,9 +702,7 @@ describe('String-related functionality', function(){
                     expect(elem1.style.margin).toBe(32);
                     expect(elem1.attr.visited).toBe('maybe');
                 });
-
-
-        });
+    });
 
     describe('String::createListItemFromHtml(): constructs a Table object from its html representation', function(){
         var li, liHtml;
@@ -758,11 +756,24 @@ describe('String-related functionality', function(){
             expect(li.getElem(1).name).toBe('data');
             expect(li.getElem(1).getFirst()).toBe('this is a data tag');
         });
-
-
-
-
     });
 
+    describe('String::createTagFromHtml(): constructs a link from its html representation', function(){
+        var linkHtml = '<a href="http://www.test.com" title="link descr" style="text-decoration:none">this is a link</a>',
+            link = linkHtml.inflate();
+            console.log(link);
+        it('creates an instance of Link() class', function(){
+            expect(link.getFirst() instanceof Tag).toBe(true);
+        });
+        it('sets attributes of the link', function(){
+            expect(link.attr.href).toBe('http://www.test.com');
+            expect(link.attr.title).toBe('link descr');
+        });
+
+        it('sets styles of the link', function(){
+            expect(link.style['text-decoration']).toBe('none');
+        });
+
+    })
 
 });

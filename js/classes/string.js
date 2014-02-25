@@ -263,6 +263,7 @@ String.prototype.createListItemFromHtml = function(){
                 methodToCall = 'create' + Helper.onlyFirstLetterUpperCase(nodeName) + 'FromHtml';
                 methodExists = String.prototype.hasOwnProperty(methodToCall);
                 elem = methodExists ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML.createTagFromHtml();
+                console.log('inside ListItem: methodToCall: ', methodToCall, ' methodExists: ', methodExists);
                 break;
             default:
                 elem = currentElem.nodeValue;
@@ -313,6 +314,7 @@ String.prototype.createTagFromHtml = function(){
                 }
                 if (nodeInternal.nodeType === Node.ELEMENT_NODE){
                     nodeHtml = nodeInternal.outerHTML;
+                    console.log(nodeInternal.nodeName);
                     methodName = 'create' + Helper.onlyFirstLetterUpperCase(nodeInternal.nodeName) + 'FromHtml';
                     methodExists = (typeof nodeHtml[methodName]) === 'function';
                     elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
@@ -323,6 +325,60 @@ String.prototype.createTagFromHtml = function(){
     }
     return output;
 };
+
+// String.prototype.createAFromHtml = function(){
+//     /**
+//      * Creates an instance of Link class and fills in its property "elements" with
+//      * the elements recognized inside the string. It is supposed that the string is of the
+//      * form `<tag [tag-attributes] [style="..."]>....</tag>`.
+//      * @method    createLinkFromHtml
+//      * @return    {Link|null}
+//      */
+
+//     var str = this.toString(),
+//         parser = new DOMParser(),
+//         id = Helper.generateId(str, 'fakeId'),
+//         doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
+//         output = new Link(),
+//         uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
+//         tagName, nodeHtml, methodName, methodExists;
+//     uniqueNode = doc.getElementById(id);
+//     uniqueNodeChildren = uniqueNode.childNodes;
+//     if (uniqueNodeChildren.length === 1){
+//         node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
+//         if (node.nodeType === Node.ELEMENT_NODE){
+//             tagName = node.nodeName;
+//             output.name = tagName.toLowerCase();
+
+//             style = node.getAttribute('style');
+//             output.style = new LinkStyle(style);
+//             attrs = Helper.flatten(node.attributes);
+//             if (attrs.hasOwnProperty('style')){
+//                 delete attrs.style;
+//             }
+//             output.attr = new LinkAttributes(attrs);
+//             // split the target string on blocks
+//             children = node.childNodes;
+//             childrenLen = children.length;
+//             for(i = 0; i < childrenLen; i++){
+//                 nodeInternal = children[i];
+//                 if (nodeInternal.nodeType === Node.TEXT_NODE){
+//                     elem = nodeInternal.textContent;
+//                 }
+//                 if (nodeInternal.nodeType === Node.ELEMENT_NODE){
+//                     nodeHtml = nodeInternal.outerHTML;
+//                     methodName = 'create' + Helper.onlyFirstLetterUpperCase(nodeInternal.nodeName) + 'FromHtml';
+//                     methodExists = (typeof nodeHtml[methodName]) === 'function';
+//                     elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
+//                     console.log('inside A: methodName: ', methodName, ' methodExists: ', methodExists);
+//                 }
+//                 output.appendElem(elem);
+//             }
+//         }
+//     }
+//     return output;
+// };
+
 
 String.prototype.inflate = function(){
     /*

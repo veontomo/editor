@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, LinkStyle, Helper */
+/*global CKEDITOR, LinkStyle, Helper, Link */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning';
@@ -88,8 +88,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 //             break;
                 //     }
                 // }
+                console.log(selection.length(), selection.getFirst());
                 linkContent = selection.length() === 1 && typeof selection.getFirst() === 'string' ? selection.getFirst() : '...';
-                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Tag) && selection.getFirst().attr.hasOwnProperty('href') ? selection.getFirst().attr.href : '';
+                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Link) ? selection.getFirst().getUrl() : '';
                 this.setValueOf('tab-general', 'text', linkContent);
                 this.setValueOf('tab-general', 'href', linkHref);
         },

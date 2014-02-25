@@ -23,6 +23,7 @@
 	<script type="text/javascript" src="js/classes/row.js"></script>
 	<script type="text/javascript" src="js/classes/listItem.js"></script>
 	<script type="text/javascript" src="js/classes/list.js"></script>
+	<script type="text/javascript" src="js/classes/link.js"></script>
 	<script type="text/javascript" src="js/classes/string.js"></script>
 
 	<script type="text/javascript" src="js/settings.js"></script>
