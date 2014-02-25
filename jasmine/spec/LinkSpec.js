@@ -26,22 +26,22 @@ describe('Link-related functionality:', function() {
             expect(link.dumbAttribute).toBe('www.one.com');
         });
 
-        it('sets url if it is string without spaces', function(){
+        it('sets href if it is string without spaces', function(){
             link = new Link('http://www.two.com/again.html');
-            expect(link.attr.url).toBe('http://www.two.com/again.html');
+            expect(link.attr.href).toBe('http://www.two.com/again.html');
         });
-        it('replaces spaces in url by %20', function(){
+        it('replaces spaces in href by %20', function(){
             link = new Link('http://three.c om');
-            expect(link.attr.url).toBe('http://three.c%20om');
+            expect(link.attr.href).toBe('http://three.c%20om');
         });
-        it('sets url if it contains & and ?', function(){
+        it('sets href if it contains & and ?', function(){
             link = new Link('http://www.three.com/level?size=20&user=Mario');
-            expect(link.attr.url).toBe('http://www.three.com/level?size=20&user=Mario');
+            expect(link.attr.href).toBe('http://www.three.com/level?size=20&user=Mario');
         });
 
-        it('sets url if it contains anchor', function(){
+        it('sets href if it contains anchor', function(){
             link = new Link('www.four.com/level#size');
-            expect(link.attr.url).toBe('www.four.com/level#size');
+            expect(link.attr.href).toBe('www.four.com/level#size');
         });
     });
 
@@ -58,21 +58,21 @@ describe('Link-related functionality:', function() {
     });
 
 
-    describe('Link::getUrl(): url getter', function(){
-        it('calls LinkAttributes.getUrl() method', function(){
-            spyOn(attr, 'getUrl').andCallFake(function(){return 'url';});
+    describe('Link::getHref(): href getter', function(){
+        it('calls LinkAttributes.getHref() method', function(){
+            spyOn(attr, 'getHref').andCallFake(function(){return 'href';});
             link.attr = attr;
-            expect(link.getUrl()).toBe('url');
-            expect(attr.getUrl).toHaveBeenCalled();
+            expect(link.getHref()).toBe('href');
+            expect(attr.getHref).toHaveBeenCalled();
         });
     });
 
-    describe('Link::setUrl(): url setter', function(){
-        it('calls LinkAttributes.setUrl() method', function(){
-            spyOn(attr, 'setUrl').andCallFake(function(){return '';});
+    describe('Link::setHref(): href setter', function(){
+        it('calls LinkAttributes.setHref() method', function(){
+            spyOn(attr, 'setHref').andCallFake(function(){return '';});
             link.attr = attr;
-            link.setUrl('url string');
-            expect(attr.setUrl).toHaveBeenCalledWith('url string');
+            link.setHref('href string');
+            expect(attr.setHref).toHaveBeenCalledWith('href string');
         });
     });
 });

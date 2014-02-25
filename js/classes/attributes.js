@@ -81,29 +81,29 @@ function LinkAttributes(attr){
 	Attributes.call(this, attr);
 	/**
 	 * The URL of the link.
-	 * @property 	{String} 	url
+	 * @property 	{String} 	href
 	 * @default  	(empty string)
 	 */
-	this.url = '';
+	this.href = '';
 
 
 	/**
-	 * Url getter.
-	 * @method  getUrl
+	 * Href getter.
+	 * @method  getHref
 	 * @return  {String}
 	 */
-	this.getUrl =  function(){
-		return this.url;
+	this.getHref =  function(){
+		return this.href;
 	};
 
 	/**
-	 * Url setter. Native javascript function `encodeURI()` will be applied to the argument.
-	 * @method  setUrl
+	 * Href setter. Native javascript function `encodeURI()` will be applied to the argument.
+	 * @method  setHref
 	 * @param   {String}         url               `encodeURI()` is to be applied when assigning to this.url
 	 * @return  {String}
 	 */
-	this.setUrl =  function(url){
-		this.url = encodeURI(url);
+	this.setHref =  function(url){
+		this.href = encodeURI(url);
 	};
 
 

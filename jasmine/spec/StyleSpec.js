@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Style, Property */
+/*global describe, it, expect, spyOn, beforeEach, Style, LinkStyle, Property */
 
 describe('Style-related functionality', function(){
     var stl;
@@ -128,6 +128,39 @@ describe('Style-related functionality', function(){
             expect(stl['max-width']).toBe('20px');
             expect(stl['min-width']).toBe('20px');
         });
+    });
+});
+
+describe('LinkStyle-related functionality', function(){
+    var stl;
+    beforeEach(function(){
+        stl = new LinkStyle();
+    });
+
+    describe('LinkStyle::constructor(): inherits from Style', function(){
+        it('adds keyword "new" if it is missing when an object is created', function(){
+            var style2 = LinkStyle();
+            expect(style2 instanceof LinkStyle).toBe(true);
+        });
+
+        it('is an instance of Style', function(){
+            expect(stl instanceof Style).toBe(true);
+        });
+        it('populates properties from the argument', function(){
+            stl = new LinkStyle('a: 10; b: yes');
+            expect(stl.a).toBe(10);
+            expect(stl.b).toBe('yes');
+            console.log(stl);
+        });
+        it('populates properties from the argument', function(){
+            stl = new LinkStyle({'a': 10, 'b': 'no', 'update': function(){return null;}, 'format': 'A4'});
+            expect(stl.format).toBe('A4');
+            expect(stl.a).toBe(10);
+            expect(stl.b).toBe('no');
+            expect(stl.hasOwnProperty('update')).toBe(false);
+            console.log(stl);
+        });
+
     });
 });
 

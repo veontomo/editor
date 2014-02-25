@@ -9,6 +9,37 @@ describe('Test helper functions', function(){
         });
     });
 
+    describe('Helper::firstLetterUpperCase(): converts first letter to upper case', function(){
+        it('Returns empty string for empty input', function(){
+            expect(Helper.firstLetterUpperCase('')).toBe('');
+        });
+        it('Returns a space if the input is a space', function(){
+            expect(Helper.firstLetterUpperCase(' ')).toBe(' ');
+        });
+        it('Returns "D" in called on "d"', function(){
+            expect(Helper.firstLetterUpperCase('d')).toBe('D');
+        });
+        it('Returns "K" in called on "K"', function(){
+            expect(Helper.firstLetterUpperCase('K')).toBe('K');
+        });
+        it('Returns "9" in called on "9"', function(){
+            expect(Helper.firstLetterUpperCase('9')).toBe('9');
+        });
+        it('Returns "Abcd" in called on "abcd"', function(){
+            expect(Helper.firstLetterUpperCase('abcd')).toBe('Abcd');
+        });
+        it('Returns "LKM" in called on "KLM"', function(){
+            expect(Helper.firstLetterUpperCase('KLM')).toBe('KLM');
+        });
+        it('Returns "Tata6" in called on "tata6"', function(){
+            expect(Helper.firstLetterUpperCase('tata6')).toBe('Tata6');
+        });
+
+
+    });
+
+
+
     describe("table2 helper functions", function () {
         it("transforms each element of the input array into a non-negative number", function () {
             expect(Helper.sanitize([1, 2, 3])).toEqual([1, 2, 3]);

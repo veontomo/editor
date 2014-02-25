@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Tag, LinkAttributes, LinkStyles */
+/*global Tag, LinkAttributes, LinkStyle */
 
 /**
 * This class is represent an html link tag "a".
@@ -24,7 +24,7 @@ function Link(href) {
 
 	// set url if it is given
 	if(href && (typeof href === 'string')){
-		this.attr.url = encodeURI(href);
+		this.attr.href = encodeURI(href);
 	}
 
 	/**
@@ -35,25 +35,23 @@ function Link(href) {
 	this.style = new LinkStyle();
 
 	/**
-	 * Url getter. Calles {{#crossLink "LinkAttributes/getUrl:method"}}LinkAttributes::getUrl(){{/crossLink}}
-	 * @method    getUrl
+	 * Href getter. Calles {{#crossLink "LinkAttributes/getHref:method"}}LinkAttributes::getHref(){{/crossLink}}
+	 * @method    getHref
 	 * @return    {String}
 	 */
-	this.getUrl =  function(){
-		return this.attr.getUrl();
-	}
+	this.getHref =  function(){
+		return this.attr.getHref();
+	};
 
 	/**
-	 * Url setter. Calles method {{#crossLink "LinkAttributes/setUrl:method"}}LinkAttributes::setUrl(){{/crossLink}}
-	 * @method   setUrl
+	 * Href setter. Calles method {{#crossLink "LinkAttributes/setHref:method"}}LinkAttributes::setHref(){{/crossLink}}
+	 * @method   setHref
 	 * @param    {String}         url
 	 * @return   {void}
 	 */
-	this.setUrl =  function(url){
-		this.attr.setUrl(url);
-	}
-
-
+	this.setHref =  function(url){
+		this.attr.setHref(url);
+	};
 }
 Link.prototype = Object.create(Tag.prototype);
 

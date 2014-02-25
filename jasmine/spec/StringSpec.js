@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem*/
+/*global describe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem, Link*/
 
 describe('String-related functionality', function(){
 
@@ -758,12 +758,12 @@ describe('String-related functionality', function(){
         });
     });
 
-    xdescribe('String::createTagFromHtml(): constructs a link from its html representation', function(){
+    describe('String::createLinkFromHtml(): constructs a link from its html representation', function(){
         var linkHtml = '<a href="http://www.test.com" title="link descr" style="text-decoration:none">this is a link</a>',
-            link = linkHtml.inflate();
+            link = linkHtml.createLinkFromHtml();
             console.log(link);
         it('creates an instance of Link() class', function(){
-            expect(link.getFirst() instanceof Tag).toBe(true);
+            expect(link instanceof Link).toBe(true);
         });
         it('sets attributes of the link', function(){
             expect(link.attr.href).toBe('http://www.test.com');
@@ -773,7 +773,5 @@ describe('String-related functionality', function(){
         it('sets styles of the link', function(){
             expect(link.style['text-decoration']).toBe('none');
         });
-
-    })
-
+    });
 });

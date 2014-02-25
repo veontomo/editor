@@ -28,30 +28,30 @@ describe('LinkAttributes-related functionality:', function() {
         });
     });
 
-    describe('LinkAttributes::setUrl(): sets url', function(){
-        it('sets url if it is string without spaces', function(){
-            attr.setUrl('http://www.two.com/again.html');
-            expect(attr.url).toBe('http://www.two.com/again.html');
+    describe('LinkAttributes::setHref(): sets href', function(){
+        it('sets href if it is string without spaces', function(){
+            attr.setHref('http://www.two.com/again.html');
+            expect(attr.href).toBe('http://www.two.com/again.html');
         });
-        it('replaces spaces in url by %20', function(){
-            attr.setUrl('http://three.c om');
-            expect(attr.url).toBe('http://three.c%20om');
+        it('replaces spaces in href by %20', function(){
+            attr.setHref('http://three.c om');
+            expect(attr.href).toBe('http://three.c%20om');
         });
-        it('sets url if it contains & and ?', function(){
-            attr.setUrl('http://www.three.com/level?size=20&user=Mario');
-            expect(attr.url).toBe('http://www.three.com/level?size=20&user=Mario');
+        it('sets href if it contains & and ?', function(){
+            attr.setHref('http://www.three.com/level?size=20&user=Mario');
+            expect(attr.href).toBe('http://www.three.com/level?size=20&user=Mario');
         });
 
-        it('sets url if it contains anchor', function(){
-            attr.setUrl('www.four.com/level#size');
-            expect(attr.url).toBe('www.four.com/level#size');
+        it('sets href if it contains anchor', function(){
+            attr.setHref('www.four.com/level#size');
+            expect(attr.href).toBe('www.four.com/level#size');
         });
     });
 
-    describe('LinkAttributes::getUrl(): gets url', function(){
-        it('returns undefined if url is not set', function(){
-            attr.url = 'whatever';
-            expect(attr.getUrl()).toBe('whatever');
+    describe('LinkAttributes::getHref(): gets href', function(){
+        it('returns undefined if href is not set', function(){
+            attr.href = 'whatever';
+            expect(attr.getHref()).toBe('whatever');
         });
     });
 

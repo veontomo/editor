@@ -168,52 +168,53 @@ TableStyle.prototype = Object.create(Style.prototype);
 /**
  * Represents hyperlink style.
  * @module  Property
+ * @param    {String|Object}      obj      Style class variable will be instantiated using this input
  * @class  LinkStyle
  * @extends Style
  */
-function LinkStyle() {
+function LinkStyle(obj) {
     'use strict';
     if (!(this instanceof LinkStyle)) {
-        return new LinkStyle();
+        return new LinkStyle(obj);
     }
-    Style.call(this);
+    Style.call(this, obj);
     /**
      * Text decoration attribute
      * @property {String} text-decoration
      * @default  "underline"
      */
-    this['text-decoration'] = 'underline';
+    this['text-decoration'] =  this['text-decoration'] || 'underline';
 
     /**
      * Font size
      * @property {String|Integer} font size
      * @default 12
      */
-    this['font-size'] = 12;
+    this['font-size'] = this['font-size'] || 12;
     /**
      * Font color attribute
      * @property {String} font color
      * @default  "blue"
      */
-    this.color = 'blue';
+    this.color =  this.color || 'blue';
     /**
      * Font wieght attribute. See html manuals for possible values.
      * @property {String|Integer} font weight
      * @default  "normal"
      */
-    this['font-weight'] = 'normal';
+    this['font-weight'] = this['font-weight'] || 'normal';
     /**
      * Padding.
      * @property {String|Number} padding
      * @default  0
      */
-    this.padding = 0;
+    this.padding = this.padding || 0;
     /**
      * Margin.
      * @property {String|Number} margin
      * @default  0
      */
-    this.margin = 0;
+    this.margin = this.margin || 0;
 }
 LinkStyle.prototype = Object.create(Style.prototype);
 
@@ -240,7 +241,7 @@ function TableRowStyle() {
      * @property {String} border-style
      * @default  "none"
      */
-    this['border-style'] = 'none';
+    this['border-style'] = this['border-style'] || 'none';
     /**
      * Width of the border table.
      * @property {String|Number} border-width
@@ -252,19 +253,19 @@ function TableRowStyle() {
       * @property {String|Number} margin
       * @default  0
       */
-     this.margin = 0;
+     this.margin = this.margin || 0;
      /**
       * Padding of the table.
       * @property {String|Number} padding
       * @default  0
       */
-     this.padding = 0;
+     this.padding = this.padding || 0;
      /**
       * Table width.
       * @property {String|Number} width
       * @default  0
       */
-     this.width = 0;
+     this.width = this.width || 0;
      /**
       * Table maximal width. It is supposed to be equal to "width" property.
       * @property {String|Number} max-width
@@ -303,7 +304,7 @@ function TableCellStyle() {
      * @property {String} border-style
      * @default  "none"
      */
-    this['border-style'] = 'none';
+    this['border-style'] = this['border-style'] || 'none';
     /**
      * Width of the border table.
      * @property {String|Number} border-width
@@ -315,19 +316,19 @@ function TableCellStyle() {
      * @property {String|Number} padding
      * @default  0
      */
-    this.padding = 0;
+    this.padding = this.padding || 0;
     /**
      * Margin.
      * @property {String|Number} margin
      * @default  0
      */
-    this.margin = 0;
+    this.margin = this.margin || 0;
     /**
      * Table width.
      * @property {String|Number} width
      * @default  0
      */
-    this.width = 0;
+    this.width = this.width || 0;
     /**
      * Table minimal width. It is supposed to be equal to "width" property.
      * @property {String|Number} max-width
@@ -345,13 +346,13 @@ function TableCellStyle() {
      * @property {String} vertical-align
      * @default  0
      */
-    this['vertical-align'] = 'top';
+    this['vertical-align'] = this['vertical-align'] || 'top';
     /**
      * Font color
      * @property {String} color
      * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
      */
-    this.color = '#000001';
+    this.color = this.color || '#000001';
 }
 TableCellStyle.prototype = Object.create(Style.prototype);
 
