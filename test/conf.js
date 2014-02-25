@@ -2,7 +2,6 @@ var path = require('path'),
   os = require('os'),
   // if the operation system is Windows
   isWin = os.platform().toLowerCase().indexOf('win') !== -1;
-  console.log(os.platform());
 
 module.exports = function (config) {
   config.set({

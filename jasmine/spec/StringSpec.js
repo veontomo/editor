@@ -758,7 +758,7 @@ describe('String-related functionality', function(){
         });
     });
 
-    describe('String::createTagFromHtml(): constructs a link from its html representation', function(){
+    xdescribe('String::createTagFromHtml(): constructs a link from its html representation', function(){
         var linkHtml = '<a href="http://www.test.com" title="link descr" style="text-decoration:none">this is a link</a>',
             link = linkHtml.inflate();
             console.log(link);

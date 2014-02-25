@@ -8,17 +8,12 @@ describe('Content-related functionality', function(){
 	});
 
 
-	describe('The number of elements:', function(){
+	describe('Content::length(): The number of elements:', function(){
 		it('gives 0 for the empty Content instance', function(){
-			expect((new Table()).length()).toBe(0);
-			expect((new Tag()).length()).toBe(0);
-			expect((new Cell()).length()).toBe(0);
-			expect((new Row()).length()).toBe(0);
-
 			expect(c.length()).toBe(0);
 		});
 
-		it('gives 1 for a unique element of different types inside Content', function(){
+		it('gives 1 for a unique element inside Content', function(){
 			c.elements = [0]; // integer inside
 			expect(c.length()).toBe(1);
 
@@ -50,7 +45,7 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	describe('Gets the element:', function(){
+	describe('Content::getElem(): gets the element:', function(){
 		it('the very first element', function(){
 			var obj = {'a': 'b'};
 			c.elements = ['first elem'];
@@ -118,7 +113,7 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	describe('Inserts the element', function(){
+	describe('Content::insertElemAt(): Inserts the element', function(){
 		it('throws an error if the position is too big', function(){
 			spyOn(c, 'length').andCallFake(function(){return 5;});
 			expect(function(){
@@ -188,7 +183,7 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	describe('drops element at given position', function(){
+	describe('Content::dropElemAt(): drops element at given position', function(){
 		it('throws an error if the position index is too big', function(){
 			spyOn(c, 'length').andCallFake(function(){return 2;});
 			expect(function(){
@@ -239,62 +234,66 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(2)).toBe(233.2);
 			expect(c.getElem(3)).toBe('last');
 		});
-
 	});
-});
 
-// probably, some tests are already present above
-describe('Content', function() {
-    var content, elem0, elem1, elem2, elem3, htmlContent;
-    beforeEach(function() {
-        elem0 = 10.1;
-        elem1 = 'element2';
-        elem2 = {'a dummy method': 1};
-        elem3 = {};
-        content = new Content();
-        elem2.toHtml = function(){
-            return 'fake';
-        };
-        spyOn(elem3, 'hasOwnProperty').andCallFake(function(){
-            return false;
-        });
-    });
+	describe('Content::toHtml(): generate html representation', function() {
+	    var content, elem0, elem1, elem2, elem3, htmlContent;
+	    beforeEach(function() {
+	        elem0 = 10.1;
+	        elem1 = 'element2';
+	        elem2 = {'a dummy method': 1};
+	        elem3 = {};
+	        content = new Content();
+	        elem2.toHtml = function(){
+	            return 'fake';
+	        };
+	        spyOn(elem3, 'hasOwnProperty').andCallFake(function(){
+	            return false;
+	        });
+	    });
 
-    it('gives the number of elements it contains', function() {
-        content.elements = [];
-        expect(content.length()).toEqual(0);
-        content.elements = [elem0, elem1, elem2, elem3];
-        expect(content.length()).toEqual(4);
-        content.elements = [elem2, elem1];
-        expect(content.length()).toEqual(2);
-    });
+	    it('Produces empty string if "elements" property is empty', function() {
+	        content.elements = [];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe('string');
+	        expect(htmlContent).toEqual('');
+	    });
 
-    it('toHtml produces a string', function() {
-        content.elements = [];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe('string');
-        expect(htmlContent).toEqual('');
-        content.elements = [elem0, elem1];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toEqual('10.1element2');
-        content.elements = [elem0, elem1, elem2];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('10.1element2fake');
-    });
+	    it('Produces a string if content contains a number ', function() {
+	        content.elements = [19.2];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toEqual('19.2');
+	    });
 
-    it('if one of the elements has no toHtml property', function() {
-        content.elements = [elem1, elem2, elem3];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('element2fake<!-- no html representation -->');
-    });
+	    it('Produces a string if content contains a string ', function() {
+	        content.elements = ['content text'];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toEqual('content text');
+	    });
 
-    it('if "elements" property contains a unique object with no toHtml property', function() {
-        content.elements = [elem3];
-        htmlContent = content.toHtml();
-        expect(typeof htmlContent).toBe("string");
-        expect(htmlContent).toBe('<!-- no html representation -->');
-    });
+	    it('Produces html comment if the content element is an Object without toHtml() method', function() {
+	        content.elements = [elem3];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toBe('<!-- no html representation -->');
+	    });
+
+
+	    it('Produces a string if content contains a number and a string', function() {
+	        content.elements = [23.73, 'what a beautiful day'];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe('string');
+	        expect(htmlContent).toEqual('23.73what a beautiful day');
+	    });
+
+	    it('Produces a string if one of the elements has no toHtml property', function() {
+	        content.elements = ['.', elem3, 'how are you?'];
+	        htmlContent = content.toHtml();
+	        expect(typeof htmlContent).toBe("string");
+	        expect(htmlContent).toBe('.<!-- no html representation -->how are you?');
+	    });
+	});
+
 });
