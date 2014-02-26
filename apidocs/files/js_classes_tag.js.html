@@ -140,7 +140,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, getProperty, setMinMaxWidth */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, Helper, Style*/
 
 /**
  * This class is used to represent a general html tag.
@@ -385,6 +385,15 @@ function Tag() {
 			html = &#x27;&lt;!-- tag name is missing --&gt;&#x27;;
 		}
 		return html;
+	};
+
+	/**
+	 * Generates plain text representation of the tag content. Calls {{#crossLink &quot;Content/toText:method&quot;}}Content::toText(){{/crossLink}}.
+	 * @method   toText
+	 * @return   {String}
+	 */
+	this.toText = function(){
+		return this.content.toText();
 	};
 }
     </pre>

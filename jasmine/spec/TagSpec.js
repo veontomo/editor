@@ -295,16 +295,14 @@ describe('Tag-related functionality:', function() {
         // });
     });
 
-    xdescribe('Tag::toText(): generates text representation of the tag', function(){
-        it('creates empty string for a tag without elements', function(){
-            tag.content.elements = [];
-            expect(tag.toText()).toBe('');
+    describe('Tag::toText(): generates text representation of the tag', function(){
+        it('calls Content::toText() method', function(){
+            spyOn(content, 'toText').andCallFake(function(){return 'content text';});
+            tag.content = content;
+            expect(tag.toText()).toBe('content text');
+            expect(content.toText).toHaveBeenCalled();
         });
 
-        it('creates string for a tag with one string inside ', function(){
-            tag.content.elements = [];
-            expect(tag.toText()).toBe('');
-        });
 
     });
 

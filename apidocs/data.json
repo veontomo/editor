@@ -3688,6 +3688,19 @@
             "module": "HtmlElements"
         },
         {
+            "file": "js\\classes\\tag.js",
+            "line": 250,
+            "description": "Generates plain text representation of the tag content. Calls {{#crossLink \"Content/toText:method\"}}Content::toText(){{/crossLink}}.",
+            "itemtype": "method",
+            "name": "toText",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Tag",
+            "module": "HtmlElements"
+        },
+        {
             "file": "js\\classes\\unit.js",
             "line": 46,
             "description": "Compares the target with the argument. Returns true, if the argument can be cast to the target type\nwith the same \"measurement\" property. False otherwise.",

@@ -68,7 +68,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 startCont, selection,
                 // assigning default values for the url attribute and the link text
                 linkHref = '',
-                linkContent = '...';
+                linkContent = '...',
+                len, elem;
 
                 // console.log(node, node.getRanges(), node.getRanges().length);
                 fakeDiv.append(range.cloneContents());
@@ -102,7 +103,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     }
 
                 }
-                linkContent = selection.length() === 1 && (typeof selection.getFirst() === 'string' ) ? selection.getFirst() : '...';
+                linkContent = selection.toText();
                 linkHref = selection.length() === 1 && (selection.getFirst() instanceof Link) ? selection.getFirst().getHref() : '';
                 this.setValueOf('tab-general', 'text', linkContent);
                 this.setValueOf('tab-general', 'href', linkHref);

@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, getProperty, setMinMaxWidth */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, Helper, Style*/
 
 /**
  * This class is used to represent a general html tag.
@@ -245,5 +245,14 @@ function Tag() {
 			html = '<!-- tag name is missing -->';
 		}
 		return html;
+	};
+
+	/**
+	 * Generates plain text representation of the tag content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
+	 * @method   toText
+	 * @return   {String}
+	 */
+	this.toText = function(){
+		return this.content.toText();
 	};
 }
