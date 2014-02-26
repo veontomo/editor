@@ -140,7 +140,8 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table, Content, Tag, List */
+/*global  DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table,
+          Content, Tag, List, Link, LinkStyle, LinkAttributes */
 
 
 /**
@@ -403,6 +404,7 @@ String.prototype.createListItemFromHtml = function(){
                 methodToCall = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(nodeName) + &#x27;FromHtml&#x27;;
                 methodExists = String.prototype.hasOwnProperty(methodToCall);
                 elem = methodExists ? currentElem.outerHTML[methodToCall]() : currentElem.outerHTML.createTagFromHtml();
+                // console.log(&#x27;inside ListItem: methodToCall: &#x27;, methodToCall, &#x27; methodExists: &#x27;, methodExists);
                 break;
             default:
                 elem = currentElem.nodeValue;
@@ -453,6 +455,7 @@ String.prototype.createTagFromHtml = function(){
                 }
                 if (nodeInternal.nodeType === Node.ELEMENT_NODE){
                     nodeHtml = nodeInternal.outerHTML;
+                    // console.log(nodeInternal.nodeName);
                     methodName = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(nodeInternal.nodeName) + &#x27;FromHtml&#x27;;
                     methodExists = (typeof nodeHtml[methodName]) === &#x27;function&#x27;;
                     elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
@@ -463,6 +466,64 @@ String.prototype.createTagFromHtml = function(){
     }
     return output;
 };
+String.prototype.createAFromHtml = function(){
+    return this.toString().createLinkFromHtml();
+}
+
+String.prototype.createLinkFromHtml = function(){
+    /**
+     * Creates an instance of Link class and fills in its property &quot;elements&quot; with
+     * the elements recognized inside the string. It is supposed that the string is of the
+     * form &#x60;&lt;tag [tag-attributes] [style=&quot;...&quot;]&gt;....&lt;/tag&gt;&#x60;.
+     * @method    createLinkFromHtml
+     * @return    {Link|null}
+     */
+
+    var str = this.toString(),
+        parser = new DOMParser(),
+        id = Helper.generateId(str, &#x27;fakeId&#x27;),
+        doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
+        output = new Link(),
+        uniqueNode, uniqueNodeChildren, node, nodeInternal, elem, i , children, childrenLen, attrs, style,
+        tagName, nodeHtml, methodName, methodExists, href;
+    uniqueNode = doc.getElementById(id);
+    uniqueNodeChildren = uniqueNode.childNodes;
+    if (uniqueNodeChildren.length === 1){
+        node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
+        if (node.nodeType === Node.ELEMENT_NODE){
+            tagName = node.nodeName;
+            output.name = tagName.toLowerCase();
+
+            style = node.getAttribute(&#x27;style&#x27;);
+            href = node.getAttribute(&#x27;href&#x27;);
+            output.style = new LinkStyle(style);
+            attrs = Helper.flatten(node.attributes);
+            if (attrs.hasOwnProperty(&#x27;style&#x27;)){
+                delete attrs.style;
+            }
+            output.attr = new LinkAttributes(attrs);
+            output.attr.setHref(href);
+            // split the target string on blocks
+            children = node.childNodes;
+            childrenLen = children.length;
+            for(i = 0; i &lt; childrenLen; i++){
+                nodeInternal = children[i];
+                if (nodeInternal.nodeType === Node.TEXT_NODE){
+                    elem = nodeInternal.textContent;
+                }
+                if (nodeInternal.nodeType === Node.ELEMENT_NODE){
+                    nodeHtml = nodeInternal.outerHTML;
+                    methodName = &#x27;create&#x27; + Helper.onlyFirstLetterUpperCase(nodeInternal.nodeName) + &#x27;FromHtml&#x27;;
+                    methodExists = (typeof nodeHtml[methodName]) === &#x27;function&#x27;;
+                    elem = methodExists ? nodeHtml[methodName]() : nodeHtml.createTagFromHtml();
+                }
+                output.appendElem(elem);
+            }
+        }
+    }
+    return output;
+};
+
 
 String.prototype.inflate = function(){
     /*

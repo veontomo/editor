@@ -199,14 +199,6 @@ function Content(str) {
 	};
 
 
-	/**
-	 * Appends the element to the array Content::elements.
-	 * @param  {Object}       elem
-	 * @return {void}
-	 */
-	this.appendElem = function(elem){
-		this.elements.push(elem);
-	};
 
 	/**
 	 * Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
@@ -260,7 +252,9 @@ function Content(str) {
 	};
 
 	/**
-	 * Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.
+	 * Transforms the object into html form. Object-type entries of the &quot;elements&quot; property,
+	 * should have &#x60;toHtml()&#x60; method in order the html string to be generated. If it has no
+	 * &#x60;toHtml()&#x60;, then html comment &#x60;&lt;!--- ... --&gt;&#x60; will be generated.
 	 * @method toHtml
 	 * @return {String}
 	 */
@@ -269,7 +263,7 @@ function Content(str) {
 			output = &#x27;&#x27;,
 			len = this.length();
 		for (i = 0; i &lt; len; i++) {
-			elem = this.elements[i];
+			elem = this.getElem(i);
 			switch (typeof elem) {
 			case &#x27;string&#x27;:
 				output += elem;
@@ -281,6 +275,35 @@ function Content(str) {
 				methodExists = (typeof elem.toHtml === &#x27;function&#x27;);
 				output += methodExists ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
 				break;
+			}
+		}
+		return output;
+	};
+	/**
+	 * Text representation of the content. Object-type entries of the &quot;elements&quot; property,
+	 * should have &#x60;toText()&#x60; method in order the html string to be generated. If it has no
+	 * &#x60;toText()&#x60;, then this object will be ignored.
+	 * @method toText
+	 * @return {String}
+	 */
+	this.toText = function(){
+		var i, elem,
+			output = &#x27;&#x27;,
+			len = this.length();
+		for (i = 0; i &lt; len; i++){
+			elem = this.getElem(i);
+			switch (typeof elem) {
+				case &#x27;string&#x27;:
+					output += elem;
+					break;
+				case &#x27;number&#x27;:
+					output += elem.toString();
+					break;
+				default:
+					if (typeof elem.toText === &#x27;function&#x27;){
+						output += elem.toText();
+					}
+					break;
 			}
 		}
 		return output;

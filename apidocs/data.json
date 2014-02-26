@@ -209,7 +209,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "js\\classes\\style.js",
-            "line": 465,
+            "line": 466,
             "description": "This class defines inline styles of html tags",
             "params": [
                 {
@@ -445,7 +445,7 @@
             "module": "Helper",
             "namespace": "",
             "file": "js\\classes\\string.js",
-            "line": 6,
+            "line": 7,
             "description": "These are methods to convert strings into different objects."
         },
         "Style": {
@@ -495,7 +495,14 @@
             "namespace": "",
             "file": "js\\classes\\style.js",
             "line": 168,
-            "description": "Represents hyperlink style."
+            "description": "Represents hyperlink style.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "Style class variable will be instantiated using this input",
+                    "type": "String|Object"
+                }
+            ]
         },
         "TableRowStyle": {
             "name": "TableRowStyle",
@@ -508,7 +515,7 @@
             "module": "Property",
             "namespace": "",
             "file": "js\\classes\\style.js",
-            "line": 220,
+            "line": 221,
             "description": "Represents table row style."
         },
         "TableCellStyle": {
@@ -522,7 +529,7 @@
             "module": "Property",
             "namespace": "",
             "file": "js\\classes\\style.js",
-            "line": 283,
+            "line": 284,
             "description": "Represents table cell styles."
         },
         "ImageStyle": {
@@ -536,7 +543,7 @@
             "module": "Property",
             "namespace": "",
             "file": "js\\classes\\style.js",
-            "line": 358,
+            "line": 359,
             "description": "Represents image styles."
         },
         "ListStyle": {
@@ -550,7 +557,7 @@
             "module": "Property",
             "namespace": "",
             "file": "js\\classes\\style.js",
-            "line": 415,
+            "line": 416,
             "description": "Represents image styles."
         },
         "ListItemStyle": {
@@ -564,7 +571,7 @@
             "module": "Property",
             "namespace": "",
             "file": "js\\classes\\style.js",
-            "line": 465,
+            "line": 466,
             "description": "Represents list item styles."
         },
         "Table": {
@@ -745,7 +752,7 @@
             "line": 82,
             "description": "The URL of the link.",
             "itemtype": "property",
-            "name": "url",
+            "name": "href",
             "type": "String",
             "default": "(empty string)",
             "class": "LinkAttributes",
@@ -754,9 +761,9 @@
         {
             "file": "js\\classes\\attributes.js",
             "line": 90,
-            "description": "Url getter.",
+            "description": "Href getter.",
             "itemtype": "method",
-            "name": "getUrl",
+            "name": "getHref",
             "return": {
                 "description": "",
                 "type": "String"
@@ -767,9 +774,9 @@
         {
             "file": "js\\classes\\attributes.js",
             "line": 99,
-            "description": "Url setter. Native javascript function `encodeURI()` will be applied to the argument.",
+            "description": "Href setter. Native javascript function `encodeURI()` will be applied to the argument.",
             "itemtype": "method",
-            "name": "setUrl",
+            "name": "setHref",
             "params": [
                 {
                     "name": "url",
@@ -911,25 +918,7 @@
         },
         {
             "file": "js\\classes\\content.js",
-            "line": 62,
-            "description": "Appends the element to the array Content::elements.",
-            "params": [
-                {
-                    "name": "elem",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Content",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\content.js",
-            "line": 71,
+            "line": 63,
             "description": "Inserts element at position pos inside the array of elements. If the lenght of array \"elements\"\nis equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given\nposition index is outside that range, an error is thrown. If the position index is equal to N\n(that corresponds to appending the element), then Content::appendElem is called.",
             "itemtype": "method",
             "name": "insertElemAt",
@@ -954,7 +943,7 @@
         },
         {
             "file": "js\\classes\\content.js",
-            "line": 95,
+            "line": 87,
             "description": "Appends element to the array of Content::elements.",
             "itemtype": "method",
             "name": "appendElem",
@@ -974,7 +963,7 @@
         },
         {
             "file": "js\\classes\\content.js",
-            "line": 106,
+            "line": 98,
             "description": "Drops the element at the given position and returns it. If element at the position does not exist,\nan error is thrown.",
             "itemtype": "method",
             "name": "dropElemAt",
@@ -994,10 +983,23 @@
         },
         {
             "file": "js\\classes\\content.js",
-            "line": 122,
-            "description": "Transforms the object into html form.  If item of the \"elements\" property is of Object type, then it should have \"toHtml\" method which is to be applied to the item.",
+            "line": 114,
+            "description": "Transforms the object into html form. Object-type entries of the \"elements\" property,\nshould have `toHtml()` method in order the html string to be generated. If it has no\n`toHtml()`, then html comment `<!--- ... -->` will be generated.",
             "itemtype": "method",
             "name": "toHtml",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Content",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\content.js",
+            "line": 142,
+            "description": "Text representation of the content. Object-type entries of the \"elements\" property,\nshould have `toText()` method in order the html string to be generated. If it has no\n`toText()`, then this object will be ignored.",
+            "itemtype": "method",
+            "name": "toText",
             "return": {
                 "description": "",
                 "type": "String"
@@ -1423,9 +1425,9 @@
         {
             "file": "js\\classes\\link.js",
             "line": 37,
-            "description": "Url getter. Calles {LinkAttributes.getUrl()}",
+            "description": "Href getter. Calles {{#crossLink \"LinkAttributes/getHref:method\"}}LinkAttributes::getHref(){{/crossLink}}",
             "itemtype": "method",
-            "name": "getUrl",
+            "name": "getHref",
             "return": {
                 "description": "",
                 "type": "String"
@@ -1436,9 +1438,9 @@
         {
             "file": "js\\classes\\link.js",
             "line": 46,
-            "description": "Url setter. Calles method {{#crossLink \"LinkAttributes/setUrl:method\"}}LinkAttributes::setUrl(){{/crossLink}}",
+            "description": "Href setter. Calles method {{#crossLink \"LinkAttributes/setHref:method\"}}LinkAttributes::setHref(){{/crossLink}}",
             "itemtype": "method",
-            "name": "setUrl",
+            "name": "setHref",
             "params": [
                 {
                     "name": "url",
@@ -1991,7 +1993,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 14,
+            "line": 15,
             "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: `<td ... > ... </td>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
             "itemtype": "method",
             "name": "createCellFromHtml",
@@ -2004,7 +2006,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 54,
+            "line": 55,
             "description": "Transforms a row-html string into a Row object. It is supposed that the string to process is of the\nfollowing form: <tr ... > ... </tr>. Inside the tag, there might be elements \"td\" that will be\nprocessed one by one by function String::createCellFromHtml().",
             "itemtype": "method",
             "name": "createRowFromHtml",
@@ -2017,7 +2019,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 100,
+            "line": 101,
             "description": "Creates an object representation from a string that is an html repersentation of a table.\nOnly one table is supposed to be processed at a time, so the string to be processed is to\nbe of the following form `<table ...> ... </table>`. Inside the tag, there should be tags \"tr\"\nthat will be processed one by one by function String::createRowFromHtml().",
             "itemtype": "method",
             "name": "createTableFromHtml",
@@ -2030,7 +2032,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 152,
+            "line": 153,
             "description": "Transforms a list string into a List object. The argument listType is used to initialize the\nproperty \"name\" of the returned instance. If it is not provided, that the node tag-name property is used.\nIt is supposed that the string to process is of the following form:\n`<ol ... > ... </ol>` or `<ul ... > ... </ul>`.\nInside the tag, there might be other nodes. If they are recognized as a \"supported\" ones, the\ncorresponding functions will be called to transform them into objects.",
             "itemtype": "method",
             "name": "createListFromHtml",
@@ -2050,7 +2052,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 202,
+            "line": 203,
             "description": "Calls String::createListFromHtml('ul') on the target string.",
             "itemtype": "method",
             "name": "createUlFromHtml",
@@ -2063,7 +2065,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 212,
+            "line": 213,
             "description": "Calls String::createListFromHtml('ol') on the target string.",
             "itemtype": "method",
             "name": "createOlFromHtml",
@@ -2076,7 +2078,7 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 221,
+            "line": 222,
             "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: `<li ... > ... </li>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
             "itemtype": "method",
             "name": "createListItemFromHtml",
@@ -2089,13 +2091,26 @@
         },
         {
             "file": "js\\classes\\string.js",
-            "line": 276,
+            "line": 278,
             "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform `<tag [tag-attributes] [style=\"...\"]>....</tag>`.",
             "itemtype": "method",
             "name": "createTagFromHtml",
             "return": {
                 "description": "",
                 "type": "Content|null"
+            },
+            "class": "StringHelper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\string.js",
+            "line": 334,
+            "description": "Creates an instance of Link class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform `<tag [tag-attributes] [style=\"...\"]>....</tag>`.",
+            "itemtype": "method",
+            "name": "createLinkFromHtml",
+            "return": {
+                "description": "",
+                "type": "Link|null"
             },
             "class": "StringHelper",
             "module": "Helper"
@@ -2290,7 +2305,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 180,
+            "line": 181,
             "description": "Text decoration attribute",
             "itemtype": "property",
             "name": "text-decoration",
@@ -2301,7 +2316,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 187,
+            "line": 188,
             "description": "Font size",
             "itemtype": "property",
             "name": "font size",
@@ -2312,7 +2327,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 193,
+            "line": 194,
             "description": "Font color attribute",
             "itemtype": "property",
             "name": "font color",
@@ -2323,7 +2338,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 199,
+            "line": 200,
             "description": "Font wieght attribute. See html manuals for possible values.",
             "itemtype": "property",
             "name": "font weight",
@@ -2334,7 +2349,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 205,
+            "line": 206,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2345,7 +2360,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 211,
+            "line": 212,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2356,7 +2371,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 232,
+            "line": 233,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -2367,7 +2382,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 238,
+            "line": 239,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2378,7 +2393,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 244,
+            "line": 245,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -2389,7 +2404,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 250,
+            "line": 251,
             "description": "Margin of the table.",
             "itemtype": "property",
             "name": "margin",
@@ -2400,7 +2415,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 256,
+            "line": 257,
             "description": "Padding of the table.",
             "itemtype": "property",
             "name": "padding",
@@ -2411,7 +2426,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 262,
+            "line": 263,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -2422,7 +2437,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 268,
+            "line": 269,
             "description": "Table maximal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -2433,7 +2448,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 274,
+            "line": 275,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -2444,7 +2459,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 295,
+            "line": 296,
             "description": "Color of the border table",
             "itemtype": "property",
             "name": "border-color",
@@ -2455,7 +2470,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 301,
+            "line": 302,
             "description": "Style of the border table. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2466,7 +2481,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 307,
+            "line": 308,
             "description": "Width of the border table.",
             "itemtype": "property",
             "name": "border-width",
@@ -2477,7 +2492,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 313,
+            "line": 314,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2488,7 +2503,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 319,
+            "line": 320,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2499,7 +2514,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 325,
+            "line": 326,
             "description": "Table width.",
             "itemtype": "property",
             "name": "width",
@@ -2510,7 +2525,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 331,
+            "line": 332,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "max-width",
@@ -2521,7 +2536,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 337,
+            "line": 338,
             "description": "Table minimal width. It is supposed to be equal to \"width\" property.",
             "itemtype": "property",
             "name": "min-width",
@@ -2532,7 +2547,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 343,
+            "line": 344,
             "description": "Vertical align of the cell content.",
             "itemtype": "property",
             "name": "vertical-align",
@@ -2543,7 +2558,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 349,
+            "line": 350,
             "description": "Font color",
             "itemtype": "property",
             "name": "color",
@@ -2554,7 +2569,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 370,
+            "line": 371,
             "description": "Width of the border around the image.",
             "itemtype": "property",
             "name": "border-width",
@@ -2565,7 +2580,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 376,
+            "line": 377,
             "description": "Style of the border around the image. See html manuals for possible values.",
             "itemtype": "property",
             "name": "border-style",
@@ -2576,7 +2591,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 382,
+            "line": 383,
             "description": "Color of the border around the image.",
             "itemtype": "property",
             "name": "border-color",
@@ -2587,7 +2602,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 388,
+            "line": 389,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2598,7 +2613,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 394,
+            "line": 395,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -2609,7 +2624,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 400,
+            "line": 401,
             "description": "Image width.",
             "itemtype": "property",
             "name": "width",
@@ -2620,7 +2635,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 406,
+            "line": 407,
             "description": "Image height.",
             "itemtype": "property",
             "name": "height",
@@ -2631,7 +2646,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 427,
+            "line": 428,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2642,7 +2657,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 434,
+            "line": 435,
             "description": "Margin left.",
             "itemtype": "property",
             "name": "margin-left",
@@ -2653,7 +2668,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 441,
+            "line": 442,
             "description": "Margin-right.",
             "itemtype": "property",
             "name": "margin-right",
@@ -2664,7 +2679,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 448,
+            "line": 449,
             "description": "Margin-top.",
             "itemtype": "property",
             "name": "margin-top",
@@ -2675,7 +2690,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 455,
+            "line": 456,
             "description": "Margin-bottom.",
             "itemtype": "property",
             "name": "margin-bottom",
@@ -2686,7 +2701,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 477,
+            "line": 478,
             "description": "Font size of the  text in the list.",
             "itemtype": "property",
             "name": "font-size",
@@ -2697,7 +2712,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 483,
+            "line": 484,
             "description": "Text color of the list item content.",
             "itemtype": "property",
             "name": "color",
@@ -2708,7 +2723,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 491,
+            "line": 492,
             "description": "Font weight. Some possible values: \"normal\", \"bold\", \"bolder\", 100, 200, ..., 900. See html manuals for more info.",
             "itemtype": "property",
             "name": "font-weight",
@@ -2719,7 +2734,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 497,
+            "line": 498,
             "description": "Padding.",
             "itemtype": "property",
             "name": "padding",
@@ -2730,7 +2745,7 @@
         },
         {
             "file": "js\\classes\\style.js",
-            "line": 503,
+            "line": 504,
             "description": "Margin.",
             "itemtype": "property",
             "name": "margin",
@@ -3740,11 +3755,7 @@
         },
         {
             "message": "unknown tag: version",
-            "line": " js\\classes\\string.js:6"
-        },
-        {
-            "message": "Missing item type\nAppends the element to the array Content::elements.",
-            "line": " js\\classes\\content.js:62"
+            "line": " js\\classes\\string.js:7"
         },
         {
             "message": "Missing item type\nFill in the properties with the values from the argument if any.\nSplits the argument according to tha pattern \"key: value;\"",

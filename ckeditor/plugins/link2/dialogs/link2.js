@@ -68,12 +68,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 startCont, selection,
                 // assigning default values for the url attribute and the link text
                 linkHref = '',
-                linkContent = '';
+                linkContent = '...';
 
                 // console.log(node, node.getRanges(), node.getRanges().length);
                 fakeDiv.append(range.cloneContents());
                 selection = fakeDiv.getHtml().inflate();
-                console.log(selection);
                 // if (!range.collapsed) {
                 //     // selection is not empty
                 //     startCont = range.startContainer;
@@ -88,9 +87,23 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 //             break;
                 //     }
                 // }
-                console.log(selection.length(), selection.getFirst());
-                linkContent = selection.length() === 1 && typeof selection.getFirst() === 'string' ? selection.getFirst() : '...';
-                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Link) ? selection.getFirst().getUrl() : '';
+                console.log(selection);
+                len = selection.length();
+                if (len === 1) {
+                    elem = selection.getFirst();
+                    if (typeof elem === 'string') {
+                        console.log('it is a string');
+                        linkContent = elem;
+                    }
+                    if (elem instanceof Link){
+                        console.log('it is a link');
+                        linkHref = elem.getHref();
+                        linkContent = elem.getFirst();
+                    }
+
+                }
+                linkContent = selection.length() === 1 && (typeof selection.getFirst() === 'string' ) ? selection.getFirst() : '...';
+                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Link) ? selection.getFirst().getHref() : '';
                 this.setValueOf('tab-general', 'text', linkContent);
                 this.setValueOf('tab-general', 'href', linkHref);
         },

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, Helper, */
+/*global describe, it, expect, Helper */
 
 describe('Test helper functions', function(){
     describe("file extension", function () {

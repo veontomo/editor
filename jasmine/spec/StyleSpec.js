@@ -137,28 +137,31 @@ describe('LinkStyle-related functionality', function(){
         stl = new LinkStyle();
     });
 
-    describe('LinkStyle::constructor(): inherits from Style', function(){
+    describe('LinkStyle::constructor()', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
             var style2 = LinkStyle();
             expect(style2 instanceof LinkStyle).toBe(true);
         });
 
-        it('is an instance of Style', function(){
+        it('inherits from Style', function(){
             expect(stl instanceof Style).toBe(true);
         });
-        it('populates properties from the argument', function(){
+        it('populates properties if they are given as a string', function(){
             stl = new LinkStyle('a: 10; b: yes');
             expect(stl.a).toBe(10);
             expect(stl.b).toBe('yes');
-            console.log(stl);
         });
-        it('populates properties from the argument', function(){
+        it('populates properties if they are given as an object', function(){
             stl = new LinkStyle({'a': 10, 'b': 'no', 'update': function(){return null;}, 'format': 'A4'});
             expect(stl.format).toBe('A4');
             expect(stl.a).toBe(10);
             expect(stl.b).toBe('no');
             expect(stl.hasOwnProperty('update')).toBe(false);
-            console.log(stl);
+        });
+        it('does not override property by a default value', function(){
+            expect((new LinkStyle())['text-decoration']).toBe('underline');
+            stl = new LinkStyle('text-decoration: none');
+            expect(stl['text-decoration']).toBe('none');
         });
 
     });

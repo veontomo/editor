@@ -244,6 +244,13 @@
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_toText">toText</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -321,7 +328,7 @@
             
         
         
-        <a href="../files/js_classes_content.js.html#l95"><code>js\classes\content.js:95</code></a>
+        <a href="../files/js_classes_content.js.html#l87"><code>js\classes\content.js:87</code></a>
         
         </p>
 
@@ -425,7 +432,7 @@
             
         
         
-        <a href="../files/js_classes_content.js.html#l106"><code>js\classes\content.js:106</code></a>
+        <a href="../files/js_classes_content.js.html#l98"><code>js\classes\content.js:98</code></a>
         
         </p>
 
@@ -782,7 +789,7 @@ an error is thrown.</p>
             
         
         
-        <a href="../files/js_classes_content.js.html#l71"><code>js\classes\content.js:71</code></a>
+        <a href="../files/js_classes_content.js.html#l63"><code>js\classes\content.js:63</code></a>
         
         </p>
 
@@ -965,7 +972,7 @@ position index is outside that range, an error is thrown. If the position index 
             
         
         
-        <a href="../files/js_classes_content.js.html#l122"><code>js\classes\content.js:122</code></a>
+        <a href="../files/js_classes_content.js.html#l114"><code>js\classes\content.js:114</code></a>
         
         </p>
 
@@ -976,7 +983,82 @@ position index is outside that range, an error is thrown. If the position index 
     </div>
 
     <div class="description">
-        <p>Transforms the object into html form.  If item of the &quot;elements&quot; property is of Object type, then it should have &quot;toHtml&quot; method which is to be applied to the item.</p>
+        <p>Transforms the object into html form. Object-type entries of the &quot;elements&quot; property,
+should have <code>toHtml()</code> method in order the html string to be generated. If it has no
+<code>toHtml()</code>, then html comment <code>&lt;!--- ... --&gt;</code> will be generated.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toText" class="method item">
+    <h3 class="name"><code>toText</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_content.js.html#l142"><code>js\classes\content.js:142</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Text representation of the content. Object-type entries of the &quot;elements&quot; property,
+should have <code>toText()</code> method in order the html string to be generated. If it has no
+<code>toText()</code>, then this object will be ignored.</p>
 
     </div>
 

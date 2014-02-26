@@ -326,6 +326,9 @@ String.prototype.createTagFromHtml = function(){
     }
     return output;
 };
+String.prototype.createAFromHtml = function(){
+    return this.toString().createLinkFromHtml();
+}
 
 String.prototype.createLinkFromHtml = function(){
     /**
@@ -354,8 +357,6 @@ String.prototype.createLinkFromHtml = function(){
             style = node.getAttribute('style');
             href = node.getAttribute('href');
             output.style = new LinkStyle(style);
-            console.log(style);
-            console.log(output.style);
             attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty('style')){
                 delete attrs.style;

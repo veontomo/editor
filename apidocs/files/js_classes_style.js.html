@@ -308,52 +308,53 @@ TableStyle.prototype = Object.create(Style.prototype);
 /**
  * Represents hyperlink style.
  * @module  Property
+ * @param    {String|Object}      obj      Style class variable will be instantiated using this input
  * @class  LinkStyle
  * @extends Style
  */
-function LinkStyle() {
+function LinkStyle(obj) {
     &#x27;use strict&#x27;;
     if (!(this instanceof LinkStyle)) {
-        return new LinkStyle();
+        return new LinkStyle(obj);
     }
-    Style.call(this);
+    Style.call(this, obj);
     /**
      * Text decoration attribute
      * @property {String} text-decoration
      * @default  &quot;underline&quot;
      */
-    this[&#x27;text-decoration&#x27;] = &#x27;underline&#x27;;
+    this[&#x27;text-decoration&#x27;] =  this[&#x27;text-decoration&#x27;] || &#x27;underline&#x27;;
 
     /**
      * Font size
      * @property {String|Integer} font size
      * @default 12
      */
-    this[&#x27;font-size&#x27;] = 12;
+    this[&#x27;font-size&#x27;] = this[&#x27;font-size&#x27;] || 12;
     /**
      * Font color attribute
      * @property {String} font color
      * @default  &quot;blue&quot;
      */
-    this.color = &#x27;blue&#x27;;
+    this.color =  this.color || &#x27;blue&#x27;;
     /**
      * Font wieght attribute. See html manuals for possible values.
      * @property {String|Integer} font weight
      * @default  &quot;normal&quot;
      */
-    this[&#x27;font-weight&#x27;] = &#x27;normal&#x27;;
+    this[&#x27;font-weight&#x27;] = this[&#x27;font-weight&#x27;] || &#x27;normal&#x27;;
     /**
      * Padding.
      * @property {String|Number} padding
      * @default  0
      */
-    this.padding = 0;
+    this.padding = this.padding || 0;
     /**
      * Margin.
      * @property {String|Number} margin
      * @default  0
      */
-    this.margin = 0;
+    this.margin = this.margin || 0;
 }
 LinkStyle.prototype = Object.create(Style.prototype);
 
@@ -380,7 +381,7 @@ function TableRowStyle() {
      * @property {String} border-style
      * @default  &quot;none&quot;
      */
-    this[&#x27;border-style&#x27;] = &#x27;none&#x27;;
+    this[&#x27;border-style&#x27;] = this[&#x27;border-style&#x27;] || &#x27;none&#x27;;
     /**
      * Width of the border table.
      * @property {String|Number} border-width
@@ -392,19 +393,19 @@ function TableRowStyle() {
       * @property {String|Number} margin
       * @default  0
       */
-     this.margin = 0;
+     this.margin = this.margin || 0;
      /**
       * Padding of the table.
       * @property {String|Number} padding
       * @default  0
       */
-     this.padding = 0;
+     this.padding = this.padding || 0;
      /**
       * Table width.
       * @property {String|Number} width
       * @default  0
       */
-     this.width = 0;
+     this.width = this.width || 0;
      /**
       * Table maximal width. It is supposed to be equal to &quot;width&quot; property.
       * @property {String|Number} max-width
@@ -443,7 +444,7 @@ function TableCellStyle() {
      * @property {String} border-style
      * @default  &quot;none&quot;
      */
-    this[&#x27;border-style&#x27;] = &#x27;none&#x27;;
+    this[&#x27;border-style&#x27;] = this[&#x27;border-style&#x27;] || &#x27;none&#x27;;
     /**
      * Width of the border table.
      * @property {String|Number} border-width
@@ -455,19 +456,19 @@ function TableCellStyle() {
      * @property {String|Number} padding
      * @default  0
      */
-    this.padding = 0;
+    this.padding = this.padding || 0;
     /**
      * Margin.
      * @property {String|Number} margin
      * @default  0
      */
-    this.margin = 0;
+    this.margin = this.margin || 0;
     /**
      * Table width.
      * @property {String|Number} width
      * @default  0
      */
-    this.width = 0;
+    this.width = this.width || 0;
     /**
      * Table minimal width. It is supposed to be equal to &quot;width&quot; property.
      * @property {String|Number} max-width
@@ -485,13 +486,13 @@ function TableCellStyle() {
      * @property {String} vertical-align
      * @default  0
      */
-    this[&#x27;vertical-align&#x27;] = &#x27;top&#x27;;
+    this[&#x27;vertical-align&#x27;] = this[&#x27;vertical-align&#x27;] || &#x27;top&#x27;;
     /**
      * Font color
      * @property {String} color
      * @default &quot;#000001&quot;. NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
      */
-    this.color = &#x27;#000001&#x27;;
+    this.color = this.color || &#x27;#000001&#x27;;
 }
 TableCellStyle.prototype = Object.create(Style.prototype);
 

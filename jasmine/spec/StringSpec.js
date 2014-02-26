@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xit, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem, Link*/
+/*global describe, it, it, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem, Link*/
 
 describe('String-related functionality', function(){
 
@@ -761,7 +761,6 @@ describe('String-related functionality', function(){
     describe('String::createLinkFromHtml(): constructs a link from its html representation', function(){
         var linkHtml = '<a href="http://www.test.com" title="link descr" style="text-decoration:none">this is a link</a>',
             link = linkHtml.createLinkFromHtml();
-            console.log(link);
         it('creates an instance of Link() class', function(){
             expect(link instanceof Link).toBe(true);
         });

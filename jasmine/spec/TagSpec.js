@@ -295,4 +295,17 @@ describe('Tag-related functionality:', function() {
         // });
     });
 
+    xdescribe('Tag::toText(): generates text representation of the tag', function(){
+        it('creates empty string for a tag without elements', function(){
+            tag.content.elements = [];
+            expect(tag.toText()).toBe('');
+        });
+
+        it('creates string for a tag with one string inside ', function(){
+            tag.content.elements = [];
+            expect(tag.toText()).toBe('');
+        });
+
+    });
+
 });

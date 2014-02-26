@@ -112,7 +112,9 @@ function Content(str) {
 	};
 
 	/**
-	 * Transforms the object into html form.  If item of the "elements" property is of Object type, then it should have "toHtml" method which is to be applied to the item.
+	 * Transforms the object into html form. Object-type entries of the "elements" property,
+	 * should have `toHtml()` method in order the html string to be generated. If it has no
+	 * `toHtml()`, then html comment `<!--- ... -->` will be generated.
 	 * @method toHtml
 	 * @return {String}
 	 */
@@ -121,7 +123,7 @@ function Content(str) {
 			output = '',
 			len = this.length();
 		for (i = 0; i < len; i++) {
-			elem = this.elements[i];
+			elem = this.getElem(i);
 			switch (typeof elem) {
 			case 'string':
 				output += elem;
@@ -133,6 +135,35 @@ function Content(str) {
 				methodExists = (typeof elem.toHtml === 'function');
 				output += methodExists ? elem.toHtml() : '<!-- no html representation -->';
 				break;
+			}
+		}
+		return output;
+	};
+	/**
+	 * Text representation of the content. Object-type entries of the "elements" property,
+	 * should have `toText()` method in order the html string to be generated. If it has no
+	 * `toText()`, then this object will be ignored.
+	 * @method toText
+	 * @return {String}
+	 */
+	this.toText = function(){
+		var i, elem,
+			output = '',
+			len = this.length();
+		for (i = 0; i < len; i++){
+			elem = this.getElem(i);
+			switch (typeof elem) {
+				case 'string':
+					output += elem;
+					break;
+				case 'number':
+					output += elem.toString();
+					break;
+				default:
+					if (typeof elem.toText === 'function'){
+						output += elem.toText();
+					}
+					break;
 			}
 		}
 		return output;

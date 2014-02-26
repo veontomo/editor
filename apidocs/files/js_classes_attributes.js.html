@@ -221,29 +221,29 @@ function LinkAttributes(attr){
 	Attributes.call(this, attr);
 	/**
 	 * The URL of the link.
-	 * @property 	{String} 	url
+	 * @property 	{String} 	href
 	 * @default  	(empty string)
 	 */
-	this.url = &#x27;&#x27;;
+	this.href = &#x27;&#x27;;
 
 
 	/**
-	 * Url getter.
-	 * @method  getUrl
+	 * Href getter.
+	 * @method  getHref
 	 * @return  {String}
 	 */
-	this.getUrl =  function(){
-		return this.url;
+	this.getHref =  function(){
+		return this.href;
 	};
 
 	/**
-	 * Url setter. Native javascript function &#x60;encodeURI()&#x60; will be applied to the argument.
-	 * @method  setUrl
+	 * Href setter. Native javascript function &#x60;encodeURI()&#x60; will be applied to the argument.
+	 * @method  setHref
 	 * @param   {String}         url               &#x60;encodeURI()&#x60; is to be applied when assigning to this.url
 	 * @return  {String}
 	 */
-	this.setUrl =  function(url){
-		this.url = encodeURI(url);
+	this.setHref =  function(url){
+		this.href = encodeURI(url);
 	};
 
 

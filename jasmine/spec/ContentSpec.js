@@ -300,7 +300,56 @@ describe('Content-related functionality', function(){
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('waiting for the Sunelem strhow are you?');
 	    });
-
 	});
+
+	describe('Content::toText(): generates text representation of the content', function(){
+	        it('returns empty string for a tag without elements', function(){
+	            c.elements = [];
+	            expect(c.toText()).toBe('');
+	        });
+
+	        it('returns string if only this string is present in elements', function(){
+	            c.elements = ['dumb string'];
+	            expect(c.toText()).toBe('dumb string');
+	        });
+
+   	        it('returns "stringified" number if only that number is present in elements', function(){
+	            c.elements = [92];
+	            expect(c.toText()).toBe('92');
+	        });
+
+	        it('returns concatention of two strings ', function(){
+	            c.elements = ['dumb string', 'second input'];
+	            expect(c.toText()).toBe('dumb stringsecond input');
+	        });
+
+	        it('returns empty string if the only element is an object with no toText() method', function(){
+	        	var fake = {};
+	        	expect(fake.hasOwnProperty('toText')).toBe(false);
+	        	c.elements = [fake];
+	        	expect(c.toText()).toBe('');
+	        });
+
+
+	        it('calls toText() method of the unique object in the elements', function(){
+	        	var fake = {toText: function(){return null;}};
+	        	spyOn(fake, 'toText').andCallFake(function(){return 'fake text repr';});
+	        	c.elements = [fake];
+	        	expect(c.toText()).toBe('fake text repr');
+	        	expect(fake.toText).toHaveBeenCalled();
+	        });
+	        it('ignores the object if it has no toText() method', function(){
+	        	var fake1 = {toText: function(){return null;}},
+	        		fake2 = {},
+	        		fake3 = {toText: function(){return null;}};
+	        	spyOn(fake1, 'toText').andCallFake(function(){return 'fake1 msg';});
+	        	spyOn(fake3, 'toText').andCallFake(function(){return 'fake3 str';});
+	        	c.elements = [fake1, fake2, fake3];
+	        	expect(c.toText()).toBe('fake1 msgfake3 str');
+	        	expect(fake1.toText).toHaveBeenCalled();
+	        	expect(fake3.toText).toHaveBeenCalled();
+	        });
+	    });
+
 
 });
