@@ -166,7 +166,44 @@ var CKHelper = {
 		parentTable.remove();
 		// call a custom method to insert the table and assign hovering effects on it
 		ed.insertTableWithHoverEff(newTable);
+	},
+
+
+
+	/**
+	 * Inserts list. List items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          listType               Type of the list to insert (ol, ul)
+	 * @return  {void}
+	 */
+	insertList: function(editor, listType){
+		var node = editor.getSelection(),
+		    range = node.getRanges()[0],
+		    list = new List(listType),
+		    fakeDiv = editor.document.createElement('div'),
+		    listObj, listHtml, selection, i, len, li;
+		fakeDiv.append(range.cloneContents());
+		selection = fakeDiv.getHtml().inflate();
+		list.style['margin-left'] = 40;
+		len = selection.length();
+		if (len > 0){
+			for (i = 0; i < len; i++){
+				li = new ListItem();
+				li.appendElem(selection.getElem(i));
+				list.appendItem(li);
+			}
+		} else {
+			li = new ListItem();
+			list.appendItem(li);
+		}
+	    listHtml = list.toHtml();
+	    console.log(listHtml);
+	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+	    editor.insertElement(listObj);
+
 	}
+
 
 
 };

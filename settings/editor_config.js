@@ -1,3 +1,7 @@
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, List, ListItem*/
+
 /**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
@@ -11,7 +15,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.width = '850px';
 	config.height = '500px';
 	// when pressing "ENTER", <br> is inserted, not <p>
-	config.enterMode = CKEDITOR.ENTER_P;
+	config.enterMode = CKEDITOR.ENTER_BR;
 
 	config.disableObjectResizing = true;
 
@@ -29,7 +33,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,olist2,ulist2,upload';
+	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
