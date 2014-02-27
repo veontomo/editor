@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -198,7 +198,6 @@ var CKHelper = {
 			list.appendItem(li);
 		}
 	    listHtml = list.toHtml();
-	    console.log(listHtml);
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
 

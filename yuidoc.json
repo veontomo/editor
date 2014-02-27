@@ -1,9 +1,10 @@
 {
     "name": "Newsletter API",
     "description": "Javascript classes",
-    "version": "1.2.1",
+    "version": "0.0.2",
     "options": {
         "outdir": "apidocs",
-        "paths": "js\\classes"
-    }
+        "paths": "js/classes"
+    },
+    "logo": ""
 }

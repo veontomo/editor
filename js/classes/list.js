@@ -21,7 +21,7 @@ function List(listType) {
 	 * Array of allowed values for the tag names: ['ol', 'ul'].
 	 * @property {Array}    allowedNames
 	 * @type     {Array}
-	 * @private
+	 * @protected
 	 */
 	var allowedNames = ['ol', 'ul'];
 
@@ -33,7 +33,7 @@ function List(listType) {
 
 	/**
 	 * Html tag corresponding to List object. It is taken from the name provided
-	 * when creating the object: list = new List('ul'). If not provided or  if it
+	 * when creating the object: `list = new List('ul')`. If not provided or if it
 	 * is provided, but it is not allowed, then the first allowed value is used.
 	 * @property {String}     name
 	 * @type {String}
@@ -66,6 +66,7 @@ function List(listType) {
 	};
 	/**
 	 * Inserts the item at the given position. If the item to insert is a ListItem instance, then
+	 * {{#crossLink "Content/insertElemAt:method"}}Content::insertElemAt(){{/crossLink}}
 	 * Content::insertElemAt() is called. Otherwise, an error is thrown.
 	 * @method    isertItemAt
 	 * @param     {Number}      pos     index of the position of there to insert the item
