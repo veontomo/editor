@@ -182,21 +182,26 @@ var CKHelper = {
 		    range = node.getRanges()[0],
 		    list = new List(listType),
 		    fakeDiv = editor.document.createElement('div'),
-		    listObj, listHtml, selection, i, len, li;
+		    listObj, listHtml, selection, i, len, li, elem;
 		fakeDiv.append(range.cloneContents());
 		selection = fakeDiv.getHtml().inflate();
 		list.style['margin-left'] = 40;
 		len = selection.length();
-		if (len > 0){
-			for (i = 0; i < len; i++){
-				li = new ListItem();
-				li.appendElem(selection.getElem(i));
+		for (i = 0; i < len; i++){
+			li = new ListItem();
+			elem = selection.getElem(i);
+
+			if ((typeof elem === 'string') || (elem instanceof Tag) && (elem.length() > 0) ) {
+				li.appendElem(elem);
 				list.appendItem(li);
 			}
-		} else {
+		}
+		// if nevertheless, the list remains empty, one item is added
+		if (list.length() === 0){
 			li = new ListItem();
 			list.appendItem(li);
 		}
+
 	    listHtml = list.toHtml();
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
