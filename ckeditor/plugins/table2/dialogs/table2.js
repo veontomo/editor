@@ -183,8 +183,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			try {
 				tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
 			} catch (e){
-				console.log(e);
-				console.log(NEWSLETTER.maxWidth);
 				tableWidth = NEWSLETTER.maxWidth; // integer, the width in px
 			}
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
@@ -201,8 +199,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// impose styles and attribute values
 			tableStyle.setWidth(tableWidth);
 			tableAttr[NEWSLETTER['marker-name']] = table.getType();
+			tableAttr.width = tableWidth;
 			tableStyle.margin = 0;
 			tableStyle.padding = 0;
+
 
 			// binding the styles and attributes and the table object
 			table.attr = tableAttr;
@@ -259,6 +259,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				bogusTableWidth = bogusCellStyle.width - bogusCellStyle['padding-left'] - bogusCellStyle['padding-right'];
 				bogusTableStyle.setWidth(bogusTableWidth);
+				bogusTableAttr.width = bogusTableWidth;
+
 				allWidths.push({'value': bogusTableWidth, 'descr': 'larghezza della tabella fittizia'});
 
 				bogusTableStyle['border-style'] = 'solid';

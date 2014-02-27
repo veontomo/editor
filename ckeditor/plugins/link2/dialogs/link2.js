@@ -65,48 +65,21 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var node = this.getParentEditor().getSelection(),
                 range = node.getRanges()[0],
                 fakeDiv = editor.document.createElement('div'),
-                startCont, selection,
-                // assigning default values for the url attribute and the link text
                 linkHref = '',
-                linkContent = '...',
-                len, elem;
+                selection, linkContent, len, elem;
+            fakeDiv.append(range.cloneContents());
+            selection = fakeDiv.getHtml().inflate();
+            linkContent = selection.toText();
 
-                // console.log(node, node.getRanges(), node.getRanges().length);
-                fakeDiv.append(range.cloneContents());
-                selection = fakeDiv.getHtml().inflate();
-                // if (!range.collapsed) {
-                //     // selection is not empty
-                //     startCont = range.startContainer;
-                //     // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
-                //     switch (startCont.type){
-                //         case CKEDITOR.NODE_ELEMENT:
-                //             linkContent = startCont.getHtml();
-                //             linkHref = decodeURI(Helper.dropProtocol(startCont.getAttribute('href') || ''));
-                //             break;
-                //         case CKEDITOR.NODE_TEXT:
-                //             linkContent = startCont.getText();
-                //             break;
-                //     }
-                // }
-                console.log(selection);
-                len = selection.length();
-                if (len === 1) {
-                    elem = selection.getFirst();
-                    if (typeof elem === 'string') {
-                        console.log('it is a string');
-                        linkContent = elem;
-                    }
-                    if (elem instanceof Link){
-                        console.log('it is a link');
-                        linkHref = elem.getHref();
-                        linkContent = elem.getFirst();
-                    }
-
+            len = selection.length();
+            if (len === 1) {
+                elem = selection.getFirst();
+                if (elem instanceof Link){
+                    linkHref = elem.getHref();
                 }
-                linkContent = selection.toText();
-                linkHref = selection.length() === 1 && (selection.getFirst() instanceof Link) ? selection.getFirst().getHref() : '';
-                this.setValueOf('tab-general', 'text', linkContent);
-                this.setValueOf('tab-general', 'href', linkHref);
+            }
+            this.setValueOf('tab-general', 'text', linkContent);
+            this.setValueOf('tab-general', 'href', Helper.dropProtocol(linkHref));
         },
         onCancel: function(){
             // clear the value of the warning field
@@ -118,12 +91,19 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var node = this.getParentEditor().getSelection(),
                 range = node.getRanges()[0],
-                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined;
+                fakeDiv = editor.document.createElement('div'),
+                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined,
+                selection;
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href');
             linkContentRaw = this.getValueOf('tab-general', 'text');
             isUnderlined = this.getValueOf('tab-general', 'underlined');
 
+            fakeDiv.append(range.cloneContents());
+            selection = fakeDiv.getHtml().inflate();
+            linkContent = selection.toText();
+
+            console.log(selection);
             linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
 
             // the range might contain nothing (to be a collapsed one)

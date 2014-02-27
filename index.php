@@ -191,15 +191,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			testo prima
-			<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 64px;" title="torta" width="64" /> text between images
-				<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 74px;" title="torta" width="74" />
-				testo dopo
-			<br />
-			<a href="http://111" style="text-decoration: underline; font-size: 12px; color: blue; font-weight: normal; padding: 0px; margin: 0px">
-				è un link
-			</a>
-			<br />
 	</textarea>
 	</div>
 <!-- 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 64px;" title="torta" width="64" /> text between images

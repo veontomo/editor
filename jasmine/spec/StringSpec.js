@@ -764,13 +764,28 @@ describe('String-related functionality', function(){
         it('creates an instance of Link() class', function(){
             expect(link instanceof Link).toBe(true);
         });
-        it('sets attributes of the link', function(){
+        it('Populates Link::attr', function(){
             expect(link.attr.href).toBe('http://www.test.com');
             expect(link.attr.title).toBe('link descr');
         });
 
-        it('sets styles of the link', function(){
+        it('Populates Link::style', function(){
             expect(link.style['text-decoration']).toBe('none');
         });
+
+        it('Populates Link::content, if it is a string', function(){
+            expect(link.content.elements.length).toBe(1);
+            expect(link.content.elements[0]).toBe('this is a link');
+        });
+        it('Populates Link::content, if it is a tag', function(){
+            linkHtml = '<a href="http://www.test.com"><customtag>text inside custom tag</customtag></a>';
+            link = linkHtml.createLinkFromHtml();
+            expect(link.content.elements.length).toBe(1);
+            expect(link.content.elements[0] instanceof Tag).toBe(true);
+            expect(link.content.elements[0].content.elements.length).toBe(1);
+            expect(link.content.elements[0].content.elements[0]).toBe('text inside custom tag');
+        });
+
+
     });
 });
