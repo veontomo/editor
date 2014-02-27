@@ -201,7 +201,7 @@ var CKHelper = {
 			li = new ListItem();
 			list.appendItem(li);
 		}
-
+		node.reset();
 	    listHtml = list.toHtml();
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
