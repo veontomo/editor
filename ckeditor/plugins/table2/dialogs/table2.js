@@ -166,7 +166,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				i, table, tableWidth, tableElem, cellWidths, rowWidth,
 				// rowContentWidth,
 				spaceTop, spaceBottom,
-				inputField, cellWeights, row, cell, tableStyle, tableAttr, rowStyle, rowAttr, cellStyle,
+				inputField, cellWeights, row, cell,
+				// tableStyle, tableAttr,
+				rowStyle, rowAttr, cellStyle,
 				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed,
 				allWidths = [];
 
@@ -192,21 +194,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			table = new Table();
 
-			// the whole table styles and properties
-			tableStyle = new TableStyle();
-			tableAttr  = new TableAttributes();
-
 			// impose styles and attribute values
-			tableStyle.setWidth(tableWidth);
-			tableAttr[NEWSLETTER['marker-name']] = table.getType();
-			tableAttr.width = tableWidth;
-			tableStyle.margin = 0;
-			tableStyle.padding = 0;
+			table.style.setWidth(tableWidth);
+			table.style.margin = 0;
+			table.style.padding = 0;
 
+			table.attr[NEWSLETTER['marker-name']] = table.getType();
+			table.attr.width = tableWidth;
 
 			// binding the styles and attributes and the table object
-			table.attr = tableAttr;
-			table.style = tableStyle;
+			// table.style = tableStyle;
 			if (borderWidth > 0){
 				table.setBorder({
 					'width': borderWidth,
@@ -223,7 +220,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// By default, table style is a parent style for the nested rows.
 			// The properties of the the nested elements will be calculated based on this style.
-			parentElemStyle = tableStyle;
+			parentElemStyle = table.style;
 
 			if (isFramed){
 				// creating bogus styles and attributes
@@ -236,7 +233,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// calculating widths of the bogus elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				bogusRowWidth = tableStyle.width - 2 * tableStyle.padding - 2 * tableStyle.getBorderInfo().width;
+				bogusRowWidth = table.style.width - 2 * table.style.padding - 2 * table.style.getBorderInfo().width;
 
 				bogusRowStyle.setWidth(bogusRowWidth);
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
