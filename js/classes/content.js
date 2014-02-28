@@ -202,6 +202,7 @@ function Content(str) {
 	 * <li>objects without any attributes</li> <ul>
 	 * @todo: decide whether consider functions to be empty or not.
 	 * @method  isEmpty
+	 * @todo    to elaborate, because <src img="..."/> turns out to be empty.
 	 * @return {Boolean}
 	 */
 	this.isEmpty = function(){
@@ -229,5 +230,19 @@ function Content(str) {
 			}
 		}
 		return output;
+	};
+	/**
+	 * Drops last elements if it is empty.
+	 * @method trim
+	 * @return {void}
+	 */
+	this.trim = function(){
+		if (this.length() > 0 &&
+			(typeof this.getLast().isEmpty === 'function') &&
+			(this.getLast().isEmpty())){
+				this.dropLast();
+				// apply recursively the currunt operation for the updated content.
+				this.trim();
+		}
 	};
 }

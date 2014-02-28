@@ -320,10 +320,55 @@ describe('Content-related functionality', function(){
 			c.dropLast();
 			expect(c.dropElemAt).toHaveBeenCalledWith(9);
 		});
+	});
+
+	describe('Content::trim(): drops last elem if it is empty', function(){
+		it('removes empty element, if it is the only element', function(){
+			var obj = {'isEmpty': function(){return true;}};
+			c.elements = [obj];
+			c.trim();
+			expect(c.elements.length).toBe(0);
+		});
+		it('does not remove element, if it is not empty', function(){
+			var obj = {'isEmpty': function(){return false;}};
+			c.elements = [obj];
+			c.trim();
+			expect(c.elements.length).toBe(1);
+			expect(c.elements[0]).toBe(obj);
+		});
+
+		it('does not remove element, if it is empty, but comes first', function(){
+			var obj = {'isEmpty': function(){return true;}};
+			c.elements = [obj, "string"];
+			c.trim();
+			expect(c.elements.length).toBe(2);
+			expect(c.elements[0]).toBe(obj);
+			expect(c.elements[1]).toBe("string");
+		});
+
+
+		it('does not remove element, if it is empty, but comes in middle', function(){
+			var obj = {'isEmpty': function(){return true;}};
+			c.elements = [2, obj, "string"];
+			c.trim();
+			expect(c.elements.length).toBe(3);
+			expect(c.elements[0]).toBe(2);
+			expect(c.elements[1]).toBe(obj);
+			expect(c.elements[2]).toBe("string");
+		});
+
+		it('removes two empty elements, if they are at the end', function(){
+			var obj1 = {'isEmpty': function(){return true;}},
+				obj2 = {'isEmpty': function(){return true;}};
+			c.elements = [2, "string", obj1, obj2];
+			c.trim();
+			expect(c.elements.length).toBe(2);
+			expect(c.elements[0]).toBe(2);
+			expect(c.elements[1]).toBe("string");
+		});
 
 
 	});
-
 
 	describe('Content::toHtml(): generate html representation', function() {
 	    var content, elem, htmlContent;
