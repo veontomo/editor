@@ -15,7 +15,6 @@ describe('Tag-related functionality:', function() {
             var tag2 = Tag();
             expect(tag2 instanceof Tag).toBe(true);
         });
-
     });
 
     it('sets styles of the tag', function(){
@@ -302,8 +301,24 @@ describe('Tag-related functionality:', function() {
             expect(tag.toText()).toBe('content text');
             expect(content.toText).toHaveBeenCalled();
         });
+    });
 
+    describe('Tag::dropFirst(): drops the first item from its elements', function(){
+        it('calls Content::dropFirst()', function(){
+            spyOn(content, 'dropFirst');
+            tag.content = content;
+            tag.dropFirst();
+            expect(content.dropFirst).toHaveBeenCalled();
+        });
+    });
 
+    describe('Tag::dropLast(): drops the last item from its elements', function(){
+        it('calls Content::dropLast()', function(){
+            spyOn(content, 'dropLast');
+            tag.content = content;
+            tag.dropLast();
+            expect(content.dropLast).toHaveBeenCalled();
+        });
     });
 
 });

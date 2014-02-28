@@ -230,6 +230,27 @@ function Tag() {
 	};
 
 	/**
+	 * Deletes first element from "content" property. Delegates its functionalality to
+	 * {{#crossLink "Content/dropFirst:method"}}Content::dropFirst(){{/crossLink}}.
+	 * @method  dropFirst
+	 * @return   {void}
+	 */
+	this.dropFirst = function(){
+		this.content.dropFirst();
+	}
+
+	/**
+	 * Deletes last element from "content" property. Delegates its functionalality to
+	 * {{#crossLink "Content/dropLast:method"}}Content::dropLast(){{/crossLink}}.
+	 * @method  dropLast
+	 * @return   {void}
+	 */
+	this.dropLast = function(){
+		this.content.dropLast();
+	}
+
+
+	/**
 	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
 	 * @method toHtml
 	 * @return {String}                html representation of an instance of this class.
