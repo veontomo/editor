@@ -112,6 +112,30 @@ function Content(str) {
 		return elem;
 	};
 
+
+	/**
+	 * Drops the first element. Alias for {{#crossLink "Content/dropElemAt:method"}}Content/dropElemAt(0){{/crossLink}}.
+	 * @method   dropFirst
+	 * @return   {void}
+	 */
+	this.dropFirst = function(){
+		this.dropElemAt(0);
+	};
+
+	/**
+	 * Drops the last element. If the number of current elements is greater than zero, then it is called
+	 * {{#crossLink "Content/dropElemAt:method"}}Content/dropElemAt(pos){{/crossLink}} with pos being
+	 * the index of the last element.
+	 * @method  dropLast
+	 * @return  {void}
+	 */
+	this.dropLast = function(){
+		var len = this.length();
+		if (len > 0){
+			this.dropElemAt(len-1);
+		}
+	};
+
 	/**
 	 * Transforms the object into html form. Object-type entries of the "elements" property,
 	 * should have `toHtml()` method in order the html string to be generated. If it has no
