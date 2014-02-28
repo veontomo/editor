@@ -327,11 +327,13 @@ var Helper = {
     },
 
     /**
-     * Generates a string that can be used as id for the elements of the target string. This means that
-     * the generated string must be not present among id's of the elements of the target string. The argument
-     * serves as a hint to create the id: if the hint string is available as id, it will be returned. Otherwise,
-     * a random symbol from 0-9, a-z will be appended to the hint string until it becomes a valid id.
+     * Generates a string that can be used as id for the elements of the string `str`. This means that
+     * the generated string must be not present among id's of the elements of the string `str`, while it might
+     * be present as a content of the elements. The second argument `seed` serves as a hint to create the id:
+     * if the hint string is available as id, it will be returned. Otherwise, a random symbol from 0-9, a-z
+     * will be appended to the hint string until it becomes a valid id.
      * @method generateId
+     * @method str
      * @param  {String|Null} seed
      * @return {String}
      */

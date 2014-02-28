@@ -185,7 +185,12 @@ var CKHelper = {
 		    listObj, listHtml, selection, i, len, li, elem;
 		fakeDiv.append(range.cloneContents());
 		selection = fakeDiv.getHtml().inflate();
-		list.style['margin-left'] = 40;
+
+		console.log('detected text: ', fakeDiv.getHtml());
+		// return null;
+		list.style['margin-left'] = list.style['margin-left'] || 40;
+
+
 		len = selection.length();
 		for (i = 0; i < len; i++){
 			li = new ListItem();
