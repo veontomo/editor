@@ -170,40 +170,36 @@ function Content(str) {
 		return output;
 	};
 	/**
-	 * Scans recursively the content of "element" property and returns true, if the whole tree of elements is empty and false otherwise.
-	 * What is supposed to be empty: Content instance for which the method `isEmpty()` returns TRUE. Non empty elements: 1. non empty
-	 * strings, numbers, objects with properties.
+	 * Scans recursively the content of "element" property and returns true, if each item of the content is empty.
+	 * Returns false otherwise.
+	 * What is supposed to be empty:
+	 * <ul><li>objects having method `isEmpty()` and which returns `true`</li>
+	 * <li> empty strings</li>
+	 * <li>objects without any attributes</li> <ul>
+	 * @todo: decide whether consider functions to be empty or not.
 	 * @method  isEmpty
 	 * @return {Boolean}
 	 */
 	this.isEmpty = function(){
 		var output = true,
 			len = this.length(),
-			i, elem;
-		console.log('length = ', len, ', content: ', this.elements);
-		console.log(this.elements[0], ' vs ', this.getElem(0));
+			i, elem, elemType;
 		for (i = 0; i < len; i++){
 			elem = this.getElem(i);
-			console.log('#', i, ': >', elem, '<');
-			if (elem instanceof Content){
+			// if the element has "isEmpty" method, make use of it
+			if (typeof elem.isEmpty === 'function'){
 				output = elem.isEmpty();
-				// once the output becomes true, return it.
 				if (!output){
 					return false;
 				}
 			} else {
-				if (typeof elem === 'string' && elem !== ''){
+				elemType = typeof elem;
+				if ((elemType === 'string' && elem !== '') || (elemType === 'number')){
 					return false;
 				}
-				if (typeof elem === 'number'){
-					return false;
-				}
-				if (typeof elem === 'object'){
-					if (typeof elem.isEmpty === 'function'){
-						output = elem.isEmpty();
-						if (!output){
-							return false;
-						}
+				if (elemType === 'object'){
+					if(Object.getOwnPropertyNames(elem).length !== 0){
+						return false;
 					}
 				}
 			}

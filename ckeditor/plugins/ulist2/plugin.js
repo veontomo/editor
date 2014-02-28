@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, List, ListItem*/
+/*global CKEDITOR, CKHelper*/
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('ulist2', {
@@ -10,18 +10,23 @@ CKEDITOR.plugins.add('ulist2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-		// Define an editor command that opens our dialog.
-		editor.addCommand('ulist2Dialog', {
+		editor.addCommand('ulist2', {
 			exec: function(editor){
 				CKHelper.insertList(editor, 'ul');
 			}
 		});
+		editor.addCommand('ulist2Dialog', {
+			exec: function(editor){
+				CKHelper.convertListTo(editor, 'ul', 'ol');
+			}
+		});
+
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('Ulist2', {
 			// The text part of the button (if available) and tooptip.
 			label: editor.lang.list.bulletedlist,
 			// The command to execute on click.
-			command: 'ulist2Dialog',
+			command: 'ulist2',
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
@@ -29,8 +34,8 @@ CKEDITOR.plugins.add('ulist2', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');
-			editor.addMenuItem('ulist2Item', {
-				label: editor.lang.list.bulletedlist,
+			editor.addMenuItem('ulist2Dialog', {
+				label: 'convertire in elenco numerato', //editor.lang.list.bulletedlist,
 				icon: this.path + 'icons/bulletedList.png',
 				command: 'ulist2Dialog',
 				group: 'list2Group'
@@ -38,7 +43,7 @@ CKEDITOR.plugins.add('ulist2', {
 			editor.contextMenu.addListener(function(element) {
 				if (element.getAscendant('ul', true)) {
 					return {
-						list2Item: CKEDITOR.TRISTATE_OFF
+						ulist2Dialog: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});

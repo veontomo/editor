@@ -42,6 +42,18 @@ function List(listType) {
 	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
 
 	/**
+	 * Sets the type of the list. The list name is changed only if the argument is in
+	 * the array of the allowed names {{#crossLink "List/allowedNames:property"}}allowedNames{{/crossLink}}.
+	 * @method   setName
+	 * @param    {String}        name       the value to be imposed as a list type.
+	 */
+	this.setName = function(name){
+		if (allowedNames.indexOf(name) !== -1){
+			this.name = name;
+		}
+	};
+
+	/**
 	 * Gets the number of the list items
 	 * @method      itemNum
 	 * @return      {Number}   an integer number

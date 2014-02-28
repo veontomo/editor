@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem, Tag */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -191,7 +191,7 @@ var CKHelper = {
 			li = new ListItem();
 			elem = selection.getElem(i);
 
-			if ((typeof elem === 'string') || (elem instanceof Tag) && (elem.length() > 0) ) {
+			if ((typeof elem === 'string') || ((elem instanceof Tag) && (elem.length() > 0))) {
 				li.appendElem(elem);
 				list.appendItem(li);
 			}
@@ -205,9 +205,45 @@ var CKHelper = {
 	    listHtml = list.toHtml();
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
+	    console.log('string for insertion: ', listHtml);
+
+	},
+
+	/**
+	 * Converts list to a given type.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          fromType               Type of the list (ol, ul)
+	 * @param   {String}          toType                 Type of the list (ol, ul)
+	 * @return  {void}
+	 */
+	convertListTo: function(editor, fromType, toType){
+		var startElem = editor.getSelection().getStartElement(),
+			list = startElem.getAscendant(fromType, true),
+			listObj, listHtml, cont, contObj, i, len, elem;
+		if (list){
+			cont = list.getOuterHtml();
+			contObj = cont.inflate();
+			if (contObj.length() === 1 && (contObj.getFirst() instanceof List)){
+				listObj = contObj.getFirst(); // the list that must be converted
+				listObj.setName(toType);
+				// for some reason, CKEditor appends <br> to element on which the dialog event was fired.
+				// Lets scan the children of the List and delete the final <br> if any
+				len = listObj.length();
+				for (i = 0; i < len; i++){
+					elem = listObj.getElem(i);
+					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().name === 'br')){
+						elem.dropElemAt(elem.length() - 1); // deletes the last element
+					}
+				}
+				listHtml = listObj.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				list.remove();
+				editor.insertElement(listObj);
+
+			}
+		}
 
 	}
-
 
 
 };

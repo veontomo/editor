@@ -128,7 +128,8 @@ CKEDITOR.plugins.add('table2', {
 			editor.contextMenu.addListener(function (element) {
 				var rowMarker = (new Row()).getType(), // the label by which the rows are marked
 					markerName  = NEWSLETTER['marker-name'],
-					el = CKHelper.findAscendant(element, function (el) {
+					el;
+				el = CKHelper.findAscendant(element, function (el) {
 					return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
 				});
 				if (el) {

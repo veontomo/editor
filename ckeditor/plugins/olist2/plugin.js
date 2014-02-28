@@ -13,15 +13,21 @@ CKEDITOR.plugins.add('olist2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){
+				CKHelper.convertListTo(editor, 'ol', 'ul');
+			}
+		});
+		editor.addCommand('olist2', {
+			exec: function(editor){
 				CKHelper.insertList(editor, 'ol');
 			}
 		});
+
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('olist2', {
 			// The text part of the button (if available) and tooptip.
 			label: editor.lang.list.numberedlist,
 			// The command to execute on click.
-			command: 'olist2Dialog',
+			command: 'olist2',
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
@@ -29,8 +35,8 @@ CKEDITOR.plugins.add('olist2', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');
-			editor.addMenuItem('list2Item', {
-				label: editor.lang.list.numberedlist,
+			editor.addMenuItem('olist2Dialog', {
+				label: 'convertire in elenco puntato',
 				icon: this.path + 'icons/numberedList.png',
 				command: 'olist2Dialog',
 				group: 'list2Group'
@@ -38,11 +44,10 @@ CKEDITOR.plugins.add('olist2', {
 			editor.contextMenu.addListener(function(element) {
 				if (element.getAscendant('ol', true)) {
 					return {
-						list2Item: CKEDITOR.TRISTATE_OFF
+						olist2Dialog: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});
 		}
-
 	}
 });

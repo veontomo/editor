@@ -133,14 +133,25 @@ describe('Content-related functionality', function(){
 			c.elements = ['', ''];
 			expect(c.isEmpty()).toBe(true);
 		});
+		it('returns false if content.elements contains a non-empty string', function(){
+			c.elements = ['non empty'];
+			expect(c.isEmpty()).toBe(false);
+		});
+
 		it('returns true if content.elements contains empty object', function(){
 			c.elements = [{}];
 			expect(c.isEmpty()).toBe(true);
 		});
+		it('returns false if content.elements contains an object with properties', function(){
+			c.elements = [{1: 'first', 2: 'second'}];
+			expect(c.isEmpty()).toBe(false);
+		});
 		it('returns false if content.elements contains an object that has isEmpty method that returns false', function(){
-			var obj = {isEmpty: function(){return false;}};
+			var obj = {1: 'property 1', isEmpty: function(){return null;}, 'descr': 'nice'};
+			spyOn(obj, 'isEmpty').andCallFake(function(){return false;});
 			c.elements = [obj];
 			expect(c.isEmpty()).toBe(false);
+			expect(obj.isEmpty).toHaveBeenCalled();
 		});
 		it('stop scanning at first element that returns false', function(){
 			var obj1 = {isEmpty: function(){return null;}},
