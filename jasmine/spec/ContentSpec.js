@@ -56,6 +56,10 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(0)).toBe(obj);
 			c.elements = ['a', 2, ['array']];
 			expect(c.getElem(0)).toBe('a');
+
+			c.elements = [''];
+			expect(c.getElem(0)).toBe('');
+
 		});
 		it('the very last element', function(){
 			var obj = {'key': 4};
@@ -63,16 +67,20 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(1)).toBe('second');
 			c.elements = [453.29, 'a', 125, 'again', obj, '2'];
 			expect(c.getElem(5)).toBe('2');
+			c.elements = ['again', ''];
+			expect(c.getElem(1)).toBe('');
 		});
 		it('a middle element', function(){
 			var obj = {'key': 4};
-			c.elements = [453.29, 'a', 125, 'again', obj, '2'];
+			c.elements = [453.29, 'a', 125, '', 'again', obj, '2'];
 			expect(c.getElem(1)).toBe('a');
 			expect(c.getElem(2)).toBe(125);
-			expect(c.getElem(3)).toBe('again');
-			expect(c.getElem(4)).toBe(obj);
-			expect(c.getElem(5)).toBe('2');
+			expect(c.getElem(3)).toBe('');
+			expect(c.getElem(4)).toBe('again');
+			expect(c.getElem(5)).toBe(obj);
+			expect(c.getElem(6)).toBe('2');
 		});
+
 
 		it('returns null if element does not exist', function(){
 			c.elements = [];
@@ -111,6 +119,45 @@ describe('Content-related functionality', function(){
 			c.getLast();
 			expect(c.getElem).toHaveBeenCalledWith(2);
 		});
+	});
+
+	describe('Content::isEmpty(): is the content empty', function(){
+		it('returns true if content.elements is empty', function(){
+			expect(c.isEmpty()).toBe(true);
+		});
+		it('returns true if content.elements contains empty string', function(){
+			c.elements = [''];
+			expect(c.isEmpty()).toBe(true);
+		});
+		it('returns true if content.elements contains two empty strings', function(){
+			c.elements = ['', ''];
+			expect(c.isEmpty()).toBe(true);
+		});
+		it('returns true if content.elements contains empty object', function(){
+			c.elements = [{}];
+			expect(c.isEmpty()).toBe(true);
+		});
+		it('returns false if content.elements contains an object that has isEmpty method that returns false', function(){
+			var obj = {isEmpty: function(){return false;}};
+			c.elements = [obj];
+			expect(c.isEmpty()).toBe(false);
+		});
+		it('stop scanning at first element that returns false', function(){
+			var obj1 = {isEmpty: function(){return null;}},
+				obj2 = {isEmpty: function(){return null;}},
+				obj3 = {isEmpty: function(){return null;}};
+			spyOn(obj1, 'isEmpty').andCallFake(function(){return true;});
+			spyOn(obj2, 'isEmpty').andCallFake(function(){return false;});
+			spyOn(obj3, 'isEmpty');
+
+			c.elements = [obj1, obj2, obj3];
+			expect(c.isEmpty()).toBe(false);
+			expect(obj1.isEmpty).toHaveBeenCalled();
+			expect(obj2.isEmpty).toHaveBeenCalled();
+			expect(obj3.isEmpty).not.toHaveBeenCalled();
+		});
+
+
 	});
 
 	describe('Content::insertElemAt(): Inserts the element', function(){

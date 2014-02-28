@@ -36,7 +36,8 @@ function Content(str) {
 	 * @return {mixed}
 	 */
 	this.getElem = function(pos){
-		return this.elements[pos] || null;
+		var res = this.elements[pos];
+		return (res === undefined) ?  null : res;
 	};
 
 	/**
@@ -164,6 +165,47 @@ function Content(str) {
 						output += elem.toText();
 					}
 					break;
+			}
+		}
+		return output;
+	};
+	/**
+	 * Scans recursively the content of "element" property and returns true, if the whole tree of elements is empty and false otherwise.
+	 * What is supposed to be empty: Content instance for which the method `isEmpty()` returns TRUE. Non empty elements: 1. non empty
+	 * strings, numbers, objects with properties.
+	 * @method  isEmpty
+	 * @return {Boolean}
+	 */
+	this.isEmpty = function(){
+		var output = true,
+			len = this.length(),
+			i, elem;
+		console.log('length = ', len, ', content: ', this.elements);
+		console.log(this.elements[0], ' vs ', this.getElem(0));
+		for (i = 0; i < len; i++){
+			elem = this.getElem(i);
+			console.log('#', i, ': >', elem, '<');
+			if (elem instanceof Content){
+				output = elem.isEmpty();
+				// once the output becomes true, return it.
+				if (!output){
+					return false;
+				}
+			} else {
+				if (typeof elem === 'string' && elem !== ''){
+					return false;
+				}
+				if (typeof elem === 'number'){
+					return false;
+				}
+				if (typeof elem === 'object'){
+					if (typeof elem.isEmpty === 'function'){
+						output = elem.isEmpty();
+						if (!output){
+							return false;
+						}
+					}
+				}
 			}
 		}
 		return output;
