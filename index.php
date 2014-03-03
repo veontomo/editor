@@ -172,7 +172,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<li>
 				Per i font: impostare <code>font-color</code>, <code>font-size</code>, <code>font-family</code>.
 				<div class="NB">
-					Gmail toglie l&#39;attributo <code>font-color</code> se il valore
+					Gmail t   oglie l&#39;attributo <code>font-color</code> se il valore
 				corrisponde a colore nero (<code>#000000</code>, <code>black</code> or <code>rgb(0, 0, 0)</code>). Quind&igrave; bisogna impostare un colore che sia molto simile a nero: per esempio, <code>#000001</code> o <code>rgb(0, 0, 1)</code>.
 				</div>
 			</li>
@@ -191,7 +191,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			primavera<br />
+			primav era<br />
 			estate
 			<ol data-marker="a">
 				<li>
@@ -208,5 +208,8 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 74px;" title="torta" width="74" />
  -->
 
+<script src='//192.168.5.167:3000/socket.io/socket.io.js'></script>
+<script>var ___socket___ = io.connect('http://192.168.5.167:3000');</script>
+<script src='//192.168.5.167:3001/client/browser-sync-client.0.6.2.js'></script>
 </body>
 </html>
