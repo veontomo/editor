@@ -353,8 +353,15 @@ describe('Tag-related functionality:', function() {
             expect(tagStyle.toString).toHaveBeenCalled();
             expect(content.isEmpty).toHaveBeenCalled();
         });
+    });
 
-
+    describe('Tag::trim(): trim the tag content', function(){
+        it('calls Content::trim() on Tag::content', function(){
+            spyOn(content, 'trim');
+            tag.content = content;
+            tag.trim();
+            expect(content.trim).toHaveBeenCalled();
+        });
     });
 
 

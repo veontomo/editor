@@ -256,7 +256,7 @@ function Tag() {
 	 */
 	this.dropFirst = function(){
 		this.content.dropFirst();
-	}
+	};
 
 	/**
 	 * Deletes last element from "content" property. Delegates its functionalality to
@@ -267,7 +267,7 @@ function Tag() {
 	 */
 	this.dropLast = function(){
 		this.content.dropLast();
-	}
+	};
 
 
 	/**
@@ -310,5 +310,16 @@ function Tag() {
 	 */
 	this.isEmpty = function(){
 		return this.attr.toString() === '' && this.style.toString() === '' && this.content.isEmpty();
-	}
+	};
+
+	/**
+	 * Trims the content. Calls method {{#crossLink "Content/trim:method"}}Content::trim(){{/crossLink}} on the
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} property.
+	 * @method  trim
+	 * @return  {void}
+	 */
+	this.trim = function(){
+		this.content.trim();
+	};
 }
+

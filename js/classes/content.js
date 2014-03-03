@@ -230,18 +230,30 @@ function Content(str) {
 		}
 		return output;
 	};
+
 	/**
-	 * Drops last elements if it is empty.
+	 * Apply recursively this function to all items in `elements` property. In the case, the last
+	 * item is empty, deletes it.
 	 * @method trim
 	 * @return {void}
 	 */
 	this.trim = function(){
-		if (this.length() > 0 &&
-			(typeof this.getLast().isEmpty === 'function') &&
-			(this.getLast().isEmpty())){
-				this.dropLast();
-				// apply recursively the currunt operation for the updated content.
-				this.trim();
+		var len = this.length(),
+			i, elem;
+		if (len > 0){
+			// call trim() function on all but last element
+			for (i = 0; i < len; i++){
+				elem = this.getElem(i);
+				if (typeof elem.trim === 'function'){
+					elem.trim();
+				}
+				// check whether the last element is empty
+				if (i === len - 1 && (typeof elem.isEmpty === 'function') && elem.isEmpty()){
+					// here the deletion occurs
+					this.dropLast();
+					this.trim();
+				}
+			}
 		}
 	};
 }

@@ -328,7 +328,7 @@ String.prototype.createTagFromHtml = function(){
 };
 String.prototype.createAFromHtml = function(){
     return this.toString().createLinkFromHtml();
-}
+};
 
 String.prototype.createLinkFromHtml = function(){
     /**

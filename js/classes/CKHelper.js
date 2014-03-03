@@ -198,8 +198,8 @@ var CKHelper = {
 			fakeDiv.append(range.cloneContents());
 			selection = fakeDiv.getHtml();
 		}
-
-		selectionObj = selection.inflate();
+		console.log(selection);
+		selectionObj = selection.replace('&nbsp;', '').inflate();
 
 		len = selectionObj.length();
 		for (i = 0; i < len; i++){
@@ -210,6 +210,7 @@ var CKHelper = {
 				list.appendItem(li);
 			}
 		}
+		list.trim();
 		// if nevertheless, the list remains empty, one item is added
 		if (list.length() === 0){
 			li = new ListItem();
@@ -220,6 +221,7 @@ var CKHelper = {
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
 	    console.log('string for insertion: ', listHtml);
+
 	},
 
 	/**

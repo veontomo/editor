@@ -367,7 +367,32 @@ describe('Content-related functionality', function(){
 			expect(c.elements[1]).toBe("string");
 		});
 
+		it('removes nested empty element of the the first nested element', function(){
+			var c2 = new Content(),
+				obj1 = {'isEmpty': function(){return true;}},
+				obj2 = {'isEmpty': function(){return true;}};
+			c2.elements = ['c2: e1', 'c2: e2', obj2];
+			c.elements = [c2, obj1];
+			c.trim();
+			expect(c.length()).toBe(1);
+			expect(c.getElem(0).length()).toBe(2);
+			expect(c.getElem(0).getElem(0)).toBe('c2: e1');
+			expect(c.getElem(0).getElem(1)).toBe('c2: e2');
+		});
 
+		it('removes nested empty element of the second nested element', function(){
+			var c2 = new Content(),
+				obj1 = {'isEmpty': function(){return false;}},
+				obj2 = {'isEmpty': function(){return true;}};
+			c2.elements = ['c2: e1', 'c2: e2', obj2];
+			c.elements = [obj1, c2];
+			c.trim();
+			expect(c.length()).toBe(2);
+			expect(c.getElem(0)).toBe(obj1);
+			expect(c.getElem(1).length()).toBe(2);
+			expect(c.getElem(1).getElem(0)).toBe('c2: e1');
+			expect(c.getElem(1).getElem(1)).toBe('c2: e2');
+		});
 	});
 
 	describe('Content::toHtml(): generate html representation', function() {
