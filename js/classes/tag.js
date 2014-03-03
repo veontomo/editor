@@ -276,4 +276,16 @@ function Tag() {
 	this.toText = function(){
 		return this.content.toText();
 	};
+
+	/**
+	 * Returns true, if the tag is empty. Returns false otherwise.
+	 * <br />The tag is considered empty if `toString()` method for its {{#crossLink "Tag/attr:property"}}attr{{/crossLink}}
+	 * and {{#crossLink "Tag/style:property"}}style{{/crossLink}} properties returns empty string and
+	 * the {{#crossLink "Content/isEmpty:method"}}content.isEmpty(){{/crossLink}} returns true.
+	 * @method isEmpty
+	 * @return {Boolean}
+	 */
+	this.isEmpty = function(){
+		return this.attr.toString() === '' && this.style.toString() === '' && this.content.isEmpty();
+	}
 }

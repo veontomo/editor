@@ -321,4 +321,41 @@ describe('Tag-related functionality:', function() {
         });
     });
 
+    describe('Tag::isEmpty(): decides whether the tag is empty', function(){
+        it('returns false if attr.toString() returns non-empty string', function(){
+            spyOn(tagAttr, 'toString').andCallFake(function(){return 'dumb string';});
+            tag.attr = tagAttr;
+            expect(tag.isEmpty()).toBe(false);
+            expect(tagAttr.toString).toHaveBeenCalled();
+        });
+        it('returns false if style.toString() returns non-empty string', function(){
+            spyOn(tagStyle, 'toString').andCallFake(function(){return 'dumb string';});
+            tag.style = tagStyle;
+            expect(tag.isEmpty()).toBe(false);
+            expect(tagStyle.toString).toHaveBeenCalled();
+        });
+        it('returns false if content.isEmpty returns false', function(){
+            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
+            tag.content = content;
+            expect(tag.isEmpty()).toBe(false);
+            expect(content.isEmpty).toHaveBeenCalled();
+        });
+
+        it('returns true if attr.toString() and style.toString() returns empty string, and content.isEmpty returns true', function(){
+            spyOn(tagStyle, 'toString').andCallFake(function(){return '';});
+            spyOn(tagAttr, 'toString').andCallFake(function(){return '';});
+            spyOn(content, 'isEmpty').andCallFake(function(){return true;});
+            tag.attr = tagAttr;
+            tag.style = tagStyle;
+            tag.content = content;
+            expect(tag.isEmpty()).toBe(true);
+            expect(tagAttr.toString).toHaveBeenCalled();
+            expect(tagStyle.toString).toHaveBeenCalled();
+            expect(content.isEmpty).toHaveBeenCalled();
+        });
+
+
+    });
+
+
 });
