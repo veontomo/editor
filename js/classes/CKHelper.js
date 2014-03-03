@@ -178,25 +178,34 @@ var CKHelper = {
 	 * @return  {void}
 	 */
 	insertList: function(editor, listType){
-		var node = editor.getSelection(),
-		    range = node.getRanges()[0],
-		    list = new List(listType),
-		    fakeDiv = editor.document.createElement('div'),
-		    listObj, listHtml, selection, i, len, li, elem;
-		fakeDiv.append(range.cloneContents());
-		selection = fakeDiv.getHtml().inflate();
-
-		console.log('detected text: ', fakeDiv.getHtml());
-		// return null;
+		var node, range, list, fakeDiv,
+		    listObj, listHtml, selection, selectionObj, i, len, li, elem, orphans, startTagName, startContainer;
+		list = new List(listType);
 		list.style['margin-left'] = list.style['margin-left'] || 40;
+		// list of html tags that must be taken into consideration only with their parents
+		// without parents they are considered orphans.
+		orphans = ['li', 'tr', 'td'];
+		node = editor.getSelection();
+		range = node.getRanges()[0];
+		startContainer = range.startContainer;
+		startTagName = startContainer && startContainer.getParent() && startContainer.getParent().getName();
+		if (orphans.indexOf(startTagName) !== -1) {
+			// take parent of the selected element
+			selection = startContainer.getParent().getParent().getOuterHtml();
+		} else {
+			// take selected element
+			fakeDiv = editor.document.createElement('div');
+			fakeDiv.append(range.cloneContents());
+			selection = fakeDiv.getHtml();
+		}
 
+		selectionObj = selection.inflate();
 
-		len = selection.length();
+		len = selectionObj.length();
 		for (i = 0; i < len; i++){
 			li = new ListItem();
-			elem = selection.getElem(i);
-
-			if ((typeof elem === 'string') || ((elem instanceof Tag) && (elem.length() > 0))) {
+			elem = selectionObj.getElem(i);
+				if ((typeof elem === 'string') || ((elem instanceof Tag) && (!elem.isEmpty()))) {
 				li.appendElem(elem);
 				list.appendItem(li);
 			}
@@ -211,7 +220,6 @@ var CKHelper = {
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
 	    console.log('string for insertion: ', listHtml);
-
 	},
 
 	/**
@@ -236,8 +244,9 @@ var CKHelper = {
 				len = listObj.length();
 				for (i = 0; i < len; i++){
 					elem = listObj.getElem(i);
-					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().name === 'br')){
-						elem.dropElemAt(elem.length() - 1); // deletes the last element
+					// delete the last element if it is empty
+					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().isEmpty())){
+						elem.dropLast();
 					}
 				}
 				listHtml = listObj.toHtml();

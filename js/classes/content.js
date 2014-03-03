@@ -202,7 +202,6 @@ function Content(str) {
 	 * <li>objects without any attributes</li> <ul>
 	 * @todo: decide whether consider functions to be empty or not.
 	 * @method  isEmpty
-	 * @todo    to elaborate, because <src img="..."/> turns out to be empty.
 	 * @return {Boolean}
 	 */
 	this.isEmpty = function(){
