@@ -179,7 +179,8 @@ var CKHelper = {
 	 */
 	insertList: function(editor, listType){
 		var node, range, list, fakeDiv,
-		    listObj, listHtml, selection, selectionObj, i, len, li, elem, orphans, startTagName, startContainer;
+		    listObj, listHtml, selection, selectionObj, i, len, li, elem,
+		    orphans, startTagName, startContainer, goToParent;
 		list = new List(listType);
 		list.style['margin-left'] = list.style['margin-left'] || 40;
 		// list of html tags that must be taken into consideration only with their parents
@@ -189,17 +190,18 @@ var CKHelper = {
 		range = node.getRanges()[0];
 		startContainer = range.startContainer;
 		startTagName = startContainer && startContainer.getParent() && startContainer.getParent().getName();
-		if (orphans.indexOf(startTagName) !== -1) {
-			// take parent of the selected element
+		// if the tag name of the current element is inside the list of "orphans", then
+		// consider the parent element
+		goToParent = orphans.indexOf(startTagName) !== -1;
+		if (goToParent) {
 			selection = startContainer.getParent().getParent().getOuterHtml();
 		} else {
-			// take selected element
 			fakeDiv = editor.document.createElement('div');
 			fakeDiv.append(range.cloneContents());
 			selection = fakeDiv.getHtml();
 		}
-		console.log(selection);
-		selectionObj = selection.replace('&nbsp;', '').inflate();
+		// selectionObj = selection.replace('&nbsp;', '').inflate();
+		selectionObj = selection.inflate();
 
 		len = selectionObj.length();
 		for (i = 0; i < len; i++){
@@ -216,12 +218,12 @@ var CKHelper = {
 			li = new ListItem();
 			list.appendItem(li);
 		}
-		node.reset();
+		// removes the element, which content was used to create the list
+		goToParent ? node.getCommonAncestor().remove() : node.reset();
+
 	    listHtml = list.toHtml();
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    editor.insertElement(listObj);
-	    console.log('string for insertion: ', listHtml);
-
 	},
 
 	/**
