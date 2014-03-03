@@ -6,6 +6,9 @@
  * This class is used to represent a general html tag.
  * @module 	    HtmlElements
  * @class  		Tag
+ * @since       0.0.1
+ * @author      A.Shcherbakov
+ *
  */
 function Tag() {
 	"use strict";
@@ -17,6 +20,7 @@ function Tag() {
 	 * Tag name.To be set explicitely in child classes.
 	 * @property {String}          name
 	 * @default  null
+	 * @since 0.0.1
 	 */
 	this.name = null;
 
@@ -24,6 +28,7 @@ function Tag() {
 	 * Returns value of the name attribute.
 	 * @method  getName
 	 * @return  {string}
+	 * @since 0.0.1
 	 */
 	this.getName = function(){
 		return this.name;
@@ -35,6 +40,7 @@ function Tag() {
 	 * @property {Attributes}          attr
 	 * @type     {Attributes}
 	 * @default  Attributes()
+	 * @since 0.0.1
 	 */
 	this.attr = new Attributes();
 
@@ -43,6 +49,7 @@ function Tag() {
 	* @method setAttr
 	* @param {String|Object} attr
 	* @return {void}
+	* @since 0.0.1
 	*/
 	this.setAttr = function(attr){
 		this.attr = attr;
@@ -53,12 +60,9 @@ function Tag() {
 	 * @method appendStyle
 	 * @param  {Style|Obj}   stl   style to be appended
 	 * @return {void}
+	 * @since 0.0.1
 	 */
 	this.appendStyle = function(stl){
-		// if ((typeof stl !== 'string') && (typeof stl !== 'object') ) {
-		// 	throw new Error("Wrong argument type! Style, string or Object expected.");
-		// }
-		// var stlObj = new Style(stl);
 		this.style.appendStyle(stl);
 		return null;
 	};
@@ -72,6 +76,7 @@ function Tag() {
 	 * @param  {Number}   pos
 	 * @param  {any}      stl
 	 * @return {void}
+	 * @since  0.0.1
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
 		var elem = this.getElem(pos);
@@ -86,7 +91,8 @@ function Tag() {
 	 * Tag styles
 	 * @property {ListItemStyle}       style
 	 * @type     {ListItemStyle}
-	 * @default ListItemStyle()
+	 * @default  ListItemStyle()
+	 * @since    0.0.1
 	 */
 	this.style = new Style();
 
@@ -95,6 +101,7 @@ function Tag() {
 	* @method setStyle
 	* @param {String|Object} stl
 	* @return {void}
+	* @since 0.0.1
 	*/
 	this.setStyle = function(stl){
 		this.style = stl;
@@ -105,6 +112,7 @@ function Tag() {
 	 * @method getStyleProp
 	 * @param  {String} 	prop 	property name which value should be retrieved
 	 * @return {Any}
+	 * @since  0.0.1
 	 */
 	this.getStyleProp = function(prop) {
 		if (this.style.hasOwnProperty(prop)){
@@ -121,6 +129,7 @@ function Tag() {
 	 * @method      setWidth
 	 * @param       {String|Number} 	w
 	 * @return      {void}
+	 * @since       0.0.1
 	 */
 	this.setWidth = function(w){
 	    if(w === undefined || w === ''){
@@ -137,6 +146,7 @@ function Tag() {
 	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
 	 * @method getWidth
 	 * @return {Number|String}
+	 * @since 0.0.1
 	 */
 	this.getWidth = function(){
 		var raw = this.style.width,
@@ -158,6 +168,7 @@ function Tag() {
 	 * @property {Content}             content
 	 * @type     {Content}
 	 * @default  Content()
+	 * @since    0.0.1
 	 */
 	this.content = new Content();
 
@@ -166,6 +177,7 @@ function Tag() {
 	 * @method getElem
 	 * @param  {Number}    pos
 	 * @return {any}
+	 * @since  0.0.1
 	 */
 	this.getElem = function(pos){
 		return this.content.getElem(pos);
@@ -174,7 +186,8 @@ function Tag() {
 	/**
 	 * Gets the first element stored in property "content". Delegates its functionality to the class Content.
 	 * @method  getFirst
-	 * @return {any}
+	 * @return  {any}
+	 * @since   0.0.1
 	 */
 	this.getFirst = function(){
 		return this.content.getFirst();
@@ -184,6 +197,7 @@ function Tag() {
 	 * Gets the last element stored in property "content". Delegates its functionality to the class Content.
 	 * @method  getLast
 	 * @return {any}
+	 * @since  0.0.1
 	 */
 	this.getLast = function(){
 		return this.content.getLast();
@@ -195,6 +209,7 @@ function Tag() {
 	 * @param  {Number} pos
 	 * @param  {any}    elem
 	 * @return {void}
+	 * @since  0.0.1
 	 */
 	this.insertElemAt = function(pos, elem){
 		this.content.insertElemAt(pos, elem);
@@ -205,6 +220,7 @@ function Tag() {
 	 * @method appendElem
 	 * @param  {any}     elem
 	 * @return {void}
+	 * @since  0.0.1
 	 */
 	this.appendElem = function(elem){
 		this.content.appendElem(elem);
@@ -214,6 +230,7 @@ function Tag() {
 	 * Returns the number of elements inside its content. Delegates to Content::length().
 	 * @method   length
 	 * @return   {Number}
+	 * @since    0.0.1
 	 */
 	this.length = function(){
 		return this.content.length();
@@ -224,6 +241,7 @@ function Tag() {
 	 * @method dropElemAt
 	 * @param  {Number}     pos
 	 * @return {void}
+	 * @since  0.0.1
 	 */
 	this.dropElemAt = function(pos){
 		this.content.dropElemAt(pos);
@@ -232,8 +250,9 @@ function Tag() {
 	/**
 	 * Deletes first element from "content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropFirst:method"}}Content::dropFirst(){{/crossLink}}.
-	 * @method  dropFirst
+	 * @method   dropFirst
 	 * @return   {void}
+	 * @since    0.0.1
 	 */
 	this.dropFirst = function(){
 		this.content.dropFirst();
@@ -242,8 +261,9 @@ function Tag() {
 	/**
 	 * Deletes last element from "content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropLast:method"}}Content::dropLast(){{/crossLink}}.
-	 * @method  dropLast
+	 * @method   dropLast
 	 * @return   {void}
+	 * @since    0.0.1
 	 */
 	this.dropLast = function(){
 		this.content.dropLast();
@@ -252,8 +272,9 @@ function Tag() {
 
 	/**
 	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
-	 * @method toHtml
-	 * @return {String}                html representation of an instance of this class.
+	 * @method  toHtml
+	 * @return  {String}                html representation of an instance of this class.
+	 * @since   0.0.1
 	 */
 	this.toHtml = function(){
 		var tag = this.name,
@@ -272,6 +293,7 @@ function Tag() {
 	 * Generates plain text representation of the tag content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
 	 * @method   toText
 	 * @return   {String}
+	 * @since    0.0.1
 	 */
 	this.toText = function(){
 		return this.content.toText();
@@ -282,8 +304,9 @@ function Tag() {
 	 * <br />The tag is considered empty if `toString()` method for its {{#crossLink "Tag/attr:property"}}attr{{/crossLink}}
 	 * and {{#crossLink "Tag/style:property"}}style{{/crossLink}} properties returns empty string and
 	 * the {{#crossLink "Content/isEmpty:method"}}content.isEmpty(){{/crossLink}} returns true.
-	 * @method isEmpty
-	 * @return {Boolean}
+	 * @method  isEmpty
+	 * @return  {Boolean}
+	 * @since   0.0.1
 	 */
 	this.isEmpty = function(){
 		return this.attr.toString() === '' && this.style.toString() === '' && this.content.isEmpty();
