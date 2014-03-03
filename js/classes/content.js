@@ -200,7 +200,7 @@ function Content(str) {
 	 * <ul><li>objects having method `isEmpty()` and which returns `true`</li>
 	 * <li> empty strings</li>
 	 * <li>objects without any attributes</li> <ul>
-	 * @todo: decide whether consider functions to be empty or not.
+	 * @todo decide whether consider functions to be empty or not.
 	 * @method  isEmpty
 	 * @return {Boolean}
 	 */

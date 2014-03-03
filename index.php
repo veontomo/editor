@@ -191,25 +191,10 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			primav era<br />
-			estate
-			<ol data-marker="a">
-				<li>
-					first
-				</li>
-				<li>
-					second
-				</li>
-
-			</ol>
 	</textarea>
 	</div>
 <!-- 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 64px;" title="torta" width="64" /> text between images
 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 74px;" title="torta" width="74" />
  -->
-
-<script src='//192.168.5.167:3000/socket.io/socket.io.js'></script>
-<script>var ___socket___ = io.connect('http://192.168.5.167:3000');</script>
-<script src='//192.168.5.167:3001/client/browser-sync-client.0.6.2.js'></script>
 </body>
 </html>
