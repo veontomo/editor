@@ -129,6 +129,11 @@ describe('Content-related functionality', function(){
 			c.elements = [''];
 			expect(c.isEmpty()).toBe(true);
 		});
+		it('returns true if content.elements contains html non-breaking space', function(){
+			c.elements = ['&nbsp;'];
+			expect(c.isEmpty()).toBe(true);
+		});
+
 		it('returns true if content.elements contains two empty strings', function(){
 			c.elements = ['', ''];
 			expect(c.isEmpty()).toBe(true);

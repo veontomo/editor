@@ -198,7 +198,7 @@ function Content(str) {
 	 * Returns false otherwise.
 	 * What is supposed to be empty:
 	 * <ul><li>objects having method `isEmpty()` and which returns `true`</li>
-	 * <li> empty strings</li>
+	 * <li> '' or '&nbsp;' </li>
 	 * <li>objects without any attributes</li> <ul>
 	 * @todo decide whether consider functions to be empty or not.
 	 * @method  isEmpty
@@ -218,9 +218,13 @@ function Content(str) {
 				}
 			} else {
 				elemType = typeof elem;
-				if ((elemType === 'string' && elem !== '') || (elemType === 'number')){
+				if (elemType === 'number'){
 					return false;
 				}
+				if (elemType === 'string'){
+					return elem === '&nbsp;' || elem === '';
+				}
+
 				if (elemType === 'object'){
 					if(Object.getOwnPropertyNames(elem).length !== 0){
 						return false;

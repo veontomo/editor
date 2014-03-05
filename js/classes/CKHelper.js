@@ -331,6 +331,7 @@ var CKHelper = {
 						nodesToDelete.push(currentNode);
 						li = new ListItem();
 						liObj = currentNode.getHtml().inflate();
+						liObj.trim();
 						if (!liObj.isEmpty()){
 							li.appendElem(liObj);
 							list.appendItem(li);
