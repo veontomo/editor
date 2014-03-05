@@ -243,8 +243,9 @@ var CKHelper = {
 	 */
 	insertList: function(editor, listType){
 		console.log('inside CKHelper::insertList()');
-		var range, ranges, selection, selectionLen, i, currentNode, list,
-		    boundaries, toGoOn, stop = 0, iterator;
+		var range, ranges, selection, selectionLen, i, j, currentNode, list,
+		    boundaries, toGoOn, stop = 0, iterator, startString, endString, fakeDiv, startType, endType,
+		    listObj, listHtml, li, currentObj, child, childStr, childObj, children, len, startNode;
 		selection = editor.getSelection();
 		ranges = selection.getRanges();
 		selectionLen = ranges.length;
@@ -259,15 +260,86 @@ var CKHelper = {
 			list.style['margin-left'] = list.style['margin-left'] || 40;
 
 			range = ranges[i];
-			iterator = range.createIterator();
-			// boundaries = range.getBoundaryNodes();
-			// if (boundaries.endNode.type === CKEDITOR.NODE_ELEMENT && )
+			startType = range.startContainer.type;
+			// endType = range.endContainer.type;
+			// startString = startType === CKEDITOR.NODE_ELEMENT ? '(html) ' + range.startContainer.getChild(range.startOffset).getOuterHtml() : '(text) ' + range.startContainer.getText().substring(range.startOffset);
+			// endString   = endType   === CKEDITOR.NODE_ELEMENT ? '(html) ' + range.endContainer.getChild(range.endOffset).getOuterHtml() : '(text) ' + range.endContainer.getText().substring(0, range.endOffset);
+			// console.log('start cont', range.startContainer, 'string: ', startString, ', start offset: ', range.startOffset);
+			// console.log('end cont', range.endContainer, 'string: ', endString, ', end offset: ', range.endOffset);
 
-			while (currentNode = iterator.getNextParagraph()){
-				console.log('current node: ', currentNode, 'html: ', currentNode.type === 1 ? currentNode.getHtml() : currentNode.getText());
-				console.log('start cont', range.startContainer, 'html: ', range.startContainer.type === 1 ? range.startContainer.getHtml() : range.startContainer.getText());
-				console.log('end cont', range.endContainer, 'html: ', range.endContainer.type === 1 ? range.endContainer.getHtml() : range.endContainer.getText());
+			if (startType === CKEDITOR.NODE_ELEMENT){
+				startNode = range.startContainer.getChild(range.startOffset);
+				children = startNode.getChildren();
+				len = children.count();
+				for (j = 0; j < len; j++){
+					li = new ListItem();
+					child = children.getItem(j);
+					if (child.type === CKEDITOR.NODE_ELEMENT){
+						childStr = child.getOuterHtml();
+					}
+					if (child.type === CKEDITOR.NODE_TEXT){
+						childStr = child.getText();
+					}
+					childObj = childStr.inflate();
+					if (!childObj.isEmpty()){
+						console.log('inserting node');
+						li.appendElem(childObj);
+						list.appendItem(li);
+					} else {
+						console.log('ignore empty node');
+					}
+				}
+				listHtml = list.toHtml();
+				console.log(listHtml);
+	    		listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+	    		startNode.setHtml(listHtml);
+				console.log(startNode);
 			}
+			// continue;
+
+			// // console.log('start cont', range.startContainer, ', start offset: ', range.startOffset);
+			// // console.log('end cont', range.endContainer, ', end offset: ', range.endOffset);
+
+			// fakeDiv = editor.document.createElement('div');
+			// fakeDiv.append(range.cloneContents());
+			// console.log('clone content: ', fakeDiv.getHtml());
+
+			// iterator = range.createIterator();
+			// // boundaries = range.getBoundaryNodes();
+			// // if (boundaries.endNode.type === CKEDITOR.NODE_ELEMENT && )
+			// currentNode = iterator.getNextParagraph();
+			// while (currentNode && stop < 5){
+			// 	stop++;
+			// 	li = new ListItem();
+			// 	switch(currentNode.type){
+			// 		case CKEDITOR.NODE_ELEMENT:
+			// 			if (['li', 'p', 'span'].indexOf(currentNode.getName()) !== -1 ){
+			// 				currentObj = currentNode.getHtml().inflate();
+			// 			} else {
+			// 				currentObj = currentNode.getOuterHtml().inflate();
+			// 			}
+			// 			console.log('NODE ELEM: ', currentObj);
+			// 			li.appendElem(currentObj);
+			// 			break;
+			// 		case CKEDITOR.NODE_TEXT:
+			// 			console.log('NODE TEXT: ', currentNode.getText());
+			// 			li.appendElem(currentNode.getText());
+			// 			break;
+			// 	}
+			// 	console.log('inserting li: ', li);
+			// 	list.appendItem(li);
+			// 	// console.log('current node: ', currentNode, 'html: ', currentNode.type === CKEDITOR.NODE_ELEMENT ? currentNode.getOuterHtml() : currentNode.getText());
+			// 	currentNode = iterator.getNextParagraph();
+			// }
+			// if (list.length() === 0){
+			// 	li = new ListItem();
+			// 	list.appendItem(li);
+			// }
+			// listHtml = list.trim().toHtml();
+			// console.log('final list: ', listHtml);
+			// listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+			// // range.deleteContents();
+			// // editor.insertElement(listObj);
 		}
 
 

@@ -320,6 +320,7 @@ function Tag() {
 	 */
 	this.trim = function(){
 		this.content.trim();
+		return this;
 	};
 }
 
