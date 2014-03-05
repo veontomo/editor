@@ -242,20 +242,21 @@ var CKHelper = {
 	 * @return  {void}
 	 */
 	insertList: function(editor, listType){
-		console.log('inside CKHelper::insertList()');
+		// console.log('inside CKHelper::insertList()');
 		var range, ranges, selection, selectionLen, i, j, currentNode, list,
-		    boundaries, toGoOn, stop = 0, iterator, startString, endString, fakeDiv, startType, endType,
-		    listObj, listHtml, li, currentObj, child, childStr, childObj, children, len, startNode;
+		    stop = 0, iterator, startType,
+		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode, skip,
+		    liObj, parentList, listItems, listLen, listItemObj, nodesToDeleteLen,
+		    nodesToDelete = [];
 		selection = editor.getSelection();
 		ranges = selection.getRanges();
 		selectionLen = ranges.length;
-		console.log('# elements in range: ', ranges.length);
+		// console.log('# elements in range: ', ranges.length);
 		if (selectionLen === 0){
 			return null;
 		}
 		for (i = 0; i < selectionLen; i++){
-			stop = 0;
-			console.log('loop #: ', i);
+			// console.log('loop #: ', i);
 			list = new List(listType);
 			list.style['margin-left'] = list.style['margin-left'] || 40;
 
@@ -263,83 +264,93 @@ var CKHelper = {
 			startType = range.startContainer.type;
 			// endType = range.endContainer.type;
 			// startString = startType === CKEDITOR.NODE_ELEMENT ? '(html) ' + range.startContainer.getChild(range.startOffset).getOuterHtml() : '(text) ' + range.startContainer.getText().substring(range.startOffset);
-			// endString   = endType   === CKEDITOR.NODE_ELEMENT ? '(html) ' + range.endContainer.getChild(range.endOffset).getOuterHtml() : '(text) ' + range.endContainer.getText().substring(0, range.endOffset);
-			// console.log('start cont', range.startContainer, 'string: ', startString, ', start offset: ', range.startOffset);
-			// console.log('end cont', range.endContainer, 'string: ', endString, ', end offset: ', range.endOffset);
 
+			// if the start container is of node type, it means that a whole node was selected.
+			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
+				// console.log('start container is a node');
 				startNode = range.startContainer.getChild(range.startOffset);
 				children = startNode.getChildren();
 				len = children.count();
 				for (j = 0; j < len; j++){
 					li = new ListItem();
 					child = children.getItem(j);
-					if (child.type === CKEDITOR.NODE_ELEMENT){
-						childStr = child.getOuterHtml();
-					}
-					if (child.type === CKEDITOR.NODE_TEXT){
-						childStr = child.getText();
+					switch (child.type){
+						case CKEDITOR.NODE_ELEMENT:
+							childStr = child.getOuterHtml();
+							break;
+						case CKEDITOR.NODE_TEXT:
+							childStr = child.getText();
+							break;
+						default:
+							console.log('This part was supposed to never be called, but it has been called!');
 					}
 					childObj = childStr.inflate();
+					// insert list item if it is not empty
 					if (!childObj.isEmpty()){
-						console.log('inserting node');
 						li.appendElem(childObj);
 						list.appendItem(li);
-					} else {
-						console.log('ignore empty node');
 					}
 				}
 				listHtml = list.toHtml();
-				console.log(listHtml);
-	    		listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 	    		startNode.setHtml(listHtml);
-				console.log(startNode);
 			}
-			// continue;
-
-			// // console.log('start cont', range.startContainer, ', start offset: ', range.startOffset);
-			// // console.log('end cont', range.endContainer, ', end offset: ', range.endOffset);
-
-			// fakeDiv = editor.document.createElement('div');
-			// fakeDiv.append(range.cloneContents());
-			// console.log('clone content: ', fakeDiv.getHtml());
-
-			// iterator = range.createIterator();
-			// // boundaries = range.getBoundaryNodes();
-			// // if (boundaries.endNode.type === CKEDITOR.NODE_ELEMENT && )
-			// currentNode = iterator.getNextParagraph();
-			// while (currentNode && stop < 5){
-			// 	stop++;
-			// 	li = new ListItem();
-			// 	switch(currentNode.type){
-			// 		case CKEDITOR.NODE_ELEMENT:
-			// 			if (['li', 'p', 'span'].indexOf(currentNode.getName()) !== -1 ){
-			// 				currentObj = currentNode.getHtml().inflate();
-			// 			} else {
-			// 				currentObj = currentNode.getOuterHtml().inflate();
-			// 			}
-			// 			console.log('NODE ELEM: ', currentObj);
-			// 			li.appendElem(currentObj);
-			// 			break;
-			// 		case CKEDITOR.NODE_TEXT:
-			// 			console.log('NODE TEXT: ', currentNode.getText());
-			// 			li.appendElem(currentNode.getText());
-			// 			break;
-			// 	}
-			// 	console.log('inserting li: ', li);
-			// 	list.appendItem(li);
-			// 	// console.log('current node: ', currentNode, 'html: ', currentNode.type === CKEDITOR.NODE_ELEMENT ? currentNode.getOuterHtml() : currentNode.getText());
-			// 	currentNode = iterator.getNextParagraph();
-			// }
-			// if (list.length() === 0){
-			// 	li = new ListItem();
-			// 	list.appendItem(li);
-			// }
-			// listHtml = list.trim().toHtml();
-			// console.log('final list: ', listHtml);
-			// listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
-			// // range.deleteContents();
-			// // editor.insertElement(listObj);
+			// start container is of text type. Nodes present in the range will be inserted into the list.
+			// If a list item is among selected nodes, then all list items will be inserted into the list.
+			if (startType === CKEDITOR.NODE_TEXT){
+				iterator = range.createIterator();
+				currentNode = iterator.getNextParagraph();
+				stop = 0;
+				// In selection, there might be a sequence of list items that are to be inserted into the list
+				// along with the other list items of the parent list. So, when a 'li' node is encountered,
+				// then the whole bunch of 'li' of that list will be added into resulting list.
+				skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
+				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
+				while (currentNode && stop < 5){
+					stop++;
+					if (!skip && currentNode.getName() === 'li'){
+						// marker showing that one should consider only first list item node and
+						// skip all remaining consequtive list item nodes
+						skip = true;
+						parentList = currentNode.getParent();
+						nodesToDelete.push(parentList);
+						// console.log('parentList: ', parentList);
+						listItems = parentList.getChildren();
+						listLen = listItems.count();
+						for (j = 0; j < listLen; j++){
+							listItemObj = listItems.getItem(j).getHtml().inflate();
+							li = new ListItem();
+							li.appendElem(listItemObj);
+							list.appendItem(li);
+						}
+					}
+					if (currentNode.getName() !== 'li') {
+						// non-list-item-node is encountered, so let's reset the marker to indicate that the
+						// sequence of list items has been broken
+						skip = false;
+						nodesToDelete.push(currentNode);
+						li = new ListItem();
+						liObj = currentNode.getHtml().inflate();
+						if (!liObj.isEmpty()){
+							li.appendElem(liObj);
+							list.appendItem(li);
+						}
+					}
+					// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
+					currentNode = iterator.getNextParagraph();
+				}
+				if (list.length() === 0){
+					li = new ListItem();
+					list.appendItem(li);
+				}
+				listHtml = list.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				nodesToDeleteLen = nodesToDelete.length;
+				for (j = 0; j < nodesToDeleteLen; j++){
+					nodesToDelete[j].remove();
+				}
+				editor.insertElement(listObj);
+			}
 		}
 
 
