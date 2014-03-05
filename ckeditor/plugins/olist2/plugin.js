@@ -37,7 +37,7 @@ CKEDITOR.plugins.add('olist2', {
 			editor.addMenuGroup('list2Group');
 			editor.addMenuItem('olist2Dialog', {
 				label: 'convertire in elenco puntato',
-				icon: this.path + 'icons/numberedList.png',
+				icon: this.path + 'icons/convertList.png',
 				command: 'olist2Dialog',
 				group: 'list2Group'
 			});

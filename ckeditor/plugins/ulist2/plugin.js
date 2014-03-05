@@ -36,7 +36,7 @@ CKEDITOR.plugins.add('ulist2', {
 			editor.addMenuGroup('list2Group');
 			editor.addMenuItem('ulist2Dialog', {
 				label: 'convertire in elenco numerato', //editor.lang.list.bulletedlist,
-				icon: this.path + 'icons/bulletedList.png',
+				icon: this.path + 'icons/convertList.png',
 				command: 'ulist2Dialog',
 				group: 'list2Group'
 			});

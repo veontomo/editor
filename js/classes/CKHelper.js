@@ -177,7 +177,8 @@ var CKHelper = {
 	 * @param   {String}          listType               Type of the list to insert (ol, ul)
 	 * @return  {void}
 	 */
-	insertList: function(editor, listType){
+	insertList__old: function(editor, listType){
+		console.log('inside CKHelper::insertList()');
 		var node, range, list, fakeDiv,
 		    listObj, listHtml, selection, selectionObj, i, len, li, elem,
 		    orphans, startTagName, startContainer, goToParent;
@@ -185,21 +186,26 @@ var CKHelper = {
 		list.style['margin-left'] = list.style['margin-left'] || 40;
 		// list of html tags that must be taken into consideration only with their parents
 		// without parents they are considered orphans.
-		orphans = ['li', 'tr', 'td'];
+		orphans = ['li', 'td', 'tr', 'tbody'];
 		node = editor.getSelection();
 		range = node.getRanges()[0];
 		startContainer = range.startContainer;
 		startTagName = startContainer && startContainer.getParent() && startContainer.getParent().getName();
+		console.log('startTagName: ', startTagName);
+		console.log('startContainer: ', startContainer);
 		// if the tag name of the current element is inside the list of "orphans", then
 		// consider the parent element
 		goToParent = orphans.indexOf(startTagName) !== -1;
 		if (goToParent) {
+			console.log('getting parent');
 			selection = startContainer.getParent().getParent().getOuterHtml();
 		} else {
+			console.log('getting current');
 			fakeDiv = editor.document.createElement('div');
 			fakeDiv.append(range.cloneContents());
 			selection = fakeDiv.getHtml();
 		}
+		console.log('detected selection: ', selection);
 		// selectionObj = selection.replace('&nbsp;', '').inflate();
 		selectionObj = selection.inflate();
 
@@ -219,12 +225,54 @@ var CKHelper = {
 			list.appendItem(li);
 		}
 		// removes the element, which content was used to create the list
-		goToParent ? node.getCommonAncestor().remove() : node.reset();
+		// goToParent ? node.getCommonAncestor().remove() : node.reset();
 
 	    listHtml = list.toHtml();
 	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+	    // console.log('string to createHTMl from:', listHtml);
+	    // console.log('insertion is blocked');
 	    editor.insertElement(listObj);
 	},
+
+	/**
+	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          listType               Type of the list to insert (ol, ul)
+	 * @return  {void}
+	 */
+	insertList: function(editor, listType){
+		console.log('inside CKHelper::insertList()');
+		var range, ranges, selection, selectionLen, i, currentNode, list,
+		    boundaries, toGoOn, stop = 0, iterator;
+		selection = editor.getSelection();
+		ranges = selection.getRanges();
+		selectionLen = ranges.length;
+		console.log('# elements in range: ', ranges.length);
+		if (selectionLen === 0){
+			return null;
+		}
+		for (i = 0; i < selectionLen; i++){
+			stop = 0;
+			console.log('loop #: ', i);
+			list = new List(listType);
+			list.style['margin-left'] = list.style['margin-left'] || 40;
+
+			range = ranges[i];
+			iterator = range.createIterator();
+			// boundaries = range.getBoundaryNodes();
+			// if (boundaries.endNode.type === CKEDITOR.NODE_ELEMENT && )
+
+			while (currentNode = iterator.getNextParagraph()){
+				console.log('current node: ', currentNode, 'html: ', currentNode.type === 1 ? currentNode.getHtml() : currentNode.getText());
+				console.log('start cont', range.startContainer, 'html: ', range.startContainer.type === 1 ? range.startContainer.getHtml() : range.startContainer.getText());
+				console.log('end cont', range.endContainer, 'html: ', range.endContainer.type === 1 ? range.endContainer.getHtml() : range.endContainer.getText());
+			}
+		}
+
+
+	},
+
 
 	/**
 	 * Converts list to a given type.
@@ -252,7 +300,7 @@ var CKHelper = {
 					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().isEmpty())){
 						elem.dropLast();
 					}
-				}
+				}listObj.trim();
 				listHtml = listObj.toHtml();
 				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 				list.remove();
@@ -262,6 +310,4 @@ var CKHelper = {
 		}
 
 	}
-
-
 };

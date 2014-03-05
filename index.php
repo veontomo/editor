@@ -28,7 +28,7 @@
 
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
-	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/javascript" src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>
 <?php
 require 'php/fileContent.php';
@@ -191,6 +191,21 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<table border="1" cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: solid; margin: 0px; padding: 0px; width: 500px; max-width: 500px; min-width: 500px; border-spacing: 0px 0px; border-width: 1px; border-color: #000000" width="500">
+				<tbody>
+					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 498px; max-width: 498px; min-width: 498px">
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 165px; max-width: 165px; min-width: 165px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px" width="165">cell 0 0</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 166px; max-width: 166px; min-width: 166px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px" width="166">cell 0 1</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 165px; max-width: 165px; min-width: 165px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px" width="165">cell 0 2</td>
+					</tr>
+					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 498px; max-width: 498px; min-width: 498px">
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 165px; max-width: 165px; min-width: 165px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px" width="165">cell 1 0</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 166px; max-width: 166px; min-width: 166px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px" width="166">cell 1 1</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 165px; max-width: 165px; min-width: 165px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px" width="165">cell 1 2</td>
+					</tr>
+				</tbody>
+			</table>
+
 	</textarea>
 	</div>
 <!-- 	<img alt="torta" height="64" src="https://cdn0.iconfinder.com/data/icons/ie_yummy/64/cake_13.png" style="border-style: none;padding: 0px;margin: 0px;width: 64px;height: 64px;" title="torta" width="64" /> text between images

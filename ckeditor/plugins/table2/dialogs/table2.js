@@ -298,7 +298,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			for (i = 0; i < cols; i++) {
 				// It is better to recreate objects for every cell
 				// in order to avoid influence of previously imposed values
-				cell = new Cell('cell');
+				cell = new Cell('cell' + i);
 				cellStyle = new TableCellStyle();
 				cellAttr = new Attributes();
 
