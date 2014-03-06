@@ -308,7 +308,10 @@ var CKHelper = {
 				li = new ListItem();
 				if (startContainer.getParent().getName() === 'li'){
 					console.log('parent is a li');
-					list.appendList(startContainer.getParent().inflate());
+					parentList = startContainer.getParent().getParent().getOuterHtml().inflate();
+					parentList.trim()
+					console.log(parentList);
+					list.appendList(parentList.getFirst());
 				}
 				li.appendElem(startContainer.getText());
 				list.appendItem(li);
