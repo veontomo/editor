@@ -300,8 +300,17 @@ var CKHelper = {
 			// If a list item is among selected nodes, then all list items will be inserted into the list.
 			if (startType === CKEDITOR.NODE_TEXT){
 				console.log('start container is a text: ', range.startContainer.getText());
+				// consider the start container separately
+				li = new ListItem();
+				li.appendElem(range.startContainer.getText().substring(range.startOffset));
+				list.appendItem(li);
+				range.startContainer.setText(range.startContainer.getText().substring(0, range.startOffset));
+
 				iterator = range.createIterator();
-				currentNode = iterator.getNextParagraph();
+				currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
+																 //	so pass to the next node (if it exists)
+				currentNode = iterator.getNextParagraph();       // the next node
+
 				stop = 0;
 				// In selection, there might be a sequence of list items that are to be inserted into the list
 				// along with the other list items of the parent list. So, when a 'li' node is encountered,
@@ -309,8 +318,7 @@ var CKHelper = {
 				skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
 				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
 				while (currentNode && stop < 5){
-					console.log('current node: ', currentNode.getHtml());
-					console.log('loop #: ', stop);
+					console.log('loop #: ', stop, ', current node: ', currentNode.getHtml());
 					stop++;
 					if (!skip && currentNode.getName() === 'li'){
 						// marker showing that one should consider only first list item node and
@@ -324,8 +332,6 @@ var CKHelper = {
 						for (j = 0; j < listLen; j++){
 							listItemObj = listItems.getItem(j).getHtml().inflate();
 							li = new ListItem();
-							console.log('listItemObj: length = ', listItemObj.length(), 'string: ', listItemObj.toHtml());
-							console.log('after trim:\nlistItemObj: length = ', listItemObj.length(), 'string: ', listItemObj.toHtml());
 							listItemObj.trim();
 							if(!listItemObj.isEmpty()){
 								li.appendElem(listItemObj);
@@ -368,8 +374,6 @@ var CKHelper = {
 				editor.insertElement(listObj);
 			}
 		}
-
-
 	},
 
 
@@ -404,9 +408,7 @@ var CKHelper = {
 				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 				list.remove();
 				editor.insertElement(listObj);
-
 			}
 		}
-
 	}
 };
