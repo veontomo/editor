@@ -246,9 +246,11 @@ var CKHelper = {
 		var range, ranges, selection, selectionLen, i, j, currentNode, list,
 		    stop = 0, iterator, startType,
 		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode, skip,
+		    startContainer, next, nextStr, endNode,
 		    liObj, parentList, listItems, listLen, listItemObj, nodesToDeleteLen, liObjLen, elem,
 		    nodesToDelete = [];
 		selection = editor.getSelection();
+		console.log('selection: ', selection);
 		ranges = selection.getRanges();
 		selectionLen = ranges.length;
 		// console.log('# elements in range: ', ranges.length);
@@ -300,16 +302,53 @@ var CKHelper = {
 			// If a list item is among selected nodes, then all list items will be inserted into the list.
 			if (startType === CKEDITOR.NODE_TEXT){
 				console.log('start container is a text: ', range.startContainer.getText());
+				console.log('end container: ', range.endContainer, ', end offset: ', range.endOffset);
+				endNode = range.endContainer.getChildren().getItem(range.endOffset);
+				console.log('end container offset: ', range.endContainer.getChildren().getItem(range.endOffset));
 				// consider the start container separately
+				startContainer = range.startContainer;
+				// startString = range.startContainer;
+				console.log('start container: ', startContainer, ', start container offset: ', range.startOffset);
+				console.log('next: ', startContainer.getNext());
+				console.log('next 2: ', startContainer.getNext().getNext());
 				li = new ListItem();
-				li.appendElem(range.startContainer.getText().substring(range.startOffset));
+				li.appendElem(range.startContainer.getText());
 				list.appendItem(li);
-				range.startContainer.setText(range.startContainer.getText().substring(0, range.startOffset));
+				next = startContainer.getNext();
+				while(next){
+					nodesToDelete.push(next);
+					switch (next.type){
+						case CKEDITOR.NODE_TEXT:
+							nextStr = next.getText();
+							break;
+						case CKEDITOR.NODE_ELEMENT:
+							nextStr = next.getHtml();
+							break;
+						default:
+							console.log('This part was supposed to never be called, but it has been called!');
+							nextStr = '';
+					}
+
+					elem = nextStr.inflate();
+					if (!elem.isEmpty()){
+						li = new ListItem();
+						li.appendElem(elem);
+						list.appendItem(li);
+					}
+					if (next.equals(endNode)){
+						console.log('last selection node is found');
+						break;
+					}
+					next = next.getNext();
+				}
 
 				iterator = range.createIterator();
+				iterator.enlargeBr = false;
 				currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
 																 //	so pass to the next node (if it exists)
+				console.log('current node: ', currentNode);
 				currentNode = iterator.getNextParagraph();       // the next node
+				console.log('current node: ', currentNode);
 
 				stop = 0;
 				// In selection, there might be a sequence of list items that are to be inserted into the list
@@ -333,10 +372,12 @@ var CKHelper = {
 							listItemObj = listItems.getItem(j).getHtml().inflate();
 							li = new ListItem();
 							listItemObj.trim();
-							if(!listItemObj.isEmpty()){
-								li.appendElem(listItemObj);
-								list.appendItem(li);
-							}
+							console.log('li: ', li);
+							list.appendElemIfNotEmpty(li);
+							// if(!listItemObj.isEmpty()){
+							// 	li.appendElem(listItemObj);
+							// 	list.appendItem(li);
+							// }
 						}
 					}
 					if (currentNode.getName() !== 'li') {
@@ -371,6 +412,8 @@ var CKHelper = {
 				for (j = 0; j < nodesToDeleteLen; j++){
 					nodesToDelete[j].remove();
 				}
+				startContainer.setText(startContainer.getText().substring(0, range.startOffset));
+
 				editor.insertElement(listObj);
 			}
 		}

@@ -316,7 +316,10 @@ function Content(str) {
 	 */
 	this.appendElemIfNotEmpty = function(obj){
 		if (!this.isElemEmpty(obj)){
+			console.log('argument ', obj ,' is not empty, so appending it to the content.');
 			this.appendElem(obj);
+		}else{
+			console.log('argument is empty, so NO appending it.');
 		}
 	};
 }
