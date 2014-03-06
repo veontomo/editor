@@ -322,5 +322,15 @@ function Tag() {
 		this.content.trim();
 		return this;
 	};
+	/**
+	 * Appends element to the content. It is alias for the
+	 * {{#crossLink "Content/appendElemIfNotEmpty:method"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
+	 * @method appendElemIfNotEmpty
+	 * @param  {any}      arg
+	 * @return {void}
+	 */
+	this.appendElemIfNotEmpty = function(arg){
+		this.content.appendElemIfNotEmpty(arg);
+	}
 }
 

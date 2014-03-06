@@ -364,5 +364,14 @@ describe('Tag-related functionality:', function() {
         });
     });
 
+    describe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
+        it('calls Content::appendElemIfNotEmpty()', function(){
+            spyOn(content, 'appendElemIfNotEmpty');
+            tag.content = content;
+            var foo = 'foo';
+            tag.appendElemIfNotEmpty(foo);
+            expect(content.appendElemIfNotEmpty).toHaveBeenCalledWith(foo);
+        })
+    });
 
 });

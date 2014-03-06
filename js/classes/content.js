@@ -270,4 +270,53 @@ function Content(str) {
 			}
 		}
 	};
+
+	/**
+	 * Returns true, if the argument is empty, and false otherwise.
+	 * What is supposed to be empty:
+	 * <ol>
+	 * <li>object that has a method `isEmpty` that returns `true`</li>
+	 * <li>object without methods</li>
+	 * <li>string ''</li>
+	 * <li>array [] </li>
+	 * </ol>
+	 * @method    isElemEmpty
+	 * @param     {any}          arg
+	 * @return    {Boolean}
+	 */
+	this.isElemEmpty = function(arg){
+		switch(typeof arg){
+			case 'object':
+				if (typeof arg.isEmpty === 'function'){
+					return arg.isEmpty();
+				}
+				if (Object.getOwnPropertyNames(arg).length === 0){
+					return true;
+				}
+				if (Array.isArray(arg) ){
+					return arg.length === 0;
+				}
+				break;
+			case 'string':
+				if (arg === ''){
+					return true;
+				}
+				break;
+		}
+		return false;
+	}
+
+	/**
+	 * If the argument is not empty, calls {{#crossLink "Content/appendElem:method"}}Content::appendElem(){{/crossLink}}.
+	 * If the argument is empty, nothing is done. The argument is considered empty, if the method
+	 * {{#crossLink "Content/isElemEmpty:method"}}Content::isElemEmpty(arg){{/crossLink}} returns `true`.
+	 * @method  appendElemIfNotEmpty
+	 * @param   {any} 	                obj 		Object to be inserted if not empty
+	 * @return  {void}
+	 */
+	this.appendElemIfNotEmpty = function(obj){
+		if (!this.isElemEmpty(obj)){
+			this.appendElem(obj);
+		}
+	};
 }

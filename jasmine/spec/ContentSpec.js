@@ -174,6 +174,72 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+	describe('Content::isElemEmpty()', function(){
+		it('returns false, if argument has method isEmpty() that returns false', function(){
+			var foo = {isEmpty: function(){return false;}};
+			expect(c.isElemEmpty(foo)).toBe(false);
+		});
+		it('returns true, if argument has method isEmpty() that returns true', function(){
+			var foo = {isEmpty: function(){return true;}};
+			expect(c.isElemEmpty(foo)).toBe(true);
+		});
+
+		it('returns true if argument is empty string', function(){
+			expect(c.isElemEmpty('')).toBe(true);
+		});
+
+		it('returns true if argument is empty array []', function(){
+			expect(c.isElemEmpty([])).toBe(true);
+		});
+
+		it('returns false if argument is [0]', function(){
+			expect(c.isElemEmpty([0])).toBe(false);
+		});
+
+		it('returns false if argument is a string', function(){
+			expect(c.isElemEmpty('abc')).toBe(false);
+		});
+
+		it('returns false if argument is an integer', function(){
+			expect(c.isElemEmpty(0)).toBe(false);
+			expect(c.isElemEmpty(93)).toBe(false);
+			expect(c.isElemEmpty(-5)).toBe(false);
+		});
+
+		it('returns false if arg is a float number', function(){
+			expect(c.isElemEmpty(0.893)).toBe(false);
+			expect(c.isElemEmpty(9.3)).toBe(false);
+			expect(c.isElemEmpty(-5.4)).toBe(false);
+		});
+		it('returns true if arg is an object without properties', function(){
+			expect(c.isElemEmpty({})).toBe(true);
+		});
+		it('returns false if arg is an object with one property', function(){
+			expect(c.isElemEmpty({'prop': 'present'})).toBe(false);
+		});
+	});
+
+
+	describe('Content::appendElemIfNotEmpty()', function(){
+		it('calls Content::appendElem(arg) if  Content::isElemEmpty(arg) returns false', function(){
+			spyOn(c, 'appendElem');
+			spyOn(c, 'isElemEmpty').andCallFake(function(){return false;});
+			var arg = 'foo';
+			c.appendElemIfNotEmpty(arg);
+			expect(c.appendElem).toHaveBeenCalledWith(arg);
+			expect(c.isElemEmpty).toHaveBeenCalledWith(arg);
+		});
+		it('does not call Content::appendElem(arg) if Content::isElemEmpty(arg) returns true', function(){
+			spyOn(c, 'appendElem');
+			spyOn(c, 'isElemEmpty').andCallFake(function(){return true;});
+			var obj = 'foo';
+			c.appendElemIfNotEmpty(obj);
+			expect(c.appendElem).not.toHaveBeenCalled();
+			expect(c.isElemEmpty).toHaveBeenCalledWith(obj);
+		});
+
+	});
+
 	describe('Content::insertElemAt(): Inserts the element', function(){
 		it('throws an error if the position is too big', function(){
 			spyOn(c, 'length').andCallFake(function(){return 5;});
