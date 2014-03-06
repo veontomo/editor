@@ -93,5 +93,22 @@ function List(listType) {
 		}
 
 	};
+	/**
+	 * Appends list: takes list items of the argument and appends it one by one to the target list.
+	 * The argument must be an instance of List. If not, an error is thrown.
+	 * @method  appendList
+	 * @param  {list}       list
+	 * @return {void}
+	 */
+	this.appendList = function(list){
+		var len, i;
+		if (!(list instanceof List)){
+			throw new Error('The argument must be a List instance!');
+		}
+		len = list.length();
+		for (i = 0; i < len; i++){
+			this.appendItem(list.getElem(i));
+		}
+	};
 }
 List.prototype = Object.create(Tag.prototype);

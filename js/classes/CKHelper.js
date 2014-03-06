@@ -243,30 +243,32 @@ var CKHelper = {
 	 */
 	insertList: function(editor, listType){
 		// console.log('inside CKHelper::insertList()');
-		var range, ranges, selection, selectionLen, i, j, currentNode, list,
-		    stop = 0, iterator, startType,
-		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode, skip,
-		    startContainer, next, nextStr, endNode,
-		    liObj, parentList, listItems, listLen, listItemObj, nodesToDeleteLen, liObjLen, elem,
+		var range, ranges, selection, selectionLen, i, j, list,
+		    startContainer, endContainer, startType, endType,
+		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
+		    next, nextStr, endNode,
+		    nodesToDeleteLen,  elem,
 		    nodesToDelete = [];
+		    // currentNode, stop = 0, skip,iterator, liObj, parentList, listItems, listLen,listItemObj, liObjLen,
 		selection = editor.getSelection();
-		console.log('selection: ', selection);
 		ranges = selection.getRanges();
 		selectionLen = ranges.length;
-		// console.log('# elements in range: ', ranges.length);
 		if (selectionLen === 0){
 			return null;
 		}
 		for (i = 0; i < selectionLen; i++){
-			// console.log('loop #: ', i);
+			console.log('selection loop: #', i + 1, ' of total ', selectionLen);
 			list = new List(listType);
 			list.style['margin-left'] = list.style['margin-left'] || 40;
-
 			range = ranges[i];
-			startType = range.startContainer.type;
-			// endType = range.endContainer.type;
-			// startString = startType === CKEDITOR.NODE_ELEMENT ? '(html) ' + range.startContainer.getChild(range.startOffset).getOuterHtml() : '(text) ' + range.startContainer.getText().substring(range.startOffset);
+			startContainer = range.startContainer;
+			endContainer = range.endContainer;
+			startType = startContainer.type;
+			endType = endContainer.type;
+			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
 
+			console.log('start container: (type ', startType,')', startContainer);
+			console.log('end container: (type ', endType, ')', endContainer);
 			// if the start container is of node type, it means that a whole node was selected.
 			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
@@ -301,18 +303,14 @@ var CKHelper = {
 			// start container is of text type. Nodes present in the range will be inserted into the list.
 			// If a list item is among selected nodes, then all list items will be inserted into the list.
 			if (startType === CKEDITOR.NODE_TEXT){
-				console.log('start container is a text: ', range.startContainer.getText());
-				console.log('end container: ', range.endContainer, ', end offset: ', range.endOffset);
-				endNode = range.endContainer.getChildren().getItem(range.endOffset);
-				console.log('end container offset: ', range.endContainer.getChildren().getItem(range.endOffset));
+				console.log('start container is a text');
 				// consider the start container separately
-				startContainer = range.startContainer;
-				// startString = range.startContainer;
-				console.log('start container: ', startContainer, ', start container offset: ', range.startOffset);
-				console.log('next: ', startContainer.getNext());
-				console.log('next 2: ', startContainer.getNext().getNext());
 				li = new ListItem();
-				li.appendElem(range.startContainer.getText());
+				if (startContainer.getParent().getName() === 'li'){
+					console.log('parent is a li');
+					list.appendList(startContainer.getParent().inflate());
+				}
+				li.appendElem(startContainer.getText());
 				list.appendItem(li);
 				next = startContainer.getNext();
 				while(next){
@@ -335,73 +333,78 @@ var CKHelper = {
 						li.appendElem(elem);
 						list.appendItem(li);
 					}
+					// if the current node is equal the endContainer (if it is a node),
+					// then stop looping
 					if (next.equals(endNode)){
-						console.log('last selection node is found');
 						break;
 					}
 					next = next.getNext();
 				}
 
-				iterator = range.createIterator();
-				iterator.enlargeBr = false;
-				currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
-																 //	so pass to the next node (if it exists)
-				console.log('current node: ', currentNode);
-				currentNode = iterator.getNextParagraph();       // the next node
-				console.log('current node: ', currentNode);
+				/* 	this is an old block, it iterates over the nodes in the selection.
+					It turns out that they are processes twice:
+					the first time when processing startContainer and
+					the second time - in the block below. This is why it is commented.
+					*/
 
-				stop = 0;
+				// iterator = range.createIterator();
+				// iterator.enlargeBr = false;
+				// currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
+				// 												 //	so pass to the next node (if it exists)
+				// currentNode = iterator.getNextParagraph();       // the next node
+
+				// stop = 0;
 				// In selection, there might be a sequence of list items that are to be inserted into the list
 				// along with the other list items of the parent list. So, when a 'li' node is encountered,
 				// then the whole bunch of 'li' of that list will be added into resulting list.
-				skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
+				// skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
 				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
-				while (currentNode && stop < 5){
-					console.log('loop #: ', stop, ', current node: ', currentNode.getHtml());
-					stop++;
-					if (!skip && currentNode.getName() === 'li'){
-						// marker showing that one should consider only first list item node and
-						// skip all remaining consequtive list item nodes
-						skip = true;
-						parentList = currentNode.getParent();
-						nodesToDelete.push(parentList);
-						// console.log('parentList: ', parentList);
-						listItems = parentList.getChildren();
-						listLen = listItems.count();
-						for (j = 0; j < listLen; j++){
-							listItemObj = listItems.getItem(j).getHtml().inflate();
-							li = new ListItem();
-							listItemObj.trim();
-							console.log('li: ', li);
-							list.appendElemIfNotEmpty(li);
-							// if(!listItemObj.isEmpty()){
-							// 	li.appendElem(listItemObj);
-							// 	list.appendItem(li);
-							// }
-						}
-					}
-					if (currentNode.getName() !== 'li') {
-						// non-list-item-node is encountered, so let's reset the marker to indicate that the
-						// sequence of list items has been broken
-						skip = false;
-						nodesToDelete.push(currentNode);
+				// while (currentNode && stop < 5){
+				// 	console.log('loop #: ', stop, ', current node: ', currentNode.getHtml());
+				// 	stop++;
+				// 	if (!skip && currentNode.getName() === 'li'){
+				// 		// marker showing that one should consider only first list item node and
+				// 		// skip all remaining consequtive list item nodes
+				// 		skip = true;
+				// 		parentList = currentNode.getParent();
+				// 		nodesToDelete.push(parentList);
+				// 		// console.log('parentList: ', parentList);
+				// 		listItems = parentList.getChildren();
+				// 		listLen = listItems.count();
+				// 		for (j = 0; j < listLen; j++){
+				// 			listItemObj = listItems.getItem(j).getHtml().inflate();
+				// 			li = new ListItem();
+				// 			listItemObj.trim();
+				// 			console.log('li: ', li);
+				// 			list.appendElemIfNotEmpty(li);
+				// 			// if(!listItemObj.isEmpty()){
+				// 			// 	li.appendElem(listItemObj);
+				// 			// 	list.appendItem(li);
+				// 			// }
+				// 		}
+				// 	}
+				// 	if (currentNode.getName() !== 'li') {
+				// 		// non-list-item-node is encountered, so let's reset the marker to indicate that the
+				// 		// sequence of list items has been broken
+				// 		skip = false;
+				// 		nodesToDelete.push(currentNode);
+				// 		liObj = currentNode.getHtml().inflate();
+				// 		// console.log('liObj length = ', liObj.length());
+				// 		liObjLen = liObj.length();
+				// 		for (j = 0; j < liObjLen; j++){
+				// 			elem = liObj.getElem(j);
+				// 			if ((typeof elem.isEmpty !== 'function') || !(elem.isEmpty())){
+				// 				li = new ListItem();
+				// 				li.appendElem(elem);
+				// 				list.appendItem(li);
+				// 			}
+				// 		}
+				// 	}
+				// 	// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
+				// 	currentNode = iterator.getNextParagraph();
+				// }
+/* end of the above block */
 
-						liObj = currentNode.getHtml().inflate();
-						// console.log('liObj length = ', liObj.length());
-						liObjLen = liObj.length();
-						for (j = 0; j < liObjLen; j++){
-							elem = liObj.getElem(j);
-							if ((typeof elem.isEmpty !== 'function') || !(elem.isEmpty())){
-								li = new ListItem();
-								li.appendElem(elem);
-								list.appendItem(li);
-							}
-
-						}
-					}
-					// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
-					currentNode = iterator.getNextParagraph();
-				}
 				if (list.length() === 0){
 					li = new ListItem();
 					list.appendItem(li);
@@ -413,7 +416,6 @@ var CKHelper = {
 					nodesToDelete[j].remove();
 				}
 				startContainer.setText(startContainer.getText().substring(0, range.startOffset));
-
 				editor.insertElement(listObj);
 			}
 		}

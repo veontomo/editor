@@ -25,10 +25,7 @@ describe('List-related functionality:', function(){
             var l2 = List();
             expect(l2 instanceof List).toBe(true);
         });
-
-
     });
-
 
     describe('Basic properties:', function(){
         it('A list object contains nesessary attributes', function(){
@@ -39,6 +36,7 @@ describe('List-related functionality:', function(){
             expect(l.hasOwnProperty('content')).toBe(true);
         });
     });
+
     describe('List::itemNum(): gives the number of items in the list', function(){
         it('calls parent method Tag::length()', function(){
             spyOn(l, 'length').andCallFake(function(){
@@ -47,8 +45,8 @@ describe('List-related functionality:', function(){
             expect(l.itemNum()).toBe('item number');
             expect(l.length).toHaveBeenCalled();
         });
-
     });
+
     describe('List::appendItem(): appends items to the list', function(){
         it('throws an error if appending not a ListItem object', function(){
             expect(function(){
@@ -168,6 +166,37 @@ describe('List-related functionality:', function(){
             lHtml = l.toHtml();
             expect(lHtml).toBe('<listtype list attributes style="list style">item 1item 2item 3item 4</listtype>');
         });
+    });
+
+    describe('List::appendList(): appends a list', function(){
+        it('throws an error if the argument is not a List instance', function(){
+            var foo = '';
+            expect(foo instanceof List).toBe(false);
+            expect(function(){
+                l.appendList(foo);
+            }).toThrow('The argument must be a List instance!');
+        });
+        it('calls List::appendItem() for each list item in the target list', function(){
+            var l2 = new List();
+            spyOn(l, 'appendItem');
+            li1 = 'aaa';
+            li2 = 'bbb';
+            li3 = 'ccc';
+            l2.content.elements = [li1, li2, li3];
+            l.appendList(l2);
+            expect(l.appendItem).toHaveBeenCalledWith(li1);
+            expect(l.appendItem).toHaveBeenCalledWith(li2);
+            expect(l.appendItem).toHaveBeenCalledWith(li3);
+        });
+        it('if list to append has zero length, nothing is called.', function(){
+            var l2 = new List();
+            spyOn(l, 'appendItem');
+            spyOn(l2, 'length').andCallFake(function(){return 0;});
+            l.appendList(l2);
+            expect(l.appendItem).not.toHaveBeenCalled();
+        });
+
+
     });
 });
 
