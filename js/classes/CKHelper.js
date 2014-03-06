@@ -246,7 +246,7 @@ var CKHelper = {
 		var range, ranges, selection, selectionLen, i, j, currentNode, list,
 		    stop = 0, iterator, startType,
 		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode, skip,
-		    liObj, parentList, listItems, listLen, listItemObj, nodesToDeleteLen,
+		    liObj, parentList, listItems, listLen, listItemObj, nodesToDeleteLen, liObjLen, elem,
 		    nodesToDelete = [];
 		selection = editor.getSelection();
 		ranges = selection.getRanges();
@@ -268,7 +268,7 @@ var CKHelper = {
 			// if the start container is of node type, it means that a whole node was selected.
 			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
-				// console.log('start container is a node');
+				console.log('start container is a node');
 				startNode = range.startContainer.getChild(range.startOffset);
 				children = startNode.getChildren();
 				len = children.count();
@@ -286,6 +286,7 @@ var CKHelper = {
 							console.log('This part was supposed to never be called, but it has been called!');
 					}
 					childObj = childStr.inflate();
+					childObj.trim();
 					// insert list item if it is not empty
 					if (!childObj.isEmpty()){
 						li.appendElem(childObj);
@@ -298,6 +299,7 @@ var CKHelper = {
 			// start container is of text type. Nodes present in the range will be inserted into the list.
 			// If a list item is among selected nodes, then all list items will be inserted into the list.
 			if (startType === CKEDITOR.NODE_TEXT){
+				console.log('start container is a text: ', range.startContainer.getText());
 				iterator = range.createIterator();
 				currentNode = iterator.getNextParagraph();
 				stop = 0;
@@ -307,6 +309,8 @@ var CKHelper = {
 				skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
 				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
 				while (currentNode && stop < 5){
+					console.log('current node: ', currentNode.getHtml());
+					console.log('loop #: ', stop);
 					stop++;
 					if (!skip && currentNode.getName() === 'li'){
 						// marker showing that one should consider only first list item node and
@@ -320,8 +324,13 @@ var CKHelper = {
 						for (j = 0; j < listLen; j++){
 							listItemObj = listItems.getItem(j).getHtml().inflate();
 							li = new ListItem();
-							li.appendElem(listItemObj);
-							list.appendItem(li);
+							console.log('listItemObj: length = ', listItemObj.length(), 'string: ', listItemObj.toHtml());
+							console.log('after trim:\nlistItemObj: length = ', listItemObj.length(), 'string: ', listItemObj.toHtml());
+							listItemObj.trim();
+							if(!listItemObj.isEmpty()){
+								li.appendElem(listItemObj);
+								list.appendItem(li);
+							}
 						}
 					}
 					if (currentNode.getName() !== 'li') {
@@ -329,12 +338,18 @@ var CKHelper = {
 						// sequence of list items has been broken
 						skip = false;
 						nodesToDelete.push(currentNode);
-						li = new ListItem();
+
 						liObj = currentNode.getHtml().inflate();
-						liObj.trim();
-						if (!liObj.isEmpty()){
-							li.appendElem(liObj);
-							list.appendItem(li);
+						// console.log('liObj length = ', liObj.length());
+						liObjLen = liObj.length();
+						for (j = 0; j < liObjLen; j++){
+							elem = liObj.getElem(j);
+							if ((typeof elem.isEmpty !== 'function') || !(elem.isEmpty())){
+								li = new ListItem();
+								li.appendElem(elem);
+								list.appendItem(li);
+							}
+
 						}
 					}
 					// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());

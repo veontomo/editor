@@ -242,20 +242,30 @@ function Content(str) {
 	 * @return {void}
 	 */
 	this.trim = function(){
+		// console.log('trim called on ', this.toHtml() );
 		var len = this.length(),
 			i, elem;
+		// console.log('trim target: length = ', len, ', content: ', this.toHtml() );
 		if (len > 0){
 			// call trim() function on all but last element
 			for (i = 0; i < len; i++){
+				// console.log('trim: loop#', i);
 				elem = this.getElem(i);
+				// console.log('elem: ', elem);
 				if (typeof elem.trim === 'function'){
+					// console.log('trim: elem has trim function');
 					elem.trim();
+				} else {
+					// console.log('trim: elem has NO trim function');
 				}
 				// check whether the last element is empty
 				if (i === len - 1 && (typeof elem.isEmpty === 'function') && elem.isEmpty()){
+					// console.log('trim: dropping last elem');
 					// here the deletion occurs
 					this.dropLast();
 					this.trim();
+				} else {
+					// console.log('trim: NOT dropping last elem');
 				}
 			}
 		}
