@@ -235,6 +235,23 @@ var CKHelper = {
 	},
 
 	/**
+	 * Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,
+	 * if it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, '' (empty string is returned)
+	 * @method nodeString
+	 * @param    {CKEDITOR.dom.element} node
+	 * @return   {String}
+	 */
+	nodeString: function(node){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return node.getOuterHtml();
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			return node.getText();
+		}
+		return '';
+	},
+
+	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
@@ -246,7 +263,7 @@ var CKHelper = {
 		var range, ranges, selection, selectionLen, i, j, list,
 		    startContainer, endContainer, startType, endType,
 		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
-		    next, nextStr, endNode,
+		    next, nextStr, endNode, parentList,
 		    nodesToDeleteLen,  elem,
 		    nodesToDelete = [];
 		    // currentNode, stop = 0, skip,iterator, liObj, parentList, listItems, listLen,listItemObj, liObjLen,
@@ -267,28 +284,17 @@ var CKHelper = {
 			endType = endContainer.type;
 			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
 
-			console.log('start container: (type ', startType,')', startContainer);
-			console.log('end container: (type ', endType, ')', endContainer);
 			// if the start container is of node type, it means that a whole node was selected.
 			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
 				console.log('start container is a node');
-				startNode = range.startContainer.getChild(range.startOffset);
+				startNode = startContainer.getChild(range.startOffset);
 				children = startNode.getChildren();
 				len = children.count();
 				for (j = 0; j < len; j++){
 					li = new ListItem();
 					child = children.getItem(j);
-					switch (child.type){
-						case CKEDITOR.NODE_ELEMENT:
-							childStr = child.getOuterHtml();
-							break;
-						case CKEDITOR.NODE_TEXT:
-							childStr = child.getText();
-							break;
-						default:
-							console.log('This part was supposed to never be called, but it has been called!');
-					}
+					childStr = this.nodeString(child);
 					childObj = childStr.inflate();
 					childObj.trim();
 					// insert list item if it is not empty
@@ -307,29 +313,17 @@ var CKHelper = {
 				// consider the start container separately
 				li = new ListItem();
 				if (startContainer.getParent().getName() === 'li'){
-					console.log('parent is a li');
 					parentList = startContainer.getParent().getParent().getOuterHtml().inflate();
-					parentList.trim()
-					console.log(parentList);
+					parentList.trim();
 					list.appendList(parentList.getFirst());
+				} else {
+					li.appendElem(startContainer.getText());
+					list.appendItem(li);
 				}
-				li.appendElem(startContainer.getText());
-				list.appendItem(li);
 				next = startContainer.getNext();
 				while(next){
 					nodesToDelete.push(next);
-					switch (next.type){
-						case CKEDITOR.NODE_TEXT:
-							nextStr = next.getText();
-							break;
-						case CKEDITOR.NODE_ELEMENT:
-							nextStr = next.getHtml();
-							break;
-						default:
-							console.log('This part was supposed to never be called, but it has been called!');
-							nextStr = '';
-					}
-
+					nextStr = this.nodeString(next);
 					elem = nextStr.inflate();
 					if (!elem.isEmpty()){
 						li = new ListItem();
