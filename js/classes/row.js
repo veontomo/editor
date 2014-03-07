@@ -18,7 +18,7 @@ function Row() {
 
 	/**
 	 * Type of the object. Return "Row" for the objects of this type.
-	 * @method {string} getType
+	 * @method  getType
 	 * @return {string}
 	 * @deprecated   in favour of getName()
 	 */

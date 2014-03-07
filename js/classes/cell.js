@@ -18,7 +18,7 @@ function Cell(arg) {
 
 	/**
 	 * Type of the object. Set to value "Cell" for the objects of this type.
-	 * @method {String} getType
+	 * @method getType
 	 * @return {String}
 	 * @deprecated  in favor of getName()
 	 */

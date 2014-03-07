@@ -18,7 +18,7 @@ function Table() {
 
 	/**
 	 * Type of the object. Returns "Table" for the objects of this type.
-	 * @method  {string} getType
+	 * @method  getType
 	 * @return  {string}
 	 * @deprecated  in favor of getName()
 	 */
