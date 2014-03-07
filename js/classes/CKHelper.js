@@ -242,6 +242,7 @@ var CKHelper = {
 	 * @return   {String}
 	 */
 	nodeString: function(node){
+		console.log('nodeString arg: node: ', node);
 		if (node.type === CKEDITOR.NODE_ELEMENT){
 			return node.getOuterHtml();
 		}
@@ -263,8 +264,10 @@ var CKHelper = {
 	 * @return   {String}
 	 */
 	nodeOffsetString: function(node, offset, dir){
+		console.log('nodeOffsetString args: node: ', node,', offset: ', offset, ', dir: ', dir);
 		if (node.type === CKEDITOR.NODE_ELEMENT){
-			return this.nodeString(node.getChild(offset));
+			console.log('passing ', node.getChild(offset));
+			return CKHelper.nodeString(node.getChild(offset));
 		}
 		if (node.type === CKEDITOR.NODE_TEXT){
 			if (dir === 'start' || dir === undefined){

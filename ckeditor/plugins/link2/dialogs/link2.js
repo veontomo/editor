@@ -2,7 +2,8 @@
 /*global CKEDITOR, CKHelper, LinkStyle, Helper, Link */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
-    var warningFieldId = 'linkWarning';
+    var warningFieldId = 'linkWarning',
+        selection; // global variable to pass info about selection
     return {
         title: editor.lang.link.info,
         minWidth: 400,
@@ -61,43 +62,161 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }]
         }],
 
+        // onShow: function() {
+        //     selection = this.getParentEditor().getSelection();
+        //     var ranges = selection.getRanges(),
+        //         range,
+        //         startContainer,
+        //         endContainer,
+        //         startType,
+        //         endType,
+        //         fakeDiv = editor.document.createElement('div'),
+        //         linkHref = '',
+        //         selectionObj, linkContent, len, elem, i, rangesLen, next, counter;
+        //     rangesLen = ranges.length;
+        //     console.log('onShow selection: ', selection);
+        //     console.log('ranges length: ', rangesLen);
+        //     for (i = 0; i < rangesLen; i++){
+        //         range = ranges[i];
+        //         console.log('loop over ranges: #', i+1, ' of total ', rangesLen);
+
+        //         startContainer = range.startContainer;
+        //         endContainer = range.endContainer;
+        //         startType = startContainer.type;
+        //         endType = endContainer.type;
+        //         console.log('start container: ', startContainer, ', start offset: ', range.startOffset, ', string: ', CKHelper.nodeOffsetString(startContainer, range.startOffset, 'end'));
+        //         console.log('end container: ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
+        //         next = startContainer.getNext();
+        //         counter = 0;
+        //         while(next){
+        //             console.log('next ', counter, ': ', next);
+        //             counter++;
+        //             next = next.getNext();
+        //             if(next && next.equals(endContainer)){
+        //                 console.log('end container is reached!');
+        //                 break;
+        //             }
+        //         }
+
+        //     }
+        //     fakeDiv.append(ranges[0].cloneContents());
+        //     selectionObj = fakeDiv.getHtml().inflate();
+        //     linkContent = selectionObj.toText();
+
+        //     len = selectionObj.length();
+        //     if (len === 1) {
+        //         elem = selectionObj.getFirst();
+        //         if (elem instanceof Link){
+        //             linkHref = elem.getHref();
+        //         }
+        //     }
+        //     this.setValueOf('tab-general', 'text', linkContent);
+        //     this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
+        //     this.getContentElement('tab-general', 'text').disable();
+        // },
         onShow: function() {
-            var selection = this.getParentEditor().getSelection(),
-                ranges = selection.getRanges(),
+            selection = this.getParentEditor().getSelection();
+            var ranges = selection.getRanges(),
                 range,
-                startContainer,
-                endContainer,
+                startContainer, endContainer, endContainer_Str,
                 startType,
                 endType,
                 fakeDiv = editor.document.createElement('div'),
                 linkHref = '',
-                selectionObj, linkContent, len, elem, i, rangesLen, next, counter;
+                selectionObj, linkContent, len, elem, i, j, rangesLen, next, counter, container = [],
+                iterationStop, iterator, currentNode;
+
             rangesLen = ranges.length;
-            console.log('selection: ', selection);
+            console.log('onShow selection: ', selection);
             console.log('ranges length: ', rangesLen);
             for (i = 0; i < rangesLen; i++){
+                iterationStop = false;
                 range = ranges[i];
                 console.log('loop over ranges: #', i+1, ' of total ', rangesLen);
 
                 startContainer = range.startContainer;
                 endContainer = range.endContainer;
+                endContainer_Str = CKHelper.nodeString(endContainer);
+
                 startType = startContainer.type;
                 endType = endContainer.type;
-                console.log('start container: ', startContainer, ', start offset: ', range.startOffset, ', string: ', CKHelper.nodeOffsetString(startContainer, range.startOffset, 'end'));
-                console.log('end container: ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
+
+                console.log('start');
+                if (startType === CKEDITOR.NODE_ELEMENT){
+                    container.push('start');
+                    container.push(startContainer.getChild(range.startOffset));
+
+                }
+                if(startContainer.equals(endContainer)){
+                    console.log('end container is reached!');
+                    iterationStop = true;
+                }
+                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+
+                console.log('start container: (', startType, ')', startContainer, ', start offset: ', range.startOffset, ', string: ', CKHelper.nodeOffsetString(startContainer, range.startOffset, 'end'));
+                console.log('end container: (', endType, ') ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
+
                 next = startContainer.getNext();
                 counter = 0;
-                while(next){
-                    console.log('next ', counter, ': ', next);
+                while(!iterationStop && next){
+                    // console.log('next ', counter, ': ', next);
                     counter++;
-                    next = next.getNext();
-                    if(next && next.equals(endContainer)){
+                    if (next.type === CKEDITOR.NODE_ELEMENT){
+                        container.push('next' + counter);
+                        container.push(next);
+                    }
+                    if(next.equals(endContainer)){
                         console.log('end container is reached!');
+                        iterationStop = true;
                         break;
                     }
+                    next = next.getNext();
                 }
+                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                if (!iterationStop){
+                    counter = 0;
+                    console.log('middle iterations');
+                    if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                    iterator = range.createIterator();
+                    iterator.enforceRealBlocks = false;
+                    iterator.getNextParagraph();                              // the start container itself
+                    currentNode = iterator.getNextParagraph();                // node next to the start
+                    if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                    while (currentNode){
+                        console.log('middle loop ' + count)
+                        if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                        if (currentNode.type === CKEDITOR.NODE_ELEMENT){
+                            container.push('middle' + counter);
+                            container.push(currentNode);
+                        }
+                        if (currentNode.equals(endContainer)){
+                            console.log('end container is found among iterators!');
+                            iterationStop = true;
+                            break;
+                        }
+                        currentNode = iterator.getNextParagraph();
+                    }
+                }
+                // if(!startContainer.equals(startContainer_copy)){ console.log('WTF!?');}
+                // if(!endContainer.equals(endContainer_copy)){ console.log('WTF!?');}
+                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                if (!iterationStop){
+                    console.log('end container iterations');
+                    if (endType === CKEDITOR.NODE_ELEMENT){
 
+                        console.log('* end container: (', endType, ') ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
+
+                        // for (j = 0; j < range.endOffset; j++){
+                            // if (endContainer.getChildren().getItem(range.endOffset - 1).type === CKEDITOR.NODE_ELEMENT){
+                                // container.push('end ' );
+                                // container.push(endContainer.getChild(j));
+                            // }
+
+                        // }
+                    }
+                }
             }
+            console.log(container);
             fakeDiv.append(ranges[0].cloneContents());
             selectionObj = fakeDiv.getHtml().inflate();
             linkContent = selectionObj.toText();
@@ -114,19 +233,22 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             this.getContentElement('tab-general', 'text').disable();
 
         },
+
+
         onCancel: function(){
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
         onOk: function() {
+            console.log('onOK: ', selection);
+            console.log(this.getContentElement('tab-general', 'text').isEnabled());
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var node = this.getParentEditor().getSelection(),
                 range = node.getRanges()[0],
                 fakeDiv = editor.document.createElement('div'),
-                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined,
-                selection;
+                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined;
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
             linkContentRaw = this.getValueOf('tab-general', 'text');
@@ -162,8 +284,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             linkElement = editor.document.createElement('a');
             linkElement.setAttribute('href', linkHref);
             linkElement.setAttribute('style', linkStyle.toString());
-            linkElement.setHtml(linkContent);
-            editor.insertElement(linkElement);
+            // linkElement.setHtml(linkContent);
+            // editor.insertElement(linkElement);
 
         }
     };
