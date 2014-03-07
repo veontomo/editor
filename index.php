@@ -6,7 +6,7 @@
 
 <!--	<script type="text/javascript" src="JSON-js/json2.js"></script> -->
 <!--	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script> -->
-	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="vendor/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
@@ -28,7 +28,7 @@
 
 	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
-	<script type="text/javascript" src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/javascript" src="vendor/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title>Creatore di newsletter</title>
 <?php
 require 'php/fileContent.php';
@@ -220,8 +220,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 					</tr>
 				</tbody>
 			</table>
-			primavera con sole<br />
-			estate in spiaggia<br />
+			primavera con sole <img src="https://cdn1.iconfinder.com/data/icons/ie_yummy/128/cake_13.png"/> estate in spiaggia<br />
 			autunno con sagre<br />
 			inverno in montagna
 	</textarea>

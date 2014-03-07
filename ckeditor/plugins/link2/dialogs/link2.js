@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, LinkStyle, Helper, Link */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning';
@@ -21,7 +21,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;',
                 }, {
                     type: 'text',
-                    id: 'href',
+                    id: 'href_input_field',
                     style: 'padding-left: 0px; margin: 0; float: left; width: 100%;',
                     validate: function(){
                         var isOk = Boolean(this.getValue().trim());
@@ -62,24 +62,57 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            var node = this.getParentEditor().getSelection(),
-                range = node.getRanges()[0],
+            var selection = this.getParentEditor().getSelection(),
+                ranges = selection.getRanges(),
+                range,
+                startContainer,
+                endContainer,
+                startType,
+                endType,
                 fakeDiv = editor.document.createElement('div'),
                 linkHref = '',
-                selection, linkContent, len, elem;
-            fakeDiv.append(range.cloneContents());
-            selection = fakeDiv.getHtml().inflate();
-            linkContent = selection.toText();
+                selectionObj, linkContent, len, elem, i, rangesLen, next, counter;
+            rangesLen = ranges.length;
+            console.log('selection: ', selection);
+            console.log('ranges length: ', rangesLen);
+            for (i = 0; i < rangesLen; i++){
+                range = ranges[i];
+                console.log('loop over ranges: #', i+1, ' of total ', rangesLen);
 
-            len = selection.length();
+                startContainer = range.startContainer;
+                endContainer = range.endContainer;
+                startType = startContainer.type;
+                endType = endContainer.type;
+                console.log('start container: ', startContainer, ', start offset: ', range.startOffset, ', string: ', CKHelper.nodeOffsetString(startContainer, range.startOffset, 'end'));
+                console.log('end container: ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
+                next = startContainer.getNext();
+                counter = 0;
+                while(next){
+                    console.log('next ', counter, ': ', next);
+                    counter++;
+                    next = next.getNext();
+                    if(next && next.equals(endContainer)){
+                        console.log('end container is reached!');
+                        break;
+                    }
+                }
+
+            }
+            fakeDiv.append(ranges[0].cloneContents());
+            selectionObj = fakeDiv.getHtml().inflate();
+            linkContent = selectionObj.toText();
+
+            len = selectionObj.length();
             if (len === 1) {
-                elem = selection.getFirst();
+                elem = selectionObj.getFirst();
                 if (elem instanceof Link){
                     linkHref = elem.getHref();
                 }
             }
             this.setValueOf('tab-general', 'text', linkContent);
-            this.setValueOf('tab-general', 'href', Helper.dropProtocol(linkHref));
+            this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
+            this.getContentElement('tab-general', 'text').disable();
+
         },
         onCancel: function(){
             // clear the value of the warning field
@@ -95,7 +128,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined,
                 selection;
             // user input
-            linkHrefRaw = this.getValueOf('tab-general', 'href');
+            linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
             linkContentRaw = this.getValueOf('tab-general', 'text');
             isUnderlined = this.getValueOf('tab-general', 'underlined');
 

@@ -252,6 +252,33 @@ var CKHelper = {
 	},
 
 	/**
+	 * Gets the string representation of the node subelement: if the argument is of CKEDITOR.NODE_ELEMENT type, then
+	 * the string representation of its child "offset" is returned. If the argument is of CKEDITOR.NODE_TEXT type,
+	 * then: 1. if dir is "start" or null, then its substring starting from position 0 to "offset" (excluded) is returned;
+	 * 2. if dir="end"; then its substring starting from position "offset" is returned.
+	 * @method   nodeOffsetString
+	 * @param    {Number}               offset
+	 * @param    {CKEDITOR.dom.element} node
+	 * @param    {String}               dir       "start" - for the beginning of the string, "end" for the end. Default - "start"
+	 * @return   {String}
+	 */
+	nodeOffsetString: function(node, offset, dir){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return this.nodeString(node.getChild(offset));
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			if (dir === 'start' || dir === undefined){
+				return node.getText().substring(0, offset);
+			}
+			if (dir === 'end'){
+				return node.getText().substring(offset);
+			}
+		}
+		return 'wrong';
+	},
+
+
+	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
@@ -282,26 +309,41 @@ var CKHelper = {
 			endContainer = range.endContainer;
 			startType = startContainer.type;
 			endType = endContainer.type;
+			console.log(startType, endType);
+			console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
 			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
-
+			if (range.collapsed){
+				list.appendItem(new ListItem());
+				listHtml = list.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				editor.insertElement(listObj);
+				break;
+			}
 			// if the start container is of node type, it means that a whole node was selected.
 			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
 				console.log('start container is a node');
 				startNode = startContainer.getChild(range.startOffset);
-				children = startNode.getChildren();
-				len = children.count();
-				for (j = 0; j < len; j++){
-					li = new ListItem();
-					child = children.getItem(j);
-					childStr = this.nodeString(child);
-					childObj = childStr.inflate();
-					childObj.trim();
-					// insert list item if it is not empty
-					if (!childObj.isEmpty()){
-						li.appendElem(childObj);
-						list.appendItem(li);
+				console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
+				if (startNode.type === CKEDITOR.NODE_ELEMENT){
+					children = startNode.getChildren();
+					len = children.count();
+					for (j = 0; j < len; j++){
+						li = new ListItem();
+						child = children.getItem(j);
+						childStr = this.nodeString(child);
+						childObj = childStr.inflate();
+						childObj.trim();
+						// insert list item if it is not empty
+						if (!childObj.isEmpty()){
+							li.appendElem(childObj);
+							list.appendItem(li);
+						}
 					}
+				} else {
+					li = new ListItem();
+					li.appendElem(startNode.getText());
+					list.appendItem(li);
 				}
 				listHtml = list.toHtml();
 	    		startNode.setHtml(listHtml);
@@ -400,7 +442,7 @@ var CKHelper = {
 				// 	// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
 				// 	currentNode = iterator.getNextParagraph();
 				// }
-/* end of the above block */
+				/* end of the above block */
 
 				if (list.length() === 0){
 					li = new ListItem();
