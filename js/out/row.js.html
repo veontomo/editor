@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: row.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: row.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, flatten, Attributes, Style, Cell, Table, getProperty, TableRowStyle, Tag, Content */
+
+/**
+ * Represents a table row
+ * @module 	HtmlElements
+ * @class   Row
+ * @extends Tag
+ */
+function Row() {
+	"use strict";
+	if (!(this instanceof Row)) {
+		return new Row();
+	}
+	// inherit tag properties
+	Tag.call(this);
+
+	/**
+	 * Type of the object. Return "Row" for the objects of this type.
+	 * @method {string} getType
+	 * @return {string}
+	 * @deprecated   in favour of getName()
+	 */
+	this.getType = function(){
+		return "Row";
+	};
+
+	/**
+	 * Html tag corresponding to Row instances.
+	 * @property {String}    name
+	 * @type     {String}
+	 * @default  td
+	 */
+	this.name = 'tr';
+
+	/**
+	 * Styles of the row.
+	 * @property {TableCellStyle} style
+	 * @type {TableCellStyle}
+	 * @default TableRowStyle
+	 */
+	this.style = new TableRowStyle();
+
+	/**
+	 * Gets an array of the widths of the cells inside the row.
+	 * @method getCellWidths
+	 * @return {array}
+	 */
+	this.getCellWidths = function(){
+		var output = [],
+			cellNum = this.cellNum(),
+			i;
+		for (i = 0; i &lt; cellNum; i++){
+			output.push(this.getElem(i).getWidth());
+		}
+		return output;
+	};
+
+	/**
+	 * Alias for length() method of the parent class.
+	 * @method  cellNum
+	 * @return {Number}
+	 */
+	this.cellNum = function(){
+		return this.length();
+	};
+
+	/**
+	 * Sets widths of the cells inside the row.
+	 * @method setCellWidths
+	 * @param {Array} profile          each elements if this array is a width of the corresp. cell in the row.
+	 * @return {void}
+	 */
+	this.setCellWidths = function(profile){
+		var len = profile.length,
+			i;
+		if (this.cellNum() !== len){
+			throw new Error('Incompatible array length!');
+		}
+		for (i = 0; i &lt; len; i++){
+			this.getElem(i).setWidth(profile[i]);
+		}
+	};
+
+	/**
+	 * Inserts a cell into a given position. If the object to insert is a Cell instance,
+	 * then parent method insertElemAt is called. Otherwise, an error is thrown.
+	 * @method insertCellAt
+	 * @param  {Cell}   cell        a cell to insert. If not a Cell instance, an error will be thrown.
+	 * @param  {Number} pos         position at which the cell is to be inserted.
+	 * @return {void}
+	 */
+	this.insertCellAt = function(pos, cell){
+		if (!(cell instanceof Cell)){
+			throw new Error('Only a Cell instance is allowed for insertion!');
+		}
+		this.insertElemAt(pos, cell);
+	};
+
+	/**
+	 * Appends a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
+	 * Otherwise, a method appendElem of the parent class is called.
+	 * @method appendCell
+	 * @param  {Cell}     cell            a cell to be appended. If not a Cell instance, an error is thrown.
+	 * @return {void}
+	 */
+	this.appendCell = function(cell){
+		if (!(cell instanceof Cell)){
+			throw new Error('The argument is not a Cell instance!');
+		}
+		this.appendElem(cell);
+	};
+
+	/**
+	 * Returns true if the row contains only one cell and this cell contains only one element
+	 * that is a Table() instance. Otherwise, false is returned.
+	 * @method  onlyTableInside
+	 * @return {Boolean}
+	 */
+	this.onlyTableInside = function(){
+		var cell = this.getFirst();
+		if (this.cellNum() !== 1 || cell.length() !== 1){
+			return false;
+		}
+		return (cell.getFirst() instanceof Table);
+	};
+
+	/**
+	 * Alias for dropElemAt().
+	 * @method  dropCellAt
+	 * @param  {Number}     pos     index of the cell to de dropped out.
+	 * @return {void}
+	 */
+	this.dropCellAt = function(pos){
+		this.dropElemAt(pos);
+	};
+
+	/**
+	 * 12/02/2014 11:55: dropCell --> knockOutCell
+	 * Drops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then
+	 * assigned to its right neighbour:
+     * |xxx| a | b   | c | -> |     a | b   | c |
+     * | a |xxx| b   | c | -> | a |     b   | c |
+	 * If there is no right neighbour, then it is assigned to the left one:
+	 * | a | b | c | xxx | -> | a | b | c       |
+	 * If the cell to delete does not exist, nothing is performed.
+	 * @method knockOutCell
+	 * @param  {Number}    cellNum         cell number to delete. Numeration starts with 0.
+	 * @return {void}      after
+	 */
+	this.knockOutCell = function(cellNum){
+		var acceptor, acceptorWidth, currentCell, currentCellWidth;
+		if (cellNum &lt; this.cellNum()){
+			if (this.getElem(cellNum + 1)){
+				acceptor = this.getElem(cellNum + 1);
+			} else {
+				if (this.getElem(cellNum - 1)){
+				acceptor = this.getElem(cellNum - 1);
+				}
+			}
+			if (acceptor){
+				acceptorWidth = acceptor.getWidth();
+				currentCell = this.getElem(cellNum);
+				currentCellWidth = currentCell.getWidth();
+				acceptor.setWidth(acceptorWidth + currentCellWidth);
+			}
+			this.dropElemAt(cellNum);
+		}
+	};
+
+	/**
+	 * dropCell was renamed into Row::knockOutCell(). So, this method is added for back-compatibility .
+	 * @method  dropCell
+	 * @param  {Number}      cellNum
+	 * @return {void}
+	 * @deprecated  Use Row::knockOutCell() directly.
+	 */
+	this.dropCell = function(cellNum){
+		console.log('Table::dropCell() was called. Try to eliminate this call.');
+		this.knockOutCell(cellNum);
+	};
+
+
+	/**
+	 * Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().
+	 * @method appendStyleToCellAt
+	 * @param  {Number}       cellNum       index of the target cell
+	 * @param  {any}          stl           style to be appended
+	 * @return {void}
+	 */
+	this.appendStyleToCellAt = function (cellNum, stl){
+		this.appendStyleToElemAt(cellNum, stl);
+	};
+
+	/**
+	 * Populates the attributes from a string that is an html repersentation of some row.
+	 * It takes a string that is an html representation of a row and update current object
+	 * parameters such that it will correspond to the html representation.
+	 * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	 * (eventually up to presence/absence of some parameters and attributes).
+	 *
+	 * @method loadFromHtml
+	 * @param {String} htmlStr
+	 * @return {void}
+	 * @deprecated in favour of String::createRowFromHtml()
+	 */
+	this.loadFromHtml = function (htmlStr){
+		var parser = new DOMParser(),
+			doc = parser.parseFromString('&lt;table>' + htmlStr + '&lt;/table>', "text/html"),
+			node = doc.getElementsByTagName('tr')[0],
+			attrs = node.attributes,
+			nodeStyle = node.getAttribute('style'),
+			attrObj = {},
+			len = attrs.length,
+			i, attr;
+			// console.log(doc, node);
+		for (i = 0; i &lt; len; i++){
+			attr = attrs[i];
+			if (attr.name !== 'style'){
+				attrObj[attr.name] = attr.value;
+			}
+		}
+		this.setStyle(nodeStyle);
+		this.setAttr(attrObj);
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then style of the cell is returned,
+	 * null otherwise. This is an alias for __Row::getBogusCellProp('style')__.
+	 * @method  getBogusCellStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusCellStyle = function(){
+		return this.getBogusCellProp('style');
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
+	 * null otherwise. This is an alias for __Row::getBogusCellProp('attr')__.
+	 * @method  getBogusCellAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusCellAttr = function(){
+		return this.getBogusCellProp('attr');
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method
+	 * __Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,
+	 * null otherwise.
+	 * @method  getBogusCellProp
+	 * @param  {String}    prop         name of the property to return (intended values: "style" or "attr")
+	 * @return {Object}
+	 */
+	this.getBogusCellProp = function(prop){
+		return this.onlyTableInside() ? this.getFirst()[prop] : null;
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then requested property name of the table inside the cell inside the row is returned,
+	 * null otherwise.
+	 * @method  getBogusTableProp
+	 * @param  {String}         prop        name of the property to return (intended values: "style" or "attr")
+	 * @return {Object|null}
+	 */
+	this.getBogusTableProp = function(prop){
+		// inside the row there is a cell, inside which there is a table
+		return this.onlyTableInside() ? this.getFirst().getFirst()[prop] : null;
+	};
+
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then style of the table inside the cell is returned, null otherwise.
+	 * This is an alias for __Row::getBogusTableProp('style')__.
+	 * @method  getBogusTableStyle
+	 * @return  {Style|null}
+	 */
+	this.getBogusTableStyle = function(){
+		return this.getBogusTableProp('style');
+	};
+
+	/**
+	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
+	 * returns true), then attribute of the table inside the cell is returned, null otherwise.
+	 * This is an alias for __Row::getBogusTableProp('attr')__.
+	 * @method  getBogusTableAttr
+	 * @return  {Attributes|null}
+	 */
+	this.getBogusTableAttr = function(){
+		return this.getBogusTableProp('attr');
+	};
+
+
+}
+Row.prototype = Object.create(Tag.prototype);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Attributes.html">Attributes</a></li><li><a href="Cell.html">Cell</a></li><li><a href="CKHelper.html">CKHelper</a></li><li><a href="Content.html">Content</a></li><li><a href="Helper.html">Helper</a></li><li><a href="ImageStyle.html">ImageStyle</a></li><li><a href="Link.html">Link</a></li><li><a href="LinkAttributes.html">LinkAttributes</a></li><li><a href="LinkStyle.html">LinkStyle</a></li><li><a href="List.html">List</a></li><li><a href="ListItem.html">ListItem</a></li><li><a href="ListItemStyle.html">ListItemStyle</a></li><li><a href="ListStyle.html">ListStyle</a></li><li><a href="Property.html">Property</a></li><li><a href="Row.html">Row</a></li><li><a href="StringHelper.html">StringHelper</a></li><li><a href="Style.html">Style</a></li><li><a href="Table.html">Table</a></li><li><a href="TableAttributes.html">TableAttributes</a></li><li><a href="TableCellStyle.html">TableCellStyle</a></li><li><a href="TableRowStyle.html">TableRowStyle</a></li><li><a href="TableStyle.html">TableStyle</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Unit.html">Unit</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#appendCell">appendCell</a></li><li><a href="global.html#appendElem">appendElem</a></li><li><a href="global.html#appendElemIfNotEmpty">appendElemIfNotEmpty</a></li><li><a href="global.html#appendItem">appendItem</a></li><li><a href="global.html#appendList">appendList</a></li><li><a href="global.html#appendProperty">appendProperty</a></li><li><a href="global.html#appendRow">appendRow</a></li><li><a href="global.html#appendStyle">appendStyle</a></li><li><a href="global.html#appendStyleToCellAt">appendStyleToCellAt</a></li><li><a href="global.html#appendStyleToCol">appendStyleToCol</a></li><li><a href="global.html#appendStyleToElemAt">appendStyleToElemAt</a></li><li><a href="global.html#attr">attr</a></li><li><a href="global.html#attr[undefined]">attr[undefined]</a></li><li><a href="global.html#bogusCellAttr">bogusCellAttr</a></li><li><a href="global.html#bogusCellStyle">bogusCellStyle</a></li><li><a href="global.html#bogusRowAttr">bogusRowAttr</a></li><li><a href="global.html#bogusRowStyle">bogusRowStyle</a></li><li><a href="global.html#bogusTableAttr">bogusTableAttr</a></li><li><a href="global.html#bogusTableStyle">bogusTableStyle</a></li><li><a href="global.html#cellNum">cellNum</a></li><li><a href="global.html#cellpadding">cellpadding</a></li><li><a href="global.html#cellspacing">cellspacing</a></li><li><a href="global.html#colNum">colNum</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#columnWidths">columnWidths</a></li><li><a href="global.html#concatDropSpaces">concatDropSpaces</a></li><li><a href="global.html#content">content</a></li><li><a href="global.html#crack">crack</a></li><li><a href="global.html#createCellFromHtml">createCellFromHtml</a></li><li><a href="global.html#createLinkFromHtml">createLinkFromHtml</a></li><li><a href="global.html#createListFromHtml">createListFromHtml</a></li><li><a href="global.html#createListItemFromHtml">createListItemFromHtml</a></li><li><a href="global.html#createOlFromHtml">createOlFromHtml</a></li><li><a href="global.html#createRowFromHtml">createRowFromHtml</a></li><li><a href="global.html#createTableFromHtml">createTableFromHtml</a></li><li><a href="global.html#createTagFromHtml">createTagFromHtml</a></li><li><a href="global.html#createUlFromHtml">createUlFromHtml</a></li><li><a href="global.html#desintangle">desintangle</a></li><li><a href="global.html#dropCell">dropCell</a></li><li><a href="global.html#dropCellAt">dropCellAt</a></li><li><a href="global.html#dropColAt">dropColAt</a></li><li><a href="global.html#dropColumn">dropColumn</a></li><li><a href="global.html#dropElemAt">dropElemAt</a></li><li><a href="global.html#dropFirst">dropFirst</a></li><li><a href="global.html#dropLast">dropLast</a></li><li><a href="global.html#dropProtocol">dropProtocol</a></li><li><a href="global.html#dropRow">dropRow</a></li><li><a href="global.html#elements">elements</a></li><li><a href="global.html#fileExt">fileExt</a></li><li><a href="global.html#findAscendant">findAscendant</a></li><li><a href="global.html#firstLetterUpperCase">firstLetterUpperCase</a></li><li><a href="global.html#flatten">flatten</a></li><li><a href="global.html#getBogusCellAttr">getBogusCellAttr</a></li><li><a href="global.html#getBogusCellProp">getBogusCellProp</a></li><li><a href="global.html#getBogusCellStyle">getBogusCellStyle</a></li><li><a href="global.html#getBogusRowAttr">getBogusRowAttr</a></li><li><a href="global.html#getBogusRowProp">getBogusRowProp</a></li><li><a href="global.html#getBogusRowStyle">getBogusRowStyle</a></li><li><a href="global.html#getBogusTableAttr">getBogusTableAttr</a></li><li><a href="global.html#getBogusTableProp">getBogusTableProp</a></li><li><a href="global.html#getBogusTableStyle">getBogusTableStyle</a></li><li><a href="global.html#getBorderInfo">getBorderInfo</a></li><li><a href="global.html#getCellWidths">getCellWidths</a></li><li><a href="global.html#getElem">getElem</a></li><li><a href="global.html#getFirst">getFirst</a></li><li><a href="global.html#getHref">getHref</a></li><li><a href="global.html#getLast">getLast</a></li><li><a href="global.html#getMatrix">getMatrix</a></li><li><a href="global.html#getName">getName</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getStyleProp">getStyleProp</a></li><li><a href="global.html#getWidth">getWidth</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#href">href</a></li><li><a href="global.html#insertCellAt">insertCellAt</a></li><li><a href="global.html#insertColAt">insertColAt</a></li><li><a href="global.html#insertColumn">insertColumn</a></li><li><a href="global.html#insertColumnAt">insertColumnAt</a></li><li><a href="global.html#insertElemAt">insertElemAt</a></li><li><a href="global.html#insertRow">insertRow</a></li><li><a href="global.html#isElemEmpty">isElemEmpty</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#isertItemAt">isertItemAt</a></li><li><a href="global.html#isFragmented">isFragmented</a></li><li><a href="global.html#isFramed">isFramed</a></li><li><a href="global.html#isLikeAs">isLikeAs</a></li><li><a href="global.html#isSameWidth">isSameWidth</a></li><li><a href="global.html#isTheSameAs">isTheSameAs</a></li><li><a href="global.html#itemNum">itemNum</a></li><li><a href="global.html#knockOutCell">knockOutCell</a></li><li><a href="global.html#knockOutCol">knockOutCol</a></li><li><a href="global.html#length">length</a></li><li><a href="global.html#loadFromHtml">loadFromHtml</a></li><li><a href="global.html#margin">margin</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeOffsetString">nodeOffsetString</a></li><li><a href="global.html#nodeString">nodeString</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#onlyFirstLetterUpperCase">onlyFirstLetterUpperCase</a></li><li><a href="global.html#onlyTableInside">onlyTableInside</a></li><li><a href="global.html#padding">padding</a></li><li><a href="global.html#propNum">propNum</a></li><li><a href="global.html#removeBorder">removeBorder</a></li><li><a href="global.html#resetBogus">resetBogus</a></li><li><a href="global.html#roundUp">roundUp</a></li><li><a href="global.html#rowNum">rowNum</a></li><li><a href="global.html#sandwichWith">sandwichWith</a></li><li><a href="global.html#sanitize">sanitize</a></li><li><a href="global.html#setAttr">setAttr</a></li><li><a href="global.html#setBorder">setBorder</a></li><li><a href="global.html#setCellWidths">setCellWidths</a></li><li><a href="global.html#setHref">setHref</a></li><li><a href="global.html#setName">setName</a></li><li><a href="global.html#setProfile">setProfile</a></li><li><a href="global.html#setStyle">setStyle</a></li><li><a href="global.html#setWidth">setWidth</a></li><li><a href="global.html#specialChar">specialChar</a></li><li><a href="global.html#splitWeighted">splitWeighted</a></li><li><a href="global.html#str">str</a></li><li><a href="global.html#style">style</a></li><li><a href="global.html#sub">sub</a></li><li><a href="global.html#toHtml">toHtml</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#toText">toText</a></li><li><a href="global.html#trace">trace</a></li><li><a href="global.html#trim">trim</a></li><li><a href="global.html#validateWidth">validateWidth</a></li><li><a href="global.html#width">width</a></li><li></li><li></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Fri Mar 07 2014 12:35:59 GMT+0100 (ora solare Europa occidentale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

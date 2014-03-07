@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: listItem.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: listItem.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, Tag */
+
+/**
+ * This class is used to represent a list item.
+ * @module 	    HtmlElements
+ * @class  		ListItem
+ */
+function ListItem() {
+	"use strict";
+	if (!(this instanceof ListItem)) {
+		return new ListItem();
+	}
+
+	// inherit tag properties
+	Tag.call(this);
+
+	/**
+	 * List item html tag.
+	 * @property {String} name
+	 * @type {String}
+	 * @default 'li'
+	 */
+	this.name = 'li';
+
+	/**
+	 * List item styles
+	 * @property {ListItemStyle}       style
+	 * @type     {ListItemStyle}
+	 * @default ListItemStyle()
+	 */
+	this.style = new ListItemStyle();
+
+	/**
+	 * Appends the element to the content of the list item.
+	 * @method appendElem
+	 * @param  {any}     elem
+	 * @return {void}
+	 */
+	this.appendElem = function(elem){
+		this.content.appendElem(elem);
+	};
+
+}
+ListItem.prototype = Object.create(Tag.prototype);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Attributes.html">Attributes</a></li><li><a href="Cell.html">Cell</a></li><li><a href="CKHelper.html">CKHelper</a></li><li><a href="Content.html">Content</a></li><li><a href="Helper.html">Helper</a></li><li><a href="ImageStyle.html">ImageStyle</a></li><li><a href="Link.html">Link</a></li><li><a href="LinkAttributes.html">LinkAttributes</a></li><li><a href="LinkStyle.html">LinkStyle</a></li><li><a href="List.html">List</a></li><li><a href="ListItem.html">ListItem</a></li><li><a href="ListItemStyle.html">ListItemStyle</a></li><li><a href="ListStyle.html">ListStyle</a></li><li><a href="Property.html">Property</a></li><li><a href="Row.html">Row</a></li><li><a href="StringHelper.html">StringHelper</a></li><li><a href="Style.html">Style</a></li><li><a href="Table.html">Table</a></li><li><a href="TableAttributes.html">TableAttributes</a></li><li><a href="TableCellStyle.html">TableCellStyle</a></li><li><a href="TableRowStyle.html">TableRowStyle</a></li><li><a href="TableStyle.html">TableStyle</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Unit.html">Unit</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#appendCell">appendCell</a></li><li><a href="global.html#appendElem">appendElem</a></li><li><a href="global.html#appendElemIfNotEmpty">appendElemIfNotEmpty</a></li><li><a href="global.html#appendItem">appendItem</a></li><li><a href="global.html#appendList">appendList</a></li><li><a href="global.html#appendProperty">appendProperty</a></li><li><a href="global.html#appendRow">appendRow</a></li><li><a href="global.html#appendStyle">appendStyle</a></li><li><a href="global.html#appendStyleToCellAt">appendStyleToCellAt</a></li><li><a href="global.html#appendStyleToCol">appendStyleToCol</a></li><li><a href="global.html#appendStyleToElemAt">appendStyleToElemAt</a></li><li><a href="global.html#attr">attr</a></li><li><a href="global.html#attr[undefined]">attr[undefined]</a></li><li><a href="global.html#bogusCellAttr">bogusCellAttr</a></li><li><a href="global.html#bogusCellStyle">bogusCellStyle</a></li><li><a href="global.html#bogusRowAttr">bogusRowAttr</a></li><li><a href="global.html#bogusRowStyle">bogusRowStyle</a></li><li><a href="global.html#bogusTableAttr">bogusTableAttr</a></li><li><a href="global.html#bogusTableStyle">bogusTableStyle</a></li><li><a href="global.html#cellNum">cellNum</a></li><li><a href="global.html#cellpadding">cellpadding</a></li><li><a href="global.html#cellspacing">cellspacing</a></li><li><a href="global.html#colNum">colNum</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#columnWidths">columnWidths</a></li><li><a href="global.html#concatDropSpaces">concatDropSpaces</a></li><li><a href="global.html#content">content</a></li><li><a href="global.html#crack">crack</a></li><li><a href="global.html#createCellFromHtml">createCellFromHtml</a></li><li><a href="global.html#createLinkFromHtml">createLinkFromHtml</a></li><li><a href="global.html#createListFromHtml">createListFromHtml</a></li><li><a href="global.html#createListItemFromHtml">createListItemFromHtml</a></li><li><a href="global.html#createOlFromHtml">createOlFromHtml</a></li><li><a href="global.html#createRowFromHtml">createRowFromHtml</a></li><li><a href="global.html#createTableFromHtml">createTableFromHtml</a></li><li><a href="global.html#createTagFromHtml">createTagFromHtml</a></li><li><a href="global.html#createUlFromHtml">createUlFromHtml</a></li><li><a href="global.html#desintangle">desintangle</a></li><li><a href="global.html#dropCell">dropCell</a></li><li><a href="global.html#dropCellAt">dropCellAt</a></li><li><a href="global.html#dropColAt">dropColAt</a></li><li><a href="global.html#dropColumn">dropColumn</a></li><li><a href="global.html#dropElemAt">dropElemAt</a></li><li><a href="global.html#dropFirst">dropFirst</a></li><li><a href="global.html#dropLast">dropLast</a></li><li><a href="global.html#dropProtocol">dropProtocol</a></li><li><a href="global.html#dropRow">dropRow</a></li><li><a href="global.html#elements">elements</a></li><li><a href="global.html#fileExt">fileExt</a></li><li><a href="global.html#findAscendant">findAscendant</a></li><li><a href="global.html#firstLetterUpperCase">firstLetterUpperCase</a></li><li><a href="global.html#flatten">flatten</a></li><li><a href="global.html#getBogusCellAttr">getBogusCellAttr</a></li><li><a href="global.html#getBogusCellProp">getBogusCellProp</a></li><li><a href="global.html#getBogusCellStyle">getBogusCellStyle</a></li><li><a href="global.html#getBogusRowAttr">getBogusRowAttr</a></li><li><a href="global.html#getBogusRowProp">getBogusRowProp</a></li><li><a href="global.html#getBogusRowStyle">getBogusRowStyle</a></li><li><a href="global.html#getBogusTableAttr">getBogusTableAttr</a></li><li><a href="global.html#getBogusTableProp">getBogusTableProp</a></li><li><a href="global.html#getBogusTableStyle">getBogusTableStyle</a></li><li><a href="global.html#getBorderInfo">getBorderInfo</a></li><li><a href="global.html#getCellWidths">getCellWidths</a></li><li><a href="global.html#getElem">getElem</a></li><li><a href="global.html#getFirst">getFirst</a></li><li><a href="global.html#getHref">getHref</a></li><li><a href="global.html#getLast">getLast</a></li><li><a href="global.html#getMatrix">getMatrix</a></li><li><a href="global.html#getName">getName</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getStyleProp">getStyleProp</a></li><li><a href="global.html#getWidth">getWidth</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#href">href</a></li><li><a href="global.html#insertCellAt">insertCellAt</a></li><li><a href="global.html#insertColAt">insertColAt</a></li><li><a href="global.html#insertColumn">insertColumn</a></li><li><a href="global.html#insertColumnAt">insertColumnAt</a></li><li><a href="global.html#insertElemAt">insertElemAt</a></li><li><a href="global.html#insertRow">insertRow</a></li><li><a href="global.html#isElemEmpty">isElemEmpty</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#isertItemAt">isertItemAt</a></li><li><a href="global.html#isFragmented">isFragmented</a></li><li><a href="global.html#isFramed">isFramed</a></li><li><a href="global.html#isLikeAs">isLikeAs</a></li><li><a href="global.html#isSameWidth">isSameWidth</a></li><li><a href="global.html#isTheSameAs">isTheSameAs</a></li><li><a href="global.html#itemNum">itemNum</a></li><li><a href="global.html#knockOutCell">knockOutCell</a></li><li><a href="global.html#knockOutCol">knockOutCol</a></li><li><a href="global.html#length">length</a></li><li><a href="global.html#loadFromHtml">loadFromHtml</a></li><li><a href="global.html#margin">margin</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeOffsetString">nodeOffsetString</a></li><li><a href="global.html#nodeString">nodeString</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#onlyFirstLetterUpperCase">onlyFirstLetterUpperCase</a></li><li><a href="global.html#onlyTableInside">onlyTableInside</a></li><li><a href="global.html#padding">padding</a></li><li><a href="global.html#propNum">propNum</a></li><li><a href="global.html#removeBorder">removeBorder</a></li><li><a href="global.html#resetBogus">resetBogus</a></li><li><a href="global.html#roundUp">roundUp</a></li><li><a href="global.html#rowNum">rowNum</a></li><li><a href="global.html#sandwichWith">sandwichWith</a></li><li><a href="global.html#sanitize">sanitize</a></li><li><a href="global.html#setAttr">setAttr</a></li><li><a href="global.html#setBorder">setBorder</a></li><li><a href="global.html#setCellWidths">setCellWidths</a></li><li><a href="global.html#setHref">setHref</a></li><li><a href="global.html#setName">setName</a></li><li><a href="global.html#setProfile">setProfile</a></li><li><a href="global.html#setStyle">setStyle</a></li><li><a href="global.html#setWidth">setWidth</a></li><li><a href="global.html#specialChar">specialChar</a></li><li><a href="global.html#splitWeighted">splitWeighted</a></li><li><a href="global.html#str">str</a></li><li><a href="global.html#style">style</a></li><li><a href="global.html#sub">sub</a></li><li><a href="global.html#toHtml">toHtml</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#toText">toText</a></li><li><a href="global.html#trace">trace</a></li><li><a href="global.html#trim">trim</a></li><li><a href="global.html#validateWidth">validateWidth</a></li><li><a href="global.html#width">width</a></li><li></li><li></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Fri Mar 07 2014 12:35:59 GMT+0100 (ora solare Europa occidentale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CKHelper.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: CKHelper.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem, Tag */
+/*jslint plusplus: true, white: true */
+
+/**
+ * Collection of functions used by various plugins of the CKEditor.
+ * @module    Helper
+ * @class     CKHelper
+ * @type      {Object}
+ * @version   0.0.1
+ * @author    A.Shcherbakov
+ */
+var CKHelper = {
+	/**
+	 * Finds the nearest ascendant of the "elem" for which "filter" returns true
+	 * @method     findAscendant
+	 * @param      {CKEDITOR.dom.element}        elem
+	 * @param      {function}                    filter
+	 * @return     {CKEDITOR.dom.element|null}
+	 */
+	findAscendant: function (elem, filter) {
+		if (typeof filter !== 'function') {
+			return null;
+		}
+		while (elem &amp;&amp; elem.type === CKEDITOR.NODE_ELEMENT) {
+			if (filter(elem)) {
+				return elem;
+			}
+			elem = elem.getParent();
+		}
+		return null;
+	},
+
+	/**
+	 * Drops the table row. If after removing the table becomes empty, then removes it as well.
+	 * @method     dropRow
+	 * @param      {CKEditor.editor}        ed             Represents an editor instance.
+	 * @return     {null}
+	 */
+	dropRow: function (ed) {
+		var row = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			return ((el.getName() === "tr") &amp;&amp; (el.getAttribute(NEWSLETTER['marker-name']) === "Row"));
+		}),
+			parentTable, tableLength;
+		if (row) {
+			parentTable = CKHelper.findAscendant(row, function (el) {
+				return el.getName() === 'table';
+			});
+			row.remove();
+			// calculating the number of remaining rows
+			tableLength = parentTable.getElementsByTag('tr').count();
+			if (tableLength === 0) {
+				parentTable.remove();
+			}
+		}
+	},
+	/**
+	 * Inserts a row at a specified position with respect to the selected element.
+	 * The command to insert the row is obtained by capitalizing the second argument
+	 * and appending it to the string 'insert'. Example: if pos is 'after', the command
+	 * to be executed is 'insertAfter'.
+	 * @method     insertRow
+	 * @param      {CKEDITOR.editor}	 ed        Represents an editor instance.
+	 * @param      {String}	             pos 	   where to insert the element with respect to the current one.
+	 */
+	insertRow: function (ed, pos) {
+		var tag = 'tr',
+			dataMarkerAttr = NEWSLETTER['marker-name'],
+			dataMarkerVal = 'Row',
+			currentElem = ed.getSelection().getStartElement(),
+			newElement, operation, currentChildren, childNum, i, child, newChild, row = currentElem.getAscendant(tag, true);
+		// looking for the table row marked as data-marker="row"
+		while (!((row.getName() === tag) &amp;&amp; (row.getAttribute(dataMarkerAttr) === dataMarkerVal))) {
+			row = row.getParent();
+			// whether the newly defined element exists and is of CKEDITOR type
+			if (!(row &amp;&amp; row.type === CKEDITOR.NODE_ELEMENT)) {
+				return null; // exit in case no element is found in the DOM
+			}
+		}
+		newElement = new CKEDITOR.dom.element(tag);
+		operation = 'insert' + Helper.firstLetterUpperCase(pos);
+		currentChildren = row.getChildren();
+		childNum = currentChildren.count();
+
+		if (newElement[operation] !== undefined) {
+			newElement[operation](row);
+		} else {
+			return null;
+		}
+
+		row.copyAttributes(newElement);
+		for (i = 0; i &lt; childNum; i++) {
+			child = currentChildren.getItem(i);
+			newChild = new CKEDITOR.dom.element(child.getName());
+			newChild.setHtml(row.getChild(i).getHtml());
+			newElement.append(newChild);
+			child.copyAttributes(newChild);
+		}
+	},
+
+	/**
+	 * Inserts a column in the table. The localtion of the column to insert is given by the second
+	 * argument that admits two values "before" and "after" and is inserted before or after the column
+	 * of the selected cell, respectively.
+	 * @method     insertColumn
+	 * @param      {CKEDITOR.editor} ed                 Represents an editor instance.
+	 * @param      {String}          pos                "before" or "after": location of the column to insert w.r.t. the current cell
+	 * @return     {void}
+	 */
+	insertColumn: function(ed, pos){
+		if (pos !== 'before' &amp;&amp; pos !== 'after'){
+			return null;
+		}
+		var cell, cellObj, cellObjStyle, cellObjAttr, cellIndex, parentTable, newTableProfile,
+			cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj,
+			// offset to be added for the insertion of the column
+			offset;
+
+		// find the current cell, and not a bogus cell
+		cell = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Cell()).getType();
+			return (el.getName() === 'td' &amp;&amp; el.getAttribute(NEWSLETTER['marker-name']) === marker);
+		});
+		// find parent table to be sure that we treat a cell and not a bogus cell.
+		parentTable = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Table()).getType();
+			return (el.getName() === 'table' &amp;&amp; el.getAttribute(NEWSLETTER['marker-name']) === marker);
+		});
+
+		cellIndex = cell.getIndex();
+		// create objects in order to retrieve their properties
+		cellObj = cell.getOuterHtml().createCellFromHtml();
+		tableObj = parentTable.getOuterHtml().createTableFromHtml();
+		cellObjStyle = cellObj.style;
+		cellObjAttr = cellObj.attr;
+		tableProfile = tableObj.getProfile();
+
+		newTableProfile = Helper.crack(tableProfile, cellIndex);
+
+		cellToInsert = new Cell('cella');
+		cellToInsertAttr = new Attributes(cellObjAttr);
+		cellToInsertStyle = new Style(cellObjStyle);
+
+
+		if (pos === 'before'){
+			offset = 0;
+			cellToInsertStyle['padding-right'] = 0;
+			tableObj.appendStyleToCol(cellIndex, 'padding-left: 0px');
+		}
+
+		if (pos === 'after'){
+			offset = 1;
+			cellToInsertStyle['padding-left'] = 0;
+			tableObj.appendStyleToCol(cellIndex, 'padding-right: 0px');
+		}
+
+
+		// binding the styles and attributes to the newly created cell
+		cellToInsert.attr  = cellToInsertAttr;
+		cellToInsert.style = cellToInsertStyle;
+
+		// offset variable is responsible for insertion 'before' or 'after'
+		tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
+		tableObj.setProfile(newTableProfile);
+
+		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
+		parentTable.remove();
+		// call a custom method to insert the table and assign hovering effects on it
+		ed.insertTableWithHoverEff(newTable);
+	},
+
+
+
+	/**
+	 * Inserts list. List items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          listType               Type of the list to insert (ol, ul)
+	 * @return  {void}
+	 */
+	insertList__old: function(editor, listType){
+		console.log('inside CKHelper::insertList()');
+		var node, range, list, fakeDiv,
+		    listObj, listHtml, selection, selectionObj, i, len, li, elem,
+		    orphans, startTagName, startContainer, goToParent;
+		list = new List(listType);
+		list.style['margin-left'] = list.style['margin-left'] || 40;
+		// list of html tags that must be taken into consideration only with their parents
+		// without parents they are considered orphans.
+		orphans = ['li', 'td', 'tr', 'tbody'];
+		node = editor.getSelection();
+		range = node.getRanges()[0];
+		startContainer = range.startContainer;
+		startTagName = startContainer &amp;&amp; startContainer.getParent() &amp;&amp; startContainer.getParent().getName();
+		console.log('startTagName: ', startTagName);
+		console.log('startContainer: ', startContainer);
+		// if the tag name of the current element is inside the list of "orphans", then
+		// consider the parent element
+		goToParent = orphans.indexOf(startTagName) !== -1;
+		if (goToParent) {
+			console.log('getting parent');
+			selection = startContainer.getParent().getParent().getOuterHtml();
+		} else {
+			console.log('getting current');
+			fakeDiv = editor.document.createElement('div');
+			fakeDiv.append(range.cloneContents());
+			selection = fakeDiv.getHtml();
+		}
+		console.log('detected selection: ', selection);
+		// selectionObj = selection.replace('&amp;nbsp;', '').inflate();
+		selectionObj = selection.inflate();
+
+		len = selectionObj.length();
+		for (i = 0; i &lt; len; i++){
+			li = new ListItem();
+			elem = selectionObj.getElem(i);
+				if ((typeof elem === 'string') || ((elem instanceof Tag) &amp;&amp; (!elem.isEmpty()))) {
+				li.appendElem(elem);
+				list.appendItem(li);
+			}
+		}
+		list.trim();
+		// if nevertheless, the list remains empty, one item is added
+		if (list.length() === 0){
+			li = new ListItem();
+			list.appendItem(li);
+		}
+		// removes the element, which content was used to create the list
+		// goToParent ? node.getCommonAncestor().remove() : node.reset();
+
+	    listHtml = list.toHtml();
+	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+	    // console.log('string to createHTMl from:', listHtml);
+	    // console.log('insertion is blocked');
+	    editor.insertElement(listObj);
+	},
+
+	/**
+	 * Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,
+	 * if it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, '' (empty string is returned)
+	 * @method nodeString
+	 * @param    {CKEDITOR.dom.element} node
+	 * @return   {String}
+	 */
+	nodeString: function(node){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return node.getOuterHtml();
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			return node.getText();
+		}
+		return '';
+	},
+
+	/**
+	 * Gets the string representation of the node subelement: if the argument is of CKEDITOR.NODE_ELEMENT type, then
+	 * the string representation of its child "offset" is returned. If the argument is of CKEDITOR.NODE_TEXT type,
+	 * then: 1. if dir is "start" or null, then its substring starting from position 0 to "offset" (excluded) is returned;
+	 * 2. if dir="end"; then its substring starting from position "offset" is returned.
+	 * @method   nodeOffsetString
+	 * @param    {Number}               offset
+	 * @param    {CKEDITOR.dom.element} node
+	 * @param    {String}               dir       "start" - for the beginning of the string, "end" for the end. Default - "start"
+	 * @return   {String}
+	 */
+	nodeOffsetString: function(node, offset, dir){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return this.nodeString(node.getChild(offset));
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			if (dir === 'start' || dir === undefined){
+				return node.getText().substring(0, offset);
+			}
+			if (dir === 'end'){
+				return node.getText().substring(offset);
+			}
+		}
+		return 'wrong';
+	},
+
+
+	/**
+	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          listType               Type of the list to insert (ol, ul)
+	 * @return  {void}
+	 */
+	insertList: function(editor, listType){
+		// console.log('inside CKHelper::insertList()');
+		var range, ranges, selection, selectionLen, i, j, list,
+		    startContainer, endContainer, startType, endType,
+		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
+		    next, nextStr, endNode, parentList,
+		    nodesToDeleteLen,  elem,
+		    nodesToDelete = [];
+		    // currentNode, stop = 0, skip,iterator, liObj, parentList, listItems, listLen,listItemObj, liObjLen,
+		selection = editor.getSelection();
+		ranges = selection.getRanges();
+		selectionLen = ranges.length;
+		if (selectionLen === 0){
+			return null;
+		}
+		for (i = 0; i &lt; selectionLen; i++){
+			console.log('selection loop: #', i + 1, ' of total ', selectionLen);
+			list = new List(listType);
+			list.style['margin-left'] = list.style['margin-left'] || 40;
+			range = ranges[i];
+			startContainer = range.startContainer;
+			endContainer = range.endContainer;
+			startType = startContainer.type;
+			endType = endContainer.type;
+			console.log(startType, endType);
+			console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
+			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
+			if (range.collapsed){
+				list.appendItem(new ListItem());
+				listHtml = list.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				editor.insertElement(listObj);
+				break;
+			}
+			// if the start container is of node type, it means that a whole node was selected.
+			// Let's take all its child nodes and insert them as list items into the list.
+			if (startType === CKEDITOR.NODE_ELEMENT){
+				console.log('start container is a node');
+				startNode = startContainer.getChild(range.startOffset);
+				console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
+				if (startNode.type === CKEDITOR.NODE_ELEMENT){
+					children = startNode.getChildren();
+					len = children.count();
+					for (j = 0; j &lt; len; j++){
+						li = new ListItem();
+						child = children.getItem(j);
+						childStr = this.nodeString(child);
+						childObj = childStr.inflate();
+						childObj.trim();
+						// insert list item if it is not empty
+						if (!childObj.isEmpty()){
+							li.appendElem(childObj);
+							list.appendItem(li);
+						}
+					}
+				} else {
+					li = new ListItem();
+					li.appendElem(startNode.getText());
+					list.appendItem(li);
+				}
+				listHtml = list.toHtml();
+	    		startNode.setHtml(listHtml);
+			}
+			// start container is of text type. Nodes present in the range will be inserted into the list.
+			// If a list item is among selected nodes, then all list items will be inserted into the list.
+			if (startType === CKEDITOR.NODE_TEXT){
+				console.log('start container is a text');
+				// consider the start container separately
+				li = new ListItem();
+				if (startContainer.getParent().getName() === 'li'){
+					parentList = startContainer.getParent().getParent().getOuterHtml().inflate();
+					parentList.trim();
+					list.appendList(parentList.getFirst());
+				} else {
+					li.appendElem(startContainer.getText());
+					list.appendItem(li);
+				}
+				next = startContainer.getNext();
+				while(next){
+					nodesToDelete.push(next);
+					nextStr = this.nodeString(next);
+					elem = nextStr.inflate();
+					if (!elem.isEmpty()){
+						li = new ListItem();
+						li.appendElem(elem);
+						list.appendItem(li);
+					}
+					// if the current node is equal the endContainer (if it is a node),
+					// then stop looping
+					if (next.equals(endNode)){
+						break;
+					}
+					next = next.getNext();
+				}
+
+				/* 	this is an old block, it iterates over the nodes in the selection.
+					It turns out that they are processes twice:
+					the first time when processing startContainer and
+					the second time - in the block below. This is why it is commented.
+					*/
+
+				// iterator = range.createIterator();
+				// iterator.enlargeBr = false;
+				// currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
+				// 												 //	so pass to the next node (if it exists)
+				// currentNode = iterator.getNextParagraph();       // the next node
+
+				// stop = 0;
+				// In selection, there might be a sequence of list items that are to be inserted into the list
+				// along with the other list items of the parent list. So, when a 'li' node is encountered,
+				// then the whole bunch of 'li' of that list will be added into resulting list.
+				// skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
+				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
+				// while (currentNode &amp;&amp; stop &lt; 5){
+				// 	console.log('loop #: ', stop, ', current node: ', currentNode.getHtml());
+				// 	stop++;
+				// 	if (!skip &amp;&amp; currentNode.getName() === 'li'){
+				// 		// marker showing that one should consider only first list item node and
+				// 		// skip all remaining consequtive list item nodes
+				// 		skip = true;
+				// 		parentList = currentNode.getParent();
+				// 		nodesToDelete.push(parentList);
+				// 		// console.log('parentList: ', parentList);
+				// 		listItems = parentList.getChildren();
+				// 		listLen = listItems.count();
+				// 		for (j = 0; j &lt; listLen; j++){
+				// 			listItemObj = listItems.getItem(j).getHtml().inflate();
+				// 			li = new ListItem();
+				// 			listItemObj.trim();
+				// 			console.log('li: ', li);
+				// 			list.appendElemIfNotEmpty(li);
+				// 			// if(!listItemObj.isEmpty()){
+				// 			// 	li.appendElem(listItemObj);
+				// 			// 	list.appendItem(li);
+				// 			// }
+				// 		}
+				// 	}
+				// 	if (currentNode.getName() !== 'li') {
+				// 		// non-list-item-node is encountered, so let's reset the marker to indicate that the
+				// 		// sequence of list items has been broken
+				// 		skip = false;
+				// 		nodesToDelete.push(currentNode);
+				// 		liObj = currentNode.getHtml().inflate();
+				// 		// console.log('liObj length = ', liObj.length());
+				// 		liObjLen = liObj.length();
+				// 		for (j = 0; j &lt; liObjLen; j++){
+				// 			elem = liObj.getElem(j);
+				// 			if ((typeof elem.isEmpty !== 'function') || !(elem.isEmpty())){
+				// 				li = new ListItem();
+				// 				li.appendElem(elem);
+				// 				list.appendItem(li);
+				// 			}
+				// 		}
+				// 	}
+				// 	// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
+				// 	currentNode = iterator.getNextParagraph();
+				// }
+				/* end of the above block */
+
+				if (list.length() === 0){
+					li = new ListItem();
+					list.appendItem(li);
+				}
+				listHtml = list.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				nodesToDeleteLen = nodesToDelete.length;
+				for (j = 0; j &lt; nodesToDeleteLen; j++){
+					nodesToDelete[j].remove();
+				}
+				startContainer.setText(startContainer.getText().substring(0, range.startOffset));
+				editor.insertElement(listObj);
+			}
+		}
+	},
+
+
+	/**
+	 * Converts list to a given type.
+	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param   {String}          fromType               Type of the list (ol, ul)
+	 * @param   {String}          toType                 Type of the list (ol, ul)
+	 * @return  {void}
+	 */
+	convertListTo: function(editor, fromType, toType){
+		var startElem = editor.getSelection().getStartElement(),
+			list = startElem.getAscendant(fromType, true),
+			listObj, listHtml, cont, contObj, i, len, elem;
+		if (list){
+			cont = list.getOuterHtml();
+			contObj = cont.inflate();
+			if (contObj.length() === 1 &amp;&amp; (contObj.getFirst() instanceof List)){
+				listObj = contObj.getFirst(); // the list that must be converted
+				listObj.setName(toType);
+				// for some reason, CKEditor appends &lt;br> to element on which the dialog event was fired.
+				// Lets scan the children of the List and delete the final &lt;br> if any
+				len = listObj.length();
+				for (i = 0; i &lt; len; i++){
+					elem = listObj.getElem(i);
+					// delete the last element if it is empty
+					if ((elem instanceof Tag) &amp;&amp; (elem.getLast() instanceof Tag) &amp;&amp; (elem.getLast().isEmpty())){
+						elem.dropLast();
+					}
+				}listObj.trim();
+				listHtml = listObj.toHtml();
+				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+				list.remove();
+				editor.insertElement(listObj);
+			}
+		}
+	}
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Attributes.html">Attributes</a></li><li><a href="Cell.html">Cell</a></li><li><a href="CKHelper.html">CKHelper</a></li><li><a href="Content.html">Content</a></li><li><a href="Helper.html">Helper</a></li><li><a href="ImageStyle.html">ImageStyle</a></li><li><a href="Link.html">Link</a></li><li><a href="LinkAttributes.html">LinkAttributes</a></li><li><a href="LinkStyle.html">LinkStyle</a></li><li><a href="List.html">List</a></li><li><a href="ListItem.html">ListItem</a></li><li><a href="ListItemStyle.html">ListItemStyle</a></li><li><a href="ListStyle.html">ListStyle</a></li><li><a href="Property.html">Property</a></li><li><a href="Row.html">Row</a></li><li><a href="StringHelper.html">StringHelper</a></li><li><a href="Style.html">Style</a></li><li><a href="Table.html">Table</a></li><li><a href="TableAttributes.html">TableAttributes</a></li><li><a href="TableCellStyle.html">TableCellStyle</a></li><li><a href="TableRowStyle.html">TableRowStyle</a></li><li><a href="TableStyle.html">TableStyle</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Unit.html">Unit</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#appendCell">appendCell</a></li><li><a href="global.html#appendElem">appendElem</a></li><li><a href="global.html#appendElemIfNotEmpty">appendElemIfNotEmpty</a></li><li><a href="global.html#appendItem">appendItem</a></li><li><a href="global.html#appendList">appendList</a></li><li><a href="global.html#appendProperty">appendProperty</a></li><li><a href="global.html#appendRow">appendRow</a></li><li><a href="global.html#appendStyle">appendStyle</a></li><li><a href="global.html#appendStyleToCellAt">appendStyleToCellAt</a></li><li><a href="global.html#appendStyleToCol">appendStyleToCol</a></li><li><a href="global.html#appendStyleToElemAt">appendStyleToElemAt</a></li><li><a href="global.html#attr">attr</a></li><li><a href="global.html#attr[undefined]">attr[undefined]</a></li><li><a href="global.html#bogusCellAttr">bogusCellAttr</a></li><li><a href="global.html#bogusCellStyle">bogusCellStyle</a></li><li><a href="global.html#bogusRowAttr">bogusRowAttr</a></li><li><a href="global.html#bogusRowStyle">bogusRowStyle</a></li><li><a href="global.html#bogusTableAttr">bogusTableAttr</a></li><li><a href="global.html#bogusTableStyle">bogusTableStyle</a></li><li><a href="global.html#cellNum">cellNum</a></li><li><a href="global.html#cellpadding">cellpadding</a></li><li><a href="global.html#cellspacing">cellspacing</a></li><li><a href="global.html#colNum">colNum</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#columnWidths">columnWidths</a></li><li><a href="global.html#concatDropSpaces">concatDropSpaces</a></li><li><a href="global.html#content">content</a></li><li><a href="global.html#crack">crack</a></li><li><a href="global.html#createCellFromHtml">createCellFromHtml</a></li><li><a href="global.html#createLinkFromHtml">createLinkFromHtml</a></li><li><a href="global.html#createListFromHtml">createListFromHtml</a></li><li><a href="global.html#createListItemFromHtml">createListItemFromHtml</a></li><li><a href="global.html#createOlFromHtml">createOlFromHtml</a></li><li><a href="global.html#createRowFromHtml">createRowFromHtml</a></li><li><a href="global.html#createTableFromHtml">createTableFromHtml</a></li><li><a href="global.html#createTagFromHtml">createTagFromHtml</a></li><li><a href="global.html#createUlFromHtml">createUlFromHtml</a></li><li><a href="global.html#desintangle">desintangle</a></li><li><a href="global.html#dropCell">dropCell</a></li><li><a href="global.html#dropCellAt">dropCellAt</a></li><li><a href="global.html#dropColAt">dropColAt</a></li><li><a href="global.html#dropColumn">dropColumn</a></li><li><a href="global.html#dropElemAt">dropElemAt</a></li><li><a href="global.html#dropFirst">dropFirst</a></li><li><a href="global.html#dropLast">dropLast</a></li><li><a href="global.html#dropProtocol">dropProtocol</a></li><li><a href="global.html#dropRow">dropRow</a></li><li><a href="global.html#elements">elements</a></li><li><a href="global.html#fileExt">fileExt</a></li><li><a href="global.html#findAscendant">findAscendant</a></li><li><a href="global.html#firstLetterUpperCase">firstLetterUpperCase</a></li><li><a href="global.html#flatten">flatten</a></li><li><a href="global.html#getBogusCellAttr">getBogusCellAttr</a></li><li><a href="global.html#getBogusCellProp">getBogusCellProp</a></li><li><a href="global.html#getBogusCellStyle">getBogusCellStyle</a></li><li><a href="global.html#getBogusRowAttr">getBogusRowAttr</a></li><li><a href="global.html#getBogusRowProp">getBogusRowProp</a></li><li><a href="global.html#getBogusRowStyle">getBogusRowStyle</a></li><li><a href="global.html#getBogusTableAttr">getBogusTableAttr</a></li><li><a href="global.html#getBogusTableProp">getBogusTableProp</a></li><li><a href="global.html#getBogusTableStyle">getBogusTableStyle</a></li><li><a href="global.html#getBorderInfo">getBorderInfo</a></li><li><a href="global.html#getCellWidths">getCellWidths</a></li><li><a href="global.html#getElem">getElem</a></li><li><a href="global.html#getFirst">getFirst</a></li><li><a href="global.html#getHref">getHref</a></li><li><a href="global.html#getLast">getLast</a></li><li><a href="global.html#getMatrix">getMatrix</a></li><li><a href="global.html#getName">getName</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getStyleProp">getStyleProp</a></li><li><a href="global.html#getWidth">getWidth</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#href">href</a></li><li><a href="global.html#insertCellAt">insertCellAt</a></li><li><a href="global.html#insertColAt">insertColAt</a></li><li><a href="global.html#insertColumn">insertColumn</a></li><li><a href="global.html#insertColumnAt">insertColumnAt</a></li><li><a href="global.html#insertElemAt">insertElemAt</a></li><li><a href="global.html#insertRow">insertRow</a></li><li><a href="global.html#isElemEmpty">isElemEmpty</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#isertItemAt">isertItemAt</a></li><li><a href="global.html#isFragmented">isFragmented</a></li><li><a href="global.html#isFramed">isFramed</a></li><li><a href="global.html#isLikeAs">isLikeAs</a></li><li><a href="global.html#isSameWidth">isSameWidth</a></li><li><a href="global.html#isTheSameAs">isTheSameAs</a></li><li><a href="global.html#itemNum">itemNum</a></li><li><a href="global.html#knockOutCell">knockOutCell</a></li><li><a href="global.html#knockOutCol">knockOutCol</a></li><li><a href="global.html#length">length</a></li><li><a href="global.html#loadFromHtml">loadFromHtml</a></li><li><a href="global.html#margin">margin</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeOffsetString">nodeOffsetString</a></li><li><a href="global.html#nodeString">nodeString</a></li><li><a href="global.html#normalize">normalize</a></li><li><a href="global.html#onlyFirstLetterUpperCase">onlyFirstLetterUpperCase</a></li><li><a href="global.html#onlyTableInside">onlyTableInside</a></li><li><a href="global.html#padding">padding</a></li><li><a href="global.html#propNum">propNum</a></li><li><a href="global.html#removeBorder">removeBorder</a></li><li><a href="global.html#resetBogus">resetBogus</a></li><li><a href="global.html#roundUp">roundUp</a></li><li><a href="global.html#rowNum">rowNum</a></li><li><a href="global.html#sandwichWith">sandwichWith</a></li><li><a href="global.html#sanitize">sanitize</a></li><li><a href="global.html#setAttr">setAttr</a></li><li><a href="global.html#setBorder">setBorder</a></li><li><a href="global.html#setCellWidths">setCellWidths</a></li><li><a href="global.html#setHref">setHref</a></li><li><a href="global.html#setName">setName</a></li><li><a href="global.html#setProfile">setProfile</a></li><li><a href="global.html#setStyle">setStyle</a></li><li><a href="global.html#setWidth">setWidth</a></li><li><a href="global.html#specialChar">specialChar</a></li><li><a href="global.html#splitWeighted">splitWeighted</a></li><li><a href="global.html#str">str</a></li><li><a href="global.html#style">style</a></li><li><a href="global.html#sub">sub</a></li><li><a href="global.html#toHtml">toHtml</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#toText">toText</a></li><li><a href="global.html#trace">trace</a></li><li><a href="global.html#trim">trim</a></li><li><a href="global.html#validateWidth">validateWidth</a></li><li><a href="global.html#width">width</a></li><li></li><li></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Fri Mar 07 2014 12:35:59 GMT+0100 (ora solare Europa occidentale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
