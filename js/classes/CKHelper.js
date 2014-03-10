@@ -242,14 +242,13 @@ var CKHelper = {
 	 * @return   {String}
 	 */
 	nodeString: function(node){
-		console.log('nodeString arg: node: ', node);
 		if (node.type === CKEDITOR.NODE_ELEMENT){
 			return node.getOuterHtml();
 		}
 		if (node.type === CKEDITOR.NODE_TEXT){
 			return node.getText();
 		}
-		return '';
+		return '...';
 	},
 
 	/**
@@ -264,9 +263,7 @@ var CKHelper = {
 	 * @return   {String}
 	 */
 	nodeOffsetString: function(node, offset, dir){
-		console.log('nodeOffsetString args: node: ', node,', offset: ', offset, ', dir: ', dir);
 		if (node.type === CKEDITOR.NODE_ELEMENT){
-			console.log('passing ', node.getChild(offset));
 			return CKHelper.nodeString(node.getChild(offset));
 		}
 		if (node.type === CKEDITOR.NODE_TEXT){
