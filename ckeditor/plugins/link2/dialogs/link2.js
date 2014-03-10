@@ -137,6 +137,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 startContainer = range.startContainer;
                 endContainer = range.endContainer;
                 endContainer_Str = CKHelper.nodeString(endContainer);
+                startPath = range.startPath();
+                endPath = range.endPath();
+                // console.log('start path', startPath);
+                // console.log('end path', endPath);
+                console.log('start === end? ', endPath.compare(startPath));
 
                 startType = startContainer.type;
                 endType = endContainer.type;
@@ -148,13 +153,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
                 }
                 if(startContainer.equals(endContainer)){
-                    console.log('end container is reached!');
+                    console.log('end container equals to start container!');
                     iterationStop = true;
                 }
                 if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-
-                console.log('start container: (', startType, ')', startContainer, ', start offset: ', range.startOffset, ', string: ', CKHelper.nodeOffsetString(startContainer, range.startOffset, 'end'));
-                console.log('end container: (', endType, ') ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
 
                 next = startContainer.getNext();
                 counter = 0;
@@ -172,31 +174,38 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     }
                     next = next.getNext();
                 }
+
                 if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                if (!iterationStop){
-                    counter = 0;
-                    console.log('middle iterations');
-                    if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                    iterator = range.createIterator();
-                    iterator.enforceRealBlocks = false;
-                    iterator.getNextParagraph();                              // the start container itself
-                    currentNode = iterator.getNextParagraph();                // node next to the start
-                    if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                    while (currentNode){
-                        console.log('middle loop ' + count)
-                        if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                        if (currentNode.type === CKEDITOR.NODE_ELEMENT){
-                            container.push('middle' + counter);
-                            container.push(currentNode);
-                        }
-                        if (currentNode.equals(endContainer)){
-                            console.log('end container is found among iterators!');
-                            iterationStop = true;
-                            break;
-                        }
-                        currentNode = iterator.getNextParagraph();
-                    }
-                }
+                // if (!iterationStop){
+                //     counter = 0;
+                //     console.log('middle iterations');
+                //     if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                //     iterator = range.createIterator();
+                //     iterator.enforceRealBlocks = false;
+                //     iterator.getNextParagraph();                              // the start container itself
+                //     currentNode = iterator.getNextParagraph();                // node next to the start
+                //     if(endContainer_Str !== CKHelper.nodeString(endContainer)){
+                //         console.log('WTF!?!?!');
+                //         console.log('initial: ', endContainer_Str);
+                //         console.log('after: ', CKHelper.nodeString(endContainer));
+                //     } else {
+                //         console.log('OK');
+                //     }
+                //     while (currentNode){
+                //         console.log('middle loop ' + counter);
+                //         if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                //         if (currentNode.type === CKEDITOR.NODE_ELEMENT){
+                //             container.push('middle' + counter);
+                //             container.push(currentNode);
+                //         }
+                //         if (currentNode.equals(endContainer)){
+                //             console.log('end container is found among iterators!');
+                //             iterationStop = true;
+                //             break;
+                //         }
+                //         currentNode = iterator.getNextParagraph();
+                //     }
+                // }
                 // if(!startContainer.equals(startContainer_copy)){ console.log('WTF!?');}
                 // if(!endContainer.equals(endContainer_copy)){ console.log('WTF!?');}
                 if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
