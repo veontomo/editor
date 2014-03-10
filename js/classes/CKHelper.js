@@ -280,6 +280,18 @@ var CKHelper = {
 		return 'wrong';
 	},
 
+	/**
+	 * If `elem` is of CKEDITOR.NODE_ELEMENT type, pushes it into array `container` . Otherwise, it is ignored.
+	 * @method  insertNode
+	 * @param   {Array} container 	array in which an element is to be inserted.
+	 * @param   {Any}   elem         if of CKEDITOR.NODE_ELEMENT type, it is to be inserted into container.
+	 * @return  {void}
+	 */
+	insertNode: function(container, elem){
+		if (elem.type === CKEDITOR.NODE_ELEMENT){
+		    container.push(elem);
+		}
+	},
 
 	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,

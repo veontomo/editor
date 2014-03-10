@@ -118,114 +118,40 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             selection = this.getParentEditor().getSelection();
             var ranges = selection.getRanges(),
                 range,
-                startContainer, endContainer, endContainer_Str,
+                startContainer, endContainer, startPath, endPath,
                 startType,
                 endType,
                 fakeDiv = editor.document.createElement('div'),
                 linkHref = '',
-                selectionObj, linkContent, len, elem, i, j, rangesLen, next, counter, container = [],
-                iterationStop, iterator, currentNode;
+                selectionObj, linkContent, len, elem, i, j, rangesLen, next, counter, nodeContainer = [],
+                iterationStop, currentNode;
 
             rangesLen = ranges.length;
             console.log('onShow selection: ', selection);
             console.log('ranges length: ', rangesLen);
             for (i = 0; i < rangesLen; i++){
-                iterationStop = false;
                 range = ranges[i];
-                console.log('loop over ranges: #', i+1, ' of total ', rangesLen);
-
                 startContainer = range.startContainer;
                 endContainer = range.endContainer;
-                endContainer_Str = CKHelper.nodeString(endContainer);
                 startPath = range.startPath();
                 endPath = range.endPath();
-                // console.log('start path', startPath);
-                // console.log('end path', endPath);
-                console.log('start === end? ', endPath.compare(startPath));
-
                 startType = startContainer.type;
-                endType = endContainer.type;
-
-                console.log('start');
+                endType   = endContainer.type;
+                iterationStop = startContainer.equals(endContainer);    // whether the start and end containers coincide
                 if (startType === CKEDITOR.NODE_ELEMENT){
-                    container.push('start');
-                    container.push(startContainer.getChild(range.startOffset));
-
+                    nodeContainer.push(startContainer.getChild(range.startOffset));
                 }
-                if(startContainer.equals(endContainer)){
-                    console.log('end container equals to start container!');
-                    iterationStop = true;
-                }
-                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
+                // if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
 
                 next = startContainer.getNext();
-                counter = 0;
                 while(!iterationStop && next){
-                    // console.log('next ', counter, ': ', next);
-                    counter++;
                     if (next.type === CKEDITOR.NODE_ELEMENT){
-                        container.push('next' + counter);
-                        container.push(next);
+                        nodeContainer.push(next);
                     }
-                    if(next.equals(endContainer)){
-                        console.log('end container is reached!');
-                        iterationStop = true;
-                        break;
-                    }
+                    iterationStop = next.equals(endContainer); // whether the node is the end container
                     next = next.getNext();
                 }
-
-                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                // if (!iterationStop){
-                //     counter = 0;
-                //     console.log('middle iterations');
-                //     if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                //     iterator = range.createIterator();
-                //     iterator.enforceRealBlocks = false;
-                //     iterator.getNextParagraph();                              // the start container itself
-                //     currentNode = iterator.getNextParagraph();                // node next to the start
-                //     if(endContainer_Str !== CKHelper.nodeString(endContainer)){
-                //         console.log('WTF!?!?!');
-                //         console.log('initial: ', endContainer_Str);
-                //         console.log('after: ', CKHelper.nodeString(endContainer));
-                //     } else {
-                //         console.log('OK');
-                //     }
-                //     while (currentNode){
-                //         console.log('middle loop ' + counter);
-                //         if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                //         if (currentNode.type === CKEDITOR.NODE_ELEMENT){
-                //             container.push('middle' + counter);
-                //             container.push(currentNode);
-                //         }
-                //         if (currentNode.equals(endContainer)){
-                //             console.log('end container is found among iterators!');
-                //             iterationStop = true;
-                //             break;
-                //         }
-                //         currentNode = iterator.getNextParagraph();
-                //     }
-                // }
-                // if(!startContainer.equals(startContainer_copy)){ console.log('WTF!?');}
-                // if(!endContainer.equals(endContainer_copy)){ console.log('WTF!?');}
-                if(endContainer_Str !== CKHelper.nodeString(endContainer)){console.log('WTF');} else {console.log('OK');}
-                if (!iterationStop){
-                    console.log('end container iterations');
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-
-                        console.log('* end container: (', endType, ') ', endContainer, ', end offset: ', range.endOffset, ', string: ', CKHelper.nodeOffsetString(endContainer, range.endOffset-1, 'start'));
-
-                        // for (j = 0; j < range.endOffset; j++){
-                            // if (endContainer.getChildren().getItem(range.endOffset - 1).type === CKEDITOR.NODE_ELEMENT){
-                                // container.push('end ' );
-                                // container.push(endContainer.getChild(j));
-                            // }
-
-                        // }
-                    }
-                }
             }
-            console.log(container);
             fakeDiv.append(ranges[0].cloneContents());
             selectionObj = fakeDiv.getHtml().inflate();
             linkContent = selectionObj.toText();
@@ -239,7 +165,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }
             this.setValueOf('tab-general', 'text', linkContent);
             this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
-            this.getContentElement('tab-general', 'text').disable();
+            if (container.length){
+                this.getContentElement('tab-general', 'text').disable();
+            }
+
 
         },
 
