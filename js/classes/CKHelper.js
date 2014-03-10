@@ -291,6 +291,32 @@ var CKHelper = {
 	},
 
 	/**
+	 * Transforms each element of the array into a string and concatenates them. String representation
+	 * of the element is supposed to be a text version (without tags).
+	 * @method  arrayToText
+	 * @param  {Array}   arr        array of elements (of mixed types)
+	 * @param  {String}  sep        a string which will separate the text representation of each element. Default "" (empty string).
+	 * @return {String}
+	 */
+	arrayToText: function(arr, sep){
+		sep = sep || '';
+		return arr.map(function(elem){
+			var str;
+            switch (elem.type){
+                case CKEDITOR.NODE_ELEMENT:
+                    str = elem.getHtml().inflate().toText();
+                    break;
+                case CKEDITOR.NODE_TEXT:
+                    str = elem.getText();
+                    break;
+                default:
+                    str = '...';
+            }
+            return str;
+        }).join(sep);
+	},
+
+	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
