@@ -338,6 +338,7 @@ var CKHelper = {
 		} else {
 			outcome = elem1.equals(elem2);
 		}
+		console.info('CKHelper', 'returning ' + outcome);
 		return outcome;
 
 	},

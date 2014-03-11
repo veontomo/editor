@@ -308,10 +308,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 selectionContainer = [],
                 startContainer, endContainer,
                 startOffset, endOffset,
-                range,
+                range, piece,
                 startPath, endPath, startElem, endElem,
                 startType, endType,
-                fakeDiv   = editor.document.createElement('div'),
                 linkHref  = '',
                 linkContent = '',
                 selectionObj, len, elem, i, rangesLen, next,
@@ -341,10 +340,13 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     this.getContentElement('tab-general', 'href_input_field').disable();
                     return null;
                 }
-                if (startContainer === endContainer){
+                if (startContainer.equals(endContainer)){
                      // the selection starts and finishes in the same container
                     if (startType === CKEDITOR.NODE_TEXT){
-                        selectionContainer.push(startContainer.getText().substring(startOffset, endOffset));
+                        piece = startContainer.split(startOffset).split(endOffset - startOffset);
+                        console.info('piece', piece.getPrevious());
+                        startElem = piece.getPrevious();
+                        selectionContainer.push(startElem);
                     }
                     if (startType === CKEDITOR.NODE_ELEMENT){
                         selectionContainer.push(startContainer.getChild(startOffset));
@@ -352,89 +354,28 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 } else {
                     // the selection starts in one container and finishes in another
                     if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer;
-                        selectionContainer.push(startContainer.getText().substring(startOffset));
+                        startElem = startContainer.split(startOffset);
                     }
                     if (startType === CKEDITOR.NODE_ELEMENT){
                         startElem = startContainer.getChild(startOffset);
-                        selectionContainer.push(startElem);
                     }
                     if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer;
+                        endElem = endContainer.split(endOffset).getPrevious();
                     }
                     if (endType === CKEDITOR.NODE_ELEMENT){
                         endElem = endContainer.getChild(endOffset); /// ??? it is better to take the previous child if exists
                     }
+                    selectionContainer.push(startElem);
+                    selectionContainer.push(endElem);
 
                     next = startElem.getNext();
-                    isOut = (next.type === endType && endType === CKEDITOR.NODE_TEXT) ? next.equals(endElem) : (endType === CKEDITOR.NODE_ELEMENT ? endElem.contains(next) ? next.contains(endElem));
-
+                    console.log('next: ', next);
+                    isOut = !next || CKHelper.doesOverlap(next, endElem);
                     while (!isOut && next){
-
+                        selectionContainer.push(next);
+                        next = next.getNext();
+                        isOut = !next || CKHelper.doesOverlap(next, endElem);
                     }
-
-
-                }
-
-                console.log('start container: ', startContainer, ', offset: ', range.startOffset);
-                console.log('end container: ', endContainer, ', offset: ', range.endOffset);
-                console.log('previous: ', endContainer.getPrevious());
-                console.log('start path elements: ', startPath.elements, ', length: ', startPath.elements.length);
-                console.log('end path elements: ', endPath.elements, ', length: ', endPath.elements.length);
-                console.log('start path === end path?', startPath.compare(endPath));
-                console.log('startContainer === endContainer?', startContainer.equals(endContainer));
-
-                startElem = startType === CKEDITOR.NODE_ELEMENT ? startContainer.getChild(range.startOffset) : startContainer;
-                endElem = endType === CKEDITOR.NODE_ELEMENT ? endContainer.getChild(range.endOffset) : endContainer;
-                console.log('startElem === endElem?', startElem.equals(endElem));
-                iterationStop = startElem.equals(endElem);    // whether the start and end elements coincide
-                if (startType === CKEDITOR.NODE_ELEMENT){
-                    selectionContainer.push(startContainer.getChild(range.startOffset));
-                } else if (startType === CKEDITOR.NODE_TEXT) {
-                    if (iterationStop){
-                        selectionContainer.push(new CKEDITOR.dom.text(startContainer.getText().substring(range.startOffset, range.endOffset)));
-                    } else{
-                        selectionContainer.push(new CKEDITOR.dom.text(startContainer.getText().substring(range.startOffset)));
-                    }
-
-                }
-                next = startElem.getNext();
-                while(!iterationStop && next){
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        console.log('end container is of TEXT type');
-                        if(next.equals(endContainer)){
-                            console.log('end container is equal to "next"');
-                            console.info('exit', 'should exit');
-                        }
-                    } else {
-                        console.log('end container is NOT of TEXT type');
-                    }
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-                        console.log('end container is of ELEMENT type');
-                        if(endContainer.contains(next)){
-                            console.log('end container contains "next"');
-                            console.info('exit', 'should exit');
-                        }
-                    } else {
-                        console.log('end container is NOT of ELEMENT type');
-                    }
-
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-                        if (endContainer.contains(next)){
-                            console.info('iterations', 'end container contains "next"');
-                        }
-                    }
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        if (next.contains(endContainer)){
-                            console.info('iterations', '"next" contains end container');
-                        }
-                    }
-
-
-                    selectionContainer.push('next: ');
-                    selectionContainer.push(next);
-                    iterationStop = next.equals(endElem); // whether the node is the end container
-                    next = next.getNext();
                 }
             }
 
@@ -444,21 +385,16 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
             console.log('selection container: ', selectionContainer);
             linkContent = CKHelper.arrayToText(selectionContainer, ' ');
-            fakeDiv.append(ranges[0].cloneContents());
-            selectionObj = fakeDiv.getHtml().inflate();
+            // fakeDiv.append(ranges[0].cloneContents());
             // linkContent = selectionObj.toText();
-
-            len = selectionObj.length();
-            if (len === 1) {
-                elem = selectionObj.getFirst();
-                if (elem instanceof Link){
-                    linkHref = elem.getHref();
-                }
+            console.info('marker');
+            if (selectionContainer.length === 1 && selectionContainer[0].type === CKEDITOR.NODE_ELEMENT && selectionContainer[0].getName === 'A') {
+                linkHref = selectionContainer[0].getAttribute('href');
             }
             this.setValueOf('tab-general', 'text', linkContent);
             this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
             if (isNodeInSelection){
-                // this.getContentElement('tab-general', 'text').disable();
+                this.getContentElement('tab-general', 'text').disable();
             }
         },
 
