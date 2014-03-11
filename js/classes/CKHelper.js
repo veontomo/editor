@@ -317,6 +317,32 @@ var CKHelper = {
 	},
 
 	/**
+	 * Check whether two different CKEDITOR.dom.node's "overlaps". Returns true, if:
+	 * <ol><li>both `elem1` and `elem2` are of `CKEDITOR.dom.element` type and either `elem1` contains `elem2` or viceverse,</li>
+	 * <li>only one of `elem1`, `elem2` is of `CKEDITOR.dom.element` and it contains other,</li>
+	 * <li>both `elem1` and `elem2` are of `CKEDITOR.dom.text` and they are equal.</li></ol>
+	 * Otherwise, false is returned.
+	 * @param {CKEDITOR.dom.element|CKEDITOR.dom.text}   elem1
+	 * @param {CKEDITOR.dom.element|CKEDITOR.dom.text}   elem2
+	 * @method  doesOverlap
+	 * @return {Boolean}
+	 */
+	doesOverlap: function(elem1, elem2){
+		var outcome = false;
+		if (elem1.type === elem2.type && elem1.type === CKEDITOR.NODE_ELEMENT){
+			outcome = elem1.contains(elem2) || elem2.contains(elem1);
+		} else if (elem1.type === CKEDITOR.NODE_ELEMENT) {
+			outcome = elem1.contains(elem2);
+		} else if (elem1.type === CKEDITOR.NODE_ELEMENT){
+			outcome = elem2.contains(elem1);
+		} else {
+			outcome = elem1.equals(elem2);
+		}
+		return outcome;
+
+	},
+
+	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
