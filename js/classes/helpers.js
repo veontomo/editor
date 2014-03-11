@@ -349,7 +349,29 @@ var Helper = {
             id += pool.substr(Math.floor(Math.random()*(poolLen + 1)), 1);
         }
         return id;
-    }
+    },
+
+    /**
+     * Inserts element into array `arr` just before the last element. If the array is empty,
+     * the element is inserted into array (so that the element becomes the first and the last
+     * element of the array).
+     * @method  pushBeforeLast
+     * @param  {Array}   arr     array into which an element is to be inserted
+     * @param  {Any}     elem    the element to be inserted
+     * @return {void}
+     */
+    pushBeforeLast: function(arr, elem){
+        if(elem !== undefined){
+            if (arr.length === 0){
+                arr.push(elem);
+            } else {
+                var last = arr.pop();
+                arr.push(elem);
+                arr.push(last);
+            }
+        }
+    },
+
 
 };
 

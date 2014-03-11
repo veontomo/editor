@@ -307,5 +307,52 @@ describe('Test helper functions', function(){
         });
     });
 
+    describe('Helper::pushBeforeLast(): inserts element before last element of the array', function(){
+        it('does not modify empty array if there is nothing to insert', function(){
+            var arr = [];
+            Helper.pushBeforeLast(arr);
+            expect(arr.length).toBe(0);
+        });
+        it('does not modify 2-element array if there is nothing to insert', function(){
+            var arr = [1, 'str'];
+            Helper.pushBeforeLast(arr);
+            expect(arr.length).toBe(2);
+            expect(arr[0]).toBe(1);
+            expect(arr[1]).toBe('str');
+        });
+        it('inserts an object if the target array is empty', function(){
+            var arr = [],
+                obj = {'foo': 'new'};
+            Helper.pushBeforeLast(arr, obj);
+            expect(arr.length).toBe(1);
+            expect(arr[0]).toBe(obj);
+        });
+
+        it('inserts an object if the target array has one element', function(){
+            var arr = ['str'],
+                obj = {'foo': 'new'};
+            Helper.pushBeforeLast(arr, obj);
+            expect(arr.length).toBe(2);
+            expect(arr[0]).toBe(obj);
+            expect(arr[1]).toBe('str');
+        });
+
+        it('inserts an object if the target array has three elements', function(){
+            var arr = ['str', 94.2, 'dumb'],
+                obj = {'foo': 'new'};
+            Helper.pushBeforeLast(arr, obj);
+            expect(arr.length).toBe(4);
+            expect(arr[0]).toBe('str');
+            expect(arr[1]).toBe(94.2);
+            expect(arr[2]).toBe(obj);
+            expect(arr[3]).toBe('dumb');
+        });
+
+
+
+
+    });
+
+
 });
 

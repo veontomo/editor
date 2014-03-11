@@ -347,8 +347,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 if (startContainer.equals(endContainer)){
                      // the selection starts and finishes in the same container
                     if (startType === CKEDITOR.NODE_TEXT){
-                        piece = startContainer.split(startOffset).split(endOffset - startOffset);
-                        startElem = piece.getPrevious();
+                        // piece = startContainer.split(startOffset).split(endOffset - startOffset);
+                        // startElem = piece.getPrevious();
+                        startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
                         selectionContainer.push('startElem: ');
                         selectionContainer.push(startElem);
                     }

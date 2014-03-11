@@ -343,6 +343,7 @@ var CKHelper = {
 
 	},
 
+
 	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
