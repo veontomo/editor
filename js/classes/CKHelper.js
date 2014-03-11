@@ -330,7 +330,7 @@ var CKHelper = {
 	doesOverlap: function(elem1, elem2){
 		var outcome = false;
 		if (elem1.type === elem2.type && elem1.type === CKEDITOR.NODE_ELEMENT){
-			outcome = elem1.contains(elem2) || elem2.contains(elem1);
+			outcome = elem1.equals(elem2) || elem1.contains(elem2) || elem2.contains(elem1) ;
 		} else if (elem1.type === CKEDITOR.NODE_ELEMENT) {
 			outcome = elem1.contains(elem2);
 		} else if (elem1.type === CKEDITOR.NODE_ELEMENT){

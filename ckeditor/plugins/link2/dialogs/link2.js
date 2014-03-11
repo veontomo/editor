@@ -313,7 +313,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 startType, endType,
                 linkHref  = '',
                 linkContent = '',
-                selectionObj, len, elem, i, rangesLen, next,
+                i, rangesLen, next,
                 isOut = false, isNodeInSelection;
 
             rangesLen = ranges.length;
@@ -330,6 +330,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 endPath = range.endPath();
                 startOffset = range.startOffset;
                 endOffset = range.endOffset;
+                // console.log('start container: ', startContainer, ', start offset: ', startOffset, ', start type: ', startType);
+                // console.log('end container: ', endContainer, ', end offset: ', endOffset, ', end type: ', endType);
+                // console.log('end container children: ', endContainer.getChildren());
+
                 // this is to avoid selections that start in one node and finish in another
                 // e.g. the selection is a part of a table cell and a part of another table cell.
                 if (!startPath.compare(endPath)){
@@ -344,34 +348,51 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                      // the selection starts and finishes in the same container
                     if (startType === CKEDITOR.NODE_TEXT){
                         piece = startContainer.split(startOffset).split(endOffset - startOffset);
-                        console.info('piece', piece.getPrevious());
                         startElem = piece.getPrevious();
+                        selectionContainer.push('startElem: ');
                         selectionContainer.push(startElem);
                     }
                     if (startType === CKEDITOR.NODE_ELEMENT){
                         selectionContainer.push(startContainer.getChild(startOffset));
                     }
                 } else {
-                    // the selection starts in one container and finishes in another
+                    // the selection starts in one container and finishes in another.
+                    // First, process the end element because usage of "split" method
+                    // might change DOM so that startOffset and endOffset might not
+                    // correspond to the modified positions of elements in DOM.
+                    if (endType === CKEDITOR.NODE_TEXT){
+                        endElem = endContainer.split(endOffset).getPrevious();
+                        selectionContainer.push('endElem: ');
+                        selectionContainer.push(endElem);
+                    }
+                    if (endType === CKEDITOR.NODE_ELEMENT){
+                        if (endOffset > 0){
+                            endElem = endContainer.getChild(endOffset - 1);
+                            selectionContainer.push('endElem: ');
+                            selectionContainer.push(endElem);
+                        } else {
+                            endElem = endContainer.getParent();
+                            console.log('getting parent: ', endElem);
+                        }
+                    }
+
                     if (startType === CKEDITOR.NODE_TEXT){
                         startElem = startContainer.split(startOffset);
                     }
                     if (startType === CKEDITOR.NODE_ELEMENT){
                         startElem = startContainer.getChild(startOffset);
                     }
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer.split(endOffset).getPrevious();
-                    }
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-                        endElem = endContainer.getChild(endOffset); /// ??? it is better to take the previous child if exists
-                    }
+                    selectionContainer.push('startElem: ');
                     selectionContainer.push(startElem);
-                    selectionContainer.push(endElem);
+
+                    // selectionContainer.push('endElem: ');
+                    // selectionContainer.push(endElem);
 
                     next = startElem.getNext();
                     console.log('next: ', next);
                     isOut = !next || CKHelper.doesOverlap(next, endElem);
                     while (!isOut && next){
+                        selectionContainer.push('next: ');
                         selectionContainer.push(next);
                         next = next.getNext();
                         isOut = !next || CKHelper.doesOverlap(next, endElem);
