@@ -363,17 +363,14 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     // correspond to the modified positions of elements in DOM.
                     if (endType === CKEDITOR.NODE_TEXT){
                         endElem = endContainer.split(endOffset).getPrevious();
-                        selectionContainer.push('endElem: ');
-                        selectionContainer.push(endElem);
+                        Helper.pushBeforeLast(selectionContainer, endElem);
                     }
                     if (endType === CKEDITOR.NODE_ELEMENT){
                         if (endOffset > 0){
                             endElem = endContainer.getChild(endOffset - 1);
-                            selectionContainer.push('endElem: ');
-                            selectionContainer.push(endElem);
+                            Helper.pushBeforeLast(selectionContainer, endElem);
                         } else {
                             endElem = endContainer.getParent();
-                            console.log('getting parent: ', endElem);
                         }
                     }
 
@@ -383,8 +380,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     if (startType === CKEDITOR.NODE_ELEMENT){
                         startElem = startContainer.getChild(startOffset);
                     }
-                    selectionContainer.push('startElem: ');
-                    selectionContainer.push(startElem);
+                    Helper.pushBeforeLast(selectionContainer, startElem);
 
                     // selectionContainer.push('endElem: ');
                     // selectionContainer.push(endElem);
@@ -393,8 +389,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     console.log('next: ', next);
                     isOut = !next || CKHelper.doesOverlap(next, endElem);
                     while (!isOut && next){
-                        selectionContainer.push('next: ');
-                        selectionContainer.push(next);
+                        Helper.pushBeforeLast(selectionContainer, next);
                         next = next.getNext();
                         isOut = !next || CKHelper.doesOverlap(next, endElem);
                     }
