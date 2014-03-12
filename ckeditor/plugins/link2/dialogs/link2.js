@@ -236,40 +236,46 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var linkElement, linkHref, linkStyle, linkContent, linkHrefRaw,
                 linkContentRaw, isUnderlined,
                 len = selectionContainer.length,
-                i, link, elem, elemType, content, obj,
+                i, link, elem, elemType, content, obj, linkStr,
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
+            linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
+            isUnderlined = this.getValueOf('tab-general', 'underlined');
             if (isEnabled){
                 linkContentRaw = this.getValueOf('tab-general', 'text');
-            }
-            isUnderlined = this.getValueOf('tab-general', 'underlined');
-
-            linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
-            for (i = 0; i < len; i++){
-                elem = selectionContainer[i];
-                elemType = elem.type;
-                content = CKHelper.nodeString(elem).inflate();
-                if (content.isEmpty()){
-                    continue;
-                }
-                console.info('elem', content.toHtml());
                 link = new Link();
-                link.content = content;
+                link.content = new Content(linkContentRaw);
                 link.setHref(linkHref);
                 linkStr = link.toHtml();
-                console.info('insert', linkStr);
-                if (elemType === CKEDITOR.NODE_ELEMENT){
-                    elem.setHtml(linkStr);
-                }
-                if (elemType === CKEDITOR.NODE_TEXT){
-                    obj = new CKEDITOR.dom.element(linkStr);
-                    // obj.insertAfter(elem);
-                    // elem.setText('');
+                obj = CKEDITOR.dom.element.createFromHtml(linkStr);
+                editor.insertElement(obj);
+            } else {
+                for (i = 0; i < len; i++){
+                    elem = selectionContainer[i];
+                    elemType = elem.type;
+                    content = CKHelper.nodeString(elem).inflate();
+                    if (!content.isEmpty()){
+                        link = new Link();
+                        link.content = content;
+                        link.setHref(linkHref);
+                        linkStr = link.toHtml();
+                        console.info('insert', linkStr);
+                        obj = CKEDITOR.dom.element.createFromHtml(linkStr);
+                        obj.insertAfter(elem);
+                        if (elemType === CKEDITOR.NODE_ELEMENT){
+                            elem.remove();
+                        }
+                        if (elemType === CKEDITOR.NODE_TEXT){
+                            elem.setText('');
+                        }
+                    }
 
                 }
-
             }
+
+
+
 
             // // the range might contain nothing (to be a collapsed one)
             // linkStyle = new LinkStyle();
