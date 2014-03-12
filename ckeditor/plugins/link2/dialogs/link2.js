@@ -236,7 +236,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var linkHref, linkHrefRaw,
                 linkContentRaw, isUnderlined,
                 len = selectionContainer.length,
-                i, link, elem, elemType, content, obj, linkStr,
+                i, link, elem, elemType, content, obj, linkStr, contLen,
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
@@ -247,7 +247,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link = new Link();
                 link.content = new Content(linkContentRaw);
                 link.setHref(linkHref);
-                isUnderlined ? link.underline() : link.dropUnderline();
+                link.underline(isUnderlined);
                 linkStr = link.toHtml();
                 obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                 editor.insertElement(obj);
@@ -256,11 +256,16 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     elem = selectionContainer[i];
                     elemType = elem.type;
                     content = CKHelper.nodeString(elem).inflate();
+                    console.log(content);
                     if (!content.isEmpty()){
                         link = new Link();
+                        contLen = content.length();
+                        if (contLen === 1 && content.getFirst() instanceof Link){
+                            content = content.getFirst().content;
+                        }
                         link.content = content;
                         link.setHref(linkHref);
-                        isUnderlined ? link.underline() : link.dropUnderline();
+                        link.underline(isUnderlined);
                         linkStr = link.toHtml();
                         console.info('insert', linkStr);
                         obj = CKEDITOR.dom.element.createFromHtml(linkStr);
@@ -272,24 +277,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                             elem.setText('');
                         }
                     }
-
                 }
             }
-
-
-
-
-            // // the range might contain nothing (to be a collapsed one)
-            // linkStyle = new LinkStyle();
-            // linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
-
-            // linkElement = editor.document.createElement('a');
-            // linkElement.setAttribute('href', linkHref);
-            // linkElement.setAttribute('style', linkStyle.toString());
-            // // linkElement.setHtml(linkContent);
-            // // editor.insertElement(linkElement);
-
         }
-
     };
 });
