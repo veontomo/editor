@@ -221,7 +221,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				</tbody>
 			</table>
 			primavera con sole <img src="https://cdn1.iconfinder.com/data/icons/ie_yummy/128/cake_13.png" title="torta!"/> estate in spiaggia<br />
-			autunno con sagre<br />
+			<a href="http://www.test.com">autunno</a> con sagre<br />
 			inverno in montagna
 	</textarea>
 	</div>
