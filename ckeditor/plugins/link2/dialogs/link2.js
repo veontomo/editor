@@ -91,10 +91,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 endPath = range.endPath();
                 startOffset = range.startOffset;
                 endOffset = range.endOffset;
-                // console.log('start container: ', startContainer, ', start offset: ', startOffset, ', start type: ', startType);
-                // console.log('end container: ', endContainer, ', end offset: ', endOffset, ', end type: ', endType);
-                // console.log('end container children: ', endContainer.getChildren());
-
+                console.info('start: ', startContainer, ', offset: ', startOffset);
+                console.info('end: ', endContainer, ', offset: ', endOffset);
                 // this is to avoid selections that start in one node and finish in another
                 // e.g. the selection is a part of a table cell and a part of another table cell.
                 if (!startPath.compare(endPath)){
@@ -143,9 +141,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     }
                     Helper.pushBeforeLast(selectionContainer, startElem);
 
-                    // selectionContainer.push('endElem: ');
-                    // selectionContainer.push(endElem);
-
                     next = startElem.getNext();
                     isOut = !next || CKHelper.doesOverlap(next, endElem);
                     while (!isOut && next){
@@ -162,8 +157,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
             // console.log('selection container: ', selectionContainer);
             linkContent = CKHelper.arrayToText(selectionContainer, ' ');
-            // fakeDiv.append(ranges[0].cloneContents());
-            // linkContent = selectionObj.toText();
             if (selectionContainer.length === 1 && selectionContainer[0].type === CKEDITOR.NODE_ELEMENT && selectionContainer[0].getName() === 'a') {
                 linkHref = selectionContainer[0].getAttribute('href');
             }
@@ -180,54 +173,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
-        // onOk: function() {
-        //     console.log('onOK: ', selectionContainer);
-        //     console.log(this.getContentElement('tab-general', 'text').isEnabled());
-        //     // clear the value of the warning field
-        //     CKEDITOR.document.getById(warningFieldId).setHtml('');
-        //     var node = this.getParentEditor().getSelection(),
-        //         range = node.getRanges()[0],
-        //         fakeDiv = editor.document.createElement('div'),
-        //         linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined, selection;
-        //     // user input
-        //     linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
-        //     linkContentRaw = this.getValueOf('tab-general', 'text');
-        //     isUnderlined = this.getValueOf('tab-general', 'underlined');
-
-        //     fakeDiv.append(range.cloneContents());
-        //     selection = fakeDiv.getHtml().inflate();
-        //     linkContent = selection.toText();
-
-        //     console.log(selection);
-        //     linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
-
-        //     // the range might contain nothing (to be a collapsed one)
-        //     if (range.collapsed){
-        //         linkContent = linkContentRaw;
-        //     } else {
-        //         // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
-        //         switch (range.startContainer.type){
-        //             case CKEDITOR.NODE_ELEMENT:
-        //                 linkContent = range.startContainer.getHtml();
-        //                 break;
-        //             case CKEDITOR.NODE_TEXT:
-        //                 linkContent = range.startContainer.getText();
-        //                 break;
-        //             default:
-        //                 linkContent = '';
-        //         }
-
-        //     }
-        //     linkStyle = new LinkStyle();
-        //     linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
-
-        //     linkElement = editor.document.createElement('a');
-        //     linkElement.setAttribute('href', linkHref);
-        //     linkElement.setAttribute('style', linkStyle.toString());
-        //     // linkElement.setHtml(linkContent);
-        //     // editor.insertElement(linkElement);
-
-        // }
 
         onOk: function() {
             console.log('onOK: ', selectionContainer);
@@ -268,12 +213,13 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link.underline(isUnderlined);
                         linkStr = link.toHtml();
                         console.info('insert', linkStr);
-                        obj = CKEDITOR.dom.element.createFromHtml(linkStr);
-                        obj.insertAfter(elem);
+
                         if (elemType === CKEDITOR.NODE_ELEMENT){
-                            elem.remove();
+                            elem.setHtml(linkStr);
                         }
                         if (elemType === CKEDITOR.NODE_TEXT){
+                            obj = CKEDITOR.dom.element.createFromHtml(linkStr);
+                            obj.insertAfter(elem);
                             elem.setText('');
                         }
                     }
