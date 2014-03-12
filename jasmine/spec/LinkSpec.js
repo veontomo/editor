@@ -90,29 +90,78 @@ describe('Link-related functionality:', function() {
     });
 
     describe('Link::underline(): underline the link', function(){
-        it('imposes the text-decoration to be "underline", if it was not previously set', function(){
+        it('imposes the text-decoration to be "underline", called without argument', function(){
             delete link.style['text-decoration'];
             link.underline();
             expect(link.style['text-decoration']).toBe('underline');
         });
-        it('overrides previous value of the text-decoration to be "underline"', function(){
-            link.style['text-decoration'] = 'whatever';
-            link.underline();
+        it('imposes the text-decoration to be "underline", if the argument is true', function(){
+            link.underline(true);
             expect(link.style['text-decoration']).toBe('underline');
         });
+        it('imposes the text-decoration if the argument is a string', function(){
+            link.underline('whatever');
+            expect(link.style['text-decoration']).toBe('whatever');
+        });
+
+        it('imposes the text-decoration to "none" if the argument is false', function(){
+            link.underline(false);
+            expect(link.style['text-decoration']).toBe('none');
+        });
+
+        it('does not set text-decoration if the argument is a number, function, object or array', function(){
+            delete link.style['text-decoration'];
+            link.underline(102);
+            expect(link.style['text-decoration']).not.toBeDefined();
+        });
+
+        it('does not set text-decoration if the argument is a function', function(){
+            delete link.style['text-decoration'];
+            link.underline(function(){return null;});
+            expect(link.style['text-decoration']).not.toBeDefined();
+        });
+
+        it('does not set text-decoration if the argument is an object', function(){
+            delete link.style['text-decoration'];
+            link.underline({'a': 1});
+            expect(link.style['text-decoration']).not.toBeDefined();
+        });
+
+        it('does not set text-decoration if the argument is an array', function(){
+            delete link.style['text-decoration'];
+            link.underline([2, 'str']);
+            expect(link.style['text-decoration']).not.toBeDefined();
+        });
+
+
+        it('does not change text-decoration if the argument is a number', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.underline(102);
+            expect(link.style['text-decoration']).toBe('whatever');
+        });
+
+        it('does not change text-decoration if the argument is a function', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.underline(function(){return null;});
+            expect(link.style['text-decoration']).toBe('whatever');
+        });
+
+        it('does not change text-decoration if the argument is an object', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.underline({'a': 1});
+            expect(link.style['text-decoration']).toBe('whatever');
+        });
+
+        it('does not change text-decoration if the argument is an array', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.underline([2, 'str']);
+            expect(link.style['text-decoration']).toBe('whatever');
+        });
+
+
+
+
     });
 
-    describe('Link::dropUnderline(): deletes link underline', function(){
-        it('imposes the text-decoration to be "none", if it was not previously set', function(){
-            delete link.style['text-decoration'];
-            link.dropUnderline();
-            expect(link.style['text-decoration']).toBe('none');
-        });
-        it('overrides previous value of the text-decoration to be "none"', function(){
-            link.style['text-decoration'] = 'whatever';
-            link.dropUnderline();
-            expect(link.style['text-decoration']).toBe('none');
-        });
-    });
 
 });

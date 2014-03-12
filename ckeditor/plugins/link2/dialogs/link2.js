@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
@@ -233,7 +233,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             console.log('onOK: ', selectionContainer);
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
-            var linkElement, linkHref, linkStyle, linkContent, linkHrefRaw,
+            var linkHref, linkHrefRaw,
                 linkContentRaw, isUnderlined,
                 len = selectionContainer.length,
                 i, link, elem, elemType, content, obj, linkStr,
@@ -247,6 +247,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link = new Link();
                 link.content = new Content(linkContentRaw);
                 link.setHref(linkHref);
+                isUnderlined ? link.underline() : link.dropUnderline();
                 linkStr = link.toHtml();
                 obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                 editor.insertElement(obj);
@@ -259,6 +260,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link = new Link();
                         link.content = content;
                         link.setHref(linkHref);
+                        isUnderlined ? link.underline() : link.dropUnderline();
                         linkStr = link.toHtml();
                         console.info('insert', linkStr);
                         obj = CKEDITOR.dom.element.createFromHtml(linkStr);

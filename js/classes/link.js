@@ -64,12 +64,23 @@ function Link(href) {
 	};
 
 	/**
-	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property to be `underline`.
+	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property.
+	 * If the argument is missing or equal to `true`, "underline" is imposed.
+	 * If the argument is false, then "none" is imposed.
+	 * If the argument is a string,  `text-property` will be assigned to be equal to that string.
+	 * If nothing of the above holds, `text-property` remains unchanged.
 	 * @method    underline
+	 * @param     {String|Null|Boolean}  val
 	 * @return    {void}
 	 */
-	this.underline = function(){
-		this.style['text-decoration'] = 'underline';
+	this.underline = function(val){
+		if (val === true || val === undefined){
+			this.style['text-decoration'] = 'underline';
+		} else if (val === false) {
+			this.style['text-decoration'] = 'none';
+		} else if (typeof val === 'string'){
+			this.style['text-decoration'] = val;
+		}
 	};
 
 	/**
