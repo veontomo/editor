@@ -386,7 +386,7 @@ String.prototype.createLinkFromHtml = function(){
 
 
 String.prototype.inflate = function(){
-    /*
+    /**
      * Creates an instance of Content class and fills in its property "elements" with
      * the elements recognized inside the string.
      * @method    inflate

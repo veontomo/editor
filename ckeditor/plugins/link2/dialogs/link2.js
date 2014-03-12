@@ -160,7 +160,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 return elem.type === CKEDITOR.NODE_ELEMENT;
             });
 
-            console.log('selection container: ', selectionContainer);
+            // console.log('selection container: ', selectionContainer);
             linkContent = CKHelper.arrayToText(selectionContainer, ' ');
             // fakeDiv.append(ranges[0].cloneContents());
             // linkContent = selectionObj.toText();
@@ -180,53 +180,108 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
+        // onOk: function() {
+        //     console.log('onOK: ', selectionContainer);
+        //     console.log(this.getContentElement('tab-general', 'text').isEnabled());
+        //     // clear the value of the warning field
+        //     CKEDITOR.document.getById(warningFieldId).setHtml('');
+        //     var node = this.getParentEditor().getSelection(),
+        //         range = node.getRanges()[0],
+        //         fakeDiv = editor.document.createElement('div'),
+        //         linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined, selection;
+        //     // user input
+        //     linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
+        //     linkContentRaw = this.getValueOf('tab-general', 'text');
+        //     isUnderlined = this.getValueOf('tab-general', 'underlined');
+
+        //     fakeDiv.append(range.cloneContents());
+        //     selection = fakeDiv.getHtml().inflate();
+        //     linkContent = selection.toText();
+
+        //     console.log(selection);
+        //     linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
+
+        //     // the range might contain nothing (to be a collapsed one)
+        //     if (range.collapsed){
+        //         linkContent = linkContentRaw;
+        //     } else {
+        //         // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
+        //         switch (range.startContainer.type){
+        //             case CKEDITOR.NODE_ELEMENT:
+        //                 linkContent = range.startContainer.getHtml();
+        //                 break;
+        //             case CKEDITOR.NODE_TEXT:
+        //                 linkContent = range.startContainer.getText();
+        //                 break;
+        //             default:
+        //                 linkContent = '';
+        //         }
+
+        //     }
+        //     linkStyle = new LinkStyle();
+        //     linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
+
+        //     linkElement = editor.document.createElement('a');
+        //     linkElement.setAttribute('href', linkHref);
+        //     linkElement.setAttribute('style', linkStyle.toString());
+        //     // linkElement.setHtml(linkContent);
+        //     // editor.insertElement(linkElement);
+
+        // }
+
         onOk: function() {
             console.log('onOK: ', selectionContainer);
-            console.log(this.getContentElement('tab-general', 'text').isEnabled());
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
-            var node = this.getParentEditor().getSelection(),
-                range = node.getRanges()[0],
-                fakeDiv = editor.document.createElement('div'),
-                linkElement, linkHref, linkStyle, linkContent, linkHrefRaw, linkContentRaw, isUnderlined, selection;
+            var linkElement, linkHref, linkStyle, linkContent, linkHrefRaw,
+                linkContentRaw, isUnderlined,
+                len = selectionContainer.length,
+                i, link, elem, elemType, content, obj,
+                isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
-            linkContentRaw = this.getValueOf('tab-general', 'text');
+            if (isEnabled){
+                linkContentRaw = this.getValueOf('tab-general', 'text');
+            }
             isUnderlined = this.getValueOf('tab-general', 'underlined');
 
-            fakeDiv.append(range.cloneContents());
-            selection = fakeDiv.getHtml().inflate();
-            linkContent = selection.toText();
-
-            console.log(selection);
             linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
+            for (i = 0; i < len; i++){
+                elem = selectionContainer[i];
+                elemType = elem.type;
+                content = CKHelper.nodeString(elem).inflate();
+                if (content.isEmpty()){
+                    continue;
+                }
+                console.info('elem', content.toHtml());
+                link = new Link();
+                link.content = content;
+                link.setHref(linkHref);
+                linkStr = link.toHtml();
+                console.info('insert', linkStr);
+                if (elemType === CKEDITOR.NODE_ELEMENT){
+                    elem.setHtml(linkStr);
+                }
+                if (elemType === CKEDITOR.NODE_TEXT){
+                    obj = new CKEDITOR.dom.element(linkStr);
+                    // obj.insertAfter(elem);
+                    // elem.setText('');
 
-            // the range might contain nothing (to be a collapsed one)
-            if (range.collapsed){
-                linkContent = linkContentRaw;
-            } else {
-                // the range can start either with CKEDITOR.dom.Element or with CKEDITOR.dom.text
-                switch (range.startContainer.type){
-                    case CKEDITOR.NODE_ELEMENT:
-                        linkContent = range.startContainer.getHtml();
-                        break;
-                    case CKEDITOR.NODE_TEXT:
-                        linkContent = range.startContainer.getText();
-                        break;
-                    default:
-                        linkContent = '';
                 }
 
             }
-            linkStyle = new LinkStyle();
-            linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
 
-            linkElement = editor.document.createElement('a');
-            linkElement.setAttribute('href', linkHref);
-            linkElement.setAttribute('style', linkStyle.toString());
-            // linkElement.setHtml(linkContent);
-            // editor.insertElement(linkElement);
+            // // the range might contain nothing (to be a collapsed one)
+            // linkStyle = new LinkStyle();
+            // linkStyle['text-decoration'] = isUnderlined ? 'underline' : 'none';
+
+            // linkElement = editor.document.createElement('a');
+            // linkElement.setAttribute('href', linkHref);
+            // linkElement.setAttribute('style', linkStyle.toString());
+            // // linkElement.setHtml(linkContent);
+            // // editor.insertElement(linkElement);
 
         }
+
     };
 });

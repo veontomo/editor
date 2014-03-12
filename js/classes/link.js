@@ -16,6 +16,16 @@ function Link(href) {
 
 
 	/**
+	 * Link html tag.
+	 * @property {String} name
+	 * @type     {String}
+	 * @default 'a'
+	 */
+	this.name = 'a';
+
+
+
+	/**
 	 * Link attributes.
 	 * @property {LinkAttributes}      attr
 	 * @type     {LinkAttributes}

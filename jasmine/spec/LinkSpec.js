@@ -2,10 +2,12 @@
 /*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyle, LinkAttributes, Content, Table */
 
 describe('Link-related functionality:', function() {
-    var link, attr;
+    var link, attr, style, content;
     beforeEach(function() {
         attr = new LinkAttributes();
+        style = new LinkStyle();
         link = new Link();
+        content = new Content();
         delete link.dumbAttribute;
     });
 
@@ -57,7 +59,6 @@ describe('Link-related functionality:', function() {
         });
     });
 
-
     describe('Link::getHref(): href getter', function(){
         it('calls LinkAttributes.getHref() method', function(){
             spyOn(attr, 'getHref').andCallFake(function(){return 'href';});
@@ -73,6 +74,18 @@ describe('Link-related functionality:', function() {
             link.attr = attr;
             link.setHref('href string');
             expect(attr.setHref).toHaveBeenCalledWith('href string');
+        });
+    });
+
+    describe('Link::toHtml(): creates html link', function(){
+        it('creates link with styles and attributes', function(){
+            spyOn(attr, 'toString').andCallFake(function(){return 'attributes';});
+            spyOn(style, 'toString').andCallFake(function(){return 'styles';});
+            spyOn(content, 'toHtml').andCallFake(function(){return 'content';});
+            link.attr = attr;
+            link.style = style;
+            link.content = content;
+            expect(link.toHtml()).toBe('<a attributes style="styles">content</a>');
         });
     });
 });
