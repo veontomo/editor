@@ -190,7 +190,7 @@ function LinkStyle(obj) {
      * @property {String|Integer} font size
      * @default 12
      */
-    this['font-size'] = this['font-size'] || 12;
+    this['font-size'] = this['font-size'] || 14;
     /**
      * Font color attribute
      * @property {String} font color

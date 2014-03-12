@@ -62,6 +62,26 @@ function Link(href) {
 	this.setHref =  function(url){
 		this.attr.setHref(url);
 	};
+
+	/**
+	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property to be `underline`.
+	 * @method    underline
+	 * @return    {void}
+	 */
+	this.underline = function(){
+		this.style['text-decoration'] = 'underline';
+	};
+
+	/**
+	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property to be `none`.
+	 * @method    dropUnderline
+	 * @return    {void}
+	 */
+	this.dropUnderline = function(){
+		this.style['text-decoration'] = 'none';
+	}
+
+
 }
 Link.prototype = Object.create(Tag.prototype);
 

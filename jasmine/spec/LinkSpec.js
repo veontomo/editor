@@ -88,4 +88,31 @@ describe('Link-related functionality:', function() {
             expect(link.toHtml()).toBe('<a attributes style="styles">content</a>');
         });
     });
+
+    describe('Link::underline(): underline the link', function(){
+        it('imposes the text-decoration to be "underline", if it was not previously set', function(){
+            delete link.style['text-decoration'];
+            link.underline();
+            expect(link.style['text-decoration']).toBe('underline');
+        });
+        it('overrides previous value of the text-decoration to be "underline"', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.underline();
+            expect(link.style['text-decoration']).toBe('underline');
+        });
+    });
+
+    describe('Link::dropUnderline(): deletes link underline', function(){
+        it('imposes the text-decoration to be "none", if it was not previously set', function(){
+            delete link.style['text-decoration'];
+            link.dropUnderline();
+            expect(link.style['text-decoration']).toBe('none');
+        });
+        it('overrides previous value of the text-decoration to be "none"', function(){
+            link.style['text-decoration'] = 'whatever';
+            link.dropUnderline();
+            expect(link.style['text-decoration']).toBe('none');
+        });
+    });
+
 });
