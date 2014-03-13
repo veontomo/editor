@@ -1,4 +1,4 @@
-describe('General aspects', function () {
+describe('General aspects of the Newsletter page', function () {
   var browser;
 
   before(function () {
@@ -6,24 +6,22 @@ describe('General aspects', function () {
      browser.site = "http://localhost";
      browser.loadCSS = true;
   });
-
+  before(function (done) {
+    browser.visit("/projects/editor", function () {
+      done();
+    });
+  });
+  
   after(function () {
      browser.close();
   });
-  
-  
-  describe('start page', function () {  
-	  before(function (done) {
-	    browser.visit("/projects/editor", function () {
-      		done();
-    	});
-	  });
-	  
-    it('should contain the editor', function () {
-      browser.query('form').should.be.ok;
-      // browser.lastError;
+
+  describe('Presence of the main elements', function () {  
+    it('should contain the editor window', function () {
+      browser.query('.editor').should.be.ok;
     });
-
   });
-
+  describe('Text should appear in the editor window', function(){
+    
+  });
 });
