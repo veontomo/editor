@@ -81,73 +81,78 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             for (i = 0; i < rangesLen; i++){
                 range = ranges[i];
                 if (range.collapsed) {
-                    continue;
-                }
-                startContainer = range.startContainer;
-                endContainer = range.endContainer;
-                startType = startContainer.type;
-                endType   = endContainer.type;
-                startPath = range.startPath();
-                endPath = range.endPath();
-                startOffset = range.startOffset;
-                endOffset = range.endOffset;
-                console.info('start: ', startContainer, ', offset: ', startOffset);
-                console.info('end: ', endContainer, ', offset: ', endOffset);
-                // this is to avoid selections that start in one node and finish in another
-                // e.g. the selection is a part of a table cell and a part of another table cell.
-                if (!startPath.compare(endPath)){
-                    CKEDITOR.document.getById(warningFieldId).setHtml('Il testo selezionato non è gestibile. Prova a ridurlo.');
-                    this.setValueOf('tab-general', 'href_input_field', '');
-                    this.setValueOf('tab-general', 'text', '');
-                    this.getContentElement('tab-general', 'text').disable();
-                    this.getContentElement('tab-general', 'href_input_field').disable();
-                    return null;
-                }
-                if (startContainer.equals(endContainer)){
-                     // the selection starts and finishes in the same container
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        // piece = startContainer.split(startOffset).split(endOffset - startOffset);
-                        // startElem = piece.getPrevious();
-                        startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                        // selectionContainer.push('startElem: ');
+                    startElem = selection.getStartElement();
+                    if (startElem.getName() === 'a'){
                         selectionContainer.push(startElem);
                     }
-                    if (startType === CKEDITOR.NODE_ELEMENT){
-                        selectionContainer.push(startContainer.getChild(startOffset));
-                    }
                 } else {
-                    // the selection starts in one container and finishes in another.
-                    // First, process the end element because usage of "split" method
-                    // might change DOM so that startOffset and endOffset might not
-                    // correspond to the modified positions of elements in DOM.
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer.split(endOffset).getPrevious();
-                        Helper.pushBeforeLast(selectionContainer, endElem);
+                    startContainer = range.startContainer;
+                    endContainer = range.endContainer;
+                    startType = startContainer.type;
+                    endType   = endContainer.type;
+                    startPath = range.startPath();
+                    endPath = range.endPath();
+                    startOffset = range.startOffset;
+                    endOffset = range.endOffset;
+                    console.info('start: ', startContainer, ', offset: ', startOffset);
+                    console.info('end: ', endContainer, ', offset: ', endOffset);
+                    // this is to avoid selections that start in one node and finish in another
+                    // e.g. the selection is a part of a table cell and a part of another table cell.
+                    if (!startPath.compare(endPath)){
+                        CKEDITOR.document.getById(warningFieldId).setHtml('Il testo selezionato non è gestibile. Prova a ridurlo.');
+                        this.setValueOf('tab-general', 'href_input_field', '');
+                        this.setValueOf('tab-general', 'text', '');
+                        this.getContentElement('tab-general', 'text').disable();
+                        this.getContentElement('tab-general', 'href_input_field').disable();
+                        return null;
                     }
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-                        if (endOffset > 0){
-                            endElem = endContainer.getChild(endOffset - 1);
+                    if (startContainer.equals(endContainer)){
+                         // the selection starts and finishes in the same container
+                        if (startType === CKEDITOR.NODE_TEXT){
+                            // piece = startContainer.split(startOffset).split(endOffset - startOffset);
+                            // startElem = piece.getPrevious();
+                            startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
+                            // selectionContainer.push('startElem: ');
+                            selectionContainer.push(startElem);
+                        }
+                        if (startType === CKEDITOR.NODE_ELEMENT){
+                            selectionContainer.push(startContainer.getChild(startOffset));
+                        }
+                    } else {
+                        // the selection starts in one container and finishes in another.
+                        // First, process the end element because usage of "split" method
+                        // might change DOM so that startOffset and endOffset might not
+                        // correspond to the modified positions of elements in DOM.
+                        if (endType === CKEDITOR.NODE_TEXT){
+                            endElem = endContainer.split(endOffset).getPrevious();
                             Helper.pushBeforeLast(selectionContainer, endElem);
-                        } else {
-                            endElem = endContainer.getParent();
+                        }
+                        if (endType === CKEDITOR.NODE_ELEMENT){
+                            if (endOffset > 0){
+                                endElem = endContainer.getChild(endOffset - 1);
+                                Helper.pushBeforeLast(selectionContainer, endElem);
+                            } else {
+                                endElem = endContainer.getParent();
+                            }
+                        }
+
+                        if (startType === CKEDITOR.NODE_TEXT){
+                            startElem = startContainer.split(startOffset);
+                        }
+                        if (startType === CKEDITOR.NODE_ELEMENT){
+                            startElem = startContainer.getChild(startOffset);
+                        }
+                        Helper.pushBeforeLast(selectionContainer, startElem);
+
+                        next = startElem.getNext();
+                        isOut = !next || CKHelper.doesOverlap(next, endElem);
+                        while (!isOut && next){
+                            Helper.pushBeforeLast(selectionContainer, next);
+                            next = next.getNext();
+                            isOut = !next || CKHelper.doesOverlap(next, endElem);
                         }
                     }
 
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset);
-                    }
-                    if (startType === CKEDITOR.NODE_ELEMENT){
-                        startElem = startContainer.getChild(startOffset);
-                    }
-                    Helper.pushBeforeLast(selectionContainer, startElem);
-
-                    next = startElem.getNext();
-                    isOut = !next || CKHelper.doesOverlap(next, endElem);
-                    while (!isOut && next){
-                        Helper.pushBeforeLast(selectionContainer, next);
-                        next = next.getNext();
-                        isOut = !next || CKHelper.doesOverlap(next, endElem);
-                    }
                 }
             }
 

@@ -22,7 +22,7 @@ CKEDITOR.plugins.add('link2', {
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/link2.js');
-		CKEDITOR.dialog.add('modifyLinkSimplified', this.path + 'dialogs/modifyLinkSimplified.js');
+		// CKEDITOR.dialog.add('modifyLinkSimplified', this.path + 'dialogs/modifyLinkSimplified.js');
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('link2Group');
@@ -30,7 +30,7 @@ CKEDITOR.plugins.add('link2', {
 			editor.addMenuItem('link2Item', {
 				label: editor.lang.link.menu,
 				icon: this.path + 'icons/link2.png',
-				command: 'modifyLink',
+				command: 'link2',
 				group: 'link2Group'
 			});
 			editor.contextMenu.addListener(function(element) {
