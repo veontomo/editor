@@ -9,7 +9,6 @@ CKEDITOR.plugins.add('link2', {
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand('link2', new CKEDITOR.dialogCommand('linkSimplified'));
-		editor.addCommand('modifyLink', new CKEDITOR.dialogCommand('modifyLinkSimplified'));
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('link2', {
 			// The text part of the button (if available) and tooptip.
@@ -22,7 +21,6 @@ CKEDITOR.plugins.add('link2', {
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/link2.js');
-		// CKEDITOR.dialog.add('modifyLinkSimplified', this.path + 'dialogs/modifyLinkSimplified.js');
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('link2Group');
