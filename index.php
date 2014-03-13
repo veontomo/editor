@@ -6,7 +6,7 @@
 
 <!--	<script type="text/javascript" src="JSON-js/json2.js"></script> -->
 <!--	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script> -->
-	<script type="text/javascript" src="vendor/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="vendor/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
