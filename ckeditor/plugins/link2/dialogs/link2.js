@@ -220,9 +220,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
                         if (elemType === CKEDITOR.NODE_ELEMENT){
+                            console.log(i, ': ELEMENT');
                             // if the inner html of the element is empty, replace the element
                             // otherwise, update its inner html content
                             if (elem.getHtml() === ''){
+                                console.log('elem is empty');
                                 obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                                 obj.replace(elem);
                             } else {
@@ -230,6 +232,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                             }
                         }
                         if (elemType === CKEDITOR.NODE_TEXT){
+                            console.log(i, ': TEXT');
                             obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                             obj.insertAfter(elem);
                             elem.setText('');
