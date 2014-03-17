@@ -6,3 +6,4 @@ test/coverage/*.json
 node_modules/*
 php/repo/*.html
 js/mathjax/*
+*.exe
