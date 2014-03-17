@@ -94,8 +94,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     endPath = range.endPath();
                     startOffset = range.startOffset;
                     endOffset = range.endOffset;
-                    console.info('start: ', startContainer, ', offset: ', startOffset);
-                    console.info('end: ', endContainer, ', offset: ', endOffset);
                     // this is to avoid selections that start in one node and finish in another
                     // e.g. the selection is a part of a table cell and a part of another table cell.
                     if (!startPath.compare(endPath)){
@@ -170,6 +168,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             if (toBeDisabled){
                 this.getContentElement('tab-general', 'text').disable();
             }
+
+            console.log('selectionContainer: ', selectionContainer);
         },
 
 
@@ -180,7 +180,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
         onOk: function() {
-            console.log('onOK: ', selectionContainer);
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var linkHref, linkHrefRaw,
@@ -204,9 +203,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             } else {
                 for (i = 0; i < len; i++){
                     elem = selectionContainer[i];
+                    console.log(i, ': ', elem);
                     elemType = elem.type;
                     content = CKHelper.nodeString(elem).inflate();
-                    console.log(content);
+                    // console.log(content);
                     if (!content.isEmpty()){
                         link = new Link();
                         contLen = content.length();
@@ -217,10 +217,17 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link.setHref(linkHref);
                         link.underline(isUnderlined);
                         linkStr = link.toHtml();
-                        console.info('insert', linkStr);
+
 
                         if (elemType === CKEDITOR.NODE_ELEMENT){
-                            elem.setHtml(linkStr);
+                            // if the inner html of the element is empty, replace the element
+                            // otherwise, update its inner html content
+                            if (elem.getHtml() === ''){
+                                obj = CKEDITOR.dom.element.createFromHtml(linkStr);
+                                obj.replace(elem);
+                            } else {
+                                elem.setHtml(linkStr);
+                            }
                         }
                         if (elemType === CKEDITOR.NODE_TEXT){
                             obj = CKEDITOR.dom.element.createFromHtml(linkStr);
