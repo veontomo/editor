@@ -1,8 +1,12 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('link2', {
 
 	// Register the icons.
 	icons: 'link2',
+	ID: 'test',
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
