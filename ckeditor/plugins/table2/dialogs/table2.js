@@ -344,7 +344,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			// call a custom method to insert the table and assign hovering effects on it
-			editor.insertTableWithHoverEff(tableElem);
+			CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}
 	};
 });

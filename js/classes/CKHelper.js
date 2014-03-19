@@ -30,21 +30,21 @@ var CKHelper = {
 		return null;
 	},
 	
-/**
- * Drops inline attribute named attrName from DOM element
- * @param  {Object} element   an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
- * @param  {string} attrName  this attribute name will be dropped.
- * @return {void}
- */
-dropInlineStyleAttr: function(element, attrName){
-  // unhovering table
-  var attr = element.attr('style'),
-    style = new Style(attr);
-  if (style.hasOwnProperty(attrName)){
-    delete style[attrName];
-  }
-  element.attr('style', style.toString());
-},
+  /**
+   * Drops inline attribute named attrName from DOM element
+   * @param  {Object} element   an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
+   * @param  {string} attrName  this attribute name will be dropped.
+   * @return {void}
+   */
+  dropInlineStyleAttr: function(element, attrName){
+    // unhovering table
+    var attr = element.attr('style'),
+      style = new Style(attr);
+    if (style.hasOwnProperty(attrName)){
+      delete style[attrName];
+    }
+    element.attr('style', style.toString());
+  },
 	
 
 	/**
@@ -70,6 +70,7 @@ dropInlineStyleAttr: function(element, attrName){
 			}
 		}
 	},
+	
 	/**
 	 * Inserts a row at a specified position with respect to the selected element.
 	 * The command to insert the row is obtained by capitalizing the second argument
@@ -186,71 +187,6 @@ dropInlineStyleAttr: function(element, attrName){
 	},
 
 
-
-	/**
-	 * Inserts list. List items are populated from the selection. If the selection is empty,
-	 * a list item with empty content is generated.
-	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
-	 * @param   {String}          listType               Type of the list to insert (ol, ul)
-	 * @return  {void}
-	 */
-	insertList__old: function(editor, listType){
-		console.log('inside CKHelper::insertList()');
-		var node, range, list, fakeDiv,
-		    listObj, listHtml, selection, selectionObj, i, len, li, elem,
-		    orphans, startTagName, startContainer, goToParent;
-		list = new List(listType);
-		list.style['margin-left'] = list.style['margin-left'] || 40;
-		// list of html tags that must be taken into consideration only with their parents
-		// without parents they are considered orphans.
-		orphans = ['li', 'td', 'tr', 'tbody'];
-		node = editor.getSelection();
-		range = node.getRanges()[0];
-		startContainer = range.startContainer;
-		startTagName = startContainer && startContainer.getParent() && startContainer.getParent().getName();
-		console.log('startTagName: ', startTagName);
-		console.log('startContainer: ', startContainer);
-		// if the tag name of the current element is inside the list of "orphans", then
-		// consider the parent element
-		goToParent = orphans.indexOf(startTagName) !== -1;
-		if (goToParent) {
-			console.log('getting parent');
-			selection = startContainer.getParent().getParent().getOuterHtml();
-		} else {
-			console.log('getting current');
-			fakeDiv = editor.document.createElement('div');
-			fakeDiv.append(range.cloneContents());
-			selection = fakeDiv.getHtml();
-		}
-		console.log('detected selection: ', selection);
-		// selectionObj = selection.replace('&nbsp;', '').inflate();
-		selectionObj = selection.inflate();
-
-		len = selectionObj.length();
-		for (i = 0; i < len; i++){
-			li = new ListItem();
-			elem = selectionObj.getElem(i);
-				if ((typeof elem === 'string') || ((elem instanceof Tag) && (!elem.isEmpty()))) {
-				li.appendElem(elem);
-				list.appendItem(li);
-			}
-		}
-		list.trim();
-		// if nevertheless, the list remains empty, one item is added
-		if (list.length() === 0){
-			li = new ListItem();
-			list.appendItem(li);
-		}
-		// removes the element, which content was used to create the list
-		// goToParent ? node.getCommonAncestor().remove() : node.reset();
-
-	    listHtml = list.toHtml();
-	    listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
-	    // console.log('string to createHTMl from:', listHtml);
-	    // console.log('insertion is blocked');
-	    editor.insertElement(listObj);
-	},
-
 	/**
 	 * Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,
 	 * if it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, '' (empty string is returned)
@@ -364,6 +300,7 @@ dropInlineStyleAttr: function(element, attrName){
 	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
+	 * @method  insertList
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
 	 * @param   {String}          listType               Type of the list to insert (ol, ul)
 	 * @return  {void}
@@ -463,70 +400,6 @@ dropInlineStyleAttr: function(element, attrName){
 					next = next.getNext();
 				}
 
-				/* 	this is an old block, it iterates over the nodes in the selection.
-					It turns out that they are processes twice:
-					the first time when processing startContainer and
-					the second time - in the block below. This is why it is commented.
-					*/
-
-				// iterator = range.createIterator();
-				// iterator.enlargeBr = false;
-				// currentNode = iterator.getNextParagraph();       // startContainer, its content has already been considered,
-				// 												 //	so pass to the next node (if it exists)
-				// currentNode = iterator.getNextParagraph();       // the next node
-
-				// stop = 0;
-				// In selection, there might be a sequence of list items that are to be inserted into the list
-				// along with the other list items of the parent list. So, when a 'li' node is encountered,
-				// then the whole bunch of 'li' of that list will be added into resulting list.
-				// skip = false;  // whether to skip the node (because it has been already added when its parent was added to the list)
-				// 'stop' is a cut-off to avoid infinite loops (there should be no such loops, but for debugging purposes)
-				// while (currentNode && stop < 5){
-				// 	console.log('loop #: ', stop, ', current node: ', currentNode.getHtml());
-				// 	stop++;
-				// 	if (!skip && currentNode.getName() === 'li'){
-				// 		// marker showing that one should consider only first list item node and
-				// 		// skip all remaining consequtive list item nodes
-				// 		skip = true;
-				// 		parentList = currentNode.getParent();
-				// 		nodesToDelete.push(parentList);
-				// 		// console.log('parentList: ', parentList);
-				// 		listItems = parentList.getChildren();
-				// 		listLen = listItems.count();
-				// 		for (j = 0; j < listLen; j++){
-				// 			listItemObj = listItems.getItem(j).getHtml().inflate();
-				// 			li = new ListItem();
-				// 			listItemObj.trim();
-				// 			console.log('li: ', li);
-				// 			list.appendElemIfNotEmpty(li);
-				// 			// if(!listItemObj.isEmpty()){
-				// 			// 	li.appendElem(listItemObj);
-				// 			// 	list.appendItem(li);
-				// 			// }
-				// 		}
-				// 	}
-				// 	if (currentNode.getName() !== 'li') {
-				// 		// non-list-item-node is encountered, so let's reset the marker to indicate that the
-				// 		// sequence of list items has been broken
-				// 		skip = false;
-				// 		nodesToDelete.push(currentNode);
-				// 		liObj = currentNode.getHtml().inflate();
-				// 		// console.log('liObj length = ', liObj.length());
-				// 		liObjLen = liObj.length();
-				// 		for (j = 0; j < liObjLen; j++){
-				// 			elem = liObj.getElem(j);
-				// 			if ((typeof elem.isEmpty !== 'function') || !(elem.isEmpty())){
-				// 				li = new ListItem();
-				// 				li.appendElem(elem);
-				// 				list.appendItem(li);
-				// 			}
-				// 		}
-				// 	}
-				// 	// console.log('current node: ', currentNode, currentNode.type === CKEDITOR.NODE_ELEMENT ? ', html: ' + currentNode.getOuterHtml() : ', text: ' + currentNode.getText());
-				// 	currentNode = iterator.getNextParagraph();
-				// }
-				/* end of the above block */
-
 				if (list.length() === 0){
 					li = new ListItem();
 					list.appendItem(li);
@@ -546,6 +419,7 @@ dropInlineStyleAttr: function(element, attrName){
 
 	/**
 	 * Converts list to a given type.
+	 * @method  convertListTo
 	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
 	 * @param   {String}          fromType               Type of the list (ol, ul)
 	 * @param   {String}          toType                 Type of the list (ol, ul)
@@ -577,5 +451,64 @@ dropInlineStyleAttr: function(element, attrName){
 				editor.insertElement(listObj);
 			}
 		}
-	}
+	},
+
+  /**
+   * Inserts table and applies hover effect on it.
+   * It is based on CKEDITOR.editor.insertElement() method.
+   * This approach might be wrong but I wanted to avoid repetitions.
+   * @method insertTableWithHoverEff
+   * @param  {CKEDITOR.dom.element} tbl
+   * @return {void}
+   */
+  insertTableWithHoverEff: function(ed, tbl){
+    ed.insertElement(tbl);
+    console.log('inside insertTableWithHoverEff');
+    $(tbl.$).hover(
+      function () {
+        var markerName  = NEWSLETTER['marker-name'],
+          tableMarker = (new Table()).getType(),
+          rowMarker   = (new Row()).getType(),
+          cellMarker  = (new Cell()).getType();
+        $(this).find('td[data-marker="Cell"]').hover(
+          function(){
+            var cellNumber = $(this).index(),
+              tableParent = $(this).parents('table[' + markerName +'="' + tableMarker + '"]'),
+              boxShadowValues = '0.05em 0.0em 0.5em 0.05em #AAAAAA',
+              cellSelector = 'tr[' + markerName +'="'+ rowMarker +'"] td[' + markerName +'="' +
+                cellMarker + '"]:nth-child(' + (cellNumber + 1) + ')';
+            tableParent.find(cellSelector).css('box-shadow', boxShadowValues);
+          },
+          function(){
+            var cellsSelector = 'td[' + markerName +'="' + cellMarker + '"]',
+              tableSelector = 'table[' + markerName +'="' + tableMarker + '"]',
+              allCells = $(this).parents(tableSelector).find(cellsSelector),
+              i,
+              len = allCells.length;
+            for (i = 0; i < len; i++){
+              CKHelper.dropInlineStyleAttr($(allCells[i]), 'box-shadow');
+            }
+
+          }
+        );
+        // hovering the whole table
+        // $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
+        // hovering table row
+        $(this).find('tr').hover(
+          function () {
+            $(this).css('box-shadow', '0.05em 0.0em 0.5em 0.05em #AAAAAA');
+          },
+          function () {
+            // unhovering the table row
+            CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
+          }
+        );
+      }, function(){
+        // unhovering table
+        CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
+      }
+    );
+  }	
 };
+
+
