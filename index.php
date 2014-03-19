@@ -209,7 +209,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 							</ul>
 						</td>
 						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 165px; max-width: 165px; min-width: 165px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px" width="165">
-							cell 0 2 <div>div</div> testo <span>span</span>
+							cell 0 2 <div>div</div> testo 
 						</td>
 					</tr>
 					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 498px; max-width: 498px; min-width: 498px">

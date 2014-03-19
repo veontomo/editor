@@ -33,7 +33,7 @@ describe('General aspects of the Newsletter page', function () {
     it('creates link if no text is selected', function(){
       browser.fill("textarea", "abc");
       browser.wait(function(arg){
-        return arg.document.querySelector('a');
+        return arg.document.querySelector('span');
       }(browser), function(arg){
         console.log('ok');
         console.log(arg.document.innerHTML);
