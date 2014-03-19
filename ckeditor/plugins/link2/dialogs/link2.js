@@ -170,6 +170,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }
 
             console.log('selectionContainer: ', selectionContainer);
+            selectionContainer.forEach(function(el, ind){
+              console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
+            });
         },
 
 
@@ -203,7 +206,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             } else {
                 for (i = 0; i < len; i++){
                     elem = selectionContainer[i];
-                    console.log(i, ': ', elem);
                     elemType = elem.type;
                     content = CKHelper.nodeString(elem).inflate();
                     // console.log(content);
@@ -220,11 +222,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
                         if (elemType === CKEDITOR.NODE_ELEMENT){
-                            console.log(i, ': ELEMENT');
                             // if the inner html of the element is empty, replace the element
                             // otherwise, update its inner html content
                             if (elem.getHtml() === ''){
-                                console.log('elem is empty');
                                 obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                                 obj.replace(elem);
                             } else {
@@ -232,10 +232,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                             }
                         }
                         if (elemType === CKEDITOR.NODE_TEXT){
-                            console.log(i, ': TEXT');
                             obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                             obj.insertAfter(elem);
-                            elem.setText('');
+                            // set the text content to be a single space (otherwise the newly 
+                            //  inserted link gets close to the previous text)
+                            elem.setText(' ');
                         }
                     }
                 }

@@ -21,7 +21,27 @@ describe('General aspects of the Newsletter page', function () {
       browser.query('.editor').should.be.ok;
     });
   });
+  
   describe('Text should appear in the editor window', function(){
-    
+    it('types characters in the editor window', function(){
+      browser.fill("textarea", "test text");
+      browser.text("textarea").should.be.equal("test text");
+    });
   });
+  
+  describe('Inserts link', function(){
+    it('creates link if no text is selected', function(){
+      browser.fill("textarea", "abc");
+      browser.wait(function(arg){
+        return arg.document.querySelector('a');
+      }(browser), function(arg){
+        console.log('ok');
+        console.log(arg.document.innerHTML);
+      }(browser));
+      // console.log(browser.document);
+      // console.log(browser.link('a[title="Collegamento"]').innerHTML);
+      
+    });
+  });
+
 });
