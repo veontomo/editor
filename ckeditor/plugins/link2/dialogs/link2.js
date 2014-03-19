@@ -169,10 +169,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 this.getContentElement('tab-general', 'text').disable();
             }
 
-            console.log('selectionContainer: ', selectionContainer);
-            selectionContainer.forEach(function(el, ind){
-              console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
-            });
+            // console.log('selectionContainer: ', selectionContainer);
+            // selectionContainer.forEach(function(el, ind){
+            //   console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
+            // });
         },
 
 
@@ -234,8 +234,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         if (elemType === CKEDITOR.NODE_TEXT){
                             obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                             obj.insertAfter(elem);
-                            // set the text content to be a single space (otherwise the newly 
-                            //  inserted link gets close to the previous text)
+                            // set the text content to be a single space (otherwise the newly
+                            // inserted link gets close to the previous text)
                             elem.setText(' ');
                         }
                     }
