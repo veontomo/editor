@@ -6,3 +6,7 @@ test/coverage/*.json
 node_modules/*
 php/repo/*.html
 *.exe
+.project
+.pydevproject
+.externalToolBuilders/*
+.settings/*
