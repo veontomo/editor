@@ -60,6 +60,19 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				echo $fileContent;
 			}?>
 	</textarea>
+  <script>
+      // Replace the <textarea id="editor1"> with a CKEditor
+      // instance, using default configuration.
+      var editor = CKEDITOR.replace('editor', {customConfig: '../settings/editor_config.js'});
+      editor.on('instanceReady', function () {
+        // disabling default plugins by removing them from the context menu
+        var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink'];
+        menuItemsToRemove.forEach(function (item) {
+          editor.removeMenuItem(item);
+        });
+  });
+      
+  </script>	
 	</div>
 
 </body>
