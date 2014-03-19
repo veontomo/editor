@@ -1,3 +1,5 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('link2', {
 
