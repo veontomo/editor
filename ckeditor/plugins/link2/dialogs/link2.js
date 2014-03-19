@@ -234,9 +234,10 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         if (elemType === CKEDITOR.NODE_TEXT){
                             obj = CKEDITOR.dom.element.createFromHtml(linkStr);
                             obj.insertAfter(elem);
-                            // set the text content to be a single space (otherwise the newly
-                            // inserted link gets close to the previous text)
-                            elem.setText(' ');
+                            // if the element starts with a space, then impose a single space as element text content,
+                            // otherwise, set element text content to be an empty string
+                            leader = elem.getText().substring(0, 1) === ' ' ? ' ' : '';
+                            elem.setText(leader);
                         }
                     }
                 }
