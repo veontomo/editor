@@ -463,7 +463,6 @@ var CKHelper = {
    */
   insertTableWithHoverEff: function(ed, tbl){
     ed.insertElement(tbl);
-    console.log('inside insertTableWithHoverEff');
     $(tbl.$).hover(
       function () {
         var markerName  = NEWSLETTER['marker-name'],
@@ -492,7 +491,7 @@ var CKHelper = {
           }
         );
         // hovering the whole table
-        // $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAAFF');
+        $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAFFF');
         // hovering table row
         $(this).find('tr').hover(
           function () {
