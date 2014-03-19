@@ -29,6 +29,23 @@ var CKHelper = {
 		}
 		return null;
 	},
+	
+/**
+ * Drops inline attribute named attrName from DOM element
+ * @param  {Object} element   an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
+ * @param  {string} attrName  this attribute name will be dropped.
+ * @return {void}
+ */
+dropInlineStyleAttr: function(element, attrName){
+  // unhovering table
+  var attr = element.attr('style'),
+    style = new Style(attr);
+  if (style.hasOwnProperty(attrName)){
+    delete style[attrName];
+  }
+  element.attr('style', style.toString());
+},
+	
 
 	/**
 	 * Drops the table row. If after removing the table becomes empty, then removes it as well.

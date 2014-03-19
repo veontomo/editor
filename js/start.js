@@ -12,21 +12,6 @@ $(document).ready(function () {
 			editor.removeMenuItem(item);
 		});
 
-		/**
-		 * Drops inline attribute named attrName from DOM element
-		 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
-		 * @param  {string} attrName 	this attribute name will be dropped.
-		 * @return {void}
-		 */
-		var dropInlineStyleAttr = function(element, attrName){
-			// unhovering table
-			var attr = element.attr('style'),
-				style = new Style(attr);
-			if (style.hasOwnProperty(attrName)){
-				delete style[attrName];
-			}
-			element.attr('style', style.toString());
-		};
 
 		/**
 		 * Inserts table and applies hover effect on it.
@@ -59,7 +44,7 @@ $(document).ready(function () {
 								i,
 								len = allCells.length;
 							for (i = 0; i < len; i++){
-								dropInlineStyleAttr($(allCells[i]), 'box-shadow');
+								CKHelper.dropInlineStyleAttr($(allCells[i]), 'box-shadow');
 							}
 
 						}
@@ -74,13 +59,13 @@ $(document).ready(function () {
 						function () {
 							// unhovering the table row
 							var that = this;
-							dropInlineStyleAttr($(that), 'box-shadow');
+							CKHelper.dropInlineStyleAttr($(that), 'box-shadow');
 						}
 					);
 				}, function(){
 					// unhovering table
 					var that = this;
-					dropInlineStyleAttr($(that), 'box-shadow');
+					CKHelper.dropInlineStyleAttr($(that), 'box-shadow');
 				}
 			);
 
