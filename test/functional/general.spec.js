@@ -2,12 +2,14 @@ describe('General aspects of the Newsletter page', function () {
   var zombie;
 
   before(function () {
-     zombie = new Zombie({debug: false, runScripts: false});
+     zombie = new Zombie({debug: false, runScripts: true});
      zombie.site = "http://localhost";
      zombie.loadCSS = true;
   });
   before(function (done) {
     zombie.visit("/projects/editor", function () {
+      console.log(browser.html());
+      console.log(browser.success);
       done();
     });
   });
