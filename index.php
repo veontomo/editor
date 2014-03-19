@@ -7,7 +7,7 @@
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
-	<!-- <script type="text/javascript" src="js/start.js"></script> -->
+	<script type="text/javascript" src="js/start.js"></script>
 
 	<script type="text/javascript" src="js/classes/helpers.js"></script>
 	<script type="text/javascript" src="js/classes/unit.js"></script>
@@ -55,24 +55,11 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<input type="submit" value="submit">
 	</form>
 	<div class="editor">
-		<textarea name="editor">
+		<textarea name="editor" id="editor">
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
 	</textarea>
-  <script>
-      // Replace the <textarea id="editor1"> with a CKEditor
-      // instance, using default configuration.
-      var editor = CKEDITOR.replace('editor', {customConfig: '../settings/editor_config.js'});
-      editor.on('instanceReady', function () {
-        // disabling default plugins by removing them from the context menu
-        var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink'];
-        menuItemsToRemove.forEach(function (item) {
-          editor.removeMenuItem(item);
-        });
-  });
-      
-  </script>	
 	</div>
 
 </body>

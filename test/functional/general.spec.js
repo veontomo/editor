@@ -8,8 +8,8 @@ describe('General aspects of the Newsletter page', function () {
   });
   before(function (done) {
     browser.visit("/projects/editor", function () {
-      console.log(browser.html());
-      console.log(browser.success);
+      // console.log(browser.html());
+      // console.log(browser.success);
       done();
     });
    // browser.visit("/projects/editor");
@@ -23,6 +23,7 @@ describe('General aspects of the Newsletter page', function () {
   describe('Presence of the main elements', function () {  
     it('should contain the editor window', function () {
       browser.query('.editor').should.be.ok;
+      console.log(browser.link('a[title="Collegamento"]'));
     });
   });
   
@@ -33,17 +34,18 @@ describe('General aspects of the Newsletter page', function () {
     });
   });
   
-  describe('Inserts link', function(){
+  xdescribe('Inserts link', function(){
     it('creates link if no text is selected', function(){
       browser.fill("textarea", "abc");
       browser.wait(function(arg){
         return arg.document.querySelector('span');
       }(browser), function(arg){
-        console.log('ok');
+        console.log(browser.document);
+        // console.log('ok');
         // console.log(arg.document.innerHTML);
       }(browser));
-      // console.log(browser.document);
-      // console.log(browser.link('a[title="Collegamento"]').innerHTML);
+      console.log(browser.document);
+      // console.log(browser.link('a[title="Collegamento"]'));
       
     });
   });
