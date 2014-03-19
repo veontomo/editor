@@ -8,8 +8,12 @@ describe('General aspects of the Newsletter page', function () {
   });
   before(function (done) {
     browser.visit("/projects/editor", function () {
+      console.log(browser.html());
+      console.log(browser.success);
       done();
     });
+   // browser.visit("/projects/editor");
+
   });
   
   after(function () {
