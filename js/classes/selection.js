@@ -10,9 +10,6 @@
  * @class     Selection
  * @param     {CKEDITOR.editor}         editor
  * @param     {CKEDITOR.dom.selection}  selected
- * @requires  CKEditor, CKHelper
- * @version   0.0.0
- * @author    A.Shcherbakov
  */
 function Selection(editor, selected) {
   "use strict";
@@ -34,15 +31,30 @@ function Selection(editor, selected) {
 
 
   /**
-   * The selection.
+   * Selected elements.
    * @property {CKEDITOR.dom.selection}  selected
    */
   this.selected = selected;
 
   /**
-   * Ranges of the selection. Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
-   *
-   * @property {Array}          ranges        array of range instances corresponding to the selection
+   * Array of range instances corresponding to the selection.
+   * Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
+   * @property {Array}   ranges
+   * @type     {Array}
    */
   this.ranges = selected.getRanges();
+
+  /**
+   * Returns an array of the form [[elem00, elem01, ...], [elem10, ele11, ...], ...]. Each element of the array corresponds
+   * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{#crossLink}} property of the selection.
+   * In other words, each element of {{#crossLink "Selection/getNodes:method"}}getNodes(){{/crossLink}}
+   * reflects the structure of {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} that is an array of
+   * [CKEDITOR.dom.range](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) instances.
+   * @method getNodes
+   * @return {Array}   array of arrays of nodes in the selection. The inner array corresponds to the simply-connected
+   *                   DOM nodes in the selection.
+   */
+  this.getNodes = function(){
+    return null;
+  }
 }
