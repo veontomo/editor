@@ -72,6 +72,15 @@ var CKHelper = {
 	},
 	
 	/**
+   * Whether the argument is a CKEDITOR.editor instance.
+   * @method  isEditor
+   * @param   {any}   obj    
+   */
+  isEditor: function(obj){
+    return (obj instanceof CKEDITOR.editor);
+  },
+	
+	/**
 	 * Inserts a row at a specified position with respect to the selected element.
 	 * The command to insert the row is obtained by capitalizing the second argument
 	 * and appending it to the string 'insert'. Example: if pos is 'after', the command

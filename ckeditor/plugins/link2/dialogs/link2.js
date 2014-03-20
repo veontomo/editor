@@ -183,6 +183,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
         onOk: function() {
+          console.log(editor instanceof CKEDITOR.editor);
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var linkHref, linkHrefRaw,
