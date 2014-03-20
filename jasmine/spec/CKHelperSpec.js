@@ -33,7 +33,7 @@ describe('CKHelper functions', function(){
       expect(CKHelper.isSelection({foo:1, 'boo': 'yes'})).toBe(false);
     });
    it("returns true if the argument is an CKEDITOR.editor", function () {
-      expect(CKHelper.isSelection(CKEDITOR.document).toBe(true);
+       expect(CKHelper.isSelection(new CKEDITOR.dom.selection(CKEDITOR.document))).toBe(true);
     });
   });
 

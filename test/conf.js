@@ -2,10 +2,10 @@ var path = require('path'),
   os = require('os'),
   // if the operation system is Windows
   isWin = os.platform().toLowerCase().indexOf('win') !== -1;
-
+// require('../ckeditor/ckeditor.js'.replace(/\//g, path.sep));
 module.exports = function (config) {
   config.set({
-    basePath: '../js/classes'.replace('/', path.sep),
+    basePath: '../js/classes'.replace(/\//g, path.sep),
     autoWatch: true,
     frameworks: ['jasmine'],
     files: [
@@ -22,6 +22,7 @@ module.exports = function (config) {
       'listItem.js',
       'list.js',
       'link.js',
+      'selection.js',
       'string.js',
       'CKHelper.js',
       '../../jasmine/spec/HelperSpec.js',
@@ -37,15 +38,17 @@ module.exports = function (config) {
       '../../jasmine/spec/ListItemSpec.js',
       '../../jasmine/spec/ListSpec.js',
       '../../jasmine/spec/LinkSpec.js',
+      '../../jasmine/spec/SelectionSpec.js',
       '../../jasmine/spec/ContentSpec.js',
-      '../../jasmine/spec/StringSpec.js'
-    ].map(function(str){return str.replace('/', path.sep);}),
+      '../../jasmine/spec/StringSpec.js',
+      '../../ckeditor/ckeditor.js',
+    ].map(function(str){return str.replace(/\//g, path.sep);}),
     browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
     reporters: ['progress', 'coverage'],
     preprocessors: { '*.js': ['coverage'] },
     coverageReporter: {
       type : 'html',
-      dir : '../../test/coverage'.replace('/', path.sep),
+      dir : '../../test/coverage'.replace(/\//g, path.sep),
     },
     singleRun: true
   });
