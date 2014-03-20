@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
@@ -173,6 +173,23 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // selectionContainer.forEach(function(el, ind){
             //   console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
             // });
+            console.log('from onShow: ', selectionContainer);
+            var sel = (new Selection(editor, selection)).getNodes();
+            console.log('from Selection: ', sel);
+            console.log(sel === selectionContainer);
+            var foo1, foo2, all = selectionContainer.concat(sel);
+            all.forEach(function(el, ind){
+                console.log(ind);
+                foo1 = sel.some(function(el2){
+                    return el2.equals(el);
+                });
+                foo2 = selectionContainer.some(function(el2){
+                    return el2.equals(el);
+                });
+
+                console.log(foo1 && foo2 ? 'present in both' : CKHelper.nodeStrin(el) + (foo1 ? 'selectionContainer does not contain' : 'sel does not contain' ));
+            });
+
         },
 
 
@@ -183,13 +200,12 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
         onOk: function() {
-          console.log(editor instanceof CKEDITOR.editor);
-            // clear the value of the warning field
+             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var linkHref, linkHrefRaw,
                 linkContentRaw, isUnderlined,
                 len = selectionContainer.length,
-                i, link, elem, elemType, content, obj, linkStr, contLen,
+                i, link, elem, elemType, content, obj, linkStr, contLen, leader,
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
             // user input
             linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');

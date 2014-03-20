@@ -22,13 +22,14 @@
 	<script type="text/javascript" src="js/classes/listItem.js"></script>
 	<script type="text/javascript" src="js/classes/list.js"></script>
 	<script type="text/javascript" src="js/classes/link.js"></script>
+	<script type="text/javascript" src="js/classes/selection.js"></script>
 	<script type="text/javascript" src="js/classes/string.js"></script>
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	
-	
+
+
 	<script type="text/javascript" src="work.js"></script>
 	<title>Creatore di newsletter</title>
 <?php
@@ -51,7 +52,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
       <a href="test/coverage/Chrome 33.0.1750 (Windows)/index.html">Chrome</a>
       <a href="test/coverage/IE 11.0.0 (Windows)/index.html">IE</a>
     </div>
-  
+
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
