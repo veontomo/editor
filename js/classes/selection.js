@@ -18,28 +18,28 @@ function Selection(editor, selection) {
   "use strict";
   if (!(this instanceof Selection)) {
     return new Selection(editor, selection);
-  } 
+  }
 
   if (!this.isEditor(editor)){
-   throw new Error('The first argument must be a CKEDITOR.editor instance!');  
+   throw new Error('The first argument must be a CKEDITOR.editor instance!');
   }
-  
+
   /**
    * Instance of the editor containing the selection.
    * @property {CKEDITOR.editor}         editor
    */
   this.editor = editor;
-  
+
 
   /**
    * The selection.
    * @property {CKEDITOR.dom.selection}  selection
    */
   this.selection = selection;
-  
+
   /**
    * Ranges of the selection. Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
-   * 
+   *
    * @property {Array}          ranges        array of range instances corresponding to the selection
    */
   // this.ranges = typeof selection.getRanges === 'function' ? selection.getRanges() : [];

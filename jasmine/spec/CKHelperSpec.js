@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, Helper */
+/*global describe, it, expect, CKHelper, CKEDITOR */
 
 describe('CKHelper functions', function(){
   describe("CKHelper::isEditor()", function () {
