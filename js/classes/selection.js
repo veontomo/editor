@@ -5,24 +5,24 @@
 /**
  * Represents selected elements in the editor window. The argument `editor` is a
  * [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site") instance and
- * `selection` is a [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
+ * `selected` is a [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
  * @module    Helper
  * @class     Selection
  * @param     {CKEDITOR.editor}         editor
- * @param     {CKEDITOR.dom.selection}  selection
+ * @param     {CKEDITOR.dom.selection}  selected
  * @requires  CKEditor, CKHelper
  * @version   0.0.0
  * @author    A.Shcherbakov
  */
-function Selection(editor, selection) {
+function Selection(editor, selected) {
   "use strict";
   if (!(this instanceof Selection)) {
-    return new Selection(editor, selection);
+    return new Selection(editor, selected);
   }
   if (!CKHelper.isEditor(editor)){
     throw new Error('The first argument must be a CKEDITOR.editor instance!');
   }
-  if (!CKHelper.isSelection(selection)){
+  if (!CKHelper.isSelection(selected)){
     throw new Error('The second argument must be a CKEDITOR.dom.selection instance!');
   }
 
@@ -35,14 +35,14 @@ function Selection(editor, selection) {
 
   /**
    * The selection.
-   * @property {CKEDITOR.dom.selection}  selection
+   * @property {CKEDITOR.dom.selection}  selected
    */
-  this.selection = selection;
+  this.selected = selected;
 
   /**
    * Ranges of the selection. Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
    *
    * @property {Array}          ranges        array of range instances corresponding to the selection
    */
-  // this.ranges = typeof selection.getRanges === 'function' ? selection.getRanges() : [];
+  this.ranges = selected.getRanges();
 }
