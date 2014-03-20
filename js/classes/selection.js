@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, flatten, Attributes, Style, Cell, Table, getProperty, TableRowStyle, Tag, Content */
+/*global DOMParser, Node */
 
 /**
  * Represents selected elements in the editor window. The argument `editor` is a
@@ -10,6 +10,7 @@
  * @class     Selection
  * @param     {CKEDITOR.editor}         editor
  * @param     {CKEDITOR.dom.selection}  selection
+ * @requires  CKEditor
  * @version   0.0.0
  * @author    A.Shcherbakov
  */
@@ -18,17 +19,7 @@ function Selection(editor, selection) {
   if (!(this instanceof Selection)) {
     return new Selection(editor, selection);
   } 
-  /**
-   * Whether the argument is a CKEDITOR.editor instance.
-   * @method  isEditor
-   * @param   {any}   obj    
-   */
-  this.isEditor = function(obj){
-    return (obj instanceof CKEDITOR.editor);
-  };
 
-
-  
   if (!this.isEditor(editor)){
    throw new Error('The first argument must be a CKEDITOR.editor instance!');  
   }
