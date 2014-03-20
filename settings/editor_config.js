@@ -33,7 +33,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2';
+	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
