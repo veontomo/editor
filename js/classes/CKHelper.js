@@ -29,7 +29,7 @@ var CKHelper = {
 		}
 		return null;
 	},
-	
+
   /**
    * Drops inline attribute named attrName from DOM element
    * @param  {Object} element   an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
@@ -45,7 +45,7 @@ var CKHelper = {
     }
     element.attr('style', style.toString());
   },
-	
+
 
 	/**
 	 * Drops the table row. If after removing the table becomes empty, then removes it as well.
@@ -70,16 +70,26 @@ var CKHelper = {
 			}
 		}
 	},
-	
-	/**
+
+   /**
    * Whether the argument is a CKEDITOR.editor instance.
    * @method  isEditor
-   * @param   {any}   obj    
+   * @param   {any}   obj
    */
   isEditor: function(obj){
     return (obj instanceof CKEDITOR.editor);
   },
-	
+
+   /**
+   * Whether the argument is a CKEDITOR.dom.selection instance.
+   * @method  isSelection
+   * @param   {any}   obj
+   */
+  isSelection: function(obj){
+    return (obj instanceof CKEDITOR.dom.selection);
+  },
+
+
 	/**
 	 * Inserts a row at a specified position with respect to the selected element.
 	 * The command to insert the row is obtained by capitalizing the second argument
@@ -516,7 +526,7 @@ var CKHelper = {
         CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
       }
     );
-  }	
+  }
 };
 
 

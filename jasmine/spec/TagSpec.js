@@ -371,7 +371,7 @@ describe('Tag-related functionality:', function() {
             var foo = 'foo';
             tag.appendElemIfNotEmpty(foo);
             expect(content.appendElemIfNotEmpty).toHaveBeenCalledWith(foo);
-        })
+        });
     });
 
 });

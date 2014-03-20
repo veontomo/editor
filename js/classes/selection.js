@@ -10,7 +10,7 @@
  * @class     Selection
  * @param     {CKEDITOR.editor}         editor
  * @param     {CKEDITOR.dom.selection}  selection
- * @requires  CKEditor
+ * @requires  CKEditor, CKHelper
  * @version   0.0.0
  * @author    A.Shcherbakov
  */
@@ -19,9 +19,11 @@ function Selection(editor, selection) {
   if (!(this instanceof Selection)) {
     return new Selection(editor, selection);
   }
-
-  if (!this.isEditor(editor)){
-   throw new Error('The first argument must be a CKEDITOR.editor instance!');
+  if (!CKHelper.isEditor(editor)){
+    throw new Error('The first argument must be a CKEDITOR.editor instance!');
+  }
+  if (!CKHelper.isSelection(selection)){
+    throw new Error('The second argument must be a CKEDITOR.dom.selection instance!');
   }
 
   /**
