@@ -29,8 +29,6 @@
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-
-	<script type="text/javascript" src="work.js"></script>
 	<title>Creatore di newsletter</title>
 <?php
 require 'php/fileContent.php';
@@ -62,6 +60,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+<div>In una terra lontana, dietro le montagne <span style="color:red">Parole</span>, lontani dalle terre di Vocalia e Consonantia, vivono i testi casuali. <img src="https://cdn1.iconfinder.com/data/icons/free-game-icons/64/Tree.png" />
+</div>
+<p>Vivono isolati nella cittadina di Lettere, sulle coste del Semantico, un immenso oceano linguistico.</p>
+
+<p>Un piccolo ruscello chiamato Devoto Oli attraversa quei luoghi, rifornendoli di tutte le regolalie di cui hanno bisogno.</p>
+
+È una terra paradismatica, un paese della cuccagna in cui golose porzioni di proposizioni arrostite volano in bocca a chi le desideri. Non una volta i testi casuali sono stati dominati dall’onnipotente Interpunzione, una vita davvero non ortografica. Un giorno però accadde che la piccola riga di un testo
 	</textarea>
 	</div>
 
