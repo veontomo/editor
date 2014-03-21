@@ -1,12 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, List, ListItem*/
+/*global CKEDITOR, Selection*/
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('selection', {
 
 	// Register the icons.
-	icons: 'olist2',
+	icons: 'selection',
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
@@ -15,8 +15,18 @@ CKEDITOR.plugins.add('selection', {
 			exec: function(editor){
 				console.log('inside Selection plugin');
 				var selected = editor.getSelection(),
-					selection = new Selection(editor, selected);
-				console.log(selection.getNodes());
+					selection = new Selection(editor, selected),
+					nodes = selection.getNodes();
+				console.log(nodes);
+				nodes.forEach(function(node, ind){
+					if (node.type === CKEDITOR.NODE_TEXT){
+						node.setText(' ' + ind + ' ');
+					}
+					if (node.type === CKEDITOR.NODE_ELEMENT){
+						node.setHtml(' ' + ind + ' ');
+					}
+
+				});
 				// CKHelper.insertList(editor, 'ol');
 			}
 		});
@@ -24,7 +34,7 @@ CKEDITOR.plugins.add('selection', {
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('selection', {
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang.list.numberedlist,
+			label: 'vedi cosa hai selezionato',
 			// The command to execute on click.
 			command: 'selection',
 			// The button placement in the toolbar (toolbar group name).
