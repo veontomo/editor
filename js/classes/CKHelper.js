@@ -560,6 +560,19 @@ var CKHelper = {
   			container.push(currentElem);
   		}
   		return container;
+	},
+
+	/**
+	 * Returns array of elements that comes before or after in DOM with repsect to the argument when coming from
+	 * it to the root element.
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
+	 * @param  {String}                                   dir          'prev' or 'next'. Defaults to 'next.'
+	 * @return {[type]}      [description]
+	 */
+	'bunch-siblings': function(node, root, dir){
+		dir = dir || 'next';
+		return null;
 	}
 
 
