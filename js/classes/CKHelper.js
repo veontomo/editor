@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem, Tag */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem, Tag, Row */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -526,7 +526,23 @@ var CKHelper = {
         CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
       }
     );
-  }
+  },
+
+  	/**
+  	 * Returns an array of elements that are next siblings of the given one.
+  	 * @method  next-siblings
+  	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}      elem
+  	 * @return {Array}                                       array of CKEDITOR.dom.node
+  	 */
+  	'next-siblings': function(elem){
+  		var container = [],
+  			currentElem = elem;
+  		while(currentElem.hasNext()){
+  			currentElem = currentElem.getNext();
+  			container.push(currentElem);
+  		}
+  		return container;
+	}
 };
 
 

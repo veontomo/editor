@@ -31,8 +31,8 @@ describe('Selection-related functionality', function(){
       sel = new Selection(editor, selected);
       expect(sel.selected).toBe(selected);
     });
-
   });
+
 });
 
 

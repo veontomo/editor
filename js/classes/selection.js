@@ -88,6 +88,30 @@ function Selection(editor, selected) {
                 console.log('start container path: ', new CKEDITOR.dom.elementPath(startContainer, commonAnc));
                 console.log('end container position wrt start : ', startContainer.getPosition(endContainer));
                 console.log('end container path: ', new CKEDITOR.dom.elementPath(endContainer, commonAnc));
+
+                if (endType === CKEDITOR.NODE_TEXT){
+                    endElem = endContainer.split(endOffset).getPrevious();
+                }
+                if (endType === CKEDITOR.NODE_ELEMENT){
+                    if (endOffset > 0){
+                        endElem = endContainer.getChild(endOffset - 1);
+                    } else {
+                        endElem = endContainer.getParent();
+                    }
+                }
+                if (startType === CKEDITOR.NODE_TEXT){
+                    startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
+                }
+                if (startType === CKEDITOR.NODE_ELEMENT){
+                    startElem = startContainer.getChild(startOffset);
+                }
+                console.info('new', startElem, endElem);
+
+
+
+
+
+
                 if (startContainer.equals(endContainer)){
                     // the selection starts and finishes in the same container
                     if (startType === CKEDITOR.NODE_TEXT){
