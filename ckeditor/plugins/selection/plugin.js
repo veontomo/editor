@@ -18,15 +18,16 @@ CKEDITOR.plugins.add('selection', {
 					selection = new Selection(editor, selected),
 					nodes = selection.getNodes();
 				console.log(nodes);
-				nodes.forEach(function(node, ind){
-					if (node.type === CKEDITOR.NODE_TEXT){
-						node.setText(' ' + ind + ' ');
-					}
-					if (node.type === CKEDITOR.NODE_ELEMENT){
-						node.setHtml(' ' + ind + ' ');
-					}
-
-				});
+				// nodes.forEach(function(arr, ind1){
+				// 	arr.forEach(function(node, ind){
+				// 		if (node.type === CKEDITOR.NODE_TEXT){
+				// 			node.setText(' ' + ind1 + ' ' + ind + ' ');
+				// 		}
+				// 		if (node.type === CKEDITOR.NODE_ELEMENT){
+				// 			node.setHtml(' ' + ind1 + ' ' + ind + ' ');
+				// 		}
+				// 	});
+				// });
 				// CKHelper.insertList(editor, 'ol');
 			}
 		});
