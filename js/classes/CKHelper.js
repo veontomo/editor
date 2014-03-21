@@ -529,7 +529,8 @@ var CKHelper = {
   },
 
   	/**
-  	 * Returns an array of elements that are next siblings of the given one.
+  	 * Returns an array of elements that are next siblings of the given one. The first next sibling becomes the first element
+  	 * of the array, the second next sibling becomes the second one and so on.
   	 * @method  next-siblings
   	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}      elem
   	 * @return {Array}                                       array of CKEDITOR.dom.node
@@ -542,7 +543,27 @@ var CKHelper = {
   			container.push(currentElem);
   		}
   		return container;
+	},
+
+  	/**
+  	 * Returns an array of elements that are siblings of the given one and that come before it. The first prevoius
+  	 * sibling becomes the first element of the array, the second previous sibling becomes the second one and so on.
+  	 * @method  prev-siblings
+  	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}      elem
+  	 * @return {Array}                                       array of CKEDITOR.dom.node
+  	 */
+  	'prev-siblings': function(elem){
+  		var container = [],
+  			currentElem = elem;
+  		while(currentElem.hasPrevious()){
+  			currentElem = currentElem.getPrevious();
+  			container.push(currentElem);
+  		}
+  		return container;
 	}
+
+
+
 };
 
 
