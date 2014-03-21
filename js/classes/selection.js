@@ -58,14 +58,16 @@ function Selection(editor, selected) {
         var ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
+            startPath, endPath,
             range,
             startElem, endElem,
             startType, endType,
-            i, rangesLen, next,
+            i, rangesLen, next, path, commonAnc,
             isOut = false,
+            doesOverlap,
             selectedNodes = [], // container for all selected nodes
             rangeNodes;         // container for selected nodes in current range
-
+        console.log('ranges: ', ranges);
         rangesLen = ranges.length;
         for (i = 0; i < rangesLen; i++){
             console.info('loop', i);
@@ -76,13 +78,20 @@ function Selection(editor, selected) {
                 endContainer = range.endContainer;
                 startType = startContainer.type;
                 endType   = endContainer.type;
+                startPath = new CKEDITOR.dom.elementPath(startContainer);
+                endPath = new CKEDITOR.dom.elementPath(endContainer);
                 startOffset = range.startOffset;
                 endOffset = range.endOffset;
+                commonAnc = startContainer.getCommonAncestor(endContainer);
+                console.log('startPath === endPath?', startPath.compare(endPath));
+                console.log('common ancestor: ', commonAnc);
+                console.log('start container path: ', new CKEDITOR.dom.elementPath(startContainer, commonAnc));
+                console.log('end container position wrt start : ', startContainer.getPosition(endContainer));
+                console.log('end container path: ', new CKEDITOR.dom.elementPath(endContainer, commonAnc));
                 if (startContainer.equals(endContainer)){
                     // the selection starts and finishes in the same container
                     if (startType === CKEDITOR.NODE_TEXT){
                         startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                        // rangeNodes.push('startElem: ');
                         rangeNodes.push(startElem);
                     }
                     if (startType === CKEDITOR.NODE_ELEMENT){
@@ -112,17 +121,25 @@ function Selection(editor, selected) {
                         startElem = startContainer.getChild(startOffset);
                     }
                     Helper.pushBeforeLast(rangeNodes, startElem);
+                    path =  new CKEDITOR.dom.elementPath(startElem);
+                    console.log('path: ', path);
+                    // console.log('isContextFor: ', path.isContextFor('p'));
 
                     next = startElem.getNext();
-                    isOut = !next || CKHelper.doesOverlap(next, endElem);
-                    console.info('before entering the while loop', 'next: ', next, ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
+                    doesOverlap = CKHelper.doesOverlap(next, endElem);
+                    isOut = !next || doesOverlap;
+                    console.info('before entering the while loop', 'next: ', next, ', doesOverlap: ', doesOverlap,  ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
                     while (!isOut && next){
                         console.info('while loop', 'next: ', next);
+                        if (next.type === CKEDITOR.NODE_ELEMENT){
+                            console.info('tab index: ', next.getTabIndex());
+                        }
                         Helper.pushBeforeLast(rangeNodes, next);
                         next = next.getNext();
                         isOut = !next || CKHelper.doesOverlap(next, endElem);
-                        console.info('status in while loop', 'next: ', next, ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
+                        console.info('status in while loop', 'next: ', next, ', doesOverlap: ', doesOverlap, ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
                     }
+                    // console.log('test: ', startContainer.getParent().getNext());
                 }
             }
             selectedNodes.push(rangeNodes);
