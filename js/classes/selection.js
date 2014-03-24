@@ -54,7 +54,7 @@ function Selection(editor, selected) {
     * @return {Array}   array of arrays of nodes in the selection. The inner array corresponds to the simply-connected
     *                   DOM nodes in the selection.
     */
-    this.getNodes = function(){
+    this.getNodes_old = function(){
         var ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
@@ -165,6 +165,84 @@ function Selection(editor, selected) {
                     }
                     // console.log('test: ', startContainer.getParent().getNext());
                 }
+            }
+            selectedNodes.push(rangeNodes);
+        }
+        return selectedNodes;
+    };
+
+    this.getNodes = function(){
+        var ranges = this.ranges,
+            startContainer, endContainer,
+            startOffset, endOffset,
+            range, startChild, endChild, nextChild,
+            startElem, endElem,
+            startType, endType,
+            i, rangesLen, commonAnc,
+            selectedNodes = [], // container for all selected nodes
+            rangeNodes;         // container for selected nodes in current range
+        console.log('ranges: ', ranges);
+        rangesLen = ranges.length;
+        for (i = 0; i < rangesLen; i++){
+            console.info('loop', i);
+            rangeNodes = [];
+            range = ranges[i];
+            if (!range.collapsed) {
+                startContainer = range.startContainer;
+                endContainer = range.endContainer;
+                startType = startContainer.type;
+                endType   = endContainer.type;
+                startOffset = range.startOffset;
+                endOffset = range.endOffset;
+                startElem = null;
+                endElem = null;
+
+
+                if (startContainer.equals(endContainer)){
+                    if (startType === CKEDITOR.NODE_TEXT){
+                        startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
+                        endElem = startElem;
+                    } else if (startType === CKEDITOR.NODE_ELEMENT){
+                        startElem = startContainer.getChild(startOffset);
+                        endElem = startContainer.getChild(endOffset);
+                    }
+                } else {
+                    if (startType === CKEDITOR.NODE_TEXT){
+                        startElem = startContainer.split(startOffset);
+                    } else if (startType === CKEDITOR.NODE_ELEMENT){
+                        startElem = startContainer.getChild(startOffset);
+                    }
+                    if (endType === CKEDITOR.NODE_TEXT){
+                        endElem = endContainer.split(endOffset).getPrevious();
+                    } else if (endType === CKEDITOR.NODE_ELEMENT){
+                        if (endOffset > 0){
+                            endElem = endContainer.getChild(endOffset - 1);
+                        } else {
+                            endElem = endContainer.getParent();
+                        }
+                    }
+
+                }
+                if (startElem === null || endElem === null){
+                    break;
+                }
+                console.log('start elem: ', startElem, ', end elem: ', endElem);
+                if (startElem.equals(endElem)){
+                    rangeNodes = [startElem];
+                } else {
+                }
+
+                commonAnc = startElem.getCommonAncestor(endElem);
+                startChild = CKHelper.childWithNode(commonAnc, startElem);
+                endChild = CKHelper.childWithNode(commonAnc, endElem);
+                rangeNodes = CKHelper['bunch-next-siblings'](startElem, commonAnc);
+                nextChild = startChild.getNext();
+                while(nextChild && !nextChild.equals(endChild)){
+                    rangeNodes.push(nextChild);
+                    nextChild = nextChild.getNext();
+                }
+                rangeNodes = rangeNodes.concat(CKHelper['bunch-prev-siblings'](endElem, commonAnc));
+
             }
             selectedNodes.push(rangeNodes);
         }

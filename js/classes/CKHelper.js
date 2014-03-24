@@ -638,18 +638,43 @@ var CKHelper = {
 	 *                                               if there is no nedlee in the haystack.
 	 */
 	'childWithNode': function(root, node){
-		var children, len, i, item;
+		console.log('childWithNode: root = ', root, ', node = ', node);
+		var children, len, i, item, itemType;
 		if (root.contains(node)){
 			children = root.getChildren();
 			len = children.count();
+			console.log('childWithNode: len=', len);
 			for (i = 0; i < len; i++){
 				item = children.getItem(i);
-				if (item.contains(node) || item.equals(node)){
+				itemType = item.type;
+				if (itemType === CKEDITOR.NODE_ELEMENT && (item.contains(node) || item.equals(node) ))  {
+					return item;
+				}
+				if (itemType === CKEDITOR.NODE_TEXT && item.equals(node)){
 					return item;
 				}
 			}
 		}
 		return null;
+	},
+
+	/**
+	 * Returns true if `elem1` contains `elem2` or if they are equal. False otherwise.
+	 * @method  containsOrEqual
+	 * @param  {CKEDITOR.dom.node}     elem1
+	 * @param  {CKEDITOR.dom.node}     elem2
+	 * @return {Boolean}
+	 */
+	containsOrEqual: function(elem1, elem2){
+		var elem1Type = elem1.type;
+		if (elem1Type === CKEDITOR.NODE_ELEMENT){
+		    return  (elem1.contains(elem2) || elem1.equals(elem2));
+		}
+		if (elem1Type === CKEDITOR.NODE_TEXT){
+		    return (elem1.equals(elem2));
+		}
+		return false;
+
 	}
 };
 

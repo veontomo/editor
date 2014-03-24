@@ -212,8 +212,47 @@ describe ('CKHelper functions', function(){
 
     });
 
+    describe('CKHelper::containsOrEqual(): whether the first argument contains or equal to thte second', function(){
+        it('gives true, if the arguments are equal and have NODE_ELEMENT type', function(){
+            expect(el1.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(el1, el1)).toBe(true);
+        });
+        it('gives true, if the arguments are equal and have NODE_TEXT type', function(){
+            el00.appendHtml('<span>text</span>');
+            var text = el00.getFirst().getFirst();
+            expect(text.type).toBe(CKEDITOR.NODE_TEXT);
+            expect(CKHelper.containsOrEqual(text, text)).toBe(true);
+        });
 
+        it('gives true, if both arguments are NODE_ELEMENT and the first one contains the second', function(){
+            expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(root, el11)).toBe(true);
+        });
+        it('gives false, if both arguments are NODE_ELEMENT and the first one doesn not contain the second', function(){
+            expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(el0, el12)).toBe(false);
+        });
 
+        it('gives true, if first argument is NODE_ELEMENT, the second is NODE_ELEMENT and it is inside the first one', function(){
+            el11.appendHtml('<span>text</span>');
+            var text = el11.getFirst().getFirst();
+            expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(el1, text)).toBe(true);
+        });
+        it('gives false, if first argument is NODE_ELEMENT, the second is NODE_TEXT and it is NOT inside the first one', function(){
+            el11.appendHtml('<span>text</span>');
+            var text = el11.getFirst().getFirst();
+            expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(el0, text)).toBe(false);
+        });
+
+        it('gives false, if first argument is NODE_TEXT, the second is NODE_ELEMENT which embraces the first', function(){
+            el11.appendHtml('<span>text</span>');
+            var text = el11.getFirst().getFirst();
+            expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
+            expect(CKHelper.containsOrEqual(text, el11)).toBe(false);
+        });
+    });
 
 });
 
