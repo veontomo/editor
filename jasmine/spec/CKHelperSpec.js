@@ -8,6 +8,7 @@ describe ('CKHelper functions', function(){
         el0 = CKEDITOR.dom.element.createFromHtml('<p id="el0"></p>');
         el1 = CKEDITOR.dom.element.createFromHtml('<span id="el1"></span>');
         el2 = CKEDITOR.dom.element.createFromHtml('<i id="el2"></i>');
+        el00 = CKEDITOR.dom.element.createFromHtml('<a href="www.test.com" id="el00"></a>');
         el10 = CKEDITOR.dom.element.createFromHtml('<span id="el10"></span>');
         el11 = CKEDITOR.dom.element.createFromHtml('<b id="el11"></b>');
         el12 = CKEDITOR.dom.element.createFromHtml('<strong id="el12"></strong>');
@@ -15,6 +16,7 @@ describe ('CKHelper functions', function(){
         root.append(el0);
         root.append(el1);
         root.append(el2);
+        el0.append(el00);
         el1.append(el10);
         el1.append(el11);
         el1.append(el12);
@@ -179,6 +181,34 @@ describe ('CKHelper functions', function(){
             expect(res[1].equals(el10)).toBe(true);
             expect(res[2].equals(el0)).toBe(true);
         });
+    });
+    describe('CKHelper::childWithNode(): finds the child of the given element containing given node', function(){
+        it('return null if the element does not contain the node', function(){
+            expect(CKHelper.childWithNode(el1, el2)).toBe(null);
+        });
+        it('returns the node if it is the first child of the element', function(){
+            res = CKHelper.childWithNode(root, el0);
+            expect(res.equals(el0)).toBe(true);
+        });
+        it('returns the node if it is the last child of the element', function(){
+            res = CKHelper.childWithNode(el1, el12);
+            expect(res.equals(el12)).toBe(true);
+        });
+        it('returns the last child of the element if it contains the node', function(){
+            res = CKHelper.childWithNode(root, el20);
+            expect(res.equals(el2)).toBe(true);
+        });
+        it('returns the first child of the element if it contains the node', function(){
+            res = CKHelper.childWithNode(root, el00);
+            expect(res.equals(el0)).toBe(true);
+        });
+        it('returns a middle child of the element if it contains the node', function(){
+            res = CKHelper.childWithNode(root, el10);
+            expect(res.equals(el1)).toBe(true);
+        });
+
+
+
     });
 
 

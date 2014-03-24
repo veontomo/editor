@@ -626,6 +626,30 @@ var CKHelper = {
 		}
 		output = output.concat(fun(elem));
 		return output;
+	},
+
+	/**
+	 * Returns the first child of the `root` containing `node`.
+	 * If `root` does not contain `node`, `null` is returned.
+	 * @method  childWithNode
+	 * @param  {CKEDITOR.dom.node}       root        haystack to be searched in
+	 * @param  {CKEDITOR.dom.node}       node        needle to be present in the haystack
+	 * @return {CKEDITOR.dom.node|null}              the first child of the haystack that contians needle, or `null`
+	 *                                               if there is no nedlee in the haystack.
+	 */
+	'childWithNode': function(root, node){
+		var children, len, i, item;
+		if (root.contains(node)){
+			children = root.getChildren();
+			len = children.count();
+			for (i = 0; i < len; i++){
+				item = children.getItem(i);
+				if (item.contains(node) || item.equals(node)){
+					return item;
+				}
+			}
+		}
+		return null;
 	}
 
 
