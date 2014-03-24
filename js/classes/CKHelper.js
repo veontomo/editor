@@ -568,6 +568,9 @@ var CKHelper = {
 	 * belong to `root`. `root` itself is not included in the output except
 	 * the case when it is equal to `node`. If `root` does not contain `node`,
 	 * the output must be an empty array.
+	 * Uses {{#crossLink "CKHelper/next-siblings:method"}}CKHelper['next-siblings']{{/crossLink}}
+	 * to fill in array with the next siblings.
+	 * @method                                            bunch-next-siblings
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
 	 * @return {Array}                                                 nodes between `node` and `root` last child (inclusively)
@@ -598,6 +601,9 @@ var CKHelper = {
 	 * belong to `root`. `root` itself is not included in the output except
 	 * the case when it is equal to `node`. If `root` does not contain `node`,
 	 * the output must be an empty array.
+ 	 * Uses {{#crossLink "CKHelper/prev-siblings:method"}}CKHelper['prev-siblings']{{/crossLink}}
+	 * to fill in array with the next siblings.
+	 * @method                                            bunch-prev-siblings
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
 	 * @return {Array}                                                 nodes between `node` and `root` first child (inclusively)
