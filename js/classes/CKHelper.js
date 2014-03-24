@@ -631,6 +631,7 @@ var CKHelper = {
 	/**
 	 * Returns the first child of the `root` containing `node`.
 	 * If `root` does not contain `node`, `null` is returned.
+	 * Uses {{#crossLink "CKHelper/containsOrEqual:method"}}CKHelper::containsOrEqual(){{/crossLink}}.
 	 * @method childWithNode
 	 * @param  {CKEDITOR.dom.node}       root        haystack to be searched in
 	 * @param  {CKEDITOR.dom.node}       node        needle to be present in the haystack
@@ -638,19 +639,13 @@ var CKHelper = {
 	 *                                               if there is no nedlee in the haystack.
 	 */
 	'childWithNode': function(root, node){
-		console.log('childWithNode: root = ', root, ', node = ', node);
 		var children, len, i, item, itemType;
 		if (root.contains(node)){
 			children = root.getChildren();
 			len = children.count();
-			console.log('childWithNode: len=', len);
 			for (i = 0; i < len; i++){
 				item = children.getItem(i);
-				itemType = item.type;
-				if (itemType === CKEDITOR.NODE_ELEMENT && (item.contains(node) || item.equals(node) ))  {
-					return item;
-				}
-				if (itemType === CKEDITOR.NODE_TEXT && item.equals(node)){
+				if (CKHelper.containsOrEqual(item, node)){
 					return item;
 				}
 			}

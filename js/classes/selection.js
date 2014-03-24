@@ -175,7 +175,7 @@ function Selection(editor, selected) {
         var ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
-            range, startChild, endChild, nextChild,
+            range, startChild, endChild, nextChild, lastBlock, firstBlock, middleBlock,
             startElem, endElem,
             startType, endType,
             i, rangesLen, commonAnc,
@@ -196,6 +196,9 @@ function Selection(editor, selected) {
                 endOffset = range.endOffset;
                 startElem = null;
                 endElem = null;
+                lastBlock = [];
+                firstBlock = [];
+                middleBlock = [];
 
 
                 if (startContainer.equals(endContainer)){
@@ -227,25 +230,55 @@ function Selection(editor, selected) {
                     break;
                 }
                 console.log('start elem: ', startElem, ', end elem: ', endElem);
-                if (startElem.equals(endElem)){
+                if (CKHelper.containsOrEqual(startElem, endElem)){
                     rangeNodes = [startElem];
+                } else if (CKHelper.containsOrEqual(endElem, startElem)) {
+                    rangeNodes = [endElem];
                 } else {
-                }
+                    commonAnc = startElem.getCommonAncestor(endElem);
+                    startChild = CKHelper.childWithNode(commonAnc, startElem);
+                    endChild = CKHelper.childWithNode(commonAnc, endElem);
 
-                commonAnc = startElem.getCommonAncestor(endElem);
-                startChild = CKHelper.childWithNode(commonAnc, startElem);
-                endChild = CKHelper.childWithNode(commonAnc, endElem);
-                rangeNodes = CKHelper['bunch-next-siblings'](startElem, commonAnc);
-                nextChild = startChild.getNext();
-                while(nextChild && !nextChild.equals(endChild)){
-                    rangeNodes.push(nextChild);
-                    nextChild = nextChild.getNext();
+                    if (startElem.getParent().equals(commonAnc)){
+                        firstBlock =  [startElem];
+                        // console.log('startChild parent is common ancestor. FirstBlock: ', firstBlock);
+                    } else {
+                        firstBlock = CKHelper['bunch-next-siblings'](startElem, startChild);
+                        // console.log('startChild parent is common ancestor. FirstBlock: ', firstBlock);
+                    }
+                    console.log('firstBlock: ', firstBlock);
+                    rangeNodes = rangeNodes.concat(firstBlock);
+                    // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
+                    nextChild = startChild.getNext();
+                    while(nextChild && !nextChild.equals(endChild)){
+                        // console.log('pushing nextChild: ', nextChild);
+                        middleBlock.push(nextChild);
+                        nextChild = nextChild.getNext();
+                    }
+                    console.log('middleBlock: ', middleBlock);
+                    rangeNodes = rangeNodes.concat(middleBlock);
+                    // console.log('rangeNodes after adding middle block: ', rangeNodes.length, ', ', rangeNodes);
+                    if (endElem.getParent().equals(commonAnc)){
+                        lastBlock = [endElem];
+                        // console.log('endChild parent is common ancestor. LastBlock: ', lastBlock);
+                    } else {
+                        lastBlock = CKHelper['bunch-prev-siblings'](endElem, endChild);
+                        // console.log('endChild parent is NOT common ancestor. LastBlock: ', lastBlock);
+                    }
+                    // lastBlock = endChild.getParent().equals(commonAnc) ? [endChild] : CKHelper['bunch-prev-siblings'](endElem, commonAnc);
+                    console.log('lastBlock: ', lastBlock);
+                    rangeNodes = rangeNodes.concat(lastBlock);
+                    // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
                 }
-                rangeNodes = rangeNodes.concat(CKHelper['bunch-prev-siblings'](endElem, commonAnc));
 
             }
             selectedNodes.push(rangeNodes);
         }
+        selectedNodes.forEach(function(elem, ind){
+            elem.forEach(function(elem2, ind2){
+                console.log(ind, ind2, elem2);
+            });
+        });
         return selectedNodes;
     };
 }
