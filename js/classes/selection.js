@@ -181,10 +181,10 @@ function Selection(editor, selected) {
             i, rangesLen, commonAnc,
             selectedNodes = [], // container for all selected nodes
             rangeNodes;         // container for selected nodes in current range
-        console.log('ranges: ', ranges);
+        // console.log('ranges: ', ranges);
         rangesLen = ranges.length;
         for (i = 0; i < rangesLen; i++){
-            console.info('loop', i);
+            // console.info('loop', i);
             rangeNodes = [];
             range = ranges[i];
             if (!range.collapsed) {
@@ -199,7 +199,7 @@ function Selection(editor, selected) {
                 lastBlock = [];
                 firstBlock = [];
                 middleBlock = [];
-
+                // console.log('end container: ', endContainer, ', endOffset: ', endOffset);
 
                 if (startContainer.equals(endContainer)){
                     if (startType === CKEDITOR.NODE_TEXT){
@@ -210,11 +210,6 @@ function Selection(editor, selected) {
                         endElem = startContainer.getChild(endOffset);
                     }
                 } else {
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset);
-                    } else if (startType === CKEDITOR.NODE_ELEMENT){
-                        startElem = startContainer.getChild(startOffset);
-                    }
                     if (endType === CKEDITOR.NODE_TEXT){
                         endElem = endContainer.split(endOffset).getPrevious();
                     } else if (endType === CKEDITOR.NODE_ELEMENT){
@@ -225,11 +220,17 @@ function Selection(editor, selected) {
                         }
                     }
 
+                    if (startType === CKEDITOR.NODE_TEXT){
+                        startElem = startContainer.split(startOffset);
+                    } else if (startType === CKEDITOR.NODE_ELEMENT){
+                        startElem = startContainer.getChild(startOffset);
+                    }
+
                 }
                 if (startElem === null || endElem === null){
                     break;
                 }
-                console.log('start elem: ', startElem, ', end elem: ', endElem);
+                // console.log('start elem: ', startElem, ', end elem: ', endElem);
                 if (CKHelper.containsOrEqual(startElem, endElem)){
                     rangeNodes = [startElem];
                 } else if (CKHelper.containsOrEqual(endElem, startElem)) {
