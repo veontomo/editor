@@ -631,7 +631,7 @@ var CKHelper = {
 	/**
 	 * Returns the first child of the `root` containing `node`.
 	 * If `root` does not contain `node`, `null` is returned.
-	 * @method  childWithNode
+	 * @method childWithNode
 	 * @param  {CKEDITOR.dom.node}       root        haystack to be searched in
 	 * @param  {CKEDITOR.dom.node}       node        needle to be present in the haystack
 	 * @return {CKEDITOR.dom.node|null}              the first child of the haystack that contians needle, or `null`

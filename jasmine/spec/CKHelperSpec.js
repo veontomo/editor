@@ -2,7 +2,7 @@
 /*global describe, it, expect, CKHelper, CKEDITOR, beforeEach */
 
 describe ('CKHelper functions', function(){
-    var root, el0, el1, el2, el10, el11, el12, el20, res;
+    var root, el0, el1, el2, el00, el10, el11, el12, el20, res;
     beforeEach(function(){
         root = CKEDITOR.dom.element.createFromHtml('<div id="root"></div>');
         el0 = CKEDITOR.dom.element.createFromHtml('<p id="el0"></p>');
@@ -13,13 +13,13 @@ describe ('CKHelper functions', function(){
         el11 = CKEDITOR.dom.element.createFromHtml('<b id="el11"></b>');
         el12 = CKEDITOR.dom.element.createFromHtml('<strong id="el12"></strong>');
         el20 = CKEDITOR.dom.element.createFromHtml('<h1 id="el20">Hello!</h1>');
-        root.append(el0);
-        root.append(el1);
-        root.append(el2);
-        el0.append(el00);
-        el1.append(el10);
-        el1.append(el11);
-        el1.append(el12);
+        root.append(el0); //                 root
+        root.append(el1); //   ________________|_______________
+        root.append(el2); //   |               |               |
+        el0.append(el00); //  el0             el1             el2
+        el1.append(el10); //   |        _______|_______        |
+        el1.append(el11); //   |        |      |       |       |
+        el1.append(el12); //  el00     el10   el11    el12     el20
         el2.append(el20);
     });
 
@@ -182,6 +182,7 @@ describe ('CKHelper functions', function(){
             expect(res[2].equals(el0)).toBe(true);
         });
     });
+
     describe('CKHelper::childWithNode(): finds the child of the given element containing given node', function(){
         it('return null if the element does not contain the node', function(){
             expect(CKHelper.childWithNode(el1, el2)).toBe(null);
