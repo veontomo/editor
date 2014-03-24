@@ -563,18 +563,54 @@ var CKHelper = {
 	},
 
 	/**
-	 * Returns array of elements that comes before or after in DOM with repsect to the argument when coming from
-	 * it to the root element.
+	 * Returns an array containing `node` and elements that come after it
+	 * the in DOM in the context of `root`. Therefore, all array elements
+	 * belong to `root`. `root` itself is not included in the output except
+	 * the case when it is equal to `node`. If `root` does not contain `node`,
+	 * the output must be an empty array.
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
 	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
-	 * @param  {String}                                   dir          'prev' or 'next'. Defaults to 'next.'
 	 * @return {[type]}      [description]
 	 */
-	'bunch-siblings': function(node, root, dir){
-		dir = dir || 'next';
-		return null;
-	}
+	'bunch-next-siblings': function(node, root){
+		if (node.equals(root)){
+			return [node];
+		}
+		if (!root.contains(node)){
+			return [];
+		}
+		var output = [node],
+			elem = node,
+			parent = elem.getParent(),
+			fun = CKHelper['next-siblings'];
+		while (!root.equals(parent)){
+			output = output.concat(fun(elem));
+			elem = parent;
+			parent = parent.getParent();
+		}
+		output = output.concat(fun(elem));
+		return output;
+	},
 
+	'bunch-prev-siblings': function(node, root){
+		if (node.equals(root)){
+			return [node];
+		}
+		if (!root.contains(node)){
+			return [];
+		}
+		var output = [node],
+			elem = node,
+			parent = elem.getParent(),
+			fun = CKHelper['prev-siblings'];
+		while (!root.equals(parent)){
+			output = output.concat(fun(elem));
+			elem = parent;
+			parent = parent.getParent();
+		}
+		output = output.concat(fun(elem));
+		return output;
+	}
 
 
 };

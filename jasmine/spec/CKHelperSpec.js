@@ -124,6 +124,66 @@ describe ('CKHelper functions', function(){
         });
     });
 
+    describe('CKHelper::bunch-next-siblings()', function(){
+        it('returns empty array if the first argument is not a node inside the second argument', function(){
+            expect(CKHelper['bunch-next-siblings'](el11, el20).length).toBe(0);
+        });
+        it('returns an array with one element if the first and second arguments are equal', function(){
+            res = CKHelper['bunch-next-siblings'](el11, el11);
+            expect(res.length).toBe(1);
+            expect(res[0].equals(el11)).toBe(true);
+        });
+        it('return array with the only element if the selected node has no next siblings', function(){
+            res = CKHelper['bunch-next-siblings'](el2, root);
+            expect(res.length).toBe(1);
+            expect(res[0].equals(el2)).toBe(true);
+        });
+        it('return array with the two elements if the selected node has one next sibling', function(){
+            res = CKHelper['bunch-next-siblings'](el1, root);
+            expect(res.length).toBe(2);
+            expect(res[0].equals(el1)).toBe(true);
+            expect(res[1].equals(el2)).toBe(true);
+        });
+        it('return array with elements of upper level if the selected node is deeply nested', function(){
+            res = CKHelper['bunch-next-siblings'](el11, root);
+            expect(res.length).toBe(3);
+            expect(res[0].equals(el11)).toBe(true);
+            expect(res[1].equals(el12)).toBe(true);
+            expect(res[2].equals(el2)).toBe(true);
+        });
+    });
+    describe('CKHelper::bunch-prev-siblings()', function(){
+        it('returns empty array if the first argument is not a node inside the second argument', function(){
+            expect(CKHelper['bunch-prev-siblings'](el11, el20).length).toBe(0);
+        });
+        it('returns an array with one element if the first and second arguments are equal', function(){
+            res = CKHelper['bunch-prev-siblings'](el12, el12);
+            expect(res.length).toBe(1);
+            expect(res[0].equals(el12)).toBe(true);
+        });
+        it('return array with the only element if the selected node has no previous siblings', function(){
+            res = CKHelper['bunch-prev-siblings'](el0, root);
+            expect(res.length).toBe(1);
+            expect(res[0].equals(el0)).toBe(true);
+        });
+        it('return array with the two elements if the selected node has one previous sibling', function(){
+            res = CKHelper['bunch-prev-siblings'](el1, root);
+            expect(res.length).toBe(2);
+            expect(res[0].equals(el1)).toBe(true);
+            expect(res[1].equals(el0)).toBe(true);
+        });
+        it('return array with elements of upper level if the selected node is deeply nested', function(){
+            res = CKHelper['bunch-prev-siblings'](el11, root);
+            expect(res.length).toBe(3);
+            expect(res[0].equals(el11)).toBe(true);
+            expect(res[1].equals(el10)).toBe(true);
+            expect(res[2].equals(el0)).toBe(true);
+        });
+    });
+
+
+
+
 });
 
 
