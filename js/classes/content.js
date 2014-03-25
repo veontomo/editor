@@ -304,7 +304,7 @@ function Content(str) {
 				break;
 		}
 		return false;
-	}
+	};
 
 	/**
 	 * If the argument is not empty, calls {{#crossLink "Content/appendElem:method"}}Content::appendElem(){{/crossLink}}.
@@ -318,5 +318,21 @@ function Content(str) {
 		if (!this.isElemEmpty(obj)){
 			this.appendElem(obj);
 		}
+	};
+	/**
+	 * Calls `toLink()` method on each element. The argument must be a {{#crossLink "Link"}}Link{{/crossLink}} instance.
+	 * Otherwise, an error is thrown.
+	 * @method toLink
+	 * @param  {Link}         link
+	 * @return {void}
+	 */
+	this.toLink = function(link){
+		if (!(link instanceof Link)){
+			throw new Error('The argument must be a Link instance!');
+		}
+		this.elements.forEach(function(el){
+			el.toLink(link);
+		});
+
 	};
 }

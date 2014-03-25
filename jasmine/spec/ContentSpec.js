@@ -581,5 +581,52 @@ describe('Content-related functionality', function(){
         });
     });
 
+	describe('Content::toLink(): transforms each element of the content into a link', function(){
+		var link;
+			beforeEach(function(){
+				link = new Link();
+			});
+		xit('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
+			var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
+			classNames.forEach(function(name){
+				var obj = new window[name];
+				expect(function(){
+					c.toLink(obj);
+				}).toThrow('The argument must be a Link instance!');
+			});
+		});
+		xit('does not throws an error if the argument is a Link instance', function(){
+				expect(function(){
+					c.toLink(new Link());
+				}).not.toThrow('The argument must be a Link instance!');
+		});
+		xit('throws an error if the argument is a number, a string, an array or an object', function(){
+			expect(function(){
+				c.toLink(1);
+			}).toThrow('The argument must be a Link instance!');
+			expect(function(){
+				c.toLink("string");
+			}).toThrow('The argument must be a Link instance!');
+			expect(function(){
+				c.toLink([]);
+			}).toThrow('The argument must be a Link instance!');
+			expect(function(){
+				c.toLink({});
+			}).toThrow('The argument must be a Link instance!');
+		});
+
+		it('calls toLink method on each element', function(){
+			var link = new Link(),
+				el0 = jasmine.createSpyObj('', ['toLink']),
+				el1 = jasmine.createSpyObj('', ['toLink']),
+				el2 = jasmine.createSpyObj('', ['toLink']);
+			c.elements = [el0, el1, el2];
+			c.toLink(link);
+			expect(el0.toLink).toHaveBeenCalledWith(link);
+			expect(el0.toLink).toHaveBeenCalledWith(link);
+			expect(el0.toLink).toHaveBeenCalledWith(link);
+		})
+	});
+
 
 });
