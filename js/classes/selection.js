@@ -81,11 +81,10 @@ function Selection(editor, selected) {
                 lastBlock = [];
                 firstBlock = [];
                 middleBlock = [];
-                console.log('start container: ', startContainer, ', startOffset: ', startOffset);
-                console.log('end container: ', endContainer, ', endOffset: ', endOffset);
+                // console.log('start container: ', startContainer, ', startOffset: ', startOffset);
+                // console.log('end container: ', endContainer, ', endOffset: ', endOffset);
 
                 if (startContainer.equals(endContainer)){
-                    console.log('startContainer = endContainer');
                     if (startType === CKEDITOR.NODE_TEXT){
                         startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
                         endElem = startElem;
@@ -94,20 +93,18 @@ function Selection(editor, selected) {
                         endElem = startContainer.getChild(endOffset);
                     }
                 } else {
-                    console.log('startContainer != endContainer');
                     if (endType === CKEDITOR.NODE_TEXT){
-                        console.log('end node is text, length: ', endContainer.getLength());
                         endElem = endContainer.getLength() === endOffset ? endContainer : endContainer.split(endOffset).getPrevious();
                     } else if (endType === CKEDITOR.NODE_ELEMENT){
-                        console.log('end node is element');
                         if (endOffset > 0){
                             endElem = endContainer.getChild(endOffset - 1);
                         } else {
                             endElem = endContainer.getParent();
                         }
                     }
-                    console.log('start container length: ', startContainer.getLength());
                     if (startType === CKEDITOR.NODE_TEXT){
+                        // Do not split the element if its length is equal to offset.
+                        // In this case, take the next sibling of the element.
                         startElem = startContainer.getLength() === startOffset ? startContainer.getNext() : startContainer.split(startOffset);
                         // startElem =  startContainer.split(startOffset);
                     } else if (startType === CKEDITOR.NODE_ELEMENT){
@@ -129,7 +126,7 @@ function Selection(editor, selected) {
                     endChild = CKHelper.childWithNode(commonAnc, endElem);
 
                     firstBlock = startElem.getParent().equals(commonAnc) ? [startElem] : CKHelper['bunch-next-siblings'](startElem, startChild);
-                    console.log('firstBlock: ', firstBlock);
+                    // console.log('firstBlock: ', firstBlock);
                     rangeNodes = rangeNodes.concat(firstBlock);
                     // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
                     nextChild = startChild.getNext();
@@ -138,12 +135,12 @@ function Selection(editor, selected) {
                         middleBlock.push(nextChild);
                         nextChild = nextChild.getNext();
                     }
-                    console.log('middleBlock: ', middleBlock);
+                    // console.log('middleBlock: ', middleBlock);
                     rangeNodes = rangeNodes.concat(middleBlock);
 
                     lastBlock = endElem.getParent().equals(commonAnc) ? [endElem] : CKHelper['bunch-prev-siblings'](endElem, endChild);
 
-                    console.log('lastBlock: ', lastBlock);
+                    // console.log('lastBlock: ', lastBlock);
                     rangeNodes = rangeNodes.concat(lastBlock.reverse());
                     // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
                 }
@@ -151,11 +148,11 @@ function Selection(editor, selected) {
             }
             selectedNodes.push(rangeNodes);
         }
-        selectedNodes.forEach(function(elem, ind){
-            elem.forEach(function(elem2, ind2){
-                console.log(ind, ind2, elem2);
-            });
-        });
+        // selectedNodes.forEach(function(elem, ind){
+        //     elem.forEach(function(elem2, ind2){
+        //         console.log(ind, ind2, elem2);
+        //     });
+        // });
         return selectedNodes;
     }(this.ranges));
 
