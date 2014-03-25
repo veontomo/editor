@@ -6,7 +6,7 @@
 * Represents selected elements in the editor window. The argument `editor` is a
 * [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site") instance and
 * `selected` is a [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
-* @module    Helper
+* @module    CKHelper
 * @class     Selection
 * @param     {CKEDITOR.editor}         editor
 * @param     {CKEDITOR.dom.selection}  selected
@@ -24,7 +24,7 @@ function Selection(editor, selected) {
     }
 
     /**
-    * Instance of the editor containing the selection.
+    * Instance of the editor containing the selection.  {{#crossLink "CKHelper/next-siblings:method"}}CKHelper['next-siblings']{{/crossLink}}
     * @property {CKEDITOR.editor}         editor
     */
     this.editor = editor;
@@ -40,19 +40,17 @@ function Selection(editor, selected) {
     * Array of range instances corresponding to the selection.
     * Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
     * @property {Array}   ranges
-    * @type     {Array}
     */
     this.ranges = selected.getRanges();
 
     /**
-    * Returns a 2-dim array of the form [[elem00, elem01, ...], [elem10, ele11, ...], ...]. Each inner array corresponds
-    * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{#crossLink}} property of the selection.
+    * Returns a 2-dim array of the form `[[a00, a01, ...], [a10, a11, ...], ...]`. Each inner array corresponds
+    * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} property of the selection.
     * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is just a collection of
-    * simply-connected sets of nodes corresponding to the selection. <br/>
-    * NB1: "Simply-connected" set is a set such that there exists a path inside the set connecting two arbitrary elements of the set.<br/>
-    * NB2. Path consists of pieces connecting two neighbours (the set is ordered, so that the concept of "neighbour" exists).
+    * simply-connected sets of nodes corresponding to the selection.<br>
+    * NB1: _Simply-connected_ set is a set such that there exists a path inside the set connecting two arbitrary elements of the set.<br>
+    * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that the concept of "neighbour" exists).
     * @property {Array}  selectedNodes
-    * @type     {Array}
     */
     this.selectedNodes = (function(ranges){
         var //ranges = this.ranges,
