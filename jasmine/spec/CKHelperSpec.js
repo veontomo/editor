@@ -207,9 +207,6 @@ describe ('CKHelper functions', function(){
             res = CKHelper.childWithNode(root, el10);
             expect(res.equals(el1)).toBe(true);
         });
-
-
-
     });
 
     describe('CKHelper::containsOrEqual(): whether the first argument contains or equal to thte second', function(){
@@ -245,7 +242,6 @@ describe ('CKHelper functions', function(){
             expect(root.type).toBe(CKEDITOR.NODE_ELEMENT);
             expect(CKHelper.containsOrEqual(el0, text)).toBe(false);
         });
-
         it('gives false, if first argument is NODE_TEXT, the second is NODE_ELEMENT which embraces the first', function(){
             el11.appendHtml('<span>text</span>');
             var text = el11.getFirst().getFirst();

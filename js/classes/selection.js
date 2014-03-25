@@ -45,137 +45,20 @@ function Selection(editor, selected) {
     this.ranges = selected.getRanges();
 
     /**
-    * Returns an array of the form [[elem00, elem01, ...], [elem10, ele11, ...], ...]. Each element of the array corresponds
+    * Returns a 2-dim array of the form [[elem00, elem01, ...], [elem10, ele11, ...], ...]. Each inner array corresponds
     * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{#crossLink}} property of the selection.
-    * In other words, each element of {{#crossLink "Selection/getNodes:method"}}getNodes(){{/crossLink}}
-    * reflects the structure of {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} that is an array of
-    * [CKEDITOR.dom.range](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) instances.
-    * @method getNodes
-    * @return {Array}   array of arrays of nodes in the selection. The inner array corresponds to the simply-connected
-    *                   DOM nodes in the selection.
+    * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is just a collection of
+    * simply-connected sets of nodes corresponding to the selection. <br/>
+    * NB1: "Simply-connected" set is a set such that there exists a path inside the set connecting two arbitrary elements of the set.<br/>
+    * NB2. Path consists of pieces connecting two neighbours (the set is ordered, so that the concept of "neighbour" exists).
+    * @property {Array}  selectedNodes
+    * @type     {Array}
     */
-    this.getNodes_old = function(){
-        var ranges = this.ranges,
+    this.selectedNodes = (function(ranges){
+        var //ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
-            startPath, endPath,
-            range,
-            startElem, endElem,
-            startType, endType,
-            i, rangesLen, next, path, commonAnc,
-            isOut = false,
-            doesOverlap,
-            selectedNodes = [], // container for all selected nodes
-            rangeNodes;         // container for selected nodes in current range
-        console.log('ranges: ', ranges);
-        rangesLen = ranges.length;
-        for (i = 0; i < rangesLen; i++){
-            console.info('loop', i);
-            rangeNodes = [];
-            range = ranges[i];
-            if (!range.collapsed) {
-                startContainer = range.startContainer;
-                endContainer = range.endContainer;
-                startType = startContainer.type;
-                endType   = endContainer.type;
-                startPath = new CKEDITOR.dom.elementPath(startContainer);
-                endPath = new CKEDITOR.dom.elementPath(endContainer);
-                startOffset = range.startOffset;
-                endOffset = range.endOffset;
-                commonAnc = startContainer.getCommonAncestor(endContainer);
-                console.log('startPath === endPath?', startPath.compare(endPath));
-                console.log('common ancestor: ', commonAnc);
-                console.log('start container path: ', new CKEDITOR.dom.elementPath(startContainer, commonAnc));
-                console.log('end container position wrt start : ', startContainer.getPosition(endContainer));
-                console.log('end container path: ', new CKEDITOR.dom.elementPath(endContainer, commonAnc));
-
-                if (endType === CKEDITOR.NODE_TEXT){
-                    endElem = endContainer.split(endOffset).getPrevious();
-                }
-                if (endType === CKEDITOR.NODE_ELEMENT){
-                    if (endOffset > 0){
-                        endElem = endContainer.getChild(endOffset - 1);
-                    } else {
-                        endElem = endContainer.getParent();
-                    }
-                }
-                if (startType === CKEDITOR.NODE_TEXT){
-                    startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                }
-                if (startType === CKEDITOR.NODE_ELEMENT){
-                    startElem = startContainer.getChild(startOffset);
-                }
-                console.info('new', startElem, endElem);
-
-
-
-
-
-
-                if (startContainer.equals(endContainer)){
-                    // the selection starts and finishes in the same container
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                        rangeNodes.push(startElem);
-                    }
-                    if (startType === CKEDITOR.NODE_ELEMENT){
-                        rangeNodes.push(startContainer.getChild(startOffset));
-                    }
-                } else {
-                    // the selection starts in one container and finishes in another.
-                    // First, process the end element because usage of "split" method
-                    // might change DOM so that startOffset and endOffset might not
-                    // correspond to the modified positions of elements in DOM.
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer.split(endOffset).getPrevious();
-                        Helper.pushBeforeLast(rangeNodes, endElem);
-                    }
-                    if (endType === CKEDITOR.NODE_ELEMENT){
-                        if (endOffset > 0){
-                            endElem = endContainer.getChild(endOffset - 1);
-                            Helper.pushBeforeLast(rangeNodes, endElem);
-                        } else {
-                            endElem = endContainer.getParent();
-                        }
-                    }
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset);
-                    }
-                    if (startType === CKEDITOR.NODE_ELEMENT){
-                        startElem = startContainer.getChild(startOffset);
-                    }
-                    Helper.pushBeforeLast(rangeNodes, startElem);
-                    path =  new CKEDITOR.dom.elementPath(startElem);
-                    console.log('path: ', path);
-                    // console.log('isContextFor: ', path.isContextFor('p'));
-
-                    next = startElem.getNext();
-                    doesOverlap = CKHelper.doesOverlap(next, endElem);
-                    isOut = !next || doesOverlap;
-                    console.info('before entering the while loop', 'next: ', next, ', doesOverlap: ', doesOverlap,  ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
-                    while (!isOut && next){
-                        console.info('while loop', 'next: ', next);
-                        if (next.type === CKEDITOR.NODE_ELEMENT){
-                            console.info('tab index: ', next.getTabIndex());
-                        }
-                        Helper.pushBeforeLast(rangeNodes, next);
-                        next = next.getNext();
-                        isOut = !next || CKHelper.doesOverlap(next, endElem);
-                        console.info('status in while loop', 'next: ', next, ', doesOverlap: ', doesOverlap, ', isOut = ', isOut, 'rangeNodes = ', rangeNodes);
-                    }
-                    // console.log('test: ', startContainer.getParent().getNext());
-                }
-            }
-            selectedNodes.push(rangeNodes);
-        }
-        return selectedNodes;
-    };
-
-    this.getNodes = function(){
-        var ranges = this.ranges,
-            startContainer, endContainer,
-            startOffset, endOffset,
-            range, startChild, endChild, nextChild, lastBlock, firstBlock, middleBlock,
+            range, startChild, endChild, nextChild, lastBlock = [], firstBlock = [], middleBlock = [],
             startElem, endElem,
             startType, endType,
             i, rangesLen, commonAnc,
@@ -199,7 +82,8 @@ function Selection(editor, selected) {
                 lastBlock = [];
                 firstBlock = [];
                 middleBlock = [];
-                // console.log('end container: ', endContainer, ', endOffset: ', endOffset);
+                console.log('start container: ', startContainer, ', endOffset: ', startOffset);
+                console.log('end container: ', endContainer, ', endOffset: ', endOffset);
 
                 if (startContainer.equals(endContainer)){
                     if (startType === CKEDITOR.NODE_TEXT){
@@ -240,13 +124,7 @@ function Selection(editor, selected) {
                     startChild = CKHelper.childWithNode(commonAnc, startElem);
                     endChild = CKHelper.childWithNode(commonAnc, endElem);
 
-                    if (startElem.getParent().equals(commonAnc)){
-                        firstBlock =  [startElem];
-                        // console.log('startChild parent is common ancestor. FirstBlock: ', firstBlock);
-                    } else {
-                        firstBlock = CKHelper['bunch-next-siblings'](startElem, startChild);
-                        // console.log('startChild parent is common ancestor. FirstBlock: ', firstBlock);
-                    }
+                    firstBlock = startElem.getParent().equals(commonAnc) ? [startElem] : CKHelper['bunch-next-siblings'](startElem, startChild);
                     console.log('firstBlock: ', firstBlock);
                     rangeNodes = rangeNodes.concat(firstBlock);
                     // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
@@ -258,17 +136,11 @@ function Selection(editor, selected) {
                     }
                     console.log('middleBlock: ', middleBlock);
                     rangeNodes = rangeNodes.concat(middleBlock);
-                    // console.log('rangeNodes after adding middle block: ', rangeNodes.length, ', ', rangeNodes);
-                    if (endElem.getParent().equals(commonAnc)){
-                        lastBlock = [endElem];
-                        // console.log('endChild parent is common ancestor. LastBlock: ', lastBlock);
-                    } else {
-                        lastBlock = CKHelper['bunch-prev-siblings'](endElem, endChild);
-                        // console.log('endChild parent is NOT common ancestor. LastBlock: ', lastBlock);
-                    }
-                    // lastBlock = endChild.getParent().equals(commonAnc) ? [endChild] : CKHelper['bunch-prev-siblings'](endElem, commonAnc);
+
+                    lastBlock = endElem.getParent().equals(commonAnc) ? [endElem] : CKHelper['bunch-prev-siblings'](endElem, endChild);
+
                     console.log('lastBlock: ', lastBlock);
-                    rangeNodes = rangeNodes.concat(lastBlock);
+                    rangeNodes = rangeNodes.concat(lastBlock.reverse());
                     // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
                 }
 
@@ -281,5 +153,5 @@ function Selection(editor, selected) {
             });
         });
         return selectedNodes;
-    };
+    }(this.ranges));
 }

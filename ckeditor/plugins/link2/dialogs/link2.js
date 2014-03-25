@@ -3,7 +3,7 @@
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
-        selectionContainer = []; // global variable to pass info about selection
+        selectedNodes = []; // global variable to pass info about selection
     return {
         title: editor.lang.link.info,
         minWidth: 400,
@@ -64,131 +64,137 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
         onShow: function() {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
-            selectionContainer = []; // resetting
-            var selection = this.getParentEditor().getSelection(),
-                ranges = selection.getRanges(),
-                startContainer, endContainer,
-                startOffset, endOffset,
-                range,
-                startPath, endPath, startElem, endElem,
-                startType, endType,
-                linkHref  = '',
-                linkContent = '',
-                i, rangesLen, next,
-                isOut = false, toBeDisabled;
-
-            rangesLen = ranges.length;
-            for (i = 0; i < rangesLen; i++){
-                range = ranges[i];
-                if (range.collapsed) {
-                    startElem = selection.getStartElement();
-                    if (startElem.getName() === 'a'){
-                        selectionContainer.push(startElem);
-                    }
-                } else {
-                    startContainer = range.startContainer;
-                    endContainer = range.endContainer;
-                    startType = startContainer.type;
-                    endType   = endContainer.type;
-                    startPath = range.startPath();
-                    endPath = range.endPath();
-                    startOffset = range.startOffset;
-                    endOffset = range.endOffset;
-                    // this is to avoid selections that start in one node and finish in another
-                    // e.g. the selection is a part of a table cell and a part of another table cell.
-                    if (!startPath.compare(endPath)){
-                        CKEDITOR.document.getById(warningFieldId).setHtml('Il testo selezionato non è gestibile. Prova a ridurlo.');
-                        this.setValueOf('tab-general', 'href_input_field', '');
-                        this.setValueOf('tab-general', 'text', '');
-                        this.getContentElement('tab-general', 'text').disable();
-                        this.getContentElement('tab-general', 'href_input_field').disable();
-                        return null;
-                    }
-                    if (startContainer.equals(endContainer)){
-                         // the selection starts and finishes in the same container
-                        if (startType === CKEDITOR.NODE_TEXT){
-                            // piece = startContainer.split(startOffset).split(endOffset - startOffset);
-                            // startElem = piece.getPrevious();
-                            startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                            // selectionContainer.push('startElem: ');
-                            selectionContainer.push(startElem);
-                        }
-                        if (startType === CKEDITOR.NODE_ELEMENT){
-                            selectionContainer.push(startContainer.getChild(startOffset));
-                        }
-                    } else {
-                        // the selection starts in one container and finishes in another.
-                        // First, process the end element because usage of "split" method
-                        // might change DOM so that startOffset and endOffset might not
-                        // correspond to the modified positions of elements in DOM.
-                        if (endType === CKEDITOR.NODE_TEXT){
-                            endElem = endContainer.split(endOffset).getPrevious();
-                            Helper.pushBeforeLast(selectionContainer, endElem);
-                        }
-                        if (endType === CKEDITOR.NODE_ELEMENT){
-                            if (endOffset > 0){
-                                endElem = endContainer.getChild(endOffset - 1);
-                                Helper.pushBeforeLast(selectionContainer, endElem);
-                            } else {
-                                endElem = endContainer.getParent();
-                            }
-                        }
-
-                        if (startType === CKEDITOR.NODE_TEXT){
-                            startElem = startContainer.split(startOffset);
-                        }
-                        if (startType === CKEDITOR.NODE_ELEMENT){
-                            startElem = startContainer.getChild(startOffset);
-                        }
-                        Helper.pushBeforeLast(selectionContainer, startElem);
-
-                        next = startElem.getNext();
-                        isOut = !next || CKHelper.doesOverlap(next, endElem);
-                        while (!isOut && next){
-                            Helper.pushBeforeLast(selectionContainer, next);
-                            next = next.getNext();
-                            isOut = !next || CKHelper.doesOverlap(next, endElem);
-                        }
-                    }
-
+            var selection = new Selection(editor, editor.getSelection()),
+                len, isEnabled = false;
+            selectedNodes = selection.selectedNodes; // 2-dim arrays
+            len = selectedNodes.length;
+            console.log(selectedNodes);
+            console.log(len);
+            // whether the selected node array has the form [[node]]
+            if (len === 1 && selectedNodes[0].length === 1){
+                node = selectedNodes[0][0];
+                if (node.type === CKEDITOR.NODE_TEXT || (node.type === CKEDITOR.NODE_ELEMENT && node.getName() === 'a')){
+                    isEnabled = true;
                 }
             }
-
-            toBeDisabled = selectionContainer.some(function(elem){
-                return elem.type === CKEDITOR.NODE_ELEMENT;
-            });
-
-            // console.log('selection container: ', selectionContainer);
-            linkContent = CKHelper.arrayToText(selectionContainer, ' ');
-            if (selectionContainer.length === 1 && selectionContainer[0].type === CKEDITOR.NODE_ELEMENT && selectionContainer[0].getName() === 'a') {
-                linkHref = selectionContainer[0].getAttribute('href');
-            }
-            this.setValueOf('tab-general', 'text', linkContent);
-            this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
-            if (toBeDisabled){
+            if (!isEnabled){
                 this.getContentElement('tab-general', 'text').disable();
             }
 
-            // console.log('selectionContainer: ', selectionContainer);
-            // selectionContainer.forEach(function(el, ind){
-            //   console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
-            // });
-            console.log('from onShow: ', selectionContainer);
-            var sel = (new Selection(editor, selection)).getNodes();
-            console.log('from Selection: ', sel);
-            console.log(sel === selectionContainer);
-            var foo1, foo2, all = selectionContainer.concat(sel);
-            all.forEach(function(el, ind){
-                console.log(ind);
-                foo1 = sel.some(function(el2){
-                    return el2.equals(el);
-                });
-                foo2 = selectionContainer.some(function(el2){
-                    return el2.equals(el);
-                });
 
-                console.log(foo1 && foo2 ? 'present in both' : CKHelper.nodeStrin(el) + (foo1 ? 'selectionContainer does not contain' : 'sel does not contain' ));
-            });
+
+            // rangesLen = ranges.length;
+            // for (i = 0; i < rangesLen; i++){
+            //     range = ranges[i];
+            //     if (range.collapsed) {
+            //         startElem = selection.getStartElement();
+            //         if (startElem.getName() === 'a'){
+            //             selectionContainer.push(startElem);
+            //         }
+            //     } else {
+            //         startContainer = range.startContainer;
+            //         endContainer = range.endContainer;
+            //         startType = startContainer.type;
+            //         endType   = endContainer.type;
+            //         startPath = range.startPath();
+            //         endPath = range.endPath();
+            //         startOffset = range.startOffset;
+            //         endOffset = range.endOffset;
+            //         // this is to avoid selections that start in one node and finish in another
+            //         // e.g. the selection is a part of a table cell and a part of another table cell.
+            //         if (!startPath.compare(endPath)){
+            //             CKEDITOR.document.getById(warningFieldId).setHtml('Il testo selezionato non è gestibile. Prova a ridurlo.');
+            //             this.setValueOf('tab-general', 'href_input_field', '');
+            //             this.setValueOf('tab-general', 'text', '');
+            //             this.getContentElement('tab-general', 'text').disable();
+            //             this.getContentElement('tab-general', 'href_input_field').disable();
+            //             return null;
+            //         }
+            //         if (startContainer.equals(endContainer)){
+            //              // the selection starts and finishes in the same container
+            //             if (startType === CKEDITOR.NODE_TEXT){
+            //                 // piece = startContainer.split(startOffset).split(endOffset - startOffset);
+            //                 // startElem = piece.getPrevious();
+            //                 startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
+            //                 // selectionContainer.push('startElem: ');
+            //                 selectionContainer.push(startElem);
+            //             }
+            //             if (startType === CKEDITOR.NODE_ELEMENT){
+            //                 selectionContainer.push(startContainer.getChild(startOffset));
+            //             }
+            //         } else {
+            //             // the selection starts in one container and finishes in another.
+            //             // First, process the end element because usage of "split" method
+            //             // might change DOM so that startOffset and endOffset might not
+            //             // correspond to the modified positions of elements in DOM.
+            //             if (endType === CKEDITOR.NODE_TEXT){
+            //                 endElem = endContainer.split(endOffset).getPrevious();
+            //                 Helper.pushBeforeLast(selectionContainer, endElem);
+            //             }
+            //             if (endType === CKEDITOR.NODE_ELEMENT){
+            //                 if (endOffset > 0){
+            //                     endElem = endContainer.getChild(endOffset - 1);
+            //                     Helper.pushBeforeLast(selectionContainer, endElem);
+            //                 } else {
+            //                     endElem = endContainer.getParent();
+            //                 }
+            //             }
+
+            //             if (startType === CKEDITOR.NODE_TEXT){
+            //                 startElem = startContainer.split(startOffset);
+            //             }
+            //             if (startType === CKEDITOR.NODE_ELEMENT){
+            //                 startElem = startContainer.getChild(startOffset);
+            //             }
+            //             Helper.pushBeforeLast(selectionContainer, startElem);
+
+            //             next = startElem.getNext();
+            //             isOut = !next || CKHelper.doesOverlap(next, endElem);
+            //             while (!isOut && next){
+            //                 Helper.pushBeforeLast(selectionContainer, next);
+            //                 next = next.getNext();
+            //                 isOut = !next || CKHelper.doesOverlap(next, endElem);
+            //             }
+            //         }
+
+            //     }
+            // }
+
+            // toBeDisabled = selectionContainer.some(function(elem){
+            //     return elem.type === CKEDITOR.NODE_ELEMENT;
+            // });
+
+            // // console.log('selection container: ', selectionContainer);
+            // linkContent = CKHelper.arrayToText(selectionContainer, ' ');
+            // if (selectionContainer.length === 1 && selectionContainer[0].type === CKEDITOR.NODE_ELEMENT && selectionContainer[0].getName() === 'a') {
+            //     linkHref = selectionContainer[0].getAttribute('href');
+            // }
+            // this.setValueOf('tab-general', 'text', linkContent);
+            // this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(linkHref));
+            // if (toBeDisabled){
+            //     this.getContentElement('tab-general', 'text').disable();
+            // }
+
+            // // console.log('selectionContainer: ', selectionContainer);
+            // // selectionContainer.forEach(function(el, ind){
+            // //   console.log(ind + ': "' + CKHelper.nodeString(el) + '"');
+            // // });
+            // console.log('from onShow: ', selectionContainer);
+            // var sel = (new Selection(editor, selection)).getNodes();
+            // console.log('from Selection: ', sel);
+            // console.log(sel === selectionContainer);
+            // var foo1, foo2, all = selectionContainer.concat(sel);
+            // all.forEach(function(el, ind){
+            //     console.log(ind);
+            //     foo1 = sel.some(function(el2){
+            //         return el2.equals(el);
+            //     });
+            //     foo2 = selectionContainer.some(function(el2){
+            //         return el2.equals(el);
+            //     });
+
+            //     console.log(foo1 && foo2 ? 'present in both' : CKHelper.nodeStrin(el) + (foo1 ? 'selectionContainer does not contain' : 'sel does not contain' ));
+            // });
 
         },
 
@@ -204,7 +210,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var linkHref, linkHrefRaw,
                 linkContentRaw, isUnderlined,
-                len = selectionContainer.length,
+                len = selectedNodes.length,
                 i, link, elem, elemType, content, obj, linkStr, contLen, leader,
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
             // user input
@@ -222,7 +228,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 editor.insertElement(obj);
             } else {
                 for (i = 0; i < len; i++){
-                    elem = selectionContainer[i];
+                    elem = selectedNodes[i];
                     elemType = elem.type;
                     content = CKHelper.nodeString(elem).inflate();
                     // console.log(content);

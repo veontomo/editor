@@ -540,7 +540,7 @@ var CKHelper = {
   			currentElem = elem;
   		while(currentElem.hasNext()){
   			currentElem = currentElem.getNext();
-  			container.push(currentElem);
+			container.push(currentElem);
   		}
   		return container;
 	},
@@ -639,7 +639,7 @@ var CKHelper = {
 	 *                                               if there is no nedlee in the haystack.
 	 */
 	'childWithNode': function(root, node){
-		var children, len, i, item, itemType;
+		var children, len, i, item;
 		if (root.contains(node)){
 			children = root.getChildren();
 			len = children.count();
