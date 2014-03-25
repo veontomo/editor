@@ -63,7 +63,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            console.log('onShow: ');
             // CKEDITOR.document.getById(warningFieldId).setHtml('');
             var selection = new Selection(editor, editor.getSelection()),
                 len, node, nodeType, inner, innerLen,
@@ -117,104 +116,69 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }
             this.setValueOf('tab-general', 'text', text);
             this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+            console.log('link2, method onShow has finished');
         },
-
-        onOK: function(){
-           console.log('onOK: ');
-       },
 
         onCancel: function(){
             // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
-            console.log('onCancel: ', selectedNodes);
         },
 
-        // onOK: function(){
-        //     console.log('onOK: ');
-        //     return true;
-        //     // editor.insertHtml('<div>ssssss</div>');
+        onOk: function(){
+            var isUnderlined = this.getValueOf('tab-general', 'underlined'),
+                // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
+                url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
+                current, link, obj;
+            // if the selectedNode is empty: [[]].
+            if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
+                link = new Link();
+                link.setHref(url);
+                link.underline(isUnderlined);
+                link.content = new Content(this.getValueOf('tab-general', 'text'));
+                // control whether the current position is inside a link
+                current = editor.getSelection().getStartElement();
+                if(current.getName() === 'a'){
+                    obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
+                    obj.replace(current);
+                } else {
+                    editor.insertHtml(link.toHtml());
+                }
+            }
+            // parse all selected nodes
+            selectedNodes.forEach(function(arr){
+                arr.forEach(function(el){
+                    var elType, elText;
+                    // prepare Link object
+                    link = new Link();
+                    link.setHref(url);
+                    link.underline(isUnderlined);
+                    elType = el.type;
+                    // whether the current node is a text one
+                    if (elType === CKEDITOR.NODE_TEXT){
+                        elText = el.getText();
+                        // If the node is not empty, transform it into a link.
+                        // Otherwise, do nothing.
+                        if (elText !== ''){
+                            link.content = new Content(elText);
+                            obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
+                            obj.insertAfter(el);
+                            el.setText(elText.substring(0, 1) === ' ' ? ' ' : '');
+                        }
+                    // whether the current node is an element one
+                    } else if (elType === CKEDITOR.NODE_ELEMENT){
+                        obj = el.getOuterHtml().inflate();
+                        // if it is not empty, transform it into a link
+                        if (!obj.isEmpty()){
+                            console.log('toLink() is not implemented yet!');
+                            // objToLink = obj.toLink(link);
+                            // CKEDITOR.dom.element.createFromHtml(objToLink.toHtml()).replace(el);
+                        }
+                    }
 
-        //     // var isUnderlined = this.getValueOf('tab-general', 'underlined'),
-        //     //     isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
-        //     //     url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-        //     //     current, link, obj;
-        //     // if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
-        //     //     link = new Link();
-        //     //     current = editor.getSelection().getStartElement();
-        //     //     if(current.getName() === 'a'){
-        //     //         link.setHref(url);
-        //     //         link.underline(isUnderlined);
-        //     //         link.content = new Content(this.getValueOf('tab-general', 'text'));
-        //     //         // console.log(link.toHtml());
-        //     //         obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
-        //     //         // obj.replace(current);
-        //     //         current.remove();
-        //     //     }
-        //     // }
-        // }
+                });
+            });
+
+        }
 
     };
 });
-
-
-// onOk_old: function() {
-//      // clear the value of the warning field
-//     // CKEDITOR.document.getById(warningFieldId).setHtml('');
-//     var linkHref, linkHrefRaw,
-//         linkContentRaw, isUnderlined,
-//         len = selectedNodes.length,
-//         i, link, elem, elemType, content, obj, linkStr, contLen, leader,
-//         isEnabled = this.getContentElement('tab-general', 'text').isEnabled();
-//     // user input
-//     linkHrefRaw = this.getValueOf('tab-general', 'href_input_field');
-//     linkHref = 'http://' + encodeURI(Helper.dropProtocol(linkHrefRaw));
-//     isUnderlined = this.getValueOf('tab-general', 'underlined');
-//     if (isEnabled){
-//         linkContentRaw = this.getValueOf('tab-general', 'text');
-//         link = new Link();
-//         link.content = new Content(linkContentRaw);
-//         link.setHref(linkHref);
-//         link.underline(isUnderlined);
-//         linkStr = link.toHtml();
-//         obj = CKEDITOR.dom.element.createFromHtml(linkStr);
-//         editor.insertElement(obj);
-//     } else {
-//         for (i = 0; i < len; i++){
-//             elem = selectedNodes[i];
-//             elemType = elem.type;
-//             content = CKHelper.nodeString(elem).inflate();
-//             // console.log(content);
-//             if (!content.isEmpty()){
-//                 link = new Link();
-//                 contLen = content.length();
-//                 if (contLen === 1 && content.getFirst() instanceof Link){
-//                     content = content.getFirst().content;
-//                 }
-//                 link.content = content;
-//                 link.setHref(linkHref);
-//                 link.underline(isUnderlined);
-//                 linkStr = link.toHtml();
-
-
-//                 if (elemType === CKEDITOR.NODE_ELEMENT){
-//                     // if the inner html of the element is empty, replace the element
-//                     // otherwise, update its inner html content
-//                     if (elem.getHtml() === ''){
-//                         obj = CKEDITOR.dom.element.createFromHtml(linkStr);
-//                         obj.replace(elem);
-//                     } else {
-//                         elem.setHtml(linkStr);
-//                     }
-//                 }
-//                 if (elemType === CKEDITOR.NODE_TEXT){
-//                     obj = CKEDITOR.dom.element.createFromHtml(linkStr);
-//                     obj.insertAfter(elem);
-//                     // if the element starts with a space, then impose a single space as element text content,
-//                     // otherwise, set element text content to be an empty string
-//                     leader = elem.getText().substring(0, 1) === ' ' ? ' ' : '';
-//                     elem.setText(leader);
-//                 }
-//             }
-//         }
-//     }
-// }
