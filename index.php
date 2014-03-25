@@ -60,7 +60,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			Testo di prova
+			<h2>L&rsquo;utilit&agrave; dei contenuti senza senso</h2>
+
+			<p>I testi <a href="http://www.test.com">casuali</a> sono utilizzati, inoltre, per mostrare e confrontare l&rsquo;aspetto dei caratteri tipografici e dei layout. Di norma si tratta di testi senza contenuto semantico. In virt&ugrave; della sua ampia funzione di testo riempitivo per layout, la non leggibilit&agrave; del testo &egrave; un elemento di grande importanza: la percezione umana, infatti, &egrave; portata a riconoscere determinati modelli e ripetizioni nel testo. La distribuzione arbitraria delle lettere e della lunghezza delle&nbsp;<br />
+			<br />
+			<img alt="Mare" height="128" src="https://cdn1.iconfinder.com/data/icons/sphericalcons/128/ship.png" style="border-style: none; padding: 0px; margin: 0px; width: 128px; height: 128px" title="Mare" width="128" /></p>
+			&quot;parole&quot;, invece, non distrae l&rsquo;occhio che, in questo modo, pu&ograve; focalizzare e giudicare l&rsquo;effetto grafico e la leggibilit&agrave; dei caratteri tipografici (tipografia) e la distribuzione del testo nella pagina (layout o luce di composizione). Per questo motivo i testi casuali sono costituiti per lo pi&ugrave; da una sequenza pi&ugrave; o meno arbitraria di parole o sillabe. I modelli ripetitivi non rischiano di confondere l&rsquo;impressione generale e consentono di confrontare meglio tra loro i diversi caratteri tipografici. D&rsquo;altra parte il fatto che un testo casuale appaia realistico rappresenta un vantaggio, affinch&eacute; l&rsquo;effetto dei layout della futura pubblicazione non sia compromesso.<br />
+			&nbsp;
 		</textarea>
 	</div>
 
