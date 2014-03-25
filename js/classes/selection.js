@@ -56,7 +56,8 @@ function Selection(editor, selected) {
         var //ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
-            range, startChild, endChild, nextChild, lastBlock = [], firstBlock = [], middleBlock = [],
+            range, startChild, endChild, nextChild,
+            lastBlock = [], firstBlock = [], middleBlock = [],
             startElem, endElem,
             startType, endType,
             i, rangesLen, commonAnc,
@@ -80,10 +81,11 @@ function Selection(editor, selected) {
                 lastBlock = [];
                 firstBlock = [];
                 middleBlock = [];
-                console.log('start container: ', startContainer, ', endOffset: ', startOffset);
+                console.log('start container: ', startContainer, ', startOffset: ', startOffset);
                 console.log('end container: ', endContainer, ', endOffset: ', endOffset);
 
                 if (startContainer.equals(endContainer)){
+                    console.log('startContainer = endContainer');
                     if (startType === CKEDITOR.NODE_TEXT){
                         startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
                         endElem = startElem;
@@ -92,18 +94,22 @@ function Selection(editor, selected) {
                         endElem = startContainer.getChild(endOffset);
                     }
                 } else {
+                    console.log('startContainer != endContainer');
                     if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer.split(endOffset).getPrevious();
+                        console.log('end node is text, length: ', endContainer.getLength());
+                        endElem = endContainer.getLength() === endOffset ? endContainer : endContainer.split(endOffset).getPrevious();
                     } else if (endType === CKEDITOR.NODE_ELEMENT){
+                        console.log('end node is element');
                         if (endOffset > 0){
                             endElem = endContainer.getChild(endOffset - 1);
                         } else {
                             endElem = endContainer.getParent();
                         }
                     }
-
+                    console.log('start container length: ', startContainer.getLength());
                     if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset);
+                        startElem = startContainer.getLength() === startOffset ? startContainer.getNext() : startContainer.split(startOffset);
+                        // startElem =  startContainer.split(startOffset);
                     } else if (startType === CKEDITOR.NODE_ELEMENT){
                         startElem = startContainer.getChild(startOffset);
                     }

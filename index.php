@@ -60,28 +60,8 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-<div>In una terra lontana, dietro le montagne <span style="color:red">Parole</span>, lontani dalle terre di Vocalia e Consonantia, vivono i testi casuali. <img src="https://cdn1.iconfinder.com/data/icons/free-game-icons/64/Tree.png" />
-</div>
-<p>Vivono isolati nella cittadina di Lettere, sulle coste del Semantico, un immenso oceano linguistico.</p>
-
-<p>Un piccolo ruscello chiamato Devoto Oli attraversa quei luoghi, rifornendoli di tutte le regolalie di cui hanno bisogno.</p>
-
-È una terra paradismatica, un paese della cuccagna in cui golose porzioni di proposizioni arrostite volano in bocca a chi le desideri. Non una volta i testi casuali sono stati dominati dall’onnipotente Interpunzione, una vita davvero non ortografica. Un giorno però accadde che la piccola riga di un testo.
-
-<table border="2" cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: solid; margin: 0px; padding: 0px; width: 500px; max-width: 500px; min-width: 500px; border-spacing: 0px; border-width: 2px; border-color: rgb(0, 0, 0)" width="500">
-	<tbody>
-		<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 496px; max-width: 496px; min-width: 496px">
-			<td data-marker="Cell" style="border-style: none; margin: 0px; width: 247px; max-width: 247px; min-width: 247px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
-			<td data-marker="Cell" style="border-style: none; margin: 0px; width: 247px; max-width: 247px; min-width: 247px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px">cell1</td>
-		</tr>
-		<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 496px; max-width: 496px; min-width: 496px">
-			<td data-marker="Cell" style="border-style: none; margin: 0px; width: 247px; max-width: 247px; min-width: 247px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
-			<td data-marker="Cell" style="border-style: none; margin: 0px; width: 247px; max-width: 247px; min-width: 247px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px">cell1</td>
-		</tr>
-	</tbody>
-</table>
-
-	</textarea>
+			Testo di prova
+		</textarea>
 	</div>
 
 </body>
