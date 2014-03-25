@@ -152,4 +152,5 @@ function Selection(editor, selected) {
         });
         return selectedNodes;
     }(this.ranges));
+
 }

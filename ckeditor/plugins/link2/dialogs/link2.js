@@ -65,7 +65,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         onShow: function() {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
             var selection = new Selection(editor, editor.getSelection()),
-                len, isEnabled = false;
+                len, node, nodeType, inner, innerLen,
+                text = '', href = '',
+                isEnabled = false;
             selectedNodes = selection.selectedNodes; // 2-dim arrays
             len = selectedNodes.length;
             console.log(selectedNodes);
@@ -77,9 +79,44 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     isEnabled = true;
                 }
             }
+            // when enable the link editing:
+            // 1. if selectedNodes =  [[]]
+            // 2. if selectedNodes =  [[link]]
+            // 3. if selectedNodes =  [[text]]
+            if (len === 1) {
+                inner = selectedNodes[0];
+                innerLen = inner.length;
+                if (len === 0) {
+                    isEnabled = true;
+                }
+                if (innerLen === 1){
+                    node = inner[0];
+                    nodeType = node.type;
+                    if (nodeType === CKEDITOR.NODE_TEXT) {
+                         isEnabled = true;
+                         text = node.getText();
+                    }
+                    if (nodeType === CKEDITOR.NODE_ELEMENT && node.getName() === 'a'){
+                        isEnabled = true;
+                        text = node.getText();
+                        href = node.getAttribute('href');
+                    }
+                }
+
+            }
             if (!isEnabled){
                 this.getContentElement('tab-general', 'text').disable();
             }
+            selectedNodes.forEach(function(arr){
+                arr.forEach(function(el){
+                    text = text + CKHelper.nodeString(el) + ' ';
+                });
+            });
+            this.setValueOf('tab-general', 'text', text);
+            this.setValueOf('tab-general', 'href_input_field', href);
+            console.log(text);
+
+
 
 
 

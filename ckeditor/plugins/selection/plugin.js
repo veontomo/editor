@@ -17,7 +17,7 @@ CKEDITOR.plugins.add('selection', {
 				var selected = editor.getSelection(),
 					selection = new Selection(editor, selected),
 					nodes = selection.selectedNodes;
-				console.log('selection plugin: ', nodes);
+				console.log('selection plugin: ', selection.test);
 				// nodes.forEach(function(arr, ind1){
 				// 	arr.forEach(function(node, ind){
 				// 		if (node.type === CKEDITOR.NODE_TEXT){

@@ -669,8 +669,9 @@ var CKHelper = {
 		    return (elem1.equals(elem2));
 		}
 		return false;
+	},
 
-	}
+
 };
 
 
