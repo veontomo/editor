@@ -49,6 +49,13 @@ describe('Row-related functionality:', function(){
         });
     });
 
+    describe('Row::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(row.className).toBe('Row');
+        });
+    });
+
+
     describe('Row::appendCell(): appends a cell', function(){
         it('throws an error if not Cell instance is provided', function(){
             var obj = {};
