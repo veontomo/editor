@@ -28,6 +28,13 @@ describe('ListItem-related functionality', function(){
         });
     });
 
+    describe('ListItem::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(li.className).toBe('ListItem');
+        });
+    });
+
+
     describe('Basic properties', function(){
         it('A ListItem object contains nesessary attributes', function(){
             expect(li.hasOwnProperty('style')).toBe(true);
