@@ -35,6 +35,17 @@ function Cell(arg) {
 	this.name = 'td';
 
 	/**
+	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, this.constructor.name returns "Cell", while IE, it returns "undefined".
+	 * This property must be overridden in all inherited classes.
+	 * @property {String}    className
+	 * @type     {String}
+	 * @since    0.0.2
+	 */
+	this.className = "Cell";
+
+
+	/**
 	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
 	 * @property {Content}    content
 	 * @param     {any}       arg

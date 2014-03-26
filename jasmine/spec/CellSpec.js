@@ -11,6 +11,13 @@ describe('Cell-related functionality:', function() {
         cellContent = new Content();
     });
 
+    describe('Cell::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(cell.className).toBe('Cell');
+        });
+    });
+
+
     describe('inherits properly from Tag() class', function(){
         it('instance of Cell is an instance of Tag as well', function(){
             expect(cell instanceof Tag).toBe(true);
