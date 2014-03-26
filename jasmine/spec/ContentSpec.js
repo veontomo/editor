@@ -7,6 +7,12 @@ describe('Content-related functionality', function(){
 		c = new Content();
 	});
 
+	describe('Content::className: class name', function(){
+	    it('gives the name of the class', function(){
+	        expect(c.className).toBe('Content');
+	    });
+	});
+
 
 	describe('Content::length(): The number of elements:', function(){
 		it('gives 0 for the empty Content instance', function(){

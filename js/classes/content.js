@@ -23,6 +23,17 @@ function Content(str) {
 	this.elements = str ? [str] : [];
 
 	/**
+	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, this.constructor.name returns "Content", while IE, it returns "undefined".
+	 * This property must be overridden in all inherited classes.
+	 * @property {String}    className
+	 * @type     {String}
+	 * @since    0.0.2
+	 */
+	this.className = "Content";
+
+
+	/**
 	 * The number of items in the "elements" property
 	 * @method length
 	 * @return {Integer}
