@@ -374,4 +374,34 @@ describe('Tag-related functionality:', function() {
         });
     });
 
+    xdescribe('Tag::toLink(): converts tag into a link', function(){
+        var link, tag2;
+        beforeEach(function(){
+            link = new Link();
+            tag.style = tagStyle;
+            tag.attr = tagAttr;
+            tag.content = content;
+        });
+        it('returns unchanged copy of a tag if it is empty', function(){
+            spyOn(tag, 'isEmpty').andCallFake(function(){return true;});
+            tag2 = tag.toLink(link);
+            expect(tag2).toBe(tag);
+            expect(tag.isEmpty).toHaveBeenCalled();
+        });
+        it('returns a link which content contains only the tag if this tag has empty content', function(){
+            spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(content, 'isEmpty').andCallFake(function(){return true;});
+            tag2 = tag.toLink(link);
+            expect(tag2 instanceof Link).toBe(true);
+            expect(tag2.attr).toBe(link.attr);
+            expect(tag2.style).toBe(link.style);
+            expect(tag2.content.elements.length).toBe(1);
+            expect(tag2.content.elements[0]).toBe(tag);
+            expect(tag.isEmpty).toHaveBeenCalled();
+            expect(tag.content.isEmpty).toHaveBeenCalled();
+        });
+        it('con ');
+
+    });
+
 });

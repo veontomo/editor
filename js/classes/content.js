@@ -1,12 +1,14 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node */
+/*global DOMParser, Node, Link */
 
 /**
  * This class is used to encompass other objects.
  * @module 	    HtmlElements
  * @class  		Content
- * @param 		{String} 	str 		an optional argument that will be inserted when creating property "elements".
+ * @param 		{String} 	str 		an optional argument that will be inserted into
+ *                                      {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+ *
  */
 function Content(str) {
 	"use strict";
@@ -14,7 +16,7 @@ function Content(str) {
 		return new Content(str || null);
 	}
 	/**
-	 * Container of items. If an item has a method "toHtml", it will be applied when transforming the whole Content object into a string.
+	 * Array of items. If an item has a method `toHtml`, it will be applied when transforming the whole Content object into a string.
 	 * @property {Array} elements
 	 * @default  [str]
 	 */
@@ -255,8 +257,6 @@ function Content(str) {
 				if (typeof elem.trim === 'function'){
 					// console.log('trim: elem has trim function');
 					elem.trim();
-				} else {
-					// console.log('trim: elem has NO trim function');
 				}
 				// check whether the last element is empty
 				if (i === len - 1 && (typeof elem.isEmpty === 'function') && elem.isEmpty()){
@@ -264,8 +264,6 @@ function Content(str) {
 					// here the deletion occurs
 					this.dropLast();
 					this.trim();
-				} else {
-					// console.log('trim: NOT dropping last elem');
 				}
 			}
 		}
@@ -319,20 +317,36 @@ function Content(str) {
 			this.appendElem(obj);
 		}
 	};
+
 	/**
-	 * Calls `toLink()` method on each element. The argument must be a {{#crossLink "Link"}}Link{{/crossLink}} instance.
-	 * Otherwise, an error is thrown.
+	 * Returns a new `Content` instance. Parses each element of target instance and if the element:
+	 * <ol><li> responds to a method `toLink()`, then applies this method to the element</li>
+	 * <li>does not respond to method `toLink()` and is a string, then converts it into a link</li>
+	 * <li>does not respond to method `toLink()`, then insert the element whitout changes.</li></ol>
+	 * The argument must be a {{#crossLink "Link"}}Link{{/crossLink}} instance. Otherwise, an error is thrown.
 	 * @method toLink
 	 * @param  {Link}         link
-	 * @return {void}
+	 * @return {Content}
 	 */
 	this.toLink = function(link){
 		if (!(link instanceof Link)){
 			throw new Error('The argument must be a Link instance!');
 		}
+		var elem,
+			result = new Content();
 		this.elements.forEach(function(el){
-			el.toLink(link);
+			if (typeof el.toLink === 'function'){
+				elem = el.toLink(link);
+			} else if (typeof el === 'string'){
+				elem = new Link();
+				elem.style = link.style;
+				elem.attr = link.attr;
+				elem.content = [el];
+			} else {
+				elem = el;
+			}
+			result.appendElem(elem);
 		});
-
+	return result;
 	};
 }

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Row */
+/*global describe, it, expect, spyOn, beforeEach, jasmine, Content, Link, window */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -582,50 +582,88 @@ describe('Content-related functionality', function(){
     });
 
 	describe('Content::toLink(): transforms each element of the content into a link', function(){
-		var link;
-			beforeEach(function(){
-				link = new Link();
-			});
-		xit('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
+		var c2, link;
+		beforeEach(function(){
+			link = new Link();
+			link.setHref('test_url');
+		});
+		it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
 			var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
 			classNames.forEach(function(name){
-				var obj = new window[name];
+				var obj = new window[name]();
 				expect(function(){
 					c.toLink(obj);
 				}).toThrow('The argument must be a Link instance!');
 			});
 		});
-		xit('does not throws an error if the argument is a Link instance', function(){
+		it('does not throws an error if the argument is a Link instance', function(){
 				expect(function(){
 					c.toLink(new Link());
 				}).not.toThrow('The argument must be a Link instance!');
 		});
-		xit('throws an error if the argument is a number, a string, an array or an object', function(){
-			expect(function(){
-				c.toLink(1);
-			}).toThrow('The argument must be a Link instance!');
-			expect(function(){
-				c.toLink("string");
-			}).toThrow('The argument must be a Link instance!');
-			expect(function(){
-				c.toLink([]);
-			}).toThrow('The argument must be a Link instance!');
-			expect(function(){
-				c.toLink({});
-			}).toThrow('The argument must be a Link instance!');
+		it('throws an error if the argument is a number, a string, an array or an object', function(){
+			var instances = [1, 0.93, -5, '', 'ciao', [], [32, 0.12, -1], {}, {'foo': 1}];
+			instances.forEach(function(el){
+				expect(function(){
+					c.toLink(el);
+				}).toThrow('The argument must be a Link instance!');
+			});
 		});
 
-		it('calls toLink method on each element', function(){
-			var link = new Link(),
-				el0 = jasmine.createSpyObj('', ['toLink']),
-				el1 = jasmine.createSpyObj('', ['toLink']),
-				el2 = jasmine.createSpyObj('', ['toLink']);
-			c.elements = [el0, el1, el2];
-			c.toLink(link);
-			expect(el0.toLink).toHaveBeenCalledWith(link);
-			expect(el0.toLink).toHaveBeenCalledWith(link);
-			expect(el0.toLink).toHaveBeenCalledWith(link);
-		})
+		it('return a copy of the target if it has empty content', function(){
+			expect(c.elements.length).toBe(0);
+			c2 = c.toLink(link);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(0);
+		});
+		it('calls toLink method on each element if they respond to "toLink()" method', function(){
+			var el0 = {'toLink': function(){return 'result of toLink';}};
+			c.elements = [el0];
+			c2 = c.toLink(link);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(1);
+			expect(c2.elements[0]).toBe('result of toLink');
+		});
+		it('converts a string-type element into a link', function(){
+			var el0 = 'string elem';
+			c.elements = [el0];
+			c2 = c.toLink(link);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(1);
+			expect(c2.elements[0] instanceof Link).toBe(true);
+			expect(c2.elements[0].name).toBe(link.name);
+			expect(c2.elements[0].style).toBe(link.style);
+			expect(c2.elements[0].attr).toBe(link.attr);
+			expect(c2.elements[0].content.length).toBe(1);
+			expect(c2.elements[0].content[0]).toBe(el0);
+		});
+		it('does not changed the element if it is an array', function(){
+			c.elements = [[1, 2]];
+			c2 = c.toLink(link);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(1);
+			expect(c2.elements[0].length).toBe(2);
+			expect(c2.elements[0][0]).toBe(1);
+			expect(c2.elements[0][1]).toBe(2);
+		});
+		it('does not change the number of the elements', function(){
+			c.elements = [1, "string", {}, []];
+			c2 = c.toLink(link);
+			expect(c.elements.length).toBe(4);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(4);
+		});
+		it('creates a new Content instance if the target has string and objects elements', function(){
+			var fake = {'toLink': function(){return null;}};
+			spyOn(fake, 'toLink').andCallFake(function(){return 'fake to link';});
+			c.elements = ['start', fake, 'end'];
+			c2 = c.toLink(link);
+			expect(c2 instanceof Content).toBe(true);
+			expect(c2.elements.length).toBe(3);
+			expect(c2.elements[0] instanceof Link).toBe(true);
+			expect(c2.elements[1]).toBe('fake to link');
+			expect(c2.elements[2] instanceof Link).toBe(true);
+		});
 	});
 
 
