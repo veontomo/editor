@@ -11,6 +11,14 @@ describe('Link-related functionality:', function() {
         delete link.dumbAttribute;
     });
 
+
+    describe('Link::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(link.className).toBe('Link');
+        });
+    });
+
+
     describe('Link::constuctor() inherits from Tag', function(){
         it('is an instance of Tag() as well ', function(){
             expect(link instanceof Link).toBe(true);
