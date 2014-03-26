@@ -37,7 +37,7 @@ function Row() {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, this.constructor.name returns "Tag", while IE, it returns "undefined".
+	 * in FF, this.constructor.name returns "Row", while IE, it returns "undefined".
 	 * This property must be overridden in all inherited classes.
 	 * @property {String}    className
 	 * @type     {String}

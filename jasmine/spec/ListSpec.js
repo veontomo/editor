@@ -27,6 +27,13 @@ describe('List-related functionality:', function(){
         });
     });
 
+    describe('List::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(l.className).toBe('List');
+        });
+    });
+
+
     describe('Basic properties:', function(){
         it('A list object contains nesessary attributes', function(){
             expect(l.hasOwnProperty('name')).toBe(true);

@@ -42,7 +42,18 @@ function List(listType) {
 	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
 
 	/**
-	 * Sets the type of the list. The list name is changed only if the argument is in
+	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, this.constructor.name returns "List", while IE, it returns "undefined".
+	 * This property must be overridden in all inherited classes.
+	 * @property {String}    className
+	 * @type     {String}
+	 * @since    0.0.2
+	 */
+	this.className = "List";
+
+
+	/**
+	 * Lis the type of the list. The list name is changed only if the argument is in
 	 * the array of the allowed names {{#crossLink "List/allowedNames:property"}}allowedNames{{/crossLink}}.
 	 * @method   setName
 	 * @param    {String}        name       the value to be imposed as a list type.
