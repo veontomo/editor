@@ -603,9 +603,9 @@ describe('Content-related functionality', function(){
 			});
 		});
 		it('does not throws an error if the argument is a Link instance', function(){
-				expect(function(){
-					c.toLink(new Link());
-				}).not.toThrow('The argument must be a Link instance!');
+			expect(function(){
+				c.toLink(new Link());
+			}).not.toThrow('The argument must be a Link instance!');
 		});
 		it('throws an error if the argument is a number, a string, an array or an object', function(){
 			var instances = [1, 0.93, -5, '', 'ciao', [], [32, 0.12, -1], {}, {'foo': 1}];

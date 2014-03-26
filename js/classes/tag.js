@@ -357,12 +357,14 @@ function Tag() {
 	 * @param   {Link}       link
 	 * @return  {Tag|Link}             depending on the target, the result either a Link (if the target is a Link instance
 	 *                                 or has empty content) or Tag (in other cases).
+	 * @since  0.0.2
 	 */
 	this.toLink = function(link){
 		if (!(link instanceof Link)){
 			throw new Error('The argument must be a Link instance!');
 		}
 		var output, attr, className;
+		// Link transformed into a Link by changing href
 		if (this instanceof Link){
 			output = new Link();
 			output.style = link.style;
@@ -383,19 +385,17 @@ function Tag() {
 		// clone the target without 'content' property
 		className = this.className;
 		if(className) {
-			output = new window[className];
-			if (output){
+			if (window.hasOwnProperty(className)){
+				output = new window[className];
 				for (attr in this) {
 				    if (this.hasOwnProperty(attr) && attr !== 'content') {
 				    	output.attr = this.attr;
 				    }
 				}
 				output.content = this.content.toLink(link);
-
+				return output;
 			}
 		}
-		return output;
 	};
-
 }
 

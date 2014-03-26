@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Table, Link */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -391,6 +391,29 @@ describe('Tag-related functionality:', function() {
             tag.attr = tagAttr;
             tag.content = content;
         });
+        it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
+            var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
+            classNames.forEach(function(name){
+                var obj = new window[name]();
+                expect(function(){
+                    tag.toLink(obj);
+                }).toThrow('The argument must be a Link instance!');
+            });
+        });
+        it('does not throws an error if the argument is a Link instance', function(){
+            expect(function(){
+                tag.toLink(new Link());
+            }).not.toThrow('The argument must be a Link instance!');
+        });
+        it('throws an error if the argument is a number, a string, an array or an object', function(){
+            var instances = [1, 0.93, -5, '', 'ciao', [], [32, 0.12, -1], {}, {'foo': 1}];
+            instances.forEach(function(el){
+                expect(function(){
+                    tag.toLink(el);
+                }).toThrow('The argument must be a Link instance!');
+            });
+        });
+
         it('returns unchanged copy of a tag if it is empty', function(){
             spyOn(tag, 'isEmpty').andCallFake(function(){return true;});
             tag2 = tag.toLink(link);
@@ -418,6 +441,30 @@ describe('Tag-related functionality:', function() {
             expect(tag2 instanceof Tag).toBe(true);
             expect(content.toLink).toHaveBeenCalledWith(link);
         });
+
+        it('returns a Link if called on a Link', function(){
+            link.setHref('go-to-bar');
+            var link2 = new Link();
+            link2.content = 'whatever';
+            link2.setHref('go-home');
+            tag2 = link2.toLink(link);
+            expect(tag2 instanceof Link).toBe(true);
+            expect(tag2.getHref()).toBe('go-to-bar');
+            expect(tag2.content).toBe('whatever');
+        });
+
+        it('returns "undefined" if the target content is not empty and the target has no "className" property', function(){
+            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
+            delete tag.className;
+            expect(tag.toLink(link)).not.toBeDefined();
+        });
+
+        it('returns "undefined" if the target content is not empty and the target has a "className" property, but it corresponds to a non-existing class', function(){
+            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
+            tag.className = 'a class with such a name does not exist. I hope.';
+            expect(tag.toLink(link)).not.toBeDefined();
+        });
+
     });
 
 });
