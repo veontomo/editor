@@ -1,12 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, Helper, Style*/
+/*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, Helper, Style, Link, window*/
 
 /**
  * This class is used to represent a general html tag.
  * @module 	    HtmlElements
  * @class  		Tag
- * @since       0.0.1
+ * @since       0.0.2
  * @author      A.Shcherbakov
  *
  */
@@ -23,6 +23,16 @@ function Tag() {
 	 * @since 0.0.1
 	 */
 	this.name = null;
+
+	/**
+	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, this.constructor.name returns "Tag", while IE, it returns "undefined".
+	 * This property must be overridden in all inherited classes.
+	 * @property {String}    className
+	 * @type     {String}
+	 * @since    0.0.2
+	 */
+	this.className = "Tag";
 
 	/**
 	 * Returns value of the name attribute.
@@ -322,6 +332,7 @@ function Tag() {
 		this.content.trim();
 		return this;
 	};
+
 	/**
 	 * Appends element to the content. It is alias for the
 	 * {{#crossLink "Content/appendElemIfNotEmpty:method"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
@@ -331,6 +342,60 @@ function Tag() {
 	 */
 	this.appendElemIfNotEmpty = function(arg){
 		this.content.appendElemIfNotEmpty(arg);
-	}
+	};
+
+	/**
+	 * <ol><li>If the target is a Link instance, then target content is copied inside the new link.</li>
+	 * <li>If the target is empty (in the sense of its {{#crossLink "Tag/isEmpty:method"}}isEmpty(){{/crossLink}} method),
+	 * then the target is returned without changes</li>
+	 * <li>If the target is not empty, but its {{#crossLink "Tag/content:property"}}content{{/crossLink}} is empty
+	 * (in the sense of its {{#crossLink "Content/isEmpty:method"}}isEmpty(){{/crossLink}} method), then a Link
+	 * instance is returned. This instance wraps the target object.</li>
+	 * <li>If the target {{#crossLink "Tag/content:property"}}content{{/crossLink}} is not empty, then `toLink()` is applied to
+	 * each element that responds to this method. Otherwise, the element is copied without changes.</li></ol>
+	 * @method  toLink
+	 * @param   {Link}       link
+	 * @return  {Tag|Link}             depending on the target, the result either a Link (if the target is a Link instance
+	 *                                 or has empty content) or Tag (in other cases).
+	 */
+	this.toLink = function(link){
+		if (!(link instanceof Link)){
+			throw new Error('The argument must be a Link instance!');
+		}
+		var output, attr, className;
+		if (this instanceof Link){
+			output = new Link();
+			output.style = link.style;
+			output.attr = link.attr;
+			output.content = this.content;
+			return output;
+		}
+		if (this.isEmpty()){
+			return this;
+		}
+		if (this.content.isEmpty()){
+			output = new Link();
+			output.style = link.style;
+			output.attr = link.attr;
+			output.content.appendElem(this);
+			return output;
+		}
+		// clone the target without 'content' property
+		className = this.className;
+		if(className) {
+			output = new window[className];
+			if (output){
+				for (attr in this) {
+				    if (this.hasOwnProperty(attr) && attr !== 'content') {
+				    	output.attr = this.attr;
+				    }
+				}
+				output.content = this.content.toLink(link);
+
+			}
+		}
+		return output;
+	};
+
 }
 

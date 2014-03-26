@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Table */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Table, Link */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -16,6 +16,14 @@ describe('Tag-related functionality:', function() {
             expect(tag2 instanceof Tag).toBe(true);
         });
     });
+
+    describe('Tag::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(tag.className).toBe('Tag');
+        });
+    });
+
+
 
     it('sets styles of the tag', function(){
         tagStyle.modular = 'frequency';
@@ -374,7 +382,8 @@ describe('Tag-related functionality:', function() {
         });
     });
 
-    xdescribe('Tag::toLink(): converts tag into a link', function(){
+
+    describe('Tag::toLink(): converts tag into a link', function(){
         var link, tag2;
         beforeEach(function(){
             link = new Link();
@@ -388,7 +397,7 @@ describe('Tag-related functionality:', function() {
             expect(tag2).toBe(tag);
             expect(tag.isEmpty).toHaveBeenCalled();
         });
-        it('returns a link which content contains only the tag if this tag has empty content', function(){
+        it('returns a link which content contains the tag if this tag has empty content', function(){
             spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
             spyOn(content, 'isEmpty').andCallFake(function(){return true;});
             tag2 = tag.toLink(link);
@@ -400,8 +409,15 @@ describe('Tag-related functionality:', function() {
             expect(tag.isEmpty).toHaveBeenCalled();
             expect(tag.content.isEmpty).toHaveBeenCalled();
         });
-        it('con ');
 
+        it('calls "toLink()" method on the target if it has non-empty content', function(){
+            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(content, 'toLink');
+            tag.content = content;
+            tag2 = tag.toLink(link);
+            expect(tag2 instanceof Tag).toBe(true);
+            expect(content.toLink).toHaveBeenCalledWith(link);
+        });
     });
 
 });

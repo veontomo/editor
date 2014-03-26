@@ -60,6 +60,13 @@ describe('Table-related functionality:', function(){
         });
     });
 
+    describe('Table::className: class name', function(){
+        it('gives the name of the class', function(){
+            expect(table.className).toBe('Table');
+        });
+    });
+
+
     describe('Table::appendRow(): appends the row', function(){
         it('throws exception if not a Row instance is appended to the table', function(){
             var foo = {};
