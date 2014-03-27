@@ -392,13 +392,13 @@ String.prototype.inflate = function(){
      * @method    inflate
      * @return    {Content}
      */
-    var str = this.toString(),
-        parser = new DOMParser(),
-        id = Helper.generateId(str, 'fakeId'),
-        doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
-        output = new Content(),
-        node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
-    // generate a unique id for the overall document
+    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
+    str = this.toString();
+    parser = new DOMParser();
+    id = Helper.generateId(str, 'fakeId');
+    doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html');
+    output = new Content();
+
     node = doc.getElementById(id);
     children = node.childNodes;
     childrenNum = children.length;

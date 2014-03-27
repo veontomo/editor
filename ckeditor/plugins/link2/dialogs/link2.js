@@ -63,6 +63,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
+
             // CKEDITOR.document.getById(warningFieldId).setHtml('');
             var selection = new Selection(editor, editor.getSelection()),
                 len, node, nodeType, inner, innerLen,
@@ -166,6 +167,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         }
                     // whether the current node is an element one
                     } else if (elType === CKEDITOR.NODE_ELEMENT){
+                        methodName = 'create' +
+                        if ();
                         obj = el.getOuterHtml().inflate();
                         console.log('element is NODE_ELEMENT: ', el);
                         console.log('its outer html: ', el.getOuterHtml());

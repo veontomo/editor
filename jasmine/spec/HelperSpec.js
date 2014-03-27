@@ -347,6 +347,47 @@ describe('Test helper functions', function(){
             expect(arr[2]).toBe(obj);
             expect(arr[3]).toBe('dumb');
         });
+    });
+
+    describe('Helper::isSemanticallyValid(): whether the argument is a semantically valid html', function(){
+        it('returns true for empty string', function(){
+            expect(Helper.isSemanticallyValid('')).toBe(true);
+        });
+        it('returns true for a string', function(){
+            expect(Helper.isSemanticallyValid('a string')).toBe(true);
+        });
+        it('returns false for <div>abc</p>', function(){
+            expect(Helper.isSemanticallyValid('<div>abc</p>')).toBe(false);
+        });
+        it('returns true for <div>abc</div>', function(){
+            expect(Helper.isSemanticallyValid('<div>abc</div>')).toBe(true);
+        });
+        it('returns true for nested tags <div>abc<p>123</p></div>', function(){
+            expect(Helper.isSemanticallyValid('<div>abc<p>123</p></div>')).toBe(true);
+        });
+        it('returns false for stand alone table cells', function(){
+            expect(Helper.isSemanticallyValid('<td>abc</td>')).toBe(false);
+        });
+        it('returns false for stand alone table rows', function(){
+            expect(Helper.isSemanticallyValid('<tr><td>abc</td></tr>')).toBe(false);
+        });
+        it('returns false for incomplete table', function(){
+            expect(Helper.isSemanticallyValid('<table><tbody><td>abc</td></tbody></table>')).toBe(false);
+            expect(Helper.isSemanticallyValid('<table><tr></tr></table>')).toBe(false);
+            expect(Helper.isSemanticallyValid('<table><tbody><tr>abc</tr></tbody></table>')).toBe(false);
+            expect(Helper.isSemanticallyValid('<table><tbody>string<tr></tr></tbody></table>')).toBe(false);
+            expect(Helper.isSemanticallyValid('<table>string<td></table>')).toBe(false);
+            expect(Helper.isSemanticallyValid('<table><tr><td>abc</td></tr><tr>string</tr></table>')).toBe(false);
+        });
+        it('returns true for complete table', function(){
+            expect(Helper.isSemanticallyValid('<table><tbody><tr><td>abc</td></tr></tbody></table>')).toBe(true);
+            expect(Helper.isSemanticallyValid('<table><tbody><tr><td>abc</td></tr><tr><td></td></tr></tbody></table>')).toBe(true);
+        });
+        it('returns true for lists', function(){
+            expect(Helper.isSemanticallyValid('<ul><li>first item</li></ul>')).toBe(true);
+            expect(Helper.isSemanticallyValid('<ol><li></li></ol>')).toBe(true);
+        });
+
 
 
 

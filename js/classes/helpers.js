@@ -372,7 +372,19 @@ var Helper = {
         }
     },
 
-
+    /**
+     * Returns true if the string is a semantically valid html string.
+     * @method isSemanticallyValid
+     * @param  {String}         str
+     * @return {Boolean}
+     */
+    isSemanticallyValid: function(str){
+        var parser = new DOMParser(),
+            id = Helper.generateId(str, 'fakeId'),
+            doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
+            node = doc.getElementById(id);
+        return node.innerHTML === str.trim();
+    }
 };
 
 Array.prototype.concatDropSpaces = function(glue){
