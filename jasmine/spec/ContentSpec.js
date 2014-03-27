@@ -640,8 +640,8 @@ describe('Content-related functionality', function(){
 			expect(c2.elements[0].name).toBe(link.name);
 			expect(c2.elements[0].style).toBe(link.style);
 			expect(c2.elements[0].attr).toBe(link.attr);
-			expect(c2.elements[0].content.length).toBe(1);
-			expect(c2.elements[0].content[0]).toBe(el0);
+			expect(c2.elements[0].content.elements.length).toBe(1);
+			expect(c2.elements[0].content.elements[0]).toBe(el0);
 		});
 		it('does not changed the element if it is an array', function(){
 			c.elements = [[1, 2]];

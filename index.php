@@ -60,13 +60,26 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<h2>L&rsquo;utilit&agrave; dei contenuti senza senso</h2>
+			<table border="2" cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: solid; margin: 0px; padding: 0px; width: 500px; max-width: 500px; min-width: 500px; border-spacing: 0px; border-width: 2px; border-color: rgb(0, 0, 0)" width="500">
+				<tbody>
+					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 496px; max-width: 496px; min-width: 496px">
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 98px; max-width: 98px; min-width: 98px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px">cell 0 0</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 198px; max-width: 198px; min-width: 198px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px">cell 0 1</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 197px; max-width: 197px; min-width: 197px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px">cell 0 2</td>
+					</tr>
+					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 496px; max-width: 496px; min-width: 496px">
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 98px; max-width: 98px; min-width: 98px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px">cell 1 0</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 198px; max-width: 198px; min-width: 198px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px">cell 1 1</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 197px; max-width: 197px; min-width: 197px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px">cell 1 2</td>
+					</tr>
+					<tr data-marker="Row" style="border-style: none; margin: 0px; padding: 0px; width: 496px; max-width: 496px; min-width: 496px">
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 98px; max-width: 98px; min-width: 98px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px">cell 2 0</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 198px; max-width: 198px; min-width: 198px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px">cell 2 1</td>
+						<td data-marker="Cell" style="border-style: none; margin: 0px; width: 197px; max-width: 197px; min-width: 197px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 1px 1px 0px">cell 2 2</td>
+					</tr>
+				</tbody>
+			</table>
 
-			<p>I testi <a href="http://www.test.com">casuali</a> sono utilizzati, inoltre, per mostrare e confrontare l&rsquo;aspetto dei caratteri tipografici e dei layout. Di norma si tratta di testi senza contenuto semantico. In virt&ugrave; della sua ampia funzione di testo riempitivo per layout, la non leggibilit&agrave; del testo &egrave; un elemento di grande importanza: la percezione umana, infatti, &egrave; portata a riconoscere determinati modelli e ripetizioni nel testo. La distribuzione arbitraria delle lettere e della lunghezza delle&nbsp;<br />
-			<br />
-			<img alt="Mare" height="128" src="https://cdn1.iconfinder.com/data/icons/sphericalcons/128/ship.png" style="border-style: none; padding: 0px; margin: 0px; width: 128px; height: 128px" title="Mare" width="128" /></p>
-			&quot;parole&quot;, invece, non distrae l&rsquo;occhio che, in questo modo, pu&ograve; focalizzare e giudicare l&rsquo;effetto grafico e la leggibilit&agrave; dei caratteri tipografici (tipografia) e la distribuzione del testo nella pagina (layout o luce di composizione). Per questo motivo i testi casuali sono costituiti per lo pi&ugrave; da una sequenza pi&ugrave; o meno arbitraria di parole o sillabe. I modelli ripetitivi non rischiano di confondere l&rsquo;impressione generale e consentono di confrontare meglio tra loro i diversi caratteri tipografici. D&rsquo;altra parte il fatto che un testo casuale appaia realistico rappresenta un vantaggio, affinch&eacute; l&rsquo;effetto dei layout della futura pubblicazione non sia compromesso.<br />
-			&nbsp;
 		</textarea>
 	</div>
 

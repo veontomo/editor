@@ -115,8 +115,8 @@ describe('Cell-related functionality:', function() {
         });
     });
 
-    describe('appends style to the cell:', function(){
-        it('Appends style if it is given as a string', function(){
+    describe('Cell::appendStyle(): method defined in the parent class', function(){
+        it('appends style if it is given as a string', function(){
             if (cell.style.hasOwnProperty('an-attribute')){
                 delete cell.style['an-attribute'];
             }
@@ -124,20 +124,20 @@ describe('Cell-related functionality:', function() {
             expect(cell.getStyleProp('an-attribute')).toBe('attribute-value');
         });
 
-        it('Appends style if it is given as a Style object', function(){
+        it('appends style if it is given as a Style object', function(){
             var st = new Style();
             st.attribute = 201.29;
             cell.appendStyle(st);
             expect(cell.getStyleProp('attribute')).toBe(201.29);
         });
 
-        it('Appends style if it is given as an object', function(){
+        it('appends style if it is given as an object', function(){
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
             expect(cell.getStyleProp('modular')).toBe('no');
             expect(cell.getStyleProp('speed')).toBe(21.9);
         });
 
-        it('Does not overrides non-overlapping attributes', function(){
+        it('does not overrides non-overlapping attributes', function(){
             var st = new Style();
             st.leverage = 'virtual';
             st.help = 981.87;
@@ -151,7 +151,7 @@ describe('Cell-related functionality:', function() {
             expect(cell.getStyleProp('knowledge-driven')).toBe('34');
         });
 
-        it('Overrides overlapping attributes', function(){
+        it('overrides overlapping attributes', function(){
             var st = new Style();
             st.leverage = 'virtual';
             st.help = 981.87;
@@ -164,6 +164,27 @@ describe('Cell-related functionality:', function() {
             expect(cell.getStyleProp('leverage')).toBe('virtual');
             expect(cell.getStyleProp('help')).toBe(981.87);
             expect(cell.getStyleProp('knowledge-driven')).toBe('34');
+        });
+    });
+
+    describe('Cell::toLink(): test parent method', function(){
+        it('creates a link inside the cell with text content', function(){
+            var link = new Link(),
+                cell2;
+            cell.style = cellStyle;
+            cell.attr = cellAttr;
+            link.setHref('url-to-world');
+            cell.content.elements = ['cell content'];
+            cell2 = cell.toLink(link);
+            expect(cell2.style.toString()).toBe(cellStyle.toString());
+            expect(cell2.attr.toString()).toBe(cellAttr.toString());
+            expect(cell2.content.elements.length).toBe(1);
+            expect(cell2.content.elements[0] instanceof Link).toBe(true);
+            expect(cell2.content.elements[0].getHref()).toBe('url-to-world');
+            expect(cell2.content.elements[0].attr).toBe(link.attr);
+            expect(cell2.content.elements[0].style).toBe(link.style);
+            expect(cell2.content.elements[0].content.elements.length).toBe(1);
+            expect(cell2.content.elements[0].content.elements[0]).toBe('cell content');
         });
     });
 });

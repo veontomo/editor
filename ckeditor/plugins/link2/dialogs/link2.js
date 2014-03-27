@@ -128,7 +128,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-                current, link, obj;
+                current, link, obj, objToLink;
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
                 link = new Link();
@@ -167,12 +167,14 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     // whether the current node is an element one
                     } else if (elType === CKEDITOR.NODE_ELEMENT){
                         obj = el.getOuterHtml().inflate();
+                        console.log('element is NODE_ELEMENT: ', el);
+                        console.log('its outer html: ', el.getOuterHtml());
                         console.log('link2: result of inflate: ', obj);
                         // if it is not empty, transform it into a link
                         if (!obj.isEmpty()){
 
                             objToLink = obj.toLink(link);
-                            console.log('original: ', el.getOuterHtml());
+                            console.log('original: ', obj.toHtml());
                             console.log('to be replaced by: ', objToLink.toHtml());
 
 

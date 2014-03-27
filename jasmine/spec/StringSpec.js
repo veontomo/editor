@@ -525,6 +525,16 @@ describe('String-related functionality', function(){
                     expect(obj.getElem(1).name).toBe('div');
                     expect(obj.getElem(1).getElem(0) instanceof Table).toBe(true);
                 });
+                it('converts table row in a Content instance', function(){
+                    str = '<td data-marker="Cell" style="border-style: none; margin: 0px; width: 98px; max-width: 98px; min-width: 98px; vertical-align: top; color: rgb(0, 0, 1); padding: 0px 0px 1px 1px">cell 0 0<br></td>';
+                    obj = str.inflate();
+                    expect(obj instanceof Content).toBe(true);
+                    expect(obj.length()).toBe(1);
+                    expect(obj.getFirst() instanceof Cell).toBe(true);
+
+
+
+                });
 
                 it('grasps all elements from the string', function(){
                     str = '<table cellpadding="2" cellspacing="5" data-marker="Table" style="border-style: outset;margin: 54px;padding: 342px;width: \

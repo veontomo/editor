@@ -445,12 +445,13 @@ describe('Tag-related functionality:', function() {
         it('returns a Link if called on a Link', function(){
             link.setHref('go-to-bar');
             var link2 = new Link();
-            link2.content = 'whatever';
+            link2.content.elements = ['whatever'];
             link2.setHref('go-home');
             tag2 = link2.toLink(link);
             expect(tag2 instanceof Link).toBe(true);
             expect(tag2.getHref()).toBe('go-to-bar');
-            expect(tag2.content).toBe('whatever');
+            expect(tag2.content.elements.length).toBe(1);
+            expect(tag2.content.elements[0]).toBe('whatever');
         });
 
         it('returns "undefined" if the target content is not empty and the target has no "className" property', function(){
