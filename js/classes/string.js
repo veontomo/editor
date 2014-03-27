@@ -392,44 +392,50 @@ String.prototype.inflate = function(){
      * @method    inflate
      * @return    {Content}
      */
-    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
+    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists, re;
     str = this.toString();
     parser = new DOMParser();
-    id = Helper.generateId(str, 'fakeId');
-    doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html');
     output = new Content();
 
-    node = doc.getElementById(id);
-    children = node.childNodes;
-    childrenNum = children.length;
-    if (childrenNum > 0){
-        for (i = 0; i < childrenNum; i++){
-            child = children[i];
-            switch (child.nodeType){
-                case Node.TEXT_NODE:
-                    elem = child.textContent.trim();
-                    break;
-                case Node.ELEMENT_NODE:
-                    childHtml = child.outerHTML;
-                    methodName = 'create' + Helper.onlyFirstLetterUpperCase(child.nodeName) + 'FromHtml';
-                    methodExists = (typeof childHtml[methodName] === 'function');
-                    // if the method exists, apply it to the string representation of
-                    // the current node. Otherwise, apply recursively the method "inflate"
-                    // to the inner part of the current node.
-                    if (methodExists){
-                        elem = childHtml[methodName]();
-                    } else {
-                        elem = childHtml.createTagFromHtml();
-                    }
-                    break;
-                default:
-                    elem = child.nodeValue;
+    id = Helper.generateId(str, 'fakeId');
+    if (Helper.isSemanticallyValid(str)){
+        doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html');
+        node = doc.getElementById(id);
+        children = node.childNodes;
+        childrenNum = children.length;
+        if (childrenNum > 0){
+            for (i = 0; i < childrenNum; i++){
+                child = children[i];
+                switch (child.nodeType){
+                    case Node.TEXT_NODE:
+                        elem = child.textContent.trim();
+                        break;
+                    case Node.ELEMENT_NODE:
+                        childHtml = child.outerHTML;
+                        methodName = 'create' + Helper.onlyFirstLetterUpperCase(child.nodeName) + 'FromHtml';
+                        methodExists = (typeof childHtml[methodName] === 'function');
+                        // if the method exists, apply it to the string representation of
+                        // the current node. Otherwise, apply recursively the method "inflate"
+                        // to the inner part of the current node.
+                        if (methodExists){
+                            elem = childHtml[methodName]();
+                        } else {
+                            elem = childHtml.createTagFromHtml();
+                        }
+                        break;
+                    default:
+                        elem = child.nodeValue;
+                }
+                if(elem){
+                    output.appendElem(elem);
+                }
             }
-            if(elem){
-                output.appendElem(elem);
-            }
-
         }
+    } else {
+        // serach for tags inside the strings: ...<tag ...>...</tag>
+        re = new RegExp(/<(\w+)\s*[^>]*>.*<\/\1>/g);
+        pos = str.search(re);
+
     }
     return output;
 };

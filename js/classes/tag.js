@@ -369,7 +369,6 @@ function Tag() {
 		var output, attr, className;
 		// Link transformed into a Link by changing href
 		if (this instanceof Link){
-			console.log('Tag:toLink: link ');
 			output = new Link();
 			output.style = link.style;
 			output.attr = link.attr;
@@ -377,11 +376,9 @@ function Tag() {
 			return output;
 		}
 		if (this.isEmpty()){
-			console.log('Tag:toLink: empty');
 			return this;
 		}
 		if (this.content.isEmpty()){
-			console.log('Tag:toLink: content is empty ');
 			output = new Link();
 			output.style = link.style;
 			output.attr = link.attr;
@@ -391,7 +388,6 @@ function Tag() {
 		// clone the target without 'content' property
 		className = this.className;
 		if(className) {
-			console.log('Tag:toLink: className ', className);
 			if (window.hasOwnProperty(className)){
 				output = new window[className];
 				for (attr in this) {
@@ -403,7 +399,23 @@ function Tag() {
 				return output;
 			}
 		}
-		console.log('Tag:toLink: nothing to output', className);
 	};
+
+	/**
+	 * Populates the instance from the provided string. The provided string must be of the form
+	 * `<tag ...>...</tag>` where `tag` is value of {{#crossLink "Tag/name:property"}}Tag::name{{/crossLink}}
+	 * property (remember that there might be classes that inherit from `Tag`, so that the method under consideration
+	 * might in fact be used of one of its children). If value of `tag` is different from `name` property, then nothing
+	 * is loaded into the instance. In case of success, the instance attributes and styles are loaded from
+	 * the provided string and content is obtained by applying this method to the content of the given string.
+	 * **NOT IMPLEMENTED!!!! **
+	 *
+	 * @method     loadFromHtml
+	 * @param      {String}         html
+	 * @return     {void}
+	 */
+	this.loadFromHtml = function(html){
+
+	}
 }
 
