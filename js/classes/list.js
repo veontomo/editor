@@ -43,10 +43,11 @@ function List(listType) {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, this.constructor.name returns "List", while IE, it returns "undefined".
+	 * in FF, `this.constructor.name` returns "List", while IE, it returns "undefined".
 	 * This property must be overridden in all inherited classes.
 	 * @property {String}    className
 	 * @type     {String}
+	 * @default  "List"
 	 * @since    0.0.2
 	 */
 	this.className = "List";

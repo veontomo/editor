@@ -167,11 +167,16 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     // whether the current node is an element one
                     } else if (elType === CKEDITOR.NODE_ELEMENT){
                         obj = el.getOuterHtml().inflate();
+                        console.log('link2: result of inflate: ', obj);
                         // if it is not empty, transform it into a link
                         if (!obj.isEmpty()){
-                            console.log('toLink() is not implemented yet!');
-                            // objToLink = obj.toLink(link);
-                            // CKEDITOR.dom.element.createFromHtml(objToLink.toHtml()).replace(el);
+
+                            objToLink = obj.toLink(link);
+                            console.log('original: ', el.getOuterHtml());
+                            console.log('to be replaced by: ', objToLink.toHtml());
+
+
+                            CKEDITOR.dom.element.createFromHtml(objToLink.toHtml()).replace(el);
                         }
                     }
 

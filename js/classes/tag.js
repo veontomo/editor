@@ -26,10 +26,11 @@ function Tag() {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, this.constructor.name returns "Tag", while IE, it returns "undefined".
+	 * in FF, `this.constructor.name` returns "Tag", while IE, it returns "undefined".
 	 * This property must be overridden in all inherited classes.
 	 * @property {String}    className
 	 * @type     {String}
+	 * @default  "Tag"
 	 * @since    0.0.2
 	 */
 	this.className = "Tag";
@@ -287,8 +288,10 @@ function Tag() {
 	 * @since   0.0.1
 	 */
 	this.toHtml = function(){
+		console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
 		var tag = this.name,
 			style, attr, html;
+
 		if (tag){
 			style = Helper.sandwichWith('style="', this.style.toString(), '"');
 			attr = this.attr.toString();
@@ -366,16 +369,19 @@ function Tag() {
 		var output, attr, className;
 		// Link transformed into a Link by changing href
 		if (this instanceof Link){
+			console.log('Tag:toLink: link ');
 			output = new Link();
 			output.style = link.style;
 			output.attr = link.attr;
-			output.content = this.content;
+			output.content.elements = this.content.elements;
 			return output;
 		}
 		if (this.isEmpty()){
+			console.log('Tag:toLink: empty');
 			return this;
 		}
 		if (this.content.isEmpty()){
+			console.log('Tag:toLink: content is empty ');
 			output = new Link();
 			output.style = link.style;
 			output.attr = link.attr;
@@ -385,6 +391,7 @@ function Tag() {
 		// clone the target without 'content' property
 		className = this.className;
 		if(className) {
+			console.log('Tag:toLink: className ', className);
 			if (window.hasOwnProperty(className)){
 				output = new window[className];
 				for (attr in this) {
@@ -396,6 +403,7 @@ function Tag() {
 				return output;
 			}
 		}
+		console.log('Tag:toLink: nothing to output', className);
 	};
 }
 

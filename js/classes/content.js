@@ -24,10 +24,11 @@ function Content(str) {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, this.constructor.name returns "Content", while IE, it returns "undefined".
+	 * in FF, `this.constructor.name` returns "Content", while IE, it returns "undefined".
 	 * This property must be overridden in all inherited classes.
 	 * @property {String}    className
 	 * @type     {String}
+	 * @default  "Content"
 	 * @since    0.0.2
 	 */
 	this.className = "Content";
@@ -352,7 +353,7 @@ function Content(str) {
 				elem = new Link();
 				elem.style = link.style;
 				elem.attr = link.attr;
-				elem.content = [el];
+				elem.appendElem(el);
 			} else {
 				elem = el;
 			}
