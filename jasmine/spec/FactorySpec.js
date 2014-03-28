@@ -44,4 +44,13 @@ describe('Factory-related functionality', function(){
 
     });
 
+    describe('Factory::produceTag(): creation of Tag instance', function(){
+        it('returns an instance of Tag', function(){
+            expect(factory.produceTag() instanceof Tag).toBe(true);
+        });
+
+        it('');
+
+
+    })
 });

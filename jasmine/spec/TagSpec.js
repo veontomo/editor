@@ -465,7 +465,46 @@ describe('Tag-related functionality:', function() {
             tag.className = 'a class with such a name does not exist. I hope.';
             expect(tag.toLink(link)).not.toBeDefined();
         });
-
     });
 
+    describe('Tag::load(): populates properties from the argument', function(){
+        var el, child1;
+        beforeEach(function(){
+            el = document.createElement('b');
+            el.setAttribute('class', 'virtual');
+            el.setAttribute('top', 2);
+            el.setAttribute('style', 'color: green; margin: 32px;');
+            child1 = document.createTextNode('hi there!');
+            el.appendChild(child1);
+            console.log(el);
+
+        });
+        it('sets the name', function(){
+            tag.load(el);
+            expect(tag.name).toBe('b');
+        });
+        it('sets the attributes', function(){
+            tag.load(el);
+            expect(tag.attr instanceof Attributes).toBe(true);
+            expect(tag.attr.hasOwnProperty('class')).toBe(true);
+            expect(tag.attr.class).toBe('virtual');
+            expect(tag.attr.hasOwnProperty('top')).toBe(true);
+            expect(tag.attr.top).toBe(2);
+        });
+
+        it('sets the style', function(){
+            tag.load(el);
+            expect(tag.style instanceof Style).toBe(true);
+            expect(tag.style.hasOwnProperty('color')).toBe(true);
+            expect(tag.style.color).toBe('green');
+            expect(tag.style.hasOwnProperty('margin')).toBe(true);
+            expect(tag.style.margin).toBe(32);
+        });
+
+        it('calls a method to load content', function(){
+            spyOn(tag.content, 'load');
+            tag.load(el);
+            expect(tag.content.load).toHaveBeenCalledWith([child1]);
+        });
+    });
 });

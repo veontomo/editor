@@ -361,4 +361,15 @@ function Content(str) {
 		});
 	return result;
 	};
+
+	/**
+	 * Loads the elements. The argument is an array of DOM.Element instances.
+	 * @param  {Array}       elems       array of DOM.Element instances
+	 * @return {void}
+	 */
+	this.load = function(collection){
+		/// !!! stub
+		return null;
+
+	}
 }

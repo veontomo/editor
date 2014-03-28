@@ -63,10 +63,10 @@ function Selection(editor, selected) {
             i, rangesLen, commonAnc,
             selectedNodes = [], // container for all selected nodes
             rangeNodes;         // container for selected nodes in current range
-        console.log('ranges: ', ranges);
+        // console.log('ranges: ', ranges);
         rangesLen = ranges.length;
         for (i = 0; i < rangesLen; i++){
-            console.info('loop', i);
+            // console.info('loop', i);
             rangeNodes = [];
             range = ranges[i];
             if (!range.collapsed) {
@@ -81,11 +81,11 @@ function Selection(editor, selected) {
                 lastBlock = [];
                 firstBlock = [];
                 middleBlock = [];
-                console.log('start container: ', startContainer, ', startType: ', startType, ', startOffset: ', startOffset);
-                console.log('end container: ', endContainer, ', endType: ', endType, ', endOffset: ', endOffset);
+                // console.log('start container: ', startContainer, ', startType: ', startType, ', startOffset: ', startOffset);
+                // console.log('end container: ', endContainer, ', endType: ', endType, ', endOffset: ', endOffset);
 
                 if (startContainer.equals(endContainer)){
-                    console.log('start = end');
+                    // console.log('start = end');
                     if (startType === CKEDITOR.NODE_TEXT){
                         startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
                         endElem = startElem;
@@ -116,7 +116,7 @@ function Selection(editor, selected) {
 
                 }
                 if (startElem === null || endElem === null){
-                    console.log('start elem or end elem is null: ', startElem, endElem);
+                    // console.log('start elem or end elem is null: ', startElem, endElem);
                     break;
                 }
                 // console.log('start elem: ', startElem, ', end elem: ', endElem);
@@ -150,7 +150,7 @@ function Selection(editor, selected) {
                 }
 
             }
-            console.log('rangeNodes that are to be pushed into selectedNodes: ', rangeNodes);
+            // console.log('rangeNodes that are to be pushed into selectedNodes: ', rangeNodes);
             selectedNodes.push(rangeNodes);
         }
         selectedNodes.forEach(function(elem, ind){

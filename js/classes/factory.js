@@ -34,12 +34,12 @@ function Factory(){
 	 * @since  0.0.2
 	 */
 	this.produceTag = function(elem){
-		// stub
-		// !!!
-		return new Tag();
-	}
-
-
+		var tag = new Tag();
+		if(elem !== undefined){
+			tag.load(elem);
+		}
+		return tag;
+	};
 
 
 }

@@ -17,7 +17,7 @@ function Tag() {
 	}
 
 	/**
-	 * Tag name.To be set explicitely in child classes.
+	 * Tag name.
 	 * @property {String}          name
 	 * @default  null
 	 * @since 0.0.1
@@ -288,7 +288,7 @@ function Tag() {
 	 * @since   0.0.1
 	 */
 	this.toHtml = function(){
-		console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
+		// console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
 		var tag = this.name,
 			style, attr, html;
 
@@ -402,20 +402,38 @@ function Tag() {
 	};
 
 	/**
-	 * Populates the instance from the provided string. The provided string must be of the form
-	 * `<tag ...>...</tag>` where `tag` is value of {{#crossLink "Tag/name:property"}}Tag::name{{/crossLink}}
-	 * property (remember that there might be classes that inherit from `Tag`, so that the method under consideration
-	 * might in fact be used of one of its children). If value of `tag` is different from `name` property, then nothing
-	 * is loaded into the instance. In case of success, the instance attributes and styles are loaded from
-	 * the provided string and content is obtained by applying this method to the content of the given string.
-	 * **NOT IMPLEMENTED!!!! **
-	 *
-	 * @method     loadFromHtml
-	 * @param      {String}         html
+	 * Populates the instance properties from the argument which must be of DOM.Element type.
+	 * NB: DOM.Element.attributes has the form `{1: {name: "width", value:"100", ...}, 2: {name: "color", value:"black", ...}, ...}`
+	 * @method     load
+	 * @param      {DOM.Element}            elem              what the element is to be created from
 	 * @return     {void}
 	 */
-	this.loadFromHtml = function(html){
-
-	}
+	this.load = function(elem){
+		var attr, pos, i,
+			arr = [],
+			children = elem.children,
+			len = children.length;
+			console.log('len',len);
+		if (elem === undefined){
+			return null;
+		}
+		this.name  = elem.tagName.toLowerCase();
+		// iterating over all attributes ('style' is one of them)
+		attr = elem.attributes;
+		for (pos in attr){
+			if (attr.hasOwnProperty(pos)){
+				if (attr[pos].name === 'style'){
+					this.style.appendStyle(attr[pos].value);
+				} else {
+					this.attr.appendProperty(attr[pos].name + ": " + attr[pos].value);
+				}
+			}
+		}
+		for (i = 0; i < len; i++){
+			console.log('pushing  in arr');
+			arr.push(children.item(i));
+		}
+		this.content.load(arr);
+	};
 }
 

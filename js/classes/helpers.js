@@ -274,12 +274,12 @@ var Helper = {
     },
 
     /**
-     * Flatten the object. This function was written because Node::attributes returns attributes in format.
-      * @method  flatten
+     * Flatten the object. This function was written because Node::attributes returns attributes in format
+     * {'1': {name: "width", value:"100", ...}, '2': {name: "color", value:"black", ...}, ...} -> {"width":"100", "color":"black", ...}
+     * @method  flatten
      * @param   {Object}        obj
      * @return  {Object}
-     * @example {'1': {name: "width", value:"100", ...}, '2': {name: "color", value:"black", ...}, ...} -> {"width":"100", "color":"black", ...}
-    */
+     */
     'flatten': function(obj){
         var attr, value, output = {};
         for (attr in obj){
