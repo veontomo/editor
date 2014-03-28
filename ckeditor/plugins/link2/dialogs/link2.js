@@ -129,7 +129,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-                current, link, obj, objToLink, newNode;
+                current, link, obj, objToLink, objToLinkHtml, newNode;
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
                 link = new Link();
@@ -179,19 +179,24 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                                 break;
                             default:
                                 obj = el.getOuterHtml().inflate();
-                        };
+                        }
                         // if it is not empty, transform it into a link
                         if (!obj.isEmpty()){
-
                             objToLink = obj.toLink(link);
-                            // objToLinkHtml = objToLink.toHtml();
+                            objToLinkHtml = objToLink.toHtml();
                             // console.log('original: ', obj.toHtml());
                             // console.log('to be replaced by: ', objToLinkHtml);
 
+                            newNode = CKEDITOR.dom.element.createFromHtml(objToLinkHtml);
+                            // if the new node was created as intended
+                            if (newNode.getOuterHtml() === objToLinkHtml){
+                                newNode.replace(el);
+                            } else {
+                                // if the node was created erroneously, replace it counterpart content
+                                el.setHtml(objToLink.content.toHtml());
+                            }
 
-                            // newNode = CKEDITOR.dom.element.createFromHtml(objToLinkHtml);
-                            // console.log('newNode: ', newNode.getOuterHtml());
-                            el.setHtml(objToLink.content.toHtml());
+
                             // newNode.replace(el);
                         }
                     }

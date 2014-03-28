@@ -27,4 +27,19 @@ function Factory(){
 	this.register = {'td': 'Cell', 'tr': 'Row', 'table': 'Table', 'li': 'ListItem', 'ol': 'List', 'ul': 'List', 'a': 'Link'};
 
 
+	/**
+	 * Returns a Tag instance. The argument is of [https://developer.mozilla.org/en-US/docs/Web/API/element](DOM.Element) type.
+	 * @param  {DOM.Element}                elem    what the element is to be created from
+	 * @return {Tag}
+	 * @since  0.0.2
+	 */
+	this.produceTag = function(elem){
+		// stub
+		// !!!
+		return new Tag();
+	}
+
+
+
+
 }

@@ -79,7 +79,8 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 					</tr>
 				</tbody>
 			</table>
-
+			<br />
+			<img alt="arriva l'onda!" height="64" src="https://cdn1.iconfinder.com/data/icons/computers/64/signal_Vista.png" style="border-style: none; padding: 0px; margin: 0px; width: 64px; height: 64px" title="arriva l'onda!" width="64" />
 		</textarea>
 	</div>
 
