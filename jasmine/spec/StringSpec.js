@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, it, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem, Link*/
 
-describe('String-related functionality', function(){
+xdescribe('String-related functionality', function(){
 
     describe('String::createTagFromHtml(): constructs a Tag object from its html representation', function(){
         var str, tag;
