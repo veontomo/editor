@@ -38,7 +38,7 @@ function Tag() {
 	/**
 	 * Returns value of the name attribute.
 	 * @method  getName
-	 * @return  {string}
+	 * @return  {String}
 	 * @since 0.0.1
 	 */
 	this.getName = function(){
