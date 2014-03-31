@@ -479,19 +479,26 @@ describe('Tag-related functionality:', function() {
             child2 = document.createElement('div');
             el.appendChild(child1);
             el.appendChild(child2);
-            console.log('is el of element node type? ', el.nodeType === Node.ELEMENT_NODE);
-            console.log('child1: ', child1);
-            console.log('el has children?', el.hasChildNodes());
-            console.log('el text content: ', el.textContent);
-            console.log('node type of el: ', el.nodeType);
-            console.log('node type of child1: ', child1.nodeType);
-            console.log('child nodes: ', el.childNodes, 'children: ', el.children, 'child count: ', el.childElementCount);
+            // console.log('is el of element node type? ', el.nodeType === Node.ELEMENT_NODE);
+            // console.log('child1: ', child1);
+            // console.log('el has children?', el.hasChildNodes());
+            // console.log('el text content: ', el.textContent);
+            // console.log('node type of el: ', el.nodeType);
+            // console.log('node type of child1: ', child1.nodeType);
+            // console.log('child nodes: ', el.childNodes, 'children: ', el.children, 'child count: ', el.childElementCount);
 
         });
+
+        it('returns false if the argument has nodeType property different from Node.ELEMENT_NODE', function(){
+            var probe = {nodeType: Node.ELEMENT_NODE + 'flash'};
+            expect(tag.load(probe)).toBe(false);
+        });
+
         it('sets the name', function(){
             tag.load(el);
             expect(tag.name).toBe('b');
         });
+
         it('sets the attributes', function(){
             tag.load(el);
             expect(tag.attr instanceof Attributes).toBe(true);
@@ -513,7 +520,7 @@ describe('Tag-related functionality:', function() {
         it('calls a method to load content', function(){
             spyOn(tag.content, 'load');
             tag.load(el);
-            expect(tag.content.load).toHaveBeenCalledWith([child1]);
+            expect(tag.content.load).toHaveBeenCalledWith([child1, child2]);
         });
     });
 });

@@ -411,15 +411,16 @@ function Tag() {
 	 * @return     {Boolean}                           returns `true` if loads properties successfully, `false` otherwise
 	 */
 	this.load = function(elem){
-		var attr, pos, i,
-			arr = [],
-			children = elem.childNodes, // take into consideration all nodes (including Elements, TextNodes, etc.)
-			len = children.length;
-			console.info('len: ', len);
 		// assure that the argument is an Element instance
 		if (elem.nodeType !== Node.ELEMENT_NODE){
 			return false;
 		}
+		var attr, pos, i,
+			arr = [],
+			children = elem.childNodes, // gives all child nodes (including Elements, TextNodes, etc.)
+			len = children.length,
+			currentChild, currentChildType;
+
 		this.name  = elem.tagName.toLowerCase();
 		// iterating over all attributes ('style' is one of them)
 		attr = elem.attributes;
@@ -433,8 +434,11 @@ function Tag() {
 			}
 		}
 		for (i = 0; i < len; i++){
-			console.log('pushing  in arr');
-			arr.push(children.item(i));
+			currentChild = children.item(i);
+			currentChildType = currentChild.nodeType;
+			if (currentChildType === Node.ELEMENT_NODE || currentChildType === Node.TEXT_NODE){
+				arr.push(currentChild);
+			}
 		}
 		this.content.load(arr);
 	};
