@@ -94,10 +94,9 @@ function Style(obj) {
      * @return {Boolean}                                  true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
-        var seed, attrType;
+        var seed;
         if (attr !== undefined){
-            attrType = typeof attr;
-            if (attrType === 'string'){
+            if (typeof attr === 'string'){
                 seed = attr;
             } else if (typeof attr.getNamedItem === 'function') {
                 seed =  attr.getNamedItem('style');
