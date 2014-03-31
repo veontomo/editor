@@ -50,6 +50,55 @@ describe('Attribute-related functionality', function(){
             expect(attr.toString()).toBe('width="20" last-author="A.M.R"');
         });
     });
+
+    describe('Attribute::load() load the attributes', function(){
+        var root, attrMap;
+        beforeEach(function(){
+            root = document.createElement('span');
+            root.setAttribute('class', 'footer');
+            root.setAttribute('coverage', '74em');
+            root.setAttribute('module', 2);
+            root.setAttribute('style', 'color: green; margin: 32em;');
+        });
+
+        it('returns true if no argument is given', function(){
+            expect(attr.load()).toBe(true);
+        });
+
+        it('returns true if no method is attemped to be overridden', function(){
+            attrMap = root.attributes;
+            expect(attr.load(attrMap)).toBe(true);
+        });
+
+        it('sets the attibutes', function(){
+            attrMap = root.attributes;
+            attr.load(attrMap);
+            expect(attr.coverage).toBe('74em');
+            expect(attr.class).toBe('footer');
+            expect(attr.module).toBe('2');
+        });
+
+        it('ignores style property', function(){
+            attrMap = root.attributes;
+            attr.load(attrMap);
+            expect(attr.hasOwnProperty('style')).toBe(false);
+        });
+        it('does not override the property which is a function', function(){
+            var fun = function(){};
+            attrMap = root.attributes;
+            attr.module = fun;
+            attr.load(attrMap);
+            expect(attr.module).toBe(fun);
+        });
+
+        it('returns false if trying to override a function', function(){
+            attrMap = root.attributes;
+            attr.module = function(){};
+            expect(attr.load(attrMap)).toBe(false);
+        });
+
+
+    });
 });
 
 

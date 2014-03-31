@@ -40,24 +40,29 @@ function Attributes(obj) {
     /**
      * Loads attributes from the argument that is supposed to be of a type
      * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
-     * If among the attributes there is node with name "style", it gets ignored.
+     * Nevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.
+     * If among the attributes there is node with name "style", it gets ignored. If it is attempted to override
+     * a method and not a property,  then `false` is returned.
      * @method    load
      * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
      * @return    {Boolean}                           true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
-    	var pos, attrName, attrValue;
-    	console.log(attr);
+    	var pos, attrName, attrValue, seed;
+    	// console.log(attr);
     	for (pos in attr){
     		if (attr.hasOwnProperty(pos)){
+    			seed = {};
     			attrName = attr[pos].name.trim();
     			attrValue = attr[pos].value.trim();
     			if (attrName !== 'style'){
-    				if (attrName && typeof this[attrName] !== 'function') {
-    					this.appendProperty({attrName: attrValue});
+    				if (typeof this[attrName] !== 'function') {
+    					seed[attrName] = attrValue;
+    					this.appendProperty(seed);
+    				} else {
+    					return false;
     				}
     			}
-
     		}
     	}
     	return true;
