@@ -39,7 +39,7 @@ function List(listType) {
 	 * @type {String}
 	 * @default  'ol'
 	 */
-	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
+	this.name = this.allowedNames.indexOf(listType) !== -1 ? listType : this.allowedNames[0];
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
@@ -60,7 +60,7 @@ function List(listType) {
 	 * @param    {String}        name       the value to be imposed as a list type.
 	 */
 	this.setName = function(name){
-		if (allowedNames.indexOf(name) !== -1){
+		if (this.allowedNames.indexOf(name) !== -1){
 			this.name = name;
 		}
 	};
