@@ -21,9 +21,9 @@ function List(listType) {
 	 * Array of allowed values for the tag names: ['ol', 'ul'].
 	 * @property {Array}    allowedNames
 	 * @type     {Array}
-	 * @protected
+	 * @since    0.0.2
 	 */
-	var allowedNames = ['ol', 'ul'];
+	this.allowedNames = ['ol', 'ul'];
 
 	/**
 	 * Styles corresponding to the list as a whole object.
