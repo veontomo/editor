@@ -129,6 +129,47 @@ describe('Style-related functionality', function(){
             expect(stl['min-width']).toBe('20px');
         });
     });
+
+    describe('Style::load(): loads the style', function(){
+        it('returns true, if the argument is empty', function(){
+            expect(stl.load()).toBe(true);
+        });
+
+        it('returns false if the argument is not a string or an object without "getNamedItem()" method', function(){
+            var probes = [0, 3.22, -4, [], ["a", "b", 2], {}, {foo: 1}, {getNamedItem: 2}];
+            probes.forEach(function(el){
+                expect(stl.load(el)).toBe(false);
+            });
+        });
+
+        it('calls appendStyle method if the argument is a string', function(){
+            spyOn(stl, 'appendStyle');
+            stl.load('a string');
+            expect(stl.appendStyle).toHaveBeenCalledWith('a string');
+        });
+
+        it('returns true if the argument is a string', function(){
+            expect(stl.load('a string')).toBe(true);
+        });
+
+        it('calls appendStyle method if the argument is an object with getNamedItem() method', function(){
+            var seed = {getNamedItem: function(){}};
+            spyOn(seed, 'getNamedItem').andCallFake(function(){return 'a string';});
+            spyOn(stl, 'appendStyle');
+            stl.load(seed);
+            expect(seed.getNamedItem).toHaveBeenCalledWith('style');
+            expect(stl.appendStyle).toHaveBeenCalledWith('a string');
+        });
+
+        it('returns true if the argument is an object with getNamedItem() method', function(){
+            var seed = {getNamedItem: function(){}};
+            spyOn(seed, 'getNamedItem').andCallFake(function(){return 'a string';});
+            expect(stl.load(seed)).toBe(true);
+            expect(seed.getNamedItem).toHaveBeenCalledWith('style');
+        });
+
+
+    });
 });
 
 describe('LinkStyle-related functionality', function(){
