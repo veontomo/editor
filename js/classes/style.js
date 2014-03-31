@@ -94,18 +94,17 @@ function Style(obj) {
      * @return {Boolean}                                  true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
-        var style,
+        var seed, attrType;
+        if (attr !== undefined){
             attrType = typeof attr;
-        if(attr !== undefined){
-            if (attrType !== 'string' && (typeof attr.getNamedItem !== 'function')){
+            if (attrType === 'string'){
+                seed = attr;
+            } else if (typeof attr.getNamedItem === 'function') {
+                seed =  attr.getNamedItem('style');
+            } else {
                 return false;
             }
-            if (typeof attr === 'string'){
-                style = attr;
-            } else if (typeof attr.getNamedItem === 'function'){
-                style = attr.getNamedItem('style');
-            }
-            this.appendStyle(style);
+            this.appendStyle(seed);
         }
         return true;
     };
