@@ -403,7 +403,7 @@ function Tag() {
 
 	/**
 	 * Populates properties of the current object from the argument which must be an instance of javascript
-	 * [https://developer.mozilla.org/en-US/docs/Web/API/Element](Element) class. If the operation of
+	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. If the operation of
 	 * loading of properties succeeds, `true` is returned, otherwise - `false`.
 	 * NB: DOM.Element.attributes has the form `{1: {name: "width", value:"100", ...}, 2: {name: "color", value:"black", ...}, ...}`
 	 * @method     load
@@ -415,32 +415,30 @@ function Tag() {
 		if (elem.nodeType !== Node.ELEMENT_NODE){
 			return false;
 		}
-		var attr, pos, i,
+		var attr, i,
 			arr = [],
 			children = elem.childNodes, // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length,
-			currentChild, currentChildType;
+			currentChild, currentChildType, style;
 
 		this.name  = elem.tagName.toLowerCase();
+
 		// iterating over all attributes ('style' is one of them)
-		attr = elem.attributes;
-		for (pos in attr){
-			if (attr.hasOwnProperty(pos)){
-				if (attr[pos].name === 'style'){
-					this.style.appendStyle(attr[pos].value);
-				} else {
-					this.attr.appendProperty(attr[pos].name + ": " + attr[pos].value);
+		attr  = elem.attributes;             // NamedNodeMap
+		// singling out "style" property from the attributes
+		style = attr.getNamedItem('style');
+		if (this.attr.load(attr) && this.style.load(style)){
+			for (i = 0; i < len; i++){
+				currentChild = children.item(i);
+				currentChildType = currentChild.nodeType;
+				if (currentChildType === Node.ELEMENT_NODE || currentChildType === Node.TEXT_NODE){
+					arr.push(currentChild);
 				}
 			}
+			return this.content.load(arr);
 		}
-		for (i = 0; i < len; i++){
-			currentChild = children.item(i);
-			currentChildType = currentChild.nodeType;
-			if (currentChildType === Node.ELEMENT_NODE || currentChildType === Node.TEXT_NODE){
-				arr.push(currentChild);
-			}
-		}
-		this.content.load(arr);
+		return false;
+
 	};
 }
 

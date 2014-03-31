@@ -468,13 +468,14 @@ describe('Tag-related functionality:', function() {
     });
 
     describe('Tag::load(): populates properties from the argument', function(){
-        var el, child1, child2;
+        var el, child1, child2,
+            styleStr = 'color: green; margin: 32em;';
         // function Element(){};
         beforeEach(function(){
             el = document.createElement('b');
             el.setAttribute('class', 'virtual');
             el.setAttribute('top', 2);
-            el.setAttribute('style', 'color: green; margin: 32px;');
+            el.setAttribute('style', 'color: green; margin: 32em;');
             child1 = document.createTextNode('hi there!');
             child2 = document.createElement('div');
             el.appendChild(child1);
@@ -499,28 +500,48 @@ describe('Tag-related functionality:', function() {
             expect(tag.name).toBe('b');
         });
 
-        it('sets the attributes', function(){
+        it('calls method to set attributes', function(){
+            spyOn(tag.attr, 'load');
             tag.load(el);
-            expect(tag.attr instanceof Attributes).toBe(true);
-            expect(tag.attr.hasOwnProperty('class')).toBe(true);
-            expect(tag.attr.class).toBe('virtual');
-            expect(tag.attr.hasOwnProperty('top')).toBe(true);
-            expect(tag.attr.top).toBe(2);
+            expect(tag.attr.load).toHaveBeenCalledWith(el.attributes);
+
+        });
+        it('returns false if attr.load returns false', function(){
+            spyOn(tag.attr, 'load').andCallFake(function(){return false;});
+            expect(tag.load(el)).toBe(false);
         });
 
-        it('sets the style', function(){
+        it('calls method to set the style, if loaded attributes successfully', function(){
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load');
             tag.load(el);
-            expect(tag.style instanceof Style).toBe(true);
-            expect(tag.style.hasOwnProperty('color')).toBe(true);
-            expect(tag.style.color).toBe('green');
-            expect(tag.style.hasOwnProperty('margin')).toBe(true);
-            expect(tag.style.margin).toBe(32);
+            expect(tag.style.load).toHaveBeenCalledWith(el.attributes.getNamedItem('style'));
         });
 
         it('calls a method to load content', function(){
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
             spyOn(tag.content, 'load');
             tag.load(el);
+            expect(tag.content.load).toHaveBeenCalled();
+        });
+
+        it('returns the result of execution of Tag::content.load()', function(){
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
+            spyOn(tag.content, 'load').andCallFake(function(){return 'result of content loading';});
+            expect(tag.load(el)).toBe('result of content loading');
+        });
+
+        it('calls Tag::content.load() with arguments in which ignores non-ELEMENT_NODE and non-TEXT_NODE child nodes', function(){
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
+            var child3 = new Comment('comment node');
+            el.appendChild(child3);
+            spyOn(tag.content, 'load').andCallFake(function(){return true;});
+            expect(tag.load(el)).toBe(true);
             expect(tag.content.load).toHaveBeenCalledWith([child1, child2]);
         });
+
     });
 });

@@ -85,6 +85,30 @@ function Style(obj) {
 
     };
 
+    /**
+     * Loads style property from the argument that is supposed to be of a type
+     * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
+     * or a string.
+     * @method  load
+     * @param  {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
+     * @return {Boolean}                   true, if the properties are loaded, false otherwise
+     */
+    this.load = function(attr){
+        var style,
+            attrType = typeof attr;
+        if (attrType !== 'string' && (typeof attr.getNamedItem !== 'function')){
+            return false;
+        }
+        if (typeof attr === 'string'){
+            style = attr;
+        } else if (typeof attr.getNamedItem === 'function'){
+            style = attr.getNamedItem('style');
+        }
+        this.appendStyle(style);
+        return true;
+    };
+
+
 }
 Style.prototype = Object.create(Property.prototype);
 

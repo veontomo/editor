@@ -36,6 +36,32 @@ function Attributes(obj) {
         }
         return output.join(' ');
     };
+
+    /**
+     * Loads attributes from the argument that is supposed to be of a type
+     * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
+     * If among the attributes there is node with name "style", it gets ignored.
+     * @method    load
+     * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
+     * @return    {Boolean}                           true, if the properties are loaded, false otherwise
+     */
+    this.load = function(attr){
+    	var pos, attrName, attrValue;
+    	console.log(attr);
+    	for (pos in attr){
+    		if (attr.hasOwnProperty(pos)){
+    			attrName = attr[pos].name.trim();
+    			attrValue = attr[pos].value.trim();
+    			if (attrName !== 'style'){
+    				if (attrName && typeof this[attrName] !== 'function') {
+    					this.appendProperty({attrName: attrValue});
+    				}
+    			}
+
+    		}
+    	}
+    	return true;
+    };
 }
 Attributes.prototype = Object.create(Property.prototype);
 
