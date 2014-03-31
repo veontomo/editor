@@ -420,13 +420,9 @@ function Tag() {
 			children = elem.childNodes, // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length,
 			currentChild, currentChildType, style;
-
-		this.name  = elem.tagName.toLowerCase();
-
-		// iterating over all attributes ('style' is one of them)
-		attr  = elem.attributes;             // NamedNodeMap
-		// singling out "style" property from the attributes
-		style = attr.getNamedItem('style');
+		this.name  = elem.tagName.toLowerCase();   // setting name of the tag
+		attr  = elem.attributes;                   // NamedNodeMap
+		style = attr.getNamedItem('style');        // singling out style property
 		if (this.attr.load(attr) && this.style.load(style)){
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
@@ -438,7 +434,6 @@ function Tag() {
 			return this.content.load(arr);
 		}
 		return false;
-
 	};
 }
 

@@ -672,5 +672,74 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+	describe('Content::load(): loads the content' , function(){
+		var root, e0, t1, e2, e3, t4, e00, e01, e20, e30, e31, e32, t001, e200, e310, t320;
+		beforeEach(function(){
+			root = document.createElement('div');        //                    root
+			e0 = document.createElement('div');          //      ________________|_____________
+			t1 = document.createTextNode('text 1');      //     |      |      |         |      |
+			e2 = document.createElement('p');            //     e0     t1     e2        e3     t4
+			e3 = document.createElement('span');         //   __|__           |     ____|_____
+			t4 = document.createTextNode('text 4');      //  |     |          |    |    |     |
+			e00 = document.createElement('div');         //  e00  e01        e20  e30  e31   e32
+			e01 = document.createElement('b');           //  |                |         |     |
+			e20 = document.createElement('i');           // t001             e200      e310  t320
+			e30 = document.createElement('article');
+			e31 = document.createElement('h1');
+			e32 = document.createElement('div');
+			t001 = document.createTextNode('text 001');
+			e200 = document.createElement('div');
+			e310 = document.createElement('span');
+			t320 = document.createTextNode('text 320');
+			root.appendChild(e0);
+			root.appendChild(t1);
+			root.appendChild(e2);
+			root.appendChild(e3);
+			root.appendChild(t4);
+			e0.appendChild(e00);
+			e0.appendChild(e01);
+			e2.appendChild(e20);
+			e3.appendChild(e30);
+			e3.appendChild(e31);
+			e3.appendChild(e32);
+			e00.appendChild(t001);
+			e20.appendChild(e200);
+			e31.appendChild(e310);
+			e32.appendChild(t320);
+		});
+
+		it('returns true of the argument is empty or if it is an empty array', function(){
+			expect(c.load()).toBe(true);
+		});
+
+		it('returns true of the argument is an empty array', function(){
+			expect(c.load([])).toBe(true);
+		});
+
+		it('returns 1-element content if the input contains only TEXT_NODE', function(){
+			c.load([t1]);
+			expect(c.elements.length).toBe(1);
+		});
+
+		it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
+			c.load([e32]);
+			expect(c.elements.length).toBe(1);
+		});
+
+		it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
+			c.load([e20, e3, t4]);
+			expect(c.elements.length).toBe(3);
+		});
+
+		it('creates correct Tag instance from a div element with no children', function(){
+			c.load([e200]);
+			expect(c.elements[0] instanceof Tag).toBe(true);
+			expect(c.elements[0].name).toBe('div');
+			expect(c.elements[0].content.length()).toBe(0);
+		});
+
+
+	});
+
 
 });

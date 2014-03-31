@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Property, toString2 */
+/*global Property */
 /**
 * This class is supposed to define attributes of html tags
 * @module 	Property

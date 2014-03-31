@@ -10,7 +10,7 @@
  * @author      A.Shcherbakov
  *
  */
-function Factory(){
+function Factory(reg){
 	"use strict";
 	if (!(this instanceof Factory)) {
 		return new Factory();

@@ -363,13 +363,25 @@ function Content(str) {
 	};
 
 	/**
-	 * Loads the elements. The argument is an array of DOM.Element instances.
-	 * @param  {Array}       elems       array of DOM.Element instances
-	 * @return {void}
+	 * Loads the elements into the {{/crossLink "Content/elements:property"}}element{{#crossLink}} property.
+	 * The argument is an array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or
+	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances. Other types are to be ignored.
+	 * @param  {Array}       arr       array of Elements or Text instances
+	 * @return {Boolean}               true, if loaded successfully, false otherwise
 	 */
-	this.load = function(collection){
-		/// !!! stub
-		return null;
+	this.load = function(arr){
+		if (!Array.isArray(arr)){
+			return false;
+		}
+		var factory = new Factory();
+		this.elements = [];
+		arr.forEach(function(el){
+			var baby = factory.produce(el);
+			if (baby === false){
+				return false;
+			}
+			this.elements.push(baby);
+		});
 
-	}
+	};
 }
