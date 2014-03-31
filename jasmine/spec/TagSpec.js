@@ -468,15 +468,24 @@ describe('Tag-related functionality:', function() {
     });
 
     describe('Tag::load(): populates properties from the argument', function(){
-        var el, child1;
+        var el, child1, child2;
+        // function Element(){};
         beforeEach(function(){
             el = document.createElement('b');
             el.setAttribute('class', 'virtual');
             el.setAttribute('top', 2);
             el.setAttribute('style', 'color: green; margin: 32px;');
             child1 = document.createTextNode('hi there!');
+            child2 = document.createElement('div');
             el.appendChild(child1);
-            console.log(el);
+            el.appendChild(child2);
+            console.log('is el of element node type? ', el.nodeType === Node.ELEMENT_NODE);
+            console.log('child1: ', child1);
+            console.log('el has children?', el.hasChildNodes());
+            console.log('el text content: ', el.textContent);
+            console.log('node type of el: ', el.nodeType);
+            console.log('node type of child1: ', child1.nodeType);
+            console.log('child nodes: ', el.childNodes, 'children: ', el.children, 'child count: ', el.childElementCount);
 
         });
         it('sets the name', function(){

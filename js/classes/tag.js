@@ -402,20 +402,23 @@ function Tag() {
 	};
 
 	/**
-	 * Populates the instance properties from the argument which must be of DOM.Element type.
+	 * Populates properties of the current object from the argument which must be an instance of javascript
+	 * [https://developer.mozilla.org/en-US/docs/Web/API/Element](Element) class. If the operation of
+	 * loading of properties succeeds, `true` is returned, otherwise - `false`.
 	 * NB: DOM.Element.attributes has the form `{1: {name: "width", value:"100", ...}, 2: {name: "color", value:"black", ...}, ...}`
 	 * @method     load
-	 * @param      {DOM.Element}            elem              what the element is to be created from
-	 * @return     {void}
+	 * @param      {Element}            elem           origin from which the element properties are to be loaded
+	 * @return     {Boolean}                           returns `true` if loads properties successfully, `false` otherwise
 	 */
 	this.load = function(elem){
 		var attr, pos, i,
 			arr = [],
-			children = elem.children,
+			children = elem.childNodes, // take into consideration all nodes (including Elements, TextNodes, etc.)
 			len = children.length;
-			console.log('len',len);
-		if (elem === undefined){
-			return null;
+			console.info('len: ', len);
+		// assure that the argument is an Element instance
+		if (elem.nodeType !== Node.ELEMENT_NODE){
+			return false;
 		}
 		this.name  = elem.tagName.toLowerCase();
 		// iterating over all attributes ('style' is one of them)
