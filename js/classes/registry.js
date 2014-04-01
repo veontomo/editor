@@ -9,7 +9,7 @@
  * @author A.Shcherbakov
  */
 function Registry(){
-	"use strict";
+	'use strict';
 	if (!(this instanceof Registry)) {
 		return new Registry();
 	}
@@ -19,12 +19,12 @@ function Registry(){
 	 * @property {Array} classes                array of class names
 	 * @type {Array}
 	 */
-	this.classes = ["Tag", "Table", "Row", "Cell", "Link", "List", "ListItem", "Text"];
+	this.classes = ['Table', 'Row', 'Cell', 'Link', 'UList', 'OList',  'ListItem', 'Text'];
 
 	/**
-	 * Object of key-value pairs the form `className: tags`, where `tags` is an array of tag names that class `className`
-	 * can represent.<br />
-	 * For example, `{'Cell': ['td'], 'List': ['ul', 'ol'], ...}`
+	 * Object of key-value pairs the form `className: tag`, where `tag` is a tag name that class `className`
+	 * represent.<br />
+	 * For example, `{'Cell': 'td', 'UList': 'ul', ...}`
 	 * @property {Object}   map
 	 */
 	this.map = (function(arr){

@@ -533,7 +533,7 @@ describe('Tag-related functionality:', function() {
             expect(tag.load(el)).toBe('result of content loading');
         });
 
-        it('calls Tag::content.load() with arguments in which ignores non-ELEMENT_NODE and non-TEXT_NODE child nodes', function(){
+        xit('calls Tag::content.load() with arguments in which ignores non-ELEMENT_NODE and non-TEXT_NODE child nodes', function(){
             spyOn(tag.attr, 'load').andCallFake(function(){return true;});
             spyOn(tag.style, 'load').andCallFake(function(){return true;});
             var child3 = new Comment('comment node');
