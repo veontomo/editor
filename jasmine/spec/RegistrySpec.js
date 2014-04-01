@@ -187,9 +187,26 @@ describe('Registry-related functionality', function(){
             reg.register(DummyFun);
             expect(reg.map.dummyFun).toBe(DummyFun);
         });
+    });
+
+    describe('Registry::unregister(): unregister the class', function(){
+        it('returns false if the argument is not among "classes" property', function(){
+            expect(reg.unregister(E)).toBe(false);
+        });
+        it('returns true if the argument is among "classes" property', function(){
+            expect(reg.unregister(B)).toBe(true);
+        });
+        it('removes argument from "classes" property', function(){
+            reg.unregister(B);
+            expect(reg.classes.indexOf(B)).toBe(-1);
+        });
+        it('removes argument-related info from "map" property', function(){
+            reg.unregister(B);
+            expect(reg.map.b).not.toBeDefined();
+        });
+
 
 
     });
-
 
 });

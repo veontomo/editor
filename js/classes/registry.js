@@ -25,17 +25,16 @@ function Registry(info){
 	/**
 	 * Returns `true`, if the the argument is a class with non-empty string-valued `name` property.
 	 * Otherwise, `false` is returned.
-	 * @property  hasValidName
+	 * @method  hasValidName
 	 * @return    {Boolean}
 	 */
 	this.hasValidName = function(cl){
 		if (typeof cl === 'function'){
-			var obj = new cl,
-				objName = obj.name;
+			var objName = (new cl).name;
 			return (typeof objName === 'string' && objName !== '');
 		}
 		return  false;
-	}
+	};
 
 	/**
 	 * Array of classes to be observed. If an array element turns out to be not a function ( = class), then this
@@ -85,6 +84,7 @@ function Registry(info){
 	 * Adds the argument into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} and update
 	 * object {{#crossLink "Registry/map:property"}}`map`{{/crossLink}} if the method
 	 * {{#crossLink "Registry/hasValidName:method"}}`hasValidName`{{/crossLink}} returns `true` for that argument.
+	 * @method  register
 	 * @param  {Function}    cName
 	 * @return {Boolean}
 	 */
@@ -102,14 +102,22 @@ function Registry(info){
 	 * If the argument is present among {{#crossLink "Registry/classes:property"}}classes{{/crossLink}},
 	 * then remove it from there and from {{#crossLink "Registry/map:property"}}map{{/crossLink}} and
 	 * return `true`. Otherwise, `false` is returned.
-	 * @param  {mixed}         cName                Supposed to be of function type, since namely only
-	 *                                              functions are present in
-	 *                                              {{#crossLink "Registry/classes:property"}}classes{{/crossLink}}
+	 * @method   unregister
+	 * @param    {mixed}         cName                Supposed to be of function type, since namely only
+	 *                                                functions are present in
+	 *                                                {{#crossLink "Registry/classes:property"}}classes{{/crossLink}}
 	 * @return {Boolean}
 	 */
 	this.unregister = function(cName){
 		// stub
-		return false;
-	}
+		var pos = this.classes.indexOf(cName);
+		if (pos === -1){
+			return false;
+		}
+		var name = (new cName).name;
+		this.classes.splice(pos, 1);
+		delete this.map[name];
+		return true;
+	};
 
 }
