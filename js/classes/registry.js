@@ -25,16 +25,14 @@ function Registry(info){
 	/**
 	 * Returns `true`, if the the argument is a class with non-empty string-valued `name` property.
 	 * Otherwise, `false` is returned.
-	 * @property  isValid
+	 * @property  hasValidName
 	 * @return    {Boolean}
 	 */
-	this.isValid = function(cl){
+	this.hasValidName = function(cl){
 		if (typeof cl === 'function'){
-			var obj = new cl;
-			if (obj){
-				var objName = obj.name;
-				return (typeof objName === 'string' && objName !== '');
-			}
+			var obj = new cl,
+				objName = obj.name;
+			return (typeof objName === 'string' && objName !== '');
 		}
 		return  false;
 	}
@@ -45,25 +43,27 @@ function Registry(info){
 	 * @property   classes
 	 * @type       {Array}
 	 */
-	this.classes = (function(arr){
+	this.classes = (function(arr, context){
 		var output = [];
-		arr.forEach(function(cName){
-			if (typeof cName === 'function' && output.indexOf(cName) === -1){
-				output.push(cName);
+		arr.forEach(function(cl){
+			if (context.hasValidName(cl) && output.indexOf(cl) === -1){
+				output.push(cl);
 			}
 		});
 		return output;
-	}(obj.classes || []));
+	}(obj.classes || [], this));
 
 	/**
-	 * Name of the default class. This class is used to construct an object if its tag name is not among the `name`
-	 * property of the available classes. The `name` property of this class instances is to be set explicitely
-	 * upon instantiating. The class must be defined. Otherwise, `null` is set.
+	 * A class to construct an object if object-tag-name is not among the `name`
+	 * property of the {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}}.
+	 * The `name` property of this class instances is to be set explicitely
+	 * upon instantiating. If at initialization time, the constructor recieves an input such that `info.defaultClass`
+	 * is not a function, then it is set to `null`.
 	 * @property defaultClass
 	 * @type     {String|Null}
 	 */
 
-	this.defaultClass = typeof window[obj.defaultClass] === 'function' ? obj.defaultClass : null;
+	this.defaultClass = typeof obj.defaultClass === 'function' ? obj.defaultClass : null;
 
 	/**
 	 * Object of key-value pairs the form `tag: className`, where `tag` is a tag name that class `className`
@@ -74,30 +74,27 @@ function Registry(info){
 	 */
 	this.map = (function(arr){
 		var output = {};
-		// arr.forEach(function(cName){
-			// var phantom = new window[cName]();
-			// output[phantom.name] = cName;
-		// });
+		arr.forEach(function(cName){
+			var phantom = new cName;
+			output[phantom.name] = cName;
+		});
 		return output;
 	}(this.classes));
 
 	/**
-	 * If the class `cName` exists and has non-empty string valued property `name`, then the class name
-	 * is added to the {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} array and
-	 * {{#crossLink "Registry/map:property"}}`map`{{/crossLink}} is augmented with the corresponding
-	 * key-value pair.
+	 * Adds the argument into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} and update
+	 * object {{#crossLink "Registry/map:property"}}`map`{{/crossLink}} if the method
+	 * {{#crossLink "Registry/hasValidName:method"}}`hasValidName`{{/crossLink}} returns `true` for that argument.
 	 * @param  {String}    cName
 	 * @return {Boolean}
 	 */
 	this.register = function(cName){
-		// if (typeof window[cName] === 'function'){
-		// 	var phantomName = (new window[cName]()).name;
-		// 	if (typeof phantomName === 'string' && phantomName !== '' && this.classes.indexOf(cName) === -1){
-		// 		this.classes.push(cName);
-		// 		this.map[phantomName] = cName;
-		// 		return true;
-		// 	}
-		// }
+		if (this.hasValidName(cName) && this.classes.indexOf(cName) === -1){
+			var phantomName = (new cName).name;
+			this.classes.push(cName);
+			this.map[phantomName] = cName;
+			return true;
+		}
 		return false;
 	};
 
