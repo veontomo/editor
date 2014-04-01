@@ -1,60 +1,96 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Registry */
+/*global describe, it, expect, spyOn, beforeEach, Registry, window */
 
 describe('Registry-related functionality', function(){
-    var reg;
+    var reg, classes, defaultClass, obj;
+
     beforeEach(function(){
-        reg = new Registry();
+        window.A = function (){this.name = 'a';};
+        window.B = function (){this.name = 'b';};
+        window.C = function (){this.name = 'c';};
+        window.E = function (){this.name = 'c';};
+        window.F = function (){this.name = '';}; // "bad" class: property "name" is not set
+        window.D = function (){};
+        classes = ['A', 'B', 'C'];
+        defaultClass = 'D';
+        obj = {'classes': classes, 'defaultClass': defaultClass};
+        reg = new Registry(obj);
     });
 
     describe('Registry construction', function(){
         it('prevents accidental call without "new"', function(){
-            var reg2 = Registry();
+            var reg2 = Registry(obj);
             expect(reg2 instanceof Registry).toBe(true);
+        });
+        it('gives [] for "classes" property, if nothing is passed to the constructor', function(){
+            reg = new Registry();
+            expect(reg.classes.length).toBe(0);
+            expect(reg.defaultClass).toBe(null);
         });
     });
 
-    describe('Registry::classes: contains names of the classes', function(){
-        var classes = ["Table", "Row", "Cell", "Link", "OList", "UList", "ListItem", "Text"];
-        it('contains classes ' + classes, function(){
+
+    describe('Registry::classes: contains names of available classes', function(){
+        it('contains available classes', function(){
             classes.forEach(function(cName){
                 expect(reg.classes.indexOf(cName) !== -1).toBe(true);
             });
         });
-        it('does not contain Tag class', function(){
-            expect(reg.classes.indexOf('Tag')).toBe(-1);
+        it('ignores undefined classes', function(){
+            var nonExistentClass = 'this-class-does-not-exist';
+            classes.push(nonExistentClass);
+            obj = {'classes': classes, 'defaultClass': defaultClass};
+            reg = new Registry(obj);
+            expect(reg.classes.indexOf(nonExistentClass)).toBe(-1);
+        });
+        it('ignores duplicates', function(){
+            classes.push('A');
+            obj = {'classes': classes, 'defaultClass': defaultClass};
+            reg = new Registry(obj);
+            // index of last occurrence must be equal to the index of the first one
+            expect(reg.classes.lastIndexOf('A') === reg.classes.indexOf('A') ).toBe(true);
+        });
+
+    });
+
+    describe('Registry::map: gives the mapping of available classes into tag names', function(){
+        it('gives "a" for A', function(){
+            expect(reg.map.A).toBe('a');
+        });
+        it('gives "b" for B', function(){
+            expect(reg.map.B).toBe('b');
+        });
+        it('gives "c" for C', function(){
+            expect(reg.map.C).toBe('c');
         });
     });
 
-    describe('Registry::map: gives the mapping of the exisitng classes into tag names', function(){
-        it('gives "td" for Cell', function(){
-            expect(reg.map.Cell[0]).toBe('td');
+    describe('Registry::register(): registers another class', function(){
+        it('returns true, if the class exists', function(){
+            expect(reg.register('E')).toBe(true);
         });
-        it('gives "tr" for Row', function(){
-            expect(reg.map.Row[0]).toBe('tr');
-        });
-        it('gives "table" for Table', function(){
-            expect(reg.map.Table[0]).toBe('table');
-        });
-        it('gives "td" for Tag', function(){
-            expect(reg.map.Tag).not.toBeDefined();
-        });
-        it('gives "a" for Link', function(){
-            expect(reg.map.Link[0]).toBe('a');
-        });
-        it('gives "ol" for OList', function(){
-            expect(reg.map.OList[0]).toBe('ol');
-        });
-        it('gives "ul" for UList', function(){
-            expect(reg.map.UList[0]).toBe('ul');
+        it('returns false, if the class does not exist', function(){
+            expect(reg.register('no such class')).toBe(false);
         });
 
-        it('gives "li" for ListItem', function(){
-            expect(reg.map.ListItem[0]).toBe('li');
+        it('includes the class name into "classes", if it exists', function(){
+            reg.register('E');
+            expect(reg.classes.indexOf('E') !== -1).toBe(true);
         });
-        it('gives "text" for Text', function(){
-            expect(reg.map.Text[0]).toBe('text');
+        it('does not include the class name from "classes", if it does not exists', function(){
+            reg.register('no such class');
+            expect(reg.classes.indexOf('E') === -1).toBe(true);
         });
+        it('does not include the class name from "classes", if it has empty "name" property', function(){
+            reg.register('F');
+            expect(reg.classes.indexOf('F') === -1).toBe(true);
+        });
+        it('returns false, if the class has empty "name" property', function(){
+            expect(reg.register('F')).toBe(false);
+        });
+
+
+
 
     });
 
