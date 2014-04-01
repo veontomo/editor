@@ -3,7 +3,7 @@
 /*global DOMParser, Node, ListStyle, Attributes, Content, ListItemStyle, flatten, Style, onlyFirstLetterUpperCase, Tag, ListItem */
 
 /**
- * This class is used to represent ordered and unordered lists. If argument is provided and is allowed one, it will be used
+ * This is a parent class for ordered and unordred lists. If argument is provided and is allowed one, it will be used
  * to set the property "name". Otherwise, "name" property will be set to the first allowed value.
  * @module 	    HtmlElements
  * @param       {Sting}       listType
@@ -21,9 +21,9 @@ function List(listType) {
 	 * Array of allowed values for the tag names: ['ol', 'ul'].
 	 * @property {Array}    allowedNames
 	 * @type     {Array}
-	 * @since    0.0.2
+	 * @protected
 	 */
-	this.allowedNames = ['ol', 'ul'];
+	var allowedNames = ['ol', 'ul'];
 
 	/**
 	 * Styles corresponding to the list as a whole object.
@@ -39,7 +39,7 @@ function List(listType) {
 	 * @type {String}
 	 * @default  'ol'
 	 */
-	this.name = this.allowedNames.indexOf(listType) !== -1 ? listType : this.allowedNames[0];
+	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
