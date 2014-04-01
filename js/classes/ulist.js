@@ -6,7 +6,7 @@
  * This class is used to represent unordered lists.
  * @module 	    HtmlElements
  * @class  		UList
- * extends      List
+ * @extends     List
  * @since       0.0.2
  */
 function UList() {

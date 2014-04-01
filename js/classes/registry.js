@@ -4,16 +4,16 @@
 /**
  * Service locator for the classes present in the application. The argument is an object containing the following keys:
  * <ol>
- * <li>`classes` - array of available class names, each of these classes should have non-empty string-valued
+ * <li>`classes` - array of classes, each of these classes should have non-empty string-valued
  * `name` property (to be its html tag) </li>
- * <li>`default` - default class name (to be used for construction of objects which html tag is not present among
+ * <li>`default` - default class (to be used for construction of objects which html tag is not present among
  * `name` property in the available classes)</li>
  * </ol>
  * @module  Helper
- * @class  Registry
- * @param {Object}       info     object
- * @since  0.0.2
- * @author A.Shcherbakov
+ * @class   Registry
+ * @param   {Object}       info     object
+ * @since   0.0.2
+ * @author  A.Shcherbakov
  */
 function Registry(info){
 	'use strict';
@@ -23,15 +23,32 @@ function Registry(info){
 	var obj = info || {};
 
 	/**
-	 * Names of the classes to be observed. The classes must be defined. If corresponding class is not defined, then this
-	 * array element is ignored. Duplicates are ignored as well.
+	 * Returns `true`, if the the argument is a class with non-empty string-valued `name` property.
+	 * Otherwise, `false` is returned.
+	 * @property  isValid
+	 * @return    {Boolean}
+	 */
+	this.isValid = function(cl){
+		if (typeof cl === 'function'){
+			var obj = new cl;
+			if (obj){
+				var objName = obj.name;
+				return (typeof objName === 'string' && objName !== '');
+			}
+		}
+		return  false;
+	}
+
+	/**
+	 * Array of classes to be observed. If an array element turns out to be not a function ( = class), then this
+	 * element is ignored. Duplicates are ignored as well.
 	 * @property   classes
 	 * @type       {Array}
 	 */
 	this.classes = (function(arr){
 		var output = [];
 		arr.forEach(function(cName){
-			if (typeof window[cName] === 'function' && output.indexOf(cName)){
+			if (typeof cName === 'function' && output.indexOf(cName) === -1){
 				output.push(cName);
 			}
 		});
@@ -57,10 +74,10 @@ function Registry(info){
 	 */
 	this.map = (function(arr){
 		var output = {};
-		arr.forEach(function(cName){
-			var phantom = new window[cName]();
-			output[phantom.name] = cName;
-		});
+		// arr.forEach(function(cName){
+			// var phantom = new window[cName]();
+			// output[phantom.name] = cName;
+		// });
 		return output;
 	}(this.classes));
 
@@ -73,14 +90,14 @@ function Registry(info){
 	 * @return {Boolean}
 	 */
 	this.register = function(cName){
-		if (typeof window[cName] === 'function'){
-			var phantomName = (new window[cName]()).name;
-			if (typeof phantomName === 'string' && phantomName !== '' && this.classes.indexOf(cName) === -1){
-				this.classes.push(cName);
-				this.map[phantomName] = cName;
-				return true;
-			}
-		}
+		// if (typeof window[cName] === 'function'){
+		// 	var phantomName = (new window[cName]()).name;
+		// 	if (typeof phantomName === 'string' && phantomName !== '' && this.classes.indexOf(cName) === -1){
+		// 		this.classes.push(cName);
+		// 		this.map[phantomName] = cName;
+		// 		return true;
+		// 	}
+		// }
 		return false;
 	};
 
