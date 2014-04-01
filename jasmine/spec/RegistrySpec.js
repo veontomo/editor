@@ -8,7 +8,7 @@ describe('Registry-related functionality', function(){
         window.A = function (){this.name = 'a';};
         window.B = function (){this.name = 'b';};
         window.C = function (){this.name = 'c';};
-        window.E = function (){this.name = 'c';};
+        window.E = function (){this.name = 'e';};
         window.F = function (){this.name = '';}; // "bad" class: property "name" is not set
         window.D = function (){};
         classes = ['A', 'B', 'C'];
@@ -55,13 +55,13 @@ describe('Registry-related functionality', function(){
 
     describe('Registry::map: gives the mapping of available classes into tag names', function(){
         it('gives "a" for A', function(){
-            expect(reg.map.A).toBe('a');
+            expect(reg.map.a).toBe('A');
         });
         it('gives "b" for B', function(){
-            expect(reg.map.B).toBe('b');
+            expect(reg.map.b).toBe('B');
         });
         it('gives "c" for C', function(){
-            expect(reg.map.C).toBe('c');
+            expect(reg.map.c).toBe('C');
         });
     });
 
@@ -76,7 +76,14 @@ describe('Registry-related functionality', function(){
         it('includes the class name into "classes", if it exists', function(){
             reg.register('E');
             expect(reg.classes.indexOf('E') !== -1).toBe(true);
+
         });
+
+        it('includes the mapping name into "map", if the class exists and has non-empty "name" property', function(){
+            reg.register('E');
+            expect(reg.map.e).toBe('E');
+        });
+
         it('does not include the class name from "classes", if it does not exists', function(){
             reg.register('no such class');
             expect(reg.classes.indexOf('E') === -1).toBe(true);

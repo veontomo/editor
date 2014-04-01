@@ -49,9 +49,9 @@ function Registry(info){
 	this.defaultClass = typeof window[obj.defaultClass] === 'function' ? obj.defaultClass : null;
 
 	/**
-	 * Object of key-value pairs the form `className: tag`, where `tag` is a tag name that class `className`
+	 * Object of key-value pairs the form `tag: className`, where `tag` is a tag name that class `className`
 	 * represent.<br />
-	 * For example, `{'Cell': 'td', 'UList': 'ul', ...}`
+	 * For example, `{'td': 'Cell', 'ul': 'UList', ...}`
 	 * @property    map
 	 * @type        {Array}
 	 */
@@ -59,7 +59,7 @@ function Registry(info){
 		var output = {};
 		arr.forEach(function(cName){
 			var phantom = new window[cName]();
-			output[cName] = phantom.name;
+			output[phantom.name] = cName;
 		});
 		return output;
 	}(this.classes));
@@ -77,7 +77,7 @@ function Registry(info){
 			var phantomName = (new window[cName]()).name;
 			if (typeof phantomName === 'string' && phantomName !== '' && this.classes.indexOf(cName) === -1){
 				this.classes.push(cName);
-				this.map[cName] = phantomName;
+				this.map[phantomName] = cName;
 				return true;
 			}
 		}
