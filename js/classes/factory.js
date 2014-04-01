@@ -1,11 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global */
+/*global Node */
 
 /**
  * This class is used to generate instances of Tag class, its children or of Content class.
  * @module 	    HtmlElements
  * @class  		Factory
+ * @param       {Registry}   reg          an instance of Registry class
  * @since       0.0.2
  * @author      A.Shcherbakov
  *
@@ -13,32 +14,43 @@
 function Factory(reg){
 	"use strict";
 	if (!(this instanceof Factory)) {
-		return new Factory();
+		return new Factory(reg);
 	}
 
 
 
 
 	/**
-	 * Object collecting info about available classes.
-	 * @property {Array}  register
-	 * @type     {Array}
+	 * An instance of {{#crossLink "Registry"}}Registry{{/crossLink}} class.
+	 * @property  registry
+	 * @type     {Object}
 	 */
-	this.register = {'td': 'Cell', 'tr': 'Row', 'table': 'Table', 'li': 'ListItem', 'ol': 'List', 'ul': 'List', 'a': 'Link'};
+	this.registry = reg;
 
 
 	/**
-	 * Returns a Tag instance. The argument is of [https://developer.mozilla.org/en-US/docs/Web/API/element](DOM.Element) type.
+	 * Returns a Tag instance. The argument is an instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element).
+	 * @method  produce
 	 * @param  {DOM.Element}                elem    what the element is to be created from
-	 * @return {Tag}
+	 * @return {Object|Null}
 	 * @since  0.0.2
 	 */
-	this.produceTag = function(elem){
-		var tag = new Tag();
-		if(elem !== undefined){
-			tag.load(elem);
+	this.produce = function(elem){
+		var elemType = elem.nodeType,
+			tagName, ConstructorClass, output;
+		if (elemType === Node.ELEMENT_NODE){
+			tagName = elem.tagName;
+		} else if (elemType === Node.TEXT_NODE){
+			tagName = 'text';
+		} else {
+			return null;
 		}
-		return tag;
+		ConstructorClass = this.registry.map[tagName] || this.registry.defaultClass;
+		output = new ConstructorClass;
+		if (typeof output.load === 'function'){
+			output.load(elem);
+		}
+		return output;
 	};
 
 
