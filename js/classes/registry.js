@@ -60,7 +60,7 @@ function Registry(info){
 	 * upon instantiating. If at initialization time, the constructor recieves an input such that `info.defaultClass`
 	 * is not a function, then it is set to `null`.
 	 * @property defaultClass
-	 * @type     {String|Null}
+	 * @type     {Function|Null}
 	 */
 
 	this.defaultClass = typeof obj.defaultClass === 'function' ? obj.defaultClass : null;
@@ -85,7 +85,7 @@ function Registry(info){
 	 * Adds the argument into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} and update
 	 * object {{#crossLink "Registry/map:property"}}`map`{{/crossLink}} if the method
 	 * {{#crossLink "Registry/hasValidName:method"}}`hasValidName`{{/crossLink}} returns `true` for that argument.
-	 * @param  {String}    cName
+	 * @param  {Function}    cName
 	 * @return {Boolean}
 	 */
 	this.register = function(cName){
@@ -97,5 +97,19 @@ function Registry(info){
 		}
 		return false;
 	};
+
+	/**
+	 * If the argument is present among {{#crossLink "Registry/classes:property"}}classes{{/crossLink}},
+	 * then remove it from there and from {{#crossLink "Registry/map:property"}}map{{/crossLink}} and
+	 * return `true`. Otherwise, `false` is returned.
+	 * @param  {mixed}         cName                Supposed to be of function type, since namely only
+	 *                                              functions are present in
+	 *                                              {{#crossLink "Registry/classes:property"}}classes{{/crossLink}}
+	 * @return {Boolean}
+	 */
+	this.unregister = function(cName){
+		// stub
+		return false;
+	}
 
 }
