@@ -3,7 +3,9 @@
 /*global Node */
 
 /**
- * This class is used to generate instances of Tag class, its children or of Content class.
+ * This class is to be used to create different objects. What type of object is to be created is decided based on information
+ * passed as argument when creating Factory class. The argument is supposed to be {{#crossLink "Registry"}}Registry{{/crossLink}}
+ * instance.
  * @module 	    HtmlElements
  * @class  		Factory
  * @param       {Registry}   reg          an instance of Registry class
@@ -25,21 +27,39 @@ function Factory(reg){
 	this.registry = reg;
 
 	/**
-	 * Returns `true`, if the argument is one of supported types: [Element](https://developer.mozilla.org/en-US/docs/Web/API/element) or
+	 * Returns `true`, if the argument is of one of supported types: [Element](https://developer.mozilla.org/en-US/docs/Web/API/element) or
 	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text). Otherwise, `false` is returned.
-	 * @param    {any}          el
+	 * @method   isSupported
+	 * @param    {any}          elem
 	 * @return   {Boolean}
 	 */
-	this.isSupported = function(el){
-		if (el) {
+	this.isSupported = function(elem){
+		if (elem) {
 			var supportedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
-				elType = el.nodeType;
+				elType = elem.nodeType;
 			if (elType){
 				return (supportedTypes.indexOf(elType) !== -1);
 			}
 		}
 		return false;
 	};
+
+	/**
+	 * Returns a tag name for the argument. If the argument has non-empty string-valued `tagName` property,
+	 * its value is returned. Otherwise, string "text" is returned.
+	 * @method    tagFor
+	 * @param     {any}        elem
+	 * @return    {String}
+	 */
+	this.tagFor = function(elem){
+			if (elem){
+			var elemTag = elem.tagName;
+			if (elemTag && typeof elemTag === 'string' && elemTag !== ''){
+				return elemTag;
+			}
+		}
+		return 'text';
+	}
 
 
 	/**

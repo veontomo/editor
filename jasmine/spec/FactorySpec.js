@@ -51,6 +51,37 @@ describe('Factory-related functionality', function(){
             var el = {'nodeType': Node.TEXT_NODE};
             expect(factory.isSupported(el)).toBe(true);
         });
+    });
+
+    describe('Factory::tagFor() gives tag for the argument', function(){
+        it('returns element "tagName" property if it is not empty', function(){
+            var el = {tagName: 'elem tag name'};
+            expect(factory.tagFor(el)).toBe('elem tag name');
+        });
+        it('returns string "text" if "tagName" property is an empty string', function(){
+            var el = {tagName: ''};
+            expect(factory.tagFor(el)).toBe('text');
+        });
+        it('returns string "text" if "tagName" property is a function', function(){
+            var el = {tagName: function(){}};
+            expect(factory.tagFor(el)).toBe('text');
+        });
+
+        it('returns string "text" if the argument is an object with no "tagName" property', function(){
+            var el = {notTagName: 'any'};
+            expect(factory.tagFor(el)).toBe('text');
+        });
+        it('returns string "text" if no argument is given', function(){
+            expect(factory.tagFor()).toBe('text');
+        });
+        it('returns string "text" if the argument is a string, number, array or function', function(){
+            var invalids = ['', 'a string', 4, -3, 5.1, [], [0], ['', 3], function(){return 'output';}, function(){return null;} ];
+            invalids.forEach(function(invalid){
+                expect(factory.tagFor(invalid)).toBe('text');
+            });
+        });
+
+
 
     });
 
