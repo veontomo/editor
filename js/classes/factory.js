@@ -59,17 +59,21 @@ function Factory(reg){
 			}
 		}
 		return 'text';
-	}
+	};
 
 
 	/**
-	 * [classFor description]
-	 * @param  {[type]} elem [description]
-	 * @return {[type]}      [description]
+	 * Returns a class to produce an object corresponding to the argument. Alias for the method
+	 * {{#crossLink "Registry/classForTag:method"}}Registry::classForTag(){{/crossLink}}
+	 * called with {{#crossLink "Factory/tagFor:method"}}Factory::tagFor(elem){{/crossLink}}.
+	 * @method     classFor
+	 * @param      {any}        elem
+	 * @return     {Function}
 	 */
 	this.classFor = function(elem){
-
-	}
+		var tag = this.tagFor(elem);
+		return this.registry.classForTag(tag);
+	};
 
 
 	/**

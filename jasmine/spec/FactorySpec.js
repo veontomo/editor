@@ -82,12 +82,14 @@ describe('Factory-related functionality', function(){
         });
     });
 
-    xdescribe('Factory::classFor() gives the class to construct object', function(){
+    describe('Factory::classFor() gives the class to construct object', function(){
         it('calls Registry::classFor()', function(){
             spyOn(factory.registry, 'classForTag');
-            var el = {tagName: 'tag'};
+            spyOn(factory, 'tagFor').andCallFake(function(){return 'tagForElement';});
+            var el = {};
             factory.classFor(el);
-            expect(factory.registry.classForTag).toHaveBeenCalledWith('tag');
+            expect(factory.registry.classForTag).toHaveBeenCalledWith('tagForElement');
+            expect(factory.tagFor).toHaveBeenCalledWith(el);
         })
     });
 

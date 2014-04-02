@@ -66,7 +66,7 @@ function Registry(info){
 
 	/**
 	 * Returns class from {{#crossLink "Registry/classes:property"}}classes{{/crossLink}} which `name` property
-	 * equal to the argument. If there is no such a class, the default class
+	 * is equal to the argument. If there is no such a class, the default one
 	 * {{#crossLink "Registry/defaultClass:property"}}defaultClass{{/crossLink}}  is returned.
 	 * @method    classForTag
 	 * @param     {String}     tag
