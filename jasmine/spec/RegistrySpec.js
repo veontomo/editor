@@ -204,9 +204,21 @@ describe('Registry-related functionality', function(){
             reg.unregister(B);
             expect(reg.map.b).not.toBeDefined();
         });
+    });
 
-
-
+    describe('Registry::classForTag() gives the class to correspondinf to the argument', function(){
+        it('gives the default class if the argument is missing', function(){
+            expect(reg.classForTag()).toBe(D);
+        });
+        it('gives the default class if the argument is an empty string', function(){
+            expect(reg.classForTag('')).toBe(D);
+        });
+        it('gives the default class if the argument corresponds to a tag not present in the class names', function(){
+            expect(reg.classForTag('no such name in class names')).toBe(D);
+        });
+        it('gives a class if the argument corresponds to a tag present in the class names', function(){
+            expect(reg.classForTag('a')).toBe(A);
+        });
     });
 
 });

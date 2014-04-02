@@ -65,6 +65,19 @@ function Registry(info){
 	this.defaultClass = typeof obj.defaultClass === 'function' ? obj.defaultClass : null;
 
 	/**
+	 * Returns class from {{#crossLink "Registry/classes:property"}}classes{{/crossLink}} which `name` property
+	 * equal to the argument. If there is no such a class, the default class
+	 * {{#crossLink "Registry/defaultClass:property"}}defaultClass{{/crossLink}}  is returned.
+	 * @method    classForTag
+	 * @param     {String}     tag
+	 * @return    {Function}
+	 */
+	this.classForTag = function(tag){
+		var output = this.map[tag];
+		return output || this.defaultClass;
+	}
+
+	/**
 	 * Object of key-value pairs the form `tag: className`, where `tag` is a tag name that class `className`
 	 * represent.<br />
 	 * For example, `{'td': 'Cell', 'ul': 'UList', ...}`

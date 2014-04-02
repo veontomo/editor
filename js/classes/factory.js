@@ -63,6 +63,16 @@ function Factory(reg){
 
 
 	/**
+	 * [classFor description]
+	 * @param  {[type]} elem [description]
+	 * @return {[type]}      [description]
+	 */
+	this.classFor = function(elem){
+
+	}
+
+
+	/**
 	 * Returns a Tag instance. The argument is an instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element).
 	 * @method  produce
 	 * @param  {DOM.Element}                elem            what the element is to be created from
@@ -70,6 +80,9 @@ function Factory(reg){
 	 * @since  0.0.2
 	 */
 	this.produce = function(elem){
+		if (!this.isSupported(elem)){
+			return null;
+		}
 		var elemType = elem.nodeType,
 			tagName, Class, output;
 		if (elemType === Node.ELEMENT_NODE){
