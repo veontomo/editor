@@ -70,40 +70,48 @@ function Factory(reg){
 	 * @param      {any}        elem
 	 * @return     {Function}
 	 */
-	this.classFor = function(elem){
+	this.classFor = function(elem, context){
 		var tag = this.tagFor(elem);
 		return this.registry.classForTag(tag);
 	};
 
 
 	/**
-	 * Returns a Tag instance. The argument is an instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element).
-	 * @method  produce
-	 * @param  {DOM.Element}                elem            what the element is to be created from
-	 * @return {Object|Null}
-	 * @since  0.0.2
+	 * Creates a class instance; the class is one of
+	 * {{#crossLink "Registry/classes:property"}}Registry::classes{{/crossLink}} or
+	 * {{#crossLink "Registry/defaultClass:property"}}Registry/defaultClass{{/crossLink}}.
+	 * The argument is an instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element).
+	 * @method  createInstance
+	 * @param   {DOM.Element}                elem            what the element is to be created from
+	 * @return  {Object|Null}
+	 * @since   0.0.2
 	 */
-	this.produce = function(elem){
+	this.createInstance = function(elem){
 		if (!this.isSupported(elem)){
 			return null;
 		}
-		var elemType = elem.nodeType,
-			tagName, Class, output;
-		if (elemType === Node.ELEMENT_NODE){
-			tagName = elem.tagName;
-		} else if (elemType === Node.TEXT_NODE){
-			tagName = 'text';
-		} else {
-			return null;
-		}
-		// find out what class instance is to be created
-		Class = this.registry.map[tagName] || this.registry.defaultClass;
-		output = new Class;
-		if (typeof output.load === 'function'){
-			output.load(elem);
-		}
+		var ClassName  = this.classFor(elem),
+			output = new ClassName;
 		return output;
 	};
+
+	/**
+	 * Loads the properties from the second argument into the first. Returns `true` if the first argument
+	 * responds a method `load` and calls it with the second argument. If that method does not exist or the arguments are
+	 * `undefined` or `null`, returns `false`.
+	 * @method  brightenObj
+	 * @param   {Object}       obj
+	 * @param   {Object}       elem
+	 * @return  {Boolean}
+	 */
+	this.brightenObj = function(obj, elem){
+		if (obj !== undefined && elem !== undefined && (typeof obj.load == 'function')){
+			obj.load(elem);
+			return true;
+		}
+		return false;
+
+	}
 
 
 }

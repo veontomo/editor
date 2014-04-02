@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, describe, it, it, expect, spyOn, beforeEach, Factory, Registry */
+/*global describe, describe, it, it, expect, spyOn, beforeEach, Factory, Registry, Node */
 
 
 describe('Factory-related functionality', function(){
@@ -63,7 +63,7 @@ describe('Factory-related functionality', function(){
             expect(factory.tagFor(el)).toBe('text');
         });
         it('returns string "text" if "tagName" property is a function', function(){
-            var el = {tagName: function(){}};
+            var el = {tagName: function(){return null;}};
             expect(factory.tagFor(el)).toBe('text');
         });
 
@@ -90,33 +90,77 @@ describe('Factory-related functionality', function(){
             factory.classFor(el);
             expect(factory.registry.classForTag).toHaveBeenCalledWith('tagForElement');
             expect(factory.tagFor).toHaveBeenCalledWith(el);
-        })
+        });
     });
 
-    xdescribe('Factory::produce(): returns correct instances', function(){
+    describe('Factory::createInstance(): returns an instance of a class', function(){
         it('returns null if "isSupported" returns false for the argument', function(){
             spyOn(factory, 'isSupported').andCallFake(function(){return false;});
             var el = {'tagName': 'bmw'},
-                car = factory.produce(el);
+                car = factory.createInstance(el);
             expect(car).toBe(null);
             expect(factory.isSupported).toHaveBeenCalledWith(el);
         });
 
         it('returns instance of BMW if "tagFor" of the argument returns "bmw"', function(){
             spyOn(factory, 'isSupported').andCallFake(function(){return true;});
-            var el = {'tagName': 'bmw'},
-                car = factory.produce(el);
+            spyOn(factory, 'tagFor').andCallFake(function(){return 'bmw';});
+            var el = {},
+                car = factory.createInstance(el);
             expect(car instanceof BMW).toBe(true);
             expect(factory.isSupported).toHaveBeenCalledWith(el);
+            expect(factory.tagFor).toHaveBeenCalledWith(el);
         });
-        it('returns instance of CAR if "tagFor" of the argument returns "text"', function(){
+        it('returns instance of CAR if "tagFor" of the argument returns "nonExistentTag"', function(){
             spyOn(factory, 'isSupported').andCallFake(function(){return true;});
-            var el = {'tagName': 'text'},
-                car = factory.produce(el);
+            spyOn(factory, 'tagFor').andCallFake(function(){return 'nonExistentTag';});
+            var el = {},
+                car = factory.createInstance(el);
             expect(car instanceof CAR).toBe(true);
             expect(factory.isSupported).toHaveBeenCalledWith(el);
+            expect(factory.tagFor).toHaveBeenCalledWith(el);
         });
 
+
+        xit('calls "load" method of the newly created instance', function(){
+            spyOn(factory, 'isSupported').andCallFake(function(){return true;});
+            spyOn(factory, 'tagFor').andCallFake(function(){return 'nonExistentTag';});
+            var el = {},
+                car = factory.createInstance(el);
+            expect(car instanceof CAR).toBe(true);
+            expect(factory.isSupported).toHaveBeenCalledWith(el);
+            expect(factory.tagFor).toHaveBeenCalledWith(el);
+
+        });
     });
+
+    describe('Factory::brightenObj() loads properties', function(){
+        it('returns false if the the first argument does not respond to "load" method', function(){
+            var obj = {'noLoad': 1};
+            expect(factory.brightenObj(obj, {})).toBe(false);
+        });
+        it('returns true if the the first argument has "load" method', function(){
+            var obj = {'load': function(){return null;}};
+            expect(factory.brightenObj(obj, {})).toBe(true);
+        });
+        it('returns false if called without arguments', function(){
+            expect(factory.brightenObj()).toBe(false);
+        });
+        it('returns false if called with one argument', function(){
+            expect(factory.brightenObj({})).toBe(false);
+        });
+
+
+        it('passes the second argument to the "load" method of the first one', function(){
+            var obj = {'load': function(){return null;}},
+                prop = {'a': 'properties', 1: 0};
+            spyOn(obj, 'load');
+            factory.brightenObj(obj, prop);
+            expect(obj.load).toHaveBeenCalledWith(prop);
+        });
+
+
+    });
+
 
 });
