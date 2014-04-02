@@ -120,18 +120,6 @@ describe('Factory-related functionality', function(){
             expect(factory.isSupported).toHaveBeenCalledWith(el);
             expect(factory.tagFor).toHaveBeenCalledWith(el);
         });
-
-
-        xit('calls "load" method of the newly created instance', function(){
-            spyOn(factory, 'isSupported').andCallFake(function(){return true;});
-            spyOn(factory, 'tagFor').andCallFake(function(){return 'nonExistentTag';});
-            var el = {},
-                car = factory.createInstance(el);
-            expect(car instanceof CAR).toBe(true);
-            expect(factory.isSupported).toHaveBeenCalledWith(el);
-            expect(factory.tagFor).toHaveBeenCalledWith(el);
-
-        });
     });
 
     describe('Factory::brightenObj() loads properties', function(){
@@ -149,8 +137,6 @@ describe('Factory-related functionality', function(){
         it('returns false if called with one argument', function(){
             expect(factory.brightenObj({})).toBe(false);
         });
-
-
         it('passes the second argument to the "load" method of the first one', function(){
             var obj = {'load': function(){return null;}},
                 prop = {'a': 'properties', 1: 0};
@@ -158,7 +144,23 @@ describe('Factory-related functionality', function(){
             factory.brightenObj(obj, prop);
             expect(obj.load).toHaveBeenCalledWith(prop);
         });
+    });
 
+    describe('Factory::produce(): produce full-featured object', function(){
+        it('calls "createInstance" method', function(){
+            var el = {};
+            spyOn(factory, 'createInstance');
+            factory.produce(el);
+            expect(factory.createInstance).toHaveBeenCalledWith(el);
+        });
+        it('calls "brightenObj" method', function(){
+            var el = {},
+                prod = {};
+            spyOn(factory, 'createInstance').andCallFake(function(){return prod;});
+            spyOn(factory, 'brightenObj');
+            factory.produce(el);
+            expect(factory.brightenObj).toHaveBeenCalledWith(prod, el);
+        });
 
     });
 

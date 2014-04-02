@@ -110,8 +110,27 @@ function Factory(reg){
 			return true;
 		}
 		return false;
-
 	}
 
+
+	/**
+	 * Produces a class instance corresponding to the argument and populates properties of the newly created instance
+	 * from the argument. The operation consists of two:
+	 * <ol><li>
+	 * calls {{#crossLink "Factory/createInstance:method"}}Factory::createInstance(){{/crossLink}} method to
+	 * create the instance
+	 * </li><li>
+	 * calls {{#crossLink "Factory/brightenObj:method"}}Factory::brightenObj(){{/crossLink}} method to populate
+	 * the newly created object with properties
+	 * </li></ol>
+	 * @method  produce
+	 * @param  {Object} elem
+	 * @return {Object}
+	 */
+	this.produce = function(elem){
+		var product = this.createInstance(elem);
+		this.brightenObj(product, elem);
+		return product;
+	}
 
 }
