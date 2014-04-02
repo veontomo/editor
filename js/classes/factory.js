@@ -17,9 +17,6 @@ function Factory(reg){
 		return new Factory(reg);
 	}
 
-
-
-
 	/**
 	 * An instance of {{#crossLink "Registry"}}Registry{{/crossLink}} class.
 	 * @property  registry
@@ -27,17 +24,34 @@ function Factory(reg){
 	 */
 	this.registry = reg;
 
+	/**
+	 * Returns `true`, if the argument is one of supported types: [Element](https://developer.mozilla.org/en-US/docs/Web/API/element) or
+	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text). Otherwise, `false` is returned.
+	 * @param    {any}          el
+	 * @return   {Boolean}
+	 */
+	this.isSupported = function(el){
+		if (el) {
+			var supportedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
+				elType = el.nodeType;
+			if (elType){
+				return (supportedTypes.indexOf(elType) !== -1);
+			}
+		}
+		return false;
+	};
+
 
 	/**
 	 * Returns a Tag instance. The argument is an instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element).
 	 * @method  produce
-	 * @param  {DOM.Element}                elem    what the element is to be created from
+	 * @param  {DOM.Element}                elem            what the element is to be created from
 	 * @return {Object|Null}
 	 * @since  0.0.2
 	 */
 	this.produce = function(elem){
 		var elemType = elem.nodeType,
-			tagName, ConstructorClass, output;
+			tagName, Class, output;
 		if (elemType === Node.ELEMENT_NODE){
 			tagName = elem.tagName;
 		} else if (elemType === Node.TEXT_NODE){
@@ -45,8 +59,9 @@ function Factory(reg){
 		} else {
 			return null;
 		}
-		ConstructorClass = this.registry.map[tagName] || this.registry.defaultClass;
-		output = new ConstructorClass;
+		// find out what class instance is to be created
+		Class = this.registry.map[tagName] || this.registry.defaultClass;
+		output = new Class;
 		if (typeof output.load === 'function'){
 			output.load(elem);
 		}
