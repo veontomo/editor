@@ -6,6 +6,7 @@ describe('Attribute-related functionality', function(){
     beforeEach(function(){
         attr = new Attributes();
     });
+
     describe('Attribute::constructor(): inherits from Property', function(){
         it('is an instance of Property', function(){
             expect(attr instanceof Property).toBe(true);
@@ -29,6 +30,7 @@ describe('Attribute-related functionality', function(){
 
         });
     });
+
     describe('Attributes::toString(): generates string representation', function(){
         it('if the attribute is empty, empty string is returned', function(){
             expect(attr.toString()).toBe('');
@@ -96,8 +98,6 @@ describe('Attribute-related functionality', function(){
             attr.module = function(){};
             expect(attr.load(attrMap)).toBe(false);
         });
-
-
     });
 });
 

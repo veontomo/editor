@@ -53,11 +53,13 @@ function Attributes(obj) {
     	for (pos in attr){
     		if (attr.hasOwnProperty(pos)){
     			seed = {};
-    			attrName = attr[pos].name.trim();
-    			attrValue = attr[pos].value.trim();
-    			if (attrName !== 'style'){
+    			attrName = attr[pos].name;
+    			if (attrName && attrName !== 'style'){
     				if (typeof this[attrName] !== 'function') {
-    					seed[attrName] = attrValue;
+    					attrValue = attr[pos].value;
+    					if(attrValue){
+    						seed[attrName] = attrValue;
+    					}
     					this.appendProperty(seed);
     				} else {
     					return false;
