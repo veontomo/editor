@@ -485,79 +485,68 @@ describe('Tag-related functionality:', function() {
     });
 
     describe('Tag::load(): populates properties from the argument', function(){
-        var el, child1, child2;
-            // styleStr = 'color: green; margin: 32em;';
-        // function Element(){};
+        var root, e0, t1, e2;
+ //          root
+ //  __________|____________
+ // |          |            |
+ // e0        t1           e2
+
         beforeEach(function(){
-            el = document.createElement('b');
-            el.setAttribute('class', 'virtual');
-            el.setAttribute('top', 2);
-            el.setAttribute('style', 'color: green; margin: 32em;');
-            child1 = document.createTextNode('hi there!');
-            child2 = document.createElement('div');
-            el.appendChild(child1);
-            el.appendChild(child2);
-            // console.log('is el of element node type? ', el.nodeType === Node.ELEMENT_NODE);
-            // console.log('child1: ', child1);
-            // console.log('el has children?', el.hasChildNodes());
-            // console.log('el text content: ', el.textContent);
-            // console.log('node type of el: ', el.nodeType);
-            // console.log('node type of child1: ', child1.nodeType);
-            // console.log('child nodes: ', el.childNodes, 'children: ', el.children, 'child count: ', el.childElementCount);
-
+            root = document.createElement('custom');
+            root.setAttribute('class', 'virtual');
+            root.setAttribute('level', 2);
+            root.setAttribute('style', 'color: green; margin: 32em;');
+            e0 = document.createElement('div');
+            t1 = document.createTextNode('hi there!');
+            e2 = document.createElement('span');
+            root.appendChild(e0);
+            root.appendChild(t1);
+            root.appendChild(e2);
         });
 
-        it('returns false if the argument has nodeType property different from Node.ELEMENT_NODE', function(){
-            var probe = {nodeType: Node.ELEMENT_NODE + 'flash'};
-            expect(tag.load(probe)).toBe(false);
-        });
+        // it('returns false if the argument has nodeType property different from Node.ELEMENT_NODE', function(){
+        //     var probe = {nodeType: Node.ELEMENT_NODE + 'flash'};
+        //     expect(tag.load(probe)).toBe(false);
+        // });
+        // it('returns true, if the argument is a Node.ELEMENT_NODE', function(){
+        //     expect(tag.load(root)).toBe(true);
+        // });
 
         it('sets the name', function(){
-            tag.load(el);
-            expect(tag.name).toBe('b');
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load(root);
+            expect(tag.name).toBe('custom');
         });
 
         it('calls method to set attributes', function(){
+            spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
-            tag.load(el);
-            expect(tag.attr.load).toHaveBeenCalledWith(el.attributes);
-
-        });
-        it('returns false if attr.load returns false', function(){
-            spyOn(tag.attr, 'load').andCallFake(function(){return false;});
-            expect(tag.load(el)).toBe(false);
-        });
-
-        it('calls method to set the style, if loaded attributes successfully', function(){
-            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
             spyOn(tag.style, 'load');
-            tag.load(el);
-            expect(tag.style.load).toHaveBeenCalledWith(el.attributes.getNamedItem('style'));
+            tag.load(root);
+            expect(tag.attr.load).toHaveBeenCalledWith(root.attributes);
+        });
+        // it('returns false if attr.load returns false', function(){
+        //     spyOn(tag.attr, 'load').andCallFake(function(){return false;});
+        //     expect(tag.load(el)).toBe(false);
+        // });
+
+        it('calls method to set the style', function(){
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load(root);
+            expect(tag.style.load).toHaveBeenCalledWith(root.attributes.getNamedItem('style'));
         });
 
         it('calls a method to load content', function(){
-            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
-            spyOn(tag.style, 'load').andCallFake(function(){return true;});
             spyOn(tag.content, 'load');
-            tag.load(el);
-            expect(tag.content.load).toHaveBeenCalled();
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load(root);
+            expect(tag.content.load).toHaveBeenCalledWith([e0, t1, e2]);
         });
 
-        it('returns the result of execution of Tag::content.load()', function(){
-            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
-            spyOn(tag.style, 'load').andCallFake(function(){return true;});
-            spyOn(tag.content, 'load').andCallFake(function(){return 'result of content loading';});
-            expect(tag.load(el)).toBe('result of content loading');
-        });
-
-        xit('calls Tag::content.load() with arguments in which ignores non-ELEMENT_NODE and non-TEXT_NODE child nodes', function(){
-            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
-            spyOn(tag.style, 'load').andCallFake(function(){return true;});
-            var child3 = new Comment('comment node');
-            el.appendChild(child3);
-            spyOn(tag.content, 'load').andCallFake(function(){return true;});
-            expect(tag.load(el)).toBe(true);
-            expect(tag.content.load).toHaveBeenCalledWith([child1, child2]);
-        });
     });
 });

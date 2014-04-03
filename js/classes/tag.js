@@ -401,37 +401,33 @@ function Tag() {
 
 	/**
 	 * Populates properties of the current object from the argument which must be an instance of javascript
-	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. If the operation of
-	 * loading of properties succeeds, `true` is returned, otherwise - `false`.
+	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class.
 	 * NB: DOM.Element.attributes has the form `{1: {name: "width", value:"100", ...}, 2: {name: "color", value:"black", ...}, ...}`
 	 * @method     load
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
-	 * @return     {Boolean}                           returns `true` if loads properties successfully, `false` otherwise
+	 * @return     {void}
 	 */
 	this.load = function(elem){
 		// assure that the argument is an Element instance
-		if (elem.nodeType !== Node.ELEMENT_NODE){
-			return false;
-		}
-		var attr, i,
-			arr = [],
-			children = elem.childNodes, // gives all child nodes (including Elements, TextNodes, etc.)
-			len = children.length,
-			currentChild, currentChildType, style;
-		this.name  = elem.tagName.toLowerCase();   // setting name of the tag
-		attr  = elem.attributes;                   // NamedNodeMap
-		style = attr.getNamedItem('style');        // singling out style property
-		if (this.attr.load(attr) && this.style.load(style)){
+		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
+			var children = elem.childNodes,                    // gives all child nodes (including Elements, TextNodes, etc.)
+				allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
+				childrenArr = [],
+				len = children.length,
+				currentChild, style, attr, i;
+			this.name  = elem.tagName.toLowerCase();   // setting name of the tag
+			attr  = elem.attributes;                   // NamedNodeMap
+			style = attr.getNamedItem('style');        // singling out style property
+			this.attr.load(attr);
+			this.style.load(style);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
-				currentChildType = currentChild.nodeType;
-				if (currentChildType === Node.ELEMENT_NODE || currentChildType === Node.TEXT_NODE){
-					arr.push(currentChild);
+				if (allowedTypes.indexOf(currentChild.nodeType) !== -1){
+					childrenArr.push(currentChild);
 				}
 			}
-			return this.content.load(arr);
+			this.content.load(childrenArr);
 		}
-		return false;
 	};
 }
 
