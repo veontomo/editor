@@ -70,7 +70,7 @@ function Factory(reg){
 	 * @param      {any}        elem
 	 * @return     {Function}
 	 */
-	this.classFor = function(elem, context){
+	this.classFor = function(elem){
 		var tag = this.tagFor(elem);
 		return this.registry.classForTag(tag);
 	};
@@ -105,12 +105,12 @@ function Factory(reg){
 	 * @return  {Boolean}
 	 */
 	this.brightenObj = function(obj, elem){
-		if (obj !== undefined && elem !== undefined && (typeof obj.load == 'function')){
+		if (obj && elem && (typeof obj.load === 'function')){
 			obj.load(elem);
 			return true;
 		}
 		return false;
-	}
+	};
 
 
 	/**
@@ -131,6 +131,6 @@ function Factory(reg){
 		var product = this.createInstance(elem);
 		this.brightenObj(product, elem);
 		return product;
-	}
+	};
 
 }
