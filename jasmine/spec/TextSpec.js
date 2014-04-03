@@ -61,4 +61,53 @@ describe('Text-related functionality', function(){
  		});
 	});
 
+	describe('Text::load(): loads content from the argument', function(){
+		it('return false if the argument is missing', function(){
+			expect(text.load()).toBe(false);
+		});
+
+		it('return false if the argument is a number, an array, a function, an object of non-DOM.Text type', function(){
+			var invalids = [0, -1, 3.52, [], [0, 1], [''], ['string', 1], {}, {'prop': 1}];
+			invalids.forEach(function(invalid){
+				expect(text.load(invalid)).toBe(false);
+			});
+		});
+
+		it('return true if the argument is an empty string', function(){
+			expect(text.load('')).toBe(true);
+		});
+
+		it('return true if the argument is a non-empty string', function(){
+			expect(text.load('non empty')).toBe(true);
+		});
+
+		it('return true if the argument is a DOM.Text', function(){
+			var el = document.createTextNode('a text node');
+			expect(text.load(el)).toBe(true);
+		});
+
+		it('calls setContent method if the argument is a string', function(){
+			spyOn(text, 'setContent');
+			text.load('a string');
+			expect(text.setContent).toHaveBeenCalledWith('a string');
+		});
+
+		it('calls setContent method if the argument is a DOM.Text', function(){
+			var el = document.createTextNode('a text node');
+			spyOn(text, 'setContent');
+			text.load(el);
+			expect(text.setContent).toHaveBeenCalledWith('a text node');
+		});
+
+		it('does not call setContent() if the argument is a number, an array, a function, an object of non-DOM.Text type', function(){
+			var invalids = [0, -1, 3.52, [], [0, 1], [''], ['string', 1], {}, {'prop': 1}];
+			spyOn(text, 'setContent');
+			invalids.forEach(function(invalid){
+				text.load(invalid);
+			});
+			expect(text.setContent).not.toHaveBeenCalled();
+		});
+
+	});
+
 });

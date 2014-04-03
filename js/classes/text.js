@@ -3,7 +3,7 @@
 /*global Tag, Content */
 
 /**
-* Represents plain text.
+* Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements
 * @module  HtmlElements
 * @class   Text
 * @since 0.0.2
@@ -48,7 +48,8 @@ function Text(text) {
 
 	/**
 	 * Content of the Text() instance.
-	 * @type {String}
+	 * @property {String} content
+	 * @type     {String}
 	 * @private
 	 */
 	var content = this.setContent(text);
@@ -66,10 +67,32 @@ function Text(text) {
 	/**
 	 * Returns html representation of the string which is nothing but `content` property itself.
 	 * @method toHtml
-	 * @return {String} [description]
+	 * @return {String}
 	 */
 	this.toHtml = function(){
 		return this.getContent();
+	};
+
+
+	/**
+	 * Loads the instance of this class with info from the argument and returns `true` if the argument is
+	 * a [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) or a string. In this case
+	 * {{#crossLink "Text/content:property"}}content{{/crossLink}} is set to the string content of the argument.
+	 * Otherwise, `false` is returned.
+	 * @method  load
+	 * @param {DOM.TEXT|String} elem
+	 * @return  {Boolean}
+	 */
+	this.load = function(elem){
+		if (elem === undefined || elem === null){
+			return false;
+		}
+		var content = typeof elem === 'string' ? elem : elem.textContent,
+			isString = typeof content === 'string';
+		if (isString){
+			this.setContent(content);
+		}
+		return isString;
 	}
 
 
