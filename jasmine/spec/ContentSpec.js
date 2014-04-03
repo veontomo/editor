@@ -683,7 +683,7 @@ describe('Content-related functionality', function(){
 		// t001             e200      e310  t320
 		beforeEach(function(){
 			root = document.createElement('div');
-			e0 = document.createElement('div');
+			e0 = document.createElement('li');
 			t1 = document.createTextNode('text 1');
 			e2 = document.createElement('p');
 			e3 = document.createElement('span');
@@ -715,7 +715,7 @@ describe('Content-related functionality', function(){
 			e32.appendChild(t320);
 
 
-			var registry = new Registry({'classes': [Link], 'defaultClass': Tag}),
+			var registry = new Registry({'classes': [Link, ListItem], 'defaultClass': Tag}),
 				factory = new Factory(registry);
 			c.factory = factory;
 		});
@@ -739,8 +739,14 @@ describe('Content-related functionality', function(){
 		});
 
 		it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
-			c.load([e20, e3, t4]);
+			c.load([e0, e3, t4]);
 			expect(c.elements.length).toBe(3);
+		});
+
+		it('creates correct ListItem instance from if ListItem is among available classes', function(){
+			c.load([e0]);
+			expect(c.elements[0] instanceof ListItem).toBe(true);
+			expect(c.elements[0].name).toBe('li');
 		});
 
 		it('creates correct Tag instance from a div element with no children', function(){

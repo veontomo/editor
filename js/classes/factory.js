@@ -46,7 +46,7 @@ function Factory(reg){
 
 	/**
 	 * Returns a tag name for the argument. If the argument has non-empty string-valued `tagName` property,
-	 * its value is returned. Otherwise, string "text" is returned.
+	 * its lower-case value is returned. Otherwise, string "text" is returned.
 	 * @method    tagFor
 	 * @param     {any}        elem
 	 * @return    {String}
@@ -55,7 +55,7 @@ function Factory(reg){
 			if (elem){
 			var elemTag = elem.tagName;
 			if (elemTag && typeof elemTag === 'string' && elemTag !== ''){
-				return elemTag;
+				return elemTag.toLowerCase();
 			}
 		}
 		return 'text';
