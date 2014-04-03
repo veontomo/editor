@@ -417,9 +417,13 @@ function Tag() {
 				currentChild, style, attr, i;
 			this.name  = elem.tagName.toLowerCase();   // setting name of the tag
 			attr  = elem.attributes;                   // NamedNodeMap
-			style = attr.getNamedItem('style');        // singling out style property
-			this.attr.load(attr);
-			this.style.load(style);
+			if (attr){
+				this.attr.load(attr);
+				style = attr.getNamedItem('style');        // singling out style property
+				if (style){
+					this.style.load(style);
+				}
+			}
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
 				if (allowedTypes.indexOf(currentChild.nodeType) !== -1){

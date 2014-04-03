@@ -33,6 +33,14 @@ function Content(str) {
 	 */
 	this.className = "Content";
 
+	/**
+	 * Factory that creats objects.
+	 * @property {Factory}   factory
+	 * @type     {Factory}
+	 * @default  "null"
+	 */
+	this.factory = null;
+
 
 	/**
 	 * The number of items in the "elements" property
@@ -363,25 +371,21 @@ function Content(str) {
 	};
 
 	/**
-	 * Loads the elements into the {{/crossLink "Content/elements:property"}}element{{#crossLink}} property.
+	 * Loads the elements into the {{#crossLink "Content/elements:property"}}element{{/crossLink}} property.
 	 * The argument is an array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or
 	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances. Other types are to be ignored.
 	 * @param  {Array}       arr       array of Elements or Text instances
 	 * @return {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		if (!Array.isArray(arr)){
-			return false;
+		var factory = this.factory,
+			elements = [];
+		if (Array.isArray(arr)){
+			arr.forEach(function(el){
+				var baby = factory.produce(el);
+				elements.push(baby);
+			});
+			this.elements = elements;
 		}
-		var factory = new Factory();
-		this.elements = [];
-		arr.forEach(function(el){
-			var baby = factory.produce(el);
-			if (baby === false){
-				return false;
-			}
-			this.elements.push(baby);
-		});
-
 	};
 }

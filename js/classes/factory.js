@@ -96,6 +96,21 @@ function Factory(reg){
 	};
 
 	/**
+	 * Binds `factory` to `elem`. If `elem` is an instance of {{#crossLink "Content"}}Content{{/crossLink}}, its
+	 * `factory` property is set to current {{#crossLink "Factory"}}Factory{{/crossLink}}.
+	 * @method     bindFactory
+	 * @param      {any}            elem
+	 * @return     {void}
+	 */
+	this.bindFactory = function(elem){
+		if (elem && (elem.content instanceof Content)){
+			var registry = new Registry({'classes': this.registry.classes, 'defaultClass': this.registry.defaultClass}),
+				factory = new Factory(registry);
+			elem.content.factory = factory;
+		}
+	};
+
+	/**
 	 * Loads the properties from the second argument into the first. Returns `true` if the first argument
 	 * responds a method `load` and calls it with the second argument. If that method does not exist or the arguments are
 	 * `undefined` or `null`, returns `false`.
@@ -129,6 +144,7 @@ function Factory(reg){
 	 */
 	this.produce = function(elem){
 		var product = this.createInstance(elem);
+		this.bindFactory(product);
 		this.brightenObj(product, elem);
 		return product;
 	};

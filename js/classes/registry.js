@@ -6,7 +6,7 @@
  * <ol>
  * <li>`classes` - array of classes, each of these classes should have non-empty string-valued
  * `name` property (to be its html tag) </li>
- * <li>`default` - default class (to be used for construction of objects which html tag is not present among
+ * <li>`defaultClass` - default class (to be used for construction of objects which html tag is not present among
  * `name` property in the available classes)</li>
  * </ol>
  * @module  Helper

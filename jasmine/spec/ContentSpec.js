@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine, Content, Link, window */
+/*global describe, it, expect, spyOn, beforeEach, jasmine, Content, Link, Ulist, Factory, Tag, window */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -225,7 +225,6 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-
 	describe('Content::appendElemIfNotEmpty()', function(){
 		it('calls Content::appendElem(arg) if  Content::isElemEmpty(arg) returns false', function(){
 			spyOn(c, 'appendElem');
@@ -243,7 +242,6 @@ describe('Content-related functionality', function(){
 			expect(c.appendElem).not.toHaveBeenCalled();
 			expect(c.isElemEmpty).toHaveBeenCalledWith(obj);
 		});
-
 	});
 
 	describe('Content::insertElemAt(): Inserts the element', function(){
@@ -672,18 +670,27 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	xdescribe('Content::load(): loads the content' , function(){
+	describe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20, e30, e31, e32, t001, e200, e310, t320;
+		//                    root
+		//      ________________|_____________
+		//     |      |      |         |      |
+		//     e0     t1     e2        e3     t4
+		//   __|__           |     ____|_____
+		//  |     |          |    |    |     |
+		//  e00  e01        e20  e30  e31   e32
+		//  |                |         |     |
+		// t001             e200      e310  t320
 		beforeEach(function(){
-			root = document.createElement('div');        //                    root
-			e0 = document.createElement('div');          //      ________________|_____________
-			t1 = document.createTextNode('text 1');      //     |      |      |         |      |
-			e2 = document.createElement('p');            //     e0     t1     e2        e3     t4
-			e3 = document.createElement('span');         //   __|__           |     ____|_____
-			t4 = document.createTextNode('text 4');      //  |     |          |    |    |     |
-			e00 = document.createElement('div');         //  e00  e01        e20  e30  e31   e32
-			e01 = document.createElement('b');           //  |                |         |     |
-			e20 = document.createElement('i');           // t001             e200      e310  t320
+			root = document.createElement('div');
+			e0 = document.createElement('div');
+			t1 = document.createTextNode('text 1');
+			e2 = document.createElement('p');
+			e3 = document.createElement('span');
+			t4 = document.createTextNode('text 4');
+			e00 = document.createElement('div');
+			e01 = document.createElement('b');
+			e20 = document.createElement('i');
 			e30 = document.createElement('article');
 			e31 = document.createElement('h1');
 			e32 = document.createElement('div');
@@ -706,15 +713,20 @@ describe('Content-related functionality', function(){
 			e20.appendChild(e200);
 			e31.appendChild(e310);
 			e32.appendChild(t320);
+
+
+			var registry = new Registry({'classes': [Link], 'defaultClass': Tag}),
+				factory = new Factory(registry);
+			c.factory = factory;
 		});
 
-		it('returns true of the argument is empty or if it is an empty array', function(){
-			expect(c.load()).toBe(true);
-		});
+		// it('returns true of the argument is empty or if it is an empty array', function(){
+		// 	expect(c.load()).toBe(true);
+		// });
 
-		it('returns true of the argument is an empty array', function(){
-			expect(c.load([])).toBe(true);
-		});
+		// it('returns true of the argument is an empty array', function(){
+		// 	expect(c.load([])).toBe(true);
+		// });
 
 		it('returns 1-element content if the input contains only TEXT_NODE', function(){
 			c.load([t1]);
