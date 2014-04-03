@@ -504,14 +504,6 @@ describe('Tag-related functionality:', function() {
             root.appendChild(e2);
         });
 
-        // it('returns false if the argument has nodeType property different from Node.ELEMENT_NODE', function(){
-        //     var probe = {nodeType: Node.ELEMENT_NODE + 'flash'};
-        //     expect(tag.load(probe)).toBe(false);
-        // });
-        // it('returns true, if the argument is a Node.ELEMENT_NODE', function(){
-        //     expect(tag.load(root)).toBe(true);
-        // });
-
         it('sets the name', function(){
             spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
@@ -520,6 +512,27 @@ describe('Tag-related functionality:', function() {
             expect(tag.name).toBe('custom');
         });
 
+        it('does not call "load" methods, if the argument is missing', function(){
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load();
+            expect(tag.content.load).not.toHaveBeenCalled();
+            expect(tag.attr.load).not.toHaveBeenCalled();
+            expect(tag.style.load).not.toHaveBeenCalled();
+        });
+
+        it('does not call "load" methods, if the argument is has non-ELEMENT nodeType', function(){
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load({'nodeType': 'any non element node type'});
+            expect(tag.content.load).not.toHaveBeenCalled();
+            expect(tag.attr.load).not.toHaveBeenCalled();
+            expect(tag.style.load).not.toHaveBeenCalled();
+        });
+
+
         it('calls method to set attributes', function(){
             spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
@@ -527,10 +540,6 @@ describe('Tag-related functionality:', function() {
             tag.load(root);
             expect(tag.attr.load).toHaveBeenCalledWith(root.attributes);
         });
-        // it('returns false if attr.load returns false', function(){
-        //     spyOn(tag.attr, 'load').andCallFake(function(){return false;});
-        //     expect(tag.load(el)).toBe(false);
-        // });
 
         it('calls method to set the style', function(){
             spyOn(tag.content, 'load');
