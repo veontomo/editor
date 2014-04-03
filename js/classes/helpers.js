@@ -279,8 +279,7 @@ var Helper = {
      * @method  flatten
      * @param   {Object}        obj
      * @return  {Object}
-     * @deprecated    Use {{#crossLink "Attributes/load:method"}}Attributes::method{{/crossLink}} or
-     *                {{#crossLink "Style/load:method"}}Style::method{{/crossLink}}
+     * @deprecated              This method is incorporated in "load" methods of Attributes and Style classes.
      */
     'flatten': function(obj){
         var attr, value, output = {};
