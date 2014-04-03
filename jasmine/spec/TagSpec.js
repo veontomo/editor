@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window, Node, Comment, xit */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -17,34 +17,48 @@ describe('Tag-related functionality:', function() {
         });
     });
 
+    describe('Tag properties', function(){
+        it('sets styles of the tag', function(){
+            tagStyle.modular = 'frequency';
+            tagStyle['hot spot'] = 'outside';
+            tagStyle.next = '12 March 2014';
+            tag.style = tagStyle;
+            expect(tag.style.modular).toBe('frequency');
+            expect(tag.style['hot spot']).toBe('outside');
+            expect(tag.style.next).toBe('12 March 2014');
+        });
+
+        it('sets attributes of the tag', function(){
+            tagAttr.pipelines = 'embryonic';
+            tagAttr['look a likes'] = -98.876;
+            tagAttr.signposted = 'attired';
+            tag.attr = tagAttr;
+            expect(tag.attr.pipelines).toBe('embryonic');
+            expect(tag.attr['look a likes']).toBe(-98.876);
+            expect(tag.attr.signposted).toBe('attired');
+        });
+    });
+
     describe('Tag::className: class name', function(){
         it('gives the name of the class', function(){
             expect(tag.className).toBe('Tag');
         });
     });
 
-
-
-    it('sets styles of the tag', function(){
-        tagStyle.modular = 'frequency';
-        tagStyle['hot spot'] = 'outside';
-        tagStyle.next = '12 March 2014';
-        tag.style = tagStyle;
-        expect(tag.style.modular).toBe('frequency');
-        expect(tag.style['hot spot']).toBe('outside');
-        expect(tag.style.next).toBe('12 March 2014');
+    describe('Tag::getWidth(): retrieves the width value from the style', function(){
+        it('returns number if the value has measurment unit "px"', function(){
+            tagStyle.width = '20px';
+            tag.style = tagStyle;
+            expect(tag.getWidth()).toBe(20);
+        });
+        it('returns a string if the value has measurment unit "em"', function(){
+            tagStyle.width = '231em';
+            tag.style = tagStyle;
+            expect(tag.getWidth()).toBe('231em');
+        });
     });
 
-    it('gets width of the object from its style property', function(){
-        tagStyle.width = '20px';
-        tag.style = tagStyle;
-        expect(tag.getWidth()).toBe(20);
-        tagStyle.width = '231em';
-        tag.style = tagStyle;
-        expect(tag.getWidth()).toBe('231em');
-    });
-
-    describe('sets width of the object', function(){
+    describe('Tag::setWidth(): sets width of the object', function(){
         it('throws an error if width parameter is not provided', function(){
             expect(function(){
                 tag.setWidth();
@@ -57,110 +71,111 @@ describe('Tag-related functionality:', function() {
             }).toThrow('Width value is not set!');
         });
         it('sets arbitrary string as width', function(){
+            spyOn(tag.style, 'setWidth');
             tag.setWidth('whatever');
-            expect(tag.style.width).toBe('whatever');
-            expect(tag.style['min-width']).toBe('whatever');
-            expect(tag.style['max-width']).toBe('whatever');
+            expect(tag.style.setWidth).toHaveBeenCalledWith('whatever');
             expect(tag.attr.width).toBe('whatever');
         });
         it('sets zero width', function(){
+            spyOn(tag.style, 'setWidth');
             tag.setWidth(0);
-            expect(tag.style.width).toBe(0);
-            expect(tag.style['min-width']).toBe(0);
-            expect(tag.style['max-width']).toBe(0);
+            expect(tag.style.setWidth).toHaveBeenCalledWith(0);
             expect(tag.attr.width).toBe(0);
         });
 
         it('sets integer width', function(){
+            spyOn(tag.style, 'setWidth');
             tag.setWidth(29);
-            expect(tag.style.width).toBe(29);
-            expect(tag.style['min-width']).toBe(29);
-            expect(tag.style['max-width']).toBe(29);
+            expect(tag.style.setWidth).toHaveBeenCalledWith(29);
             expect(tag.attr.width).toBe(29);
         });
 
         it('sets fractional width', function(){
+            spyOn(tag.style, 'setWidth');
             tag.setWidth(2.9);
-            expect(tag.style.width).toBe(2.9);
-            expect(tag.style['min-width']).toBe(2.9);
-            expect(tag.style['max-width']).toBe(2.9);
+            expect(tag.style.setWidth).toHaveBeenCalledWith(2.9);
             expect(tag.attr.width).toBe(2.9);
         });
 
         it('sets a string with unit of measurment width', function(){
+            spyOn(tag.style, 'setWidth');
             tag.setWidth('72px');
-            expect(tag.style.width).toBe('72px');
-            expect(tag.style['min-width']).toBe('72px');
-            expect(tag.style['max-width']).toBe('72px');
+            expect(tag.style.setWidth).toHaveBeenCalledWith('72px');
             expect(tag.attr.width).toBe('72px');
         });
     });
 
-    it('sets attributes of the tag', function(){
-        tagAttr.pipelines = 'embryonic';
-        tagAttr['look a likes'] = -98.876;
-        tagAttr.signposted = 'attired';
-        tag.attr = tagAttr;
-        expect(tag.attr.pipelines).toBe('embryonic');
-        expect(tag.attr['look a likes']).toBe(-98.876);
-        expect(tag.attr.signposted).toBe('attired');
+    describe('Tag::getElem(): gets element from "content" property', function(){
+        it('calls Content::getElem method when retrieving element', function(){
+            tag.content = content;
+            spyOn(content, 'getElem').andCallFake(function(){return null;});
+            tag.getElem('whatever');
+            expect(content.getElem).toHaveBeenCalledWith('whatever');
+        });
     });
 
-    it('calls Content::getElem method when retrieving element', function(){
-        tag.content = content;
-        spyOn(content, 'getElem').andCallFake(function(){return null;});
-        tag.getElem('whatever');
-        expect(content.getElem).toHaveBeenCalledWith('whatever');
+    describe('Tag::appendElem(): appends element to the content', function(){
+        it('calls Content::appendElem method when appending an element', function(){
+            tag.content = content;
+            spyOn(content, 'appendElem').andCallFake(function(){return null;});
+            tag.appendElem('whatever');
+            expect(content.appendElem).toHaveBeenCalledWith('whatever');
+        });
     });
 
-    it('calls Content::appendElem method when appending an element', function(){
-        tag.content = content;
-        spyOn(content, 'appendElem').andCallFake(function(){return null;});
-        tag.appendElem('whatever');
-        expect(content.appendElem).toHaveBeenCalledWith('whatever');
+    describe('Tag::getFirst(): get first element of the content', function(){
+        it('calls Content::getFirst method when retrieving first element', function(){
+            tag.content = content;
+            spyOn(content, 'getFirst').andCallFake(function(){return null;});
+            tag.getFirst();
+            expect(content.getFirst).toHaveBeenCalled();
+        });
     });
 
-    it('calls Content::getFirst method when retrieving first element', function(){
-        tag.content = content;
-        spyOn(content, 'getFirst').andCallFake(function(){return null;});
-        tag.getFirst();
-        expect(content.getFirst).toHaveBeenCalled();
+    describe('Tag::getLast(): get last element of the content', function(){
+        it('calls Content::getLast method when retrieving last element', function(){
+            tag.content = content;
+            spyOn(content, 'getLast').andCallFake(function(){return null;});
+            tag.getLast();
+            expect(content.getLast).toHaveBeenCalled();
+        });
     });
 
-    it('calls Content::getLast method when retrieving last element', function(){
-        tag.content = content;
-        spyOn(content, 'getLast').andCallFake(function(){return null;});
-        tag.getLast();
-        expect(content.getLast).toHaveBeenCalled();
+    describe('Tag::insertElemAt() inserts element at given position', function(){
+        it('calls Content::insertElemAt method when inserting element', function(){
+            tag.content = content;
+            spyOn(content, 'insertElemAt').andCallFake(function(){return null;});
+            tag.insertElemAt('location', 'element to insert');
+            expect(content.insertElemAt).toHaveBeenCalledWith('location', 'element to insert');
+        });
     });
 
-    it('calls Content::insertElemAt method when inserting element', function(){
-        tag.content = content;
-        spyOn(content, 'insertElemAt').andCallFake(function(){return null;});
-        tag.insertElemAt('location', 'element to insert');
-        expect(content.insertElemAt).toHaveBeenCalledWith('location', 'element to insert');
+    describe('Tag::appendElem(): appends element to the content', function(){
+        it('calls Content::appendElem method when retrieving element', function(){
+            content = new Content();
+            tag.content = content;
+            spyOn(content, 'appendElem').andCallFake(function(){return null;});
+            tag.appendElem('element to insert');
+            expect(content.appendElem).toHaveBeenCalledWith('element to insert');
+        });
     });
 
-    it('calls Content::appendElem method when retrieving element', function(){
-        content = new Content();
-        tag.content = content;
-        spyOn(content, 'appendElem').andCallFake(function(){return null;});
-        tag.appendElem('element to insert');
-        expect(content.appendElem).toHaveBeenCalledWith('element to insert');
+    describe('Tag::length(): gives the number of elements in the content', function(){
+        it('calls Content::length method when retrieving length', function(){
+            spyOn(content, 'length').andCallFake(function(){return 'content length';});
+            tag.content = content;
+            expect(tag.length()).toBe('content length');
+            expect(content.length).toHaveBeenCalled();
+        });
     });
 
-    it('calls Content::length method when retrieving length', function(){
-        spyOn(content, 'length').andCallFake(function(){return 'content length';});
-        tag.content = content;
-        expect(tag.length()).toBe('content length');
-        expect(content.length).toHaveBeenCalled();
-    });
-
-    it('calls Content::dropElemAt method when removing element', function(){
-        spyOn(content, 'dropElemAt');
-        tag.content = content;
-        tag.dropElemAt(764);
-        expect(content.dropElemAt).toHaveBeenCalledWith(764);
+    describe('Tag::droopElemAt(): drops element in the given position from the content', function(){
+        it('calls Content::dropElemAt method when removing element', function(){
+            spyOn(content, 'dropElemAt');
+            tag.content = content;
+            tag.dropElemAt(764);
+            expect(content.dropElemAt).toHaveBeenCalledWith(764);
+        });
     });
 
     describe('creates html representation of the tag', function(){
@@ -238,11 +253,13 @@ describe('Tag-related functionality:', function() {
         });
     });
 
-    it('calls Style::appendStyle() to append style to the object', function(){
-        spyOn(tagStyle, 'appendStyle').andCallFake(function(){return null;});
-        tag.style = tagStyle;
-        tag.appendStyle('style to append');
-        expect(tagStyle.appendStyle).toHaveBeenCalledWith('style to append');
+    describe('Tag::appendStyle(): appends style to the tag', function(){
+        it('calls Style::appendStyle() to append style to the object', function(){
+            spyOn(tagStyle, 'appendStyle').andCallFake(function(){return null;});
+            tag.style = tagStyle;
+            tag.appendStyle('style to append');
+            expect(tagStyle.appendStyle).toHaveBeenCalledWith('style to append');
+        });
     });
 
     describe('append style to the element:', function(){
@@ -468,8 +485,8 @@ describe('Tag-related functionality:', function() {
     });
 
     describe('Tag::load(): populates properties from the argument', function(){
-        var el, child1, child2,
-            styleStr = 'color: green; margin: 32em;';
+        var el, child1, child2;
+            // styleStr = 'color: green; margin: 32em;';
         // function Element(){};
         beforeEach(function(){
             el = document.createElement('b');
@@ -542,6 +559,5 @@ describe('Tag-related functionality:', function() {
             expect(tag.load(el)).toBe(true);
             expect(tag.content.load).toHaveBeenCalledWith([child1, child2]);
         });
-
     });
 });

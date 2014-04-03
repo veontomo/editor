@@ -146,9 +146,7 @@ function Tag() {
 	    if(w === undefined || w === ''){
 	        throw new Error('Width value is not set!');
 	    }
-	    this.style.width = w;
-	    this.style['max-width'] =  w;
-	    this.style['min-width'] =  w;
+	    this.style.setWidth(w);
 		this.attr.width = w;
 	};
 
