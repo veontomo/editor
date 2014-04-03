@@ -16,6 +16,7 @@ module.exports = function (config) {
       'style.js',
       'content.js',
       'tag.js',
+      'text.js',
       'table.js',
       'cell.js',
       'row.js',
