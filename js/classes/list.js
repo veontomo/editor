@@ -60,7 +60,7 @@ function List(listType) {
 	 * @param    {String}        name       the value to be imposed as a list type.
 	 */
 	this.setName = function(name){
-		if (this.allowedNames.indexOf(name) !== -1){
+		if (allowedNames.indexOf(name) !== -1){
 			this.name = name;
 		}
 	};

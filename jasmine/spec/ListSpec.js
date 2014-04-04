@@ -102,7 +102,8 @@ describe('List-related functionality:', function(){
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
+            l.name = 'listtype';
+            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return '';});
             spyOn(lAttr, 'toString').andCallFake(function(){return '';});
             l.items = [li1, li2, li3, li4];
@@ -124,7 +125,8 @@ describe('List-related functionality:', function(){
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
+            l.name = 'listtype';
+            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
             spyOn(lAttr, 'toString').andCallFake(function(){return '';});
             l.items = [li1, li2, li3, li4];
@@ -143,7 +145,8 @@ describe('List-related functionality:', function(){
             spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
+            l.name = 'listtype';
+            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return '';});
             spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
             l.items = [li1, li2, li3];
@@ -164,7 +167,8 @@ describe('List-related functionality:', function(){
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
+            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
+            l.name = 'listtype';
             spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
             spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
             l.items = [li1, li2, li3, li4];
@@ -202,8 +206,34 @@ describe('List-related functionality:', function(){
             l.appendList(l2);
             expect(l.appendItem).not.toHaveBeenCalled();
         });
-
-
     });
+
+    describe('List::name imposes list type', function(){
+        it('imposes name to be "ul" (it is among allowed ones)', function(){
+            expect((new List('ul')).name).toBe('ul');
+        });
+        it('imposes name to be "ol" (it is among allowed ones)', function(){
+            expect((new List('ol')).name).toBe('ol');
+        });
+        it('imposes name to be one of allowed if tried to set non-allowed', function(){
+            expect(['ol', 'ul'].indexOf((new List('non allowed type')).name) !== -1).toBe(true);
+        });
+    });
+
+    describe('List::setName(): imposes list type name', function(){
+        it('imposes name to be "ul" (it is among allowed ones)', function(){
+            l.setName('ul');
+            expect(l.name).toBe('ul');
+        });
+        it('imposes name to be "ol" (it is among allowed ones)', function(){
+            l.setName('ol');
+            expect(l.name).toBe('ol');
+        });
+        it('imposes name to be one of allowed if tried to set non-allowed', function(){
+            l.setName('ololololo');
+            expect(l.name).not.toBe('ololololo');
+        });
+    });
+
 });
 

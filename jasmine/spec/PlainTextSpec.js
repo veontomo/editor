@@ -4,31 +4,31 @@
 describe('Text-related functionality', function(){
 	var text;
 	beforeEach(function(){
-		text = new Text();
+		text = new PlainText();
 	});
 
 	describe('Text: basic functionality', function(){
 		it('adds keyword "new" if it is missing when an object is created', function(){
-		    text = Text();
-		    expect(text instanceof Text).toBe(true);
+		    text = PlainText();
+		    expect(text instanceof PlainText).toBe(true);
 		});
 	});
 
 	describe('Text:getContent loads from the argument', function(){
 		it('imposes the content property if the argument is a string', function(){
-			text = new Text('a string');
+			text = new PlainText('a string');
 			expect(text.getContent()).toBe('a string');
 		});
 		it('imposes the content property if the argument is a number', function(){
-			text = new Text(23.9);
+			text = new PlainText(23.9);
 			expect(text.getContent()).toBe('23.9');
 		});
 		it('does not impose the content property if the argument is an object', function(){
-			text = new Text({});
+			text = new PlainText({});
 			expect(text.getContent()).toBe('');
 		});
 		it('does not impose the content property if the argument is an array', function(){
-			text = new Text([]);
+			text = new PlainText([]);
 			expect(text.getContent()).toBe('');
 		});
 	});
@@ -51,7 +51,6 @@ describe('Text-related functionality', function(){
 			expect(text.getContent()).toBe('');
 		});
 	});
-
 
 	describe('Text:toHtml(): returns the value of the content property', function(){
  		it('calls getContent() method', function(){
@@ -107,7 +106,6 @@ describe('Text-related functionality', function(){
 			});
 			expect(text.setContent).not.toHaveBeenCalled();
 		});
-
 	});
 
 	describe('Transfroms Text into a link', function(){
@@ -140,14 +138,35 @@ describe('Text-related functionality', function(){
 		it('returns a link which content is a unique element of Text instance', function(){
 			var link2 = text.toLink(link);
 			expect(link2.content.elements.length).toBe(1);
-			expect(link2.content.elements[0] instanceof Text).toBe(true);
+			expect(link2.content.elements[0] instanceof PlainText).toBe(true);
 		});
 		it('returns a link which content is equal to the content of target object', function(){
 			var link2 = text.toLink(link);
 			expect(link2.content.elements[0].getContent()).toBe('text content');
 		});
+	});
 
-
+	describe('PlainText::isEmpty(): whether the text tag is empty', function(){
+		it('gives true, if "getContent" returns an empty string', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return '';});
+			expect(text.isEmpty()).toBe(true);
+		});
+		it('gives true, if "getContent" returns null', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return null;});
+			expect(text.isEmpty()).toBe(true);
+		});
+		it('gives true, if "getContent" result is undefined', function(){
+			spyOn(text, 'getContent').andCallFake(function(){});
+			expect(text.isEmpty()).toBe(true);
+		});
+		it('gives false, if "getContent" returns a space " "', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return ' ';});
+			expect(text.isEmpty()).toBe(false);
+		});
+		it('gives false, if "getContent" returns "a string"', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return 'a string';});
+			expect(text.isEmpty()).toBe(false);
+		});
 	});
 
 });

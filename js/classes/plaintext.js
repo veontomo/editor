@@ -111,12 +111,23 @@ function PlainText(text) {
 		}
 		var newLink, newText;
 		newLink = new Link();
-		newText = new Text(this.getContent());
+		newText = new PlainText(this.getContent());
 		newLink.attr  = link.attr;
 		newLink.style = link.style;
 		newLink.appendElem(newText);
 		return newLink;
 	};
 
+
+	/**
+	 * Returns `true` if the result of {{#crossLink "PlainText/getContent:method"}}getContent(){{/crossLink}}
+	 * is an empty string, null or undefined (even if it should never happen).
+	 * @method isEmpty
+	 * @return {Boolean}
+	 */
+	this.isEmpty = function(){
+		var txt = this.getContent();
+		return txt === null || txt === undefined || txt === '';
+	}
 
 }
