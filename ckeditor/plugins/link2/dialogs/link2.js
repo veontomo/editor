@@ -148,9 +148,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // parse all selected nodes
             selectedNodes.forEach(function(arr){
                 arr.forEach(function(el){
-                    var elType, elText;
+                    var elType, elText, factory;
                     // prepare Link object
                     link = new Link();
+                    factory = new Factory(new Registry(NEWSLETTER.registry));
+                    console.log(el.$, factory.produce(el.$));
                     link.setHref(url);
                     link.underline(isUnderlined);
                     elType = el.type;
@@ -167,19 +169,19 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         }
                     // whether the current node is an element one
                     } else if (elType === CKEDITOR.NODE_ELEMENT){
-                        // switch(el.getName()){
-                        //     case 'td':
-                        //         obj = el.getOuterHtml().createCellFromHtml();
-                        //         break;
-                        //     case 'tr':
-                        //         obj = el.getOuterHtml().createRowFromHtml();
-                        //         break;
-                        //     case 'li':
-                        //         obj = el.getOuterHtml().createListItemFromHtml();
-                        //         break;
-                        //     default:
-                        //         obj = el.getOuterHtml().inflate();
-                        // }
+                        switch(el.getName()){
+                            case 'td':
+                                obj = el.getOuterHtml().createCellFromHtml();
+                                break;
+                            case 'tr':
+                                obj = el.getOuterHtml().createRowFromHtml();
+                                break;
+                            case 'li':
+                                obj = el.getOuterHtml().createListItemFromHtml();
+                                break;
+                            default:
+                                obj = el.getOuterHtml().inflate();
+                        }
                         // if it is not empty, transform it into a link
                         if (!obj.isEmpty()){
                             objToLink = obj.toLink(link);

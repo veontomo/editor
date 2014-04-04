@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/classes/style.js"></script>
 	<script type="text/javascript" src="js/classes/content.js"></script>
 	<script type="text/javascript" src="js/classes/tag.js"></script>
+	<script type="text/javascript" src="js/classes/plaintext.js"></script>
 	<script type="text/javascript" src="js/classes/table.js"></script>
 	<script type="text/javascript" src="js/classes/cell.js"></script>
 	<script type="text/javascript" src="js/classes/row.js"></script>
@@ -26,6 +27,8 @@
 	<script type="text/javascript" src="js/classes/link.js"></script>
 	<script type="text/javascript" src="js/classes/selection.js"></script>
 	<script type="text/javascript" src="js/classes/string.js"></script>
+	<script type="text/javascript" src="js/classes/registry.js"></script>
+	<script type="text/javascript" src="js/classes/factory.js"></script>
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>

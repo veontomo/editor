@@ -5,25 +5,25 @@
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements
 * @module  HtmlElements
-* @class   Text
+* @class   PlainText
 * @since 0.0.2
 */
-function Text(text) {
+function PlainText(text) {
 	// "use strict";
-	if (!(this instanceof Text)) {
-		return new Text(text);
+	if (!(this instanceof PlainText)) {
+		return new PlainText(text);
 	}
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "Tag", while in IE, there
+	 * in FF, `this.constructor` has `name` property that returns "PlainText", while in IE, there
 	 * is no `name` property.
 	 * @property {String}    className
 	 * @type     {String}
-	 * @default  "Text"
+	 * @default  "PlainText"
 	 * @since    0.0.2
 	 */
-	this.className = 'Text';
+	this.className = 'PlainText';
 
 	/**
 	 * Marker for instances of this class.

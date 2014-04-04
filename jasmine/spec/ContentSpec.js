@@ -719,7 +719,7 @@ describe('Content-related functionality', function(){
 			e32.appendChild(t320);
 
 
-			var registry = new Registry({'classes': [Link, ListItem, Text], 'defaultClass': Tag}),
+			var registry = new Registry({'classes': [Link, ListItem, PlainText], 'defaultClass': Tag}),
 				factory = new Factory(registry);
 			c.factory = factory;
 		});
@@ -781,7 +781,7 @@ describe('Content-related functionality', function(){
 			});
 			it('creates Text instance if Text is among available classes', function(){
 				c.load([t4]);
-				expect(c.elements[0] instanceof Text).toBe(true);
+				expect(c.elements[0] instanceof PlainText).toBe(true);
 				expect(c.elements[0].name).toBe('text');
 			});
 			it('creates default Tag instance if there is no element-specific classe among available ones', function(){

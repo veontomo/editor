@@ -71,8 +71,9 @@ function Factory(reg){
 	 * @return     {Function}
 	 */
 	this.classFor = function(elem){
-		var tag = this.tagFor(elem);
-		return this.registry.classForTag(tag);
+		var tag = this.tagFor(elem),
+			result = this.registry.classForTag(tag);
+		return result;
 	};
 
 
