@@ -16,18 +16,6 @@ function Cell(arg) {
 	// inherit tag properties
 	Tag.call(this);
 
-	// *
-	//  * Type of the object. Set to value "Cell" for the objects of this type.
-	//  * @method getType
-	//  * @return {String}
-	//  * @deprecated  in favor of getName()
-
-	// this.getType = function(){
-	// 	// return "Cell";
-	// 	alert('Remove call to this method. Use property "className" instead.');
-	// 	return this.className;
-	// };
-
 	/**
 	 * Html tag corresponding to Cell instances.
 	 * @property {String}    name
@@ -38,8 +26,8 @@ function Cell(arg) {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor.name` returns "Cell", while IE, it returns "undefined".
-	 * This property must be overridden in all inherited classes.
+	 * in FF, `this.constructor` has `name` property that returns "Cell", while in IE, there
+	 * is no `name` property.
 	 * @property {String}    className
 	 * @type     {String}
 	 * @default  "Cell"

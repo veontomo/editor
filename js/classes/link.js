@@ -25,8 +25,8 @@ function Link(href) {
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor.name` returns "Link", while IE, it returns "undefined".
-	 * This property must be overridden in all inherited classes.
+	 * in FF, `this.constructor` has `name` property that returns "Link", while in IE, there
+	 * is no `name` property.
 	 * @property {String}    className
 	 * @type     {String}
 	 * @default  "Link"
