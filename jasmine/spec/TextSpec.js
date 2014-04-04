@@ -110,4 +110,44 @@ describe('Text-related functionality', function(){
 
 	});
 
+	describe('Transfroms Text into a link', function(){
+		var link;
+		beforeEach(function(){
+			link = new Link();
+			link.setHref('www.pizzastasera.it');
+			text.setContent('text content');
+		});
+		it('throws an error if the argument is a string, a number, an array, function or empty object', function(){
+			var invalids = ['', 'string', 0, -34.21, [], [1, 'str', {}], {}];
+			invalids.forEach(function(invalid){
+				expect(function(){
+					text.toLink(invalid);
+				}).toThrow('The argument must be a Link instance!');
+			});
+		});
+		it('throws an error if the argument is missing', function(){
+			expect(function(){
+				text.toLink();
+			}).toThrow('The argument must be a Link instance!');
+		});
+		it('returns a Link instance if the argument is a Link', function(){
+			expect(text.toLink(link) instanceof Link).toBe(true);
+		});
+		it('returns a link with url equal to that of the argument', function(){
+			var link2 = text.toLink(link);
+			expect(link2.getHref()).toBe('www.pizzastasera.it');
+		});
+		it('returns a link which content is a unique element of Text instance', function(){
+			var link2 = text.toLink(link);
+			expect(link2.content.elements.length).toBe(1);
+			expect(link2.content.elements[0] instanceof Text).toBe(true);
+		});
+		it('returns a link which content is equal to the content of target object', function(){
+			var link2 = text.toLink(link);
+			expect(link2.content.elements[0].getContent()).toBe('text content');
+		});
+
+
+	});
+
 });

@@ -347,6 +347,8 @@ function Tag() {
 	};
 
 	/**
+	 * Returns an object transformed in a link defined in the argument. If the argument is not a Link instance, an
+	 * error is thrown.
 	 * <ol><li>If the target is a Link instance, then target content is copied inside the new link.</li>
 	 * <li>If the target is empty (in the sense of its {{#crossLink "Tag/isEmpty:method"}}isEmpty(){{/crossLink}} method),
 	 * then the target is returned without changes</li>
@@ -356,7 +358,7 @@ function Tag() {
 	 * <li>If the target {{#crossLink "Tag/content:property"}}content{{/crossLink}} is not empty, then `toLink()` is applied to
 	 * each element that responds to this method. Otherwise, the element is copied without changes.</li></ol>
 	 * @method  toLink
-	 * @param   {Link}       link
+	 * @param   {Link}       link      If not a Link instance, an error is thrown.
 	 * @return  {Tag|Link}             depending on the target, the result either a Link (if the target is a Link instance
 	 *                                 or has empty content) or Tag (in other cases).
 	 * @since  0.0.2

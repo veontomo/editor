@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Tag, Content */
+/*global Tag, Content, Link */
 
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements
@@ -34,7 +34,15 @@ function Text(text) {
 	this.name = 'text';
 
 	/**
-	 * Sets the `content` of the Text() instance. If the argument is niether string nor number, the `content` is set to empty string.
+	 * Content of the Text() instance.
+	 * @property {String} content
+	 * @type     {String}
+	 * @private
+	 */
+	var content = ((typeof text) === 'string' || (typeof text) === 'number') ? text.toString() : '';
+
+	/**
+	 * Sets the `content` of the Text() instance. If the argument is neither string nor number, the `content` is set to empty string.
 	 * @method    setContent
 	 * @param     {String|Number}   arg
 	 * @return    {void}
@@ -42,17 +50,10 @@ function Text(text) {
 	this.setContent = function(arg){
 		var argType = typeof arg;
 		content = (argType === 'string' || argType === 'number') ? arg.toString() : '';
-		return content;
-
+		// return content;
 	};
 
-	/**
-	 * Content of the Text() instance.
-	 * @property {String} content
-	 * @type     {String}
-	 * @private
-	 */
-	var content = this.setContent(text);
+	// content = this.setContent(text);
 
 	/**
 	 * Returns content of the Text() instance.
@@ -87,15 +88,35 @@ function Text(text) {
 		if (elem === undefined || elem === null){
 			return false;
 		}
-		var content = typeof elem === 'string' ? elem : elem.textContent,
-			isString = typeof content === 'string';
+		var newContent = typeof elem === 'string' ? elem : elem.textContent,
+			isString = typeof newContent === 'string';
 		if (isString){
-			this.setContent(content);
+			this.setContent(newContent);
 		}
 		return isString;
-	}
+	};
 
-
+	/**
+	 * Returns a link which properties are equal to those of the argument and `content` has
+	 * the only elements which is equal to the target. If the argument is not a Link instance,
+	 * an error is thrown.
+	 * @param  {Link}       link     it is served as a template to create a link. Its
+	 *                               `content` property is to be replaced by the copy of
+	 *                               target object.
+	 * @return {Link}
+	 */
+	this.toLink = function(link){
+		if (!(link instanceof Link)){
+			throw new Error('The argument must be a Link instance!');
+		}
+		var newLink, newText;
+		newLink = new Link();
+		newText = new Text(this.getContent());
+		newLink.attr  = link.attr;
+		newLink.style = link.style;
+		newLink.appendElem(newText);
+		return newLink;
+	};
 
 
 }
