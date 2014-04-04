@@ -24,6 +24,7 @@ function Cell(arg) {
 	 */
 	this.getType = function(){
 		// return "Cell";
+		alert('Remove call to this method. Use property "className" instead.');
 		return this.className;
 	};
 
