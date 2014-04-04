@@ -6,5 +6,7 @@
         "outdir": "apidocs",
         "paths": "js/classes"
     },
-    "logo": "images/logo.png"
+    "logo": "images/logo.png",
+    "themedir": "yuidoc-bootstrap-theme/",
+    "helpers": ["yuidoc-bootstrap-theme/helpers/helpers.js"]
 }
