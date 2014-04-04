@@ -436,5 +436,16 @@ function Tag() {
 			this.content.load(childrenArr);
 		}
 	};
+
+	/**
+	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.
+	 * @method  toElement
+	 * @return  {DOM.Element}
+	 */
+	this.toElement = function(){
+		var el = document.createElement(this.name);
+
+		return el;
+	};
 }
 

@@ -558,4 +558,42 @@ describe('Tag-related functionality:', function() {
         });
 
     });
+
+    describe('Tag::toElement(): transforms element into a DOM.Element', function(){
+        beforeEach(function(){
+            tag.name = 'meta'
+        });
+        it('return DOM element with tag equal to the "name" property', function(){
+            expect(tag.toElement().tagName).toBe('meta');
+        });
+        it('return DOM element with imposed styles', function(){
+            tagStyle.version = 'old';
+            tagStyle.color = 'red';
+            tag.style = tagStyle;
+            expect(tag.toElem().getAttribute('style')).toBe('version: old; color: red');
+        });
+        it('return DOM element with imposed attributes', function(){
+            tagAttr.class = 'head';
+            tagAttr.width = '200';
+            tag.attr = tagAttr;
+            expect(tag.toElem().getAttribute('class')).toBe('head');
+            expect(tag.toElem().getAttribute('width')).toBe('200');
+        });
+        it('returns DOM element with children created from "content" property', function(){
+            c1 = {'toElem': function(){}};
+            c2 = {'toElem': function(){}};
+            c3 = {'toElem': function(){}};
+            tag.content.elements = [c1, c2, c3];
+            spyOn(c1, 'toElem');
+            spyOn(c2, 'toElem');
+            spyOn(c3, 'toElem');
+            expect(tag.toElem().childElementCount).toBe(3);
+            expect(c1.toElem).toHaveBeenCalled();
+            expect(c2.toElem).toHaveBeenCalled();
+            expect(c3.toElem).toHaveBeenCalled();
+        });
+
+
+    });
+
 });
