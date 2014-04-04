@@ -304,7 +304,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// imposing cell styles and attributes
 				// mark the cell
-				cellAttr[NEWSLETTER['marker-name']] = cell.getType();
+				cellAttr[NEWSLETTER['marker-name']] = cell.className;
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);

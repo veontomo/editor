@@ -36,7 +36,7 @@ function Tag() {
 	this.className = "Tag";
 
 	/**
-	 * Returns value of the name attribute.
+	 * Returns value of the attribute `name`.
 	 * @method  getName
 	 * @return  {String}
 	 * @since 0.0.1

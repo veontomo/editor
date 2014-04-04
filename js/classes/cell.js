@@ -23,7 +23,8 @@ function Cell(arg) {
 	 * @deprecated  in favor of getName()
 	 */
 	this.getType = function(){
-		return "Cell";
+		// return "Cell";
+		return this.className;
 	};
 
 	/**

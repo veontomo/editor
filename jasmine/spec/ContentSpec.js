@@ -1,5 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine, Content, Link, Ulist, Factory, Tag, window */
+/*global describe, it, expect, spyOn, beforeEach, jasmine,
+	Content, Link, Ulist, Factory, Tag, ListItem, Registry, Text, window */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -671,14 +672,15 @@ describe('Content-related functionality', function(){
 	});
 
 	describe('Content::load(): loads the content' , function(){
-		var root, e0, t1, e2, e3, t4, e00, e01, e20, e30, e31, e32, t001, e200, e310, t320;
+		var root, e0, t1, e2, e3, t4, e00, e01, e20,
+			e30, e31, e32, t33, t001, e200, e310, t320;
 		//                    root
 		//      ________________|_____________
 		//     |      |      |         |      |
 		//     e0     t1     e2        e3     t4
-		//   __|__           |     ____|_____
-		//  |     |          |    |    |     |
-		//  e00  e01        e20  e30  e31   e32
+		//   __|__           |     ____|____________
+		//  |     |          |    |    |     |      |
+		// e00   e01        e20  e30  e31   e32    t33
 		//  |                |         |     |
 		// t001             e200      e310  t320
 		beforeEach(function(){
@@ -689,11 +691,12 @@ describe('Content-related functionality', function(){
 			e3 = document.createElement('span');
 			t4 = document.createTextNode('text 4');
 			e00 = document.createElement('div');
-			e01 = document.createElement('b');
+			e01 = document.createElement('a');
 			e20 = document.createElement('i');
 			e30 = document.createElement('article');
 			e31 = document.createElement('h1');
 			e32 = document.createElement('div');
+			t33 = document.createTextNode('text 33');
 			t001 = document.createTextNode('text 001');
 			e200 = document.createElement('div');
 			e310 = document.createElement('span');
@@ -709,52 +712,96 @@ describe('Content-related functionality', function(){
 			e3.appendChild(e30);
 			e3.appendChild(e31);
 			e3.appendChild(e32);
+			e3.appendChild(t33);
 			e00.appendChild(t001);
 			e20.appendChild(e200);
 			e31.appendChild(e310);
 			e32.appendChild(t320);
 
 
-			var registry = new Registry({'classes': [Link, ListItem], 'defaultClass': Tag}),
+			var registry = new Registry({'classes': [Link, ListItem, Text], 'defaultClass': Tag}),
 				factory = new Factory(registry);
 			c.factory = factory;
 		});
+		describe('Reproduces the number of elements in the "content" property', function(){
+			it('returns 1-element content if the input contains only TEXT_NODE', function(){
+				c.load([t1]);
+				expect(c.elements.length).toBe(1);
+			});
 
-		// it('returns true of the argument is empty or if it is an empty array', function(){
-		// 	expect(c.load()).toBe(true);
-		// });
+			it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
+				c.load([e32]);
+				expect(c.elements.length).toBe(1);
+			});
 
-		// it('returns true of the argument is an empty array', function(){
-		// 	expect(c.load([])).toBe(true);
-		// });
+			it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
+				c.load([e0, e3, t4]);
+				expect(c.elements.length).toBe(3);
+			});
 
-		it('returns 1-element content if the input contains only TEXT_NODE', function(){
-			c.load([t1]);
-			expect(c.elements.length).toBe(1);
+
+			it('creates correct Tag instance from a div element with no children', function(){
+				c.load([e200]);
+				expect(c.elements[0] instanceof Tag).toBe(true);
+				expect(c.elements[0].name).toBe('div');
+				expect(c.elements[0].content.length()).toBe(0);
+			});
 		});
 
-		it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
-			c.load([e32]);
-			expect(c.elements.length).toBe(1);
+		describe('Produces structure of the nested elements', function(){
+			it('generates one element in the "content" if element node has an element node as a child', function(){
+				c.load([e2]);
+				expect(c.elements.length).toBe(1);
+				expect(c.elements[0].content.elements.length).toBe(1);
+			});
+
+			it('generates one element if element node has a text node as a child', function(){
+				c.load([e32]);
+				expect(c.elements.length).toBe(1);
+				expect(c.elements[0].content.elements.length).toBe(1);
+			});
+
+			it('generates two elements if element node has two element nodes as children', function(){
+				c.load([e0]);
+				expect(c.elements.length).toBe(1);
+				expect(c.elements[0].content.elements.length).toBe(2);
+			});
+			it('generates four elements if element node has three element nodes and one text node as children', function(){
+				c.load([e3]);
+				expect(c.elements.length).toBe(1);
+				expect(c.elements[0].content.elements.length).toBe(4);
+			});
 		});
 
-		it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
-			c.load([e0, e3, t4]);
-			expect(c.elements.length).toBe(3);
+		describe('Produces instances of required types', function(){
+			it('creates ListItem instance if ListItem is among available classes', function(){
+				c.load([e0]);
+				expect(c.elements[0] instanceof ListItem).toBe(true);
+				expect(c.elements[0].name).toBe('li');
+			});
+			it('creates Text instance if Text is among available classes', function(){
+				c.load([t4]);
+				expect(c.elements[0] instanceof Text).toBe(true);
+				expect(c.elements[0].name).toBe('text');
+			});
+			it('creates default Tag instance if there is no element-specific classe among available ones', function(){
+				c.load([e3]);
+				expect(c.elements[0] instanceof Tag).toBe(true);
+				expect(c.elements[0].name).toBe('span');
+			});
 		});
 
-		it('creates correct ListItem instance from if ListItem is among available classes', function(){
-			c.load([e0]);
-			expect(c.elements[0] instanceof ListItem).toBe(true);
-			expect(c.elements[0].name).toBe('li');
+		describe('Nested elements have correct types', function(){
+			it('a list item has "div" and "a" children', function(){
+				c.load([e0]);
+				expect(c.elements[0] instanceof ListItem).toBe(true);
+				expect(c.elements[0].content.elements[0] instanceof Tag).toBe(true);
+				expect(c.elements[0].content.elements[1] instanceof Link).toBe(true);
+			} );
 		});
 
-		it('creates correct Tag instance from a div element with no children', function(){
-			c.load([e200]);
-			expect(c.elements[0] instanceof Tag).toBe(true);
-			expect(c.elements[0].name).toBe('div');
-			expect(c.elements[0].content.length()).toBe(0);
-		});
+
+
 
 
 	});
