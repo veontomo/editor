@@ -16,17 +16,17 @@ function Cell(arg) {
 	// inherit tag properties
 	Tag.call(this);
 
-	/**
-	 * Type of the object. Set to value "Cell" for the objects of this type.
-	 * @method getType
-	 * @return {String}
-	 * @deprecated  in favor of getName()
-	 */
-	this.getType = function(){
-		// return "Cell";
-		alert('Remove call to this method. Use property "className" instead.');
-		return this.className;
-	};
+	// *
+	//  * Type of the object. Set to value "Cell" for the objects of this type.
+	//  * @method getType
+	//  * @return {String}
+	//  * @deprecated  in favor of getName()
+
+	// this.getType = function(){
+	// 	// return "Cell";
+	// 	alert('Remove call to this method. Use property "className" instead.');
+	// 	return this.className;
+	// };
 
 	/**
 	 * Html tag corresponding to Cell instances.

@@ -167,19 +167,19 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         }
                     // whether the current node is an element one
                     } else if (elType === CKEDITOR.NODE_ELEMENT){
-                        switch(el.getName()){
-                            case 'td':
-                                obj = el.getOuterHtml().createCellFromHtml();
-                                break;
-                            case 'tr':
-                                obj = el.getOuterHtml().createRowFromHtml();
-                                break;
-                            case 'li':
-                                obj = el.getOuterHtml().createListItemFromHtml();
-                                break;
-                            default:
-                                obj = el.getOuterHtml().inflate();
-                        }
+                        // switch(el.getName()){
+                        //     case 'td':
+                        //         obj = el.getOuterHtml().createCellFromHtml();
+                        //         break;
+                        //     case 'tr':
+                        //         obj = el.getOuterHtml().createRowFromHtml();
+                        //         break;
+                        //     case 'li':
+                        //         obj = el.getOuterHtml().createListItemFromHtml();
+                        //         break;
+                        //     default:
+                        //         obj = el.getOuterHtml().inflate();
+                        // }
                         // if it is not empty, transform it into a link
                         if (!obj.isEmpty()){
                             objToLink = obj.toLink(link);

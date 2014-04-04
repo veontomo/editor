@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="js/classes/row.js"></script>
 	<script type="text/javascript" src="js/classes/listItem.js"></script>
 	<script type="text/javascript" src="js/classes/list.js"></script>
+	<script type="text/javascript" src="js/classes/ulist.js"></script>
+	<script type="text/javascript" src="js/classes/olist.js"></script>
 	<script type="text/javascript" src="js/classes/link.js"></script>
 	<script type="text/javascript" src="js/classes/selection.js"></script>
 	<script type="text/javascript" src="js/classes/string.js"></script>
