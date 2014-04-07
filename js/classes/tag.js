@@ -439,6 +439,10 @@ function Tag() {
 
 	/**
 	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.
+	 * Calls methods {{#crossLink "Attributes/decorateElement:method"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,
+	 * {{#crossLink "Style/decorateElement:method"}}Style::decorateElement(){{/crossLink}} to apply styles and
+	 * {{#crossLink "Content/stickTo:method"}}Content::stickTo(){{/crossLink}} to append elements from the
+	 * {{#crossLink "Tag/content:property"}}Tag::content{{/crossLink}}.
 	 * @method  toNode
 	 * @return  {DOM.Element}
 	 */
@@ -446,14 +450,7 @@ function Tag() {
 		var el = document.createElement(this.name);
 		this.style.decorateElement(el);
 		this.attr.decorateElement(el);
-		// el.setAttribute('style', this.style.toString());
-		this.content.elements.forEach(function(c){
-			var child;
-			if (typeof c.toNode === 'function'){
-				child = c.toNode();
-				el.appendChild(child);
-			}
-		});
+		this.content.stickTo(el);
 		return el;
 	};
 }

@@ -567,34 +567,21 @@ describe('Tag-related functionality:', function() {
         it('return DOM element with tag equal to the "name" property', function(){
             expect(tag.toNode().tagName).toBe('META');
         });
-        it('return DOM element with imposed styles', function(){
-            spyOn(tagStyle, 'decorateElement');
-            tag.style = tagStyle;
+        it('calls "decorateElement" on the style to set styles', function(){
+            spyOn(tag.style, 'decorateElement');
             tag.toNode();
-            expect(tagStyle.decorateElement).toHaveBeenCalled();
+            expect(tag.style.decorateElement).toHaveBeenCalled();
         });
-        it('return DOM element with imposed attributes', function(){
-            spyOn(tagAttr, 'decorateElement');
-            tag.attr = tagAttr;
+        it('calls "decorateElement" on attr to set attributes', function(){
+            spyOn(tag.attr, 'decorateElement');
             tag.toNode();
-            expect(tagAttr.decorateElement).toHaveBeenCalled();
+            expect(tag.attr.decorateElement).toHaveBeenCalled();
         });
-        it('returns DOM element with children created from "content" property', function(){
-            c1 = {'toNode': function(){}};
-            c2 = {'toNode': function(){}};
-            c3 = {'toNode': function(){}};
-            tag.content.elements = [c1, c2, c3];
-            spyOn(c1, 'toNode').andCallFake(function(){return document.createElement('div');});
-            spyOn(c2, 'toNode').andCallFake(function(){return document.createElement('span');});
-            spyOn(c3, 'toNode').andCallFake(function(){return document.createElement('p');});
-            el = tag.toNode();
-            expect(el.childElementCount).toBe(3);
-            expect(c1.toNode).toHaveBeenCalled();
-            expect(c2.toNode).toHaveBeenCalled();
-            expect(c3.toNode).toHaveBeenCalled();
+        it('calls "stickTo" on content to append children', function(){
+            spyOn(tag.content, 'stickTo');
+            tag.toNode();
+            expect(tag.content.stickTo).toHaveBeenCalled();
         });
-
-
     });
 
 });

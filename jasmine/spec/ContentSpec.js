@@ -799,10 +799,53 @@ describe('Content-related functionality', function(){
 				expect(c.elements[0].content.elements[1] instanceof Link).toBe(true);
 			} );
 		});
+	});
 
+	describe('Content::stickTo(): appends children to the argument', function(){
+		var el, c1, c2, c3;
+		it('does not change the argument if it has no "appendChild()" method', function(){
+			el = {'foo': 1};
+			c.stickTo(el);
+			expect(Object.keys(el).length).toBe(1);
+			expect(el.foo).toBe(1);
+		});
+		it('appends children if they have "toNode()" method and the argument has appendChild()" method', function(){
+			el = {'appendChild': function(){return null;}};
+			spyOn(el, 'appendChild');
+		    c1 = {'toNode': function(){}};
+		    c2 = {'toNode': function(){}};
+		    c3 = {'toNode': function(){}};
+		    c.elements = [c1, c2, c3];
+		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
+		    spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
+		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
+		    c.stickTo(el);
+		    expect(c1.toNode).toHaveBeenCalled();
+		    expect(c2.toNode).toHaveBeenCalled();
+		    expect(c3.toNode).toHaveBeenCalled();
+		    expect(el.appendChild).toHaveBeenCalledWith('c1 node');
+		    expect(el.appendChild).toHaveBeenCalledWith('c2 node');
+		    expect(el.appendChild).toHaveBeenCalledWith('c3 node');
+		});
 
-
-
+		it('appends children if they have "toNode()" method and the argument has appendChild()" method', function(){
+			el = {'appendChild': function(){return null;}};
+			spyOn(el, 'appendChild');
+		    c1 = {'toNode': function(){}};
+		    c2 = {'no-toNode-method': function(){}};
+		    c3 = {'toNode': function(){}};
+		    c.elements = [c1, c2, c3];
+		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
+		    // spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
+		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
+		    c.stickTo(el);
+		    expect(c1.toNode).toHaveBeenCalled();
+		    // expect(c2.toNode).toHaveBeenCalled();
+		    expect(c3.toNode).toHaveBeenCalled();
+		    expect(el.appendChild).toHaveBeenCalledWith('c1 node');
+		    expect(el.appendChild).not.toHaveBeenCalledWith('c2 node');
+		    expect(el.appendChild).toHaveBeenCalledWith('c3 node');
+		});
 
 	});
 

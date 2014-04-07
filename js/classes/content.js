@@ -388,4 +388,27 @@ function Content(str) {
 			this.elements = elements;
 		}
 	};
+
+	/**
+	 * Takes each element of the array {{#crossLink "Content/elements:property"}}Content::elements{{/crossLink}}
+	 * and appends it as a child node to the argument which is supposed to be an instance of
+	 * [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node), but in fact it is enough
+	 * that is has [appendChild()](https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild)
+	 * method. In order to append, the array element should respond to `toNode()` method which
+	 * returns [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * instance of the element. If the element does not respond to the
+	 * above-mentioned method, this element is ignored.
+	 * @method  stickTo
+	 * @param   {Object}     el
+	 * @return  {void}
+	 */
+	this.stickTo = function(el){
+		if (typeof el.appendChild === 'function'){
+			this.elements.forEach(function(ch){
+				if (typeof ch.toNode === 'function'){
+					el.appendChild(ch.toNode());
+				}
+			});
+		}
+	};
 }
