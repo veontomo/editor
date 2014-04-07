@@ -471,6 +471,26 @@ describe('Tag-related functionality:', function() {
             expect(tag2.content.elements[0]).toBe('whatever');
         });
 
+        it('returns a Link with styles equal to those of the argument, if the target is a Link', function(){
+            var link2 = new Link();
+            link2.setHref('beach');
+            link2.style.color = 'navy';
+            link.setHref('North-Pole');
+            link.style.color = 'white';
+            tag2 = link2.toLink(link);
+            expect(tag2.style.color).toBe('white');
+        });
+        it('returns a Link with attributes equal to those of the argument, if the target is a Link', function(){
+            var link2 = new Link();
+            link2.setHref('beach');
+            link2.attr.id = 'navy';
+            link.setHref('North-Pole');
+            link.attr.id = 'white';
+            tag2 = link2.toLink(link);
+            expect(tag2.attr.id).toBe('white');
+        });
+
+
         it('returns "undefined" if the target content is not empty and the target has no "className" property', function(){
             spyOn(content, 'isEmpty').andCallFake(function(){return false;});
             delete tag.className;
@@ -482,6 +502,38 @@ describe('Tag-related functionality:', function() {
             tag.className = 'a class with such a name does not exist. I hope.';
             expect(tag.toLink(link)).not.toBeDefined();
         });
+
+        it('preserves styles of the target tag, if it is non-empty', function(){
+            tag.name = 'tag';
+            tagStyle.color = 'red';
+            tagStyle.depth = '6';
+            tag.style = tagStyle;
+            c1 = {'foo': 1}; c2 = "text";
+            tag.content.elements = [c1, c2];
+            // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
+            var tag2 = tag.toLink(link);
+            expect(tag2.style.color).toBe('red');
+            expect(tag2.style.depth).toBe('6');
+            expect(tag2.name).toBe('tag');
+            console.info('tag2', T);
+        });
+
+        it('preserves atrributes of the target tag, if it is non-empty', function(){
+            tag.name = 'tag2';
+            tagAttr.class = 'red';
+            tagAttr.hidden = 'yes';
+            tag.attr = tagAttr;
+            c1 = {'foo': 1}; c2 = "text";
+            tag.content.elements = [c1, c2];
+            link.
+            // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
+            var tag2 = tag.toLink(link);
+            expect(tag2.attr.class).toBe('red');
+            expect(tag2.attr.hidden).toBe('6');
+            expect(tag2.name).toBe('tag2');
+            console.info('T', tag2);
+        });
+
     });
 
     describe('Tag::load(): populates properties from the argument', function(){

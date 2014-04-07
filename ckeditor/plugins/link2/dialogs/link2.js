@@ -161,16 +161,17 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         console.log('produced obj is NOT  empty');
                         objLink = obj.toLink(link);
                         console.log('link from object: ', objLink, ', its html: ', objLink.toHtml());
-                        newNode = document.createElement(objLink.toHtml());
+                        newNode = objLink.toNode();
                         // console.log(obj, obj.toLink(link));
                         console.log('newNode: ', newNode);
                         elType = el.type;
-                        if (elType === CKEDITOR.NODE_TEXT){
-                            newNode.insertAfter(el);
-                            el.setText('');
-                        } else if (elType === CKEDITOR.NODE_ELEMENT){
-                            // newNode.replace(el);
-                        }
+                        el.$.parentNode.replaceChild(newNode, el.$);
+                        // if (elType === CKEDITOR.NODE_TEXT){
+                        //     el.$.parentNode.insertBefore(newNode, el.$);
+                        //     el.setText('');
+                        // } else if (elType === CKEDITOR.NODE_ELEMENT){
+                        //     el.$.parentNode.replaceChild(newNode, el.$);
+                        // }
                     } else {
                       console.log('produced obj is empty');
                     }

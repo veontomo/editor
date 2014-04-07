@@ -146,6 +146,7 @@ function Factory(reg){
 	this.produce = function(elem){
 		var product = this.createInstance(elem);
 		this.bindFactory(product);
+		console.log('Factory::produce is called with argument ', elem);
 		this.brightenObj(product, elem);
 		return product;
 	};

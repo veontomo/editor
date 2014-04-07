@@ -94,6 +94,7 @@ function Style(obj) {
      * @return {Boolean}                                  true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
+        console.log('Style::load is called with ', attr);
         var seed;
         if (attr !== undefined){
             if (typeof attr === 'string'){
@@ -101,10 +102,12 @@ function Style(obj) {
             } else if (typeof attr.getNamedItem === 'function') {
                 seed =  attr.getNamedItem('style');
             } else {
+                console.log('Style::load finishes with FALSE', typeof attr.getNamedItem);
                 return false;
             }
             this.appendStyle(seed);
         }
+        console.log('Style::load is finished. Style.toString() = ', this.toString());
         return true;
     };
 

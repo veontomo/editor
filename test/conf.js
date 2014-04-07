@@ -13,6 +13,7 @@ module.exports = function (config) {
       'unit.js',
       'property.js',
       'attributes.js',
+      'tableattributes.js',
       'style.js',
       'content.js',
       'tag.js',
