@@ -113,6 +113,7 @@ function Property(input) {
 
 	/**
 	 * Returns an object containing string/number-valued properties (and not methods).
+	 * @method summary
 	 * @return {Object}
 	 */
 	this.summary = function(){

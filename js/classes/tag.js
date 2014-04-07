@@ -422,7 +422,7 @@ function Tag() {
 			attr  = elem.attributes;                   // NamedNodeMap
 			if (attr){
 				this.attr.load(attr);
-				style = attr.getNamedItem('style');        // singling out style property
+				style = attr.getNamedItem('style');     // singling out style property
 				if (style){
 					this.style.load(style);
 				}
@@ -444,10 +444,13 @@ function Tag() {
 	 */
 	this.toElement = function(){
 		var el = document.createElement(this.name);
-		// this.style.decorateElement(el);
-		// this.attr.decorateElement(el);
-		el.setAttribute('style', this.style.toString());
-
+		this.style.decorateElement(el);
+		this.attr.decorateElement(el);
+		// el.setAttribute('style', this.style.toString());
+		this.content.elements.forEach(function(c){
+			var child = c.toElement();
+			el.appendChild(child);
+		});
 
 		return el;
 	};

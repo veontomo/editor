@@ -113,6 +113,7 @@ function Style(obj) {
      * [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,
      * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
      * method of that instance.
+     * @method  decorateElement
      * @param  {Object}    elem
      * @return {void}
      */
