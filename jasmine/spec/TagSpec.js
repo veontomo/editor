@@ -580,14 +580,14 @@ describe('Tag-related functionality:', function() {
             expect(tagAttr.decorateElement).toHaveBeenCalled();
         });
         it('returns DOM element with children created from "content" property', function(){
-            c1 = {'toElement': function(){}};
-            c2 = {'toElement': function(){}};
-            c3 = {'toElement': function(){}};
+            c1 = {'toNode': function(){}};
+            c2 = {'toNode': function(){}};
+            c3 = {'toNode': function(){}};
             tag.content.elements = [c1, c2, c3];
-            spyOn(c1, 'toElement').andCallFake(function(){return document.createElement('div');});
-            spyOn(c2, 'toElement').andCallFake(function(){return document.createElement('span');});
-            spyOn(c3, 'toElement').andCallFake(function(){return document.createElement('p');});
-            el = tag.toElement();
+            spyOn(c1, 'toNode').andCallFake(function(){return document.createElement('div');});
+            spyOn(c2, 'toNode').andCallFake(function(){return document.createElement('span');});
+            spyOn(c3, 'toNode').andCallFake(function(){return document.createElement('p');});
+            el = tag.toNode();
             expect(el.childElementCount).toBe(3);
             expect(c1.toNode).toHaveBeenCalled();
             expect(c2.toNode).toHaveBeenCalled();

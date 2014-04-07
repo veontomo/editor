@@ -169,4 +169,21 @@ describe('Text-related functionality', function(){
 		});
 	});
 
+	describe('PlainText::toNode(): returns DOM.Text object', function(){
+		it('returns empty text node if the target class has empty content', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return '';});
+			var el = text.toNode();
+			expect(el.textContent).toBe('');
+			expect(text.getContent).toHaveBeenCalled();
+		});
+
+		it('returns empty text node if the target class has non-empty content', function(){
+			spyOn(text, 'getContent').andCallFake(function(){return 'text node content';});
+			var el = text.toNode();
+			expect(el.textContent).toBe('text node content');
+			expect(text.getContent).toHaveBeenCalled();
+		});
+
+	});
+
 });

@@ -137,7 +137,7 @@ function PlainText(text) {
 	 * @return {DOM.Text}
 	 */
 	this.toNode = function(){
-
+		return document.createTextNode(this.getContent());
 	}
 
 }
