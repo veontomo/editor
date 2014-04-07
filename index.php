@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="js/classes/property.js"></script>
 	<script type="text/javascript" src="js/classes/attributes.js"></script>
 	<script type="text/javascript" src="js/classes/tableattributes.js"></script>
+	<script type="text/javascript" src="js/classes/linkattributes.js"></script>
 	<script type="text/javascript" src="js/classes/style.js"></script>
 	<script type="text/javascript" src="js/classes/content.js"></script>
 	<script type="text/javascript" src="js/classes/tag.js"></script>

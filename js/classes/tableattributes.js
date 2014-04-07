@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global TableAttributes, Attributes */
+/*global Attributes */
 /**
 * Table-specific attributes.
 * @module 	Property

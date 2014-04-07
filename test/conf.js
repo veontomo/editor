@@ -14,6 +14,7 @@ module.exports = function (config) {
       'property.js',
       'attributes.js',
       'tableattributes.js',
+      'linkattributes.js',
       'style.js',
       'content.js',
       'tag.js',
