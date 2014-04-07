@@ -17,6 +17,11 @@ describe('Style-related functionality', function(){
         it('is an instance of Property', function(){
             expect(stl instanceof Property).toBe(true);
         });
+
+        it('sets "className" property to be equal to "Attributes"', function(){
+            expect(stl.className).toBe('Style');
+        });
+
         it('populates properties from the argument', function(){
             stl = new Style('a: 10; b: yes');
             expect(stl.a).toBe(10);

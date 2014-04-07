@@ -16,7 +16,8 @@ function Attributes(obj) {
 
 	/**
 	 * Generates string representation of this object (as html attributes).
-	 * It takse into consideration only strings and numbers. The rest is ignored.
+	 * It takes into consideration only strings and numbers and excludes
+	 * {{#crossLink "Attributes/className:property"}}className{{/crosslink}}.
 	 * @method     toString
 	 * @return     {String}    a union of substrings; each substring is of this format: 'attribute="value"',
 	 *                         between the substrings there is a separator ' ' (space).
@@ -29,13 +30,22 @@ function Attributes(obj) {
                 val = this[attr];
                 valType = typeof val;
                 // avoid adding method to the output
-                if (valType === 'string' || valType === 'number'){
-                    output.push(attr + '="' + String(val) + '"');
+                if ((valType === 'string' || valType === 'number') && (attr !== 'className') ){
+                    output.push(attr + '="' + val.toString() + '"');
                 }
             }
         }
         return output.join(' ');
     };
+
+    /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @property {String} className
+     * @type     {String}
+     */
+    this.className = 'Attributes';
+
 
     /**
      * Loads attributes from the argument that is supposed to be of a type

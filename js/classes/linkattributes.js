@@ -41,5 +41,15 @@ function LinkAttributes(attr){
 	};
 
 
+	/**
+	 * The  name of the class.
+	 * @since    0.0.2
+	 * @property {String} className
+	 * @type     {String}
+	 */
+	this.className = 'LinkAttributes';
+
+
+
 }
 LinkAttributes.prototype = Object.create(Attributes.prototype);

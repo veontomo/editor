@@ -11,6 +11,10 @@ describe('Attribute-related functionality', function(){
         it('is an instance of Property', function(){
             expect(attr instanceof Property).toBe(true);
         });
+        it('sets "className" property to be equal to "Attributes"', function(){
+            expect(attr.className).toBe('Attributes');
+        });
+
         it('populates properties from the argument', function(){
             attr = new Attributes('a: 10; new: yes');
             expect(attr.a).toBe(10);

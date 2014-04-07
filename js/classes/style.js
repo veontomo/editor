@@ -33,7 +33,9 @@ function Style(obj) {
                 val = this[attr];
                 switch (typeof val) {
                 case 'string':
-                    styles.push(attr + ': ' + val.trim());
+                    if(attr !== 'className'){
+                        styles.push(attr + ': ' + val.trim())
+                    };
                     break;
                 case 'number':
                     styles.push(attr + ': ' + String(val) + unit);
@@ -43,6 +45,14 @@ function Style(obj) {
         }
         return styles.join('; ');
     };
+
+    /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @property {String} className
+     * @type     {String}
+     */
+    this.className = 'Style';
 
     /**
      * Appends style. Alias for the parent method Property::appendProperty()

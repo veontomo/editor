@@ -72,6 +72,14 @@ function Property(input) {
 	};
 
 	/**
+	 * The  name of the class.
+	 * @since    0.0.2
+	 * @property {String} className
+	 * @type     {String}
+	 */
+	this.className = 'Property';
+
+	/**
 	 * Compares properties of the target and with the proprties of the argument.
 	 * Returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
 	 * Otherwise, false is returned. When making comparison, all methods are ignored.

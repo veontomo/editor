@@ -36,6 +36,7 @@ module.exports = function (config) {
       '../../jasmine/spec/UnitSpec.js',
       '../../jasmine/spec/AttributesSpec.js',
       '../../jasmine/spec/LinkAttributesSpec.js',
+      '../../jasmine/spec/TableAttributesSpec.js',
       '../../jasmine/spec/StyleSpec.js',
       '../../jasmine/spec/PropertySpec.js',
       '../../jasmine/spec/TagSpec.js',

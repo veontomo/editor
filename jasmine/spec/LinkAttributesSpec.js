@@ -14,6 +14,10 @@ describe('LinkAttributes-related functionality:', function() {
         it('is an instance of Attributes() as well ', function(){
             expect(attr instanceof Attributes).toBe(true);
         });
+        it('sets "className" property to be equal to "Attributes"', function(){
+            expect(attr.className).toBe('LinkAttributes');
+        });
+
 
         it('adds keyword "new" if it is missing when an object is created', function(){
             attr = LinkAttributes();

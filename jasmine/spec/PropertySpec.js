@@ -21,6 +21,10 @@ describe('Property-related functionality', function(){
             expect(prop instanceof Property).toBe(true);
         });
 
+        it('sets "className" property to be equal to "Property"', function(){
+            expect(prop.className).toBe('Property');
+        });
+
         it('populates properties from a string input', function(){
             var s = new Property('a:10; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
             expect(s.hasOwnProperty('a')).toBe(true);
