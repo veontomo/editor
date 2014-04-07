@@ -100,8 +100,23 @@ describe('Attribute-related functionality', function(){
         });
     });
 
-    xdescribe('Attributes::decorateElement(): sets the attributes on the element', function(){
-        it('');
+    describe('Attributes::decorateElement(): sets the attributes on the element', function(){
+        var el = {'setAttribute': function(){return null;}};
+        beforeEach(function(){
+            spyOn(el, 'setAttribute');
+        });
+        it('calls summary() method to collect properties', function(){
+            spyOn(attr, 'summary').andCallFake(function(){return {};});
+            attr.decorateElement(el);
+            expect(attr.summary).toHaveBeenCalled();
+        });
+        it('calls "setAttribute()" method to set each value obtained from "summary()"', function(){
+            spyOn(attr, 'summary').andCallFake(function(){return {'level': 100, 'nice': 'very', 'depth': 'infinite'};});
+            attr.decorateElement(el);
+            expect(el.setAttribute).toHaveBeenCalledWith('level', 100);
+            expect(el.setAttribute).toHaveBeenCalledWith('nice', 'very');
+            expect(el.setAttribute).toHaveBeenCalledWith('depth', 'infinite');
+        });
     });
 });
 

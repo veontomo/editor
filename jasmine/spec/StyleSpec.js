@@ -167,9 +167,25 @@ describe('Style-related functionality', function(){
             expect(stl.load(seed)).toBe(true);
             expect(seed.getNamedItem).toHaveBeenCalledWith('style');
         });
+    });
 
+    describe('Style::decorateElement(): applies the style to the argument', function(){
+        var elem = {'setAttribute': function(){return null;}};
+        beforeEach(function(){
+            spyOn(elem, 'setAttribute');
+            spyOn(stl, 'toString').andCallFake(function(){return 'style to string output';});
+        });
+        it('calls "toString()" method', function(){
+            stl.decorateElement(elem);
+            expect(stl.toString).toHaveBeenCalled();
+        });
+        it('applies the output of "toString()" method to the argument', function(){
+            stl.decorateElement(elem);
+            expect(elem.setAttribute).toHaveBeenCalledWith('style', 'style to string output');
+        });
 
     });
+
 });
 
 describe('LinkStyle-related functionality', function(){

@@ -79,8 +79,14 @@ function Attributes(obj) {
      * @return {void}
      */
     this.decorateElement = function(elem){
-
-    }
+    	if (typeof elem.setAttribute === 'function'){
+			var summary = this.summary(),
+				keys = Object.keys(summary);
+			keys.forEach(function(key){
+				elem.setAttribute(key, summary[key]);
+			});
+    	}
+    };
 }
 Attributes.prototype = Object.create(Property.prototype);
 

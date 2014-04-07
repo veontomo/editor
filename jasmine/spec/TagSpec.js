@@ -559,7 +559,7 @@ describe('Tag-related functionality:', function() {
 
     });
 
-    describe('Tag::toElement(): transforms element into a DOM.Element', function(){
+    xdescribe('Tag::toElement(): transforms element into a DOM.Element', function(){
         beforeEach(function(){
             tag.name = 'meta'
         });
