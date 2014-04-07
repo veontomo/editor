@@ -559,24 +559,24 @@ describe('Tag-related functionality:', function() {
 
     });
 
-    describe('Tag::toElement(): transforms element into a DOM.Element', function(){
-        var el;
+    describe('Tag::toNode(): transforms element into a DOM.Element', function(){
+        var el, c1, c2, c3;
         beforeEach(function(){
-            tag.name = 'meta'
+            tag.name = 'meta';
         });
         it('return DOM element with tag equal to the "name" property', function(){
-            expect(tag.toElement().tagName).toBe('META');
+            expect(tag.toNode().tagName).toBe('META');
         });
         it('return DOM element with imposed styles', function(){
             spyOn(tagStyle, 'decorateElement');
             tag.style = tagStyle;
-            tag.toElement();
+            tag.toNode();
             expect(tagStyle.decorateElement).toHaveBeenCalled();
         });
         it('return DOM element with imposed attributes', function(){
             spyOn(tagAttr, 'decorateElement');
             tag.attr = tagAttr;
-            tag.toElement();
+            tag.toNode();
             expect(tagAttr.decorateElement).toHaveBeenCalled();
         });
         it('returns DOM element with children created from "content" property', function(){
@@ -589,9 +589,9 @@ describe('Tag-related functionality:', function() {
             spyOn(c3, 'toElement').andCallFake(function(){return document.createElement('p');});
             el = tag.toElement();
             expect(el.childElementCount).toBe(3);
-            expect(c1.toElement).toHaveBeenCalled();
-            expect(c2.toElement).toHaveBeenCalled();
-            expect(c3.toElement).toHaveBeenCalled();
+            expect(c1.toNode).toHaveBeenCalled();
+            expect(c2.toNode).toHaveBeenCalled();
+            expect(c3.toNode).toHaveBeenCalled();
         });
 
 

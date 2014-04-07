@@ -130,4 +130,14 @@ function PlainText(text) {
 		return txt === null || txt === undefined || txt === '';
 	}
 
+	/**
+	 * Returns an instance of  [DOM.Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
+	 * corresponding to the instance of this class.
+	 * @method toNode
+	 * @return {DOM.Text}
+	 */
+	this.toNode = function(){
+
+	}
+
 }

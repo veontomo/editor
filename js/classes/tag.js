@@ -439,19 +439,21 @@ function Tag() {
 
 	/**
 	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.
-	 * @method  toElement
+	 * @method  toNode
 	 * @return  {DOM.Element}
 	 */
-	this.toElement = function(){
+	this.toNode = function(){
 		var el = document.createElement(this.name);
 		this.style.decorateElement(el);
 		this.attr.decorateElement(el);
 		// el.setAttribute('style', this.style.toString());
 		this.content.elements.forEach(function(c){
-			var child = c.toElement();
-			el.appendChild(child);
+			var child;
+			if (typeof c.toNode === 'function'){
+				child = c.toNode();
+				el.appendChild(child);
+			}
 		});
-
 		return el;
 	};
 }
