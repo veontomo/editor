@@ -111,6 +111,25 @@ function Property(input) {
 		}
 	};
 
+	/**
+	 * Returns an object containing string/number-valued properties (and not methods).
+	 * @return {Object}
+	 */
+	this.summary = function(){
+		var output = {},
+			prop, propType, propValue;
+		for (prop in this){
+			if (this.hasOwnProperty(prop)){
+				propValue = this[prop];
+				propType = typeof propValue;
+				if (propType === 'string' || propType === 'number'){
+					output[prop] = propValue;
+				}
+			}
+		}
+		return output;
+	};
+
 
 
 }

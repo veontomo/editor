@@ -7,7 +7,7 @@ describe('Attribute-related functionality', function(){
         attr = new Attributes();
     });
 
-    describe('Attribute::constructor(): inherits from Property', function(){
+    describe('Attributes::constructor(): inherits from Property', function(){
         it('is an instance of Property', function(){
             expect(attr instanceof Property).toBe(true);
         });
@@ -53,7 +53,7 @@ describe('Attribute-related functionality', function(){
         });
     });
 
-    describe('Attribute::load() load the attributes', function(){
+    describe('Attributes::load() load the attributes', function(){
         var root, attrMap;
         beforeEach(function(){
             root = document.createElement('span');
@@ -98,6 +98,10 @@ describe('Attribute-related functionality', function(){
             attr.module = function(){};
             expect(attr.load(attrMap)).toBe(false);
         });
+    });
+
+    xdescribe('Attributes::decorateElement(): sets the attributes on the element', function(){
+        it('');
     });
 });
 

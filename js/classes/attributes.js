@@ -69,6 +69,18 @@ function Attributes(obj) {
     	}
     	return true;
     };
+
+    /**
+     * Applies the attributes on the argument. The argument is supposed to be an instance of
+     * [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,
+     * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
+     * method of that instance.
+     * @param  {Object}    elem
+     * @return {void}
+     */
+    this.decorateElement = function(elem){
+
+    }
 }
 Attributes.prototype = Object.create(Property.prototype);
 

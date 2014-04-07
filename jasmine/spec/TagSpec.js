@@ -567,19 +567,18 @@ describe('Tag-related functionality:', function() {
             expect(tag.toElement().tagName).toBe('meta');
         });
         it('return DOM element with imposed styles', function(){
-            tagStyle.version = 'old';
-            tagStyle.color = 'red';
+            spyOn(tagStyle, 'decorateElement');
             tag.style = tagStyle;
-            expect(tag.toElement().getAttribute('style')).toBe('version: old; color: red');
+            tag.toElement();
+            expect(tagStyle.decorateElement).toHaveBeenCalled();
         });
         it('return DOM element with imposed attributes', function(){
-            tagAttr.class = 'head';
-            tagAttr.width = '200';
+            spyOn(tagAttr, 'decorateElement');
             tag.attr = tagAttr;
-            expect(tag.toElement().getAttribute('class')).toBe('head');
-            expect(tag.toElement().getAttribute('width')).toBe('200');
+            tag.toElement();
+            expect(tagAttr.decorateElement).toHaveBeenCalled();
         });
-        it('returns DOM element with children created from "content" property', function(){
+        xit('returns DOM element with children created from "content" property', function(){
             c1 = {'toElement': function(){}};
             c2 = {'toElement': function(){}};
             c3 = {'toElement': function(){}};

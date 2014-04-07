@@ -239,8 +239,43 @@ describe('Property-related functionality', function(){
             propEmpty.color = 'blue';
             expect(propEmpty.isTheSameAs(st)).toBe(false);
         });
+    });
+
+    describe('Property::summary(): gives object with key-value of the properties', function(){
+        it('gives an empty object, if there are no properties set', function(){
+            var summary = propEmpty.summary();
+            expect(Object.keys(summary).length).toBe(0);
+        });
+        it('gives an object with one string-valued record, if the value is a string', function(){
+            propEmpty.bold = 'yes';
+            var summary = propEmpty.summary();
+            expect(summary.bold).toBe('yes');
+        });
+        it('gives an object with one number-valued record, if the value is a number', function(){
+            propEmpty.font = 221;
+            var summary = propEmpty.summary();
+            expect(summary.font).toBe(221);
+        });
+        it('does not enroll methods in the summary', function(){
+            propEmpty.print = function(){return 1;};
+            propEmpty.age = 'adult';
+            var summary = propEmpty.summary();
+            expect(summary.hasOwnProperty('print')).toBe(false);
+        });
+        it('enrolls properties in the summary, if methods are present', function(){
+            propEmpty.print = function(){return 1;};
+            propEmpty.age = 'adult';
+            var summary = propEmpty.summary();
+            expect(summary.hasOwnProperty('age')).toBe(true);
+        });
+        it('does not enroll object-valued properties in the summary', function(){
+            propEmpty.level = {'foo': 1};
+            var summary = propEmpty.summary();
+            expect(summary.hasOwnProperty('level')).toBe(false);
+        });
 
 
     });
 
 });
+

@@ -444,6 +444,8 @@ function Tag() {
 	 */
 	this.toElement = function(){
 		var el = document.createElement(this.name);
+		// this.style.decorateElement(el);
+		// this.attr.decorateElement(el);
 		el.setAttribute('style', this.style.toString());
 
 
