@@ -54,13 +54,24 @@ function Registry(info){
 
 
 	/**
-	 * Parses
-	 * @param  {[type]} className [description]
-	 * @return {[type]}           [description]
+	 * Returns class that has requested `className` property. It parses
+	 * {{#crossLink "Registry/classes:property"}}classes{{/crossLink}} and
+	 * {{#crossLink "Registry/defaultClass:property"}}defaultClass{{/crossLink}}.
+	 * If nothing is found, `null` is returned.
+	 * @method  getClassByName
+	 * @param   {String}        className
+	 * @return  {Function|Null}
 	 */
-	this.findClassByName = function(className){
-		/// !!! stub
-		return className;
+	this.getClassByName = function(className){
+		// control the "classes" array
+		if (this.classNameMap.hasOwnProperty(className)){
+			return this.classNameMap[className];
+		}
+		// control "defaultClass"
+		if (typeof this.defaultClass === 'function' && (new this.defaultClass).className === className){
+			return this.defaultClass;
+		}
+		return null;
 	};
 
 	/**

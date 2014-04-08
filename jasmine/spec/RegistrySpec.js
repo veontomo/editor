@@ -9,9 +9,9 @@ describe('Registry-related functionality', function(){
         B = function (){this.tag = 'b'; this.className = 'B';};
         C = function (){this.tag = 'c'; this.className = 'C';};
         D = function (){};
-        E = function (){this.tag = 'e';};                      // no "className" for some reason
-        F = function (){this.tag = ''; this.className = 'F';}; // "bad" class: property "tag" is empty string
-        G = function (){this.className = 'F';};                // "bad" class: property "tag" is not set
+        E = function (){this.tag = 'e';};                         // no "className" for some reason
+        F = function (){this.tag = ''; this.className = 'F';};    // "bad" class: property "tag" is empty string
+        G = function (){this.className = 'F';};                   // "bad" class: property "tag" is not set
         classes = [A, B, C, D, E, F, G];
         defaultClass = D;
         obj = {'classes': classes, 'defaultClass': defaultClass};
@@ -249,9 +249,7 @@ describe('Registry-related functionality', function(){
 
         it('includes the class into classNameMap if it has a valid className', function(){
             reg = new Registry({'classes': [A, B]});
-            console.log(reg);
             reg.register(C);
-            console.log(reg);
             expect(reg.classNameMap.C).toBe(C);
         });
 
@@ -303,11 +301,9 @@ describe('Registry-related functionality', function(){
             reg.unregister(C);
             expect(reg.defaultClass).toBe(null);
         });
-
-
     });
 
-    describe('Registry::findClassByTag() gives the class to correspondinf to the argument', function(){
+    describe('Registry::findClassByTag(): gives the class that has requested tag value', function(){
         it('gives the default class if the argument is missing', function(){
             expect(reg.findClassByTag()).toBe(D);
         });
@@ -320,6 +316,27 @@ describe('Registry-related functionality', function(){
         it('gives a class if the argument corresponds to a tag present in the class names', function(){
             expect(reg.findClassByTag('a')).toBe(A);
         });
+    });
+
+    describe('Registry::getClassByName(): gives the class of the requested name', function(){
+        it('gives a class if it is among "classes"', function(){
+            reg = new Registry({'classes': [A, C], 'defaultClass': C});
+            expect(reg.getClassByName('A')).toBe(A);
+        });
+        it('gives a class if it is a "defaultClass"', function(){
+            reg = new Registry({'classes': [A, B], 'defaultClass': C});
+            expect(reg.getClassByName('C')).toBe(C);
+        });
+        it('returns null, if it is not present neither in "classes" nor in "defaultClass"', function(){
+            reg = new Registry({'classes': [A, B], 'defaultClass': C});
+            expect(reg.getClassByName('D')).toBe(null);
+        });
+        it('returns null, if it is not present in "classes" and "defaultClass" is null', function(){
+            reg = new Registry({'classes': [A, B]});
+            expect(reg.getClassByName('C')).toBe(null);
+        });
+
+
     });
 
 });
