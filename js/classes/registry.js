@@ -52,6 +52,16 @@ function Registry(info){
 		return output;
 	}(obj.classes || [], this));
 
+
+	/**
+	 * Parses
+	 * @param  {[type]} className [description]
+	 * @return {[type]}           [description]
+	 */
+	this.findClassByName = function(className){
+		retrun null;
+	}
+
 	/**
 	 * A class to construct an object if object-tag-name is not among the `name`
 	 * property of the {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}}.
@@ -68,11 +78,11 @@ function Registry(info){
 	 * Returns class from {{#crossLink "Registry/classes:property"}}classes{{/crossLink}} which `name` property
 	 * is equal to the argument. If there is no such a class, the default one
 	 * {{#crossLink "Registry/defaultClass:property"}}defaultClass{{/crossLink}}  is returned.
-	 * @method    classForTag
+	 * @method    findClassByTag
 	 * @param     {String}     tag
 	 * @return    {Function}
 	 */
-	this.classForTag = function(tag){
+	this.findClassByTag = function(tag){
 		var output = this.tagMap[tag];
 		return output || this.defaultClass;
 	};
