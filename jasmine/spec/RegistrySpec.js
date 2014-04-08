@@ -152,15 +152,15 @@ describe('Registry-related functionality', function(){
         });
     });
 
-    describe('Registry::map: gives the mapping of available classes into tag names', function(){
+    describe('Registry::tagMap: gives the mapping of available classes into tag names', function(){
         it('gives "a" for A', function(){
-            expect(reg.map.a).toBe(A);
+            expect(reg.tagMap.a).toBe(A);
         });
         it('gives "b" for B', function(){
-            expect(reg.map.b).toBe(B);
+            expect(reg.tagMap.b).toBe(B);
         });
         it('gives "c" for C', function(){
-            expect(reg.map.c).toBe(C);
+            expect(reg.tagMap.c).toBe(C);
         });
     });
 
@@ -181,11 +181,11 @@ describe('Registry-related functionality', function(){
             expect(reg.classes.indexOf(DummyFun) !== -1).toBe(true);
         });
 
-        it('includes the mapping name into "map", if the class is valid', function(){
+        it('includes the mapping name into "tagMap", if the class is valid', function(){
             spyOn(reg, 'hasValidName').andCallFake(function(){return true;});
             var DummyFun = function(){this.name = 'dummyFun';};
             reg.register(DummyFun);
-            expect(reg.map.dummyFun).toBe(DummyFun);
+            expect(reg.tagMap.dummyFun).toBe(DummyFun);
         });
     });
 
@@ -200,9 +200,9 @@ describe('Registry-related functionality', function(){
             reg.unregister(B);
             expect(reg.classes.indexOf(B)).toBe(-1);
         });
-        it('removes argument-related info from "map" property', function(){
+        it('removes argument-related info from "tagMap" property', function(){
             reg.unregister(B);
-            expect(reg.map.b).not.toBeDefined();
+            expect(reg.tagMap.b).not.toBeDefined();
         });
     });
 

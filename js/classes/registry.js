@@ -73,18 +73,18 @@ function Registry(info){
 	 * @return    {Function}
 	 */
 	this.classForTag = function(tag){
-		var output = this.map[tag];
+		var output = this.tagMap[tag];
 		return output || this.defaultClass;
-	}
+	};
 
 	/**
-	 * Object of key-value pairs the form `tag: className`, where `tag` is a tag name that class `className`
+	 * Object of key-value pairs of the form `tag: className`, where `tag` is a tag name that class `className`
 	 * represent.<br />
 	 * For example, `{'td': 'Cell', 'ul': 'UList', ...}`
-	 * @property    map
+	 * @property    tagMap
 	 * @type        {Array}
 	 */
-	this.map = (function(arr){
+	this.tagMap = (function(arr){
 		var output = {};
 		arr.forEach(function(cName){
 			var phantom = new cName;
@@ -95,7 +95,7 @@ function Registry(info){
 
 	/**
 	 * Adds the argument into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} and update
-	 * object {{#crossLink "Registry/map:property"}}`map`{{/crossLink}} if the method
+	 * object {{#crossLink "Registry/tagMap:property"}}`tagMap`{{/crossLink}} if the method
 	 * {{#crossLink "Registry/hasValidName:method"}}`hasValidName`{{/crossLink}} returns `true` for that argument.
 	 * @method  register
 	 * @param  {Function}    cName
@@ -105,7 +105,7 @@ function Registry(info){
 		if (this.hasValidName(cName) && this.classes.indexOf(cName) === -1){
 			var phantomName = (new cName).name;
 			this.classes.push(cName);
-			this.map[phantomName] = cName;
+			this.tagMap[phantomName] = cName;
 			return true;
 		}
 		return false;
@@ -113,7 +113,7 @@ function Registry(info){
 
 	/**
 	 * If the argument is present among {{#crossLink "Registry/classes:property"}}classes{{/crossLink}},
-	 * then remove it from there and from {{#crossLink "Registry/map:property"}}map{{/crossLink}} and
+	 * then remove it from there and from {{#crossLink "Registry/tagMap:property"}}tagMap{{/crossLink}} and
 	 * return `true`. Otherwise, `false` is returned.
 	 * @method   unregister
 	 * @param    {mixed}         cName                Supposed to be of function type, since namely only
@@ -129,7 +129,7 @@ function Registry(info){
 		}
 		var name = (new cName).name;
 		this.classes.splice(pos, 1);
-		delete this.map[name];
+		delete this.tagMap[name];
 		return true;
 	};
 
