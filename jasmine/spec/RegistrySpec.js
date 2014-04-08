@@ -5,13 +5,14 @@ describe('Registry-related functionality', function(){
     var reg, classes, defaultClass, obj, A, B, C, D, E, F;
 
     beforeEach(function(){
-        A = function (){this.name = 'a';};
-        B = function (){this.name = 'b';};
-        C = function (){this.name = 'c';};
-        E = function (){this.name = 'e';};
-        F = function (){this.name = '';}; // "bad" class: property "name" is not set
+        A = function (){this.tag = 'a'; this.className = 'A';};
+        B = function (){this.tag = 'b'; this.className = 'B';};
+        C = function (){this.tag = 'c'; this.className = 'C';};
         D = function (){};
-        classes = [A, B, C];
+        E = function (){this.tag = 'e';};                      // no "className" for some reason
+        F = function (){this.tag = ''; this.className = 'F';}; // "bad" class: property "tag" is empty string
+        G = function (){this.className = 'F';};                // "bad" class: property "tag" is not set
+        classes = [A, B, C, D, E, F, G];
         defaultClass = D;
         obj = {'classes': classes, 'defaultClass': defaultClass};
         reg = new Registry(obj);
@@ -54,30 +55,30 @@ describe('Registry-related functionality', function(){
         });
     });
 
-    describe('Registry::hasValidName(): whether a class has a valid name property', function(){
+    describe('Registry::hasValidTag(): whether a class has a valid name property', function(){
         it('returns false, if the argument is a string', function(){
-            expect(reg.hasValidName('a string')).toBe(false);
+            expect(reg.hasValidTag('a string')).toBe(false);
         });
         it('returns false, if the argument is an object', function(){
-            expect(reg.hasValidName({'obj': 1})).toBe(false);
+            expect(reg.hasValidTag({'obj': 1})).toBe(false);
         });
         it('returns false, if the argument is a plain function', function(){
-            expect(reg.hasValidName(function(){return 1;})).toBe(false);
+            expect(reg.hasValidTag(function(){return 1;})).toBe(false);
         });
-        it('returns true, if a class with non-empty string-valued property "name" is given', function(){
-            expect(reg.hasValidName(A)).toBe(true);
+        it('returns true, if a class with non-empty string-valued property "tag" is given', function(){
+            expect(reg.hasValidTag(A)).toBe(true);
         });
-        it('returns false, if a class with empty string-valued property "name" is given', function(){
-            expect(reg.hasValidName(F)).toBe(false);
+        it('returns false, if a class with empty string-valued property "tag" is given', function(){
+            expect(reg.hasValidTag(F)).toBe(false);
         });
-        it('returns false, if a class with non-empty array-valued property "name" is given', function(){
-            expect(reg.hasValidName(function (){this.name = [1, 2];})).toBe(false);
+        it('returns false, if a class with non-empty array-valued property "tag" is given', function(){
+            expect(reg.hasValidTag(function (){this.tag = [1, 2];})).toBe(false);
         });
-        it('returns false, if a class with non-empty object-valued property "name" is given', function(){
-            expect(reg.hasValidName(function (){this.name = {'foo': 1};})).toBe(false);
+        it('returns false, if a class with non-empty object-valued property "tag" is given', function(){
+            expect(reg.hasValidTag(function (){this.tag = {'foo': 1};})).toBe(false);
         });
-        it('returns false, if a class with non-empty function-valued property "name" is given', function(){
-            expect(reg.hasValidName(function (){this.name = function(){return 1;};})).toBe(false);
+        it('returns false, if a class with non-empty function-valued property "tag" is given', function(){
+            expect(reg.hasValidTag(function (){this.tag = function(){return 1;};})).toBe(false);
         });
     });
 
@@ -91,17 +92,18 @@ describe('Registry-related functionality', function(){
         });
         it('ignores strings if given instead of classes', function(){
             var spot = 'a string';
-            classes.push(spot);
+            classes = [A, B, C, spot, F];
             obj = {'classes': classes, 'defaultClass': defaultClass};
             reg = new Registry(obj);
             expect(reg.classes.indexOf(spot)).toBe(-1);
         });
-        it('ignores arrays if given instead of classes', function(){
+        it('ignores arrays, strings, numbers and objects if given instead of classes', function(){
             var wrongInput = [['a', 3], 'string', 0.32, {foo: -3}],
                 classesTmp;
             wrongInput.forEach(function(el){
                 classesTmp = classes.slice(0, 2).concat(el).concat(classes.slice(2));
-                obj = {'classes': classesTmp, 'defaultClass': defaultClass};
+                classes = [A, C, el, F, C];
+                obj = {'classes': classes, 'defaultClass': defaultClass};
                 reg = new Registry(obj);
                 expect(reg.classes.indexOf(el)).toBe(-1);
             });
@@ -153,57 +155,156 @@ describe('Registry-related functionality', function(){
     });
 
     describe('Registry::tagMap: gives the mapping of available classes into tag names', function(){
-        it('gives "a" for A', function(){
-            expect(reg.tagMap.a).toBe(A);
+        it('gives empty tagMap if the input has no classes with "tag" property', function(){
+            reg = new Registry({'classes': [F, D], 'defaultClass': A});
+            expect(Object.keys(reg.tagMap).length).toBe(0);
         });
-        it('gives "b" for B', function(){
-            expect(reg.tagMap.b).toBe(B);
+        it('contains tags of all classes passes as input', function(){
+            reg = new Registry({'classes': [A, B, C, E]});
+            expect(Object.keys(reg.tagMap).length).toBe(4);
+            expect(reg.tagMap.hasOwnProperty('a')).toBe(true);
+            expect(reg.tagMap.hasOwnProperty('b')).toBe(true);
+            expect(reg.tagMap.hasOwnProperty('c')).toBe(true);
+            expect(reg.tagMap.hasOwnProperty('e')).toBe(true);
         });
-        it('gives "c" for C', function(){
-            expect(reg.tagMap.c).toBe(C);
+
+        it('ignores classes with invalid tag names', function(){
+            reg = new Registry({'classes': [A, F, D, E]});   // D and F have invalid tag names
+            expect(Object.keys(reg.tagMap).length).toBe(2);
+            expect(reg.tagMap.hasOwnProperty('a')).toBe(true);
+            expect(reg.tagMap.hasOwnProperty('e')).toBe(true);
         });
     });
 
     describe('Registry::register(): registers another class', function(){
         it('returns true, if the class is valid', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': A});
             expect(reg.register(E)).toBe(true);
         });
-        it('returns false, if not a valid class is given', function(){
-            spyOn(reg, 'hasValidName').andCallFake(function(){return false;});
-            var DummyFun = function(){};
-            expect(reg.register(DummyFun)).toBe(false);
+        it('returns false, if it is tried to register a string, a number, an array or an object', function(){
+            var invalides = ['', 'a string', 34, -3, 2.2, [], [2.1, 'text'], {}, {foo: 1}];
+            invalides.forEach(function(invalid){
+                reg = new Registry({'classes': [A, B, C], 'defaultClass': A});
+                expect(reg.register(invalid)).toBe(false);
+            });
+        });
+        it('includes the class into "classes" if it has a valid tag', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': A});
+            expect(reg.classes.length).toBe(3);
+            reg.register(E);
+            expect(reg.classes.length).toBe(4);
+            expect(reg.classes.indexOf(E) !== -1).toBe(true);
+            expect(reg.classes.indexOf(A) !== -1).toBe(true);
+            expect(reg.classes.indexOf(B) !== -1).toBe(true);
+            expect(reg.classes.indexOf(C) !== -1).toBe(true);
         });
 
-        it('includes the class into "classes", if it is valid', function(){
-            spyOn(reg, 'hasValidName').andCallFake(function(){return true;});
-            var DummyFun = function(){this.name = 'dummyFun';};
-            reg.register(DummyFun);
-            expect(reg.classes.indexOf(DummyFun) !== -1).toBe(true);
+        it('includes the class into "classes" if it does not have a valid tag', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': A});
+            expect(reg.classes.length).toBe(3);
+            reg.register(F);
+            expect(reg.classes.length).toBe(4);
+            expect(reg.classes.indexOf(F) !== -1).toBe(true);
+            expect(reg.classes.indexOf(A) !== -1).toBe(true);
+            expect(reg.classes.indexOf(B) !== -1).toBe(true);
+            expect(reg.classes.indexOf(C) !== -1).toBe(true);
         });
 
-        it('includes the mapping name into "tagMap", if the class is valid', function(){
-            spyOn(reg, 'hasValidName').andCallFake(function(){return true;});
-            var DummyFun = function(){this.name = 'dummyFun';};
-            reg.register(DummyFun);
-            expect(reg.tagMap.dummyFun).toBe(DummyFun);
+
+        it('includes the class into tagMap if it has a valid tag', function(){
+            reg = new Registry({'classes': [A, B]});
+            reg.register(C);
+            expect(reg.tagMap.c).toBe(C);
+        });
+
+        it('does not include the class into tagMap if it has an invalid tag', function(){
+            reg = new Registry({'classes': [B, C]});
+            reg.register(F);
+            expect(Object.keys(reg.tagMap).length).toBe(2);
+            expect(reg.tagMap.b).toBe(B);
+            expect(reg.tagMap.c).toBe(C);
+        });
+
+
+        it('includes the class into "classes" if it has a valid className', function(){
+            reg = new Registry({'classes': [A, B], 'defaultClass': A});
+            expect(reg.classes.length).toBe(2);
+            reg.register(F);
+            expect(reg.classes.length).toBe(3);
+            expect(reg.classes.indexOf(F) !== -1).toBe(true);
+            expect(reg.classes.indexOf(A) !== -1).toBe(true);
+            expect(reg.classes.indexOf(B) !== -1).toBe(true);
+
+        });
+
+        it('includes the class into "classes" if it does not have a valid className', function(){
+            reg = new Registry({'classes': [C], 'defaultClass': A});
+            expect(reg.classes.length).toBe(1);
+            reg.register(D);
+            expect(reg.classes.length).toBe(2);
+            expect(reg.classes.indexOf(D) !== -1).toBe(true);
+            expect(reg.classes.indexOf(C) !== -1).toBe(true);
+        });
+
+
+        it('includes the class into classNameMap if it has a valid className', function(){
+            reg = new Registry({'classes': [A, B]});
+            console.log(reg);
+            reg.register(C);
+            console.log(reg);
+            expect(reg.classNameMap.C).toBe(C);
+        });
+
+        it('does not include the class into classNameMap if it has an invalid classNameMap', function(){
+            reg = new Registry({'classes': [B, C]});
+            reg.register(E);
+            expect(Object.keys(reg.classNameMap).length).toBe(2);
+            expect(reg.classNameMap.B).toBe(B);
+            expect(reg.classNameMap.C).toBe(C);
         });
     });
 
     describe('Registry::unregister(): unregister the class', function(){
         it('returns false if the argument is not among "classes" property', function(){
+            reg = new Registry({'classes': [A, C], 'defaultClass': C});
             expect(reg.unregister(E)).toBe(false);
         });
         it('returns true if the argument is among "classes" property', function(){
-            expect(reg.unregister(B)).toBe(true);
+            reg = new Registry({'classes': [A, C], 'defaultClass': B});
+            expect(reg.unregister(C)).toBe(true);
         });
         it('removes argument from "classes" property', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': C});
             reg.unregister(B);
             expect(reg.classes.indexOf(B)).toBe(-1);
         });
         it('removes argument-related info from "tagMap" property', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': C});
+            expect(reg.tagMap.b).toBeDefined();
             reg.unregister(B);
             expect(reg.tagMap.b).not.toBeDefined();
         });
+        it('removes argument-related info from "tagMap" property', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': C});
+            expect(reg.classNameMap.B).toBeDefined();
+            reg.unregister(B);
+            expect(reg.classNameMap.B).not.toBeDefined();
+        });
+
+        it('leaves "defaultClass" if unregistering another class', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': C});
+            reg.unregister(B);
+            expect(reg.defaultClass).toBe(C);
+        });
+
+
+        it('removes "defaultClass" if it happens to unregister it', function(){
+            reg = new Registry({'classes': [A, B, C], 'defaultClass': C});
+            reg.unregister(C);
+            expect(reg.defaultClass).toBe(null);
+        });
+
+
     });
 
     describe('Registry::findClassByTag() gives the class to correspondinf to the argument', function(){

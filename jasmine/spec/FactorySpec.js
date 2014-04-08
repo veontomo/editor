@@ -1,8 +1,8 @@
 /*jslint plusplus: true, white: true */
 /*global describe, describe, it, it, expect, spyOn, beforeEach, Factory, Registry, Node */
 
-
-describe('Factory-related functionality', function(){
+console.info('----->  ', 'FactorySpec is disabled!');
+xdescribe('Factory-related functionality', function(){
     var factory, registry, BMW, MINI, PORSCHE, CAR;
     beforeEach(function(){
         BMW = function(){this.name = 'bmw';};

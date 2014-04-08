@@ -5,9 +5,9 @@
  * Service locator for the classes present in the application. The argument is an object containing the following keys:
  * <ol>
  * <li>`classes` - array of classes, each of these classes should have non-empty string-valued
- * `name` property (to be its html tag) </li>
+ * `tag` property (to be its html tag) </li>
  * <li>`defaultClass` - default class (to be used for construction of objects which html tag is not present among
- * `name` property in the available classes)</li>
+ * `tag` property in the available classes)</li>
  * </ol>
  * @module  Helper
  * @class   Registry
@@ -25,32 +25,32 @@ function Registry(info){
 	/**
 	 * Returns `true`, if the the argument is a class with non-empty string-valued `name` property.
 	 * Otherwise, `false` is returned.
-	 * @method  hasValidName
-	 * @return    {Boolean}
+	 * @method     hasValidTag
+	 * @return     {Boolean}
 	 */
-	this.hasValidName = function(cl){
+	this.hasValidTag = function(cl){
 		if (typeof cl === 'function'){
-			var objName = (new cl).name;
+			var objName = (new cl).tag;
 			return (typeof objName === 'string' && objName !== '');
 		}
 		return  false;
 	};
 
 	/**
-	 * Array of classes to be observed. If an array element turns out to be not a function ( = class), then this
-	 * element is ignored. Duplicates are ignored as well.
+	 * Array of classes to be observed. If an element from the input array `classes` turns out to be not a
+	 * function (that is a class constructor), then this element is ignored. Duplicates are ignored as well.
 	 * @property   classes
 	 * @type       {Array}
 	 */
-	this.classes = (function(arr, context){
+	this.classes = (function(arr){
 		var output = [];
 		arr.forEach(function(cl){
-			if (context.hasValidName(cl) && output.indexOf(cl) === -1){
+			if ((typeof cl === 'function') && output.indexOf(cl) === -1){
 				output.push(cl);
 			}
 		});
 		return output;
-	}(obj.classes || [], this));
+	}(obj.classes || []));
 
 
 	/**
@@ -59,8 +59,9 @@ function Registry(info){
 	 * @return {[type]}           [description]
 	 */
 	this.findClassByName = function(className){
-		return null;
-	}
+		/// !!! stub
+		return className;
+	};
 
 	/**
 	 * A class to construct an object if object-tag-name is not among the `name`
@@ -88,43 +89,77 @@ function Registry(info){
 	};
 
 	/**
-	 * Object of key-value pairs of the form `tag: className`, where `tag` is a tag name that class `className`
-	 * represent.<br />
-	 * For example, `{'td': 'Cell', 'ul': 'UList', ...}`
+	 * Object of key-value pairs of the form `tag: class`, where `tag` is a tag name that `class`
+	 * represents.<br />
+	 * For example, `{'td': Cell, 'ul': UList, ...}`
 	 * @property    tagMap
 	 * @type        {Array}
 	 */
 	this.tagMap = (function(arr){
 		var output = {};
-		arr.forEach(function(cName){
-			var phantom = new cName;
-			output[phantom.name] = cName;
+		arr.forEach(function(Cname){
+			var phantom = new Cname,
+				phantomTag = phantom.tag;
+			if (typeof phantomTag === 'string' && phantomTag !== ''){
+				output[phantom.tag] = Cname;
+			}
+		});
+		return output;
+	}(this.classes));
+
+
+	/**
+	 * Object of key-value pairs of the form `name: class`, where `name` is a name of the `class`.
+	 * For example, `{'Cell': Cell, 'ListItem': ListItem, ...}`
+	 * @property    classNameMap
+	 * @type        {Array}
+	 */
+	this.classNameMap = (function(arr){
+		var output = {};
+		arr.forEach(function(Cname){
+			var phantom = new Cname,
+				phantomClassName = phantom.className;
+			if (typeof phantomClassName === 'string' && phantomClassName !== ''){
+				output[phantomClassName] = Cname;
+			}
+
 		});
 		return output;
 	}(this.classes));
 
 	/**
-	 * Adds the argument into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}} and update
-	 * object {{#crossLink "Registry/tagMap:property"}}`tagMap`{{/crossLink}} if the method
-	 * {{#crossLink "Registry/hasValidName:method"}}`hasValidName`{{/crossLink}} returns `true` for that argument.
+	 * If the argument is a class, then inserts  into the array {{#crossLink "Registry/classes:property"}}`classes`{{/crossLink}}
+	 * and updates objects {{#crossLink "Registry/tagMap:property"}}`tagMap`{{/crossLink}} and
+	 * {{#crossLink "Registry/classNameMap:property"}}`classNameMap`{{/crossLink}} if the class has non-empty string-valued
+	 * properties `tag` and `className` respectively.
 	 * @method  register
 	 * @param  {Function}    cName
 	 * @return {Boolean}
 	 */
-	this.register = function(cName){
-		if (this.hasValidName(cName) && this.classes.indexOf(cName) === -1){
-			var phantomName = (new cName).name;
-			this.classes.push(cName);
-			this.tagMap[phantomName] = cName;
+	this.register = function(Cname){
+		if ((typeof Cname === 'function') && this.classes.indexOf(Cname) === -1){
+			var phantomTag = (new Cname).tag,
+				phantomClassName = (new Cname).className;
+			this.classes.push(Cname);
+			if (typeof phantomTag === 'string' && phantomTag !== ''){
+				this.tagMap[phantomTag] = Cname;
+			}
+			if (typeof phantomClassName === 'string' && phantomClassName !== ''){
+				this.classNameMap[phantomClassName] = Cname;
+			}
+
 			return true;
 		}
 		return false;
 	};
 
 	/**
-	 * If the argument is present among {{#crossLink "Registry/classes:property"}}classes{{/crossLink}},
-	 * then remove it from there and from {{#crossLink "Registry/tagMap:property"}}tagMap{{/crossLink}} and
-	 * return `true`. Otherwise, `false` is returned.
+	 * Returns `true`, if the argument is present among {{#crossLink "Registry/classes:property"}}classes{{/crossLink}}.
+	 * Otherwise, `false` is returned.
+	 * In addition, removes the argument from {{#crossLink "Registry/classes:property"}}classes{{/crossLink}}. Removes as
+	 * well the corresponding information (if present) from {{#crossLink "Registry/tagMap:property"}}tagMap{{/crossLink}},
+	 * {{#crossLink "Registry/classNameMap:property"}}classNameMap{{/crossLink}} and
+	 * {{#crossLink "Registry/defaultClass:property"}}defaultClass{{/crossLink}}.
 	 * @method   unregister
 	 * @param    {mixed}         cName                Supposed to be of function type, since namely only
 	 *                                                functions are present in
@@ -137,9 +172,19 @@ function Registry(info){
 		if (pos === -1){
 			return false;
 		}
-		var name = (new cName).name;
 		this.classes.splice(pos, 1);
-		delete this.tagMap[name];
+		if (this.defaultClass === cName){
+			this.defaultClass = null;
+		};
+		var phantom = new cName,
+			phantomTag = phantom.tag,
+			phantomClassName = phantom.className;
+		if (this.tagMap.hasOwnProperty(phantomTag)){
+			delete this.tagMap[phantomTag];
+		};
+		if (this.classNameMap.hasOwnProperty(phantomClassName)){
+			delete this.classNameMap[phantomClassName];
+		};
 		return true;
 	};
 

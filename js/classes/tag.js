@@ -388,7 +388,7 @@ function Tag() {
 		}
 		// clone the target without 'content' property
 		className = this.className;
-		console.log('className: ', className);
+		// console.log('className: ', className);
 		if(className) {
 			if (window.hasOwnProperty(className)){
 				output = new window[className];
@@ -420,7 +420,7 @@ function Tag() {
 	 * @return     {void}
 	 */
 	this.load = function(elem){
-		console.log('Tag::load is called with argument ', elem);
+		// console.log('Tag::load is called with argument ', elem);
 		// assure that the argument is an Element instance
 		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
 			var children = elem.childNodes,                               // gives all child nodes (including Elements, TextNodes, etc.)
@@ -431,11 +431,11 @@ function Tag() {
 			this.tag  = elem.tagName.toLowerCase();                      // setting tag of the tag
 			attr  = elem.attributes;                                      // NamedNodeMap
 			if (attr){
-				console.log('calling this.attr with ', attr);
+				// console.log('calling this.attr with ', attr);
 				this.attr.load(attr);
 				style = attr.getNamedItem('style');     // singling out style property
 				if (style){
-					console.log('calling this.style with ', style);
+					// console.log('calling this.style with ', style);
 					this.style.load(attr);
 				}
 			}

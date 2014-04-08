@@ -16,7 +16,7 @@ function LinkAttributes(attr){
 	/**
 	 * The URL of the link.
 	 * @property 	{String} 	href
-	 * @default  	(empty string)
+	 * @default  	"" (empty string)
 	 */
 	this.href = '';
 
