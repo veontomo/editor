@@ -36,8 +36,8 @@ describe('List-related functionality:', function(){
 
     describe('Basic properties:', function(){
         it('A list object contains nesessary attributes', function(){
-            expect(l.hasOwnProperty('name')).toBe(true);
-            expect(l.name === 'ol' || l.name === 'ul').toBe(true);
+            expect(l.hasOwnProperty('tag')).toBe(true);
+            expect(l.tag === 'ol' || l.tag === 'ul').toBe(true);
             expect(l.hasOwnProperty('attr')).toBe(true);
             expect(l.hasOwnProperty('style')).toBe(true);
             expect(l.hasOwnProperty('content')).toBe(true);
@@ -102,7 +102,7 @@ describe('List-related functionality:', function(){
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            l.name = 'listtype';
+            l.tag = 'listtype';
             // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return '';});
             spyOn(lAttr, 'toString').andCallFake(function(){return '';});
@@ -125,7 +125,7 @@ describe('List-related functionality:', function(){
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            l.name = 'listtype';
+            l.tag = 'listtype';
             // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
             spyOn(lAttr, 'toString').andCallFake(function(){return '';});
@@ -145,7 +145,7 @@ describe('List-related functionality:', function(){
             spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
             spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            l.name = 'listtype';
+            l.tag = 'listtype';
             // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
             spyOn(lStyle, 'toString').andCallFake(function(){return '';});
             spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
@@ -168,7 +168,7 @@ describe('List-related functionality:', function(){
             spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
             spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
             // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
-            l.name = 'listtype';
+            l.tag = 'listtype';
             spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
             spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
             l.items = [li1, li2, li3, li4];
@@ -210,28 +210,28 @@ describe('List-related functionality:', function(){
 
     describe('List::name imposes list type', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
-            expect((new List('ul')).name).toBe('ul');
+            expect((new List('ul')).tag).toBe('ul');
         });
         it('imposes name to be "ol" (it is among allowed ones)', function(){
-            expect((new List('ol')).name).toBe('ol');
+            expect((new List('ol')).tag).toBe('ol');
         });
         it('imposes name to be one of allowed if tried to set non-allowed', function(){
-            expect(['ol', 'ul'].indexOf((new List('non allowed type')).name) !== -1).toBe(true);
+            expect(['ol', 'ul'].indexOf((new List('non allowed type')).tag) !== -1).toBe(true);
         });
     });
 
     describe('List::setName(): imposes list type name', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
             l.setName('ul');
-            expect(l.name).toBe('ul');
+            expect(l.tag).toBe('ul');
         });
         it('imposes name to be "ol" (it is among allowed ones)', function(){
             l.setName('ol');
-            expect(l.name).toBe('ol');
+            expect(l.tag).toBe('ol');
         });
         it('imposes name to be one of allowed if tried to set non-allowed', function(){
             l.setName('ololololo');
-            expect(l.name).not.toBe('ololololo');
+            expect(l.tag).not.toBe('ololololo');
         });
     });
 

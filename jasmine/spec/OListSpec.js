@@ -35,7 +35,7 @@ describe('OList-related functionality:', function(){
 
     describe('OList::name: tag name', function(){
         it('A OList object name is set to "ol"', function(){
-            expect(ol.name).toBe('ol');
+            expect(ol.tag).toBe('ol');
         });
     });
 

@@ -22,7 +22,7 @@ function ListItem() {
 	 * @type {String}
 	 * @default 'li'
 	 */
-	this.name = 'li';
+	this.tag = 'li';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.

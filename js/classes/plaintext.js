@@ -3,7 +3,8 @@
 /*global Tag, Content, Link */
 
 /**
-* Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements
+* Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.
+* Though there is no `text` tag in HTML, it is introduced here in order to consider plain text on the same basis as other tags.
 * @module  HtmlElements
 * @class   PlainText
 * @since 0.0.2
@@ -27,11 +28,11 @@ function PlainText(text) {
 
 	/**
 	 * Marker for instances of this class.
-	 * @property {String}    name
+	 * @property {String}    tag
 	 * @type     {String}
 	 * @default  "text"
 	 */
-	this.name = 'text';
+	this.tag = 'text';
 
 	/**
 	 * Content of the Text() instance.

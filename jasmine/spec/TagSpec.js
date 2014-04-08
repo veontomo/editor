@@ -39,8 +39,8 @@ describe('Tag-related functionality:', function() {
         });
     });
 
-    describe('Tag::className: class name', function(){
-        it('gives the name of the class', function(){
+    describe('Tag::className: class tag', function(){
+        it('gives the tag of the class', function(){
             expect(tag.className).toBe('Tag');
         });
     });
@@ -186,7 +186,7 @@ describe('Tag-related functionality:', function() {
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
-            tag.name = 'htmltag';
+            tag.tag = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag attributes of the tag style="styles of the tag">html representation of the content</htmltag>');
         });
 
@@ -197,7 +197,7 @@ describe('Tag-related functionality:', function() {
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
-            tag.name = 'htmltag';
+            tag.tag = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag style="styles of the tag">html representation of the content</htmltag>');
         });
 
@@ -208,7 +208,7 @@ describe('Tag-related functionality:', function() {
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
-            tag.name = 'htmltag';
+            tag.tag = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag attributes of the tag>html representation of the content</htmltag>');
         });
 
@@ -219,7 +219,7 @@ describe('Tag-related functionality:', function() {
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
-            tag.name = 'htmltag';
+            tag.tag = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag>html representation of the content</htmltag>');
         });
 
@@ -230,26 +230,26 @@ describe('Tag-related functionality:', function() {
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
-            tag.name = 'htmltag';
+            tag.tag = 'htmltag';
             expect(tag.toHtml()).toBe('<htmltag attributes of the tag style="styles of the tag"></htmltag>');
         });
 
 
         it('if tag name is missing', function(){
-            if (tag.hasOwnProperty('name')){
-                delete tag.name;
+            if (tag.hasOwnProperty('tag')){
+                delete tag.tag;
             }
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
+            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
         });
 
         it('if tag name is empty', function(){
-            tag.name = '';
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
+            tag.tag = '';
+            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
         });
 
         it('if tag name is null', function(){
-            tag.name = null;
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
+            tag.tag = null;
+            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
         });
     });
 
@@ -410,8 +410,8 @@ describe('Tag-related functionality:', function() {
         });
         it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
             var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
-            classNames.forEach(function(name){
-                var obj = new window[name]();
+            classNames.forEach(function(tag){
+                var obj = new window[tag]();
                 expect(function(){
                     tag.toLink(obj);
                 }).toThrow('The argument must be a Link instance!');
@@ -499,12 +499,12 @@ describe('Tag-related functionality:', function() {
 
         it('returns "undefined" if the target content is not empty and the target has a "className" property, but it corresponds to a non-existing class', function(){
             spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            tag.className = 'a class with such a name does not exist. I hope.';
+            tag.className = 'a class with such a tag does not exist. I hope.';
             expect(tag.toLink(link)).not.toBeDefined();
         });
 
         it('preserves styles of the target tag, if it is non-empty', function(){
-            tag.name = 'tag';
+            tag.tag = 'tag';
             tagStyle.color = 'red';
             tagStyle.depth = '6';
             tag.style = tagStyle;
@@ -514,12 +514,12 @@ describe('Tag-related functionality:', function() {
             var tag2 = tag.toLink(link);
             expect(tag2.style.color).toBe('red');
             expect(tag2.style.depth).toBe('6');
-            expect(tag2.name).toBe('tag');
+            expect(tag2.tag).toBe('tag');
             console.info('tag2', T);
         });
 
         it('preserves atrributes of the target tag, if it is non-empty', function(){
-            tag.name = 'tag2';
+            tag.tag = 'tag2';
             tagAttr.class = 'red';
             tagAttr.hidden = 'yes';
             tag.attr = tagAttr;
@@ -530,7 +530,7 @@ describe('Tag-related functionality:', function() {
             var tag2 = tag.toLink(link);
             expect(tag2.attr.class).toBe('red');
             expect(tag2.attr.hidden).toBe('6');
-            expect(tag2.name).toBe('tag2');
+            expect(tag2.tag).toBe('tag2');
             console.info('T', tag2);
         });
 
@@ -556,12 +556,12 @@ describe('Tag-related functionality:', function() {
             root.appendChild(e2);
         });
 
-        it('sets the name', function(){
+        it('sets the tag', function(){
             spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
             spyOn(tag.style, 'load');
             tag.load(root);
-            expect(tag.name).toBe('custom');
+            expect(tag.tag).toBe('custom');
         });
 
         it('does not call "load" methods, if the argument is missing', function(){
@@ -614,9 +614,9 @@ describe('Tag-related functionality:', function() {
     describe('Tag::toNode(): transforms element into a DOM.Element', function(){
         var el, c1, c2, c3;
         beforeEach(function(){
-            tag.name = 'meta';
+            tag.tag = 'meta';
         });
-        it('return DOM element with tag equal to the "name" property', function(){
+        it('return DOM element with tag equal to the "tag" property', function(){
             expect(tag.toNode().tagName).toBe('META');
         });
         it('calls "decorateElement" on the style to set styles', function(){

@@ -4,7 +4,7 @@
 
 /**
  * This is a parent class for ordered and unordred lists. If argument is provided and is allowed one, it will be used
- * to set the property "name". Otherwise, "name" property will be set to the first allowed value.
+ * to set the property "tag". Otherwise, "tag" property will be set to the first allowed value.
  * @module 	    HtmlElements
  * @param       {Sting}       listType
  * @class  		List
@@ -19,11 +19,11 @@ function List(listType) {
 
 	/**
 	 * Array of allowed values for the tag names: ['ol', 'ul'].
-	 * @property {Array}    allowedNames
+	 * @property {Array}    allowedTags
 	 * @type     {Array}
 	 * @protected
 	 */
-	var allowedNames = ['ol', 'ul'];
+	var allowedTags = ['ol', 'ul'];
 
 	/**
 	 * Styles corresponding to the list as a whole object.
@@ -39,7 +39,7 @@ function List(listType) {
 	 * @type {String}
 	 * @default  'ol'
 	 */
-	this.name = allowedNames.indexOf(listType) !== -1 ? listType : allowedNames[0];
+	this.tag = allowedTags.indexOf(listType) !== -1 ? listType : allowedTags[0];
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
@@ -54,14 +54,14 @@ function List(listType) {
 
 
 	/**
-	 * Lis the type of the list. The list name is changed only if the argument is in
-	 * the array of the allowed names {{#crossLink "List/allowedNames:property"}}allowedNames{{/crossLink}}.
+	 * Sets the tag of the list. The list type is changed only if the argument is in
+	 * the array of the allowed names {{#crossLink "List/allowedTags:property"}}allowedTags{{/crossLink}}.
 	 * @method   setName
 	 * @param    {String}        name       the value to be imposed as a list type.
 	 */
 	this.setName = function(name){
-		if (allowedNames.indexOf(name) !== -1){
-			this.name = name;
+		if (allowedTags.indexOf(name) !== -1){
+			this.tag = name;
 		}
 	};
 

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row */
+/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row, Link */
 
 describe('Cell-related functionality:', function() {
     var cell, cellStyle, cellAttr, cellContent;
@@ -29,12 +29,12 @@ describe('Cell-related functionality:', function() {
         });
 
         it('does not affect parent name property if it is changed in the child', function(){
-            expect((new Tag()).name).toBe(null);
-            expect((new Cell()).name).toBe('td');
-            cell.name = 'whatever';
-            expect((new Tag()).name).toBe(null);
-            expect((new Cell()).name).toBe('td');
-            expect(cell.name).toBe('whatever');
+            expect((new Tag()).tag).toBe(null);
+            expect((new Cell()).tag).toBe('td');
+            cell.tag = 'whatever';
+            expect((new Tag()).tag).toBe(null);
+            expect((new Cell()).tag).toBe('td');
+            expect(cell.tag).toBe('whatever');
         });
 
         it('adds keyword "new" if it is missing when an object is created', function(){

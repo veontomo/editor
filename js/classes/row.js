@@ -28,11 +28,11 @@ function Row() {
 
 	/**
 	 * Html tag corresponding to Row instances.
-	 * @property {String}    name
+	 * @property {String}    tag
 	 * @type     {String}
 	 * @default  td
 	 */
-	this.name = 'tr';
+	this.tag = 'tr';
 
 
 	/**

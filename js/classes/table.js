@@ -27,7 +27,7 @@ function Table() {
 	};
 
 	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
+	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
 	 * in FF, `this.constructor` has `name` property that returns "Table", while in IE, there
 	 * is no `name` property.
 	 * @property {String}    className
@@ -39,11 +39,11 @@ function Table() {
 
 	/**
 	 * Html tag corresponding to Table instances.
-	 * @property {String}    name
+	 * @property {String}    tag
 	 * @type     {String}
 	 * @default  table
 	 */
-	this.name = 'table';
+	this.tag = 'table';
 
 	/**
 	* Attributes of the table. Overrides parent property "attr".
@@ -508,7 +508,7 @@ function Table() {
 	 * NB: to compare requested property for all rows, this property must be an object
 	 * with boolean-valued method isTheSameAs().
 	 * @method   getBogusRowProp
-	 * @param    {String}         prop      a name of the property to return. All rows shiuld have this property.
+	 * @param    {String}         prop      a tag of the property to return. All rows shiuld have this property.
 	 * @return   {Object|null}			    the value of the property specified by the argument, if it is the same
 	 *                                      for all rows, null otherwise.
 	 */

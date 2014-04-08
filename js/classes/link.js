@@ -17,11 +17,11 @@ function Link(href) {
 
 	/**
 	 * Link html tag.
-	 * @property {String} name
+	 * @property {String} tag
 	 * @type     {String}
 	 * @default 'a'
 	 */
-	this.name = 'a';
+	this.tag = 'a';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.

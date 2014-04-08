@@ -22,7 +22,7 @@ function Cell(arg) {
 	 * @type     {String}
 	 * @default  table
 	 */
-	this.name = 'td';
+	this.tag = 'td';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.

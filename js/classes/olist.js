@@ -19,11 +19,11 @@ function OList() {
 
 	/**
 	 * Html tag corresponding to OList object.
-	 * @property   {String}     name
+	 * @property   {String}     tag
 	 * @type       {String}
 	 * @default    "ul"
 	 */
-	this.name = 'ol';
+	this.tag = 'ol';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.

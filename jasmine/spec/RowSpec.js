@@ -34,18 +34,18 @@ describe('Row-related functionality:', function(){
         });
 
         it('does not affect parent name property if it is changed in the child', function(){
-            expect((new Tag()).name).toBe(null);
-            expect((new Row()).name).toBe('tr');
-            row.name = 'whatever';
-            expect((new Tag()).name).toBe(null);
-            expect((new Row()).name).toBe('tr');
-            expect(row.name).toBe('whatever');
+            expect((new Tag()).tag).toBe(null);
+            expect((new Row()).tag).toBe('tr');
+            row.tag = 'whatever';
+            expect((new Tag()).tag).toBe(null);
+            expect((new Row()).tag).toBe('tr');
+            expect(row.tag).toBe('whatever');
         });
     });
 
-    describe('Row::name: tag name for the Row', function(){
+    describe('Row::tag: tag name for the Row', function(){
         it('has the property name set to "tr"', function(){
-            expect(row.name).toBe('tr');
+            expect(row.tag).toBe('tr');
         });
     });
 
