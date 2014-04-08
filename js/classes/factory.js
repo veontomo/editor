@@ -64,7 +64,7 @@ function Factory(reg){
 
 	/**
 	 * Returns a class to produce an object corresponding to the argument. Alias for the method
-	 * {{#crossLink "Registry/classForTag:method"}}Registry::classForTag(){{/crossLink}}
+	 * {{#crossLink "Registry/findClassByTag:method"}}Registry::findClassByTag(){{/crossLink}}
 	 * called with {{#crossLink "Factory/tagFor:method"}}Factory::tagFor(elem){{/crossLink}}.
 	 * @method     classFor
 	 * @param      {any}        elem
@@ -72,7 +72,7 @@ function Factory(reg){
 	 */
 	this.classFor = function(elem){
 		var tag = this.tagFor(elem),
-			result = this.registry.classForTag(tag);
+			result = this.registry.findClassByTag(tag);
 		return result;
 	};
 

@@ -59,7 +59,7 @@ function Registry(info){
 	 * @return {[type]}           [description]
 	 */
 	this.findClassByName = function(className){
-		retrun null;
+		return null;
 	}
 
 	/**
