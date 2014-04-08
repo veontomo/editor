@@ -17,17 +17,17 @@ function Tag() {
 	}
 
 	/**
-	 * Tag name.
-	 * @property {String}          name
+	 * Html tag that the class represents.
+	 * @property {String}          tag
 	 * @default  null
 	 * @since 0.0.1
 	 */
-	this.name = null;
+	this.tag = null;
 
 	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "ListItem", while in IE, there
-	 * is no `name` property.
+	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, `this.constructor` has `tag` property that returns "ListItem", while in IE, there
+	 * is no `tag` property.
 	 * Every class that inherits from this one, should override this property.
 	 * @property {String}    className
 	 * @type     {String}
@@ -37,13 +37,13 @@ function Tag() {
 	this.className = "Tag";
 
 	/**
-	 * Returns value of the attribute `name`.
+	 * Returns value of the attribute `tag`.
 	 * @method  getName
 	 * @return  {String}
 	 * @since 0.0.1
 	 */
 	this.getName = function(){
-		return this.name;
+		return this.tag;
 	};
 
 
@@ -122,7 +122,7 @@ function Tag() {
 	/**
 	 * Retrieves requested property from the "style" property of the current object.
 	 * @method getStyleProp
-	 * @param  {String} 	prop 	property name which value should be retrieved
+	 * @param  {String} 	prop 	property tag which value should be retrieved
 	 * @return {Any}
 	 * @since  0.0.1
 	 */
@@ -281,14 +281,14 @@ function Tag() {
 
 
 	/**
-	 * Gives html representation of the instance. If tag name is undefined or empty, just html comment is generated.
+	 * Gives html representation of the instance. If tag tag is undefined or empty, just html comment is generated.
 	 * @method  toHtml
 	 * @return  {String}                html representation of an instance of this class.
 	 * @since   0.0.1
 	 */
 	this.toHtml = function(){
 		// console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
-		var tag = this.name,
+		var tag = this.tag,
 			style, attr, html;
 
 		if (tag){
@@ -296,7 +296,7 @@ function Tag() {
 			attr = this.attr.toString();
 			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
 		} else {
-			html = '<!-- tag name is missing -->';
+			html = '<!-- tag tag is missing -->';
 		}
 		return html;
 	};
@@ -392,7 +392,7 @@ function Tag() {
 		if(className) {
 			if (window.hasOwnProperty(className)){
 				output = new window[className];
-				output.name = this.name;
+				output.tag = this.tag;
 				if(output.attr !== undefined){
 					output.attr = this.attr;
 				}
@@ -414,7 +414,7 @@ function Tag() {
 	/**
 	 * Populates properties of the current object from the argument which must be an instance of javascript
 	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class.
-	 * NB: DOM.Element.attributes has the form `{1: {name: "width", value:"100", ...}, 2: {name: "color", value:"black", ...}, ...}`
+	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
 	 * @method     load
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
 	 * @return     {void}
@@ -428,7 +428,7 @@ function Tag() {
 				childrenArr = [],
 				len = children.length,
 				currentChild, style, attr, i;
-			this.name  = elem.tagName.toLowerCase();                      // setting name of the tag
+			this.tag  = elem.tagName.toLowerCase();                      // setting tag of the tag
 			attr  = elem.attributes;                                      // NamedNodeMap
 			if (attr){
 				console.log('calling this.attr with ', attr);
@@ -459,7 +459,7 @@ function Tag() {
 	 * @return  {DOM.Element}
 	 */
 	this.toNode = function(){
-		var el = document.createElement(this.name);
+		var el = document.createElement(this.tag);
 		this.style.decorateElement(el);
 		this.attr.decorateElement(el);
 		this.content.stickTo(el);
