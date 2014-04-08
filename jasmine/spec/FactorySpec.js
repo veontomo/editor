@@ -213,15 +213,36 @@ describe('Factory-related functionality', function(){
     });
 
 
-    xdescribe('Factory::forgeElement(): imitates the argument', function(){
+    describe('Factory::forgeElement(): imitates the argument', function(){
         it('returns null if no argument is provided', function(){
             expect(factory.forgeElement()).toBe(null);
         });
-        it('returns null if the argument is of non-supported type', function(){
-            var el = {};
-            spyOn(factory, 'isSupported').andCallFake(function(){return false;});
-            expect(factory.forgeElement(el)).toBe(null);
+        it('calls "createInstanceByTag" with the argument tag', function(){
+            var el = {'tagName': 'a-tag'};
+            spyOn(factory, 'createInstanceByTag');
+            factory.forgeElement(el);
+            expect(factory.createInstanceByTag).toHaveBeenCalledWith('a-tag');
         });
+        it('calls "imitate" method with proper arguments', function(){
+            var el = {'tagName': 'a-tag'},
+                baby = {};
+            spyOn(factory, 'createInstanceByTag').andCallFake(function(){return baby;});
+            spyOn(factory, 'copyElement');
+            factory.forgeElement(el);
+            expect(factory.copyElement).toHaveBeenCalledWith(baby, el);
+        });
+        it('calls "bindFactory" method with proper arguments', function(){
+            var el = {'tagName': 'a-tag'},
+                baby = {};
+            spyOn(factory, 'createInstanceByTag').andCallFake(function(){return baby;});
+            spyOn(factory, 'copyElement');
+            spyOn(factory, 'bindFactory');
+            factory.forgeElement(el);
+            expect(factory.bindFactory).toHaveBeenCalledWith(baby);
+        });
+
+
+
 
     });
 

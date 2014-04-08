@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node */
+/*global Node, Registry */
 
 /**
  * This class is to be used to create different objects. What type of object is to be created is decided based on information
@@ -166,6 +166,22 @@ function Factory(reg){
 		return false;
 	};
 
+	/**
+	 * Copies the properties from the second argument into the first. Returns `true` if the first argument
+	 * responds a method `load` and calls it with the second argument. If that method does not exist or the arguments are
+	 * `undefined` or `null`, returns `false`.
+	 * @method  copyElement
+	 * @param   {Object}       obj
+	 * @param   {Object}       elem
+	 * @return  {Boolean}
+	 */
+	this.copyElement = function(obj, elem){
+		if (obj && elem && (typeof obj.load === 'function')){
+			return obj.load(elem);
+		}
+		return false;
+	};
+
 
 	/**
 	 * Produces a class instance corresponding to the argument and populates properties of the newly created instance
@@ -188,5 +204,36 @@ function Factory(reg){
 		this.brightenObj(product, elem);
 		return product;
 	};
+
+	/**
+	 * Creates an analog of the element based on the classes available in the
+	 * {{#crossLink "Factory/registry:property}}`registry`{{/crossLink}}. The operation consists of the following calls:
+	 * <ol><li>
+	 * {{#crossLink "Factory/createInstanceByTag:method"}}Factory::createInstanceByTag(){{/crossLink}} to
+	 * create the instance
+	 * </li><li>
+	 * {{#crossLink "Factory/bindFactory:method"}}Factory::bindFactory(){{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Factory/copyElem:method"}}Factory::copyElem(){{/crossLink}} to populate the newly
+	 * created object with properties
+	 * </li></ol>
+	 * @method  forfeElement
+	 * @param   {Object}       elem          initially intended to be
+	 *                                       [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
+	 *                                       or
+	 *                                       [DOM.Text](https://developer.mozilla.org/en-US/docs/Web/API/text)
+	 * @return  {Object|Null}
+	 */
+	this.forgeElement = function(elem){
+		if (elem){
+			var elemTag = elem.tagName,
+				product = this.createInstanceByTag(elemTag);
+			this.bindFactory(product);
+			// console.log('Factory::produce is called with argument ', elem);
+			this.copyElement(product, elem);
+			return product;
+		}
+		return null;
+	}
 
 }
