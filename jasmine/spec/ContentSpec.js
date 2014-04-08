@@ -2,7 +2,7 @@
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
 	Content, Link, Ulist, Factory, Tag, ListItem, Registry, Text, window */
 
-describe('Content-related functionality', function(){
+xdescribe('Content-related functionality', function(){
 	var c;
 	beforeEach(function(){
 		c = new Content();

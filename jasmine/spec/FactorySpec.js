@@ -123,29 +123,35 @@ describe('Factory-related functionality', function(){
     //     });
     // });
 
-    // xdescribe('Factory::brightenObj() loads properties', function(){
-    //     it('returns false if the the first argument does not respond to "load" method', function(){
-    //         var obj = {'noLoad': 1};
-    //         expect(factory.brightenObj(obj, {})).toBe(false);
-    //     });
-    //     it('returns true if the the first argument has "load" method', function(){
-    //         var obj = {'load': function(){return null;}};
-    //         expect(factory.brightenObj(obj, {})).toBe(true);
-    //     });
-    //     it('returns false if called without arguments', function(){
-    //         expect(factory.brightenObj()).toBe(false);
-    //     });
-    //     it('returns false if called with one argument', function(){
-    //         expect(factory.brightenObj({})).toBe(false);
-    //     });
-    //     it('passes the second argument to the "load" method of the first one', function(){
-    //         var obj = {'load': function(){return null;}},
-    //             prop = {'a': 'properties', 1: 0};
-    //         spyOn(obj, 'load');
-    //         factory.brightenObj(obj, prop);
-    //         expect(obj.load).toHaveBeenCalledWith(prop);
-    //     });
-    // });
+    describe('Factory::copyElement() loads properties', function(){
+        it('returns false if called without arguments', function(){
+            expect(factory.copyElement()).toBe(false);
+        });
+        it('returns false if called with one argument', function(){
+            expect(factory.copyElement({})).toBe(false);
+        });
+
+        it('returns false if the the first argument does not respond to "load" method', function(){
+            var obj = {'noLoad': 1};
+            expect(factory.copyElement(obj, {})).toBe(false);
+        });
+        it('returns true if the the first argument has "load" method that returns "true"', function(){
+            var obj = {'load': function(){return true;}};
+            expect(factory.copyElement(obj, {})).toBe(true);
+        });
+        it('returns true if the the first argument has "load" method that returns "false"', function(){
+            var obj = {'load': function(){return false;}};
+            expect(factory.copyElement(obj, {})).toBe(false);
+        });
+
+        it('passes the second argument to the "load" method of the first one', function(){
+            var obj = {'load': function(){return null;}},
+                prop = {'a': 'properties', 1: 0};
+            spyOn(obj, 'load');
+            factory.copyElement(obj, prop);
+            expect(obj.load).toHaveBeenCalledWith(prop);
+        });
+    });
 
     // xdescribe('Factory::produce(): produce full-featured object', function(){
     //     it('calls "createInstance" method', function(){
@@ -165,6 +171,32 @@ describe('Factory-related functionality', function(){
 
     // });
 
+    describe('Factory::bindFactory(): bind the factory for the element', function(){
+        it('returns "false" if no argument is given', function(){
+            expect(factory.bindFactory()).toBe(false);
+        });
+        it('returns "false" if the argument has no "factory" property', function(){
+            expect(factory.bindFactory({'no-factory-propery': true})).toBe(false);
+        });
+        it('returns "true" if the argument has "factory" property', function(){
+            expect(factory.bindFactory({'factory': 1})).toBe(true);
+        });
+        it('does not assign "defaultClass if it is absent in the registry', function(){
+            var el = {factory: 1};
+            factory = new Factory(new Registry({classes: [DivClass, SpanClass]}));
+            factory.bindFactory(el);
+            expect(el.factory.registry.defaultClass).toBe(null);
+        });
+        it('does not assign "classes" if it is absent in the registry', function(){
+            var el = {factory: 1};
+            factory = new Factory(new Registry({defaultClass: DivClass}));
+            factory.bindFactory(el);
+            expect(el.factory.registry.classes.length).toBe(0);
+        });
+
+
+
+    });
 
     describe('Factory::createInstanceOf(): creates an instance of the requested class', function(){
         it('calls Registry method "getClassByName"', function(){

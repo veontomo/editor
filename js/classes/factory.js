@@ -135,18 +135,32 @@ function Factory(reg){
 
 
 	/**
-	 * Binds `factory` to `elem`. If `elem` is an instance of {{#crossLink "Content"}}Content{{/crossLink}}, its
-	 * `factory` property is set to current {{#crossLink "Factory"}}Factory{{/crossLink}}.
+	 * Binds `factory` to `elem`. If `elem` has a property `factory`, assign it a value of the current factory
+	 * `factory` property {{#crossLink "Factory"}}Factory{{/crossLink}}.
 	 * @method     bindFactory
 	 * @param      {any}            elem
-	 * @return     {void}
+	 * @return     {Boolean}
 	 */
 	this.bindFactory = function(elem){
-		if (elem && (elem.content instanceof Content)){
-			var registry = new Registry({'classes': this.registry.classes, 'defaultClass': this.registry.defaultClass}),
-				factory = new Factory(registry);
-			elem.content.factory = factory;
+		if (elem && (elem.factory)){
+			var registryCore = {'classes': this.registry.classes, 'defaultClass': this.registry.defaultClass},
+				registry, factory,
+				classes = this.registry.classes,
+				defaultClass = this.registry.defaultClass;
+			// assign only if defined
+			if (classes.length > 0){
+				registryCore.classes = classes;
+			}
+			if (defaultClass){
+				registryCore.defaultClass = defaultClass;
+			}
+			registry = new Registry(registryCore);
+			factory = new Factory(registry);
+			elem.factory = factory;
+			return true;
+
 		}
+		return false;
 	};
 
 	/**
@@ -157,6 +171,7 @@ function Factory(reg){
 	 * @param   {Object}       obj
 	 * @param   {Object}       elem
 	 * @return  {Boolean}
+	 * @deprecated  Use copyElement()
 	 */
 	this.brightenObj = function(obj, elem){
 		if (obj && elem && (typeof obj.load === 'function')){
@@ -196,6 +211,7 @@ function Factory(reg){
 	 * @method  produce
 	 * @param  {Object} elem
 	 * @return {Object}
+	 * @deprecated  Use "forgeElement" instead
 	 */
 	this.produce = function(elem){
 		var product = this.createInstance(elem);
