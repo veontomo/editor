@@ -22,19 +22,6 @@ function Registry(info){
 	}
 	var obj = info || {};
 
-	/**
-	 * Returns `true`, if the the argument is a class with non-empty string-valued `name` property.
-	 * Otherwise, `false` is returned.
-	 * @method     hasValidTag
-	 * @return     {Boolean}
-	 */
-	this.hasValidTag = function(cl){
-		if (typeof cl === 'function'){
-			var objName = (new cl).tag;
-			return (typeof objName === 'string' && objName !== '');
-		}
-		return  false;
-	};
 
 	/**
 	 * Array of classes to be observed. If an element from the input array `classes` turns out to be not a
@@ -94,7 +81,7 @@ function Registry(info){
 	 * @param     {String}     tag
 	 * @return    {Function}
 	 */
-	this.findClassByTag = function(tag){
+	this.getClassByTag = function(tag){
 		var output = this.tagMap[tag];
 		return output || this.defaultClass;
 	};

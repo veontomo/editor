@@ -55,34 +55,6 @@ describe('Registry-related functionality', function(){
         });
     });
 
-    describe('Registry::hasValidTag(): whether a class has a valid name property', function(){
-        it('returns false, if the argument is a string', function(){
-            expect(reg.hasValidTag('a string')).toBe(false);
-        });
-        it('returns false, if the argument is an object', function(){
-            expect(reg.hasValidTag({'obj': 1})).toBe(false);
-        });
-        it('returns false, if the argument is a plain function', function(){
-            expect(reg.hasValidTag(function(){return 1;})).toBe(false);
-        });
-        it('returns true, if a class with non-empty string-valued property "tag" is given', function(){
-            expect(reg.hasValidTag(A)).toBe(true);
-        });
-        it('returns false, if a class with empty string-valued property "tag" is given', function(){
-            expect(reg.hasValidTag(F)).toBe(false);
-        });
-        it('returns false, if a class with non-empty array-valued property "tag" is given', function(){
-            expect(reg.hasValidTag(function (){this.tag = [1, 2];})).toBe(false);
-        });
-        it('returns false, if a class with non-empty object-valued property "tag" is given', function(){
-            expect(reg.hasValidTag(function (){this.tag = {'foo': 1};})).toBe(false);
-        });
-        it('returns false, if a class with non-empty function-valued property "tag" is given', function(){
-            expect(reg.hasValidTag(function (){this.tag = function(){return 1;};})).toBe(false);
-        });
-    });
-
-
     describe('Registry::classes: contains names of available classes', function(){
         it('inserts valid classes into property "classes"', function(){
             reg = new Registry(obj);
@@ -303,18 +275,18 @@ describe('Registry-related functionality', function(){
         });
     });
 
-    describe('Registry::findClassByTag(): gives the class that has requested tag value', function(){
+    describe('Registry::getClassByTag(): gives the class that has requested tag value', function(){
         it('gives the default class if the argument is missing', function(){
-            expect(reg.findClassByTag()).toBe(D);
+            expect(reg.getClassByTag()).toBe(D);
         });
         it('gives the default class if the argument is an empty string', function(){
-            expect(reg.findClassByTag('')).toBe(D);
+            expect(reg.getClassByTag('')).toBe(D);
         });
         it('gives the default class if the argument corresponds to a tag not present in the class names', function(){
-            expect(reg.findClassByTag('no such name in class names')).toBe(D);
+            expect(reg.getClassByTag('no such name in class names')).toBe(D);
         });
         it('gives a class if the argument corresponds to a tag present in the class names', function(){
-            expect(reg.findClassByTag('a')).toBe(A);
+            expect(reg.getClassByTag('a')).toBe(A);
         });
     });
 
