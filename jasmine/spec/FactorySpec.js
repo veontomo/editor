@@ -1,15 +1,16 @@
 /*jslint plusplus: true, white: true */
 /*global describe, describe, it, it, expect, spyOn, beforeEach, Factory, Registry, Node */
 
-console.info('----->  ', 'FactorySpec is disabled!');
-xdescribe('Factory-related functionality', function(){
-    var factory, registry, BMW, MINI, PORSCHE, CAR;
+describe('Factory-related functionality', function(){
+    var factory, registry, SpanClass, DivClass, ArticleClass, TextClass, TagClass, ContentClass;
     beforeEach(function(){
-        BMW = function(){this.name = 'bmw';};
-        MINI = function(){this.name = 'mini';};
-        PORSCHE = function(){this.name = 'porsche';};
-        CAR = function(){};
-        registry = new Registry({classes: [BMW, MINI, PORSCHE], defaultClass: CAR});
+        SpanClass = function(){this.tag = 'span'; this.className = 'SpanClass';};
+        DivClass = function(){this.tag = 'div'; this.className = 'DivClass';};
+        ArticleClass = function(){this.tag = 'article'; this.className = 'ArticleClass';};
+        TextClass = function(){this.tag = 'text'; this.className = 'TextClass';};
+        TagClass = function(){this.tag = 'text'; this.className = 'TagClass';};
+        ContentClass = function(){this.className = 'ConsoleClass';};
+        registry = new Registry({classes: [SpanClass, DivClass, ArticleClass, TextClass, ContentClass], defaultClass: TagClass});
         factory = new Factory(registry);
     });
     describe('Factory::constuctor()', function(){
@@ -82,84 +83,144 @@ xdescribe('Factory-related functionality', function(){
         });
     });
 
-    describe('Factory::classFor() gives the class to construct object', function(){
-        it('calls Registry::findClassByTag()', function(){
-            spyOn(factory.registry, 'findClassByTag');
-            spyOn(factory, 'tagFor').andCallFake(function(){return 'tagForElement';});
-            var el = {};
-            factory.classFor(el);
-            expect(factory.registry.findClassByTag).toHaveBeenCalledWith('tagForElement');
-            expect(factory.tagFor).toHaveBeenCalledWith(el);
+    // xdescribe('Factory::classFor() gives the class to construct object', function(){
+    //     it('calls Registry::getClassByTag()', function(){
+    //         spyOn(factory.registry, 'getClassByTag');
+    //         spyOn(factory, 'tagFor').andCallFake(function(){return 'tagForElement';});
+    //         var el = {};
+    //         factory.classFor(el);
+    //         expect(factory.registry.getClassByTag).toHaveBeenCalledWith('tagForElement');
+    //         expect(factory.tagFor).toHaveBeenCalledWith(el);
+    //     });
+    // });
+
+    // xdescribe('Factory::createInstance(): returns an instance of a class', function(){
+    //     it('returns null if "isSupported" returns false for the argument', function(){
+    //         spyOn(factory, 'isSupported').andCallFake(function(){return false;});
+    //         var el = {'tagName': 'bmw'},
+    //             car = factory.createInstance(el);
+    //         expect(car).toBe(null);
+    //         expect(factory.isSupported).toHaveBeenCalledWith(el);
+    //     });
+
+    //     it('returns instance of BMW if "tagFor" of the argument returns "bmw"', function(){
+    //         spyOn(factory, 'isSupported').andCallFake(function(){return true;});
+    //         spyOn(factory, 'tagFor').andCallFake(function(){return 'bmw';});
+    //         var el = {},
+    //             car = factory.createInstance(el);
+    //         expect(car instanceof BMW).toBe(true);
+    //         expect(factory.isSupported).toHaveBeenCalledWith(el);
+    //         expect(factory.tagFor).toHaveBeenCalledWith(el);
+    //     });
+    //     it('returns instance of CAR if "tagFor" of the argument returns "nonExistentTag"', function(){
+    //         spyOn(factory, 'isSupported').andCallFake(function(){return true;});
+    //         spyOn(factory, 'tagFor').andCallFake(function(){return 'nonExistentTag';});
+    //         var el = {},
+    //             car = factory.createInstance(el);
+    //         expect(car instanceof CAR).toBe(true);
+    //         expect(factory.isSupported).toHaveBeenCalledWith(el);
+    //         expect(factory.tagFor).toHaveBeenCalledWith(el);
+    //     });
+    // });
+
+    // xdescribe('Factory::brightenObj() loads properties', function(){
+    //     it('returns false if the the first argument does not respond to "load" method', function(){
+    //         var obj = {'noLoad': 1};
+    //         expect(factory.brightenObj(obj, {})).toBe(false);
+    //     });
+    //     it('returns true if the the first argument has "load" method', function(){
+    //         var obj = {'load': function(){return null;}};
+    //         expect(factory.brightenObj(obj, {})).toBe(true);
+    //     });
+    //     it('returns false if called without arguments', function(){
+    //         expect(factory.brightenObj()).toBe(false);
+    //     });
+    //     it('returns false if called with one argument', function(){
+    //         expect(factory.brightenObj({})).toBe(false);
+    //     });
+    //     it('passes the second argument to the "load" method of the first one', function(){
+    //         var obj = {'load': function(){return null;}},
+    //             prop = {'a': 'properties', 1: 0};
+    //         spyOn(obj, 'load');
+    //         factory.brightenObj(obj, prop);
+    //         expect(obj.load).toHaveBeenCalledWith(prop);
+    //     });
+    // });
+
+    // xdescribe('Factory::produce(): produce full-featured object', function(){
+    //     it('calls "createInstance" method', function(){
+    //         var el = {};
+    //         spyOn(factory, 'createInstance');
+    //         factory.produce(el);
+    //         expect(factory.createInstance).toHaveBeenCalledWith(el);
+    //     });
+    //     it('calls "brightenObj" method', function(){
+    //         var el = {},
+    //             prod = {};
+    //         spyOn(factory, 'createInstance').andCallFake(function(){return prod;});
+    //         spyOn(factory, 'brightenObj');
+    //         factory.produce(el);
+    //         expect(factory.brightenObj).toHaveBeenCalledWith(prod, el);
+    //     });
+
+    // });
+
+
+    describe('Factory::createInstanceOf(): creates an instance of the requested class', function(){
+        it('calls Registry method "getClassByName"', function(){
+            spyOn(factory.registry, 'getClassByName');
+            factory.createInstanceOf('class name');
+            expect(factory.registry.getClassByName).toHaveBeenCalledWith('class name');
+        });
+        it('returns an instance of a class that method "getClassByName" returns', function(){
+            function Foo(){this.foo = 1;}
+            spyOn(factory.registry, 'getClassByName').andCallFake(function(){return Foo;});
+            var baby = factory.createInstanceOf('class name');
+            expect(baby instanceof Foo).toBe(true);
+        });
+        it('returns null if method "getClassByName" returns null', function(){
+            spyOn(factory.registry, 'getClassByName');
+            var baby = factory.createInstanceOf('class name');
+            expect(baby).toBe(null);
         });
     });
 
-    describe('Factory::createInstance(): returns an instance of a class', function(){
-        it('returns null if "isSupported" returns false for the argument', function(){
+    describe('Factory::createInstanceByTag(): creates ac class instance with required "tag"', function(){
+        it('calls Registry method "getClassByTag"', function(){
+            spyOn(factory.registry, 'getClassByTag');
+            factory.createInstanceByTag('class name');
+            expect(factory.registry.getClassByTag).toHaveBeenCalledWith('class name');
+        });
+        it('returns an instance of a class that method "getClassByTag" returns', function(){
+            function Foo(){this.foo = 2;}
+            spyOn(factory.registry, 'getClassByTag').andCallFake(function(){return Foo;});
+            var baby = factory.createInstanceByTag('class name');
+            expect(baby instanceof Foo).toBe(true);
+        });
+        it('returns default class if method "getClassByTag" returns null', function(){
+            spyOn(factory.registry, 'getClassByTag');
+            var baby = factory.createInstanceByTag('class name');
+            expect(baby instanceof TagClass).toBe(true);
+        });
+        it('returns null if method "getClassByTag" and "defaultClass" are both null', function(){
+            registry = new Registry({classes: [SpanClass, DivClass, ArticleClass, TextClass, ContentClass]});
+            factory = new Factory(registry);
+            spyOn(factory.registry, 'getClassByTag').andCallFake(function(){return null;});
+            var baby = factory.createInstanceByTag('class name');
+            expect(baby).toBe(null);
+        });
+
+    });
+
+
+    xdescribe('Factory::forgeElement(): imitates the argument', function(){
+        it('returns null if no argument is provided', function(){
+            expect(factory.forgeElement()).toBe(null);
+        });
+        it('returns null if the argument is of non-supported type', function(){
+            var el = {};
             spyOn(factory, 'isSupported').andCallFake(function(){return false;});
-            var el = {'tagName': 'bmw'},
-                car = factory.createInstance(el);
-            expect(car).toBe(null);
-            expect(factory.isSupported).toHaveBeenCalledWith(el);
-        });
-
-        it('returns instance of BMW if "tagFor" of the argument returns "bmw"', function(){
-            spyOn(factory, 'isSupported').andCallFake(function(){return true;});
-            spyOn(factory, 'tagFor').andCallFake(function(){return 'bmw';});
-            var el = {},
-                car = factory.createInstance(el);
-            expect(car instanceof BMW).toBe(true);
-            expect(factory.isSupported).toHaveBeenCalledWith(el);
-            expect(factory.tagFor).toHaveBeenCalledWith(el);
-        });
-        it('returns instance of CAR if "tagFor" of the argument returns "nonExistentTag"', function(){
-            spyOn(factory, 'isSupported').andCallFake(function(){return true;});
-            spyOn(factory, 'tagFor').andCallFake(function(){return 'nonExistentTag';});
-            var el = {},
-                car = factory.createInstance(el);
-            expect(car instanceof CAR).toBe(true);
-            expect(factory.isSupported).toHaveBeenCalledWith(el);
-            expect(factory.tagFor).toHaveBeenCalledWith(el);
-        });
-    });
-
-    describe('Factory::brightenObj() loads properties', function(){
-        it('returns false if the the first argument does not respond to "load" method', function(){
-            var obj = {'noLoad': 1};
-            expect(factory.brightenObj(obj, {})).toBe(false);
-        });
-        it('returns true if the the first argument has "load" method', function(){
-            var obj = {'load': function(){return null;}};
-            expect(factory.brightenObj(obj, {})).toBe(true);
-        });
-        it('returns false if called without arguments', function(){
-            expect(factory.brightenObj()).toBe(false);
-        });
-        it('returns false if called with one argument', function(){
-            expect(factory.brightenObj({})).toBe(false);
-        });
-        it('passes the second argument to the "load" method of the first one', function(){
-            var obj = {'load': function(){return null;}},
-                prop = {'a': 'properties', 1: 0};
-            spyOn(obj, 'load');
-            factory.brightenObj(obj, prop);
-            expect(obj.load).toHaveBeenCalledWith(prop);
-        });
-    });
-
-    describe('Factory::produce(): produce full-featured object', function(){
-        it('calls "createInstance" method', function(){
-            var el = {};
-            spyOn(factory, 'createInstance');
-            factory.produce(el);
-            expect(factory.createInstance).toHaveBeenCalledWith(el);
-        });
-        it('calls "brightenObj" method', function(){
-            var el = {},
-                prod = {};
-            spyOn(factory, 'createInstance').andCallFake(function(){return prod;});
-            spyOn(factory, 'brightenObj');
-            factory.produce(el);
-            expect(factory.brightenObj).toHaveBeenCalledWith(prod, el);
+            expect(factory.forgeElement(el)).toBe(null);
         });
 
     });

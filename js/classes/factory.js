@@ -96,6 +96,44 @@ function Factory(reg){
 		return output;
 	};
 
+
+	/**
+	 * Creates an instance of a class which `className` property is equal to the argument. Uses
+	 * {{#crossLink "Factory/registry:property"}}`registry`{{/crossLink}} functionality
+	 * to find out the required class. If the class with the required name is not found, `null`
+	 * is returned.
+	 * @method    createInstanceOf
+	 * @param     {String}      className
+	 * @return    {Object|Null}
+	 */
+	this.createInstanceOf = function(className){
+		var ClassName  = this.registry.getClassByName(className);
+		if (typeof ClassName === 'function'){
+			return new ClassName;
+		}
+		return null;
+	};
+
+
+	/**
+	 * Creates an instance of a class which `tag` property is equal to the argument. Uses
+	 * {{#crossLink "Factory/registry:property"}}`registry`{{/crossLink}} functionality
+	 * to find out the required class. If the class with the required name is not found,
+	 * default class of the
+	 * {{#crossLink "Factory/registry:property"}}`registry`{{/crossLink}} is used.
+	 * @method    createInstanceByTag
+	 * @param     {String}             className
+	 * @return    {Object|Null}
+	 */
+	this.createInstanceByTag = function(tagName){
+		var ClassName  = this.registry.getClassByTag(tagName) || this.registry.defaultClass;
+		if (typeof ClassName === 'function'){
+			return new ClassName;
+		}
+		return null;
+	};
+
+
 	/**
 	 * Binds `factory` to `elem`. If `elem` is an instance of {{#crossLink "Content"}}Content{{/crossLink}}, its
 	 * `factory` property is set to current {{#crossLink "Factory"}}Factory{{/crossLink}}.
