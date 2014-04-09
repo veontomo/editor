@@ -2,7 +2,7 @@
 /*global describe, it, expect, spyOn, beforeEach, Registry, window */
 
 describe('Registry-related functionality', function(){
-    var reg, classes, defaultClass, obj, A, B, C, D, E, F;
+    var reg, classes, defaultClass, obj, A, B, C, D, E, F, G;
 
     beforeEach(function(){
         A = function (){this.tag = 'a'; this.className = 'A';};
@@ -70,10 +70,8 @@ describe('Registry-related functionality', function(){
             expect(reg.classes.indexOf(spot)).toBe(-1);
         });
         it('ignores arrays, strings, numbers and objects if given instead of classes', function(){
-            var wrongInput = [['a', 3], 'string', 0.32, {foo: -3}],
-                classesTmp;
+            var wrongInput = [['a', 3], 'string', 0.32, {foo: -3}];
             wrongInput.forEach(function(el){
-                classesTmp = classes.slice(0, 2).concat(el).concat(classes.slice(2));
                 classes = [A, C, el, F, C];
                 obj = {'classes': classes, 'defaultClass': defaultClass};
                 reg = new Registry(obj);

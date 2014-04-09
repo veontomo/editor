@@ -148,7 +148,7 @@ function Factory(reg){
 				classes = this.registry.classes,
 				defaultClass = this.registry.defaultClass;
 			// assign only if defined
-			if (classes.length > 0){
+			if (Array.isArray(classes) && classes.length > 0){
 				registryCore.classes = classes;
 			}
 			if (defaultClass){
@@ -167,7 +167,7 @@ function Factory(reg){
 	 * Loads the properties from the second argument into the first. Returns `true` if the first argument
 	 * responds a method `load` and calls it with the second argument. If that method does not exist or the arguments are
 	 * `undefined` or `null`, returns `false`.
-	 * @method  brightenObj
+	 * @method  colorize
 	 * @param   {Object}       obj
 	 * @param   {Object}       elem
 	 * @return  {Boolean}
@@ -182,13 +182,13 @@ function Factory(reg){
 	};
 
 	/**
-	 * Copies the properties from the second argument into the first. Returns `true` if the first argument
-	 * responds a method `load` and calls it with the second argument. If that method does not exist or the arguments are
-	 * `undefined` or `null`, returns `false`.
-	 * @method  copyElement
-	 * @param   {Object}       obj
-	 * @param   {Object}       elem
-	 * @return  {Boolean}
+	 * Copies the properties from the second argument into the first. If both arguments are defined
+	 * and are not `null` and the first argument responds to a method `load`, then this
+	 * method is executed and its output is returned. Otherwise, returns `false`.
+	 * @method     copyElement
+	 * @param      {Object}         obj
+	 * @param      {Object}         elem
+	 * @return     {Boolean}
 	 */
 	this.copyElement = function(obj, elem){
 		if (obj && elem && (typeof obj.load === 'function')){
@@ -223,17 +223,17 @@ function Factory(reg){
 
 	/**
 	 * Creates an analog of the element based on the classes available in the
-	 * {{#crossLink "Factory/registry:property}}`registry`{{/crossLink}}. The operation consists of the following calls:
+	 * {{#crossLink "Factory/registry:property"}}`registry`{{/crossLink}}. The operation consists of the following calls:
 	 * <ol><li>
 	 * {{#crossLink "Factory/createInstanceByTag:method"}}Factory::createInstanceByTag(){{/crossLink}} to
 	 * create the instance
 	 * </li><li>
 	 * {{#crossLink "Factory/bindFactory:method"}}Factory::bindFactory(){{/crossLink}}
 	 * </li><li>
-	 * {{#crossLink "Factory/copyElem:method"}}Factory::copyElem(){{/crossLink}} to populate the newly
+	 * {{#crossLink "Factory/copyElement:method"}}Factory::copyElement(){{/crossLink}} to populate the newly
 	 * created object with properties
 	 * </li></ol>
-	 * @method  forfeElement
+	 * @method  forgeElement
 	 * @param   {Object}       elem          initially intended to be
 	 *                                       [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
 	 *                                       or
