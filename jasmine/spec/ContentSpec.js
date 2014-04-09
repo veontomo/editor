@@ -730,6 +730,8 @@ xdescribe('Content-related functionality', function(){
 			});
 
 			it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
+				console.log('c = ', c);
+				console.log('e32 = ', e32);
 				c.load([e32]);
 				expect(c.elements.length).toBe(1);
 			});

@@ -135,15 +135,16 @@ function Factory(reg){
 
 
 	/**
-	 * Binds `factory` to `elem`. If `elem` has a property `factory`, assign it a value of the current factory
-	 * `factory` property {{#crossLink "Factory"}}Factory{{/crossLink}}.
+	 * Binds current factory to the argument. If the argument has a method `setFactory`, calls it
+	 * providing a copy of the current factory as argument. Returns boolean-valued outcome of
+	 * that method. If instead, the argument has no `setFactory` method, return  `false`.
 	 * @method     bindFactory
 	 * @param      {any}            elem
 	 * @return     {Boolean}
 	 */
 	this.bindFactory = function(elem){
-		if (elem && (elem.factory)){
-			var registryCore = {'classes': this.registry.classes, 'defaultClass': this.registry.defaultClass},
+		if (elem && typeof elem.setFactory === 'function'){
+			var registryCore = {},
 				registry, factory,
 				classes = this.registry.classes,
 				defaultClass = this.registry.defaultClass;
@@ -156,9 +157,7 @@ function Factory(reg){
 			}
 			registry = new Registry(registryCore);
 			factory = new Factory(registry);
-			elem.factory = factory;
-			return true;
-
+			return elem.setFactory(factory);
 		}
 		return false;
 	};

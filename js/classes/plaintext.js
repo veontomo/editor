@@ -35,6 +35,19 @@ function PlainText(text) {
 	this.tag = 'text';
 
 	/**
+	 * This property is required in order to be able to recreate itself.
+	 * It is supposed to be an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
+	 * Its value will be initialized properly when creating a clone of this element (or of one
+	 * of its child). If it is not present, {{#crossLink "Factory"}}Factory{{/crossLink}} will
+	 * not be able to initialize it.
+	 * @property   {Object|Null}   factory
+	 * @default    Null
+	 * @since      0.0.3
+	 */
+	this.factory = null;
+
+
+	/**
 	 * Content of the Text() instance.
 	 * @property {String} content
 	 * @type     {String}

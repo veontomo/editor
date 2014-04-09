@@ -34,7 +34,7 @@ function Content(str) {
 	this.className = "Content";
 
 	/**
-	 * Factory that creats objects.
+	 * Factory that creates objects.
 	 * @property {Factory}   factory
 	 * @type     {Factory}
 	 * @default  "null"
@@ -378,12 +378,14 @@ function Content(str) {
 	 * @return {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		console.log('factory: ', this.factory);
+		var rnd = parseInt(Math.random()*1000, 10);
+		// console.log(rnd, ': ', 'factory: ', this.factory);
 		var factory = this.factory,
 			elements = [];
-		if (factory && Array.isArray(arr)){
+		if (Array.isArray(arr)){
 			arr.forEach(function(el){
 				var baby = factory.forgeElement(el);
+				console.log('baby is born ', baby, ' with factory ', factory);
 				elements.push(baby);
 			});
 			this.elements = elements;

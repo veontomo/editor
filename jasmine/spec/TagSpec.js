@@ -16,9 +16,8 @@ describe('Tag-related functionality:', function() {
             expect(tag2 instanceof Tag).toBe(true);
         });
         it('must contain "factory" property in order to procreate itself', function(){
-            console.log(tag);
             expect(tag.hasOwnProperty('factory')).toBe(true);
-        })
+        });
     });
 
     describe('Tag properties', function(){

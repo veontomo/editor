@@ -171,28 +171,45 @@ describe('Factory-related functionality', function(){
 
     // });
 
-    describe('Factory::bindFactory(): bind the factory for the element', function(){
+    describe('Factory::bindFactory(): binds the factory for the element', function(){
         it('returns "false" if no argument is given', function(){
             expect(factory.bindFactory()).toBe(false);
         });
-        it('returns "false" if the argument has no "factory" property', function(){
-            expect(factory.bindFactory({'no-factory-propery': true})).toBe(false);
+        it('returns "false" if the argument has no "setFactory()" method', function(){
+            var el = {};
+            delete el.setFactory;
+            expect(factory.bindFactory(el)).toBe(false);
         });
-        it('returns "true" if the argument has "factory" property', function(){
-            expect(factory.bindFactory({'factory': 1})).toBe(true);
+        it('returns "true" if the argument has "setFactory()" that returns "true"', function(){
+            var el = {setFactory: function(){return null;}};
+            spyOn(el, 'setFactory').andCallFake(function(){return true;});
+            expect(factory.bindFactory(el)).toBe(true);
         });
-        it('does not assign "defaultClass if it is absent in the registry', function(){
-            var el = {factory: 1};
-            factory = new Factory(new Registry({classes: [DivClass, SpanClass]}));
-            factory.bindFactory(el);
-            expect(el.factory.registry.defaultClass).toBe(null);
+        it('returns "false" if the argument has "setFactory()" that returns "false"', function(){
+            var el = {setFactory: function(){return null;}};
+            spyOn(el, 'setFactory').andCallFake(function(){return false;});
+            expect(factory.bindFactory(el)).toBe(false);
         });
-        it('does not assign "classes" if it is absent in the registry', function(){
-            var el = {factory: 1};
-            factory = new Factory(new Registry({defaultClass: DivClass}));
-            factory.bindFactory(el);
-            expect(el.factory.registry.classes.length).toBe(0);
+        it('calls "setFactory()" method', function(){
+            var el = {setFactory: function(){return null;}};
+            spyOn(el, 'setFactory');
+            factory.bindFactory(el)
+            expect(el.setFactory).toHaveBeenCalled();
         });
+
+
+        // it('does not assign "defaultClass if it is absent in the registry', function(){
+        //     var el = {factory: 1};
+        //     factory = new Factory(new Registry({classes: [DivClass, SpanClass]}));
+        //     factory.bindFactory(el);
+        //     expect(el.factory.registry.defaultClass).toBe(null);
+        // });
+        // it('does not assign "classes" if it is absent in the registry', function(){
+        //     var el = {factory: 1};
+        //     factory = new Factory(new Registry({defaultClass: DivClass}));
+        //     factory.bindFactory(el);
+        //     expect(el.factory.registry.classes.length).toBe(0);
+        // });
 
 
 

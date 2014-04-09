@@ -12,6 +12,10 @@ describe('Text-related functionality', function(){
 		    text = PlainText();
 		    expect(text instanceof PlainText).toBe(true);
 		});
+		it('must contain "factory" property in order to procreate itself', function(){
+		    expect(text.hasOwnProperty('factory')).toBe(true);
+		});
+
 	});
 
 	describe('Text:getContent loads from the argument', function(){
