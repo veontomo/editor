@@ -58,7 +58,6 @@ function Attributes(obj) {
      * @return    {Boolean}                           true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
-        console.log('I was asked to load the following argument ', attr, ' into current attribute object: ', this.toString());
     	var pos, attrName, attrValue, seed;
     	// console.log(attr);
     	for (pos in attr){
@@ -73,13 +72,11 @@ function Attributes(obj) {
     					}
     					this.appendProperty(seed);
     				} else {
-                        console.log('Attributes::load() finished with FALSE. Its value: ', this.toString());
     					return false;
     				}
     			}
     		}
     	}
-        console.log('Attributes::load() finished. Its value: ', this.toString());
     	return true;
     };
 

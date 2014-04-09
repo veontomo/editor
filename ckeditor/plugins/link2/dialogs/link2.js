@@ -149,79 +149,17 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // parse all selected nodes
             selectedNodes.forEach(function(arr){
                 arr.forEach(function(el){
-                    var elType, newNode, objLink;
+                    var newNode, objLink;
                     // prepare Link object
                     link = new Link();
-                    // console.log(el.$, factory.produce(el.$));
                     link.setHref(url);
                     link.underline(isUnderlined);
                     obj = factory.forgeElement(el.$);
-                    console.log('factory', factory);
-                    console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
                     if (!obj.isEmpty()){
-                        console.log('produced obj is NOT  empty');
                         objLink = obj.toLink(link);
-                        console.log('link from object: ', objLink, ', its html: ', objLink.toHtml());
                         newNode = objLink.toNode();
-                        // console.log(obj, obj.toLink(link));
-                        console.log('newNode: ', newNode);
-                        elType = el.type;
                         el.$.parentNode.replaceChild(newNode, el.$);
-                        // if (elType === CKEDITOR.NODE_TEXT){
-                        //     el.$.parentNode.insertBefore(newNode, el.$);
-                        //     el.setText('');
-                        // } else if (elType === CKEDITOR.NODE_ELEMENT){
-                        //     el.$.parentNode.replaceChild(newNode, el.$);
-                        // }
-                    } else {
-                      console.log('produced obj is empty');
                     }
-                    // // whether the current node is a text one
-                    // if (elType === CKEDITOR.NODE_TEXT){
-                    //     // elText = el.getText();
-                    //     // // If the node is not empty, transform it into a link.
-                    //     // // Otherwise, do nothing.
-                    //     // if (elText !== ''){
-                    //     //     link.content = new Content(elText);
-                    //     //     obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
-                    //     //     obj.insertAfter(el);
-                    //     //     el.setText(elText.substring(0, 1) === ' ' ? ' ' : '');
-                    //     // }
-                    // // whether the current node is an element one
-                    // } else if (elType === CKEDITOR.NODE_ELEMENT){
-                    //     // switch(el.getName()){
-                    //     //     case 'td':
-                    //     //         obj = el.getOuterHtml().createCellFromHtml();
-                    //     //         break;
-                    //     //     case 'tr':
-                    //     //         obj = el.getOuterHtml().createRowFromHtml();
-                    //     //         break;
-                    //     //     case 'li':
-                    //     //         obj = el.getOuterHtml().createListItemFromHtml();
-                    //     //         break;
-                    //     //     default:
-                    //     //         obj = el.getOuterHtml().inflate();
-                    //     // }
-                    //     // if it is not empty, transform it into a link
-                    //     if (!obj.isEmpty()){
-                    //         objToLink = obj.toLink(link);
-                    //         objToLinkHtml = objToLink.toHtml();
-                    //         // console.log('original: ', obj.toHtml());
-                    //         // console.log('to be replaced by: ', objToLinkHtml);
-
-                    //         newNode = CKEDITOR.dom.element.createFromHtml(objToLinkHtml);
-                    //         // if the new node was created as intended
-                    //         if (newNode.getOuterHtml() === objToLinkHtml){
-                    //             newNode.replace(el);
-                    //         } else {
-                    //             // if the node was created erroneously, replace it counterpart content
-                    //             el.setHtml(objToLink.content.toHtml());
-                    //         }
-
-
-                    //         // newNode.replace(el);
-                    //     }
-                    // }
                 });
             });
         }

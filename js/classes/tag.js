@@ -333,7 +333,6 @@ function Tag() {
 		// console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
 		var tag = this.tag,
 			style, attr, html;
-		console.log(tag);
 		if (tag){
 			style = Helper.sandwichWith('style="', this.style.toString(), '"');
 			attr = this.attr.toString();
@@ -479,21 +478,17 @@ function Tag() {
 			styleSucc = false,
 			contentSucc = false,
 			childrenArr = [],
-			// allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
 			children, currentChild, attr, i, len;
 		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
-			children = elem.childNodes;                                 // gives all child nodes (including Elements, TextNodes, etc.)
+			children = elem.childNodes;                     // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
-			this.tag  = elem.tagName.toLowerCase();                      // setting tag of the tag
-			attr  = elem.attributes;                                      // NamedNodeMap
-			console.log('attributes TO BE copied: ', attr);
+			this.tag  = elem.tagName.toLowerCase();         // setting tag of the tag
+			attr  = elem.attributes;                        // NamedNodeMap
 			attrSucc = this.attr.load(attr);
 			styleSucc = this.style.load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
-				// if (allowedTypes.indexOf(currentChild.nodeType) !== -1){
-					childrenArr.push(currentChild);
-				// }
+				childrenArr.push(currentChild);
 			}
 			contentSucc = this.content.load(childrenArr);
 		}
