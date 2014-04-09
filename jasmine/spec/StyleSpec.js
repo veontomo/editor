@@ -159,7 +159,7 @@ describe('Style-related functionality', function(){
 
         it('calls appendStyle method if the argument is an object with getNamedItem() method', function(){
             var seed = {getNamedItem: function(){}};
-            spyOn(seed, 'getNamedItem').andCallFake(function(){return 'a string';});
+            spyOn(seed, 'getNamedItem').andCallFake(function(){return {value: 'a string'};});
             spyOn(stl, 'appendStyle');
             stl.load(seed);
             expect(seed.getNamedItem).toHaveBeenCalledWith('style');

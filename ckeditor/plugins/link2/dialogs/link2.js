@@ -155,7 +155,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     // console.log(el.$, factory.produce(el.$));
                     link.setHref(url);
                     link.underline(isUnderlined);
-                    obj = factory.produce(el.$);
+                    obj = factory.forgeElement(el.$);
+                    console.log('factory', factory);
                     console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
                     if (!obj.isEmpty()){
                         console.log('produced obj is NOT  empty');

@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Tag, Content, Link */
+/*global Link, Factory */
 
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.
@@ -46,6 +46,22 @@ function PlainText(text) {
 	 */
 	this.factory = null;
 
+	/**
+	 * Sets `factory` property. Returns `true` if the argument is an instance of
+	 * {{#crossLink "Factory"}}Factory{{/crossLink}}, `false` otherwise.
+	 * @method  setFactory
+	 * @param   {Factory}    factory        instance of  {{#crossLink "Factory"}}Factory{{/crossLink}} class.
+	 * @return  {Boolean}
+	 * @since   0.0.3
+	 */
+	this.setFactory = function(factory){
+		if(factory instanceof Factory){
+			this.factory = factory;
+			return true;
+		}
+		return false;
+	};
+
 
 	/**
 	 * Content of the Text() instance.
@@ -85,7 +101,7 @@ function PlainText(text) {
 	 * @return {String}
 	 */
 	this.toHtml = function(){
-		return this.getContent();
+		return this.getContent().toString();
 	};
 
 
@@ -142,7 +158,7 @@ function PlainText(text) {
 	this.isEmpty = function(){
 		var txt = this.getContent();
 		return txt === null || txt === undefined || txt === '';
-	}
+	};
 
 	/**
 	 * Returns an instance of  [DOM.Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
@@ -152,6 +168,6 @@ function PlainText(text) {
 	 */
 	this.toNode = function(){
 		return document.createTextNode(this.getContent());
-	}
+	};
 
 }

@@ -34,8 +34,8 @@ function Style(obj) {
                 switch (typeof val) {
                 case 'string':
                     if(attr !== 'className'){
-                        styles.push(attr + ': ' + val.trim())
-                    };
+                        styles.push(attr + ': ' + val.trim());
+                    }
                     break;
                 case 'number':
                     styles.push(attr + ': ' + String(val) + unit);
@@ -55,7 +55,7 @@ function Style(obj) {
     this.className = 'Style';
 
     /**
-     * Appends style. Alias for the parent method Property::appendProperty()
+     * Appends style. Alias for the parent method {{#crossLink "Property/appendProperty:method"}}Property::appendProperty(){{/crossLink}}
      * @method  appendStyle
      * @param   {Object|null}   stl       it will be passed to the parent method
      * @return  {void}
@@ -96,28 +96,29 @@ function Style(obj) {
     };
 
     /**
-     * Loads style property from the argument that is supposed to be of a type
+     * Loads style property from the argument that is supposed to be either of type
      * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
      * (or, at least, respond to a `getNamedItem()` method) or a string. If not of these types, `false` is returned.
+     * In case the argument is a [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
+     * instance, its `style` item is picked up and transformed into a string.
      * @method  load
      * @param  {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
      * @return {Boolean}                                  true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
         // console.log('Style::load is called with ', attr);
-        var seed;
+        var seed, seedObj;
         if (attr !== undefined){
             if (typeof attr === 'string'){
                 seed = attr;
             } else if (typeof attr.getNamedItem === 'function') {
-                seed =  attr.getNamedItem('style');
+                seedObj =  attr.getNamedItem('style');
+                seed = seedObj ? seedObj.value : '';
             } else {
-                // console.log('Style::load finishes with FALSE', typeof attr.getNamedItem);
                 return false;
             }
             this.appendStyle(seed);
         }
-        // console.log('Style::load is finished. Style.toString() = ', this.toString());
         return true;
     };
 
@@ -135,7 +136,7 @@ function Style(obj) {
             var str = this.toString();
             el.setAttribute('style', str);
         }
-    }
+    };
 
 
 }

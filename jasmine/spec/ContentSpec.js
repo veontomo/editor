@@ -2,10 +2,17 @@
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
 	Content, Link, Ulist, Factory, Tag, ListItem, Registry, Text, window */
 // console.info('---> ', 'ContentSpec is disabled');
-xdescribe('Content-related functionality', function(){
+describe('Content-related functionality', function(){
 	var c;
 	beforeEach(function(){
 		c = new Content();
+	});
+
+	describe('Content::constructor', function(){
+		it('adds keyword "new" if it is missing when an object is created', function(){
+		    var c2 = Content();
+		    expect(c2 instanceof Content).toBe(true);
+		});
 	});
 
 	describe('Content::className: class name', function(){
@@ -671,6 +678,26 @@ xdescribe('Content-related functionality', function(){
 		});
 	});
 
+	describe('Content::setFactory(): sets factory', function(){
+		var factory;
+		beforeEach(function(){
+			factory = new Factory();
+		});
+		it('returns false for string, array, number', function(){
+		    var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
+		    invalides.forEach(function(invalid){
+		        expect(c.setFactory(invalid)).toBe(false);
+		    });
+		});
+		it('returns true, if a factory instance is given', function(){
+		    expect(c.setFactory(factory)).toBe(true);
+		});
+		it('sets "factory" property', function(){
+		    c.setFactory(factory);
+		    expect(c.factory).toBe(factory);
+		});
+	});
+
 	describe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20,
 			e30, e31, e32, t33, t001, e200, e310, t320;
@@ -730,8 +757,6 @@ xdescribe('Content-related functionality', function(){
 			});
 
 			it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
-				console.log('c = ', c);
-				console.log('e32 = ', e32);
 				c.load([e32]);
 				expect(c.elements.length).toBe(1);
 			});
@@ -848,7 +873,6 @@ xdescribe('Content-related functionality', function(){
 		    expect(el.appendChild).not.toHaveBeenCalledWith('c2 node');
 		    expect(el.appendChild).toHaveBeenCalledWith('c3 node');
 		});
-
 	});
 
 

@@ -81,7 +81,20 @@ function Content(str) {
 		return len > 0 ? this.getElem(len - 1) : null;
 	};
 
-
+	/**
+	 * Sets {{#crossLink "Content/factory:property"}}factory{{/crossLink}} property. Returns `true` if the
+	 * argument is an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class, `false` otherwise.
+	 * @method    setFactory
+	 * @param     {Factory}    factory
+	 * @return    {Boolean}
+	 */
+	this.setFactory = function(factory){
+		if (factory instanceof Factory){
+			this.factory = factory;
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Inserts element at position pos inside the array of elements. If the lenght of array "elements"
@@ -378,14 +391,11 @@ function Content(str) {
 	 * @return {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		var rnd = parseInt(Math.random()*1000, 10);
-		// console.log(rnd, ': ', 'factory: ', this.factory);
 		var factory = this.factory,
 			elements = [];
 		if (Array.isArray(arr)){
 			arr.forEach(function(el){
 				var baby = factory.forgeElement(el);
-				console.log('baby is born ', baby, ' with factory ', factory);
 				elements.push(baby);
 			});
 			this.elements = elements;

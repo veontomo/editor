@@ -253,11 +253,17 @@ function Factory(reg){
 	this.forgeElement = function(elem){
 		if (elem){
 			var elemTag = elem.tagName,
+				product;
+			if (elemTag){
 				product = this.createInstanceByTag(elemTag);
+			} else {
+				product = this.createInstanceOf("PlainText");
+			}
 			this.bindFactory(product);
 			// console.log('Factory::produce is called with argument ', elem);
 			this.copyElement(product, elem);
 			return product;
+
 		}
 		return null;
 	};

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Text */
+/*global describe, it, expect, spyOn, beforeEach, PlainText, Factory, Link */
 
 describe('Text-related functionality', function(){
 	var text;
@@ -59,8 +59,23 @@ describe('Text-related functionality', function(){
 	describe('Text:toHtml(): returns the value of the content property', function(){
  		it('calls getContent() method', function(){
  			spyOn(text, 'getContent').andCallFake(function(){return 'text string';});
- 			expect(text.toHtml()).toBe('text string');
+ 			text.toHtml();
  			expect(text.getContent).toHaveBeenCalled();
+ 		});
+ 		it('returns the output of getContent() method, if it is an empty string', function(){
+ 			spyOn(text, 'getContent').andCallFake(function(){return '';});
+ 			expect(text.toHtml()).toBe('');
+
+ 		});
+
+ 		it('returns the output of getContent() method, if it is a string', function(){
+ 			spyOn(text, 'getContent').andCallFake(function(){return 'text string';});
+ 			expect(text.toHtml()).toBe('text string');
+
+ 		});
+		it('transforms getContent() output in string, if it is a number', function(){
+ 			spyOn(text, 'getContent').andCallFake(function(){return 329;});
+ 			expect(text.toHtml()).toBe('329');
  		});
 	});
 
@@ -189,5 +204,27 @@ describe('Text-related functionality', function(){
 		});
 
 	});
+
+
+	describe('PlainText::setFactory(): imposes factory', function(){
+	    var factory;
+	    beforeEach(function(){
+	        factory = new Factory();
+	    });
+	    it('returns false for string, array, number', function(){
+	        var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
+	        invalides.forEach(function(invalid){
+	            expect(text.setFactory(invalid)).toBe(false);
+	        });
+	    });
+	    it('returns true, if a factory instance is given', function(){
+	        expect(text.setFactory(factory)).toBe(true);
+	    });
+	    it('sets "factory" property', function(){
+	        text.setFactory(factory);
+	        expect(text.factory).toBe(factory);
+	    });
+	});
+
 
 });

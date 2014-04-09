@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window, Node, Comment, xit */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window, Node, Comment */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -40,6 +40,25 @@ describe('Tag-related functionality:', function() {
             expect(tag.attr.pipelines).toBe('embryonic');
             expect(tag.attr['look a likes']).toBe(-98.876);
             expect(tag.attr.signposted).toBe('attired');
+        });
+    });
+
+    describe('Tag::getName(): gets html tag name', function(){
+        it('gets a string-valued property', function(){
+            tag.tag = 'customTag';
+            expect(tag.getName()).toBe('customTag');
+        });
+    });
+
+    describe('Tag::setAttr(): sets attribute', function(){
+        it('sets a string as an attribute', function(){
+            tag.setAttr('whatever');
+            expect(tag.attr).toBe('whatever');
+        });
+        it('sets an object as an attribute', function(){
+            var obj = {};
+            tag.setAttr(obj);
+            expect(tag.attr).toBe(obj);
         });
     });
 
@@ -243,17 +262,17 @@ describe('Tag-related functionality:', function() {
             if (tag.hasOwnProperty('tag')){
                 delete tag.tag;
             }
-            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
+            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
 
         it('if tag name is empty', function(){
             tag.tag = '';
-            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
+            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
 
         it('if tag name is null', function(){
             tag.tag = null;
-            expect(tag.toHtml()).toBe('<!-- tag tag is missing -->');
+            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
         });
     });
 
@@ -404,7 +423,7 @@ describe('Tag-related functionality:', function() {
     });
 
 
-    xdescribe('Tag::toLink(): converts tag into a link', function(){
+    describe('Tag::toLink(): converts tag into a link', function(){
         var link, tag2, c1, c2;
         beforeEach(function(){
             link = new Link();
@@ -414,8 +433,8 @@ describe('Tag-related functionality:', function() {
         });
         it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
             var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
-            classNames.forEach(function(tag){
-                var obj = new window[tag]();
+            classNames.forEach(function(elem){
+                var obj = new window[elem]();
                 expect(function(){
                     tag.toLink(obj);
                 }).toThrow('The argument must be a Link instance!');
@@ -533,9 +552,8 @@ describe('Tag-related functionality:', function() {
             // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
             tag2 = tag.toLink(link);
             expect(tag2.attr.class).toBe('red');
-            expect(tag2.attr.hidden).toBe('6');
+            expect(tag2.attr.hidden).toBe('yes');
             expect(tag2.tag).toBe('tag2');
-            console.info('T', tag2);
         });
 
     });
@@ -718,9 +736,6 @@ describe('Tag-related functionality:', function() {
             tag.setFactory(factory);
             expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
         });
-
-
-
     });
 
 });

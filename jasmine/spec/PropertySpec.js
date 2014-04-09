@@ -15,6 +15,26 @@ describe('Property-related functionality', function(){
         }
     });
 
+    describe('PlainText::setFactory(): imposes factory', function(){
+        var factory;
+        beforeEach(function(){
+            factory = new Factory();
+        });
+        it('returns false for string, array, number', function(){
+            var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
+            invalides.forEach(function(invalid){
+                expect(prop.setFactory(invalid)).toBe(false);
+            });
+        });
+        it('returns true, if a factory instance is given', function(){
+            expect(prop.setFactory(factory)).toBe(true);
+        });
+        it('sets "factory" property', function(){
+            prop.setFactory(factory);
+            expect(prop.factory).toBe(factory);
+        });
+    });
+
     describe('Property::constructor(): creates Property instance from argument', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
             prop = Property();
@@ -277,8 +297,6 @@ describe('Property-related functionality', function(){
             var summary = propEmpty.summary();
             expect(summary.hasOwnProperty('level')).toBe(false);
         });
-
-
     });
 
 });
