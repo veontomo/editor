@@ -200,8 +200,6 @@ describe('Factory-related functionality', function(){
             clone = factory.clone();
             expect(clone.registry.defaultClass).toBe(null);
         });
-
-
     });
 
     describe('Factory::bindFactory(): binds the factory for the element', function(){
@@ -223,11 +221,13 @@ describe('Factory-related functionality', function(){
             spyOn(el, 'setFactory').andCallFake(function(){return false;});
             expect(factory.bindFactory(el)).toBe(false);
         });
-        it('calls "setFactory()" method', function(){
+        it('calls "setFactory()" method with the output of the "clone()" method', function(){
             var el = {setFactory: function(){return null;}};
+            spyOn(factory, 'clone').andCallFake(function(){return 'factory clone';});
             spyOn(el, 'setFactory');
             factory.bindFactory(el)
-            expect(el.setFactory).toHaveBeenCalled();
+            expect(el.setFactory).toHaveBeenCalledWith('factory clone');
+            expect(factory.clone).toHaveBeenCalled();
         });
 
 

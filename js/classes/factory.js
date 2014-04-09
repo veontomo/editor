@@ -144,8 +144,8 @@ function Factory(reg){
 	 */
 	this.bindFactory = function(elem){
 		if (elem && typeof elem.setFactory === 'function'){
-			var factory = this.clone();
-			return elem.setFactory(factory);
+			var factoryClone = this.clone();
+			return elem.setFactory(factoryClone);
 		}
 		return false;
 	};
