@@ -36,6 +36,37 @@ function Tag() {
 	 */
 	this.factory = null;
 
+
+	/**
+	 * Sets the factory. Takes care of setting `factory` property of <ol><li>
+	 * {{#crossLink "Tag/attr:property"}}attr{{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Tag/style:property"}}style{{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * </li></ol>
+	 * Imposes the `factory` if the corresponding element has "factory" property.
+	 * Returns `true` if the argument is an instance of {{#crossLink "Factory"}}Factory{{/crossLink}}
+	 * and `false` otherwise.
+	 * @method  setFactory
+	 * @param   {Factory}           factory             instance of {{#crossLink "Factory"}}Factory{{/crossLink}}
+	 */
+	this.setFactory = function(factory){
+		var that = this;
+		if (factory instanceof Factory){
+			this.factory = factory;
+			// list of properties to take care of
+			var pool = ['attr', 'style', 'content'];
+			pool.forEach(function(prop){
+				if(typeof that[prop].setFactory === 'function'){
+					that[prop].setFactory(factory);
+				}
+			});
+			return true;
+		}
+		return false;
+	};
+
 	/**
 	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
 	 * in FF, `this.constructor` has `tag` property that returns "ListItem", while in IE, there

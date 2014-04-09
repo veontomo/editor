@@ -20,6 +20,7 @@ describe('Tag-related functionality:', function() {
         });
     });
 
+
     describe('Tag properties', function(){
         it('sets styles of the tag', function(){
             tagStyle.modular = 'frequency';
@@ -677,6 +678,49 @@ describe('Tag-related functionality:', function() {
             tag.toNode();
             expect(tag.content.stickTo).toHaveBeenCalled();
         });
+    });
+
+    describe('Tag::setFactory(): imposes factory', function(){
+        var factory,
+            dumbWithfactory = {'setFactory': function(){return null;}};
+        beforeEach(function(){
+            factory = new Factory();
+            spyOn(dumbWithfactory, 'setFactory');
+        });
+        it('returns false for string, array, number', function(){
+            var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
+            invalides.forEach(function(invalid){
+                expect(tag.setFactory(invalid)).toBe(false);
+            });
+        });
+        it('returns true, if a factory instance is given', function(){
+            expect(tag.setFactory(factory)).toBe(true);
+        });
+        it('sets "factory" property', function(){
+            tag.setFactory(factory);
+            expect(tag.factory).toBe(factory);
+        });
+
+        it('calls "setFactory" property on the attribute if it has this method', function(){
+            tag.attr = dumbWithfactory;
+            tag.setFactory(factory);
+            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
+        });
+
+        it('calls "setFactory" property on the styles if it has this method', function(){
+            tag.style = dumbWithfactory;
+            tag.setFactory(factory);
+            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
+        });
+
+        it('calls "setFactory" property on the content if it has this method', function(){
+            tag.content = dumbWithfactory;
+            tag.setFactory(factory);
+            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
+        });
+
+
+
     });
 
 });
