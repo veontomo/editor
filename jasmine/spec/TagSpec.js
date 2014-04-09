@@ -401,7 +401,7 @@ describe('Tag-related functionality:', function() {
 
 
     xdescribe('Tag::toLink(): converts tag into a link', function(){
-        var link, tag2;
+        var link, tag2, c1, c2;
         beforeEach(function(){
             link = new Link();
             tag.style = tagStyle;
@@ -511,11 +511,11 @@ describe('Tag-related functionality:', function() {
             c1 = {'foo': 1}; c2 = "text";
             tag.content.elements = [c1, c2];
             // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
-            var tag2 = tag.toLink(link);
+            tag2 = tag.toLink(link);
             expect(tag2.style.color).toBe('red');
             expect(tag2.style.depth).toBe('6');
             expect(tag2.tag).toBe('tag');
-            console.info('tag2', T);
+            // console.info('tag2', T);
         });
 
         it('preserves atrributes of the target tag, if it is non-empty', function(){
@@ -527,7 +527,7 @@ describe('Tag-related functionality:', function() {
             tag.content.elements = [c1, c2];
             // link.
             // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
-            var tag2 = tag.toLink(link);
+            tag2 = tag.toLink(link);
             expect(tag2.attr.class).toBe('red');
             expect(tag2.attr.hidden).toBe('6');
             expect(tag2.tag).toBe('tag2');
@@ -556,14 +556,6 @@ describe('Tag-related functionality:', function() {
             root.appendChild(e2);
         });
 
-        it('sets the tag', function(){
-            spyOn(tag.content, 'load');
-            spyOn(tag.attr, 'load');
-            spyOn(tag.style, 'load');
-            tag.load(root);
-            expect(tag.tag).toBe('custom');
-        });
-
         it('does not call "load" methods, if the argument is missing', function(){
             spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
@@ -574,7 +566,24 @@ describe('Tag-related functionality:', function() {
             expect(tag.style.load).not.toHaveBeenCalled();
         });
 
-        it('does not call "load" methods, if the argument is has non-ELEMENT nodeType', function(){
+        it('returns false, if the argument is missing', function(){
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            expect(tag.load()).toBe(false);
+        });
+
+
+        it('sets "tag" property', function(){
+            spyOn(tag.content, 'load');
+            spyOn(tag.attr, 'load');
+            spyOn(tag.style, 'load');
+            tag.load(root);
+            expect(tag.tag).toBe('custom');
+        });
+
+
+        it('does not call "load" methods, if the argument has non-ELEMENT nodeType', function(){
             spyOn(tag.content, 'load');
             spyOn(tag.attr, 'load');
             spyOn(tag.style, 'load');
@@ -583,6 +592,40 @@ describe('Tag-related functionality:', function() {
             expect(tag.attr.load).not.toHaveBeenCalled();
             expect(tag.style.load).not.toHaveBeenCalled();
         });
+
+        it('returns "true", if all "load" methods return "true"', function(){
+            spyOn(tag.content, 'load').andCallFake(function(){return true;});
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
+            expect(tag.load(e0)).toBe(true);
+        });
+
+        it('returns "false", if all "load" methods return "false"', function(){
+            spyOn(tag.content, 'load').andCallFake(function(){return false;});
+            spyOn(tag.attr, 'load').andCallFake(function(){return false;});
+            spyOn(tag.style, 'load').andCallFake(function(){return false;});
+            expect(tag.load(e0)).toBe(false);
+        });
+
+        it('returns "false", if "content.load" method return "false", and the others - "true"', function(){
+            spyOn(tag.content, 'load').andCallFake(function(){return false;});
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
+            expect(tag.load(t1)).toBe(false);
+        });
+        it('returns "false", if "attr.load" method return "false", and the others - "true"', function(){
+            spyOn(tag.content, 'load').andCallFake(function(){return true;});
+            spyOn(tag.attr, 'load').andCallFake(function(){return false;});
+            spyOn(tag.style, 'load').andCallFake(function(){return true;});
+            expect(tag.load(e2)).toBe(false);
+        });
+        it('returns "false", if "style.load" method return "false", and the other - "true"', function(){
+            spyOn(tag.content, 'load').andCallFake(function(){return true;});
+            spyOn(tag.attr, 'load').andCallFake(function(){return true;});
+            spyOn(tag.style, 'load').andCallFake(function(){return false;});
+            expect(tag.load(e0)).toBe(false);
+        });
+
 
 
         it('calls method to set attributes', function(){
@@ -612,7 +655,6 @@ describe('Tag-related functionality:', function() {
     });
 
     describe('Tag::toNode(): transforms element into a DOM.Element', function(){
-        var el, c1, c2, c3;
         beforeEach(function(){
             tag.tag = 'meta';
         });

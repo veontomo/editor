@@ -367,7 +367,7 @@ function Tag() {
 		if (!(link instanceof Link)){
 			throw new Error('The argument must be a Link instance!');
 		}
-		var output, attr, className;
+		var output, className;
 		// Link transformed into a Link by changing href
 		if (this instanceof Link){
 			output = new Link();
@@ -400,11 +400,6 @@ function Tag() {
 					output.style = this.style;
 				}
 
-				// for (attr in this.attr) {
-				//     if (this.hasOwnProperty(attr)) {
-				//     	output.attr = this.attr;
-				//     }
-				// }
 				output.content = this.content.toLink(link);
 				return output;
 			}
@@ -412,32 +407,46 @@ function Tag() {
 	};
 
 	/**
-	 * Populates properties of the current object from the argument which must be an instance of javascript
-	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class.
+	 * Populates the following properties of the target object
+	 * <ol><li>
+	 * {{/crossLink "Tag/tag:property"}}tag{{/crossLink}}
+	 * </li><li>
+	 * {{/crossLink "Tag/attr:property"}}attr{{/crossLink}} by calling
+	 * {{#crossLink "Attribute/load:method"}}Attribute::load(){{/crossLink}} method.
+	 * </li><li>
+	 * {{/crossLink "Tag/style:property"}}style{{/crossLink}} by calling
+	 * {{#crossLink "Style/load:method"}}Style::load(){{/crossLink}} method.
+	 * </li><li>
+	 * {{/crossLink "Tag/content:property"}}content{{/crossLink}} by calling
+	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.
+	 * </li></ol>
+	 * from the argument which must be an instance of
+	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if
+	 * the argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,
+	 * `false` is returned.<br />
 	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
 	 * @method     load
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
-	 * @return     {void}
+	 * @return     {Boolean}
 	 */
 	this.load = function(elem){
 		// console.log('Tag::load is called with argument ', elem);
 		// assure that the argument is an Element instance
+		var attrSucc = false,
+			styleSucc = false,
+			contentSucc = false,
+			childrenArr = [],
+			allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
+			children, currentChild, attr, i, len;
 		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
-			var children = elem.childNodes,                               // gives all child nodes (including Elements, TextNodes, etc.)
-				allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
-				childrenArr = [],
-				len = children.length,
-				currentChild, style, attr, i;
+			children = elem.childNodes;                                 // gives all child nodes (including Elements, TextNodes, etc.)
+			len = children.length;
 			this.tag  = elem.tagName.toLowerCase();                      // setting tag of the tag
 			attr  = elem.attributes;                                      // NamedNodeMap
 			if (attr){
 				// console.log('calling this.attr with ', attr);
-				this.attr.load(attr);
-				style = attr.getNamedItem('style');     // singling out style property
-				if (style){
-					// console.log('calling this.style with ', style);
-					this.style.load(attr);
-				}
+				attrSucc = this.attr.load(attr);
+				styleSucc = this.style.load(attr);
 			}
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
@@ -445,8 +454,9 @@ function Tag() {
 					childrenArr.push(currentChild);
 				}
 			}
-			this.content.load(childrenArr);
+			contentSucc = this.content.load(childrenArr);
 		}
+		return attrSucc && styleSucc && contentSucc;
 	};
 
 	/**
