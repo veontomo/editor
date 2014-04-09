@@ -171,6 +171,39 @@ describe('Factory-related functionality', function(){
 
     // });
 
+    describe('Factory::clone(): creates a copy of the factory', function(){
+        var clone;
+        it('produces an instance of Factory', function(){
+            clone = factory.clone();
+            expect(clone instanceof Factory).toBe(true);
+        });
+        it('has the same classes as original factory if not empty', function(){
+            factory.registry.classes = [SpanClass, TagClass];
+            clone = factory.clone();
+            expect(clone.registry.classes.length).toBe(2);
+            expect(clone.registry.classes[0]).toBe(SpanClass);
+            expect(clone.registry.classes[1]).toBe(TagClass);
+        });
+        it('has the same classes as original factory if empty', function(){
+            factory.registry.classes = [];
+            clone = factory.clone();
+            expect(clone.registry.classes.length).toBe(0);
+        });
+
+        it('has the same defaultClass as original factory', function(){
+            factory.registry.defaultClass = ArticleClass;
+            clone = factory.clone();
+            expect(clone.registry.defaultClass).toBe(ArticleClass);
+        });
+        it('has no defaultClass if the original factory has it empty', function(){
+            delete factory.registry.defaultClass;
+            clone = factory.clone();
+            expect(clone.registry.defaultClass).toBe(null);
+        });
+
+
+    });
+
     describe('Factory::bindFactory(): binds the factory for the element', function(){
         it('returns "false" if no argument is given', function(){
             expect(factory.bindFactory()).toBe(false);

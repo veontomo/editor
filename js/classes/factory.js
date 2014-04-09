@@ -144,22 +144,33 @@ function Factory(reg){
 	 */
 	this.bindFactory = function(elem){
 		if (elem && typeof elem.setFactory === 'function'){
-			var registryCore = {},
-				registry, factory,
-				classes = this.registry.classes,
-				defaultClass = this.registry.defaultClass;
-			// assign only if defined
-			if (Array.isArray(classes) && classes.length > 0){
-				registryCore.classes = classes;
-			}
-			if (defaultClass){
-				registryCore.defaultClass = defaultClass;
-			}
-			registry = new Registry(registryCore);
-			factory = new Factory(registry);
+			var factory = this.clone();
 			return elem.setFactory(factory);
 		}
 		return false;
+	};
+
+	/**
+	 * Returns a copy of the current factory.
+	 * @method  clone
+	 * @return  {Factory}
+	 * @since   0.0.3
+	 */
+	this.clone = function(){
+		var registryCore = {},
+			registry, factory,
+			classes = this.registry.classes,
+			defaultClass = this.registry.defaultClass;
+		// assign only if defined
+		if (Array.isArray(classes) && classes.length > 0){
+			registryCore.classes = classes;
+		}
+		if (defaultClass){
+			registryCore.defaultClass = defaultClass;
+		}
+		registry = new Registry(registryCore);
+		factory = new Factory(registry);
+		return factory;
 	};
 
 	/**
@@ -249,6 +260,6 @@ function Factory(reg){
 			return product;
 		}
 		return null;
-	}
+	};
 
 }
