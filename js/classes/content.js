@@ -378,11 +378,12 @@ function Content(str) {
 	 * @return {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
+		console.log('factory: ', this.factory);
 		var factory = this.factory,
 			elements = [];
-		if (Array.isArray(arr)){
+		if (factory && Array.isArray(arr)){
 			arr.forEach(function(el){
-				var baby = factory.produce(el);
+				var baby = factory.forgeElement(el);
 				elements.push(baby);
 			});
 			this.elements = elements;

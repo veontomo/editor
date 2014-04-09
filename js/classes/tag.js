@@ -25,6 +25,18 @@ function Tag() {
 	this.tag = null;
 
 	/**
+	 * This property is required in order to be able to recreate itself or its child.
+	 * It is supposed to be an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
+	 * Its value will be initialized properly when creating a clone of this element (or of one
+	 * of its child). If it is not present, {{#crossLink "Factory"}}Factory{{/crossLink}} will
+	 * not be able to initialize it.
+	 * @property   {Object|Null}   factory
+	 * @default    Null
+	 * @since      0.0.3
+	 */
+	this.factory = null;
+
+	/**
 	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
 	 * in FF, `this.constructor` has `tag` property that returns "ListItem", while in IE, there
 	 * is no `tag` property.
@@ -436,23 +448,20 @@ function Tag() {
 			styleSucc = false,
 			contentSucc = false,
 			childrenArr = [],
-			allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
+			// allowedTypes = [Node.ELEMENT_NODE, Node.TEXT_NODE],
 			children, currentChild, attr, i, len;
 		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
 			children = elem.childNodes;                                 // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
 			this.tag  = elem.tagName.toLowerCase();                      // setting tag of the tag
 			attr  = elem.attributes;                                      // NamedNodeMap
-			if (attr){
-				// console.log('calling this.attr with ', attr);
-				attrSucc = this.attr.load(attr);
-				styleSucc = this.style.load(attr);
-			}
+			attrSucc = this.attr.load(attr);
+			styleSucc = this.style.load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
-				if (allowedTypes.indexOf(currentChild.nodeType) !== -1){
+				// if (allowedTypes.indexOf(currentChild.nodeType) !== -1){
 					childrenArr.push(currentChild);
-				}
+				// }
 			}
 			contentSucc = this.content.load(childrenArr);
 		}

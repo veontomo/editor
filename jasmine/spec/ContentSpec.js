@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
 	Content, Link, Ulist, Factory, Tag, ListItem, Registry, Text, window */
-console.info('---> ', 'ContentSpec is disabled');
+// console.info('---> ', 'ContentSpec is disabled');
 xdescribe('Content-related functionality', function(){
 	var c;
 	beforeEach(function(){

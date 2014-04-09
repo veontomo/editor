@@ -15,6 +15,10 @@ describe('Tag-related functionality:', function() {
             var tag2 = Tag();
             expect(tag2 instanceof Tag).toBe(true);
         });
+        it('must contain "factory" property in order to procreate itself', function(){
+            console.log(tag);
+            expect(tag.hasOwnProperty('factory')).toBe(true);
+        })
     });
 
     describe('Tag properties', function(){
@@ -625,8 +629,6 @@ describe('Tag-related functionality:', function() {
             spyOn(tag.style, 'load').andCallFake(function(){return false;});
             expect(tag.load(e0)).toBe(false);
         });
-
-
 
         it('calls method to set attributes', function(){
             spyOn(tag.content, 'load');
