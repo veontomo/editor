@@ -231,65 +231,64 @@ describe('Properties-related functionality', function(){
 
     });
 
-    xdescribe('Property::isTheSameAs(): compares property', function(){
+    describe('Property::isTheSameAs(): compares Properties instances', function(){
+        it('gives false if the the argument is not a Property instance', function(){
+            var invalids = ['', 'string', 0, -5, 2.38, [], [1, 'a'], {}];
+            invalids.forEach(function(el){
+                expect(props.isTheSameAs(el)).toBe(false);
+            });
+        });
         it('gives true when comparing an empty method with itself', function(){
-            expect(propEmpty.isTheSameAs(propEmpty)).toBe(true);
+            expect(props.isTheSameAs(props)).toBe(true);
         });
         it('gives true when comparing a non-empty method with itself', function(){
-            props.func = function(foo){ return foo;};
+            props.setProperty('screen', '5x5');
             expect(props.isTheSameAs(props)).toBe(true);
         });
 
-        it('gives true, if both styles have no properties', function(){
-            var st = {};
-            expect(propEmpty.isTheSameAs(st)).toBe(true);
+        it('gives true, if both instances have empty cores', function(){
+            var props2 = new Properties();
+            expect(props.isTheSameAs(props2)).toBe(true);
+            expect(props2.isTheSameAs(props)).toBe(true);
         });
-        it('gives true, if both styles have no properties and target props has a method', function(){
-            var st = {};
-            propEmpty.turnOn = function(){return 'turned on';};
-            expect(propEmpty.isTheSameAs(st)).toBe(true);
-        });
-        it('gives true, if props has no properties and argument has a method', function(){
-            var st = {};
-            st.turnOn = function(){return 'turned on';};
-            expect(propEmpty.isTheSameAs(st)).toBe(true);
+        it('gives false, if the instances have lengths 0 and 1', function(){
+            var props2 = new Properties();
+            spyOn(props, 'propNum').andCallFake(function(){return 0;});
+            spyOn(props2, 'propNum').andCallFake(function(){return 1;});
+            expect(props.isTheSameAs(props2)).toBe(false);
         });
 
-        it('gives false, if target props has one property and argument does not', function(){
-            var st = {};
-            propEmpty.props = 72;
-            expect(propEmpty.isTheSameAs(st)).toBe(false);
+        it('gives false, if the instances have lengths 2 and 4', function(){
+            var props2 = new Properties();
+            spyOn(props, 'propNum').andCallFake(function(){return 4;});
+            spyOn(props2, 'propNum').andCallFake(function(){return 2;});
+            expect(props.isTheSameAs(props2)).toBe(false);
         });
 
-        it('gives true, if target props and argument have the same properties and values', function(){
-            var st = {'props': 72, 'width': 'large'};
-            propEmpty.props = 72;
-            propEmpty.width = 'large';
-            expect(propEmpty.isTheSameAs(st)).toBe(true);
+        it('gives false, if the instances both have length 1 but have different core content', function(){
+            var props2 = new Properties();
+            props.setProperty('name', 1);
+            props2.setProperty('new', 'false');
+            expect(props.isTheSameAs(props2)).toBe(false);
         });
 
-        it('gives false, if target props and argument have the same properties but different values', function(){
-            var st = {'props': 72, 'width': 'large'};
-            propEmpty.props = 0;
-            propEmpty.width = 'large';
-            expect(propEmpty.isTheSameAs(st)).toBe(false);
-        });
-        it('gives false, if the argument has one property more', function(){
-            var st = {'props': 72, 'width': 'large', 'prop2': 21, 'color': 'blue'};
-            propEmpty.props = 72;
-            propEmpty.width = 'large';
-            propEmpty.prop2 = 21;
-            expect(propEmpty.isTheSameAs(st)).toBe(false);
+        it('gives true, if the instances both have length 1 but have identical core content', function(){
+            var props2 = new Properties();
+            props.setProperty('name', 1);
+            props2.setProperty('name', 1);
+            expect(props.isTheSameAs(props2)).toBe(true);
         });
 
-        it('gives false, if the target has one property more', function(){
-            var st = {'props': 72, 'width': 'large', 'color': 'blue'};
-            propEmpty.props = 72;
-            propEmpty.width = 'large';
-            propEmpty.prop2 = 21;
-            propEmpty.color = 'blue';
-            expect(propEmpty.isTheSameAs(st)).toBe(false);
+        it('gives false, if the instances both have length 2 but have different core content with overlapping keys', function(){
+            var props2 = new Properties();
+            props.setProperty('name', 1);
+            props.setProperty('new', 'false');
+            props2.setProperty('name', 5);
+            props2.setProperty('level', 'high');
+            expect(props.isTheSameAs(props2)).toBe(false);
         });
+
+
     });
 
     xdescribe('Property::summary(): gives object with key-value of the properties', function(){

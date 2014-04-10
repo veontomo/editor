@@ -143,26 +143,37 @@ function Properties(input) {
 	this.className = 'Properties';
 
 	/**
-	 * Compares properties of the target and with the proprties of the argument.
-	 * Returns true, if they are pair-wise the same (key of the target is present among argument keys, and the values are equal).
-	 * Otherwise, false is returned. When making comparison, all methods are ignored.
+	 * Core getter.
+	 * @return       {Object}
+	 */
+	this.getCore = function(){
+		return core;
+	};
+
+	/**
+	 * Compares {{#crossLink "Properties/core:property"}}core{{/crossLink}} of the target and the argument.
+	 * Returns `true` if they are equal, `false` otherwise.
 	 * @method    isTheSameAs
 	 * @param     {Object} 		obj
 	 * @return    {Boolean}
 	 */
 	this.isTheSameAs = function(obj){
-		var prop;
-		for (prop in this){
-			if (this.hasOwnProperty(prop) && (typeof this[prop] !== 'function') && (obj[prop] === undefined || this[prop] !== obj[prop])) {
-				return false;
-			}
+		if (!(obj instanceof Properties)){
+			return false;
 		}
-		for (prop in obj){
-		 	if (obj.hasOwnProperty(prop) && (typeof obj[prop] !== 'function') && (this[prop] === undefined || this[prop] !== obj[prop])){
-		 		return false;
-		 	}
+		var core1 = this.getCore(),
+			core2 = obj.getCore(),
+			len1 = this.propNum(),
+			len2 = obj.propNum();
+		if (len1 !== len2){
+			return false;
 		}
-		return true;
+		var keys = Object.keys(core1);
+		return keys.every(function(val){
+			return core1[val] === core2[val];
+		});
+
+
 	};
 
 	/**
