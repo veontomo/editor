@@ -77,7 +77,7 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    xdescribe('Properties::constructor(): creates Properties instance from argument', function(){
+    describe('Properties::constructor(): creates Properties instance from argument', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
             props = Properties();
             expect(props instanceof Properties).toBe(true);
@@ -89,59 +89,35 @@ describe('Properties-related functionality', function(){
 
         it('populates properties from a string input', function(){
             props = new Properties('a:10; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
-            expect(props.getValueOf('a')).toBe(10);
-            expect(props.getValueOf('color')).toBe('some color');
-            expect(props.getValueOf('another-attr')).toBe('un altro valore');
-            expect(props.getValueOf('bivalued')).toBe('1px 3px');
+            expect(props.getProperty('a')).toBe('10');
+            expect(props.getProperty('color')).toBe('some color');
+            expect(props.getProperty('another-attr')).toBe('un altro valore');
+            expect(props.getProperty('bivalued')).toBe('1px 3px');
         });
 
         it('populates properties from an object without methods inside', function(){
-            var props = new Properties({'a': 10,
+            props = new Properties({'a': 10,
                 'color': 'some color',
                 'another-attr': 'un altro valore',
                 'bool': true
             });
-            expect(s.hasOwnProperty('a')).toBe(true);
-            expect(s.a).toBe(10);
-            expect(s.hasOwnProperty('color')).toBe(true);
-            expect(s.color).toBe('some color');
-            expect(s.hasOwnProperty('another-attr')).toBe(true);
-            expect(s['another-attr']).toBe('un altro valore');
-            expect(s.hasOwnProperty('bool')).toBe(false);
+            expect(props.getProperty('a')).toBe(10);
+            expect(props.getProperty('color')).toBe('some color');
+            expect(props.getProperty('another-attr')).toBe('un altro valore');
+            expect(props.getProperty('bool')).not.toBeDefined();
         });
         it('populates properties from an object with a method inside', function(){
-           var s = new Property({'a':10,
+            props = new Properties({'a':10,
                'color': 'some color',
                'another-attr': 'un altro valore',
                'func': function(){return 1;},
                'bool': true
            });
-           expect(s.hasOwnProperty('a')).toBe(true);
-           expect(s.a).toBe(10);
-           expect(s.hasOwnProperty('color')).toBe(true);
-           expect(s.color).toBe('some color');
-           expect(s.hasOwnProperty('another-attr')).toBe(true);
-           expect(s['another-attr']).toBe('un altro valore');
-           expect(s.hasOwnProperty('func')).toBe(false);
-           expect(s.hasOwnProperty('bool')).toBe(false);
-        });
-       it('populates properties from an object with two methods insides', function(){
-           var s = new Property({'a':10,
-               'color': 'some color',
-               'another-attr': 'un altro valore',
-               'func': function(){return 1;},
-               'bool': true,
-               'func2': function(a){return a;},
-           });
-           expect(s.hasOwnProperty('a')).toBe(true);
-           expect(s.a).toBe(10);
-           expect(s.hasOwnProperty('color')).toBe(true);
-           expect(s.color).toBe('some color');
-           expect(s.hasOwnProperty('another-attr')).toBe(true);
-           expect(s['another-attr']).toBe('un altro valore');
-           expect(s.hasOwnProperty('func')).toBe(false);
-           expect(s.hasOwnProperty('func2')).toBe(false);
-           expect(s.hasOwnProperty('bool')).toBe(false);
+           expect(props.getProperty('a')).toBe(10);
+           expect(props.getProperty('color')).toBe('some color');
+           expect(props.getProperty('another-attr')).toBe('un altro valore');
+           expect(props.getProperty('func')).not.toBeDefined();
+           expect(props.getProperty('bool')).not.toBeDefined();
         });
     });
 

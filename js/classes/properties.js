@@ -15,7 +15,7 @@ function Properties(input) {
 	if (!(this instanceof Properties)) {
 		return new Properties(input);
 	}
-	var attr, len, i, pair, value, valueFloat, key;
+
 
 	/**
 	 * Object that contains all the properties. Its keys and values must be either strings or numbers.
@@ -56,43 +56,40 @@ function Properties(input) {
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
-	}
+	};
 
 	/**
-	 * Fill in the properties with the values from the argument if any.
-	 * Splits the argument according to tha pattern "key: value;"
+	 * Fills in the core with key-value pairs from the argument if any. If the argument
+	 * is a string, splits it according to the pattern "key: value;". If the argument is
+	 * an object, then it gets its key-value pairs. Obtained blocks are then sent one
+	 * by one to {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}}
+	 * method.
 	 */
-	if (typeof input === 'string'){
-		attr = input.split(';');
-		len = attr.length;
-		// parse each attribute/value pair
-		for (i = 0; i < len; i++){
-			pair = attr[i].split(':');
-			// ignore if there is more than one semicolon
-			if (pair.length === 2){
-				key = pair[0].trim();
-				value =  pair[1].trim();
-				// if value contains no spaces, lets try to cast it to number
-				if(value.indexOf(' ') === -1){
-					valueFloat = parseFloat(value, 10);
-					if(valueFloat){
-						value = valueFloat;
-					}
+	(function(that){
+		var attr, value, key, pool = [];
+		if (typeof input === 'string'){
+			attr = input.split(';');
+			attr.forEach(function(pair){
+				var split = pair.split(':');
+				if (split.length === 2){
+					key = split[0].trim();
+					value =  split[1].trim();
+					pool.push([key, value]);
 				}
-				this[key] = value;
-			}
+			});
 		}
-	}
-	if (typeof input === 'object'){
-		for (key in input){
-			if (input.hasOwnProperty(key)){
-				value = input[key];
-				if (typeof value === 'string' || typeof value === 'number'){
-					this[key] = value;
+		if (typeof input === 'object'){
+			for (key in input){
+				if (input.hasOwnProperty(key)){
+					value = input[key];
+					pool.push([key, value]);
 				}
 			}
 		}
-	}
+		pool.forEach(function(pair){
+			that.setProperty(pair[0], pair[1]);
+		});
+	}(this));
 
 	/**
 	 * Gets the number of properties of the object (all properties to which the object
@@ -101,8 +98,7 @@ function Properties(input) {
 	 * @return  {Number}
 	 */
 	this.propNum = function(){
-		var prop;
-		i = 0;
+		var prop, i = 0;
 		for (prop in this){
 			if (typeof this[prop] !== 'function'){
 				i++;
@@ -117,7 +113,7 @@ function Properties(input) {
 	 * @property    {String} className
 	 * @type        {String}
 	 */
-	this.className = 'Property';
+	this.className = 'Properties';
 
 	/**
 	 * Compares properties of the target and with the proprties of the argument.
