@@ -135,9 +135,44 @@ function Properties(input) {
 		return appendPropertyAsStringOrObj(obj, this);
 	};
 
+	/**
+	 * Splits the argument in key-value pieces as it is performed in
+	 * {{#crossLink "Properties/appendPropertyAsStringOrObj:method"}}appendPropertyAsStringOrObj(){{/crossLink}}.
+	 * If the `key` is not present in the {{#crossLink "Properties/core:property"}}core{{/crossLink}}, it is initialized
+	 * with `value`. Otherwise, it is ignored.
+	 * @method    suggestProperty
+	 * @param     {String|Object}     obj
+	 * @return    {void}
+	 */
 	this.suggestProperty = function(obj){
+		var objType = typeof obj,
+			attr, key, value,
+			that = this;
+		if (objType === 'string'){
+			attr = obj.split(';');
+			attr.forEach(function(pair){
+				var split = pair.split(':');
+				if (split.length === 2){
+					key = split[0].trim();
+					value =  split[1].trim();
+					if (!that.hasProperty(key)){
+						that.setProperty(key, value);
+					}
+				}
+			});
+		}
+		if (objType === 'object'){
+			for (key in obj){
+				if (obj.hasOwnProperty(key)){
+					if (!that.hasProperty(key)){
+						that.setProperty(key, obj[key]);
+					}
+				}
+			}
+		}
 
-	}
+
+	};
 
 	/**
 	 * Returns `true` if requested property is the {{#crossLink "Properties/core:property"}}core{{/crossLink}} key,
@@ -148,7 +183,7 @@ function Properties(input) {
 	 */
 	this.hasProperty = function(key){
 		return this.getCore()[key] !== undefined;
-	}
+	};
 
 	/**
 	 * Gets the number of records in {{#crossLink "Properties/core:property"}}core{{/crossLink}}.

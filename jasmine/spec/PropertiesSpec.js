@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, Property
+/*global describe, it, expect, spyOn, beforeEach, afterEach, Properties, Factory
  */
 
 describe('Properties-related functionality', function(){
@@ -121,10 +121,75 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    xdescribe('Properties::suggestProperty(): sets property if it is not defined', function(){
+    describe('Properties::suggestProperty(): sets property if it is not defined', function(){
         it('calls setProperty() method if a property is missing in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(){return false;});
+            props.suggestProperty('a: 192; b: new');
+            expect(props.setProperty).toHaveBeenCalledWith('a', '192');
+            expect(props.setProperty).toHaveBeenCalledWith('b', 'new');
+            expect(props.hasProperty).toHaveBeenCalledWith('a');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+        });
+        it('does not call setProperty() method if a property is present in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;});
+            props.suggestProperty('hi: yes; b: new');
+            expect(props.setProperty).not.toHaveBeenCalledWith('hi', 'yes');
+            expect(props.setProperty).not.toHaveBeenCalledWith('b', 'new');
+            expect(props.hasProperty).toHaveBeenCalledWith('hi');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+        });
+
+        it('calls setProperty() method only with keys not present in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(key){return key === 'present' || key === 'present2';});
+            props.suggestProperty('hi: yes; present: 3; b: old; present2: nice');
+            expect(props.setProperty).not.toHaveBeenCalledWith('present', '3');
+            expect(props.setProperty).not.toHaveBeenCalledWith('present2', 'nice');
+            expect(props.setProperty).toHaveBeenCalledWith('hi', 'yes');
+            expect(props.setProperty).toHaveBeenCalledWith('b', 'old');
+            expect(props.hasProperty).toHaveBeenCalledWith('hi');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+            expect(props.hasProperty).toHaveBeenCalledWith('present');
+            expect(props.hasProperty).toHaveBeenCalledWith('present2');
 
         });
+        it('calls setProperty() method if a property is missing in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(){return false;});
+            props.suggestProperty({a: 192, b: 'new'});
+            expect(props.setProperty).toHaveBeenCalledWith('a', 192);
+            expect(props.setProperty).toHaveBeenCalledWith('b', 'new');
+            expect(props.hasProperty).toHaveBeenCalledWith('a');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+        });
+        it('does not call setProperty() method if a property is present in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;});
+            props.suggestProperty({hi: 'yes', b: 'new'});
+            expect(props.setProperty).not.toHaveBeenCalledWith('hi', 'yes');
+            expect(props.setProperty).not.toHaveBeenCalledWith('b', 'new');
+            expect(props.hasProperty).toHaveBeenCalledWith('hi');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+        });
+
+        it('calls setProperty() method only with keys not present in the core', function(){
+            spyOn(props, 'setProperty');
+            spyOn(props, 'hasProperty').andCallFake(function(key){return key === 'present' || key === 'present2';});
+            props.suggestProperty({hi: 'yes', present: 3, b: 'old', present2: 'nice'});
+            expect(props.setProperty).not.toHaveBeenCalledWith('present', '3');
+            expect(props.setProperty).not.toHaveBeenCalledWith('present2', 'nice');
+            expect(props.setProperty).toHaveBeenCalledWith('hi', 'yes');
+            expect(props.setProperty).toHaveBeenCalledWith('b', 'old');
+            expect(props.hasProperty).toHaveBeenCalledWith('hi');
+            expect(props.hasProperty).toHaveBeenCalledWith('b');
+            expect(props.hasProperty).toHaveBeenCalledWith('present');
+            expect(props.hasProperty).toHaveBeenCalledWith('present2');
+
+        });
+
+
     });
 
     describe('Property::hasOwnProperty(): whether the property is present in the core', function(){
@@ -144,7 +209,7 @@ describe('Properties-related functionality', function(){
         });
 
 
-    })
+    });
 
     describe('Properties::setFactory(): imposes factory', function(){
         var factory,
