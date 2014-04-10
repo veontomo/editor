@@ -1,22 +1,24 @@
 /*jslint plusplus: true, white: true */
-/*global Property */
+/*global Properties */
 /**
 * This class is supposed to define attributes of html tags
 * @module 	Property
 * @param    {String|Object}    obj       Attributes class variable will be instantiated using this input
 * @class    Attributes
-* @extends  Property
+* @extends  Properties
 */
 function Attributes(obj) {
 	"use strict";
 	if (!(this instanceof Attributes)) {
 		return new Attributes(obj);
 	}
-	Property.call(this, obj);
+	Properties.call(this, obj);
 
 	/**
 	 * Generates string representation of this object (as html attributes).
-	 * It takes into consideration only strings and numbers and excludes
+	 * It takes into consideration only key-valued pairs of
+     * {{#crossLink "Properties/core:property"}}core{{/crossLink}} defined in
+     * {{#crossLink "Properties"}}Property{{/crossLink}} class.
 	 * {{#crossLink "Attributes/className:property"}}className{{/crosslink}}.
 	 * @method     toString
 	 * @return     {String}    a union of substrings; each substring is of this format: 'attribute="value"',
@@ -24,17 +26,12 @@ function Attributes(obj) {
 	 * @example    class="example" id="tag"
 	 */
 	this.toString = function () {
-        var val, valType, attr, output = [];
-        for (attr in this) {
-            if (this.hasOwnProperty(attr)) {
-                val = this[attr];
-                valType = typeof val;
-                // avoid adding method to the output
-                if ((valType === 'string' || valType === 'number') && (attr !== 'className') ){
-                    output.push(attr + '="' + val.toString() + '"');
-                }
-            }
-        }
+        var output = [],
+            core = this.getCore(),
+            keys = Object.keys(core);
+        keys.forEach(function(key){
+            output.push(key.toString() + '="'  + core[key].toString() + '"');
+        });
         return output.join(' ');
     };
 
@@ -59,7 +56,7 @@ function Attributes(obj) {
      */
     this.load = function(attr){
     	var pos, attrName, attrValue, seed;
-    	// console.log(attr);
+    	// console.log("load: attr = ", attr);
     	for (pos in attr){
     		if (attr.hasOwnProperty(pos)){
     			seed = {};
@@ -70,6 +67,7 @@ function Attributes(obj) {
     					if(attrValue){
     						seed[attrName] = attrValue;
     					}
+                        // console.log('load: seed = ', seed);
     					this.appendProperty(seed);
     				} else {
     					return false;
@@ -99,4 +97,4 @@ function Attributes(obj) {
     	}
     };
 }
-Attributes.prototype = Object.create(Property.prototype);
+Attributes.prototype = Object.create(Properties.prototype);

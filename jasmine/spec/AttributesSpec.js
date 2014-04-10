@@ -8,8 +8,8 @@ describe('Attribute-related functionality', function(){
     });
 
     describe('Attributes::constructor(): inherits from Property', function(){
-        it('is an instance of Property', function(){
-            expect(attr instanceof Property).toBe(true);
+        it('is an instance of Properties', function(){
+            expect(attr instanceof Properties).toBe(true);
         });
         it('sets "className" property to be equal to "Attributes"', function(){
             expect(attr.className).toBe('Attributes');
@@ -17,15 +17,15 @@ describe('Attribute-related functionality', function(){
 
         it('populates properties from the argument', function(){
             attr = new Attributes('a: 10; new: yes');
-            expect(attr.a).toBe(10);
-            expect(attr.new).toBe('yes');
+            expect(attr.getProperty('a')).toBe('10');
+            expect(attr.getProperty('new')).toBe('yes');
         });
         it('populates properties from the argument', function(){
             attr = new Attributes({'a': 10, 'new': 'no', 'update': function(){return null;}, 'format': 'A4'});
-            expect(attr.format).toBe('A4');
-            expect(attr.a).toBe(10);
-            expect(attr.new).toBe('no');
-            expect(attr.hasOwnProperty('update')).toBe(false);
+            expect(attr.getProperty('format')).toBe('A4');
+            expect(attr.getProperty('a')).toBe(10);
+            expect(attr.getProperty('new')).toBe('no');
+            expect(attr.getProperty('update')).not.toBeDefined();
         });
 
         it('prevents accidental call without "new"', function(){
@@ -39,21 +39,28 @@ describe('Attribute-related functionality', function(){
         it('if the attribute is empty, empty string is returned', function(){
             expect(attr.toString()).toBe('');
         });
-        it('if the attributes has only a method, empty string is returned', function(){
-            attr.fun = function(){return null;};
-            expect(attr.toString()).toBe('');
-        });
-        it('if the attributes has 2 properties, a string is returned', function(){
-            attr.width = 'width';
-            attr.new = 10;
-            expect(attr.toString()).toBe('width="width" new="10"');
+        it('returns a string if the core has one string-string record', function(){
+            attr.setProperty('width', 'large');
+            expect(attr.toString()).toBe('width="large"');
         });
 
-        it('if the attributes has 2 properties and a method, a string is returned', function(){
-            attr.width = 20;
-            attr['last-author'] = 'A.M.R';
-            attr.update = function(foo){return foo;};
-            expect(attr.toString()).toBe('width="20" last-author="A.M.R"');
+        it('returns a string if the core has one string-number record', function(){
+            attr.setProperty('width', 102);
+            expect(attr.toString()).toBe('width="102"');
+        });
+        it('returns a string if the core has one number-string record', function(){
+            attr.setProperty(5, 'height');
+            expect(attr.toString()).toBe('5="height"');
+        });
+        it('returns a string if the core has one number-number record', function(){
+            attr.setProperty(1, 93);
+            expect(attr.toString()).toBe('1="93"');
+        });
+
+        it('returns a string if the attributes has two properties', function(){
+            attr.setProperty('width', 102);
+            attr.setProperty('new', 'very');
+            expect(attr.toString()).toBe('width="102" new="very"');
         });
     });
 
@@ -73,15 +80,16 @@ describe('Attribute-related functionality', function(){
 
         it('returns true if no method is attemped to be overridden', function(){
             attrMap = root.attributes;
+            // console.log('attrMap = ', attrMap);
             expect(attr.load(attrMap)).toBe(true);
         });
 
         it('sets the attibutes', function(){
             attrMap = root.attributes;
             attr.load(attrMap);
-            expect(attr.coverage).toBe('74em');
-            expect(attr.class).toBe('footer');
-            expect(attr.module).toBe('2');
+            expect(attr.getProperty('coverage')).toBe('74em');
+            expect(attr.getProperty('class')).toBe('footer');
+            expect(attr.getProperty('module')).toBe('2');
         });
 
         it('ignores style property', function(){

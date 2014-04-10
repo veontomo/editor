@@ -71,7 +71,7 @@ describe('Properties-related functionality', function(){
         it('returns attribute value from the Properties core and not from Properties itself', function(){
             // impose two attributes with the same name: one inside the Properties itself and the other
             // inside the Properties core
-            props['dummyAttribute'] = 'inside properties class';
+            props.dummyAttribute = 'inside properties class';
             props.setProperty('dummyAttribute', 'inside core');
             expect(props.getProperty('dummyAttribute')).toBe('inside core');
         });
@@ -163,50 +163,49 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    xdescribe('Property::appendProperty(): appends property', function(){
+    describe('Property::appendProperty(): appends property', function(){
         it('appends Object to an empty property', function(){
-            propEmpty.appendProperty({'new': 10, 'class': 'highest', 'fun': function(a){return a;}, 'last author': 'J.P.B.'});
-            expect(propEmpty['last author']).toBe('J.P.B.');
-            expect(propEmpty.new).toBe(10);
-            expect(propEmpty.class).toBe('highest');
-            expect(propEmpty.hasOwnProperty('fun')).toBe(false);
+            props.appendProperty({'new': 10, 'class': 'highest', 'fun': function(a){return a;}, 'last author': 'J.P.B.'});
+            expect(props.getProperty('last author')).toBe('J.P.B.');
+            expect(props.getProperty('new')).toBe(10);
+            expect(props.getProperty('class')).toBe('highest');
+            expect(props.hasOwnProperty('fun')).toBe(false);
         });
 
         it('appends a string to an empty property', function(){
-            propEmpty.appendProperty('last: 10; class: super; last author: J.P.B.');
-            expect(propEmpty['last author']).toBe('J.P.B.');
-            expect(propEmpty.last).toBe(10);
-            expect(propEmpty.class).toBe('super');
+            props.appendProperty('last: 10; class: super; last author: J.P.B.');
+            expect(props.getProperty('last author')).toBe('J.P.B.');
+            expect(props.getProperty('last')).toBe('10');
+            expect(props.getProperty('class')).toBe('super');
         });
 
         it('appends Object to a non-empty property', function(){
-            propEmpty['visited last'] = 'today';
-            propEmpty.name = 'Rome';
-            propEmpty.appendProperty({'new': 10, 'class': 'highest', 'fun': function(a){return a;}, 'last author': 'J.P.B.'});
-            expect(propEmpty.name).toBe('Rome');
-            expect(propEmpty['visited last']).toBe('today');
-            expect(propEmpty['last author']).toBe('J.P.B.');
-            expect(propEmpty.new).toBe(10);
-            expect(propEmpty.class).toBe('highest');
-            expect(propEmpty.hasOwnProperty('fun')).toBe(false);
+            props.setProperty('visited last', 'today');
+            props.setProperty('name', 'Rome');
+            props.appendProperty({'new': 10, 'class': 'highest', 'fun': function(a){return a;}, 'last author': 'J.P.B.'});
+            expect(props.getProperty('name')).toBe('Rome');
+            expect(props.getProperty('visited last')).toBe('today');
+            expect(props.getProperty('last author')).toBe('J.P.B.');
+            expect(props.getProperty('new')).toBe(10);
+            expect(props.getProperty('class')).toBe('highest');
+            expect(props.hasOwnProperty('fun')).toBe(false);
         });
 
         it('appends a string to an empty property', function(){
-            propEmpty['top pos'] = 2;
-            propEmpty.title = 'Gone with wind';
-            propEmpty.appendProperty('last: 10; class: super; last author: J.P.B.');
-            expect(propEmpty.title).toBe('Gone with wind');
-            expect(propEmpty['top pos']).toBe(2);
-            expect(propEmpty['last author']).toBe('J.P.B.');
-            expect(propEmpty.last).toBe(10);
-            expect(propEmpty.class).toBe('super');
+            props.setProperty('top pos', 2);
+            props.setProperty('title', 'Gone with wind');
+            props.appendProperty('last: 10; class: super; last author: J.P.B.');
+            expect(props.getProperty('title')).toBe('Gone with wind');
+            expect(props.getProperty('top pos')).toBe(2);
+            expect(props.getProperty('last author')).toBe('J.P.B.');
+            expect(props.getProperty('last')).toBe('10');
+            expect(props.getProperty('class')).toBe('super');
         });
 
 
         it('overrides the property value', function(){
-            propEmpty.width = 'new value';
-            propEmpty.width = 'new value';
-            expect(propEmpty.width).toBe('new value');
+            props.setProperty('width', 'new value');
+            expect(props.getProperty('width')).toBe('new value');
         });
     });
 
@@ -319,34 +318,34 @@ describe('Properties-related functionality', function(){
 
     xdescribe('Property::summary(): gives object with key-value of the properties', function(){
         it('gives an empty object, if there are no properties set', function(){
-            var summary = propEmpty.summary();
+            var summary = props.summary();
             expect(Object.keys(summary).length).toBe(0);
         });
         it('gives an object with one string-valued record, if the value is a string', function(){
-            propEmpty.bold = 'yes';
-            var summary = propEmpty.summary();
+            props.bold = 'yes';
+            var summary = props.summary();
             expect(summary.bold).toBe('yes');
         });
         it('gives an object with one number-valued record, if the value is a number', function(){
-            propEmpty.font = 221;
-            var summary = propEmpty.summary();
+            props.font = 221;
+            var summary = props.summary();
             expect(summary.font).toBe(221);
         });
         it('does not enroll methods in the summary', function(){
-            propEmpty.print = function(){return 1;};
-            propEmpty.age = 'adult';
-            var summary = propEmpty.summary();
+            props.print = function(){return 1;};
+            props.age = 'adult';
+            var summary = props.summary();
             expect(summary.hasOwnProperty('print')).toBe(false);
         });
         it('enrolls properties in the summary, if methods are present', function(){
-            propEmpty.print = function(){return 1;};
-            propEmpty.age = 'adult';
-            var summary = propEmpty.summary();
+            props.print = function(){return 1;};
+            props.age = 'adult';
+            var summary = props.summary();
             expect(summary.hasOwnProperty('age')).toBe(true);
         });
         it('does not enroll object-valued properties in the summary', function(){
-            propEmpty.level = {'foo': 1};
-            var summary = propEmpty.summary();
+            props.level = {'foo': 1};
+            var summary = props.summary();
             expect(summary.hasOwnProperty('level')).toBe(false);
         });
     });

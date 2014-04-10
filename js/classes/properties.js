@@ -109,8 +109,8 @@ function Properties(input) {
 		}
 		if (typeof obj === 'object'){
 			for (key in obj){
-				if (input.hasOwnProperty(key)){
-					value = input[key];
+				if (obj.hasOwnProperty(key)){
+					value = obj[key];
 					pool.push([key, value]);
 				}
 			}
