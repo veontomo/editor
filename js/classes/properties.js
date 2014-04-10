@@ -9,6 +9,8 @@
  * @module 	    Properties
  * @class  		Properties
  * @param       {String|Object} 	input     an argument, from which properties will be taken.
+ * @since       0.0.3
+ *
  */
 function Properties(input) {
 	"use strict";
@@ -71,17 +73,22 @@ function Properties(input) {
 		}
 	};
 
+
+
 	/**
 	 * Fills in the core with key-value pairs from the argument if any. If the argument
 	 * is a string, splits it according to the pattern "key: value;". If the argument is
 	 * an object, then it gets its key-value pairs. Obtained blocks are then sent one
 	 * by one to {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}}
 	 * method.
+	 * @method    appendPropertyAsStringOrObj
+	 * @param     {Any}        input
+	 * @private
 	 */
-	(function(that){
+	var appendPropertyAsStringOrObj = function (obj, context){
 		var attr, value, key, pool = [];
-		if (typeof input === 'string'){
-			attr = input.split(';');
+		if (typeof obj === 'string'){
+			attr = obj.split(';');
 			attr.forEach(function(pair){
 				var split = pair.split(':');
 				if (split.length === 2){
@@ -91,8 +98,8 @@ function Properties(input) {
 				}
 			});
 		}
-		if (typeof input === 'object'){
-			for (key in input){
+		if (typeof obj === 'object'){
+			for (key in obj){
 				if (input.hasOwnProperty(key)){
 					value = input[key];
 					pool.push([key, value]);
@@ -100,29 +107,36 @@ function Properties(input) {
 			}
 		}
 		pool.forEach(function(pair){
-			that.setProperty(pair[0], pair[1]);
+			context.setProperty(pair[0], pair[1]);
 		});
-	}(this));
+	};
+
+	appendPropertyAsStringOrObj(input, this);
 
 	/**
-	 * Gets the number of properties of the object (all properties to which the object
-	 * responds and that are not of function type).
+	 * Adds properties into {{#crossLink "Properties/core:property"}}core{{/crossLink}}. It passes its argument to a
+	 * private method
+	 * {{#crossLink "Properties/appendPropertyAsStringOrObj:method"}}appendPropertyAsStringOrObj(){{/crossLink}}.
+	 * @method    appendProperty
+	 * @param     {Any}               obj
+	 * @return    {void}
+	 */
+
+	this.appendProperty = function(obj){
+		return appendPropertyAsStringOrObj(obj, this);
+	};
+
+	/**
+	 * Gets the number of records in {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
 	 * @method  propNum
 	 * @return  {Number}
 	 */
 	this.propNum = function(){
-		var prop, i = 0;
-		for (prop in this){
-			if (typeof this[prop] !== 'function'){
-				i++;
-			}
-		}
-		return i;
+		return Object.keys(core).length;
 	};
 
 	/**
 	 * The  name of the class.
-	 * @since       0.0.2
 	 * @property    {String} className
 	 * @type        {String}
 	 */
@@ -154,11 +168,11 @@ function Properties(input) {
 	/**
 	 * Appends property. Converts the argument to a Property and appends it to the target one.
 	 * Properties with the same name will be overridden.
-	 * @method    appendProperty
+	 * @method    appendProperty___
 	 * @param     {Any}          prop        it will be converted into a Property object and then appended to the target object.
 	 * @return    {void}
 	 */
-	this.appendProperty = function(prop){
+	this.appendProperty___ = function(prop){
 		var styleProp,
 			styleObj = new Style(prop);
 		for (styleProp in styleObj){

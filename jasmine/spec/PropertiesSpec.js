@@ -161,7 +161,7 @@ describe('Properties-related functionality', function(){
             props.dropProperty(propName);
             expect(props.getProperty(propName)).not.toBeDefined();
         });
-    })
+    });
 
     xdescribe('Property::appendProperty(): appends property', function(){
         it('appends Object to an empty property', function(){
@@ -210,54 +210,25 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    xdescribe('Property::length(): get the number of properties', function(){
-        it('gives zero for empty Property instance', function(){
-            expect(propEmpty.propNum()).toBe(0);
+    describe('Property::propNum(): gets the number of records in core', function(){
+        it('gives zero for empty Properties instance', function(){
+            expect(props.propNum()).toBe(0);
         });
-        it('gives one for Property instance with one property', function(){
-            propEmpty.name = 'alignment';
-            expect(propEmpty.propNum()).toBe(1);
+        it('gives one for Properties instance with one string-valued record in core', function(){
+            props.setProperty('name', 'alignment');
+            expect(props.propNum()).toBe(1);
         });
-        it('gives one for Property instance with one property', function(){
-            propEmpty.name = 'alignment';
-            expect(propEmpty.propNum()).toBe(1);
+        it('gives one for Properties instance with one number-valued record in core', function(){
+            props.setProperty('level', 32.7);
+            expect(props.propNum()).toBe(1);
         });
-
-        it('gets zero for a Property instance without properties', function(){
-            expect(propEmpty.propNum()).toBe(0);
-        });
-        it('gets one for a Property instance with just one property', function(){
-            propEmpty['funny property'] = 'value';
-            expect(propEmpty.propNum()).toBe(1);
-        });
-        it('gets zero for a Property instance with just one method', function(){
-            propEmpty.turnOn = function(){return null;};
-            expect(propEmpty.propNum()).toBe(0);
+        it('gives two for Properties instance with two records in core', function(){
+            props.setProperty('level', 32.7);
+            props.setProperty(5, 'five');
+            expect(props.propNum()).toBe(2);
         });
 
-        it('gets one for a Property instance with just one property and one method', function(){
-            propEmpty.one = 32.86;
-            propEmpty['deep inside'] = function(){return null;};
-            expect(propEmpty.propNum()).toBe(1);
-        });
-        it('gets one for a Property instance with just one property and two methods', function(){
-            propEmpty.one = 32.86;
-            propEmpty['deep inside'] = function(){return null;};
-            propEmpty.turnOn = function(){return 'turned on';};
-            expect(propEmpty.propNum()).toBe(1);
-        });
-        it('gets two for a Property instance with two properties', function(){
-            propEmpty.one = 32.86;
-            propEmpty['funny property'] = {};
-            expect(propEmpty.propNum()).toBe(2);
-        });
-        it('gets two for a Property instance with two properties and two methods', function(){
-            propEmpty.one = 32.86;
-            propEmpty['funny property'] = {};
-            propEmpty.turnOn = function(){return 'turned on';};
-            propEmpty['prepare-online'] = function(){return {'prepare': true};};
-            expect(propEmpty.propNum()).toBe(2);
-        });
+
     });
 
     xdescribe('Property::isTheSameAs(): compares property', function(){
