@@ -227,6 +227,13 @@ describe('LinkStyle-related functionality', function(){
         });
 
     });
+
+    describe('LinkStyle::className(): gets the name of the class', function(){
+        it('gives LinkStyle', function(){
+            expect(stl.className).toBe('LinkStyle');
+        });
+
+    });
 });
 
 

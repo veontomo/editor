@@ -156,6 +156,15 @@ function TableStyle() {
     Style.call(this);
 
     /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'TableStyle';
+
+
+    /**
      * Object with key-values for tables. They should be set if they were not set before.
      * @property {Object}  tableStyleCore
      * @type     {Object}
@@ -216,7 +225,7 @@ function TableStyle() {
     // /**
     //  * Whether to collapse the table borders or not.
     //  * @deprecated Do not use, because it causes problems in MS Outlook.
-    //  * @Properties {String} border-collapse
+    //  * @Properties {StrFLinking} border-collapse
     //  * @default  0
     //  */
     // // this['border-collapse'] = 'collapse';
@@ -244,6 +253,14 @@ function LinkStyle(obj) {
     Style.call(this, obj);
 
     /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'LinkStyle';
+
+    /**
      * Object with key-values for hyperlinks. They should be set if they were not set before.
      * @property {Object}  linkStyleCore
      * @type     {Object}
@@ -267,6 +284,15 @@ function TableRowStyle(obj) {
         return new TableRowStyle(obj);
     }
     Style.call(this);
+
+    /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'TableRowStyle';
+
 
     /**
      * Object with key-values for table rows. They should be set if they were not set before.
@@ -294,6 +320,15 @@ function TableCellStyle() {
     Style.call(this);
 
     /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'TableCellStyle';
+
+
+    /**
      * Object with key-values for table cells. They should be set if they were not set before. <br/>
      * NB: Gmail removes color tags corresponding to black color, so use `#000001` instead of `#000000`.
      * @property {Object}  tableCellStyleCore
@@ -317,6 +352,15 @@ function ImageStyle() {
         return new ImageStyle();
     }
     Style.call(this);
+
+    /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'ImageStyle';
+
 
     /**
      * Object with key-values for images. They should be set if they were not set before. <br/>
@@ -386,6 +430,15 @@ function ListStyle() {
     Style.call(this);
 
     /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'ListStyle';
+
+
+    /**
      * Object with key-values for lists. They should be set if they were not set before. <br/>
      * @property {Object}  listStyleCore
      * @type     {Object}
@@ -444,6 +497,15 @@ function ListItemStyle() {
         return new ListItemStyle();
     }
     Style.call(this);
+
+    /**
+     * The  name of the class.
+     * @since    0.0.2
+     * @Properties {String} className
+     * @type     {String}
+     */
+    this.className = 'ListItemStyle';
+
 
     /**
      * Object with key-values for lists. They should be set if they were not set before. <br/>
