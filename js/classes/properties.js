@@ -73,6 +73,15 @@ function Properties(input) {
 		}
 	};
 
+	/**
+	 * Replaces {{#crossLink "Properties/core:property"}}core{{/crossLink}} with empty object {}.
+	 * @method dropAllProperties
+	 * @return {void}
+	 */
+	this.dropAllProperties = function(){
+		core = {};
+	};
+
 
 
 	/**
@@ -144,6 +153,7 @@ function Properties(input) {
 
 	/**
 	 * Core getter.
+	 * @method       getCore
 	 * @return       {Object}
 	 */
 	this.getCore = function(){
@@ -176,41 +186,29 @@ function Properties(input) {
 
 	};
 
-	/**
-	 * Appends property. Converts the argument to a Property and appends it to the target one.
-	 * Properties with the same name will be overridden.
-	 * @method    appendProperty___
-	 * @param     {Any}          prop        it will be converted into a Property object and then appended to the target object.
-	 * @return    {void}
-	 */
-	this.appendProperty___ = function(prop){
-		var styleProp,
-			styleObj = new Style(prop);
-		for (styleProp in styleObj){
-			if (styleObj.hasOwnProperty(styleProp) && (typeof styleObj[styleProp]  !== 'function')){
-				this[styleProp] = styleObj[styleProp];
-			}
-		}
-	};
+
 
 	/**
 	 * Returns an object containing string/number-valued properties (and not methods).
 	 * @method summary
 	 * @return {Object}
+	 * @deprecated   Use getCore() instead.
 	 */
 	this.summary = function(){
-		var output = {},
-			prop, propType, propValue;
-		for (prop in this){
-			if (this.hasOwnProperty(prop)){
-				propValue = this[prop];
-				propType = typeof propValue;
-				if (propType === 'string' || propType === 'number'){
-					output[prop] = propValue;
-				}
-			}
-		}
-		return output;
+		// var output = {},
+		// 	prop, propType, propValue;
+		// for (prop in this){
+		// 	if (this.hasOwnProperty(prop)){
+		// 		propValue = this[prop];
+		// 		propType = typeof propValue;
+		// 		if (propType === 'string' || propType === 'number'){
+		// 			output[prop] = propValue;
+		// 		}
+		// 	}
+		// }
+		// return output;
+		console.log('This method is deprecated. Use Properties::getCore() instead.');
+		return this.getCore();
 	};
 
 	/**

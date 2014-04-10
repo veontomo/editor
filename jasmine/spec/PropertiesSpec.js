@@ -287,9 +287,35 @@ describe('Properties-related functionality', function(){
             props2.setProperty('level', 'high');
             expect(props.isTheSameAs(props2)).toBe(false);
         });
+    });
+
+    describe('Properties::dropAllProperties(): flushes all recored in the core', function(){
+        it('deletes properties in empty core', function(){
+            expect(props.propNum()).toBe(0);
+            props.dropAllProperties();
+            expect(props.propNum()).toBe(0);
+        });
+        it('deletes properties in one-record empty core', function(){
+            props.setProperty('link', 'faraway');
+            expect(props.propNum()).toBe(1);
+            props.dropAllProperties();
+            expect(props.propNum()).toBe(0);
+        });
+
+        it('deletes properties in three-record empty core', function(){
+            props.setProperty('link', 'faraway');
+            props.setProperty(6, 3);
+            props.setProperty('width', '10');
+            expect(props.propNum()).toBe(3);
+            props.dropAllProperties();
+            expect(props.propNum()).toBe(0);
+        });
+
 
 
     });
+
+
 
     xdescribe('Property::summary(): gives object with key-value of the properties', function(){
         it('gives an empty object, if there are no properties set', function(){
