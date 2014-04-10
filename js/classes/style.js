@@ -72,9 +72,9 @@ function Style(obj) {
      * @return  {void}
      */
     this.setWidth = function (w) {
-        this.width = w;
-        this['min-width'] = w;
-        this['max-width'] = w;
+        this.setProperty('width', w);
+        this.setProperty('min-width', w);
+        this.setProperty('max-width', w);
     };
 
     /**
@@ -86,10 +86,10 @@ function Style(obj) {
      */
     this.getBorderInfo = function(){
         var output = {};
-        output.width = this['border-width'] || 0;
-        output.style = this['border-style'] || 'none';
-        if (this['border-color']){
-            output.color = this['border-color'];
+        output.width = this.getProperty('border-width') || 0;
+        output.style = this.getProperty('border-style') || 'none';
+        if (this.hasProperty('border-color')){
+            output.color = this.getProperty('border-color');
         }
         return output;
 
@@ -154,68 +154,78 @@ function TableStyle() {
         return new TableStyle();
     }
     Style.call(this);
-    /**
-     * Color of the border table
-     * @Properties {String} border-color
-     * @default  "#FFFFFF"
-     */
-    // this['border-color'] = '#FFFFFF';
-    /**
-     * Style of the border table. See html manuals for possible values.
-     * @Properties {String} border-style
-     * @default  "none"
-     */
-    this['border-style'] = 'none';
-    /**
-     * Width of the border table.
-     * @Properties {String|Number} border-width
-     * @default  0
-     */
-    // this['border-width'] = 0;
-    /**
-     * Margin of the table.
-     * @Properties {String|Number} margin
-     * @default  0
-     */
-    this.margin = 0;
-    /**
-     * Padding of the table.
-     * @Properties {String|Number} padding
-     * @default  0
-     */
-    this.padding = 0;
-    /**
-     * Table width.
-     * @Properties {String|Number} width
-     * @default  0
-     */
-    this.width = 0;
-    /**
-     * Table maximal width. It is supposed to be equal to "width" Properties.
-     * @Properties {String|Number} max-width
-     * @default  0
-     */
-    this['max-width'] = this.width;
-    /**
-     * Table minimal width. It is supposed to be equal to "width" Properties.
-     * @Properties {String|Number} min-width
-     * @default  0
-     */
-    this['min-width'] = this.width;
 
     /**
-     * Whether to collapse the table borders or not.
-     * @deprecated Do not use, because it causes problems in MS Outlook.
-     * @Properties {String} border-collapse
-     * @default  0
+     * Object with key-values for tables. They should be set if they were not set before.
+     * @property {Object}  tableStyleCore
+     * @type     {Object}
+     * @private
      */
-    // this['border-collapse'] = 'collapse';
-    /**
-     * Border spacing.
-     * @Properties {String} border-spacing
-     * @default '0px 0px'
-     */
-    this['border-spacing'] = '0px 0px';
+    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0, 'min-width': 0, 'border-spacing': '0px 0px'};
+    this.suggestProperty(tableStyleCore);
+
+    // /**
+    //  * Color of the border table
+    //  * @Properties {String} border-color
+    //  * @default  "#FFFFFF"
+    //  */
+    // // this['border-color'] = '#FFFFFF';
+    // /**
+    //  * Style of the border table. See html manuals for possible values.
+    //  * @Properties {String} border-style
+    //  * @default  "none"
+    //  */
+    // this[] = 'none';
+    // /**
+    //  * Width of the border table.
+    //  * @Properties {String|Number} border-width
+    //  * @default  0
+    //  */
+    // // this['border-width'] = 0;
+    // /**
+    //  * Margin of the table.
+    //  * @Properties {String|Number} margin
+    //  * @default  0
+    //  */
+    // this.margin = 0;
+    // /**
+    //  * Padding of the table.
+    //  * @Properties {String|Number} padding
+    //  * @default  0
+    //  */
+    // this.padding = 0;
+    // *
+    //  * Table width.
+    //  * @Properties {String|Number} width
+    //  * @default  0
+
+    // this.width = 0;
+    // /**
+    //  * Table maximal width. It is supposed to be equal to "width" Properties.
+    //  * @Properties {String|Number} max-width
+    //  * @default  0
+    //  */
+    // this['max-width'] = this.width;
+    // /**
+    //  * Table minimal width. It is supposed to be equal to "width" Properties.
+    //  * @Properties {String|Number} min-width
+    //  * @default  0
+    //  */
+    // this['min-width'] = this.width;
+
+    // /**
+    //  * Whether to collapse the table borders or not.
+    //  * @deprecated Do not use, because it causes problems in MS Outlook.
+    //  * @Properties {String} border-collapse
+    //  * @default  0
+    //  */
+    // // this['border-collapse'] = 'collapse';
+    // /**
+    //  * Border spacing.
+    //  * @Properties {String} border-spacing
+    //  * @default '0px 0px'
+    //  */
+    // this['border-spacing'] = '0px 0px';
 }
 TableStyle.prototype = Object.create(Style.prototype);
 
@@ -233,47 +243,15 @@ function LinkStyle(obj) {
     }
     Style.call(this, obj);
 
+    /**
+     * Object with key-values for hyperlinks. They should be set if they were not set before.
+     * @property {Object}  linkStyleCore
+     * @type     {Object}
+     * @private
+     */
     var linkStyleCore = {'text-decoration': 'underline', 'font-size': 14, 'font-weight': 'normal', 'padding': 0, 'margin': 0};
+    this.suggestProperty(linkStyleCore);
 
-    this.appendProperty(linkStyleCore);
-
-    // /**
-    //  * Text decoration attribute
-    //  * @Properties {String} text-decoration
-    //  * @default  "underline"
-    //  */
-    // this.setProperty('text-decoration', 'underline');
-
-    // /**
-    //  * Font size
-    //  * @Properties {String|Integer} font size
-    //  * @default 12
-    //  */
-    // this['font-size'] = this['font-size'] || 14;
-    // /**
-    //  * Font color attribute
-    //  * @Properties {String} font color
-    //  * @default  "blue"
-    //  */
-    // this.color =  this.color || 'blue';
-    // /**
-    //  * Font wieght attribute. See html manuals for possible values.
-    //  * @Properties {String|Integer} font weight
-    //  * @default  "normal"
-    //  */
-    // this['font-weight'] = this['font-weight'] || 'normal';
-    // /**
-    //  * Padding.
-    //  * @Properties {String|Number} padding
-    //  * @default  0
-    //  */
-    // this.padding = this.padding || 0;
-    // /**
-    //  * Margin.
-    //  * @Properties {String|Number} margin
-    //  * @default  0
-    //  */
-    // this.margin = this.margin || 0;
 }
 LinkStyle.prototype = Object.create(Style.prototype);
 
@@ -283,60 +261,22 @@ LinkStyle.prototype = Object.create(Style.prototype);
  * @class  TableRowStyle
  * @extends Style
  */
-function TableRowStyle() {
+function TableRowStyle(obj) {
     'use strict';
     if (!(this instanceof TableRowStyle)) {
-        return new TableRowStyle();
+        return new TableRowStyle(obj);
     }
     Style.call(this);
+
     /**
-     * Color of the border table
-     * @Properties {String} border-color
-     * @default  "#FFFFFF"
+     * Object with key-values for table rows. They should be set if they were not set before.
+     * @property {Object}  tableRowStyleCore
+     * @type     {Object}
+     * @private
      */
-    // this['border-color'] = '#FFFFFF'; //white color
-    /**
-     * Style of the border table. See html manuals for possible values.
-     * @Properties {String} border-style
-     * @default  "none"
-     */
-    this['border-style'] = this['border-style'] || 'none';
-    /**
-     * Width of the border table.
-     * @Properties {String|Number} border-width
-     * @default  0
-     */
-    // this['border-width'] = 0;
-     /**
-      * Margin of the table.
-      * @Properties {String|Number} margin
-      * @default  0
-      */
-     this.margin = this.margin || 0;
-     /**
-      * Padding of the table.
-      * @Properties {String|Number} padding
-      * @default  0
-      */
-     this.padding = this.padding || 0;
-     /**
-      * Table width.
-      * @Properties {String|Number} width
-      * @default  0
-      */
-     this.width = this.width || 0;
-     /**
-      * Table maximal width. It is supposed to be equal to "width" Properties.
-      * @Properties {String|Number} max-width
-      * @default  0
-      */
-     this['max-width'] = this.width;
-     /**
-      * Table minimal width. It is supposed to be equal to "width" Properties.
-      * @Properties {String|Number} min-width
-      * @default  0
-      */
-     this['min-width'] = this.width;
+    var tableRowStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0};
+    this.suggestProperty(tableRowStyleCore);
+
 }
 TableRowStyle.prototype = Object.create(Style.prototype);
 
@@ -352,66 +292,16 @@ function TableCellStyle() {
         return new TableCellStyle();
     }
     Style.call(this);
+
     /**
-     * Color of the border table
-     * @Properties {String} border-color
-     * @default  "#FFFFFF"
+     * Object with key-values for table cells. They should be set if they were not set before. <br/>
+     * NB: Gmail removes color tags corresponding to black color, so use `#000001` instead of `#000000`.
+     * @property {Object}  tableCellStyleCore
+     * @type     {Object}
+     * @private
      */
-    // this['border-color'] = '#FFFFFF';
-    /**
-     * Style of the border table. See html manuals for possible values.
-     * @Properties {String} border-style
-     * @default  "none"
-     */
-    this['border-style'] = this['border-style'] || 'none';
-    /**
-     * Width of the border table.
-     * @Properties {String|Number} border-width
-     * @default  "0px"
-     */
-    // this['border-width'] = '0px';
-    /**
-     * Padding.
-     * @Properties {String|Number} padding
-     * @default  0
-     */
-    this.padding = this.padding || 0;
-    /**
-     * Margin.
-     * @Properties {String|Number} margin
-     * @default  0
-     */
-    this.margin = this.margin || 0;
-    /**
-     * Table width.
-     * @Properties {String|Number} width
-     * @default  0
-     */
-    this.width = this.width || 0;
-    /**
-     * Table minimal width. It is supposed to be equal to "width" Properties.
-     * @Properties {String|Number} max-width
-     * @default  0
-     */
-    this['max-width'] = this.width;
-    /**
-     * Table minimal width. It is supposed to be equal to "width" Properties.
-     * @Properties {String|Number} min-width
-     * @default  0
-     */
-    this['min-width'] = this.width;
-    /**
-     * Vertical align of the cell content.
-     * @Properties {String} vertical-align
-     * @default  0
-     */
-    this['vertical-align'] = this['vertical-align'] || 'top';
-    /**
-     * Font color
-     * @Properties {String} color
-     * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
-     */
-    this.color = this.color || '#000001';
+    var tableCellStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0, 'vertical-align': 'top', 'color': '#000001'};
+    this.suggestProperty(tableCellStyleCore);
 }
 TableCellStyle.prototype = Object.create(Style.prototype);
 
@@ -427,48 +317,58 @@ function ImageStyle() {
         return new ImageStyle();
     }
     Style.call(this);
+
     /**
-     * Width of the border around the image.
-     * @Properties {String|Number} border-width
-     * @default  0
+     * Object with key-values for images. They should be set if they were not set before. <br/>
+     * @property {Object}  imageStyleCore
+     * @type     {Object}
+     * @private
      */
-    // this['border-width'] = 0;
-    /**
-     * Style of the border around the image. See html manuals for possible values.
-     * @Properties {String} border-style
-     * @default  "none"
-     */
-    this['border-style'] = 'none';
-    /**
-     * Color of the border around the image.
-     * @Properties {String} border-color
-     * @default  "#FFFFFF"
-     */
-    // this['border-color'] = '#FFFFFF';
-    /**
-     * Padding.
-     * @Properties {String|Number} padding
-     * @default  0
-     */
-    this.padding = 0;
-    /**
-     * Margin.
-     * @Properties {String|Number} margin
-     * @default  0
-     */
-    this.margin = 0;
-    /**
-     * Image width.
-     * @Properties {String|Number} width
-     * @default  0
-     */
-    this.width = 0;
-    /**
-     * Image height.
-     * @Properties {String|Number} height
-     * @default  0
-     */
-    this.height = 0;
+    var imageStyleCore = {'border-style': 'none', 'width': 0, 'padding': 0, 'margin': 0, 'height': 0};
+    this.suggestProperty(imageStyleCore);
+
+    // /**
+    //  * Width of the border around the image.
+    //  * @Properties {String|Number} border-width
+    //  * @default  0
+    //  */
+    // // this['border-width'] = 0;
+    // /**
+    //  * Style of the border around the image. See html manuals for possible values.
+    //  * @Properties {String} border-style
+    //  * @default  "none"
+    //  */
+    // this['border-style'] = 'none';
+    // /**
+    //  * Color of the border around the image.
+    //  * @Properties {String} border-color
+    //  * @default  "#FFFFFF"
+    //  */
+    // // this['border-color'] = '#FFFFFF';
+    // /**
+    //  * Padding.
+    //  * @Properties {String|Number} padding
+    //  * @default  0
+    //  */
+    // this.padding = 0;
+    // /**
+    //  * Margin.
+    //  * @Properties {String|Number} margin
+    //  * @default  0
+    //  */
+    // this.margin = 0;
+    // /**
+    //  * Image width.
+    //  * @Properties {String|Number} width
+    //  * @default  0
+    //  */
+    // this.width = 0;
+    // /**
+    //  * Image height.
+    //  * @Properties {String|Number} height
+    //  * @default  0
+    //  */
+    // this.height = 0;
 }
 ImageStyle.prototype = Object.create(Style.prototype);
 
@@ -484,40 +384,50 @@ function ListStyle() {
         return new ListStyle();
     }
     Style.call(this);
-    /**
-     * Padding.
-     * @Properties {String|Number} padding
-     * @default  0
-     */
-    this.padding = 0;
 
     /**
-     * Margin left.
-     * @Properties {String|Number} margin-left
-     * @default  0
+     * Object with key-values for lists. They should be set if they were not set before. <br/>
+     * @property {Object}  listStyleCore
+     * @type     {Object}
+     * @private
      */
-    this['margin-left'] = 40;
+    var listStyleCore = {'padding': 0, 'margin-left': 40, 'margin-right': 0, 'margin-top': 0, 'margin-bottom': 0};
+    this.suggestProperty(listStyleCore);
 
-    /**
-     * Margin-right.
-     * @Properties {String|Number} margin-right
-     * @default  0
-     */
-    this['margin-right'] = 0;
+    // /**
+    //  * Padding.
+    //  * @Properties {String|Number} padding
+    //  * @default  0
+    //  */
+    // this.padding = 0;
 
-    /**
-     * Margin-top.
-     * @Properties {String|Number} margin-top
-     * @default  0
-     */
-    this['margin-top'] = 0;
+    // /**
+    //  * Margin left.
+    //  * @Properties {String|Number} margin-left
+    //  * @default  0
+    //  */
+    // this['margin-left'] = 40;
 
-    /**
-     * Margin-bottom.
-     * @Properties {String|Number} margin-bottom
-     * @default  0
-     */
-    this['margin-bottom'] = 0;
+    // *
+    //  * Margin-right.
+    //  * @Properties {String|Number} margin-right
+    //  * @default  0
+
+    // this['margin-right'] = 0;
+
+    // /**
+    //  * Margin-top.
+    //  * @Properties {String|Number} margin-top
+    //  * @default  0
+    //  */
+    // this['margin-top'] = 0;
+
+    // /**
+    //  * Margin-bottom.
+    //  * @Properties {String|Number} margin-bottom
+    //  * @default  0
+    //  */
+    // this['margin-bottom'] = 0;
 
 }
 ListStyle.prototype = Object.create(Style.prototype);
@@ -534,37 +444,47 @@ function ListItemStyle() {
         return new ListItemStyle();
     }
     Style.call(this);
-    /**
-     * Font size of the  text in the list.
-     * @Properties {String|Number} font-size
-     * @default 12
-     */
-    this['font-size'] = 12;
-    /**
-     * Text color of the list item content.
-     * @Properties {String} color
-     * @type {String}
-     * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
-     */
-    this.color = '#000001';
 
     /**
-     * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
-     * @Properties {String|Integer} font-weight
-     * @default "normal"
+     * Object with key-values for lists. They should be set if they were not set before. <br/>
+     * @property {Object}  listItemStyleCore
+     * @type     {Object}
+     * @private
      */
-    this['font-weight'] = 'normal';
-    /**
-     * Padding.
-     * @Properties {String|Number} padding
-     * @default  0
-     */
-    this.padding = 0;
-    /**
-     * Margin.
-     * @Properties {String|Number} margin
-     * @default  0
-     */
-    this.margin = 0;
+    var listItemStyleCore = {'padding': 0, 'margin': 0, 'font-size': 12, 'font-weight': 'normal', 'color': '#000001'};
+    this.suggestProperty(listItemStyleCore);
+
+    // /**
+    //  * Font size of the  text in the list.
+    //  * @Properties {String|Number} font-size
+    //  * @default 12
+    //  */
+    // this['font-size'] = 12;
+    // /**
+    //  * Text color of the list item content.
+    //  * @Properties {String} color
+    //  * @type {String}
+    //  * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
+    //  */
+    // this.color = '#000001';
+
+    // *
+    //  * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
+    //  * @Properties {String|Integer} font-weight
+    //  * @default "normal"
+
+    // this['font-weight'] = 'normal';
+    // /**
+    //  * Padding.
+    //  * @Properties {String|Number} padding
+    //  * @default  0
+    //  */
+    // this.padding = 0;
+    // /**
+    //  * Margin.
+    //  * @Properties {String|Number} margin
+    //  * @default  0
+    //  */
+    // this.margin = 0;
 }
 ListItemStyle.prototype = Object.create(Style.prototype);

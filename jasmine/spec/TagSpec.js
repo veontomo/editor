@@ -70,12 +70,12 @@ describe('Tag-related functionality:', function() {
 
     describe('Tag::getWidth(): retrieves the width value from the style', function(){
         it('returns number if the value has measurment unit "px"', function(){
-            tagStyle.width = '20px';
+            tagStyle.setProperty('width', '20px');
             tag.style = tagStyle;
             expect(tag.getWidth()).toBe(20);
         });
         it('returns a string if the value has measurment unit "em"', function(){
-            tagStyle.width = '231em';
+            tagStyle.setProperty('width', '231em');
             tag.style = tagStyle;
             expect(tag.getWidth()).toBe('231em');
         });

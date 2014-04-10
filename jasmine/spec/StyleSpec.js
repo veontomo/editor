@@ -64,28 +64,28 @@ describe('Style-related functionality', function(){
         });
 
         it('style is "none", if it is not present in Style', function(){
-            delete stl['border-style'];
+            stl.dropProperty('border-style');
             expect(stl.getBorderInfo().style).toBe('none');
         });
         it('style is equal to value of border-style Properties in Style', function(){
-            stl['border-style'] = 'nice style';
+            stl.setProperty('border-style', 'nice style');
             expect(stl.getBorderInfo().style).toBe('nice style');
         });
         it('width is 0, if border-width is not present in Style', function(){
-            delete stl['border-width'];
+            stl.dropProperty('border-width');
             expect(stl.getBorderInfo().width).toBe(0);
         });
         it('width is equal to value of border-width in Style', function(){
-            stl['border-width'] = 102;
+            stl.setProperty('border-width', 102);
             expect(stl.getBorderInfo().width).toBe(102);
         });
         it('color missing if it is missing in Style', function(){
-            delete stl['border-color'];
+            stl.dropProperty('border-color');
             expect(stl.getBorderInfo().hasOwnProperty('color')).toBe(false);
         });
 
         it('color is equal to value of border-color in Style', function(){
-            stl['border-color'] = 'nice color';
+            stl.setProperty('border-color', 'nice color');
             expect(stl.getBorderInfo().color).toBe('nice color');
         });
     });
@@ -100,38 +100,38 @@ describe('Style-related functionality', function(){
 
     describe('Style::setWidth(): sets width, min-width, max-width', function(){
         it('sets width as a number, if the width was not defined before', function(){
-            delete stl.width;
-            delete stl['min-width'];
-            delete stl['max-width'];
+            stl.dropProperty('width');
+            stl.dropProperty('min-width');
+            stl.dropProperty('max-width');
             stl.setWidth(97);
-            expect(stl.width).toBe(97);
-            expect(stl['max-width']).toBe(97);
-            expect(stl['min-width']).toBe(97);
+            expect(stl.getProperty('width')).toBe(97);
+            expect(stl.getProperty('max-width')).toBe(97);
+            expect(stl.getProperty('min-width')).toBe(97);
         });
         it('sets width as a string, if the width was not defined before', function(){
-            delete stl.width;
-            delete stl['min-width'];
-            delete stl['max-width'];
+            stl.dropProperty('width');
+            stl.dropProperty('min-width');
+            stl.dropProperty('max-width');
             stl.setWidth('20px');
-            expect(stl.width).toBe('20px');
-            expect(stl['max-width']).toBe('20px');
-            expect(stl['min-width']).toBe('20px');
+            expect(stl.getProperty('width')).toBe('20px');
+            expect(stl.getProperty('max-width')).toBe('20px');
+            expect(stl.getProperty('min-width')).toBe('20px');
         });
         it('overrides width as a number, if the width was defined before', function(){
-            stl.width = 'dumb value';
-            stl['max-width'] = 1029239.221;
+            stl.setProperty('width', 'dumb value');
+            stl.setProperty('max-width', 1029239.221);
             stl.setWidth(97);
-            expect(stl.width).toBe(97);
-            expect(stl['max-width']).toBe(97);
-            expect(stl['min-width']).toBe(97);
+            expect(stl.getProperty('width')).toBe(97);
+            expect(stl.getProperty('min-width')).toBe(97);
+            expect(stl.getProperty('max-width')).toBe(97);
         });
         it('overrides width as a string, if the width was defined before', function(){
             stl.width = 98;
             stl['max-width'] = 'another dumb value';
             stl.setWidth('20px');
-            expect(stl.width).toBe('20px');
-            expect(stl['max-width']).toBe('20px');
-            expect(stl['min-width']).toBe('20px');
+            expect(stl.getProperty('width')).toBe('20px');
+            expect(stl.getProperty('min-width')).toBe('20px');
+            expect(stl.getProperty('max-width')).toBe('20px');
         });
     });
 
@@ -193,7 +193,7 @@ describe('Style-related functionality', function(){
 
 });
 
-xdescribe('LinkStyle-related functionality', function(){
+describe('LinkStyle-related functionality', function(){
     var stl;
     beforeEach(function(){
         stl = new LinkStyle();

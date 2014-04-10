@@ -202,7 +202,7 @@ function Tag() {
 	 * @since 0.0.1
 	 */
 	this.getWidth = function(){
-		var raw = this.style.width,
+		var raw = this.style.getProperty('width'),
 			raw2;
 		if (raw){
 			raw = raw.toString().trim().replace(/px$/, '');
