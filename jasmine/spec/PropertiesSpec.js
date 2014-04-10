@@ -149,6 +149,19 @@ describe('Properties-related functionality', function(){
         });
     });
 
+    describe('Properties::dropProperty(): drops the property', function(){
+        it('drops the property if it is present', function(){
+            props.setProperty('funny-bunny', 'nice value');
+            props.dropProperty('funny-bunny');
+            expect(props.getProperty('funny-bunny')).not.toBeDefined();
+        });
+        it('leaves the property undefined if it was not defined', function(){
+            var propName = 'property-that-does-not-exit!';
+            expect(props.getProperty(propName)).not.toBeDefined();
+            props.dropProperty(propName);
+            expect(props.getProperty(propName)).not.toBeDefined();
+        });
+    })
 
     xdescribe('Property::appendProperty(): appends property', function(){
         it('appends Object to an empty property', function(){

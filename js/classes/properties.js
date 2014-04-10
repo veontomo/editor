@@ -19,8 +19,9 @@ function Properties(input) {
 
 	/**
 	 * Object that contains all the properties. Its keys and values must be either strings or numbers.
-	 * @property {Object}         core
-	 * @type     {Object}
+	 * @property    {Object}         core
+	 * @type        {Object}
+	 * @private
 	 */
 	var core = {};
 
@@ -55,6 +56,18 @@ function Properties(input) {
 	this.getProperty = function(key){
 		if (core.hasOwnProperty(key)){
 			return core[key];
+		}
+	};
+
+	/**
+	 * If the key is present in {{#crossLink "Properties/core:property"}}core{{/crossLink}}, drops it.
+	 * @method  dropProperty
+	 * @param   {Any}        key
+	 * @return  {void}
+	 */
+	this.dropProperty = function(key){
+		if (core.hasOwnProperty(key)){
+			delete core[key];
 		}
 	};
 
