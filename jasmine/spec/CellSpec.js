@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row, Link */
 
-describe('Cell-related functionality:', function() {
+xdescribe('Cell-related functionality:', function() {
     var cell, cellStyle, cellAttr, cellContent;
 
     beforeEach(function() {

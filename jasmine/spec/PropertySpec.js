@@ -2,7 +2,7 @@
 /*global describe, it, expect, spyOn, beforeEach, afterEach, Property
  */
 
-describe('Property-related functionality', function(){
+xdescribe('Property-related functionality', function(){
     var propEmpty, prop;
     beforeEach(function(){
         var pn;

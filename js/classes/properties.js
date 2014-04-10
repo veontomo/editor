@@ -135,6 +135,21 @@ function Properties(input) {
 		return appendPropertyAsStringOrObj(obj, this);
 	};
 
+	this.suggestProperty = function(obj){
+
+	}
+
+	/**
+	 * Returns `true` if requested property is the {{#crossLink "Properties/core:property"}}core{{/crossLink}} key,
+	 * `false` otherwise.
+	 * @method   hasProperty
+	 * @param    {Any}         key
+	 * @return   {Boolean}
+	 */
+	this.hasProperty = function(key){
+		return this.getCore()[key] !== undefined;
+	}
+
 	/**
 	 * Gets the number of records in {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
 	 * @method  propNum

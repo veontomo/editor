@@ -1,18 +1,18 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Property, toString2 */
+/*global describe, it, expect, spyOn, beforeEach, Properties, toString2 */
 /**
 * This class defines inline styles of html tags
-* @module   Property
+* @module   Properties
 * @param    {String|Object}      obj      Style class variable will be instantiated using this input
 * @class    Style
-* @extends  Property
+* @extends  Properties
 */
 function Style(obj) {
 	'use strict';
 	if (!(this instanceof Style)) {
 		return new Style(obj);
 	}
-	Property.call(this, obj);
+	Properties.call(this, obj);
 
 	/**
 	 * Generates string representation of this object (as html inline style).
@@ -49,13 +49,13 @@ function Style(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @property {String} className
+     * @Properties {String} className
      * @type     {String}
      */
     this.className = 'Style';
 
     /**
-     * Appends style. Alias for the parent method {{#crossLink "Property/appendProperty:method"}}Property::appendProperty(){{/crossLink}}
+     * Appends style. Alias for the parent method {{#crossLink "Properties/appendProperty:method"}}Properties::appendProperty(){{/crossLink}}
      * @method  appendStyle
      * @param   {Object|null}   stl       it will be passed to the parent method
      * @return  {void}
@@ -78,9 +78,9 @@ function Style(obj) {
     };
 
     /**
-     * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no property
+     * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties
      * 'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.
-     * If the Style has no property 'border-color', then it will not be set.
+     * If the Style has no Properties 'border-color', then it will not be set.
      * @method  getBorderInfo
      * @return {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
      */
@@ -96,7 +96,7 @@ function Style(obj) {
     };
 
     /**
-     * Loads style property from the argument that is supposed to be either of type
+     * Loads style Properties from the argument that is supposed to be either of type
      * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
      * (or, at least, respond to a `getNamedItem()` method) or a string. If not of these types, `false` is returned.
      * In case the argument is a [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
@@ -140,11 +140,11 @@ function Style(obj) {
 
 
 }
-Style.prototype = Object.create(Property.prototype);
+Style.prototype = Object.create(Properties.prototype);
 
 /**
  * Represents table style.
- * @module   Property
+ * @module   Properties
  * @class    TableStyle
  * @extends  Style
  */
@@ -156,49 +156,49 @@ function TableStyle() {
     Style.call(this);
     /**
      * Color of the border table
-     * @property {String} border-color
+     * @Properties {String} border-color
      * @default  "#FFFFFF"
      */
     // this['border-color'] = '#FFFFFF';
     /**
      * Style of the border table. See html manuals for possible values.
-     * @property {String} border-style
+     * @Properties {String} border-style
      * @default  "none"
      */
     this['border-style'] = 'none';
     /**
      * Width of the border table.
-     * @property {String|Number} border-width
+     * @Properties {String|Number} border-width
      * @default  0
      */
     // this['border-width'] = 0;
     /**
      * Margin of the table.
-     * @property {String|Number} margin
+     * @Properties {String|Number} margin
      * @default  0
      */
     this.margin = 0;
     /**
      * Padding of the table.
-     * @property {String|Number} padding
+     * @Properties {String|Number} padding
      * @default  0
      */
     this.padding = 0;
     /**
      * Table width.
-     * @property {String|Number} width
+     * @Properties {String|Number} width
      * @default  0
      */
     this.width = 0;
     /**
-     * Table maximal width. It is supposed to be equal to "width" property.
-     * @property {String|Number} max-width
+     * Table maximal width. It is supposed to be equal to "width" Properties.
+     * @Properties {String|Number} max-width
      * @default  0
      */
     this['max-width'] = this.width;
     /**
-     * Table minimal width. It is supposed to be equal to "width" property.
-     * @property {String|Number} min-width
+     * Table minimal width. It is supposed to be equal to "width" Properties.
+     * @Properties {String|Number} min-width
      * @default  0
      */
     this['min-width'] = this.width;
@@ -206,13 +206,13 @@ function TableStyle() {
     /**
      * Whether to collapse the table borders or not.
      * @deprecated Do not use, because it causes problems in MS Outlook.
-     * @property {String} border-collapse
+     * @Properties {String} border-collapse
      * @default  0
      */
     // this['border-collapse'] = 'collapse';
     /**
      * Border spacing.
-     * @property {String} border-spacing
+     * @Properties {String} border-spacing
      * @default '0px 0px'
      */
     this['border-spacing'] = '0px 0px';
@@ -221,7 +221,7 @@ TableStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents hyperlink style.
- * @module  Property
+ * @module  Properties
  * @param    {String|Object}      obj      Style class variable will be instantiated using this input
  * @class  LinkStyle
  * @extends Style
@@ -232,49 +232,54 @@ function LinkStyle(obj) {
         return new LinkStyle(obj);
     }
     Style.call(this, obj);
-    /**
-     * Text decoration attribute
-     * @property {String} text-decoration
-     * @default  "underline"
-     */
-    this['text-decoration'] =  this['text-decoration'] || 'underline';
 
-    /**
-     * Font size
-     * @property {String|Integer} font size
-     * @default 12
-     */
-    this['font-size'] = this['font-size'] || 14;
-    /**
-     * Font color attribute
-     * @property {String} font color
-     * @default  "blue"
-     */
-    this.color =  this.color || 'blue';
-    /**
-     * Font wieght attribute. See html manuals for possible values.
-     * @property {String|Integer} font weight
-     * @default  "normal"
-     */
-    this['font-weight'] = this['font-weight'] || 'normal';
-    /**
-     * Padding.
-     * @property {String|Number} padding
-     * @default  0
-     */
-    this.padding = this.padding || 0;
-    /**
-     * Margin.
-     * @property {String|Number} margin
-     * @default  0
-     */
-    this.margin = this.margin || 0;
+    var linkStyleCore = {'text-decoration': 'underline', 'font-size': 14, 'font-weight': 'normal', 'padding': 0, 'margin': 0};
+
+    this.appendProperty(linkStyleCore);
+
+    // /**
+    //  * Text decoration attribute
+    //  * @Properties {String} text-decoration
+    //  * @default  "underline"
+    //  */
+    // this.setProperty('text-decoration', 'underline');
+
+    // /**
+    //  * Font size
+    //  * @Properties {String|Integer} font size
+    //  * @default 12
+    //  */
+    // this['font-size'] = this['font-size'] || 14;
+    // /**
+    //  * Font color attribute
+    //  * @Properties {String} font color
+    //  * @default  "blue"
+    //  */
+    // this.color =  this.color || 'blue';
+    // /**
+    //  * Font wieght attribute. See html manuals for possible values.
+    //  * @Properties {String|Integer} font weight
+    //  * @default  "normal"
+    //  */
+    // this['font-weight'] = this['font-weight'] || 'normal';
+    // /**
+    //  * Padding.
+    //  * @Properties {String|Number} padding
+    //  * @default  0
+    //  */
+    // this.padding = this.padding || 0;
+    // /**
+    //  * Margin.
+    //  * @Properties {String|Number} margin
+    //  * @default  0
+    //  */
+    // this.margin = this.margin || 0;
 }
 LinkStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table row style.
- * @module  Property
+ * @module  Properties
  * @class  TableRowStyle
  * @extends Style
  */
@@ -286,49 +291,49 @@ function TableRowStyle() {
     Style.call(this);
     /**
      * Color of the border table
-     * @property {String} border-color
+     * @Properties {String} border-color
      * @default  "#FFFFFF"
      */
     // this['border-color'] = '#FFFFFF'; //white color
     /**
      * Style of the border table. See html manuals for possible values.
-     * @property {String} border-style
+     * @Properties {String} border-style
      * @default  "none"
      */
     this['border-style'] = this['border-style'] || 'none';
     /**
      * Width of the border table.
-     * @property {String|Number} border-width
+     * @Properties {String|Number} border-width
      * @default  0
      */
     // this['border-width'] = 0;
      /**
       * Margin of the table.
-      * @property {String|Number} margin
+      * @Properties {String|Number} margin
       * @default  0
       */
      this.margin = this.margin || 0;
      /**
       * Padding of the table.
-      * @property {String|Number} padding
+      * @Properties {String|Number} padding
       * @default  0
       */
      this.padding = this.padding || 0;
      /**
       * Table width.
-      * @property {String|Number} width
+      * @Properties {String|Number} width
       * @default  0
       */
      this.width = this.width || 0;
      /**
-      * Table maximal width. It is supposed to be equal to "width" property.
-      * @property {String|Number} max-width
+      * Table maximal width. It is supposed to be equal to "width" Properties.
+      * @Properties {String|Number} max-width
       * @default  0
       */
      this['max-width'] = this.width;
      /**
-      * Table minimal width. It is supposed to be equal to "width" property.
-      * @property {String|Number} min-width
+      * Table minimal width. It is supposed to be equal to "width" Properties.
+      * @Properties {String|Number} min-width
       * @default  0
       */
      this['min-width'] = this.width;
@@ -337,7 +342,7 @@ TableRowStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents table cell styles.
- * @module  Property
+ * @module  Properties
  * @class   TableCellStyle
  * @extends Style
  */
@@ -349,61 +354,61 @@ function TableCellStyle() {
     Style.call(this);
     /**
      * Color of the border table
-     * @property {String} border-color
+     * @Properties {String} border-color
      * @default  "#FFFFFF"
      */
     // this['border-color'] = '#FFFFFF';
     /**
      * Style of the border table. See html manuals for possible values.
-     * @property {String} border-style
+     * @Properties {String} border-style
      * @default  "none"
      */
     this['border-style'] = this['border-style'] || 'none';
     /**
      * Width of the border table.
-     * @property {String|Number} border-width
+     * @Properties {String|Number} border-width
      * @default  "0px"
      */
     // this['border-width'] = '0px';
     /**
      * Padding.
-     * @property {String|Number} padding
+     * @Properties {String|Number} padding
      * @default  0
      */
     this.padding = this.padding || 0;
     /**
      * Margin.
-     * @property {String|Number} margin
+     * @Properties {String|Number} margin
      * @default  0
      */
     this.margin = this.margin || 0;
     /**
      * Table width.
-     * @property {String|Number} width
+     * @Properties {String|Number} width
      * @default  0
      */
     this.width = this.width || 0;
     /**
-     * Table minimal width. It is supposed to be equal to "width" property.
-     * @property {String|Number} max-width
+     * Table minimal width. It is supposed to be equal to "width" Properties.
+     * @Properties {String|Number} max-width
      * @default  0
      */
     this['max-width'] = this.width;
     /**
-     * Table minimal width. It is supposed to be equal to "width" property.
-     * @property {String|Number} min-width
+     * Table minimal width. It is supposed to be equal to "width" Properties.
+     * @Properties {String|Number} min-width
      * @default  0
      */
     this['min-width'] = this.width;
     /**
      * Vertical align of the cell content.
-     * @property {String} vertical-align
+     * @Properties {String} vertical-align
      * @default  0
      */
     this['vertical-align'] = this['vertical-align'] || 'top';
     /**
      * Font color
-     * @property {String} color
+     * @Properties {String} color
      * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
      */
     this.color = this.color || '#000001';
@@ -412,7 +417,7 @@ TableCellStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
- * @module  Property
+ * @module  Properties
  * @class   ImageStyle
  * @extends Style
  */
@@ -424,43 +429,43 @@ function ImageStyle() {
     Style.call(this);
     /**
      * Width of the border around the image.
-     * @property {String|Number} border-width
+     * @Properties {String|Number} border-width
      * @default  0
      */
     // this['border-width'] = 0;
     /**
      * Style of the border around the image. See html manuals for possible values.
-     * @property {String} border-style
+     * @Properties {String} border-style
      * @default  "none"
      */
     this['border-style'] = 'none';
     /**
      * Color of the border around the image.
-     * @property {String} border-color
+     * @Properties {String} border-color
      * @default  "#FFFFFF"
      */
     // this['border-color'] = '#FFFFFF';
     /**
      * Padding.
-     * @property {String|Number} padding
+     * @Properties {String|Number} padding
      * @default  0
      */
     this.padding = 0;
     /**
      * Margin.
-     * @property {String|Number} margin
+     * @Properties {String|Number} margin
      * @default  0
      */
     this.margin = 0;
     /**
      * Image width.
-     * @property {String|Number} width
+     * @Properties {String|Number} width
      * @default  0
      */
     this.width = 0;
     /**
      * Image height.
-     * @property {String|Number} height
+     * @Properties {String|Number} height
      * @default  0
      */
     this.height = 0;
@@ -469,7 +474,7 @@ ImageStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents image styles.
- * @module  Property
+ * @module  Properties
  * @class   ListStyle
  * @extends Style
  */
@@ -481,35 +486,35 @@ function ListStyle() {
     Style.call(this);
     /**
      * Padding.
-     * @property {String|Number} padding
+     * @Properties {String|Number} padding
      * @default  0
      */
     this.padding = 0;
 
     /**
      * Margin left.
-     * @property {String|Number} margin-left
+     * @Properties {String|Number} margin-left
      * @default  0
      */
     this['margin-left'] = 40;
 
     /**
      * Margin-right.
-     * @property {String|Number} margin-right
+     * @Properties {String|Number} margin-right
      * @default  0
      */
     this['margin-right'] = 0;
 
     /**
      * Margin-top.
-     * @property {String|Number} margin-top
+     * @Properties {String|Number} margin-top
      * @default  0
      */
     this['margin-top'] = 0;
 
     /**
      * Margin-bottom.
-     * @property {String|Number} margin-bottom
+     * @Properties {String|Number} margin-bottom
      * @default  0
      */
     this['margin-bottom'] = 0;
@@ -519,7 +524,7 @@ ListStyle.prototype = Object.create(Style.prototype);
 
 /**
  * Represents list item styles.
- * @module  Property
+ * @module  Properties
  * @class   ListItemStyle
  * @extends Style
  */
@@ -531,13 +536,13 @@ function ListItemStyle() {
     Style.call(this);
     /**
      * Font size of the  text in the list.
-     * @property {String|Number} font-size
+     * @Properties {String|Number} font-size
      * @default 12
      */
     this['font-size'] = 12;
     /**
      * Text color of the list item content.
-     * @property {String} color
+     * @Properties {String} color
      * @type {String}
      * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
      */
@@ -545,19 +550,19 @@ function ListItemStyle() {
 
     /**
      * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
-     * @property {String|Integer} font-weight
+     * @Properties {String|Integer} font-weight
      * @default "normal"
      */
     this['font-weight'] = 'normal';
     /**
      * Padding.
-     * @property {String|Number} padding
+     * @Properties {String|Number} padding
      * @default  0
      */
     this.padding = 0;
     /**
      * Margin.
-     * @property {String|Number} margin
+     * @Properties {String|Number} margin
      * @default  0
      */
     this.margin = 0;

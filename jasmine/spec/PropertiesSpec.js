@@ -121,6 +121,30 @@ describe('Properties-related functionality', function(){
         });
     });
 
+    xdescribe('Properties::suggestProperty(): sets property if it is not defined', function(){
+        it('calls setProperty() method if a property is missing in the core', function(){
+
+        });
+    });
+
+    describe('Property::hasOwnProperty(): whether the property is present in the core', function(){
+        it('returns true, if requested property is present in the core', function(){
+            props.setProperty('foo', 22);
+            expect(props.hasProperty('foo')).toBe(true);
+        });
+        it('returns false, if the core is empty', function(){
+            expect(props.propNum()).toBe(0);
+            expect(props.hasProperty('property')).toBe(false);
+        });
+        it('returns false, if the core is not empty but does not contain requested property', function(){
+            props.setProperty('level', 'sea');
+            props.setProperty('window', 5.8);
+            expect(props.propNum()).toBe(2);
+            expect(props.hasProperty('door')).toBe(false);
+        });
+
+
+    })
 
     describe('Properties::setFactory(): imposes factory', function(){
         var factory,
