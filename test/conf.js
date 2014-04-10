@@ -11,7 +11,6 @@ module.exports = function (config) {
     files: [
       'helpers.js',
       'unit.js',
-      'property.js',
       'properties.js',
       'attributes.js',
       'tableattributes.js',
@@ -35,7 +34,6 @@ module.exports = function (config) {
       'Registry.js',
       '../../jasmine/spec/HelperSpec.js',
       '../../jasmine/spec/UnitSpec.js',
-      '../../jasmine/spec/PropertySpec.js',
       '../../jasmine/spec/PropertiesSpec.js',
       '../../jasmine/spec/AttributesSpec.js',
       '../../jasmine/spec/LinkAttributesSpec.js',
