@@ -38,6 +38,7 @@
 
 	<script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
 
+	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
 	<script type="text/javascript" src="js/classes/Helper/String.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Registry.js"></script>
