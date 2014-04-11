@@ -11,7 +11,7 @@ function TableRowStyles(obj) {
     if (!(this instanceof TableRowStyles)) {
         return new TableRowStyles(obj);
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
@@ -19,7 +19,7 @@ function TableRowStyles(obj) {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'TableRowStyle';
+    this.className = 'TableRowStyles';
 
 
     /**
