@@ -7,12 +7,12 @@
  * @class   ListStyles
  * @extends Styles
  */
-function ListStyles() {
+function ListStyles(obj) {
     'use strict';
     if (!(this instanceof ListStyles)) {
-        return new ListStyles();
+        return new ListStyles(obj);
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
