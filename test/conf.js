@@ -1,16 +1,13 @@
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+
 var path = require('path'),
   os = require('os'),
   // if the operation system is Windows
-  isWin = os.platform().toLowerCase().indexOf('win') !== -1;
-// require('../ckeditor/ckeditor.js'.replace(/\//g, path.sep));
-module.exports = function (config) {
-  config.set({
-    basePath: '../js/classes'.replace(/\//g, path.sep),
-    autoWatch: true,
-    frameworks: ['jasmine'],
-    files: [
-    'Helper.js',
-    'Helper/unit.js',
+  isWin = os.platform().toLowerCase().indexOf('win') !== -1,
+  // array with file paths to class definitions
+  fileSources = ['Helper.js',
+    'Helper/Unit.js',
     'Properties.js',
     'Properties/Attributes.js',
     'Properties/Attributes/TableAttributes.js',
@@ -44,31 +41,23 @@ module.exports = function (config) {
     'CKHelper.js',
     'CKHelper/Selection.js',
     'Helper/String.js',
-      '../../jasmine/spec/HelperSpec.js',
-      '../../jasmine/spec/UnitSpec.js',
-      '../../jasmine/spec/PropertiesSpec.js',
-      '../../jasmine/spec/AttributesSpec.js',
-      '../../jasmine/spec/LinkAttributesSpec.js',
-      '../../jasmine/spec/TableAttributesSpec.js',
-      '../../jasmine/spec/StyleSpec.js',
-      '../../jasmine/spec/TagSpec.js',
-      '../../jasmine/spec/PlainTextSpec.js',
-      '../../jasmine/spec/TableSpec.js',
-      '../../jasmine/spec/RowSpec.js',
-      '../../jasmine/spec/CellSpec.js',
-      '../../jasmine/spec/ListItemSpec.js',
-      '../../jasmine/spec/ListSpec.js',
-      '../../jasmine/spec/OListSpec.js',
-      '../../jasmine/spec/UListSpec.js',
-      '../../jasmine/spec/LinkSpec.js',
-      '../../jasmine/spec/CKHelperSpec.js',
-      '../../jasmine/spec/SelectionSpec.js',
-      '../../jasmine/spec/ContentSpec.js',
-      '../../jasmine/spec/StringSpec.js',
-      '../../jasmine/spec/FactorySpec.js',
-      '../../jasmine/spec/RegistrySpec.js',
-      '../../ckeditor/ckeditor.js'
-    ].map(function(str){return str.replace(/\//g, path.sep);}),
+  ],
+  left = '../../jasmine/spec/', // string that should be prepended to each element of "fileSources"
+                                // array in order to find corresponding specification file
+  right = 'Spec',               // string that should be appended to file name of each element of the
+                                // "fileSource" array
+  fileSpec = fileSources.map(function(loc){
+    return left + loc.replace(/\.js\b/, right + '.js');
+  }),
+  allFiles = fileSources.concat(fileSpec).concat('../../ckeditor/ckeditor.js').map(function(str){return str.replace(/\//g, path.sep);});
+
+
+module.exports = function (config) {
+  config.set({
+    basePath: '../js/classes'.replace(/\//g, path.sep),
+    autoWatch: true,
+    frameworks: ['jasmine'],
+    files: allFiles,
     browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
     reporters: ['progress', 'coverage'],
     preprocessors: { '*.js': ['coverage'] },
