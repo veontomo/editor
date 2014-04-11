@@ -7,12 +7,12 @@
  * @class    TableStyles
  * @extends  Styles
  */
-function TableStyles() {
+function TableStyles(obj) {
     'use strict';
     if (!(this instanceof TableStyles)) {
         return new TableStyles();
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
@@ -20,7 +20,7 @@ function TableStyles() {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'TableStyle';
+    this.className = 'TableStyles';
 
 
     /**
