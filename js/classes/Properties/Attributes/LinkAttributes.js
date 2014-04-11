@@ -3,7 +3,7 @@
 
 /**
 * Table-specific attributes.
-* @module     	Property
+* @module     	Properties
 * @extends      Attributes
 * @class        LinkAttributes
 */

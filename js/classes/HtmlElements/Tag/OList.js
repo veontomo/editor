@@ -31,7 +31,7 @@ function OList() {
 	 * is no `name` property.
 	 * @property {String}    className
 	 * @type     {String}
-	 * @default  "List"
+	 * @default  "OList"
 	 */
 	this.className = 'OList';
 }

@@ -1,15 +1,18 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
+
 /**
  * Represents table style.
  * @module   Properties
- * @class    TableStyle
- * @extends  Style
+ * @class    TableStyles
+ * @extends  Styles
  */
-function TableStyle() {
+function TableStyles() {
     'use strict';
-    if (!(this instanceof TableStyle)) {
-        return new TableStyle();
+    if (!(this instanceof TableStyles)) {
+        return new TableStyles();
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -92,4 +95,4 @@ function TableStyle() {
     //  */
     // this['border-spacing'] = '0px 0px';
 }
-TableStyle.prototype = Object.create(Style.prototype);
+TableStyles.prototype = Object.create(Styles.prototype);

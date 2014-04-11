@@ -1,15 +1,17 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
 /**
  * Represents list item styles.
  * @module  Properties
- * @class   ListItemStyle
- * @extends Style
+ * @class   ListItemStyles
+ * @extends Styles
  */
-function ListItemStyle() {
+function ListItemStyles() {
     'use strict';
-    if (!(this instanceof ListItemStyle)) {
-        return new ListItemStyle();
+    if (!(this instanceof ListItemStyles)) {
+        return new ListItemStyles();
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -17,7 +19,7 @@ function ListItemStyle() {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'ListItemStyle';
+    this.className = 'ListItemStyles';
 
 
     /**
@@ -62,4 +64,4 @@ function ListItemStyle() {
     //  */
     // this.margin = 0;
 }
-ListItemStyle.prototype = Object.create(Style.prototype);
+ListItemStyles.prototype = Object.create(Styles.prototype);

@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Table, Cell, Style,
-Content, TableStyle, TableRowStyle, TableCellStyle, TableAttributes, Attributes, Attributes, createTableFromHtml, jasmine, Tag */
+/*global describe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
+Content, TableStyles, TableRowStyles, TableCellStyles, TableAttributes, Attributes, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3, row4, row5,
@@ -8,7 +8,7 @@ describe('Table-related functionality:', function(){
     beforeEach(function(){
         table = new Table();
         tableAttr = new Attributes();
-        tableStyle = new TableStyle();
+        tableStyle = new TableStyles();
         row1 = new Row();
         row2 = new Row();
         row3 = new Row();

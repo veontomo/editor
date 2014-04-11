@@ -1,16 +1,19 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
+
 /**
  * Represents hyperlink style.
- * @module  Properties
- * @param    {String|Object}      obj      Style class variable will be instantiated using this input
- * @class  LinkStyle
- * @extends Style
+ * @module    Properties
+ * @param     {String|Object}      obj      Style class variable will be instantiated using this input
+ * @class     LinkStyles
+ * @extends   Styles
  */
-function LinkStyle(obj) {
+function LinkStyles(obj) {
     'use strict';
-    if (!(this instanceof LinkStyle)) {
-        return new LinkStyle(obj);
+    if (!(this instanceof LinkStyles)) {
+        return new LinkStyles(obj);
     }
-    Style.call(this, obj);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
@@ -18,7 +21,7 @@ function LinkStyle(obj) {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'LinkStyle';
+    this.className = 'LinkStyles';
 
     /**
      * Object with key-values for hyperlinks. They should be set if they were not set before.
@@ -30,4 +33,4 @@ function LinkStyle(obj) {
     this.suggestProperty(linkStyleCore);
 
 }
-LinkStyle.prototype = Object.create(Style.prototype);
+LinkStyles.prototype = Object.create(Styles.prototype);

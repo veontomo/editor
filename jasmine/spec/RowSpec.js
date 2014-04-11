@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, Table, Cell, Row, Content, TableRowStyle, Attributes, Style, jasmine, Tag*/
+/*global describe, it, expect, spyOn, beforeEach, Table, Cell, Row, Content, TableRowStyles, Attributes, Styles, jasmine, Tag*/
 
 describe('Row-related functionality:', function(){
     var row, cell1, cell2, cell3, cell4;
@@ -267,7 +267,7 @@ describe('Row-related functionality:', function(){
             expect(row.getBogusCellStyle()).toBe(null);
         });
         it('returns cell style, if onlyTableInside returns true', function(){
-            var st = new Style('modus: vivendis');
+            var st = new Styles('modus: vivendis');
             spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
             cell1.style = st;

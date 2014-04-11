@@ -9,42 +9,41 @@
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
 
-	<script type="text/javascript" src="js/classes/helpers.js"></script>
-	<script type="text/javascript" src="js/classes/unit.js"></script>
-	<script type="text/javascript" src="js/classes/properties.js"></script>
-	<script type="text/javascript" src="js/classes/attributes.js"></script>
-	<script type="text/javascript" src="js/classes/tableattributes.js"></script>
-	<script type="text/javascript" src="js/classes/linkattributes.js"></script>
+	<script type="text/javascript" src="js/classes/Helper.js"></script>
+	<script type="text/javascript" src="js/classes/Helper/unit.js"></script>
+	<script type="text/javascript" src="js/classes/Properties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Attributes.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Attributes/TableAttributes.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Attributes/LinkAttributes.js"></script>
 
+	<script type="text/javascript" src="js/classes/Properties/Styles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/TableStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/LinkStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/TableRowStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/TableCellStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/ImageStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/ListStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/ListItemStyles.js"></script>
 
-	<script type="text/javascript" src="js/classes/style.js"></script>
-	<script type="text/javascript" src="js/classes/TableStyle.js"></script>
-	<script type="text/javascript" src="js/classes/LinkStyle.js"></script>
-	<script type="text/javascript" src="js/classes/TableRowStyle.js"></script>
-	<script type="text/javascript" src="js/classes/TableCellStyle.js"></script>
-	<script type="text/javascript" src="js/classes/ImageStyle.js"></script>
-	<script type="text/javascript" src="js/classes/ListStyle.js"></script>
-	<script type="text/javascript" src="js/classes/ListItemStyle.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Cell.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Row.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/List.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/ListItem.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/OList.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/UList.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Link.js"></script>
 
+	<script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
 
-	<script type="text/javascript" src="js/classes/content.js"></script>
-	<script type="text/javascript" src="js/classes/tag.js"></script>
-	<script type="text/javascript" src="js/classes/plaintext.js"></script>
-	<script type="text/javascript" src="js/classes/table.js"></script>
-	<script type="text/javascript" src="js/classes/cell.js"></script>
-	<script type="text/javascript" src="js/classes/row.js"></script>
-	<script type="text/javascript" src="js/classes/listItem.js"></script>
-	<script type="text/javascript" src="js/classes/list.js"></script>
-	<script type="text/javascript" src="js/classes/ulist.js"></script>
-	<script type="text/javascript" src="js/classes/olist.js"></script>
-	<script type="text/javascript" src="js/classes/link.js"></script>
-	<script type="text/javascript" src="js/classes/selection.js"></script>
-	<script type="text/javascript" src="js/classes/string.js"></script>
-	<script type="text/javascript" src="js/classes/registry.js"></script>
-	<script type="text/javascript" src="js/classes/factory.js"></script>
+	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
+	<script type="text/javascript" src="js/classes/Helper/String.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Registry.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
-	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 	<title>Creatore di newsletter</title>

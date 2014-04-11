@@ -1,10 +1,10 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Style, Attributes, Content, Link, window, Node, Comment */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
     beforeEach(function() {
-        tagStyle = new Style();
+        tagStyle = new Styles();
         tagAttr = new Attributes();
         tag = new Tag();
         content = new Content();

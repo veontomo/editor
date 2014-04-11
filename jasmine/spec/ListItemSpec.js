@@ -1,12 +1,12 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, Tag, ListItemStyle, jasmine*/
+/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Styles, ListStyles, Content, Tag, ListItemStyles, jasmine*/
 
 describe('ListItem-related functionality', function(){
     var li, liStyle, liAttr, content;
     beforeEach(function(){
         li = new ListItem();
         content = new Content();
-        liStyle = new ListItemStyle();
+        liStyle = new ListItemStyles();
         liAttr = new Attributes();
     });
     describe('ListItem::constructor(): inherits from Tag() class', function(){

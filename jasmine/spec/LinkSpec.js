@@ -1,11 +1,11 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyle, LinkAttributes, Content, Table */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table */
 
 describe('Link-related functionality:', function() {
     var link, attr, style, content;
     beforeEach(function() {
         attr = new LinkAttributes();
-        style = new LinkStyle();
+        style = new LinkStyles();
         link = new Link();
         content = new Content();
         delete link.dumbAttribute;
@@ -63,7 +63,7 @@ describe('Link-related functionality:', function() {
 
     describe('Link::style is an instance of LinkStyle', function(){
         it('has style property which is a LinkStyle instance', function(){
-            expect(link.style instanceof LinkStyle).toBe(true);
+            expect(link.style instanceof LinkStyles).toBe(true);
         });
     });
 

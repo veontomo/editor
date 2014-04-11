@@ -9,7 +9,7 @@ module.exports = function (config) {
     autoWatch: true,
     frameworks: ['jasmine'],
     files: [
-      'helpers.js',
+      'Helper.js',
       'unit.js',
       'properties.js',
       'attributes.js',

@@ -1,15 +1,18 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
+
 /**
  * Represents image styles.
  * @module  Properties
- * @class   ListStyle
- * @extends Style
+ * @class   ListStyles
+ * @extends Styles
  */
-function ListStyle() {
+function ListStyles() {
     'use strict';
-    if (!(this instanceof ListStyle)) {
-        return new ListStyle();
+    if (!(this instanceof ListStyles)) {
+        return new ListStyles();
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -17,7 +20,7 @@ function ListStyle() {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'ListStyle';
+    this.className = 'ListStyles';
 
 
     /**
@@ -65,4 +68,4 @@ function ListStyle() {
     // this['margin-bottom'] = 0;
 
 }
-ListStyle.prototype = Object.create(Style.prototype);
+ListStyles.prototype = Object.create(Styles.prototype);

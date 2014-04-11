@@ -1,15 +1,17 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
 /**
  * Represents image styles.
  * @module  Properties
  * @class   ImageStyle
  * @extends Style
  */
-function ImageStyle() {
+function ImageStyles() {
     'use strict';
     if (!(this instanceof ImageStyle)) {
-        return new ImageStyle();
+        return new ImageStyles();
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -17,7 +19,7 @@ function ImageStyle() {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'ImageStyle';
+    this.className = 'ImageStyles';
 
 
     /**
@@ -72,4 +74,4 @@ function ImageStyle() {
     //  */
     // this.height = 0;
 }
-ImageStyle.prototype = Object.create(Style.prototype);
+ImageStyles.prototype = Object.create(Styles.prototype);

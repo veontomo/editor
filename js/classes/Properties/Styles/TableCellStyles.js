@@ -1,15 +1,18 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
+
 /**
  * Represents table cell styles.
  * @module  Properties
- * @class   TableCellStyle
- * @extends Style
+ * @class   TableCellStyles
+ * @extends Styles
  */
-function TableCellStyle() {
+function TableCellStyles() {
     'use strict';
-    if (!(this instanceof TableCellStyle)) {
-        return new TableCellStyle();
+    if (!(this instanceof TableCellStyles)) {
+        return new TableCellStyles();
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -17,7 +20,7 @@ function TableCellStyle() {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'TableCellStyle';
+    this.className = 'TableCellStyles';
 
 
     /**
@@ -30,4 +33,4 @@ function TableCellStyle() {
     var tableCellStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0, 'vertical-align': 'top', 'color': '#000001'};
     this.suggestProperty(tableCellStyleCore);
 }
-TableCellStyle.prototype = Object.create(Style.prototype);
+TableCellStyles.prototype = Object.create(Styles.prototype);

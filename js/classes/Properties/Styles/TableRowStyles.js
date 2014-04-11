@@ -1,15 +1,17 @@
+/*jslint plusplus: true, white: true */
+/*global Styles */
 /**
  * Represents table row style.
  * @module  Properties
- * @class  TableRowStyle
- * @extends Style
+ * @class  TableRowStyles
+ * @extends Styles
  */
-function TableRowStyle(obj) {
+function TableRowStyles(obj) {
     'use strict';
-    if (!(this instanceof TableRowStyle)) {
-        return new TableRowStyle(obj);
+    if (!(this instanceof TableRowStyles)) {
+        return new TableRowStyles(obj);
     }
-    Style.call(this);
+    Styles.call(this);
 
     /**
      * The  name of the class.
@@ -30,4 +32,4 @@ function TableRowStyle(obj) {
     this.suggestProperty(tableRowStyleCore);
 
 }
-TableRowStyle.prototype = Object.create(Style.prototype);
+TableRowStyles.prototype = Object.create(Styles.prototype);
