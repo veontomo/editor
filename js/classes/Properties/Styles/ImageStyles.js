@@ -6,12 +6,12 @@
  * @class   ImageStyle
  * @extends Style
  */
-function ImageStyles() {
+function ImageStyles(obj) {
     'use strict';
-    if (!(this instanceof ImageStyle)) {
-        return new ImageStyles();
+    if (!(this instanceof ImageStyles)) {
+        return new ImageStyles(obj);
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.

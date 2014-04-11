@@ -60,7 +60,7 @@ module.exports = function (config) {
     files: allFiles,
     browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
     reporters: ['progress', 'coverage'],
-    preprocessors: { '*.js': ['coverage'] },
+    preprocessors: { '**/*.js': 'coverage' },
     coverageReporter: {
       type : 'html',
       dir : '../../test/coverage'.replace(/\//g, path.sep),

@@ -1,6 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global jasmine, describe, it, expect, beforeEach, spyOn, Unit, */
-
+/*global jasmine, describe, it, expect, beforeEach, spyOn, Unit */
 describe('Unit-related functionality', function () {
     var u, stub;
     beforeEach(function(){
