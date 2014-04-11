@@ -1,12 +1,12 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row, Link */
 
-xdescribe('Cell-related functionality:', function() {
+describe('Cell-related functionality:', function() {
     var cell, cellStyle, cellAttr, cellContent;
 
     beforeEach(function() {
         cell = new Cell();
-        cellStyle = new TableCellStyle();
+        cellStyle = new TableCellStyles();
         cellAttr = new Attributes();
         cellContent = new Content();
     });
@@ -73,7 +73,13 @@ xdescribe('Cell-related functionality:', function() {
         });
     });
 
-    describe('Cell::style: imposing cell style', function(){
+    describe('Cell::tag: tag name', function(){
+        it('A Cell object tag is set to "td"', function(){
+            expect(cell.tag).toBe('td');
+        });
+    });
+
+    xdescribe('Cell::style: imposing cell style', function(){
         it('overrides previously set properties', function(){
             cellStyle['a property'] = 'a property value';
             cell.style = cellStyle;
@@ -93,7 +99,7 @@ xdescribe('Cell-related functionality:', function() {
         });
     });
 
-    describe('Cell::getStyleProp: method defined in parent class Tag', function(){
+    xdescribe('Cell::getStyleProp: method defined in parent class Tag', function(){
         it('retrieves property of type "string" from the style', function() {
             cellStyle['a property'] = 'cell property value';
             cell.style = cellStyle;
@@ -115,7 +121,7 @@ xdescribe('Cell-related functionality:', function() {
         });
     });
 
-    describe('Cell::appendStyle(): method defined in the parent class', function(){
+    xdescribe('Cell::appendStyle(): method defined in the parent class', function(){
         it('appends style if it is given as a string', function(){
             if (cell.style.hasOwnProperty('an-attribute')){
                 delete cell.style['an-attribute'];

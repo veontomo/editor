@@ -117,7 +117,7 @@ function Styles(obj) {
             } else {
                 return false;
             }
-            this.appendStyle(seed);
+            this.appendProperty(seed);
         }
         return true;
     };

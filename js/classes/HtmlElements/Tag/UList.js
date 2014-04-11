@@ -23,7 +23,7 @@ function UList() {
 	 * @type       {String}
 	 * @default    "ul"
 	 */
-	this.name = 'ul';
+	this.tag = 'ul';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.

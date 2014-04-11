@@ -32,9 +32,9 @@ describe('UList-related functionality:', function(){
         });
     });
 
-    describe('UList::name: tag name', function(){
+    describe('UList::tag: tag name', function(){
         it('A UList object name is set to "ul"', function(){
-            expect(ul.name).toBe('ul');
+            expect(ul.tag).toBe('ul');
         });
     });
 });

@@ -55,6 +55,13 @@ describe('Link-related functionality:', function() {
         });
     });
 
+    describe('Link::tag: tag name', function(){
+        it('A Link object name is set to "a"', function(){
+            expect(link.tag).toBe('a');
+        });
+    });
+
+
     describe('Link::attr is an instance of LinkAttr', function(){
         it('has attr property which is a LinkAttr instance', function(){
             expect(link.attr instanceof LinkAttributes).toBe(true);

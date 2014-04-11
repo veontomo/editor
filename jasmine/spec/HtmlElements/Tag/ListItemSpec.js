@@ -34,6 +34,12 @@ describe('ListItem-related functionality', function(){
         });
     });
 
+    describe('ListItem::tag: tag name', function(){
+        it('A ListItem object name is set to "li"', function(){
+            expect(li.tag).toBe('li');
+        });
+    });
+
 
     describe('Basic properties', function(){
         it('A ListItem object contains nesessary attributes', function(){

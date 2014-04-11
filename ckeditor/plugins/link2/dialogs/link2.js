@@ -149,12 +149,14 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // parse all selected nodes
             selectedNodes.forEach(function(arr){
                 arr.forEach(function(el){
+                    console.log('element: ', el);
                     var newNode, objLink;
                     // prepare Link object
                     link = new Link();
                     link.setHref(url);
                     link.underline(isUnderlined);
                     obj = factory.forgeElement(el.$);
+                    console.log('factory produced: ', obj, 'its html: ', obj.toHtml());
                     if (!obj.isEmpty()){
                         objLink = obj.toLink(link);
                         newNode = objLink.toNode();
