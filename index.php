@@ -11,11 +11,22 @@
 
 	<script type="text/javascript" src="js/classes/helpers.js"></script>
 	<script type="text/javascript" src="js/classes/unit.js"></script>
-	<script type="text/javascript" src="js/classes/property.js"></script>
+	<script type="text/javascript" src="js/classes/properties.js"></script>
 	<script type="text/javascript" src="js/classes/attributes.js"></script>
 	<script type="text/javascript" src="js/classes/tableattributes.js"></script>
 	<script type="text/javascript" src="js/classes/linkattributes.js"></script>
+
+
 	<script type="text/javascript" src="js/classes/style.js"></script>
+	<script type="text/javascript" src="js/classes/TableStyle.js"></script>
+	<script type="text/javascript" src="js/classes/LinkStyle.js"></script>
+	<script type="text/javascript" src="js/classes/TableRowStyle.js"></script>
+	<script type="text/javascript" src="js/classes/TableCellStyle.js"></script>
+	<script type="text/javascript" src="js/classes/ImageStyle.js"></script>
+	<script type="text/javascript" src="js/classes/ListStyle.js"></script>
+	<script type="text/javascript" src="js/classes/ListItemStyle.js"></script>
+
+
 	<script type="text/javascript" src="js/classes/content.js"></script>
 	<script type="text/javascript" src="js/classes/tag.js"></script>
 	<script type="text/javascript" src="js/classes/plaintext.js"></script>
