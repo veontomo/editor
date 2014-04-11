@@ -7,12 +7,12 @@
  * @class   TableCellStyles
  * @extends Styles
  */
-function TableCellStyles() {
+function TableCellStyles(obj) {
     'use strict';
     if (!(this instanceof TableCellStyles)) {
-        return new TableCellStyles();
+        return new TableCellStyles(obj);
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
