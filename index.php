@@ -65,7 +65,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
     <div class="panel">
       <img src="images/coverage.png" width="100px" />
       <a href="test/coverage/Firefox 27.0.0 (Windows)/index.html">Firefox </a>
-      <a href="test/coverage/Chrome 33.0.1750 (Windows)/index.html">Chrome</a>
+      <a href="test/coverage/Chrome 34.0.1847 (Windows)/index.html">Chrome</a>
       <a href="test/coverage/IE 11.0.0 (Windows)/index.html">IE</a>
     </div>
 
