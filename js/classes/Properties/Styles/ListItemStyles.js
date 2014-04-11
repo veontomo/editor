@@ -6,12 +6,12 @@
  * @class   ListItemStyles
  * @extends Styles
  */
-function ListItemStyles() {
+function ListItemStyles(obj) {
     'use strict';
     if (!(this instanceof ListItemStyles)) {
-        return new ListItemStyles();
+        return new ListItemStyles(obj);
     }
-    Styles.call(this);
+    Styles.call(this, obj);
 
     /**
      * The  name of the class.
