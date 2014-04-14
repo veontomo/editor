@@ -53,6 +53,7 @@ describe('Properties-related functionality', function(){
         });
     });
 
+
     describe('getProperty(): property getter', function(){
         it('returns "undefined" if the property is not set', function(){
             props.setProperty('a', 20);

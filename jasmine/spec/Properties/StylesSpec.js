@@ -126,8 +126,8 @@ describe('Style-related functionality', function(){
             expect(stl.getProperty('max-width')).toBe(97);
         });
         it('overrides width as a string, if the width was defined before', function(){
-            stl.width = 98;
-            stl['max-width'] = 'another dumb value';
+            stl.setProperty('width', 98);
+            stl.setProperty('max-width', 'another dumb value');
             stl.setWidth('20px');
             expect(stl.getProperty('width')).toBe('20px');
             expect(stl.getProperty('min-width')).toBe('20px');
@@ -172,7 +172,33 @@ describe('Style-related functionality', function(){
             expect(stl.load(seed)).toBe(true);
             expect(seed.getNamedItem).toHaveBeenCalledWith('style');
         });
+
+        it('sets the styles if given as NamedNodeMap', function(){
+            var root = document.createElement('span');
+            root.setAttribute('style', 'color: green; margin: 32em;');
+            stl.load(root.attributes);
+            expect(stl.getProperty('color')).toBe('green');
+            expect(stl.getProperty('margin')).toBe('32em');
+        });
+        it('sets the styles, but not attributes if given as NamedNodeMap', function(){
+            var root = document.createElement('span');
+            root.setAttribute('style', 'color: blue; margin: 1px;');
+            root.setAttribute('color', 'red');
+            root.setAttribute('margin', '3px');
+            stl.load(root.attributes);
+            expect(stl.getProperty('color')).toBe('blue');
+            expect(stl.getProperty('margin')).toBe('1px');
+        });
+
+        it('sets the styles, if given as a string', function(){
+            stl.load('module: top; level: 2em;');
+            expect(stl.getProperty('module')).toBe('top');
+            expect(stl.getProperty('level')).toBe('2em');
+        });
+
+
     });
+
 
     describe('Style::decorateElement(): applies the style to the argument', function(){
         var elem = {'setAttribute': function(){return null;}};

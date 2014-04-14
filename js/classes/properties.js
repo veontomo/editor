@@ -289,7 +289,4 @@ function Properties(input) {
 		}
 		return false;
 	};
-
-
-
 }

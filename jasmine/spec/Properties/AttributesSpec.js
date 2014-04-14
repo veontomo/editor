@@ -74,9 +74,6 @@ describe('Attribute-related functionality', function(){
             root.setAttribute('style', 'color: green; margin: 32em;');
         });
 
-        it('returns true if no argument is given', function(){
-            expect(attr.load()).toBe(true);
-        });
 
         it('returns true if no method is attemped to be overridden', function(){
             attrMap = root.attributes;
