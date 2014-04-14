@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Style, List, ListItem, Tag, Row */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -32,17 +32,16 @@ var CKHelper = {
 
   /**
    * Drops inline attribute named attrName from DOM element
-   * @param  {Object} element   an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
-   * @param  {string} attrName  this attribute name will be dropped.
+   * @param  {Object}    element              an inline attribute of  this element will be dropped.
+   *                                          The element should respond to jQuery "attr" method.
+   * @param  {string}    attrName             attribute name to be dropped.
    * @return {void}
    */
   dropInlineStyleAttr: function(element, attrName){
     // unhovering table
     var attr = element.attr('style'),
-      style = new Style(attr);
-    if (style.hasOwnProperty(attrName)){
-      delete style[attrName];
-    }
+     	style = new Styles(attr);
+    style.dropProperty(attrName);
     element.attr('style', style.toString());
   },
 
@@ -147,8 +146,8 @@ var CKHelper = {
 		if (pos !== 'before' && pos !== 'after'){
 			return null;
 		}
-		var cell, cellObj, cellObjStyle, cellObjAttr, cellIndex, parentTable, newTableProfile,
-			cellToInsert, cellToInsertAttr, cellToInsertStyle, tableProfile, newTable, tableObj,
+		var cell, cellObj, cellObjStyles, cellObjAttr, cellIndex, parentTable, newTableProfile,
+			cellToInsert, cellToInsertAttr, cellToInsertStyles, tableProfile, newTable, tableObj,
 			// offset to be added for the insertion of the column
 			offset;
 
@@ -167,7 +166,7 @@ var CKHelper = {
 		// create objects in order to retrieve their properties
 		cellObj = cell.getOuterHtml().createCellFromHtml();
 		tableObj = parentTable.getOuterHtml().createTableFromHtml();
-		cellObjStyle = cellObj.style;
+		cellObjStyles = cellObj.style;
 		cellObjAttr = cellObj.attr;
 		tableProfile = tableObj.getProfile();
 
@@ -175,25 +174,25 @@ var CKHelper = {
 
 		cellToInsert = new Cell('cella');
 		cellToInsertAttr = new Attributes(cellObjAttr);
-		cellToInsertStyle = new Style(cellObjStyle);
+		cellToInsertStyles = new Styles(cellObjStyles);
 
 
 		if (pos === 'before'){
 			offset = 0;
-			cellToInsertStyle['padding-right'] = 0;
+			cellToInsertStyles['padding-right'] = 0;
 			tableObj.appendStyleToCol(cellIndex, 'padding-left: 0px');
 		}
 
 		if (pos === 'after'){
 			offset = 1;
-			cellToInsertStyle['padding-left'] = 0;
+			cellToInsertStyles['padding-left'] = 0;
 			tableObj.appendStyleToCol(cellIndex, 'padding-right: 0px');
 		}
 
 
 		// binding the styles and attributes to the newly created cell
 		cellToInsert.attr  = cellToInsertAttr;
-		cellToInsert.style = cellToInsertStyle;
+		cellToInsert.style = cellToInsertStyles;
 
 		// offset variable is responsible for insertion 'before' or 'after'
 		tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
@@ -485,14 +484,15 @@ var CKHelper = {
     $(tbl.$).hover(
       function () {
         var markerName  = NEWSLETTER['marker-name'],
-          tableMarker = (new Table()).getType(),
-          rowMarker   = (new Row()).getType(),
-          cellMarker  = (new Cell()).getType();
-        $(this).find('td[data-marker="Cell"]').hover(
+          tableMarker = (new Table()).className,
+          rowMarker   = (new Row()).className,
+          cellMarker  = (new Cell()).className;
+        console.log(markerName, tableMarker, rowMarker, cellMarker);
+        $(this).find('td[' + markerName + '="' + cellMarker + '"]').hover(
           function(){
             var cellNumber = $(this).index(),
               tableParent = $(this).parents('table[' + markerName +'="' + tableMarker + '"]'),
-              boxShadowValues = '0.05em 0.0em 0.5em 0.05em #AAAAAA',
+              boxShadowValues = '0.5em 0.0em 0.5em 0.05em #AAAAAA',
               cellSelector = 'tr[' + markerName +'="'+ rowMarker +'"] td[' + markerName +'="' +
                 cellMarker + '"]:nth-child(' + (cellNumber + 1) + ')';
             tableParent.find(cellSelector).css('box-shadow', boxShadowValues);

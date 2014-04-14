@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global  DOMParser, Node, Helper, Attributes, Style, Cell, TableRowStyle, Row, ListItem, Table,
+/*global  DOMParser, Node, Helper, Attributes, Styles, Cell, TableRowStyle, Row, ListItem, Table,
           Content, Tag, List, Link, LinkStyle, LinkAttributes */
 
 
@@ -37,7 +37,7 @@ String.prototype.createCellFromHtml = function(){
 
     // imposing its styles
     nodeStyle = node.getAttribute('style');
-    cell.style = new Style(nodeStyle);
+    cell.style = new Styles(nodeStyle);
 
     // imposing its attributes
     attrs = Helper.flatten(node.attributes);
@@ -76,7 +76,7 @@ String.prototype.createRowFromHtml = function(){
 
 	// imposing styles
 	nodeStyle = node.getAttribute('style');
-	row.style = new Style(nodeStyle);
+	row.style = new Styles(nodeStyle);
 
 	// imposing its attributes
 	attrs = Helper.flatten(node.attributes);
@@ -121,7 +121,7 @@ String.prototype.createTableFromHtml = function(){
 
     // imposing table styles
     nodeStyle = node.getAttribute('style');
-    table.style = new Style(nodeStyle);
+    table.style = new Styles(nodeStyle);
     // imposing table attributes
     attrs = Helper.flatten(node.attributes);
     if (attrs.hasOwnProperty('style')){
@@ -175,7 +175,7 @@ String.prototype.createListFromHtml = function(listType){
         output.name = listType || node.nodeName.toLowerCase();
 
         style = node.getAttribute('style');
-        output.style = new Style(style);
+        output.style = new Styles(style);
         attrs = Helper.flatten(node.attributes);
         if (attrs.hasOwnProperty('style')){
             delete attrs.style;
@@ -243,7 +243,7 @@ String.prototype.createListItemFromHtml = function(){
 
     // imposing its styles
     nodeStyle = node.getAttribute('style');
-    listItem.style = new Style(nodeStyle);
+    listItem.style = new Styles(nodeStyle);
 
     // imposing its attributes
     attrs = Helper.flatten(node.attributes);
@@ -299,7 +299,7 @@ String.prototype.createTagFromHtml = function(){
             output.name = tagName.toLowerCase();
 
             style = node.getAttribute('style');
-            output.style = new Style(style);
+            output.style = new Styles(style);
             attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty('style')){
                 delete attrs.style;
@@ -392,7 +392,7 @@ String.prototype.inflate = function(){
      * @method    inflate
      * @return    {Content}
      */
-    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists, re;
+    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
     str = this.toString();
     parser = new DOMParser();
     output = new Content();
@@ -431,11 +431,6 @@ String.prototype.inflate = function(){
                 }
             }
         }
-    } else {
-        // serach for tags inside the strings: ...<tag ...>...</tag>
-        re = new RegExp(/<(\w+)\s*[^>]*>.*<\/\1>/g);
-        pos = str.search(re);
-
     }
     return output;
 };

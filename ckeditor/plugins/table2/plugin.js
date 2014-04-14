@@ -193,7 +193,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
 				colField, i,
 				markerName  = NEWSLETTER['marker-name'],
-				tableMarker = (new Table()).getType(),
+				tableMarker = (new Table()).className(),
 				currentElem = editor.getSelection().getStartElement(),
 				table = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&

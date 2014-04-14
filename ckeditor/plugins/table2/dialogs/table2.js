@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, columnWidths, Table, Grating, Row, Cell, TableStyle, TableRowStyle, TableCellStyle,  Attributes,Content, TableAttributes, NEWSLETTER, Style, alert, Helper
+/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles, TableCellStyles, Attributes, Content, TableAttributes, NEWSLETTER, alert, CKHelper, Helper
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -167,7 +167,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// rowContentWidth,
 				spaceTop, spaceBottom,
 				inputField, cellWeights, row, cell,
-				// tableStyle, tableAttr,
+				// TableStyles, tableAttr,
 				rowStyle, rowAttr, cellStyle,
 				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed,
 				allWidths = [];
@@ -196,14 +196,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// impose styles and attribute values
 			table.style.setWidth(tableWidth);
-			table.style.margin = 0;
-			table.style.padding = 0;
+			table.style.setProperty('margin', 0);
+			table.style.setProperty('padding', 0);
 
-			table.attr[NEWSLETTER['marker-name']] = table.getType();
-			table.attr.width = tableWidth;
+			table.attr.setProperty(NEWSLETTER['marker-name'], table.className);
+			table.attr.setProperty('width', tableWidth);
 
 			// binding the styles and attributes and the table object
-			// table.style = tableStyle;
+			// table.style = TableStyles;
 			if (borderWidth > 0){
 				table.setBorder({
 					'width': borderWidth,
@@ -215,7 +215,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// creating table row
 			row  = new Row();
-			rowStyle = new TableRowStyle();
+			rowStyle = new TableRowStyles();
 			rowAttr = new Attributes();
 
 			// By default, table style is a parent style for the nested rows.
@@ -225,22 +225,22 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			if (isFramed){
 				// creating bogus styles and attributes
 				bogusRowAttr    = new Attributes();
-				bogusRowStyle   = new TableRowStyle();
+				bogusRowStyle   = new TableRowStyles();
 				bogusCellAttr   = new Attributes();
-				bogusCellStyle  = new TableCellStyle();
+				bogusCellStyle  = new TableCellStyles();
 				bogusTableAttr  = new TableAttributes();
-				bogusTableStyle = new TableStyle();
+				bogusTableStyle = new TableStyles();
 
 				// calculating widths of the bogus elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				bogusRowWidth = table.style.width - 2 * table.style.padding - 2 * table.style.getBorderInfo().width;
+				bogusRowWidth = table.style.getProperty('width') - 2 * table.style.getProperty('padding') - 2 * table.style.getBorderInfo().width;
 
 				bogusRowStyle.setWidth(bogusRowWidth);
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
-				bogusRowStyle.padding = 0;
-				bogusRowStyle.margin  = 0;
+				bogusRowStyle.getProperty('padding', 0);
+				bogusRowStyle.getProperty('margin', 0);
 				// mark the bogus row
-				bogusRowAttr[NEWSLETTER['marker-name']] =  row.getType();
+				bogusRowAttr.setProperty(NEWSLETTER['marker-name'], row.className);
 
 				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
@@ -248,22 +248,22 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// if remains zero, then in MS Outlook the cell content overlaps the border
 				// and latter becomes invisible
-				bogusCellStyle['padding-left'] = frameWidth;
-				bogusCellStyle['padding-right'] = frameWidth;
-				bogusCellStyle['padding-top'] = spaceTop;
-				bogusCellStyle['padding-bottom'] = spaceBottom;
-				bogusCellStyle.margin  = 0;
+				bogusCellStyle.setProperty('padding-left', frameWidth);
+				bogusCellStyle.setProperty('padding-right', frameWidth);
+				bogusCellStyle.setProperty('padding-top', spaceTop);
+				bogusCellStyle.setProperty('padding-bottom', spaceBottom);
+				bogusCellStyle.setProperty('margin', 0);
 
-				bogusTableWidth = bogusCellStyle.width - bogusCellStyle['padding-left'] - bogusCellStyle['padding-right'];
+				bogusTableWidth = bogusCellStyle.getProperty('width') - bogusCellStyle.getProperty('padding-left') - bogusCellStyle.getProperty('padding-right');
 				bogusTableStyle.setWidth(bogusTableWidth);
-				bogusTableAttr.width = bogusTableWidth;
+				bogusTableAttr.setProperty('width', bogusTableWidth);
 
 				allWidths.push({'value': bogusTableWidth, 'descr': 'larghezza della tabella fittizia'});
 
-				bogusTableStyle['border-style'] = 'solid';
-				bogusTableStyle['border-color'] = '#000000';
-				bogusTableStyle['border-width'] = frameWidth;
-				bogusTableAttr.border = frameWidth;
+				bogusTableStyle.setProperty('border-style', 'solid');
+				bogusTableStyle.setProperty('border-color', '#000000');
+				bogusTableStyle.setProperty('border-width', frameWidth);
+				bogusTableAttr.setProperty('border', frameWidth);
 
 				// binding attributes and styles with the objects
 				table.bogusTableStyle = bogusTableStyle;
@@ -278,7 +278,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				parentElemStyle = bogusTableStyle;
 			} else {
 				// if the table is not framed, mark the row
-				rowAttr[NEWSLETTER['marker-name']] =  row.getType();
+				rowAttr.setProperty(NEWSLETTER['marker-name'], row.className);
 			}
 
 			// impose row styles and attributes
@@ -299,22 +299,22 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// It is better to recreate objects for every cell
 				// in order to avoid influence of previously imposed values
 				cell = new Cell('cell' + i);
-				cellStyle = new TableCellStyle();
+				cellStyle = new TableCellStyles();
 				cellAttr = new Attributes();
 
 				// imposing cell styles and attributes
 				// mark the cell
-				cellAttr[NEWSLETTER['marker-name']] = cell.className;
+				cellAttr.setProperty(NEWSLETTER['marker-name'], cell.className);
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);
 				allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
 				delete cellStyle.padding;
-				cellStyle['padding-left']  = (i === 0) ? hSpace : 0;        // add space to the left for the first cell
-				cellStyle['padding-right'] = (i === cols - 1) ? hSpace : 0; // add space to the right for the last cell
-				cellStyle['padding-top'] = spaceTop;
-				cellStyle['padding-bottom'] = spaceBottom;
-				cellStyle.margin = 0;
+				cellStyle.setProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
+				cellStyle.setProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
+				cellStyle.setProperty('padding-top',  spaceTop);
+				cellStyle.setProperty('padding-bottom', spaceBottom);
+				cellStyle.setProperty('margin', 0);
 
 				// binding the styles and attributes and the object
 				cell.style = cellStyle;

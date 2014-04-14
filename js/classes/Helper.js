@@ -59,6 +59,7 @@ var Helper = {
      * @return      {Number}
      */
     'trace': function(arr){
+        console.log('caller: ', this.caller);
         var accum = 0,
             len = arr.length,
             i;
