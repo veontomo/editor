@@ -19,7 +19,7 @@ function Attributes(obj) {
 	 * It takes into consideration only key-valued pairs of
      * {{#crossLink "Properties/core:property"}}core{{/crossLink}} defined in
      * {{#crossLink "Properties"}}Property{{/crossLink}} class.
-	 * {{#crossLink "Attributes/className:property"}}className{{/crosslink}}.
+	 * {{#crossLink "Attributes/className:property"}}className{{/crossLink}}.
 	 * @method     toString
 	 * @return     {String}    a union of substrings; each substring is of this format: 'attribute="value"',
 	 *                         between the substrings there is a separator ' ' (space).
