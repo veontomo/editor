@@ -489,14 +489,16 @@ describe('Tag-related functionality:', function() {
 
         it('returns a Link if called on a Link', function(){
             link.setHref('go-to-bar');
-            var link2 = new Link();
-            link2.content.elements = ['whatever'];
+            var link2 = new Link(),
+                content = {};
+            link2.content.elements = content;
             link2.setHref('go-home');
             tag2 = link2.toLink(link);
             expect(tag2 instanceof Link).toBe(true);
             expect(tag2.getHref()).toBe('go-to-bar');
-            expect(tag2.content.elements.length).toBe(1);
-            expect(tag2.content.elements[0]).toBe('whatever');
+            expect(tag2.content.elements).toBe(content);
+            expect(tag2.factory).toBe(link2.factory);
+
         });
 
         it('returns a Link with styles equal to those of the argument, if the target is a Link', function(){

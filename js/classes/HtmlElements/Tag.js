@@ -416,6 +416,7 @@ function Tag() {
 			output.style = link.style;
 			output.attr = link.attr;
 			output.content.elements = this.content.elements;
+			output.factory = this.factory;
 			return output;
 		}
 		if (this.isEmpty()){
@@ -426,6 +427,7 @@ function Tag() {
 			output.style = link.style;
 			output.attr = link.attr;
 			output.content.appendElem(this);
+			output.factory = this.factory;
 			return output;
 		}
 		// clone the target without 'content' property
@@ -445,6 +447,7 @@ function Tag() {
 				if(output.content !== undefined){
 					output.content = this.content.toLink(link);
 				}
+				output.factory = this.factory;
 				return output;
 			}
 		}
