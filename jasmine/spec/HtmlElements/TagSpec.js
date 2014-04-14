@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment, Factory, Registry */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -424,12 +424,15 @@ describe('Tag-related functionality:', function() {
 
 
     describe('Tag::toLink(): converts tag into a link', function(){
-        var link, tag2, c1, c2;
+        var link, tag2, c1, c2, registry, factory;
         beforeEach(function(){
             link = new Link();
             tag.style = tagStyle;
             tag.attr = tagAttr;
             tag.content = content;
+            registry = new Registry({classes: [Link], 'defaultClass': Tag});
+            factory = new Factory(registry);
+            tag.factory = factory;
         });
         it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
             var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
@@ -478,6 +481,8 @@ describe('Tag-related functionality:', function() {
             spyOn(content, 'toLink');
             tag.content = content;
             tag2 = tag.toLink(link);
+            // tag2.factory = tag.factory;
+            // console.log(tag.factory);
             expect(tag2 instanceof Tag).toBe(true);
             expect(content.toLink).toHaveBeenCalledWith(link);
         });
@@ -517,12 +522,6 @@ describe('Tag-related functionality:', function() {
         it('returns "undefined" if the target content is not empty and the target has no "className" property', function(){
             spyOn(content, 'isEmpty').andCallFake(function(){return false;});
             delete tag.className;
-            expect(tag.toLink(link)).not.toBeDefined();
-        });
-
-        it('returns "undefined" if the target content is not empty and the target has a "className" property, but it corresponds to a non-existing class', function(){
-            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            tag.className = 'a class with such a tag does not exist. I hope.';
             expect(tag.toLink(link)).not.toBeDefined();
         });
 

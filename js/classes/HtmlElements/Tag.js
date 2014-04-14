@@ -432,17 +432,19 @@ function Tag() {
 		className = this.className;
 		// console.log('className: ', className);
 		if(className) {
-			if (window.hasOwnProperty(className)){
-				output = new window[className];
+			output = this.factory.createInstanceByTag(className);
+			if (output){
 				output.tag = this.tag;
+				output.factory = this.factory.clone();
 				if(output.attr !== undefined){
 					output.attr = this.attr;
 				}
 				if(output.style !== undefined){
 					output.style = this.style;
 				}
-
-				output.content = this.content.toLink(link);
+				if(output.content !== undefined){
+					output.content = this.content.toLink(link);
+				}
 				return output;
 			}
 		}

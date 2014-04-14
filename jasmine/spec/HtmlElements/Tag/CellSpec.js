@@ -176,10 +176,14 @@ describe('Cell-related functionality:', function() {
     describe('Cell::toLink(): test parent method', function(){
         it('creates a link inside the cell with text content', function(){
             var link = new Link(),
-                cell2;
+                cell2,
+                registry = new Registry({classes: [Link], 'defaultClass': Tag});
+                factory = new Factory(registry);
             cell.style = cellStyle;
             cell.attr = cellAttr;
             link.setHref('url-to-world');
+            cell.factory = factory;
+
             cell.content.elements = ['cell content'];
             cell2 = cell.toLink(link);
             expect(cell2.style.toString()).toBe(cellStyle.toString());
