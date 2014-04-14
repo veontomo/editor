@@ -90,9 +90,10 @@ function Properties(input) {
 	 * an object, then it gets its key-value pairs. Obtained blocks are then sent one
 	 * by one to {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}}
 	 * method.
-	 * @method    appendPropertyAsStringOrObj
-	 * @param     {Any}        input
+	 * @method     appendPropertyAsStringOrObj
+	 * @param      {Any}        input
 	 * @private
+	 * @return     {void}
 	 */
 	var appendPropertyAsStringOrObj = function (obj, context){
 		var attr, value, key, pool = [];
@@ -132,7 +133,11 @@ function Properties(input) {
 	 */
 
 	this.appendProperty = function(obj){
+		// var rnd = parseInt(Math.random()*10000 , 10);
+		// console.info(rnd, 'Properties::appendProperty() is called with ', obj);
+		// console.info(rnd, 'Properties::appendProperty() is calling private function appendPropertyAsStringOrObj with 2 arguments: ', obj, this);
 		return appendPropertyAsStringOrObj(obj, this);
+
 	};
 
 	/**

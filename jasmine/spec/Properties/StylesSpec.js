@@ -37,25 +37,28 @@ describe('Style-related functionality', function(){
     });
 
     describe('Style::toString(): generates string representation', function(){
-        it('if the object is empty, empty string is returned', function(){
+        it('if the core is empty, empty string is returned', function(){
+            spyOn(stl, 'getCore').andCallFake(function(){return {};});
             expect(stl.toString()).toBe('');
         });
-        it('if the object has only a method, empty string is returned', function(){
-            stl.fun = function(foo){return foo;};
-            expect(stl.toString()).toBe('');
+        it('if the core has just one record, a string is returned', function(){
+            spyOn(stl, 'getCore').andCallFake(function(){return {'mode': 'off'};});
+            expect(stl.toString()).toBe('mode: off');
         });
-        it('if the object has 2 properties, a string is returned', function(){
-            stl.width = 439;
-            stl.title = 'Spec';
-            expect(stl.toString()).toBe('width: 439px; title: Spec');
+        it('if the core has two records, a semi-column separated string is returned', function(){
+            spyOn(stl, 'getCore').andCallFake(function(){return {width: 'full', 'title': 'Spec'};});
+            expect(stl.toString()).toBe('width: full; title: Spec');
+        });
+        it('if the core has number-valued record, the default unit measure is appended to that number', function(){
+            spyOn(stl, 'getCore').andCallFake(function(){return {width: 439};});
+            expect(stl.toString()).toBe('width: 439px');
+        });
+        it('if the core has number-valued record, that number is augmented by the argument', function(){
+            spyOn(stl, 'getCore').andCallFake(function(){return {'mass': 439};});
+            expect(stl.toString('kg')).toBe('mass: 439kg');
         });
 
-        it('if the attributes has 2 properties and a method, a string is returned', function(){
-            stl.width = 20;
-            stl['last-author'] = 'A.M.R';
-            stl.update = function(foo){return foo;};
-            expect(stl.toString()).toBe('width: 20px; last-author: A.M.R');
-        });
+
     });
 
     describe('Style::getBorderInfo(): returns the border info ', function(){

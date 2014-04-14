@@ -55,8 +55,9 @@ function Attributes(obj) {
      * @return    {Boolean}                           true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
+        // var rnd = parseInt(Math.random()*10000, 10);
     	var pos, attrName, attrValue, seed;
-    	// console.log("load: attr = ", attr);
+    	// console.info(rnd, "Attributes::load() is called with ", attr);
     	for (pos in attr){
     		if (attr.hasOwnProperty(pos)){
     			seed = {};
@@ -67,14 +68,16 @@ function Attributes(obj) {
     					if(attrValue){
     						seed[attrName] = attrValue;
     					}
-                        // console.log('load: seed = ', seed);
+                        // console.info(rnd, "Attributes::load() is calling appendProperty with ", seed);
     					this.appendProperty(seed);
     				} else {
+                        // console.info(rnd, "Attributes::load() is returning false ", attr);
     					return false;
     				}
     			}
     		}
     	}
+        // console.info(rnd, "Attributes::load() is returning true");
     	return true;
     };
 

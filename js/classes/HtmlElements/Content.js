@@ -400,6 +400,8 @@ function Content(str) {
 			});
 			this.elements = elements;
 		}
+		console.log('Content::load() is always returning TRUE. Fix it!');
+		return true;
 	};
 
 	/**

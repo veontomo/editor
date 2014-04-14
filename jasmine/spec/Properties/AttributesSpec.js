@@ -74,13 +74,6 @@ describe('Attribute-related functionality', function(){
             root.setAttribute('style', 'color: green; margin: 32em;');
         });
 
-
-        it('returns true if no method is attemped to be overridden', function(){
-            attrMap = root.attributes;
-            // console.log('attrMap = ', attrMap);
-            expect(attr.load(attrMap)).toBe(true);
-        });
-
         it('sets the attibutes', function(){
             attrMap = root.attributes;
             attr.load(attrMap);
@@ -93,13 +86,6 @@ describe('Attribute-related functionality', function(){
             attrMap = root.attributes;
             attr.load(attrMap);
             expect(attr.hasOwnProperty('style')).toBe(false);
-        });
-        it('does not override the property which is a function', function(){
-            var fun = function(){};
-            attrMap = root.attributes;
-            attr.module = fun;
-            attr.load(attrMap);
-            expect(attr.module).toBe(fun);
         });
 
         it('returns false if trying to override a function', function(){

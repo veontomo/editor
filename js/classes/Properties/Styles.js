@@ -25,12 +25,12 @@ function Styles(obj) {
      * @example "padding: 0px; margin: 10px; color: #ababab"
 	 */
     this.toString = function (unit) {
-        var val, attr, styles = [];
+        var val, attr, styles = [], core = this.getCore();
         unit = unit || 'px';
-        for (attr in this) {
-            if (this.hasOwnProperty(attr)) {
+        for (attr in core) {
+            if (core.hasOwnProperty(attr)) {
                 // avoid adding method to the output
-                val = this[attr];
+                val = core[attr];
                 switch (typeof val) {
                 case 'string':
                     if(attr !== 'className'){
@@ -61,7 +61,11 @@ function Styles(obj) {
      * @return  {void}
      */
     this.appendStyle = function(stl){
+        // var rnd = parseInt(Math.random()*10000 , 10);
+        // console.info(rnd, 'Style::appendStyle is called with ', stl);
+        // console.info(rnd, 'style core is = ', this.getCore());
     	this.appendProperty(stl);
+        // console.info(rnd, 'Style::appendStyle is finished. The style core is now = ', this.getCore());
     };
 
 
@@ -106,7 +110,8 @@ function Styles(obj) {
      * @return {Boolean}                                  true, if the properties are loaded, false otherwise
      */
     this.load = function(attr){
-        // console.log('Style::load is called with ', attr);
+        // var rnd = parseInt(Math.random()*1000, 10);
+        // console.info(rnd, 'Style::load is called with ', attr);
         var seed, seedObj;
         if (attr !== undefined){
             if (typeof attr === 'string'){
@@ -115,10 +120,14 @@ function Styles(obj) {
                 seedObj =  attr.getNamedItem('style');
                 seed = seedObj ? seedObj.value : '';
             } else {
+                // console.info(rnd, 'Style::load is returning false');
                 return false;
             }
+            // console.info(rnd, 'Style::load is calling Style::appendStyle with ', seed);
             this.appendStyle(seed);
         }
+        // console.info(rnd, 'Style::load: value of style before returning true: ', this.toString());
+        // console.info(rnd, 'Style::load is returning true');
         return true;
     };
 

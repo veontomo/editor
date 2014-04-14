@@ -107,13 +107,14 @@ function Factory(reg){
 	 * @return    {Object|Null}
 	 */
 	this.createInstanceOf = function(className){
-		console.log('createInstanceOf is called with ', className);
+		var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, 'createInstanceOf is called with ', className);
 		var ClassName  = this.registry.getClassByName(className);
 		if (typeof ClassName === 'function'){
-			console.log('createInstanceOf is returning new object');
+			// console.info(rnd, 'createInstanceOf is returning new object');
 			return new ClassName;
 		}
-		console.log('createInstanceOf is returning null');
+		// console.info(rnd, 'createInstanceOf is returning null');
 		return null;
 	};
 
@@ -129,13 +130,14 @@ function Factory(reg){
 	 * @return    {Object|Null}
 	 */
 	this.createInstanceByTag = function(tagName){
-		console.log('createInstanceByTag is called with ', tagName);
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, 'createInstanceByTag is called with ', tagName);
 		var ClassName  = this.registry.getClassByTag(tagName) || this.registry.defaultClass;
 		if (typeof ClassName === 'function'){
-			console.log('createInstanceByTag is returning new object');
+			// console.info(rnd, 'createInstanceByTag is returning new object');
 			return new ClassName;
 		}
-		console.log('createInstanceByTag is returning null');
+		// console.info(rnd, 'createInstanceByTag is returning null');
 		return null;
 	};
 
@@ -207,11 +209,11 @@ function Factory(reg){
 	 * @return     {Boolean}
 	 */
 	this.copyElement = function(obj, elem){
-		console.log('copyElement is asked to copy element ', elem, ' into object ', obj);
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, 'copyElement is asked to copy element ', elem, ' into object ', obj);
 		if (obj && elem && (typeof obj.load === 'function')){
-
 			var output = obj.load(elem);
-			console.log('copyElement is returning ', output);
+			// console.info(rnd, 'copyElement is returning ', output);
 			return output;
 		}
 		return false;
@@ -261,22 +263,24 @@ function Factory(reg){
 	 * @return  {Object|Null}
 	 */
 	this.forgeElement = function(elem){
-		console.log('it was asked to forge element ', elem);
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, 'it was asked to forge element ', elem);
 		if (elem){
 			var elemTag = elem.tagName,
 				product;
+			// console.info(rnd, 'The element seems to have tagName: ', elemTag);
 			if (elemTag){
-				product = this.createInstanceByTag(elemTag);
+				product = this.createInstanceByTag(elemTag.toLowerCase());
 			} else {
 				product = this.createInstanceOf("PlainText");
 			}
 			this.bindFactory(product);
 			this.copyElement(product, elem);
-			console.log('Returning: ', product);
+			// console.info(rnd, 'Returning: ', product);
 			return product;
 
 		}
-		console.log('Returning null');
+		// console.info(rnd, 'Returning null');
 		return null;
 	};
 
