@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Link */
+/*global Node, Link, Factory */
 
 /**
  * This class is used to encompass other objects.
@@ -94,7 +94,7 @@ function Content(str) {
 			return true;
 		}
 		return false;
-	}
+	};
 
 	/**
 	 * Inserts element at position pos inside the array of elements. If the lenght of array "elements"
@@ -425,5 +425,25 @@ function Content(str) {
 				}
 			});
 		}
+	};
+
+	/**
+	 * Clones the target. Parses for all {{#crossLink "Content/elements:property"}}elements{{/crossLink}} and
+	 * appends the its copy to {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * if the element either responds to the "clone" method or is a string or number.
+	 * @method  clone
+	 * @return  {Object}
+	 */
+	this.clone = function(){
+		var clone = new Content();
+		this.elements.forEach(function(el){
+			var elType = typeof el;
+			if (typeof el.clone === 'function'){
+				clone.appendElem(el.clone());
+			} else if (elType === 'string' || elType === 'number'){
+				clone.appendElem(el);
+			}
+		});
+		return clone;
 	};
 }

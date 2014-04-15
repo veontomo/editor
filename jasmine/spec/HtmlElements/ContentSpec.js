@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine,
-	Content, Link, Ulist, Factory, Tag, ListItem, Registry, Text, window */
-// console.info('---> ', 'ContentSpec is disabled');
+/*global describe, it, xdescribe, expect, spyOn, beforeEach, jasmine,
+	Content, Link, Ulist, Factory, Tag, ListItem, Registry, PlainText, window */
+
 describe('Content-related functionality', function(){
 	var c;
 	beforeEach(function(){
@@ -875,5 +875,60 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+
+	describe('Content::clone(): clone content', function(){
+		it('gets an instance of content class', function(){
+			expect(c.clone() instanceof Content).toBe(true);
+		});
+		it('calls "clone" methods on the object-values elements', function(){
+			var c1, c2;
+			c1 = {clone: function(){return null;}};
+			c2 = {clone: function(){return null;}};
+			spyOn(c1, 'clone');
+			spyOn(c2, 'clone');
+			c.elements = [c1, c2];
+			c.clone();
+			expect(c1.clone).toHaveBeenCalled();
+			expect(c2.clone).toHaveBeenCalled();
+		});
+		it('inserts output of "clone" methods into the cloned object', function(){
+			var c1, c2;
+			c1 = {clone: function(){return null;}};
+			c2 = {clone: function(){return null;}};
+			spyOn(c1, 'clone').andCallFake(function(){return 'clone of c1';});
+			spyOn(c2, 'clone').andCallFake(function(){return 'clone of c2';});
+			c.elements = [c2, c1];
+			var clone = c.clone();
+			expect(clone.elements[0]).toBe('clone of c2');
+			expect(clone.elements[1]).toBe('clone of c1');
+		});
+
+		it('inserts number-valued elements into the cloned object', function(){
+			c.elements = [23, 3.98];
+			var clone = c.clone();
+			expect(clone.elements[0]).toBe(23);
+			expect(clone.elements[1]).toBe(3.98);
+		});
+
+		it('inserts string-valued elements into the cloned object', function(){
+			c.elements = ['str', 'ciao'];
+			var clone = c.clone();
+			expect(clone.elements[0]).toBe('str');
+			expect(clone.elements[1]).toBe('ciao');
+		});
+
+		it('does not insert object with no "clone" method', function(){
+			var c1 = {'no-clone-method': true},
+				c2Clone = {},
+				c2 = {clone: function(){return c2Clone;}};
+			c.elements = [c1, c2];
+
+			var clone = c.clone();
+			expect(clone.elements.indexOf(c1)).toBe(-1);
+			expect(clone.elements.indexOf(c2Clone) !== -1).toBe(true);
+		});
+
+
+	});
 
 });

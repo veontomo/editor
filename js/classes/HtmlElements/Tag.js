@@ -466,27 +466,30 @@ function Tag() {
 	 * attribute of the cloned instance.
 	 * </li></ol>
 	 * Otherwise, the atttibute is ignored.
-	 * @return {Object}
+	 * @method    clone
+	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var output = this.factory.createInstanceOf(this.className),
-			attr, current, currentType;
-
-		if (output){
-			for (attr in this){
-				if (this.hasOwnProperty(attr)){
-					current = this[attr];
-					currentType = typeof current;
-					if (current && (typeof current.clone === 'function')){
-						output[attr] = current.clone();
-					} else if (currentType === 'string' || currentType === 'number'){
-						output[attr] = current;
+		var factory = this.factory,
+			output, attr, current, currentType;
+		if (factory){
+			output = factory.createInstanceOf(this.className);
+			if (output){
+				for (attr in this){
+					if (this.hasOwnProperty(attr)){
+						current = this[attr];
+						currentType = typeof current;
+						if (current && (typeof current.clone === 'function')){
+							output[attr] = current.clone();
+						} else if (currentType === 'string' || currentType === 'number'){
+							output[attr] = current;
+						}
 					}
 				}
 			}
+
 		}
 		return output || null;
-
 	}
 
 	/**

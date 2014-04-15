@@ -561,6 +561,11 @@ describe('Tag-related functionality:', function() {
         beforeEach(function(){
             tag.factory = {'createInstanceOf': function(){return null;}};
         });
+        it('returns null, if the instance has no factory', function(){
+            delete tag.factory;
+            expect(tag.clone()).toBe(null);
+        });
+
         it('returns null, if the instance has a class name that is not in the factory', function(){
             tag.className = 'no such name';
             expect(tag.clone()).toBe(null);
