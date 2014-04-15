@@ -193,7 +193,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
 				colField, i,
 				markerName  = NEWSLETTER['marker-name'],
-				tableMarker = (new Table()).className(),
+				tableMarker = (new Table()).className,
 				currentElem = editor.getSelection().getStartElement(),
 				table = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
@@ -204,8 +204,9 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				return null;
 			}
 
-			var tableObj = table.getOuterHtml().createTableFromHtml(),
-				profile = tableObj.getProfile(),
+			var tableObj = table.getOuterHtml().createTableFromHtml();
+			//console.log(tableObj);
+			var	profile = tableObj.getProfile(),
 				totWidth = Helper.trace(profile),
 				colNum = profile.length,
 				unit = 'px',
@@ -213,7 +214,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 						return el + ' ' + unit;
 					}).join(' + ');
 
-			console.log('table: ', table);
+			//console.log('table: ', table);
 			// override the field with current info about cell widths
 			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
@@ -277,19 +278,19 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			currentElem = editor.getSelection().getStartElement();
 			table = CKHelper.findAscendant(currentElem, function(el){
 				return el.getName() === 'table' &&
-					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).getType();
+					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).className;
 			});
 			currentTable = table.getOuterHtml().createTableFromHtml();
-			console.log('table elem:', table);
-			console.log('outer html:', table.getOuterHtml());
-			console.log('table obj: ', currentTable);
+			//console.log('table elem:', table);
+			//console.log('outer html:', table.getOuterHtml());
+			//console.log('table obj: ', currentTable);
 			currentTable.setProfile(userInput);
 
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			table.remove();
 			// call a custom method to insert the table and assign hovering effects on it
-			editor.insertTableWithHoverEff(tableElem);
+			CKHelper.insertTableWithHoverEff(editor, tableElem);
 			return null;
 		}
 	};
@@ -313,15 +314,15 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 		onShow: function(){
 			var currentElem = editor.getSelection().getStartElement(),
 				markerName  = NEWSLETTER['marker-name'],
-				rowMarker   = (new Row()).getType(),
-				cellMarker  = (new Cell()).getType(),
-				tableMarker = (new Table()).getType(),
+				rowMarker   = (new Row()).className,
+				cellMarker  = (new Cell()).className,
+				tableMarker = (new Table()).className,
 				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'table' &&
+					return el.tag === 'table' &&
 						el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'td' &&
+					return el.tag === 'td' &&
 						el.getAttribute(markerName) === cellMarker;
 				}),
 				cellNumber = cellElem.getIndex(),
@@ -338,15 +339,15 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 
 		onOk: function () {
 			var markerName  = NEWSLETTER['marker-name'],
-				cellMarker  = (new Cell()).getType(),
-				tableMarker = (new Table()).getType(),
+				cellMarker  = (new Cell()).className,
+				tableMarker = (new Table()).className,
 				currentElem = editor.getSelection().getStartElement(),
 				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'table' &&
+					return el.tag === 'table' &&
 						el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'td' &&
+					return el.tag === 'td' &&
 						el.getAttribute(markerName) === cellMarker;
 				}),
 				// column number to drop
@@ -364,7 +365,7 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
 			tableElem.remove();
 			// call a custom method to insert the table and assign hovering effects on it
-			editor.insertTableWithHoverEff(tableElem2);
+			CKHelper.insertTableWithHoverEff(editor, tableElem2);
 		}
 	};
 });

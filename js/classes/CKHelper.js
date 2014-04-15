@@ -309,7 +309,7 @@ var CKHelper = {
 		} else {
 			outcome = elem1.equals(elem2);
 		}
-		console.info('CKHelper', 'returning ' + outcome);
+		//console.info('CKHelper', 'returning ' + outcome);
 		return outcome;
 
 	},
@@ -324,7 +324,7 @@ var CKHelper = {
 	 * @return  {void}
 	 */
 	insertList: function(editor, listType){
-		// console.log('inside CKHelper::insertList()');
+		// //console.log('inside CKHelper::insertList()');
 		var range, ranges, selection, selectionLen, i, j, list,
 		    startContainer, endContainer, startType, endType,
 		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
@@ -339,7 +339,7 @@ var CKHelper = {
 			return null;
 		}
 		for (i = 0; i < selectionLen; i++){
-			console.log('selection loop: #', i + 1, ' of total ', selectionLen);
+			//console.log('selection loop: #', i + 1, ' of total ', selectionLen);
 			list = new List(listType);
 			list.style['margin-left'] = list.style['margin-left'] || 40;
 			range = ranges[i];
@@ -347,8 +347,8 @@ var CKHelper = {
 			endContainer = range.endContainer;
 			startType = startContainer.type;
 			endType = endContainer.type;
-			console.log(startType, endType);
-			console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
+			//console.log(startType, endType);
+			//console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
 			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
 			if (range.collapsed){
 				list.appendItem(new ListItem());
@@ -360,9 +360,9 @@ var CKHelper = {
 			// if the start container is of node type, it means that a whole node was selected.
 			// Let's take all its child nodes and insert them as list items into the list.
 			if (startType === CKEDITOR.NODE_ELEMENT){
-				console.log('start container is a node');
+				//console.log('start container is a node');
 				startNode = startContainer.getChild(range.startOffset);
-				console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
+				//console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
 				if (startNode.type === CKEDITOR.NODE_ELEMENT){
 					children = startNode.getChildren();
 					len = children.count();
@@ -389,7 +389,7 @@ var CKHelper = {
 			// start container is of text type. Nodes present in the range will be inserted into the list.
 			// If a list item is among selected nodes, then all list items will be inserted into the list.
 			if (startType === CKEDITOR.NODE_TEXT){
-				console.log('start container is a text');
+				//console.log('start container is a text');
 				// consider the start container separately
 				li = new ListItem();
 				if (startContainer.getParent().getName() === 'li'){
@@ -487,7 +487,7 @@ var CKHelper = {
           tableMarker = (new Table()).className,
           rowMarker   = (new Row()).className,
           cellMarker  = (new Cell()).className;
-        console.log(markerName, tableMarker, rowMarker, cellMarker);
+        //console.log(markerName, tableMarker, rowMarker, cellMarker);
         $(this).find('td[' + markerName + '="' + cellMarker + '"]').hover(
           function(){
             var cellNumber = $(this).index(),

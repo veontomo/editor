@@ -95,6 +95,7 @@ function Table() {
 		for (i = 0; i < rowsNum; i++){
 			output.push(this.getElem(i).getCellWidths());
 		}
+		//console.log('Table::getMatrix() returning ', output);
 		return output;
 	};
 
@@ -105,7 +106,9 @@ function Table() {
 	 * @return {Array|Null}
 	 */
 	this.getProfile = function (){
-		return this.isSameWidths() ? this.getMatrix()[0] : null;
+		var output = this.isSameWidths() ? this.getMatrix()[0] : null;
+		//console.log('Table::getProfile() returning ', output);
+		return output;
 	};
 
 	/**
@@ -255,6 +258,7 @@ function Table() {
 			rowsNum = matrix.length,
 			output = true,
 			firstRow, firstRowLen, i, j;
+			//console.log('table::isSameWidth: matrix=', matrix);
 		// only if the number of rows is bigger than 1
 		if (rowsNum > 1){
 			// compare the first row with the rest

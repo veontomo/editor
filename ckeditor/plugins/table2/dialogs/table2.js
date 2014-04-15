@@ -57,10 +57,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		 *
 		 * available width = (element width) - (element left border width) - (element right border width) - (element left margin) - (element right margin)
 		 *
-		 * The element width is supposed to be greater than zero and hence to have a unit of measurement (e.g. 'px').
-		 * If not set, widths of other attributes are equal to zero without unit of measurement. In this case one has to set the unit of measurement
+		 * The element width is supposed to be greater than zero and hence to have a unit of
+		 * measurement (e.g. 'px'). If not set, widths of other attributes are equal to zero
+		 * without unit of measurement.  In this case one has to set the unit of measurement
 		 * equal to the element width.
-		 * @return integer    available width for the children as Unit object (with properties "value" and "measure")
+		 * @return     integer    available width for the children as Unit object (with properties "value" and "measure")
 		 */
 		parentWidth = function () {
 			var startElem = editor.getSelection().getStartElement(),
@@ -196,6 +197,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// impose styles and attribute values
 			table.style.setWidth(tableWidth);
+			//console.log('table2.js: tableWidth = ', tableWidth);
 			table.style.setProperty('margin', 0);
 			table.style.setProperty('padding', 0);
 
@@ -236,6 +238,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				bogusRowWidth = table.style.getProperty('width') - 2 * table.style.getProperty('padding') - 2 * table.style.getBorderInfo().width;
 
 				bogusRowStyle.setWidth(bogusRowWidth);
+				//console.log('table2.js: bogusRowWidth = ', bogusRowWidth);
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
 				bogusRowStyle.getProperty('padding', 0);
 				bogusRowStyle.getProperty('margin', 0);
@@ -282,17 +285,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 
 			// impose row styles and attributes
-			rowWidth = parentElemStyle.width - 2 * parentElemStyle.padding - 2 * parentElemStyle.getBorderInfo().width;
+			rowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 			rowStyle.setWidth(rowWidth);
-			rowStyle.padding = 0;
+			rowStyle.setProperty('padding', 0);
 
 			// binding the row properties and the row object
 			row.style = rowStyle;
 			row.attr = rowAttr;
 
 			// fill in the row with the cells
-			allCellsWidth = rowStyle.width - rowStyle.padding;     // sum of all cell widths
-			cellWidths = Helper.columnWidths(allCellsWidth, cellWeights); // array of column widths
+			allCellsWidth = rowStyle.getProperty('width') - rowStyle.getProperty('padding');     // sum of all cell widths
+			cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                        // array of column widths
 
 			// creating cells to be inserted into the row
 			for (i = 0; i < cols; i++) {
@@ -309,7 +312,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);
 				allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
-				delete cellStyle.padding;
+				cellStyle.dropProperty('padding');
 				cellStyle.setProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
 				cellStyle.setProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
 				cellStyle.setProperty('padding-top',  spaceTop);

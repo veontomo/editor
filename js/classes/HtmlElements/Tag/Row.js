@@ -226,7 +226,7 @@ function Row() {
 			attrObj = {},
 			len = attrs.length,
 			i, attr;
-			// console.log(doc, node);
+			//console.log(doc, node);
 		for (i = 0; i < len; i++){
 			attr = attrs[i];
 			if (attr.name !== 'style'){

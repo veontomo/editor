@@ -212,6 +212,7 @@ function Tag() {
 				raw = raw2;
 			}
 		}
+		//console.log('Tag::getWidth() returns ', raw);
 		return raw;
 	};
 
@@ -330,7 +331,7 @@ function Tag() {
 	 * @since   0.0.1
 	 */
 	this.toHtml = function(){
-		// console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
+		// //console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
 		var tag = this.tag,
 			style, attr, html;
 		if (tag){
@@ -432,7 +433,7 @@ function Tag() {
 		}
 		// clone the target without 'content' property
 		className = this.className;
-		// console.log('className: ', className);
+		// //console.log('className: ', className);
 		if(className) {
 			output = this.factory.createInstanceByTag(className);
 			if (output){
@@ -478,7 +479,7 @@ function Tag() {
 	 */
 	this.load = function(elem){
 		// var rnd = parseInt(Math.random()*1000, 10);
-		// console.info(rnd, 'Tag::load is called with argument ', elem);
+		// //console.info(rnd, 'Tag::load is called with argument ', elem);
 		// assure that the argument is an Element instance
 		var attrSucc = false,
 			styleSucc = false,
@@ -490,18 +491,18 @@ function Tag() {
 			len = children.length;
 			this.tag  = elem.tagName.toLowerCase();         // setting tag of the tag
 			attr  = elem.attributes;                        // NamedNodeMap
-			// console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
+			// //console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
 			attrSucc = this.attr.load(attr);
-			// console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
+			// //console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
 			styleSucc = this.style.load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
-			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
+			// //console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
 			contentSucc = this.content.load(childrenArr);
 		}
-		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
+		// //console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
 		return attrSucc && styleSucc && contentSucc;
 	};
 
