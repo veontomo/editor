@@ -12,8 +12,8 @@ describe('Tag-related functionality:', function() {
 
     describe('Tag::constuctor()', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
-            var tag2 = Tag();
-            expect(tag2 instanceof Tag).toBe(true);
+            tag = Tag();
+            expect(tag instanceof Tag).toBe(true);
         });
         it('must contain "factory" property in order to procreate itself', function(){
             expect(tag.hasOwnProperty('factory')).toBe(true);
@@ -487,10 +487,10 @@ describe('Tag-related functionality:', function() {
             expect(content.toLink).toHaveBeenCalledWith(link);
         });
 
-        it('returns a Link if called on a Link', function(){
+        xit('returns a Link if called on a Link', function(){
             link.setHref('go-to-bar');
-            var link2 = new Link(),
-                content = {};
+            var link2 = new Link();
+            content = {};
             link2.content.elements = content;
             link2.setHref('go-home');
             tag2 = link2.toLink(link);
@@ -498,10 +498,9 @@ describe('Tag-related functionality:', function() {
             expect(tag2.getHref()).toBe('go-to-bar');
             expect(tag2.content.elements).toBe(content);
             expect(tag2.factory).toBe(link2.factory);
-
         });
 
-        it('returns a Link with styles equal to those of the argument, if the target is a Link', function(){
+        xit('returns a Link with styles equal to those of the argument, if the target is a Link', function(){
             var link2 = new Link();
             link2.setHref('beach');
             link2.style.color = 'navy';
@@ -510,7 +509,7 @@ describe('Tag-related functionality:', function() {
             tag2 = link2.toLink(link);
             expect(tag2.style.color).toBe('white');
         });
-        it('returns a Link with attributes equal to those of the argument, if the target is a Link', function(){
+        xit('returns a Link with attributes equal to those of the argument, if the target is a Link', function(){
             var link2 = new Link();
             link2.setHref('beach');
             link2.attr.id = 'navy';

@@ -194,6 +194,8 @@ function Tag() {
 		this.attr.width = w;
 	};
 
+
+
 	/**
 	 * Gets the width of the object as it is present in the style property. It tends to return a number:
 	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
@@ -453,6 +455,14 @@ function Tag() {
 			}
 		}
 	};
+
+	/**
+	 * Creates a clone of the target.
+	 * @return {[type]} [description]
+	 */
+	this.clone = function(){
+
+	}
 
 	/**
 	 * Populates the following properties of the target object

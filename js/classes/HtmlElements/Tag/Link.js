@@ -102,6 +102,18 @@ function Link(href) {
 		this.style.setProperty('text-decoration', 'none');
 	};
 
+	/**
+	 * Transforms the target link into a link described by the argument. If the argument is not a
+	 * Link instance, a clone of the target link is returned. Otherwise, a clone of the argument is
+	 * returned.
+	 * @method  toLink
+	 * @param   {Link}     link
+	 * @return  {Link}
+	 */
+	this.toLink = function(link){
+		// return (link instanceof Link) ? link.clone() : this.clone();
+		return link;
+	}
 
 }
 Link.prototype = Object.create(Tag.prototype);

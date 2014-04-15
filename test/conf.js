@@ -58,8 +58,8 @@ module.exports = function (config) {
     autoWatch: true,
     frameworks: ['jasmine'],
     files: allFiles,
-    browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    reporters: ['progress', 'coverage'],
+    browsers: isWin ? ['Firemmmfox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
+    reporters: ['progress', 'coverage', 'spec'],
     preprocessors: { '**/*.js': 'coverage' },
     coverageReporter: {
       type : 'html',

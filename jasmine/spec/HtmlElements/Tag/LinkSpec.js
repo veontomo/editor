@@ -172,11 +172,55 @@ describe('Link-related functionality:', function() {
             link.underline([2, 'str']);
             expect(link.style['text-decoration']).toBe('whatever');
         });
-
-
-
-
     });
+
+
+    describe('Link::toLink(): overrides parent class', function(){
+        var linkExample;
+        beforeEach(function(){
+            linkExample = new Link();
+            linkExample.style.setProperty('level', 'sealevel');
+            linkExample.style.setProperty('color', 'invisible');
+            linkExample.style.setProperty('width', 98);
+            linkExample.attr.setProperty('method', 'deduct');
+            linkExample.attr.setProperty('profile', 8);
+            linkExample.setHref('www.pizza.it');
+        });
+
+
+        it('creates an instance of Link', function(){
+            expect(link.toLink(linkExample) instanceof Link).toBe(true);
+        });
+
+        // it('does not call parent Tag::toLink() method', function(){
+        //     spyOn(link.prototype, 'toLink');
+        //     link.toLink(linkExample);
+        //     expect(link.prototype.toLink).not.toHaveBeenCalled();
+        // });
+
+        it('substitutes the url with that of the argument', function(){
+            var obj = link.toLink(linkExample);
+            expect(obj.getHref()).toBe('www.pizza.it');
+        });
+        it('imposes styles of the argument', function(){
+            var obj = link.toLink(linkExample);
+            expect(obj.style.getProperty('level')).toBe('sealevel');
+            expect(obj.style.getProperty('color')).toBe('invisible');
+            expect(obj.style.getProperty('width')).toBe(98);
+        });
+        it('imposes attributes of the argument', function(){
+            var obj = link.toLink(linkExample);
+            expect(obj.attr.getProperty('method')).toBe('deduct');
+            expect(obj.attr.getProperty('profile')).toBe(8);
+        });
+        it('imposes factory attribute', function(){
+            var obj = link.toLink(linkExample);
+            expect(obj.factory).toBe(link.factory);
+        });
+
+
+
+    })
 
 
 });

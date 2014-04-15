@@ -14,9 +14,10 @@
     "karma": "~0.10.2",
     "karma-coverage": "~0.1.0",
     "karma-ie-launcher": "~0.1.1",
-    "cucumber": "latest"
+    "cucumber": "latest",
+    "karma-spec-reporter": "~0.0.12"
   },
   "scripts": {
-    "test": "node_modules/.bin/karma start test/conf.js"
+    "test": "node_modules/.bin/karma start test/conf.js --verbose"
   }
 }
