@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment, Factory, Registry */
+/*global describe, it, xit, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment, Factory, Registry */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -555,8 +555,89 @@ describe('Tag-related functionality:', function() {
             expect(tag2.attr.hidden).toBe('yes');
             expect(tag2.tag).toBe('tag2');
         });
-
     });
+
+    describe('Tag::clone(): generates a clone of the instance', function(){
+        beforeEach(function(){
+            tag.factory = {'createInstanceOf': function(){return null;}};
+        });
+        it('returns null, if the instance has a class name that is not in the factory', function(){
+            tag.className = 'no such name';
+            expect(tag.clone()).toBe(null);
+        });
+        it('calls Factory::createInstanceOf() with its class name', function(){
+            spyOn(tag.factory, 'createInstanceOf');
+            tag.className = 'my name';
+            tag.clone();
+            expect(tag.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+        });
+
+        it('calls Factory::createInstanceOf() with its its class name', function(){
+            spyOn(tag.factory, 'createInstanceOf');
+            tag.className = 'my name';
+            tag.clone();
+            expect(tag.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+        });
+
+        it('returns an instance of what Factory::createInstanceOf() has been returned', function(){
+            function A (){return null;}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            var obj = tag.clone();
+            expect(obj instanceof A).toBe(true);
+        });
+        it('returns an instance of what Factory::createInstanceOf() has been returned', function(){
+            function A (){return null;}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            var obj = tag.clone();
+            expect(obj instanceof A).toBe(true);
+        });
+        it('calls "clone" methods on each object-valued property of the target', function(){
+            function A (){return null;}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            tag.m1 = {clone: function(){return null;}};
+            tag.m2 = {clone: function(){return null;}};
+            spyOn(tag.m1, 'clone');
+            spyOn(tag.m2, 'clone');
+            tag.clone();
+            expect(tag.m1.clone).toHaveBeenCalled();
+            expect(tag.m2.clone).toHaveBeenCalled();
+        });
+        it('assigns result of "clone" methods to the attributes of Factory::createInstanceOf()', function(){
+            function A (){this.m1  = {}; this.m2 = {};}
+            var dummy = new A();
+            var clone1 = {}, clone2 = {};
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            tag.m1 = {clone: function(){return 'whatever 1';}};
+            tag.m2 = {clone: function(){return 'whatever 2';}};
+            spyOn(tag.m1, 'clone').andCallFake(function(){return clone1;});
+            spyOn(tag.m2, 'clone').andCallFake(function(){return clone2;});
+            var obj = tag.clone();
+            expect(obj.m1).toBe(clone1);
+            expect(obj.m2).toBe(clone2);
+        });
+        it('copies string-valued attributes from the target', function(){
+            function A (){}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            tag.a1 = 'a string-valued attribute';
+            tag.a2 = 'another string-valued attribute';
+            var obj = tag.clone();
+            expect(obj.a1).toBe('a string-valued attribute');
+            expect(obj.a2).toBe('another string-valued attribute');
+        });
+        it('copies number-valued attributes from the target', function(){
+            function A (){}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            tag.a1 = 928;
+            var obj = tag.clone();
+            expect(obj.a1).toBe(928);
+        });
+    });
+
 
     describe('Tag::load(): populates properties from the argument', function(){
         var root, e0, t1, e2;

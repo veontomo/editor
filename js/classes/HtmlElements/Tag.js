@@ -457,10 +457,35 @@ function Tag() {
 	};
 
 	/**
-	 * Creates a clone of the target.
-	 * @return {[type]} [description]
+	 * Creates a clone of the target. Uses {{#crossLink "Factory/createInstanceOf:method"}}Factory::createInstanceOf(){{/crossLink}}
+	 * in order to produce an instance. Parses all the attributes of the target and if the attribute
+	 * <ol><li>
+	 * is a string or a number, then assigns this value to the corresponding attribute of the cloned instance,
+	 * </li><li>
+	 * responds to an "clone" method, then calls it and assigns its result to the corresponding
+	 * attribute of the cloned instance.
+	 * </li></ol>
+	 * Otherwise, the atttibute is ignored.
+	 * @return {Object}
 	 */
 	this.clone = function(){
+		var output = this.factory.createInstanceOf(this.className),
+			attr, current, currentType;
+
+		if (output){
+			for (attr in this){
+				if (this.hasOwnProperty(attr)){
+					current = this[attr];
+					currentType = typeof current;
+					if (current && (typeof current.clone === 'function')){
+						output[attr] = current.clone();
+					} else if (currentType === 'string' || currentType === 'number'){
+						output[attr] = current;
+					}
+				}
+			}
+		}
+		return output || null;
 
 	}
 
