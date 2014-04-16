@@ -445,6 +445,7 @@ describe('Properties-related functionality', function(){
         });
 
         it('returns null, if the instance has a class name that is not in the factory', function(){
+            // console.log('-------------------');
             props.className = 'no such name';
             expect(props.clone()).toBe(null);
         });

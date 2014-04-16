@@ -472,27 +472,27 @@ function Tag() {
 	this.clone = function(){
 		var factory = this.factory,
 			output, attr, current, currentType, clone;
-		console.log('Tag::clone() has factory ', factory)
+		// console.log(this.className,' has factory ', factory)
 		if (factory){
 			output = factory.createInstanceOf(this.className);
 			if (output){
 				for (attr in this){
-					// if (this.hasOwnProperty(attr)){
-						console.log('Parsing ' + attr);
+					if (this.hasOwnProperty(attr)){
+						// factory.bindFactory(output);
+						// console.log('Parsing ' + attr);
 						current = this[attr];
 						currentType = typeof current;
 						if (current && (typeof current.clone === 'function')){
-							console.log(attr + ' has clone() and it is used');
 							clone = current.clone();
-							console.log('clone: ', clone);
+							// console.log(attr + ' has clone() and it is used, clone: ', clone);
 							output[attr] = clone;
 						} else if (currentType === 'string' || currentType === 'number'){
-							console.log(attr + ' is a string or number and it is copied');
+							// console.log(attr + ' is a string or number and it is copied');
 							output[attr] = current;
 						} else {
-							console.log(attr + ' is ignored, it is ', current );
+							// console.log(attr + ' is ignored, it is ', current );
 						}
-					// }
+					}
 				}
 			}
 

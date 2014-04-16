@@ -306,13 +306,16 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		console.log('Properties::clone() is called to clone ', this);
 		var factory = this.factory,
 			output, attr, current, currentType,
 			coreCopy = this.getCore();
-		console.log('Properties::clone() factory ', factory);
+		// console.info('Factory','Properties::clone() factory ', factory);
 		if (factory){
+			// console.info('Factory','asking factory to create instance of ', this.className);
 			output = factory.createInstanceOf(this.className);
+			// factory.bindFactory(output);
+			// console.info('Factory', 'outcome: ', output);
+			// output.factory = this.factory.clone();
 			if (output){
 				for (attr in coreCopy){
 					if (coreCopy.hasOwnProperty(attr)){
@@ -326,7 +329,7 @@ function Properties(input) {
 			}
 		}
 		output = output || null;
-		console.log('Properties::clone() returns  ', output);
+		// console.log('Properties::clone() returns  ', output);
 		return output;
 	};
 }

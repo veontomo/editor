@@ -112,9 +112,10 @@ function Link(href) {
 	 * @return  {Link}
 	 */
 	this.toLink = function(link){
+		// console.log('I am asked to transform ', this, ' into link ', link);
 		if (link instanceof Link){
 			var clone = link.clone();
-			console.log('Link::toLink: ', clone);
+			// console.log('Link::toLink: ', clone);
 			clone.content = this.content.clone();
 			return clone;
 		} else {

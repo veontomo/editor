@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table, Factory, Registry */
 
 describe('Link-related functionality:', function() {
     var link, attr, style, content;
@@ -175,9 +175,9 @@ describe('Link-related functionality:', function() {
     describe('Link::toLink(): overrides parent class', function(){
         var linkExample;
         beforeEach(function(){
-            link.factory = new Factory(new Registry({classes: [Link, LinkAttributes]}));
+            link.setFactory(new Factory(new Registry({classes: [Link, LinkAttributes, LinkStyles]})));
             linkExample = new Link();
-            linkExample.factory = new Factory(new Registry({classes: [Link, LinkAttributes]}))
+            linkExample.setFactory(new Factory(new Registry({classes: [Link, LinkAttributes, LinkStyles]})));
             linkExample.style.setProperty('level', 'sealevel');
             linkExample.style.setProperty('color', 'invisible');
             linkExample.style.setProperty('width', 98);
@@ -214,11 +214,11 @@ describe('Link-related functionality:', function() {
         });
 
         it('calls "clone" on the argument if it is a Link instance', function(){
-            console.log('argument is link');
+            // console.log('argument is link');
             var linkExampleClone = new Link(),
                 linkClone = new Link();
-            spyOn(linkExample, 'clone').andCallFake(function(){return linkExampleClone});
-            spyOn(link, 'clone').andCallFake(function(){return linkClone});
+            spyOn(linkExample, 'clone').andCallFake(function(){return linkExampleClone;});
+            spyOn(link, 'clone').andCallFake(function(){return linkClone;});
             link.toLink(linkExample);
             expect(linkExample.clone).toHaveBeenCalled();
             expect(link.clone).wasNotCalled();
@@ -232,7 +232,6 @@ describe('Link-related functionality:', function() {
 
         it('substitutes the url with that of the argument', function(){
             var obj = link.toLink(linkExample);
-            console.log('linkExample = ', linkExample, ', obj = ', obj);
             expect(obj.getHref()).toBe('www.pizza.it');
         });
         it('imposes styles of the argument', function(){
@@ -248,7 +247,7 @@ describe('Link-related functionality:', function() {
         });
         it('imposes factory attribute', function(){
             var obj = link.toLink(linkExample);
-            expect(obj.factory).toBe(link.factory);
+            expect(obj.factory).toBeDefined();
         });
         it('leaves unchanged "content" property of the target', function(){
             content.elements = ['first', 'second'];
