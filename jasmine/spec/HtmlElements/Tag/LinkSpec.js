@@ -18,7 +18,6 @@ describe('Link-related functionality:', function() {
         });
     });
 
-
     describe('Link::constuctor() inherits from Tag', function(){
         it('is an instance of Tag() as well ', function(){
             expect(link instanceof Link).toBe(true);
@@ -38,20 +37,20 @@ describe('Link-related functionality:', function() {
 
         it('sets href if it is string without spaces', function(){
             link = new Link('http://www.two.com/again.html');
-            expect(link.attr.href).toBe('http://www.two.com/again.html');
+            expect(link.attr.getHref()).toBe('http://www.two.com/again.html');
         });
-        it('replaces spaces in href by %20', function(){
+        it('replaces spaces in href', function(){
             link = new Link('http://three.c om');
-            expect(link.attr.href).toBe('http://three.c%20om');
+            expect(link.attr.getHref().indexOf(' ')).toBe(-1);
         });
         it('sets href if it contains & and ?', function(){
             link = new Link('http://www.three.com/level?size=20&user=Mario');
-            expect(link.attr.href).toBe('http://www.three.com/level?size=20&user=Mario');
+            expect(link.attr.getHref()).toBe('http://www.three.com/level?size=20&user=Mario');
         });
 
         it('sets href if it contains anchor', function(){
             link = new Link('www.four.com/level#size');
-            expect(link.attr.href).toBe('www.four.com/level#size');
+            expect(link.attr.getHref()).toBe('www.four.com/level#size');
         });
     });
 
@@ -60,7 +59,6 @@ describe('Link-related functionality:', function() {
             expect(link.tag).toBe('a');
         });
     });
-
 
     describe('Link::attr is an instance of LinkAttr', function(){
         it('has attr property which is a LinkAttr instance', function(){
@@ -174,11 +172,12 @@ describe('Link-related functionality:', function() {
         });
     });
 
-
     describe('Link::toLink(): overrides parent class', function(){
         var linkExample;
         beforeEach(function(){
+            link.factory = new Factory(new Registry({classes: [Link, LinkAttributes]}));
             linkExample = new Link();
+            linkExample.factory = new Factory(new Registry({classes: [Link, LinkAttributes]}))
             linkExample.style.setProperty('level', 'sealevel');
             linkExample.style.setProperty('color', 'invisible');
             linkExample.style.setProperty('width', 98);
@@ -188,8 +187,41 @@ describe('Link-related functionality:', function() {
         });
 
 
-        it('creates an instance of Link', function(){
+        it('returns an instance of Link if the argument is a Link instance', function(){
             expect(link.toLink(linkExample) instanceof Link).toBe(true);
+        });
+
+        it('returns an instance of Link if the argument is not a Link instance', function(){
+            expect(link.toLink(linkExample) instanceof Link).toBe(true);
+        });
+
+        it('calls "clone" on the target if the argument is not a Link instance', function(){
+            var invalides = ['', 'non-empty string', 0, 48, -92, 1.98, [], [0], ['str', 9], {}];
+            spyOn(link, 'clone');
+            invalides.forEach(function(invalid){
+                link.toLink(invalid);
+                expect(link.clone).toHaveBeenCalled();
+            });
+        });
+
+        it('returns output of "clone" called on the target if the argument is not a Link instance', function(){
+            var invalides = ['', 'non-empty string', 0, 48, -92, 1.98, [], [0], ['str', 9], {}];
+            spyOn(link, 'clone').andCallFake(function(){return 'target clone';});
+            invalides.forEach(function(invalid){
+                var clone = link.toLink(invalid);
+                expect(clone).toBe('target clone');
+            });
+        });
+
+        it('calls "clone" on the argument if it is a Link instance', function(){
+            console.log('argument is link');
+            var linkExampleClone = new Link(),
+                linkClone = new Link();
+            spyOn(linkExample, 'clone').andCallFake(function(){return linkExampleClone});
+            spyOn(link, 'clone').andCallFake(function(){return linkClone});
+            link.toLink(linkExample);
+            expect(linkExample.clone).toHaveBeenCalled();
+            expect(link.clone).wasNotCalled();
         });
 
         // it('does not call parent Tag::toLink() method', function(){
@@ -200,6 +232,7 @@ describe('Link-related functionality:', function() {
 
         it('substitutes the url with that of the argument', function(){
             var obj = link.toLink(linkExample);
+            console.log('linkExample = ', linkExample, ', obj = ', obj);
             expect(obj.getHref()).toBe('www.pizza.it');
         });
         it('imposes styles of the argument', function(){
@@ -217,10 +250,14 @@ describe('Link-related functionality:', function() {
             var obj = link.toLink(linkExample);
             expect(obj.factory).toBe(link.factory);
         });
-
-
-
-    })
+        it('leaves unchanged "content" property of the target', function(){
+            content.elements = ['first', 'second'];
+            link.content = content;
+            var obj = link.toLink(linkExample);
+            expect(obj.content.elements[0]).toBe('first');
+            expect(obj.content.elements[1]).toBe('second');
+        });
+    });
 
 
 });

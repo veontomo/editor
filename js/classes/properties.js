@@ -21,6 +21,9 @@ function Properties(input) {
 
 	/**
 	 * Object that contains all the properties. Its keys and values must be either strings or numbers.
+	 * Use {{#crossLink "Properties/getProperty:method"}}getProperty(){{/crossLink}} and
+	 * {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}} methods to
+	 * access the content of this object.
 	 * @property    {Object}         core
 	 * @type        {Object}
 	 * @private
@@ -303,9 +306,11 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
+		console.log('Properties::clone() is called to clone ', this);
 		var factory = this.factory,
 			output, attr, current, currentType,
 			coreCopy = this.getCore();
+		console.log('Properties::clone() factory ', factory);
 		if (factory){
 			output = factory.createInstanceOf(this.className);
 			if (output){
@@ -320,6 +325,8 @@ function Properties(input) {
 				}
 			}
 		}
-		return output || null;
+		output = output || null;
+		console.log('Properties::clone() returns  ', output);
+		return output;
 	};
 }

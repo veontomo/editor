@@ -44,11 +44,11 @@ function Link(href) {
 
 	// set url if it is given
 	if(href && (typeof href === 'string')){
-		this.attr.href = encodeURI(href);
+		this.attr.setHref(encodeURI(href));
 	}
 
 	/**
-	 * link styles.
+	 * Styles for Link instance.
 	 * @property  {LinkStyle}       style
 	 * @type      {LinkStyles}
 	 */
@@ -105,14 +105,21 @@ function Link(href) {
 	/**
 	 * Transforms the target link into a link described by the argument. If the argument is not a
 	 * Link instance, a clone of the target link is returned. Otherwise, a clone of the argument is
-	 * returned.
+	 * made in which {{#crossLink "Tag/content:property"}}content{{/crossLink}} is replaced by clone
+	 * of {{#crossLink "Tag/content:property"}}content{{/crossLink}} property of the target.
 	 * @method  toLink
 	 * @param   {Link}     link
 	 * @return  {Link}
 	 */
 	this.toLink = function(link){
-		// return (link instanceof Link) ? link.clone() : this.clone();
-		return link;
+		if (link instanceof Link){
+			var clone = link.clone();
+			console.log('Link::toLink: ', clone);
+			clone.content = this.content.clone();
+			return clone;
+		} else {
+			return this.clone();
+		}
 	}
 
 }
