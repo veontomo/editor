@@ -30,32 +30,29 @@ describe('LinkAttributes-related functionality:', function() {
             expect((new LinkAttributes()).dumb).not.toBe('dumb value');
             expect(attr.dumb).toBe('dumb value');
         });
+        it('daclares href attribute', function(){
+            expect(attr.getCore().hasOwnProperty('href')).toBe(true);
+        });
+
     });
 
     describe('LinkAttributes::setHref(): sets href', function(){
         it('sets href if it is string without spaces', function(){
             attr.setHref('http://www.two.com/again.html');
-            expect(attr.href).toBe('http://www.two.com/again.html');
+            expect(attr.getHref()).toBe('http://www.two.com/again.html');
         });
         it('replaces spaces in href by %20', function(){
             attr.setHref('http://three.c om');
-            expect(attr.href).toBe('http://three.c%20om');
+            expect(attr.getHref()).toBe('http://three.c%20om');
         });
         it('sets href if it contains & and ?', function(){
             attr.setHref('http://www.three.com/level?size=20&user=Mario');
-            expect(attr.href).toBe('http://www.three.com/level?size=20&user=Mario');
+            expect(attr.getHref()).toBe('http://www.three.com/level?size=20&user=Mario');
         });
 
         it('sets href if it contains anchor', function(){
             attr.setHref('www.four.com/level#size');
-            expect(attr.href).toBe('www.four.com/level#size');
-        });
-    });
-
-    describe('LinkAttributes::getHref(): gets href', function(){
-        it('returns undefined if href is not set', function(){
-            attr.href = 'whatever';
-            expect(attr.getHref()).toBe('whatever');
+            expect(attr.getHref()).toBe('www.four.com/level#size');
         });
     });
 

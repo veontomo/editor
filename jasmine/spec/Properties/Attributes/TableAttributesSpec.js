@@ -18,6 +18,12 @@ describe('TableAttributes-related functionality:', function() {
             attr = TableAttributes();
             expect(attr instanceof TableAttributes).toBe(true);
         });
+        it('imposes cellpadding', function(){
+            expect(attr.getProperty('cellpadding')).toBe(0);
+        });
+        it('imposes cellspacing', function(){
+            expect(attr.getProperty('cellspacing')).toBe(0);
+        });
 
     });
 });

@@ -463,28 +463,30 @@ describe('Properties-related functionality', function(){
             expect(obj instanceof A).toBe(true);
         });
         it('clones core of the target', function(){
-            console.log('clones core');
-            var dummy = new Properties(),
-                fakeCore = {'a': 2, 'b': 'new'};
+            var dummy = new Properties();
             props.factory = new Factory(new Registry({classes: [Properties]}));
             spyOn(props.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            spyOn(dummy, 'getCore').andCallFake(function(){return fakeCore;});
+            dummy.setProperty('test', 21);
+            dummy.setProperty('screen', 'hd');
             var clone = props.clone();
-            expect(clone.getProperty('a')).toBe(2);
-            expect(clone.getProperty('b')).toBe('new');
-            console.log('clone', clone, ', its core: ', clone.getCore(), ', key "a": ', clone.getProperty('a'), ', from getCore(): ', clone.getCore()['a']);
+            expect(clone.getProperty('test')).toBe(21);
+            expect(clone.getProperty('screen')).toBe('hd');
         });
         it('does not modify attribute value in the cloned object, if I change it in the target', function(){
+            props.factory = new Factory(new Registry({classes: [Properties]}));
             props.setProperty('level', 10);
             var clone = props.clone();
             props.setProperty('level', 8);
             expect(clone.getProperty('level')).toBe(10);
+            expect(props.getProperty('level')).toBe(8);
         });
         it('does not modify attribute value in the target, if I change it in the cloned object', function(){
+            props.factory = new Factory(new Registry({classes: [Properties]}));
             props.setProperty('level', 10);
             var clone = props.clone();
             clone.setProperty('level', 8);
             expect(props.getProperty('level')).toBe(10);
+            expect(clone.getProperty('level')).toBe(8);
         });
 
 

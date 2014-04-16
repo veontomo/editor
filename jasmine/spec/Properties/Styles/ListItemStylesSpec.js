@@ -33,6 +33,24 @@ describe('LisItemStyles-related functionality', function(){
             stl = new ListItemStyles('color: whatever');
             expect(stl.getProperty('color')).toBe('whatever');
         });
+        it('imposes color', function(){
+            expect(stl.getProperty('color')).toBe('#000001');
+        });
+
+        it('imposes font-size', function(){
+            expect(stl.getProperty('font-size')).toBe(12);
+        });
+        it('imposes font-weight', function(){
+            expect(stl.getProperty('font-weight')).toBe('normal');
+        });
+
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margin', function(){
+            expect(stl.getProperty('margin')).toBe(0);
+        });
 
     });
 

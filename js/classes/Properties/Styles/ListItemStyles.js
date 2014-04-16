@@ -30,38 +30,5 @@ function ListItemStyles(obj) {
      */
     var listItemStyleCore = {'padding': 0, 'margin': 0, 'font-size': 12, 'font-weight': 'normal', 'color': '#000001'};
     this.suggestProperty(listItemStyleCore);
-
-    // /**
-    //  * Font size of the  text in the list.
-    //  * @Properties {String|Number} font-size
-    //  * @default 12
-    //  */
-    // this['font-size'] = 12;
-    // /**
-    //  * Text color of the list item content.
-    //  * @Properties {String} color
-    //  * @type {String}
-    //  * @default "#000001". NB: Gmail removes color tags corresponding to the black color, so use #000001 instead of #000000.
-    //  */
-    // this.color = '#000001';
-
-    // *
-    //  * Font weight. Some possible values: "normal", "bold", "bolder", 100, 200, ..., 900. See html manuals for more info.
-    //  * @Properties {String|Integer} font-weight
-    //  * @default "normal"
-
-    // this['font-weight'] = 'normal';
-    // /**
-    //  * Padding.
-    //  * @Properties {String|Number} padding
-    //  * @default  0
-    //  */
-    // this.padding = 0;
-    // /**
-    //  * Margin.
-    //  * @Properties {String|Number} margin
-    //  * @default  0
-    //  */
-    // this.margin = 0;
 }
 ListItemStyles.prototype = Object.create(Styles.prototype);

@@ -33,6 +33,25 @@ describe('LinkStyles-related functionality', function(){
             stl = new LinkStyles('text-decoration: none');
             expect(stl.getProperty('text-decoration')).toBe('none');
         });
+        it('imposes text-decoration', function(){
+            expect(stl.getProperty('text-decoration')).toBe('underline');
+        });
+
+        it('imposes font-size', function(){
+            expect(stl.getProperty('font-size')).toBe(14);
+        });
+        it('imposes font-weight', function(){
+            expect(stl.getProperty('font-weight')).toBe('normal');
+        });
+
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margin', function(){
+            expect(stl.getProperty('margin')).toBe(0);
+        });
+
 
     });
 

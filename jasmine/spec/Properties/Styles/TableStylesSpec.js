@@ -34,6 +34,27 @@ describe('TableStyles-related functionality', function(){
             expect(stl.getProperty('border-style')).toBe('stylish');
         });
 
+        it('imposes border-style', function(){
+            expect(stl.getProperty('border-style')).toBe('none');
+        });
+        it('imposes border-spacing', function(){
+            expect(stl.getProperty('border-spacing')).toBe('0px 0px');
+        });
+
+        it('imposes widths', function(){
+            expect(stl.getProperty('width')).toBe(0);
+            expect(stl.getProperty('min-width')).toBe(0);
+            expect(stl.getProperty('max-width')).toBe(0);
+        });
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margin', function(){
+            expect(stl.getProperty('margin')).toBe(0);
+        });
+
+
     });
 
     describe('TableStyles::className(): gets the name of the class', function(){

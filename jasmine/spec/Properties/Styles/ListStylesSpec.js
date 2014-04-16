@@ -34,6 +34,17 @@ describe('ListStyles-related functionality', function(){
             expect(stl.getProperty('margin-left')).toBe('102');
         });
 
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margins', function(){
+            expect(stl.getProperty('margin-left')).toBe(40);
+            expect(stl.getProperty('margin-right')).toBe(0);
+            expect(stl.getProperty('margin-top')).toBe(0);
+            expect(stl.getProperty('margin-bottom')).toBe(0);
+        });
+
     });
 
     describe('ListStyles::className(): gets the name of the class', function(){

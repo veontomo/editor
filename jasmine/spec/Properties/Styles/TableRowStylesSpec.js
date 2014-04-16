@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, TableRowStyles */
+/*global describe, it, expect, spyOn, beforeEach, TableRowStyles, Styles */
 
 describe('TableRowStyles-related functionality', function(){
     var stl;
@@ -33,6 +33,22 @@ describe('TableRowStyles-related functionality', function(){
             stl = new TableRowStyles('border-style: stylish');
             expect(stl.getProperty('border-style')).toBe('stylish');
         });
+        it('imposes border-style', function(){
+            expect(stl.getProperty('border-style')).toBe('none');
+        });
+        it('imposes widths', function(){
+            expect(stl.getProperty('width')).toBe(0);
+            expect(stl.getProperty('min-width')).toBe(0);
+            expect(stl.getProperty('max-width')).toBe(0);
+        });
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margin', function(){
+            expect(stl.getProperty('margin')).toBe(0);
+        });
+
 
     });
 

@@ -12,18 +12,14 @@ function TableAttributes(attr){
 		return new TableAttributes(attr);
 	}
 	Attributes.call(this, attr);
+
 	/**
-	 * Cellpadding attribute of the table. It is supposed that measurement unit is "px".
-	 * @property 	{Number} 	cellpadding
-	 * @default  	0
+	 * Object with key-values for table attributes. They should be set if they were not set before.
+	 * @property 	{String} 	tableAttrCore
+	 * @private
 	 */
-	this.cellpadding = 0;
-	/**
-	 * Cellspacing attribute of the table. It is supposed that measurement unit is "px".
-	 * @property {Number} cellspacing
-	 * @default  0
-	 */
-	this.cellspacing = 0;
+	var tableAttrCore = {cellpadding: 0, cellspacing: 0};
+	this.suggestProperty(tableAttrCore);
 
 	/**
 	 * The  name of the class.

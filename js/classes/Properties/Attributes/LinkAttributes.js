@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Property, Attributes */
+/*global Property, Attributes, core */
 
 /**
 * Table-specific attributes.
@@ -13,13 +13,14 @@ function LinkAttributes(attr){
 		return new LinkAttributes(attr);
 	}
 	Attributes.call(this, attr);
-	/**
-	 * The URL of the link.
-	 * @property 	{String} 	href
-	 * @default  	"" (empty string)
-	 */
-	this.href = '';
 
+	/**
+	 * Object with key-values for link attributes. They should be set if they were not set before.
+	 * @property 	{String} 	linkAttrCore
+	 * @private
+	 */
+	var linkAttrCore = {href: ''};
+	this.suggestProperty(linkAttrCore);
 
 	/**
 	 * Href getter.
@@ -27,7 +28,7 @@ function LinkAttributes(attr){
 	 * @return  {String}
 	 */
 	this.getHref =  function(){
-		return this.href;
+		return this.getProperty('href');
 	};
 
 	/**
@@ -37,7 +38,7 @@ function LinkAttributes(attr){
 	 * @return  {String}
 	 */
 	this.setHref =  function(url){
-		this.href = encodeURI(url);
+		this.setProperty('href', encodeURI(url));
 	};
 
 

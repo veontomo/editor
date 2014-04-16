@@ -56,7 +56,7 @@ function Properties(input) {
 	 * @return  {Any}
 	 */
 	this.getProperty = function(key){
-		console.log('I was asked to pick up key ' + key + ' from core ', core);
+		// console.log('I was asked to pick up key ' + key + ' from core ', core);
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
@@ -213,19 +213,19 @@ function Properties(input) {
 	 * @return       {Object}
 	 */
 	this.getCore = function(){
-		console.log('Properties::getCore(). Core = ', core, ', keys: ', Object.keys(core), ', core again: ', core);
+		// console.log('Properties::getCore(). Core = ', core, ', keys: ', Object.keys(core), ', core again: ', core);
 		var output = {},
 			attr;
 		for (attr in core){
 			// console.log('consider key ', attr);
 			if (core.hasOwnProperty(attr)){
-				console.log('key ', attr, ' is among my keys');
+				// console.log('key ', attr, ' is among my keys');
 				output[attr] = core[attr];
 			} else {
-				console.log('key ', attr, ' is NOT among my keys');
+				// console.log('key ', attr, ' is NOT among my keys');
 			}
 		}
-		console.log('Properties::getCore(). Returning ', output);
+		// console.log('Properties::getCore(). Returning ', output);
 		return output;
 	};
 
@@ -264,18 +264,6 @@ function Properties(input) {
 	 * @deprecated   Use getCore() instead.
 	 */
 	this.summary = function(){
-		// var output = {},
-		// 	prop, propType, propValue;
-		// for (prop in this){
-		// 	if (this.hasOwnProperty(prop)){
-		// 		propValue = this[prop];
-		// 		propType = typeof propValue;
-		// 		if (propType === 'string' || propType === 'number'){
-		// 			output[prop] = propValue;
-		// 		}
-		// 	}
-		// }
-		// return output;
 		console.log('This method is deprecated. Use Properties::getCore() instead.');
 		return this.getCore();
 	};
@@ -320,7 +308,6 @@ function Properties(input) {
 			coreCopy = this.getCore();
 		if (factory){
 			output = factory.createInstanceOf(this.className);
-			console.log('factory = ', factory, ', output = ', output);
 			if (output){
 				for (attr in coreCopy){
 					if (coreCopy.hasOwnProperty(attr)){

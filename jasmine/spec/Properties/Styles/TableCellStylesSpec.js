@@ -34,6 +34,29 @@ describe('TableCellStyles-related functionality', function(){
             expect(stl.getProperty('vertical-align')).toBe('any');
         });
 
+        it('imposes border-style', function(){
+            expect(stl.getProperty('border-style')).toBe('none');
+        });
+        it('imposes vertical-align', function(){
+            expect(stl.getProperty('vertical-align')).toBe('top');
+        });
+        it('imposes color', function(){
+            expect(stl.getProperty('color')).toBe('#000001');
+        });
+        it('imposes widths', function(){
+            expect(stl.getProperty('width')).toBe(0);
+            expect(stl.getProperty('min-width')).toBe(0);
+            expect(stl.getProperty('max-width')).toBe(0);
+        });
+        it('imposes padding', function(){
+            expect(stl.getProperty('padding')).toBe(0);
+        });
+
+        it('imposes margin', function(){
+            expect(stl.getProperty('margin')).toBe(0);
+        });
+
+
     });
 
     describe('TableCellStyles::className(): gets the name of the class', function(){
