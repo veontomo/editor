@@ -577,27 +577,14 @@ describe('Tag-related functionality:', function() {
             expect(tag.factory.createInstanceOf).toHaveBeenCalledWith('my name');
         });
 
-        it('calls Factory::createInstanceOf() with its its class name', function(){
-            spyOn(tag.factory, 'createInstanceOf');
-            tag.className = 'my name';
-            tag.clone();
-            expect(tag.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+        it('returns an instance of what Factory::createInstanceOf() has returned', function(){
+            function A (){return null;}
+            var dummy = new A();
+            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            var obj = tag.clone();
+            expect(obj instanceof A).toBe(true);
         });
 
-        it('returns an instance of what Factory::createInstanceOf() has been returned', function(){
-            function A (){return null;}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            var obj = tag.clone();
-            expect(obj instanceof A).toBe(true);
-        });
-        it('returns an instance of what Factory::createInstanceOf() has been returned', function(){
-            function A (){return null;}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            var obj = tag.clone();
-            expect(obj instanceof A).toBe(true);
-        });
         it('calls "clone" methods on each object-valued property of the target', function(){
             function A (){return null;}
             var dummy = new A();

@@ -189,8 +189,6 @@ describe('Properties-related functionality', function(){
             expect(props.hasProperty).toHaveBeenCalledWith('present2');
 
         });
-
-
     });
 
     describe('Property::hasOwnProperty(): whether the property is present in the core', function(){
@@ -208,8 +206,6 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(2);
             expect(props.hasProperty('door')).toBe(false);
         });
-
-
     });
 
     describe('Properties::setFactory(): imposes factory', function(){
@@ -316,8 +312,6 @@ describe('Properties-related functionality', function(){
             props.setProperty(5, 'five');
             expect(props.propNum()).toBe(2);
         });
-
-
     });
 
     describe('Property::isTheSameAs(): compares Properties instances', function(){
@@ -438,6 +432,64 @@ describe('Properties-related functionality', function(){
             var summary = props.summary();
             expect(summary.hasOwnProperty('level')).toBe(false);
         });
+    });
+
+    describe('Properties::clone(): gives the property clone', function(){
+        beforeEach(function(){
+            props.factory = {'createInstanceOf': function(){return null;}};
+        });
+
+        it('returns null, if the factory is not set', function(){
+            delete props.factory;
+            expect(props.clone()).toBe(null);
+        });
+
+        it('returns null, if the instance has a class name that is not in the factory', function(){
+            props.className = 'no such name';
+            expect(props.clone()).toBe(null);
+        });
+        it('calls Factory::createInstanceOf() with its class name', function(){
+            spyOn(props.factory, 'createInstanceOf');
+            props.className = 'my name';
+            props.clone();
+            expect(props.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+        });
+
+        it('returns an instance of what Factory::createInstanceOf() has returned', function(){
+            function A (){return null;}
+            var dummy = new A();
+            spyOn(props.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            var obj = props.clone();
+            expect(obj instanceof A).toBe(true);
+        });
+        it('clones core of the target', function(){
+            console.log('clones core');
+            var dummy = new Properties(),
+                fakeCore = {'a': 2, 'b': 'new'};
+            props.factory = new Factory(new Registry({classes: [Properties]}));
+            spyOn(props.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+            spyOn(dummy, 'getCore').andCallFake(function(){return fakeCore;});
+            var clone = props.clone();
+            expect(clone.getProperty('a')).toBe(2);
+            expect(clone.getProperty('b')).toBe('new');
+            console.log('clone', clone, ', its core: ', clone.getCore(), ', key "a": ', clone.getProperty('a'), ', from getCore(): ', clone.getCore()['a']);
+        });
+        it('does not modify attribute value in the cloned object, if I change it in the target', function(){
+            props.setProperty('level', 10);
+            var clone = props.clone();
+            props.setProperty('level', 8);
+            expect(clone.getProperty('level')).toBe(10);
+        });
+        it('does not modify attribute value in the target, if I change it in the cloned object', function(){
+            props.setProperty('level', 10);
+            var clone = props.clone();
+            clone.setProperty('level', 8);
+            expect(props.getProperty('level')).toBe(10);
+        });
+
+
+
+
     });
 
 });

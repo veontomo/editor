@@ -56,6 +56,7 @@ function Properties(input) {
 	 * @return  {Any}
 	 */
 	this.getProperty = function(key){
+		console.log('I was asked to pick up key ' + key + ' from core ', core);
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
@@ -207,12 +208,25 @@ function Properties(input) {
 	this.className = 'Properties';
 
 	/**
-	 * Core getter.
+	 * Returns a copy of the {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
 	 * @method       getCore
 	 * @return       {Object}
 	 */
 	this.getCore = function(){
-		return core;
+		console.log('Properties::getCore(). Core = ', core, ', keys: ', Object.keys(core), ', core again: ', core);
+		var output = {},
+			attr;
+		for (attr in core){
+			// console.log('consider key ', attr);
+			if (core.hasOwnProperty(attr)){
+				console.log('key ', attr, ' is among my keys');
+				output[attr] = core[attr];
+			} else {
+				console.log('key ', attr, ' is NOT among my keys');
+			}
+		}
+		console.log('Properties::getCore(). Returning ', output);
+		return output;
 	};
 
 	/**
@@ -293,5 +307,32 @@ function Properties(input) {
 			return true;
 		}
 		return false;
+	};
+
+	/**
+	 * Clones the target.
+	 * @method    clone
+	 * @return    {Object}
+	 */
+	this.clone = function(){
+		var factory = this.factory,
+			output, attr, current, currentType,
+			coreCopy = this.getCore();
+		if (factory){
+			output = factory.createInstanceOf(this.className);
+			console.log('factory = ', factory, ', output = ', output);
+			if (output){
+				for (attr in coreCopy){
+					if (coreCopy.hasOwnProperty(attr)){
+						current  = coreCopy[attr];
+						currentType = typeof current;
+						if (currentType === 'string' || currentType === 'number'){
+							output.setProperty(attr, current);
+						}
+					}
+				}
+			}
+		}
+		return output || null;
 	};
 }
