@@ -350,15 +350,15 @@ function Tag() {
 
 
 	/**
-	 * Creates a clone of the target. Parses all attributes and the properties of the target and if it
+	 * Creates a clone of the target. Parses all attributes of the target and if the attribute
 	 * responds to a "clone" method, then calls this method and assigns its result to the corresponding
 	 * clone attribute. Otherwise, assign target attribute value to the clone attribute (there might be
-	 * a problem with what is passed by reference and not by values, i.e. arrays and functions).
+	 * a potential problem with what is passed by reference and not by values, i.e. array). But among
+	 * {{#crossLink "Tag"}}Tag{{/crossLink}} properties there are no array-valued ones.
 	 * @method    clone
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		console.log('Tag::clone(): ', this.className);
 		var clone = new window[this.className],
 			attr, current;
 		for (attr in this){
@@ -371,8 +371,6 @@ function Tag() {
 				}
 			}
 		}
-
-
 		return clone;
 	};
 

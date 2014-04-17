@@ -446,20 +446,22 @@ describe('Tag-related functionality:', function() {
             expect(clone.prop3[1]).toBe(9);
             expect(clone.prop3[2]).toBe(8);
         });
-        it('does not change target attribute values if their counterparts are changed in the clone', function(){
+        it('does not change target string-valued attribute if its counterpart is changed in the clone', function(){
             tag.level = 'sea level';
             var clone = tag.clone();
             clone.level = '100 m';
             expect(clone.level).toBe('100 m');
             expect(tag.level).toBe('sea level');
         });
-        it('does not change attribute values in the clone if their counterparts are changed in the target', function(){
+
+        it('does not change string-valued attribute in the clone if its counterpart is changed in the target', function(){
             tag.module = 'book';
             var clone = tag.clone();
             tag.module = 'article';
             expect(clone.module).toBe('book');
             expect(tag.module).toBe('article');
         });
+
         it('copies methods of the target', function(){
             tag.m1 = function(){return 'this is method 1';};
             tag.m2 = function(){return 'this is method 2';};
