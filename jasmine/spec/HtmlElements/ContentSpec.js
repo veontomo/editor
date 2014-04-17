@@ -698,7 +698,7 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	describe('Content::load(): loads the content' , function(){
+	xdescribe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20,
 			e30, e31, e32, t33, t001, e200, e310, t320;
 		//                    root

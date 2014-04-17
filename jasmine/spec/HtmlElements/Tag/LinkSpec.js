@@ -172,7 +172,7 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Link::toLink(): overrides parent class', function(){
+    xdescribe('Link::toLink(): overrides parent class', function(){
         var linkExample;
         beforeEach(function(){
             link.setFactory(new Factory(new Registry({classes: [Link, LinkAttributes, LinkStyles]})));
