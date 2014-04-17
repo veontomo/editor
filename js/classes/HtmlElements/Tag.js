@@ -1,12 +1,12 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Attributes, Content, ListItemStyle, Helper, Styles, Link, Factory, window*/
+/*global DOMParser, Node, Attributes, Content, Helper, Styles */
 
 /**
  * This class is used to represent a general html tag.
  * @module 	    HtmlElements
  * @class  		Tag
- * @since       0.0.2
+ * @since       0.0.3
  * @author      A.Shcherbakov
  *
  */
@@ -23,49 +23,6 @@ function Tag() {
 	 * @since 0.0.1
 	 */
 	this.tag = null;
-
-	/**
-	 * This property is required in order to be able to recreate itself or its child.
-	 * It is supposed to be an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
-	 * Its value will be initialized properly when creating a clone of this element (or of one
-	 * of its child). If it is not present, {{#crossLink "Factory"}}Factory{{/crossLink}} will
-	 * not be able to initialize it.
-	 * @property   {Object|Null}   factory
-	 * @default    Null
-	 * @since      0.0.3
-	 */
-	this.factory = null;
-
-
-	/**
-	 * Sets the factory. Takes care of setting `factory` property of <ol><li>
-	 * {{#crossLink "Tag/attr:property"}}attr{{/crossLink}}
-	 * </li><li>
-	 * {{#crossLink "Tag/style:property"}}style{{/crossLink}}
-	 * </li><li>
-	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}
-	 * </li></ol>
-	 * Imposes the `factory` if the corresponding element has "factory" property.
-	 * Returns `true` if the argument is an instance of {{#crossLink "Factory"}}Factory{{/crossLink}}
-	 * and `false` otherwise.
-	 * @method  setFactory
-	 * @param   {Factory}           factory             instance of {{#crossLink "Factory"}}Factory{{/crossLink}}
-	 */
-	this.setFactory = function(factory){
-		var that = this;
-		if (factory instanceof Factory){
-			this.factory = factory;
-			// list of properties to take care of
-			var pool = ['attr', 'style', 'content'];
-			pool.forEach(function(prop){
-				if(typeof that[prop].setFactory === 'function'){
-					that[prop].setFactory(factory);
-				}
-			});
-			return true;
-		}
-		return false;
-	};
 
 	/**
 	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
@@ -391,70 +348,6 @@ function Tag() {
 		this.content.appendElemIfNotEmpty(arg);
 	};
 
-	/**
-	 * Returns an object transformed in a link defined in the argument. If the argument is not a Link instance, an
-	 * error is thrown.
-	 * <ol><li>If the target is a Link instance, then target content is copied inside the new link.</li>
-	 * <li>If the target is empty (in the sense of its {{#crossLink "Tag/isEmpty:method"}}isEmpty(){{/crossLink}} method),
-	 * then the target is returned without changes</li>
-	 * <li>If the target is not empty, but its {{#crossLink "Tag/content:property"}}content{{/crossLink}} is empty
-	 * (in the sense of its {{#crossLink "Content/isEmpty:method"}}isEmpty(){{/crossLink}} method), then a Link
-	 * instance is returned. This instance wraps the target object.</li>
-	 * <li>If the target {{#crossLink "Tag/content:property"}}content{{/crossLink}} is not empty, then `toLink()` is applied to
-	 * each element that responds to this method. Otherwise, the element is copied without changes.</li></ol>
-	 * @method  toLink
-	 * @param   {Link}       link      If not a Link instance, an error is thrown.
-	 * @return  {Tag|Link}             depending on the target, the result either a Link (if the target is a Link instance
-	 *                                 or has empty content) or Tag (in other cases).
-	 * @since  0.0.2
-	 */
-	this.toLink = function(link){
-		if (!(link instanceof Link)){
-			throw new Error('The argument must be a Link instance!');
-		}
-		var output, className;
-		// Link transformed into a Link by changing href
-		if (this instanceof Link){
-			output = new Link();
-			output.style = link.style;
-			output.attr = link.attr;
-			output.content.elements = this.content.elements;
-			output.factory = this.factory;
-			return output;
-		}
-		if (this.isEmpty()){
-			return this;
-		}
-		if (this.content.isEmpty()){
-			output = new Link();
-			output.style = link.style;
-			output.attr = link.attr;
-			output.content.appendElem(this);
-			output.factory = this.factory;
-			return output;
-		}
-		// clone the target without 'content' property
-		className = this.className;
-		// //console.log('className: ', className);
-		if(className) {
-			output = this.factory.createInstanceByTag(className);
-			if (output){
-				output.tag = this.tag;
-				output.factory = this.factory.clone();
-				if(output.attr !== undefined){
-					output.attr = this.attr;
-				}
-				if(output.style !== undefined){
-					output.style = this.style;
-				}
-				if(output.content !== undefined){
-					output.content = this.content.toLink(link);
-				}
-				output.factory = this.factory;
-				return output;
-			}
-		}
-	};
 
 	/**
 	 * Creates a clone of the target. Uses {{#crossLink "Factory/createInstanceOf:method"}}Factory::createInstanceOf(){{/crossLink}}
@@ -489,8 +382,6 @@ function Tag() {
 						} else if (currentType === 'string' || currentType === 'number'){
 							// console.log(attr + ' is a string or number and it is copied');
 							output[attr] = current;
-						} else {
-							// console.log(attr + ' is ignored, it is ', current );
 						}
 					}
 				}
