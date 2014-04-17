@@ -1,20 +1,20 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, PlainText, Factory, Link, TextChild */
 
-describe('Text-related functionality', function(){
+describe('PlainText-related functionality', function(){
 	var text;
 	beforeEach(function(){
 		text = new PlainText();
 	});
 
-	describe('Text: basic functionality', function(){
+	describe('PlainText: basic functionality', function(){
 		it('adds keyword "new" if it is missing when an object is created', function(){
 		    text = PlainText();
 		    expect(text instanceof PlainText).toBe(true);
 		});
 	});
 
-	describe('Text:getContent loads from the argument', function(){
+	describe('PlainText:getContent loads from the argument', function(){
 		it('imposes the content property if the argument is a string', function(){
 			text = new PlainText('a string');
 			expect(text.getContent()).toBe('a string');
@@ -33,7 +33,7 @@ describe('Text-related functionality', function(){
 		});
 	});
 
-	describe('Text:setContent(): sets the content', function(){
+	describe('PlainText:setContent(): sets the content', function(){
 		it('imposes the content property if the argument is a string', function(){
 			text.setContent('a string inside content');
 			expect(text.getContent()).toBe('a string inside content');
@@ -52,7 +52,7 @@ describe('Text-related functionality', function(){
 		});
 	});
 
-	describe('Text:toHtml(): returns the value of the content property', function(){
+	describe('PlainText:toHtml(): returns the value of the content property', function(){
  		it('calls getContent() method', function(){
  			spyOn(text, 'getContent').andCallFake(function(){return 'text string';});
  			text.toHtml();
@@ -75,7 +75,7 @@ describe('Text-related functionality', function(){
  		});
 	});
 
-	describe('Text::load(): loads content from the argument', function(){
+	describe('PlainText::load(): loads content from the argument', function(){
 		it('return false if the argument is missing', function(){
 			expect(text.load()).toBe(false);
 		});
@@ -202,19 +202,35 @@ describe('Text-related functionality', function(){
 	});
 
 	describe('PlainText::clone(): generates a clone of the instance', function(){
-	    it('creates an instance of PlainText class', function(){
+	    it('creates an instance of PlainText class if className is set to PlainText', function(){
 	        expect(text.clone() instanceof PlainText).toBe(true);
 	    });
+	    it('creates an instance of PlainText class if className is set to non-existent class', function(){
+	    	this.className = 'I do not exist';
+	        expect(text.clone() instanceof PlainText).toBe(true);
+	    });
+
 	    it('creates an instance of a class that inherits from Tag and has "className" property', function(){
 	        window.TextChild = function(){
 	            PlainText.call(this);
 	            this.className = 'TextChild';
 	        };
 	        TextChild.prototype = Object.create(PlainText.prototype);
-
 	        var textChild = new TextChild();
 	        expect(textChild.clone() instanceof TextChild).toBe(true);
 	    });
+
+	    it('creates an instance of a class that inherits from Tag and has improper "className" property', function(){
+	        window.TextChild = function(){
+	            PlainText.call(this);
+	            this.className = 'TextChildThatDoesNotExist';
+	        };
+	        TextChild.prototype = Object.create(PlainText.prototype);
+	        var textChild = new TextChild();
+	        expect(textChild.clone() instanceof PlainText).toBe(true);
+	        expect(textChild.clone() instanceof TextChild).toBe(false);
+	    });
+
 	    it('copies attribute values of the target', function(){
 	        text.prop1 = 'property 1';
 	        text.prop2 = 2;

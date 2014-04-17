@@ -420,6 +420,17 @@ describe('Properties-related functionality', function(){
             var propsChild = new PropertiesChild();
             expect(propsChild.clone() instanceof PropertiesChild).toBe(true);
         });
+        it('creates a Properties instance of if the target inherits from Properties and has improper "className" attribute', function(){
+            window.PropertiesChild = function(){
+                Properties.call(this);
+                this.className = 'in fact I have another name';
+            };
+            PropertiesChild.prototype = Object.create(Properties.prototype);
+            var propsChild = new PropertiesChild();
+            expect(propsChild.clone() instanceof Properties).toBe(true);
+            expect(propsChild.clone() instanceof PropertiesChild).toBe(false);
+        });
+
         it('copies attributes of the target', function(){
             props.a1 = 'attr 1';
             props.a2 = 2;
