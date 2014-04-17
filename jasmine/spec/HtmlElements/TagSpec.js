@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xit, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Comment, Factory, Registry */
+/*global describe, it, xit, expect, spyOn, beforeEach, Tag, Styles, Attributes, Content, Link, window, Node, Commen, TagChild */
 
 describe('Tag-related functionality:', function() {
     var tag, tagStyle, tagAttr, content;
@@ -419,212 +419,85 @@ describe('Tag-related functionality:', function() {
         });
     });
 
-
-    xdescribe('Tag::toLink(): converts tag into a link', function(){
-        var link, tag2, c1, c2, registry, factory;
-        beforeEach(function(){
-            link = new Link();
-            tag.style = tagStyle;
-            tag.attr = tagAttr;
-            tag.content = content;
-            registry = new Registry({classes: [Link], 'defaultClass': Tag});
-            factory = new Factory(registry);
-            tag.factory = factory;
-        });
-        it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
-            var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
-            classNames.forEach(function(elem){
-                var obj = new window[elem]();
-                expect(function(){
-                    tag.toLink(obj);
-                }).toThrow('The argument must be a Link instance!');
-            });
-        });
-        it('does not throws an error if the argument is a Link instance', function(){
-            expect(function(){
-                tag.toLink(new Link());
-            }).not.toThrow('The argument must be a Link instance!');
-        });
-        it('throws an error if the argument is a number, a string, an array or an object', function(){
-            var instances = [1, 0.93, -5, '', 'ciao', [], [32, 0.12, -1], {}, {'foo': 1}];
-            instances.forEach(function(el){
-                expect(function(){
-                    tag.toLink(el);
-                }).toThrow('The argument must be a Link instance!');
-            });
-        });
-
-        it('returns unchanged copy of a tag if it is empty', function(){
-            spyOn(tag, 'isEmpty').andCallFake(function(){return true;});
-            tag2 = tag.toLink(link);
-            expect(tag2).toBe(tag);
-            expect(tag.isEmpty).toHaveBeenCalled();
-        });
-        it('returns a link which content contains the tag if this tag has empty content', function(){
-            spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(content, 'isEmpty').andCallFake(function(){return true;});
-            tag2 = tag.toLink(link);
-            expect(tag2 instanceof Link).toBe(true);
-            expect(tag2.attr).toBe(link.attr);
-            expect(tag2.style).toBe(link.style);
-            expect(tag2.content.elements.length).toBe(1);
-            expect(tag2.content.elements[0]).toBe(tag);
-            expect(tag.isEmpty).toHaveBeenCalled();
-            expect(tag.content.isEmpty).toHaveBeenCalled();
-        });
-
-        it('calls "toLink()" method on the target if it has non-empty content', function(){
-            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(content, 'toLink');
-            tag.content = content;
-            tag2 = tag.toLink(link);
-            // tag2.factory = tag.factory;
-            // console.log(tag.factory);
-            expect(tag2 instanceof Tag).toBe(true);
-            expect(content.toLink).toHaveBeenCalledWith(link);
-        });
-
-        xit('returns a Link if called on a Link', function(){
-            link.setHref('go-to-bar');
-            var link2 = new Link();
-            content = {};
-            link2.content.elements = content;
-            link2.setHref('go-home');
-            tag2 = link2.toLink(link);
-            expect(tag2 instanceof Link).toBe(true);
-            expect(tag2.getHref()).toBe('go-to-bar');
-            expect(tag2.content.elements).toBe(content);
-            expect(tag2.factory).toBe(link2.factory);
-        });
-
-        xit('returns a Link with styles equal to those of the argument, if the target is a Link', function(){
-            var link2 = new Link();
-            link2.setHref('beach');
-            link2.style.color = 'navy';
-            link.setHref('North-Pole');
-            link.style.color = 'white';
-            tag2 = link2.toLink(link);
-            expect(tag2.style.color).toBe('white');
-        });
-        xit('returns a Link with attributes equal to those of the argument, if the target is a Link', function(){
-            var link2 = new Link();
-            link2.setHref('beach');
-            link2.attr.id = 'navy';
-            link.setHref('North-Pole');
-            link.attr.id = 'white';
-            tag2 = link2.toLink(link);
-            expect(tag2.attr.id).toBe('white');
-        });
-
-
-        it('returns "undefined" if the target content is not empty and the target has no "className" property', function(){
-            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            delete tag.className;
-            expect(tag.toLink(link)).not.toBeDefined();
-        });
-
-        it('preserves styles of the target tag, if it is non-empty', function(){
-            tag.tag = 'tag';
-            tagStyle.color = 'red';
-            tagStyle.depth = '6';
-            tag.style = tagStyle;
-            c1 = {'foo': 1}; c2 = "text";
-            tag.content.elements = [c1, c2];
-            // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
-            tag2 = tag.toLink(link);
-            expect(tag2.style.color).toBe('red');
-            expect(tag2.style.depth).toBe('6');
-            expect(tag2.tag).toBe('tag');
-            // console.info('tag2', T);
-        });
-
-        it('preserves atrributes of the target tag, if it is non-empty', function(){
-            tag.tag = 'tag2';
-            tagAttr.class = 'red';
-            tagAttr.hidden = 'yes';
-            tag.attr = tagAttr;
-            c1 = {'foo': 1}; c2 = "text";
-            tag.content.elements = [c1, c2];
-            // link.
-            // spyOn(tag, 'isEmpty').andCallFake(function(){return false;});
-            tag2 = tag.toLink(link);
-            expect(tag2.attr.class).toBe('red');
-            expect(tag2.attr.hidden).toBe('yes');
-            expect(tag2.tag).toBe('tag2');
-        });
-    });
-
     describe('Tag::clone(): generates a clone of the instance', function(){
-        beforeEach(function(){
-            tag.factory = {'createInstanceOf': function(){return null;}};
+        it('creates an instance of Tag class', function(){
+            expect(tag.clone() instanceof Tag).toBe(true);
         });
-        it('returns null, if the instance has no factory', function(){
-            delete tag.factory;
-            expect(tag.clone()).toBe(null);
-        });
+        it('creates an instance of a class that inherits from Tag and has "className" pproperty', function(){
+            window.TagChild = function(){
+                Tag.call(this);
+                this.className = "TagChild";
+            };
+            TagChild.prototype = Object.create(Tag.prototype);
 
-        it('returns null, if the instance has a class name that is not in the factory', function(){
-            tag.className = 'no such name';
-            expect(tag.clone()).toBe(null);
+            var tagChild = new TagChild();
+            expect(tagChild.clone() instanceof TagChild).toBe(true);
         });
-        it('calls Factory::createInstanceOf() with its class name', function(){
-            spyOn(tag.factory, 'createInstanceOf');
-            tag.className = 'my name';
-            tag.clone();
-            expect(tag.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+        it('copies attribute values of the target', function(){
+            tag.prop1 = 'property 1';
+            tag.prop2 = 2;
+            tag.prop3 = [1, 9, 8];
+            var clone = tag.clone();
+            expect(clone.prop1).toBe('property 1');
+            expect(clone.prop2).toBe(2);
+            expect(Array.isArray(clone.prop3)).toBe(true);
+            expect(clone.prop3.length).toBe(3);
+            expect(clone.prop3[0]).toBe(1);
+            expect(clone.prop3[1]).toBe(9);
+            expect(clone.prop3[2]).toBe(8);
         });
-
-        it('returns an instance of what Factory::createInstanceOf() has returned', function(){
-            function A (){return null;}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            var obj = tag.clone();
-            expect(obj instanceof A).toBe(true);
+        it('does not change target attribute values if their counterparts are changed in the clone', function(){
+            tag.level = 'sea level';
+            var clone = tag.clone();
+            clone.level = '100 m';
+            expect(clone.level).toBe('100 m');
+            expect(tag.level).toBe('sea level');
         });
-
-        it('calls "clone" methods on each object-valued property of the target', function(){
-            function A (){return null;}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
+        it('does not change attribute values in the clone if their counterparts are changed in the target', function(){
+            tag.module = 'book';
+            var clone = tag.clone();
+            tag.module = 'article';
+            expect(clone.module).toBe('book');
+            expect(tag.module).toBe('article');
+        });
+        it('copies methods of the target', function(){
+            tag.m1 = function(){return 'this is method 1';};
+            tag.m2 = function(){return 'this is method 2';};
+            var tagClone = tag.clone();
+            expect(tagClone.m1()).toBe('this is method 1');
+            expect(tagClone.m2()).toBe('this is method 2');
+        });
+        it('does not change method of the target if its clone counterpart is changed', function(){
+            tag.m1 = function(){return 'this is method 1';};
+            var clone = tag.clone();
+            clone.m1 = function(){return 'modified method';};
+            expect(clone.m1()).toBe('modified method');
+            expect(tag.m1()).toBe('this is method 1');
+        });
+        it('does not change method of the clone if its counterpart in the target is changed', function(){
+            tag.m1 = function(){return 'this is method 1';};
+            var clone = tag.clone();
+            tag.m1 = function(){return 'modified method';};
+            expect(tag.m1()).toBe('modified method');
+            expect(clone.m1()).toBe('this is method 1');
+        });
+        it('calls "clone" method if an attribute has that method', function(){
             tag.m1 = {clone: function(){return null;}};
-            tag.m2 = {clone: function(){return null;}};
             spyOn(tag.m1, 'clone');
-            spyOn(tag.m2, 'clone');
             tag.clone();
             expect(tag.m1.clone).toHaveBeenCalled();
-            expect(tag.m2.clone).toHaveBeenCalled();
         });
-        it('assigns result of "clone" methods to the attributes of Factory::createInstanceOf()', function(){
-            function A (){this.m1  = {}; this.m2 = {};}
-            var dummy = new A();
-            var clone1 = {}, clone2 = {};
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            tag.m1 = {clone: function(){return 'whatever 1';}};
-            tag.m2 = {clone: function(){return 'whatever 2';}};
-            spyOn(tag.m1, 'clone').andCallFake(function(){return clone1;});
-            spyOn(tag.m2, 'clone').andCallFake(function(){return clone2;});
-            var obj = tag.clone();
-            expect(obj.m1).toBe(clone1);
-            expect(obj.m2).toBe(clone2);
+        it('assignes value of "clone" method if an attribute has that method', function(){
+            tag.m1 = {clone: function(){return null;}};
+            spyOn(tag.m1, 'clone').andCallFake(function(){return 'clone of m1';});
+            var clone = tag.clone();
+            expect(clone.m1).toBe('clone of m1');
         });
-        it('copies string-valued attributes from the target', function(){
-            function A (){}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            tag.a1 = 'a string-valued attribute';
-            tag.a2 = 'another string-valued attribute';
-            var obj = tag.clone();
-            expect(obj.a1).toBe('a string-valued attribute');
-            expect(obj.a2).toBe('another string-valued attribute');
-        });
-        it('copies number-valued attributes from the target', function(){
-            function A (){}
-            var dummy = new A();
-            spyOn(tag.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            tag.a1 = 928;
-            var obj = tag.clone();
-            expect(obj.a1).toBe(928);
-        });
+
+
+
+
+
     });
 
 
@@ -765,46 +638,6 @@ describe('Tag-related functionality:', function() {
             spyOn(tag.content, 'stickTo');
             tag.toNode();
             expect(tag.content.stickTo).toHaveBeenCalled();
-        });
-    });
-
-    xdescribe('Tag::setFactory(): imposes factory', function(){
-        var factory,
-            dumbWithfactory = {'setFactory': function(){return null;}};
-        beforeEach(function(){
-            factory = new Factory();
-            spyOn(dumbWithfactory, 'setFactory');
-        });
-        it('returns false for string, array, number', function(){
-            var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
-            invalides.forEach(function(invalid){
-                expect(tag.setFactory(invalid)).toBe(false);
-            });
-        });
-        it('returns true, if a factory instance is given', function(){
-            expect(tag.setFactory(factory)).toBe(true);
-        });
-        it('sets "factory" property', function(){
-            tag.setFactory(factory);
-            expect(tag.factory).toBe(factory);
-        });
-
-        it('calls "setFactory" property on the attribute if it has this method', function(){
-            tag.attr = dumbWithfactory;
-            tag.setFactory(factory);
-            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
-        });
-
-        it('calls "setFactory" property on the styles if it has this method', function(){
-            tag.style = dumbWithfactory;
-            tag.setFactory(factory);
-            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
-        });
-
-        it('calls "setFactory" property on the content if it has this method', function(){
-            tag.content = dumbWithfactory;
-            tag.setFactory(factory);
-            expect(dumbWithfactory.setFactory).toHaveBeenCalledWith(factory);
         });
     });
 

@@ -350,45 +350,30 @@ function Tag() {
 
 
 	/**
-	 * Creates a clone of the target. Uses {{#crossLink "Factory/createInstanceOf:method"}}Factory::createInstanceOf(){{/crossLink}}
-	 * in order to produce an instance. Parses all the attributes of the target and if the attribute
-	 * <ol><li>
-	 * is a string or a number, then assigns this value to the corresponding attribute of the cloned instance,
-	 * </li><li>
-	 * responds to an "clone" method, then calls it and assigns its result to the corresponding
-	 * attribute of the cloned instance.
-	 * </li></ol>
-	 * Otherwise, the atttibute is ignored.
+	 * Creates a clone of the target. Parses all attributes and the properties of the target and if it
+	 * responds to a "clone" method, then calls this method and assigns its result to the corresponding
+	 * clone attribute. Otherwise, assign target attribute value to the clone attribute (there might be
+	 * a problem with what is passed by reference and not by values, i.e. arrays and functions).
 	 * @method    clone
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var factory = this.factory,
-			output, attr, current, currentType, clone;
-		// console.log(this.className,' has factory ', factory)
-		if (factory){
-			output = factory.createInstanceOf(this.className);
-			if (output){
-				for (attr in this){
-					if (this.hasOwnProperty(attr)){
-						// factory.bindFactory(output);
-						// console.log('Parsing ' + attr);
-						current = this[attr];
-						currentType = typeof current;
-						if (current && (typeof current.clone === 'function')){
-							clone = current.clone();
-							// console.log(attr + ' has clone() and it is used, clone: ', clone);
-							output[attr] = clone;
-						} else if (currentType === 'string' || currentType === 'number'){
-							// console.log(attr + ' is a string or number and it is copied');
-							output[attr] = current;
-						}
-					}
+		console.log('Tag::clone(): ', this.className);
+		var clone = new window[this.className],
+			attr, current;
+		for (attr in this){
+			if (this.hasOwnProperty(attr)){
+				current = this[attr];
+				if (current && typeof current.clone === 'function'){
+					clone[attr] = current.clone();
+				} else {
+					clone[attr] = current;
 				}
 			}
-
 		}
-		return output || null;
+
+
+		return clone;
 	};
 
 	/**
