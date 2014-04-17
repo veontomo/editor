@@ -421,6 +421,7 @@ describe('Tag-related functionality:', function() {
 
     describe('Tag::clone(): generates a clone of the instance', function(){
         it('creates an instance of Tag class', function(){
+            console.log('tag::clone');
             expect(tag.clone() instanceof Tag).toBe(true);
         });
         it('creates an instance of a class that inherits from Tag and has "className" pproperty', function(){
@@ -436,15 +437,9 @@ describe('Tag-related functionality:', function() {
         it('copies attribute values of the target', function(){
             tag.prop1 = 'property 1';
             tag.prop2 = 2;
-            tag.prop3 = [1, 9, 8];
             var clone = tag.clone();
             expect(clone.prop1).toBe('property 1');
             expect(clone.prop2).toBe(2);
-            expect(Array.isArray(clone.prop3)).toBe(true);
-            expect(clone.prop3.length).toBe(3);
-            expect(clone.prop3[0]).toBe(1);
-            expect(clone.prop3[1]).toBe(9);
-            expect(clone.prop3[2]).toBe(8);
         });
         it('does not change target string-valued attribute if its counterpart is changed in the clone', function(){
             tag.level = 'sea level';

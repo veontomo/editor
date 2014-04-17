@@ -52,7 +52,7 @@ function Styles(obj) {
      * @Properties {String} className
      * @type     {String}
      */
-    this.className = 'Style';
+    this.className = 'Styles';
 
     /**
      * Appends style. Alias for the parent method {{#crossLink "Properties/appendProperty:method"}}Properties::appendProperty(){{/crossLink}}

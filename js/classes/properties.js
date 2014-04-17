@@ -273,35 +273,39 @@ function Properties(input) {
 
 
 	/**
-	 * Clones the target.
+	 * Clones the target. Parses all attributes of the target. If the attribute responds to "clone"
+	 * method, then assign the result of this method to the corresponding clone attribute. Otherwise,
+	 * assign the attribute value to the clone attribute (potentially problematic for what is passed
+	 * by reference and not by value, like arrays).
+	 * {{#crossLink "Properties/core:property"}}Core{{/crossLink}} is a private variable, so in the
+	 * clone it is populated by means of {{#crossLink "Properties/getProperty:method"}}getProperty(){{/crossLink}}
+	 * and {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}} method.
 	 * @method    clone
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var factory = this.factory,
-			output, attr, current, currentType,
-			coreCopy = this.getCore();
-		// console.info('Factory','Properties::clone() factory ', factory);
-		if (factory){
-			// console.info('Factory','asking factory to create instance of ', this.className);
-			output = factory.createInstanceOf(this.className);
-			// factory.bindFactory(output);
-			// console.info('Factory', 'outcome: ', output);
-			// output.factory = this.factory.clone();
-			if (output){
-				for (attr in coreCopy){
-					if (coreCopy.hasOwnProperty(attr)){
-						current  = coreCopy[attr];
-						currentType = typeof current;
-						if (currentType === 'string' || currentType === 'number'){
-							output.setProperty(attr, current);
-						}
-					}
+		console.log('Properties::clone() of ', this.className, window);
+		var clone = new window[this.className],
+			coreContent = this.getCore(),
+			attr, current;
+		for (attr in this){
+			if (this.hasOwnProperty(attr)){
+				current = this[attr];
+				if (current && typeof current.clone === 'function'){
+					clone[attr] = current.clone();
+				} else {
+					clone[attr] = current;
 				}
 			}
 		}
-		output = output || null;
-		// console.log('Properties::clone() returns  ', output);
-		return output;
+		for (attr in coreContent){
+			if (coreContent.hasOwnProperty(attr)){
+				clone.setProperty(attr, coreContent[attr]);
+			}
+		}
+
+		return clone;
+
+
 	};
 }

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, Properties, Factory
+/*global describe, it, expect, spyOn, beforeEach, afterEach, Properties, PropertiesChild
  */
 
 describe('Properties-related functionality', function(){
@@ -408,64 +408,88 @@ describe('Properties-related functionality', function(){
     });
 
     describe('Properties::clone(): gives the property clone', function(){
-        beforeEach(function(){
-            props.factory = {'createInstanceOf': function(){return null;}};
+        it('creates a Properties instance', function(){
+            expect(props.clone() instanceof Properties).toBe(true);
+        });
+        it('creates an instance of a class that inherits from Properties and has "className" attribute', function(){
+            window.PropertiesChild = function(){
+                Properties.call(this);
+                this.className = 'PropertiesChild';
+            };
+            PropertiesChild.prototype = Object.create(Properties.prototype);
+            var propsChild = new PropertiesChild();
+            expect(propsChild.clone() instanceof PropertiesChild).toBe(true);
+        });
+        it('copies attributes of the target', function(){
+            props.a1 = 'attr 1';
+            props.a2 = 2;
+            var clone = props.clone();
+            expect(clone.a1).toBe('attr 1');
+            expect(clone.a2).toBe(2);
         });
 
-        it('returns null, if the factory is not set', function(){
-            delete props.factory;
-            expect(props.clone()).toBe(null);
+        it('does not change target string-valued attribute if its counterpart is changed in the clone', function(){
+            props.level = 'sea level';
+            var clone = props.clone();
+            clone.level = '100 m';
+            expect(clone.level).toBe('100 m');
+            expect(props.level).toBe('sea level');
         });
 
-        it('returns null, if the instance has a class name that is not in the factory', function(){
-            // console.log('-------------------');
-            props.className = 'no such name';
-            expect(props.clone()).toBe(null);
+        it('does not change string-valued attribute in the clone if its counterpart is changed in the target', function(){
+            props.module = 'book';
+            var clone = props.clone();
+            props.module = 'article';
+            expect(clone.module).toBe('book');
+            expect(props.module).toBe('article');
         });
-        it('calls Factory::createInstanceOf() with its class name', function(){
-            spyOn(props.factory, 'createInstanceOf');
-            props.className = 'my name';
+
+        it('copies methods of the target', function(){
+            props.m1 = function(){return 'this is method 1';};
+            props.m2 = function(){return 'this is method 2';};
+            var clone = props.clone();
+            expect(clone.m1()).toBe('this is method 1');
+            expect(clone.m2()).toBe('this is method 2');
+        });
+        it('does not change method of the target if its clone counterpart is changed', function(){
+            props.m1 = function(){return 'this is method 1';};
+            var clone = props.clone();
+            clone.m1 = function(){return 'modified method';};
+            expect(clone.m1()).toBe('modified method');
+            expect(props.m1()).toBe('this is method 1');
+        });
+        it('does not change method of the clone if its counterpart in the target is changed', function(){
+            props.m1 = function(){return 'this is method 1';};
+            var clone = props.clone();
+            props.m1 = function(){return 'modified method';};
+            expect(props.m1()).toBe('modified method');
+            expect(clone.m1()).toBe('this is method 1');
+        });
+        it('calls "clone" method if an attribute has that method', function(){
+            props.m1 = {clone: function(){return null;}};
+            spyOn(props.m1, 'clone');
             props.clone();
-            expect(props.factory.createInstanceOf).toHaveBeenCalledWith('my name');
+            expect(props.m1.clone).toHaveBeenCalled();
         });
-
-        it('returns an instance of what Factory::createInstanceOf() has returned', function(){
-            function A (){return null;}
-            var dummy = new A();
-            spyOn(props.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            var obj = props.clone();
-            expect(obj instanceof A).toBe(true);
-        });
-        it('clones core of the target', function(){
-            var dummy = new Properties();
-            props.factory = new Factory(new Registry({classes: [Properties]}));
-            spyOn(props.factory, 'createInstanceOf').andCallFake(function(){return dummy;});
-            dummy.setProperty('test', 21);
-            dummy.setProperty('screen', 'hd');
+        it('assignes value of "clone" method if an attribute has that method', function(){
+            props.m1 = {clone: function(){return null;}};
+            spyOn(props.m1, 'clone').andCallFake(function(){return 'clone of m1';});
             var clone = props.clone();
-            expect(clone.getProperty('test')).toBe(21);
-            expect(clone.getProperty('screen')).toBe('hd');
+            expect(clone.m1).toBe('clone of m1');
         });
-        it('does not modify attribute value in the cloned object, if I change it in the target', function(){
-            props.factory = new Factory(new Registry({classes: [Properties]}));
-            props.setProperty('level', 10);
+
+        it('uses "getCore" to clone properties', function(){
+            spyOn(props, 'getCore');
+            props.clone();
+            expect(props.getCore).toHaveBeenCalled();
+        });
+
+        it('fills the core with "getCore" of the target', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {1: 'first', 'second': 2};});
             var clone = props.clone();
-            props.setProperty('level', 8);
-            expect(clone.getProperty('level')).toBe(10);
-            expect(props.getProperty('level')).toBe(8);
+            expect(clone.getProperty(1)).toBe('first');
+            expect(clone.getProperty('second')).toBe(2);
         });
-        it('does not modify attribute value in the target, if I change it in the cloned object', function(){
-            props.factory = new Factory(new Registry({classes: [Properties]}));
-            props.setProperty('level', 10);
-            var clone = props.clone();
-            clone.setProperty('level', 8);
-            expect(props.getProperty('level')).toBe(10);
-            expect(clone.getProperty('level')).toBe(8);
-        });
-
-
-
-
     });
 
 });
