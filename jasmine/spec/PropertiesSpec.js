@@ -208,33 +208,6 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    describe('Properties::setFactory(): imposes factory', function(){
-        var factory,
-            invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
-        beforeEach(function(){
-            factory = new Factory();
-        });
-        it('returns false for string, array, number', function(){
-            invalides.forEach(function(invalid){
-                expect(props.setFactory(invalid)).toBe(false);
-            });
-        });
-        it('returns true, if a factory instance is given', function(){
-            expect(props.setFactory(factory)).toBe(true);
-        });
-        it('sets "factory" property', function(){
-            props.setFactory(factory);
-            expect(props.factory).toBe(factory);
-        });
-        it('does not change "factory" property if the argument is not a Factory instance', function(){
-            var factoryValue = props.factory;
-            invalides.forEach(function(invalid){
-                props.setFactory(invalid);
-                expect(props.factory).toBe(factoryValue);
-            });
-        });
-    });
-
     describe('Properties::dropProperty(): drops the property', function(){
         it('drops the property if it is present', function(){
             props.setProperty('funny-bunny', 'nice value');
