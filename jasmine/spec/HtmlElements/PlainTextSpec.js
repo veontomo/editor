@@ -12,10 +12,6 @@ describe('Text-related functionality', function(){
 		    text = PlainText();
 		    expect(text instanceof PlainText).toBe(true);
 		});
-		it('must contain "factory" property in order to procreate itself', function(){
-		    expect(text.hasOwnProperty('factory')).toBe(true);
-		});
-
 	});
 
 	describe('Text:getContent loads from the argument', function(){
@@ -204,27 +200,4 @@ describe('Text-related functionality', function(){
 		});
 
 	});
-
-
-	describe('PlainText::setFactory(): imposes factory', function(){
-	    var factory;
-	    beforeEach(function(){
-	        factory = new Factory();
-	    });
-	    it('returns false for string, array, number', function(){
-	        var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
-	        invalides.forEach(function(invalid){
-	            expect(text.setFactory(invalid)).toBe(false);
-	        });
-	    });
-	    it('returns true, if a factory instance is given', function(){
-	        expect(text.setFactory(factory)).toBe(true);
-	    });
-	    it('sets "factory" property', function(){
-	        text.setFactory(factory);
-	        expect(text.factory).toBe(factory);
-	    });
-	});
-
-
 });

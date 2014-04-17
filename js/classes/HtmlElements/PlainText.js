@@ -34,33 +34,6 @@ function PlainText(text) {
 	 */
 	this.tag = 'text';
 
-	/**
-	 * This property is required in order to be able to recreate itself.
-	 * It is supposed to be an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
-	 * Its value will be initialized properly when creating a clone of this element (or of one
-	 * of its child). If it is not present, {{#crossLink "Factory"}}Factory{{/crossLink}} will
-	 * not be able to initialize it.
-	 * @property   {Object|Null}   factory
-	 * @default    Null
-	 * @since      0.0.3
-	 */
-	this.factory = null;
-
-	/**
-	 * Sets `factory` property. Returns `true` if the argument is an instance of
-	 * {{#crossLink "Factory"}}Factory{{/crossLink}}, `false` otherwise.
-	 * @method  setFactory
-	 * @param   {Factory}    factory        instance of  {{#crossLink "Factory"}}Factory{{/crossLink}} class.
-	 * @return  {Boolean}
-	 * @since   0.0.3
-	 */
-	this.setFactory = function(factory){
-		if(factory instanceof Factory){
-			this.factory = factory;
-			return true;
-		}
-		return false;
-	};
 
 
 	/**
