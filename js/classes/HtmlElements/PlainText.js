@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Link, Factory */
+/*global Link */
 
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.
@@ -10,7 +10,7 @@
 * @since 0.0.2
 */
 function PlainText(text) {
-	// "use strict";
+	"use strict";
 	if (!(this instanceof PlainText)) {
 		return new PlainText(text);
 	}
@@ -53,7 +53,6 @@ function PlainText(text) {
 	this.setContent = function(arg){
 		var argType = typeof arg;
 		content = (argType === 'string' || argType === 'number') ? arg.toString() : '';
-		// return content;
 	};
 
 	// content = this.setContent(text);
@@ -142,5 +141,37 @@ function PlainText(text) {
 	this.toNode = function(){
 		return document.createTextNode(this.getContent());
 	};
+
+
+	/**
+	 * Clones the target. Parses all attributes of the target. If the attribute responds to "clone"
+	 * method, then assign the result of this method to the corresponding clone attribute. Otherwise,
+	 * assign the attribute value to the clone attribute (potentially problematic for what is passed
+	 * by reference and not by value, like arrays).
+	 * {{#crossLink "PlainText/content:property"}}content{{/crossLink}} is a private variable, so in the
+	 * clone it is fed by means of {{#crossLink "PlainText/getContent:method"}}getContent(){{/crossLink}}
+	 * and {{#crossLink "PlainText/setContent:method"}}setContent(){{/crossLink}} methods.
+	 * @method    clone
+	 * @return    {Object}
+	 */
+	this.clone = function(){
+		var Constr = window[this.className],
+			clone, attr, current,
+			strContent = this.getContent();
+		clone = (typeof Constr === 'function') ?  new Constr : new PlainText();
+		for (attr in this){
+			if (this.hasOwnProperty(attr)){
+				current = this[attr];
+				if (current && typeof current.clone === 'function'){
+					clone[attr] = current.clone();
+				} else {
+					clone[attr] = current;
+				}
+			}
+		}
+		clone.setContent(strContent);
+		return clone;
+	};
+
 
 }

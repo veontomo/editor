@@ -284,10 +284,10 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		console.log('Properties::clone() of ', this.className, window);
-		var clone = new window[this.className],
-			coreContent = this.getCore(),
-			attr, current;
+		var Constr = window[this.className],
+			clone, attr, current,
+			coreContent = this.getCore();
+		clone = (typeof Constr === 'function') ?  new Constr : new Properties();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];
@@ -303,9 +303,6 @@ function Properties(input) {
 				clone.setProperty(attr, coreContent[attr]);
 			}
 		}
-
 		return clone;
-
-
 	};
 }

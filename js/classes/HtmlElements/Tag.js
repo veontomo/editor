@@ -350,7 +350,9 @@ function Tag() {
 
 
 	/**
-	 * Creates a clone of the target. Parses all attributes of the target and if the attribute
+	 * Creates a clone of the target. If the target has a `className` attribute corresponding to
+	 * exisiting class, then that class instance is to be returned. Otherwise a {{#crossLink "Tag"}}Tag{{/crossLink}}
+	 * instance is returned. The method parses all attributes of the target and if the attribute
 	 * responds to a "clone" method, then calls this method and assigns its result to the corresponding
 	 * clone attribute. Otherwise, assign target attribute value to the clone attribute (there might be
 	 * a potential problem with what is passed by reference and not by values, i.e. array). But among
@@ -359,8 +361,9 @@ function Tag() {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var clone = new window[this.className],
-			attr, current;
+		var Constr = window[this.className],
+			clone, attr, current;
+		clone = (typeof Constr === 'function') ?  new Constr : new Tag();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];

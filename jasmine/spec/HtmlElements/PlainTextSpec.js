@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, PlainText, Factory, Link */
+/*global describe, it, expect, spyOn, beforeEach, PlainText, Factory, Link, TextChild */
 
 describe('Text-related functionality', function(){
 	var text;
@@ -200,4 +200,97 @@ describe('Text-related functionality', function(){
 		});
 
 	});
+
+	describe('PlainText::clone(): generates a clone of the instance', function(){
+	    it('creates an instance of PlainText class', function(){
+	        expect(text.clone() instanceof PlainText).toBe(true);
+	    });
+	    it('creates an instance of a class that inherits from Tag and has "className" property', function(){
+	        window.TextChild = function(){
+	            PlainText.call(this);
+	            this.className = 'TextChild';
+	        };
+	        TextChild.prototype = Object.create(PlainText.prototype);
+
+	        var textChild = new TextChild();
+	        expect(textChild.clone() instanceof TextChild).toBe(true);
+	    });
+	    it('copies attribute values of the target', function(){
+	        text.prop1 = 'property 1';
+	        text.prop2 = 2;
+	        var clone = text.clone();
+	        expect(clone.prop1).toBe('property 1');
+	        expect(clone.prop2).toBe(2);
+	    });
+	    it('does not change target string-valued attribute if its counterpart is changed in the clone', function(){
+	        text.level = 'sea level';
+	        var clone = text.clone();
+	        clone.level = '100 m';
+	        expect(clone.level).toBe('100 m');
+	        expect(text.level).toBe('sea level');
+	    });
+
+	    it('does not change string-valued attribute in the clone if its counterpart is changed in the target', function(){
+	        text.module = 'book';
+	        var clone = text.clone();
+	        text.module = 'article';
+	        expect(clone.module).toBe('book');
+	        expect(text.module).toBe('article');
+	    });
+
+	    it('copies methods of the target', function(){
+	        text.m1 = function(){return 'this is method 1';};
+	        text.m2 = function(){return 'this is method 2';};
+	        var clone = text.clone();
+	        expect(clone.m1()).toBe('this is method 1');
+	        expect(clone.m2()).toBe('this is method 2');
+	    });
+	    it('does not change method of the target if its clone counterpart is changed', function(){
+	        text.m1 = function(){return 'this is method 1';};
+	        var clone = text.clone();
+	        clone.m1 = function(){return 'modified method';};
+	        expect(clone.m1()).toBe('modified method');
+	        expect(text.m1()).toBe('this is method 1');
+	    });
+	    it('does not change method of the clone if its counterpart in the target is changed', function(){
+	        text.m1 = function(){return 'this is method 1';};
+	        var clone = text.clone();
+	        text.m1 = function(){return 'modified method';};
+	        expect(text.m1()).toBe('modified method');
+	        expect(clone.m1()).toBe('this is method 1');
+	    });
+	    it('calls "clone" method if an attribute has that method', function(){
+	        text.m1 = {clone: function(){return null;}};
+	        spyOn(text.m1, 'clone');
+	        text.clone();
+	        expect(text.m1.clone).toHaveBeenCalled();
+	    });
+	    it('assignes value of "clone" method if an attribute has that method', function(){
+	        text.m1 = {clone: function(){return null;}};
+	        spyOn(text.m1, 'clone').andCallFake(function(){return 'clone of m1';});
+	        var clone = text.clone();
+	        expect(clone.m1).toBe('clone of m1');
+	    });
+
+	    it('uses "getCore" to clone the content', function(){
+	        spyOn(text, 'getContent');
+	        text.clone();
+	        expect(text.getContent).toHaveBeenCalled();
+	    });
+
+	    it('fills the core with "getCore" of the target', function(){
+	        spyOn(text, 'getContent').andCallFake(function(){return 'content of the text node';});
+	        var clone = text.clone();
+	        expect(clone.getContent()).toBe('content of the text node');
+	    });
+
+
+
+
+
+
+	});
+
+
+
 });

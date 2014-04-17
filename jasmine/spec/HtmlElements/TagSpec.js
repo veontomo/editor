@@ -434,6 +434,11 @@ describe('Tag-related functionality:', function() {
             var tagChild = new TagChild();
             expect(tagChild.clone() instanceof TagChild).toBe(true);
         });
+
+        it('creates a Tag instance if target "className" property corresponds to no class', function(){
+            tag.className = 'no such class';
+            expect(tag.clone() instanceof Tag).toBe(true);
+        });
         it('copies attribute values of the target', function(){
             tag.prop1 = 'property 1';
             tag.prop2 = 2;
@@ -490,11 +495,6 @@ describe('Tag-related functionality:', function() {
             var clone = tag.clone();
             expect(clone.m1).toBe('clone of m1');
         });
-
-
-
-
-
     });
 
 
