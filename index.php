@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
 	<script type="text/javascript" src="js/classes/Helper/String.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Registry.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Mapping.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
