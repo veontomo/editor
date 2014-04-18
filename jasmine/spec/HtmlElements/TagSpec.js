@@ -421,7 +421,6 @@ describe('Tag-related functionality:', function() {
 
     describe('Tag::clone(): generates a clone of the instance', function(){
         it('creates an instance of Tag class', function(){
-            console.log('tag::clone');
             expect(tag.clone() instanceof Tag).toBe(true);
         });
         it('creates an instance of a class that inherits from Tag and has "className" pproperty', function(){
