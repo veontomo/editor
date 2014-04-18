@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, it, expect, spyOn, beforeEach, Factory*/
+/*global describe, it, it, expect, spyOn, beforeEach, Factory, Mapping*/
 
 describe('Factory-related functionality', function(){
     var f, mapping;
@@ -58,7 +58,7 @@ describe('Factory-related functionality', function(){
                 expect(f.stub()).toBe(null);
             });
             it('calls "getMapping"', function(){
-                function Foo(){};
+                function Foo(){}
                 spyOn(f.getMapping(), 'findTargetFor').andCallFake(function(){return Foo;});
                 var stub = f.stub('something');
                 expect(stub instanceof Foo).toBe(true);
@@ -73,7 +73,7 @@ describe('Factory-related functionality', function(){
                 expect(f.stub).toHaveBeenCalledWith('an element');
             });
             it('calls "load" method of "stub" output, if it exists', function(){
-                function Target(){this.load = function(){return null;}};
+                function Target(){this.load = function(){return null;};}
                 var target = new Target();
                 spyOn(target, 'load');
                 spyOn(f, 'stub').andCallFake(function(){return target;});
@@ -82,7 +82,7 @@ describe('Factory-related functionality', function(){
                 expect(target.load).toHaveBeenCalledWith('an element');
             });
             it('returns output of "stub" method if it has no "load" method', function(){
-                function Target(){};
+                function Target(){}
                 var target = new Target();
                 spyOn(f, 'stub').andCallFake(function(){return target;});
                 var copy = f.mimic('an element');
