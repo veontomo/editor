@@ -8,7 +8,7 @@
  * The idea is to have criteria on which decide what type of objects should be constructed.
  * This class is responsible for these criteria.
  * @module 	    HtmlElements
- * @class  		Factory
+ * @class  		Mapping
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
@@ -31,7 +31,7 @@ function Mapping(){
 
 	/**
 	 * Default target.
-	 * @property    {Function|Null}     default
+	 * @property    {Function|Null}     defaultTarget
 	 * @private
 	 * @default     null
 	 */
@@ -61,7 +61,8 @@ function Mapping(){
 
 
 	/**
-	 * If object {'criterion': crit, 'target': target} is a valid mapping, then this mapping is
+	 * Forms an object {'criterion': crit, 'target': target} from the input and it it
+	 * turns out to be a valid mapping, then this mapping is
 	 * appended to {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
 	 * and the `true` is returned. Otherwise, `false` is returned.<br>
 	 * A mapping is a valid one if method
@@ -88,7 +89,7 @@ function Mapping(){
 
 	/**
 	 * Returns a copy of the {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}.
-	 * @method    getCriteria
+	 * @method    getMappings
 	 * @return    {Array}
 	 */
 	this.getMappings = function(){
@@ -121,16 +122,18 @@ function Mapping(){
 	 * and calls `criterion` function of the array element. Value of `target` key of first `criterion` that returns
 	 * `true`, is returned. If not found,
 	 * {{#crossLink "Mapping/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned.
-	 * @param  {[type]} el [description]
-	 * @return {[type]}    [description]
+	 * @method     findTargetFor
+	 * @param      {Any}           needle              this variable is to be given as input for `criterion` function
+	 *                                                 of each array of mappings.
+	 * @return     {Function|Null}
 	 */
-	this.findTargetFor = function(el){
+	this.findTargetFor = function(needle){
 		var mappings = this.getMappings(),
 			len = mappings.length,
 			i = 0, current;
 		for (i = 0; i < len; i++){
 			current = mappings[i];
-			if (current.criterion(el)){
+			if (current.criterion(needle)){
 				return current.target;
 			}
 		}

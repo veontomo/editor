@@ -380,15 +380,15 @@ function Tag() {
 	/**
 	 * Populates the following properties of the target object
 	 * <ol><li>
-	 * {{/crossLink "Tag/tag:property"}}tag{{/crossLink}}
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}}
 	 * </li><li>
-	 * {{/crossLink "Tag/attr:property"}}attr{{/crossLink}} by calling
+	 * {{#crossLink "Tag/attr:property"}}attr{{/crossLink}} by calling
 	 * {{#crossLink "Attribute/load:method"}}Attribute::load(){{/crossLink}} method.
 	 * </li><li>
-	 * {{/crossLink "Tag/style:property"}}style{{/crossLink}} by calling
+	 * {{#crossLink "Tag/style:property"}}style{{/crossLink}} by calling
 	 * {{#crossLink "Style/load:method"}}Style::load(){{/crossLink}} method.
 	 * </li><li>
-	 * {{/crossLink "Tag/content:property"}}content{{/crossLink}} by calling
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} by calling
 	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.
 	 * </li></ol>
 	 * from the argument which must be an instance of
