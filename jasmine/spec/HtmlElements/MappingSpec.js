@@ -23,7 +23,6 @@ describe('Mapping-related functionality', function(){
             map.getMappings().push('dummy text');
             expect(map.getMappings().length).toBe(0);
         });
-
     });
 
     describe('Mapping::isValidMapping() decides whether the mapping is valid', function(){
@@ -51,18 +50,33 @@ describe('Mapping-related functionality', function(){
         it('returns true, if the argument has correct "criterion" and "target" keys', function(){
             expect(map.isValidMapping({'criterion': function(){return null;}, 'target': DummyClass})).toBe(true);
         });
-
     });
 
-    describe('Mapping::add(): adds mapping', function(){
+    describe('Mapping::default: setter and getter', function(){
         var DummyClass;
         beforeEach(function(){
             DummyClass = function(){return null;};
         });
+
+        it('sets default target if the argument is a function', function(){
+            map.setDefaultTarget(DummyClass);
+            expect(map.getDefaultTarget()).toBe(DummyClass);
+        });
+
+        it('does not set default target if the argument is a string, number, array or object', function(){
+            var invalids = ['', 'non empty string', 0, -4.2, [], [0], [0, 23], {}, {out: 1}];
+            invalids.forEach(function(invalid){
+                map.setDefaultTarget(invalid);
+                expect(map.getDefaultTarget()).toBe(null);
+            });
+        });
+    });
+
+    describe('Mapping::add(): adds mapping', function(){
         it('calls isValidMapping', function(){
             spyOn(map, 'isValidMapping');
             map.add('whatever');
-            expect(map.isValidMapping).toHaveBeenCalledWith('whatever');
+            expect(map.isValidMapping).toHaveBeenCalledWith({'criterion':'whatever'});
         });
         it('returns false if isValidMapping returns false', function(){
             spyOn(map, 'isValidMapping').andCallFake(function(){return false;});
@@ -77,10 +91,8 @@ describe('Mapping-related functionality', function(){
             expect(map.getMappings().length).toBe(0);
             map.add('aaa');
             expect(map.getMappings().length).toBe(1);
-            expect(map.getMappings()[0]).toBe('aaa');
+            expect(map.getMappings()[0].criterion).toBe('aaa');
         });
-
-
     });
 
     describe('Mapping::flush(): removes all mappings', function(){
@@ -116,9 +128,23 @@ describe('Mapping-related functionality', function(){
             expect(Array.isArray(map.getMappings())).toBe(true);
             expect(map.getMappings().length).toBe(0);
         });
-
-
     });
 
+    describe('Mapping::findTargetFor(): finds target for the argument', function(){
+
+        it('calls "criterion" from each "mapping" until first true', function(){
+            var crit1 = function(){return null;},
+                crit2 = function(){return null;},
+                crit3 = function(){return null;},
+                crit4 = function(){return null;},
+                T1 = function(){},
+                T2 = function(){},
+                T3 = function(){},
+                T4 = function(){};
+            map.add({});
+
+
+        });
+    });
 
 });

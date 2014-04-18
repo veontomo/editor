@@ -18,6 +18,7 @@ function Mapping(){
 	if (!(this instanceof Mapping)) {
 		return new Mapping();
 	}
+
 	/**
 	 * Array of mappings. Each array element is an object with two keys: `criterion` and `target`.
 	 * Value of `criterion` must be a boolean-valued function, while `target` must be a class.
@@ -29,15 +30,56 @@ function Mapping(){
 	var mappings = [];
 
 	/**
-	 * If the argument is a valid mapping, then appends it to {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
-	 * and return `true`. Otherwise, `false` is returned. A mapping is a valid one if method
+	 * Default target.
+	 * @property    {Function|Null}     default
+	 * @private
+	 * @default     null
+	 */
+	var defaultTarget = null;
+
+	/**
+	 * {{#crossLink "Mapping/defaultTarget:property"}}Default target{{/crossLink}} setter. Assigns only
+	 * if the argument is a function.
+	 * @method   setDefaultTarget
+	 * @param    {Function}     fun
+	 * @return   {void}
+	 */
+	this.setDefaultTarget = function(fun){
+		if (typeof fun === 'function'){
+			defaultTarget = fun;
+		}
+	};
+
+	/**
+	 * {{#crossLink "Mapping/defaultTarget:property"}}Default target{{/crossLink}} getter.
+	 * @method   getDefaultTarget
+	 * @return   {Function|Null}
+	 */
+	this.getDefaultTarget = function(){
+		return defaultTarget;
+	}
+
+
+	/**
+	 * If object {'criterion': crit, 'target': target} is a valid mapping, then this mapping is
+	 * appended to {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
+	 * and the `true` is returned. Otherwise, `false` is returned.<br>
+	 * A mapping is a valid one if method
 	 * {{#crossLink "Mapping/isValidMapping:method"}}isValidMapping(){{/crossLink}} returns `true`.
-	 * @method    addCriterion
-	 * @param     {Object}         map
+	 * @method    add
+	 * @param     {Function}         criterion
+	 * @param     {Function}         target
 	 * @return 	  {Boolean}
 	 */
-	this.add = function(map){
-		var isValid = this.isValidMapping(map);
+	this.add = function(crit, target){
+		var map = {}, isValid;
+		if (crit !== undefined){
+			map.criterion = crit;
+		}
+		if (target !== undefined){
+			map.target = target;
+		}
+		isValid = this.isValidMapping(map);
 		if (isValid){
 			mappings.push(map);
 		}
@@ -72,6 +114,18 @@ function Mapping(){
 	 */
 	this.flush = function(){
 		mappings = [];
-	}
+	};
+
+	/**
+	 * Finds target for the argument. It parses array {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
+	 * and calls `criterion` function of the array element. Value of `target` key of first `criterion` that returns
+	 * `true`, is returned. If not found, the {{#crossLink "Mapping/default:property"}}default{{/crossLink}} is returned.
+	 * @param  {[type]} el [description]
+	 * @return {[type]}    [description]
+	 */
+	this.findTargetFor = function(el){
+		/// !!! stub
+		return null;
+	};
 
 }
