@@ -119,13 +119,23 @@ function Mapping(){
 	/**
 	 * Finds target for the argument. It parses array {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
 	 * and calls `criterion` function of the array element. Value of `target` key of first `criterion` that returns
-	 * `true`, is returned. If not found, the {{#crossLink "Mapping/default:property"}}default{{/crossLink}} is returned.
+	 * `true`, is returned. If not found,
+	 * {{#crossLink "Mapping/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned.
 	 * @param  {[type]} el [description]
 	 * @return {[type]}    [description]
 	 */
 	this.findTargetFor = function(el){
-		/// !!! stub
-		return null;
+		var mappings = this.getMappings(),
+			len = mappings.length,
+			i = 0, current;
+		for (i = 0; i < len; i++){
+			current = mappings[i];
+			if (current.criterion(el)){
+				return current.target;
+			}
+		}
+		return this.getDefaultTarget();
+
 	};
 
 }
