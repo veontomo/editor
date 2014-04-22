@@ -6,7 +6,7 @@
  * @module    Helper
  * @class     CKHelper
  * @type      {Object}
- * @version   0.0.1
+ * @since     0.0.1
  * @author    A.Shcherbakov
  */
 var CKHelper = {
@@ -32,10 +32,11 @@ var CKHelper = {
 
   /**
    * Drops inline attribute named attrName from DOM element
-   * @param  {Object}    element              an inline attribute of  this element will be dropped.
+   * @method  dropInlineStyleAttr
+   * @param   {Object}    element              an inline attribute of  this element will be dropped.
    *                                          The element should respond to jQuery "attr" method.
-   * @param  {string}    attrName             attribute name to be dropped.
-   * @return {void}
+   * @param   {string}    attrName             attribute name to be dropped.
+   * @return  {void}
    */
   dropInlineStyleAttr: function(element, attrName){
     // unhovering table

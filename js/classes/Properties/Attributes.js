@@ -2,10 +2,11 @@
 /*global Properties */
 /**
 * This class is supposed to define attributes of html tags
-* @module 	Properties
-* @param    {String|Object}    obj       Attributes class variable will be instantiated using this input
-* @class    Attributes
-* @extends  Properties
+* @module             Properties
+* @param              {String|Object}    obj       Attributes class variable will be instantiated using this input
+* @class              Attributes
+* @constructor
+* @extends            Properties
 */
 function Attributes(obj) {
 	"use strict";

@@ -2,9 +2,10 @@
 /*global Styles */
 /**
  * Represents image styles.
- * @module  Properties
- * @class   ImageStyle
- * @extends Style
+ * @module      Properties
+ * @class       ImageStyle
+ * @constructor
+ * @extends     Style
  */
 function ImageStyles(obj) {
     'use strict';
@@ -16,7 +17,7 @@ function ImageStyles(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @Properties {String} className
+     * @property {String} className
      * @type     {String}
      */
     this.className = 'ImageStyles';

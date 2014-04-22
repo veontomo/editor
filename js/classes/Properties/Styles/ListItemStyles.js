@@ -2,9 +2,10 @@
 /*global Styles */
 /**
  * Represents list item styles.
- * @module  Properties
- * @class   ListItemStyles
- * @extends Styles
+ * @module        Properties
+ * @class         ListItemStyles
+ * @extends       Styles
+ * @constructor
  */
 function ListItemStyles(obj) {
     'use strict';
@@ -16,7 +17,7 @@ function ListItemStyles(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @Properties {String} className
+     * @property {String} className
      * @type     {String}
      */
     this.className = 'ListItemStyles';

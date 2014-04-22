@@ -9,11 +9,12 @@
  * <li>`defaultClass` - default class (to be used for construction of objects which html tag is not present among
  * `tag` property in the available classes)</li>
  * </ol>
- * @module  HtmlElements
- * @class   Registry
- * @param   {Object}       info     object
- * @since   0.0.2
- * @author  A.Shcherbakov
+ * @module        HtmlElements
+ * @class         Registry
+ * @constructor
+ * @param        {Object}       info     object
+ * @since        0.0.2
+ * @author       A.Shcherbakov
  */
 function Registry(info){
 	'use strict';

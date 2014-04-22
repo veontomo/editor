@@ -123,6 +123,26 @@ function Link(href) {
 		}
 	}
 
+	/**
+	 * Imposes the target link properties on the argument. If the argument is an instance of a Link class,
+	 * then its properties are changed according to the target ones. If the argument is an instance of
+	 * {{#crossLink "Tag"}}Tag{{/crossLink}} and its {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * <ol><li>
+	 * is empty, then the argument is inserted into the target content
+	 * </li><li>
+	 * is not empty, then this method is applied to each element of the content.
+	 * </li></ol>
+	 * If the argument is {{#crossLink "Content"}}Content{{/crossLink}}, then this method is applied
+	 * to each its element.
+	 * Otherwise, the argument is inserted into the target content.
+	 * @method    cascadeOn
+	 * @param     {Tag|Link|Content}         obj
+	 * @return    {Tag|Link|Content}
+	 */
+	this.cascadeOn = function(obj){
+
+	}
+
 }
 Link.prototype = Object.create(Tag.prototype);
 

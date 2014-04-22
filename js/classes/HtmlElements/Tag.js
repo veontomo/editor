@@ -6,6 +6,7 @@
  * This class is used to represent a general html tag.
  * @module 	    HtmlElements
  * @class  		Tag
+ * @constructor
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
@@ -101,19 +102,19 @@ function Tag() {
 
 	/**
 	 * Tag styles
-	 * @property {ListItemStyle}       style
-	 * @type     {ListItemStyle}
-	 * @default  ListItemStyle()
+	 * @property {Styles}       style
+	 * @type     {Styles}
+	 * @default  Styles()
 	 * @since    0.0.1
 	 */
 	this.style = new Styles();
 
 	/**
 	* Style setter.
-	* @method setStyle
-	* @param {String|Object} stl
-	* @return {void}
-	* @since 0.0.1
+	* @method      setStyle
+	* @param       {String|Object} stl
+	* @return      {void}
+	* @since       0.0.1
 	*/
 	this.setStyle = function(stl){
 		this.style = stl;
@@ -422,10 +423,10 @@ function Tag() {
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
-			// //console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
+			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
 			contentSucc = this.content.load(childrenArr);
 		}
-		// //console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
+		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
 		return attrSucc && styleSucc && contentSucc;
 	};
 

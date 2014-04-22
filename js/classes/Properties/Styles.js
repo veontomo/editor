@@ -2,10 +2,11 @@
 /*global describe, it, expect, spyOn, beforeEach, Properties */
 /**
 * This class defines inline styles of html tags
-* @module   Properties
-* @param    {String|Object}      obj      Style class variable will be instantiated using this input
-* @class    Styles
-* @extends  Properties
+* @module      Properties
+* @param       {String|Object}      obj      Style class variable will be instantiated using this input
+* @class       Styles
+* @constructor
+* @extends     Properties
 */
 function Styles(obj) {
 	'use strict';
@@ -49,7 +50,7 @@ function Styles(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @Properties {String} className
+     * @property {String} className
      * @type     {String}
      */
     this.className = 'Styles';

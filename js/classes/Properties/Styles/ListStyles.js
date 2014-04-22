@@ -3,9 +3,10 @@
 
 /**
  * Represents image styles.
- * @module  Properties
- * @class   ListStyles
- * @extends Styles
+ * @module        Properties
+ * @class         ListStyles
+ * @constructor
+ * @extends       Styles
  */
 function ListStyles(obj) {
     'use strict';
@@ -17,7 +18,7 @@ function ListStyles(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @Properties {String} className
+     * @property {String} className
      * @type     {String}
      */
     this.className = 'ListStyles';

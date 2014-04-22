@@ -6,6 +6,7 @@
 * @module     	Properties
 * @extends      Attributes
 * @class        LinkAttributes
+* @constructor
 */
 function LinkAttributes(attr){
 	"use strict";

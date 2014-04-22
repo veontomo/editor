@@ -5,9 +5,10 @@
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.
 * Though there is no `text` tag in HTML, it is introduced here in order to consider plain text on the same basis as other tags.
-* @module  HtmlElements
-* @class   PlainText
-* @since 0.0.2
+* @module             HtmlElements
+* @class              PlainText
+* @constructor
+* @since              0.0.2
 */
 function PlainText(text) {
 	"use strict";
@@ -102,10 +103,11 @@ function PlainText(text) {
 	 * Returns a link which properties are equal to those of the argument and `content` has
 	 * the only elements which is equal to the target. If the argument is not a Link instance,
 	 * an error is thrown.
-	 * @param  {Link}       link     it is served as a template to create a link. Its
+	 * @method  toLink
+	 * @param   {Link}       link     it is served as a template to create a link. Its
 	 *                               `content` property is to be replaced by the copy of
 	 *                               target object.
-	 * @return {Link}
+	 * @return  {Link}
 	 */
 	this.toLink = function(link){
 		if (!(link instanceof Link)){

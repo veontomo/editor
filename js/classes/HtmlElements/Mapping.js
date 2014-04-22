@@ -9,6 +9,7 @@
  * This class is responsible for these criteria.
  * @module 	    HtmlElements
  * @class  		Mapping
+ * @constructor
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
@@ -111,7 +112,8 @@ function Mapping(){
 
 	/**
 	 * Reset {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}} to an empty array.
-	 * @return {[type]} [description]
+	 * @method   flush
+	 * @return   {void}
 	 */
 	this.flush = function(){
 		mappings = [];

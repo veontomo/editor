@@ -9,9 +9,9 @@
  * instance.
  * @module 	    HtmlElements
  * @class  		Factory
+ * @constructor
  * @param       {Mapping}           mapping          an instance of Mapping class
  * @since       0.0.2
- * @version     0.0.3
  * @author      A.Shcherbakov
  *
  */

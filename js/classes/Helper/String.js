@@ -8,7 +8,7 @@
  * These are methods to convert strings into different objects.
  * @module  Helper
  * @class  StringHelper
- * @version  0.0.2
+ * @since  0.0.1
  * @author A.Shcherbakov
  */
 String.prototype.createCellFromHtml = function(){

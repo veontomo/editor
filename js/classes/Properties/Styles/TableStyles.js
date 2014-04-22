@@ -3,9 +3,10 @@
 
 /**
  * Represents table style.
- * @module   Properties
- * @class    TableStyles
- * @extends  Styles
+ * @module        Properties
+ * @class         TableStyles
+ * @constructor
+ * @extends       Styles
  */
 function TableStyles(obj) {
     'use strict';
@@ -17,7 +18,7 @@ function TableStyles(obj) {
     /**
      * The  name of the class.
      * @since    0.0.2
-     * @Properties {String} className
+     * @property {String} className
      * @type     {String}
      */
     this.className = 'TableStyles';

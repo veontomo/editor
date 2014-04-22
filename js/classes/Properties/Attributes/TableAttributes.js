@@ -2,9 +2,10 @@
 /*global Attributes */
 /**
 * Table-specific attributes.
-* @module 	Properties
-* @extends  Attributes
-* @class    TableAttributes
+* @module 	   Properties
+* @extends     Attributes
+* @class       TableAttributes
+* @constructor
 */
 function TableAttributes(attr){
 	"use strict";
