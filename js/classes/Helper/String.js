@@ -1,7 +1,7 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
 /*global  DOMParser, Node, Helper, Attributes, Styles, Cell, TableRowStyle, Row, ListItem, Table,
-          Content, Tag, List, Link, LinkStyle, LinkAttributes */
+          Content, Tag, List, Link, LinkStyles, LinkAttributes */
 
 
 /**
@@ -356,7 +356,7 @@ String.prototype.createLinkFromHtml = function(){
 
             style = node.getAttribute('style');
             href = node.getAttribute('href');
-            output.style = new LinkStyle(style);
+            output.style = new LinkStyles(style);
             attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty('style')){
                 delete attrs.style;

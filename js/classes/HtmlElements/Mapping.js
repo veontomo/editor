@@ -132,12 +132,16 @@ function Mapping(){
 	this.findTargetFor = function(needle){
 		var mappings = this.getMappings(),
 			len = mappings.length,
-			i = 0, current;
+			i = 0, current, result;
 		for (i = 0; i < len; i++){
 			current = mappings[i];
-			if (current.criterion(needle)){
+			// console.log(i, ': criterion: ',  current.criterion);
+			result = current.criterion(needle);
+			if (result){
+				// console.log('returning: ', current.target);
 				return current.target;
 			}
+			// console.log('result is negative');
 		}
 		return this.getDefaultTarget();
 

@@ -117,7 +117,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }
             this.setValueOf('tab-general', 'text', text);
             this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
-            console.log('link2, method onShow has finished');
+            // console.log('link2, method onShow has finished');
         },
 
         onCancel: function(){
@@ -130,7 +130,8 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
                 current, link, obj,
-                factory = new Factory(new Registry(NEWSLETTER.registry));
+                factory = FACTORY.factory;
+
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
                 link = new Link();
@@ -149,16 +150,18 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // parse all selected nodes
             selectedNodes.forEach(function(arr){
                 arr.forEach(function(el){
-                    console.log('element: ', el);
+                    // console.log('element: ', el);
                     var newNode, objLink;
                     // prepare Link object
                     link = new Link();
                     link.setHref(url);
                     link.underline(isUnderlined);
-                    obj = factory.forgeElement(el.$);
-                    console.log('factory produced: ', obj, 'its html: ', obj.toHtml());
-                    if (!obj.isEmpty()){
-                        objLink = obj.toLink(link);
+                    obj = factory.mimic(el.$);
+                    // console.log('factory produced: ', obj, 'its html: ', obj.toHtml());
+                    if (obj &&  !obj.isEmpty()){
+                        // objLink = obj.toLink(link);
+                        // newNode = objLink.toNode();
+                        objLink = link.shower(obj);
                         newNode = objLink.toNode();
                         el.$.parentNode.replaceChild(newNode, el.$);
                     }

@@ -153,11 +153,11 @@ function Selection(editor, selected) {
             // console.log('rangeNodes that are to be pushed into selectedNodes: ', rangeNodes);
             selectedNodes.push(rangeNodes);
         }
-        selectedNodes.forEach(function(elem, ind){
-            elem.forEach(function(elem2, ind2){
-                console.log(ind, ind2, elem2);
-            });
-        });
+        // selectedNodes.forEach(function(elem, ind){
+        //     elem.forEach(function(elem2, ind2){
+        //         console.log(ind, ind2, elem2);
+        //     });
+        // });
         return selectedNodes;
     }(this.ranges));
 

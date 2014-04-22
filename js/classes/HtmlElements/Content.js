@@ -334,11 +334,13 @@ function Content(str) {
 	 * <li>does not respond to method `toLink()` and is a string, then converts it into a link</li>
 	 * <li>does not respond to method `toLink()`, then insert the element whitout changes.</li></ol>
 	 * The argument must be a {{#crossLink "Link"}}Link{{/crossLink}} instance. Otherwise, an error is thrown.
-	 * @method toLink
-	 * @param  {Link}         link
-	 * @return {Content}
+	 * @method          toLink
+	 * @param           {Link}         link
+	 * @return          {Content}
+	 * @deprecated      use Link::shower() method
 	 */
 	this.toLink = function(link){
+		console.log('This method is deprecated. Use Link::shower()!');
 		if (!(link instanceof Link)){
 			throw new Error('The argument must be a Link instance!');
 		}
@@ -369,11 +371,11 @@ function Content(str) {
 	 * @return    {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		var factory = this.factory,
-			elements = [];
+		    var factory = FACTORY.factory,
+		    	elements = [];
 		if (Array.isArray(arr)){
 			arr.forEach(function(el){
-				var baby = factory.forgeElement(el);
+				var baby = factory.mimic(el);
 				elements.push(baby);
 			});
 			this.elements = elements;
