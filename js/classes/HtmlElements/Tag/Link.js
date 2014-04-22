@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Tag, LinkAttributes, LinkStyles */
+/*global Tag, LinkAttributes, LinkStyles, Content */
 
 /**
 * This class is represent an html link tag "a".
@@ -104,45 +104,64 @@ function Link(href) {
 	};
 
 	/**
-	 * Transforms the target link into a link described by the argument. If the argument is not a
-	 * Link instance, a clone of the target link is returned. Otherwise, a clone of the argument is
-	 * made in which {{#crossLink "Tag/content:property"}}content{{/crossLink}} is replaced by clone
-	 * of {{#crossLink "Tag/content:property"}}content{{/crossLink}} property of the target.
-	 * @method  toLink
-	 * @param   {Link}     link
-	 * @return  {Link}
-	 */
-	this.toLink = function(link){
-		// console.log('I am asked to transform ', this, ' into link ', link);
-		if (link instanceof Link){
-			var clone = link.clone();
-			// console.log('Link::toLink: ', clone);
-			clone.content = this.content.clone();
-			return clone;
-		} else {
-			return this.clone();
-		}
-	}
-
-	/**
-	 * Imposes the target link properties on the argument. If the argument is an instance of a Link class,
-	 * then its properties are changed according to the target ones. If the argument is an instance of
-	 * {{#crossLink "Tag"}}Tag{{/crossLink}} and its {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * Propagates the target link properties on the argument.
 	 * <ol><li>
-	 * is empty, then the argument is inserted into the target content
+	 * If the argument is an instance of a Link class, then it is returned a Link instance whose properties
+	 * are overridden by the target ones.
 	 * </li><li>
-	 * is not empty, then this method is applied to each element of the content.
+	 *  If the argument is an instance of {{#crossLink "Tag"}}Tag{{/crossLink}} and its
+	 *  {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * <ol><li>
+	 * is empty, then it is returned a Link instance with the argument being inserted into the target content
+	 * </li><li>
+	 * is not empty, then a clone of the target is returned in which the current method is applied to the whole
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
 	 * </li></ol>
-	 * If the argument is {{#crossLink "Content"}}Content{{/crossLink}}, then this method is applied
-	 * to each its element.
-	 * Otherwise, the argument is inserted into the target content.
-	 * @method    cascadeOn
+	 * </li><li>
+	 * If the argument is {{#crossLink "Content"}}Content{{/crossLink}}, then it is returned the argument clone with
+	 * the current method being applied to each {{#crossLink "Content"}}Content{{/crossLink}} item.
+	 * </li><li>
+	 * If none of the above holds, then it is returned a Link instance with argument being inserted into the content.
+	 *  </li></ol>
+	 * @method    shower
 	 * @param     {Tag|Link|Content}         obj
 	 * @return    {Tag|Link|Content}
 	 */
-	this.cascadeOn = function(obj){
+	this.shower = function(obj){
+		var clone = (obj !== undefined && typeof obj.clone === 'function') ? obj.clone() : obj,
+			linkClone;
+		// case 1: the argument is a Link:
+		if (obj instanceof Link){
+			clone.attr.appendProperty(this.attr.getCore());
+			clone.style.appendProperty(this.style.getCore());
+			clone.setHref(this.getHref());
+			return clone;
+		}
+		// case 2: the argument is a Content: call current method on each item
+		if (obj instanceof Content){
+			var content = new Content(),
+				len = clone.length(),
+				i, current;
+			for (i = 0; i < len; i++){
+				current = clone.getElem(i);
+				content.appendElem(this.shower(current));
+			}
+			return content;
+		}
+		// case 3: the argument is a Tag with non-empty content
+		if (obj instanceof Tag && !(obj.content.isEmpty())){
+			var contentShowred = this.shower(obj.content);
+			clone.content = contentShowred;
+			return clone;
+		}
+		// case 4: all the rest should be processed in the same way:
+		// a) make a clone of the target,
+		// b) insert the clone of the argument into the content property
+		linkClone = this.clone();
+		linkClone.content.elements = [clone];
+		return linkClone;
 
-	}
+	};
 
 }
 Link.prototype = Object.create(Tag.prototype);

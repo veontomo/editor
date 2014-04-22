@@ -6,6 +6,7 @@
  * This class is used to represent a list item.
  * @module 	    HtmlElements
  * @class  		ListItem
+ * @constructor
  */
 function ListItem() {
 	"use strict";

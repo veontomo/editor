@@ -678,7 +678,7 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-	describe('Content::setFactory(): sets factory', function(){
+	xdescribe('Content::setFactory(): sets factory', function(){
 		var factory;
 		beforeEach(function(){
 			factory = new Factory();

@@ -171,6 +171,145 @@ describe('Link-related functionality:', function() {
             expect(link.style['text-decoration']).toBe('whatever');
         });
     });
+    describe('Link::shower(): propagates the link on the argument', function(){
+        var arg, result;
+        beforeEach(function(){
+            link = new Link();
+            link.style.setProperty('level', 'sealevel');
+            link.style.setProperty('color', 'invisible');
+            link.style.setProperty('width', 98);
+            link.attr.setProperty('method', 'deduct');
+            link.attr.setProperty('profile', 8);
+            link.setHref('www.pizza.it');
+        });
+
+        it('returns a Link instance if the argument is a Link', function(){
+            arg = new Link();
+            expect(link.shower(arg) instanceof Link).toBe(true);
+        });
+
+        it('concatenates properties if the argument is a Link', function(){
+            arg = new Link();
+            arg.style.setProperty('level', 'mountain');
+            arg.style.setProperty('color', 'blue');
+            arg.style.setProperty('module', 'top');
+            arg.attr.setProperty('method', 'get');
+            arg.attr.setProperty('screen', 'hd');
+            arg.setHref('www.beer.de');
+            result = link.shower(arg);
+            expect(result.style.getProperty('level')).toBe('sealevel');
+            expect(result.style.getProperty('color')).toBe('invisible');
+            expect(result.style.getProperty('width')).toBe(98);
+            expect(result.style.getProperty('module')).toBe('top');
+            expect(result.attr.getProperty('method')).toBe('deduct');
+            expect(result.attr.getProperty('screen')).toBe('hd');
+            expect(result.attr.getProperty('profile')).toBe(8);
+            expect(result.getHref()).toBe('www.pizza.it');
+        });
+
+        it('preserves the content of the argument if it is a Link', function(){
+            arg = new Link();
+            arg.content.elements = ["first", "second"];
+            result = link.shower(arg);
+            expect(result.content.elements.length).toBe(2);
+            expect(result.content.getElem(0)).toBe('first');
+            expect(result.content.getElem(1)).toBe('second');
+
+        });
+
+        it('returns a Link instance if the argument is a Tag with empty content', function(){
+            arg = new Tag();
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return true;});
+            result = link.shower(arg);
+            expect(result instanceof Link).toBe(true);
+            expect(arg.content.isEmpty).toHaveBeenCalled();
+        });
+
+        it('inserts a clone of the argument into the output if the argument is a Tag with empty content', function(){
+            arg = new Tag();
+            var clone = {};
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return true;});
+            spyOn(arg, 'clone').andCallFake(function(){return clone;});
+            result = link.shower(arg);
+            expect(result.content.elements.length).toBe(1);
+            expect(result.content.elements[0]).toBe(clone);
+        });
+
+        it('populates properties if the argument is a Tag with empty content', function(){
+            arg = new Tag();
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return true;});
+            result = link.shower(arg);
+            expect(result.style.getProperty('level')).toBe('sealevel');
+            expect(result.style.getProperty('color')).toBe('invisible');
+            expect(result.style.getProperty('width')).toBe(98);
+            expect(result.attr.getProperty('method')).toBe('deduct');
+            expect(result.attr.getProperty('profile')).toBe(8);
+        });
+
+        it('returns a clone of the argument if it is a Tag instance with non-empty content', function(){
+            arg = new Tag();
+            var clone = new Tag();
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(arg, 'clone').andCallFake(function(){return clone;});
+            result = link.shower(arg);
+            expect(result).toBe(clone);
+        });
+
+        it('populates properties if the argument is a Tag with non empty content', function(){
+            arg = new Tag();
+            arg.style.setProperty('module', 5);
+            arg.style.setProperty('mass', '1 kg');
+            arg.attr.setProperty('length', '100mm');
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return false;});
+            result = link.shower(arg);
+            expect(result.style.getProperty('module')).toBe(5);
+            expect(result.style.getProperty('mass')).toBe('1 kg');
+            expect(result.attr.getProperty('length')).toBe('100mm');
+        });
+
+
+
+        it('calls clone method on the argument if it is a Tag instance with non empty content', function(){
+            arg = new Tag();
+            var clone = new Tag();
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(arg, 'clone').andCallFake(function(){return clone;});
+            result = link.shower(arg);
+            expect(arg.clone).toHaveBeenCalled();
+        });
+
+        xit('calls shower() method on "content" property of the argument if it is a Tag instance with non empty content', function(){
+            arg = new Tag();
+            var tagClone = new Tag();
+            spyOn(arg.content, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(arg, 'clone').andCallFake(function(){return tagClone;});
+            result = link.shower(arg);
+
+        });
+
+        it('returns a clone of the argument if it is a Content instance', function(){
+            arg = new Content();
+            var contentClone = new Content();
+            spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
+            result = link.shower(arg);
+            expect(result instanceof Content).toBe(true);
+        });
+
+        it('calls "shower" method on each element of the argument if it is a Content instance', function(){
+            arg = new Content();
+            var contentClone = new Content(),
+                c1 = {shower: function(){return null;}},
+                c2 = {shower: function(){return null;}},
+                c1Showered = {shower: function(){return null;}},
+                c2Showered = {shower: function(){return null;}};
+            arg.elements = [c1, c2];
+            contentClone.elements = [c1, c2];
+            spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
+            result = link.shower(arg);
+            expect(result.elements.length).toBe(2);
+        });
+
+    });
 
     xdescribe('Link::toLink(): overrides parent class', function(){
         var linkExample;

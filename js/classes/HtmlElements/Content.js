@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Link, Factory */
+/*global Node, Link */
 
 /**
  * This class is used to encompass other objects.
@@ -33,15 +33,6 @@ function Content(str) {
 	 * @since    0.0.2
 	 */
 	this.className = "Content";
-
-	/**
-	 * Factory that creates objects.
-	 * @property {Factory}   factory
-	 * @type     {Factory}
-	 * @default  "null"
-	 */
-	this.factory = null;
-
 
 	/**
 	 * The number of items in the "elements" property
@@ -80,21 +71,6 @@ function Content(str) {
 	this.getLast = function(){
 		var len = this.length();
 		return len > 0 ? this.getElem(len - 1) : null;
-	};
-
-	/**
-	 * Sets {{#crossLink "Content/factory:property"}}factory{{/crossLink}} property. Returns `true` if the
-	 * argument is an instance of {{#crossLink "Factory"}}Factory{{/crossLink}} class, `false` otherwise.
-	 * @method    setFactory
-	 * @param     {Factory}    factory
-	 * @return    {Boolean}
-	 */
-	this.setFactory = function(factory){
-		if (factory instanceof Factory){
-			this.factory = factory;
-			return true;
-		}
-		return false;
 	};
 
 	/**
