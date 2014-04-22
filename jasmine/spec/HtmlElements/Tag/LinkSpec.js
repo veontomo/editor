@@ -171,6 +171,8 @@ describe('Link-related functionality:', function() {
             expect(link.style['text-decoration']).toBe('whatever');
         });
     });
+
+
     describe('Link::shower(): propagates the link on the argument', function(){
         var arg, result;
         beforeEach(function(){
@@ -278,15 +280,6 @@ describe('Link-related functionality:', function() {
             expect(arg.clone).toHaveBeenCalled();
         });
 
-        xit('calls shower() method on "content" property of the argument if it is a Tag instance with non empty content', function(){
-            arg = new Tag();
-            var tagClone = new Tag();
-            spyOn(arg.content, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(arg, 'clone').andCallFake(function(){return tagClone;});
-            result = link.shower(arg);
-
-        });
-
         it('returns a clone of the argument if it is a Content instance', function(){
             arg = new Content();
             var contentClone = new Content();
@@ -299,9 +292,7 @@ describe('Link-related functionality:', function() {
             arg = new Content();
             var contentClone = new Content(),
                 c1 = {shower: function(){return null;}},
-                c2 = {shower: function(){return null;}},
-                c1Showered = {shower: function(){return null;}},
-                c2Showered = {shower: function(){return null;}};
+                c2 = {shower: function(){return null;}};
             arg.elements = [c1, c2];
             contentClone.elements = [c1, c2];
             spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
@@ -311,90 +302,19 @@ describe('Link-related functionality:', function() {
 
     });
 
-    xdescribe('Link::toLink(): overrides parent class', function(){
-        var linkExample;
-        beforeEach(function(){
-            link.setFactory(new Factory(new Registry({classes: [Link, LinkAttributes, LinkStyles]})));
-            linkExample = new Link();
-            linkExample.setFactory(new Factory(new Registry({classes: [Link, LinkAttributes, LinkStyles]})));
-            linkExample.style.setProperty('level', 'sealevel');
-            linkExample.style.setProperty('color', 'invisible');
-            linkExample.style.setProperty('width', 98);
-            linkExample.attr.setProperty('method', 'deduct');
-            linkExample.attr.setProperty('profile', 8);
-            linkExample.setHref('www.pizza.it');
+    describe('Link::dropUnderline() removes the underlining of the link', function(){
+        it('no underline if the link was originally underlined', function(){
+            link.style.setProperty('text-decoration', 'underline');
+            link.dropUnderline();
+            expect(link.style.getProperty('text-decoration')).toBe('none');
         });
 
-
-        it('returns an instance of Link if the argument is a Link instance', function(){
-            expect(link.toLink(linkExample) instanceof Link).toBe(true);
+        it('no underline if the link was not originally', function(){
+            link.style.setProperty('text-decoration', 'none');
+            link.dropUnderline();
+            expect(link.style.getProperty('text-decoration')).toBe('none');
         });
 
-        it('returns an instance of Link if the argument is not a Link instance', function(){
-            expect(link.toLink(linkExample) instanceof Link).toBe(true);
-        });
-
-        it('calls "clone" on the target if the argument is not a Link instance', function(){
-            var invalides = ['', 'non-empty string', 0, 48, -92, 1.98, [], [0], ['str', 9], {}];
-            spyOn(link, 'clone');
-            invalides.forEach(function(invalid){
-                link.toLink(invalid);
-                expect(link.clone).toHaveBeenCalled();
-            });
-        });
-
-        it('returns output of "clone" called on the target if the argument is not a Link instance', function(){
-            var invalides = ['', 'non-empty string', 0, 48, -92, 1.98, [], [0], ['str', 9], {}];
-            spyOn(link, 'clone').andCallFake(function(){return 'target clone';});
-            invalides.forEach(function(invalid){
-                var clone = link.toLink(invalid);
-                expect(clone).toBe('target clone');
-            });
-        });
-
-        it('calls "clone" on the argument if it is a Link instance', function(){
-            // console.log('argument is link');
-            var linkExampleClone = new Link(),
-                linkClone = new Link();
-            spyOn(linkExample, 'clone').andCallFake(function(){return linkExampleClone;});
-            spyOn(link, 'clone').andCallFake(function(){return linkClone;});
-            link.toLink(linkExample);
-            expect(linkExample.clone).toHaveBeenCalled();
-            expect(link.clone).wasNotCalled();
-        });
-
-        // it('does not call parent Tag::toLink() method', function(){
-        //     spyOn(link.prototype, 'toLink');
-        //     link.toLink(linkExample);
-        //     expect(link.prototype.toLink).not.toHaveBeenCalled();
-        // });
-
-        it('substitutes the url with that of the argument', function(){
-            var obj = link.toLink(linkExample);
-            expect(obj.getHref()).toBe('www.pizza.it');
-        });
-        it('imposes styles of the argument', function(){
-            var obj = link.toLink(linkExample);
-            expect(obj.style.getProperty('level')).toBe('sealevel');
-            expect(obj.style.getProperty('color')).toBe('invisible');
-            expect(obj.style.getProperty('width')).toBe(98);
-        });
-        it('imposes attributes of the argument', function(){
-            var obj = link.toLink(linkExample);
-            expect(obj.attr.getProperty('method')).toBe('deduct');
-            expect(obj.attr.getProperty('profile')).toBe(8);
-        });
-        it('imposes factory attribute', function(){
-            var obj = link.toLink(linkExample);
-            expect(obj.factory).toBeDefined();
-        });
-        it('leaves unchanged "content" property of the target', function(){
-            content.elements = ['first', 'second'];
-            link.content = content;
-            var obj = link.toLink(linkExample);
-            expect(obj.content.elements[0]).toBe('first');
-            expect(obj.content.elements[1]).toBe('second');
-        });
     });
 
 
