@@ -4,9 +4,10 @@
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
- * @module 	HtmlElements
- * @class   Cell
- * @param   {mixed} arg
+ * @module          HtmlElements
+ * @class           Cell
+ * @constructor
+ * @param           {mixed} arg
  */
 function Cell(arg) {
 	"use strict";

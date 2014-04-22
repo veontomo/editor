@@ -8,6 +8,7 @@
  * @module 	    HtmlElements
  * @param       {Sting}       listType
  * @class  		List
+ * @constructor
  */
 function List(listType) {
 	"use strict";

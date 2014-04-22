@@ -4,9 +4,10 @@
 
 /**
  * Represents a table row
- * @module 	HtmlElements
- * @class   Row
- * @extends Tag
+ * @module      HtmlElements
+ * @class       Row
+ * @constructor
+ * @extends     Tag
  */
 function Row() {
 	"use strict";

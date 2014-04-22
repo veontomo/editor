@@ -4,10 +4,11 @@
 
 /**
  * This class is used to represent unordered lists.
- * @module 	    HtmlElements
- * @class  		UList
- * @extends     List
- * @since       0.0.2
+ * @module 	       HtmlElements
+ * @class  		   UList
+ * @constructor
+ * @extends        List
+ * @since          0.0.2
  */
 function UList() {
 	"use strict";

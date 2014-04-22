@@ -4,9 +4,10 @@
 
 /**
 * Represents table.
-* @module  HtmlElements
-* @class   Table
-* @extends Tag
+* @module        HtmlElements
+* @class         Table
+* @constructor
+* @extends       Tag
 */
 function Table() {
 	// "use strict";

@@ -6,6 +6,7 @@
  * This class is used to represent ordered lists.
  * @module 	    HtmlElements
  * @class  		OList
+ * @constructor
  * @extends     List
  * @since       0.0.2
  */

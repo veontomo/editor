@@ -3,9 +3,10 @@
 
 /**
 * This class is represent an html link tag "a".
- * @module 	HtmlElements
- * @class   Link
- * @extends Tag
+ * @module        HtmlElements
+ * @class         Link
+ * @constructor
+ * @extends       Tag
 */
 function Link(href) {
 	"use strict";
