@@ -5,7 +5,7 @@
 /**
  * Represents an image.
  * @module          HtmlElements
- * @class           Cell
+ * @class           Image
  * @constructor
  */
 function Image() {
@@ -20,7 +20,7 @@ function Image() {
 	 * Html tag corresponding to Cell instances.
 	 * @property {String}    name
 	 * @type     {String}
-	 * @default  table
+	 * @default  img
 	 */
 	this.tag = 'img';
 
@@ -50,5 +50,27 @@ function Image() {
 	 * @default TableCellStyle
 	 */
 	this.style = new ImageStyles();
+
+	/**
+	 * Sets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
+	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
+	 * @method    setOrigin
+	 * @param     {String}     url
+	 * @return    {void}
+	 */
+	this.setOrigin = function(url){
+		this.attr.setProperty('src', url);
+	};
+
+	/**
+	 * Gets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
+	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
+	 * @method    getOrigin
+	 * @return    {String}
+	 */
+	this.getOrigin = function(url){
+		return this.attr.getProperty('src');
+	};
+
 }
 Image.prototype = Object.create(Tag.prototype);
