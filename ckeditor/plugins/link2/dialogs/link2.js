@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, Registry, Factory */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
@@ -157,10 +157,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     link.setHref(url);
                     link.underline(isUnderlined);
                     obj = factory.mimic(el.$);
-                    // console.log('factory produced: ', obj, 'its html: ', obj.toHtml());
                     if (obj &&  !obj.isEmpty()){
-                        // objLink = obj.toLink(link);
-                        // newNode = objLink.toNode();
                         objLink = link.shower(obj);
                         newNode = objLink.toNode();
                         el.$.parentNode.replaceChild(newNode, el.$);

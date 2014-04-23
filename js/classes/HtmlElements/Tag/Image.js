@@ -68,7 +68,7 @@ function Image() {
 	 * @method    getOrigin
 	 * @return    {String}
 	 */
-	this.getOrigin = function(url){
+	this.getOrigin = function(){
 		return this.attr.getProperty('src');
 	};
 }
