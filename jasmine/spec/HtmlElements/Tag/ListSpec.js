@@ -84,101 +84,6 @@ describe('List-related functionality:', function(){
         });
     });
 
-    xdescribe('creates html representation of the list', function(){
-        it('gives empty string if the list has no items', function(){
-            l.items = [];
-            expect(l.toHtml()).toBe('');
-        });
-
-        it('if no attributes niether styles are provided:', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            var lStyle = new ListStyle(),
-                lAttr = new Attributes(),
-                lHtml;
-            spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
-            spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
-            spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            l.tag = 'listtype';
-            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
-            spyOn(lStyle, 'toString').andCallFake(function(){return '';});
-            spyOn(lAttr, 'toString').andCallFake(function(){return '';});
-            l.items = [li1, li2, li3, li4];
-            l.style = lStyle;
-            l.attr = lAttr;
-            lHtml = l.toHtml();
-            expect(lHtml).toBe('<listtype>item 1item 2item 3item 4</listtype>');
-        });
-
-        it('if no attributes are provided:', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            var lStyle = new ListStyle(),
-                lAttr = new Attributes(),
-                lHtml;
-            spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
-            spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
-            spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            l.tag = 'listtype';
-            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
-            spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
-            spyOn(lAttr, 'toString').andCallFake(function(){return '';});
-            l.items = [li1, li2, li3, li4];
-            l.style = lStyle;
-            l.attr = lAttr;
-            lHtml = l.toHtml();
-            expect(lHtml).toBe('<listtype style="list style">item 1item 2item 3item 4</listtype>');
-        });
-        it('if no style is provided:', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            var lStyle = new ListStyle(),
-                lAttr = new Attributes(),
-                lHtml;
-            spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
-            spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
-            spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            l.tag = 'listtype';
-            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
-            spyOn(lStyle, 'toString').andCallFake(function(){return '';});
-            spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
-            l.items = [li1, li2, li3];
-            l.style = lStyle;
-            l.attr = lAttr;
-            lHtml = l.toHtml();
-            expect(lHtml).toBe('<listtype list attributes>item 1item 2item 3</listtype>');
-        });
-        it('if both attributes and styles are provided:', function(){
-            li1 = new ListItem();
-            li2 = new ListItem();
-            li3 = new ListItem();
-            li4 = new ListItem();
-            var lStyle = new ListStyle(),
-                lAttr = new Attributes(),
-                lHtml;
-            spyOn(li1, 'toHtml').andCallFake(function(){return 'item 1';});
-            spyOn(li2, 'toHtml').andCallFake(function(){return 'item 2';});
-            spyOn(li3, 'toHtml').andCallFake(function(){return 'item 3';});
-            spyOn(li4, 'toHtml').andCallFake(function(){return 'item 4';});
-            // spyOn(l, 'getType').andCallFake(function(){return 'listtype';});
-            l.tag = 'listtype';
-            spyOn(lStyle, 'toString').andCallFake(function(){return 'list style';});
-            spyOn(lAttr, 'toString').andCallFake(function(){return 'list attributes';});
-            l.items = [li1, li2, li3, li4];
-            l.style = lStyle;
-            l.attr = lAttr;
-            lHtml = l.toHtml();
-            expect(lHtml).toBe('<listtype list attributes style="list style">item 1item 2item 3item 4</listtype>');
-        });
-    });
-
     describe('List::appendList(): appends a list', function(){
         it('throws an error if the argument is not a List instance', function(){
             var foo = '';
@@ -235,5 +140,36 @@ describe('List-related functionality:', function(){
         });
     });
 
+    describe('List::appendAsItems() appends array elements to the list content', function(){
+        it('leaves empty content unchanged if the argument is missing', function(){
+            expect(l.length()).toBe(0);
+            l.appendAsItems();
+            expect(l.length()).toBe(0);
+        });
+        it('leaves non-empty content unchanged if the argument is missing', function(){
+            l.content.elements = ['first item', 'second'];
+            expect(l.length()).toBe(2);
+            l.appendAsItems();
+            expect(l.length()).toBe(2);
+        });
+        it('transforms argument into ListItem and increases non-empty content by one if the argument is a string', function(){
+            l.content.elements = ['first item', 'second'];
+            expect(l.length()).toBe(2);
+            l.appendAsItems('third');
+            expect(l.length()).toBe(3);
+            expect(l.getElem(2) instanceof ListItem).toBe(true);
+            expect(l.getElem(2).getElem(0)).toBe('third');
+        });
+        it('transforms argument into ListItem and increases non-empty content by one if the argument is a 2-element array', function(){
+            l.content.elements = ['first item', 'second'];
+            expect(l.length()).toBe(2);
+            l.appendAsItems(['third', 4]);
+            expect(l.length()).toBe(4);
+            expect(l.getElem(2) instanceof ListItem).toBe(true);
+            expect(l.getElem(2).getElem(0)).toBe('third');
+            expect(l.getElem(3) instanceof ListItem).toBe(true);
+            expect(l.getElem(3).getElem(0)).toBe(4);
+        });
+    });
 });
 

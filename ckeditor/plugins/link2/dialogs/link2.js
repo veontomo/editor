@@ -63,7 +63,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-
             // CKEDITOR.document.getById(warningFieldId).setHtml('');
             var selection = new Selection(editor, editor.getSelection()),
                 len, node, nodeType, inner, innerLen,

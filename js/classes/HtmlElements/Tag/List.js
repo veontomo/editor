@@ -93,7 +93,7 @@ function List(listType) {
 	 * Inserts the item at the given position. If the item to insert is a ListItem instance, then
 	 * {{#crossLink "Content/insertElemAt:method"}}Content::insertElemAt(){{/crossLink}}
 	 * Content::insertElemAt() is called. Otherwise, an error is thrown.
-	 * @method    isertItemAt
+	 * @method    insertItemAt
 	 * @param     {Number}      pos     index of the position of there to insert the item
 	 * @param     {ListItem}    item    item to insert
 	 * @return    {void}
@@ -123,5 +123,26 @@ function List(listType) {
 			this.appendItem(list.getElem(i));
 		}
 	};
+
+	/**
+	 * Wraps elements of the input array into a {{#crossLink "ListItem"}}list item{{/crossLink}} object
+	 * and appends it to {{#crossLink "List/content:property"}}content{{/crossLink}}.
+	 * If the argument is not of array type, converts it into array and apply the described procedure.
+	 * @method          appendAsItems
+	 * @param           {Array}          itemArr
+	 * @return          {void}
+	 */
+	this.appendAsItems = function(itemArr){
+		if(itemArr !== undefined){
+			var input = Array.isArray(itemArr) ? itemArr : [itemArr],
+				content = this.content;
+			input.forEach(function(item){
+				var li = new ListItem();
+				li.appendElem(item);
+				content.appendElem(li);
+			});
+
+		}
+	}
 }
 List.prototype = Object.create(Tag.prototype);

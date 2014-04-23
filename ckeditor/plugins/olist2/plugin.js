@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, List, ListItem*/
+/*global CKHelper, CKEDITOR */
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('olist2', {

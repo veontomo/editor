@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -319,120 +319,125 @@ var CKHelper = {
 	/**
 	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
-	 * @method  insertList
-	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
-	 * @param   {String}          listType               Type of the list to insert (ol, ul)
-	 * @return  {void}
+	 * @method             insertList
+	 * @param              {CKEDITOR.editor} editor                 Represents an editor instance.
+	 * @param              {String}          listType               Type of the list to insert (ol, ul)
+	 * @return             {void}
 	 */
 	insertList: function(editor, listType){
-		// //console.log('inside CKHelper::insertList()');
-		var range, ranges, selection, selectionLen, i, j, list,
-		    startContainer, endContainer, startType, endType,
-		    listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
-		    next, nextStr, endNode, parentList,
-		    nodesToDeleteLen,  elem,
-		    nodesToDelete = [];
-		    // currentNode, stop = 0, skip,iterator, liObj, parentList, listItems, listLen,listItemObj, liObjLen,
-		selection = editor.getSelection();
-		ranges = selection.getRanges();
-		selectionLen = ranges.length;
-		if (selectionLen === 0){
-			return null;
-		}
-		for (i = 0; i < selectionLen; i++){
-			//console.log('selection loop: #', i + 1, ' of total ', selectionLen);
-			list = new List(listType);
-			list.style['margin-left'] = list.style['margin-left'] || 40;
-			range = ranges[i];
-			startContainer = range.startContainer;
-			endContainer = range.endContainer;
-			startType = startContainer.type;
-			endType = endContainer.type;
-			//console.log(startType, endType);
-			//console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
-			endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
-			if (range.collapsed){
-				list.appendItem(new ListItem());
-				listHtml = list.toHtml();
-				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
-				editor.insertElement(listObj);
-				break;
-			}
-			// if the start container is of node type, it means that a whole node was selected.
-			// Let's take all its child nodes and insert them as list items into the list.
-			if (startType === CKEDITOR.NODE_ELEMENT){
-				//console.log('start container is a node');
-				startNode = startContainer.getChild(range.startOffset);
-				//console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
-				if (startNode.type === CKEDITOR.NODE_ELEMENT){
-					children = startNode.getChildren();
-					len = children.count();
-					for (j = 0; j < len; j++){
-						li = new ListItem();
-						child = children.getItem(j);
-						childStr = this.nodeString(child);
-						childObj = childStr.inflate();
-						childObj.trim();
-						// insert list item if it is not empty
-						if (!childObj.isEmpty()){
-							li.appendElem(childObj);
-							list.appendItem(li);
-						}
-					}
-				} else {
-					li = new ListItem();
-					li.appendElem(startNode.getText());
-					list.appendItem(li);
-				}
-				listHtml = list.toHtml();
-	    		startNode.setHtml(listHtml);
-			}
-			// start container is of text type. Nodes present in the range will be inserted into the list.
-			// If a list item is among selected nodes, then all list items will be inserted into the list.
-			if (startType === CKEDITOR.NODE_TEXT){
-				//console.log('start container is a text');
-				// consider the start container separately
-				li = new ListItem();
-				if (startContainer.getParent().getName() === 'li'){
-					parentList = startContainer.getParent().getParent().getOuterHtml().inflate();
-					parentList.trim();
-					list.appendList(parentList.getFirst());
-				} else {
-					li.appendElem(startContainer.getText());
-					list.appendItem(li);
-				}
-				next = startContainer.getNext();
-				while(next){
-					nodesToDelete.push(next);
-					nextStr = this.nodeString(next);
-					elem = nextStr.inflate();
-					if (!elem.isEmpty()){
-						li = new ListItem();
-						li.appendElem(elem);
-						list.appendItem(li);
-					}
-					// if the current node is equal the endContainer (if it is a node),
-					// then stop looping
-					if (next.equals(endNode)){
-						break;
-					}
-					next = next.getNext();
-				}
+		var selection = new Selection(editor, editor.getSelection()),
+		    selectedNodes = selection.selectedNodes; // 2-dim arrays
+		console.log('CKHelper::insertList ', selectedNodes);
 
-				if (list.length() === 0){
-					li = new ListItem();
-					list.appendItem(li);
-				}
-				listHtml = list.toHtml();
-				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
-				nodesToDeleteLen = nodesToDelete.length;
-				for (j = 0; j < nodesToDeleteLen; j++){
-					nodesToDelete[j].remove();
-				}
-				startContainer.setText(startContainer.getText().substring(0, range.startOffset));
-				editor.insertElement(listObj);
-			}
-		}
+
+		// // //console.log('inside CKHelper::insertList()');
+		// var range, ranges, selection, selectionLen, i, j, list,
+		//     startContainer, endContainer, startType, endType,
+		//     listObj, listHtml, li, child, childStr, childObj, children, len, startNode,
+		//     next, nextStr, endNode, parentList,
+		//     nodesToDeleteLen,  elem,
+		//     nodesToDelete = [];
+		//     // currentNode, stop = 0, skip,iterator, liObj, parentList, listItems, listLen,listItemObj, liObjLen,
+		// selection = editor.getSelection();
+		// ranges = selection.getRanges();
+		// selectionLen = ranges.length;
+		// if (selectionLen === 0){
+		// 	return null;
+		// }
+		// for (i = 0; i < selectionLen; i++){
+		// 	//console.log('selection loop: #', i + 1, ' of total ', selectionLen);
+		// 	list = new List(listType);
+		// 	list.style['margin-left'] = list.style['margin-left'] || 40;
+		// 	range = ranges[i];
+		// 	startContainer = range.startContainer;
+		// 	endContainer = range.endContainer;
+		// 	startType = startContainer.type;
+		// 	endType = endContainer.type;
+		// 	//console.log(startType, endType);
+		// 	//console.log(startContainer.equals(endContainer) ? 'selection is in the same node' : 'selection is in different nodes');
+		// 	endNode = endType === CKEDITOR.NODE_ELEMENT ? range.endContainer.getChildren().getItem(range.endOffset) : null;
+		// 	if (range.collapsed){
+		// 		list.appendItem(new ListItem());
+		// 		listHtml = list.toHtml();
+		// 		listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+		// 		editor.insertElement(listObj);
+		// 		break;
+		// 	}
+		// 	// if the start container is of node type, it means that a whole node was selected.
+		// 	// Let's take all its child nodes and insert them as list items into the list.
+		// 	if (startType === CKEDITOR.NODE_ELEMENT){
+		// 		//console.log('start container is a node');
+		// 		startNode = startContainer.getChild(range.startOffset);
+		// 		//console.log('startContainer: ', startContainer, ', start offset: ', range.startOffset,  ', startNode: ', startNode );
+		// 		if (startNode.type === CKEDITOR.NODE_ELEMENT){
+		// 			children = startNode.getChildren();
+		// 			len = children.count();
+		// 			for (j = 0; j < len; j++){
+		// 				li = new ListItem();
+		// 				child = children.getItem(j);
+		// 				childStr = this.nodeString(child);
+		// 				childObj = childStr.inflate();
+		// 				childObj.trim();
+		// 				// insert list item if it is not empty
+		// 				if (!childObj.isEmpty()){
+		// 					li.appendElem(childObj);
+		// 					list.appendItem(li);
+		// 				}
+		// 			}
+		// 		} else {
+		// 			li = new ListItem();
+		// 			li.appendElem(startNode.getText());
+		// 			list.appendItem(li);
+		// 		}
+		// 		listHtml = list.toHtml();
+	 //    		startNode.setHtml(listHtml);
+		// 	}
+		// 	// start container is of text type. Nodes present in the range will be inserted into the list.
+		// 	// If a list item is among selected nodes, then all list items will be inserted into the list.
+		// 	if (startType === CKEDITOR.NODE_TEXT){
+		// 		//console.log('start container is a text');
+		// 		// consider the start container separately
+		// 		li = new ListItem();
+		// 		if (startContainer.getParent().getName() === 'li'){
+		// 			parentList = startContainer.getParent().getParent().getOuterHtml().inflate();
+		// 			parentList.trim();
+		// 			list.appendList(parentList.getFirst());
+		// 		} else {
+		// 			li.appendElem(startContainer.getText());
+		// 			list.appendItem(li);
+		// 		}
+		// 		next = startContainer.getNext();
+		// 		while(next){
+		// 			nodesToDelete.push(next);
+		// 			nextStr = this.nodeString(next);
+		// 			elem = nextStr.inflate();
+		// 			if (!elem.isEmpty()){
+		// 				li = new ListItem();
+		// 				li.appendElem(elem);
+		// 				list.appendItem(li);
+		// 			}
+		// 			// if the current node is equal the endContainer (if it is a node),
+		// 			// then stop looping
+		// 			if (next.equals(endNode)){
+		// 				break;
+		// 			}
+		// 			next = next.getNext();
+		// 		}
+
+		// 		if (list.length() === 0){
+		// 			li = new ListItem();
+		// 			list.appendItem(li);
+		// 		}
+		// 		listHtml = list.toHtml();
+		// 		listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+		// 		nodesToDeleteLen = nodesToDelete.length;
+		// 		for (j = 0; j < nodesToDeleteLen; j++){
+		// 			nodesToDelete[j].remove();
+		// 		}
+		// 		startContainer.setText(startContainer.getText().substring(0, range.startOffset));
+		// 		editor.insertElement(listObj);
+		// 	}
+		// }
 	},
 
 

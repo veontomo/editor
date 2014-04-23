@@ -32,6 +32,3 @@ Object.defineProperty(FACTORY, 'factory', {
 	value:    new Factory(map),
 	writable: false
 });
-
-
-console.log(FACTORY.factory.getMapping().getMappings());
