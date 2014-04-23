@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Registry */
+/*global Node */
 
 /**
  * This class is to be used to create different objects. What type of object is to be created
