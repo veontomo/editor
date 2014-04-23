@@ -1,18 +1,17 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global TableCellStyles, Content, Tag */
+/*global ImageStyles, Content, Tag */
 
 /**
- * Represents a table cell. The argument is supposed to be passed to the "content" property.
+ * Represents an image.
  * @module          HtmlElements
  * @class           Cell
  * @constructor
- * @param           {mixed} arg
  */
-function Cell(arg) {
+function Image() {
 	"use strict";
-	if (!(this instanceof Cell)) {
-		return new Cell(arg);
+	if (!(this instanceof Image)) {
+		return new Image();
 	}
 	// inherit tag properties
 	Tag.call(this);
@@ -23,7 +22,7 @@ function Cell(arg) {
 	 * @type     {String}
 	 * @default  table
 	 */
-	this.tag = 'td';
+	this.tag = 'img';
 
 	/**
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
@@ -34,16 +33,15 @@ function Cell(arg) {
 	 * @default  "Cell"
 	 * @since    0.0.2
 	 */
-	this.className = "Cell";
+	this.className = "Image";
 
 
 	/**
 	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
 	 * @property {Content}    content
-	 * @param     {any}       arg
 	 * @type      {Content}
 	 */
-	this.content = new Content(arg);
+	this.content = new Content();
 
 	/**
 	 * Styles of the cell
@@ -51,8 +49,6 @@ function Cell(arg) {
 	 * @type {TableCellStyle}
 	 * @default TableCellStyle
 	 */
-	this.style = new TableCellStyles();
-
-
+	this.style = new ImageStyles();
 }
-Cell.prototype = Object.create(Tag.prototype);
+Image.prototype = Object.create(Tag.prototype);
