@@ -1,6 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
-	Content, Link, Ulist, Factory, Tag, Table, ListItem, OList, UList, Cell, Row, Registry, PlainText, Mapping, Node */
+	Content, Link, Ulist, Factory, Tag, Table, ListItem, OList, UList,
+	Cell, Row, Registry, PlainText, Mapping, Node, window */
 
 describe('Content-related functionality', function(){
 	var c;
