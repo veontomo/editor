@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xdescribe, expect, spyOn, beforeEach, jasmine,
-	Content, Link, Ulist, Factory, Tag, ListItem, Registry, PlainText, window */
+/*global describe, it, expect, spyOn, beforeEach, jasmine,
+	Content, Link, Ulist, Factory, Tag, Table, ListItem, OList, UList, Cell, Row, Registry, PlainText, Mapping, Node */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -593,114 +593,10 @@ describe('Content-related functionality', function(){
         });
     });
 
-	describe('Content::toLink(): transforms each element of the content into a link', function(){
-		var c2, link;
-		beforeEach(function(){
-			link = new Link();
-			link.setHref('test_url');
-		});
-		it('throws an error if the argument is a Tag, Table, Row, ListItem, List, Content or Cell instance', function(){
-			var classNames =  ["Tag", "Table", "Row", "ListItem", "List", "Content", "Cell"];
-			classNames.forEach(function(name){
-				var obj = new window[name]();
-				expect(function(){
-					c.toLink(obj);
-				}).toThrow('The argument must be a Link instance!');
-			});
-		});
-		it('does not throws an error if the argument is a Link instance', function(){
-			expect(function(){
-				c.toLink(new Link());
-			}).not.toThrow('The argument must be a Link instance!');
-		});
-		it('throws an error if the argument is a number, a string, an array or an object', function(){
-			var instances = [1, 0.93, -5, '', 'ciao', [], [32, 0.12, -1], {}, {'foo': 1}];
-			instances.forEach(function(el){
-				expect(function(){
-					c.toLink(el);
-				}).toThrow('The argument must be a Link instance!');
-			});
-		});
-
-		it('return a copy of the target if it has empty content', function(){
-			expect(c.elements.length).toBe(0);
-			c2 = c.toLink(link);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(0);
-		});
-		it('calls toLink method on each element if they respond to "toLink()" method', function(){
-			var el0 = {'toLink': function(){return 'result of toLink';}};
-			c.elements = [el0];
-			c2 = c.toLink(link);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(1);
-			expect(c2.elements[0]).toBe('result of toLink');
-		});
-		it('converts a string-type element into a link', function(){
-			var el0 = 'string elem';
-			c.elements = [el0];
-			c2 = c.toLink(link);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(1);
-			expect(c2.elements[0] instanceof Link).toBe(true);
-			expect(c2.elements[0].tag).toBe(link.tag);
-			expect(c2.elements[0].style).toBe(link.style);
-			expect(c2.elements[0].attr).toBe(link.attr);
-			expect(c2.elements[0].content.elements.length).toBe(1);
-			expect(c2.elements[0].content.elements[0]).toBe(el0);
-		});
-		it('does not changed the element if it is an array', function(){
-			c.elements = [[1, 2]];
-			c2 = c.toLink(link);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(1);
-			expect(c2.elements[0].length).toBe(2);
-			expect(c2.elements[0][0]).toBe(1);
-			expect(c2.elements[0][1]).toBe(2);
-		});
-		it('does not change the number of the elements', function(){
-			c.elements = [1, "string", {}, []];
-			c2 = c.toLink(link);
-			expect(c.elements.length).toBe(4);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(4);
-		});
-		it('creates a new Content instance if the target has string and objects elements', function(){
-			var fake = {'toLink': function(){return null;}};
-			spyOn(fake, 'toLink').andCallFake(function(){return 'fake to link';});
-			c.elements = ['start', fake, 'end'];
-			c2 = c.toLink(link);
-			expect(c2 instanceof Content).toBe(true);
-			expect(c2.elements.length).toBe(3);
-			expect(c2.elements[0] instanceof Link).toBe(true);
-			expect(c2.elements[1]).toBe('fake to link');
-			expect(c2.elements[2] instanceof Link).toBe(true);
-		});
-	});
-
-	xdescribe('Content::setFactory(): sets factory', function(){
-		var factory;
-		beforeEach(function(){
-			factory = new Factory();
-		});
-		it('returns false for string, array, number', function(){
-		    var invalides = ['', 'string', [], [1], ['ciao'], 3, -10, 0];
-		    invalides.forEach(function(invalid){
-		        expect(c.setFactory(invalid)).toBe(false);
-		    });
-		});
-		it('returns true, if a factory instance is given', function(){
-		    expect(c.setFactory(factory)).toBe(true);
-		});
-		it('sets "factory" property', function(){
-		    c.setFactory(factory);
-		    expect(c.factory).toBe(factory);
-		});
-	});
-
-	xdescribe('Content::load(): loads the content' , function(){
+	describe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20,
-			e30, e31, e32, t33, t001, e200, e310, t320;
+			e30, e31, e32, t33, t001, e200, e310, t320,
+			map = new Mapping();
 		//                    root
 		//      ________________|_____________
 		//     |      |      |         |      |
@@ -744,14 +640,22 @@ describe('Content-related functionality', function(){
 			e20.appendChild(e200);
 			e31.appendChild(e310);
 			e32.appendChild(t320);
-
-
-			var registry = new Registry({'classes': [Link, ListItem, PlainText], 'defaultClass': Tag}),
-				factory = new Factory(registry);
-			c.factory = factory;
+			// realistic settings. They might be excessive for testing purposes, but they are perfectly valid ones
+			map.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TR';}, Row);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'A';}, Link);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'LI';}, ListItem);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'OL';}, OList);
+			map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
+			map.setDefaultTarget(Tag);
+			window.FACTORY = {};
+			window.FACTORY.factory = new Factory(map);
 		});
 		describe('Reproduces the number of elements in the "content" property', function(){
 			it('returns 1-element content if the input contains only TEXT_NODE', function(){
+				console.log('Loading');
 				c.load([t1]);
 				expect(c.elements.length).toBe(1);
 			});
@@ -800,7 +704,7 @@ describe('Content-related functionality', function(){
 			});
 		});
 
-		xdescribe('Produces instances of required types', function(){
+		describe('Produces instances of required types', function(){
 			it('creates ListItem instance if ListItem is among available classes', function(){
 				c.load([e0]);
 				expect(c.elements[0] instanceof ListItem).toBe(true);
@@ -818,7 +722,7 @@ describe('Content-related functionality', function(){
 			});
 		});
 
-		xdescribe('Nested elements have correct types', function(){
+		describe('Nested elements have correct types', function(){
 			it('a list item has "div" and "a" children', function(){
 				c.load([e0]);
 				expect(c.elements[0] instanceof ListItem).toBe(true);
@@ -839,9 +743,9 @@ describe('Content-related functionality', function(){
 		it('appends children if they have "toNode()" method and the argument has appendChild()" method', function(){
 			el = {'appendChild': function(){return null;}};
 			spyOn(el, 'appendChild');
-		    c1 = {'toNode': function(){}};
-		    c2 = {'toNode': function(){}};
-		    c3 = {'toNode': function(){}};
+		    c1 = {'toNode': function(){return null;}};
+		    c2 = {'toNode': function(){return null;}};
+		    c3 = {'toNode': function(){return null;}};
 		    c.elements = [c1, c2, c3];
 		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
 		    spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
@@ -858,9 +762,9 @@ describe('Content-related functionality', function(){
 		it('appends children if they have "toNode()" method and the argument has appendChild()" method', function(){
 			el = {'appendChild': function(){return null;}};
 			spyOn(el, 'appendChild');
-		    c1 = {'toNode': function(){}};
-		    c2 = {'no-toNode-method': function(){}};
-		    c3 = {'toNode': function(){}};
+		    c1 = {'toNode': function(){return null;}};
+		    c2 = {'no-toNode-method': function(){return null;}};
+		    c3 = {'toNode': function(){return null;}};
 		    c.elements = [c1, c2, c3];
 		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
 		    // spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});

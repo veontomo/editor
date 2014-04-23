@@ -1,9 +1,14 @@
 /*jslint plusplus: true, white: true */
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapping, Node */
-var NEWSLETTER = {
-	'maxWidth': 500, // massima largezza di tabella
-	'marker-name': 'data-marker', // an attribute to mark objects
-};
+var NEWSLETTER = {};
+Object.defineProperty(NEWSLETTER, 'maxWidth', {
+	value:    500,             // massima largezza di tabella
+	writable: false            // protect from overwrite
+});
+Object.defineProperty(NEWSLETTER, 'marker-name', {
+	value:    'data-marker',   // an attribute to mark objects
+	writable: false            // protect from overwrite
+});
 
 
 // rules to be used when creating instances by means of Factory() class
@@ -18,16 +23,12 @@ map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NOD
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
 map.setDefaultTarget(Tag);
 
-var factory = new Factory();
-factory.setMapping(map);
 
-var FACTORY = {
-	// factory: factory
-};
+var FACTORY = {};
 // it is possible to use Factory methods to modify FACTORY.factory
 // but it is prohibited to remove Factory.factory attribute
 Object.defineProperty(FACTORY, 'factory', {
-	value: factory,
+	value:    new Factory(map),
 	writable: false
 });
 

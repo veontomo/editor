@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Link */
+/*global Node, Link, FACTORY */
 
 /**
  * This class is used to encompass other objects.
@@ -341,47 +341,49 @@ function Content(str) {
 	 */
 	this.toLink = function(link){
 		console.log('This method is deprecated. Use Link::shower()!');
-		if (!(link instanceof Link)){
-			throw new Error('The argument must be a Link instance!');
-		}
-		var elem,
-			result = new Content();
-		this.elements.forEach(function(el){
-			if (typeof el.toLink === 'function'){
-				elem = el.toLink(link);
-			} else if (typeof el === 'string'){
-				elem = new Link();
-				elem.style = link.style;
-				elem.attr = link.attr;
-				elem.appendElem(el);
-			} else {
-				elem = el;
-			}
-			result.appendElem(elem);
-		});
-	return result;
+	// 	if (!(link instanceof Link)){
+	// 		throw new Error('The argument must be a Link instance!');
+	// 	}
+	// 	var elem,
+	// 		result = new Content();
+	// 	this.elements.forEach(function(el){
+	// 		if (typeof el.toLink === 'function'){
+	// 			elem = el.toLink(link);
+	// 		} else if (typeof el === 'string'){
+	// 			elem = new Link();
+	// 			elem.style = link.style;
+	// 			elem.attr = link.attr;
+	// 			elem.appendElem(el);
+	// 		} else {
+	// 			elem = el;
+	// 		}
+	// 		result.appendElem(elem);
+	// 	});
+	// return result;
 	};
 
 	/**
-	 * Loads the elements into the {{#crossLink "Content/elements:property"}}element{{/crossLink}} property.
-	 * The argument is an array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or
-	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances. Other types are to be ignored.
+	 * Loads elements into the {{#crossLink "Content/elements:property"}}element{{/crossLink}} property.
+	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
+	 * defined, then no loading is performed and `false` is returned. Otherwise, the method tries to load
+	 * and returns `true`.
 	 * @method    load
 	 * @param     {Array}       arr       array of Elements or Text instances
 	 * @return    {Boolean}               true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		    var factory = FACTORY.factory,
-		    	elements = [];
-		if (Array.isArray(arr)){
+		if (Array.isArray(arr) && (window.FACTORY !== undefined) && FACTORY.factory){
+			var factory = FACTORY.factory,
+			   	elements = [];
 			arr.forEach(function(el){
 				var baby = factory.mimic(el);
 				elements.push(baby);
 			});
 			this.elements = elements;
+			return true;
 		}
-		console.log('Content::load() is always returning TRUE. Fix it!');
-		return true;
+		console.info('Content::load()', 'FACTORY is not defined, so I am returning FALSE');
+		return false;
 	};
 
 	/**
