@@ -64,10 +64,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
       <a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
     </div>
     <div class="panel">
-      <img src="images/coverage.png" width="100px" />
-      <a href="test/coverage/Firefox 27.0.0 (Windows)/index.html">Firefox </a>
-      <a href="test/coverage/Chrome 34.0.1847 (Windows)/index.html">Chrome</a>
-      <a href="test/coverage/IE 11.0.0 (Windows)/index.html">IE</a>
+		<a href="coverage.php" target="blank"><img src="images/coverage.png" width="100px" /></a>
     </div>
 
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
