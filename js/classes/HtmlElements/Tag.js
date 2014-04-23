@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Attributes, Content, Helper, Styles */
+/*global DOMParser, Node, Attributes, Content, Styles */
 
 /**
  * This class is used to represent a general html tag.

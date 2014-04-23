@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Content, ListItemStyles, Tag */
+/*global Content, ListItemStyles, Tag */
 
 /**
  * This class is used to represent a list item.

@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Property, Factory */
+/*global Property, window */
 
 /**
  * A general Property class. If the argument is an object, then its properties are copied
@@ -216,19 +216,14 @@ function Properties(input) {
 	 * @return       {Object}
 	 */
 	this.getCore = function(){
-		// console.log('Properties::getCore(). Core = ', core, ', keys: ', Object.keys(core), ', core again: ', core);
 		var output = {},
 			attr;
 		for (attr in core){
-			// console.log('consider key ', attr);
 			if (core.hasOwnProperty(attr)){
 				// console.log('key ', attr, ' is among my keys');
 				output[attr] = core[attr];
-			} else {
-				// console.log('key ', attr, ' is NOT among my keys');
 			}
 		}
-		// console.log('Properties::getCore(). Returning ', output);
 		return output;
 	};
 
@@ -287,7 +282,7 @@ function Properties(input) {
 		var Constr = window[this.className],
 			clone, attr, current,
 			coreContent = this.getCore();
-		clone = (typeof Constr === 'function') ?  new Constr : new Properties();
+		clone = (typeof Constr === 'function') ?  new Constr() : new Properties();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];

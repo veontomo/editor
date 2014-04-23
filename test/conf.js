@@ -34,7 +34,6 @@ var path = require('path'),
     'HtmlElements/Tag/UList.js',
     'HtmlElements/Tag/Link.js',
 
-    'HtmlElements/Registry.js',
     'HtmlElements/Mapping.js',
     'HtmlElements/Factory.js',
 

@@ -58,7 +58,7 @@ function Mapping(){
 	 */
 	this.getDefaultTarget = function(){
 		return defaultTarget;
-	}
+	};
 
 
 	/**
@@ -130,21 +130,17 @@ function Mapping(){
 	 * @return     {Function|Null}
 	 */
 	this.findTargetFor = function(needle){
-		var mappings = this.getMappings(),
-			len = mappings.length,
+		var mapCopy = this.getMappings(),
+			len = mapCopy.length,
 			i = 0, current, result;
 		for (i = 0; i < len; i++){
-			current = mappings[i];
-			// console.log(i, ': criterion: ',  current.criterion);
+			current = mapCopy[i];
 			result = current.criterion(needle);
 			if (result){
-				// console.log('returning: ', current.target);
 				return current.target;
 			}
-			// console.log('result is negative');
 		}
 		return this.getDefaultTarget();
-
 	};
 
 }

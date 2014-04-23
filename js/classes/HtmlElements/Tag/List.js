@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global ListStyles, Attributes, Content, Tag, ListItem */
+/*global ListStyles, Content, Tag, ListItem */
 
 /**
  * This is a parent class for ordered and unordred lists. If argument is provided and is allowed one, it will be used

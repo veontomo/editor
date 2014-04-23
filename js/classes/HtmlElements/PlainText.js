@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Link */
+/*global window */
 
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.
@@ -103,13 +103,15 @@ function PlainText(text) {
 	 * Returns a link which properties are equal to those of the argument and `content` has
 	 * the only elements which is equal to the target. If the argument is not a Link instance,
 	 * an error is thrown.
-	 * @method  toLink
-	 * @param   {Link}       link     it is served as a template to create a link. Its
-	 *                               `content` property is to be replaced by the copy of
-	 *                               target object.
-	 * @return  {Link}
+	 * @method        toLink
+	 * @param         {Link}       link     it is served as a template to create a link. Its
+	 *                                     `content` property is to be replaced by the copy of
+	 *                                     target object.
+	 * @return        {Link}
+	 * @deprecated    use Link::shower()
 	 */
 	this.toLink = function(link){
+		console.log('Use Link::shower() method insted of this, which is considered deprecated.');
 		if (!(link instanceof Link)){
 			throw new Error('The argument must be a Link instance!');
 		}

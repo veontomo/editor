@@ -18,16 +18,6 @@ function Table() {
 	Tag.call(this);
 
 	/**
-	 * Type of the object. Returns "Table" for the objects of this type.
-	 * @method  getType
-	 * @return  {string}
-	 * @deprecated  in favor of getName()
-	 */
-	this.getType = function(){
-		return "Table";
-	};
-
-	/**
 	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
 	 * in FF, `this.constructor` has `name` property that returns "Table", while in IE, there
 	 * is no `name` property.
@@ -169,11 +159,11 @@ function Table() {
 
 	/**
 	 * insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .
-	 * @method  insertColumnAt
-	 * @param  {pos}      pos
-	 * @param  {cell}     cell
-	 * @return {void}
-	 * @deprecated  Use Table::insertColAt() directly.
+	 * @method        insertColumnAt
+	 * @param         {pos}      pos
+	 * @param         {cell}     cell
+	 * @return        {void}
+	 * @deprecated    Use Table::insertColAt() directly.
 	 */
 	this.insertColumnAt = function(pos, cell){
 		console.log('Table::insertColumnAt() was called. Try to eliminate this call.');
