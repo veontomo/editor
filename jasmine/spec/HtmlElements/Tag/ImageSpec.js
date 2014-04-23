@@ -43,6 +43,7 @@ describe('Image-related functionality:', function() {
         it('creates an image with empty content', function(){
             expect(img.length()).toBe(0);
         });
+
     });
 
     describe('Image::className: class name', function(){

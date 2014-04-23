@@ -71,6 +71,5 @@ function Image() {
 	this.getOrigin = function(url){
 		return this.attr.getProperty('src');
 	};
-
 }
 Image.prototype = Object.create(Tag.prototype);
