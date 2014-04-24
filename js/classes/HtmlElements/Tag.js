@@ -19,106 +19,191 @@ function Tag() {
 
 	/**
 	 * Html tag that the class represents.
-	 * @property {String}          tag
-	 * @default  null
-	 * @since 0.0.1
+	 * @property   {String}          tag
+	 * @default    null
+	 * @private
+	 * @since      0.0.1
 	 */
-	this.tag = null;
+	var tag = null;
 
 	/**
-	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `tag` property that returns "ListItem", while in IE, there
+	 * Name of the current class.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, `this.constructor` has `tag` property that returns "Tag", while in IE, there
 	 * is no `tag` property.
 	 * Every class that inherits from this one, should override this property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Tag"
-	 * @since    0.0.2
+	 * @property       {String}    className
+	 * @type           {String}
+	 * @default        "Tag"
+	 * @private
+	 * @readOnly
+	 * @since          0.0.2
 	 */
-	this.className = "Tag";
+	var className = "Tag";
 
 	/**
-	 * Returns value of the attribute `tag`.
-	 * @method  getName
-	 * @return  {String}
-	 * @since 0.0.1
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} getter.
+	 * @method         getTag
+	 * @return         {String}
+	 * @since          0.0.1
 	 */
-	this.getName = function(){
-		return this.tag;
+	this.getTag = function(){
+		return tag;
 	};
 
 
 	/**
-	 * Tag attributes
-	 * @property {Attributes}          attr
-	 * @type     {Attributes}
-	 * @default  Attributes()
-	 * @since 0.0.1
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} setter. If the argument is a string or a number, then if necessary, converts it into a string and performs assignment. If the argument is of any other type, no assignment occures.
+	 * @method          setTag
+	 * @param           {String|Number}     name
+	 * @return          {String}
+	 * @since           0.0.1
+	 * @return          {void}
 	 */
-	this.attr = new Attributes();
+	this.setTag = function(name){
+		if (name !== undefined){
+			var nameType = typeof name;
+			if (nameType === 'string'){
+				tag = name;
+			} else if (nameType === 'number'){
+				tag = name.toString();
+			}
+
+		}
+
+	};
+
 
 	/**
-	* Attribute setter.
-	* @method setAttr
-	* @param {String|Object} attr
-	* @return {void}
-	* @since 0.0.1
+	 * Attributes of the tag.
+	 * @property       {Attributes}         attributes
+	 * @type           {Attributes}
+	 * @default        Attributes()
+	 * @private
+	 * @since          0.0.4
+	 */
+	var attributes = new Attributes();
+
+	/**
+	 * Tag styles
+	 * @property       {Styles}             styles
+	 * @type           {Styles}
+	 * @default        Styles()
+	 * @private
+	 * @since          0.0.4
+	 */
+	var styles = new Styles();
+
+
+	/**
+	 * Content of the tag.
+	 * @property       {Content}            content
+	 * @type           {Content}
+	 * @default        Content()
+	 * @private
+	 * @since          0.0.4
+	 */
+	var content = new Content();
+
+
+	/**
+	* {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}} setter.
+	* @method          setAttributes
+	* @param           {String|Object}      attr
+	* @return          {void}
+	* @since           0.0.1
 	*/
-	this.setAttr = function(attr){
-		this.attr = attr;
+	this.setAttributes = function(attr){
+		attributes = new Attributes(attr);
+	};
+
+	/**
+	* {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}} getter.
+	* @method          getAttributes
+	* @return          {Attributes}
+	* @since           0.0.4
+	*/
+	this.getAttributes = function(){
+		return attributes;
+	};
+
+
+
+	/**
+	* {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}} setter.
+	* @method          setStyles
+	* @param           {String|Object}      stl
+	* @return          {void}
+	* @since           0.0.4
+	*/
+	this.setStyles = function(stl){
+		styles = new Styles(stl);
+	};
+
+
+	/**
+	* {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}} getter.
+	* @method          getStyle
+	* @return          {Styles}
+	* @since           0.0.4
+	*/
+	this.getStyles = function(){
+		return styles;
+	};
+
+
+	/**
+	* {{#crossLink "Tag/content:property"}}Content{{/crossLink}} setter.
+	* @method          setContent
+	* @param           {String|Object}      cntn
+	* @return          {void}
+	* @since           0.0.1
+	*/
+	this.setContent = function(cntn){
+		content = new Content(cntn);
+	};
+
+	/**
+	* {{#crossLink "Tag/content:property"}}Content{{/crossLink}} getter.
+	* @method          getContent
+	* @return          {Content}
+	* @since           0.0.4
+	*/
+	this.getContent = function(){
+		return content;
+	};
+
+	/**
+	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} getter.
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
 	};
 
 	/**
 	 * Appends style to the cell. Alias for Style::appendStyle().
-	 * @method appendStyle
-	 * @param  {Style|Obj}   stl   style to be appended
-	 * @return {void}
-	 * @since 0.0.1
+	 * @method         appendStyle
+	 * @param          {Style|Obj}   stl   style to be appended
+	 * @return         {void}
+	 * @since          0.0.1
 	 */
 	this.appendStyle = function(stl){
-		this.style.appendStyle(stl);
-		return null;
+		this.getStyles().appendStyle(stl);
 	};
 
 	/**
-	 * Appends style to the element at position pos. It is supposed that such an element exists
-	 * and it has a property "style" which is a Style instance. In this case method
-	 * Style::appendStyle() will be called on this element.
-	 * Otherwise, an error is thrown.
+	 * Appends style `stl` to element at position `pos.` It is an alias for the method
+	 * {{#crossLink "Content/appendStyleToElemAt:method"}}appendStyleToElemAt{{/crossLink}}.
 	 * @method  appendStyleToElemAt
-	 * @param  {Number}   pos
+	 * @param  {any}   pos
 	 * @param  {any}      stl
 	 * @return {void}
 	 * @since  0.0.1
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		var elem = this.getElem(pos);
-		if (elem && (elem.style instanceof Styles)){
-			elem.appendStyle(stl);
-		} else {
-			throw new Error('Can not append style to requested element.');
-		}
+		this.getContent().appendStyleToElemAt(pos, stl)
 	};
 
-	/**
-	 * Tag styles
-	 * @property {Styles}       style
-	 * @type     {Styles}
-	 * @default  Styles()
-	 * @since    0.0.1
-	 */
-	this.style = new Styles();
-
-	/**
-	* Style setter.
-	* @method      setStyle
-	* @param       {String|Object} stl
-	* @return      {void}
-	* @since       0.0.1
-	*/
-	this.setStyle = function(stl){
-		this.style = stl;
-	};
 
 	/**
 	 * Retrieves requested property from the "style" property of the current object.
@@ -135,90 +220,69 @@ function Tag() {
 
 
 	/**
-	 * Imposes the value of the width of the "attr" and "style" properties. In the latter, "min-width"
-	 * and "max-width" are imposed as well. It is better to use with an integer argument and without
-	 * unit of measurement (as attr property should not have unit of measurement in its string representation
-	 * when convirting it in html form).
-	 * @method      setWidth
-	 * @param       {String|Number} 	w
-	 * @return      {void}
-	 * @since       0.0.1
+	 * Calls {{#crossLink "Styles/setWidth:method"}}setWidth(){{/crossLink}} and
+	 * {{#crossLink "Attributes/setProperty:method"}}setProperty(){{/crossLink}} methods to set the widths.
+	 * @method         setWidth
+	 * @param          {String|Number} 	    w
+	 * @return         {void}
+	 * @since          0.0.1
 	 */
 	this.setWidth = function(w){
-	    if(w === undefined || w === ''){
-	        throw new Error('Width value is not set!');
-	    }
-	    this.style.setWidth(w);
-		this.attr.width = w;
+		if (w !== undefined){
+		    this.getStyles().setWidth(w);
+			this.getAttributes().setProperty('width', w);
+		}
 	};
 
-
-
 	/**
-	 * Gets the width of the object as it is present in the style property. It tends to return a number:
-	 * if it is measured in "px", then the measurment unit is removed and the number is returned.
-	 * @method getWidth
-	 * @return {Number|String}
-	 * @since 0.0.1
+	 * Retieves `width` of {{#crossLink "Tag/style:property"}}style{{/crossLink}} property.
+	 * @method         getWidth
+	 * @return         {mixed}
+	 * @since          0.0.4
 	 */
 	this.getWidth = function(){
-		var raw = this.style.getProperty('width'),
-			raw2;
-		if (raw){
-			raw = raw.toString().trim().replace(/px$/, '');
-			// try to parse it to a number. Under this operation whatever string at the end gets removed
-			raw2 = parseFloat(raw, 10);
-			if (raw2.toString() === raw){
-				raw = raw2;
-			}
-		}
-		//console.log('Tag::getWidth() returns ', raw);
-		return raw;
+		return this.getStyles().getProperty('width');
 	};
 
 
-	/**
-	 * Content of the tag.
-	 * @property {Content}             content
-	 * @type     {Content}
-	 * @default  Content()
-	 * @since    0.0.1
-	 */
-	this.content = new Content();
 
 	/**
-	 * Gets the element stored in property "content". Delegates its functionality to the class Content.
+	 * Gets the element stored in {{#crossLink "Tag/content:property"}}content{{/crossLink}}. Delegates its
+	 * functionality to class {{#crossLink "Content"}}Content{{/crossLink}}.
 	 * @method getElem
 	 * @param  {Number}    pos
 	 * @return {any}
 	 * @since  0.0.1
 	 */
 	this.getElem = function(pos){
-		return this.content.getElem(pos);
+		return this.getContent().getElem(pos);
 	};
 
 	/**
-	 * Gets the first element stored in property "content". Delegates its functionality to the class Content.
+	 * Gets the first element stored in property "content". Delegates its functionality to the class
+	 * {{#crossLink "Content"}}Content{{/crossLink}}.
 	 * @method  getFirst
 	 * @return  {any}
 	 * @since   0.0.1
 	 */
 	this.getFirst = function(){
-		return this.content.getFirst();
+		return this.getContent().getFirst();
 	};
 
 	/**
-	 * Gets the last element stored in property "content". Delegates its functionality to the class Content.
+	 * Gets the last element stored in property "content". Delegates its functionality to
+	 * the class {{#crossLink "Content"}}Content{{/crossLink}}.
 	 * @method  getLast
 	 * @return {any}
 	 * @since  0.0.1
 	 */
 	this.getLast = function(){
-		return this.content.getLast();
+		return this.getContent().getLast();
 	};
 
 	/**
-	 * Inserts an element into given position. Delegates its functionality to the class Content.
+	 * Inserts an element into given position. Delegates its functionality to the class
+	 * {{#crossLink "Content"}}Content{{/crossLink}}.
 	 * @method  insertElemAt
 	 * @param  {Number} pos
 	 * @param  {any}    elem
@@ -226,7 +290,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.insertElemAt = function(pos, elem){
-		this.content.insertElemAt(pos, elem);
+		this.getContent().insertElemAt(pos, elem);
 	};
 
 	/**
@@ -237,7 +301,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.appendElem = function(elem){
-		this.content.appendElem(elem);
+		this.getContent().appendElem(elem);
 	};
 
 	/**
@@ -247,7 +311,7 @@ function Tag() {
 	 * @since    0.0.1
 	 */
 	this.length = function(){
-		return this.content.length();
+		return this.getContent().length();
 	};
 
 	/**
@@ -258,7 +322,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.dropElemAt = function(pos){
-		this.content.dropElemAt(pos);
+		this.getContent().dropElemAt(pos);
 	};
 
 	/**
@@ -269,7 +333,7 @@ function Tag() {
 	 * @since    0.0.1
 	 */
 	this.dropFirst = function(){
-		this.content.dropFirst();
+		this.getContent().dropFirst();
 	};
 
 	/**
@@ -280,24 +344,26 @@ function Tag() {
 	 * @since    0.0.1
 	 */
 	this.dropLast = function(){
-		this.content.dropLast();
+		this.getContent().dropLast();
 	};
 
 
 	/**
 	 * Gives html representation of the instance. If tag tag is undefined or empty, just html comment is generated.
-	 * @method  toHtml
-	 * @return  {String}                html representation of an instance of this class.
-	 * @since   0.0.1
+	 * @method         toHtml
+	 * @return         {String}             html representation of an instance of this class.
+	 * @since          0.0.1
 	 */
 	this.toHtml = function(){
-		// //console.log('Tag::toHtml(): ', this.content, Array.isArray(this.content));
-		var tag = this.tag,
-			style, attr, html;
-		if (tag){
-			style = Helper.sandwichWith('style="', this.style.toString(), '"');
-			attr = this.attr.toString();
-			html = '<' + [tag, attr, style].concatDropSpaces() + '>' + this.content.toHtml() + '</' + tag + '>';
+		// //console.log('Tag::toHtml(): ', this.getContent(), Array.isArray(this.getContent()));
+		var styleStr = this.getStyles().toString(),
+			attrStr = this.getAttributes().toString(),
+			tagStr = this.getTag(),
+			constStr = this.getContent().toHtml(),
+			html;
+		if (tagStr){
+			styleStr = Helper.sandwichWith('style="', styleStr, '"');
+			html = '<' + [tagStr, attrStr, styleStr].concatDropSpaces() + '>' + constStr + '</' + tagStr + '>';
 		} else {
 			html = '<!-- tag name is missing -->';
 		}
@@ -306,25 +372,24 @@ function Tag() {
 
 	/**
 	 * Generates plain text representation of the tag content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
-	 * @method   toText
-	 * @return   {String}
-	 * @since    0.0.1
+	 * @method         toText
+	 * @return         {String}
+	 * @since          0.0.1
 	 */
 	this.toText = function(){
-		return this.content.toText();
+		return this.getContent().toText();
 	};
 
 	/**
-	 * Returns true, if the tag is empty. Returns false otherwise.
-	 * <br />The tag is considered empty if `toString()` method for its {{#crossLink "Tag/attr:property"}}attr{{/crossLink}}
-	 * and {{#crossLink "Tag/style:property"}}style{{/crossLink}} properties returns empty string and
-	 * the {{#crossLink "Content/isEmpty:method"}}content.isEmpty(){{/crossLink}} returns true.
-	 * @method  isEmpty
-	 * @return  {Boolean}
-	 * @since   0.0.1
+	 * Returns true, if the tag is empty. Returns false otherwise.<br />
+	 * The tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * and {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and {{#crossLink "Content"}}content{{/crossLink}} returns true.
+	 * @method         isEmpty
+	 * @return         {Boolean}
+	 * @since          0.0.1
 	 */
 	this.isEmpty = function(){
-		return this.attr.toString() === '' && this.style.toString() === '' && this.content.isEmpty();
+		return this.getAttributes().isEmpty() && this.getStyles().isEmpty() && this.getContent().isEmpty();
 	};
 
 	/**
@@ -334,7 +399,7 @@ function Tag() {
 	 * @return  {void}
 	 */
 	this.trim = function(){
-		this.content.trim();
+		this.getContent().trim();
 		return this;
 	};
 
@@ -346,7 +411,7 @@ function Tag() {
 	 * @return {void}
 	 */
 	this.appendElemIfNotEmpty = function(arg){
-		this.content.appendElemIfNotEmpty(arg);
+		this.getContent().appendElemIfNotEmpty(arg);
 	};
 
 
@@ -413,18 +478,18 @@ function Tag() {
 		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
 			children = elem.childNodes;                     // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
-			this.tag  = elem.tagName.toLowerCase();         // setting tag of the tag
+			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
 			attr  = elem.attributes;                        // NamedNodeMap
 			// //console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
-			attrSucc = this.attr.load(attr);
+			attrSucc = this.getAttributes().load(attr);
 			// //console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
-			styleSucc = this.style.load(attr);
+			styleSucc = this.getStyles().load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
 			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
-			contentSucc = this.content.load(childrenArr);
+			contentSucc = this.getContent().load(childrenArr);
 		}
 		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
 		return attrSucc && styleSucc && contentSucc;
@@ -442,11 +507,11 @@ function Tag() {
 	this.toNode = function(){
 		var rnd = parseInt(Math.random()*1000, 10);
 		console.info(rnd, 'Tag::toNode() called', this.tag);
-		var el = document.createElement(this.tag);
-		this.style.decorateElement(el);
-		this.attr.decorateElement(el);
-		console.info(rnd, 'Tag::toNode() el before this.content.stickTo', el);
-		this.content.stickTo(el);
+		var el = document.createElement(this.getTag());
+		this.getStyles().decorateElement(el);
+		this.getAttributes().decorateElement(el);
+		console.info(rnd, 'Tag::toNode() el before this.getContent().stickTo', el);
+		this.getContent().stickTo(el);
 		console.info(rnd, 'Tag::toNode() returns ', el);
 		return el;
 

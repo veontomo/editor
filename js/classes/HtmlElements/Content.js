@@ -447,4 +447,14 @@ function Content(str) {
 		});
 		return clone;
 	};
+
+	/**
+	 * Appends Style `stl` to element at position `pos`.
+	 * @param          {Integer}            pos
+	 * @param          {Object}             obj
+	 * @return         {void}
+	 */
+	this.appendStyleToElemAt = function(pos, stl){
+		/// !!! stub
+	};
 }

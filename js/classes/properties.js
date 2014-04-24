@@ -300,4 +300,13 @@ function Properties(input) {
 		}
 		return clone;
 	};
+
+	/**
+	 * Returns `true` if {{#crossLink "Properties/core:property"}}core{{/crossLink}} has no keys, otherwise - `false`.
+	 * @return {Boolean}
+	 */
+	this.isEmpty = function(){
+		/// !!! stub
+		return false;
+	}
 }
