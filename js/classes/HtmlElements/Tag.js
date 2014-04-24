@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Attributes, Content, Styles */
+/*global DOMParser, Node, Attributes, Content, Styles, window, Helper */
 
 /**
  * This class is used to represent a general html tag.
@@ -440,11 +440,16 @@ function Tag() {
 	 * @return  {DOM.Element}
 	 */
 	this.toNode = function(){
+		var rnd = parseInt(Math.random()*1000, 10);
+		console.info(rnd, 'Tag::toNode() called', this.tag);
 		var el = document.createElement(this.tag);
 		this.style.decorateElement(el);
 		this.attr.decorateElement(el);
+		console.info(rnd, 'Tag::toNode() el before this.content.stickTo', el);
 		this.content.stickTo(el);
+		console.info(rnd, 'Tag::toNode() returns ', el);
 		return el;
+
 	};
 }
 

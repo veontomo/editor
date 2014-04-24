@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection, FACTORY */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -326,8 +326,48 @@ var CKHelper = {
 	 */
 	insertList: function(editor, listType){
 		var selection = new Selection(editor, editor.getSelection()),
-		    selectedNodes = selection.selectedNodes; // 2-dim arrays
+		    selectedNodes = selection.selectedNodes,                   // 2-dim array
+		    factory = FACTORY.factory,
+		    result = [];
 		console.log('CKHelper::insertList ', selectedNodes);
+		selectedNodes.forEach(function(block){
+			var current = [],
+				len = block.length,
+				elem, list, content, newNode;
+			if (len === 1){
+				// console.log('single elem');
+				elem = factory.mimic(block[0].$);
+				console.log('factory produced: ', elem.clone(), ', its html: ', elem.toHtml());
+				content = elem.content.clone();
+				// console.log('content clone: ', content, ', its html: ', content.toHtml());
+				list = new List(listType);
+				list.appendAsItems(content);
+				console.log('list: ', list.clone(), ', its html:  ', list.toHtml());
+				elem.content.flush();
+				console.log('elem after flushing: ', elem.clone(), ', its html:  ', elem.toHtml());
+				elem.appendElem(list);
+				console.log('elem after appending list: ', elem.clone(), ', its html:  ', elem.toHtml());
+				// elem.content.elements = [list];
+				console.log('elem: ', elem.clone(), ', its html:  ', elem.toHtml());
+				result.push(elem.clone());
+				newNode = elem.clone().toNode();
+				console.log('node version: ', newNode);
+				block[0].$.parentNode.replaceChild(newNode, block[0].$);
+			}
+			if (len > 1){
+				// block.forEach(function(el){
+				// 	current.push(factory.mimic(el));
+				// });
+				// list = new List(listType);
+				// list.appendAsItems(current);
+				// newNode = list.toNode();
+				// block[0].$.parentNode.replaceChild(newNode, block[0].$);
+				// result.push(list);
+			}
+
+		});
+		// console.log('CKHelper::insertList result: ', result);
+
 
 
 		// // //console.log('inside CKHelper::insertList()');

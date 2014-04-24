@@ -98,6 +98,15 @@ function Content(str) {
 	};
 
 	/**
+	 * Reset {{#crossLink "Content/elements:property"}}elements{{/crossLink}} array.
+	 * @method  flush
+	 * @return  {void}
+	 */
+	this.flush = function(){
+		this.elements = [];
+	};
+
+	/**
 	 * Appends element to the array of Content::elements.
 	 * @method   appendElem
 	 * @param    {mixed}           elem
@@ -400,13 +409,23 @@ function Content(str) {
 	 * @return  {void}
 	 */
 	this.stickTo = function(el){
+		var rnd = parseInt(Math.random()*1000, 10);
+		console.info(rnd, 'Content::stickTo() called with argument ', el, ', this = ', this);
 		if (typeof el.appendChild === 'function'){
+			console.info(rnd, 'argument has "appendChild" method');
 			this.elements.forEach(function(ch){
+				console.info(rnd, 'child = ', ch);
 				if (typeof ch.toNode === 'function'){
+					console.info(rnd, ' the child has toNode() method');
 					el.appendChild(ch.toNode());
+				} else {
+					console.info(rnd, ' the child has NO toNode() method');
 				}
 			});
+		} else {
+			console.info(rnd, 'argument has no "appendChild" method');
 		}
+		console.info(rnd, 'Content::stickTo() finished with final value of el = ', el);
 	};
 
 	/**

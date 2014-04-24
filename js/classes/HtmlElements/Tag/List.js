@@ -126,7 +126,8 @@ function List(listType) {
 
 	/**
 	 * Wraps elements of the input array into a {{#crossLink "ListItem"}}list item{{/crossLink}} object
-	 * and appends it to {{#crossLink "List/content:property"}}content{{/crossLink}}.
+	 * and appends it to its {{#crossLink "Tag/content:property"}}content{{/crossLink}} property defined in
+	 * parent class {{#crossLink "Tag"}}Tag{{/crossLink}}.
 	 * If the argument is not of array type, converts it into array and apply the described procedure.
 	 * @method          appendAsItems
 	 * @param           {Array}          itemArr
