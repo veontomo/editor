@@ -4,11 +4,11 @@
 
 /**
  * This class is used to represent ordered lists.
- * @module 	    HtmlElements
- * @class  		OList
+ * @module 	           HtmlElements
+ * @class  		       OList
  * @constructor
- * @extends     List
- * @since       0.0.2
+ * @extends            List
+ * @since              0.0.2
  */
 function OList() {
 	"use strict";
@@ -19,21 +19,16 @@ function OList() {
 	List.call(this);
 
 	/**
-	 * Html tag corresponding to OList object.
-	 * @property   {String}     tag
-	 * @type       {String}
-	 * @default    "ul"
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "ol"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "OList"
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.tag = 'ol';
+	this.setTag('ol');
+	this.setName('OList');
 
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "OList", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "OList"
-	 */
-	this.className = 'OList';
 }
 OList.prototype = Object.create(List.prototype);

@@ -45,12 +45,13 @@ function List(listType) {
 	this.setStyles(new ListStyles());
 
 	/**
-	 * Sets the tag of the list. The list type is changed only if the argument is in
-	 * the array of the allowed names {{#crossLink "List/allowedTags:property"}}allowedTags{{/crossLink}}.
-	 * @method   setName
+	 * Change the {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} of the list. If the argument is not in
+	 * the array of allowed names {{#crossLink "List/allowedTags:property"}}allowedTags{{/crossLink}}, then no
+	 * change occurs.
+	 * @method   switchName
 	 * @param    {String}        name       the value to be imposed as a list type.
 	 */
-	this.setName = function(name){
+	this.switchName = function(name){
 		if (allowedTags.indexOf(name) !== -1){
 			this.setTag(name);
 		}

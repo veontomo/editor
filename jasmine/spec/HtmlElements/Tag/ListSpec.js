@@ -114,17 +114,17 @@ describe('List-related functionality:', function(){
         });
     });
 
-    describe('List::setName(): imposes list type name', function(){
+    describe('List::rename(): imposes list type name', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
-            l.setName('ul');
+            l.switchName('ul');
             expect(l.getTag()).toBe('ul');
         });
         it('imposes name to be "ol" (it is among allowed ones)', function(){
-            l.setName('ol');
+            l.switchName('ol');
             expect(l.getTag()).toBe('ol');
         });
         it('imposes name to be one of allowed if tried to set non-allowed', function(){
-            l.setName('ololololo');
+            l.switchName('ololololo');
             expect(l.getTag()).not.toBe('ololololo');
         });
     });

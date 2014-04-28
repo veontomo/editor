@@ -9,10 +9,8 @@ describe('UList-related functionality:', function(){
 
     describe('UList::constructor(): inherits from List() class', function(){
         it('does not affect parent class if an inherited property is changed', function(){
-            ul.attr.width = 102;
-            expect((new UList()).attr.width).not.toBe(102);
-            ul.style.width = 34;
-            expect((new UList()).style.width).not.toBe(34);
+            ul.boo = 102;
+            expect((new UList()).boo).not.toBe(102);
         });
         it('UList is an instance of UList class', function(){
             expect(ul instanceof UList).toBe(true);
@@ -28,13 +26,13 @@ describe('UList-related functionality:', function(){
 
     describe('UList::className: class name', function(){
         it('gives the name of the class', function(){
-            expect(ul.className).toBe('UList');
+            expect(ul.getName()).toBe('UList');
         });
     });
 
     describe('UList::tag: tag name', function(){
         it('A UList object name is set to "ul"', function(){
-            expect(ul.tag).toBe('ul');
+            expect(ul.getTag()).toBe('ul');
         });
     });
 });

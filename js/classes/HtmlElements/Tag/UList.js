@@ -4,11 +4,11 @@
 
 /**
  * This class is used to represent unordered lists.
- * @module 	       HtmlElements
- * @class  		   UList
+ * @module 	           HtmlElements
+ * @class  		       UList
  * @constructor
- * @extends        List
- * @since          0.0.2
+ * @extends            List
+ * @since              0.0.2
  */
 function UList() {
 	"use strict";
@@ -19,21 +19,16 @@ function UList() {
 	List.call(this);
 
 	/**
-	 * Html tag corresponding to UList object.
-	 * @property   {String}     name
-	 * @type       {String}
-	 * @default    "ul"
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "ul"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "UList"
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.tag = 'ul';
+	this.setTag('ul');
+	this.setName('UList');
 
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "UList", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "UList"
-	 */
-	this.className = 'UList';
 }
 UList.prototype = Object.create(List.prototype);
