@@ -15,27 +15,13 @@ describe('Cell-related functionality:', function() {
         it('instance of Cell is an instance of Tag as well', function(){
             expect(cell instanceof Tag).toBe(true);
         });
-        it('does not affect parent attr if it is changed in the child', function(){
-            expect((new Cell()).attr.width).not.toBe(102);
-            cell.attr.width = 102;
-            expect((new Cell()).attr.width).not.toBe(102);
-            expect(cell.attr.width).toBe(102);
-        });
-        it('does not affect parent style if it is changed in the child', function(){
-            expect((new Cell()).style.width).not.toBe('whatever');
-            cell.style.width = 'whatever';
-            expect((new Cell()).style.width).not.toBe('whatever');
-            expect(cell.style.width).toBe('whatever');
+        it('does not affect parent attribute if it is changed in the child', function(){
+            expect((new Cell())['dummy-attribute']).not.toBe(102);
+            cell['dummy-attribute'] = 102;
+            expect((new Cell())['dummy-attribute']).not.toBe(102);
+            expect(cell['dummy-attribute']).toBe(102);
         });
 
-        it('does not affect parent name property if it is changed in the child', function(){
-            expect((new Tag()).tag).toBe(null);
-            expect((new Cell()).tag).toBe('td');
-            cell.tag = 'whatever';
-            expect((new Tag()).tag).toBe(null);
-            expect((new Cell()).tag).toBe('td');
-            expect(cell.tag).toBe('whatever');
-        });
 
         it('adds keyword "new" if it is missing when an object is created', function(){
             var cell2 = Cell();
@@ -46,56 +32,53 @@ describe('Cell-related functionality:', function() {
             expect(cell.length()).toBe(0);
         });
 
+        it('has class name "Cell"', function(){
+            expect(cell.getName()).toBe('Cell');
+        });
+
+        it('has tag equal to "td"', function(){
+            expect(cell.getTag()).toBe('td');
+        });
+
         it('fills "content" property with the arguments passed to the constructor', function(){
             cell = new Cell();
-            expect(cell.content.elements).toEqual([]);
+            expect(cell.getContent().elements).toEqual([]);
 
             cell = new Cell(10.21);
-            expect(cell.content.elements).toEqual([10.21]);
+            expect(cell.getContent().elements).toEqual([10.21]);
 
             cell = new Cell("a string");
-            expect(cell.content.elements).toEqual(["a string"]);
+            expect(cell.getContent().elements).toEqual(["a string"]);
 
             cell = new Cell({});
-            expect(cell.content.elements).toEqual([{}]);
+            expect(cell.getContent().elements).toEqual([{}]);
 
             cell = new Cell({'prop': 'val'});
-            expect(cell.content.elements).toEqual([{'prop': 'val'}]);
+            expect(cell.getContent().elements).toEqual([{'prop': 'val'}]);
 
             cell = new Cell([]);
-            expect(cell.content.elements).toEqual([[]]);
+            expect(cell.getContent().elements).toEqual([[]]);
         });
     });
 
-    describe('Cell::className: class name', function(){
-        it('gives the name of the class', function(){
-            expect(cell.className).toBe('Cell');
-        });
-    });
 
-    describe('Cell::tag: tag name', function(){
-        it('A Cell object tag is set to "td"', function(){
-            expect(cell.tag).toBe('td');
-        });
-    });
-
-    xdescribe('Cell::style: imposing cell style', function(){
+    describe('Cell::style: imposing cell style', function(){
         it('overrides previously set properties', function(){
-            cellStyle['a property'] = 'a property value';
-            cell.style = cellStyle;
-            expect(cell.style.hasOwnProperty('a property')).toBe(true);
-            expect(cell.style['a property']).toBe('a property value');
+            cellStyle.setProperty('a property', 'a property value');
+            // console.log('cellStyle = ', cellStyle.getCore());
+            cell.setStyles(cellStyle);
+            expect(cell.getStyles().getProperty('a property')).toBe('a property value');
             cell = new Cell();
-            expect(cell.style.hasOwnProperty('a property')).toBe(false);
+            expect(cell.getStyles().getProperty('a property')).not.toBe('a property value');
         });
 
         it('overrides a previously set default property', function(){
             var prop = 'padding';
-            expect(cell.style.hasOwnProperty(prop)).toBe(true);
-            cell.style[prop] = 'modified value';
+            expect(cell.getStyles().hasProperty(prop)).toBe(true);
+            cell.getStyles().setProperty(prop, 'modified value');
             cell = new Cell();
-            expect(cell.style.hasOwnProperty(prop)).toBe(true);
-            expect(cell.style[prop]).not.toBe('modified value');
+            expect(cell.getStyles().hasProperty(prop)).toBe(true);
+            expect(cell.getStyles().getProperty(prop)).not.toBe('modified value');
         });
     });
 

@@ -48,6 +48,28 @@
 	<script type="text/javascript" src="settings/general_config.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
+
+	<script type="text/javascript">
+	function A (){
+		console.log('inside A');
+	    this.a = "A";
+	    this.get = function(){
+	        // console.log(this);
+	        return this.a;
+	    }.bind(this.prototype);
+	}
+
+	function A1 (){
+		console.log('inside A1');
+	    A.call(this);
+	    this.a = "A1";
+	}
+	A1.prototype = Object.create(A.prototype);
+	var a = new A();
+	var a1 = new A1();
+	console.log(a.get());
+	console.log(a1.get());
+	</script>
 	<title>Creatore di newsletter</title>
 <?php
 require 'php/fileContent.php';

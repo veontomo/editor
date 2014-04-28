@@ -38,7 +38,7 @@ function Tag() {
 	 * @readOnly
 	 * @since          0.0.2
 	 */
-	var className = "Tag";
+	var className = 'Tag';
 
 	/**
 	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} getter.
@@ -52,7 +52,9 @@ function Tag() {
 
 
 	/**
-	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} setter. If the argument is a string or a number, then if necessary, converts it into a string and performs assignment. If the argument is of any other type, no assignment occures.
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} setter. If the argument is
+	 * a string or a number, then if necessary, converts it into a string and performs
+	 * assignment. If the argument is of any other type, no assignment occures.
 	 * @method          setTag
 	 * @param           {String|Number}     name
 	 * @return          {String}
@@ -129,14 +131,19 @@ function Tag() {
 
 
 	/**
-	* {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}} setter.
+	* Smart {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} setter.
 	* @method          setStyles
-	* @param           {String|Object}      stl
+	* @param           {any}                stl
 	* @return          {void}
 	* @since           0.0.4
 	*/
 	this.setStyles = function(stl){
-		styles = new Styles(stl);
+		if (stl instanceof Styles){
+			styles = stl;
+		} else {
+			styles = new Styles(stl);
+		}
+
 	};
 
 
@@ -152,14 +159,25 @@ function Tag() {
 
 
 	/**
-	* {{#crossLink "Tag/content:property"}}Content{{/crossLink}} setter.
+	* Smart {{#crossLink "Tag/content:property"}}content{{/crossLink}} setter. If the argument is a
+	* {{#crossLink "Content"}}Content{{/crossLink}} instance, then
+	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	* is set to this value. Otherwise, the argument is passed to the constructor of new instance of
+	* {{#crossLink "Content"}}Content{{/crossLink}} and the result is assigned to
+	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	* with provided and the ar
 	* @method          setContent
-	* @param           {String|Object}      cntn
+	* @param           {any}                cntn
 	* @return          {void}
 	* @since           0.0.1
 	*/
 	this.setContent = function(cntn){
-		content = new Content(cntn);
+		if (cntn instanceof Content){
+			content = cntn;
+		} else {
+			content = new Content(cntn);
+		}
+
 	};
 
 	/**
@@ -179,6 +197,18 @@ function Tag() {
 	this.getName = function(){
 		return className;
 	};
+
+	/**
+	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} setter.
+	 * @method         setName
+	 * @param          {String} name
+	 * @return         {void}
+	 */
+	this.setName = function(name){
+		className = name;
+	};
+
+
 
 	/**
 	 * Appends style to the cell. Alias for Style::appendStyle().
@@ -201,21 +231,32 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		this.getContent().appendStyleToElemAt(pos, stl)
+		this.getContent().appendStyleToElemAt(pos, stl);
 	};
 
 
 	/**
-	 * Retrieves requested property from the "style" property of the current object.
-	 * @method getStyleProp
-	 * @param  {String} 	prop 	property tag which value should be retrieved
-	 * @return {Any}
-	 * @since  0.0.1
+	 * Retrieves requested property from {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         getStyleProperty
+	 * @param          {String} 	        prop 	property name to be retrieved from the styles
+	 * @return         {Any}
+	 * @since          0.0.1
 	 */
-	this.getStyleProp = function(prop) {
-		if (this.style.hasOwnProperty(prop)){
-			return this.style[prop];
-		}
+	this.getStyleProperty = function(prop) {
+		return this.getStyles().getProperty(prop);
+	};
+
+	/**
+	 * Retrieves requested property from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * property of the current object.
+	 * @method         getAttrProperty
+	 * @param          {String} 	        prop 	property name to be retrieved from the attributes
+	 * @return         {Any}
+	 * @since          0.0.1
+	 */
+	this.getAttrProperty = function(prop) {
+		return this.getAttributes().getProperty(prop);
 	};
 
 
