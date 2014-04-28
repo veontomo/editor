@@ -100,7 +100,7 @@ function Properties(input) {
 	 * @return     {void}
 	 */
 	var appendPropertyAsStringOrObj = function (obj, context){
-		var attr, value, key, pool = [];
+		var attr, value, key, pool = [], source;
 		if (typeof obj === 'string'){
 			attr = obj.split(';');
 			attr.forEach(function(pair){
@@ -112,13 +112,19 @@ function Properties(input) {
 				}
 			});
 		}
-		if (typeof obj === 'object'){
-			for (key in obj){
-				if (obj.hasOwnProperty(key)){
-					value = obj[key];
+		if (obj instanceof Properties){
+			source = obj.getCore();
+		} else if (typeof obj === 'object'){
+			source = obj;
+		}
+		if (source){
+			for (key in source){
+				if (source.hasOwnProperty(key)){
+					value = source[key];
 					pool.push([key, value]);
 				}
 			}
+
 		}
 		pool.forEach(function(pair){
 			context.setProperty(pair[0], pair[1]);
@@ -140,7 +146,7 @@ function Properties(input) {
 		// var rnd = parseInt(Math.random()*10000 , 10);
 		// console.info(rnd, 'Properties::appendProperty() is called with ', obj);
 		// console.info(rnd, 'Properties::appendProperty() is calling private function appendPropertyAsStringOrObj with 2 arguments: ', obj, this);
-		return appendPropertyAsStringOrObj(obj, this);
+		appendPropertyAsStringOrObj(obj, this);
 
 	};
 

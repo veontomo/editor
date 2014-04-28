@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, Properties, PropertiesChild
+/*global describe, it, expect, spyOn, beforeEach, afterEach, Properties, PropertiesChild, window
  */
 
 describe('Properties-related functionality', function(){
@@ -222,9 +222,21 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    describe('Property::appendProperty(): appends property', function(){
+    describe('Properties::appendProperty(): appends property', function(){
         it('appends Object to an empty property', function(){
             props.appendProperty({'new': 10, 'class': 'highest', 'fun': function(a){return a;}, 'last author': 'J.P.B.'});
+            expect(props.getProperty('last author')).toBe('J.P.B.');
+            expect(props.getProperty('new')).toBe(10);
+            expect(props.getProperty('class')).toBe('highest');
+            expect(props.hasOwnProperty('fun')).toBe(false);
+        });
+
+        it('merges two Properties instances', function(){
+            var props2 = new Properties();
+            props2.setProperty('new', 10);
+            props2.setProperty('class', 'highest');
+            props2.setProperty('last author', 'J.P.B.');
+            props.appendProperty(props2);
             expect(props.getProperty('last author')).toBe('J.P.B.');
             expect(props.getProperty('new')).toBe(10);
             expect(props.getProperty('class')).toBe('highest');
@@ -237,6 +249,7 @@ describe('Properties-related functionality', function(){
             expect(props.getProperty('last')).toBe('10');
             expect(props.getProperty('class')).toBe('super');
         });
+
 
         it('appends Object to a non-empty property', function(){
             props.setProperty('visited last', 'today');
@@ -369,42 +382,6 @@ describe('Properties-related functionality', function(){
 
 
 
-    });
-
-
-
-    xdescribe('Property::summary(): gives object with key-value of the properties', function(){
-        it('gives an empty object, if there are no properties set', function(){
-            var summary = props.summary();
-            expect(Object.keys(summary).length).toBe(0);
-        });
-        it('gives an object with one string-valued record, if the value is a string', function(){
-            props.bold = 'yes';
-            var summary = props.summary();
-            expect(summary.bold).toBe('yes');
-        });
-        it('gives an object with one number-valued record, if the value is a number', function(){
-            props.font = 221;
-            var summary = props.summary();
-            expect(summary.font).toBe(221);
-        });
-        it('does not enroll methods in the summary', function(){
-            props.print = function(){return 1;};
-            props.age = 'adult';
-            var summary = props.summary();
-            expect(summary.hasOwnProperty('print')).toBe(false);
-        });
-        it('enrolls properties in the summary, if methods are present', function(){
-            props.print = function(){return 1;};
-            props.age = 'adult';
-            var summary = props.summary();
-            expect(summary.hasOwnProperty('age')).toBe(true);
-        });
-        it('does not enroll object-valued properties in the summary', function(){
-            props.level = {'foo': 1};
-            var summary = props.summary();
-            expect(summary.hasOwnProperty('level')).toBe(false);
-        });
     });
 
     describe('Properties::clone(): gives the property clone', function(){

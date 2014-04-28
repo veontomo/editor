@@ -1,14 +1,12 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyle, Attributes, Style, jasmine, appendStyleToCell, Tag, Table, Row, Link */
+/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyles, Styles, jasmine, Tag, Factory */
 
 describe('Cell-related functionality:', function() {
-    var cell, cellStyle, cellAttr, cellContent;
+    var cell, cellStyle;
 
     beforeEach(function() {
         cell = new Cell();
         cellStyle = new TableCellStyles();
-        cellAttr = new Attributes();
-        cellContent = new Content();
     });
 
     describe('Cell::constructor: inherits properly from Tag() class', function(){
@@ -74,108 +72,59 @@ describe('Cell-related functionality:', function() {
         it('overrides a previously set default property', function(){
             var prop = 'padding';
             expect(cell.getStyles().hasProperty(prop)).toBe(true);
-            cell.getStyles().setProperty(prop, 'modified value');
+            cell.setStyleProperty(prop, 'modified value');
             cell = new Cell();
             expect(cell.getStyleProperty(prop)).not.toBe('modified value');
         });
     });
 
-    xdescribe('Cell::getStyleProp: method defined in parent class Tag', function(){
-        it('retrieves property of type "string" from the style', function() {
-            cellStyle['a property'] = 'cell property value';
-            cell.style = cellStyle;
-            expect(cell.getStyleProp('a property')).toEqual('cell property value');
-        });
-
-        it('retrieves property of type "Number" from the style', function() {
-            cellStyle['a-property'] = 12.6;
-            cell.style = cellStyle;
-            expect(cell.getStyleProp('a-property')).toEqual(12.6);
-        });
-
-        it('retrieves non-existing property from the style', function() {
-            if (cellStyle.hasOwnProperty('cell property')) {
-                delete cellStyle['cell property'];
-            }
-            cell.style = cellStyle;
-            expect(cell.getStyleProp('cell property')).not.toBeDefined();
-        });
-    });
-
-    xdescribe('Cell::appendStyle(): method defined in the parent class', function(){
+    describe('Cell::appendStyle(): method defined in the parent class', function(){
         it('appends style if it is given as a string', function(){
-            if (cell.style.hasOwnProperty('an-attribute')){
-                delete cell.style['an-attribute'];
-            }
             cell.appendStyle('an-attribute: attribute-value');
-            expect(cell.getStyleProp('an-attribute')).toBe('attribute-value');
+            expect(cell.getStyleProperty('an-attribute')).toBe('attribute-value');
         });
 
         it('appends style if it is given as a Style object', function(){
-            var st = new Style();
-            st.attribute = 201.29;
+            var st = new Styles();
+            st.setProperty('attribute', 201.29);
+            console.log(st.getCore());
             cell.appendStyle(st);
-            expect(cell.getStyleProp('attribute')).toBe(201.29);
+            expect(cell.getStyleProperty('attribute')).toBe(201.29);
         });
 
         it('appends style if it is given as an object', function(){
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProp('modular')).toBe('no');
-            expect(cell.getStyleProp('speed')).toBe(21.9);
+            expect(cell.getStyleProperty('modular')).toBe('no');
+            expect(cell.getStyleProperty('speed')).toBe(21.9);
         });
 
         it('does not overrides non-overlapping attributes', function(){
-            var st = new Style();
-            st.leverage = 'virtual';
-            st.help = 981.87;
-            st['knowledge-driven'] = '34';
-            cell.style = st;
+            var st = new Styles();
+            st.setProperty('leverage', 'virtual');
+            st.setProperty('help', 981.87);
+            st.setProperty('knowledge-driven', '34');
+            cell.setStyles(st);
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProp('modular')).toBe('no');
-            expect(cell.getStyleProp('speed')).toBe(21.9);
-            expect(cell.getStyleProp('leverage')).toBe('virtual');
-            expect(cell.getStyleProp('help')).toBe(981.87);
-            expect(cell.getStyleProp('knowledge-driven')).toBe('34');
+            expect(cell.getStyleProperty('modular')).toBe('no');
+            expect(cell.getStyleProperty('speed')).toBe(21.9);
+            expect(cell.getStyleProperty('leverage')).toBe('virtual');
+            expect(cell.getStyleProperty('help')).toBe(981.87);
+            expect(cell.getStyleProperty('knowledge-driven')).toBe('34');
         });
 
         it('overrides overlapping attributes', function(){
-            var st = new Style();
-            st.leverage = 'virtual';
-            st.help = 981.87;
-            st['knowledge-driven'] = '34';
-            st.modular = 923;
-            cell.style = st;
+            var st = new Styles();
+            st.setProperty('leverage', 'virtual');
+            st.setProperty('help', 981.87);
+            st.setProperty('knowledge-driven', '34');
+            st.setProperty('modular', 923);
+            cell.setStyles(st);
             cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProp('modular')).toBe('no');
-            expect(cell.getStyleProp('speed')).toBe(21.9);
-            expect(cell.getStyleProp('leverage')).toBe('virtual');
-            expect(cell.getStyleProp('help')).toBe(981.87);
-            expect(cell.getStyleProp('knowledge-driven')).toBe('34');
-        });
-    });
-
-    xdescribe('Cell::toLink(): test parent method', function(){
-        it('creates a link inside the cell with text content', function(){
-            var link = new Link(),
-                cell2,
-                registry = new Registry({classes: [Link], 'defaultClass': Tag});
-                factory = new Factory(registry);
-            cell.style = cellStyle;
-            cell.attr = cellAttr;
-            link.setHref('url-to-world');
-            cell.factory = factory;
-
-            cell.content.elements = ['cell content'];
-            cell2 = cell.toLink(link);
-            expect(cell2.style.toString()).toBe(cellStyle.toString());
-            expect(cell2.attr.toString()).toBe(cellAttr.toString());
-            expect(cell2.content.elements.length).toBe(1);
-            expect(cell2.content.elements[0] instanceof Link).toBe(true);
-            expect(cell2.content.elements[0].getHref()).toBe('url-to-world');
-            expect(cell2.content.elements[0].attr).toBe(link.attr);
-            expect(cell2.content.elements[0].style).toBe(link.style);
-            expect(cell2.content.elements[0].content.elements.length).toBe(1);
-            expect(cell2.content.elements[0].content.elements[0]).toBe('cell content');
+            expect(cell.getStyleProperty('modular')).toBe('no');
+            expect(cell.getStyleProperty('speed')).toBe(21.9);
+            expect(cell.getStyleProperty('leverage')).toBe('virtual');
+            expect(cell.getStyleProperty('help')).toBe(981.87);
+            expect(cell.getStyleProperty('knowledge-driven')).toBe('34');
         });
     });
 });

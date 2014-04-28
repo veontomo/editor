@@ -15,7 +15,7 @@ function Cell(arg) {
 		return new Cell(arg);
 	}
 	// inherit tag properties
-	Tag.call(this);
+	Tag.call(this, arg);
 	this.setTag('td');
 	this.setName('Cell');
 	this.setStyles(new TableCellStyles());

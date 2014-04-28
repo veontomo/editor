@@ -143,7 +143,6 @@ function Tag() {
 		} else {
 			styles = new Styles(stl);
 		}
-
 	};
 
 
@@ -213,12 +212,12 @@ function Tag() {
 	/**
 	 * Appends style to the cell. Alias for Style::appendStyle().
 	 * @method         appendStyle
-	 * @param          {Style|Obj}   stl   style to be appended
+	 * @param          {Style|Obj}          newStyle   style to be appended
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
-	this.appendStyle = function(stl){
-		this.getStyles().appendStyle(stl);
+	this.appendStyle = function(newStyle){
+		this.getStyles().appendStyle(newStyle);
 	};
 
 	/**
