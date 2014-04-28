@@ -275,8 +275,9 @@ function Tag() {
 	 * @since          0.0.4
 	 */
 	this.dropStyleProperty = function(key) {
-		if (this.hasStyleProperty(key)){
-			this.getStyles().dropProperty(key);
+		var stl = this.getStyles();
+		if (stl.hasProperty(key)){
+			stl.dropProperty(key);
 		}
 	};
 
@@ -529,9 +530,9 @@ function Tag() {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var Constr = window[this.className],
+		var Constr = window[this.getName()],
 			clone, attr, current;
-		clone = (typeof Constr === 'function') ?  new Constr : new Tag();
+		clone = (typeof Constr === 'function') ?  new Constr() : new Tag();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];

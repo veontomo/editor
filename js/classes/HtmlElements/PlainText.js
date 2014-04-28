@@ -120,30 +120,6 @@ function PlainText(text) {
 		return isString;
 	};
 
-	/**
-	 * Returns a link which properties are equal to those of the argument and `content` has
-	 * the only elements which is equal to the target. If the argument is not a Link instance,
-	 * an error is thrown.
-	 * @method        toLink
-	 * @param         {Link}       link     it is served as a template to create a link. Its
-	 *                                     `content` property is to be replaced by the copy of
-	 *                                     target object.
-	 * @return        {Link}
-	 * @deprecated    use Link::shower()
-	 */
-	this.toLink = function(link){
-		console.log('Use Link::shower() method insted of this, which is considered deprecated.');
-		if (!(link instanceof Link)){
-			throw new Error('The argument must be a Link instance!');
-		}
-		var newLink, newText;
-		newLink = new Link();
-		newText = new PlainText(this.getContent());
-		newLink.attr  = link.attr;
-		newLink.style = link.style;
-		newLink.appendElem(newText);
-		return newLink;
-	};
 
 
 	/**

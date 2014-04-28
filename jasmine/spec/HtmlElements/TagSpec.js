@@ -431,10 +431,10 @@ describe('Tag-related functionality', function() {
         it('creates an instance of Tag class', function(){
             expect(tag.clone() instanceof Tag).toBe(true);
         });
-        it('creates an instance of a class that inherits from Tag and has "className" pproperty', function(){
+        it('creates an instance of a class that inherits from Tag and has "className" property', function(){
             window.TagChild = function(){
                 Tag.call(this);
-                this.className = "TagChild";
+                this.setName('TagChild');
             };
             TagChild.prototype = Object.create(Tag.prototype);
 
@@ -443,7 +443,7 @@ describe('Tag-related functionality', function() {
         });
 
         it('creates a Tag instance if target "className" property corresponds to no class', function(){
-            tag.className = 'no such class';
+            tag.setName('no such class');
             expect(tag.clone() instanceof Tag).toBe(true);
         });
         it('copies attribute values of the target', function(){

@@ -15,64 +15,56 @@ function Link(href) {
 	}
 	Tag.call(this);
 
-
 	/**
-	 * Link html tag.
-	 * @property {String} tag
-	 * @type     {String}
-	 * @default 'a'
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "a"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Link"
+	 * </li><li>
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} to be
+	 * {{#crossLink "LinkStyles"}}LinkStyles{{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "LinkAttributes"}}LinkAttributes{{/crossLink}}
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.tag = 'a';
-
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "Link", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Link"
-	 * @since    0.0.2
-	 */
-	this.className = "Link";
+	this.setTag('a');
+	this.setName('Link');
+	this.setAttributes(new LinkAttributes());
+	this.setStyles(new LinkStyles());
 
 
 	/**
-	 * Link attributes.
-	 * @property {LinkAttributes}      attr
-	 * @type     {LinkAttributes}
-	 */
-	this.attr = new LinkAttributes();
-
-	// set url if it is given
-	if(href && (typeof href === 'string')){
-		this.attr.setHref(encodeURI(href));
-	}
-
-	/**
-	 * Styles for Link instance.
-	 * @property  {LinkStyle}       style
-	 * @type      {LinkStyles}
-	 */
-	this.style = new LinkStyles();
-
-	/**
-	 * Href getter. Calles {{#crossLink "LinkAttributes/getHref:method"}}LinkAttributes::getHref(){{/crossLink}}
+	 * Returns value of "href" key of the current object attribute. If it turns out to be an instance of
+	 * {{#crossLink "LinkAttributes"}}LinkAttributes{{/crossLink}} class, then calls
+	 * {{#crossLink "LinkAttributes/getHref:method"}}getHref(){{/crossLink}} method, otherwise
+	 * returns "href" key value of {{#crossLink "Link/attributes:property"}}attributes{{/crossLink}}.
 	 * @method    getHref
 	 * @return    {String}
 	 */
 	this.getHref =  function(){
-		return this.attr.getHref();
+		var attrCopy = this.getAttributes();
+		return (typeof attrCopy.getHref === 'function') ? attrCopy.getHref() : attrCopy.getProperty('href');
 	};
 
 	/**
-	 * Href setter. Calles method {{#crossLink "LinkAttributes/setHref:method"}}LinkAttributes::setHref(){{/crossLink}}
+	 * Href setter. Calles method {{#crossLink "Attributes/setAttrProperty:method"}}setAttrProperty('href', ...){{/crossLink}}.
 	 * @method   setHref
 	 * @param    {String}         url
 	 * @return   {void}
 	 */
 	this.setHref =  function(url){
-		this.attr.setHref(url);
+		this.setAttrProperty('href', url);
 	};
+
+
+	// set url if it is given
+	if(href && (typeof href === 'string')){
+		this.setHref(encodeURI(href));
+	}
+
 
 	/**
 	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property.
@@ -86,11 +78,11 @@ function Link(href) {
 	 */
 	this.underline = function(val){
 		if (val === true || val === undefined){
-			this.style['text-decoration'] = 'underline';
+			this.setStyleProperty('text-decoration', 'underline');
 		} else if (val === false) {
-			this.style['text-decoration'] = 'none';
+			this.setStyleProperty('text-decoration', 'none');
 		} else if (typeof val === 'string'){
-			this.style['text-decoration'] = val;
+			this.setStyleProperty('text-decoration', val);
 		}
 	};
 
@@ -100,7 +92,7 @@ function Link(href) {
 	 * @return    {void}
 	 */
 	this.dropUnderline = function(){
-		this.style.setProperty('text-decoration', 'none');
+		this.setStyleProperty('text-decoration', 'none');
 	};
 
 	/**
@@ -128,17 +120,21 @@ function Link(href) {
 	 * @return    {Tag|Link|Content}
 	 */
 	this.shower = function(obj){
+		console.log('Link shower method: input = ', obj);
 		var clone = (obj !== undefined && typeof obj.clone === 'function') ? obj.clone() : obj,
 			linkClone;
 		// case 1: the argument is a Link:
 		if (obj instanceof Link){
-			clone.attr.appendProperty(this.attr.getCore());
-			clone.style.appendProperty(this.style.getCore());
+			console.log('input is a link');
+			clone.getAttributes().appendProperty(this.getAttributes().getCore());
+			clone.getStyles().appendProperty(this.getStyles().getCore());
 			clone.setHref(this.getHref());
+			console.log('returning clone: ', clone );
 			return clone;
 		}
 		// case 2: the argument is a Content: call current method on each item
 		if (obj instanceof Content){
+			console.log('input is a Content');
 			var content = new Content(),
 				len = clone.length(),
 				i, current;
@@ -146,19 +142,24 @@ function Link(href) {
 				current = clone.getElem(i);
 				content.appendElem(this.shower(current));
 			}
+			console.log('returning content: ', content );
 			return content;
 		}
 		// case 3: the argument is a Tag with non-empty content
-		if (obj instanceof Tag && !(obj.content.isEmpty())){
-			var contentShowred = this.shower(obj.content);
-			clone.content = contentShowred;
+		if (obj instanceof Tag && !(obj.getContent().isEmpty())){
+			console.log('input is a Tag with non-empty content');
+			var contentShowred = this.shower(obj.getContent());
+			clone.setContent(contentShowred);
+			console.log('returning clone: ', clone );
 			return clone;
 		}
 		// case 4: all the rest should be processed in the same way:
 		// a) make a clone of the target,
 		// b) insert the clone of the argument into the content property
+		console.log('input is a general one');
 		linkClone = this.clone();
-		linkClone.content.elements = [clone];
+		linkClone.setContent(clone);
+		console.log('returning linkClone: ', linkClone );
 		return linkClone;
 
 	};
