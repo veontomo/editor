@@ -17,39 +17,20 @@ function Image() {
 	Tag.call(this);
 
 	/**
-	 * Html tag corresponding to Cell instances.
-	 * @property {String}    name
-	 * @type     {String}
-	 * @default  img
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "img"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Image"
+	 * </li><li>
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "ImageStyles"}}ImageStyles{{/crossLink}}
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.tag = 'img';
-
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "Cell", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Cell"
-	 * @since    0.0.2
-	 */
-	this.className = "Image";
-
-
-	/**
-	 * Overrides the inherited methods in order to pass the argument to the constructor of Content class.
-	 * @property {Content}    content
-	 * @type      {Content}
-	 */
-	this.content = new Content();
-
-	/**
-	 * Styles of the cell
-	 * @property {TableCellStyle} style
-	 * @type {TableCellStyle}
-	 * @default TableCellStyle
-	 */
-	this.style = new ImageStyles();
+	this.setTag('img');
+	this.setName('Image');
+	this.setStyles(new ImageStyles());
 
 	/**
 	 * Sets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
@@ -59,7 +40,7 @@ function Image() {
 	 * @return    {void}
 	 */
 	this.setOrigin = function(url){
-		this.attr.setProperty('src', url);
+		this.getAttributes().setProperty('src', url);
 	};
 
 	/**
@@ -69,7 +50,7 @@ function Image() {
 	 * @return    {String}
 	 */
 	this.getOrigin = function(){
-		return this.attr.getProperty('src');
+		return this.getAttributes().getProperty('src');
 	};
 }
 Image.prototype = Object.create(Tag.prototype);
