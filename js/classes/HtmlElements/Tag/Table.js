@@ -10,47 +10,35 @@
 * @extends       Tag
 */
 function Table() {
-	// "use strict";
+	"use strict";
 	if (!(this instanceof Table)) {
 		return new Table();
 	}
 	// inherit tag properties
 	Tag.call(this);
 
-	/**
-	 * Returns the class tag.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "Table", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Table"
-	 * @since    0.0.2
-	 */
-	this.className = "Table";
 
 	/**
-	 * Html tag corresponding to Table instances.
-	 * @property {String}    tag
-	 * @type     {String}
-	 * @default  table
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "table"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Table"
+	 * </li><li>
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "TableStyles"}}TableStyles{{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Tag/attributes:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "TableAttributes"}}TableAttributes{{/crossLink}}
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.tag = 'table';
+	this.setTag('table');
+	this.setName('Table');
+	this.setStyles(new TableStyles());
+	this.setAttributes(new TableAttributes());
 
-	/**
-	* Attributes of the table. Overrides parent property "attr".
-	* @property {TableAttributes} attr
-	* @type {TableAttributes}
-	* @default TableAttributes
-	*/
-	this.attr = new TableAttributes();
 
-	/**
-	 * Styles of the row. Overrides parent property "style".
-	 * @property {TableStyle} style
-	 * @type {TableStyle}
-	 * @default TableStyle
-	 */
-	this.style = new TableStyles();
 
 	/**
 	 * The number of the rows in the table. Alias of length() of the parent class.
@@ -295,10 +283,10 @@ function Table() {
 		bc = borderInfo.color || '#000000';
 		bs = borderInfo.style || 'solid';
 
-		this.style['border-width'] = bw;
-		this.style['border-color'] = bc;
-		this.style['border-style'] = bs;
-		this.attr.border = bw;
+		this.setStyleProperty('border-width', bw);
+		this.setStyleProperty('border-color', bc);
+		this.setStyleProperty('border-style', bs);
+		this.setAttrProperty('border', bw);
 	};
 
 	/**
@@ -309,16 +297,16 @@ function Table() {
 	 * @return {void}
 	 */
 	this.removeBorder = function(){
-		if (this.style.hasOwnProperty('border-width')) {
-			delete this.style['border-width'];
+		if (this.getStyles().hasProperty('border-width')) {
+			this.getStyles().dropProperty('border-width');
 		}
-		if (this.style.hasOwnProperty('border-color')) {
-			delete this.style['border-color'];
+		if (this.getStyles().hasProperty('border-color')) {
+			this.getStyles().dropProperty('border-color');
 		}
-		this.style['border-style'] = 'none';
+		this.setStyleProperty('border-style', 'none');
 
-		if (this.attr.hasOwnProperty('border')) {
-			delete this.attr.border;
+		if (this.getAttributes().hasProperty('border')) {
+			this.getAttributes().dropsProperty('border')
 		}
 	};
 
@@ -334,7 +322,7 @@ function Table() {
 		if (this.rowNum() === 0){
 			return false;
 		}
-		return this.content.elements.every(function(row){
+		return this.getContent().elements.every(function(row){
 			return row.onlyTableInside();
 		});
 	};
@@ -404,7 +392,10 @@ function Table() {
 	 * @return {String}
 	 */
 	this.toHtml = function () {
-		var prologue = '', epilogue = '', tableTag = 'table', rowTag = 'tr', cellTag = 'td',
+		var prologue = '', epilogue = '',
+			tableTag = 'table',
+			rowTag = 'tr',
+			cellTag = 'td',
 			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
 			bogusRowHtml, bogusCellHtml, bogusTableHtml, tableAttr, tableStyle, tableHtml, i, rowsNumber;
 
@@ -424,8 +415,8 @@ function Table() {
 			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
 			prologue = Helper.sandwichWith('</', tableTag, '>') + Helper.sandwichWith('</', cellTag, '>') + Helper.sandwichWith('</', rowTag, '>');
 		}
-		tableAttr  = this.attr  ? this.attr.toString() : '';
-		tableStyle = Helper.sandwichWith('style="', this.style.toString(), '"');
+		tableAttr  = this.getAttributes() ? this.getAttributes().toString() : '';
+		tableStyle = Helper.sandwichWith('style="', this.getStyles().toString(), '"');
 		tableHtml  = Helper.sandwichWith('<', [tableTag, tableAttr, tableStyle].concatDropSpaces(), '>');
 		rowsNumber = this.rowNum();
 		for (i = 0; i < rowsNumber; i++) {

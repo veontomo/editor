@@ -115,7 +115,13 @@ function Tag() {
 	* @since           0.0.1
 	*/
 	this.setAttributes = function(attr){
-		attributes = new Attributes(attr);
+		if (attr instanceof Attributes){
+			attributes = attr;
+		} else {
+			attributes = new Attributes(attr);
+		}
+
+
 	};
 
 	/**
@@ -259,6 +265,21 @@ function Tag() {
 		return this.getStyles().setProperty(key, value);
 	};
 
+
+	/**
+	 * Drops requested property from {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         dropStyleProperty
+	 * @param          {String} 	        key 	property name to be retrieved from the styles
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.dropStyleProperty = function(key) {
+		if (this.hasStyleProperty(key)){
+			this.getStyles().dropProperty(key);
+		}
+	};
+
 	/**
 	 * Retrieves requested property from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
 	 * property of the current object.
@@ -282,6 +303,20 @@ function Tag() {
 	 */
 	this.setAttrProperty = function(key, value) {
 		return this.getAttributes().setProperty(key, value);
+	};
+
+	/**
+	 * Drops requested property from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * property of the current object.
+	 * @method         dropAttrProperty
+	 * @param          {String} 	        key 	property name to be retrieved from the attributes
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.dropAttrProperty = function(key) {
+		if (this.hasAttrProperty(key)){
+			this.getAttributes().dropProperty(key);
+		}
 	};
 
 
