@@ -138,18 +138,27 @@ describe('Tag-related functionality', function() {
             tag.getStyleProperty('a property');
             expect(tag.getStyles).toHaveBeenCalled();
         });
-        it('calls getProperty() method on the cell style', function(){
+        it('calls getProperty() method on the object style', function(){
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tagStyle, 'getProperty');
             tag.getStyleProperty('a property');
             expect(tagStyle.getProperty).toHaveBeenCalledWith('a property');
         });
-        it('returns output of getProperty() method of the cell style', function(){
+        it('returns output of getProperty() method of the object style', function(){
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tagStyle, 'getProperty').andCallFake(function(){return 'fake property value';});
             expect(tag.getStyleProperty('a property')).toBe('fake property value');
         });
     });
+
+    describe('setStyleProperty(): sets style property', function(){
+        it('sets style property', function(){
+            tag.setStyleProperty('a property', 'a value');
+            expect(tag.getStyleProperty('a property')).toBe('a value');
+        });
+    });
+
+
 
     describe('getAttrProperty(): retrieves attribute property', function(){
         it('calls cell method "getAttributes()"', function(){
@@ -157,18 +166,26 @@ describe('Tag-related functionality', function() {
             tag.getAttrProperty('a property');
             expect(tag.getAttributes).toHaveBeenCalled();
         });
-        it('calls getProperty() method on the cell style', function(){
+        it('calls getProperty() method on the object style', function(){
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tagAttr, 'getProperty');
             tag.getAttrProperty('a property');
             expect(tagAttr.getProperty).toHaveBeenCalledWith('a property');
         });
-        it('returns output of getProperty() method of the cell style', function(){
+        it('returns output of getProperty() method of the object style', function(){
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tagAttr, 'getProperty').andCallFake(function(){return 'fake property value';});
             expect(tag.getAttrProperty('a property')).toBe('fake property value');
         });
     });
+
+    describe('setAttrProperty(): sets style property', function(){
+        it('sets attribute property', function(){
+            tag.setAttrProperty('class', 'hidden');
+            expect(tag.getAttrProperty('class')).toBe('hidden');
+        });
+    });
+
 
 
     describe('getFirst(): gets first element of the content', function(){

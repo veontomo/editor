@@ -65,11 +65,10 @@ describe('Cell-related functionality:', function() {
     describe('Cell::style: imposing cell style', function(){
         it('overrides previously set properties', function(){
             cellStyle.setProperty('a property', 'a property value');
-            // console.log('cellStyle = ', cellStyle.getCore());
             cell.setStyles(cellStyle);
-            expect(cell.getStyles().getProperty('a property')).toBe('a property value');
+            expect(cell.getStyleProperty('a property')).toBe('a property value');
             cell = new Cell();
-            expect(cell.getStyles().getProperty('a property')).not.toBe('a property value');
+            expect(cell.getStyleProperty('a property')).not.toBe('a property value');
         });
 
         it('overrides a previously set default property', function(){
@@ -77,8 +76,7 @@ describe('Cell-related functionality:', function() {
             expect(cell.getStyles().hasProperty(prop)).toBe(true);
             cell.getStyles().setProperty(prop, 'modified value');
             cell = new Cell();
-            expect(cell.getStyles().hasProperty(prop)).toBe(true);
-            expect(cell.getStyles().getProperty(prop)).not.toBe('modified value');
+            expect(cell.getStyleProperty(prop)).not.toBe('modified value');
         });
     });
 

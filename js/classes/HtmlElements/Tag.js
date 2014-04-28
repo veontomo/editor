@@ -241,10 +241,23 @@ function Tag() {
 	 * @method         getStyleProperty
 	 * @param          {String} 	        prop 	property name to be retrieved from the styles
 	 * @return         {Any}
-	 * @since          0.0.1
+	 * @since          0.0.4
 	 */
 	this.getStyleProperty = function(prop) {
 		return this.getStyles().getProperty(prop);
+	};
+
+	/**
+	 * Imposes requested property value in {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         setStyleProperty
+	 * @param          {String} 	        key 	   property name to be set
+	 * @param          {String} 	        value 	   property value
+	 * @return         {Any}
+	 * @since          0.0.4
+	 */
+	this.setStyleProperty = function(key, value) {
+		return this.getStyles().setProperty(key, value);
 	};
 
 	/**
@@ -253,11 +266,25 @@ function Tag() {
 	 * @method         getAttrProperty
 	 * @param          {String} 	        prop 	property name to be retrieved from the attributes
 	 * @return         {Any}
-	 * @since          0.0.1
+	 * @since          0.0.4
 	 */
 	this.getAttrProperty = function(prop) {
 		return this.getAttributes().getProperty(prop);
 	};
+
+	/**
+	 * Imposes requested property value in {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * property of the current object.
+	 * @method         setAttrProperty
+	 * @param          {String} 	        key 	   property name to be set
+	 * @param          {String} 	        value 	   property value
+	 * @return         {Any}
+	 * @since          0.0.4
+	 */
+	this.setAttrProperty = function(key, value) {
+		return this.getAttributes().setProperty(key, value);
+	};
+
 
 
 	/**
