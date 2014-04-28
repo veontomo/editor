@@ -15,12 +15,13 @@ function ImageStyles(obj) {
     Styles.call(this, obj);
 
     /**
-     * The  name of the class.
-     * @since    0.0.2
-     * @property {String} className
-     * @type     {String}
+     * Re-set private properties defined in parent class {{#crossLink "Styles"}}Styles{{/crossLink}}:
+     * <ol><li>
+     * {{#crossLink "Properties/className:property"}}className{{/crossLink}} to be "ImageStyles"
+     * </li></ol>
+     * @method         constructor
      */
-    this.className = 'ImageStyles';
+    this.setName('ImageStyles');
 
 
     /**

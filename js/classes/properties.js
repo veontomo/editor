@@ -31,6 +31,34 @@ function Properties(input) {
 	var core = {};
 
 	/**
+	 * The  name of the class.
+	 * @property        {String}            className
+	 * @type            {String}
+	 * @private
+	 */
+	var className = 'Properties';
+
+	/**
+	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
+	};
+
+	/**
+	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} setter.
+	 * @method         setName
+	 * @param          {String}             name
+	 * @return         {void}
+	 */
+	this.setName = function(name){
+		if (typeof name === 'string'){
+			className = name;
+		}
+	};
+
+	/**
 	 * If `key` and `value` are either string or number, then property `key`
 	 * ({{#crossLink "Properties/core:property"}}core{{/crossLink}}) is set to `value`
 	 * and `true` is returned. Otherwise, `false` is returned.
@@ -207,35 +235,6 @@ function Properties(input) {
 	 */
 	this.propNum = function(){
 		return Object.keys(core).length;
-	};
-
-	/**
-	 * The  name of the class.
-	 * @property        {String}            className
-	 * @type            {String}
-	 * @private
-	 */
-	var className = 'Properties';
-
-
-	/**
-	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
-	 * @return         {String}
-	 */
-	this.getName = function(){
-		return className;
-	};
-
-	/**
-	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} setter.
-	 * @method         setName
-	 * @param          {String}             name
-	 * @return         {void}
-	 */
-	this.setName = function(name){
-		if (typeof name === 'string'){
-			className = name;
-		}
 	};
 
 	/**

@@ -54,9 +54,9 @@ describe('LisItemStyles-related functionality', function(){
 
     });
 
-    describe('ListItemStyles::className(): gets the name of the class', function(){
+    describe('ListItemStyles::getName(): gets the name of the class', function(){
         it('gives ListItemStyles', function(){
-            expect(stl.className).toBe('ListItemStyles');
+            expect(stl.getName()).toBe('ListItemStyles');
         });
 
     });

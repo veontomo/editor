@@ -12,7 +12,7 @@ describe('Attribute-related functionality', function(){
             expect(attr instanceof Properties).toBe(true);
         });
         it('sets "className" property to be equal to "Attributes"', function(){
-            expect(attr.className).toBe('Attributes');
+            expect(attr.getName()).toBe('Attributes');
         });
 
         it('populates properties from the argument', function(){

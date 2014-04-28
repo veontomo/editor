@@ -59,9 +59,9 @@ describe('TableCellStyles-related functionality', function(){
 
     });
 
-    describe('TableCellStyles::className(): gets the name of the class', function(){
+    describe('TableCellStyles::getName(): gets the name of the class', function(){
         it('gives TableCellStyles', function(){
-            expect(stl.className).toBe('TableCellStyles');
+            expect(stl.getName()).toBe('TableCellStyles');
         });
 
     });

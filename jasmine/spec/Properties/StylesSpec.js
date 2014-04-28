@@ -19,7 +19,7 @@ describe('Style-related functionality', function(){
         });
 
         it('sets "className" Properties to be equal to "Attributes"', function(){
-            expect(stl.className).toBe('Styles');
+            expect(stl.getName()).toBe('Styles');
         });
 
         it('populates properties from the argument', function(){

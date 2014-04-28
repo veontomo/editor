@@ -52,9 +52,9 @@ describe('TableRowStyles-related functionality', function(){
 
     });
 
-    describe('TableRowStyles::className(): gets the name of the class', function(){
+    describe('TableRowStyles::getName(): gets the name of the class', function(){
         it('gives TableRowStyles', function(){
-            expect(stl.className).toBe('TableRowStyles');
+            expect(stl.getName()).toBe('TableRowStyles');
         });
 
     });

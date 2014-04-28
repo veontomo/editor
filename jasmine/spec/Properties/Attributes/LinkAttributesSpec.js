@@ -15,7 +15,7 @@ describe('LinkAttributes-related functionality:', function() {
             expect(attr instanceof Attributes).toBe(true);
         });
         it('sets "className" property to be equal to "Attributes"', function(){
-            expect(attr.className).toBe('LinkAttributes');
+            expect(attr.getName()).toBe('LinkAttributes');
         });
 
 

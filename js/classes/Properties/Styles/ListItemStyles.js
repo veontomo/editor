@@ -15,12 +15,13 @@ function ListItemStyles(obj) {
     Styles.call(this, obj);
 
     /**
-     * The  name of the class.
-     * @since    0.0.2
-     * @property {String} className
-     * @type     {String}
-     */
-    this.className = 'ListItemStyles';
+    * Re-set private properties defined in parent class {{#crossLink "Styles"}}Styles{{/crossLink}}:
+    * <ol><li>
+    * {{#crossLink "Properties/className:property"}}className{{/crossLink}} to be "ListItemStyles"
+    * </li></ol>
+    * @method         constructor
+    */
+    this.setName('ListItemStyles');
 
 
     /**

@@ -13,7 +13,17 @@ function LinkAttributes(attr){
 	if (!(this instanceof LinkAttributes)) {
 		return new LinkAttributes(attr);
 	}
+
 	Attributes.call(this, attr);
+
+	/**
+	 * Re-set private properties defined in parent class {{#crossLink "Properties"}}Properties{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Properties/className:property"}}className{{/crossLink}} to be "LinkAttributes"
+	 * </li></ol>
+	 * @method         constructor
+	 */
+	this.setName('LinkAttributes');
 
 	/**
 	 * Object with key-values for link attributes. They should be set if they were not set before.
@@ -41,16 +51,6 @@ function LinkAttributes(attr){
 	this.setHref =  function(url){
 		this.setProperty('href', encodeURI(url));
 	};
-
-
-	/**
-	 * The  name of the class.
-	 * @since    0.0.2
-	 * @property {String} className
-	 * @type     {String}
-	 */
-	this.className = 'LinkAttributes';
-
 
 
 }

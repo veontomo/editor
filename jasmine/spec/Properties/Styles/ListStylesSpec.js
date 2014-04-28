@@ -47,9 +47,9 @@ describe('ListStyles-related functionality', function(){
 
     });
 
-    describe('ListStyles::className(): gets the name of the class', function(){
+    describe('ListStyles::getName(): gets the name of the class', function(){
         it('gives ListStyles', function(){
-            expect(stl.className).toBe('ListStyles');
+            expect(stl.getName()).toBe('ListStyles');
         });
 
     });

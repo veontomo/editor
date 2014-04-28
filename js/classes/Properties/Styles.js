@@ -15,6 +15,15 @@ function Styles(obj) {
 	}
 	Properties.call(this, obj);
 
+    /**
+     * Re-set private properties defined in parent class {{#crossLink "Properties"}}Properties{{/crossLink}}:
+     * <ol><li>
+     * {{#crossLink "Properties/className:property"}}className{{/crossLink}} to be "Styles"
+     * </li></ol>
+     * @method         constructor
+     */
+    this.setName('Styles');
+
 	/**
 	 * Generates string representation of this object (as html inline style).
 	 * It takse into consideration only string- and number-valued properties. The rest is ignored.
@@ -46,14 +55,6 @@ function Styles(obj) {
         }
         return styles.join('; ');
     };
-
-    /**
-     * The  name of the class.
-     * @since    0.0.2
-     * @property {String} className
-     * @type     {String}
-     */
-    this.className = 'Styles';
 
     /**
      * Appends style. Alias for the parent method {{#crossLink "Properties/appendProperty:method"}}Properties::appendProperty(){{/crossLink}}

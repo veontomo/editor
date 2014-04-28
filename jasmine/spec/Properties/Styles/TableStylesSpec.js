@@ -59,7 +59,7 @@ describe('TableStyles-related functionality', function(){
 
     describe('TableStyles::className(): gets the name of the class', function(){
         it('gives TableStyles', function(){
-            expect(stl.className).toBe('TableStyles');
+            expect(stl.getName()).toBe('TableStyles');
         });
 
     });

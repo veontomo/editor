@@ -15,6 +15,17 @@ function Attributes(obj) {
 	}
 	Properties.call(this, obj);
 
+    /**
+     * Re-set private properties defined in parent class {{#crossLink "Properties"}}Properties{{/crossLink}}:
+     * <ol><li>
+     * {{#crossLink "Properties/className:property"}}className{{/crossLink}} to be "Attributes"
+     * </li></ol>
+     * @method         constructor
+     */
+    this.setName('Attributes');
+
+
+
 	/**
 	 * Generates string representation of this object (as html attributes).
 	 * It takes into consideration only key-valued pairs of
@@ -35,15 +46,6 @@ function Attributes(obj) {
         });
         return output.join(' ');
     };
-
-    /**
-     * The  name of the class.
-     * @since    0.0.2
-     * @property {String} className
-     * @type     {String}
-     */
-    this.className = 'Attributes';
-
 
     /**
      * Loads attributes from the argument that is supposed to be of a type

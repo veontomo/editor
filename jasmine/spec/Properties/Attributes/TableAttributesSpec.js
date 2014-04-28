@@ -12,7 +12,7 @@ describe('TableAttributes-related functionality:', function() {
             expect(attr instanceof Attributes).toBe(true);
         });
         it('sets "className" property to be equal to "TableAttributes"', function(){
-            expect(attr.className).toBe('TableAttributes');
+            expect(attr.getName()).toBe('TableAttributes');
         });
         it('adds keyword "new" if it is missing when an object is created', function(){
             attr = TableAttributes();

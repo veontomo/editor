@@ -58,7 +58,7 @@ describe('LinkStyles-related functionality', function(){
 
     describe('ImageStyles::className(): gets the name of the class', function(){
         it('gives LinkStyles', function(){
-            expect(stl.className).toBe('ImageStyles');
+            expect(stl.getName()).toBe('ImageStyles');
         });
 
     });
