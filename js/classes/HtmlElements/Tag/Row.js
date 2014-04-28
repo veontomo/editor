@@ -18,42 +18,20 @@ function Row() {
 	Tag.call(this);
 
 	/**
-	 * Type of the object. Return "Row" for the objects of this type.
-	 * @method  getType
-	 * @return {string}
-	 * @deprecated   in favour of getName()
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "tr"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Row"
+	 * </li><li>
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "TableRowStyles"}}TableRowStyles{{/crossLink}}
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.getType = function(){
-		return "Row";
-	};
-
-	/**
-	 * Html tag corresponding to Row instances.
-	 * @property {String}    tag
-	 * @type     {String}
-	 * @default  td
-	 */
-	this.tag = 'tr';
-
-
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "Row", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Row"
-	 * @since    0.0.2
-	 */
-	this.className = "Row";
-
-	/**
-	 * Styles of the row.
-	 * @property {TableCellStyle} style
-	 * @type {TableCellStyle}
-	 * @default TableRowStyle
-	 */
-	this.style = new TableRowStyles();
+	this.setTag('tr');
+	this.setName('Row');
+	this.setStyles(new TableRowStyles());
 
 	/**
 	 * Gets an array of the widths of the cells inside the row.

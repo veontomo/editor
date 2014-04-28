@@ -21,37 +21,29 @@ describe('Row-related functionality:', function(){
             expect(row instanceof Tag).toBe(true);
         });
         it('does not affect parent attr if it is changed in the child', function(){
-            expect((new Row()).attr.width).not.toBe(102);
-            row.attr.width = 102;
-            expect((new Row()).attr.width).not.toBe(102);
-            expect(row.attr.width).toBe(102);
+            expect((new Row()).attr).not.toBe(102);
+            row.attr = 102;
+            expect((new Row()).attr).not.toBe(102);
+            expect(row.attr).toBe(102);
         });
         it('does not affect parent style if it is changed in the child', function(){
-            expect((new Row()).style.width).not.toBe('whatever');
-            row.style.width = 'whatever';
-            expect((new Row()).style.width).not.toBe('whatever');
-            expect(row.style.width).toBe('whatever');
+            expect((new Row()).getStyleProperty('width')).not.toBe('whatever');
+            row.setStyleProperty('width', 'whatever');
+            expect((new Row()).getStyleProperty('width')).not.toBe('whatever');
+            expect(row.getStyleProperty('width')).toBe('whatever');
         });
 
-        it('does not affect parent name property if it is changed in the child', function(){
-            expect((new Tag()).tag).toBe(null);
-            expect((new Row()).tag).toBe('tr');
-            row.tag = 'whatever';
-            expect((new Tag()).tag).toBe(null);
-            expect((new Row()).tag).toBe('tr');
-            expect(row.tag).toBe('whatever');
-        });
     });
 
     describe('Row::tag: tag name for the Row', function(){
         it('has the property name set to "tr"', function(){
-            expect(row.tag).toBe('tr');
+            expect(row.getTag()).toBe('tr');
         });
     });
 
     describe('Row::className: class name', function(){
         it('gives the name of the class', function(){
-            expect(row.className).toBe('Row');
+            expect(row.getName()).toBe('Row');
         });
     });
 
@@ -83,27 +75,29 @@ describe('Row-related functionality:', function(){
     });
 
     describe('Row::getCellWidths(): gets widths of the cells', function(){
-        it('if the row has no cells', function(){
-            row.content.elements = [];
+        it('gives empty array if the row content is empty', function(){
+            var fakeContent = {length: function(){return null;}};
+            spyOn(row, 'getContent').andCallFake(function(){return fakeContent;});
+            spyOn(fakeContent, 'length').andCallFake(function(){return 0;});
             expect(row.getCellWidths().length).toBe(0);
         });
-        it('if the row has one cell', function(){
+        it('returns 1-element array with cell width', function(){
             spyOn(cell1, 'getWidth').andCallFake(function(){
                 return 'row 1 width';
             });
-            row.content.elements = [cell1];
+            row.getContent().appendElem(cell1);
             expect(row.getCellWidths().length).toBe(1);
             expect(row.getCellWidths()[0]).toBe('row 1 width');
         });
-        it('if the row has two cells', function(){
+        it('returns 2-element array with cell widths if the row has two cells', function(){
             spyOn(cell1, 'getWidth').andCallFake(function(){
                 return 'row 1 width';
             });
             spyOn(cell2, 'getWidth').andCallFake(function(){
                 return 'row 2 width';
             });
-
-            row.content.elements = [cell1, cell2];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
             expect(row.getCellWidths().length).toBe(2);
             expect(row.getCellWidths()[0]).toBe('row 1 width');
             expect(row.getCellWidths()[1]).toBe('row 2 width');
@@ -128,7 +122,8 @@ describe('Row-related functionality:', function(){
             spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
             spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
             spyOn(row, 'length').andCallFake(function(){return 2;});
-            row.content.elements = [cell1, cell2];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
             row.setCellWidths([1, 0.11]);
             expect(cell1.setWidth).toHaveBeenCalledWith(1);
             expect(cell2.setWidth).toHaveBeenCalledWith(0.11);
@@ -149,7 +144,10 @@ describe('Row-related functionality:', function(){
             cell1.setWidth(200);
             cell2.setWidth(110);
             cell3.setWidth(150);
-            row.content.elements = [cell1, cell2, cell3];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
+            row.getContent().appendElem(cell3);
+
             expect(row.cellNum()).toBe(3);
             row.knockOutCell(0);
             expect(row.cellNum()).toBe(2);
@@ -162,7 +160,13 @@ describe('Row-related functionality:', function(){
             cell2.setWidth(110);
             cell3.setWidth(150);
             cell4.setWidth(50);
-            row.content.elements = [cell1, cell2, cell3, cell4];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
+            row.getContent().appendElem(cell3);
+            row.getContent().appendElem(cell4);
+
+
+            // row.content.elements = [cell1, cell2, cell3, cell4];
             row.knockOutCell(1);
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
@@ -175,7 +179,12 @@ describe('Row-related functionality:', function(){
             cell2.setWidth(110);
             cell3.setWidth(150);
             cell4.setWidth(60);
-            row.content.elements = [cell1, cell2, cell3, cell4];
+            // row.content.elements = [cell1, cell2, cell3, cell4];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
+            row.getContent().appendElem(cell3);
+            row.getContent().appendElem(cell4);
+
             row.knockOutCell(3);
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
@@ -187,7 +196,10 @@ describe('Row-related functionality:', function(){
             cell1.setWidth(200);
             cell2.setWidth(110);
             cell3.setWidth(150);
-            row.content.elements = [cell1, cell2, cell3];
+            row.getContent().appendElem(cell1);
+            row.getContent().appendElem(cell2);
+            row.getContent().appendElem(cell3);
+
             row.knockOutCell(row.cellNum() + 10); // delete non-existing row
             expect(row.cellNum()).toBe(3);
             expect(row.getElem(0).getWidth()).toBe(200);
