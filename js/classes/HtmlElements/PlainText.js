@@ -20,21 +20,42 @@ function PlainText(text) {
 	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
 	 * in FF, `this.constructor` has `name` property that returns "PlainText", while in IE, there
 	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "PlainText"
-	 * @since    0.0.2
+	 * @property       {String}             className
+	 * @type           {String}
+	 * @default        "PlainText"
+	 * @private
+	 * @since          0.0.2
 	 */
-	this.className = 'PlainText';
+	var className = 'PlainText';
 
 	/**
 	 * Marker for instances of this class.
 	 * @property {String}    tag
 	 * @type     {String}
+	 * @private
 	 * @default  "text"
 	 */
-	this.tag = 'text';
+	var tag = 'text';
 
+
+	/**
+	 * {{#crossLink "Text/tag:property"}}tag{{/crossLink}} getter.
+	 * @method         getTag
+	 * @return         {String}
+	 * @since          0.0.4
+	 */
+	this.getTag = function(){
+		return tag;
+	};
+
+	/**
+	 * {{#crossLink "Text/className:property"}}Class name{{/crossLink}} getter.
+	 * @return         {String}
+	 * @since          0.0.4
+	 */
+	this.getName = function(){
+		return className;
+	};
 
 
 	/**
@@ -47,9 +68,9 @@ function PlainText(text) {
 
 	/**
 	 * Sets the `content` of the Text() instance. If the argument is neither string nor number, the `content` is set to empty string.
-	 * @method    setContent
-	 * @param     {String|Number}   arg
-	 * @return    {void}
+	 * @method         setContent
+	 * @param          {String|Number}      arg
+	 * @return         {void}
 	 */
 	this.setContent = function(arg){
 		var argType = typeof arg;

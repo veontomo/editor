@@ -675,8 +675,8 @@ describe('Content-related functionality', function(){
 			it('creates correct Tag instance from a div element with no children', function(){
 				c.load([e200]);
 				expect(c.elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].tag).toBe('div');
-				expect(c.elements[0].content.length()).toBe(0);
+				expect(c.elements[0].getTag()).toBe('div');
+				expect(c.elements[0].getContent().length()).toBe(0);
 			});
 		});
 
@@ -684,24 +684,24 @@ describe('Content-related functionality', function(){
 			it('generates one element in the "content" if element node has an element node as a child', function(){
 				c.load([e2]);
 				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].content.elements.length).toBe(1);
+				expect(c.elements[0].getContent().elements.length).toBe(1);
 			});
 
 			it('generates one element if element node has a text node as a child', function(){
 				c.load([e32]);
 				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].content.elements.length).toBe(1);
+				expect(c.elements[0].getContent().elements.length).toBe(1);
 			});
 
 			it('generates two elements if element node has two element nodes as children', function(){
 				c.load([e0]);
 				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].content.elements.length).toBe(2);
+				expect(c.elements[0].getContent().elements.length).toBe(2);
 			});
 			it('generates four elements if element node has three element nodes and one text node as children', function(){
 				c.load([e3]);
 				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].content.elements.length).toBe(4);
+				expect(c.elements[0].getContent().elements.length).toBe(4);
 			});
 		});
 
@@ -709,17 +709,17 @@ describe('Content-related functionality', function(){
 			it('creates ListItem instance if ListItem is among available classes', function(){
 				c.load([e0]);
 				expect(c.elements[0] instanceof ListItem).toBe(true);
-				expect(c.elements[0].tag).toBe('li');
+				expect(c.elements[0].getTag()).toBe('li');
 			});
 			it('creates Text instance if Text is among available classes', function(){
 				c.load([t4]);
 				expect(c.elements[0] instanceof PlainText).toBe(true);
-				expect(c.elements[0].tag).toBe('text');
+				expect(c.elements[0].getTag()).toBe('text');
 			});
 			it('creates default Tag instance if there is no element-specific classe among available ones', function(){
 				c.load([e3]);
 				expect(c.elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].tag).toBe('span');
+				expect(c.elements[0].getTag()).toBe('span');
 			});
 		});
 
@@ -727,8 +727,8 @@ describe('Content-related functionality', function(){
 			it('a list item has "div" and "a" children', function(){
 				c.load([e0]);
 				expect(c.elements[0] instanceof ListItem).toBe(true);
-				expect(c.elements[0].content.elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].content.elements[1] instanceof Link).toBe(true);
+				expect(c.elements[0].getContent().elements[0] instanceof Tag).toBe(true);
+				expect(c.elements[0].getContent().elements[1] instanceof Link).toBe(true);
 			} );
 		});
 	});
