@@ -210,7 +210,9 @@ function Tag() {
 	 * @return         {void}
 	 */
 	this.setName = function(name){
-		className = name;
+		if (typeof name === 'string'){
+			className = name;
+		}
 	};
 
 

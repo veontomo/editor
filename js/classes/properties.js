@@ -211,10 +211,32 @@ function Properties(input) {
 
 	/**
 	 * The  name of the class.
-	 * @property    {String} className
-	 * @type        {String}
+	 * @property        {String}            className
+	 * @type            {String}
+	 * @private
 	 */
-	this.className = 'Properties';
+	var className = 'Properties';
+
+
+	/**
+	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
+	};
+
+	/**
+	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} setter.
+	 * @method         setName
+	 * @param          {String}             name
+	 * @return         {void}
+	 */
+	this.setName = function(name){
+		if (typeof name === 'string'){
+			className = name;
+		}
+	};
 
 	/**
 	 * Returns a copy of the {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
@@ -308,11 +330,13 @@ function Properties(input) {
 	};
 
 	/**
-	 * Returns `true` if {{#crossLink "Properties/core:property"}}core{{/crossLink}} has no keys, otherwise - `false`.
-	 * @return {Boolean}
+	 * Returns `true` if {{#crossLink "Properties/core:property"}}core{{/crossLink}} has no keys,
+	 * otherwise - `false`.
+	 * @method    isEmpty
+	 * @return    {Boolean}
 	 */
 	this.isEmpty = function(){
-		/// !!! stub
-		return false;
-	}
+		var coreCopy = this.getCore();
+		return (!coreCopy) || (Object.keys(coreCopy).length === 0);
+	};
 }

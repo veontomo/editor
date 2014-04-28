@@ -85,7 +85,7 @@ describe('Properties-related functionality', function(){
         });
 
         it('sets "className" property to be equal to "Properties"', function(){
-            expect(props.className).toBe('Properties');
+            expect(props.getName()).toBe('Properties');
         });
 
         it('populates properties from a string input', function(){
@@ -119,6 +119,30 @@ describe('Properties-related functionality', function(){
            expect(props.getProperty('another-attr')).toBe('un altro valore');
            expect(props.getProperty('func')).not.toBeDefined();
            expect(props.getProperty('bool')).not.toBeDefined();
+        });
+    });
+
+    describe('Whether the property is empty', function(){
+        it('calls "getCore" method', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {};});
+            props.isEmpty();
+            expect(props.getCore).toHaveBeenCalled();
+        });
+        it('returns true if "getCore" returns empty object', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {};});
+            expect(props.isEmpty()).toBe(true);
+        });
+        it('returns false if "getCore" returns single-record string-valued object', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {key: 'value'};});
+            expect(props.isEmpty()).toBe(false);
+        });
+        it('returns false if "getCore" returns single-record number-valued object', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {prop: 2.98};});
+            expect(props.isEmpty()).toBe(false);
+        });
+        it('returns false if "getCore" returns two-record object', function(){
+            spyOn(props, 'getCore').andCallFake(function(){return {prop: 2.98, val: 'high'};});
+            expect(props.isEmpty()).toBe(false);
         });
     });
 
