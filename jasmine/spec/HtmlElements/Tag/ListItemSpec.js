@@ -11,10 +11,8 @@ describe('ListItem-related functionality', function(){
     });
     describe('ListItem::constructor(): inherits from Tag() class', function(){
         it('does not affect parent class if an inherited property is changed', function(){
-            li.attr.width = 102;
-            expect((new ListItem()).attr.width).not.toBe(102);
-            li.style.width = 34;
-            expect((new ListItem()).style.width).not.toBe(34);
+            li.foo = 102;
+            expect((new ListItem()).foo).not.toBe(102);
         });
         it('ListItem is an instance of ListItem class', function(){
             expect(li instanceof ListItem).toBe(true);
@@ -30,25 +28,18 @@ describe('ListItem-related functionality', function(){
 
     describe('ListItem::className: class name', function(){
         it('gives the name of the class', function(){
-            expect(li.className).toBe('ListItem');
+            expect(li.getName()).toBe('ListItem');
         });
     });
 
     describe('ListItem::tag: tag name', function(){
         it('A ListItem object name is set to "li"', function(){
-            expect(li.tag).toBe('li');
+            expect(li.getTag()).toBe('li');
         });
     });
 
 
     describe('Basic properties', function(){
-        it('A ListItem object contains nesessary attributes', function(){
-            expect(li.hasOwnProperty('style')).toBe(true);
-            expect(li.hasOwnProperty('attr')).toBe(true);
-            expect(li.hasOwnProperty('content')).toBe(true);
-            expect(li.hasOwnProperty('appendElem')).toBe(true);
-        });
-
         it('appends element to its content', function(){
             expect(li.length()).toBe(0);
             li.appendElem(1222.332);
@@ -68,9 +59,9 @@ describe('ListItem-related functionality', function(){
             spyOn(content, 'toHtml').andCallFake(function(){
                 return 'content html';
             });
-            li.style = liStyle;
-            li.attr = liAttr;
-            li.content = content;
+            li.setStyles(liStyle);
+            li.setAttributes(liAttr);
+            li.setContent(content);
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li>content html</li>');
@@ -85,9 +76,9 @@ describe('ListItem-related functionality', function(){
             spyOn(content, 'toHtml').andCallFake(function(){
                 return 'content html';
             });
-            li.style = liStyle;
-            li.attr = liAttr;
-            li.content = content;
+            li.setStyles(liStyle);
+            li.setAttributes(liAttr);
+            li.setContent(content);
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li attributes of the list item>content html</li>');
@@ -102,9 +93,10 @@ describe('ListItem-related functionality', function(){
             spyOn(content, 'toHtml').andCallFake(function(){
                 return 'content html';
             });
-            li.style = liStyle;
-            li.attr = liAttr;
-            li.content = content;
+            li.setStyles(liStyle);
+            li.setAttributes(liAttr);
+            li.setContent(content);
+
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li style="styles of the list item">content html</li>');
@@ -119,9 +111,10 @@ describe('ListItem-related functionality', function(){
             spyOn(content, 'toHtml').andCallFake(function(){
                 return 'content html';
             });
-            li.style = liStyle;
-            li.attr = liAttr;
-            li.content = content;
+            li.setStyles(liStyle);
+            li.setAttributes(liAttr);
+            li.setContent(content);
+
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li attributes of the list item style="styles of the list item">content html</li>');

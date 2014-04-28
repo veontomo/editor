@@ -10,10 +10,10 @@ describe('List-related functionality:', function(){
 
     describe('List::constructor(): inherits from Tag() class', function(){
         it('does not affect parent class if an inherited property is changed', function(){
-            l.attr.width = 102;
-            expect((new List()).attr.width).not.toBe(102);
-            l.style.width = 34;
-            expect((new List()).style.width).not.toBe(34);
+            l.boo = 102;
+            expect((new List()).boo).not.toBe(102);
+            l.boo = 34;
+            expect((new List()).boo).not.toBe(34);
         });
         it('List is an instance of List class', function(){
             expect(l instanceof List).toBe(true);
@@ -27,20 +27,9 @@ describe('List-related functionality:', function(){
         });
     });
 
-    describe('List::className: class name', function(){
+    describe('List::getName(): class name', function(){
         it('gives the name of the class', function(){
-            expect(l.className).toBe('List');
-        });
-    });
-
-
-    describe('Basic properties:', function(){
-        it('A list object contains nesessary attributes', function(){
-            expect(l.hasOwnProperty('tag')).toBe(true);
-            expect(l.tag === 'ol' || l.tag === 'ul').toBe(true);
-            expect(l.hasOwnProperty('attr')).toBe(true);
-            expect(l.hasOwnProperty('style')).toBe(true);
-            expect(l.hasOwnProperty('content')).toBe(true);
+            expect(l.getName()).toBe('List');
         });
     });
 
@@ -98,7 +87,7 @@ describe('List-related functionality:', function(){
             li1 = 'aaa';
             li2 = 'bbb';
             li3 = 'ccc';
-            l2.content.elements = [li1, li2, li3];
+            l2.getContent().elements = [li1, li2, li3];
             l.appendList(l2);
             expect(l.appendItem).toHaveBeenCalledWith(li1);
             expect(l.appendItem).toHaveBeenCalledWith(li2);
@@ -115,28 +104,28 @@ describe('List-related functionality:', function(){
 
     describe('List::name imposes list type', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
-            expect((new List('ul')).tag).toBe('ul');
+            expect((new List('ul')).getTag()).toBe('ul');
         });
         it('imposes name to be "ol" (it is among allowed ones)', function(){
-            expect((new List('ol')).tag).toBe('ol');
+            expect((new List('ol')).getTag()).toBe('ol');
         });
         it('imposes name to be one of allowed if tried to set non-allowed', function(){
-            expect(['ol', 'ul'].indexOf((new List('non allowed type')).tag) !== -1).toBe(true);
+            expect(['ol', 'ul'].indexOf((new List('non allowed type')).getTag()) !== -1).toBe(true);
         });
     });
 
     describe('List::setName(): imposes list type name', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
             l.setName('ul');
-            expect(l.tag).toBe('ul');
+            expect(l.getTag()).toBe('ul');
         });
         it('imposes name to be "ol" (it is among allowed ones)', function(){
             l.setName('ol');
-            expect(l.tag).toBe('ol');
+            expect(l.getTag()).toBe('ol');
         });
         it('imposes name to be one of allowed if tried to set non-allowed', function(){
             l.setName('ololololo');
-            expect(l.tag).not.toBe('ololololo');
+            expect(l.getTag()).not.toBe('ololololo');
         });
     });
 
@@ -147,13 +136,13 @@ describe('List-related functionality:', function(){
             expect(l.length()).toBe(0);
         });
         it('leaves non-empty content unchanged if the argument is missing', function(){
-            l.content.elements = ['first item', 'second'];
+            l.getContent().elements = ['first item', 'second'];
             expect(l.length()).toBe(2);
             l.appendAsItems();
             expect(l.length()).toBe(2);
         });
         it('transforms argument into ListItem and increases non-empty content by one if the argument is a string', function(){
-            l.content.elements = ['first item', 'second'];
+            l.getContent().elements = ['first item', 'second'];
             expect(l.length()).toBe(2);
             l.appendAsItems('third');
             expect(l.length()).toBe(3);
@@ -161,7 +150,7 @@ describe('List-related functionality:', function(){
             expect(l.getElem(2).getElem(0)).toBe('third');
         });
         it('transforms argument into ListItem and increases non-empty content by one if the argument is a 2-element array', function(){
-            l.content.elements = ['first item', 'second'];
+            l.getContent().elements = ['first item', 'second'];
             expect(l.length()).toBe(2);
             l.appendAsItems(['third', 4]);
             expect(l.length()).toBe(4);

@@ -27,32 +27,22 @@ function List(listType) {
 	var allowedTags = ['ol', 'ul'];
 
 	/**
-	 * Styles corresponding to the list as a whole object.
-	 * @property    {ListStyle} 	style
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * <ol><li>
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "td"
+	 * </li><li>
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Cell"
+	 * </li><li>
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
+	 * {{#crossLink "TableCellStyles"}}TableCellStyles{{/crossLink}}
+	 * </li><li>
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} accepts current class argument.
+	 * </li></ol>
+	 * @method         constructor
 	 */
-	this.style = new ListStyles();
-
-	/**
-	 * Html tag corresponding to List object. It is taken from the name provided
-	 * when creating the object: `list = new List('ul')`. If not provided or if it
-	 * is provided, but it is not allowed, then the first allowed value is used.
-	 * @property {String}     name
-	 * @type {String}
-	 * @default  'ol'
-	 */
-	this.tag = allowedTags.indexOf(listType) !== -1 ? listType : allowedTags[0];
-
-	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `name` property that returns "List", while in IE, there
-	 * is no `name` property.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "List"
-	 * @since    0.0.2
-	 */
-	this.className = "List";
-
+	this.setTag(allowedTags.indexOf(listType) !== -1 ? listType : allowedTags[0]);
+	this.setName('List');
+	this.setStyles(new ListStyles());
 
 	/**
 	 * Sets the tag of the list. The list type is changed only if the argument is in
@@ -62,7 +52,7 @@ function List(listType) {
 	 */
 	this.setName = function(name){
 		if (allowedTags.indexOf(name) !== -1){
-			this.tag = name;
+			this.setTag(name);
 		}
 	};
 
@@ -136,14 +126,13 @@ function List(listType) {
 	this.appendAsItems = function(itemArr){
 		if(itemArr !== undefined){
 			var input = Array.isArray(itemArr) ? itemArr : [itemArr],
-				content = this.content;
+				cnt = this.getContent();
 			input.forEach(function(item){
 				var li = new ListItem();
 				li.appendElem(item);
-				content.appendElem(li);
+				cnt.appendElem(li);
 			});
-
 		}
-	}
+	};
 }
 List.prototype = Object.create(Tag.prototype);
