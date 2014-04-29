@@ -286,7 +286,7 @@ function Properties(input) {
 	 * @return {Object}
 	 * @deprecated   Use getCore() instead.
 	 */
-	this.summary = function(){
+	this.summary_ = function(){
 		console.log('This method is deprecated. Use Properties::getCore() instead.');
 		return this.getCore();
 	};

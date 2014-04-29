@@ -192,7 +192,7 @@ function Tag() {
 	* @since           0.0.4
 	*/
 	this.getContent = function(){
-		return content;
+		return content.clone();
 	};
 
 	/**
@@ -406,7 +406,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.appendElem = function(elem){
-		this.getContent().appendElem(elem);
+		content.appendElem(elem);
 	};
 
 	/**
@@ -594,7 +594,7 @@ function Tag() {
 				childrenArr.push(currentChild);
 			}
 			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
-			contentSucc = this.getContent().load(childrenArr);
+			contentSucc = content.load(childrenArr);
 		}
 		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
 		return attrSucc && styleSucc && contentSucc;

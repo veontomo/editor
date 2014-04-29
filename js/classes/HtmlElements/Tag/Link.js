@@ -114,52 +114,58 @@ function Link(href) {
 	 * the current method being applied to each {{#crossLink "Content"}}Content{{/crossLink}} item.
 	 * </li><li>
 	 * If none of the above holds, then it is returned a Link instance with argument being inserted into the content.
-	 *  </li></ol>
+	 * </li></ol>
 	 * @method    shower
 	 * @param     {Tag|Link|Content}         obj
 	 * @return    {Tag|Link|Content}
 	 */
 	this.shower = function(obj){
-		console.log('Link shower method: input = ', obj);
+		var rnd = parseInt(Math.random()*1000, 10);
+		console.info(rnd, 'Link shower method: input = ', obj, ', its html: ', typeof obj.toHtml === 'function' ? obj.toHtml() : ' --- ');
 		var clone = (obj !== undefined && typeof obj.clone === 'function') ? obj.clone() : obj,
 			linkClone;
 		// case 1: the argument is a Link:
 		if (obj instanceof Link){
-			console.log('input is a link');
+			console.info(rnd, 'input is a link');
 			clone.getAttributes().appendProperty(this.getAttributes().getCore());
 			clone.getStyles().appendProperty(this.getStyles().getCore());
 			clone.setHref(this.getHref());
-			console.log('returning clone: ', clone );
+			console.info(rnd, 'returning clone: ', clone );
 			return clone;
 		}
 		// case 2: the argument is a Content: call current method on each item
 		if (obj instanceof Content){
-			console.log('input is a Content');
-			var content = new Content(),
+			console.info(rnd, 'input is a Content');
+			var cntn = new Content(),
 				len = clone.length(),
-				i, current;
+				i, current, result;
 			for (i = 0; i < len; i++){
-				current = clone.getElem(i);
-				content.appendElem(this.shower(current));
+				console.info(rnd, i, '/', len);
+				current = clone.getElem(i).clone();
+				result = this.clone().shower(current);
+				console.info(rnd, 'appending ', result, ', its html ', result.toHtml());
+				console.info(rnd, 'cntn before appending ', cntn, ', its html ', cntn.toHtml());
+				cntn.appendElem(result);
+				console.info(rnd, 'cntn after appending ', cntn, ', its html ', cntn.toHtml());
 			}
-			console.log('returning content: ', content );
-			return content;
+			console.info(rnd, 'returning cntn: ', cntn, ', its html: ', cntn.toHtml()  );
+			return cntn;
 		}
-		// case 3: the argument is a Tag with non-empty content
+		// case 3: the argument is a Tag with non-empty cntn
 		if (obj instanceof Tag && !(obj.getContent().isEmpty())){
-			console.log('input is a Tag with non-empty content');
+			console.info(rnd, 'input is a Tag with non-empty cntn');
 			var contentShowred = this.shower(obj.getContent());
 			clone.setContent(contentShowred);
-			console.log('returning clone: ', clone );
+			console.info(rnd, 'returning clone: ', clone, ', its html: ', clone.toHtml()  );
 			return clone;
 		}
 		// case 4: all the rest should be processed in the same way:
 		// a) make a clone of the target,
-		// b) insert the clone of the argument into the content property
-		console.log('input is a general one');
+		// b) insert the clone of the argument into the cntn property
+		console.info(rnd, 'input is a general one');
 		linkClone = this.clone();
 		linkClone.setContent(clone);
-		console.log('returning linkClone: ', linkClone );
+		console.info(rnd, 'returning linkClone: ', linkClone, ', its html: ', linkClone.toHtml() );
 		return linkClone;
 
 	};

@@ -125,10 +125,9 @@ describe('Tag-related functionality', function() {
 
     describe('appendElem(): appends element to the content', function(){
         it('calls Content::appendElem method when appending an element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'appendElem').andCallFake(function(){return null;});
-            tag.appendElem('whatever');
-            expect(content.appendElem).toHaveBeenCalledWith('whatever');
+            var obj = 'value: -----*****************--------------';
+            tag.appendElem(obj);
+            expect(tag.getContent().getElements().indexOf(obj) !== -1).toBe(true);
         });
     });
 
@@ -615,7 +614,10 @@ describe('Tag-related functionality', function() {
             expect(tagStyle.load).toHaveBeenCalledWith(root.attributes);
         });
 
-        it('calls a method to load content', function(){
+        // Tag::load() makes use of private variable "content", not the output of "getContent"
+        // which is a copy of "content", so it is not possible to control whether load method was
+        // called or not.
+        xit('calls a method to load content', function(){
             spyOn(content, 'load');
             spyOn(tagAttr, 'load');
             spyOn(tagStyle, 'load');

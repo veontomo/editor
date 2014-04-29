@@ -79,8 +79,9 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'getCellWidths').andCallFake(function(){
                 return 'array of cell widths of the unique row';
             });
-            table.getContent().setElements([row1]);
+            table.appendRow(row1);
             matrix = table.getMatrix();
+            console.log('--------------------------- ', matrix)
             expect(matrix.length).toBe(1);
             expect(row1.getCellWidths).toHaveBeenCalled();
             expect(matrix[0]).toBe('array of cell widths of the unique row');

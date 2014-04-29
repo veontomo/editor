@@ -158,11 +158,18 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link = new Link();
                         link.setHref(url);
                         link.underline(isUnderlined);
+                        console.log('gauge link : ', link, ', its html: ', link.toHtml());
                         obj = factory.mimic(el.$);
+                        console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
                         if (obj &&  !obj.isEmpty()){
+                            console.log('factory produced non empty object');
                             objLink = link.shower(obj);
+                            console.log('objLink = ', objLink, ', its html: ', objLink.toHtml());
                             newNode = objLink.toNode();
-                            el.$.parentNode.replaceChild(newNode, el.$);
+                            console.log('new Node = ', newNode);
+                            // el.$.parentNode.replaceChild(newNode, el.$);
+                        } else {
+                            console.log('factory produced empty object or null');
                         }
                         console.log('end of elaboration');
                     });

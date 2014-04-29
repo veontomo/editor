@@ -100,13 +100,13 @@ describe('Attribute-related functionality', function(){
         beforeEach(function(){
             spyOn(el, 'setAttribute');
         });
-        it('calls summary() method to collect properties', function(){
-            spyOn(attr, 'summary').andCallFake(function(){return {};});
+        it('calls getCore() method to collect properties', function(){
+            spyOn(attr, 'getCore').andCallFake(function(){return {};});
             attr.decorateElement(el);
-            expect(attr.summary).toHaveBeenCalled();
+            expect(attr.getCore).toHaveBeenCalled();
         });
-        it('calls "setAttribute()" method to set each value obtained from "summary()"', function(){
-            spyOn(attr, 'summary').andCallFake(function(){return {'level': 100, 'nice': 'very', 'depth': 'infinite'};});
+        it('calls "setAttribute()" method to set each value obtained from "getCore()"', function(){
+            spyOn(attr, 'getCore').andCallFake(function(){return {'level': 100, 'nice': 'very', 'depth': 'infinite'};});
             attr.decorateElement(el);
             expect(el.setAttribute).toHaveBeenCalledWith('level', 100);
             expect(el.setAttribute).toHaveBeenCalledWith('nice', 'very');
