@@ -610,14 +610,14 @@ function Tag() {
 	 * @return  {DOM.Element}
 	 */
 	this.toNode = function(){
-		var rnd = parseInt(Math.random()*1000, 10);
-		console.info(rnd, 'Tag::toNode() called', this.tag);
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, 'Tag::toNode() called', this.getTag());
 		var el = document.createElement(this.getTag());
 		this.getStyles().decorateElement(el);
 		this.getAttributes().decorateElement(el);
-		console.info(rnd, 'Tag::toNode() el before this.getContent().stickTo', el);
+		// console.info(rnd, 'Tag::toNode() el before this.getContent().stickTo', el);
 		this.getContent().stickTo(el);
-		console.info(rnd, 'Tag::toNode() returns ', el);
+		// console.info(rnd, 'Tag::toNode() returns ', el);
 		return el;
 
 	};

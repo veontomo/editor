@@ -125,6 +125,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         },
 
         onOk: function(){
+            console.info('link', 'selection is ', selectedNodes);
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
@@ -133,6 +134,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
+                console.log('selection is empty');
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
@@ -145,24 +147,27 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 } else {
                     editor.insertHtml(link.toHtml());
                 }
-            }
-            // parse all selected nodes
-            selectedNodes.forEach(function(arr){
-                arr.forEach(function(el){
-                    // console.log('element: ', el);
-                    var newNode, objLink;
-                    // prepare Link object
-                    link = new Link();
-                    link.setHref(url);
-                    link.underline(isUnderlined);
-                    obj = factory.mimic(el.$);
-                    if (obj &&  !obj.isEmpty()){
-                        objLink = link.shower(obj);
-                        newNode = objLink.toNode();
-                        el.$.parentNode.replaceChild(newNode, el.$);
-                    }
+            } else {
+                console.log('selection is NOT empty');
+                // parse all selected nodes
+                selectedNodes.forEach(function(arr){
+                    arr.forEach(function(el){
+                        console.log('element: ', el);
+                        var newNode, objLink;
+                        // prepare Link object
+                        link = new Link();
+                        link.setHref(url);
+                        link.underline(isUnderlined);
+                        obj = factory.mimic(el.$);
+                        if (obj &&  !obj.isEmpty()){
+                            objLink = link.shower(obj);
+                            newNode = objLink.toNode();
+                            el.$.parentNode.replaceChild(newNode, el.$);
+                        }
+                        console.log('end of elaboration');
+                    });
                 });
-            });
+            }
         }
     };
 });
