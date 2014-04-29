@@ -145,13 +145,22 @@ function Content(str) {
 	};
 
 	/**
-	 * Appends element to the array of Content::elements.
+	 * Appends argument to the array of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}.
+	 * If the argument is a {{#crossLink "Content"}}Content{{/crossLink}} instance, then its
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} are appended to the target instance.
 	 * @method   appendElem
 	 * @param    {mixed}           elem
 	 * @return   {void}
 	 */
 	this.appendElem = function(elem){
-		elements.push(elem);
+		if (elem instanceof Content){
+			var elemElem = elem.getElements();
+			elemElem.forEach(function(el){
+				elements.push(el);
+			});
+		} else {
+			elements.push(elem);
+		}
 		return null;
 	};
 

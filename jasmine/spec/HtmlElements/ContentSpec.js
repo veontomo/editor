@@ -380,6 +380,19 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(2)).toBe(23.56);
 			expect(c.getElem(3)).toBe(obj2);
 		});
+
+		it('appends elements of the argument if it is a Content instance', function(){
+			var c2 = new Content();
+			c.appendElem('elem 1 of content 1');
+			c2.appendElem('elem 1 of content 2');
+			c2.appendElem('elem 2 of content 2');
+			c.appendElem(c2);
+			var elements = c.getElements();
+			expect(elements.length).toBe(3);
+			expect(elements[0]).toBe('elem 1 of content 1');
+			expect(elements[1]).toBe('elem 1 of content 2');
+			expect(elements[2]).toBe('elem 2 of content 2');
+		});
 	});
 
 	describe('Content::dropElemAt(): drops element at given position', function(){
