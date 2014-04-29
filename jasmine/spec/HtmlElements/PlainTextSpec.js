@@ -14,6 +14,12 @@ describe('PlainText-related functionality', function(){
 		});
 	});
 
+	describe('PlainText::className: class name', function(){
+	    it('gives the name of the class', function(){
+	        expect(text.getName()).toBe('PlainText');
+	    });
+	});
+
 	describe('PlainText:getContent loads from the argument', function(){
 		it('imposes the content property if the argument is a string', function(){
 			text = new PlainText('a string');

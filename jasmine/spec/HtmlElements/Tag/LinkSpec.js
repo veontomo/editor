@@ -203,9 +203,9 @@ describe('Link-related functionality:', function() {
 
         it('preserves the content of the argument if it is a Link', function(){
             arg = new Link();
-            arg.getContent().elements = ["first", "second"];
+            arg.getContent().setElements(["first", "second"]);
             result = link.shower(arg);
-            expect(result.getContent().elements.length).toBe(2);
+            expect(result.getContent().length()).toBe(2);
             expect(result.getContent().getElem(0)).toBe('first');
             expect(result.getContent().getElem(1)).toBe('second');
 
@@ -225,8 +225,8 @@ describe('Link-related functionality:', function() {
             spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
             spyOn(arg, 'clone').andCallFake(function(){return clone;});
             result = link.shower(arg);
-            expect(result.getContent().elements.length).toBe(1);
-            expect(result.getContent().elements[0]).toBe(clone);
+            expect(result.getContent().length()).toBe(1);
+            expect(result.getContent().getElem(0)).toBe(clone);
         });
 
         it('populates properties if the argument is a Tag with empty content', function(){
@@ -286,10 +286,10 @@ describe('Link-related functionality:', function() {
                 c1 = {shower: function(){return null;}},
                 c2 = {shower: function(){return null;}};
             arg.elements = [c1, c2];
-            contentClone.elements = [c1, c2];
+            contentClone.setElements([c1, c2]);
             spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
             result = link.shower(arg);
-            expect(result.elements.length).toBe(2);
+            expect(result.length()).toBe(2);
         });
 
     });

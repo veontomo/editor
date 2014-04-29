@@ -18,7 +18,6 @@ function Properties(input) {
 		return new Properties(input);
 	}
 
-
 	/**
 	 * Object that contains all the properties. Its keys and values must be either strings or numbers.
 	 * Use {{#crossLink "Properties/getProperty:method"}}getProperty(){{/crossLink}} and
@@ -40,6 +39,7 @@ function Properties(input) {
 
 	/**
 	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
+	 * @method         getName
 	 * @return         {String}
 	 */
 	this.getName = function(){
@@ -213,8 +213,6 @@ function Properties(input) {
 				}
 			}
 		}
-
-
 	};
 
 	/**

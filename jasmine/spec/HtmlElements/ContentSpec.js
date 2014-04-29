@@ -18,7 +18,7 @@ describe('Content-related functionality', function(){
 
 	describe('Content::className: class name', function(){
 	    it('gives the name of the class', function(){
-	        expect(c.className).toBe('Content');
+	        expect(c.getName()).toBe('Content');
 	    });
 	});
 
@@ -29,33 +29,33 @@ describe('Content-related functionality', function(){
 		});
 
 		it('gives 1 for a unique element inside Content', function(){
-			c.elements = [0]; // integer inside
+			c.setElements([0]); // integer inside
 			expect(c.length()).toBe(1);
 
-			c.elements = [{}]; // object inside
+			c.setElements([{}]); // object inside
 			expect(c.length()).toBe(1);
 
-			c.elements = ['a string']; // a string insdie
+			c.setElements(['a string']); // a string insdie
 			expect(c.length()).toBe(1);
 
-			c.elements = [['a', 'b', 21.6]]; // an array inside
+			c.setElements([['a', 'b', 21.6]]); // an array inside
 			expect(c.length()).toBe(1);
 
-			c.elements = [function(){return null;}]; // a function inside
+			c.setElements([function(){return null;}]); // a function inside
 			expect(c.length()).toBe(1);
 		});
 
 		it('gives 2 for a unique element of different types inside Content', function(){
-			c.elements = [0, ['a']];
+			c.setElements([0, ['a']]);
 			expect(c.length()).toBe(2);
 
-			c.elements = [{'a': 1, 'b':'value', 'c': true}, 'sun'];
+			c.setElements([{'a': 1, 'b':'value', 'c': true}, 'sun']);
 			expect(c.length()).toBe(2);
 
-			c.elements = ['a string', 'another'];
+			c.setElements(['a string', 'another']);
 			expect(c.length()).toBe(2);
 
-			c.elements = [[], function(){return null;}]; // a function inside
+			c.setElements([[], function(){return null;}]); // a function inside
 			expect(c.length()).toBe(2);
 		});
 	});
@@ -63,31 +63,31 @@ describe('Content-related functionality', function(){
 	describe('Content::getElem(): gets the element:', function(){
 		it('the very first element', function(){
 			var obj = {'a': 'b'};
-			c.elements = ['first elem'];
+			c.setElements(['first elem']);
 			expect(c.getElem(0)).toBe('first elem');
-			c.elements = [453.29];
+			c.setElements([453.29]);
 			expect(c.getElem(0)).toBe(453.29);
-			c.elements = [obj];
+			c.setElements([obj]);
 			expect(c.getElem(0)).toBe(obj);
-			c.elements = ['a', 2, ['array']];
+			c.setElements(['a', 2, ['array']]);
 			expect(c.getElem(0)).toBe('a');
 
-			c.elements = [''];
+			c.setElements(['']);
 			expect(c.getElem(0)).toBe('');
 
 		});
 		it('the very last element', function(){
 			var obj = {'key': 4};
-			c.elements = ['first elem', 'second'];
+			c.setElements(['first elem', 'second']);
 			expect(c.getElem(1)).toBe('second');
-			c.elements = [453.29, 'a', 125, 'again', obj, '2'];
+			c.setElements([453.29, 'a', 125, 'again', obj, '2']);
 			expect(c.getElem(5)).toBe('2');
-			c.elements = ['again', ''];
+			c.setElements(['again', '']);
 			expect(c.getElem(1)).toBe('');
 		});
 		it('a middle element', function(){
 			var obj = {'key': 4};
-			c.elements = [453.29, 'a', 125, '', 'again', obj, '2'];
+			c.setElements([453.29, 'a', 125, '', 'again', obj, '2']);
 			expect(c.getElem(1)).toBe('a');
 			expect(c.getElem(2)).toBe(125);
 			expect(c.getElem(3)).toBe('');
@@ -98,22 +98,22 @@ describe('Content-related functionality', function(){
 
 
 		it('returns null if element does not exist', function(){
-			c.elements = [];
+			c.setElements([]);
 			expect(c.getElem(0)).toBe(null);
 			expect(c.getElem(4)).toBe(null);
 
-			c.elements = [453.29, 'a', 125, 'again', {'key': 4}, '2'];
+			c.setElements([453.29, 'a', 125, 'again', {'key': 4}, '2']);
 			expect(c.getElem(10)).toBe(null);
 			expect(c.getElem(12)).toBe(null);
 		});
 
 		it('refers to the getElem when calling getFirst', function(){
 			spyOn(c, 'getElem').andCallFake(function(){return null;});
-			c.elements = [];
+			c.setElements([]);
 			c.getFirst();
 			expect(c.getElem).toHaveBeenCalledWith(0);
 
-			c.elements = ['string', 2344, '33'];
+			c.setElements(['string', 2344, '33']);
 			c.getFirst();
 			expect(c.getElem).toHaveBeenCalledWith(0);
 
@@ -121,7 +121,7 @@ describe('Content-related functionality', function(){
 
 		it('returns null when calling getLast on empty array', function(){
 			spyOn(c, 'getElem').andCallFake(function(){return null;});
-			c.elements = [];
+			c.setElements([]);
 			var last = c.getLast();
 			expect(c.getElem).not.toHaveBeenCalled();
 			expect(last).toBe(null);
@@ -130,7 +130,7 @@ describe('Content-related functionality', function(){
 
 		it('refers the getElem when calling getLast', function(){
 			spyOn(c, 'getElem').andCallFake(function(){return null;});
-			c.elements = ['string', 2344, '33'];
+			c.setElements(['string', 2344, '33']);
 			c.getLast();
 			expect(c.getElem).toHaveBeenCalledWith(2);
 		});
@@ -141,35 +141,35 @@ describe('Content-related functionality', function(){
 			expect(c.isEmpty()).toBe(true);
 		});
 		it('returns true if content.elements contains empty string', function(){
-			c.elements = [''];
+			c.setElements(['']);
 			expect(c.isEmpty()).toBe(true);
 		});
 		it('returns true if content.elements contains html non-breaking space', function(){
-			c.elements = ['&nbsp;'];
+			c.setElements(['&nbsp;']);
 			expect(c.isEmpty()).toBe(true);
 		});
 
 		it('returns true if content.elements contains two empty strings', function(){
-			c.elements = ['', ''];
+			c.setElements(['', '']);
 			expect(c.isEmpty()).toBe(true);
 		});
 		it('returns false if content.elements contains a non-empty string', function(){
-			c.elements = ['non empty'];
+			c.setElements(['non empty']);
 			expect(c.isEmpty()).toBe(false);
 		});
 
 		it('returns true if content.elements contains empty object', function(){
-			c.elements = [{}];
+			c.setElements([{}]);
 			expect(c.isEmpty()).toBe(true);
 		});
 		it('returns false if content.elements contains an object with properties', function(){
-			c.elements = [{1: 'first', 2: 'second'}];
+			c.setElements([{1: 'first', 2: 'second'}]);
 			expect(c.isEmpty()).toBe(false);
 		});
 		it('returns false if content.elements contains an object that has isEmpty method that returns false', function(){
 			var obj = {1: 'property 1', isEmpty: function(){return null;}, 'descr': 'nice'};
 			spyOn(obj, 'isEmpty').andCallFake(function(){return false;});
-			c.elements = [obj];
+			c.setElements([obj]);
 			expect(c.isEmpty()).toBe(false);
 			expect(obj.isEmpty).toHaveBeenCalled();
 		});
@@ -181,7 +181,7 @@ describe('Content-related functionality', function(){
 			spyOn(obj2, 'isEmpty').andCallFake(function(){return false;});
 			spyOn(obj3, 'isEmpty');
 
-			c.elements = [obj1, obj2, obj3];
+			c.setElements([obj1, obj2, obj3]);
 			expect(c.isEmpty()).toBe(false);
 			expect(obj1.isEmpty).toHaveBeenCalled();
 			expect(obj2.isEmpty).toHaveBeenCalled();
@@ -234,6 +234,65 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+	describe('flushes the element array', function(){
+		it('flushes the element array if it is empty', function(){
+			expect(c.getElements().length).toBe(0);
+			c.flush();
+			expect(c.getElements().length).toBe(0);
+		});
+		it('flushes the element array if it is empty', function(){
+			c.setElements([1, 'two']);
+			expect(c.getElements().length).toBe(2);
+			c.flush();
+			expect(c.getElements().length).toBe(0);
+		});
+	});
+
+	describe('element getter and setter', function(){
+		var elements;
+		it('the getter returns empty array if the instance is empty', function(){
+			elements = c.getElements();
+			expect(Array.isArray(elements)).toBe(true);
+			expect(elements.length).toBe(0);
+		});
+		it('the getter returns single record array if the instance has one element', function(){
+			var el = {};
+			c.appendElem(el);
+			elements = c.getElements();
+			console.log(c);
+			console.log(elements);
+			expect(Array.isArray(elements)).toBe(true);
+			expect(elements.length).toBe(1);
+			expect(elements[0]).toBe(el);
+		});
+
+		it('the getter returns two record array if the instance has two elements', function(){
+			var el1 = {}, el2 = {1: '1'};
+			c.appendElem(el1);
+			c.appendElem(el2);
+			elements = c.getElements();
+			expect(Array.isArray(elements)).toBe(true);
+			expect(elements.length).toBe(2);
+			expect(elements[0]).toBe(el1);
+			expect(elements[1]).toBe(el2);
+		});
+
+		it('the getter returns an independent copy of the element array', function(){
+			var el1 = {}, el2 = {1: '1'}, el3 = 'third';
+			c.appendElem(el1);
+			c.appendElem(el2);
+			// retrieve the element array
+			elements = c.getElements();
+			// modify the element array
+			elements[0] = el3;
+			// assure that the original element array does not change
+			expect(c.getElements()[0]).toBe(el1);
+		});
+
+
+
+	});
+
 	describe('Content::appendElemIfNotEmpty()', function(){
 		it('calls Content::appendElem(arg) if  Content::isElemEmpty(arg) returns false', function(){
 			spyOn(c, 'appendElem');
@@ -275,7 +334,7 @@ describe('Content-related functionality', function(){
 
 		it('inserts an object at the beginning', function(){
 			var obj = {'key': 'value'};
-			c.elements = [1, 'str', 2, 3];
+			c.setElements([1, 'str', 2, 3]);
 			c.insertElemAt(0, obj);
 			expect(c.length()).toBe(5);
 			expect(c.getElem(0)).toBe(obj);
@@ -286,7 +345,7 @@ describe('Content-related functionality', function(){
 		});
 
 		it('inserts a string in the middle', function(){
-			c.elements = [1, 'str', 2, 3];
+			c.setElements([1, 'str', 2, 3]);
 			c.insertElemAt(2, 'new string');
 			expect(c.length()).toBe(5);
 			expect(c.getElem(0)).toBe(1);
@@ -304,22 +363,22 @@ describe('Content-related functionality', function(){
 		});
 
 		it('appends element to an empty array', function(){
-			c.elements = [];
+			c.setElements([]);
 			c.appendElem('anything');
-			expect(c.elements.length).toBe(1);
-			expect(c.elements[0]).toBe('anything');
+			expect(c.getElements().length).toBe(1);
+			expect(c.getElem(0)).toBe('anything');
 		});
 
 		it('appends element to exisiting elements', function(){
 			var obj1 = {'key': true},
 				obj2 = {'col': 9292};
-			c.elements = ['str', obj1, 23.56];
+			c.setElements(['str', obj1, 23.56]);
 			c.appendElem(obj2);
-			expect(c.elements.length).toBe(4);
-			expect(c.elements[0]).toBe('str');
-			expect(c.elements[1]).toBe(obj1);
-			expect(c.elements[2]).toBe(23.56);
-			expect(c.elements[3]).toBe(obj2);
+			expect(c.getElements().length).toBe(4);
+			expect(c.getElem(0)).toBe('str');
+			expect(c.getElem(1)).toBe(obj1);
+			expect(c.getElem(2)).toBe(23.56);
+			expect(c.getElem(3)).toBe(obj2);
 		});
 	});
 
@@ -345,7 +404,7 @@ describe('Content-related functionality', function(){
 
 
 		it('drops the first element', function(){
-			c.elements = ['first', 1, '49', 'last'];
+			c.setElements(['first', 1, '49', 'last']);
 			var elem = c.dropElemAt(0);
 			expect(c.length()).toBe(3);
 			expect(elem).toBe('first');
@@ -354,7 +413,7 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(2)).toBe('last');
 		});
 		it('drops the last element', function(){
-			c.elements = ['first', 1, '49', -29, 'last'];
+			c.setElements(['first', 1, '49', -29, 'last']);
 			var elem = c.dropElemAt(4);
 			expect(c.length()).toBe(4);
 			expect(elem).toBe('last');
@@ -365,7 +424,7 @@ describe('Content-related functionality', function(){
 		});
 
 		it('drops a middle element', function(){
-			c.elements = ['first', 1, '49', 233.2, 'last'];
+			c.setElements(['first', 1, '49', 233.2, 'last']);
 			var elem = c.dropElemAt(2);
 			expect(c.length()).toBe(4);
 			expect(elem).toBe('49');
@@ -409,54 +468,54 @@ describe('Content-related functionality', function(){
 	describe('Content::trim(): drops last elem if it is empty', function(){
 		it('removes empty element, if it is the only element', function(){
 			var obj = {'isEmpty': function(){return true;}};
-			c.elements = [obj];
+			c.setElements([obj]);
 			c.trim();
-			expect(c.elements.length).toBe(0);
+			expect(c.getElements().length).toBe(0);
 		});
 		it('does not remove element, if it is not empty', function(){
 			var obj = {'isEmpty': function(){return false;}};
-			c.elements = [obj];
+			c.setElements([obj]);
 			c.trim();
-			expect(c.elements.length).toBe(1);
-			expect(c.elements[0]).toBe(obj);
+			expect(c.getElements().length).toBe(1);
+			expect(c.getElem(0)).toBe(obj);
 		});
 
 		it('does not remove element, if it is empty, but comes first', function(){
 			var obj = {'isEmpty': function(){return true;}};
-			c.elements = [obj, "string"];
+			c.setElements([obj, "string"]);
 			c.trim();
-			expect(c.elements.length).toBe(2);
-			expect(c.elements[0]).toBe(obj);
-			expect(c.elements[1]).toBe("string");
+			expect(c.getElements().length).toBe(2);
+			expect(c.getElem(0)).toBe(obj);
+			expect(c.getElem(1)).toBe("string");
 		});
 
 
 		it('does not remove element, if it is empty, but comes in middle', function(){
 			var obj = {'isEmpty': function(){return true;}};
-			c.elements = [2, obj, "string"];
+			c.setElements([2, obj, "string"]);
 			c.trim();
-			expect(c.elements.length).toBe(3);
-			expect(c.elements[0]).toBe(2);
-			expect(c.elements[1]).toBe(obj);
-			expect(c.elements[2]).toBe("string");
+			expect(c.getElements().length).toBe(3);
+			expect(c.getElem(0)).toBe(2);
+			expect(c.getElem(1)).toBe(obj);
+			expect(c.getElem(2)).toBe("string");
 		});
 
 		it('removes two empty elements, if they are at the end', function(){
 			var obj1 = {'isEmpty': function(){return true;}},
 				obj2 = {'isEmpty': function(){return true;}};
-			c.elements = [2, "string", obj1, obj2];
+			c.setElements([2, "string", obj1, obj2]);
 			c.trim();
-			expect(c.elements.length).toBe(2);
-			expect(c.elements[0]).toBe(2);
-			expect(c.elements[1]).toBe("string");
+			expect(c.getElements().length).toBe(2);
+			expect(c.getElem(0)).toBe(2);
+			expect(c.getElem(1)).toBe("string");
 		});
 
 		it('removes nested empty element of the the first nested element', function(){
 			var c2 = new Content(),
 				obj1 = {'isEmpty': function(){return true;}},
 				obj2 = {'isEmpty': function(){return true;}};
-			c2.elements = ['c2: e1', 'c2: e2', obj2];
-			c.elements = [c2, obj1];
+			c2.setElements(['c2: e1', 'c2: e2', obj2]);
+			c.setElements([c2, obj1]);
 			c.trim();
 			expect(c.length()).toBe(1);
 			expect(c.getElem(0).length()).toBe(2);
@@ -468,8 +527,8 @@ describe('Content-related functionality', function(){
 			var c2 = new Content(),
 				obj1 = {'isEmpty': function(){return false;}},
 				obj2 = {'isEmpty': function(){return true;}};
-			c2.elements = ['c2: e1', 'c2: e2', obj2];
-			c.elements = [obj1, c2];
+			c2.setElements(['c2: e1', 'c2: e2', obj2]);
+			c.setElements([obj1, c2]);
 			c.trim();
 			expect(c.length()).toBe(2);
 			expect(c.getElem(0)).toBe(obj1);
@@ -487,28 +546,28 @@ describe('Content-related functionality', function(){
 	    });
 
 	    it('Produces empty string if "elements" property is empty', function() {
-	        content.elements = [];
+	        content.setElements([]);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe('string');
 	        expect(htmlContent).toEqual('');
 	    });
 
 	    it('Produces a string if content contains a number ', function() {
-	        content.elements = [19.2];
+	        content.setElements([19.2]);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toEqual('19.2');
 	    });
 
 	    it('Produces a string if content contains a string ', function() {
-	        content.elements = ['content text'];
+	        content.setElements(['content text']);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toEqual('content text');
 	    });
 
 	    it('Produces html comment if the content element is an Object without toHtml() method', function() {
-	        content.elements = [elem];
+	        content.setElements([elem]);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('<!-- no html representation -->');
@@ -516,7 +575,7 @@ describe('Content-related functionality', function(){
 
 	    it('Produces html comment if the content element is an Object with toHtml() method', function() {
 	    	elem = {foo: 1, toHtml: function(){return 'elem representation';}};
-	        content.elements = [elem];
+	        content.setElements([elem]);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('elem representation');
@@ -524,21 +583,21 @@ describe('Content-related functionality', function(){
 
 
 	    it('Produces a string if content contains a number and a string', function() {
-	        content.elements = [23.73, 'what a beautiful day'];
+	        content.setElements([23.73, 'what a beautiful day']);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe('string');
 	        expect(htmlContent).toEqual('23.73what a beautiful day');
 	    });
 
 	    it('Produces a string if one of the elements has no toHtml property', function() {
-	        content.elements = ['.', elem, 'how are you?'];
+	        content.setElements(['.', elem, 'how are you?']);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('.<!-- no html representation -->how are you?');
 	    });
 	    it('Produces a string if all elements have html representation', function() {
 	    	elem = {foo: [1,2,3], toHtml: function(){return 'elem str';}};
-	        content.elements = ['waiting for the Sun', elem, 'how are you?'];
+	        content.setElements(['waiting for the Sun', elem, 'how are you?']);
 	        htmlContent = content.toHtml();
 	        expect(typeof htmlContent).toBe("string");
 	        expect(htmlContent).toBe('waiting for the Sunelem strhow are you?');
@@ -547,29 +606,29 @@ describe('Content-related functionality', function(){
 
 	describe('Content::toText(): generates text representation of the content', function(){
         it('returns empty string for a tag without elements', function(){
-            c.elements = [];
+            c.setElements([]);
             expect(c.toText()).toBe('');
         });
 
         it('returns string if only this string is present in elements', function(){
-            c.elements = ['dumb string'];
+            c.setElements(['dumb string']);
             expect(c.toText()).toBe('dumb string');
         });
 
 	        it('returns "stringified" number if only that number is present in elements', function(){
-            c.elements = [92];
+            c.setElements([92]);
             expect(c.toText()).toBe('92');
         });
 
         it('returns concatention of two strings ', function(){
-            c.elements = ['dumb string', 'second input'];
+            c.setElements(['dumb string', 'second input']);
             expect(c.toText()).toBe('dumb stringsecond input');
         });
 
         it('returns empty string if the only element is an object with no toText() method', function(){
         	var fake = {};
         	expect(fake.hasOwnProperty('toText')).toBe(false);
-        	c.elements = [fake];
+        	c.setElements([fake]);
         	expect(c.toText()).toBe('');
         });
 
@@ -577,7 +636,7 @@ describe('Content-related functionality', function(){
         it('calls toText() method of the unique object in the elements', function(){
         	var fake = {toText: function(){return null;}};
         	spyOn(fake, 'toText').andCallFake(function(){return 'fake text repr';});
-        	c.elements = [fake];
+        	c.setElements([fake]);
         	expect(c.toText()).toBe('fake text repr');
         	expect(fake.toText).toHaveBeenCalled();
         });
@@ -587,7 +646,7 @@ describe('Content-related functionality', function(){
         		fake3 = {toText: function(){return null;}};
         	spyOn(fake1, 'toText').andCallFake(function(){return 'fake1 msg';});
         	spyOn(fake3, 'toText').andCallFake(function(){return 'fake3 str';});
-        	c.elements = [fake1, fake2, fake3];
+        	c.setElements([fake1, fake2, fake3]);
         	expect(c.toText()).toBe('fake1 msgfake3 str');
         	expect(fake1.toText).toHaveBeenCalled();
         	expect(fake3.toText).toHaveBeenCalled();
@@ -658,77 +717,77 @@ describe('Content-related functionality', function(){
 			it('returns 1-element content if the input contains only TEXT_NODE', function(){
 				console.log('Loading');
 				c.load([t1]);
-				expect(c.elements.length).toBe(1);
+				expect(c.getElements().length).toBe(1);
 			});
 
 			it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
 				c.load([e32]);
-				expect(c.elements.length).toBe(1);
+				expect(c.getElements().length).toBe(1);
 			});
 
 			it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
 				c.load([e0, e3, t4]);
-				expect(c.elements.length).toBe(3);
+				expect(c.getElements().length).toBe(3);
 			});
 
 
 			it('creates correct Tag instance from a div element with no children', function(){
 				c.load([e200]);
-				expect(c.elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].getTag()).toBe('div');
-				expect(c.elements[0].getContent().length()).toBe(0);
+				expect(c.getElem(0) instanceof Tag).toBe(true);
+				expect(c.getElem(0).getTag()).toBe('div');
+				expect(c.getElem(0).getContent().length()).toBe(0);
 			});
 		});
 
 		describe('Produces structure of the nested elements', function(){
 			it('generates one element in the "content" if element node has an element node as a child', function(){
 				c.load([e2]);
-				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].getContent().elements.length).toBe(1);
+				expect(c.getElements().length).toBe(1);
+				expect(c.getElem(0).getContent().getElements().length).toBe(1);
 			});
 
 			it('generates one element if element node has a text node as a child', function(){
 				c.load([e32]);
-				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].getContent().elements.length).toBe(1);
+				expect(c.getElements().length).toBe(1);
+				expect(c.getElem(0).getContent().getElements().length).toBe(1);
 			});
 
 			it('generates two elements if element node has two element nodes as children', function(){
 				c.load([e0]);
-				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].getContent().elements.length).toBe(2);
+				expect(c.getElements().length).toBe(1);
+				expect(c.getElem(0).getContent().getElements().length).toBe(2);
 			});
 			it('generates four elements if element node has three element nodes and one text node as children', function(){
 				c.load([e3]);
-				expect(c.elements.length).toBe(1);
-				expect(c.elements[0].getContent().elements.length).toBe(4);
+				expect(c.getElements().length).toBe(1);
+				expect(c.getElem(0).getContent().getElements().length).toBe(4);
 			});
 		});
 
 		describe('Produces instances of required types', function(){
 			it('creates ListItem instance if ListItem is among available classes', function(){
 				c.load([e0]);
-				expect(c.elements[0] instanceof ListItem).toBe(true);
-				expect(c.elements[0].getTag()).toBe('li');
+				expect(c.getElem(0) instanceof ListItem).toBe(true);
+				expect(c.getElem(0).getTag()).toBe('li');
 			});
 			it('creates Text instance if Text is among available classes', function(){
 				c.load([t4]);
-				expect(c.elements[0] instanceof PlainText).toBe(true);
-				expect(c.elements[0].getTag()).toBe('text');
+				expect(c.getElem(0) instanceof PlainText).toBe(true);
+				expect(c.getElem(0).getTag()).toBe('text');
 			});
 			it('creates default Tag instance if there is no element-specific classe among available ones', function(){
 				c.load([e3]);
-				expect(c.elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].getTag()).toBe('span');
+				expect(c.getElem(0) instanceof Tag).toBe(true);
+				expect(c.getElem(0).getTag()).toBe('span');
 			});
 		});
 
 		describe('Nested elements have correct types', function(){
 			it('a list item has "div" and "a" children', function(){
 				c.load([e0]);
-				expect(c.elements[0] instanceof ListItem).toBe(true);
-				expect(c.elements[0].getContent().elements[0] instanceof Tag).toBe(true);
-				expect(c.elements[0].getContent().elements[1] instanceof Link).toBe(true);
+				expect(c.getElem(0) instanceof ListItem).toBe(true);
+				expect(c.getElem(0).getElem(0) instanceof Tag).toBe(true);
+				expect(c.getElem(0).getElem(1) instanceof Link).toBe(true);
 			} );
 		});
 	});
@@ -747,7 +806,7 @@ describe('Content-related functionality', function(){
 		    c1 = {'toNode': function(){return null;}};
 		    c2 = {'toNode': function(){return null;}};
 		    c3 = {'toNode': function(){return null;}};
-		    c.elements = [c1, c2, c3];
+		    c.setElements([c1, c2, c3]);
 		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
 		    spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
 		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
@@ -766,7 +825,7 @@ describe('Content-related functionality', function(){
 		    c1 = {'toNode': function(){return null;}};
 		    c2 = {'no-toNode-method': function(){return null;}};
 		    c3 = {'toNode': function(){return null;}};
-		    c.elements = [c1, c2, c3];
+		    c.setElements([c1, c2, c3]);
 		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
 		    // spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
 		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
@@ -791,7 +850,7 @@ describe('Content-related functionality', function(){
 			c2 = {clone: function(){return null;}};
 			spyOn(c1, 'clone');
 			spyOn(c2, 'clone');
-			c.elements = [c1, c2];
+			c.setElements([c1, c2]);
 			c.clone();
 			expect(c1.clone).toHaveBeenCalled();
 			expect(c2.clone).toHaveBeenCalled();
@@ -802,38 +861,36 @@ describe('Content-related functionality', function(){
 			c2 = {clone: function(){return null;}};
 			spyOn(c1, 'clone').andCallFake(function(){return 'clone of c1';});
 			spyOn(c2, 'clone').andCallFake(function(){return 'clone of c2';});
-			c.elements = [c2, c1];
+			c.setElements([c2, c1]);
 			var clone = c.clone();
-			expect(clone.elements[0]).toBe('clone of c2');
-			expect(clone.elements[1]).toBe('clone of c1');
+			expect(clone.getElem(0)).toBe('clone of c2');
+			expect(clone.getElem(1)).toBe('clone of c1');
 		});
 
 		it('inserts number-valued elements into the cloned object', function(){
-			c.elements = [23, 3.98];
+			c.setElements([23, 3.98]);
 			var clone = c.clone();
-			expect(clone.elements[0]).toBe(23);
-			expect(clone.elements[1]).toBe(3.98);
+			expect(clone.getElem(0)).toBe(23);
+			expect(clone.getElem(1)).toBe(3.98);
 		});
 
 		it('inserts string-valued elements into the cloned object', function(){
-			c.elements = ['str', 'ciao'];
+			c.setElements(['str', 'ciao']);
 			var clone = c.clone();
-			expect(clone.elements[0]).toBe('str');
-			expect(clone.elements[1]).toBe('ciao');
+			expect(clone.getElem(0)).toBe('str');
+			expect(clone.getElem(1)).toBe('ciao');
 		});
 
 		it('does not insert object with no "clone" method', function(){
 			var c1 = {'no-clone-method': true},
 				c2Clone = {},
 				c2 = {clone: function(){return c2Clone;}};
-			c.elements = [c1, c2];
+			c.setElements([c1, c2]);
 
 			var clone = c.clone();
-			expect(clone.elements.indexOf(c1)).toBe(-1);
-			expect(clone.elements.indexOf(c2Clone) !== -1).toBe(true);
+			expect(clone.getElements().indexOf(c1)).toBe(-1);
+			expect(clone.getElements().indexOf(c2Clone) !== -1).toBe(true);
 		});
-
-
 	});
 
 });

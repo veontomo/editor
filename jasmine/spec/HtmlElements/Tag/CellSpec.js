@@ -40,22 +40,22 @@ describe('Cell-related functionality:', function() {
 
         it('fills "content" property with the arguments passed to the constructor', function(){
             cell = new Cell();
-            expect(cell.getContent().elements).toEqual([]);
+            expect(cell.getContent().getElements()).toEqual([]);
 
             cell = new Cell(10.21);
-            expect(cell.getContent().elements).toEqual([10.21]);
+            expect(cell.getContent().getElements()).toEqual([10.21]);
 
             cell = new Cell("a string");
-            expect(cell.getContent().elements).toEqual(["a string"]);
+            expect(cell.getContent().getElements()).toEqual(["a string"]);
 
             cell = new Cell({});
-            expect(cell.getContent().elements).toEqual([{}]);
+            expect(cell.getContent().getElements()).toEqual([{}]);
 
             cell = new Cell({'prop': 'val'});
-            expect(cell.getContent().elements).toEqual([{'prop': 'val'}]);
+            expect(cell.getContent().getElements()).toEqual([{'prop': 'val'}]);
 
             cell = new Cell([]);
-            expect(cell.getContent().elements).toEqual([[]]);
+            expect(cell.getContent().getElements()).toEqual([[]]);
         });
     });
 

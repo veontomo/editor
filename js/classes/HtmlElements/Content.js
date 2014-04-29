@@ -16,23 +16,61 @@ function Content(str) {
 	if (!(this instanceof Content)) {
 		return new Content(str || null);
 	}
-	/**
-	 * Array of items. If an item has a method `toHtml`, it will be applied when transforming the whole Content object into a string.
-	 * @property {Array} elements
-	 * @default  [str]
-	 */
-	this.elements = str ? [str] : [];
 
 	/**
-	 * Returns the class name.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor.name` returns "Content", while IE, it returns "undefined".
-	 * This property must be overridden in all inherited classes.
-	 * @property {String}    className
-	 * @type     {String}
-	 * @default  "Content"
-	 * @since    0.0.2
+	 * The  name of the class.
+	 * @property        {String}            className
+	 * @type            {String}
+	 * @private
 	 */
-	this.className = "Content";
+	var className = 'Content';
+
+
+	/**
+	 * Array in which Content items are stored.
+	 * @property       {Array}              elements
+	 * @private
+	 * @default        [str]
+	 */
+	var elements = str ? [str] : [];
+
+	/**
+	 * {{#crossLink "Content/className:property"}}Class name{{/crossLink}} getter.
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
+	};
+
+
+	/**
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} getter. <br/>
+	 * *NB*: the method tries to return a copy of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * content.
+	 * return a copy of the element
+	 * @method         getElements
+	 * @return         {Array}
+	 */
+	this.getElements = function(){
+		var output = [];
+		elements.forEach(function(el){
+			var copy = (typeof el.clone === 'function') ? el.clone() : el;
+			output.push(copy);
+		});
+		return output;
+	};
+
+	/**
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} setter.
+	 * @method         setElements
+	 * @param          {Array}             items       array of items
+	 * @return         {void}
+	 */
+	this.setElements = function(items){
+		if (Array.isArray(items)){
+			elements = items;
+		}
+	};
 
 	/**
 	 * The number of items in the "elements" property
@@ -40,7 +78,7 @@ function Content(str) {
 	 * @return {Integer}
 	 */
 	this.length = function () {
-		return this.elements.length;
+		return elements.length;
 	};
 
 	/**
@@ -50,7 +88,7 @@ function Content(str) {
 	 * @return {mixed}
 	 */
 	this.getElem = function(pos){
-		var res = this.elements[pos];
+		var res = elements[pos];
 		return (res === undefined) ?  null : res;
 	};
 
@@ -92,7 +130,7 @@ function Content(str) {
 		if (pos === len){
 			this.appendElem(elem);
 		} else {
-			this.elements.splice(pos, 0, elem);
+			elements.splice(pos, 0, elem);
 		}
 		return null;
 	};
@@ -103,7 +141,7 @@ function Content(str) {
 	 * @return  {void}
 	 */
 	this.flush = function(){
-		this.elements = [];
+		elements = [];
 	};
 
 	/**
@@ -113,7 +151,7 @@ function Content(str) {
 	 * @return   {void}
 	 */
 	this.appendElem = function(elem){
-		this.elements.push(elem);
+		elements.push(elem);
 		return null;
 	};
 
@@ -125,11 +163,11 @@ function Content(str) {
 	 * @return {mixed}
 	 */
 	this.dropElemAt = function(pos){
-		var elem = this.elements[pos];
+		var elem = elements[pos];
 		if (elem === undefined){
 			throw new Error('No element is found at the given position!');
 		}
-		this.elements.splice(pos, 1);
+		elements.splice(pos, 1);
 		return elem;
 	};
 
@@ -338,40 +376,6 @@ function Content(str) {
 	};
 
 	/**
-	 * Returns a new `Content` instance. Parses each element of target instance and if the element:
-	 * <ol><li> responds to a method `toLink()`, then applies this method to the element</li>
-	 * <li>does not respond to method `toLink()` and is a string, then converts it into a link</li>
-	 * <li>does not respond to method `toLink()`, then insert the element whitout changes.</li></ol>
-	 * The argument must be a {{#crossLink "Link"}}Link{{/crossLink}} instance. Otherwise, an error is thrown.
-	 * @method          toLink
-	 * @param           {Link}         link
-	 * @return          {Content}
-	 * @deprecated      use Link::shower() method
-	 */
-	this.toLink = function(link){
-		console.log('This method is deprecated. Use Link::shower()!');
-	// 	if (!(link instanceof Link)){
-	// 		throw new Error('The argument must be a Link instance!');
-	// 	}
-	// 	var elem,
-	// 		result = new Content();
-	// 	this.elements.forEach(function(el){
-	// 		if (typeof el.toLink === 'function'){
-	// 			elem = el.toLink(link);
-	// 		} else if (typeof el === 'string'){
-	// 			elem = new Link();
-	// 			elem.style = link.style;
-	// 			elem.attr = link.attr;
-	// 			elem.appendElem(el);
-	// 		} else {
-	// 			elem = el;
-	// 		}
-	// 		result.appendElem(elem);
-	// 	});
-	// return result;
-	};
-
-	/**
 	 * Loads elements into the {{#crossLink "Content/elements:property"}}element{{/crossLink}} property.
 	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
 	 * defined, then no loading is performed and `false` is returned. Otherwise, the method tries to load
@@ -383,12 +387,12 @@ function Content(str) {
 	this.load = function(arr){
 		if (Array.isArray(arr) && (window.FACTORY !== undefined) && FACTORY.factory){
 			var factory = FACTORY.factory,
-			   	elements = [];
+			   	items = [];
 			arr.forEach(function(el){
 				var baby = factory.mimic(el);
-				elements.push(baby);
+				items.push(baby);
 			});
-			this.elements = elements;
+			this.setElements(items);
 			return true;
 		}
 		console.info('Content::load()', 'FACTORY is not defined, so I am returning FALSE');
@@ -413,7 +417,7 @@ function Content(str) {
 		console.info(rnd, 'Content::stickTo() called with argument ', el, ', this = ', this);
 		if (typeof el.appendChild === 'function'){
 			console.info(rnd, 'argument has "appendChild" method');
-			this.elements.forEach(function(ch){
+			elements.forEach(function(ch){
 				console.info(rnd, 'child = ', ch);
 				if (typeof ch.toNode === 'function'){
 					console.info(rnd, ' the child has toNode() method');
@@ -437,7 +441,7 @@ function Content(str) {
 	 */
 	this.clone = function(){
 		var clone = new Content();
-		this.elements.forEach(function(el){
+		elements.forEach(function(el){
 			var elType = typeof el;
 			if (typeof el.clone === 'function'){
 				clone.appendElem(el.clone());

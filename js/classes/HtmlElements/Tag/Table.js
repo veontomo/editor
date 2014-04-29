@@ -322,7 +322,7 @@ function Table() {
 		if (this.rowNum() === 0){
 			return false;
 		}
-		return this.getContent().elements.every(function(row){
+		return this.getContent().getElements().every(function(row){
 			return row.onlyTableInside();
 		});
 	};
