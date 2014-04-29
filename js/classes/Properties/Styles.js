@@ -24,16 +24,16 @@ function Styles(obj) {
      */
     this.setName('Styles');
 
-	/**
-	 * Generates string representation of this object (as html inline style).
-	 * It takse into consideration only string- and number-valued properties. The rest is ignored.
+    /**
+     * Generates string representation of this object (as html inline style).
+     * It takse into consideration only string- and number-valued properties. The rest is ignored.
      * If attribite value is a number, the measurement unit will be appended.
      * @method  toString
      * @param   {String|null}   unit     mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
-	 * @return  {String}        String   union of substrings; each substring is of this format: 'attribute: value;',
+     * @return  {String}        String   union of substrings; each substring is of this format: 'attribute: value;',
      *                                   between the substrings there is a separator ' '.
      * @example "padding: 0px; margin: 10px; color: #ababab"
-	 */
+     */
     this.toString = function (unit) {
         var val, attr, styles = [], core = this.getCore();
         unit = unit || 'px';
