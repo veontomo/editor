@@ -3,7 +3,7 @@
 /*global Property, window */
 
 /**
- * A general Property class. If the argument is an object, then its properties are copied
+ * A general P roperty class. If the argument is an object, then its properties are copied
  * into Property instance. If the argument is a string, then it will be splitted according to
  * the pattern "key: value;" to populate object properties.
  * @module 	    Properties
