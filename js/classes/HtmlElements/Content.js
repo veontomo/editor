@@ -147,7 +147,8 @@ function Content(str) {
 	/**
 	 * Appends argument to the array of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}.
 	 * If the argument is a {{#crossLink "Content"}}Content{{/crossLink}} instance, then its
-	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} are appended to the target instance.
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} are appended one by one to the
+	 * target instance {{#crossLink "Content/elements:property"}}elements{{/crossLink}} array.
 	 * @method   appendElem
 	 * @param    {mixed}           elem
 	 * @return   {void}
