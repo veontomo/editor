@@ -122,6 +122,29 @@ describe('Properties-related functionality', function(){
         });
     });
 
+    describe('Gives possibility to see the core', function(){
+        beforeEach(function(){
+            props.setProperty('key1', 1);
+            props.setProperty('key2', 'two');
+            props.setProperty('key3', 'three');
+        });
+        it('returns core content', function(){
+            var core = props.getCore();
+            expect(Object.keys(core).length).toBe(3);
+            expect(core.key1).toBe(1);
+            expect(core.key2).toBe('two');
+            expect(core.key3).toBe('three');
+        });
+        it('returns a copy of the core content, not reference to it', function(){
+            var core = props.getCore();
+            // changes made on the copy do not affect the core
+            expect(core.hasOwnProperty('key2')).toBe(true);
+            expect(core.key2).toBe('two');
+            core.key2 = 'not two';
+            expect(props.getCore().key2).toBe('two');
+        });
+    });
+
     describe('Whether the property is empty', function(){
         it('calls "getCore" method', function(){
             spyOn(props, 'getCore').andCallFake(function(){return {};});
