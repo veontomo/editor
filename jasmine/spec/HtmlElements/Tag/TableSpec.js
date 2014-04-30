@@ -959,7 +959,10 @@ describe('Table-related functionality:', function(){
     });
 
     describe('Table::getBogusRowProp(): gets the requested property of the bogus row', function(){
-        var row1Prop;
+        var row1Prop, stl;
+        beforeEach(function(){
+            stl = new Styles();
+        });
         it('returns null, if Table::isFragmented returns false', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return false;});
             expect(table.getBogusRowProp()).toBe(null);
@@ -967,27 +970,30 @@ describe('Table-related functionality:', function(){
         });
         it('returns null, if Table::isFragmented returns true, but requested property does not exist', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(){return false;});
+            spyOn(stl, 'hasProperty').andCallFake(function(){return false;});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
             table.setElements([row1]);
             expect(table.getBogusRowProp('wierd-property')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
-            expect(row1.getStyles().hasProperty).toHaveBeenCalledWith('wierd-property');
+            expect(stl.hasProperty).toHaveBeenCalledWith('wierd-property');
         });
         it('returns row property, if table is fragmented, has one row and requested property exists', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
             table.setElements([row1]);
             row1Prop = {'fake object': true};
             row1.fakeProp = row1Prop;
             expect(table.getBogusRowProp('fakeProp')).toBe(row1Prop);
             expect(table.isFragmented).toHaveBeenCalled();
-            expect(row1.getStyles().hasProperty).toHaveBeenCalledWith('fakeProp');
+            expect(stl.hasProperty).toHaveBeenCalledWith('fakeProp');
         });
         it('returns row prop, if two-row table is fragmented and the rows have equal requested properties', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return true;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
             table.setElements([row1, row2]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'any object';
@@ -999,7 +1005,9 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return false;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
+
             table.setElements([row1, row2]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'any object';
@@ -1012,7 +1020,9 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return false;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
+
             table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';
@@ -1028,7 +1038,8 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(prop){return prop === 'row 2 fake property';});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
             table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';
@@ -1043,7 +1054,9 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return true;});
-            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(stl, 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            spyOn(row1, 'getStyles').andCallFake(function(){return stl;});
+
             table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';

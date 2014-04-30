@@ -17,7 +17,6 @@ describe('Tag-related functionality', function() {
         });
     });
 
-
     describe('Styles setter and getter', function(){
         it('is an instance of Styles class', function(){
             expect(tag.getStyles() instanceof Styles).toBe(true);
@@ -233,6 +232,62 @@ describe('Tag-related functionality', function() {
         });
     });
 
+    describe('Dropping specific property from the attributes', function(){
+        var attr;
+        beforeEach(function(){
+            attr = new Attributes();
+            attr.setProperty('a1', 'v1');
+            attr.setProperty('a2', 'v2');
+            tag.setAttributes(attr);
+        });
+        it('drops exisitng property', function(){
+            tag.dropAttrProperty('a1');
+            expect(tag.getAttrProperty('a1')).not.toBeDefined();
+        });
+        it('returns property if it exists', function(){
+            expect(tag.dropAttrProperty('a2')).toBe('v2');
+        });
+        it('does not change attributes if it has no property with requested name', function(){
+            expect(attr.propNum()).toBe(2);
+            tag.dropAttrProperty('key that does not exist');
+            attr = tag.getAttributes();
+            expect(attr.propNum()).toBe(2);
+            expect(attr.getProperty('a1')).toBe('v1');
+            expect(attr.getProperty('a2')).toBe('v2');
+        });
+        it('returns property if it exists', function(){
+            expect(tag.dropAttrProperty('a2')).toBe('v2');
+        });
+    });
+
+    describe('Dropping specific property from the styles', function(){
+        var stl;
+        beforeEach(function(){
+            stl = new Styles();
+            stl.setProperty('a1', 'v1');
+            stl.setProperty('a2', 'v2');
+            tag.setStyles(stl);
+        });
+        it('drops exisitng property', function(){
+            tag.dropStyleProperty('a1');
+            expect(tag.getStyleProperty('a1')).not.toBeDefined();
+        });
+        it('returns property if it exists', function(){
+            expect(tag.dropStyleProperty('a2')).toBe('v2');
+        });
+        it('does not change attributes if it has no property with requested name', function(){
+            expect(stl.propNum()).toBe(2);
+            tag.dropStyleProperty('key that does not exist');
+            stl = tag.getStyles();
+            expect(stl.propNum()).toBe(2);
+            expect(stl.getProperty('a1')).toBe('v1');
+            expect(stl.getProperty('a2')).toBe('v2');
+        });
+        it('returns property if it exists', function(){
+            expect(tag.dropStyleProperty('a2')).toBe('v2');
+        });
+    });
+
 
 
     describe('getAttrProperty(): retrieves attribute property', function(){
@@ -281,13 +336,29 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Tag::insertElemAt() inserts element at given position', function(){
-        it('calls Content::insertElemAt method when inserting element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'insertElemAt').andCallFake(function(){return null;});
-            tag.insertElemAt('location', 'element to insert');
-            expect(content.insertElemAt).toHaveBeenCalledWith('location', 'element to insert');
+    describe('Inserting element at given position', function(){
+        var el1, el2, el3, needle;
+        beforeEach(function(){
+            el1 = 'first';
+            el2 = 332;
+            el3 = 'string';
+            needle = 'insert me';
+            tag.setElements([el1, el2, el3]);
         });
+        it('insert element at the beginning', function(){
+            tag.insertElemAt(0, needle);
+            expect(tag.getElements()[0]).toBe(needle);
+        });
+        it('insert element at the end', function(){
+            tag.insertElemAt(3, needle);
+            expect(tag.getElements()[3]).toBe(needle);
+        });
+        it('insert element in the middle', function(){
+            tag.insertElemAt(2, needle);
+            expect(tag.getElements()[2]).toBe(needle);
+        });
+
+
     });
 
     describe('Tag::length(): gives the number of elements in the content', function(){
@@ -311,7 +382,7 @@ describe('Tag-related functionality', function() {
             expect(cntn[2]).toBe(el3);
             // trying to drop
             tag.dropElemAt();
-            cntn = tag.getElements()
+            cntn = tag.getElements();
             // re-control the state
             expect(cntn.length).toBe(3);
             expect(cntn[0]).toBe(el1);
@@ -332,7 +403,7 @@ describe('Tag-related functionality', function() {
 
             // trying to drop
             tag.dropElemAt(23);
-            cntn = tag.getElements()
+            cntn = tag.getElements();
             // re-control the state
             expect(cntn.length).toBe(2);
             expect(cntn[0]).toBe(el1);
@@ -357,7 +428,7 @@ describe('Tag-related functionality', function() {
 
             // trying to drop
             tag.dropElemAt(0);
-            cntn = tag.getElements()
+            cntn = tag.getElements();
 
             // re-control the state
             expect(cntn.length).toBe(2);
@@ -391,7 +462,7 @@ describe('Tag-related functionality', function() {
 
             // trying to drop
             tag.dropElemAt(3);
-            cntn = tag.getElements()
+            cntn = tag.getElements();
 
             // re-control the state
             expect(cntn.length).toBe(3);
@@ -427,7 +498,7 @@ describe('Tag-related functionality', function() {
 
             // trying to drop
             tag.dropElemAt(1);
-            cntn = tag.getElements()
+            cntn = tag.getElements();
 
             // re-control the state
             expect(cntn.length).toBe(3);
@@ -530,21 +601,30 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Tag::appendStyle(): appends style to the tag', function(){
-        it('calls Style::appendStyle() to append style to the object', function(){
-            spyOn(tagStyle, 'appendStyle').andCallFake(function(){return null;});
-            spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
-            tag.appendStyle('style to append');
-            expect(tagStyle.appendStyle).toHaveBeenCalledWith('style to append');
+    describe('Appending style to the tag', function(){
+        it('appends style to the object', function(){
+            var stl = {'uniqueKey': 'uniqueValue'};
+            tag.appendStyle(stl);
+            expect(tag.getStyleProperty('uniqueKey')).toBe('uniqueValue');
         });
     });
 
+    describe('Appending attributes to the tag', function(){
+        it('appends attributes to the object', function(){
+            var attr = {'uniqueKey': 'uniqueValue'};
+            tag.appendAttributes(attr);
+            expect(tag.getAttrProperty('uniqueKey')).toBe('uniqueValue');
+        });
+    });
+
+
     describe('append style to the element at given position:', function(){
         it('calls appendStyleToElemAt() method on the content', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'appendStyleToElemAt');
-            tag.appendStyleToElemAt(2, "whatever");
-            expect(content.appendStyleToElemAt).toHaveBeenCalledWith(2, 'whatever');
+            var el1 = new Tag(),
+                el2 = new Tag();
+            tag.setElements([el1, el2]);
+            tag.appendStyleToElemAt(1, {'hidden': 2});
+            expect(tag.getElem(1).getStyleProperty('hidden')).toBe(2);
         });
     });
 
@@ -557,22 +637,55 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Tag::dropFirst(): drops the first item from its elements', function(){
-        it('calls Content::dropFirst()', function(){
-            spyOn(content, 'dropFirst');
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
+    describe('Drops the first item from its elements', function(){
+        var el1, el2;
+        beforeEach(function(){
+            el1 = 1;
+            el2 = 'second';
+        });
+        it('drops first element of two-element content', function(){
+            tag.setElements([el1, el2]);
             tag.dropFirst();
-            expect(content.dropFirst).toHaveBeenCalled();
+            var els = tag.getElements();
+            expect(els.length).toBe(1);
+            expect(els[0]).toBe(el2);
+        });
+        it('drops unique element of content', function(){
+            tag.setElements([el2]);
+            tag.dropFirst();
+            expect(tag.getElements().length).toBe(0);
+        });
+        it('tolerates empty content', function(){
+            tag.setElements([]);
+            tag.dropFirst();
+            expect(tag.getElements().length).toBe(0);
         });
     });
 
-    describe('Tag::dropLast(): drops the last item from its elements', function(){
-        it('calls Content::dropLast()', function(){
-            spyOn(content, 'dropLast');
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            tag.dropLast();
-            expect(content.dropLast).toHaveBeenCalled();
+    describe('Drops the last item from its elements', function(){
+        var el1, el2;
+        beforeEach(function(){
+            el1 = 1;
+            el2 = 'second';
         });
+        it('drops last element of two-element content', function(){
+            tag.setElements([el1, el2]);
+            tag.dropLast();
+            var els = tag.getElements();
+            expect(els.length).toBe(1);
+            expect(els[0]).toBe(el1);
+        });
+        it('drops unique element of content', function(){
+            tag.setElements([el2]);
+            tag.dropLast();
+            expect(tag.getElements().length).toBe(0);
+        });
+        it('tolerates empty content', function(){
+            tag.setElements([]);
+            tag.dropLast();
+            expect(tag.getElements().length).toBe(0);
+        });
+
     });
 
     describe('Tag::isEmpty(): decides whether the tag is empty', function(){
@@ -621,16 +734,8 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Tag::trim(): trim the tag content', function(){
-        it('calls Content::trim() on Tag::content', function(){
-            spyOn(content, 'trim');
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            tag.trim();
-            expect(content.trim).toHaveBeenCalled();
-        });
-    });
 
-    describe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
+    xdescribe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
         it('calls Content::appendElemIfNotEmpty()', function(){
             spyOn(content, 'appendElemIfNotEmpty');
             spyOn(tag, 'getContent').andCallFake(function(){return content;});
@@ -638,6 +743,33 @@ describe('Tag-related functionality', function() {
             tag.appendElemIfNotEmpty(foo);
             expect(content.appendElemIfNotEmpty).toHaveBeenCalledWith(foo);
         });
+    });
+
+    describe('Setting the name of the class', function(){
+        it('does not change the name if the argument is missing', function(){
+            var name = tag.getName();
+            tag.setName();
+            expect(tag.getName()).toBe(name);
+        });
+
+        it('sets the name if it is a string', function(){
+            var name = tag.getName(),
+                newName = 'newClassName';
+            expect(name).not.toBe(newName);
+            tag.setName(newName);
+            expect(tag.getName()).toBe(newName);
+        });
+
+        it('does not change the name if the argument is a number, array, function or object', function(){
+            var name = tag.getName(),
+                invalidNames = [0, 12, 98.9, [], [2], ['aa', 4], {}, {key: 1}];
+            invalidNames.forEach(function(invalid){
+                tag.setName(invalid);
+                expect(tag.getName()).toBe(name);
+            });
+        });
+
+
     });
 
     describe('Tag::clone(): generates a clone of the instance', function(){
@@ -828,16 +960,6 @@ describe('Tag-related functionality', function() {
             expect(tagStyle.load).toHaveBeenCalledWith(root.attributes);
         });
 
-        // Tag::load() makes use of private variable "content", not the output of "getContent"
-        // which is a copy of "content", so it is not possible to control whether load method was
-        // called or not.
-        xit('calls a method to load content', function(){
-            spyOn(content, 'load');
-            spyOn(tagAttr, 'load');
-            spyOn(tagStyle, 'load');
-            tag.load(root);
-            expect(content.load).toHaveBeenCalledWith([e0, t1, e2]);
-        });
 
     });
 

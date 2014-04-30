@@ -125,13 +125,13 @@ function Tag() {
 	};
 
 	/**
-	* {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}} getter.
+	* Returns copy of {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}}.
 	* @method          getAttributes
 	* @return          {Attributes}
 	* @since           0.0.4
 	*/
 	this.getAttributes = function(){
-		return attributes;
+		return attributes.clone();
 	};
 
 
@@ -153,13 +153,13 @@ function Tag() {
 
 
 	/**
-	* {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}} getter.
+	* Returns copy of {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}}.
 	* @method          getStyle
 	* @return          {Styles}
 	* @since           0.0.4
 	*/
 	this.getStyles = function(){
-		return styles;
+		return styles.clone();
 	};
 
 
@@ -186,7 +186,7 @@ function Tag() {
 	};
 
 	/**
-	* {{#crossLink "Tag/content:property"}}Content{{/crossLink}} getter.
+	* Returns copy of {{#crossLink "Tag/content:property"}}Content{{/crossLink}}.
 	* @method          getContent
 	* @return          {Content}
 	* @since           0.0.4
@@ -218,14 +218,26 @@ function Tag() {
 
 
 	/**
-	 * Appends style to the cell. Alias for Style::appendStyle().
+	 * Appends style to the instance. Alias for {{#crossLink "Styles/appendStyle:method"}}Styles::appendStyle{{/crossLink}}.
 	 * @method         appendStyle
-	 * @param          {Style|Obj}          newStyle   style to be appended
+	 * @param          {Styles|Obj}          newStyle   style to be appended
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
 	this.appendStyle = function(newStyle){
-		this.getStyles().appendStyle(newStyle);
+		styles.appendStyle(newStyle);
+	};
+
+	/**
+	 * Appends style to the instance. Alias for
+	 * {{#crossLink "Attributes/appendAttributes:method"}}Attributes::appendAttributes{{/crossLink}}.
+	 * @method         appendAttributes
+	 * @param          {Obj}                attr   attributes to be appended
+	 * @return         {void}
+	 * @since          0.0.1
+	 */
+	this.appendAttributes = function(attr){
+		attributes.appendProperty(attr);
 	};
 
 	/**
@@ -238,7 +250,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		this.getContent().appendStyleToElemAt(pos, stl);
+		content.appendStyleToElemAt(pos, stl);
 	};
 
 
@@ -264,24 +276,9 @@ function Tag() {
 	 * @since          0.0.4
 	 */
 	this.setStyleProperty = function(key, value) {
-		return this.getStyles().setProperty(key, value);
+		return styles.setProperty(key, value);
 	};
 
-
-	/**
-	 * Drops requested property from {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
-	 * property of the current object.
-	 * @method         dropStyleProperty
-	 * @param          {String} 	        key 	property name to be retrieved from the styles
-	 * @return         {void}
-	 * @since          0.0.4
-	 */
-	this.dropStyleProperty = function(key) {
-		var stl = this.getStyles();
-		if (stl.hasProperty(key)){
-			stl.dropProperty(key);
-		}
-	};
 
 	/**
 	 * Retrieves requested property from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
@@ -305,22 +302,61 @@ function Tag() {
 	 * @since          0.0.4
 	 */
 	this.setAttrProperty = function(key, value) {
-		return this.getAttributes().setProperty(key, value);
+		return attributes.setProperty(key, value);
+	};
+
+	/**
+	 * Returns `true` if {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * contains attribute `key` and `false` otherwise.
+	 * @method         hasAttrProperty
+	 * @param          {String}             key
+	 * @return         {Boolean}
+	 */
+	this.hasAttrProperty = function(key){
+		var attr = this.getAttributes();
+		return (attr && attr.hasProperty(key));
+	};
+
+	/**
+	 * Returns `true` if {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * contains attribute `key` and `false` otherwise.
+	 * @method         hasStyleProperty
+	 * @param          {String}             key
+	 * @return         {Boolean}
+	 */
+	this.hasStyleProperty = function(key){
+		var stl = this.getStyles();
+		return (stl && stl.hasProperty(key));
 	};
 
 	/**
 	 * Drops requested property from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
-	 * property of the current object.
+	 * property of the current object and returns a value of the key to be dropped.
 	 * @method         dropAttrProperty
 	 * @param          {String} 	        key 	property name to be retrieved from the attributes
-	 * @return         {void}
+	 * @return         {Any}                        value of the key in the attributes
 	 * @since          0.0.4
 	 */
 	this.dropAttrProperty = function(key) {
 		if (this.hasAttrProperty(key)){
-			this.getAttributes().dropProperty(key);
+			return attributes.dropProperty(key);
 		}
 	};
+
+	/**
+	 * Drops requested property from {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         dropStyleProperty
+	 * @param          {String} 	        key 	property name to be retrieved from the styles
+	 * @return         {Any}                        value of the key in the styles
+	 * @since          0.0.4
+	 */
+	this.dropStyleProperty = function(key) {
+		if (this.hasStyleProperty(key)){
+			return styles.dropProperty(key);
+		}
+	};
+
 
 
 
@@ -350,7 +386,7 @@ function Tag() {
 	};
 
 	/**
-	 * Returns {{#crossLink "Content/elements"}}elements{{/crossLink}} of
+	 * Returns copy of {{#crossLink "Content/elements"}}elements{{/crossLink}} of
 	 * {{#crossLink "Tag/content"}}content{{/crossLink}}.
 	 * @method         getElements
 	 * @return         {Array}
@@ -388,19 +424,19 @@ function Tag() {
 	};
 
 	/**
-	 * Gets the first element stored in property "content". Delegates its functionality to the class
-	 * {{#crossLink "Content"}}Content{{/crossLink}}.
-	 * @method  getFirst
-	 * @return  {any}
-	 * @since   0.0.1
+	 * Returns copy of the first element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Alias for {{#crossLink "Content/getFirst:method"}}Content::getFirst{{/crossLink}}.
+	 * @method         getFirst
+	 * @return         {any}
+	 * @since          0.0.1
 	 */
 	this.getFirst = function(){
 		return this.getContent().getFirst();
 	};
 
 	/**
-	 * Gets the last element stored in property "content". Delegates its functionality to
-	 * the class {{#crossLink "Content"}}Content{{/crossLink}}.
+	 * Returns copy of the first element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Alias for {{#crossLink "Content/getLast:method"}}Content::getlast{{/crossLink}}.
 	 * @method  getLast
 	 * @return {any}
 	 * @since  0.0.1
@@ -419,7 +455,7 @@ function Tag() {
 	 * @since  0.0.1
 	 */
 	this.insertElemAt = function(pos, elem){
-		this.getContent().insertElemAt(pos, elem);
+		content.insertElemAt(pos, elem);
 	};
 
 	/**
@@ -463,7 +499,7 @@ function Tag() {
 	 * @since          0.0.1
 	 */
 	this.dropFirst = function(){
-		this.getContent().dropFirst();
+		content.dropFirst();
 	};
 
 	/**
@@ -474,7 +510,7 @@ function Tag() {
 	 * @since          0.0.1
 	 */
 	this.dropLast = function(){
-		this.getContent().dropLast();
+		content.dropLast();
 	};
 
 
@@ -529,7 +565,7 @@ function Tag() {
 	 * @return  {void}
 	 */
 	this.trim = function(){
-		this.getContent().trim();
+		content.trim();
 		return this;
 	};
 
@@ -541,7 +577,7 @@ function Tag() {
 	 * @return {void}
 	 */
 	this.appendElemIfNotEmpty = function(arg){
-		this.getContent().appendElemIfNotEmpty(arg);
+		content.appendElemIfNotEmpty(arg);
 	};
 
 

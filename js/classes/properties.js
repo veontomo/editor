@@ -94,14 +94,17 @@ function Properties(input) {
 	};
 
 	/**
-	 * If the key is present in {{#crossLink "Properties/core:property"}}core{{/crossLink}}, drops it.
-	 * @method  dropProperty
-	 * @param   {Any}        key
-	 * @return  {void}
+	 * If the key is present in {{#crossLink "Properties/core:property"}}core{{/crossLink}}, drops it and
+	 * returns the key value.
+	 * @method         dropProperty
+	 * @param          {Any}                key
+	 * @return         {Any}
 	 */
 	this.dropProperty = function(key){
 		if (core.hasOwnProperty(key)){
+			var val = core[key];
 			delete core[key];
+			return val;
 		}
 	};
 
@@ -304,7 +307,7 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		var Constr = window[this.className],
+		var Constr = window[this.getName()],
 			clone, attr, current,
 			coreContent = this.getCore();
 		clone = (typeof Constr === 'function') ?  new Constr() : new Properties();

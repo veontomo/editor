@@ -82,19 +82,19 @@ function Content(str) {
 	};
 
 	/**
-	 * Gets the element with index "pos". If it does not exist, null is returned.
-	 * @method getElem
-	 * @param  {Number}         pos
-	 * @return {mixed}
+	 * Gets a copy of element correspoinding to index `pos`. If it does not exist, null is returned.
+	 * @method         getElem
+	 * @param          {Number}             pos
+	 * @return         {mixed}
 	 */
 	this.getElem = function(pos){
-		var res = elements[pos],
+		var res = this.getElements()[pos],
 			output = (res === undefined) ?  null : res;
 		return output;
 	};
 
 	/**
-	 * Gets the first element. Delegates to Content::getElem(0)
+	 * Gets the first element. Alias for {{#crossLink "Content/getElem:method"}}getElem(0){{/crossLink}}.
 	 * @method getFirst
 	 * @return {mixed}
 	 */
@@ -103,9 +103,9 @@ function Content(str) {
 	};
 
 	/**
-	 * Gets the last element. Delegates to Content::getElem()
-	 * @method getLast
-	 * @return {mixed}
+	 * Gets the last element. Alias for {{#crossLink "Content/getElem:method"}}getElem(...){{/crossLink}}.
+	 * @method         getLast
+	 * @return         {mixed}
 	 */
 	this.getLast = function(){
 		var len = this.length();
@@ -471,6 +471,10 @@ function Content(str) {
 	 * @return         {void}
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		/// !!! stub
+		var item = elements[pos];
+		if (item !== undefined && typeof item.appendStyle === 'function'){
+			item.appendStyle(stl);
+		}
+
 	};
 }

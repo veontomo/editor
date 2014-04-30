@@ -435,10 +435,10 @@ describe('Properties-related functionality', function(){
         it('creates a Properties instance', function(){
             expect(props.clone() instanceof Properties).toBe(true);
         });
-        it('creates an instance of a class that inherits from Properties and has "className" attribute', function(){
+        it('creates an instance of a class that inherits from Properties and has "getName" method', function(){
             window.PropertiesChild = function(){
                 Properties.call(this);
-                this.className = 'PropertiesChild';
+                this.getName = function(){return 'PropertiesChild';};
             };
             PropertiesChild.prototype = Object.create(Properties.prototype);
             var propsChild = new PropertiesChild();
