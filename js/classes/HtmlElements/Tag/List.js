@@ -100,9 +100,9 @@ function List(listType) {
 	/**
 	 * Appends list: takes list items of the argument and appends it one by one to the target list.
 	 * The argument must be an instance of List. If not, an error is thrown.
-	 * @method  appendList
-	 * @param  {list}       list
-	 * @return {void}
+	 * @method         appendList
+	 * @param          {List}               list
+	 * @return         {void}
 	 */
 	this.appendList = function(list){
 		var len, i;
@@ -119,20 +119,21 @@ function List(listType) {
 	 * Wraps elements of the input array into a {{#crossLink "ListItem"}}list item{{/crossLink}} object
 	 * and appends it to its {{#crossLink "Tag/content:property"}}content{{/crossLink}} property defined in
 	 * parent class {{#crossLink "Tag"}}Tag{{/crossLink}}.
-	 * If the argument is not of array type, converts it into array and apply the described procedure.
-	 * @method          appendAsItems
-	 * @param           {Array}          itemArr
-	 * @return          {void}
+	 * If the argument is not of array type, creates a single-element array and apply the above procedure.
+	 * @method         appendAsItems
+	 * @param          {Array}              itemArr
+	 * @return         {void}
 	 */
 	this.appendAsItems = function(itemArr){
 		if(itemArr !== undefined){
 			var input = Array.isArray(itemArr) ? itemArr : [itemArr],
-				cnt = this.getContent();
+				elements = this.getElements();
 			input.forEach(function(item){
 				var li = new ListItem();
 				li.appendElem(item);
-				cnt.appendElem(li);
+				elements.push(li);
 			});
+			this.setElements(elements);
 		}
 	};
 }

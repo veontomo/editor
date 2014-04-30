@@ -87,9 +87,10 @@ describe('Link-related functionality:', function() {
             spyOn(attr, 'toString').andCallFake(function(){return 'attributes';});
             spyOn(style, 'toString').andCallFake(function(){return 'styles';});
             spyOn(content, 'toHtml').andCallFake(function(){return 'content';});
-            link.setAttributes(attr);
-            link.setStyles(style);
-            link.setContent(content);
+            spyOn(link, 'getContent').andCallFake(function(){return content;});
+            spyOn(link, 'getStyles').andCallFake(function(){return style;});
+            spyOn(link, 'getAttributes').andCallFake(function(){return attr;});
+
             expect(link.toHtml()).toBe('<a attributes style="styles">content</a>');
         });
     });
@@ -203,7 +204,7 @@ describe('Link-related functionality:', function() {
 
         it('preserves the content of the argument if it is a Link', function(){
             arg = new Link();
-            arg.getContent().setElements(["first", "second"]);
+            arg.setElements(["first", "second"]);
             result = link.shower(arg);
             expect(result.getContent().length()).toBe(2);
             expect(result.getContent().getElem(0)).toBe('first');
@@ -213,7 +214,9 @@ describe('Link-related functionality:', function() {
 
         it('returns a Link instance if the argument is a Tag with empty content', function(){
             arg = new Tag();
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
+            var cntn = new Content();
+            spyOn(cntn, 'isEmpty').andCallFake(function(){return true;});
+            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
             result = link.shower(arg);
             expect(result instanceof Link).toBe(true);
             expect(arg.getContent().isEmpty).toHaveBeenCalled();
@@ -243,7 +246,9 @@ describe('Link-related functionality:', function() {
         it('returns a clone of the argument if it is a Tag instance with non-empty content', function(){
             arg = new Tag();
             var clone = new Tag();
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return false;});
+            var cntn = new Content();
+            spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
             spyOn(arg, 'clone').andCallFake(function(){return clone;});
             result = link.shower(arg);
             expect(result).toBe(clone);
@@ -254,14 +259,14 @@ describe('Link-related functionality:', function() {
             arg.setStyleProperty('module', 5);
             arg.setStyleProperty('mass', '1 kg');
             arg.setAttrProperty('length', '100mm');
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return false;});
+            var cntn = new Content();
+            spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
+            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
             result = link.shower(arg);
             expect(result.getStyleProperty('module')).toBe(5);
             expect(result.getStyleProperty('mass')).toBe('1 kg');
             expect(result.getAttrProperty('length')).toBe('100mm');
         });
-
-
 
         it('calls clone method on the argument if it is a Tag instance with non empty content', function(){
             arg = new Tag();
@@ -280,17 +285,6 @@ describe('Link-related functionality:', function() {
             expect(result instanceof Content).toBe(true);
         });
 
-        it('calls "shower" method on each element of the argument if it is a Content instance', function(){
-            arg = new Content();
-            var contentClone = new Content(),
-                c1 = {shower: function(){return null;}},
-                c2 = {shower: function(){return null;}};
-            arg.elements = [c1, c2];
-            contentClone.setElements([c1, c2]);
-            spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
-            result = link.shower(arg);
-            expect(result.length()).toBe(2);
-        });
 
     });
 

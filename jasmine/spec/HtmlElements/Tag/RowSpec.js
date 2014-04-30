@@ -85,7 +85,7 @@ describe('Row-related functionality:', function(){
             spyOn(cell1, 'getWidth').andCallFake(function(){
                 return 'row 1 width';
             });
-            row.getContent().appendElem(cell1);
+            row.appendElem(cell1);
             expect(row.getCellWidths().length).toBe(1);
             expect(row.getCellWidths()[0]).toBe('row 1 width');
         });
@@ -96,8 +96,8 @@ describe('Row-related functionality:', function(){
             spyOn(cell2, 'getWidth').andCallFake(function(){
                 return 'row 2 width';
             });
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
             expect(row.getCellWidths().length).toBe(2);
             expect(row.getCellWidths()[0]).toBe('row 1 width');
             expect(row.getCellWidths()[1]).toBe('row 2 width');
@@ -122,8 +122,8 @@ describe('Row-related functionality:', function(){
             spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
             spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
             spyOn(row, 'length').andCallFake(function(){return 2;});
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
             row.setCellWidths([1, 0.11]);
             expect(cell1.setWidth).toHaveBeenCalledWith(1);
             expect(cell2.setWidth).toHaveBeenCalledWith(0.11);
@@ -144,9 +144,9 @@ describe('Row-related functionality:', function(){
             cell1.setWidth(200);
             cell2.setWidth(110);
             cell3.setWidth(150);
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
-            row.getContent().appendElem(cell3);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
+            row.appendElem(cell3);
 
             expect(row.cellNum()).toBe(3);
             row.knockOutCell(0);
@@ -160,10 +160,10 @@ describe('Row-related functionality:', function(){
             cell2.setWidth(110);
             cell3.setWidth(150);
             cell4.setWidth(50);
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
-            row.getContent().appendElem(cell3);
-            row.getContent().appendElem(cell4);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
+            row.appendElem(cell3);
+            row.appendElem(cell4);
 
 
             // row.content.elements = [cell1, cell2, cell3, cell4];
@@ -180,10 +180,10 @@ describe('Row-related functionality:', function(){
             cell3.setWidth(150);
             cell4.setWidth(60);
             // row.content.elements = [cell1, cell2, cell3, cell4];
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
-            row.getContent().appendElem(cell3);
-            row.getContent().appendElem(cell4);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
+            row.appendElem(cell3);
+            row.appendElem(cell4);
 
             row.knockOutCell(3);
             expect(row.cellNum()).toBe(3);
@@ -196,9 +196,9 @@ describe('Row-related functionality:', function(){
             cell1.setWidth(200);
             cell2.setWidth(110);
             cell3.setWidth(150);
-            row.getContent().appendElem(cell1);
-            row.getContent().appendElem(cell2);
-            row.getContent().appendElem(cell3);
+            row.appendElem(cell1);
+            row.appendElem(cell2);
+            row.appendElem(cell3);
 
             row.knockOutCell(row.cellNum() + 10); // delete non-existing row
             expect(row.cellNum()).toBe(3);

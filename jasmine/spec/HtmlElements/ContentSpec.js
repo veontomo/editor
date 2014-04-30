@@ -394,26 +394,6 @@ describe('Content-related functionality', function(){
 	});
 
 	describe('Content::dropElemAt(): drops element at given position', function(){
-		it('throws an error if the position index is too big', function(){
-			spyOn(c, 'length').andCallFake(function(){return 2;});
-			expect(function(){
-				c.dropElemAt(20);
-			}).toThrow('No element is found at the given position!');
-		});
-
-		it('throws an error if the position index is negative', function(){
-			expect(function(){
-				c.dropElemAt(-1);
-			}).toThrow('No element is found at the given position!');
-		});
-
-		it('throws an error if the position index is not integer', function(){
-			expect(function(){
-				c.dropElemAt(3.2);
-			}).toThrow('No element is found at the given position!');
-		});
-
-
 		it('drops the first element', function(){
 			c.setElements(['first', 1, '49', 'last']);
 			var elem = c.dropElemAt(0);

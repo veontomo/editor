@@ -50,94 +50,48 @@ describe('ListItem-related functionality', function(){
     });
     describe('Generates html representation of the list item', function(){
         it('if no style neither attributes are given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(liStyle, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(content, 'toHtml').andCallFake(function(){
-                return 'content html';
-            });
-            li.setStyles(liStyle);
-            li.setAttributes(liAttr);
-            li.setContent(content);
+            spyOn(liAttr, 'toString').andCallFake(function(){return '';});
+            spyOn(liStyle, 'toString').andCallFake(function(){return '';});
+            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
+            spyOn(li, 'getContent').andCallFake(function(){return content;});
+            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
+            spyOn(li, 'getAttributes').andCallFake(function(){return liStyle;});
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li>content html</li>');
         });
         it('if no style is given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){
-                return 'attributes of the list item';
-            });
-            spyOn(liStyle, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(content, 'toHtml').andCallFake(function(){
-                return 'content html';
-            });
-            li.setStyles(liStyle);
-            li.setAttributes(liAttr);
-            li.setContent(content);
+            spyOn(liAttr, 'toString').andCallFake(function(){return 'attributes of the list item';});
+            spyOn(liStyle, 'toString').andCallFake(function(){return '';});
+            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
+            spyOn(li, 'getContent').andCallFake(function(){return content;});
+            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
+            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li attributes of the list item>content html</li>');
         });
         it('if no attributes are given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(liStyle, 'toString').andCallFake(function(){
-                return 'styles of the list item';
-            });
-            spyOn(content, 'toHtml').andCallFake(function(){
-                return 'content html';
-            });
-            li.setStyles(liStyle);
-            li.setAttributes(liAttr);
-            li.setContent(content);
-
+            spyOn(liAttr, 'toString').andCallFake(function(){return '';});
+            spyOn(liStyle, 'toString').andCallFake(function(){return 'styles of the list item';});
+            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
+            spyOn(li, 'getContent').andCallFake(function(){return content;});
+            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
+            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
 
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li style="styles of the list item">content html</li>');
         });
         it('if both attributes and styles are present', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){
-                return 'attributes of the list item';
-            });
-            spyOn(liStyle, 'toString').andCallFake(function(){
-                return 'styles of the list item';
-            });
-            spyOn(content, 'toHtml').andCallFake(function(){
-                return 'content html';
-            });
-            li.setStyles(liStyle);
-            li.setAttributes(liAttr);
-            li.setContent(content);
-
-
+            spyOn(liAttr, 'toString').andCallFake(function(){return 'attributes of the list item';});
+            spyOn(liStyle, 'toString').andCallFake(function(){return 'styles of the list item';});
+            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
+            spyOn(li, 'getContent').andCallFake(function(){return content;});
+            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
+            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
             var liHtml = li.toHtml();
             expect(liHtml).toBe('<li attributes of the list item style="styles of the list item">content html</li>');
         });
     });
-
-    xdescribe('Creates ListItem object from its html representation', function(){
-        it('creates from the simple string', function(){
-            var liStr = '<li>text</li>',
-                liObj = liStr.createListItemFromHtml();
-            expect(liObj instanceof ListItem).toBe(true);
-            console.log(liObj.toHtml());
-        });
-
-        it('creates from the simple string', function(){
-            var liStr = '<li>text<table><tbody></tbody><tr><td>aaa</td><td>bbb</td></tr></table></li>',
-                liObj = liStr.createListItemFromHtml();
-            expect(liObj instanceof ListItem).toBe(true);
-            console.log(liObj.length());
-            console.log(liObj);
-        });
-
-    });
-
 
 });

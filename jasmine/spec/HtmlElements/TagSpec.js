@@ -160,6 +160,50 @@ describe('Tag-related functionality', function() {
             expect(tag.getElem(1)).toBe('second element');
             expect(tag.getElem(2)).toBe(3);
         });
+    });
+
+
+    describe('Getting property "elements" of the content', function(){
+        it('calls "getContent()" on the target', function(){
+            spyOn(tag, 'getContent');
+            tag.getElements();
+            expect(tag.getContent).toHaveBeenCalled();
+        });
+        it('returns "getElements()" of the "getContent" output', function(){
+            var obj = {getElements: function(){return 'elements';}};
+            spyOn(tag, 'getContent').andCallFake(function(){return obj;});
+            expect(tag.getElements()).toBe('elements');
+            expect(tag.getContent).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('Setting elements', function(){
+        it('does not change the content if no argument is given', function(){
+            var obj = {};
+            tag.appendElem(obj);
+            expect(tag.getElements().length).toBe(1);
+            expect(tag.getElements()[0]).toBe(obj);
+            tag.setElements();
+            expect(tag.getElements().length).toBe(1);
+            expect(tag.getElements()[0]).toBe(obj);
+        });
+        it('imposes content if one element array is given', function(){
+            var obj = 'foo';
+            tag.setElements([obj]);
+            expect(tag.getElements().length).toBe(1);
+            expect(tag.getElements()[0]).toBe(obj);
+        });
+
+        it('imposes content if two element array is given', function(){
+            var el1 = 'foo',
+                el2 = 333;
+            tag.setElements([el1, el2]);
+            expect(tag.getElements().length).toBe(2);
+            expect(tag.getElements()[0]).toBe(el1);
+            expect(tag.getElements()[1]).toBe(el2);
+        });
+
 
     });
 
@@ -256,12 +300,159 @@ describe('Tag-related functionality', function() {
     });
 
     describe('Tag::dropElemAt(): drops element in the given position from the content', function(){
-        it('calls Content::dropElemAt method when removing element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'dropElemAt');
-            tag.dropElemAt(764);
-            expect(content.dropElemAt).toHaveBeenCalledWith(764);
+        it('does not change the content if the argument is missing', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {};
+            tag.setElements([el1, el2, el3]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+            // trying to drop
+            tag.dropElemAt();
+            cntn = tag.getElements()
+            // re-control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
         });
+        it('returns undefined if the argument is missing', function(){
+            expect(tag.dropElemAt()).not.toBeDefined();
+        });
+        it('does not change the content if the argument corresponds to no element in the content', function(){
+            var el1 = 'first elem', el2 = 18.3;
+            tag.setElements([el1, el2]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(2);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+
+            // trying to drop
+            tag.dropElemAt(23);
+            cntn = tag.getElements()
+            // re-control the state
+            expect(cntn.length).toBe(2);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+        });
+
+        it('returns undefined if the argument corresponds to no element in the content', function(){
+            tag.appendElem('foo elem');
+            expect(tag.getElements().length).toBe(1);
+            expect(tag.dropElemAt(2)).not.toBeDefined();
+        });
+
+        it('drops the first element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {};
+            tag.setElements([el1, el2, el3]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+
+            // trying to drop
+            tag.dropElemAt(0);
+            cntn = tag.getElements()
+
+            // re-control the state
+            expect(cntn.length).toBe(2);
+            expect(cntn[0]).toBe(el2);
+            expect(cntn[1]).toBe(el3);
+        });
+        it('returns the first element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {};
+            tag.setElements([el1, el2, el3]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+
+            expect(tag.dropElemAt(0)).toBe(el1);
+        });
+
+
+        it('drops the last element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {}, el4 = 'last';
+            tag.setElements([el1, el2, el3, el4]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(4);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+            expect(cntn[3]).toBe(el4);
+
+            // trying to drop
+            tag.dropElemAt(3);
+            cntn = tag.getElements()
+
+            // re-control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+        });
+
+        it('returns the last element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {};
+            tag.setElements([el1, el2, el3]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+
+            expect(tag.dropElemAt(2)).toBe(el3);
+        });
+
+
+        it('drops a middle element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {}, el4 = 'last';
+            tag.setElements([el1, el2, el3, el4]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(4);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+            expect(cntn[3]).toBe(el4);
+
+            // trying to drop
+            tag.dropElemAt(1);
+            cntn = tag.getElements()
+
+            // re-control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el3);
+            expect(cntn[2]).toBe(el4);
+        });
+        it('returns a middle element', function(){
+            var el1 = 'first', el2 = 2.9, el3 = {};
+            tag.setElements([el1, el2, el3]);
+            var cntn = tag.getElements();
+            // control the state
+            expect(cntn.length).toBe(3);
+            expect(cntn[0]).toBe(el1);
+            expect(cntn[1]).toBe(el2);
+            expect(cntn[2]).toBe(el3);
+
+            expect(tag.dropElemAt(1)).toBe(el2);
+        });
+
+
+
+
+
+
     });
 
     describe('creates html representation of the tag', function(){

@@ -315,8 +315,8 @@ function Table() {
 	 * `Row::onlyTableInside()` on each of them until first "false" is encountered.
 	 * <br />A table is a __framed table__ if all table rows have only one cell and this cell contains
 	 * only one element that is a Table instance.
-	 * @method     isFragmented
-	 * @return     {Boolean}       true if the table is framed, and false otherwise
+	 * @method         isFragmented
+	 * @return         {Boolean}            true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
 		if (this.rowNum() === 0){
@@ -505,7 +505,7 @@ function Table() {
 		var firstRow = this.getFirst(),
 			rowNum = this.rowNum(),
 			rowProp, i, firstRowProp;
-		if (firstRow.hasOwnProperty(prop)){
+		if (firstRow.getStyles().hasProperty(prop)){
 			firstRowProp = firstRow[prop];
 		} else {
 			return null;

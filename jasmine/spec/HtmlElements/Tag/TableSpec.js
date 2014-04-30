@@ -95,7 +95,10 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getCellWidths').andCallFake(function(){
                 return 'array of cell widths of the third row';
             });
-            table.getContent().setElements([row1, row2, row3]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            // table.setElements([row1, row2, row3]);
             matrix = table.getMatrix();
             expect(row1.getCellWidths).toHaveBeenCalled();
             expect(row2.getCellWidths).toHaveBeenCalled();
@@ -130,7 +133,7 @@ describe('Table-related functionality:', function(){
         it('calls Row::setCellWidths if the table has one row', function(){
             spyOn(row1, 'setCellWidths').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 5;});
-            table.getContent().setElements([row1]);
+            table.appendRow(row1);
             table.setProfile([2, 4, 6, 1, 2]);
             expect(row1.setCellWidths).toHaveBeenCalledWith([2, 4, 6, 1, 2]);
         });
@@ -139,7 +142,10 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'setCellWidths').andCallFake(function(){return null;});
             spyOn(row3, 'setCellWidths').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 4;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            // table.setElements([row1, row2, row3]);
             table.setProfile(['any', 'four', 'element', 'array']);
             expect(row1.setCellWidths).toHaveBeenCalledWith(['any', 'four', 'element', 'array']);
             expect(row2.setCellWidths).toHaveBeenCalledWith(['any', 'four', 'element', 'array']);
@@ -222,7 +228,10 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'knockOutCell').andCallFake(function(){return null;});
             spyOn(row2, 'knockOutCell').andCallFake(function(){return null;});
             spyOn(row3, 'knockOutCell').andCallFake(function(){return null;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            // table.setElements([row1, row2, row3]);
             table.knockOutCol('cell number to knock out');
             expect(row1.knockOutCell).toHaveBeenCalledWith('cell number to knock out');
             expect(row2.knockOutCell).toHaveBeenCalledWith('cell number to knock out');
@@ -235,7 +244,10 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'dropCellAt').andCallFake(function(){return null;});
             spyOn(row2, 'dropCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'dropCellAt').andCallFake(function(){return null;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            // table.setElements([row1, row2, row3]);
             table.dropColAt('cell number to drop');
             expect(row1.dropCellAt).toHaveBeenCalledWith('cell number to drop');
             expect(row2.dropCellAt).toHaveBeenCalledWith('cell number to drop');
@@ -249,7 +261,11 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'cellNum').andCallFake(function(){return 10;});
             spyOn(row3, 'cellNum').andCallFake(function(){return 10;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 10;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            table.appendRow(row4);
+            // table.setElements([row1, row2, row3, row4]);
             expect(table.colNum()).toBe(null);
         });
 
@@ -259,7 +275,11 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 10;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 10;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 14;});
-            table.getContent().setElements([row1, row2, row3, row4, row5]);
+            table.appendRow(row1);
+            table.appendRow(row2);
+            table.appendRow(row3);
+            table.appendRow(row4);
+            table.appendRow(row5);
             expect(table.colNum()).toBe(null);
         });
         it('gives null, if a middle row is not of the same lenght as others', function(){
@@ -267,7 +287,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'cellNum').andCallFake(function(){return 5;});
             spyOn(row3, 'cellNum').andCallFake(function(){return 7;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 5;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.setElements([row1, row2, row3, row4]);
             expect(table.colNum()).toBe(null);
         });
         it('gives null, if all rows are not of different lenght', function(){
@@ -276,7 +296,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 98;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 3;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 14;});
-            table.getContent().setElements([row1, row2, row3, row4, row5]);
+            table.setElements([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(null);
         });
         it('gives zero, for empty table', function(){
@@ -288,7 +308,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 0;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 0;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 0;});
-            table.getContent().setElements([row1, row2, row3, row4, row5]);
+            table.setElements([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(0);
         });
         it('gives number of cells', function(){
@@ -297,12 +317,12 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 4;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 4;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 4;});
-            table.getContent().setElements([row1, row2, row3, row4, row5]);
+            table.setElements([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(4);
         });
         it('gives number of cells if table has only one row', function(){
             spyOn(row1, 'cellNum').andCallFake(function(){return 53;});
-            table.getContent().setElements([row1]);
+            table.setElements([row1]);
             expect(table.colNum()).toBe(53);
         });
     });
@@ -342,7 +362,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.insertColAt(1, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(1, c);
@@ -356,7 +376,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'appendCell').andCallFake(function(){return null;});
             spyOn(row3, 'appendCell').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 10;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.insertColAt(10, c);
             expect(row1.appendCell).toHaveBeenCalledWith(c);
             expect(row2.appendCell).toHaveBeenCalledWith(c);
@@ -369,7 +389,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.insertColAt(0, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(0, c);
@@ -382,7 +402,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 10;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.insertColAt(9, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
@@ -394,7 +414,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.insertColAt(2);
             expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
             expect(row2.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
@@ -455,7 +475,7 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'appendStyleToCellAt').andCallFake(function(){return null;});
             spyOn(row2, 'appendStyleToCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'appendStyleToCellAt').andCallFake(function(){return null;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             table.appendStyleToCol(2, "whatever");
             expect(row1.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
             expect(row2.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
@@ -483,7 +503,7 @@ describe('Table-related functionality:', function(){
             });
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table attributes for the table style="table styles">row 1 row 2 html row 3 content</table>');
         });
 
@@ -506,7 +526,7 @@ describe('Table-related functionality:', function(){
              });
              table.setAttributes(tableAttr);
              table.setStyles(tableStyle);
-             table.getContent().setElements([row1, row2, row3]);
+             table.setElements([row1, row2, row3]);
              expect(table.toHtml()).toEqual('<table table attributes>row 1 row 2 html row 3 content</table>');
         });
 
@@ -529,7 +549,7 @@ describe('Table-related functionality:', function(){
             });
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
         });
 
@@ -552,7 +572,7 @@ describe('Table-related functionality:', function(){
             });
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table>row 1 row 2 html row 3 content</table>');
         });
 
@@ -591,7 +611,7 @@ describe('Table-related functionality:', function(){
 
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
-            table.getContent().setElements([row1, row2]);
+            table.setElements([row1, row2]);
             table.bogusRowAttr = bogusRowAttr;
             table.bogusRowStyle = bogusRowStyle;
             table.bogusCellAttr = bogusCellAttr;
@@ -637,7 +657,7 @@ describe('Table-related functionality:', function(){
 
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
-            table.getContent().setElements([row1, row2]);
+            table.setElements([row1, row2]);
             table.bogusRowAttr = bogusRowAttr;
             table.bogusRowStyle = bogusRowStyle;
             table.bogusCellAttr = bogusCellAttr;
@@ -839,13 +859,13 @@ describe('Table-related functionality:', function(){
         });
         it('gives true for a table with one row that is framed', function(){
             spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            table.getContent().setElements([row1]);
+            table.setElements([row1]);
             expect(table.isFragmented()).toBe(true);
             expect(row1.onlyTableInside).toHaveBeenCalled();
         });
         it('gives false for a table with one row that is not framed', function(){
             spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
-            table.getContent().setElements([row1]);
+            table.setElements([row1]);
             expect(table.isFragmented()).toBe(false);
             expect(row1.onlyTableInside).toHaveBeenCalled();
         });
@@ -854,7 +874,7 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
             // expect(row1.onlyTableInside).toHaveBeenCalled();
             // expect(row2.onlyTableInside).toHaveBeenCalled();
@@ -865,7 +885,7 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
             // expect(row1.onlyTableInside).toHaveBeenCalled();
             // expect(row2.onlyTableInside).toHaveBeenCalled();
@@ -877,7 +897,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.setElements([row1, row2, row3, row4]);
             expect(table.isFragmented()).toBe(false);
         });
 
@@ -886,7 +906,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
             expect(row2.onlyTableInside).not.toHaveBeenCalled();
@@ -899,7 +919,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
             spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
             expect(row2.onlyTableInside).toHaveBeenCalled();
@@ -912,7 +932,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
-            table.getContent().setElements([row1, row2, row3, row4]);
+            table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
             expect(row2.onlyTableInside).toHaveBeenCalled();
@@ -947,28 +967,28 @@ describe('Table-related functionality:', function(){
         });
         it('returns null, if Table::isFragmented returns true, but requested property does not exist', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(){return false;});
-            table.getContent().setElements([row1]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(){return false;});
+            table.setElements([row1]);
             expect(table.getBogusRowProp('wierd-property')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
-            expect(row1.hasOwnProperty).toHaveBeenCalledWith('wierd-property');
+            expect(row1.getStyles().hasProperty).toHaveBeenCalledWith('wierd-property');
         });
         it('returns row property, if table is fragmented, has one row and requested property exists', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1]);
             row1Prop = {'fake object': true};
             row1.fakeProp = row1Prop;
             expect(table.getBogusRowProp('fakeProp')).toBe(row1Prop);
             expect(table.isFragmented).toHaveBeenCalled();
-            expect(row1.hasOwnProperty).toHaveBeenCalledWith('fakeProp');
+            expect(row1.getStyles().hasProperty).toHaveBeenCalledWith('fakeProp');
         });
         it('returns row prop, if two-row table is fragmented and the rows have equal requested properties', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return true;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1, row2]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1, row2]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'any object';
             expect(table.getBogusRowProp('fakeProp')).toBe(row1Prop);
@@ -979,8 +999,8 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return false;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1, row2]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1, row2]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'any object';
             expect(table.getBogusRowProp('fakeProp')).toBe(null);
@@ -992,8 +1012,8 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return false;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1, row2, row3]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';
             row3.fakeProp = 'row 3 fake property';
@@ -1008,8 +1028,8 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(prop){return prop === 'row 2 fake property';});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1, row2, row3]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';
             row3.fakeProp = 'row 3 fake property';
@@ -1023,8 +1043,8 @@ describe('Table-related functionality:', function(){
             row1Prop = {'isTheSameAs': function(){return null;}};
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1Prop, 'isTheSameAs').andCallFake(function(){return true;});
-            spyOn(row1, 'hasOwnProperty').andCallFake(function(propName){return propName === 'fakeProp';});
-            table.getContent().setElements([row1, row2, row3]);
+            spyOn(row1.getStyles(), 'hasProperty').andCallFake(function(propName){return propName === 'fakeProp';});
+            table.setElements([row1, row2, row3]);
             row1.fakeProp = row1Prop;
             row2.fakeProp = 'row 2 fake property';
             row3.fakeProp = 'row 3 fake property';
@@ -1047,7 +1067,7 @@ describe('Table-related functionality:', function(){
         it('returns requested property, if table is fragmented and has unique row', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1, 'getBogusCellProp').andCallFake(function(){return 'requested property';});
-            table.getContent().setElements([row1]);
+            table.setElements([row1]);
             expect(table.getBogusCellProp('prop tag')).toBe('requested property');
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).toHaveBeenCalledWith('prop tag');
@@ -1058,7 +1078,7 @@ describe('Table-related functionality:', function(){
             spyOn(row1, 'getBogusCellProp').andCallFake(function(){return row1CellProp;});
             spyOn(row2, 'getBogusCellProp').andCallFake(function(){return 'bogus prop of row 2';});
             spyOn(row1CellProp, 'isTheSameAs').andCallFake(function(){return true;});
-            table.getContent().setElements([row1, row2]);
+            table.setElements([row1, row2]);
             expect(table.getBogusCellProp('prop tag')).toBe(row1CellProp);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).toHaveBeenCalledWith('prop tag');
@@ -1072,7 +1092,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getBogusCellProp').andCallFake(function(){return 'bogus prop of row 3';});
             // isTheSameAs always return true, so that all properties are equal
             spyOn(row1CellProp, 'isTheSameAs').andCallFake(function(){return true;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.getBogusCellProp('prop tag')).toBe(row1CellProp);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).toHaveBeenCalledWith('prop tag');
@@ -1087,7 +1107,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getBogusCellProp').andCallFake(function(){return 'bogus prop of row 3';});
             // gives false for the second row
             spyOn(row1CellProp, 'isTheSameAs').andCallFake(function(prop){return prop !== 'bogus prop of row 2';});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.getBogusCellProp('prop tag')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).toHaveBeenCalledWith('prop tag');
@@ -1102,7 +1122,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getBogusCellProp').andCallFake(function(){return 'bogus prop of row 3';});
             // gives false for the second row
             spyOn(row1CellProp, 'isTheSameAs').andCallFake(function(prop){return prop !== 'bogus prop of row 3';});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.getBogusCellProp('prop tag')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusCellProp).toHaveBeenCalledWith('prop tag');
@@ -1136,7 +1156,7 @@ describe('Table-related functionality:', function(){
         it('returns requested property, if table is fragmented and has unique row', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1, 'getBogusTableProp').andCallFake(function(){return 'requested property';});
-            table.getContent().setElements([row1]);
+            table.setElements([row1]);
             expect(table.getBogusTableProp('prop tag')).toBe('requested property');
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop tag');
@@ -1147,7 +1167,7 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
             spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
-            table.getContent().setElements([row1, row2]);
+            table.setElements([row1, row2]);
             expect(table.getBogusTableProp('prop tag')).toBe(row1FakeProp);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop tag');
@@ -1160,7 +1180,7 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             spyOn(row1, 'getBogusTableProp').andCallFake(function(){return row1FakeProp;});
             spyOn(row2, 'getBogusTableProp').andCallFake(function(){return row2FakeProp;});
-            table.getContent().setElements([row1, row2]);
+            table.setElements([row1, row2]);
             expect(table.getBogusTableProp('prop tag')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop tag');
@@ -1177,7 +1197,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getBogusTableProp').andCallFake(function(){return row3FakeProp;});
             // returns false when given the second row fake
             spyOn(row1FakeProp, 'isTheSameAs').andCallFake(function(obj){return obj !== row2FakeProp;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.getBogusTableProp('prop tag')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop tag');
@@ -1197,7 +1217,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'getBogusTableProp').andCallFake(function(){return row3FakeProp;});
             // this spy returns true for row2FakeProp and false otherwise
             spyOn(row1FakeProp, 'isTheSameAs').andCallFake(function(prop){return prop === row2FakeProp;});
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
             expect(table.getBogusTableProp('prop tag')).toBe(null);
             expect(table.isFragmented).toHaveBeenCalled();
             expect(row1.getBogusTableProp).toHaveBeenCalledWith('prop tag');
@@ -1367,7 +1387,7 @@ describe('Table-related functionality:', function(){
             spyOn(t2, 'getFirst').andCallFake(function(){return innerRow2;});
             spyOn(t3, 'getFirst').andCallFake(function(){return innerRow3;});
 
-            table.getContent().setElements([row1, row2, row3]);
+            table.setElements([row1, row2, row3]);
 
             table.disentangle();
             expect(table.bogusRowAttr).toBe(bogusRowAttr);

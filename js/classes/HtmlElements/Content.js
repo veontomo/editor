@@ -180,11 +180,11 @@ function Content(str) {
 	 */
 	this.dropElemAt = function(pos){
 		var elem = elements[pos];
-		if (elem === undefined){
-			throw new Error('No element is found at the given position!');
+		if (elem !== undefined){
+			elements.splice(pos, 1);
+			return elem;
 		}
-		elements.splice(pos, 1);
-		return elem;
+
 	};
 
 

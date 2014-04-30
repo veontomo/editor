@@ -87,7 +87,7 @@ describe('List-related functionality:', function(){
             li1 = 'aaa';
             li2 = 'bbb';
             li3 = 'ccc';
-            l2.getContent().setElements([li1, li2, li3]);
+            l2.setElements([li1, li2, li3]);
             l.appendList(l2);
             expect(l.appendItem).toHaveBeenCalledWith(li1);
             expect(l.appendItem).toHaveBeenCalledWith(li2);
@@ -136,13 +136,13 @@ describe('List-related functionality:', function(){
             expect(l.length()).toBe(0);
         });
         it('leaves non-empty content unchanged if the argument is missing', function(){
-            l.getContent().setElements(['first item', 'second']);
+            l.setElements(['first item', 'second']);
             expect(l.length()).toBe(2);
             l.appendAsItems();
             expect(l.length()).toBe(2);
         });
         it('transforms argument into ListItem and increases non-empty content by one if the argument is a string', function(){
-            l.getContent().setElements(['first item', 'second']);
+            l.setElements(['first item', 'second']);
             expect(l.length()).toBe(2);
             l.appendAsItems('third');
             expect(l.length()).toBe(3);
@@ -150,7 +150,7 @@ describe('List-related functionality:', function(){
             expect(l.getElem(2).getElem(0)).toBe('third');
         });
         it('transforms argument into ListItem and increases non-empty content by one if the argument is a 2-element array', function(){
-            l.getContent().setElements(['first item', 'second']);
+            l.setElements(['first item', 'second']);
             expect(l.length()).toBe(2);
             l.appendAsItems(['third', 4]);
             expect(l.length()).toBe(4);

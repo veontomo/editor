@@ -349,7 +349,31 @@ function Tag() {
 		return this.getStyles().getProperty('width');
 	};
 
+	/**
+	 * Returns {{#crossLink "Content/elements"}}elements{{/crossLink}} of
+	 * {{#crossLink "Tag/content"}}content{{/crossLink}}.
+	 * @method         getElements
+	 * @return         {Array}
+	 */
+	this.getElements = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getElements();
+		}
 
+	};
+
+	/**
+	 * Imposes {{#crossLink "Content/elements:property"}}elements{{/crossLink}} of
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}. If the argument
+	 * is not array, not assignment occures.
+	 * @param          {Array}              arr
+	 */
+	this.setElements = function(arr){
+		if (Array.isArray(arr)){
+			content.setElements(arr);
+		}
+	};
 
 	/**
 	 * Gets the element stored in {{#crossLink "Tag/content:property"}}content{{/crossLink}}. Delegates its
@@ -411,31 +435,32 @@ function Tag() {
 
 	/**
 	 * Returns the number of elements inside its content. Delegates to Content::length().
-	 * @method   length
-	 * @return   {Number}
-	 * @since    0.0.1
+	 * @method          length
+	 * @return          {Number}
+	 * @since           0.0.1
 	 */
 	this.length = function(){
 		return this.getContent().length();
 	};
 
 	/**
-	 * Deletes element from "content" property. Delegates its functionalality to Content::dropElemAt().
-	 * @method dropElemAt
-	 * @param  {Number}     pos
-	 * @return {void}
-	 * @since  0.0.1
+	 * Deletes element from "content" property. Delegates its functionalality to
+	 * {{#crossLink "Content/dropElemAt:method}}dropElemAt{{/crossLink}}.
+	 * @method         dropElemAt
+	 * @param          {Any}                pos     intented to be an integer, but no check is performed
+	 * @return         {Any}
+	 * @since          0.0.1
 	 */
 	this.dropElemAt = function(pos){
-		this.getContent().dropElemAt(pos);
+		return content.dropElemAt(pos);
 	};
 
 	/**
 	 * Deletes first element from "content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropFirst:method"}}Content::dropFirst(){{/crossLink}}.
-	 * @method   dropFirst
-	 * @return   {void}
-	 * @since    0.0.1
+	 * @method         dropFirst
+	 * @return         {void}
+	 * @since          0.0.1
 	 */
 	this.dropFirst = function(){
 		this.getContent().dropFirst();
@@ -444,9 +469,9 @@ function Tag() {
 	/**
 	 * Deletes last element from "content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropLast:method"}}Content::dropLast(){{/crossLink}}.
-	 * @method   dropLast
-	 * @return   {void}
-	 * @since    0.0.1
+	 * @method         dropLast
+	 * @return         {void}
+	 * @since          0.0.1
 	 */
 	this.dropLast = function(){
 		this.getContent().dropLast();
