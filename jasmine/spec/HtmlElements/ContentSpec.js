@@ -259,8 +259,6 @@ describe('Content-related functionality', function(){
 			var el = {};
 			c.appendElem(el);
 			elements = c.getElements();
-			console.log(c);
-			console.log(elements);
 			expect(Array.isArray(elements)).toBe(true);
 			expect(elements.length).toBe(1);
 			expect(elements[0]).toBe(el);
@@ -728,7 +726,6 @@ describe('Content-related functionality', function(){
 		});
 		describe('Reproduces the number of elements in the "content" property', function(){
 			it('returns 1-element content if the input contains only TEXT_NODE', function(){
-				console.log('Loading');
 				c.load([t1]);
 				expect(c.getElements().length).toBe(1);
 			});
@@ -894,14 +891,14 @@ describe('Content-related functionality', function(){
 			expect(clone.getElem(1)).toBe('ciao');
 		});
 
-		it('does not insert object with no "clone" method', function(){
+		it('inserts object with no "clone" method', function(){
 			var c1 = {'no-clone-method': true},
 				c2Clone = {},
 				c2 = {clone: function(){return c2Clone;}};
 			c.setElements([c1, c2]);
 
 			var clone = c.clone();
-			expect(clone.getElements().indexOf(c1)).toBe(-1);
+			expect(clone.getElements().indexOf(c1) !== -1).toBe(true);
 			expect(clone.getElements().indexOf(c2Clone) !== -1).toBe(true);
 		});
 	});

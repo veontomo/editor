@@ -87,7 +87,6 @@ describe('Cell-related functionality:', function() {
         it('appends style if it is given as a Style object', function(){
             var st = new Styles();
             st.setProperty('attribute', 201.29);
-            console.log(st.getCore());
             cell.appendStyle(st);
             expect(cell.getStyleProperty('attribute')).toBe(201.29);
         });

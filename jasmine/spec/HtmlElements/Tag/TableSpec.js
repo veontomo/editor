@@ -81,7 +81,6 @@ describe('Table-related functionality:', function(){
             });
             table.appendRow(row1);
             matrix = table.getMatrix();
-            console.log('--------------------------- ', matrix)
             expect(matrix.length).toBe(1);
             expect(row1.getCellWidths).toHaveBeenCalled();
             expect(matrix[0]).toBe('array of cell widths of the unique row');

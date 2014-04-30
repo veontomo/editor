@@ -88,8 +88,9 @@ function Content(str) {
 	 * @return {mixed}
 	 */
 	this.getElem = function(pos){
-		var res = elements[pos];
-		return (res === undefined) ?  null : res;
+		var res = elements[pos],
+			output = (res === undefined) ?  null : res;
+		return output;
 	};
 
 	/**
@@ -448,21 +449,17 @@ function Content(str) {
 	};
 
 	/**
-	 * Clones the target. Parses for all {{#crossLink "Content/elements:property"}}elements{{/crossLink}} and
-	 * appends the its copy to {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
-	 * if the element either responds to the "clone" method or is a string or number.
-	 * @method  clone
-	 * @return  {Object}
+	 * Clones the target. Tries to create a clone of each {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * item. In case the item is an object with no "clone" method, it is inserted into
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} by reference.
+	 * @method         clone
+	 * @return         {Object}
 	 */
 	this.clone = function(){
 		var clone = new Content();
 		elements.forEach(function(el){
-			var elType = typeof el;
-			if (typeof el.clone === 'function'){
-				clone.appendElem(el.clone());
-			} else if (elType === 'string' || elType === 'number'){
-				clone.appendElem(el);
-			}
+			var current = (typeof el.clone === 'function') ? el.clone() : el;
+			clone.appendElem(current);
 		});
 		return clone;
 	};

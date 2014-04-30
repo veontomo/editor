@@ -124,11 +124,43 @@ describe('Tag-related functionality', function() {
     });
 
     describe('appendElem(): appends element to the content', function(){
-        it('calls Content::appendElem method when appending an element', function(){
-            var obj = 'value: -----*****************--------------';
+        it('appends element to empty content', function(){
+            expect(tag.getContent().getElements().length).toBe(0);
+            var obj = {clone: function(){return obj;}};
             tag.appendElem(obj);
-            expect(tag.getContent().getElements().indexOf(obj) !== -1).toBe(true);
+            expect(tag.getElem(0)).toBe(obj);
         });
+        it('appends element to content with one element', function(){
+            tag.appendElem('first element');
+            expect(tag.getContent().getElements().length).toBe(1);
+            var el = 'another element';
+            tag.appendElem(el);
+            expect(tag.getContent().getElements().length).toBe(2);
+            expect(tag.getElem(1)).toBe(el);
+        });
+        it('appends element to content with two element', function(){
+            tag.appendElem(1);
+            tag.appendElem(2);
+            expect(tag.getContent().getElements().length).toBe(2);
+            var el = 'another element';
+            tag.appendElem(el);
+            expect(tag.getContent().getElements().length).toBe(3);
+            expect(tag.getElem(2)).toBe(el);
+        });
+
+        it('does not change elements that were present in the content before appending', function(){
+            tag.appendElem('first element');
+            tag.appendElem('second element');
+            tag.appendElem(3);
+            expect(tag.getElem(0)).toBe('first element');
+            expect(tag.getElem(1)).toBe('second element');
+            expect(tag.getElem(2)).toBe(3);
+            tag.appendElem({});
+            expect(tag.getElem(0)).toBe('first element');
+            expect(tag.getElem(1)).toBe('second element');
+            expect(tag.getElem(2)).toBe(3);
+        });
+
     });
 
     describe('getStyleProperty(): retrieves style property', function(){
@@ -211,15 +243,6 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'insertElemAt').andCallFake(function(){return null;});
             tag.insertElemAt('location', 'element to insert');
             expect(content.insertElemAt).toHaveBeenCalledWith('location', 'element to insert');
-        });
-    });
-
-    describe('Tag::appendElem(): appends element to the content', function(){
-        it('calls Content::appendElem method when retrieving element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'appendElem').andCallFake(function(){return null;});
-            tag.appendElem('element to insert');
-            expect(content.appendElem).toHaveBeenCalledWith('element to insert');
         });
     });
 
