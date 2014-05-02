@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table, Factory, Registry */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table, Cell, Factory, PlainText */
 
 describe('Link-related functionality:', function() {
     var link, attr, style, content;
@@ -166,8 +166,151 @@ describe('Link-related functionality:', function() {
     });
 
 
-    describe('Link::shower(): propagates the link on the argument', function(){
-        var arg, result;
+    // xdescribe('Link::shower(): propagates the link on the argument', function(){
+    //     var arg, result;
+    //     beforeEach(function(){
+    //         link = new Link();
+    //         link.setStyleProperty('level', 'sealevel');
+    //         link.setStyleProperty('color', 'invisible');
+    //         link.setStyleProperty('width', 98);
+    //         link.setAttrProperty('method', 'deduct');
+    //         link.setAttrProperty('profile', 8);
+    //         link.setHref('www.pizza.it');
+    //     });
+
+    //     it('returns a Link instance if the argument is a Link', function(){
+    //         arg = new Link();
+    //         expect(link.shower(arg) instanceof Link).toBe(true);
+    //     });
+
+    //     it('concatenates properties if the argument is a Link', function(){
+    //         arg = new Link();
+    //         arg.setStyleProperty('level', 'mountain');
+    //         arg.setStyleProperty('color', 'blue');
+    //         arg.setStyleProperty('module', 'top');
+    //         arg.setAttrProperty('method', 'get');
+    //         arg.setAttrProperty('screen', 'hd');
+    //         arg.setHref('www.beer.de');
+    //         result = link.shower(arg);
+    //         expect(result.getStyleProperty('level')).toBe('sealevel');
+    //         expect(result.getStyleProperty('color')).toBe('invisible');
+    //         expect(result.getStyleProperty('width')).toBe(98);
+    //         expect(result.getStyleProperty('module')).toBe('top');
+    //         expect(result.getAttrProperty('method')).toBe('deduct');
+    //         expect(result.getAttrProperty('screen')).toBe('hd');
+    //         expect(result.getAttrProperty('profile')).toBe(8);
+    //         expect(result.getHref()).toBe('www.pizza.it');
+    //     });
+
+    //     it('preserves the content of the argument if it is a Link', function(){
+    //         arg = new Link();
+    //         arg.setElements(["first", "second"]);
+    //         result = link.shower(arg);
+    //         expect(result.getContent().length()).toBe(2);
+    //         expect(result.getContent().getElem(0)).toBe('first');
+    //         expect(result.getContent().getElem(1)).toBe('second');
+
+    //     });
+
+    //     it('returns a Link instance if the argument is a Tag with empty content', function(){
+    //         arg = new Tag();
+    //         var cntn = new Content();
+    //         spyOn(cntn, 'isEmpty').andCallFake(function(){return true;});
+    //         spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
+    //         result = link.shower(arg);
+    //         expect(result instanceof Link).toBe(true);
+    //         expect(arg.getContent().isEmpty).toHaveBeenCalled();
+    //     });
+
+    //     it('inserts a clone of the argument into the output if the argument is a Tag with empty content', function(){
+    //         arg = new Tag();
+    //         var clone = {};
+    //         spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
+    //         spyOn(arg, 'clone').andCallFake(function(){return clone;});
+    //         result = link.shower(arg);
+    //         expect(result.getContent().length()).toBe(1);
+    //         expect(result.getContent().getElem(0)).toBe(clone);
+    //     });
+
+    //     it('populates properties if the argument is a Tag with empty content', function(){
+    //         arg = new Tag();
+    //         spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
+    //         result = link.shower(arg);
+    //         expect(result.getStyleProperty('level')).toBe('sealevel');
+    //         expect(result.getStyleProperty('color')).toBe('invisible');
+    //         expect(result.getStyleProperty('width')).toBe(98);
+    //         expect(result.getAttrProperty('method')).toBe('deduct');
+    //         expect(result.getAttrProperty('profile')).toBe(8);
+    //     });
+
+    //     it('returns a clone of the argument if it is a Tag instance with non-empty content', function(){
+    //         arg = new Tag();
+    //         var clone = new Tag();
+    //         var cntn = new Content();
+    //         spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
+    //         spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
+    //         spyOn(arg, 'clone').andCallFake(function(){return clone;});
+    //         result = link.shower(arg);
+    //         expect(result).toBe(clone);
+    //     });
+
+    //     it('populates properties if the argument is a Tag with non empty content', function(){
+    //         arg = new Tag();
+    //         arg.setStyleProperty('module', 5);
+    //         arg.setStyleProperty('mass', '1 kg');
+    //         arg.setAttrProperty('length', '100mm');
+    //         var cntn = new Content();
+    //         spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
+    //         spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
+    //         result = link.shower(arg);
+    //         expect(result.getStyleProperty('module')).toBe(5);
+    //         expect(result.getStyleProperty('mass')).toBe('1 kg');
+    //         expect(result.getAttrProperty('length')).toBe('100mm');
+    //     });
+
+    //     it('calls clone method on the argument if it is a Tag instance with non empty content', function(){
+    //         arg = new Tag();
+    //         var clone = new Tag();
+    //         spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return false;});
+    //         spyOn(arg, 'clone').andCallFake(function(){return clone;});
+    //         result = link.shower(arg);
+    //         expect(arg.clone).toHaveBeenCalled();
+    //     });
+
+    //     it('returns a clone of the argument if it is a Content instance', function(){
+    //         arg = new Content();
+    //         var contentClone = new Content();
+    //         spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
+    //         result = link.shower(arg);
+    //         expect(result instanceof Content).toBe(true);
+    //     });
+
+    //     it('realistic test', function(){
+    //         var td = new Cell(),
+    //             text = new PlainText('cell'),
+    //             tag = new Tag();
+    //         tag.setTag('br');
+    //         td.setElements([text, tag]);
+    //         var result = link.shower(td);
+    //         // console.log(result.toHtml());
+    //         expect(result instanceof Cell).toBe(true);
+    //         expect(result.length()).toBe(2);
+    //         expect(result.getElem(0) instanceof Link).toBe(true);
+    //         expect(result.getElem(0).length()).toBe(1);
+    //         expect(result.getElem(0).getElem(0) instanceof PlainText).toBe(true);
+    //         expect(result.getElem(0).getElem(0).getContent()).toBe('cell');
+
+    //         expect(result.getElem(1) instanceof Link).toBe(true);
+    //         expect(result.getElem(1).length()).toBe(1);
+    //         expect(result.getElem(1).getElem(0) instanceof Tag).toBe(true);
+    //         expect(result.getElem(1).getElem(0).getName).toBe('br');
+    //     });
+
+
+    // });
+
+    describe('Linkify the argument', function(){
+        var arg, result, i;
         beforeEach(function(){
             link = new Link();
             link.setStyleProperty('level', 'sealevel');
@@ -178,114 +321,128 @@ describe('Link-related functionality:', function() {
             link.setHref('www.pizza.it');
         });
 
-        it('returns a Link instance if the argument is a Link', function(){
+        it('transforms a link into a link', function(){
             arg = new Link();
-            expect(link.shower(arg) instanceof Link).toBe(true);
+            arg.setStyleProperty('level', 'argLevel');
+            arg.setStyleProperty('padding', 'minor');
+            arg.setStyleProperty('width', 10);
+            arg.setAttrProperty('lesson', 'first');
+            arg.setAttrProperty('profile', 1);
+            arg.setHref('vino.pane');
+
+            result = link.linkify(arg);
+            var stl = result.getStyles();
+            attr = result.getAttributes();
+           expect(result instanceof Link).toBe(true);
+           expect(stl.getProperty('level')).toBe('argLevel');
+           expect(stl.getProperty('color')).toBe('invisible');
+           expect(stl.getProperty('width')).toBe(10);
+           expect(stl.getProperty('padding')).toBe('minor');
+           expect(attr.getProperty('lesson')).toBe('first');
+           expect(attr.getProperty('method')).toBe('deduct');
+           expect(attr.getProperty('profile')).toBe(1);
+           expect(result.getHref()).toBe('www.pizza.it');
         });
 
-        it('concatenates properties if the argument is a Link', function(){
-            arg = new Link();
-            arg.setStyleProperty('level', 'mountain');
-            arg.setStyleProperty('color', 'blue');
-            arg.setStyleProperty('module', 'top');
-            arg.setAttrProperty('method', 'get');
-            arg.setAttrProperty('screen', 'hd');
-            arg.setHref('www.beer.de');
-            result = link.shower(arg);
-            expect(result.getStyleProperty('level')).toBe('sealevel');
-            expect(result.getStyleProperty('color')).toBe('invisible');
-            expect(result.getStyleProperty('width')).toBe(98);
-            expect(result.getStyleProperty('module')).toBe('top');
-            expect(result.getAttrProperty('method')).toBe('deduct');
-            expect(result.getAttrProperty('screen')).toBe('hd');
-            expect(result.getAttrProperty('profile')).toBe(8);
-            expect(result.getHref()).toBe('www.pizza.it');
-        });
-
-        it('preserves the content of the argument if it is a Link', function(){
-            arg = new Link();
-            arg.setElements(["first", "second"]);
-            result = link.shower(arg);
-            expect(result.getContent().length()).toBe(2);
-            expect(result.getContent().getElem(0)).toBe('first');
-            expect(result.getContent().getElem(1)).toBe('second');
-
-        });
-
-        it('returns a Link instance if the argument is a Tag with empty content', function(){
-            arg = new Tag();
-            var cntn = new Content();
-            spyOn(cntn, 'isEmpty').andCallFake(function(){return true;});
-            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
-            result = link.shower(arg);
-            expect(result instanceof Link).toBe(true);
-            expect(arg.getContent().isEmpty).toHaveBeenCalled();
-        });
-
-        it('inserts a clone of the argument into the output if the argument is a Tag with empty content', function(){
-            arg = new Tag();
-            var clone = {};
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
-            spyOn(arg, 'clone').andCallFake(function(){return clone;});
-            result = link.shower(arg);
-            expect(result.getContent().length()).toBe(1);
-            expect(result.getContent().getElem(0)).toBe(clone);
-        });
-
-        it('populates properties if the argument is a Tag with empty content', function(){
-            arg = new Tag();
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return true;});
-            result = link.shower(arg);
-            expect(result.getStyleProperty('level')).toBe('sealevel');
-            expect(result.getStyleProperty('color')).toBe('invisible');
-            expect(result.getStyleProperty('width')).toBe(98);
-            expect(result.getAttrProperty('method')).toBe('deduct');
-            expect(result.getAttrProperty('profile')).toBe(8);
-        });
-
-        it('returns a clone of the argument if it is a Tag instance with non-empty content', function(){
-            arg = new Tag();
-            var clone = new Tag();
-            var cntn = new Content();
-            spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
-            spyOn(arg, 'clone').andCallFake(function(){return clone;});
-            result = link.shower(arg);
-            expect(result).toBe(clone);
-        });
-
-        it('populates properties if the argument is a Tag with non empty content', function(){
-            arg = new Tag();
-            arg.setStyleProperty('module', 5);
-            arg.setStyleProperty('mass', '1 kg');
-            arg.setAttrProperty('length', '100mm');
-            var cntn = new Content();
-            spyOn(cntn, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(arg, 'getContent').andCallFake(function(){return cntn;});
-            result = link.shower(arg);
-            expect(result.getStyleProperty('module')).toBe(5);
-            expect(result.getStyleProperty('mass')).toBe('1 kg');
-            expect(result.getAttrProperty('length')).toBe('100mm');
-        });
-
-        it('calls clone method on the argument if it is a Tag instance with non empty content', function(){
-            arg = new Tag();
-            var clone = new Tag();
-            spyOn(arg.getContent(), 'isEmpty').andCallFake(function(){return false;});
-            spyOn(arg, 'clone').andCallFake(function(){return clone;});
-            result = link.shower(arg);
-            expect(arg.clone).toHaveBeenCalled();
-        });
-
-        it('returns a clone of the argument if it is a Content instance', function(){
+        it('transforms Content into linkified content', function(){
             arg = new Content();
-            var contentClone = new Content();
-            spyOn(arg, 'clone').andCallFake(function(){return contentClone;});
-            result = link.shower(arg);
+            arg.setElements(['element 1', 'element 2', 'element 3']);
+            result = link.linkify(arg);
+            result.getElements().forEach(function(el){
+                // console.log(el, ' ', el.getName(), ', ', el.getTag());
+
+            });
             expect(result instanceof Content).toBe(true);
+            expect(result.length()).toBe(3);
+            for (i = 0; i < 3; i++){
+                expect(result.getElem(i) instanceof Tag).toBe(true);
+                expect(result.getElem(i).getStyleProperty('level')).toBe('sealevel');
+                expect(result.getElem(i).getStyleProperty('color')).toBe('invisible');
+                expect(result.getElem(i).getStyleProperty('width')).toBe(98);
+                expect(result.getElem(i).getAttrProperty('method')).toBe('deduct');
+                expect(result.getElem(i).getAttrProperty('profile')).toBe(8);
+                expect(result.getElem(i).getHref()).toBe('www.pizza.it');
+
+                expect(typeof result.getElem(i).getElem(0)).toBe('string');
+            }
+            expect(result.getElem(0).getElem(0)).toBe('element 1');
+            expect(result.getElem(1).getElem(0)).toBe('element 2');
+            expect(result.getElem(2).getElem(0)).toBe('element 3');
+        });
+
+        it('transforms content of non-empty Tag into a Tag with linkified content', function(){
+            arg = new Tag();
+            // var el1 = new Tag(),
+            //     el2 = new Tag();
+            arg.setElements(['element 1', 'element 2']);
+            // el1.setElements(['element 1']);
+            // el2.setElements(['element 2']);
+            // arg.setElements([el1, el2]);
+            arg.setAttrProperty('window', 'wide');
+            arg.setAttrProperty('color', 'rainbow');
+            arg.setStyleProperty('mix', 8);
+            arg.setStyleProperty('lead', 'astray');
+
+            result = link.linkify(arg);
+            expect(result instanceof Tag).toBe(true);
+            expect(result.getAttrProperty('window')).toBe('wide');
+            expect(result.getAttrProperty('color')).toBe('rainbow');
+            expect(result.getStyleProperty('mix')).toBe(8);
+            expect(result.getStyleProperty('lead')).toBe('astray');
+            expect(result.length()).toBe(2);
+            for (i = 0; i < 2; i++){
+                expect(result.getElem(i) instanceof Link).toBe(true);
+                expect(result.getElem(i).getStyleProperty('level')).toBe('sealevel');
+                expect(result.getElem(i).getStyleProperty('color')).toBe('invisible');
+                expect(result.getElem(i).getStyleProperty('width')).toBe(98);
+                expect(result.getElem(i).getAttrProperty('method')).toBe('deduct');
+                expect(result.getElem(i).getAttrProperty('profile')).toBe(8);
+                expect(result.getElem(i).getHref()).toBe('www.pizza.it');
+            }
+            expect(result.getElem(0).getElem(0)).toBe('element 1');
+            expect(result.getElem(1).getElem(0)).toBe('element 2');
         });
 
 
+        it('transforms Tag with empty content into a Link', function(){
+            arg = new Tag();
+            arg.setAttrProperty('window', 'wide');
+            arg.setAttrProperty('color', 'rainbow');
+            arg.setStyleProperty('mix', 8);
+            arg.setStyleProperty('lead', 'astray');
+
+            result = link.linkify(arg);
+            expect(result instanceof Link).toBe(true);
+            expect(result.getHref()).toBe('www.pizza.it');
+            expect(result.getAttrProperty('method')).toBe('deduct');
+            expect(result.getAttrProperty('profile')).toBe(8);
+            expect(result.getStyleProperty('level')).toBe('sealevel');
+            expect(result.getStyleProperty('color')).toBe('invisible');
+            expect(result.getStyleProperty('width')).toBe(98);
+            expect(result.length()).toBe(1);
+
+            expect(result.getElem(0) instanceof Tag).toBe(true);
+            expect(result.getElem(0).getStyleProperty('mix')).toBe(8);
+            expect(result.getElem(0).getStyleProperty('lead')).toBe('astray');
+            expect(result.getElem(0).getAttrProperty('window')).toBe('wide');
+            expect(result.getElem(0).getAttrProperty('color')).toBe('rainbow');
+        });
+
+        it('transforms an object into a Link', function(){
+            arg = {'key': 'value'};
+
+            result = link.linkify(arg);
+            expect(result instanceof Link).toBe(true);
+            expect(result.getHref()).toBe('www.pizza.it');
+            expect(result.getAttrProperty('method')).toBe('deduct');
+            expect(result.getAttrProperty('profile')).toBe(8);
+            expect(result.getStyleProperty('level')).toBe('sealevel');
+            expect(result.getStyleProperty('color')).toBe('invisible');
+            expect(result.getStyleProperty('width')).toBe(98);
+            expect(result.length()).toBe(1);
+
+            expect(result.getElem(0)).toBe(arg);
+        });
     });
 
     describe('Link::dropUnderline() removes the underlining of the link', function(){

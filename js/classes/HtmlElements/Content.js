@@ -9,7 +9,6 @@
  * @constructor
  * @param 		{String} 	str 		an optional argument that will be inserted into
  *                                      {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
- *
  */
 function Content(str) {
 	"use strict";
@@ -47,7 +46,6 @@ function Content(str) {
 	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} getter. <br/>
 	 * *NB*: the method tries to return a copy of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
 	 * content.
-	 * return a copy of the element
 	 * @method         getElements
 	 * @return         {Array}
 	 */
@@ -88,9 +86,11 @@ function Content(str) {
 	 * @return         {mixed}
 	 */
 	this.getElem = function(pos){
-		var res = this.getElements()[pos],
-			output = (res === undefined) ?  null : res;
-		return output;
+		var current = elements[pos];
+		if (current !== undefined){
+			return (typeof current.clone === 'function') ?  current.clone() : current;
+		}
+		return null;
 	};
 
 	/**
@@ -117,10 +117,10 @@ function Content(str) {
 	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
 	 * position index is outside that range, an error is thrown. If the position index is equal to N
 	 * (that corresponds to appending the element), then Content::appendElem is called.
-	 * @method  insertElemAt
-	 * @param  {Number}   pos
-	 * @param  {mixed}    elem
-	 * @return {void}
+	 * @method         insertElemAt
+	 * @param          {Number}             pos
+	 * @param          {mixed}              elem
+	 * @return         {void}
 	 */
 	this.insertElemAt = function(pos, elem){
 		var len = this.length(),
@@ -159,16 +159,30 @@ function Content(str) {
 		// console.info(rnd, 'Content: before appending elem ', elem, ' to ', this.toHtml());
 		if(elem !== undefined){
 			if (elem instanceof Content){
-				var elemElem = elem.getElements();
-				elemElem.forEach(function(el){
-					elements.push(el);
-				});
+				this.absorb(elem);
 			} else {
 				elements.push(elem);
 			}
 		}
 		// console.info(rnd, 'Content: after appending elem ', this.toHtml());
 		return null;
+	};
+
+	/**
+	 * If the argument is an instance of Content, then its {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * are copied (if possible) and inserted into target {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * array.
+	 * @method         absorb
+	 * @param          {Content}            cntn
+	 * @return         {void}
+	 */
+	this.absorb = function(cntn){
+		if (cntn instanceof Content){
+			var cntnElements = cntn.getElements();
+			cntnElements.forEach(function(el){
+				elements.push(el);
+			});
+		}
 	};
 
 	/**
@@ -315,6 +329,7 @@ function Content(str) {
 	 * item is empty, deletes it.
 	 * @method trim
 	 * @return {void}
+	 * @deprecated
 	 */
 	this.trim = function(){
 		// console.log('trim called on ', this.toHtml() );
@@ -351,9 +366,9 @@ function Content(str) {
 	 * <li>string ''</li>
 	 * <li>array [] </li>
 	 * </ol>
-	 * @method    isElemEmpty
-	 * @param     {any}          arg
-	 * @return    {Boolean}
+	 * @method         isElemEmpty
+	 * @param          {any}                arg
+	 * @return         {Boolean}
 	 */
 	this.isElemEmpty = function(arg){
 		switch(typeof arg){
@@ -381,9 +396,9 @@ function Content(str) {
 	 * If the argument is not empty, calls {{#crossLink "Content/appendElem:method"}}Content::appendElem(){{/crossLink}}.
 	 * If the argument is empty, nothing is done. The argument is considered empty, if the method
 	 * {{#crossLink "Content/isElemEmpty:method"}}Content::isElemEmpty(arg){{/crossLink}} returns `true`.
-	 * @method  appendElemIfNotEmpty
-	 * @param   {any} 	                obj 		Object to be inserted if not empty
-	 * @return  {void}
+	 * @method         appendElemIfNotEmpty
+	 * @param          {any} 	            obj 		Object to be inserted if not empty
+	 * @return         {void}
 	 */
 	this.appendElemIfNotEmpty = function(obj){
 		if (!this.isElemEmpty(obj)){
@@ -396,9 +411,9 @@ function Content(str) {
 	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
 	 * defined, then no loading is performed and `false` is returned. Otherwise, the method tries to load
 	 * and returns `true`.
-	 * @method    load
-	 * @param     {Array}       arr       array of Elements or Text instances
-	 * @return    {Boolean}               true, if loaded successfully, false otherwise
+	 * @method         load
+	 * @param          {Array}              arr       array of Elements or Text instances
+	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
 		if (Array.isArray(arr) && (window.FACTORY !== undefined) && FACTORY.factory){
@@ -424,9 +439,9 @@ function Content(str) {
 	 * returns [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 * instance of the element. If the element does not respond to the
 	 * above-mentioned method, this element is ignored.
-	 * @method  stickTo
-	 * @param   {Object}     el
-	 * @return  {void}
+	 * @method         stickTo
+	 * @param          {Object}             el
+	 * @return         {void}
 	 */
 	this.stickTo = function(el){
 		// var rnd = parseInt(Math.random()*1000, 10);

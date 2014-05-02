@@ -847,6 +847,13 @@ describe('Tag-related functionality', function() {
             var clone = tag.clone();
             expect(clone.m1).toBe('clone of m1');
         });
+        it('clones text content', function(){
+            tag.setElements(['first', 'second']);
+            var clone = tag.clone();
+            expect(clone.length()).toBe(2);
+            expect(clone.getElem(0)).toBe('first');
+            expect(clone.getElem(1)).toBe('second');
+        });
     });
 
 

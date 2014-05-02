@@ -149,11 +149,13 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 }
             } else {
                 console.log('selection is NOT empty');
+                var nodes = [];
                 // parse all selected nodes
                 selectedNodes.forEach(function(arr){
                     arr.forEach(function(el){
                         console.log('element: ', el);
                         var newNode, objLink;
+                            // parent = el.$.parentNode;
                         // prepare Link object
                         link = new Link();
                         link.setHref(url);
@@ -163,17 +165,20 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
                         if (obj &&  !obj.isEmpty()){
                             console.log('factory produced non empty object');
-                            objLink = link.shower(obj);
+                            objLink = link.linkify(obj);
                             console.log('objLink = ', objLink, ', its html: ', objLink.toHtml());
                             newNode = objLink.toNode();
-                            console.log('new Node = ', newNode);
-                            // el.$.parentNode.replaceChild(newNode, el.$);
+                            // console.log('replacing new Node = ', newNode);
+                            el.$.parentNode.replaceChild(newNode, el.$);
+                            nodes.push(newNode);
                         } else {
                             console.log('factory produced empty object or null');
                         }
                         console.log('end of elaboration');
+
                     });
                 });
+                console.log('nodes: ', nodes);
             }
         }
     };

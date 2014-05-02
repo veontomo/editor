@@ -137,14 +137,16 @@ function Link(href) {
 		if (obj instanceof Content){
 			console.info(rnd, 'input is a Content');
 			var cntn = new Content(),
-				len = clone.length(),
+				elements = clone.getElements(),
+				len = elements.length,
 				i, current, result;
 			for (i = 0; i < len; i++){
 				console.info(rnd, i, '/', len);
-				current = clone.getElem(i).clone();
-				result = this.clone().shower(current);
+				current = elements[i];
+				result = this.shower(current);
 				console.info(rnd, 'appending ', result, ', its html ', result.toHtml());
 				console.info(rnd, 'cntn before appending ', cntn, ', its html ', cntn.toHtml());
+				// cntn.appendElem(rnd + '  ' + i );
 				cntn.appendElem(result);
 				console.info(rnd, 'cntn after appending ', cntn, ', its html ', cntn.toHtml());
 			}
@@ -167,6 +169,123 @@ function Link(href) {
 		linkClone.setContent(clone);
 		console.info(rnd, 'returning linkClone: ', linkClone, ', its html: ', linkClone.toHtml() );
 		return linkClone;
+
+	};
+
+
+	/**
+	 * Converts the argument `obj` into a Link. The following cases are possible:
+	 * @method         linkify
+	 * @param          {Any}                obj
+	 * @return         {Any}                type of output depends on input argument
+	 */
+	this.linkify = function(obj){
+		if (obj instanceof Link){
+			return this.updateLink(obj);
+		}
+		if (obj instanceof Content){
+			return this.linkifyContent(obj);
+		}
+		if (obj instanceof Tag){
+			return this.linkifyTag(obj);
+		}
+		return this.wrap(obj);
+	};
+
+	/**
+	 * Returns a copy of the target in which {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * contains the only element which is `obj`.
+	 * @method         wrap
+	 * @param          {Any}                obj
+	 * @return         {Link}
+	 */
+	this.wrap = function(obj){
+		var output = new Link(),
+			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
+		output.setAttributes(this.getAttributes().clone());
+		output.setStyles(this.getStyles().clone());
+		output.setElements([item]);
+		return output;
+
+	};
+
+	/**
+	 * Converts the argument in link. Argument `tagObj` must be a {{#crossLink "Tag"}}Tag{{/crossLink}} instance.
+	 * If its {{#crossLink "Tag/content"}}content{{/crossLink}} is
+	 * <ol><li>
+	 * non empty, then it is returned a copy of the argument in which {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * is replaced by output of {{#crossLink "Link/linkifyContent:method"}}linkifyContent{{/crossLink}} method.
+	 * </li><li>
+	 * empty, then a {{#crossLink "Link"}}Link{{/crossLink}} instance is returned. This instance has
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} of the target and its
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} contains `tagObj` as the only element.
+	 * </li><li>
+	 * </li></ol>
+	 * @method         linkifyTag
+	 * @param          {Tag}                tagObj
+	 * @return         {Tag|Link}
+	 */
+	this.linkifyTag = function(tagObj){
+		if (tagObj instanceof Tag){
+			var result, cntn, cntnLinkified;
+			if (!(tagObj.getContent().isEmpty())){
+				result = tagObj.clone();
+				cntn = result.getContent();
+				cntnLinkified = this.linkifyContent(cntn);
+				result.setContent(cntnLinkified);
+			} else {
+				result = this.wrap(tagObj);
+			}
+			return result;
+		}
+	};
+
+	/**
+	 * Modifies a Content instance in such a way that {{#crossLink "Link/linkify:method"}}linkify{{/crossLink}}
+	 * is applied on all elements of the argumet.
+	 * @method         linkifyContent
+	 * @param          {Content}            cntn
+	 * @return         {Content}
+	 */
+	this.linkifyContent = function(cntn){
+		if (cntn instanceof Content){
+			var result = new Content(),
+				cntnElems = cntn.getElements(),
+				len = cntnElems.length,
+				i, current, linked, newLink;
+			for (i = 0; i < len; i++){
+				current = cntnElems[i];
+				newLink = this.clone();
+				linked = newLink.linkify(current);
+				result.appendElem(linked);
+			}
+			return result;
+		}
+
+	};
+
+	/**
+	 * Returns a new Link instance with `href` as in the target, {{#crossLink "Link/content:property"}}content{{/crossLink}}
+	 * as in the argument, {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values
+	 * from the target
+	 * @method         updateLink
+	 * @param          {Link}               link
+	 * @return         {Link}
+	 */
+	this.updateLink = function(link){
+		if (link instanceof Link){
+			var result = new Link(),
+				src = this.getHref();
+			result.setElements(this.getElements());
+			result.setAttributes(this.getAttributes());
+			result.setStyles(this.getStyles());
+			result.appendStyle(link.getStyles());
+			result.appendAttributes(link.getAttributes());
+			result.setHref(src);
+			return result;
+		}
 
 	};
 

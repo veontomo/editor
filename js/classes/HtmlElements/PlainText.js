@@ -86,7 +86,7 @@ function PlainText(text) {
 	 * @type      {String}
 	 */
 	this.getContent = function(){
-		return content;
+		return content.toString();
 	};
 
 	/**
@@ -159,7 +159,7 @@ function PlainText(text) {
 		var Constr = window[this.className],
 			clone, attr, current,
 			strContent = this.getContent();
-		clone = (typeof Constr === 'function') ?  new Constr : new PlainText();
+		clone = (typeof Constr === 'function') ?  new Constr() : new PlainText();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];

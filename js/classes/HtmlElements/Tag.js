@@ -566,7 +566,7 @@ function Tag() {
 	 */
 	this.trim = function(){
 		content.trim();
-		return this;
+		// return this;
 	};
 
 	/**
@@ -594,19 +594,19 @@ function Tag() {
 	 */
 	this.clone = function(){
 		var Constr = window[this.getName()],
-			clone, attr, current;
-		clone = (typeof Constr === 'function') ?  new Constr() : new Tag();
+			output, attr, current;
+		output = (typeof Constr === 'function') ?  new Constr() : new Tag();
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];
 				if (current && typeof current.clone === 'function'){
-					clone[attr] = current.clone();
+					output[attr] = current.clone();
 				} else {
-					clone[attr] = current;
+					output[attr] = current;
 				}
 			}
 		}
-		return clone;
+		return output;
 	};
 
 	/**
