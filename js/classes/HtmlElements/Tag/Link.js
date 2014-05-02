@@ -200,6 +200,9 @@ function Link(href) {
 	 * @return         {Link}
 	 */
 	this.wrap = function(obj){
+		/// strange thing: even though the target is a Link and the output is to be a Link,
+		/// if I make this.clone() to prepare an output object, somehow Content elements get
+		/// overrides when I use them in linkify. For this reason, "new Link()" is used.
 		var output = new Link(),
 			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
 		output.setAttributes(this.getAttributes().clone());
