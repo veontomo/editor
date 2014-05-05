@@ -60,6 +60,22 @@ describe('Link-related functionality:', function() {
         });
     });
 
+    describe('Link has href attribute', function(){
+        it('returnes href if the target has "attributes" which is a LinkAttributes instance', function(){
+            expect(link.getAttributes() instanceof LinkAttributes).toBe(true);
+            link.setHref('test_url');
+            expect(link.getHref()).toBe('test_url');
+        });
+        it('returnes href if the target has "attributes" which is a general Attributes instance', function(){
+            link.setAttributes(new Attributes());
+            expect(link.getAttributes() instanceof Attributes).toBe(true);
+            expect(link.getAttributes() instanceof LinkAttributes).toBe(false);
+            link.setHref('test_url');
+            expect(link.getHref()).toBe('test_url');
+        });
+
+    });
+
     describe('Link attribute is an instance of LinkAttributes', function(){
         it('has attribute property which is a LinkAttr instance', function(){
             expect(link.getAttributes() instanceof LinkAttributes).toBe(true);

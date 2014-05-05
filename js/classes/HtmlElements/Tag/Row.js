@@ -167,10 +167,10 @@ function Row() {
 	 * @return {void}
 	 * @deprecated  Use Row::knockOutCell() directly.
 	 */
-	this.dropCell = function(cellNum){
-		console.log('Table::dropCell() was called. Try to eliminate this call.');
-		this.knockOutCell(cellNum);
-	};
+	// this.dropCell = function(cellNum){
+	// 	console.log('Table::dropCell() was called. Try to eliminate this call.');
+	// 	this.knockOutCell(cellNum);
+	// };
 
 
 	/**
