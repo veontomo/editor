@@ -34,9 +34,9 @@ function Row() {
 	this.setStyles(new TableRowStyles());
 
 	/**
-	 * Gets an array of the widths of the cells inside the row.
-	 * @method getCellWidths
-	 * @return {array}
+	 * Returns an array of the cell widths.
+	 * @method         getCellWidths
+	 * @return         {Array}
 	 */
 	this.getCellWidths = function(){
 		var output = [],
@@ -50,8 +50,8 @@ function Row() {
 
 	/**
 	 * Alias for length() method of the parent class.
-	 * @method  cellNum
-	 * @return {Number}
+	 * @method         cellNum
+	 * @return         {Number}
 	 */
 	this.cellNum = function(){
 		return this.length();

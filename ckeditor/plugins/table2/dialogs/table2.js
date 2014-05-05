@@ -196,13 +196,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			table = new Table();
 
 			// impose styles and attribute values
-			table.style.setWidth(tableWidth);
+			table.setWidth(tableWidth);
 			//console.log('table2.js: tableWidth = ', tableWidth);
-			table.style.setProperty('margin', 0);
-			table.style.setProperty('padding', 0);
+			table.setStyleProperty('margin', 0);
+			table.setStyleProperty('padding', 0);
 
-			table.attr.setProperty(NEWSLETTER['marker-name'], table.className);
-			table.attr.setProperty('width', tableWidth);
+			table.setAttrProperty(NEWSLETTER['marker-name'], table.getName());
+			table.setAttrProperty('width', tableWidth);
 
 			// binding the styles and attributes and the table object
 			// table.style = TableStyles;
@@ -222,7 +222,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// By default, table style is a parent style for the nested rows.
 			// The properties of the the nested elements will be calculated based on this style.
-			parentElemStyle = table.style;
+			parentElemStyle = table.getStyles();
 
 			if (isFramed){
 				// creating bogus styles and attributes
@@ -235,7 +235,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// calculating widths of the bogus elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				bogusRowWidth = table.style.getProperty('width') - 2 * table.style.getProperty('padding') - 2 * table.style.getBorderInfo().width;
+				bogusRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
 				bogusRowStyle.setWidth(bogusRowWidth);
 				//console.log('table2.js: bogusRowWidth = ', bogusRowWidth);
@@ -243,9 +243,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				bogusRowStyle.getProperty('padding', 0);
 				bogusRowStyle.getProperty('margin', 0);
 				// mark the bogus row
-				bogusRowAttr.setProperty(NEWSLETTER['marker-name'], row.className);
+				bogusRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
 
-				bogusCellWidth = bogusRowStyle.width - 2 * bogusRowStyle.padding - 2 * frameWidth;
+				bogusCellWidth = bogusRowStyle.getWidth() - 2 * bogusRowStyle.getProperty('padding') - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
 				allWidths.push({'value': bogusCellWidth, 'descr': 'larghezza della cella fittizia'});
 
@@ -281,7 +281,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				parentElemStyle = bogusTableStyle;
 			} else {
 				// if the table is not framed, mark the row
-				rowAttr.setProperty(NEWSLETTER['marker-name'], row.className);
+				rowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
 			}
 
 			// impose row styles and attributes
@@ -290,8 +290,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowStyle.setProperty('padding', 0);
 
 			// binding the row properties and the row object
-			row.style = rowStyle;
-			row.attr = rowAttr;
+			row.setStyles(rowStyle);
+			row.setAttributes(rowAttr);
 
 			// fill in the row with the cells
 			allCellsWidth = rowStyle.getProperty('width') - rowStyle.getProperty('padding');     // sum of all cell widths
@@ -307,7 +307,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 				// imposing cell styles and attributes
 				// mark the cell
-				cellAttr.setProperty(NEWSLETTER['marker-name'], cell.className);
+				cellAttr.setProperty(NEWSLETTER['marker-name'], cell.getName());
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 				cellStyle.setWidth(cellWidth);
@@ -320,8 +320,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellStyle.setProperty('margin', 0);
 
 				// binding the styles and attributes and the object
-				cell.style = cellStyle;
-				cell.attr = cellAttr;
+				cell.setStyles(cellStyle);
+				cell.setAttributes(cellAttr);
 
 				// add the newly created cell to the row
 				row.appendCell(cell);

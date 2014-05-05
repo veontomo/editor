@@ -95,11 +95,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 				</tbody>
 			</table>
 			<br />
-			sdfdsfsdf sdfds
-			f ds
-			<img alt="arriva l'onda!" height="64" src="https://cdn1.iconfinder.com/data/icons/computers/64/signal_Vista.png" style="border-style: none; padding: 0px; margin: 0px; width: 64px; height: 64px" title="arriva l'onda!" width="64" />
-			sdfdsf sdf d
-			sf dsfs
+			<b>E Street Band</b> &egrave; il nome con cui &egrave; conosciuta la <a href="http://it.wikipedia.org/wiki/Band_di_supporto" title="Band di supporto">band di supporto</a> del cantante <a href="http://it.wikipedia.org/wiki/Rock" title="Rock">rock</a> <a href="http://it.wikipedia.org/wiki/Bruce_Springsteen" title="Bruce Springsteen">Bruce Springsteen</a>.<br />
+			<br />
+			&nbsp;
 		</textarea>
 	</div>
 </body>

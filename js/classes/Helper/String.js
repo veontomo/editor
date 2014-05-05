@@ -37,17 +37,17 @@ String.prototype.createCellFromHtml = function(){
 
     // imposing its styles
     nodeStyle = node.getAttribute('style');
-    cell.style = new Styles(nodeStyle);
+    cell.setStyles(new Styles(nodeStyle));
 
     // imposing its attributes
     attrs = Helper.flatten(node.attributes);
     if (attrs.hasOwnProperty('style')){
         delete attrs.style;
     }
-    cell.attr = new Attributes(attrs);
+    cell.setAttributes(new Attributes(attrs));
 
     cellContent = node.innerHTML.inflate();
-    cell.content = cellContent;
+    cell.setContent(cellContent);
     return cell;
 };
 
@@ -76,14 +76,14 @@ String.prototype.createRowFromHtml = function(){
 
 	// imposing styles
 	nodeStyle = node.getAttribute('style');
-	row.style = new Styles(nodeStyle);
+	row.setStyles(new Styles(nodeStyle));
 
 	// imposing its attributes
 	attrs = Helper.flatten(node.attributes);
 	if (attrs.hasOwnProperty('style')){
 		delete attrs.style;
 	}
-	row.attr = new Attributes(attrs);
+	row.setAttributes(new Attributes(attrs));
 
 	cells = node.children;
 	cellsNum = cells.length;
@@ -121,13 +121,13 @@ String.prototype.createTableFromHtml = function(){
 
     // imposing table styles
     nodeStyle = node.getAttribute('style');
-    table.style = new Styles(nodeStyle);
+    table.setStyles(new Styles(nodeStyle));
     // imposing table attributes
     attrs = Helper.flatten(node.attributes);
     if (attrs.hasOwnProperty('style')){
         delete attrs.style;
     }
-    table.attr = new Attributes(attrs);
+    table.setAttributes(new Attributes(attrs));
 
     // the only child of the table is always tbody
     if (node.children.length !== 1){

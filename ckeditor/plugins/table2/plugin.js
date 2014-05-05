@@ -42,7 +42,7 @@ CKEDITOR.plugins.add('table2', {
 
 		editor.addCommand('table2DeleteTable', {
 			exec: function (ed) {
-				var tableMarker = (new Table()).getType(), // string with which tables are marked
+				var tableMarker = (new Table()).getName(), // string with which tables are marked
 					markerName = NEWSLETTER['marker-name'],
 					table = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
 					return ((el.getName() === 'table') &&
@@ -126,7 +126,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var rowMarker = (new Row()).getType(), // the label by which the rows are marked
+				var rowMarker = (new Row()).getName(), // the label by which the rows are marked
 					markerName  = NEWSLETTER['marker-name'],
 					el;
 				el = CKHelper.findAscendant(element, function (el) {
@@ -142,7 +142,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var tableMarker = (new Table()).getType(), // string with which tables are marked
+				var tableMarker = (new Table()).getName(), // string with which tables are marked
 					el = CKHelper.findAscendant(element, function (el) {
 					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
 				}),
@@ -193,7 +193,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
 				colField, i,
 				markerName  = NEWSLETTER['marker-name'],
-				tableMarker = (new Table()).className,
+				tableMarker = (new Table()).getName(),
 				currentElem = editor.getSelection().getStartElement(),
 				table = CKHelper.findAscendant(currentElem, function(el){
 					return el.getName() === 'table' &&
@@ -205,13 +205,16 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			}
 
 			var tableObj = table.getOuterHtml().createTableFromHtml();
-			//console.log(tableObj);
-			var	profile = tableObj.getProfile(),
+
+			console.log(tableObj, ', its profile : ', tableObj.getProfile());
+			var	profile = tableObj.getProfile().map(function(el){
+				return parseFloat(el);
+			}),
 				totWidth = Helper.trace(profile),
 				colNum = profile.length,
 				unit = 'px',
 				cellWidthStr = profile.map(function(el){
-						return el + ' ' + unit;
+						return el;
 					}).join(' + ');
 
 			//console.log('table: ', table);
@@ -269,6 +272,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				inputFields = hiddenDiv.getElementsByTag('input'),
 				len = inputFields.count(),
 				userInput = [],
+				tableMarker = (new Table()).getName(),
 				currentElem, table, currentTable, tableStr, tableElem,
 				i;
 			for (i = 0; i < len; i++){
@@ -278,7 +282,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			currentElem = editor.getSelection().getStartElement();
 			table = CKHelper.findAscendant(currentElem, function(el){
 				return el.getName() === 'table' &&
-					el.getAttribute(NEWSLETTER['marker-name'] ) === (new Table()).className;
+					el.getAttribute(NEWSLETTER['marker-name'] ) === tableMarker;
 			});
 			currentTable = table.getOuterHtml().createTableFromHtml();
 			//console.log('table elem:', table);
@@ -314,41 +318,39 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 		onShow: function(){
 			var currentElem = editor.getSelection().getStartElement(),
 				markerName  = NEWSLETTER['marker-name'],
-				rowMarker   = (new Row()).className,
-				cellMarker  = (new Cell()).className,
-				tableMarker = (new Table()).className,
+				rowMarker   = (new Row()).getName(),
+				cellMarker  = (new Cell()).getName(),
+				tableMarker = (new Table()).getName(),
 				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.tag === 'table' &&
-						el.getAttribute(markerName) === tableMarker;
+					return el.getName() === 'table' && el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.tag === 'td' &&
-						el.getAttribute(markerName) === cellMarker;
-				}),
-				cellNumber = cellElem.getIndex(),
+					return el.getName() === 'td' && el.getAttribute(markerName) === cellMarker;
+				});
+			console.log(markerName, rowMarker, cellMarker, tableMarker, currentElem, tableElem, cellElem);
+			var	cellNumber = cellElem.getIndex(),
 				columnElems = tableElem.find('tr[' + markerName + '="' + rowMarker + '"] td[' +
 					markerName + '="' + cellMarker + '"]:nth-child('+ (cellNumber + 1) +')'),
 				len = columnElems.count(),
 				i,
 				boxShadowValues = '0.05em 0.05em 0.5em 0.05em #8B0000';
 
-				for (i = 0; i < len; i++){
-					$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
-				}
+
+			for (i = 0; i < len; i++){
+				$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
+			}
 		},
 
 		onOk: function () {
 			var markerName  = NEWSLETTER['marker-name'],
-				cellMarker  = (new Cell()).className,
-				tableMarker = (new Table()).className,
+				cellMarker  = (new Cell()).getName(),
+				tableMarker = (new Table()).getName(),
 				currentElem = editor.getSelection().getStartElement(),
 				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.tag === 'table' &&
-						el.getAttribute(markerName) === tableMarker;
+					return el.getName() === 'table' &&	el.getAttribute(markerName) === tableMarker;
 				}),
 				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.tag === 'td' &&
-						el.getAttribute(markerName) === cellMarker;
+					return el.getName() === 'td' &&	el.getAttribute(markerName) === cellMarker;
 				}),
 				// column number to drop
 				cellNumber = cellElem.getIndex(),
@@ -357,15 +359,19 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 				colNum = tableObj.colNum(),
 				tableStr, tableElem2;
 
-
+			console.log('parentTable: ', tableElem);
+			console.log('currentElem: ', currentElem, ', its html ', currentElem.getHtml());
+			console.log('table before knocking out: ', tableObj.toHtml());
 			if (cellNumber >= 0 && cellNumber < colNum){
 				tableObj.knockOutCol(cellNumber);
 			}
+			console.log('table after knocking out: ', tableObj.toHtml());
 			tableStr = tableObj.toHtml();
 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
 			tableElem.remove();
 			// call a custom method to insert the table and assign hovering effects on it
 			CKHelper.insertTableWithHoverEff(editor, tableElem2);
+			console.log('Inserted: ', tableStr);
 		}
 	};
 });
