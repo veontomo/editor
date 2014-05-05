@@ -11,7 +11,6 @@ describe('Link-related functionality:', function() {
         delete link.dumbAttribute;
     });
 
-
     describe('Link::className: class name', function(){
         it('gives the name of the class', function(){
             expect(link.getName()).toBe('Link');
@@ -73,7 +72,6 @@ describe('Link-related functionality:', function() {
             link.setHref('test_url');
             expect(link.getHref()).toBe('test_url');
         });
-
     });
 
     describe('Link attribute is an instance of LinkAttributes', function(){
@@ -96,7 +94,6 @@ describe('Link-related functionality:', function() {
             expect(attr.getHref).toHaveBeenCalled();
         });
     });
-
 
     describe('Link::toHtml(): creates html link', function(){
         it('creates link with styles and attributes', function(){
@@ -180,7 +177,6 @@ describe('Link-related functionality:', function() {
             expect(link.getStyleProperty('text-decoration')).toBe('whatever');
         });
     });
-
 
     describe('Linkify the argument', function(){
         var arg, result, i;
@@ -331,6 +327,4 @@ describe('Link-related functionality:', function() {
             expect(link.getStyleProperty('text-decoration')).toBe('none');
         });
     });
-
-
 });

@@ -6,5 +6,5 @@
         "outdir": "apidocs",
         "paths": "js/classes"
     },
-    "logo": "images/logo.png"
+    "logo": "/logo.png"
 }

@@ -3,12 +3,14 @@
 
 describe('ListItem-related functionality', function(){
     var li, liStyle, liAttr, content;
+
     beforeEach(function(){
         li = new ListItem();
         content = new Content();
         liStyle = new ListItemStyles();
         liAttr = new Attributes();
     });
+
     describe('ListItem::constructor(): inherits from Tag() class', function(){
         it('does not affect parent class if an inherited property is changed', function(){
             li.foo = 102;
@@ -38,7 +40,6 @@ describe('ListItem-related functionality', function(){
         });
     });
 
-
     describe('Basic properties', function(){
         it('appends element to its content', function(){
             expect(li.length()).toBe(0);
@@ -48,6 +49,7 @@ describe('ListItem-related functionality', function(){
             expect(li.length()).toBe(2);
         });
     });
+
     describe('Generates html representation of the list item', function(){
         it('if no style neither attributes are given', function(){
             spyOn(liAttr, 'toString').andCallFake(function(){return '';});
