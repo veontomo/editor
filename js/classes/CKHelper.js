@@ -316,62 +316,7 @@ var CKHelper = {
 	},
 
 
-	/**
-	 * Alternative version of Inserts list. List items are populated from the selection. If the selection is empty,
-	 * a list item with empty content is generated.
-	 * @method             insertList___old
-	 * @param              {CKEDITOR.editor} editor                 Represents an editor instance.
-	 * @param              {String}          listType               Type of the list to insert (ol, ul)
-	 * @return             {void}
-	 * @deprecated         use insertList
-	 */
-/*
-	insertList___old: function(editor, listType){
-		var selection = new Selection(editor, editor.getSelection()),
-		    selectedNodes = selection.selectedNodes,                   // 2-dim array
-		    factory = FACTORY.factory,
-		    result = [];
-		console.log('CKHelper::insertList ', selectedNodes);
-		selectedNodes.forEach(function(block){
-			var current = [],
-				len = block.length,
-				elem, list, content, newNode;
-			if (len === 1){
-				// console.log('single elem');
-				elem = factory.mimic(block[0].$);
-				console.log('factory produced: ', elem.clone(), ', its html: ', elem.toHtml());
-				content = elem.getContent();
-				// console.log('content clone: ', content, ', its html: ', content.toHtml());
-				list = new List(listType);
-				list.appendAsItems(content);
-				console.log('list: ', list.clone(), ', its html:  ', list.toHtml());
-				// elem.flushContent();
-				console.log('elem after flushing: ', elem.clone(), ', its html:  ', elem.toHtml());
-				elem.appendElem(list);
-				console.log('elem after appending list: ', elem.clone(), ', its html:  ', elem.toHtml());
-				// elem.content.elements = [list];
-				console.log('elem: ', elem.clone(), ', its html:  ', elem.toHtml());
-				result.push(elem.clone());
-				newNode = elem.clone().toNode();
-				console.log('node version: ', newNode);
-				block[0].$.parentNode.replaceChild(newNode, block[0].$);
-			}
-			if (len > 1){
-				block.forEach(function(el){
-					current.push(factory.mimic(el));
-				});
-				list = new List(listType);
-				list.appendAsItems(current);
-				newNode = list.toNode();
-				block[0].$.parentNode.replaceChild(newNode, block[0].$);
-				// result.push(list);
-			}
 
-		});
-
-	},
-
-*/
 	/**
 	 * Inserts a list which items are populated from the selection. If the selection is empty,
 	 * a list item with empty content is generated.
