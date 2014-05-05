@@ -48,6 +48,22 @@ describe('Tag-related functionality', function() {
             expect(tag.getAttributes() instanceof Attributes).toBe(true);
         });
     });
+    describe('Clearing content of the Tag', function(){
+        it('flushes content of empty Tag instance', function(){
+            expect(tag.getContent().length()).toBe(0);
+            tag.flushContent();
+            expect(tag.getContent().length()).toBe(0);
+        });
+
+        it('flushes content of non-empty Tag instance', function(){
+            content.setElements(['first', 'second']);
+            tag.setContent(content);
+            expect(tag.getContent().length()).toBe(2);
+            tag.flushContent();
+            expect(tag.getContent().length()).toBe(0);
+        });
+
+    });
 
 
     describe('Tag setter and getter', function(){

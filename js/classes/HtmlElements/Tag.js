@@ -559,6 +559,15 @@ function Tag() {
 	};
 
 	/**
+	 * Empties {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * @method         flushContent
+	 * @return         {void}
+	 */
+	this.flushContent = function(){
+		content.flush();
+	};
+
+	/**
 	 * Trims the content. Calls method {{#crossLink "Content/trim:method"}}Content::trim(){{/crossLink}} on the
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} property.
 	 * @method  trim

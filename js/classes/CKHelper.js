@@ -337,13 +337,13 @@ var CKHelper = {
 			if (len === 1){
 				// console.log('single elem');
 				elem = factory.mimic(block[0].$);
-				console.log('factory produced: ', elem.clone(), ', its html: ', elem.toHtml());
-				content = elem.content.clone();
+				// console.log('factory produced: ', elem.clone(), ', its html: ', elem.toHtml());
+				content = elem.getContent();
 				// console.log('content clone: ', content, ', its html: ', content.toHtml());
 				list = new List(listType);
 				list.appendAsItems(content);
 				console.log('list: ', list.clone(), ', its html:  ', list.toHtml());
-				elem.content.flush();
+				elem.flush();
 				console.log('elem after flushing: ', elem.clone(), ', its html:  ', elem.toHtml());
 				elem.appendElem(list);
 				console.log('elem after appending list: ', elem.clone(), ', its html:  ', elem.toHtml());
@@ -508,7 +508,8 @@ var CKHelper = {
 					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().isEmpty())){
 						elem.dropLast();
 					}
-				}listObj.trim();
+				}
+				listObj.trim();
 				listHtml = listObj.toHtml();
 				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 				list.remove();
