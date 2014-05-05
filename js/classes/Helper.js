@@ -240,10 +240,10 @@ var Helper = {
      * it is splitted in 1/2 and 1/2 (up to the truncation). If the element has a left neighbour, then the neighbour
      * and the element are taken off 1/3 and these two parts are given to the newly created element that is inserted
      * between the neighbour and the element: [a, b, ...] -> [2/3 a, 1/3 (a + b), 2/3 b, ...]
-     * @method crack
-     * @param  {Array}  arr     array of integers
-     * @param  {Number} pos     index of the element, before which an element will be inserted
-     * @return {Array}          array of integers
+     * @method         crack
+     * @param          {Array}              arr         array of integers
+     * @param          {Number}             pos         index of the element, before which an element will be inserted
+     * @return         {Array}              array of integers
      */
     'crack': function(arr, pos){
         var orig, orig1, orig2, neighbour, neighbour1, neighbourDonor,
@@ -262,9 +262,9 @@ var Helper = {
         }
         if(pos > 0 && pos < arr.length){
             orig = output[pos];
-            orig1 = parseInt(2*orig/3, 10);
+            orig1 = parseInt(2 * orig/3, 10);
             orig2 = orig - orig1;
-            neighbour = arr[pos-1];
+            neighbour = arr[pos - 1];
             neighbour1 = parseInt(2 * neighbour/3, 10);
             neighbourDonor = neighbour - neighbour1;
             output[pos-1] = neighbour1;

@@ -154,12 +154,12 @@ var CKHelper = {
 
 		// find the current cell, and not a bogus cell
 		cell = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
-			var marker = (new Cell()).getType();
+			var marker = (new Cell()).getName();
 			return (el.getName() === 'td' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 		});
 		// find parent table to be sure that we treat a cell and not a bogus cell.
 		parentTable = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
-			var marker = (new Table()).getType();
+			var marker = (new Table()).getName();
 			return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === marker);
 		});
 
@@ -167,11 +167,14 @@ var CKHelper = {
 		// create objects in order to retrieve their properties
 		cellObj = cell.getOuterHtml().createCellFromHtml();
 		tableObj = parentTable.getOuterHtml().createTableFromHtml();
-		cellObjStyles = cellObj.style;
-		cellObjAttr = cellObj.attr;
-		tableProfile = tableObj.getProfile();
+		cellObjStyles = cellObj.getStyles();
+		cellObjAttr = cellObj.getAttributes();
+		tableProfile = tableObj.getProfile().map(function(el){return parseFloat(el);});
+
 
 		newTableProfile = Helper.crack(tableProfile, cellIndex);
+
+		console.log(tableProfile, ' --> ', newTableProfile);
 
 		cellToInsert = new Cell('cella');
 		cellToInsertAttr = new Attributes(cellObjAttr);
@@ -180,29 +183,29 @@ var CKHelper = {
 
 		if (pos === 'before'){
 			offset = 0;
-			cellToInsertStyles['padding-right'] = 0;
+			cellToInsertStyles.setProperty('padding-right',  0);
 			tableObj.appendStyleToCol(cellIndex, 'padding-left: 0px');
 		}
 
 		if (pos === 'after'){
 			offset = 1;
-			cellToInsertStyles['padding-left'] = 0;
+			cellToInsertStyles.setProperty('padding-left', 0);
 			tableObj.appendStyleToCol(cellIndex, 'padding-right: 0px');
 		}
 
 
 		// binding the styles and attributes to the newly created cell
-		cellToInsert.attr  = cellToInsertAttr;
-		cellToInsert.style = cellToInsertStyles;
+		cellToInsert.setAttributes(cellToInsertAttr);
+		cellToInsert.setStyles(cellToInsertStyles);
 
 		// offset variable is responsible for insertion 'before' or 'after'
-		tableObj.insertColumnAt(cellIndex + offset, cellToInsert);
+		tableObj.insertColAt(cellIndex + offset, cellToInsert);
 		tableObj.setProfile(newTableProfile);
 
 		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
 		parentTable.remove();
 		// call a custom method to insert the table and assign hovering effects on it
-		ed.insertTableWithHoverEff(newTable);
+		CKHelper.insertTableWithHoverEff(ed, newTable);
 	},
 
 
