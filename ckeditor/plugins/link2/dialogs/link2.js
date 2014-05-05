@@ -125,20 +125,18 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         },
 
         onOk: function(){
-            console.info('link', 'selection is ', selectedNodes);
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
-                // isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
+                isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
                 current, link, obj,
                 factory = FACTORY.factory;
 
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
-                console.log('selection is empty');
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
-                link.content = new Content(this.getValueOf('tab-general', 'text'));
+                link.setContent(new Content(this.getValueOf('tab-general', 'text')));
                 // control whether the current position is inside a link
                 current = editor.getSelection().getStartElement();
                 if(current.getName() === 'a'){
@@ -148,37 +146,30 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     editor.insertHtml(link.toHtml());
                 }
             } else {
-                console.log('selection is NOT empty');
                 var nodes = [];
                 // parse all selected nodes
                 selectedNodes.forEach(function(arr){
                     arr.forEach(function(el){
-                        console.log('element: ', el);
                         var newNode, objLink;
                             // parent = el.$.parentNode;
                         // prepare Link object
                         link = new Link();
                         link.setHref(url);
                         link.underline(isUnderlined);
-                        console.log('gauge link : ', link, ', its html: ', link.toHtml());
+                        // console.log('gauge link : ', link, ', its html: ', link.toHtml());
                         obj = factory.mimic(el.$);
-                        console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
+                        // console.log('factory produced: ', obj, ', its html: ', obj.toHtml());
                         if (obj &&  !obj.isEmpty()){
-                            console.log('factory produced non empty object');
+                            // console.log('factory produced non empty object');
                             objLink = link.linkify(obj);
-                            console.log('objLink = ', objLink, ', its html: ', objLink.toHtml());
+                            // console.log('objLink = ', objLink, ', its html: ', objLink.toHtml());
                             newNode = objLink.toNode();
                             // console.log('replacing new Node = ', newNode);
                             el.$.parentNode.replaceChild(newNode, el.$);
                             nodes.push(newNode);
-                        } else {
-                            console.log('factory produced empty object or null');
                         }
-                        console.log('end of elaboration');
-
                     });
                 });
-                console.log('nodes: ', nodes);
             }
         }
     };
