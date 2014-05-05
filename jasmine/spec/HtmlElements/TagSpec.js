@@ -48,6 +48,38 @@ describe('Tag-related functionality', function() {
             expect(tag.getAttributes() instanceof Attributes).toBe(true);
         });
     });
+
+    describe('Content setter and getter', function(){
+        it('returns an instance of Content class', function(){
+            expect(tag.getContent() instanceof Content).toBe(true);
+        });
+        it('sets content if the argument is a Content instance', function(){
+            tag.setElements(['1', '2', '3']);
+            var cntn = tag.getContent();
+            expect(cntn.length()).toBe(3);
+            expect(cntn.getElem(0)).toBe('1');
+            expect(cntn.getElem(1)).toBe('2');
+            expect(cntn.getElem(2)).toBe('3');
+        });
+
+        it('sets content if the argument is a Content instance', function(){
+            tag.setElements(['1', '2', '3']);
+            var cntn = tag.getContent();
+            expect(cntn.length()).toBe(3);
+            expect(cntn.getElem(0)).toBe('1');
+            expect(cntn.getElem(1)).toBe('2');
+            expect(cntn.getElem(2)).toBe('3');
+        });
+
+        it('converts the argument into a Content instance', function(){
+            tag.setContent('content');
+            var cntn = tag.getContent();
+            expect(cntn instanceof Content).toBe(true);
+            expect(cntn.length()).toBe(1);
+            expect(cntn.getElem(0)).toBe('content');
+        });
+    });
+
     describe('Clearing content of the Tag', function(){
         it('flushes content of empty Tag instance', function(){
             expect(tag.getContent().length()).toBe(0);
