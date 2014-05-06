@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Row, Tag */
+/*global Attributes, Cell, Row, Table */
 
 /**
 * Represents table.
@@ -19,9 +19,9 @@ function FramedTable() {
 
 
 	/**
-	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * Re-set private properties defined in parent class {{#crossLink "Table"}}Table{{/crossLink}}:
 	 * <ol><li>
-	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Table"
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "FramedTable"
 	 * </li></ol>
 	 * @method         constructor
 	 */
@@ -60,61 +60,137 @@ function FramedTable() {
 
 
 	/**
-	 * {{#crossLink "FramedTable/phantomCell:property"}}phantomCell{{/crossLink}} getter.
+	 * {{#crossLink "FramedTable/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
 	 * @method         getPhantomCellStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomCellStyles = function(){
-		/// !!! stub
-	}
+		return phantomCell.getStyles();
+	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomCell:property"}}phantomCell{{/crossLink}} setter.
+	 * {{#crossLink "FramedTable/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} setter.
 	 * @method         getPhantomCellStyles
-	 * @param          {stl}                stl
+	 * @param          {Any}             stl
 	 * @return         {void}
 	 */
 	this.setPhantomCellStyles = function(stl){
-		/// !!! stub
-	}
+		if (stl !== undefined){
+			if (stl instanceof Styles){
+				phantomCell.setStyles(stl);
+			} else {
+				phantomCell.setStyles(new Styles(stl));
+			}
+		}
+	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomRow:property"}}phantomRow{{/crossLink}} getter.
+	 * {{#crossLink "FramedTable/phantomRowStyles:property"}}phantomRowStyles{{/crossLink}} getter.
 	 * @method         getPhantomRowStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomRowStyles = function(){
-		/// !!! stub
-	}
+		return phantomRow.getStyles();
+	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomRow:property"}}phantomRow{{/crossLink}} setter.
+	 * {{#crossLink "FramedTable/phantomRowStyles:property"}}phantomRowStyles{{/crossLink}} setter.
 	 * @method         getPhantomCellStyles
-	 * @param          {stl}                stl
+	 * @param          {Styles}             stl
 	 * @return         {void}
 	 */
 	this.setPhantomRowStyles = function(stl){
-		/// !!! stub
-	}
+		if (stl !== undefined){
+			if (stl instanceof Styles){
+				phantomRow.setStyles(stl);
+			} else {
+				phantomRow.setStyles(new Styles(stl));
+			}
+		}
+	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomTable:property"}}phantomTable{{/crossLink}} getter.
+	 * {{#crossLink "FramedTable/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} getter.
 	 * @method         getPhantomTableStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomTableStyles = function(){
-		/// !!! stub
-	}
+		return phantomTable.getStyles();
+	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomTable:property"}}phantomTable{{/crossLink}} setter.
+	 * {{#crossLink "FramedTable/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} setter.
 	 * @method         setPhantomTableStyles
-	 * @param          {stl}                stl
+	 * @param          {Styles}                stl
 	 * @return         {void}
 	 */
 	this.setPhantomTableStyles = function(stl){
+		if (stl !== undefined){
+			if (stl instanceof Styles){
+				phantomTable.setStyles(stl);
+			} else {
+				phantomTable.setStyles(new Styles(stl));
+			}
+		}
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} getter.
+	 * @method         getPhantomCellAttributes
+	 * @return         {Attributes}
+	 */
+	this.getPhantomCellAttributes = function(){
 		/// !!! stub
-	}
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} setter.
+	 * @method         getPhantomCellAttributes
+	 * @param          {Properties}             attr
+	 * @return         {void}
+	 */
+	this.setPhantomCellAttributes = function(attr){
+		/// !!! stub
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} getter.
+	 * @method         getPhantomRowAttributes
+	 * @return         {Attributes}
+	 */
+	this.getPhantomRowAttributes = function(){
+		/// !!! stub
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} setter.
+	 * @method         getPhantomCellAttributes
+	 * @param          {Properties}         attr
+	 * @return         {void}
+	 */
+	this.setPhantomRowAttributes = function(attr){
+		/// !!! stub
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} getter.
+	 * @method         getPhantomTableAttributes
+	 * @return         {Attributes}
+	 */
+	this.getPhantomTableAttributes = function(){
+		/// !!! stub
+	};
+
+	/**
+	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} setter.
+	 * @method         setPhantomTableAttributes
+	 * @param          {Properties}         attr
+	 * @return         {void}
+	 */
+	this.setPhantomTableAttributes = function(attr){
+		/// !!! stub
+	};
+
 
 
 
