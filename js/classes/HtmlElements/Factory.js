@@ -7,12 +7,12 @@
  * is decided based on functionality of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class,
  * an instance of which might be passed as an argument.
  * instance.
- * @module 	    HtmlElements
- * @class  		Factory
+ * @module 	           HtmlElements
+ * @class  		       Factory
  * @constructor
- * @param       {Mapping}           mapping          an instance of Mapping class
- * @since       0.0.2
- * @author      A.Shcherbakov
+ * @param              {Mapping}            mapping          an instance of Mapping class
+ * @since              0.0.2
+ * @author             A.Shcherbakov
  *
  */
 function Factory(map){
@@ -23,16 +23,16 @@ function Factory(map){
 
 	/**
 	 * An instance of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class.
-	 * @property  mapping
+	 * @property       mapping
 	 * @private
-	 * @type     {Mapping}
+	 * @type           {Mapping}
 	 */
 	var mapping = (map instanceof Mapping) ? map : new Mapping();
 
 	/**
 	 * {{#crossLink "Factory/mapping:property"}}Mapping{{/crossLink}} getter.
-	 * @method       getMapping
-	 * @return       {Mapping}
+	 * @method         getMapping
+	 * @return         {Mapping}
 	 */
 	this.getMapping = function(){
 		return mapping;
@@ -42,8 +42,8 @@ function Factory(map){
 	 * {{#crossLink "Factory/mapping:property"}}Mapping{{/crossLink}} setter. Returns `true`
 	 * if the argument is an instance of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class and
 	 * `false` otherwise.
-	 * @method       setMapping
-	 * @return       {Boolean}
+	 * @method         setMapping
+	 * @return         {Boolean}
 	 */
 	this.setMapping = function(map){
 		var isMap = map instanceof Mapping;
@@ -57,9 +57,9 @@ function Factory(map){
 	 * Creates a class instance corresponding to the argument. The decision is to be taken
 	 * based on the {{#crossLink "Mapping/findTargetFor:method"}}findTargetFor(){{/crossLink}}
 	 * of {{#crossLink "Factory/mapping:method"}}mapping{{/crossLink}} property.
-	 * @method  stub
-	 * @param   {Any}                obj
-	 * @return  {Object|Null}
+	 * @method         stub
+	 * @param          {Any}                obj
+	 * @return         {Object|Null}
 	 */
 	this.stub = function(obj){
 		var map = this.getMapping();
@@ -75,15 +75,18 @@ function Factory(map){
 	/**
 	 * Creates a copy of the argument. It first calls {{#crossLink "Factory/stub:method"}}stub{{/crossLink}} and if its
 	 * result responds to method "load", calls it.
-	 * @method mimic
-	 * @param  {Any}            obj
-	 * @return {Object}
+	 * @method         mimic
+	 * @param          {Any}                obj
+	 * @return         {Object}
 	 */
 	this.mimic = function(obj){
+		var rnd = parseInt(Math.random()*1000);
+		console.info(rnd, 'Factory::mimic argument = ', obj);
 		var stub = this.stub(obj);
 		if (stub && typeof stub.load === 'function'){
 			stub.load(obj);
 		}
+		console.info(rnd, 'Factory::mimic argument = ', obj);
 		return stub;
 
 	}

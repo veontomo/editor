@@ -34,7 +34,7 @@ function Row() {
 	this.setStyles(new TableRowStyles());
 
 	/**
-	 * Returns an array of the cell widths.
+	 * Returns an array of absolute cell widths (widths without unit of measurement).
 	 * @method         getCellWidths
 	 * @return         {Array}
 	 */
@@ -43,7 +43,7 @@ function Row() {
 			cellNum = this.cellNum(),
 			i;
 		for (i = 0; i < cellNum; i++){
-			output.push(this.getElem(i).getWidth());
+			output.push(this.getElem(i).getWidthValue());
 		}
 		return output;
 	};
@@ -59,9 +59,9 @@ function Row() {
 
 	/**
 	 * Sets widths of the cells inside the row.
-	 * @method setCellWidths
-	 * @param {Array} profile          each elements if this array is a width of the corresp. cell in the row.
-	 * @return {void}
+	 * @method         setCellWidths
+	 * @param          {Array}              profile         each elements if this array is a width of the corresp. cell in the row.
+	 * @return         {void}
 	 */
 	this.setCellWidths = function(profile){
 		var len = profile.length,
@@ -77,10 +77,10 @@ function Row() {
 	/**
 	 * Inserts a cell into a given position. If the object to insert is a Cell instance,
 	 * then parent method insertElemAt is called. Otherwise, an error is thrown.
-	 * @method insertCellAt
-	 * @param  {Cell}   cell        a cell to insert. If not a Cell instance, an error will be thrown.
-	 * @param  {Number} pos         position at which the cell is to be inserted.
-	 * @return {void}
+	 * @method         insertCellAt
+	 * @param          {Cell}               cell        a cell to insert. If not a Cell instance, an error will be thrown.
+	 * @param          {Number}             pos         position at which the cell is to be inserted.
+	 * @return         {void}
 	 */
 	this.insertCellAt = function(pos, cell){
 		if (!(cell instanceof Cell)){

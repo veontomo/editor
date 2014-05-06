@@ -204,7 +204,9 @@ function Tag() {
 	};
 
 	/**
-	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} setter.
+	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} setter. Use it with caution. This
+	 * method is intended to be used in classes that inherite from this one in order to set the name attribute.
+	 * (If only were there a late binding ...)
 	 * @method         setName
 	 * @param          {String} name
 	 * @return         {void}
@@ -357,12 +359,9 @@ function Tag() {
 		}
 	};
 
-
-
-
 	/**
 	 * Calls {{#crossLink "Styles/setWidth:method"}}setWidth(){{/crossLink}} and
-	 * {{#crossLink "Attributes/setProperty:method"}}setProperty(){{/crossLink}} methods to set the widths.
+	 * {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}} methods to set the widths.
 	 * @method         setWidth
 	 * @param          {String|Number} 	    w
 	 * @return         {void}
@@ -376,7 +375,7 @@ function Tag() {
 	};
 
 	/**
-	 * Retrieves `width` attribute of {{#crossLink "Tag/style:property"}}style{{/crossLink}} property.
+	 * Retrieves `width` attribute of {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} property.
 	 * @method         getWidth
 	 * @return         {mixed}
 	 * @since          0.0.4
@@ -386,7 +385,7 @@ function Tag() {
 	};
 
 	/**
-	 * Returns absolute value of `width` attribute of {{#crossLink "Tag/style:property"}}style{{/crossLink}}
+	 * Returns absolute value of `width` attribute of {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
 	 * property without unit of measurement. If `width` is not defined or defined but its absolute value
 	 * can not be found, then `undefined` is returned.
 	 * @method         getWidthValue
@@ -549,6 +548,7 @@ function Tag() {
 			styleStr = Helper.sandwichWith('style="', styleStr, '"');
 			html = '<' + [tagStr, attrStr, styleStr].concatDropSpaces() + '>' + constStr + '</' + tagStr + '>';
 		} else {
+			console.log('tag name is missing ', this);
 			html = '<!-- tag name is missing -->';
 		}
 		return html;

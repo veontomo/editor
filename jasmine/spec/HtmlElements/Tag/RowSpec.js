@@ -82,7 +82,7 @@ describe('Row-related functionality:', function(){
             expect(row.getCellWidths().length).toBe(0);
         });
         it('returns 1-element array with cell width', function(){
-            spyOn(cell1, 'getWidth').andCallFake(function(){
+            spyOn(cell1, 'getWidthValue').andCallFake(function(){
                 return 'row 1 width';
             });
             row.appendElem(cell1);
@@ -90,10 +90,10 @@ describe('Row-related functionality:', function(){
             expect(row.getCellWidths()[0]).toBe('row 1 width');
         });
         it('returns 2-element array with cell widths if the row has two cells', function(){
-            spyOn(cell1, 'getWidth').andCallFake(function(){
+            spyOn(cell1, 'getWidthValue').andCallFake(function(){
                 return 'row 1 width';
             });
-            spyOn(cell2, 'getWidth').andCallFake(function(){
+            spyOn(cell2, 'getWidthValue').andCallFake(function(){
                 return 'row 2 width';
             });
             row.appendElem(cell1);

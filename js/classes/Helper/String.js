@@ -89,7 +89,7 @@ String.prototype.createRowFromHtml = function(){
 	cellsNum = cells.length;
 	for (i = 0; i < cellsNum; i++){
 		currentCell = cells[i];
-		if(currentCell.tagName === "TD"){
+		if (currentCell.tagName === "TD"){
 			cell = currentCell.outerHTML.createCellFromHtml();
 			row.appendCell(cell);
 		}
@@ -138,7 +138,7 @@ String.prototype.createTableFromHtml = function(){
 
     for (i = 0; i < rowsNum; i++){
         currentRow = rows[i];
-        if(currentRow.tagName === "TR"){
+        if (currentRow.tagName === "TR"){
             row = currentRow.outerHTML.createRowFromHtml();
             table.appendRow(row);
         }
@@ -172,15 +172,15 @@ String.prototype.createListFromHtml = function(listType){
     uniqueNodeChildren = uniqueNode.childNodes;
     if (uniqueNodeChildren.length === 1){
         node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
-        output.name = listType || node.nodeName.toLowerCase();
+        output.setTag(listType || node.nodeName.toLowerCase());
 
         style = node.getAttribute('style');
-        output.style = new Styles(style);
+        output.setStyles(new Styles(style));
         attrs = Helper.flatten(node.attributes);
         if (attrs.hasOwnProperty('style')){
             delete attrs.style;
         }
-        output.attr = new Attributes(attrs);
+        output.setAttributes(new Attributes(attrs));
         // split the target string on blocks
         children = node.childNodes;
         childrenLen = children.length;
@@ -243,14 +243,14 @@ String.prototype.createListItemFromHtml = function(){
 
     // imposing its styles
     nodeStyle = node.getAttribute('style');
-    listItem.style = new Styles(nodeStyle);
+    listItem.setStyles(new Styles(nodeStyle));
 
     // imposing its attributes
     attrs = Helper.flatten(node.attributes);
     if (attrs.hasOwnProperty('style')){
         delete attrs.style;
     }
-    listItem.attr = new Attributes(attrs);
+    listItem.setAttributes(new Attributes(attrs));
     elems = node.childNodes;
     elemsNum = elems.length;
     for (i = 0; i < elemsNum; i++){
@@ -296,15 +296,15 @@ String.prototype.createTagFromHtml = function(){
         node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
         if (node.nodeType === Node.ELEMENT_NODE){
             tagName = node.nodeName;
-            output.name = tagName.toLowerCase();
+            output.setTag(tagName.toLowerCase());
 
             style = node.getAttribute('style');
-            output.style = new Styles(style);
+            output.setStyles(new Styles(style));
             attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty('style')){
                 delete attrs.style;
             }
-            output.attr = new Attributes(attrs);
+            output.setAttributes(new Attributes(attrs));
             // split the target string on blocks
             children = node.childNodes;
             childrenLen = children.length;
@@ -352,17 +352,17 @@ String.prototype.createLinkFromHtml = function(){
         node = uniqueNodeChildren[0]; // in fact this is the node corresponding to the target string
         if (node.nodeType === Node.ELEMENT_NODE){
             tagName = node.nodeName;
-            output.name = tagName.toLowerCase();
+            output.setTag(tagName.toLowerCase());
 
             style = node.getAttribute('style');
             href = node.getAttribute('href');
-            output.style = new LinkStyles(style);
+            output.setStyles(new LinkStyles(style));
             attrs = Helper.flatten(node.attributes);
             if (attrs.hasOwnProperty('style')){
                 delete attrs.style;
             }
-            output.attr = new LinkAttributes(attrs);
-            output.attr.setHref(href);
+            output.setAttributes(new LinkAttributes(attrs));
+            output.setHref(href);
             // split the target string on blocks
             children = node.childNodes;
             childrenLen = children.length;
@@ -392,7 +392,8 @@ String.prototype.inflate = function(){
      * @method    inflate
      * @return    {Content}
      */
-    var str, parser, id, doc, output, node, children, childrenNum, i, child, childHtml, elem, methodName, methodExists;
+    var str, parser, id, doc, output, node, children,
+        childrenNum, i, child, childHtml, elem, methodName, methodExists;
     str = this.toString();
     parser = new DOMParser();
     output = new Content();
@@ -426,7 +427,7 @@ String.prototype.inflate = function(){
                     default:
                         elem = child.nodeValue;
                 }
-                if(elem){
+                if (elem){
                     output.appendElem(elem);
                 }
             }

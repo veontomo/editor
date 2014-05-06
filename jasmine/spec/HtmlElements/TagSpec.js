@@ -174,10 +174,6 @@ describe('Tag-related functionality', function() {
             tag.setStyleProperty('width', "9.21 pt");
             expect(tag.getWidthValue()).toBe(9.21);
         });
-
-
-
-
     });
 
     describe('Tag::setWidth(): sets width of the object', function(){
@@ -201,7 +197,11 @@ describe('Tag-related functionality', function() {
             expect(stl.setWidth).toHaveBeenCalledWith(width);
             expect(attr.setProperty).toHaveBeenCalledWith('width', width);
         });
-
+        it('sets the width (final check)', function(){
+            var tag2 = new Tag();
+            tag2.setWidth('12.1em');
+            expect(tag2.getWidth()).toBe('12.1em');
+        });
     });
 
     describe('Tag::getElem(): gets element from "content" property', function(){
