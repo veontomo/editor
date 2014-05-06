@@ -396,11 +396,11 @@ function Tag() {
 		var w = this.getWidth();
 		if (w !== undefined){
 			var result = parseFloat(w);
-			isNaN (!if(result)){
+			if (!isNaN(result)){
 				return result;
 			}
 		}
-	}
+	};
 
 
 	/**
