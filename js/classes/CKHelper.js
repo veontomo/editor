@@ -171,11 +171,7 @@ var CKHelper = {
 		cellObjAttr = cellObj.getAttributes();
 		tableProfile = tableObj.getProfile().map(function(el){return parseFloat(el);});
 
-
 		newTableProfile = Helper.crack(tableProfile, cellIndex);
-
-		console.log(tableProfile, ' --> ', newTableProfile);
-
 		cellToInsert = new Cell('cella');
 		cellToInsertAttr = new Attributes(cellObjAttr);
 		cellToInsertStyles = new Styles(cellObjStyles);

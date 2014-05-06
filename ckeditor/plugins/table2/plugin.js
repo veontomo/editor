@@ -205,8 +205,6 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			}
 
 			var tableObj = table.getOuterHtml().createTableFromHtml();
-
-			console.log(tableObj, ', its profile : ', tableObj.getProfile());
 			var	profile = tableObj.getProfile().map(function(el){
 				return parseFloat(el);
 			}),
@@ -285,9 +283,6 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 					el.getAttribute(NEWSLETTER['marker-name'] ) === tableMarker;
 			});
 			currentTable = table.getOuterHtml().createTableFromHtml();
-			//console.log('table elem:', table);
-			//console.log('outer html:', table.getOuterHtml());
-			//console.log('table obj: ', currentTable);
 			currentTable.setProfile(userInput);
 
 			tableStr = currentTable.toHtml();
