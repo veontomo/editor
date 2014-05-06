@@ -240,12 +240,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				bogusRowStyle.setWidth(bogusRowWidth);
 				//console.log('table2.js: bogusRowWidth = ', bogusRowWidth);
 				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
-				bogusRowStyle.getProperty('padding', 0);
-				bogusRowStyle.getProperty('margin', 0);
+				bogusRowStyle.setProperty('padding', 0);
+				bogusRowStyle.setProperty('margin', 0);
 				// mark the bogus row
 				bogusRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-
-				bogusCellWidth = bogusRowStyle.getWidth() - 2 * bogusRowStyle.getProperty('padding') - 2 * frameWidth;
+				bogusCellWidth = bogusRowStyle.getProperty('width') - 2 * bogusRowStyle.getProperty('padding') - 2 * frameWidth;
 				bogusCellStyle.setWidth(bogusCellWidth);
 				allWidths.push({'value': bogusCellWidth, 'descr': 'larghezza della cella fittizia'});
 

@@ -306,7 +306,7 @@ function Table() {
 		this.setStyleProperty('border-style', 'none');
 
 		if (this.getAttributes().hasProperty('border')) {
-			this.getAttributes().dropsProperty('border')
+			this.getAttributes().dropsProperty('border');
 		}
 	};
 
@@ -322,7 +322,7 @@ function Table() {
 		if (this.rowNum() === 0){
 			return false;
 		}
-		return this.getContent().getElements().every(function(row){
+		return this.getElements().every(function(row){
 			return row.onlyTableInside();
 		});
 	};
@@ -401,12 +401,12 @@ function Table() {
 
 		if (this.isFramed()){
 			// some preliminaries for the framed tables
-			bogusRowAttr    = this.bogusRowAttr    ? this.bogusRowAttr.toString() : '';
-			bogusRowStyle   = Helper.sandwichWith('style="', this.bogusRowStyle.toString(), '"');
-			bogusCellAttr   = this.bogusCellAttr   ? this.bogusCellAttr.toString() : '';
-			bogusCellStyle  = Helper.sandwichWith('style="', this.bogusCellStyle.toString(), '"');
-			bogusTableAttr  = this.bogusTableAttr  ? this.bogusTableAttr.toString() : '';
-			bogusTableStyle = Helper.sandwichWith('style="', this.bogusTableStyle.toString(), '"');
+			bogusRowAttr    = this.bogusRowAttr    ? this.getBogusRowAttr.toString() : '';
+			bogusRowStyle   = Helper.sandwichWith('style="', this.getBogusRowStyle().toString(), '"');
+			bogusCellAttr   = this.bogusCellAttr   ? this.getBogusCellAttr.toString() : '';
+			bogusCellStyle  = Helper.sandwichWith('style="', this.getBogusCellStyle.toString(), '"');
+			bogusTableAttr  = this.bogusTableAttr  ? this.getBogusTableAttr.toString() : '';
+			bogusTableStyle = Helper.sandwichWith('style="', this.getBogusTableStyle.toString(), '"');
 
 			bogusRowHtml = Helper.sandwichWith('<', [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces(), '>');
 			bogusCellHtml = Helper.sandwichWith('<', [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces(), '>');
@@ -494,7 +494,7 @@ function Table() {
 	 * NB: to compare requested property for all rows, this property must be an object
 	 * with boolean-valued method isTheSameAs().
 	 * @method   getBogusRowProp
-	 * @param    {String}         prop      a tag of the property to return. All rows shiuld have this property.
+	 * @param    {String}         prop      a tag of the property to return. All rows should have this property.
 	 * @return   {Object|null}			    the value of the property specified by the argument, if it is the same
 	 *                                      for all rows, null otherwise.
 	 */
@@ -505,8 +505,10 @@ function Table() {
 		var firstRow = this.getFirst(),
 			rowNum = this.rowNum(),
 			rowProp, i, firstRowProp;
-		if (firstRow.getStyles().hasProperty(prop)){
-			firstRowProp = firstRow[prop];
+		firstRowProp = firstRow.getStyleProperty(prop);
+		if (firstRow !== undefined && typeof firstRow.getStyles === 'function'){
+
+			firstRowProp = firstRow.getStyleProperty(prop);
 		} else {
 			return null;
 		}
@@ -550,9 +552,9 @@ function Table() {
 	/**
 	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
-	 * @method  getBogusCellProp
-	 * @param  {String}      propName            requested property (supposed to be "style" or "attr")
-	 * @return {Object|null}
+	 * @method        getBogusCellProp
+	 * @param         {String}              propName            requested property (supposed to be "style" or "attr")
+	 * @return        {Object|null}
 	 */
 	this.getBogusCellProp = function(propName){
 		if (!this.isFragmented()){
@@ -562,6 +564,7 @@ function Table() {
 			firstRow = this.getFirst(),
 			firstRowProp, i, currentRowProp;
 		firstRowProp = firstRow.getBogusCellProp(propName);
+		console.log('Table::getBogusCellProp : firstRowProp(', propName, ') = ', firstRowProp);
 		if (rowNum === 1){
 			return firstRowProp;
 		}

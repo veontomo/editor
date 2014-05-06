@@ -111,9 +111,12 @@ function Row() {
 	 */
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
+		console.log('onlyTableInside', this.cellNum(), cell.length());
 		if (this.cellNum() !== 1 || cell.length() !== 1){
+			console.log('returning false ');
 			return false;
 		}
+		console.log('onlyTableInside returning ', cell.getFirst() instanceof Table);
 		return (cell.getFirst() instanceof Table);
 	};
 
@@ -247,7 +250,15 @@ function Row() {
 	 * @return {Object}
 	 */
 	this.getBogusCellProp = function(prop){
-		return this.onlyTableInside() ? this.getFirst()[prop] : null;
+		if (this.onlyTableInside()){
+			if (prop === 'style'){
+				return this.getFirst().getStyles();
+			}
+			if (prop === 'attr'){
+				return this.getFirst().getAttributes();
+			}
+		}
+		return null;
 	};
 
 	/**
@@ -260,7 +271,15 @@ function Row() {
 	 */
 	this.getBogusTableProp = function(prop){
 		// inside the row there is a cell, inside which there is a table
-		return this.onlyTableInside() ? this.getFirst().getFirst()[prop] : null;
+		if (this.onlyTableInside()){
+			if (prop === 'style'){
+				return this.getFirst().getFirst().getStyles();
+			}
+			if (prop === 'attr'){
+				return this.getFirst().getFirst().getAttributes();
+			}
+		}
+		return null;
 	};
 
 
