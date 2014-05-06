@@ -137,6 +137,49 @@ describe('Tag-related functionality', function() {
         });
     });
 
+    describe('Getting absolute value of width', function(){
+        it('returns undefined if width is undefined', function(){
+            expect(tag.getWidth()).not.toBeDefined();
+            expect(tag.getWidthValue()).not.toBeDefined();
+        });
+        it('returns undefined if width is a pure string', function(){
+            tag.setStyleProperty('width', 'large');
+            expect(tag.getWidthValue()).not.toBeDefined();
+        });
+        it('returns zero if width if it is set to zero', function(){
+            tag.setStyleProperty('width', 0);
+            expect(tag.getWidthValue()).toBe(0);
+        });
+        it('returns width if it is set to an integer', function(){
+            tag.setStyleProperty('width', 5);
+            expect(tag.getWidthValue()).toBe(5);
+        });
+        it('returns width if it is set to a float', function(){
+            tag.setStyleProperty('width', 93.4);
+            expect(tag.getWidthValue()).toBe(93.4);
+        });
+        it('returns 13 if it is set to a "13em"', function(){
+            tag.setStyleProperty('width', "13em");
+            expect(tag.getWidthValue()).toBe(13);
+        });
+        it('returns 84.1 if it is set to a "84.1px"', function(){
+            tag.setStyleProperty('width', "84.1px");
+            expect(tag.getWidthValue()).toBe(84.1);
+        });
+        it('returns 0 if it is set to a "0%"', function(){
+            tag.setStyleProperty('width', "0%");
+            expect(tag.getWidthValue()).toBe(0);
+        });
+        it('returns 9.21 if it is set to a "9.21 pt"', function(){
+            tag.setStyleProperty('width', "9.21 pt");
+            expect(tag.getWidthValue()).toBe(9.21);
+        });
+
+
+
+
+    });
+
     describe('Tag::setWidth(): sets width of the object', function(){
         var stl, attr;
         beforeEach(function(){

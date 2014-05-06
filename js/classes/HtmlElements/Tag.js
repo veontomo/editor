@@ -376,7 +376,7 @@ function Tag() {
 	};
 
 	/**
-	 * Retieves `width` of {{#crossLink "Tag/style:property"}}style{{/crossLink}} property.
+	 * Retrieves `width` attribute of {{#crossLink "Tag/style:property"}}style{{/crossLink}} property.
 	 * @method         getWidth
 	 * @return         {mixed}
 	 * @since          0.0.4
@@ -384,6 +384,24 @@ function Tag() {
 	this.getWidth = function(){
 		return this.getStyles().getProperty('width');
 	};
+
+	/**
+	 * Returns absolute value of `width` attribute of {{#crossLink "Tag/style:property"}}style{{/crossLink}}
+	 * property without unit of measurement. If `width` is not defined or defined but its absolute value
+	 * can not be found, then `undefined` is returned.
+	 * @method         getWidthValue
+	 * @return         {Number|Null}        width without unit of measurement
+	 */
+	this.getWidthValue = function(){
+		var w = this.getWidth();
+		if (w !== undefined){
+			var result = parseFloat(w);
+			isNaN (!if(result)){
+				return result;
+			}
+		}
+	}
+
 
 	/**
 	 * Returns copy of {{#crossLink "Content/elements"}}elements{{/crossLink}} of

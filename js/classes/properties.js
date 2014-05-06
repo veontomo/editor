@@ -23,8 +23,8 @@ function Properties(input) {
 	 * Use {{#crossLink "Properties/getProperty:method"}}getProperty(){{/crossLink}} and
 	 * {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}} methods to
 	 * access the content of this object.
-	 * @property    {Object}         core
-	 * @type        {Object}
+	 * @property       {Object}         core
+	 * @type           {Object}
 	 * @private
 	 */
 	var core = {};
