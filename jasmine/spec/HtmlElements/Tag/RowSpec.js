@@ -238,7 +238,7 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    describe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
+    xdescribe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
         it('gives false, if the row is empty', function(){
             spyOn(row, 'cellNum').andCallFake(function(){return 0;});
             expect(row.onlyTableInside()).toBe(false);
@@ -273,7 +273,7 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    describe('Row::getBogusCellStyle(): gets styles of the bogus cell', function(){
+    xdescribe('Row::getBogusCellStyle(): gets styles of the bogus cell', function(){
         it('returns null, if onlyTableInside returns false', function(){
             spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
             expect(row.getBogusCellStyle()).toBe(null);
@@ -303,7 +303,7 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    describe('Row::getBogusTableProp(): gets requested property of the bogus table', function(){
+    xdescribe('Row::getBogusTableProp(): gets requested property of the bogus table', function(){
         it('returns null, if onlyTableInside returns null', function(){
             spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
             expect(row.getBogusTableProp()).toBe(null);

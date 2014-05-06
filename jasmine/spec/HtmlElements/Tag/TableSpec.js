@@ -483,7 +483,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::toHtml(): generates html representation of the table', function(){
+    xdescribe('Table::toHtml(): generates html representation of the table', function(){
         it('generates html code of the table if attribute and style properties are both present', function(){
             spyOn(row1, 'toHtml').andCallFake(function(){
                 return 'row 1 ';
@@ -851,7 +851,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::isFragmented(): whether the table looks like a framed table?', function(){
+    xdescribe('Table::isFragmented(): whether the table looks like a framed table?', function(){
         it('gives false for empty tables', function(){
             spyOn(table, 'rowNum').andCallFake(function(){return 0;});
             expect(table.isFragmented()).toBe(false);
@@ -941,7 +941,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusRowStyle(): gets the style of the bogus row', function(){
+    xdescribe('Table::getBogusRowStyle(): gets the style of the bogus row', function(){
         it('calls method Table::getBogusRowProp("style")', function(){
             spyOn(table, 'getBogusRowProp').andCallFake(function(){return 'result';});
             expect(table.getBogusRowStyle()).toBe('result');
@@ -949,7 +949,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusRowAttr(): gets the attribute of the bogus row', function(){
+    xdescribe('Table::getBogusRowAttr(): gets the attribute of the bogus row', function(){
         it('calls method Table::getBogusRowProp("attr")', function(){
             spyOn(table, 'getBogusRowProp').andCallFake(function(){return 'attributes';});
             expect(table.getBogusRowAttr()).toBe('attributes');
@@ -958,7 +958,7 @@ describe('Table-related functionality:', function(){
 
     });
 
-    describe('Table::getBogusRowProp(): gets the requested property of the bogus row', function(){
+    xdescribe('Table::getBogusRowProp(): gets the requested property of the bogus row', function(){
         var row1Prop, stl;
         beforeEach(function(){
             stl = new Styles();
@@ -1068,7 +1068,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusCellProp(): gets the requested property of the bogus cell', function(){
+    xdescribe('Table::getBogusCellProp(): gets the requested property of the bogus cell', function(){
         var row1CellProp;
         it('returns null, if Table::isFragmented returns false', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return false;});
@@ -1143,7 +1143,8 @@ describe('Table-related functionality:', function(){
             expect(row1CellProp.isTheSameAs).toHaveBeenCalledWith('bogus prop of row 3');
         });
     });
-    describe('Table::getBogusCellAttr(): gets bogus cell attributes', function(){
+
+    xdescribe('Table::getBogusCellAttr(): gets bogus cell attributes', function(){
         it('calls Table::getBogusCellProp("attr")', function(){
             spyOn(table, 'getBogusCellProp').andCallFake(function(){return 'dumb attr';});
             expect(table.getBogusCellAttr()).toBe('dumb attr');
@@ -1151,7 +1152,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusCellStyle(): gets bogus cell style', function(){
+    xdescribe('Table::getBogusCellStyle(): gets bogus cell style', function(){
         it('calls Table::getBogusCellProp("style")', function(){
             spyOn(table, 'getBogusCellProp').andCallFake(function(){return 'dumb style';});
             expect(table.getBogusCellStyle()).toBe('dumb style');
@@ -1159,8 +1160,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-
-    describe('Table::getBogusTableProp(): gets the requested property of the bogus table', function(){
+    xdescribe('Table::getBogusTableProp(): gets the requested property of the bogus table', function(){
         it('returns null, if Table::isFragmented returns false', function(){
             spyOn(table, 'isFragmented').andCallFake(function(){return false;});
             expect(table.getBogusTableProp('anything')).toBe(null);
@@ -1241,7 +1241,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusTableAttr(): gets bogus table attributes', function(){
+    xdescribe('Table::getBogusTableAttr(): gets bogus table attributes', function(){
         it('calls Table::getBogusTableProp("attr")', function(){
             spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb attr';});
             expect(table.getBogusTableAttr()).toBe('dumb attr');
@@ -1249,7 +1249,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getBogusTableStyle(): gets bogus table style', function(){
+    xdescribe('Table::getBogusTableStyle(): gets bogus table style', function(){
         it('calls Table::getBogusTableProp("style")', function(){
             spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb style';});
             expect(table.getBogusTableStyle()).toBe('dumb style');
@@ -1258,7 +1258,7 @@ describe('Table-related functionality:', function(){
     });
 
 
-    describe('Table::desintangle(): converts table from fragmented into a framed', function(){
+    xdescribe('Table::desintangle(): converts table from fragmented into a framed', function(){
         it('does not add bogus cell, row, table properties if the table is not fragmented', function(){
             expect(table.bogusRowStyle).toBe(null);
             expect(table.bogusRowAttr).toBe(null);
