@@ -29,7 +29,7 @@ function FramedTable() {
 
 
 	/**
-	 * Phantom {{#crossLink "Cell"}}Cell{{/crossLink}} serves to collect {{#crossLink "Styles"}}styles{{/crossLink}}
+	 * A {{#crossLink "Cell"}}Cell{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
 	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
 	 * ignored.
 	 * @property       {Cell}               phantomCell
@@ -39,7 +39,7 @@ function FramedTable() {
 	var phantomCell = new Cell();
 
 	/**
-	 * Phantom {{#crossLink "Row"}}Row{{/crossLink}} serves to collect {{#crossLink "Styles"}}styles{{/crossLink}}
+	 * A {{#crossLink "Row"}}Row{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
 	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
 	 * ignored.
 	 * @property       {Row}                phantomRow
@@ -49,7 +49,7 @@ function FramedTable() {
 	var phantomRow = new Row();
 
 	/**
-	 * Phantom {{#crossLink "Table"}}Table{{/crossLink}} serves to collect {{#crossLink "Styles"}}styles{{/crossLink}}
+	 * A {{#crossLink "Table"}}Table{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
 	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
 	 * ignored.
 	 * @property       {Table}              phantomTable
@@ -57,6 +57,66 @@ function FramedTable() {
 	 * @private
 	 */
 	var phantomTable = new Table();
+
+
+	/**
+	 * {{#crossLink "FramedTable/phantomCell:property"}}phantomCell{{/crossLink}} getter.
+	 * @method         getPhantomCellStyles
+	 * @return         {Styles}
+	 */
+	this.getPhantomCellStyles = function(){
+		/// !!! stub
+	}
+
+	/**
+	 * {{#crossLink "FramedTable/phantomCell:property"}}phantomCell{{/crossLink}} setter.
+	 * @method         getPhantomCellStyles
+	 * @param          {stl}                stl
+	 * @return         {void}
+	 */
+	this.setPhantomCellStyles = function(stl){
+		/// !!! stub
+	}
+
+	/**
+	 * {{#crossLink "FramedTable/phantomRow:property"}}phantomRow{{/crossLink}} getter.
+	 * @method         getPhantomRowStyles
+	 * @return         {Styles}
+	 */
+	this.getPhantomRowStyles = function(){
+		/// !!! stub
+	}
+
+	/**
+	 * {{#crossLink "FramedTable/phantomRow:property"}}phantomRow{{/crossLink}} setter.
+	 * @method         getPhantomCellStyles
+	 * @param          {stl}                stl
+	 * @return         {void}
+	 */
+	this.setPhantomRowStyles = function(stl){
+		/// !!! stub
+	}
+
+	/**
+	 * {{#crossLink "FramedTable/phantomTable:property"}}phantomTable{{/crossLink}} getter.
+	 * @method         getPhantomTableStyles
+	 * @return         {Styles}
+	 */
+	this.getPhantomTableStyles = function(){
+		/// !!! stub
+	}
+
+	/**
+	 * {{#crossLink "FramedTable/phantomTable:property"}}phantomTable{{/crossLink}} setter.
+	 * @method         setPhantomTableStyles
+	 * @param          {stl}                stl
+	 * @return         {void}
+	 */
+	this.setPhantomTableStyles = function(stl){
+		/// !!! stub
+	}
+
+
 
 }
 FramedTable.prototype = Object.create(Table.prototype);
