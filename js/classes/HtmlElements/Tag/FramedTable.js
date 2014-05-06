@@ -140,7 +140,7 @@ function FramedTable() {
 	 * @return         {Attributes}
 	 */
 	this.getPhantomCellAttributes = function(){
-		/// !!! stub
+		return phantomCell.getAttributes();
 	};
 
 	/**
@@ -150,7 +150,13 @@ function FramedTable() {
 	 * @return         {void}
 	 */
 	this.setPhantomCellAttributes = function(attr){
-		/// !!! stub
+		if (attr !== undefined){
+			if (attr instanceof Attributes){
+				phantomCell.setAttributes(attr);
+			} else {
+				phantomCell.setAttributes(new Attributes(attr));
+			}
+		}
 	};
 
 	/**
@@ -159,7 +165,7 @@ function FramedTable() {
 	 * @return         {Attributes}
 	 */
 	this.getPhantomRowAttributes = function(){
-		/// !!! stub
+		return phantomRow.getAttributes();
 	};
 
 	/**
@@ -169,7 +175,13 @@ function FramedTable() {
 	 * @return         {void}
 	 */
 	this.setPhantomRowAttributes = function(attr){
-		/// !!! stub
+		if (attr !== undefined){
+			if (attr instanceof Attributes){
+				phantomRow.setAttributes(attr);
+			} else {
+				phantomRow.setAttributes(new Attributes(attr));
+			}
+		}
 	};
 
 	/**
@@ -178,7 +190,7 @@ function FramedTable() {
 	 * @return         {Attributes}
 	 */
 	this.getPhantomTableAttributes = function(){
-		/// !!! stub
+		return phantomTable.getAttributes();
 	};
 
 	/**
@@ -188,7 +200,13 @@ function FramedTable() {
 	 * @return         {void}
 	 */
 	this.setPhantomTableAttributes = function(attr){
-		/// !!! stub
+		if (attr !== undefined){
+			if (attr instanceof Attributes){
+				phantomTable.setAttributes(attr);
+			} else {
+				phantomTable.setAttributes(new Attributes(attr));
+			}
+		}
 	};
 
 
