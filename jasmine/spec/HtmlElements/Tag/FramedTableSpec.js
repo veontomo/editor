@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, FramedTable, Table, Styles, Attributes */
+/*global describe, it, expect, spyOn, beforeEach, afterEach, FramedTable, Table, Styles, Attributes, Tag */
 
 describe('Table-related functionality:', function(){
     var ft;
@@ -222,13 +222,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Creates html representation', function(){
-        it('returns empty string if the content is empty', function(){
-            ft.setElements([]);
-            var html = ft.toHtml();
-            expect(html).toBe('');
-        });
-
+    describe('Creates html representation', function(){
         it('generates string', function(){
             var phTableAttrs = new Attributes(),
                 phTableStyles = new Styles(),
@@ -255,33 +249,27 @@ describe('Table-related functionality:', function(){
             spyOn(t1, 'toHtml').andCallFake(function(){return 't1 string';});
             spyOn(t2, 'toHtml').andCallFake(function(){return 't2 string';});
             spyOn(t3, 'toHtml').andCallFake(function(){return 't3 string';});
-            spyOn(stls, 'toString').andCallFake(function(){return 'table styles';});
-            spyOn(attrs, 'toString').andCallFake(function(){return 'table attribites';});
-            spyOn(phTableAttrs, 'toString').andCallFake(function(){return 'phantom tbl attrs';});
-            spyOn(phTableStyles, 'toString').andCallFake(function(){return 'phantom tbl styles';});
-            spyOn(phRowAttrs, 'toString').andCallFake(function(){return 'phantom row attrs';});
-            spyOn(phRowStyles, 'toString').andCallFake(function(){return 'phantom row styles';});
-            spyOn(phCellAttrs, 'toString').andCallFake(function(){return  'phantom cell attrs';});
-            spyOn(phCellStyles, 'toString').andCallFake(function(){return 'phantom cell styles';});
+            spyOn(stls, 'toString').andCallFake(function(){return '"table styles"';});
+            spyOn(attrs, 'toString').andCallFake(function(){return '"table attributes"';});
+            spyOn(phTableAttrs, 'toString').andCallFake(function(){return '"ph-table-attrs"';});
+            spyOn(phTableStyles, 'toString').andCallFake(function(){return '"ph-table-styles"';});
+            spyOn(phRowAttrs, 'toString').andCallFake(function(){return '"ph-row-attrs"';});
+            spyOn(phRowStyles, 'toString').andCallFake(function(){return '"ph-row-styles"';});
+            spyOn(phCellAttrs, 'toString').andCallFake(function(){return  '"ph-cell-attrs"';});
+            spyOn(phCellStyles, 'toString').andCallFake(function(){return '"ph-cell-styles"';});
 
 
             var html = ft.toHtml();
-            expect(html).toBe('<table table attributes style="table styles">\
-<tr phantom row attrs styles="phantom row styles">\
-<td phantom cell attrs styles="phantom cell styles">\
-t1 string\
-</td>\
-</tr>\
-<tr phantom row attrs styles="phantom row styles">\
-<td phantom cell attrs styles="phantom cell styles">\
-t2 string\
-</td>\
-</tr>\
-<tr phantom row attrs styles="phantom row styles">\
-<td phantom cell attrs styles="phantom cell styles">\
-t3 string\
-</td>\
-</tr>\
+            expect(html).toBe('<table "table attributes" "table styles">\
+<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">
+<table "ph-table-attrs" "ph-table-styles">t1 string</table>\
+</td></tr>\
+<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
+<table "ph-table-attrs" "ph-table-styles">t2 string</table>
+</td></tr>\
+<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
+<table "ph-table-attrs" "ph-table-styles">t3 string</table>\
+</td></tr>\
 </table>');
         });
     });

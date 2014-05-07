@@ -284,6 +284,7 @@ function FramedTable() {
 
 	/**
 	 * Creates html representation.
+	 * @method         toHtml
 	 * @return         {String}
 	 */
 	this.toHtml = function(){
@@ -295,18 +296,23 @@ function FramedTable() {
 			phCellAttrStr = this.getPhantomCellAttributes().toString(),
 			stlStr = this.getStyles().toString(),
 			attrStr = this.getAttributes().toString(),
-			output = '<' + this.getTag() + attrStr + stlStr + '>',
-			phHead = '<' + phantomRow.getTag() + phRowAttrStr + phRowStlStr + '><' + phantomCell.getTag() + phCellAttrStr + phCellStlStr + '><' + phantomTable.getTag() + phTableAttrStr + phTableStlStr + '>',
-			phFoot = '</' + phantomTable.getTag() + '></' + phantomCell.getTag() + '></' + phantomRow.getTag() + '>';
-			this.getElements().forEach(function(el){
-				output = phHead + el.toHtml() + phFoot;
-			});
-			return output;
+			phRowTag = phantomRow.getTag(),
+			phCellTag = phantomCell.getTag(),
+			phTableTag = phantomTable.getTag(),
+			currentTag = this.getTag(),
+			output = '<' + [currentTag, attrStr, stlStr].join(' ')  + '>',
+			phHead, phFoot;
+		phHead  = '<' + [phRowTag, phRowAttrStr, phRowStlStr].join(' ') + '>';
+		phHead += '<' + [phCellTag, phCellAttrStr, phCellStlStr].join(' ') + '>';
+		phHead += '<' + [phTableTag, phTableAttrStr, phTableStlStr].join(' ') + '>';
+		phFoot  = '</' + phTableTag + '></' + phCellTag + '></' + phRowTag + '>';
 
+		this.getElements().forEach(function(el){
+			output += phHead + el.toHtml() + phFoot;
+		});
 
+		output += '</' + currentTag + '>';
+		return output;
 	};
-
-
-
 }
 FramedTable.prototype = Object.create(Table.prototype);
