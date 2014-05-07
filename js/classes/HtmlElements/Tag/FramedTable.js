@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Row, Table */
+/*global Attributes, Cell, Row, Table, Styles */
 
 /**
 * Represents framed table which is a table which rows contain only one cell inside which there is another table. These three
@@ -284,11 +284,27 @@ function FramedTable() {
 
 	/**
 	 * Creates html representation.
-	 * @return {[type]} [description]
+	 * @return         {String}
 	 */
 	this.toHtml = function(){
+		var phTableAttrStr = this.getPhantomTableAttributes().toString(),
+			phTableStlStr = this.getPhantomTableStyles().toString(),
+			phRowStlStr = this.getPhantomRowStyles().toString(),
+			phRowAttrStr = this.getPhantomRowAttributes().toString(),
+			phCellStlStr = this.getPhantomCellStyles().toString(),
+			phCellAttrStr = this.getPhantomCellAttributes().toString(),
+			stlStr = this.getStyles().toString(),
+			attrStr = this.getAttributes().toString(),
+			output = '<' + this.getTag() + attrStr + stlStr + '>',
+			phHead = '<' + phantomRow.getTag() + phRowAttrStr + phRowStlStr + '><' + phantomCell.getTag() + phCellAttrStr + phCellStlStr + '><' + phantomTable.getTag() + phTableAttrStr + phTableStlStr + '>',
+			phFoot = '</' + phantomTable.getTag() + '></' + phantomCell.getTag() + '></' + phantomRow.getTag() + '>';
+			this.getElements().forEach(function(el){
+				output = phHead + el.toHtml() + phFoot;
+			});
+			return output;
 
-	}
+
+	};
 
 
 

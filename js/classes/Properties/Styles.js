@@ -26,16 +26,20 @@ function Styles(obj) {
 
     /**
      * Generates string representation of this object (as html inline style).
-     * It takse into consideration only string- and number-valued properties. The rest is ignored.
-     * If attribite value is a number, the measurement unit will be appended.
-     * @method  toString
-     * @param   {String|null}   unit     mesurement unit to be added to the numerical attribute values. By default, it is set to 'px'.
-     * @return  {String}        String   union of substrings; each substring is of this format: 'attribute: value;',
-     *                                   between the substrings there is a separator ' '.
-     * @example "padding: 0px; margin: 10px; color: #ababab"
+     * It takes into consideration {{#crossLink "Properties/core:property"}}core{{/crossLink}} keys only.
+     * If value corresponding to the key is a number,  then the measurement unit will be appended.
+     * If {{#crossLink "Properties/core:property"}}core{{/crossLink}} is empty, then empty string is returned.
+     * Otherwise, a string of the following format is returned: `style="key1: value1; key2: value2"`
+     * @method         toString
+     * @param          {String|null}        unit          measurement unit to be added to the numerical attribute values.
+     *                                                    By default, it is set to 'px'.
+     * @return         {String}             String        empty string or string of this format: `style="attribute: value; ..."`,
      */
     this.toString = function (unit) {
-        var val, attr, styles = [], core = this.getCore();
+        var val, attr,
+            styles = [],
+            core = this.getCore(),
+            output = '';
         unit = unit || 'px';
         for (attr in core) {
             if (core.hasOwnProperty(attr)) {
@@ -53,7 +57,11 @@ function Styles(obj) {
                 }
             }
         }
-        return styles.join('; ');
+        output = styles.join('; ');
+        if (output !== ''){
+            output = 'style="' + output + '"';
+        }
+        return output;
     };
 
     /**

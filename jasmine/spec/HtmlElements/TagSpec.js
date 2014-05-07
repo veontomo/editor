@@ -619,39 +619,39 @@ describe('Tag-related functionality', function() {
 
     describe('creates html representation of the tag', function(){
         it('if style and attributes are present', function(){
-            spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
-            spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
+            spyOn(tagStyle, 'toString').andCallFake(function(){return '"styles of the tag"';});
+            spyOn(tagAttr, 'toString').andCallFake(function(){return '"attributes of the tag"';});
             spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
             spyOn(tag, 'getContent').andCallFake(function(){return content;});
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
-            expect(tag.toHtml()).toBe('<htmltag attributes of the tag style="styles of the tag">html representation of the content</htmltag>');
+            expect(tag.toHtml()).toBe('<htmltag "attributes of the tag" "styles of the tag">html representation of the content</htmltag>');
         });
 
         it('if style is present, attributes - not', function(){
-            spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
+            spyOn(tagStyle, 'toString').andCallFake(function(){return '"styles of the tag"';});
             spyOn(tagAttr, 'toString').andCallFake(function(){return '';});
             spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
             spyOn(tag, 'getContent').andCallFake(function(){return content;});
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
-            expect(tag.toHtml()).toBe('<htmltag style="styles of the tag">html representation of the content</htmltag>');
+            expect(tag.toHtml()).toBe('<htmltag "styles of the tag">html representation of the content</htmltag>');
         });
 
         it('if attributes are present, style - not', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return '';});
-            spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
+            spyOn(tagAttr, 'toString').andCallFake(function(){return '"attributes of the tag"';});
             spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
             spyOn(tag, 'getContent').andCallFake(function(){return content;});
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
-            expect(tag.toHtml()).toBe('<htmltag attributes of the tag>html representation of the content</htmltag>');
+            expect(tag.toHtml()).toBe('<htmltag "attributes of the tag">html representation of the content</htmltag>');
         });
 
-        it('if both style and attributes are not present', function(){
+        it('if both style and attributes are empty', function(){
             spyOn(tagStyle, 'toString').andCallFake(function(){return '';});
             spyOn(tagAttr, 'toString').andCallFake(function(){return '';});
             spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
@@ -663,28 +663,16 @@ describe('Tag-related functionality', function() {
         });
 
         it('if content is empty', function(){
-            spyOn(tagStyle, 'toString').andCallFake(function(){return 'styles of the tag';});
-            spyOn(tagAttr, 'toString').andCallFake(function(){return 'attributes of the tag';});
+            spyOn(tagStyle, 'toString').andCallFake(function(){return '"styles of the tag"';});
+            spyOn(tagAttr, 'toString').andCallFake(function(){return '"attributes of the tag"';});
             spyOn(content, 'toHtml').andCallFake(function(){return '';});
             spyOn(tag, 'getContent').andCallFake(function(){return content;});
             spyOn(tag, 'getAttributes').andCallFake(function(){return tagAttr;});
             spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
             spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
-            expect(tag.toHtml()).toBe('<htmltag attributes of the tag style="styles of the tag"></htmltag>');
+            expect(tag.toHtml()).toBe('<htmltag "attributes of the tag" "styles of the tag"></htmltag>');
         });
 
-
-        it('if tag name is missing', function(){
-            if (tag.hasOwnProperty('tag')){
-                delete tag.tag;
-            }
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
-        });
-
-        it('if tag name is empty', function(){
-            tag.tag = '';
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
-        });
 
         it('if tag name is null', function(){
             tag.tag = null;

@@ -545,7 +545,7 @@ function Tag() {
 			constStr = this.getContent().toHtml(),
 			html;
 		if (tagStr){
-			styleStr = Helper.sandwichWith('style="', styleStr, '"');
+			// styleStr = Helper.sandwichWith('style="', styleStr, '"');
 			html = '<' + [tagStr, attrStr, styleStr].concatDropSpaces() + '>' + constStr + '</' + tagStr + '>';
 		} else {
 			console.log('tag name is missing ', this);

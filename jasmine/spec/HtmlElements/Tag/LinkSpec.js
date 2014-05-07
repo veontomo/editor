@@ -95,19 +95,6 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Link::toHtml(): creates html link', function(){
-        it('creates link with styles and attributes', function(){
-            spyOn(attr, 'toString').andCallFake(function(){return 'attributes';});
-            spyOn(style, 'toString').andCallFake(function(){return 'styles';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'content';});
-            spyOn(link, 'getContent').andCallFake(function(){return content;});
-            spyOn(link, 'getStyles').andCallFake(function(){return style;});
-            spyOn(link, 'getAttributes').andCallFake(function(){return attr;});
-
-            expect(link.toHtml()).toBe('<a attributes style="styles">content</a>');
-        });
-    });
-
     describe('Link::underline(): underline the link', function(){
         it('imposes the text-decoration to be "underline", called without argument', function(){
             link.dropStyleProperty('text-decoration');

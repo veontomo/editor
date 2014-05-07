@@ -222,5 +222,69 @@ describe('Table-related functionality:', function(){
         });
     });
 
+    xdescribe('Creates html representation', function(){
+        it('returns empty string if the content is empty', function(){
+            ft.setElements([]);
+            var html = ft.toHtml();
+            expect(html).toBe('');
+        });
+
+        it('generates string', function(){
+            var phTableAttrs = new Attributes(),
+                phTableStyles = new Styles(),
+                phCellAttrs = new Attributes(),
+                phCellStyles = new Styles(),
+                phRowAttrs = new Attributes(),
+                phRowStyles = new Styles(),
+                attrs = new Attributes(),
+                stls = new Styles(),
+                t1 = new Tag(),
+                t2 = new Tag(),
+                t3 = new Tag();
+            spyOn(ft, 'getPhantomTableAttributes').andCallFake(function(){return phTableAttrs;});
+            spyOn(ft, 'getPhantomTableStyles').andCallFake(function(){return phTableStyles;});
+            spyOn(ft, 'getPhantomCellAttributes').andCallFake(function(){return phCellAttrs;});
+            spyOn(ft, 'getPhantomCellStyles').andCallFake(function(){return phCellStyles;});
+            spyOn(ft, 'getPhantomRowAttributes').andCallFake(function(){return phRowAttrs;});
+            spyOn(ft, 'getPhantomRowStyles').andCallFake(function(){return phRowStyles;});
+            spyOn(ft, 'getStyles').andCallFake(function(){return stls;});
+            spyOn(ft, 'getAttributes').andCallFake(function(){return attrs;});
+
+            ft.setElements([t1, t2, t3]);
+
+            spyOn(t1, 'toHtml').andCallFake(function(){return 't1 string';});
+            spyOn(t2, 'toHtml').andCallFake(function(){return 't2 string';});
+            spyOn(t3, 'toHtml').andCallFake(function(){return 't3 string';});
+            spyOn(stls, 'toString').andCallFake(function(){return 'table styles';});
+            spyOn(attrs, 'toString').andCallFake(function(){return 'table attribites';});
+            spyOn(phTableAttrs, 'toString').andCallFake(function(){return 'phantom tbl attrs';});
+            spyOn(phTableStyles, 'toString').andCallFake(function(){return 'phantom tbl styles';});
+            spyOn(phRowAttrs, 'toString').andCallFake(function(){return 'phantom row attrs';});
+            spyOn(phRowStyles, 'toString').andCallFake(function(){return 'phantom row styles';});
+            spyOn(phCellAttrs, 'toString').andCallFake(function(){return  'phantom cell attrs';});
+            spyOn(phCellStyles, 'toString').andCallFake(function(){return 'phantom cell styles';});
+
+
+            var html = ft.toHtml();
+            expect(html).toBe('<table table attributes style="table styles">\
+<tr phantom row attrs styles="phantom row styles">\
+<td phantom cell attrs styles="phantom cell styles">\
+t1 string\
+</td>\
+</tr>\
+<tr phantom row attrs styles="phantom row styles">\
+<td phantom cell attrs styles="phantom cell styles">\
+t2 string\
+</td>\
+</tr>\
+<tr phantom row attrs styles="phantom row styles">\
+<td phantom cell attrs styles="phantom cell styles">\
+t3 string\
+</td>\
+</tr>\
+</table>');
+        });
+    });
+
 
 });

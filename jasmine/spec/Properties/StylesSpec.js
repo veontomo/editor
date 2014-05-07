@@ -43,19 +43,19 @@ describe('Style-related functionality', function(){
         });
         it('if the core has just one record, a string is returned', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {'mode': 'off'};});
-            expect(stl.toString()).toBe('mode: off');
+            expect(stl.toString()).toBe('style="mode: off"');
         });
         it('if the core has two records, a semi-column separated string is returned', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {width: 'full', 'title': 'Spec'};});
-            expect(stl.toString()).toBe('width: full; title: Spec');
+            expect(stl.toString()).toBe('style="width: full; title: Spec"');
         });
         it('if the core has number-valued record, the default unit measure is appended to that number', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {width: 439};});
-            expect(stl.toString()).toBe('width: 439px');
+            expect(stl.toString()).toBe('style="width: 439px"');
         });
         it('if the core has number-valued record, that number is augmented by the argument', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {'mass': 439};});
-            expect(stl.toString('kg')).toBe('mass: 439kg');
+            expect(stl.toString('kg')).toBe('style="mass: 439kg"');
         });
 
 

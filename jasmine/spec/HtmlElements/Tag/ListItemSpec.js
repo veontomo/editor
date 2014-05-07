@@ -1,14 +1,11 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Styles, ListStyles, Content, Tag, ListItemStyles, jasmine*/
+/*global describe, xdescribe, it, expect, spyOn, beforeEach, ListItem , Tag*/
 
 describe('ListItem-related functionality', function(){
-    var li, liStyle, liAttr, content;
+    var li;
 
     beforeEach(function(){
         li = new ListItem();
-        content = new Content();
-        liStyle = new ListItemStyles();
-        liAttr = new Attributes();
     });
 
     describe('ListItem::constructor(): inherits from Tag() class', function(){
@@ -49,51 +46,4 @@ describe('ListItem-related functionality', function(){
             expect(li.length()).toBe(2);
         });
     });
-
-    describe('Generates html representation of the list item', function(){
-        it('if no style neither attributes are given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){return '';});
-            spyOn(liStyle, 'toString').andCallFake(function(){return '';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
-            spyOn(li, 'getContent').andCallFake(function(){return content;});
-            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
-            spyOn(li, 'getAttributes').andCallFake(function(){return liStyle;});
-
-            var liHtml = li.toHtml();
-            expect(liHtml).toBe('<li>content html</li>');
-        });
-        it('if no style is given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){return 'attributes of the list item';});
-            spyOn(liStyle, 'toString').andCallFake(function(){return '';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
-            spyOn(li, 'getContent').andCallFake(function(){return content;});
-            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
-            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
-
-            var liHtml = li.toHtml();
-            expect(liHtml).toBe('<li attributes of the list item>content html</li>');
-        });
-        it('if no attributes are given', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){return '';});
-            spyOn(liStyle, 'toString').andCallFake(function(){return 'styles of the list item';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
-            spyOn(li, 'getContent').andCallFake(function(){return content;});
-            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
-            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
-
-            var liHtml = li.toHtml();
-            expect(liHtml).toBe('<li style="styles of the list item">content html</li>');
-        });
-        it('if both attributes and styles are present', function(){
-            spyOn(liAttr, 'toString').andCallFake(function(){return 'attributes of the list item';});
-            spyOn(liStyle, 'toString').andCallFake(function(){return 'styles of the list item';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'content html';});
-            spyOn(li, 'getContent').andCallFake(function(){return content;});
-            spyOn(li, 'getStyles').andCallFake(function(){return liStyle;});
-            spyOn(li, 'getAttributes').andCallFake(function(){return liAttr;});
-            var liHtml = li.toHtml();
-            expect(liHtml).toBe('<li attributes of the list item style="styles of the list item">content html</li>');
-        });
-    });
-
 });
