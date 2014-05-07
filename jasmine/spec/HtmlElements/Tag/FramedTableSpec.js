@@ -10,7 +10,7 @@ describe('Table-related functionality:', function(){
     describe('inherits from Table class', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
             var table2 = FramedTable();
-            expect(table2 instanceof Table).toBe(true);
+            expect(table2 instanceof FramedTable).toBe(true);
         });
 
         it('is an instance of FramedTable class', function(){
@@ -18,7 +18,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('is an instance of Table class as well', function(){
-            expect(ft instanceof Table).toBe(true);
+            expect(ft instanceof Tag).toBe(true);
         });
 
         it('has className property equal to "FramedTable"', function(){
@@ -261,11 +261,11 @@ describe('Table-related functionality:', function(){
 
             var html = ft.toHtml();
             expect(html).toBe('<table "table attributes" "table styles">\
-<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">
+<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
 <table "ph-table-attrs" "ph-table-styles">t1 string</table>\
 </td></tr>\
 <tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
-<table "ph-table-attrs" "ph-table-styles">t2 string</table>
+<table "ph-table-attrs" "ph-table-styles">t2 string</table>\
 </td></tr>\
 <tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
 <table "ph-table-attrs" "ph-table-styles">t3 string</table>\

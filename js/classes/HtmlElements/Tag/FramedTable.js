@@ -79,7 +79,7 @@
 * @module              HtmlElements
 * @class               FramedTable
 * @constructor
-* @extends             Table
+* @extends             Tag
 */
 function FramedTable() {
 	"use strict";
@@ -87,17 +87,20 @@ function FramedTable() {
 		return new FramedTable();
 	}
 	// inherit tag properties
-	Table.call(this);
+	Tag.call(this);
 
 
 	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Table"}}Table{{/crossLink}}:
 	 * <ol><li>
 	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "FramedTable"
+	 * </li><li>
+	 * {{#crossLink "Tag/tagName:property"}}tagName{{/crossLink}} to be "table"
 	 * </li></ol>
 	 * @method         constructor
 	 */
 	this.setName('FramedTable');
+	this.setTag('table');
 
 
 	/**
@@ -315,4 +318,4 @@ function FramedTable() {
 		return output;
 	};
 }
-FramedTable.prototype = Object.create(Table.prototype);
+FramedTable.prototype = Object.create(Tag.prototype);
