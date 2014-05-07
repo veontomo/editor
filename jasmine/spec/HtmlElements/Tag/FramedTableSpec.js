@@ -221,4 +221,6 @@ describe('Table-related functionality:', function(){
             expect(attr.getProperty('z')).toBe(100.1);
         });
     });
+
+
 });

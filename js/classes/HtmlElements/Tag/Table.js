@@ -401,7 +401,7 @@ function Table() {
 
 		if (this.isFramed()){
 			// some preliminaries for the framed tables
-			bogusRowAttr    = this.bogusRowAttr    ? this.getBogusRowAttr.toString() : '';
+			bogusRowAttr    = this.getBogusRowAttr    ? this.getBogusRowAttr.toString() : '';
 			bogusRowStyle   = Helper.sandwichWith('style="', this.getBogusRowStyle().toString(), '"');
 			bogusCellAttr   = this.bogusCellAttr   ? this.getBogusCellAttr.toString() : '';
 			bogusCellStyle  = Helper.sandwichWith('style="', this.getBogusCellStyle.toString(), '"');
@@ -505,12 +505,15 @@ function Table() {
 		var firstRow = this.getFirst(),
 			rowNum = this.rowNum(),
 			rowProp, i, firstRowProp;
-		firstRowProp = firstRow.getStyleProperty(prop);
-		if (firstRow !== undefined && typeof firstRow.getStyles === 'function'){
-
-			firstRowProp = firstRow.getStyleProperty(prop);
-		} else {
-			return null;
+		switch (prop){
+			case 'attr':
+				firstRowProp = firstRow.getAttributes();
+				break;
+			case 'style':
+				firstRowProp = firstRow.getStyles();
+				break;
+			default:
+				return null;
 		}
 		if (rowNum === 1){
 			return firstRowProp;
@@ -519,7 +522,7 @@ function Table() {
 			return null;
 		}
 		for (i = 1; i < rowNum; i++){
-			rowProp = this.getElem(i)[prop];
+			rowProp = (prop === 'style') ? (this.getElem(i).getStyles()) : (prop === 'attr' ? this.getElem(i).getAttributes() : null) ;
 			if (!firstRowProp.isTheSameAs(rowProp)){
 				return null;
 			}

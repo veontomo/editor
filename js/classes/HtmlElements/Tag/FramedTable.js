@@ -3,7 +3,79 @@
 /*global Attributes, Cell, Row, Table */
 
 /**
-* Represents table.
+* Represents framed table which is a table which rows contain only one cell inside which there is another table. These three
+* elements - row, cell and table - are called phantom ones. Only {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
+* {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} of the phantom elements are of interest (
+* {{#crossLink "Tag/content:property"}}content{{/crossLink}} is ignored - there is even no corresponding setter/getter).
+*
+* Below, dotted lines correspond to the phantom elements, solid - to "normal" ones.
+* <span style="color: black">Black color corresponds to table</span>,
+* <span style="color: orange">orange - to table row</span>,
+* <span style="color: green">green - to table cell</span>.
+* <style>
+* .phantom, .normal{
+*	border-width: 2px;
+*	padding: 4px;
+* 	margin: 4px;
+*	border-collapse: separate;
+* }
+*
+* .phantom {
+* 	border-style: dashed;
+* }
+* .normal {
+*   border-style: solid;
+* }
+* table.phantom, table.normal {
+*	border-color: #2818B1;
+*	padding: 10px;
+* }
+* td.phantom, td.normal{
+* 	border-color: #00A779;
+* }
+* tr.phantom, tr.normal {
+* 	outline-width: 2px;
+* 	outline-color: #FF9C00;
+* }
+* tr.phantom{
+* 	outline-style: dashed;
+* }
+* tr.normal {
+* 	outline-style: solid;
+* }
+
+* </style>
+*
+* <table class="normal">
+* 	<tr class="phantom">
+*  		<td class="phantom">
+*  			<table class="phantom">
+*  				<tr class="normal">
+*  					<td class="normal">
+*  						first cell of the first line
+*  					</td>
+*  					<td class="normal">
+*  						second cell of the first line
+*  					</td>
+*  				</tr>
+*  			</table>
+*  		</td>
+*   </tr>
+* 	<tr class="phantom">
+*  		<td class="phantom">
+*  			<table class="phantom">
+*  				<tr class="normal">
+*  					<td class="normal">
+*  						first cell of the second line
+*  					</td>
+*  					<td class="normal">
+*  						second cell of the second line
+*  					</td>
+*  				</tr>
+*  			</table>
+*  		</td>
+*   </tr>
+* </table>
 * @module              HtmlElements
 * @class               FramedTable
 * @constructor
@@ -209,6 +281,14 @@ function FramedTable() {
 		}
 	};
 
+
+	/**
+	 * Creates html representation.
+	 * @return {[type]} [description]
+	 */
+	this.toHtml = function(){
+
+	}
 
 
 
