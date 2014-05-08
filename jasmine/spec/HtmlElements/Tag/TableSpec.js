@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
+/*global xdescribe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
 Content, TableStyles, TableRowStyles, TableCellStyles, TableAttributes, Attributes, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
@@ -52,21 +52,25 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Phantom cell attributes setter/getter', function(){
+    describe('Phantom cell styles setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomCellStyles(new TableRowStyles());
+        });
+
         it('returns instance of Styles class', function(){
-            expect(ft.getPhantomCellStyles() instanceof Styles).toBe(true);
+            expect(table.getPhantomCellStyles() instanceof Styles).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomCellStyles('level: 1em; home: big');
-            var stl = ft.getPhantomCellStyles();
+            table.setPhantomCellStyles('level: 1em; home: big');
+            var stl = table.getPhantomCellStyles();
             expect(stl.getProperty('level')).toBe('1em');
             expect(stl.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomCellStyles({level: 4.6, sky: 'blue'});
-            var stl = ft.getPhantomCellStyles();
+            table.setPhantomCellStyles({level: 4.6, sky: 'blue'});
+            var stl = table.getPhantomCellStyles();
             expect(stl.getProperty('level')).toBe(4.6);
             expect(stl.getProperty('sky')).toBe('blue');
         });
@@ -76,29 +80,33 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
-            ft.setPhantomCellStyles(seed);
-            var stl = ft.getPhantomCellStyles();
+            table.setPhantomCellStyles(seed);
+            var stl = table.getPhantomCellStyles();
             expect(stl.getProperty('a')).toBe('high');
             expect(stl.getProperty('b')).toBe('low');
             expect(stl.getProperty('z')).toBe(100.1);
         });
     });
 
-    describe('Phantom row attributes setter/getter', function(){
+    describe('Phantom row style setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomRowStyles(new TableRowStyles());
+        });
+
         it('returns instance of Styles class', function(){
-            expect(ft.getPhantomRowStyles() instanceof Styles).toBe(true);
+            expect(table.getPhantomRowStyles() instanceof Styles).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomRowStyles('new: 1em; home: big');
-            var stl = ft.getPhantomRowStyles();
+            table.setPhantomRowStyles('new: 1em; home: big');
+            var stl = table.getPhantomRowStyles();
             expect(stl.getProperty('new')).toBe('1em');
             expect(stl.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomRowStyles({level: 0.23, sky: 'blue'});
-            var stl = ft.getPhantomRowStyles();
+            table.setPhantomRowStyles({level: 0.23, sky: 'blue'});
+            var stl = table.getPhantomRowStyles();
             expect(stl.getProperty('level')).toBe(0.23);
             expect(stl.getProperty('sky')).toBe('blue');
         });
@@ -108,29 +116,32 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('x', 4);
             seed.setProperty('z', 100.1);
-            ft.setPhantomRowStyles(seed);
-            var stl = ft.getPhantomRowStyles();
+            table.setPhantomRowStyles(seed);
+            var stl = table.getPhantomRowStyles();
             expect(stl.getProperty('a')).toBe('high');
             expect(stl.getProperty('x')).toBe(4);
             expect(stl.getProperty('z')).toBe(100.1);
         });
     });
 
-    describe('Phantom cell attributes setter/getter', function(){
+    describe('Phantom table styles setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomTableStyles(new TableStyles());
+        });
         it('returns instance of Styles class', function(){
-            expect(ft.getPhantomTableStyles() instanceof Styles).toBe(true);
+            expect(table.getPhantomTableStyles() instanceof Styles).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomTableStyles('level: 1em; home: big');
-            var stl = ft.getPhantomTableStyles();
+            table.setPhantomTableStyles('level: 1em; home: big');
+            var stl = table.getPhantomTableStyles();
             expect(stl.getProperty('level')).toBe('1em');
             expect(stl.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomTableStyles({level: 4.6, sky: 'blue'});
-            var stl = ft.getPhantomTableStyles();
+            table.setPhantomTableStyles({level: 4.6, sky: 'blue'});
+            var stl = table.getPhantomTableStyles();
             expect(stl.getProperty('level')).toBe(4.6);
             expect(stl.getProperty('sky')).toBe('blue');
         });
@@ -140,8 +151,8 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
-            ft.setPhantomTableStyles(seed);
-            var stl = ft.getPhantomTableStyles();
+            table.setPhantomTableStyles(seed);
+            var stl = table.getPhantomTableStyles();
             expect(stl.getProperty('a')).toBe('high');
             expect(stl.getProperty('b')).toBe('low');
             expect(stl.getProperty('z')).toBe(100.1);
@@ -149,20 +160,24 @@ describe('Table-related functionality:', function(){
     });
 
     describe('Phantom cell attributes setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomCellAttributes(new Attributes());
+        });
+
         it('returns instance of Attributes class', function(){
-            expect(ft.getPhantomCellAttributes() instanceof Attributes).toBe(true);
+            expect(table.getPhantomCellAttributes() instanceof Attributes).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomCellAttributes('level: 1em; home: big');
-            var attr = ft.getPhantomCellAttributes();
+            table.setPhantomCellAttributes('level: 1em; home: big');
+            var attr = table.getPhantomCellAttributes();
             expect(attr.getProperty('level')).toBe('1em');
             expect(attr.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomCellAttributes({level: 4.6, sky: 'blue'});
-            var attr = ft.getPhantomCellAttributes();
+            table.setPhantomCellAttributes({level: 4.6, sky: 'blue'});
+            var attr = table.getPhantomCellAttributes();
             expect(attr.getProperty('level')).toBe(4.6);
             expect(attr.getProperty('sky')).toBe('blue');
         });
@@ -172,8 +187,8 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
-            ft.setPhantomCellAttributes(seed);
-            var attr = ft.getPhantomCellAttributes();
+            table.setPhantomCellAttributes(seed);
+            var attr = table.getPhantomCellAttributes();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('b')).toBe('low');
             expect(attr.getProperty('z')).toBe(100.1);
@@ -181,20 +196,23 @@ describe('Table-related functionality:', function(){
     });
 
     describe('Phantom row attributes setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomRowAttributes(new Attributes());
+        });
         it('returns instance of Attributes class', function(){
-            expect(ft.getPhantomRowAttributes() instanceof Attributes).toBe(true);
+            expect(table.getPhantomRowAttributes() instanceof Attributes).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomRowAttributes('new: 1em; home: big');
-            var attr = ft.getPhantomRowAttributes();
+            table.setPhantomRowAttributes('new: 1em; home: big');
+            var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('new')).toBe('1em');
             expect(attr.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomRowAttributes({level: 0.23, sky: 'blue'});
-            var attr = ft.getPhantomRowAttributes();
+            table.setPhantomRowAttributes({level: 0.23, sky: 'blue'});
+            var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('level')).toBe(0.23);
             expect(attr.getProperty('sky')).toBe('blue');
         });
@@ -204,29 +222,32 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('x', 4);
             seed.setProperty('z', 100.1);
-            ft.setPhantomRowAttributes(seed);
-            var attr = ft.getPhantomRowAttributes();
+            table.setPhantomRowAttributes(seed);
+            var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('x')).toBe(4);
             expect(attr.getProperty('z')).toBe(100.1);
         });
     });
 
-    describe('Phantom cell attributes setter/getter', function(){
+    describe('Phantom table attributes setter/getter', function(){
+        beforeEach(function(){
+            table.setPhantomTableAttributes(new Attributes());
+        });
         it('returns instance of Attributes class', function(){
-            expect(ft.getPhantomTableAttributes() instanceof Attributes).toBe(true);
+            expect(table.getPhantomTableAttributes() instanceof Attributes).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            ft.setPhantomTableAttributes('level: 1em; home: big');
-            var attr = ft.getPhantomTableAttributes();
+            table.setPhantomTableAttributes('level: 1em; home: big');
+            var attr = table.getPhantomTableAttributes();
             expect(attr.getProperty('level')).toBe('1em');
             expect(attr.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            ft.setPhantomTableAttributes({level: 4.6, sky: 'blue'});
-            var attr = ft.getPhantomTableAttributes();
+            table.setPhantomTableAttributes({level: 4.6, sky: 'blue'});
+            var attr = table.getPhantomTableAttributes();
             expect(attr.getProperty('level')).toBe(4.6);
             expect(attr.getProperty('sky')).toBe('blue');
         });
@@ -236,15 +257,15 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
-            ft.setPhantomTableAttributes(seed);
-            var attr = ft.getPhantomTableAttributes();
+            table.setPhantomTableAttributes(seed);
+            var attr = table.getPhantomTableAttributes();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('b')).toBe('low');
             expect(attr.getProperty('z')).toBe(100.1);
         });
     });
 
-    describe('Creates html representation', function(){
+    xdescribe('Creates html representation', function(){
         it('generates string', function(){
             var phTableAttrs = new Attributes(),
                 phTableStyles = new Styles(),
@@ -257,16 +278,19 @@ describe('Table-related functionality:', function(){
                 t1 = new Tag(),
                 t2 = new Tag(),
                 t3 = new Tag();
-            spyOn(ft, 'getPhantomTableAttributes').andCallFake(function(){return phTableAttrs;});
-            spyOn(ft, 'getPhantomTableStyles').andCallFake(function(){return phTableStyles;});
-            spyOn(ft, 'getPhantomCellAttributes').andCallFake(function(){return phCellAttrs;});
-            spyOn(ft, 'getPhantomCellStyles').andCallFake(function(){return phCellStyles;});
-            spyOn(ft, 'getPhantomRowAttributes').andCallFake(function(){return phRowAttrs;});
-            spyOn(ft, 'getPhantomRowStyles').andCallFake(function(){return phRowStyles;});
-            spyOn(ft, 'getStyles').andCallFake(function(){return stls;});
-            spyOn(ft, 'getAttributes').andCallFake(function(){return attrs;});
+            table.setPhantomCellStyles({foo: 'boo'});
+            table.setPhantomRowStyles({key: 'hi'});
+            table.setPhantomTableStyles({len: 'mass'});
+            spyOn(table, 'getPhantomTableAttributes').andCallFake(function(){return phTableAttrs;});
+            spyOn(table, 'getPhantomTableStyles').andCallFake(function(){return phTableStyles;});
+            spyOn(table, 'getPhantomCellAttributes').andCallFake(function(){return phCellAttrs;});
+            spyOn(table, 'getPhantomCellStyles').andCallFake(function(){return phCellStyles;});
+            spyOn(table, 'getPhantomRowAttributes').andCallFake(function(){return phRowAttrs;});
+            spyOn(table, 'getPhantomRowStyles').andCallFake(function(){return phRowStyles;});
+            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
+            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
 
-            ft.setElements([t1, t2, t3]);
+            table.setElements([t1, t2, t3]);
 
             spyOn(t1, 'toHtml').andCallFake(function(){return 't1 string';});
             spyOn(t2, 'toHtml').andCallFake(function(){return 't2 string';});
@@ -281,7 +305,7 @@ describe('Table-related functionality:', function(){
             spyOn(phCellStyles, 'toString').andCallFake(function(){return '"ph-cell-styles"';});
 
 
-            var html = ft.toHtml();
+            var html = table.toHtml();
             expect(html).toBe('<table "table attributes" "table styles">\
 <tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
 <table "ph-table-attrs" "ph-table-styles">t1 string</table>\
@@ -298,7 +322,7 @@ describe('Table-related functionality:', function(){
 
 
 
-    describe('Table::appendRow(): appends the row', function(){
+    xdescribe('Table::appendRow(): appends the row', function(){
         it('throws exception if not a Row instance is appended to the table', function(){
             var foo = {};
             expect(foo instanceof Row).toBe(false);
@@ -314,7 +338,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
+    xdescribe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
         var matrix;
         it('gives empty array if the table has no rows', function(){
             spyOn(table, 'length').andCallFake(function(){return 0;});
@@ -355,7 +379,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::setProfile(): sets the widths of the columns', function(){
+    xdescribe('Table::setProfile(): sets the widths of the columns', function(){
         it('throws an error if the argument is not array', function(){
             expect(function(){
                 table.setProfile('not array');
@@ -398,7 +422,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table.getProfile(): gets table profile', function(){
+    xdescribe('Table.getProfile(): gets table profile', function(){
         it('gets "null" if not all rows have the same cell widths', function(){
             spyOn(table, 'isSameWidths').andCallFake(function(){
                 return false;
@@ -416,7 +440,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::isSameWidths(): whether all table rows have the same profiles', function(){
+    xdescribe('Table::isSameWidths(): whether all table rows have the same profiles', function(){
         it('gets true for empty table', function(){
             spyOn(table, 'getMatrix').andCallFake(function(){
                 return [];
@@ -468,7 +492,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::knockOutCol(): knocks out given column', function(){
+    xdescribe('Table::knockOutCol(): knocks out given column', function(){
         it('calls method Row::dropCell() on each row', function(){
             spyOn(row1, 'knockOutCell').andCallFake(function(){return null;});
             spyOn(row2, 'knockOutCell').andCallFake(function(){return null;});
@@ -484,7 +508,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::dropColAt(): drops given column', function(){
+    xdescribe('Table::dropColAt(): drops given column', function(){
         it('calls method Row::dropCellAt() on each row', function(){
             spyOn(row1, 'dropCellAt').andCallFake(function(){return null;});
             spyOn(row2, 'dropCellAt').andCallFake(function(){return null;});
@@ -500,7 +524,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::colNum(): gives the number of columns', function(){
+    xdescribe('Table::colNum(): gives the number of columns', function(){
         it('gives null, if first row is not of the same lenght as others', function(){
             spyOn(row1, 'cellNum').andCallFake(function(){return 13;});
             spyOn(row2, 'cellNum').andCallFake(function(){return 10;});
@@ -572,7 +596,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::insertColAt(): inserts column at given position', function(){
+    xdescribe('Table::insertColAt(): inserts column at given position', function(){
         it('Throws an error if position index is too big', function(){
             spyOn(table, 'colNum').andCallFake(function(){return 5;});
             expect(function(){
@@ -667,7 +691,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::appendStyleToCol(): Appends style to a single column:', function(){
+    xdescribe('Table::appendStyleToCol(): Appends style to a single column:', function(){
         it('Throw an error if column number is not integer ', function(){
             spyOn(table, 'colNum').andCallFake(function(){
                 return 12;
@@ -728,7 +752,8 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::toHtml(): generates html representation of the table', function(){
+
+    describe('Table::toHtml(): generates html representation of the table', function(){
         it('generates html code of the table if attribute and style properties are both present', function(){
             spyOn(row1, 'toHtml').andCallFake(function(){
                 return 'row 1 ';
@@ -749,7 +774,7 @@ describe('Table-related functionality:', function(){
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table attributes for the table style="table styles">row 1 row 2 html row 3 content</table>');
+            expect(table.toHtml()).toEqual('<table attributes for the table table styles>row 1 row 2 html row 3 content</table>');
         });
 
         it('generates html code of the table if style property is empty', function(){
@@ -790,12 +815,12 @@ describe('Table-related functionality:', function(){
                 return '';
             });
             spyOn(tableStyle, 'toString').andCallFake(function(){
-                return 'table styles';
+                return 'table-styles';
             });
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table style="table styles">row 1 row 2 html row 3 content</table>');
+            expect(table.toHtml()).toEqual('<table table-styles>row 1 row 2 html row 3 content</table>');
         });
 
         it('generates html code of the table if both attribute and style properties are empty', function(){
@@ -913,7 +938,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table.setBorder(): sets table border', function(){
+    xdescribe('Table.setBorder(): sets table border', function(){
         beforeEach(function(){
                 delete table.getStyles()['border-width'];
                 delete table.getStyles()['border-color'];
@@ -962,7 +987,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::removeBorder(): removes table border attrbutes', function(){
+    xdescribe('Table::removeBorder(): removes table border attrbutes', function(){
         it('removes existing info about border table', function(){
             table.setStyleProperty('border-width', 'width');
             table.setStyleProperty('border-color', 'color');
@@ -986,7 +1011,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::rowNum(): gives the number of rows in the table', function(){
+    xdescribe('Table::rowNum(): gives the number of rows in the table', function(){
         it('calls parent method length', function(){
             spyOn(table, 'length').andCallFake(function(){
                 return '# of rows';
@@ -995,7 +1020,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table:isFramed(): whether the table is framed', function(){
+    xdescribe('Table:isFramed(): whether the table is framed', function(){
         var bogusProp, len, i;
         beforeEach(function(){
             table = new Table();
@@ -1049,7 +1074,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table:removeFrame(): removes all bogus properties', function(){
+    xdescribe('Table:removeFrame(): removes all bogus properties', function(){
         var bogusProp = ['bogusTableAttr', 'bogusTableStyle', 'bogusRowStyle', 'bogusRowAttr', 'bogusCellAttr', 'bogusCellStyle'],
             len = bogusProp.length,
             i;

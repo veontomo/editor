@@ -252,6 +252,44 @@ describe('Tag-related functionality', function() {
         });
     });
 
+    describe('Gets html tag header', function(){
+        var stl, attr;
+        beforeEach(function(){
+            stl = {toString: function(){return null;}};
+            attr = {toString: function(){return null;}};
+            spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
+            spyOn(tag, 'getAttributes').andCallFake(function(){return attr;});
+
+        });
+        it('gets string like <tag> for a tag with empty styles and attributes', function(){
+            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname'});
+            spyOn(attr, 'toString').andCallFake(function(){return '';});
+            spyOn(stl, 'toString').andCallFake(function(){return '';});
+            expect(tag.openingTag()).toBe('<stubname>');
+        });
+        it('gets string like <div attr="1" width="92"> if styles are empty', function(){
+            spyOn(tag, 'getTag').andCallFake(function(){return 'div'});
+            spyOn(attr, 'toString').andCallFake(function(){return '"attributes"';});
+            spyOn(stl, 'toString').andCallFake(function(){return '';});
+            expect(tag.openingTag()).toBe('<div "attributes">');
+        });
+        it('gets string like <span "styles"> if attributes are empty', function(){
+            spyOn(tag, 'getTag').andCallFake(function(){return 'span'});
+            spyOn(attr, 'toString').andCallFake(function(){return '';});
+            spyOn(stl, 'toString').andCallFake(function(){return '"styles"';});
+            expect(tag.openingTag()).toBe('<span "styles">');
+        });
+
+    });
+
+describe('Gets html tag footer', function(){
+    it('gets string like </tag> for a tag with empty styles and attributes', function(){
+        spyOn(tag, 'getTag').andCallFake(function(){return 'stubname'});
+        expect(tag.closingTag()).toBe('</stubname>');
+    });
+});
+
+
 
     describe('Getting property "elements" of the content', function(){
         it('calls "getContent()" on the target', function(){

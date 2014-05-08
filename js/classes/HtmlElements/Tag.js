@@ -532,23 +532,50 @@ function Tag() {
 
 
 	/**
+	 * Returns a string that opens html representaion of current Tag instance,
+	 * i.e.: `<div class="media" style="color: red; width: 73%">`
+	 * @method         openingTag
+	 * @return         {String}
+	 */
+	this.openingTag = function(){
+		var stl = this.getStyles().toString(),
+			attr =  this.getAttributes().toString();
+		if (stl.length > 0){
+			stl = ' ' + stl;
+		}
+		if (attr.length > 0){
+			attr = ' ' + attr;
+		}
+		return '<' + this.getTag() + attr + stl + '>';
+	}
+
+	/**
+	 * Returns html closing tag, i.e. `</span>`.
+	 * @method         closingTag
+	 * @return         {String}
+	 */
+	this.closingTag = function(){
+		var t = this.getTag();
+		if (t !== undefined){
+			return '</' + t + '>';
+		}
+	}
+
+	/**
 	 * Gives html representation of the instance. If tag tag is undefined or empty, just html comment is generated.
 	 * @method         toHtml
 	 * @return         {String}             html representation of an instance of this class.
 	 * @since          0.0.1
 	 */
 	this.toHtml = function(){
-		// //console.log('Tag::toHtml(): ', this.getContent(), Array.isArray(this.getContent()));
-		var styleStr = this.getStyles().toString(),
-			attrStr = this.getAttributes().toString(),
-			tagStr = this.getTag(),
+		var tagStr = this.getTag(),
+			openStr = this.openingTag(),
+			closeStr = this.closingTag(),
 			constStr = this.getContent().toHtml(),
 			html;
-		if (tagStr){
-			// styleStr = Helper.sandwichWith('style="', styleStr, '"');
-			html = '<' + [tagStr, attrStr, styleStr].concatDropSpaces() + '>' + constStr + '</' + tagStr + '>';
+		if (typeof tagStr === 'string' && tagStr.length > 0){
+			html = openStr + constStr + closeStr;
 		} else {
-			console.log('tag name is missing ', this);
 			html = '<!-- tag name is missing -->';
 		}
 		return html;

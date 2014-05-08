@@ -1,9 +1,84 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Helper, TableStyles, TableAttributes, Row, Tag, Content */
+/*global Attributes, Cell, Helper, TableStyles, Styles, TableAttributes, Row, Tag, Content */
 
 /**
 * Represents table.
+*
+* Table might be a plain one or a framed one. Table is called framed if each of its rows contains only one cell,
+* and each of these cells contains another table. These three elements - row, cell and table - are called phantom ones.
+* Only {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
+* {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} of the phantom elements are of interest
+*
+*
+* Below it is depicted a framed table. Dotted lines correspond to the phantom elements, solid - to "normal" ones.
+* <span style="color: black">Black color corresponds to table</span>,
+* <span style="color: orange">orange - to table row</span>,
+* <span style="color: green">green - to table cell</span>.
+* <style>
+* .phantom, .normal{
+*	border-width: 2px;
+*	padding: 4px;
+* 	margin: 4px;
+*	border-collapse: separate;
+* }
+*
+* .phantom {
+* 	border-style: dashed;
+* }
+* .normal {
+*   border-style: solid;
+* }
+* table.phantom, table.normal {
+*	border-color: #2818B1;
+*	padding: 10px;
+* }
+* td.phantom, td.normal{
+* 	border-color: #00A779;
+* }
+* tr.phantom, tr.normal {
+* 	outline-width: 2px;
+* 	outline-color: #FF9C00;
+* }
+* tr.phantom{
+* 	outline-style: dashed;
+* }
+* tr.normal {
+* 	outline-style: solid;
+* }
+
+* </style>
+*
+* <table class="normal">
+* 	<tr class="phantom">
+*  		<td class="phantom">
+*  			<table class="phantom">
+*  				<tr class="normal">
+*  					<td class="normal">
+*  						first cell of the first line
+*  					</td>
+*  					<td class="normal">
+*  						second cell of the first line
+*  					</td>
+*  				</tr>
+*  			</table>
+*  		</td>
+*   </tr>
+* 	<tr class="phantom">
+*  		<td class="phantom">
+*  			<table class="phantom">
+*  				<tr class="normal">
+*  					<td class="normal">
+*  						first cell of the second line
+*  					</td>
+*  					<td class="normal">
+*  						second cell of the second line
+*  					</td>
+*  				</tr>
+*  			</table>
+*  		</td>
+*   </tr>
+* </table>
 * @module        HtmlElements
 * @class         Table
 * @constructor
@@ -38,56 +113,57 @@ function Table() {
 	this.setStyles(new TableStyles());
 	this.setAttributes(new TableAttributes());
 
-
-
 	/**
-	 * A {{#crossLink "Cell"}}Cell{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
-	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
-	 * ignored.
-	 * @property       {Cell}               phantomCell
+	 * Phantom cell.
+	 * @property       {Cell}    phantomCell
 	 * @type           {Cell}
 	 * @private
+	 * @default        undefined
 	 */
-	var phantomCell = new Cell();
+	var phantomCell;
 
 	/**
-	 * A {{#crossLink "Row"}}Row{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
-	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
-	 * ignored.
-	 * @property       {Row}                phantomRow
+	 * Phantom row.
+	 * @property       {Row}    phantomRow
 	 * @type           {Row}
 	 * @private
+	 * @default        undefined
 	 */
-	var phantomRow = new Row();
+	var phantomRow;
+
 
 	/**
-	 * A {{#crossLink "Table"}}Table{{/crossLink}} instance that collects {{#crossLink "Styles"}}styles{{/crossLink}}
-	 * and {{#crossLink "Attributes"}}attributes{{/crossLink}}. Its {{#crossLink "Content"}}content{{/crossLink}} is
-	 * ignored.
-	 * @property       {Table}              phantomTable
+	 * Phantom table {{#crossLink "Styles"}}styles{{/crossLink}}.
+	 * @property       {Table}    phantomTable
 	 * @type           {Table}
 	 * @private
+	 * @default        undefined
 	 */
-	var phantomTable = new Table();
-
+	var phantomTable;
 
 	/**
-	 * {{#crossLink "FramedTable/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
+	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
 	 * @method         getPhantomCellStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomCellStyles = function(){
-		return phantomCell.getStyles();
+		if (phantomCell instanceof Cell){
+			return phantomCell.getStyles();
+		}
+
 	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} setter.
-	 * @method         getPhantomCellStyles
+	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} setter.
+	 * @method         setPhantomCellStyles
 	 * @param          {Any}             stl
 	 * @return         {void}
 	 */
 	this.setPhantomCellStyles = function(stl){
 		if (stl !== undefined){
+			if (!(phantomCell instanceof Cell)){
+				phantomCell  = new Cell();
+			}
 			if (stl instanceof Styles){
 				phantomCell.setStyles(stl);
 			} else {
@@ -96,23 +172,29 @@ function Table() {
 		}
 	};
 
+
 	/**
-	 * {{#crossLink "FramedTable/phantomRowStyles:property"}}phantomRowStyles{{/crossLink}} getter.
+	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomRowStyles{{/crossLink}} getter.
 	 * @method         getPhantomRowStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomRowStyles = function(){
-		return phantomRow.getStyles();
+		if (phantomRow instanceof Row){
+			return phantomRow.getStyles();
+		}
 	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomRowStyles:property"}}phantomRowStyles{{/crossLink}} setter.
-	 * @method         getPhantomCellStyles
-	 * @param          {Styles}             stl
+	 * {{#crossLink "Table/phantomRowStyles:property"}}setPhantomRowStyles{{/crossLink}} setter.
+	 * @method         setPhantomRowStyles
+	 * @param          {Any}             stl
 	 * @return         {void}
 	 */
 	this.setPhantomRowStyles = function(stl){
 		if (stl !== undefined){
+			if (!(phantomRow instanceof Row)){
+				phantomRow  = new Row();
+			}
 			if (stl instanceof Styles){
 				phantomRow.setStyles(stl);
 			} else {
@@ -121,23 +203,29 @@ function Table() {
 		}
 	};
 
+
 	/**
-	 * {{#crossLink "FramedTable/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} getter.
+	 * {{#crossLink "Table/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} getter.
 	 * @method         getPhantomTableStyles
 	 * @return         {Styles}
 	 */
 	this.getPhantomTableStyles = function(){
-		return phantomTable.getStyles();
+		if (phantomTable instanceof Table){
+			return phantomTable.getStyles();
+		}
 	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} setter.
+	 * {{#crossLink "Table/phantomTableStyles:property"}}phantomTableStyles{{/crossLink}} setter.
 	 * @method         setPhantomTableStyles
-	 * @param          {Styles}                stl
+	 * @param          {Any}             stl
 	 * @return         {void}
 	 */
 	this.setPhantomTableStyles = function(stl){
 		if (stl !== undefined){
+			if (!(phantomTable instanceof Table)){
+				phantomTable = new Table();
+			}
 			if (stl instanceof Styles){
 				phantomTable.setStyles(stl);
 			} else {
@@ -146,23 +234,30 @@ function Table() {
 		}
 	};
 
+
 	/**
 	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} getter.
 	 * @method         getPhantomCellAttributes
 	 * @return         {Attributes}
 	 */
 	this.getPhantomCellAttributes = function(){
-		return phantomCell.getAttributes();
+		if (phantomCell instanceof Cell){
+			return phantomCell.getAttributes();
+		}
+
 	};
 
 	/**
 	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} setter.
-	 * @method         getPhantomCellAttributes
+	 * @method         setPhantomCellAttributes
 	 * @param          {Properties}             attr
 	 * @return         {void}
 	 */
 	this.setPhantomCellAttributes = function(attr){
 		if (attr !== undefined){
+			if (!(phantomCell instanceof Cell)){
+				phantomCell  = new Cell();
+			}
 			if (attr instanceof Attributes){
 				phantomCell.setAttributes(attr);
 			} else {
@@ -177,17 +272,23 @@ function Table() {
 	 * @return         {Attributes}
 	 */
 	this.getPhantomRowAttributes = function(){
-		return phantomRow.getAttributes();
+		if (phantomRow instanceof Row){
+			return phantomRow.getAttributes();
+		}
+
 	};
 
 	/**
 	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} setter.
-	 * @method         getPhantomCellAttributes
+	 * @method         setPhantomRowAttributes
 	 * @param          {Properties}         attr
 	 * @return         {void}
 	 */
 	this.setPhantomRowAttributes = function(attr){
 		if (attr !== undefined){
+			if (!(phantomRow instanceof Row)){
+				phantomRow  = new Row();
+			}
 			if (attr instanceof Attributes){
 				phantomRow.setAttributes(attr);
 			} else {
@@ -202,7 +303,10 @@ function Table() {
 	 * @return         {Attributes}
 	 */
 	this.getPhantomTableAttributes = function(){
-		return phantomTable.getAttributes();
+		if (phantomTable instanceof Table){
+			return phantomTable.getAttributes();
+		}
+
 	};
 
 	/**
@@ -213,6 +317,9 @@ function Table() {
 	 */
 	this.setPhantomTableAttributes = function(attr){
 		if (attr !== undefined){
+			if (!(phantomTable instanceof Table)){
+				phantomTable  = new Table();
+			}
 			if (attr instanceof Attributes){
 				phantomTable.setAttributes(attr);
 			} else {
@@ -514,15 +621,15 @@ function Table() {
 
 	/**
 	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise. If at least one of the properties, corresponding to the "bogus" elements is set, then
+	 * false otherwise. If at least one of the properties, corresponding to the "phantom" elements is set, then
 	 * the table is considered as being framed and hence all its rows will be framed.
 	 * @method isFramed
 	 * @return {Boolean}     true, if all table rows have border around
 	 */
 	this.isFramed = function(){
 		// if at least one of these properties is set, the table is considered as being framed.
-		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
-							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+		var propertyList = ['phantomRowStyles', 'phantomRowAttributes', 'phantomCellStyles',
+							'phantomCellAttributes', 'phantomTableStyles', 'phantomTableAttributes'],
 			that = this;
 		return propertyList.some(function(prop){
 			return (that[prop] !== undefined) &&  that[prop];
@@ -530,13 +637,13 @@ function Table() {
 	};
 
 	/**
-	 * Resets bogus properties. After resetting those properties, the table becomes a table without frame.
-	 * @method resetBogus
+	 * Resets phantom properties. After resetting those properties, the table becomes a table without frame.
+	 * @method resetPhantom
 	 * @return {void}
 	 */
-	this.resetBogus = function(){
-		var propertyList = ['bogusRowStyle', 'bogusRowAttr', 'bogusCellStyle',
-							'bogusCellAttr', 'bogusTableStyle', 'bogusTableAttr'],
+	this.resetPhantom = function(){
+		var propertyList = ['phantomRowStyles', 'phantomRowAttributes', 'phantomCellStyles',
+							'phantomCellAttributes', 'phantomTableStyles', 'phantomTableAttributes'],
 			propertyListLen = propertyList.length,
 			i;
 		for (i = 0; i < propertyListLen; i++){
@@ -577,113 +684,52 @@ function Table() {
 	 * @return {String}
 	 */
 	this.toHtml = function () {
-		var prologue = '', epilogue = '',
-			tableTag = 'table',
-			rowTag = 'tr',
-			cellTag = 'td',
-			bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
-			bogusRowHtml, bogusCellHtml, bogusTableHtml, tableAttr, tableStyle, tableHtml, i, rowsNumber;
+		var phantomTableTag = (new Table()).getTag(),
+ 			phantomRowTag = (new Row()).getTag(),
+			phantomCellTag =  (new Cell()).getTag(),
+			prologue, epilogue,
 
-		if (this.isFramed()){
-			// some preliminaries for the framed tables
-			bogusRowAttr    = this.getBogusRowAttr    ? this.getBogusRowAttr.toString() : '';
-			bogusRowStyle   = Helper.sandwichWith('style="', this.getBogusRowStyle().toString(), '"');
-			bogusCellAttr   = this.bogusCellAttr   ? this.getBogusCellAttr.toString() : '';
-			bogusCellStyle  = Helper.sandwichWith('style="', this.getBogusCellStyle.toString(), '"');
-			bogusTableAttr  = this.bogusTableAttr  ? this.getBogusTableAttr.toString() : '';
-			bogusTableStyle = Helper.sandwichWith('style="', this.getBogusTableStyle.toString(), '"');
+			phantomRowHtml, phantomCellHtml, phantomTableHtml,
+			tableHtml, i, rowsNumber;
 
-			bogusRowHtml = Helper.sandwichWith('<', [rowTag, bogusRowAttr, bogusRowStyle].concatDropSpaces(), '>');
-			bogusCellHtml = Helper.sandwichWith('<', [cellTag, bogusCellAttr, bogusCellStyle].concatDropSpaces(), '>');
-			bogusTableHtml = Helper.sandwichWith('<', [tableTag, bogusTableAttr, bogusTableStyle].concatDropSpaces(), '>');
 
-			epilogue = bogusRowHtml + bogusCellHtml + bogusTableHtml;
-			prologue = Helper.sandwichWith('</', tableTag, '>') + Helper.sandwichWith('</', cellTag, '>') + Helper.sandwichWith('</', rowTag, '>');
+		if (phantomCell !== undefined || phantomRow !== undefined || phantomTable !== undefined){
+			phantomRowHtml = phantomRow ? phantomRow.openingTag() : (new Row()).openingTag();
+			phantomCellHtml = phantomCell ? phantomCell.openingTag() : (new Cell()).openingTag();
+			phantomTableHtml = phantomTable ? phantomTable.openingTag() : (new Table()).openingTag();
+			epilogue = phantomRowHtml + phantomCellHtml + phantomTableHtml;
+			prologue = '</' + phantomTableTag + '></' + phantomCellTag + '></' +  phantomRowTag + '>';
+		} else {
+			epilogue = '';
+			prologue = '';
 		}
-		tableAttr  = this.getAttributes() ? this.getAttributes().toString() : '';
-		tableStyle = Helper.sandwichWith('style="', this.getStyles().toString(), '"');
-		tableHtml  = Helper.sandwichWith('<', [tableTag, tableAttr, tableStyle].concatDropSpaces(), '>');
+
+		// tableAttributes = this.getAttributes().toString();
+		// tableStyles = this.getStyles().toString();
+		tableHtml  = this.openingTag();
 		rowsNumber = this.rowNum();
 		for (i = 0; i < rowsNumber; i++) {
 			tableHtml += epilogue;
 			tableHtml += this.getElem(i).toHtml();
 			tableHtml += prologue;
 		}
-		tableHtml += Helper.sandwichWith('</', tableTag, '>');
+		tableHtml += this.closingTag();
 		return tableHtml;
 	};
 
-	/**
-	 * Style of the row containing a single cell. It is used to created to a table with framed lines.
-	 * It is supposed that all properties
-	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {Style} bogusRowStyle
-	 * @default  null
-	 */
-	this.bogusRowStyle = null; // new TableRowStyle();
 
-	/**
-	 * Attributes of the row containing a single cell. It is used to created to a table with framed lines.
-	 * It is supposed that all properties
-	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {Attribute} bogusRowAttr
-	 * @default  null
-	 */
-	this.bogusRowAttr = null; // new Attributes();
-
-	/**
-	 * Style of the  the cell which fills the whole row. It is used to created to a table with framed lines.
-	 * It is supposed that all properties
-	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {TableCellStyle} bogusCellStyle
-	 * @default  null
-	 */
-	this.bogusCellStyle = null; // new TableCellStyle();
-
-	/**
-	 * Attributes of the  the cell which fills the whole row. It is used to created to a table with framed lines.
-	 * It is supposed that all properties
-	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {Attribute} bogusCellAttr
-	 * @default  null
-	 */
-	this.bogusCellAttr = null; // new Attributes();
-
-	/**
-	 * Style of the  the table that will be inserted into the single cell to create a table with framed lines.
-	 * It is supposed that all properties
-	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {TableStyle} bogusTableStyle
-	 * @default  null
-	 */
-	this.bogusTableStyle = null; // new TableStyle();
-
-	/**
-	 * Attributes of the  the table that will be inserted into the single cell to create a table with framed lines.
- 	 * It is supposed that all properties
- 	 * bogusRowStyle, bogusRowAttr, bogusCellStyle, bogusCellAttr, bogusTableStyle, bogusTableAttr
-	 * are simultaneously null or set.
-	 * @property {Attribute} bogusTableAttr
-	 * @default  null
-	 */
-	this.bogusTableAttr = null; // new Attributes();
 
 	/**
 	 * If the table is fragmented and all rows have the same requested property, then
 	 * this property of the first row is returned. In any other case, null is returned.
 	 * NB: to compare requested property for all rows, this property must be an object
 	 * with boolean-valued method isTheSameAs().
-	 * @method   getBogusRowProp
+	 * @method   getPhantomRowProp
 	 * @param    {String}         prop      a tag of the property to return. All rows should have this property.
 	 * @return   {Object|null}			    the value of the property specified by the argument, if it is the same
 	 *                                      for all rows, null otherwise.
 	 */
-	this.getBogusRowProp = function(prop){
+	this.getPhantomRowProp = function(prop){
 		if (!this.isFragmented()){
 			return null;
 		}
@@ -718,46 +764,26 @@ function Table() {
 
 
 	/**
-	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusRowProp('style')`.
-	 * @method   getBogusRowStyle
-	 * @return   {Style|null}
-	 */
-	this.getBogusRowStyle = function(){
-		return this.getBogusRowProp('style');
-	};
-
-	/**
-	 * If the table is fragmented and all the rows have the same styles, then this style is returned.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusRowProp('attr')`.
-	 * @method   getBogusRowAttr
-	 * @return   {Attributes|null}
-	 */
-	this.getBogusRowAttr = function(){
-		return this.getBogusRowProp('attr');
-	};
-
-	/**
-	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
+	 * If the table is fragmented, gives the requested property of the phantom cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
-	 * @method        getBogusCellProp
+	 * @method        getPhantomCellProp
 	 * @param         {String}              propName            requested property (supposed to be "style" or "attr")
 	 * @return        {Object|null}
 	 */
-	this.getBogusCellProp = function(propName){
+	this.getPhantomCellProp = function(propName){
 		if (!this.isFragmented()){
 			return null;
 		}
 		var rowNum = this.rowNum(),
 			firstRow = this.getFirst(),
 			firstRowProp, i, currentRowProp;
-		firstRowProp = firstRow.getBogusCellProp(propName);
-		console.log('Table::getBogusCellProp : firstRowProp(', propName, ') = ', firstRowProp);
+		firstRowProp = firstRow.getPhantomCellProp(propName);
+		console.log('Table::getPhantomCellProp : firstRowProp(', propName, ') = ', firstRowProp);
 		if (rowNum === 1){
 			return firstRowProp;
 		}
 		for (i = 1; i < rowNum; i++){
-			currentRowProp = this.getElem(i).getBogusCellProp(propName);
+			currentRowProp = this.getElem(i).getPhantomCellProp(propName);
 			if (!firstRowProp.isTheSameAs(currentRowProp)){
 				return null;
 			}
@@ -766,46 +792,25 @@ function Table() {
 	};
 
 	/**
-	 * If the table is fragmented, returns the style of the bogus cell if it is the same for all cells.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusCellProp('style')`.
-	 * @method   getBogusCellStyle
-	 * @return   {Style|null}
-	 */
-	this.getBogusCellStyle = function(){
-		return this.getBogusCellProp('style');
-	};
-
-	/**
-	 * If the table is fragmented, returns the attributes of the bogus cell if it is the same for all cells.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusCellProp('attr')`.
-	 * @method   getBogusCellAttr
-	 * @return   {Attributes|null}
-	 */
-	this.getBogusCellAttr = function(){
-		return this.getBogusCellProp('attr');
-	};
-
-
-	/**
-	 * If the table is fragmented, gives the requested property of the bogus cell if that property is
+	 * If the table is fragmented, gives the requested property of the phantom cell if that property is
 	 * the same for all rows. Otherwise, null is returned.
-	 * @method  getBogusTableProp
+	 * @method  getPhantomTableProp
 	 * @param   {String}     propName            requested property (supposed to be "style" or "attr")
 	 * @return  {Object|null}
 	 */
-	this.getBogusTableProp = function(propName){
+	this.getPhantomTableProp = function(propName){
 		if (!this.isFragmented()){
 			return null;
 		}
 		var rowNum = this.rowNum(),
 			firstRow = this.getFirst(),
 			firstRowProp, i, currentRowProp;
-		firstRowProp = firstRow.getBogusTableProp(propName);
+		firstRowProp = firstRow.getPhantomTableProp(propName);
 		if (rowNum === 1){
 			return firstRowProp;
 		}
 		for (i = 1; i < rowNum; i++){
-			currentRowProp = this.getElem(i).getBogusTableProp(propName);
+			currentRowProp = this.getElem(i).getPhantomTableProp(propName);
 			if (!firstRowProp.isTheSameAs(currentRowProp)){
 				return null;
 			}
@@ -814,29 +819,9 @@ function Table() {
 
 	};
 
-	/**
-	 * If the table is fragmented, returns the style of the bogus table if it is the same for all tables.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusTableProp('style')`.
-	 * @method   getBogusTableStyle
-	 * @return   {Style|null}
-	 */
-	this.getBogusTableStyle = function(){
-		return this.getBogusTableProp('style');
-	};
 
 	/**
-	 * If the table is fragmented, returns the attributes of the bogus table if it is the same for all tables.
-	 * Otherwise, null is returned. This is an alias for `Table::getBogusTableProp('attr')`.
-	 * @method   getBogusTableAttr
-	 * @return   {Attributes|null}
-	 */
-	this.getBogusTableAttr = function(){
-		return this.getBogusTableProp('attr');
-	};
-
-
-	/**
-	 * If the table is fragmented, then sets up the bogus properties and rearrange content property.
+	 * If the table is fragmented, then sets up the phantom properties and rearrange content property.
 	 * If not, the table remains as it is.
 	 * @method   desintangle
 	 * @return   {void}
@@ -848,12 +833,12 @@ function Table() {
 		var newContent = new Content(),
 			rowNum = this.rowNum(),
 			i;
-		this.bogusRowAttr = this.getBogusRowAttr();
-		this.bogusRowStyle = this.getBogusRowStyle();
-		this.bogusCellAttr = this.getBogusCellAttr();
-		this.bogusCellStyle = this.getBogusCellStyle();
-		this.bogusTableAttr = this.getBogusTableAttr();
-		this.bogusTableStyle = this.getBogusTableStyle();
+		this.phantomRowAttributes = this.getPhantomRowAttributes();
+		this.phantomRowStyles = this.getPhantomRowStyles();
+		this.phantomCellAttributes = this.getPhantomCellAttributes();
+		this.phantomCellStyles = this.getPhantomCellStyles();
+		this.phantomTableAttributes = this.getPhantomTableAttributes();
+		this.phantomTableStyles = this.getPhantomTableStyles();
 		for (i = 0; i < rowNum; i++){
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
