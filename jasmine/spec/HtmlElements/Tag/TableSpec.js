@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global xdescribe, it, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
 Content, TableStyles, TableRowStyles, TableCellStyles, TableAttributes, Attributes, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
@@ -265,64 +265,129 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Creates html representation', function(){
-        it('generates string', function(){
-            var phTableAttrs = new Attributes(),
-                phTableStyles = new Styles(),
-                phCellAttrs = new Attributes(),
-                phCellStyles = new Styles(),
-                phRowAttrs = new Attributes(),
-                phRowStyles = new Styles(),
-                attrs = new Attributes(),
-                stls = new Styles(),
-                t1 = new Tag(),
-                t2 = new Tag(),
-                t3 = new Tag();
-            table.setPhantomCellStyles({foo: 'boo'});
-            table.setPhantomRowStyles({key: 'hi'});
-            table.setPhantomTableStyles({len: 'mass'});
-            spyOn(table, 'getPhantomTableAttributes').andCallFake(function(){return phTableAttrs;});
-            spyOn(table, 'getPhantomTableStyles').andCallFake(function(){return phTableStyles;});
-            spyOn(table, 'getPhantomCellAttributes').andCallFake(function(){return phCellAttrs;});
-            spyOn(table, 'getPhantomCellStyles').andCallFake(function(){return phCellStyles;});
-            spyOn(table, 'getPhantomRowAttributes').andCallFake(function(){return phRowAttrs;});
-            spyOn(table, 'getPhantomRowStyles').andCallFake(function(){return phRowStyles;});
+    describe('Opening/closing tag for phantom elements', function(){
+        beforeEach(function(){
+            table.unsetPhantom();
+        });
+
+        describe('The first argument must be a string not a string', function(){
+            it('returns undefined if the first argument is a number', function(){
+                expect(table.getPhantomTag(5)).not.toBeDefined();
+            });
+            it('returns undefined if the first argument is a function', function(){
+                expect(table.getPhantomTag(function(){return null;})).not.toBeDefined();
+            });
+            it('returns undefined if the first argument is an object', function(){
+                expect(table.getPhantomTag({foo: 1})).not.toBeDefined();
+            });
+
+        });
+
+        describe('If the phantom elements are not defined', function(){
+            it('gives undefined if the first argument is "cell"', function(){
+                expect(table.getPhantomTag('cell', 'anything')).not.toBeDefined();
+            });
+
+            it('gives undefined if the first argument is "row"', function(){
+                expect(table.getPhantomTag('row', 'anything')).not.toBeDefined();
+            });
+
+            it('gives undefined if the first argument is "table"', function(){
+                expect(table.getPhantomTag('table', 'anything')).not.toBeDefined();
+            });
+
+        });
+
+        describe('If phantom elements are defined', function(){
+            beforeEach(function(){
+                table.setPhantomTableAttributes({class: 'media'});
+                table.setPhantomTableStyles({mass: '2kg', 'os': 'win'});
+
+                table.setPhantomRowAttributes({length: 335, 'dim': 'large'});
+                table.setPhantomRowStyles({spec: 'agile'});
+
+                table.setPhantomCellAttributes({block: 'media', type: 'school', nod: 'left'});
+                table.setPhantomCellStyles({lep: 'r'});
+
+            });
+            it('gives undefined if phantom elements exits and the first argument is niether "row" nor "cell" nor "table"', function(){
+                expect(table.getPhantomTableAttributes()).toBeDefined();
+                expect(table.getPhantomTag('dumb name', 'anything')).not.toBeDefined();
+            });
+            it('gives opening tag if arguments are "table" and "open"', function(){
+                expect(table.getPhantomTag('table', 'open')).toBe('<table class="media" style="mass: 2kg; os: win">');
+            });
+            it('gives opening tag if arguments are "row" and "open"', function(){
+                expect(table.getPhantomTag('row', 'open')).toBe('<tr length="335" dim="large" style="spec: agile">');
+            });
+            it('gives opening tag if arguments are "cell" and "open"', function(){
+                expect(table.getPhantomTag('cell', 'open')).toBe('<td block="media" type="school" nod="left" style="lep: r">');
+            });
+            it('gives opening tag if firts argument is "cell" and the second is missing', function(){
+                expect(table.getPhantomTag('cell')).toBe('<td block="media" type="school" nod="left" style="lep: r">');
+            });
+            it('gives closing tag if arguments are "cell" and "close"', function(){
+                expect(table.getPhantomTag('cell', 'close')).toBe('</td>');
+            });
+            it('gives closing tag if arguments are "row" and "close"', function(){
+                expect(table.getPhantomTag('row', 'close')).toBe('</tr>');
+            });
+            it('gives closing tag if arguments are "table" and "close"', function(){
+                expect(table.getPhantomTag('table', 'close')).toBe('</table>');
+            });
+
+
+        });
+
+
+
+    });
+
+    describe('Creates html representation', function(){
+        var stls, attrs, elem1, elem2, elem3, elem4;
+        beforeEach(function(){
+            stls = {toString: function(){return '"styles"';}};
+            attrs = {toString: function(){return '"attributes"';}};
+            elem1 = {toHtml: function(){return '"element 1"';}};
+            elem2 = {toHtml: function(){return '"element 2"';}};
+            elem3 = {toHtml: function(){return '"element 3"';}};
+            elem4 = {};       // object with no 'toHtml' method
+        });
+        it('generates html string for non-framed table', function(){
+            spyOn(table, 'isFramed').andCallFake(function(){return false;});
             spyOn(table, 'getStyles').andCallFake(function(){return stls;});
             spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
+            table.setElements([elem1, elem2]);
+            expect(table.toHtml()).toBe('<table "attributes" "styles">"element 1""element 2"</table>');
+        });
 
-            table.setElements([t1, t2, t3]);
+        it('ignores elements without "toHtml" methods ', function(){
+            spyOn(table, 'isFramed').andCallFake(function(){return false;});
+            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
+            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
+            table.setElements([elem1, elem2, elem4, elem3]);
+            expect(table.toHtml()).toBe('<table "attributes" "styles">"element 1""element 2""element 3"</table>');
 
-            spyOn(t1, 'toHtml').andCallFake(function(){return 't1 string';});
-            spyOn(t2, 'toHtml').andCallFake(function(){return 't2 string';});
-            spyOn(t3, 'toHtml').andCallFake(function(){return 't3 string';});
-            spyOn(stls, 'toString').andCallFake(function(){return '"table styles"';});
-            spyOn(attrs, 'toString').andCallFake(function(){return '"table attributes"';});
-            spyOn(phTableAttrs, 'toString').andCallFake(function(){return '"ph-table-attrs"';});
-            spyOn(phTableStyles, 'toString').andCallFake(function(){return '"ph-table-styles"';});
-            spyOn(phRowAttrs, 'toString').andCallFake(function(){return '"ph-row-attrs"';});
-            spyOn(phRowStyles, 'toString').andCallFake(function(){return '"ph-row-styles"';});
-            spyOn(phCellAttrs, 'toString').andCallFake(function(){return  '"ph-cell-attrs"';});
-            spyOn(phCellStyles, 'toString').andCallFake(function(){return '"ph-cell-styles"';});
+        });
 
+        it('generates html string for framed table', function(){
+            spyOn(table, 'isFramed').andCallFake(function(){return true;});
+            spyOn(table, 'getPhantomTag').andCallFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
+            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
+            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
+            table.setElements([elem1, elem2, elem3]);
 
-            var html = table.toHtml();
-            expect(html).toBe('<table "table attributes" "table styles">\
-<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
-<table "ph-table-attrs" "ph-table-styles">t1 string</table>\
-</td></tr>\
-<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
-<table "ph-table-attrs" "ph-table-styles">t2 string</table>\
-</td></tr>\
-<tr "ph-row-attrs" "ph-row-styles"><td "ph-cell-attrs" "ph-cell-styles">\
-<table "ph-table-attrs" "ph-table-styles">t3 string</table>\
-</td></tr>\
+            expect(table.toHtml()).toBe('<table "attributes" "styles">\
+<row open><cell open><table open>"element 1"<table close><cell close><row close>\
+<row open><cell open><table open>"element 2"<table close><cell close><row close>\
+<row open><cell open><table open>"element 3"<table close><cell close><row close>\
 </table>');
         });
     });
 
 
 
-    xdescribe('Table::appendRow(): appends the row', function(){
+    describe('Table::appendRow(): appends the row', function(){
         it('throws exception if not a Row instance is appended to the table', function(){
             var foo = {};
             expect(foo instanceof Row).toBe(false);
@@ -338,7 +403,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
+    describe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
         var matrix;
         it('gives empty array if the table has no rows', function(){
             spyOn(table, 'length').andCallFake(function(){return 0;});
@@ -379,7 +444,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::setProfile(): sets the widths of the columns', function(){
+    describe('Table::setProfile(): sets the widths of the columns', function(){
         it('throws an error if the argument is not array', function(){
             expect(function(){
                 table.setProfile('not array');
@@ -422,7 +487,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table.getProfile(): gets table profile', function(){
+    describe('Table.getProfile(): gets table profile', function(){
         it('gets "null" if not all rows have the same cell widths', function(){
             spyOn(table, 'isSameWidths').andCallFake(function(){
                 return false;
@@ -440,7 +505,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::isSameWidths(): whether all table rows have the same profiles', function(){
+    describe('Table::isSameWidths(): whether all table rows have the same profiles', function(){
         it('gets true for empty table', function(){
             spyOn(table, 'getMatrix').andCallFake(function(){
                 return [];
@@ -492,7 +557,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::knockOutCol(): knocks out given column', function(){
+    describe('Table::knockOutCol(): knocks out given column', function(){
         it('calls method Row::dropCell() on each row', function(){
             spyOn(row1, 'knockOutCell').andCallFake(function(){return null;});
             spyOn(row2, 'knockOutCell').andCallFake(function(){return null;});
@@ -508,7 +573,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::dropColAt(): drops given column', function(){
+    describe('Table::dropColAt(): drops given column', function(){
         it('calls method Row::dropCellAt() on each row', function(){
             spyOn(row1, 'dropCellAt').andCallFake(function(){return null;});
             spyOn(row2, 'dropCellAt').andCallFake(function(){return null;});
@@ -524,7 +589,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::colNum(): gives the number of columns', function(){
+    describe('Table::colNum(): gives the number of columns', function(){
         it('gives null, if first row is not of the same lenght as others', function(){
             spyOn(row1, 'cellNum').andCallFake(function(){return 13;});
             spyOn(row2, 'cellNum').andCallFake(function(){return 10;});
@@ -596,7 +661,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::insertColAt(): inserts column at given position', function(){
+    describe('Table::insertColAt(): inserts column at given position', function(){
         it('Throws an error if position index is too big', function(){
             spyOn(table, 'colNum').andCallFake(function(){return 5;});
             expect(function(){
@@ -691,7 +756,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::appendStyleToCol(): Appends style to a single column:', function(){
+    describe('Table::appendStyleToCol(): Appends style to a single column:', function(){
         it('Throw an error if column number is not integer ', function(){
             spyOn(table, 'colNum').andCallFake(function(){
                 return 12;
@@ -847,7 +912,7 @@ describe('Table-related functionality:', function(){
         });
 
 
-        it('generates html code of the framed table: all bogus attributes and styles are present', function(){
+        xit('generates html code of the framed table: all bogus attributes and styles are present', function(){
             spyOn(row1, 'toHtml').andCallFake(function(){
                 return 'row 1';
             });
@@ -893,7 +958,7 @@ describe('Table-related functionality:', function(){
         });
 
 
-        it('generates html code of the framed table: bogus attributes are present, styles - not', function(){
+        xit('generates html code of the framed table: bogus attributes are present, styles - not', function(){
             spyOn(row1, 'toHtml').andCallFake(function(){
                 return 'row 1';
             });
@@ -938,7 +1003,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table.setBorder(): sets table border', function(){
+    describe('Table.setBorder(): sets table border', function(){
         beforeEach(function(){
                 delete table.getStyles()['border-width'];
                 delete table.getStyles()['border-color'];
@@ -987,8 +1052,19 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::removeBorder(): removes table border attrbutes', function(){
-        it('removes existing info about border table', function(){
+    describe('Table::removeBorder(): removes table border', function(){
+        it('"removes" info about border table from the styles if it was not even present', function(){
+            table.dropStyleProperty('border-width');
+            table.dropStyleProperty('border-color');
+            table.dropStyleProperty('border-style');
+            table.removeBorder();
+            expect(table.getStyleProperty('border-width')).not.toBeDefined();
+            expect(table.getStyleProperty('border-color')).not.toBeDefined();
+            expect(table.getStyleProperty('border-style')).toBe('none');
+            expect(table.getAttrProperty('border')).not.toBeDefined();
+        });
+
+        it('removes existing info about border table from the styles', function(){
             table.setStyleProperty('border-width', 'width');
             table.setStyleProperty('border-color', 'color');
             table.setStyleProperty('border-style', 'style');
@@ -999,16 +1075,16 @@ describe('Table-related functionality:', function(){
             expect(table.getAttrProperty('border')).not.toBeDefined();
         });
 
-        it('"removes" info about border table if it was not even present', function(){
-            table.getStyles().dropProperty('border-width');
-            table.getStyles().dropProperty('border-color');
-            table.getStyles().dropProperty('border-style');
+        it('removes existing info about border table from the attributes', function(){
+            table.setAttrProperty('border', 2);
             table.removeBorder();
             expect(table.getStyleProperty('border-width')).not.toBeDefined();
             expect(table.getStyleProperty('border-color')).not.toBeDefined();
             expect(table.getStyleProperty('border-style')).toBe('none');
             expect(table.getAttrProperty('border')).not.toBeDefined();
         });
+
+
     });
 
     xdescribe('Table::rowNum(): gives the number of rows in the table', function(){
@@ -1020,108 +1096,96 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table:isFramed(): whether the table is framed', function(){
-        var bogusProp, len, i;
-        beforeEach(function(){
-            table = new Table();
-            bogusProp = ['bogusTableAttr', 'bogusTableStyle', 'bogusRowStyle', 'bogusRowAttr', 'bogusCellAttr', 'bogusCellStyle'];
-            len = bogusProp.length;
-            for (i = 0; i < len; i++){
-                if (table[bogusProp] !== undefined){
-                    delete table[bogusProp];
-                }
-            }
-        });
-
-        it('gives false, if none of the bogus attributes is set', function(){
+    describe('Table:isFramed(): whether the table is framed', function(){
+        it('gives false, if none of the phantom styles and attributes are set', function(){
             expect(table.isFramed()).toBe(false);
         });
 
-        it('gives true, if bogusTableAttr is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusTableAttr = 'anything';
+        it('gives true, if phantomTableAttributes is set', function(){
+            table.setPhantomTableAttributes(new Attributes());
             expect(table.isFramed()).toBe(true);
         });
 
-        it('gives true, if bogusTableStyle is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusTableStyle = 'anything';
+        it('gives true, if phantomTableStyle is set', function(){
+            table.setPhantomTableStyles(new Styles());
             expect(table.isFramed()).toBe(true);
         });
 
-        it('gives true, if bogusCellAttr is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusCellAttr = 'anything';
+        it('gives true, if phantomCellAttributes is set', function(){
+            table.setPhantomCellAttributes(new Attributes());
             expect(table.isFramed()).toBe(true);
         });
 
-        it('gives true, if bogusCellStyle is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusCellStyle = 'anything';
+        it('gives true, if phantomCellStyles is set', function(){
+            table.setPhantomCellStyles(new Styles());
             expect(table.isFramed()).toBe(true);
         });
 
-        it('gives true, if bogusRowAttr is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusRowAttr = 'anything';
+        it('gives true, if phantomRowAttr is set', function(){
+            table.setPhantomRowAttributes(new Attributes());
             expect(table.isFramed()).toBe(true);
         });
 
-        it('gives true, if bogusRowStyle is set', function(){
-            expect(table.isFramed()).toBe(false);
-            table.bogusRowStyle = 'anything';
+        it('gives true, if phantomRowStyle is set', function(){
+            table.setPhantomRowAttributes(new Attributes());
             expect(table.isFramed()).toBe(true);
         });
     });
 
-    xdescribe('Table:removeFrame(): removes all bogus properties', function(){
-        var bogusProp = ['bogusTableAttr', 'bogusTableStyle', 'bogusRowStyle', 'bogusRowAttr', 'bogusCellAttr', 'bogusCellStyle'],
-            len = bogusProp.length,
-            i;
+    describe('Table:unsetPhantom(): removes phantom cell/row/table styles and attributes', function(){
+        var phantomGetters, len, i, stl, attr;
+        beforeEach(function(){
+            phantomGetters = ['getPhantomTableStyles', 'getPhantomTableAttributes', 'getPhantomCellStyles',
+                'getPhantomCellAttributes', 'getPhantomRowStyles', 'getPhantomRowAttributes'];
+            len = phantomGetters.length;
+            stl = new Styles();
+            attr = new Attributes();
+        });
+
         afterEach(function(){
             for (i = 0; i < len; i++){
-                expect(table[bogusProp[i]]).not.toBeDefined();
+                expect(table[phantomGetters[i]]()).not.toBeDefined();
             }
-            expect(table.isFramed()).toBe(false);
-
         });
+
         it('if they were not set', function(){
-            table.resetBogus();
+            table.unsetPhantom();
         });
 
-        it('resets bogus attributes, if only bogusTableAttr was initially set', function(){
-            table.bogusTableAttr = 'anything';
-            expect(table.bogusTableAttr).toBeDefined();
-            table.resetBogus();
+        it('unsets phantoms, if only phantom table attributes are set', function(){
+            table.setPhantomTableAttributes(attr);
+            expect(table.getPhantomTableAttributes()).toBeDefined();
+            table.unsetPhantom();
         });
-        it('resets bogus attributes, if only bogusTableStyle was initially set', function(){
-            table.bogusTableStyle = 'anything';
-            expect(table.bogusTableStyle).toBeDefined();
-            table.resetBogus();
+
+        it('unsets phantom attributes, if only phantomTableStyle was initially set', function(){
+            table.setPhantomTableStyles(stl);
+            expect(table.getPhantomTableStyles()).toBeDefined();
+            table.unsetPhantom();
         });
-        it('resets bogus attributes, if only bogusCellAttr was initially set', function(){
-            table.bogusCellAttr = 'anything';
-            expect(table.bogusCellAttr).toBeDefined();
-            table.resetBogus();
+        it('unsets phantom attributes, if only phantomCellAttr was initially set', function(){
+            table.setPhantomCellAttributes(attr);
+            expect(table.getPhantomCellAttributes()).toBeDefined();
+            table.unsetPhantom();
         });
-        it('resets bogus attributes, if only bogusCellStyle was initially set', function(){
-            table.bogusCellStyle = 'anything';
-            expect(table.bogusCellStyle).toBeDefined();
-            table.resetBogus();
+        it('unsets phantom attributes, if only phantomCellStyle was initially set', function(){
+            table.setPhantomCellStyles(stl);
+            expect(table.getPhantomCellStyles()).toBeDefined();
+            table.unsetPhantom();
         });
-        it('resets bogus attributes, if only bogusRowAttr was initially set', function(){
-            table.bogusRowAttr = 'anything';
-            expect(table.bogusRowAttr).toBeDefined();
-            table.resetBogus();
+        it('unsets phantom attributes, if only phantomRowAttr was initially set', function(){
+            table.setPhantomRowAttributes(attr);
+            expect(table.getPhantomRowAttributes()).toBeDefined();
+            table.unsetPhantom();
         });
-        it('resets bogus attributes, if only bogusRowStyle was initially set', function(){
-            table.bogusRowStyle = 'anything';
-            expect(table.bogusRowStyle).toBeDefined();
-            table.resetBogus();
+        it('unsets phantom attributes, if only phantomRowStyle was initially set', function(){
+            table.setPhantomRowStyles(stl);
+            expect(table.getPhantomRowStyles()).toBeDefined();
+            table.unsetPhantom();
         });
     });
 
-    xdescribe('Table::isFragmented(): whether the table looks like a framed table?', function(){
+    describe('Table::isFragmented(): whether the table looks like a framed table?', function(){
         it('gives false for empty tables', function(){
             spyOn(table, 'rowNum').andCallFake(function(){return 0;});
             expect(table.isFragmented()).toBe(false);
@@ -1146,9 +1210,6 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
             table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
-            // expect(row1.onlyTableInside).toHaveBeenCalled();
-            // expect(row2.onlyTableInside).toHaveBeenCalled();
-            // expect(row3.onlyTableInside).toHaveBeenCalled();
         });
 
         it('gives false for a table with 3 rows, where only the first is not framed', function(){
@@ -1157,9 +1218,6 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
             table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
-            // expect(row1.onlyTableInside).toHaveBeenCalled();
-            // expect(row2.onlyTableInside).toHaveBeenCalled();
-            // expect(row3.onlyTableInside).toHaveBeenCalled();
         });
 
         it('gives false for a table with 4 rows, where only the second is not framed', function(){
@@ -1529,31 +1587,14 @@ describe('Table-related functionality:', function(){
 
 
     xdescribe('Table::desintangle(): converts table from fragmented into a framed', function(){
-        it('does not add bogus cell, row, table properties if the table is not fragmented', function(){
-            expect(table.bogusRowStyle).toBe(null);
-            expect(table.bogusRowAttr).toBe(null);
-            expect(table.bogusCellStyle).toBe(null);
-            expect(table.bogusCellAttr).toBe(null);
-            expect(table.bogusTableStyle).toBe(null);
-            expect(table.bogusTableAttr).toBe(null);
-            spyOn(table, 'isFragmented').andCallFake(function(){return false;});
-            table.disentangle();
-            expect(table.bogusRowStyle).toBe(null);
-            expect(table.bogusRowAttr).toBe(null);
-            expect(table.bogusCellStyle).toBe(null);
-            expect(table.bogusCellAttr).toBe(null);
-            expect(table.bogusTableStyle).toBe(null);
-            expect(table.bogusTableAttr).toBe(null);
-        });
-
         it('sets bogus cell attributes, if the table is fragmented', function(){
             var obj = {};
-            spyOn(table, 'getBogusCellAttr').andCallFake(function(){return obj;});
-            spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle');
+            spyOn(table, 'getPhantomCellAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getPhantomCellStyle');
+            spyOn(table, 'getPhantomRowAttr');
+            spyOn(table, 'getPhantomRowStyle');
+            spyOn(table, 'getPhantomTableAttr');
+            spyOn(table, 'getPhantomTableStyle');
             spyOn(table, 'isFragmented').andCallFake(function(){return true;});
             expect(table.bogusCellAttr).toBe(null);
             table.disentangle();

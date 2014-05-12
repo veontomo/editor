@@ -142,6 +142,27 @@ function Table() {
 	var phantomTable;
 
 	/**
+	 * Initializes {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}},
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}},
+	 * {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}} if not initialized.
+	 * If they are initialized, no re-initialization happens.
+	 * @method          setPhantoms
+	 * @return          void
+	 */
+	this.initPhantoms = function(){
+		if (!(phantomRow instanceof Row)){
+			phantomRow = new Row();
+		}
+		if (!(phantomCell instanceof Cell)){
+			phantomCell = new Cell();
+		}
+		if (!(phantomTable instanceof Table)){
+			phantomTable = new Table();
+		}
+	};
+
+
+	/**
 	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
 	 * @method         getPhantomCellStyles
 	 * @return         {Styles}
@@ -161,9 +182,7 @@ function Table() {
 	 */
 	this.setPhantomCellStyles = function(stl){
 		if (stl !== undefined){
-			if (!(phantomCell instanceof Cell)){
-				phantomCell  = new Cell();
-			}
+			this.initPhantoms();
 			if (stl instanceof Styles){
 				phantomCell.setStyles(stl);
 			} else {
@@ -192,9 +211,7 @@ function Table() {
 	 */
 	this.setPhantomRowStyles = function(stl){
 		if (stl !== undefined){
-			if (!(phantomRow instanceof Row)){
-				phantomRow  = new Row();
-			}
+			this.initPhantoms();
 			if (stl instanceof Styles){
 				phantomRow.setStyles(stl);
 			} else {
@@ -223,9 +240,7 @@ function Table() {
 	 */
 	this.setPhantomTableStyles = function(stl){
 		if (stl !== undefined){
-			if (!(phantomTable instanceof Table)){
-				phantomTable = new Table();
-			}
+			this.initPhantoms();
 			if (stl instanceof Styles){
 				phantomTable.setStyles(stl);
 			} else {
@@ -255,9 +270,7 @@ function Table() {
 	 */
 	this.setPhantomCellAttributes = function(attr){
 		if (attr !== undefined){
-			if (!(phantomCell instanceof Cell)){
-				phantomCell  = new Cell();
-			}
+			this.initPhantoms();
 			if (attr instanceof Attributes){
 				phantomCell.setAttributes(attr);
 			} else {
@@ -286,9 +299,7 @@ function Table() {
 	 */
 	this.setPhantomRowAttributes = function(attr){
 		if (attr !== undefined){
-			if (!(phantomRow instanceof Row)){
-				phantomRow  = new Row();
-			}
+			this.initPhantoms();
 			if (attr instanceof Attributes){
 				phantomRow.setAttributes(attr);
 			} else {
@@ -317,9 +328,7 @@ function Table() {
 	 */
 	this.setPhantomTableAttributes = function(attr){
 		if (attr !== undefined){
-			if (!(phantomTable instanceof Table)){
-				phantomTable  = new Table();
-			}
+			this.initPhantoms();
 			if (attr instanceof Attributes){
 				phantomTable.setAttributes(attr);
 			} else {
@@ -328,8 +337,32 @@ function Table() {
 		}
 	};
 
-
-
+	/**
+	 * Returns {{#crossLink "Tag/openingTag:method"}}opening{{/crossLink}} or
+	 * {{#crossLink "Tag/closingTag:method"}}closing{{/crossLink}} tag for one of the
+	 * phantom elements: {{#crossLink "Table/phantomCell:property"}}cell{{/crossLink}},
+	 * {{#crossLink "Table/phantomRow:property"}}row{{/crossLink}},
+	 * {{#crossLink "Table/phantomTable:property"}}table{{/crossLink}}.
+	 * @param          {String}             phantomElem       "cell", "row", "table" (case insensitive)
+	 * @param          {String|Null}        type              "open" or "close" (case insensitive).
+	 *                                                        If missing, supposed to be equal to "open".
+	 * @return         {String}
+	 */
+	this.getPhantomTag = function(phantomElem, type){
+		if (typeof phantomElem === 'string'){
+			var phElemName = phantomElem.toLowerCase(),
+				tagType = (typeof type === 'string' && type.toLowerCase() === 'close') ? 'closingTag' : 'openingTag';
+			if (phElemName === 'cell' && phantomCell !== undefined && typeof phantomCell[tagType] === 'function') {
+				return phantomCell[tagType]();
+			}
+			if (phElemName === 'row' && phantomRow !== undefined && typeof phantomRow[tagType] === 'function') {
+				return phantomRow[tagType]();
+			}
+			if (phElemName === 'table' && phantomTable !== undefined && typeof phantomTable[tagType] === 'function') {
+				return phantomTable[tagType]();
+			}
+		}
+	};
 
 
 	/**
@@ -590,15 +623,15 @@ function Table() {
 	 */
 	this.removeBorder = function(){
 		if (this.getStyles().hasProperty('border-width')) {
-			this.getStyles().dropProperty('border-width');
+			this.dropStyleProperty('border-width');
 		}
 		if (this.getStyles().hasProperty('border-color')) {
-			this.getStyles().dropProperty('border-color');
+			this.dropStyleProperty('border-color');
 		}
 		this.setStyleProperty('border-style', 'none');
 
 		if (this.getAttributes().hasProperty('border')) {
-			this.getAttributes().dropsProperty('border');
+			this.dropAttrProperty('border');
 		}
 	};
 
@@ -620,37 +653,25 @@ function Table() {
 	};
 
 	/**
-	 * Gives true if all table rows have border around (that is, each row is nothing but a table with border)
-	 * false otherwise. If at least one of the properties, corresponding to the "phantom" elements is set, then
-	 * the table is considered as being framed and hence all its rows will be framed.
-	 * @method isFramed
-	 * @return {Boolean}     true, if all table rows have border around
+	 * Returns `true` if at least one of the following variables  {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}},
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}},
+	 * {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}} is set. `False` otherwise.
+	 * @method         isFramed
+	 * @return         {Boolean}
 	 */
 	this.isFramed = function(){
-		// if at least one of these properties is set, the table is considered as being framed.
-		var propertyList = ['phantomRowStyles', 'phantomRowAttributes', 'phantomCellStyles',
-							'phantomCellAttributes', 'phantomTableStyles', 'phantomTableAttributes'],
-			that = this;
-		return propertyList.some(function(prop){
-			return (that[prop] !== undefined) &&  that[prop];
-		});
+		return (phantomRow !== undefined) || (phantomCell !== undefined) || (phantomTable !== undefined);
 	};
 
 	/**
-	 * Resets phantom properties. After resetting those properties, the table becomes a table without frame.
-	 * @method resetPhantom
+	 * Unsets phantom properties. After resetting those properties, the table becomes a table without frame.
+	 * @method unsetPhantom
 	 * @return {void}
 	 */
-	this.resetPhantom = function(){
-		var propertyList = ['phantomRowStyles', 'phantomRowAttributes', 'phantomCellStyles',
-							'phantomCellAttributes', 'phantomTableStyles', 'phantomTableAttributes'],
-			propertyListLen = propertyList.length,
-			i;
-		for (i = 0; i < propertyListLen; i++){
-			if(this.hasOwnProperty(propertyList[i])){
-				delete this[propertyList[i]];
-			}
-		}
+	this.unsetPhantom = function(){
+		phantomRow = undefined;
+		phantomCell = undefined;
+		phantomTable = undefined;
 	};
 
 	/**
@@ -673,46 +694,30 @@ function Table() {
 		} else {
 			throw new Error('The column is not present!');
 		}
-
-
 	};
 
 	/**
-	 * Generates table-specific html code with corresponding attributes and styles.
-	 * Creation of the row-related html of each row is delegated to `Row::toHtml()`
-	 * @method toHtml
-	 * @return {String}
+	 * Generates html code corresponding to this instance. Eventually, wraps each element of
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} with strings corresponding to phantom
+	 * elements. Generation of html string of each {{#crossLink "Tag/content:property"}}content element{{/crossLink}}
+	 * is delegated to its `toHtml` method (if the elements has `toHtml` method, this element gets ignored).
+	 * @method         toHtml
+	 * @return         {String}
 	 */
 	this.toHtml = function () {
-		var phantomTableTag = (new Table()).getTag(),
- 			phantomRowTag = (new Row()).getTag(),
-			phantomCellTag =  (new Cell()).getTag(),
-			prologue, epilogue,
-
-			phantomRowHtml, phantomCellHtml, phantomTableHtml,
-			tableHtml, i, rowsNumber;
-
-
-		if (phantomCell !== undefined || phantomRow !== undefined || phantomTable !== undefined){
-			phantomRowHtml = phantomRow ? phantomRow.openingTag() : (new Row()).openingTag();
-			phantomCellHtml = phantomCell ? phantomCell.openingTag() : (new Cell()).openingTag();
-			phantomTableHtml = phantomTable ? phantomTable.openingTag() : (new Table()).openingTag();
-			epilogue = phantomRowHtml + phantomCellHtml + phantomTableHtml;
-			prologue = '</' + phantomTableTag + '></' + phantomCellTag + '></' +  phantomRowTag + '>';
-		} else {
-			epilogue = '';
-			prologue = '';
+		var prologue = '',
+			epilogue  = '',
+			tableHtml;
+		if (this.isFramed()){
+			epilogue = this.getPhantomTag('row', 'open') + this.getPhantomTag('cell', 'open') + this.getPhantomTag('table', 'open');
+			prologue = this.getPhantomTag('table', 'close') + this.getPhantomTag('cell', 'close') + this.getPhantomTag('row', 'close');
 		}
-
-		// tableAttributes = this.getAttributes().toString();
-		// tableStyles = this.getStyles().toString();
 		tableHtml  = this.openingTag();
-		rowsNumber = this.rowNum();
-		for (i = 0; i < rowsNumber; i++) {
-			tableHtml += epilogue;
-			tableHtml += this.getElem(i).toHtml();
-			tableHtml += prologue;
-		}
+		this.getElements().forEach(function(el){
+			if (typeof el.toHtml === 'function'){
+				tableHtml += epilogue + el.toHtml() + prologue;
+			}
+		});
 		tableHtml += this.closingTag();
 		return tableHtml;
 	};
@@ -833,16 +838,20 @@ function Table() {
 		var newContent = new Content(),
 			rowNum = this.rowNum(),
 			i;
-		this.phantomRowAttributes = this.getPhantomRowAttributes();
-		this.phantomRowStyles = this.getPhantomRowStyles();
-		this.phantomCellAttributes = this.getPhantomCellAttributes();
-		this.phantomCellStyles = this.getPhantomCellStyles();
-		this.phantomTableAttributes = this.getPhantomTableAttributes();
-		this.phantomTableStyles = this.getPhantomTableStyles();
+
+		this.setPhantomCellStyles(this.getFirst().getFirst().getStyles());
+		this.setPhantomCellAttributes(this.getFirst().getFirst().getAttributes());
+
+		this.setPhantomRowStyles(this.getFirst().getFirst().getStyles());
+		this.setPhantomRowAttributes(this.getFirst().getFirst().getAttributes());
+
+		this.setPhantomTableStyles(this.getFirst().getFirst().getFirst().getStyles());
+		this.setPhantomTableAttributes(this.getFirst().getFirst().getFirst().getAttributes());
+
 		for (i = 0; i < rowNum; i++){
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
-		this.content = newContent;
+		this.setContent(newContent);
 	};
 
 
