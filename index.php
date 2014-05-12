@@ -28,7 +28,6 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/FramedTable.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Cell.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Image.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Row.js"></script>
