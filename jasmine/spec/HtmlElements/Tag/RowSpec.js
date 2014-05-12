@@ -238,7 +238,7 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    xdescribe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
+    describe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
         it('gives false, if the row is empty', function(){
             spyOn(row, 'cellNum').andCallFake(function(){return 0;});
             expect(row.onlyTableInside()).toBe(false);

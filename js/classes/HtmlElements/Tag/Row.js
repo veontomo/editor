@@ -106,13 +106,12 @@ function Row() {
 	/**
 	 * Returns true if the row contains only one cell and this cell contains only one element
 	 * that is a Table() instance. Otherwise, false is returned.
-	 * @method  onlyTableInside
-	 * @return {Boolean}
+	 * @method         onlyTableInside
+	 * @return         {Boolean}
 	 */
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
-		console.log('onlyTableInside', this.cellNum(), cell.length());
-		if (this.cellNum() !== 1 || cell.length() !== 1){
+		if (cell === undefined || this.cellNum() !== 1 || cell.length() !== 1){
 			console.log('returning false ');
 			return false;
 		}
