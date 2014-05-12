@@ -120,10 +120,10 @@ function Row() {
 	};
 
 	/**
-	 * Alias for dropElemAt().
-	 * @method  dropCellAt
-	 * @param  {Number}     pos     index of the cell to de dropped out.
-	 * @return {void}
+	 * Alias for {{#crossLink "Tag/dropElemAt:method"}}dropElemAt{{/crossLink}} method.
+	 * @method         dropCellAt
+	 * @param          {Number}             pos        index of the cell to de dropped out.
+	 * @return         {void}
 	 */
 	this.dropCellAt = function(pos){
 		this.dropElemAt(pos);
@@ -138,9 +138,9 @@ function Row() {
 	 * If there is no right neighbour, then it is assigned to the left one:
 	 * | a | b | c | xxx | -> | a | b | c       |
 	 * If the cell to delete does not exist, nothing is performed.
-	 * @method knockOutCell
-	 * @param  {Number}    cellNum         cell number to delete. Numeration starts with 0.
-	 * @return {void}      after
+	 * @method         knockOutCell
+	 * @param          {Number}             cellNum         cell number to delete. Numeration starts with 0.
+	 * @return         {void}               after
 	 */
 	this.knockOutCell = function(cellNum){
 		var acceptor, acceptorWidth, currentCell, currentCellWidth;
@@ -220,35 +220,39 @@ function Row() {
 
 	/**
 	 * If the row corresponds to a framed row (a row for which method
-	 * __Row::onlyTableInside()__ returns true), then style of the cell is returned,
-	 * null otherwise. This is an alias for __Row::getBogusCellProp('style')__.
-	 * @method  getBogusCellStyle
-	 * @return  {Style|null}
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns true), then
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} of the cell is returned,
+	 * null otherwise.
+	 * This is an alias for {{#crossLink "Row/getBogusCellProp:method"}}getBogusCellProp{{/crossLink}}.
+	 * @method         phantomCellStyle
+	 * @return         {Style|null}
 	 */
-	this.getBogusCellStyle = function(){
-		return this.getBogusCellProp('style');
+	this.phantomCellStyles = function(){
+		return this.getPhantomCellProp('style');
 	};
 
 	/**
 	 * If the row corresponds to a framed row (a row for which method
 	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
 	 * null otherwise. This is an alias for __Row::getBogusCellProp('attr')__.
-	 * @method  getBogusCellAttr
+	 * @method  phantomCellAttr
 	 * @return  {Attributes|null}
 	 */
-	this.getBogusCellAttr = function(){
-		return this.getBogusCellProp('attr');
+	this.phantomCellAttr = function(){
+		return this.getPhantomCellProp('attr');
 	};
 
 	/**
 	 * If the row corresponds to a framed row (a row for which method
-	 * __Row::onlyTableInside()__ returns true), then requested property the cell inside the row is returned,
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns `true`), then
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} or
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} is returned,
 	 * null otherwise.
-	 * @method  getBogusCellProp
-	 * @param  {String}    prop         name of the property to return (intended values: "style" or "attr")
-	 * @return {Object}
+	 * @method         getPhantomCellProp
+	 * @param          {'style'|'attr'}     prop         name of the property to return)
+	 * @return         {Styles|Attributes|Null}
 	 */
-	this.getBogusCellProp = function(prop){
+	this.getPhantomCellProp = function(prop){
 		if (this.onlyTableInside()){
 			if (prop === 'style'){
 				return this.getFirst().getStyles();

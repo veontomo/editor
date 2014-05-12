@@ -287,19 +287,19 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    describe('Row::getBogusCellAttr(): gets attributes of the bogus cell', function(){
-        it('calls Row::getBogusCellProp("attr")', function(){
-            spyOn(row, 'getBogusCellProp');
-            row.getBogusCellAttr();
-            expect(row.getBogusCellProp).toHaveBeenCalledWith('attr');
+    describe('Row::getPhantomCellAttr(): gets attributes of the bogus cell', function(){
+        it('calls Row::getPhantomCellAttr("attr")', function(){
+            spyOn(row, 'getPhantomCellProp');
+            row.phantomCellAttr();
+            expect(row.getPhantomCellProp).toHaveBeenCalledWith('attr');
         });
     });
 
-    describe('Row::getBogusCellProp(): gets requested property of the bogus cell', function(){
-        it('calls Row::getBogusCellProp("style")', function(){
-            spyOn(row, 'getBogusCellProp');
-            row.getBogusCellStyle();
-            expect(row.getBogusCellProp).toHaveBeenCalledWith('style');
+    describe('Row::getPhantomCellProp(): gets requested property of the bogus cell', function(){
+        it('calls Row::getPhantomCellProp("style")', function(){
+            spyOn(row, 'getPhantomCellProp');
+            row.phantomCellStyles();
+            expect(row.getPhantomCellProp).toHaveBeenCalledWith('style');
         });
     });
 
