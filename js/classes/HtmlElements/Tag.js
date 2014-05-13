@@ -540,7 +540,7 @@ function Tag() {
 	 */
 	this.openingTag = function(){
 		var t = this.getTag(),
-			stl, attr;
+			stl, attr, output;
 		if (typeof t === 'string' && t.length > 0){
 			stl = this.getStyles().toString();
 			attr =  this.getAttributes().toString();
@@ -550,8 +550,12 @@ function Tag() {
 			if (attr.length > 0){
 				attr = ' ' + attr;
 			}
-			return '<' + t + attr + stl + '>';
+			output = '<' + t + attr + stl + '>';
+			// alert(output);
+			console.info('opening tag output', output);
+			return output;
 		}
+		console.info('opening tag outputs nothing');
 	};
 
 	/**

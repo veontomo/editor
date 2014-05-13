@@ -36,30 +36,41 @@ describe('Style-related functionality', function(){
         });
     });
 
-    describe('Style::toString(): generates string representation', function(){
+    describe('Html representation of Styles instance ', function(){
+        it('returns empty string, if "toBareString" returns empty string', function(){
+            spyOn(stl, 'toBareString').andCallFake(function(){return ''});
+            expect(stl.toString()).toBe('');
+        });
+        it('wraps output of "toBareString" if it is not empty string', function(){
+            spyOn(stl, 'toBareString').andCallFake(function(){return 'anything'});
+            expect(stl.toString()).toBe('style="anything"');
+        });
+
+    });
+
+    describe('Style::toBareString(): generates string representation', function(){
         it('if the core is empty, empty string is returned', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {};});
-            expect(stl.toString()).toBe('');
+            expect(stl.toBareString()).toBe('');
         });
         it('if the core has just one record, a string is returned', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {'mode': 'off'};});
-            expect(stl.toString()).toBe('style="mode: off"');
+            expect(stl.toBareString()).toBe('mode: off');
         });
         it('if the core has two records, a semi-column separated string is returned', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {width: 'full', 'title': 'Spec'};});
-            expect(stl.toString()).toBe('style="width: full; title: Spec"');
+            expect(stl.toBareString()).toBe('width: full; title: Spec');
         });
         it('if the core has number-valued record, the default unit measure is appended to that number', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {width: 439};});
-            expect(stl.toString()).toBe('style="width: 439px"');
+            expect(stl.toBareString()).toBe('width: 439px');
         });
         it('if the core has number-valued record, that number is augmented by the argument', function(){
             spyOn(stl, 'getCore').andCallFake(function(){return {'mass': 439};});
-            expect(stl.toString('kg')).toBe('style="mass: 439kg"');
+            expect(stl.toBareString('kg')).toBe('mass: 439kg');
         });
-
-
     });
+
 
     describe('Style::getBorderInfo(): returns the border info ', function(){
         beforeEach(function(){

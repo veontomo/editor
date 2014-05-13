@@ -3,15 +3,13 @@
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
-	// var columnWidthStyle = 'min-width: 3em; text-align: center;';
-	// var tableCell = '<td style="border: 2px solid #aeaeae;min-width: 2em;">&nbsp;</td>';
-	// var tableRow = '<tr style="padding: 0.5em">' + tableCell + tableCell + tableCell + tableCell + '</tr>';
-	// var tableIcon = '<table><tbody> ' + tableRow + tableRow + tableRow + tableRow + tableRow + '</tbody></table>';
+
 	/**
 	 * Drops inline attribute named attrName from DOM element
-	 * @param  {Object} element 	an inline attribute of  this element will be dropped. The element should respond to jQuery "attr" method.
-	 * @param  {string} attrName 	this attribute name will be dropped.
-	 * @return {void}
+	 * @param          {Object}             element 	an inline attribute of  this element will be dropped.
+	 *                                                  The element should respond to jQuery "attr" method.
+	 * @param          {string}             attrName 	this attribute name will be dropped.
+	 * @return         {void}
 	 */
 
 	var INPUTCOLWIDTHNAME = 'widthCol',
@@ -54,14 +52,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 		/**
 		 * Returns the width of the parent element available for its children.
-		 *
-		 * available width = (element width) - (element left border width) - (element right border width) - (element left margin) - (element right margin)
-		 *
+		 * <pre>
+		 * available width = (element width) - (element left border width) -
+		 * 		(element right border width) - (element left margin) - (element right margin)
+		 * </pre>
 		 * The element width is supposed to be greater than zero and hence to have a unit of
 		 * measurement (e.g. 'px'). If not set, widths of other attributes are equal to zero
 		 * without unit of measurement.  In this case one has to set the unit of measurement
 		 * equal to the element width.
-		 * @return     integer    available width for the children as Unit object (with properties "value" and "measure")
+		 * @return     {Number}             available width for the children as Unit object
+		 *                                  (with properties "value" and "measure")
 		 */
 		parentWidth = function () {
 			var startElem = editor.getSelection().getStartElement(),
@@ -162,8 +162,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
 
 				// variables to be used in what follows
-				bogusRowAttr, bogusRowStyle,  bogusCellAttr, bogusCellStyle, bogusTableAttr, bogusTableStyle,
-				parentElemStyle, bogusRowWidth, bogusCellWidth, bogusTableWidth,
+				phantomRowAttr, phantomRowStyle,  phantomCellAttr, phantomCellStyle, phantomTableAttr, phantomTableStyle,
+				parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
 				i, table, tableWidth, tableElem, cellWidths, rowWidth,
 				// rowContentWidth,
 				spaceTop, spaceBottom,
@@ -205,7 +205,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			table.setAttrProperty('width', tableWidth);
 
 			// binding the styles and attributes and the table object
-			// table.style = TableStyles;
 			if (borderWidth > 0){
 				table.setBorder({
 					'width': borderWidth,
@@ -225,59 +224,59 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			parentElemStyle = table.getStyles();
 
 			if (isFramed){
-				// creating bogus styles and attributes
-				bogusRowAttr    = new Attributes();
-				bogusRowStyle   = new TableRowStyles();
-				bogusCellAttr   = new Attributes();
-				bogusCellStyle  = new TableCellStyles();
-				bogusTableAttr  = new TableAttributes();
-				bogusTableStyle = new TableStyles();
+				// creating phantom styles and attributes
+				phantomRowAttr    = new Attributes();
+				phantomRowStyle   = new TableRowStyles();
+				phantomCellAttr   = new Attributes();
+				phantomCellStyle  = new TableCellStyles();
+				phantomTableAttr  = new TableAttributes();
+				phantomTableStyle = new TableStyles();
 
-				// calculating widths of the bogus elements
+				// calculating widths of the phantom elements
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				bogusRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
+				phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
-				bogusRowStyle.setWidth(bogusRowWidth);
-				//console.log('table2.js: bogusRowWidth = ', bogusRowWidth);
-				allWidths.push({'value': bogusRowWidth, 'descr': 'larghezza della riga fittizia'});
-				bogusRowStyle.setProperty('padding', 0);
-				bogusRowStyle.setProperty('margin', 0);
-				// mark the bogus row
-				bogusRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-				bogusCellWidth = bogusRowStyle.getProperty('width') - 2 * bogusRowStyle.getProperty('padding') - 2 * frameWidth;
-				bogusCellStyle.setWidth(bogusCellWidth);
-				allWidths.push({'value': bogusCellWidth, 'descr': 'larghezza della cella fittizia'});
+				phantomRowStyle.setWidth(phantomRowWidth);
+				//console.log('table2.js: phantomRowWidth = ', phantomRowWidth);
+				allWidths.push({'value': phantomRowWidth, 'descr': 'larghezza della riga fittizia'});
+				phantomRowStyle.setProperty('padding', 0);
+				phantomRowStyle.setProperty('margin', 0);
+				// mark the phantom row
+				phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
+				phantomCellWidth = phantomRowStyle.getProperty('width') - 2 * phantomRowStyle.getProperty('padding') - 2 * frameWidth;
+				phantomCellStyle.setWidth(phantomCellWidth);
+				allWidths.push({'value': phantomCellWidth, 'descr': 'larghezza della cella fittizia'});
 
 				// if remains zero, then in MS Outlook the cell content overlaps the border
 				// and latter becomes invisible
-				bogusCellStyle.setProperty('padding-left', frameWidth);
-				bogusCellStyle.setProperty('padding-right', frameWidth);
-				bogusCellStyle.setProperty('padding-top', spaceTop);
-				bogusCellStyle.setProperty('padding-bottom', spaceBottom);
-				bogusCellStyle.setProperty('margin', 0);
+				phantomCellStyle.setProperty('padding-left', frameWidth);
+				phantomCellStyle.setProperty('padding-right', frameWidth);
+				phantomCellStyle.setProperty('padding-top', spaceTop);
+				phantomCellStyle.setProperty('padding-bottom', spaceBottom);
+				phantomCellStyle.setProperty('margin', 0);
 
-				bogusTableWidth = bogusCellStyle.getProperty('width') - bogusCellStyle.getProperty('padding-left') - bogusCellStyle.getProperty('padding-right');
-				bogusTableStyle.setWidth(bogusTableWidth);
-				bogusTableAttr.setProperty('width', bogusTableWidth);
+				phantomTableWidth = phantomCellStyle.getProperty('width') - phantomCellStyle.getProperty('padding-left') - phantomCellStyle.getProperty('padding-right');
+				phantomTableStyle.setWidth(phantomTableWidth);
+				phantomTableAttr.setProperty('width', phantomTableWidth);
 
-				allWidths.push({'value': bogusTableWidth, 'descr': 'larghezza della tabella fittizia'});
+				allWidths.push({'value': phantomTableWidth, 'descr': 'larghezza della tabella fittizia'});
 
-				bogusTableStyle.setProperty('border-style', 'solid');
-				bogusTableStyle.setProperty('border-color', '#000000');
-				bogusTableStyle.setProperty('border-width', frameWidth);
-				bogusTableAttr.setProperty('border', frameWidth);
+				phantomTableStyle.setProperty('border-style', 'solid');
+				phantomTableStyle.setProperty('border-color', '#000001');
+				phantomTableStyle.setProperty('border-width', frameWidth);
+				phantomTableAttr.setProperty('border', frameWidth);
 
 				// binding attributes and styles with the objects
-				table.bogusTableStyle = bogusTableStyle;
-				table.bogusTableAttr  = bogusTableAttr;
-				table.bogusRowStyle   = bogusRowStyle;
-				table.bogusRowAttr    = bogusRowAttr;
-				table.bogusCellStyle  = bogusCellStyle;
-				table.bogusCellAttr   = bogusCellAttr;
+				table.setPhantomTableStyles(phantomTableStyle);
+				table.setPhantomTableAttributes(phantomTableAttr);
+				table.setPhantomRowStyles(phantomRowStyle);
+				table.setPhantomRowAttributes(phantomRowAttr);
+				table.setPhantomCellStyles(phantomCellStyle);
+				table.setPhantomCellAttributes(phantomCellAttr);
 
 				// defining a parent style. The properties of the the nested elements
 				// will be calculated based on this style.
-				parentElemStyle = bogusTableStyle;
+				parentElemStyle = phantomTableStyle;
 			} else {
 				// if the table is not framed, mark the row
 				rowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
@@ -342,10 +341,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			{
 				return null;
 			}
-
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
-			// call a custom method to insert the table and assign hovering effects on it
 			CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}
 	};

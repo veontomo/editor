@@ -34,16 +34,19 @@ var CKHelper = {
    * Drops inline attribute named attrName from DOM element
    * @method  dropInlineStyleAttr
    * @param   {Object}    element              an inline attribute of  this element will be dropped.
-   *                                          The element should respond to jQuery "attr" method.
+   *                                           The element should respond to jQuery "attr" method.
    * @param   {string}    attrName             attribute name to be dropped.
    * @return  {void}
    */
   dropInlineStyleAttr: function(element, attrName){
     // unhovering table
     var attr = element.attr('style'),
-     	style = new Styles(attr);
+     	style = new Styles(attr),
+     	styleStr;
     style.dropProperty(attrName);
-    element.attr('style', style.toString());
+    // might have format style="..." or just "...", so one needs to select "..."
+    styleStr = style.toBareString();
+    element.attr('style', styleStr);
   },
 
 
@@ -418,9 +421,9 @@ var CKHelper = {
     $(tbl.$).hover(
       function () {
         var markerName  = NEWSLETTER['marker-name'],
-          tableMarker = (new Table()).className,
-          rowMarker   = (new Row()).className,
-          cellMarker  = (new Cell()).className;
+          tableMarker = (new Table()).getName(),
+          rowMarker   = (new Row()).getName(),
+          cellMarker  = (new Cell()).getName();
         //console.log(markerName, tableMarker, rowMarker, cellMarker);
         $(this).find('td[' + markerName + '="' + cellMarker + '"]').hover(
           function(){

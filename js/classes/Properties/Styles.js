@@ -25,17 +25,32 @@ function Styles(obj) {
     this.setName('Styles');
 
     /**
-     * Generates string representation of this object (as html inline style).
-     * It takes into consideration {{#crossLink "Properties/core:property"}}core{{/crossLink}} keys only.
-     * If value corresponding to the key is a number,  then the measurement unit will be appended.
-     * If {{#crossLink "Properties/core:property"}}core{{/crossLink}} is empty, then empty string is returned.
-     * Otherwise, a string of the following format is returned: `style="key1: value1; key2: value2"`
+     * Returns html representation of current instance. It takes output of
+     * {{#crossLink "Styles/toBareString:method"}}toBareString{{/crossLink}} and if it is not empty, returns a string of
+     * the following format `style="..."`. If it is empty, retuns it as it is.
      * @method         toString
      * @param          {String|null}        unit          measurement unit to be added to the numerical attribute values.
-     *                                                    By default, it is set to 'px'.
      * @return         {String}             String        empty string or string of this format: `style="attribute: value; ..."`,
      */
     this.toString = function (unit) {
+        var output = this.toBareString(unit);
+        if (output !== ''){
+            output = 'style="' + output + '"';
+        }
+        return output;
+    };
+
+    /**
+     * Returns "bare" string of key-values pairs of style properties, i.e. `"width: 10px; color: #010101"`.
+     * It takes into consideration {{#crossLink "Properties/core:property"}}core{{/crossLink}} keys only.
+     * If value corresponding to the key is a number,  then the measurement unit will be appended.
+     * If {{#crossLink "Properties/core:property"}}core{{/crossLink}} is empty, then empty string is returned.
+     * @method         toBareString
+     * @param          {String|null}        unit          measurement unit to be added to the numerical attribute values.
+     *                                                    By default, it is set to 'px'.
+     * @return         {String}
+     */
+    this.toBareString = function(unit){
         var val, attr,
             styles = [],
             core = this.getCore(),
@@ -46,26 +61,22 @@ function Styles(obj) {
                 // avoid adding method to the output
                 val = core[attr];
                 switch (typeof val) {
-                case 'string':
-                    if(attr !== 'className'){
+                    case 'string':
                         styles.push(attr + ': ' + val.trim());
-                    }
-                    break;
-                case 'number':
-                    styles.push(attr + ': ' + String(val) + unit);
-                    break;
+                        break;
+                    case 'number':
+                        styles.push(attr + ': ' + String(val) + unit);
+                        break;
                 }
             }
         }
         output = styles.join('; ');
-        if (output !== ''){
-            output = 'style="' + output + '"';
-        }
         return output;
     };
 
     /**
-     * Appends style. Alias for the parent method {{#crossLink "Properties/appendProperty:method"}}Properties::appendProperty(){{/crossLink}}
+     * Appends style. Alias for the parent method
+     * {{#crossLink "Properties/appendProperty:method"}}Properties::appendProperty(){{/crossLink}}
      * @method  appendStyle
      * @param   {Object|null}   stl       it will be passed to the parent method
      * @return  {void}
@@ -95,8 +106,8 @@ function Styles(obj) {
      * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties
      * 'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.
      * If the Style has no Properties 'border-color', then it will not be set.
-     * @method  getBorderInfo
-     * @return {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
+     * @method         getBorderInfo
+     * @return         {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
      */
     this.getBorderInfo = function(){
         var output = {};
@@ -152,7 +163,7 @@ function Styles(obj) {
      */
     this.decorateElement = function(el){
         if (typeof el.setAttribute === 'function'){
-            var str = this.toString();
+            var str = this.toBareString();
             el.setAttribute('style', str);
         }
     };
