@@ -561,7 +561,7 @@ function Tag() {
 	 */
 	this.closingTag = function(){
 		var t = this.getTag();
-		if (t !== undefined){
+		if (typeof t === 'string' && t.length > 0){
 			return '</' + t + '>';
 		}
 	};
