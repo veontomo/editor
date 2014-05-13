@@ -288,8 +288,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			table.remove();
-			// call a custom method to insert the table and assign hovering effects on it
-			CKHelper.insertTableWithHoverEff(editor, tableElem);
+			editor.insertElement(tableElem);
 			return null;
 		}
 	};

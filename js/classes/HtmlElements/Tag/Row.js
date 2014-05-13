@@ -1,5 +1,5 @@
-/*jslint white: `false` */
-/*jslint plusplus: true, white: `true` */
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
 /*global Attributes, Cell, Table, TableRowStyles, Tag, Content */
 
 /**
@@ -112,10 +112,8 @@ function Row() {
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
 		if (cell === undefined || this.cellNum() !== 1 || cell.length() !== 1){
-			console.log('returning `false` ');
 			return false;
 		}
-		console.log('onlyTableInside returning ', cell.getFirst() instanceof Table);
 		return (cell.getFirst() instanceof Table);
 	};
 

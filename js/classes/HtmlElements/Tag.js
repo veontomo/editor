@@ -551,11 +551,8 @@ function Tag() {
 				attr = ' ' + attr;
 			}
 			output = '<' + t + attr + stl + '>';
-			// alert(output);
-			console.info('opening tag output', output);
 			return output;
 		}
-		console.info('opening tag outputs nothing');
 	};
 
 	/**
