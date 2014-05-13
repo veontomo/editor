@@ -218,11 +218,11 @@ describe('Style-related functionality', function(){
         var elem = {'setAttribute': function(){return null;}};
         beforeEach(function(){
             spyOn(elem, 'setAttribute');
-            spyOn(stl, 'toString').andCallFake(function(){return 'style to string output';});
+            spyOn(stl, 'toBareString').andCallFake(function(){return 'style to string output';});
         });
-        it('calls "toString()" method', function(){
+        it('calls "toBareString()" method', function(){
             stl.decorateElement(elem);
-            expect(stl.toString).toHaveBeenCalled();
+            expect(stl.toBareString).toHaveBeenCalled();
         });
         it('applies the output of "toString()" method to the argument', function(){
             stl.decorateElement(elem);

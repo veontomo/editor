@@ -11,4 +11,6 @@ $(document).ready(function () {
 			editor.removeMenuItem(item);
 		});
 	});
+	CKEDITOR.addCss('.cke_editable tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}' );
+	CKEDITOR.addCss('.cke_editable td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}');
 });

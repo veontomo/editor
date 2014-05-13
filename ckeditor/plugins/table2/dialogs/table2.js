@@ -343,7 +343,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
-			CKHelper.insertTableWithHoverEff(editor, tableElem);
+			editor.insertElement(tableElem);
+			// CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}
 	};
 });

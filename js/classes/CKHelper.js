@@ -412,11 +412,12 @@ var CKHelper = {
    * Inserts table and applies hover effect on it.
    * It is based on CKEDITOR.editor.insertElement() method.
    * This approach might be wrong but I wanted to avoid repetitions.
-   * @method insertTableWithHoverEff
-   * @param  {CKEDITOR.dom.element} tbl
-   * @return {void}
+   * @method           insertTableWithHoverEff
+   * @param            {CKEDITOR.dom.element}         tbl
+   * @return           {void}
+   * @deprecated  Use CKEDITOR.addCss('selector {key: values;}')
    */
-  insertTableWithHoverEff: function(ed, tbl){
+  insertTableWithHoverEff___: function(ed, tbl){
     ed.insertElement(tbl);
     $(tbl.$).hover(
       function () {

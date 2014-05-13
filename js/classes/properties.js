@@ -281,20 +281,6 @@ function Properties(input) {
 
 	};
 
-
-
-	/**
-	 * Returns an object containing string/number-valued properties (and not methods).
-	 * @method summary
-	 * @return {Object}
-	 * @deprecated   Use getCore() instead.
-	 */
-	this.summary_ = function(){
-		console.log('This method is deprecated. Use Properties::getCore() instead.');
-		return this.getCore();
-	};
-
-
 	/**
 	 * Clones the target. Parses all attributes of the target. If the attribute responds to "clone"
 	 * method, then assign the result of this method to the corresponding clone attribute. Otherwise,
