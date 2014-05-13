@@ -4,10 +4,10 @@
 
 /**
  * Represents a table cell. The argument is supposed to be passed to the "content" property.
- * @module          HtmlElements
- * @class           Cell
+ * @module             HtmlElements
+ * @class              Cell
  * @constructor
- * @param           {mixed} arg
+ * @param              {mixed}              arg
  */
 function Cell(arg) {
 	"use strict";
@@ -35,7 +35,6 @@ function Cell(arg) {
 	this.setName('Cell');
 	this.setStyles(new TableCellStyles());
 	this.setContent(new Content(arg));
-
-
 }
+
 Cell.prototype = Object.create(Tag.prototype);

@@ -1,12 +1,11 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Cell, Content, TableCellStyles, Styles, jasmine, Tag, Factory */
+/*global describe, it, expect, spyOn, beforeEach, Cell, Content, Tag */
 
 describe('Cell-related functionality:', function() {
-    var cell, cellStyle;
+    var cell;
 
     beforeEach(function() {
         cell = new Cell();
-        cellStyle = new TableCellStyles();
     });
 
     describe('Cell::constructor: inherits properly from Tag() class', function(){
@@ -56,74 +55,6 @@ describe('Cell-related functionality:', function() {
 
             cell = new Cell([]);
             expect(cell.getContent().getElements()).toEqual([[]]);
-        });
-    });
-
-
-    describe('Cell::style: imposing cell style', function(){
-        it('overrides previously set properties', function(){
-            cellStyle.setProperty('a property', 'a property value');
-            cell.setStyles(cellStyle);
-            expect(cell.getStyleProperty('a property')).toBe('a property value');
-            cell = new Cell();
-            expect(cell.getStyleProperty('a property')).not.toBe('a property value');
-        });
-
-        it('overrides a previously set default property', function(){
-            var prop = 'padding';
-            expect(cell.getStyles().hasProperty(prop)).toBe(true);
-            cell.setStyleProperty(prop, 'modified value');
-            cell = new Cell();
-            expect(cell.getStyleProperty(prop)).not.toBe('modified value');
-        });
-    });
-
-    describe('Cell::appendStyle(): method defined in the parent class', function(){
-        it('appends style if it is given as a string', function(){
-            cell.appendStyle('an-attribute: attribute-value');
-            expect(cell.getStyleProperty('an-attribute')).toBe('attribute-value');
-        });
-
-        it('appends style if it is given as a Style object', function(){
-            var st = new Styles();
-            st.setProperty('attribute', 201.29);
-            cell.appendStyle(st);
-            expect(cell.getStyleProperty('attribute')).toBe(201.29);
-        });
-
-        it('appends style if it is given as an object', function(){
-            cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProperty('modular')).toBe('no');
-            expect(cell.getStyleProperty('speed')).toBe(21.9);
-        });
-
-        it('does not overrides non-overlapping attributes', function(){
-            var st = new Styles();
-            st.setProperty('leverage', 'virtual');
-            st.setProperty('help', 981.87);
-            st.setProperty('knowledge-driven', '34');
-            cell.setStyles(st);
-            cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProperty('modular')).toBe('no');
-            expect(cell.getStyleProperty('speed')).toBe(21.9);
-            expect(cell.getStyleProperty('leverage')).toBe('virtual');
-            expect(cell.getStyleProperty('help')).toBe(981.87);
-            expect(cell.getStyleProperty('knowledge-driven')).toBe('34');
-        });
-
-        it('overrides overlapping attributes', function(){
-            var st = new Styles();
-            st.setProperty('leverage', 'virtual');
-            st.setProperty('help', 981.87);
-            st.setProperty('knowledge-driven', '34');
-            st.setProperty('modular', 923);
-            cell.setStyles(st);
-            cell.appendStyle({'modular': 'no', 'speed': 21.9});
-            expect(cell.getStyleProperty('modular')).toBe('no');
-            expect(cell.getStyleProperty('speed')).toBe(21.9);
-            expect(cell.getStyleProperty('leverage')).toBe('virtual');
-            expect(cell.getStyleProperty('help')).toBe(981.87);
-            expect(cell.getStyleProperty('knowledge-driven')).toBe('34');
         });
     });
 });
