@@ -1,5 +1,5 @@
-/*jslint white: false */
-/*jslint plusplus: true, white: true */
+/*jslint white: `false` */
+/*jslint plusplus: true, white: `true` */
 /*global Attributes, Cell, Table, TableRowStyles, Tag, Content */
 
 /**
@@ -92,9 +92,9 @@ function Row() {
 	/**
 	 * Appends a cell to the row cells. If one tries to append a non-Cell object, an exception is thrown.
 	 * Otherwise, a method appendElem of the parent class is called.
-	 * @method appendCell
-	 * @param  {Cell}     cell            a cell to be appended. If not a Cell instance, an error is thrown.
-	 * @return {void}
+	 * @method         appendCell
+	 * @param          {Cell}               cell            a cell to be appended. If not a Cell instance, an error is thrown.
+	 * @return         {void}
 	 */
 	this.appendCell = function(cell){
 		if (!(cell instanceof Cell)){
@@ -104,15 +104,15 @@ function Row() {
 	};
 
 	/**
-	 * Returns true if the row contains only one cell and this cell contains only one element
-	 * that is a Table() instance. Otherwise, false is returned.
+	 * Returns `true` if the row contains only one cell and this cell contains only one element
+	 * that is a {{#crossLink "Table"}}Table{{/crossLink}} instance. Otherwise, `false` is returned.
 	 * @method         onlyTableInside
 	 * @return         {Boolean}
 	 */
 	this.onlyTableInside = function(){
 		var cell = this.getFirst();
 		if (cell === undefined || this.cellNum() !== 1 || cell.length() !== 1){
-			console.log('returning false ');
+			console.log('returning `false` ');
 			return false;
 		}
 		console.log('onlyTableInside returning ', cell.getFirst() instanceof Table);
@@ -163,19 +163,6 @@ function Row() {
 	};
 
 	/**
-	 * dropCell was renamed into Row::knockOutCell(). So, this method is added for back-compatibility .
-	 * @method  dropCell
-	 * @param  {Number}      cellNum
-	 * @return {void}
-	 * @deprecated  Use Row::knockOutCell() directly.
-	 */
-	// this.dropCell = function(cellNum){
-	// 	console.log('Table::dropCell() was called. Try to eliminate this call.');
-	// 	this.knockOutCell(cellNum);
-	// };
-
-
-	/**
 	 * Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().
 	 * @method         appendStyleToCellAt
 	 * @param          {Number}             cellNum       index of the target cell
@@ -221,16 +208,16 @@ function Row() {
 	/**
 	 * This is an alias for {{#crossLink "Row/getPhantomCellProp:method"}}getPhantomCellProp('style'){{/crossLink}}.
 	 * @method         phantomCellStyles
-	 * @return         {Style|null}
+	 * @return         {Style}
 	 */
 	this.phantomCellStyles = function(){
 		return this.getPhantomCellProp('style');
 	};
 
 	/**
-	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getPhantomCellProp('attr'){{/crossLink}}.
+	 * This is an alias for {{#crossLink "Row/getPhantomCellProp:method"}}getPhantomCellProp('attr'){{/crossLink}}.
 	 * @method         phantomCellAttr
-	 * @return         {Attributes|null}
+	 * @return         {Attributes}
 	 */
 	this.phantomCellAttr = function(){
 		return this.getPhantomCellProp('attr');
@@ -240,11 +227,10 @@ function Row() {
 	 * If the row corresponds to a framed row (a row for which method
 	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns `true`), then
 	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} or
-	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} is returned,
-	 * null otherwise.
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} is returned.
 	 * @method         getPhantomCellProp
-	 * @param          {'style'|'attr'}     prop         name of the property to return)
-	 * @return         {Styles|Attributes|Null}
+	 * @param          {String}             prop         "style" or "attr"
+	 * @return         {Styles|Attributes}
 	 */
 	this.getPhantomCellProp = function(prop){
 		if (this.onlyTableInside()){
@@ -261,9 +247,9 @@ function Row() {
 	 * If the row corresponds to a framed row (a row for which method
 	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns true),
 	 * then {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} or
-	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} of the table inside first cell of current row is returned.
 	 * @method         getPhantomTableProp
-	 * @param          {String}             prop        name of the property to return (intended values: "style" or "attr")
+	 * @param          {String}             prop        "style" or "attr"
 	 * @return         {Styles|Attributes}
 	 */
 	this.getPhantomTableProp = function(prop){
@@ -283,10 +269,10 @@ function Row() {
 	 * If the row corresponds to a framed row (a row for which method
 	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}}
 	 * returns `true`), then style of the table inside the cell is returned.
-	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getBogusTableProp('style'){{/crossLink}}
+	 * This is an alias for {{#crossLink "Row/getPhantomTableProp:method"}}getPhantomTableProp('style'){{/crossLink}}
 	 * method.
 	 * @method         phantomTableStyles
-	 * @return         {Style|null}
+	 * @return         {Style}
 	 */
 	this.phantomTableStyles = function(){
 		return this.getPhantomTableProp('style');
@@ -295,10 +281,10 @@ function Row() {
 	/**
 	 * If the row corresponds to a framed row (a row for which method
 	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}}
-	 * returns `true`), then attribute of the table inside the cell is returned, null otherwise.
-	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getBogusTableProp('attr'){{/crossLink}}.
+	 * returns `true`), then attribute of the table inside the cell is returned.
+	 * This is an alias for {{#crossLink "Row/getPhantomTableProp:method"}}getPhantomTableProp('attr'){{/crossLink}}.
 	 * @method         phantomTableAttr
-	 * @return         {Attributes|null}
+	 * @return         {Attributes}
 	 */
 	this.phantomTableAttr = function(){
 		return this.getPhantomTableProp('attr');

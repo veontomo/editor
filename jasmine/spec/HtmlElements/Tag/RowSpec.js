@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Table, Cell, Row, Content, TableRowStyles, Attributes, Styles, jasmine, Tag*/
+/*global describe, it, expect, spyOn, beforeEach, Table, Cell, Row, Tag*/
 
 describe('Row-related functionality:', function(){
     var row, cell1, cell2, cell3, cell4;
@@ -320,7 +320,6 @@ describe('Row-related functionality:', function(){
         });
         it('returns styles, if onlyTableInside returns true', function(){
             var c = new Cell(),
-                dumbProp = {'content': 'for dumb property'},
                 t = {'getStyles': function(){return 'fake style object';}};
             spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row, 'getFirst').andCallFake(function(){return c;});
