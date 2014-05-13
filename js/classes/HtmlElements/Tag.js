@@ -18,11 +18,11 @@ function Tag() {
 	}
 
 	/**
-	 * Html tag that the class represents.
-	 * @property   {String}          tag
-	 * @default    null
+	 * Html tag corresponding to this class.
+	 * @property       {String}             tag
+	 * @default        null
 	 * @private
-	 * @since      0.0.1
+	 * @since          0.0.1
 	 */
 	var tag = null;
 
@@ -532,22 +532,27 @@ function Tag() {
 
 
 	/**
-	 * Returns a string that opens html representaion of current Tag instance,
-	 * i.e.: `<div class="media" style="color: red; width: 73%">`
+	 * If {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} is a non-empty string, then it is
+	 * returned a string with which html representaion of current instance starts,
+	 * i.e.: `<div class="media" style="color: red; width: 73%">`.
 	 * @method         openingTag
 	 * @return         {String}
 	 */
 	this.openingTag = function(){
-		var stl = this.getStyles().toString(),
+		var t = this.getTag(),
+			stl, attr;
+		if (typeof t === 'string' && t.length > 0){
+			stl = this.getStyles().toString();
 			attr =  this.getAttributes().toString();
-		if (stl.length > 0){
-			stl = ' ' + stl;
+			if (stl.length > 0){
+				stl = ' ' + stl;
+			}
+			if (attr.length > 0){
+				attr = ' ' + attr;
+			}
+			return '<' + t + attr + stl + '>';
 		}
-		if (attr.length > 0){
-			attr = ' ' + attr;
-		}
-		return '<' + this.getTag() + attr + stl + '>';
-	}
+	};
 
 	/**
 	 * Returns html closing tag, i.e. `</span>`.
@@ -559,12 +564,13 @@ function Tag() {
 		if (t !== undefined){
 			return '</' + t + '>';
 		}
-	}
+	};
 
 	/**
-	 * Gives html representation of the instance. If tag tag is undefined or empty, just html comment is generated.
+	 * Gives html representation of the instance.
+	 * If {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} is not a non-empty string, just html comment is generated.
 	 * @method         toHtml
-	 * @return         {String}             html representation of an instance of this class.
+	 * @return         {String}
 	 * @since          0.0.1
 	 */
 	this.toHtml = function(){
