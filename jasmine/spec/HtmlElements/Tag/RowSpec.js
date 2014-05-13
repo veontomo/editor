@@ -32,7 +32,6 @@ describe('Row-related functionality:', function(){
             expect((new Row()).getStyleProperty('width')).not.toBe('whatever');
             expect(row.getStyleProperty('width')).toBe('whatever');
         });
-
     });
 
     describe('Row::tag: tag name for the Row', function(){
@@ -46,7 +45,6 @@ describe('Row-related functionality:', function(){
             expect(row.getName()).toBe('Row');
         });
     });
-
 
     describe('Row::appendCell(): appends a cell', function(){
         it('throws an error if not Cell instance is provided', function(){
@@ -130,7 +128,6 @@ describe('Row-related functionality:', function(){
         });
     });
 
-
     describe('Row::dropCellAt(): deletes the cell', function(){
         it('calls parent method to delete the cell', function(){
             spyOn(row, 'dropElemAt');
@@ -208,7 +205,6 @@ describe('Row-related functionality:', function(){
         });
     });
 
-
     describe('Row::insertCellAt(): inserts cell at given position', function(){
         it('throws an error if trying to insert a non Cell instance', function(){
             var obj = {};
@@ -273,29 +269,43 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    xdescribe('Row::getBogusCellStyle(): gets styles of the bogus cell', function(){
-        it('returns null, if onlyTableInside returns false', function(){
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
-            expect(row.getBogusCellStyle()).toBe(null);
+    describe('Gets phantom cell styles/attributes', function(){
+        describe('If method onlyTableInside() returns false', function(){
+            beforeEach(function(){
+                spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+            });
+            it('returns undefined if onlyTableInside() returns false', function(){
+                expect(row.getPhantomCellProp('whatever')).not.toBeDefined();
+            });
         });
-        it('returns cell style, if onlyTableInside returns true', function(){
-            var st = new Styles('modus: vivendis');
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            cell1.style = st;
-            expect(row.getBogusCellStyle()).toBe(st);
+        describe('If method onlyTableInside() returns true', function(){
+            beforeEach(function(){
+                spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
+            });
+            it('returns undefined if called with neither "attr" nor "style"', function(){
+                expect(row.getPhantomCellProp('foo')).not.toBeDefined();
+            });
+            it('returns styles of the first element if called with argument "style"', function(){
+                spyOn(row, 'getFirst').andCallFake(function(){return {getStyles: function(){return 'first element styles';}};});
+                expect(row.getPhantomCellProp('style')).toBe('first element styles');
+            });
+            it('returns styles of the first element if called with argument "attr"', function(){
+                spyOn(row, 'getFirst').andCallFake(function(){return {getAttributes: function(){return 'first element attributes';}};});
+                expect(row.getPhantomCellProp('attr')).toBe('first element attributes');
+            });
+
         });
     });
 
-    describe('Row::getPhantomCellAttr(): gets attributes of the bogus cell', function(){
-        it('calls Row::getPhantomCellAttr("attr")', function(){
+    describe('Getting attributes of the phantom cell', function(){
+        it('is an alias for getPhantomCellAttr("attr")', function(){
             spyOn(row, 'getPhantomCellProp');
             row.phantomCellAttr();
             expect(row.getPhantomCellProp).toHaveBeenCalledWith('attr');
         });
     });
 
-    describe('Row::getPhantomCellProp(): gets requested property of the bogus cell', function(){
+    describe('Getting style of the phantom cell', function(){
         it('calls Row::getPhantomCellProp("style")', function(){
             spyOn(row, 'getPhantomCellProp');
             row.phantomCellStyles();
@@ -303,39 +313,69 @@ describe('Row-related functionality:', function(){
         });
     });
 
-    xdescribe('Row::getBogusTableProp(): gets requested property of the bogus table', function(){
-        it('returns null, if onlyTableInside returns null', function(){
+    describe('Retrieving styles of phantom table inside the row', function(){
+        it('returns undefined, if onlyTableInside returns false', function(){
             spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
-            expect(row.getBogusTableProp()).toBe(null);
-            expect(row.onlyTableInside).toHaveBeenCalled();
+            expect(row.phantomTableStyles()).not.toBeDefined();
         });
-        it('returns requested property, if onlyTableInside returns true', function(){
+        it('returns styles, if onlyTableInside returns true', function(){
             var c = new Cell(),
                 dumbProp = {'content': 'for dumb property'},
-                t = {'fakeProp': dumbProp};
+                t = {'getStyles': function(){return 'fake style object';}};
             spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
             spyOn(row, 'getFirst').andCallFake(function(){return c;});
             spyOn(c, 'getFirst').andCallFake(function(){return t;});
-            expect(row.getBogusTableProp('fakeProp')).toBe(dumbProp);
+            expect(row.phantomTableStyles()).toBe('fake style object');
             expect(row.onlyTableInside).toHaveBeenCalled();
             expect(row.getFirst).toHaveBeenCalled();
             expect(c.getFirst).toHaveBeenCalled();
         });
     });
 
-    describe('Row::getBogusTableStyle(): gets styles of the bogus table', function(){
-        it('calls Row::getBogusTableProp("style")', function(){
-            spyOn(row, 'getBogusTableProp');
-            row.getBogusTableStyle();
-            expect(row.getBogusTableProp).toHaveBeenCalledWith('style');
+    describe('Row::phantomTableStyle(): gets styles of phantom table', function(){
+        it('calls Row::phantomTableProp("style")', function(){
+            spyOn(row, 'getPhantomTableProp');
+            row.phantomTableStyles();
+            expect(row.getPhantomTableProp).toHaveBeenCalledWith('style');
         });
     });
 
-    describe('Row::getBogusTableAttr(): gets attributes of the bogus table', function(){
-        it('calls Row::getBogusTableProp("attr")', function(){
-            spyOn(row, 'getBogusTableProp');
-            row.getBogusTableAttr();
-            expect(row.getBogusTableProp).toHaveBeenCalledWith('attr');
+    describe('Row::phantomTableAttr(): gets attributes of the phantom table', function(){
+        it('calls Row::getPhantomTableProp("attr")', function(){
+            spyOn(row, 'getPhantomTableProp');
+            row.phantomTableAttr();
+            expect(row.getPhantomTableProp).toHaveBeenCalledWith('attr');
+        });
+    });
+
+    describe('Gets phantom table styles/attributes', function(){
+        describe('If method onlyTableInside() returns false', function(){
+            beforeEach(function(){
+                spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+            });
+            it('returns undefined if onlyTableInside() returns false', function(){
+                expect(row.getPhantomTableProp('whatever')).not.toBeDefined();
+            });
+        });
+        describe('If method onlyTableInside() returns true', function(){
+            var tableMock, cellMock;
+            beforeEach(function(){
+                tableMock = {getStyles: function(){return 'table styles';}, getAttributes: function(){return 'table attributes';}};
+                cellMock = {getFirst: function(){return tableMock;}};
+                spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
+                spyOn(row, 'getFirst').andCallFake(function(){return cellMock;});
+
+            });
+            it('returns undefined if called with neither "attr" nor "style"', function(){
+                expect(row.getPhantomTableProp('foo')).not.toBeDefined();
+            });
+            it('returns styles of the first element if called with argument "style"', function(){
+                expect(row.getPhantomTableProp('style')).toBe('table styles');
+            });
+            it('returns styles of the first element if called with argument "attr"', function(){
+                expect(row.getPhantomTableProp('attr')).toBe('table attributes');
+            });
+
         });
     });
 

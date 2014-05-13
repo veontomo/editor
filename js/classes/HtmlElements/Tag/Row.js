@@ -130,17 +130,17 @@ function Row() {
 	};
 
 	/**
-	 * 12/02/2014 11:55: dropCell --> knockOutCell
-	 * Drops the cell at the given position and resizes the remaining cells. If the cell is utmost left, the freed space is then
-	 * assigned to its right neighbour:
-     * |xxx| a | b   | c | -> |     a | b   | c |
-     * | a |xxx| b   | c | -> | a |     b   | c |
-	 * If there is no right neighbour, then it is assigned to the left one:
-	 * | a | b | c | xxx | -> | a | b | c       |
-	 * If the cell to delete does not exist, nothing is performed.
+	 * Drops the cell at the given position and resizes the remaining cells. If the cell to drop has a nieghbour to its
+	 * right, then the freed space isassigned to that neighbour, otherwise it is assigned to the left neighbour:
+	 * <pre>
+     * |xxx| a | b   | c |   ->   |     a | b   | c |
+     * | a |xxx| b   | c |   ->   | a |     b   | c |
+     * | a | b | c | xxx |   ->   | a | b | c       |
+     * </pre>
+	 * If the cell to drop does not exist, the row remains unchanged.
 	 * @method         knockOutCell
 	 * @param          {Number}             cellNum         cell number to delete. Numeration starts with 0.
-	 * @return         {void}               after
+	 * @return         {void}
 	 */
 	this.knockOutCell = function(cellNum){
 		var acceptor, acceptorWidth, currentCell, currentCellWidth;
@@ -177,10 +177,10 @@ function Row() {
 
 	/**
 	 * Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().
-	 * @method appendStyleToCellAt
-	 * @param  {Number}       cellNum       index of the target cell
-	 * @param  {any}          stl           style to be appended
-	 * @return {void}
+	 * @method         appendStyleToCellAt
+	 * @param          {Number}             cellNum       index of the target cell
+	 * @param          {any}                stl           style to be appended
+	 * @return         {void}
 	 */
 	this.appendStyleToCellAt = function (cellNum, stl){
 		this.appendStyleToElemAt(cellNum, stl);
@@ -193,9 +193,9 @@ function Row() {
 	 * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
 	 * (eventually up to presence/absence of some parameters and attributes).
 	 *
-	 * @method loadFromHtml
-	 * @param {String} htmlStr
-	 * @return {void}
+	 * @method         loadFromHtml
+	 * @param          {String}             htmlStr
+	 * @return         {void}
 	 * @deprecated in favour of String::createRowFromHtml()
 	 */
 	this.loadFromHtml = function (htmlStr){
@@ -219,12 +219,8 @@ function Row() {
 	};
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method
-	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns true), then
-	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} of the cell is returned,
-	 * null otherwise.
-	 * This is an alias for {{#crossLink "Row/getBogusCellProp:method"}}getBogusCellProp{{/crossLink}}.
-	 * @method         phantomCellStyle
+	 * This is an alias for {{#crossLink "Row/getPhantomCellProp:method"}}getPhantomCellProp('style'){{/crossLink}}.
+	 * @method         phantomCellStyles
 	 * @return         {Style|null}
 	 */
 	this.phantomCellStyles = function(){
@@ -232,11 +228,9 @@ function Row() {
 	};
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method
-	 * __Row::onlyTableInside()__ returns true), then cell attributes object is returned,
-	 * null otherwise. This is an alias for __Row::getBogusCellProp('attr')__.
-	 * @method  phantomCellAttr
-	 * @return  {Attributes|null}
+	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getPhantomCellProp('attr'){{/crossLink}}.
+	 * @method         phantomCellAttr
+	 * @return         {Attributes|null}
 	 */
 	this.phantomCellAttr = function(){
 		return this.getPhantomCellProp('attr');
@@ -261,18 +255,18 @@ function Row() {
 				return this.getFirst().getAttributes();
 			}
 		}
-		return null;
 	};
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
-	 * returns true), then requested property name of the table inside the cell inside the row is returned,
-	 * null otherwise.
-	 * @method  getBogusTableProp
-	 * @param  {String}         prop        name of the property to return (intended values: "style" or "attr")
-	 * @return {Object|null}
+	 * If the row corresponds to a framed row (a row for which method
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} returns true),
+	 * then {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} or
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
+	 * @method         getPhantomTableProp
+	 * @param          {String}             prop        name of the property to return (intended values: "style" or "attr")
+	 * @return         {Styles|Attributes}
 	 */
-	this.getBogusTableProp = function(prop){
+	this.getPhantomTableProp = function(prop){
 		// inside the row there is a cell, inside which there is a table
 		if (this.onlyTableInside()){
 			if (prop === 'style'){
@@ -282,30 +276,32 @@ function Row() {
 				return this.getFirst().getFirst().getAttributes();
 			}
 		}
-		return null;
 	};
 
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
-	 * returns true), then style of the table inside the cell is returned, null otherwise.
-	 * This is an alias for __Row::getBogusTableProp('style')__.
-	 * @method  getBogusTableStyle
-	 * @return  {Style|null}
+	 * If the row corresponds to a framed row (a row for which method
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}}
+	 * returns `true`), then style of the table inside the cell is returned.
+	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getBogusTableProp('style'){{/crossLink}}
+	 * method.
+	 * @method         phantomTableStyles
+	 * @return         {Style|null}
 	 */
-	this.getBogusTableStyle = function(){
-		return this.getBogusTableProp('style');
+	this.phantomTableStyles = function(){
+		return this.getPhantomTableProp('style');
 	};
 
 	/**
-	 * If the row corresponds to a framed row (a row for which method __Row::onlyTableInside()__
-	 * returns true), then attribute of the table inside the cell is returned, null otherwise.
-	 * This is an alias for __Row::getBogusTableProp('attr')__.
-	 * @method  getBogusTableAttr
-	 * @return  {Attributes|null}
+	 * If the row corresponds to a framed row (a row for which method
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}}
+	 * returns `true`), then attribute of the table inside the cell is returned, null otherwise.
+	 * This is an alias for {{#crossLink "Row/getBogusTableProp:method"}}getBogusTableProp('attr'){{/crossLink}}.
+	 * @method         phantomTableAttr
+	 * @return         {Attributes|null}
 	 */
-	this.getBogusTableAttr = function(){
-		return this.getBogusTableProp('attr');
+	this.phantomTableAttr = function(){
+		return this.getPhantomTableProp('attr');
 	};
 
 
