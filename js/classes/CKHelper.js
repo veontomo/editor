@@ -386,9 +386,10 @@ var CKHelper = {
 		if (list){
 			cont = list.getOuterHtml();
 			contObj = cont.inflate();
+
 			if (contObj.length() === 1 && (contObj.getFirst() instanceof List)){
 				listObj = contObj.getFirst(); // the list that must be converted
-				listObj.setName(toType);
+				listObj.switchName(toType);
 				// for some reason, CKEditor appends <br> to element on which the dialog event was fired.
 				// Lets scan the children of the List and delete the final <br> if any
 				len = listObj.length();
@@ -404,6 +405,8 @@ var CKHelper = {
 				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
 				list.remove();
 				editor.insertElement(listObj);
+			} else {
+
 			}
 		}
 	},
