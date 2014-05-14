@@ -269,12 +269,11 @@ var CKHelper = {
 	 * of the element is supposed to be a text version (without tags).
 	 * @method         arrayToText
 	 * @param          {Array}              arr        array of elements (of mixed types)
-	 * @param          {String}             sep        string which will separate the text representation of each element.
+	 * @param          {String}             sep        a string which will separate the text representation of each element.
 	 *                                                 Default is "" (empty string).
 	 * @return         {String}
 	 */
 	arrayToText: function(arr, sep){
-		var obj;
 		sep = sep || '';
 		return arr.map(function(elem){
 			var str;
@@ -374,21 +373,18 @@ var CKHelper = {
 
 
 	/**
-	 * Converts list to a given type.
-	 * @method  convertListTo
-	 * @param   {CKEDITOR.editor} editor                 Represents an editor instance.
-	 * @param   {String}          fromType               Type of the list (ol, ul)
-	 * @param   {String}          toType                 Type of the list (ol, ul)
-	 * @return  {void}
+	 * Change the type of `list` to be `newListType` and replace the old list with newer one.
+	 * @param          {CKEDITOR}                editor
+	 * @param          {CKEDITOR.dom.element}    list
+	 * @param          {String}                  newListType
+	 * @return         {void}
 	 */
-	convertListTo: function(editor, fromType, toType){
-		var startElem = editor.getSelection().getStartElement(),
-			list = startElem.getAscendant(fromType, true),
-			listCopy, listObj, listHtml;
+	changeListType: function(editor, list, newListType){
+		var listCopy, listObj, listHtml;
 		if (list){
 			listCopy = new List();
 			listCopy.load(list.$);
-			listCopy.switchName(toType);
+			listCopy.switchName(newListType);
 			listCopy.trim();
 			listHtml = listCopy.toHtml();
 			listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
@@ -397,63 +393,6 @@ var CKHelper = {
 		}
 	},
 
-  /**
-   * Inserts table and applies hover effect on it.
-   * It is based on CKEDITOR.editor.insertElement() method.
-   * This approach might be wrong but I wanted to avoid repetitions.
-   * @method           insertTableWithHoverEff
-   * @param            {CKEDITOR.dom.element}         tbl
-   * @return           {void}
-   * @deprecated  Use CKEDITOR.addCss('selector {key: values;}')
-   */
-  insertTableWithHoverEff___: function(ed, tbl){
-    ed.insertElement(tbl);
-    $(tbl.$).hover(
-      function () {
-        var markerName  = NEWSLETTER['marker-name'],
-          tableMarker = (new Table()).getName(),
-          rowMarker   = (new Row()).getName(),
-          cellMarker  = (new Cell()).getName();
-        //console.log(markerName, tableMarker, rowMarker, cellMarker);
-        $(this).find('td[' + markerName + '="' + cellMarker + '"]').hover(
-          function(){
-            var cellNumber = $(this).index(),
-              tableParent = $(this).parents('table[' + markerName +'="' + tableMarker + '"]'),
-              boxShadowValues = '0.5em 0.0em 0.5em 0.05em #AAAAAA',
-              cellSelector = 'tr[' + markerName +'="'+ rowMarker +'"] td[' + markerName +'="' +
-                cellMarker + '"]:nth-child(' + (cellNumber + 1) + ')';
-            tableParent.find(cellSelector).css('box-shadow', boxShadowValues);
-          },
-          function(){
-            var cellsSelector = 'td[' + markerName +'="' + cellMarker + '"]',
-              tableSelector = 'table[' + markerName +'="' + tableMarker + '"]',
-              allCells = $(this).parents(tableSelector).find(cellsSelector),
-              i,
-              len = allCells.length;
-            for (i = 0; i < len; i++){
-              CKHelper.dropInlineStyleAttr($(allCells[i]), 'box-shadow');
-            }
-
-          }
-        );
-        // hovering the whole table
-        $(this).css('box-shadow', '0.05em 0.05em 0.2em 0.05em #AAAFFF');
-        // hovering table row
-        $(this).find('tr').hover(
-          function () {
-            $(this).css('box-shadow', '0.05em 0.0em 0.5em 0.05em #AAAAAA');
-          },
-          function () {
-            // unhovering the table row
-            CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
-          }
-        );
-      }, function(){
-        // unhovering table
-        CKHelper.dropInlineStyleAttr($(this), 'box-shadow');
-      }
-    );
-  },
 
   	/**
   	 * Returns an array of elements that are next siblings of the given one. The first next sibling becomes the first element
@@ -596,9 +535,5 @@ var CKHelper = {
 		    return (elem1.equals(elem2));
 		}
 		return false;
-	},
-
-
+	}
 };
-
-

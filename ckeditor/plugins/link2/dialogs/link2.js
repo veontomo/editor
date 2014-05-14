@@ -28,8 +28,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
                             var warningField = CKEDITOR.document.getById(warningFieldId);
-                            warningField.setHtml(editor.lang.common.invalidValue);
-                        }
+                            warningField.setHtml(editor.lang.common.invalidValue); }
                         return isOk;
                     }
                 }]

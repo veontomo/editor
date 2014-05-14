@@ -13,7 +13,9 @@ CKEDITOR.plugins.add('olist2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){
-				CKHelper.convertListTo(editor, 'ol', 'ul');
+ 				var startElem = editor.getSelection().getStartElement(),
+					list = startElem.getAscendant('ol', true);
+				CKHelper.changeListType(editor, list, 'ul');
 			}
 		});
 		editor.addCommand('olist2', {

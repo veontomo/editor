@@ -17,7 +17,9 @@ CKEDITOR.plugins.add('ulist2', {
 		});
 		editor.addCommand('ulist2Dialog', {
 			exec: function(editor){
-				CKHelper.convertListTo(editor, 'ul', 'ol');
+				var startElem = editor.getSelection().getStartElement(),
+					list = startElem.getAscendant('ul', true);
+				CKHelper.changeListType(editor, list, 'ol');
 			}
 		});
 
