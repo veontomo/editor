@@ -1,4 +1,3 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
 /*global CKHelper, CKEDITOR */
 

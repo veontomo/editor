@@ -1,6 +1,5 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, CKHelper, Helper, CKEDITOR */
+/*global DOMParser, CKHelper, CKEDITOR */
 
 /**
 * Represents sel elements in the ed window. The argument `ed` is a
@@ -16,10 +15,10 @@ function Selection(ed, sel) {
     if (!(this instanceof Selection)) {
         return new Selection(ed, sel);
     }
-    if (!(ed instanceof CKEDITOR.editor)){
+    if (ed !== undefined && !(ed instanceof CKEDITOR.editor)){
         throw new Error('The first argument must be a CKEDITOR.editor instance!');
     }
-    if (!(sel instanceof CKEDITOR.dom.selection)){
+    if (sel !== undefined && !(sel instanceof CKEDITOR.dom.selection)){
         throw new Error('The second argument must be a CKEDITOR.dom.selection instance!');
     }
 
@@ -45,7 +44,7 @@ function Selection(ed, sel) {
      * @param         {CKEDITOR.editor}     obj
      */
     this.setEditor = function(obj){
-        if (obj instanceof CKEDITOR.editor){
+        if (!(obj instanceof CKEDITOR.editor)){
             throw new Error('The argument must be a CKEDITOR.editor instance!');
         }
         editor = obj;
@@ -66,7 +65,7 @@ function Selection(ed, sel) {
      * @return         {void}
      */
     this.setSelected = function(obj){
-        if (obj instanceof CKEDITOR.dom.selection){
+        if (!(obj instanceof CKEDITOR.dom.selection)){
             throw new Error('The argument must be a CKEDITOR.dom.selection instance!');
         }
         selected = obj;
@@ -87,7 +86,10 @@ function Selection(ed, sel) {
     * @property {Array}   ranges
     * @private
     */
-    var ranges = sel.getRanges();
+    var ranges;
+    if (sel !== undefined){
+        ranges = sel.getRanges();
+    }
 
     /**
      * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} getter.
@@ -103,33 +105,37 @@ function Selection(ed, sel) {
      * @method         setRanges
      * @param          {Array}              rng
      * @return         {void}
+     * @deprecated    Update when setting
      */
-    this.setRanges = function(rng){
-        ranges = [];
-        if (Array.isArray(rng)){
-            rng.forEach(function(el){
-                ranges.push(el);
-            });
-        }
-    };
+    // this.setRanges = function(rng){
+    //     ranges = [];
+    //     if (Array.isArray(rng)){
+    //         rng.forEach(function(el){
+    //             ranges.push(el);
+    //         });
+    //     }
+    // };
 
     /**
     * Returns a 2-dim array of the form
     * <pre>
     * [[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].
     * </pre>
-    * Each inner array corresponds
-    * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} property of the selection.
-    * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is just a collection of
-    * simply-connected sets of nodes corresponding to the selection.<br>
-    * NB1: _Simply-connected_ set is a set such that there exists a path inside the set connecting two arbitrary elements of the set.<br>
-    * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that the concept of "neighbour" exists).
+    * Each inner array corresponds to the elements inside the
+    * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} property of the selection.
+    * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is
+    * just a collection of simply-connected sets of nodes corresponding to the selection.
+    *
+    * NB1: _Simply-connected_ set is a set such that there exists a path inside the set
+    * connecting two arbitrary elements of the set.
+    *
+    * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that
+    * the concept of "neighbour" exists).
     * @method          selectedNodes
     * @return          {Array}                two dimensional array of nodes
     */
     this.selectedNodes = function(){
-        var //ranges = this.ranges,
-            startContainer, endContainer,
+        var startContainer, endContainer,
             startOffset, endOffset,
             range, startChild, endChild, nextChild,
             lastBlock = [],
