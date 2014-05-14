@@ -44,7 +44,11 @@ function Selection(editor, selected) {
     this.ranges = selected.getRanges();
 
     /**
-    * Returns a 2-dim array of the form `[[a00, a01, ...], [a10, a11, ...], ...]`. Each inner array corresponds
+    * Returns a 2-dim array of the form
+    * <pre>
+    * [[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].
+    * </pre>
+    * Each inner array corresponds
     * to the elements inside the {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} property of the selection.
     * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is just a collection of
     * simply-connected sets of nodes corresponding to the selection.<br>
