@@ -67,7 +67,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 len, node, nodeType, inner, innerLen,
                 text = '', href = '', current,
                 isEnabled = false;
-            selectedNodes = selection.selectedNodes; // 2-dim arrays
+            selectedNodes = selection.selectedNodes(); // 2-dim arrays
             len = selectedNodes.length;
             // when enable the link editing:
             // 1. if selectedNodes =  [[]]

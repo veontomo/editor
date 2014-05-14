@@ -3,45 +3,115 @@
 /*global DOMParser, CKHelper, Helper, CKEDITOR */
 
 /**
-* Represents selected elements in the editor window. The argument `editor` is a
-* [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site") instance and
-* `selected` is a [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
-* @module    CKHelper
-* @class     Selection
-* @param     {CKEDITOR.editor}         editor
-* @param     {CKEDITOR.dom.selection}  selected
+* Represents sel elements in the ed window. The argument `ed` is a
+* [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site") instance and `sel` is a
+* [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
+* @module              CKHelper
+* @class               Selection
+* @param               {CKEDITOR.editor}         ed
+* @param               {CKEDITOR.dom.selection}  sel
 */
-function Selection(editor, selected) {
+function Selection(ed, sel) {
     "use strict";
     if (!(this instanceof Selection)) {
-        return new Selection(editor, selected);
+        return new Selection(ed, sel);
     }
-    if (!CKHelper.isEditor(editor)){
+    if (!(ed instanceof CKEDITOR.editor)){
         throw new Error('The first argument must be a CKEDITOR.editor instance!');
     }
-    if (!CKHelper.isSelection(selected)){
+    if (!(sel instanceof CKEDITOR.dom.selection)){
         throw new Error('The second argument must be a CKEDITOR.dom.selection instance!');
     }
 
     /**
-    * Instance of the editor containing the selection.  {{#crossLink "CKHelper/next-siblings:method"}}CKHelper['next-siblings']{{/crossLink}}
-    * @property {CKEDITOR.editor}         editor
+    * Editor instance containing the selection.
+    * @property        {CKEDITOR.editor}         editor
+    * @private
     */
-    this.editor = editor;
+    var editor = ed;
+
+    /**
+     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} getter.
+     * @method         getEditor
+     * @return         {CKEDITOR.editor}
+     */
+    this.getEditor = function(){
+        return editor;
+    };
+
+    /**
+     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter.
+     * @method        setEditor
+     * @param         {CKEDITOR.editor}     obj
+     */
+    this.setEditor = function(obj){
+        if (obj instanceof CKEDITOR.editor){
+            throw new Error('The argument must be a CKEDITOR.editor instance!');
+        }
+        editor = obj;
+    };
 
 
     /**
     * Selected elements.
-    * @property {CKEDITOR.dom.selection}  selected
+    * @property        {CKEDITOR.dom.selection}  selected
+    * @private
     */
-    this.selected = selected;
+    var selected = sel;
+
 
     /**
-    * Array of range instances corresponding to the selection.
-    * Alias for [selection.getRanges()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges).
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} setter.
+     * @method         setSelected
+     * @return         {void}
+     */
+    this.setSelected = function(obj){
+        if (obj instanceof CKEDITOR.dom.selection){
+            throw new Error('The argument must be a CKEDITOR.dom.selection instance!');
+        }
+        selected = obj;
+    };
+
+    /**
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} getter.
+     * @method         getSelected
+     * @return         {CKEDITOR.dom.selection}
+     * @private
+     */
+    this.getSelected = function(){
+        return selected;
+    };
+
+    /**
+    * Array of [range instances](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) corresponding to the selection.
     * @property {Array}   ranges
+    * @private
     */
-    this.ranges = selected.getRanges();
+    var ranges = sel.getRanges();
+
+    /**
+     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} getter.
+     * @method         getRanges
+     * @return         {Array}          array of CKEDITOR.dom.range instances
+     */
+    this.getRanges = function(){
+        return ranges;
+    };
+
+    /**
+     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}
+     * @method         setRanges
+     * @param          {Array}              rng
+     * @return         {void}
+     */
+    this.setRanges = function(rng){
+        ranges = [];
+        if (Array.isArray(rng)){
+            rng.forEach(function(el){
+                ranges.push(el);
+            });
+        }
+    };
 
     /**
     * Returns a 2-dim array of the form
@@ -54,21 +124,24 @@ function Selection(editor, selected) {
     * simply-connected sets of nodes corresponding to the selection.<br>
     * NB1: _Simply-connected_ set is a set such that there exists a path inside the set connecting two arbitrary elements of the set.<br>
     * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that the concept of "neighbour" exists).
-    * @property {Array}  selectedNodes
+    * @method          selectedNodes
+    * @return          {Array}                two dimensional array of nodes
     */
-    this.selectedNodes = (function(ranges){
+    this.selectedNodes = function(){
         var //ranges = this.ranges,
             startContainer, endContainer,
             startOffset, endOffset,
             range, startChild, endChild, nextChild,
-            lastBlock = [], firstBlock = [], middleBlock = [],
+            lastBlock = [],
+            firstBlock = [],
+            middleBlock = [],
             startElem, endElem,
             startType, endType,
             i, rangesLen, commonAnc,
-            selectedNodes = [], // container for all selected nodes
-            rangeNodes;         // container for selected nodes in current range
+            selNodes = [], // container for all sel nodes
+            rangeNodes;         // container for sel nodes in current range
         // console.log('ranges: ', ranges);
-        rangesLen = ranges.length;
+        rangesLen = this.getRanges().length;
         for (i = 0; i < rangesLen; i++){
             // console.info('loop', i);
             rangeNodes = [];
@@ -154,15 +227,15 @@ function Selection(editor, selected) {
                 }
 
             }
-            // console.log('rangeNodes that are to be pushed into selectedNodes: ', rangeNodes);
-            selectedNodes.push(rangeNodes);
+            // console.log('rangeNodes that are to be pushed into selNodes: ', rangeNodes);
+            selNodes.push(rangeNodes);
         }
-        // selectedNodes.forEach(function(elem, ind){
+        // selNodes.forEach(function(elem, ind){
         //     elem.forEach(function(elem2, ind2){
         //         console.log(ind, ind2, elem2);
         //     });
         // });
-        return selectedNodes;
-    }(this.ranges));
+        return selNodes;
+    };
 
 }

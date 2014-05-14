@@ -330,7 +330,7 @@ var CKHelper = {
 	 */
 	insertList: function(editor, listType){
 		var selection = new Selection(editor, editor.getSelection()),
-		    selectedNodes = selection.selectedNodes,                   // 2-dim array
+		    selectedNodes = selection.selectedNodes(),                   // 2-dim array
 		    factory = FACTORY.factory;
 		console.log('CKHelper::insertListNew ', selectedNodes);
 		selectedNodes.forEach(function(block){
