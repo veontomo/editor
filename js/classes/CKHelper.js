@@ -31,19 +31,19 @@ var CKHelper = {
 	},
 
   /**
-   * Drops inline attribute named attrName from DOM element
-   * @method  dropInlineStyleAttr
-   * @param   {Object}    element              an inline attribute of  this element will be dropped.
-   *                                           The element should respond to jQuery "attr" method.
-   * @param   {string}    attrName             attribute name to be dropped.
-   * @return  {void}
+   * Drops inline property named `propName` from DOM element
+   * @method           dropInlineStyleAttr
+   * @param            {Object}    element              an inline attribute of  this element will be dropped.
+   *                                                    The element should respond to jQuery "attr" method.
+   * @param            {string}    attrName             attribute name to be dropped.
+   * @return           {void}
    */
-  dropInlineStyleAttr: function(element, attrName){
+  dropInlineStyleAttr: function(element, propName){
     // unhovering table
     var attr = element.attr('style'),
      	style = new Styles(attr),
      	styleStr;
-    style.dropProperty(attrName);
+    style.dropProperty(propName);
     // might have format style="..." or just "...", so one needs to select "..."
     styleStr = style.toBareString();
     element.attr('style', styleStr);
@@ -267,18 +267,20 @@ var CKHelper = {
 	/**
 	 * Transforms each element of the array into a string and concatenates them. String representation
 	 * of the element is supposed to be a text version (without tags).
-	 * @method  arrayToText
-	 * @param  {Array}   arr        array of elements (of mixed types)
-	 * @param  {String}  sep        a string which will separate the text representation of each element. Default "" (empty string).
-	 * @return {String}
+	 * @method         arrayToText
+	 * @param          {Array}              arr        array of elements (of mixed types)
+	 * @param          {String}             sep        string which will separate the text representation of each element.
+	 *                                                 Default is "" (empty string).
+	 * @return         {String}
 	 */
 	arrayToText: function(arr, sep){
+		var obj;
 		sep = sep || '';
 		return arr.map(function(elem){
 			var str;
             switch (elem.type){
                 case CKEDITOR.NODE_ELEMENT:
-                    str = elem.getHtml().inflate().toText();
+                    str =  elem.textContent;
                     break;
                 case CKEDITOR.NODE_TEXT:
                     str = elem.getText();
@@ -382,32 +384,16 @@ var CKHelper = {
 	convertListTo: function(editor, fromType, toType){
 		var startElem = editor.getSelection().getStartElement(),
 			list = startElem.getAscendant(fromType, true),
-			listObj, listHtml, cont, contObj, i, len, elem;
+			listCopy, listObj, listHtml;
 		if (list){
-			cont = list.getOuterHtml();
-			contObj = cont.inflate();
-
-			if (contObj.length() === 1 && (contObj.getFirst() instanceof List)){
-				listObj = contObj.getFirst(); // the list that must be converted
-				listObj.switchName(toType);
-				// for some reason, CKEditor appends <br> to element on which the dialog event was fired.
-				// Lets scan the children of the List and delete the final <br> if any
-				len = listObj.length();
-				for (i = 0; i < len; i++){
-					elem = listObj.getElem(i);
-					// delete the last element if it is empty
-					if ((elem instanceof Tag) && (elem.getLast() instanceof Tag) && (elem.getLast().isEmpty())){
-						elem.dropLast();
-					}
-				}
-				listObj.trim();
-				listHtml = listObj.toHtml();
-				listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
-				list.remove();
-				editor.insertElement(listObj);
-			} else {
-
-			}
+			listCopy = new List();
+			listCopy.load(list.$);
+			listCopy.switchName(toType);
+			listCopy.trim();
+			listHtml = listCopy.toHtml();
+			listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+			list.remove();
+			editor.insertElement(listObj);
 		}
 	},
 
