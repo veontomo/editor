@@ -16,19 +16,8 @@ CKEDITOR.plugins.add('selection', {
 				console.log('inside Selection plugin');
 				var selected = editor.getSelection(),
 					selection = new Selection(editor, selected),
-					nodes = selection.selectedNodes;
-
-				// nodes.forEach(function(arr, ind1){
-				// 	arr.forEach(function(node, ind){
-				// 		if (node.type === CKEDITOR.NODE_TEXT){
-				// 			node.setText(' ' + ind1 + ' ' + ind + ' ');
-				// 		}
-				// 		if (node.type === CKEDITOR.NODE_ELEMENT){
-				// 			node.setHtml(' ' + ind1 + ' ' + ind + ' ');
-				// 		}
-				// 	});
-				// });
-				// CKHelper.insertList(editor, 'ol');
+					nodes = selection.selectedNodes();
+					console.log(nodes);
 			}
 		});
 
