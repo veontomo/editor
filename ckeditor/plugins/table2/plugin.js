@@ -364,8 +364,7 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
 			tableElem.remove();
 			// call a custom method to insert the table and assign hovering effects on it
-			CKHelper.insertTableWithHoverEff(editor, tableElem2);
-			console.log('Inserted: ', tableStr);
+			editor.insertElement(tableElem2);
 		}
 	};
 });

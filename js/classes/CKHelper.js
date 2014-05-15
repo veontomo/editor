@@ -204,7 +204,8 @@ var CKHelper = {
 		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
 		parentTable.remove();
 		// call a custom method to insert the table and assign hovering effects on it
-		CKHelper.insertTableWithHoverEff(ed, newTable);
+		// CKHelper.insertTableWithHoverEff(ed, newTable);
+		ed.insertElement(newTable);
 	},
 
 
