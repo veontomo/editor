@@ -19,21 +19,10 @@ describe('Selection-related functionality', function(){
             }).toThrow('The first argument must be a CKEDITOR.editor instance!');
         });
 
-        it('throws an error if the second argument is not a CKEDITOR.dom.selection instance', function(){
-            expect(function(){
-                new Selection(editor, 'aaa');
-            }).toThrow('The second argument must be a CKEDITOR.dom.selection instance!');
-        });
-
         it('instantiates "editor" property', function(){
             sel = new Selection(editor, selected);
             expect(sel.getEditor()).toBe(editor);
             });
-
-        it('instantiates "selection" property', function(){
-            sel = new Selection(editor, selected);
-            expect(sel.getSelected()).toBe(selected);
-        });
 
         it('creates instance with undefined properties', function(){
             sel = new Selection();
@@ -74,22 +63,13 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('ranges setter/getter', function(){
-        it('throws error if not array instance is given to the setter', function(){
-            expect(function(){
-                sel = new Selection();
-                sel.setRanges();
-            }).toThrow('The argument must be a CKEDITOR.dom.selection instance!');
-        });
-
+    describe('ranges getter', function(){
         it('sets the editor', function(){
             sel = new Selection();
             sel.setSelected(selected);
             expect(sel.getSelected()).toBe(selected);
         });
     });
-
-
 });
 
 

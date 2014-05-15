@@ -2,24 +2,19 @@
 /*global DOMParser, CKHelper, CKEDITOR */
 
 /**
-* Represents sel elements in the ed window. The argument `ed` is a
-* [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site") instance and `sel` is a
-* [CKEditor selection](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection "see official site") instance.
+* Represents selected elements in the editor window. The argument `ed` is a
+* [CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor "see official site")  instance.
 * @module              CKHelper
 * @class               Selection
 * @param               {CKEDITOR.editor}         ed
-* @param               {CKEDITOR.dom.selection}  sel
 */
-function Selection(ed, sel) {
+function Selection(ed) {
     "use strict";
     if (!(this instanceof Selection)) {
-        return new Selection(ed, sel);
+        return new Selection(ed);
     }
     if (ed !== undefined && !(ed instanceof CKEDITOR.editor)){
         throw new Error('The first argument must be a CKEDITOR.editor instance!');
-    }
-    if (sel !== undefined && !(sel instanceof CKEDITOR.dom.selection)){
-        throw new Error('The second argument must be a CKEDITOR.dom.selection instance!');
     }
 
     /**
@@ -30,56 +25,14 @@ function Selection(ed, sel) {
     var editor = ed;
 
     /**
-     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} getter.
-     * @method         getEditor
-     * @return         {CKEDITOR.editor}
-     */
-    this.getEditor = function(){
-        return editor;
-    };
-
-    /**
-     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter.
-     * @method        setEditor
-     * @param         {CKEDITOR.editor}     obj
-     */
-    this.setEditor = function(obj){
-        if (!(obj instanceof CKEDITOR.editor)){
-            throw new Error('The argument must be a CKEDITOR.editor instance!');
-        }
-        editor = obj;
-    };
-
-
-    /**
     * Selected elements.
     * @property        {CKEDITOR.dom.selection}  selected
     * @private
     */
-    var selected = sel;
-
-
-    /**
-     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} setter.
-     * @method         setSelected
-     * @return         {void}
-     */
-    this.setSelected = function(obj){
-        if (!(obj instanceof CKEDITOR.dom.selection)){
-            throw new Error('The argument must be a CKEDITOR.dom.selection instance!');
-        }
-        selected = obj;
-    };
-
-    /**
-     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} getter.
-     * @method         getSelected
-     * @return         {CKEDITOR.dom.selection}
-     * @private
-     */
-    this.getSelected = function(){
-        return selected;
-    };
+    var selected;
+    if (editor instanceof CKEDITOR.editor){
+        selected = editor.getSelection();
+    }
 
     /**
     * Array of [range instances](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) corresponding to the selection.
@@ -87,7 +40,7 @@ function Selection(ed, sel) {
     * @private
     */
     var ranges;
-    if (sel !== undefined){
+    if (selected instanceof CKEDITOR.dom.selection){
         ranges = sel.getRanges();
     }
 
@@ -101,20 +54,54 @@ function Selection(ed, sel) {
     };
 
     /**
-     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}
-     * @method         setRanges
-     * @param          {Array}              rng
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} setter. Sets as well
+     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}.
+     * @method         setSelected
      * @return         {void}
-     * @deprecated    Update when setting
      */
-    // this.setRanges = function(rng){
-    //     ranges = [];
-    //     if (Array.isArray(rng)){
-    //         rng.forEach(function(el){
-    //             ranges.push(el);
-    //         });
-    //     }
-    // };
+    this.setSelected = function(obj){
+        if (!(obj instanceof CKEDITOR.dom.selection)){
+            throw new Error('The argument must be a CKEDITOR.dom.selection instance!');
+        }
+        selected = obj;
+        ranges = selected.getRanges();
+    };
+
+    /**
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} getter.
+     * @method         getSelected
+     * @return         {CKEDITOR.dom.selection}
+     * @private
+     */
+    this.getSelected = function(){
+        return selected;
+    };
+
+
+    /**
+     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} getter.
+     * @method         getEditor
+     * @return         {CKEDITOR.editor}
+     */
+    this.getEditor = function(){
+        return editor;
+    };
+
+    /**
+     * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} and
+     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}.
+     * @method        setEditor
+     * @param         {CKEDITOR.editor}     obj
+     */
+    this.setEditor = function(obj){
+        if (!(obj instanceof CKEDITOR.editor)){
+            throw new Error('The argument must be a CKEDITOR.editor instance!');
+        }
+        editor = obj;
+        selected = obj.getSelection();
+        ranges = (selected instanceof CKEDITOR.dom.selection) ? selected.getRanges() : null;
+    };
 
     /**
     * Returns a 2-dim array of the form
