@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, ImageStyle, alert */
+/*global CKEDITOR, Image */
 CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 	return {
 		// Basic properties of the dialog window: title, minimum size.
@@ -53,38 +53,18 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
-			var dialog = this;
 			// removes eventual warning text
 			CKEDITOR.document.getById('warning').setHtml('');
-
 			// user input
-			var textAlt = dialog.getValueOf('tab-general', 'textAlt');
-			var imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
-
-			var elem = editor.document.createElement('img');
-			elem.setAttribute('alt', textAlt);
-			elem.setAttribute('title', textAlt);
-			elem.setAttribute('src', imageUrl);
-
-			// Calculate image width and height. This block should stay after "src" attribute is assigned.
-			var imH = elem.$.height;
-			var imW = elem.$.width;
-
-			if (!(imW && imH)) {
-				alert('Non riesco a ricavare dimensioni dell\'immagine');
-			}
-
-			elem.setAttribute('width', imW);
-			elem.setAttribute('height', imH);
-
-			// Defining inlineimage styles
-			var stylesImage = new ImageStyles();
-			stylesImage.width = imW + "px";
-			stylesImage.height = imH + "px";
-			elem.setAttribute('style', stylesImage.toString());
-
-			// Inserts the element at the editor caret position.
-			editor.insertElement(elem);
+			var textAlt = this.getValueOf('tab-general', 'textAlt'),
+				imageUrl = this.getValueOf('tab-general', 'imageUrl'),
+				img = new Image(),
+				imgObj;
+			img.setOrigin(imageUrl);
+			img.setAttrProperty('alt', textAlt);
+			img.setAttrProperty('title', textAlt);
+			imgObj = CKEDITOR.dom.element.createFromHtml(img.toHtml());
+			editor.insertElement(imgObj);
 		}
 	};
 });

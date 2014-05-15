@@ -40,15 +40,35 @@ function Image() {
 	 * @return         {void}
 	 */
 	this.setOrigin = function(url){
-		this.setAttrProperty('src', url);
-		var img = document.createElement('img');
-		img.src = url;
-		console.log(img.width);
-		this.setAttrProperty('width', img.width);
-		this.setAttrProperty('height', img.height);
-		this.setWidth(img.width);
-		this.setStyleProperty('height', img.height);
+		var urlWithoutProtocol = this.dropProtocol(url),
+			url2 = 'http://' + urlWithoutProtocol;
+		if (typeof urlWithoutProtocol === 'string' && urlWithoutProtocol.length > 0){
+			var img = document.createElement('img'),
+				imgWidth, imgHeight;
+			img.src = url2;
+			imgWidth = img.width;
+			imgHeight = img.height;
+			if (imgWidth > 0 && imgHeight > 0){
+				this.setAttrProperty('src', url2);
+				this.setAttrProperty('width', imgWidth);
+				this.setAttrProperty('height', imgHeight);
+				this.setWidth(imgWidth);
+				this.setStyleProperty('height', imgHeight);
+			}
+		}
+	};
 
+	/**
+	 * Drops protocol name from `url`. Everything until the first occurence of '://' will be removed (inclusively).
+	 * @method         dropProtocol
+	 * @param          {String}             url
+	 * @return         {String}
+	 */
+	this.dropProtocol = function(url){
+		var delimiter = '://',
+		    pattern = '^[^' + delimiter + ']+' + delimiter,
+		    re = new RegExp(pattern, 'gi');
+		return url.replace(re, '');
 	};
 
 	/**

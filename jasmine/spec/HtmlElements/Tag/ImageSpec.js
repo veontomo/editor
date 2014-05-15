@@ -2,11 +2,13 @@
 /*global describe, it, expect, spyOn, beforeEach, Image, Content, Attributes, jasmine, Tag */
 
 describe('Image-related functionality:', function() {
-    var img, attr;
+    var img, attr, validLink, invalidLink;
 
     beforeEach(function() {
         img = new Image();
         attr = new Attributes();
+        validLink = 'http://localhost/projects/editor/images/Compact_spaces.png';
+        invalidLink = 'http://www.aaa.ccc/img.jpg';
     });
 
     describe('Image::constructor: inherits properly from getTag()() class', function(){
@@ -43,13 +45,17 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    describe('Image::setOrigin(): sets source', function(){
-        it('calls Attribute::setProperty() to set the file source', function(){
-            spyOn(attr, 'setProperty');
-            img.setAttributes(attr);
-            img.setOrigin('path-to-image');
-            expect(attr.setProperty).toHaveBeenCalledWith('src', 'path-to-image');
+    describe('Sets image origin', function(){
+        it('sets "src" attribute if url points to a valid image', function(){
+            img.setOrigin(validLink);
+            expect(img.getOrigin()).toBe(validLink);
         });
+
+        it('does not set "src" attribute if url points to an invalid image', function(){
+            img.setOrigin(invalidLink);
+            expect(img.getOrigin()).not.toBe(invalidLink);
+        });
+
     });
 
     describe('Image::getOrigin(): gets source', function(){
@@ -61,25 +67,47 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    describe('Automatically derive image width', function(){
+    describe('Automatically derives image width', function(){
         it('gets zero width if src is not set', function(){
             expect(img.getOrigin()).not.toBeDefined();
             expect(img.getWidth()).toBe(0);
         });
-        it('gets zero width if src is not set', function(){
+        it('gets width if src is not set', function(){
             img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
             expect(img.getWidth()).toBe(582);
         });
     });
 
     describe('Automatically derive image height', function(){
-        it('gets zero width if src is not set', function(){
+        it('gets zero height if src is not set', function(){
             expect(img.getOrigin()).not.toBeDefined();
             expect(img.getHeight()).toBe(0);
         });
-        it('gets zero width if src is not set', function(){
+        it('gets zero height if src is not set', function(){
             img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
-            expect(img.getHeight('width')).toBe(253);
+            expect(img.getHeight()).toBe(253);
+        });
+
+    });
+
+    describe('Preparing url', function(){
+        it('drops "http" protocol', function(){
+            expect(img.dropProtocol('http://www.test.com')).toEqual("www.test.com");
+        });
+        it('drops "https" protocol', function(){
+            expect(img.dropProtocol('https://www.test.com')).toEqual("www.test.com");
+        });
+        it('drops "ftps" protocol', function(){
+            expect(img.dropProtocol('ftp://www.test.com')).toEqual("www.test.com");
+        });
+        it('leaves the string unchanged if it contains no ://', function(){
+            expect(img.dropProtocol('www.test.com')).toEqual("www.test.com");
+        });
+        it('drops only the first instance before ://', function(){
+            expect(img.dropProtocol('http://www.test.com://')).toEqual("www.test.com://");
+        });
+        it('leaves prarameters in url', function(){
+            expect(img.dropProtocol('http://www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt')).toEqual('www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt');
         });
 
     });
