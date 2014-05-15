@@ -41,7 +41,7 @@ function Selection(ed) {
     */
     var ranges;
     if (selected instanceof CKEDITOR.dom.selection){
-        ranges = sel.getRanges();
+        ranges = selected.getRanges();
     }
 
     /**

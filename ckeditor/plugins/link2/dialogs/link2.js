@@ -63,7 +63,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
         onShow: function() {
             // CKEDITOR.document.getById(warningFieldId).setHtml('');
-            var selection = new Selection(editor, editor.getSelection()),
+            var selection = new Selection(editor),
                 len, node, nodeType, inner, innerLen,
                 text = '', href = '', current,
                 isEnabled = false;
