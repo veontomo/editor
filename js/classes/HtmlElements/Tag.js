@@ -369,8 +369,8 @@ function Tag() {
 	 */
 	this.setWidth = function(w){
 		if (w !== undefined){
-		    this.getStyles().setWidth(w);
-			this.getAttributes().setProperty('width', w);
+		    this.setAttrProperty('width', w);
+			this.setStyleProperty('width', w);
 		}
 	};
 

@@ -191,12 +191,6 @@ describe('Tag-related functionality', function() {
             expect(stl.setWidth).wasNotCalled();
             expect(attr.setProperty).wasNotCalled();
         });
-        it('calls style- and attribute-related methods if the argument is given', function(){
-            var width = {};           // anything
-            tag.setWidth(width);
-            expect(stl.setWidth).toHaveBeenCalledWith(width);
-            expect(attr.setProperty).toHaveBeenCalledWith('width', width);
-        });
         it('sets the width (final check)', function(){
             var tag2 = new Tag();
             tag2.setWidth('12.1em');

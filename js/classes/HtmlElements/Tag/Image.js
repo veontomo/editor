@@ -35,22 +35,41 @@ function Image() {
 	/**
 	 * Sets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
 	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
-	 * @method    setOrigin
-	 * @param     {String}     url
-	 * @return    {void}
+	 * @method         setOrigin
+	 * @param          {String}             url
+	 * @return         {void}
 	 */
 	this.setOrigin = function(url){
-		this.getAttributes().setProperty('src', url);
+		this.setAttrProperty('src', url);
+		var img = document.createElement('img');
+		img.src = url;
+		console.log(img.width);
+		this.setAttrProperty('width', img.width);
+		this.setAttrProperty('height', img.height);
+		this.setWidth(img.width);
+		this.setStyleProperty('height', img.height);
+
 	};
 
 	/**
 	 * Gets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
 	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
-	 * @method    getOrigin
-	 * @return    {String}
+	 * @method         getOrigin
+	 * @return         {String}
 	 */
 	this.getOrigin = function(){
-		return this.getAttributes().getProperty('src');
+		return this.getAttrProperty('src');
+	};
+
+	/**
+	 * Gets image height. It is read from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
+	 * It is set along with `src` attribute in {{#crossLink "Image/setOrigin:method"}}setOrigin{{/crossLink}}
+	 * method.
+	 * @method         getHeight
+	 * @return         {Integer}
+	 */
+	this.getHeight = function(){
+		return this.getAttrProperty('height') || 0;
 	};
 }
 Image.prototype = Object.create(Tag.prototype);

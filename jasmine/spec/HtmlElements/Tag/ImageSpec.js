@@ -60,5 +60,29 @@ describe('Image-related functionality:', function() {
             expect(attr.getProperty).toHaveBeenCalledWith('src');
         });
     });
+
+    describe('Automatically derive image width', function(){
+        it('gets zero width if src is not set', function(){
+            expect(img.getOrigin()).not.toBeDefined();
+            expect(img.getWidth()).toBe(0);
+        });
+        it('gets zero width if src is not set', function(){
+            img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
+            expect(img.getWidth()).toBe(582);
+        });
+    });
+
+    describe('Automatically derive image height', function(){
+        it('gets zero width if src is not set', function(){
+            expect(img.getOrigin()).not.toBeDefined();
+            expect(img.getHeight()).toBe(0);
+        });
+        it('gets zero width if src is not set', function(){
+            img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
+            expect(img.getHeight('width')).toBe(253);
+        });
+
+    });
+
  });
 
