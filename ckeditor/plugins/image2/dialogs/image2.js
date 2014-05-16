@@ -59,12 +59,16 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 			var textAlt = this.getValueOf('tab-general', 'textAlt'),
 				imageUrl = this.getValueOf('tab-general', 'imageUrl'),
 				img = new Image(),
-				imgObj;
+				imgObj, imgHtml;
 			img.setOrigin(imageUrl);
 			img.setAttrProperty('alt', textAlt);
 			img.setAttrProperty('title', textAlt);
-			imgObj = CKEDITOR.dom.element.createFromHtml(img.toHtml());
-			editor.insertElement(imgObj);
+			imgHtml = img.toHtml();
+			if (typeof imgHtml === 'string' && imgHtml.length > 0){
+				imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
+				editor.insertElement(imgObj);
+			}
+
 		}
 	};
 });
