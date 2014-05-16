@@ -33,8 +33,10 @@ function Image() {
 	this.setStyles(new ImageStyles());
 
 	/**
-	 * Sets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
-	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
+	 * Sets `src` property of image {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * if `url` corresponds to an image with non zero width and height. In this case, `height` and
+	 * `width` properties are set in {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
 	 * @method         setOrigin
 	 * @param          {String}             url
 	 * @return         {void}
@@ -90,6 +92,26 @@ function Image() {
 	 */
 	this.getHeight = function(){
 		return this.getAttrProperty('height') || 0;
+	};
+
+	/**
+	 * Returns html representation of the instance if
+	 * {{#crossLink "Image/getOrigin:method"}}getOrigin(){{/crossLink}} returns non-empty string.
+	 * Otherwise, returns empty string.
+	 *
+	 * Html representation consists of opening and closing tags that are output of methods
+     * {{#crossLink "Tag/openingTag:method"}}openingTag{{/crossLink}} and
+	 * {{#crossLink "Tag/closingTag:method"}}closingTag{{/crossLink}} correspondingly.
+	 *
+	 * This method overrides the parent one {{#crossLink "Tag/toHtml:method"}}toHtml{{/crossLink}}
+	 * (since I could not consistently call a parent class method from a child one when the child
+	 * class overrides the corresponding parent method.)
+	 * @method         toHtml
+	 * @return         {String}
+	 */
+	this.toHtml = function(){
+		var orig = this.getOrigin();
+		return (typeof orig === 'string' && orig.length > 0) ? this.openingTag() + this.closingTag() : '';
 	};
 }
 Image.prototype = Object.create(Tag.prototype);

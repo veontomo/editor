@@ -56,6 +56,13 @@ describe('Image-related functionality:', function() {
             expect(img.getOrigin()).not.toBe(invalidLink);
         });
 
+        it('does not set "src" attribute if url is empty after dropping protocol', function(){
+            spyOn(img, 'dropProtocol').andCallFake(function(){return '';});
+            img.setOrigin('whatever');
+            expect(img.getOrigin()).not.toBeDefined();
+        });
+
+
     });
 
     describe('Image::getOrigin(): gets source', function(){
@@ -73,7 +80,7 @@ describe('Image-related functionality:', function() {
             expect(img.getWidth()).toBe(0);
         });
         it('gets width if src is not set', function(){
-            img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
+            img.setOrigin(validLink);
             expect(img.getWidth()).toBe(582);
         });
     });
@@ -84,7 +91,7 @@ describe('Image-related functionality:', function() {
             expect(img.getHeight()).toBe(0);
         });
         it('gets zero height if src is not set', function(){
-            img.setOrigin('http://localhost/projects/editor/images/Compact_spaces.png');
+            img.setOrigin(validLink);
             expect(img.getHeight()).toBe(253);
         });
 
@@ -108,6 +115,29 @@ describe('Image-related functionality:', function() {
         });
         it('leaves prarameters in url', function(){
             expect(img.dropProtocol('http://www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt')).toEqual('www.cercoagenti.it/homepage_vetrina.asp?vetrina/1746000004-1.txt');
+        });
+
+    });
+
+    describe('Creates html representation', function(){
+        it('produces empty string, if getOrigin() returns undefined', function(){
+            spyOn(img, 'getOrigin').andCallFake(function(){});
+            expect(img.toHtml()).toBe('');
+        });
+        it('produces empty string, if getOrigin() returns null', function(){
+            spyOn(img, 'getOrigin').andCallFake(function(){return null;});
+            expect(img.toHtml()).toBe('');
+        });
+        it('produces empty string, if getOrigin() returns empty string', function(){
+            spyOn(img, 'getOrigin').andCallFake(function(){return '';});
+            expect(img.toHtml()).toBe('');
+        });
+
+        it('calls opening and close tag methods if getOrigin() returns non-empty string', function(){
+            spyOn(img, 'getOrigin').andCallFake(function(){return 'a-link';});
+            spyOn(img, 'openingTag').andCallFake(function(){return '<open>';});
+            spyOn(img, 'closingTag').andCallFake(function(){return '<close>';});
+            expect(img.toHtml()).toBe('<open><close>');
         });
 
     });
