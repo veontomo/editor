@@ -124,7 +124,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         },
 
         onOk: function(){
-            console.log('CKHelper::insertListNew ', selectedNodes);
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),

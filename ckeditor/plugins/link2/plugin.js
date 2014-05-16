@@ -20,6 +20,22 @@ CKEDITOR.plugins.add('link2', {
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
+		editor.addCommand('link2unlink', {
+			exec: function(editor){
+				var startElem = editor.getSelection().getStartElement(),
+					link = startElem.getAscendant('a', true);
+				CKHelper.unlink(editor, link);
+			}
+		});
+		editor.addCommand('link2modify', {
+			exec: function(editor){
+				var startElem = editor.getSelection().getStartElement(),
+					link = startElem.getAscendant('a', true);
+				// CKHelper.modifyLink(editor, link);
+			}
+		});
+
+
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/link2.js');
@@ -33,10 +49,17 @@ CKEDITOR.plugins.add('link2', {
 				command: 'link2',
 				group: 'link2Group'
 			});
+			editor.addMenuItem('link2ItemUnlink', {
+				label: editor.lang.link.unlink,
+				icon: this.path + 'icons/unlink2.png',
+				command: 'link2unlink',
+				group: 'link2Group'
+			});
 			editor.contextMenu.addListener(function(element) {
 				if (element.getAscendant('a', true)) {
 					return {
-						link2Item: CKEDITOR.TRISTATE_OFF
+						link2Item: CKEDITOR.TRISTATE_OFF,
+						link2ItemUnlink: CKEDITOR.TRISTATE_OFF
 					};
 				}
 			});

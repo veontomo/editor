@@ -11,6 +11,11 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	$fileContent = fileContent(file_get_contents($_FILES['fileInput']['tmp_name']));
 }
 ?>
+<script type="text/javascript">
+var img = new Image();
+img.src = 'http://www.google.com/intl/en_ALL/images/logo.gif';
+alert(img.width + ' x ' + img.height);
+</script>
 </head>
 <body>
 	<article class="algorithm">

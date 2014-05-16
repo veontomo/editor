@@ -30,25 +30,49 @@ var CKHelper = {
 		return null;
 	},
 
-  /**
-   * Drops inline property named `propName` from DOM element
-   * @method           dropInlineStyleAttr
-   * @param            {Object}    element              an inline attribute of  this element will be dropped.
-   *                                                    The element should respond to jQuery "attr" method.
-   * @param            {string}    attrName             attribute name to be dropped.
-   * @return           {void}
-   */
-  dropInlineStyleAttr: function(element, propName){
-    // unhovering table
-    var attr = element.attr('style'),
-     	style = new Styles(attr),
-     	styleStr;
-    style.dropProperty(propName);
-    // might have format style="..." or just "...", so one needs to select "..."
-    styleStr = style.toBareString();
-    element.attr('style', styleStr);
-  },
+	/**
+	* Drops inline property named `propName` from DOM element
+	* @method           dropInlineStyleAttr
+	* @param            {Object}    element              an inline attribute of  this element will be dropped.
+	*                                                    The element should respond to jQuery "attr" method.
+	* @param            {string}    attrName             attribute name to be dropped.
+	* @return           {void}
+	*/
+	dropInlineStyleAttr: function(element, propName){
+		// unhovering table
+		var attr = element.attr('style'),
+	 	style = new Styles(attr),
+	 	styleStr;
+		style.dropProperty(propName);
+		// might have format style="..." or just "...", so one needs to select "..."
+		styleStr = style.toBareString();
+		element.attr('style', styleStr);
+	},
 
+
+	/**
+	 * Removes link-related stuff from `link`  and then replaces it in the editor.
+	 * @method     unlink
+	 * @param      {CKEditor.editor}        ed             Represents an editor instance.
+	 * @param      {CKEDITOR.dom.element}   link
+	 * @return     {void}
+	 */
+	unlink: function(ed, link){
+		// the arguments must be of required type
+		if (!(ed instanceof CKEDITOR.editor) || !(link instanceof CKEDITOR.dom.element)){
+			return null;
+		}
+		var linkNative = link.$,
+			parent = linkNative.parentNode,
+			nextSibling = linkNative.nextSibling,
+			factory = FACTORY.factory,
+			linkObj = factory.mimic(linkNative);
+		linkObj.getContent().getElements().forEach(function(el){
+			parent.insertBefore(el.toNode(), nextSibling);
+		});
+		linkNative.remove();
+
+	},
 
 	/**
 	 * Drops the table row. If after removing the table becomes empty, then removes it as well.
@@ -213,7 +237,7 @@ var CKHelper = {
 	 * Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,
 	 * if it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, '' (empty string is returned)
 	 * @method nodeString
-	 * @param    {CKEDITOR.dom.element} node
+	 * @param    {CKEDITOR.dom.element}     node
 	 * @return   {String}
 	 */
 	nodeString: function(node){
