@@ -231,4 +231,28 @@ function Selection(ed) {
         return selNodes;
     };
 
+
+    /**
+     * Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.
+     *
+     * @method    toText
+     * @param     {String}    blockSeparator          string to be used as a separator between arrays
+     * @param     {String}    elemSeparator           string to be used as a separator between elements in array
+     * @return    {String}
+     */
+    this.toText = function(blockSeparator, elemSeparator){
+        var total = [];
+        blockSeparator = blockSeparator || ' ';
+        elemSeparator = elemSeparator || ' ';
+        this.selectedNodes().forEach(function(arr){
+            var arrayNested = [];
+            arr.forEach(function(el){
+                if (el.type === CKEDITOR.NODE_TEXT || el.type === CKEDITOR.NODE_ELEMENT){
+                    arrayNested.push(el.getText());
+                }
+            });
+            total.push(arrayNested.join(elemSeparator));
+        });
+        return total.join(blockSeparator);
+    };
 }

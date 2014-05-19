@@ -62,54 +62,68 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            // CKEDITOR.document.getById(warningFieldId).setHtml('');
-            var selection = new Selection(editor),
-                len, node, nodeType, inner, innerLen,
-                text = '', href = '', current,
+            var start = editor.getSelection().getStartElement(),
+                // len, node, nodeType, inner, innerLen, current,
+                text = '', href = '',
                 isEnabled = false;
-            selectedNodes = selection.selectedNodes(); // 2-dim arrays
-            len = selectedNodes.length;
-            // when enable the link editing:
-            // 1. if selectedNodes =  [[]]
-            // 2. if selectedNodes =  [[link]]
-            // 3. if selectedNodes =  [[text]]
-            if (len === 1) {
-                inner = selectedNodes[0];
-                innerLen = inner.length;
-                if (innerLen === 0) {
-                    // nothing is selected. Control whether the current position is inside a link
-                    isEnabled = true;
-                    current = editor.getSelection().getStartElement();
-                    if(current.getName() === 'a'){
-                        href = current.getAttribute('href');
-                        text = current.getText();
-                    }
-                }
-                if (innerLen === 1){
-                    node = inner[0];
-                    nodeType = node.type;
-                    if (nodeType === CKEDITOR.NODE_TEXT) {
-                         isEnabled = true;
-                         // getParent is always CKEDITOR.dom.element
-                         if (node.getParent().getName() === 'a'){
-                            href = node.getParent().getAttribute('href');
-                         }
-                    }
-                    if (nodeType === CKEDITOR.NODE_ELEMENT && node.getName() === 'a'){
-                        isEnabled = true;
-                        href = node.getAttribute('href');
-                    }
-                }
+            var link = start.getAscendant('a', true);
+            if (link){
+                console.log('link is found among parents');
+                selectedNodes = [[link]];
+                href = link.getAttribute('href');
+                text = link.getText();
+            } else {
+                console.log('no link is found among parents');
+                // CKEDITOR.document.getById(warningFieldId).setHtml('');
+                var selection = new Selection(editor);
+                selectedNodes = selection.selectedNodes(); // 2-dim arrays
+                text = selection.toText(' | ', ' ');
+                // len = selectedNodes.length;
+
+
+                // when enable the link editing:
+                // 1. if selectedNodes =  [[]]
+                // 2. if selectedNodes =  [[link]]
+                // 3. if selectedNodes =  [[text]]
+                // if (len === 1) {
+                //     inner = selectedNodes[0];
+                //     innerLen = inner.length;
+                //     if (innerLen === 0) {
+                //         // nothing is selected. Control whether the current position is inside a link
+                //         isEnabled = true;
+                //         current = editor.getSelection().getStartElement();
+                //         if(current.getName() === 'a'){
+                //             href = current.getAttribute('href');
+                //             text = current.getText();
+                //         }
+                //     }
+                //     if (innerLen === 1){
+                //         node = inner[0];
+                //         nodeType = node.type;
+                //         if (nodeType === CKEDITOR.NODE_TEXT) {
+                //              isEnabled = true;
+                //              // getParent is always CKEDITOR.dom.element
+                //              if (node.getParent().getName() === 'a'){
+                //                 href = node.getParent().getAttribute('href');
+                //              }
+                //         }
+                //         if (nodeType === CKEDITOR.NODE_ELEMENT && node.getName() === 'a'){
+                //             isEnabled = true;
+                //             href = node.getAttribute('href');
+                //         }
+                //     }
+                // }
             }
             // collecting text info
-            selectedNodes.forEach(function(arr){
-                arr.forEach(function(el){
-                    if (el.type === CKEDITOR.NODE_TEXT || el.type === CKEDITOR.NODE_ELEMENT){
-                        text = text + el.getText() + ' ';
-                    }
+            // selectedNodes.forEach(function(arr){
+            //     arr.forEach(function(el){
+            //         if (el.type === CKEDITOR.NODE_TEXT || el.type === CKEDITOR.NODE_ELEMENT){
+            //             text = text + el.getText() + ' ';
+            //         }
 
-                });
-            });
+            //     });
+            // });
+
             if (!isEnabled){
                 this.getContentElement('tab-general', 'text').disable();
             }
