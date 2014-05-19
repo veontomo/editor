@@ -96,7 +96,18 @@ function Link(href) {
 	};
 
 	/**
-	 * Converts the argument `obj` into a Link. The following cases are possible:
+	 * Apply target properties on the argument `obj`. The following cases are distinguished:
+	 * <ul><li>
+	 * the argument is an instance of {{#crossLink "Link"}}Link{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/updateLink:method"}}updateLink{{/crossLink}} method.
+	 * </li><li>
+	 * the argument is an instance of {{#crossLink "Content"}}Content{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/applyContent:method"}}applyContent{{/crossLink}} method.
+	 * </li><li>
+	 * the argument is an instance of {{#crossLink "Tag"}}Tag{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/applyTag:method"}}applyTag{{/crossLink}} method.
+	 * </li></ul>
+	 * If non of the above holds, result of {{#crossLink "Link/wrap:method"}}wrap{{/crossLink}} method is returned.
 	 * @method         apply
 	 * @param          {Any}                obj
 	 * @return         {Any}                type of output depends on input argument

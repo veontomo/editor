@@ -1,13 +1,13 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Content, Table, Cell, Factory, PlainText */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Attributes, Content, Table, Cell, Factory, PlainText */
 
 describe('Link-related functionality:', function() {
-    var link, attr, style, content;
+    var link, attr;
     beforeEach(function() {
         attr = new LinkAttributes();
-        style = new LinkStyles();
+        // style = new LinkStyles();
         link = new Link();
-        content = new Content();
+        // content = new Content();
         delete link.dumbAttribute;
     });
 
@@ -165,7 +165,7 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('apply the argument', function(){
+    describe('Apply target properties on the the argument', function(){
         var arg, result, i;
         beforeEach(function(){
             link = new Link();
@@ -189,25 +189,25 @@ describe('Link-related functionality:', function() {
             result = link.apply(arg);
             var stl = result.getStyles();
             attr = result.getAttributes();
-           expect(result instanceof Link).toBe(true);
-           expect(stl.getProperty('level')).toBe('argLevel');
-           expect(stl.getProperty('color')).toBe('invisible');
-           expect(stl.getProperty('width')).toBe(10);
-           expect(stl.getProperty('padding')).toBe('minor');
-           expect(attr.getProperty('lesson')).toBe('first');
-           expect(attr.getProperty('method')).toBe('deduct');
-           expect(attr.getProperty('profile')).toBe(1);
-           expect(result.getHref()).toBe('www.pizza.it');
+            expect(result instanceof Link).toBe(true);
+            expect(stl.getProperty('level')).toBe('argLevel');
+            expect(stl.getProperty('color')).toBe('invisible');
+            expect(stl.getProperty('width')).toBe(10);
+            expect(stl.getProperty('padding')).toBe('minor');
+            expect(attr.getProperty('lesson')).toBe('first');
+            expect(attr.getProperty('method')).toBe('deduct');
+            expect(attr.getProperty('profile')).toBe(1);
+            expect(result.getHref()).toBe('www.pizza.it');
         });
 
         it('transforms Content into linkified content', function(){
             arg = new Content();
             arg.setElements(['element 1', 'element 2', 'element 3']);
             result = link.apply(arg);
-            result.getElements().forEach(function(el){
+            // result.getElements().forEach(function(el){
                 // console.log(el, ' ', el.getName(), ', ', el.getTag());
 
-            });
+            // });
             expect(result instanceof Content).toBe(true);
             expect(result.length()).toBe(3);
             for (i = 0; i < 3; i++){

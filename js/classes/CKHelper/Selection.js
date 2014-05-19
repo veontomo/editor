@@ -255,4 +255,15 @@ function Selection(ed) {
         });
         return total.join(blockSeparator);
     };
+
+
+    /**
+     * Returns the start element of selection or `null` if selection is empty
+     * @method     getStartElement
+     * @return     {CKEDITOR.dom.element|null}
+     */
+    this.getStartElement = function(){
+        return this.getSelected().getStartElement();
+
+    };
 }
