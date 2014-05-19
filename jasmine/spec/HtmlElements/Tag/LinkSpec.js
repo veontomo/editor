@@ -165,7 +165,7 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Linkify the argument', function(){
+    describe('apply the argument', function(){
         var arg, result, i;
         beforeEach(function(){
             link = new Link();
@@ -186,7 +186,7 @@ describe('Link-related functionality:', function() {
             arg.setAttrProperty('profile', 1);
             arg.setHref('vino.pane');
 
-            result = link.linkify(arg);
+            result = link.apply(arg);
             var stl = result.getStyles();
             attr = result.getAttributes();
            expect(result instanceof Link).toBe(true);
@@ -203,7 +203,7 @@ describe('Link-related functionality:', function() {
         it('transforms Content into linkified content', function(){
             arg = new Content();
             arg.setElements(['element 1', 'element 2', 'element 3']);
-            result = link.linkify(arg);
+            result = link.apply(arg);
             result.getElements().forEach(function(el){
                 // console.log(el, ' ', el.getName(), ', ', el.getTag());
 
@@ -239,7 +239,7 @@ describe('Link-related functionality:', function() {
             arg.setStyleProperty('mix', 8);
             arg.setStyleProperty('lead', 'astray');
 
-            result = link.linkify(arg);
+            result = link.apply(arg);
             expect(result instanceof Tag).toBe(true);
             expect(result.getAttrProperty('window')).toBe('wide');
             expect(result.getAttrProperty('color')).toBe('rainbow');
@@ -267,7 +267,7 @@ describe('Link-related functionality:', function() {
             arg.setStyleProperty('mix', 8);
             arg.setStyleProperty('lead', 'astray');
 
-            result = link.linkify(arg);
+            result = link.apply(arg);
             expect(result instanceof Link).toBe(true);
             expect(result.getHref()).toBe('www.pizza.it');
             expect(result.getAttrProperty('method')).toBe('deduct');
@@ -287,7 +287,7 @@ describe('Link-related functionality:', function() {
         it('transforms an object into a Link', function(){
             arg = {'key': 'value'};
 
-            result = link.linkify(arg);
+            result = link.apply(arg);
             expect(result instanceof Link).toBe(true);
             expect(result.getHref()).toBe('www.pizza.it');
             expect(result.getAttrProperty('method')).toBe('deduct');

@@ -132,33 +132,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		</table>
 		&nbsp;
 
-		<h1 class="firstHeading" id="firstHeading" lang="en"><span dir="auto">Fizz buzz</span></h1>
+		Slackware /ˈslækweə(ɹ)/ è un sistema operativo libero e open source, basato sul kernel Linux e sul software sviluppato dal progetto GNU. È stato creato nel 1993 da Patrick J. Volkerding sulla base di SLS (Softlanding Linux System) di cui inizialmente era una versione migliorata e corretta. È la distribuzione Linux più longeva tra quelle attivamente sviluppate.
 
-		<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+Slackware punta alla qualità, alla stabilità e alla semplicità e intende essere la distribuzione più Unix-like, attenendosi agli standard, evitando di apportare modifiche non necessarie al software incluso e non aggiungendo strumenti di configurazione supplementari, oltre a quelli previsti dai rispettivi autori. La configurazione e l'amministrazione del sistema avvengono principalmente attraverso la modifica manuale dei file di configurazione, oppure grazie ad alcuni script dotati di interfaccia semi-grafica o a riga di comando.
 
-		<div id="contentSub">&nbsp;&nbsp;(Redirected from <a href="http://en.wikipedia.org/w/index.php?title=FizzBuzz&amp;redirect=no" title="FizzBuzz">FizzBuzz</a>)</div>
+Slackware fornisce un sistema operativo completo e aggiornato che include gli ambienti desktop KDE e Xfce, svariati window manager, un'ampia scelta di applicazioni, una serie completa di strumenti di sviluppo, tutto il necessario per allestire un server web, FTP o di posta elettronica e altro ancora. Questa distribuzione si rivolge in particolare a chi desidera avere il controllo totale del proprio sistema.
 
-		<p><b>Fizz buzz</b> (also known as <b>bizz buzz</b>, or simply <b>buzz</b>) is a group word game for children to teach them about <a href="http://en.wikipedia.org/wiki/Division_%28mathematics%29" title="Division (mathematics)">division</a>.<sup class="reference" id="cite_ref-1"><a href="http://en.wikipedia.org/wiki/FizzBuzz#cite_note-1"><span>[</span>1<span>]</span></a></sup> Players take turns to count incrementally, replacing any number divisible by three with the word &quot;fizz&quot;, and any number divisible by five with the word &quot;buzz&quot;.</p>
-
-		<p>&nbsp;</p>
-
-		<div class="toc" id="toc">
-		<div id="toctitle">
-		<h2>Contents</h2>
-		</div>
-
-		<ul>
-			<li class="toclevel-1 tocsection-1"><a href="http://en.wikipedia.org/wiki/FizzBuzz#Play"><span class="tocnumber">1</span> <span class="toctext">Play</span></a></li>
-			<li class="toclevel-1 tocsection-2"><a href="http://en.wikipedia.org/wiki/FizzBuzz#Variations"><span class="tocnumber">2</span> <span class="toctext">Variations</span></a>
-			<ul>
-				<li class="toclevel-2 tocsection-3"><a href="http://en.wikipedia.org/wiki/FizzBuzz#Fizz_Buzz_Woof"><span class="tocnumber">2.1</span> <span class="toctext">Fizz Buzz Woof</span></a></li>
-			</ul>
-			</li>
-			<li class="toclevel-1 tocsection-4"><a href="http://en.wikipedia.org/wiki/FizzBuzz#Other_uses"><span class="tocnumber">3</span> <span class="toctext">Other uses</span></a></li>
-			<li class="toclevel-1 tocsection-5"><a href="http://en.wikipedia.org/wiki/FizzBuzz#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
-			<li class="toclevel-1 tocsection-6"><a href="http://en.wikipedia.org/wiki/FizzBuzz#External_links"><span class="tocnumber">5</span> <span class="toctext">External links</span></a></li>
-		</ul>
-		</div>
+Leggi la voce · Tutte le voci di qualità
 		</textarea>
 	</div>
 </body>

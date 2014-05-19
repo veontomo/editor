@@ -48,7 +48,8 @@ describe('Image-related functionality:', function() {
     describe('Sets image origin', function(){
         it('sets "src" attribute if url points to a valid image', function(){
             img.setOrigin(validLink);
-            expect(img.getOrigin()).toBe(validLink);
+            var src = img.getOrigin();
+            expect(src).toBe(validLink);
         });
 
         it('does not set "src" attribute if url points to an invalid image', function(){

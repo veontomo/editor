@@ -97,20 +97,24 @@ function Link(href) {
 
 	/**
 	 * Converts the argument `obj` into a Link. The following cases are possible:
-	 * @method         linkify
+	 * @method         apply
 	 * @param          {Any}                obj
 	 * @return         {Any}                type of output depends on input argument
 	 */
-	this.linkify = function(obj){
+	this.apply = function(obj){
 		if (obj instanceof Link){
+			console.log(obj, ' is a Link');
 			return this.updateLink(obj);
 		}
 		if (obj instanceof Content){
-			return this.linkifyContent(obj);
+			console.log(obj, ' is a Content');
+			return this.applyContent(obj);
 		}
 		if (obj instanceof Tag){
-			return this.linkifyTag(obj);
+			console.log(obj, ' is a Tag');
+			return this.applyTag(obj);
 		}
+		console.log(obj, ' is default');
 		return this.wrap(obj);
 	};
 
@@ -124,7 +128,7 @@ function Link(href) {
 	this.wrap = function(obj){
 		/// strange thing: even though the target is a Link and the output is to be a Link,
 		/// if I create object to return by means of this.clone(), somehow Content elements get
-		/// overrides when I use them in linkify. For this reason, "new Link()" is used to create
+		/// overrides when I use them in apply. For this reason, "new Link()" is used to create
 		/// the object which will be returned.
 		var output = new Link(),
 			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
@@ -140,7 +144,7 @@ function Link(href) {
 	 * If its {{#crossLink "Tag/content"}}content{{/crossLink}} is
 	 * <ol><li>
 	 * non empty, then it is returned a copy of the argument in which {{#crossLink "Tag/content:property"}}content{{/crossLink}}
-	 * is replaced by output of {{#crossLink "Link/linkifyContent:method"}}linkifyContent{{/crossLink}} method.
+	 * is replaced by output of {{#crossLink "Link/applyContent:method"}}applyContent{{/crossLink}} method.
 	 * </li><li>
 	 * empty, then a {{#crossLink "Link"}}Link{{/crossLink}} instance is returned. This instance has
 	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
@@ -148,17 +152,17 @@ function Link(href) {
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} contains `tagObj` as the only element.
 	 * </li><li>
 	 * </li></ol>
-	 * @method         linkifyTag
+	 * @method         applyTag
 	 * @param          {Tag}                tagObj
 	 * @return         {Tag|Link}
 	 */
-	this.linkifyTag = function(tagObj){
+	this.applyTag = function(tagObj){
 		if (tagObj instanceof Tag){
 			var result, cntn, cntnLinkified;
 			if (!(tagObj.getContent().isEmpty())){
 				result = tagObj.clone();
 				cntn = result.getContent();
-				cntnLinkified = this.linkifyContent(cntn);
+				cntnLinkified = this.applyContent(cntn);
 				result.setContent(cntnLinkified);
 			} else {
 				result = this.wrap(tagObj);
@@ -168,13 +172,13 @@ function Link(href) {
 	};
 
 	/**
-	 * Modifies a Content instance in such a way that {{#crossLink "Link/linkify:method"}}linkify{{/crossLink}}
+	 * Modifies a Content instance in such a way that {{#crossLink "Link/apply:method"}}apply{{/crossLink}}
 	 * is applied on all elements of the argumet.
-	 * @method         linkifyContent
+	 * @method         applyContent
 	 * @param          {Content}            cntn
 	 * @return         {Content}
 	 */
-	this.linkifyContent = function(cntn){
+	this.applyContent = function(cntn){
 		if (cntn instanceof Content){
 			var result = new Content(),
 				cntnElems = cntn.getElements(),
@@ -183,7 +187,7 @@ function Link(href) {
 			for (i = 0; i < len; i++){
 				current = cntnElems[i];
 				newLink = this.clone();
-				linked = newLink.linkify(current);
+				linked = newLink.apply(current);
 				result.appendElem(linked);
 			}
 			return result;
@@ -201,16 +205,20 @@ function Link(href) {
 	 * @return         {Link}
 	 */
 	this.updateLink = function(link){
+		console.log('updating link ' + this.toHtml());
 		if (link instanceof Link){
 			var result = new Link(),
 				src = this.getHref();
-			result.setElements(this.getElements());
+			result.setElements(link.getElements());
 			result.setAttributes(this.getAttributes());
 			result.setStyles(this.getStyles());
 			result.appendStyle(link.getStyles());
 			result.appendAttributes(link.getAttributes());
 			result.setHref(src);
+			console.log('returning ', result.toHtml());
 			return result;
+		} else {
+			console.log('argument is not a link, so there is nothing to return');
 		}
 
 	};

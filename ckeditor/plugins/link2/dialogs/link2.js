@@ -146,6 +146,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
             // if the selectedNode is empty: [[]].
             if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
+                console.log('selected nodes are empty');
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
@@ -159,10 +160,12 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     editor.insertHtml(link.toHtml());
                 }
             } else {
+                console.log('selected nodes are not empty');
                 var nodes = [];
                 // parse all selected nodes
-                selectedNodes.forEach(function(arr){
-                    arr.forEach(function(el){
+                selectedNodes.forEach(function(arr, ind){
+                    arr.forEach(function(el, ind2){
+                        console.log(ind + ' ' + ind2);
                         var newNode, objLink;
                             // parent = el.$.parentNode;
                         // prepare Link object
@@ -171,8 +174,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link.underline(isUnderlined);
                         obj = factory.mimic(el.$);
                         if (obj &&  !obj.isEmpty()){
-                            objLink = link.linkify(obj);
+                            console.log('considering obj: ' + obj.toHtml());
+                            objLink = link.apply(obj);
+                            console.log('its apply: ' + objLink.toHtml());
                             newNode = objLink.toNode();
+                            console.log('inserting newNode: ', newNode.outerHTML);
                             el.$.parentNode.replaceChild(newNode, el.$);
                             nodes.push(newNode);
                         }
