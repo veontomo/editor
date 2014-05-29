@@ -50,6 +50,7 @@ function PlainText(text) {
 
 	/**
 	 * {{#crossLink "Text/className:property"}}Class name{{/crossLink}} getter.
+	 * @method         getName
 	 * @return         {String}
 	 * @since          0.0.4
 	 */

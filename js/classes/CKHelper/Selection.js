@@ -104,7 +104,7 @@ function Selection(ed) {
     };
 
     /**
-    * Returns a 2-dim array of the form
+    * If selection is empty, returns empty array. Otherwise returns two dimensional array of the form
     * <pre>
     * [[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].
     * </pre>
@@ -119,11 +119,13 @@ function Selection(ed) {
     * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that
     * the concept of "neighbour" exists).
     * @method          selectedNodes
-    * @return          {Array}                two dimensional array of nodes
+    * @private
+    * @return          {Array}                two dimensional array of nodes or empty array
     */
-    this.selectedNodes = function(){
+    var selectedNodes = function(){
         var startContainer, endContainer,
             startOffset, endOffset,
+            rangesLocal = this.getRanges(),
             range, startChild, endChild, nextChild,
             lastBlock = [],
             firstBlock = [],
@@ -131,97 +133,97 @@ function Selection(ed) {
             startElem, endElem,
             startType, endType,
             i, rangesLen, commonAnc,
-            selNodes = [], // container for all sel nodes
+            selNodes = [],      // container for all sel nodes
             rangeNodes;         // container for sel nodes in current range
-        // console.log('ranges: ', ranges);
-        rangesLen = this.getRanges().length;
-        for (i = 0; i < rangesLen; i++){
-            // console.info('loop', i);
-            rangeNodes = [];
-            range = ranges[i];
-            if (!range.collapsed) {
-                startContainer = range.startContainer;
-                endContainer = range.endContainer;
-                startType = startContainer.type;
-                endType   = endContainer.type;
-                startOffset = range.startOffset;
-                endOffset = range.endOffset;
-                startElem = null;
-                endElem = null;
-                lastBlock = [];
-                firstBlock = [];
-                middleBlock = [];
-                // console.log('start container: ', startContainer, ', startType: ', startType, ', startOffset: ', startOffset);
-                // console.log('end container: ', endContainer, ', endType: ', endType, ', endOffset: ', endOffset);
+        if (rangesLocal){
+            rangesLen = rangesLocal.length;
+            for (i = 0; i < rangesLen; i++){
+                // console.info('loop', i);
+                rangeNodes = [];
+                range = rangesLocal[i];
+                if (!range.collapsed) {
+                    startContainer = range.startContainer;
+                    endContainer = range.endContainer;
+                    startType = startContainer.type;
+                    endType   = endContainer.type;
+                    startOffset = range.startOffset;
+                    endOffset = range.endOffset;
+                    startElem = null;
+                    endElem = null;
+                    lastBlock = [];
+                    firstBlock = [];
+                    middleBlock = [];
 
-                if (startContainer.equals(endContainer)){
-                    // console.log('start = end');
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-                        endElem = startElem;
-                    } else if (startType === CKEDITOR.NODE_ELEMENT){
-                        startElem = startContainer.getChild(startOffset);
-                        // endElem = startContainer.getChild(endOffset) || startElem;
-                        endElem = startElem;
-
-                    }
-                } else {
-                    if (endType === CKEDITOR.NODE_TEXT){
-                        endElem = endContainer.getLength() === endOffset ? endContainer : endContainer.split(endOffset).getPrevious();
-                    } else if (endType === CKEDITOR.NODE_ELEMENT){
-                        if (endOffset > 0){
-                            endElem = endContainer.getChild(endOffset - 1);
-                        } else {
-                            endElem = endContainer.getParent();
+                    if (startContainer.equals(endContainer)){
+                        // console.log('start = end');
+                        if (startType === CKEDITOR.NODE_TEXT){
+                            startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
+                            endElem = startElem;
+                        } else if (startType === CKEDITOR.NODE_ELEMENT){
+                            startElem = startContainer.getChild(startOffset);
+                            // endElem = startContainer.getChild(endOffset) || startElem;
+                            endElem = startElem;
                         }
+                    } else {
+                        if (endType === CKEDITOR.NODE_TEXT){
+                            endElem = endContainer.getLength() === endOffset ? endContainer : endContainer.split(endOffset).getPrevious();
+                        } else if (endType === CKEDITOR.NODE_ELEMENT){
+                            if (endOffset > 0){
+                                endElem = endContainer.getChild(endOffset - 1);
+                            } else {
+                                endElem = endContainer.getParent();
+                            }
+                        }
+                        if (startType === CKEDITOR.NODE_TEXT){
+                            // Do not split the element if its length is equal to offset.
+                            // In this case, take the next sibling of the element.
+                            startElem = startContainer.getLength() === startOffset ? startContainer.getNext() : startContainer.split(startOffset);
+                            // startElem =  startContainer.split(startOffset);
+                        } else if (startType === CKEDITOR.NODE_ELEMENT){
+                            startElem = startContainer.getChild(startOffset);
+                        }
+
                     }
-                    if (startType === CKEDITOR.NODE_TEXT){
-                        // Do not split the element if its length is equal to offset.
-                        // In this case, take the next sibling of the element.
-                        startElem = startContainer.getLength() === startOffset ? startContainer.getNext() : startContainer.split(startOffset);
-                        // startElem =  startContainer.split(startOffset);
-                    } else if (startType === CKEDITOR.NODE_ELEMENT){
-                        startElem = startContainer.getChild(startOffset);
+                    if (startElem === null || endElem === null){
+                        // console.log('start elem or end elem is null: ', startElem, endElem);
+                        break;
+                    }
+                    // console.log('start elem: ', startElem, ', end elem: ', endElem);
+                    if (CKHelper.containsOrEqual(startElem, endElem)){
+                        rangeNodes = [startElem];
+                    } else if (CKHelper.containsOrEqual(endElem, startElem)) {
+                        rangeNodes = [endElem];
+                    } else {
+                        commonAnc = startElem.getCommonAncestor(endElem);
+                        startChild = CKHelper.childWithNode(commonAnc, startElem);
+                        endChild = CKHelper.childWithNode(commonAnc, endElem);
+
+                        firstBlock = startElem.getParent().equals(commonAnc) ? [startElem] : CKHelper['bunch-next-siblings'](startElem, startChild);
+                        // console.log('firstBlock: ', firstBlock);
+                        rangeNodes = rangeNodes.concat(firstBlock);
+                        // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
+                        nextChild = startChild.getNext();
+                        while(nextChild && !nextChild.equals(endChild)){
+                            // console.log('pushing nextChild: ', nextChild);
+                            middleBlock.push(nextChild);
+                            nextChild = nextChild.getNext();
+                        }
+                        // console.log('middleBlock: ', middleBlock);
+                        rangeNodes = rangeNodes.concat(middleBlock);
+
+                        lastBlock = endElem.getParent().equals(commonAnc) ? [endElem] : CKHelper['bunch-prev-siblings'](endElem, endChild);
+
+                        // console.log('lastBlock: ', lastBlock);
+                        rangeNodes = rangeNodes.concat(lastBlock.reverse());
+                        // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
                     }
 
                 }
-                if (startElem === null || endElem === null){
-                    // console.log('start elem or end elem is null: ', startElem, endElem);
-                    break;
-                }
-                // console.log('start elem: ', startElem, ', end elem: ', endElem);
-                if (CKHelper.containsOrEqual(startElem, endElem)){
-                    rangeNodes = [startElem];
-                } else if (CKHelper.containsOrEqual(endElem, startElem)) {
-                    rangeNodes = [endElem];
-                } else {
-                    commonAnc = startElem.getCommonAncestor(endElem);
-                    startChild = CKHelper.childWithNode(commonAnc, startElem);
-                    endChild = CKHelper.childWithNode(commonAnc, endElem);
-
-                    firstBlock = startElem.getParent().equals(commonAnc) ? [startElem] : CKHelper['bunch-next-siblings'](startElem, startChild);
-                    // console.log('firstBlock: ', firstBlock);
-                    rangeNodes = rangeNodes.concat(firstBlock);
-                    // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
-                    nextChild = startChild.getNext();
-                    while(nextChild && !nextChild.equals(endChild)){
-                        // console.log('pushing nextChild: ', nextChild);
-                        middleBlock.push(nextChild);
-                        nextChild = nextChild.getNext();
-                    }
-                    // console.log('middleBlock: ', middleBlock);
-                    rangeNodes = rangeNodes.concat(middleBlock);
-
-                    lastBlock = endElem.getParent().equals(commonAnc) ? [endElem] : CKHelper['bunch-prev-siblings'](endElem, endChild);
-
-                    // console.log('lastBlock: ', lastBlock);
-                    rangeNodes = rangeNodes.concat(lastBlock.reverse());
-                    // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
-                }
-
+                // console.log('rangeNodes that are to be pushed into selNodes: ', rangeNodes);
+                selNodes.push(rangeNodes);
             }
-            // console.log('rangeNodes that are to be pushed into selNodes: ', rangeNodes);
-            selNodes.push(rangeNodes);
+
+
         }
         // selNodes.forEach(function(elem, ind){
         //     elem.forEach(function(elem2, ind2){
@@ -231,6 +233,18 @@ function Selection(ed) {
         return selNodes;
     };
 
+    /**
+     * Two-dimensional array of nodes in selection.
+     *
+     * This property was created in order to assure that private method
+     * {{#crossLink "Selection/selectedNodes:method"}}selectedNodes{{/crossLink}} gets called
+     * just once because it seemingly modifies DOM in such
+     * a way that if one calles it multiple times, a wrong array offset is requested, hence, an
+     * error is generated.
+     * @property       {Array}      nodes
+     * @type           {Array}
+     */
+    this.nodes = selectedNodes();
 
     /**
      * Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.
@@ -244,7 +258,7 @@ function Selection(ed) {
         var total = [];
         blockSeparator = blockSeparator || ' ';
         elemSeparator = elemSeparator || ' ';
-        this.selectedNodes().forEach(function(arr){
+        this.nodes.forEach(function(arr){
             var arrayNested = [];
             arr.forEach(function(el){
                 if (el.type === CKEDITOR.NODE_TEXT || el.type === CKEDITOR.NODE_ELEMENT){
@@ -258,12 +272,47 @@ function Selection(ed) {
 
 
     /**
-     * Returns the start element of selection or `null` if selection is empty
-     * @method     getStartElement
-     * @return     {CKEDITOR.dom.element|null}
+     * Returns the start element of selection if it exists.
+     * @method         getStartElement
+     * @return         {CKEDITOR.dom.element}
      */
     this.getStartElement = function(){
-        return this.getSelected().getStartElement();
+        var sel = this.getSelected();
+        if (sel instanceof CKEDITOR.dom.selection){
+            return sel.getStartElement();
+        }
+    };
 
+    /**
+     * Returns `true` if {{#crossLink "Selection/selectedNodes:method"}}selectedNodes{{/crossLink}} is empty,
+     * `false` otherwise.
+     *
+     * {{#crossLink "Selection/selectedNodes:method"}}selectedNodes{{/crossLink}} output is considered empty
+     * if it is either empty array `[]` or an array containing empty array: `[[]]`.
+     * @method         isEmpty
+     * @return         {Boolean}
+     */
+    this.isEmpty = function(){
+        var s = this.nodes;
+        console.log('selected nodes'  , s);
+        //    empty array []  or containing empty array [[]]
+        return s.length === 0 || (s.length === 1 && s[0].length === 0);
+    };
+
+
+    /**
+     * Returns `true` if selected text starts inside a link, `false` otherwise.
+     * In case when the selection is empty, cursor position is considered as beginning
+     * of empty selection.
+     * @method         startsInsideLink
+     * @return         {Boolean}            whether the selection starts inside a link
+     */
+    this.startsInsideLink = function(){
+        var start = this.getStartElement(),
+            parentLink = null;
+        if (start !== undefined && start !== null && (typeof start.getAscendant === 'function')){
+            parentLink = start.getAscendant('a', true);
+        }
+        return parentLink !== null;
     };
 }

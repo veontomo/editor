@@ -75,14 +75,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-		Slackware /ˈslækweə(ɹ)/ è un sistema operativo libero e open source, basato sul kernel Linux e sul software sviluppato dal progetto GNU. È stato creato nel 1993 da Patrick J. Volkerding sulla base di SLS (Softlanding Linux System) di cui inizialmente era una versione migliorata e corretta. È la distribuzione Linux più longeva tra quelle attivamente sviluppate.
-
-Slackware punta alla qualità, alla stabilità e alla semplicità e intende essere la distribuzione più Unix-like, attenendosi agli standard, evitando di apportare modifiche non necessarie al software incluso e non aggiungendo strumenti di configurazione supplementari, oltre a quelli previsti dai rispettivi autori. La configurazione e l'amministrazione del sistema avvengono principalmente attraverso la modifica manuale dei file di configurazione, oppure grazie ad alcuni script dotati di interfaccia semi-grafica o a riga di comando.
-
-Slackware fornisce un sistema operativo completo e aggiornato che include gli ambienti desktop KDE e Xfce, svariati window manager, un'ampia scelta di applicazioni, una serie completa di strumenti di sviluppo, tutto il necessario per allestire un server web, FTP o di posta elettronica e altro ancora. Questa distribuzione si rivolge in particolare a chi desidera avere il controllo totale del proprio sistema.
-
-Leggi la voce · Tutte le voci di qualità
-		</textarea>
+<a href="test">Slackware punta</a> alla qualità, alla stabilità e alla semplicità e intende essere la distribuzione più Unix-like, attenendosi agli standard, evitando di apportare <a href="www.aaa.com">modifiche</a> non necessarie al software incluso e non aggiungendo strumenti di configurazione supplementari, oltre a quelli previsti dai rispettivi autori. La configurazione e l'amministrazione del sistema avvengono principalmente attraverso la modifica manuale dei file di configurazione, oppure grazie ad alcuni script dotati di interfaccia semi-grafica o a riga di comando.
+Slackware fornisce un sistema operativo completo e aggiornato che include gli ambienti desktop KDE e Xfce, svariati window manager,
+</textarea>
 	</div>
 </body>
 </html>

@@ -197,6 +197,7 @@ function Tag() {
 
 	/**
 	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} getter.
+	 * @method         getName
 	 * @return         {String}
 	 */
 	this.getName = function(){
@@ -420,6 +421,7 @@ function Tag() {
 	 * Imposes {{#crossLink "Content/elements:property"}}elements{{/crossLink}} of
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}. If the argument
 	 * is not array, not assignment occures.
+	 * @method         setElements
 	 * @param          {Array}              arr
 	 */
 	this.setElements = function(arr){

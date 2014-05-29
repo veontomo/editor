@@ -114,18 +114,18 @@ function Link(href) {
 	 */
 	this.apply = function(obj){
 		if (obj instanceof Link){
-			console.log(obj, ' is a Link');
+			// console.log(obj, ' is a Link');
 			return this.updateLink(obj);
 		}
 		if (obj instanceof Content){
-			console.log(obj, ' is a Content');
+			// console.log(obj, ' is a Content');
 			return this.applyContent(obj);
 		}
 		if (obj instanceof Tag){
-			console.log(obj, ' is a Tag');
+			// console.log(obj, ' is a Tag');
 			return this.applyTag(obj);
 		}
-		console.log(obj, ' is default');
+		// console.log(obj, ' is default');
 		return this.wrap(obj);
 	};
 
@@ -216,7 +216,7 @@ function Link(href) {
 	 * @return         {Link}
 	 */
 	this.updateLink = function(link){
-		console.log('updating link ' + this.toHtml());
+		// console.log('updating link ' + this.toHtml());
 		if (link instanceof Link){
 			var result = new Link(),
 				src = this.getHref();
@@ -226,10 +226,10 @@ function Link(href) {
 			result.appendStyle(link.getStyles());
 			result.appendAttributes(link.getAttributes());
 			result.setHref(src);
-			console.log('returning ', result.toHtml());
+			// console.log('returning ', result.toHtml());
 			return result;
 		} else {
-			console.log('argument is not a link, so there is nothing to return');
+			// console.log('argument is not a link, so there is nothing to return');
 		}
 
 	};

@@ -399,6 +399,7 @@ var CKHelper = {
 
 	/**
 	 * Change the type of `list` to be `newListType` and replace the old list with newer one.
+	 * @method         changeListType
 	 * @param          {CKEDITOR}                editor
 	 * @param          {CKEDITOR.dom.element}    list
 	 * @param          {String}                  newListType

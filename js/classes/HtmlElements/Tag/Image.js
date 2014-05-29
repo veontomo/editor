@@ -80,7 +80,7 @@ function Image() {
 	 * @return         {String}
 	 */
 	this.getOrigin = function(){
-		console.log('get origin: ' + this.getAttributes());
+		// console.log('get origin: ' + this.getAttributes());
 		return this.getAttrProperty('src');
 	};
 

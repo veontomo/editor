@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, CKEDITOR, Selection */
+/*global describe, it, xit, expect, spyOn, beforeEach, CKEDITOR, Selection */
 
 describe('Selection-related functionality', function(){
     var sel, editor, selected;
@@ -10,17 +10,17 @@ describe('Selection-related functionality', function(){
 
     describe('Selection::constructor()', function(){
         it('creates selection instance object if keyword "new" is missing', function(){
-            expect(Selection(editor, selected) instanceof Selection).toBe(true);
+            expect(Selection(editor) instanceof Selection).toBe(true);
         });
 
         it('throws an error if first argument is not a CKEDITOR.editor instance', function(){
             expect(function(){
-                new Selection('aaa', selected);
+                new Selection('aaa');
             }).toThrow('The first argument must be a CKEDITOR.editor instance!');
         });
 
         it('instantiates "editor" property', function(){
-            sel = new Selection(editor, selected);
+            sel = new Selection(editor);
             expect(sel.getEditor()).toBe(editor);
             });
 
@@ -70,6 +70,27 @@ describe('Selection-related functionality', function(){
             expect(sel.getSelected()).toBe(selected);
         });
     });
+
+    describe('Getting first element of the selection', function(){
+        it('gives empty element', function(){
+            sel = new Selection(editor);
+            expect(sel.getStartElement()).not.toBeDefined();
+        });
+        xit('gives empty element', function(){
+            var el1 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid1">div 1</div>'),
+                el2 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid2">div 2</div>'),
+                el3 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid3">div 3</div>');
+            editor.insertElement(el1);
+            editor.insertElement(el2);
+            editor.insertElement(el3);
+            sel = new Selection(editor);
+            expect(sel.getStartElement()).toBeDefined();
+
+        });
+
+
+    });
+
 });
 
 

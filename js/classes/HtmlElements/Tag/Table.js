@@ -343,6 +343,7 @@ function Table() {
 	 * phantom elements: {{#crossLink "Table/phantomCell:property"}}cell{{/crossLink}},
 	 * {{#crossLink "Table/phantomRow:property"}}row{{/crossLink}},
 	 * {{#crossLink "Table/phantomTable:property"}}table{{/crossLink}}.
+	 * @method         getPhantomTag
 	 * @param          {String}             phantomElem       "cell", "row", "table" (case insensitive)
 	 * @param          {String|Null}        type              "open" or "close" (case insensitive).
 	 *                                                        If missing, supposed to be equal to "open".

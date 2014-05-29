@@ -62,28 +62,45 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            var start = editor.getSelection().getStartElement(),
-                text = '', href = '',
-                isEnabled,
-                selection = new Selection(editor);
-            var link = start.getAscendant('a', true);
-            if (link){
-                selectedNodes = [[link]];
-                href = link.getAttribute('href');
-                text = link.getText();
-            } else {
-                // CKEDITOR.document.getById(warningFieldId).setHtml('');
-                selectedNodes = selection.selectedNodes(); // 2-dim arrays
-                text = selection.toText(' | ', ' ');
-            }
-            // whether selected nodes is of the form [[single element]] or [[]]
-            isEnabled = (selectedNodes.length === 1 && selectedNodes[0].length <= 1) ;
+            // console.log('starting onShow');
+            var selection = new Selection(editor),
+                text = selection.toText(),
+                href = '',
+                isEnabled = selection.isEmpty();
+            console.log('selection text: ' + text);
 
-            if (!isEnabled){
-                this.getContentElement('tab-general', 'text').disable();
+            if (selection.startsInsideLink()){
+                // var link = selection.getStartElement().getAscendant('a', true);
+                // href = link.getAttribute('href');
             }
-            this.setValueOf('tab-general', 'text', text);
-            this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+
+            // if (isEnabled){
+            //     // console.log('selection is empty');
+            //     var start = selection.getStartElement();   // in which element the cursor is situated
+            //     var link = start.getAscendant('a', true);
+            //     if (link){
+            //         // console.log('there is a link among parents');
+            //         selectedNodes = [[link]];
+            //         href = link.getAttribute('href');
+            //         text = link.getText();
+            //     } else {
+            //         // console.log('there is no link among parents');
+            //     }
+            // } else {
+            //     // console.log('selection is NOT empty');
+            //     // text = "...";//selection.toText(' | ', ' ');
+            //     // console.log('its text: ', selection);
+
+            // }
+            // // whether selected nodes is of the form [[single element]] or [[]]
+            // // isEnabled = selection.isEmpty();
+
+            // if (!isEnabled){
+            //     this.getContentElement('tab-general', 'text').disable();
+            // }
+            // this.setValueOf('tab-general', 'text', text);
+            // this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+            return null;
         },
 
         onCancel: function(){
@@ -91,55 +108,55 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
-        onOk: function(){
-            var isUnderlined = this.getValueOf('tab-general', 'underlined'),
-                isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
-                url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-                current, link, obj,
-                factory = FACTORY.factory;
+        // onOk: function(){
+        //     var isUnderlined = this.getValueOf('tab-general', 'underlined'),
+        //         isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
+        //         url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
+        //         current, link, obj,
+        //         factory = FACTORY.factory;
 
-            // if the selectedNode is empty: [[]].
-            if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
-                console.log('selected nodes are empty');
-                link = new Link();
-                link.setHref(url);
-                link.underline(isUnderlined);
-                link.setContent(new Content(this.getValueOf('tab-general', 'text')));
-                // control whether the current position is inside a link
-                current = editor.getSelection().getStartElement();
-                if(current.getName() === 'a'){
-                    obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
-                    obj.replace(current);
-                } else {
-                    editor.insertHtml(link.toHtml());
-                }
-            } else {
-                console.log('selected nodes are not empty');
-                var nodes = [];
-                // parse all selected nodes
-                selectedNodes.forEach(function(arr, ind){
-                    arr.forEach(function(el, ind2){
-                        console.log(ind + ' ' + ind2);
-                        var newNode, objLink;
-                            // parent = el.$.parentNode;
-                        // prepare Link object
-                        link = new Link();
-                        link.setHref(url);
-                        link.underline(isUnderlined);
-                        obj = factory.mimic(el.$);
-                        if (obj &&  !obj.isEmpty()){
-                            console.log('considering obj: ' + obj.toHtml());
-                            objLink = link.apply(obj);
-                            console.log('its apply: ' + objLink.toHtml());
-                            newNode = objLink.toNode();
-                            console.log('inserting newNode: ', newNode.outerHTML);
-                            el.$.parentNode.replaceChild(newNode, el.$);
-                            // nodes.push(newNode);
-                        }
-                    });
-                });
-                // console.log(nodes);
-            }
-        }
+        //     // if the selectedNode is empty: [[]].
+        //     if (selectedNodes.length === 1 && selectedNodes[0].length === 0){
+        //         console.log('selected nodes are empty');
+        //         link = new Link();
+        //         link.setHref(url);
+        //         link.underline(isUnderlined);
+        //         link.setContent(new Content(this.getValueOf('tab-general', 'text')));
+        //         // control whether the current position is inside a link
+        //         current = editor.getSelection().getStartElement();
+        //         if(current.getName() === 'a'){
+        //             obj = CKEDITOR.dom.element.createFromHtml(link.toHtml());
+        //             obj.replace(current);
+        //         } else {
+        //             editor.insertHtml(link.toHtml());
+        //         }
+        //     } else {
+        //         console.log('selected nodes are not empty');
+        //         var nodes = [];
+        //         // parse all selected nodes
+        //         selectedNodes.forEach(function(arr, ind){
+        //             arr.forEach(function(el, ind2){
+        //                 console.log(ind + ' ' + ind2);
+        //                 var newNode, objLink;
+        //                     // parent = el.$.parentNode;
+        //                 // prepare Link object
+        //                 link = new Link();
+        //                 link.setHref(url);
+        //                 link.underline(isUnderlined);
+        //                 obj = factory.mimic(el.$);
+        //                 if (obj &&  !obj.isEmpty()){
+        //                     console.log('considering obj: ' + obj.toHtml());
+        //                     objLink = link.apply(obj);
+        //                     console.log('its apply: ' + objLink.toHtml());
+        //                     newNode = objLink.toNode();
+        //                     console.log('inserting newNode: ', newNode.outerHTML);
+        //                     el.$.parentNode.replaceChild(newNode, el.$);
+        //                     // nodes.push(newNode);
+        //                 }
+        //             });
+        //         });
+        //         // console.log(nodes);
+        //     }
+        // }
     };
 });

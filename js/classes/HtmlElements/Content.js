@@ -35,6 +35,7 @@ function Content(str) {
 
 	/**
 	 * {{#crossLink "Content/className:property"}}Class name{{/crossLink}} getter.
+	 * @method         getName
 	 * @return         {String}
 	 */
 	this.getName = function(){
@@ -481,6 +482,7 @@ function Content(str) {
 
 	/**
 	 * Appends Style `stl` to element at position `pos`.
+	 * @method         appendStyleToElemAt
 	 * @param          {Integer}            pos
 	 * @param          {Object}             obj
 	 * @return         {void}
