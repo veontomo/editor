@@ -119,13 +119,14 @@ function Selection(ed) {
     * NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that
     * the concept of "neighbour" exists).
     * @method          selectedNodes
+    * @param           {Selection}          sel
     * @private
-    * @return          {Array}                two dimensional array of nodes or empty array
+    * @return          {Array}              two dimensional array of nodes or empty array
     */
-    var selectedNodes = function(){
+    var selectedNodes = function(sel){
         var startContainer, endContainer,
             startOffset, endOffset,
-            rangesLocal = this.getRanges(),
+            rangesLocal = sel.getRanges(),
             range, startChild, endChild, nextChild,
             lastBlock = [],
             firstBlock = [],
@@ -244,7 +245,7 @@ function Selection(ed) {
      * @property       {Array}      nodes
      * @type           {Array}
      */
-    this.nodes = selectedNodes();
+    this.nodes = selectedNodes(this);
 
     /**
      * Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.
@@ -294,7 +295,7 @@ function Selection(ed) {
      */
     this.isEmpty = function(){
         var s = this.nodes;
-        console.log('selected nodes'  , s);
+        // console.log('selected nodes'  , s);
         //    empty array []  or containing empty array [[]]
         return s.length === 0 || (s.length === 1 && s[0].length === 0);
     };
@@ -314,5 +315,73 @@ function Selection(ed) {
             parentLink = start.getAscendant('a', true);
         }
         return parentLink !== null;
+    };
+
+
+    /**
+     * Returns `true` if selection content is editable, `false` otherwise.
+     *
+     * Selection is editable if:
+     * <ol>
+     * <li>it is empty</li>
+     * <li>it contains a single element that has type `text`</li>
+     * <li>it contains a single element that is a link which child nodes are of type `text`</li>
+     * </ol>
+     * @return         {Boolean}
+     */
+    this.isEditable = function(){
+        var nodes = this.nodes;
+        console.log('nodes: ', nodes, ', length: ', nodes.length);
+        if (!nodes){
+            console.log('nodes are not defined');
+            return true;
+        }
+        if (nodes.length === 0){
+            console.log('nodes array is empty');
+            return true;
+        }
+        if (nodes.length > 1){
+            console.log('nodes array is longer than 1: length = ' + nodes.length);
+            return false;
+        }
+        // the first (and the only) block of the selection
+        var firstBlock = nodes[0];
+        console.log('firstBlock: ', firstBlock, ', length: ', firstBlock.length);
+        if (firstBlock.length === 0){
+            console.log('the only block is empty');
+            return true;
+        }
+        if (firstBlock.length > 1){
+            console.log('the only block is too long: ' + firstBlock.length);
+            return false;
+        }
+        // the only element
+        var elem = firstBlock[0];
+
+        if (elem.type === CKEDITOR.NODE_TEXT){
+            console.log('the element is a text');
+            return true;
+        }
+        if (elem.type === CKEDITOR.NODE_ELEMENT){
+            console.log('element is a node');
+            if (elem.getName() === 'a'){
+                console.log('the node is a link');
+                if (elem.getChildCount() > 1){
+                    console.log('the link is too long: ' + elem.getChildCount());
+                    return false;
+                }
+                if (elem.getChildCount() === 0){
+                    console.log('the link contains nothing');
+                    return true;
+                }
+                console.log('the only child of the link is of type ' + elem.getChild(0).type);
+                return elem.getChild(0).type === CKEDITOR.NODE_TEXT;
+
+            }
+            console.log('the node is not a link');
+            return false;
+        }
+        return false;
+
     };
 }

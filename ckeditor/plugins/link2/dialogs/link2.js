@@ -68,10 +68,14 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 href = '',
                 isEnabled = selection.isEmpty();
             console.log('selection text: ' + text);
+            console.log(selection.isEditable() ? 'editable' : 'not editable');
 
             if (selection.startsInsideLink()){
-                // var link = selection.getStartElement().getAscendant('a', true);
-                // href = link.getAttribute('href');
+                var link = selection.getStartElement().getAscendant('a', true);
+                href = link.getAttribute('href');
+                // text = link.getHtml();
+                console.log('link href: ' + href);
+                console.log('text: ' + text);
             }
 
             // if (isEnabled){
