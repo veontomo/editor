@@ -66,8 +66,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var selection = new Selection(editor),
                 text = selection.toText(),
                 href = '',
-                isEnabled = selection.isEmpty();
+                isEnabled = selection.isEditable(),
+                refactored = selection.absorbLink();
             console.log('selection text: ' + text);
+            console.log('selection: ', selection.nodes);
+            console.log('link absorbtion: ', refactored);
             console.log(selection.isEditable() ? 'editable' : 'not editable');
 
             if (selection.startsInsideLink()){
@@ -78,32 +81,32 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 console.log('text: ' + text);
             }
 
-            // if (isEnabled){
-            //     // console.log('selection is empty');
-            //     var start = selection.getStartElement();   // in which element the cursor is situated
-            //     var link = start.getAscendant('a', true);
-            //     if (link){
-            //         // console.log('there is a link among parents');
-            //         selectedNodes = [[link]];
-            //         href = link.getAttribute('href');
-            //         text = link.getText();
-            //     } else {
-            //         // console.log('there is no link among parents');
-            //     }
-            // } else {
-            //     // console.log('selection is NOT empty');
-            //     // text = "...";//selection.toText(' | ', ' ');
-            //     // console.log('its text: ', selection);
+            if (isEnabled){
+                // console.log('selection is empty');
+                var start = selection.getStartElement();   // in which element the cursor is situated
+                var link = start.getAscendant('a', true);
+                if (link){
+                    // console.log('there is a link among parents');
+                    selectedNodes = [[link]];
+                    href = link.getAttribute('href');
+                    text = link.getText();
+                } else {
+                    // console.log('there is no link among parents');
+                }
+            } else {
+                // console.log('selection is NOT empty');
+                // text = "...";//selection.toText(' | ', ' ');
+                // console.log('its text: ', selection);
 
-            // }
-            // // whether selected nodes is of the form [[single element]] or [[]]
-            // // isEnabled = selection.isEmpty();
+            }
+            // whether selected nodes is of the form [[single element]] or [[]]
+            // isEnabled = selection.isEmpty();
 
-            // if (!isEnabled){
-            //     this.getContentElement('tab-general', 'text').disable();
-            // }
-            // this.setValueOf('tab-general', 'text', text);
-            // this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+            if (!isEnabled){
+                this.getContentElement('tab-general', 'text').disable();
+            }
+            this.setValueOf('tab-general', 'text', text);
+            this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
             return null;
         },
 

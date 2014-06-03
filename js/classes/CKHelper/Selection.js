@@ -331,57 +331,113 @@ function Selection(ed) {
      */
     this.isEditable = function(){
         var nodes = this.nodes;
-        console.log('nodes: ', nodes, ', length: ', nodes.length);
         if (!nodes){
-            console.log('nodes are not defined');
+            // console.log('nodes are not defined');
             return true;
         }
-        if (nodes.length === 0){
-            console.log('nodes array is empty');
-            return true;
+        var len = nodes.length;
+        // exit point if the nodes array length differs form one
+        if (len !== 1){
+            // return true if it is empty and false if it is too long
+            return len === 0;
         }
-        if (nodes.length > 1){
-            console.log('nodes array is longer than 1: length = ' + nodes.length);
-            return false;
-        }
+
         // the first (and the only) block of the selection
         var firstBlock = nodes[0];
-        console.log('firstBlock: ', firstBlock, ', length: ', firstBlock.length);
-        if (firstBlock.length === 0){
-            console.log('the only block is empty');
-            return true;
+        len = firstBlock.length;
+        // exit point if the firstblock is empty or has more than one element
+        if (len !== 1){
+            // return true if it is empty and false if it is too long
+            return len === 0;
         }
-        if (firstBlock.length > 1){
-            console.log('the only block is too long: ' + firstBlock.length);
-            return false;
-        }
+
         // the only element
         var elem = firstBlock[0];
-
         if (elem.type === CKEDITOR.NODE_TEXT){
-            console.log('the element is a text');
             return true;
         }
         if (elem.type === CKEDITOR.NODE_ELEMENT){
-            console.log('element is a node');
             if (elem.getName() === 'a'){
-                console.log('the node is a link');
-                if (elem.getChildCount() > 1){
-                    console.log('the link is too long: ' + elem.getChildCount());
-                    return false;
+                len = elem.getChildCount();
+                if (len !== 1){
+                    return len === 0;
                 }
-                if (elem.getChildCount() === 0){
-                    console.log('the link contains nothing');
-                    return true;
-                }
-                console.log('the only child of the link is of type ' + elem.getChild(0).type);
                 return elem.getChild(0).type === CKEDITOR.NODE_TEXT;
-
             }
-            console.log('the node is not a link');
             return false;
         }
         return false;
 
     };
+
+    /**
+     * Removes duplicates form input array
+     * @param  {Array} $arr
+     * @return {Array}
+     */
+    var dropDuplicates = function(arr){
+        var len = arr.length;
+        if (len === 0 || len === 1){
+            return arr;
+        }
+        if (len > 1){
+            var first = arr[0],
+                output = [],
+                outputLen = 0,
+                i, j,
+                isPresent;
+            output.push(first);
+            outputLen++;
+
+            for (i = 1; i < len; i++){
+                isPresent = false;
+                for (j = 0; j < outputLen; j++){
+                    if (output[j].equals(arr[i])){
+                        isPresent = true;
+                        break;
+                    }
+                }
+                if (!isPresent){
+                    output.push(arr[i]);
+                    outputLen++;
+                }
+            }
+            return output;
+        }
+    };
+
+    /**
+     * Replaces each element in {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} by
+     * a link in which this element is located. In case the element is not located inside any link, then it
+     * is leaved without changes. The output array mimics the structure of
+     * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} array: it should be a two-dimensional array
+     * without duplicates.
+     * @return {Array}
+     */
+    this.absorbLink = function(){
+        var input = this.nodes,
+            output = [], temp;
+        input.forEach(function(block){
+            if (Array.isArray(block) && block.length > 0){
+                temp = [];
+                block.forEach(function(elem){
+                    var link = elem.getAscendant('a', true);
+                    // console.log('link = ', link, ', elem = ', elem);
+                    temp.push(link || elem) ;
+                    // if (link){
+                    //     console.log('pushing parent link that is found among parents', link);
+                    //     temp.push(link);
+                    // } else {
+                    //     console.log('pushing element itself', elem);
+                    //     temp.push(elem) ;
+                    // }
+                });
+                output.push(dropDuplicates(temp));
+            }
+        });
+        return output;
+    };
+
+
+
 }
