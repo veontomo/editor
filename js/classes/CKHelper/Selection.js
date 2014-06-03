@@ -327,6 +327,7 @@ function Selection(ed) {
      * <li>it contains a single element that has type `text`</li>
      * <li>it contains a single element that is a link which child nodes are of type `text`</li>
      * </ol>
+     * @method         isEditable
      * @return         {Boolean}
      */
     this.isEditable = function(){
@@ -371,9 +372,16 @@ function Selection(ed) {
     };
 
     /**
-     * Removes duplicates form input array
-     * @param  {Array} $arr
-     * @return {Array}
+     * Removes duplicate DOM nodes form input array. Each element of the array must be an instance of
+     * [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject).
+     * @method         dropDuplicates
+     * @private
+     * @param          {Array}              $arr    one-dimensional array of
+     *                                              [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
+     *                                              objects
+     * @return         {Array}                      array of distinct
+     *                                              [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
+     *                                              elements
      */
     var dropDuplicates = function(arr){
         var len = arr.length;
@@ -412,30 +420,35 @@ function Selection(ed) {
      * is leaved without changes. The output array mimics the structure of
      * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} array: it should be a two-dimensional array
      * without duplicates.
-     * @return {Array}
+     * @method         absorbLink
+     * @return         {void}
      */
     this.absorbLink = function(){
         var input = this.nodes,
-            output = [], temp;
-        input.forEach(function(block){
-            if (Array.isArray(block) && block.length > 0){
-                temp = [];
-                block.forEach(function(elem){
-                    var link = elem.getAscendant('a', true);
-                    // console.log('link = ', link, ', elem = ', elem);
-                    temp.push(link || elem) ;
-                    // if (link){
-                    //     console.log('pushing parent link that is found among parents', link);
-                    //     temp.push(link);
-                    // } else {
-                    //     console.log('pushing element itself', elem);
-                    //     temp.push(elem) ;
-                    // }
-                });
-                output.push(dropDuplicates(temp));
+            output = [],
+            temp, link;
+        if (this.isEmpty()){
+            // if the selection is empty and the cursor is inside a link,
+            // insert this link into nodes
+            link = this.getStartElement().getAscendant('a', true);
+            if (link){
+                output.push([link]);   // resulting array must be 2-dimensional with a single element
             }
-        });
-        return output;
+        } else {
+            // parse elements in the selectionif it is not empty
+            input.forEach(function(block){
+                if (Array.isArray(block) && block.length > 0){
+                    temp = [];
+                    block.forEach(function(elem){
+                        var link = elem.getAscendant('a', true);
+                        temp.push(link || elem) ;
+                    });
+                    output.push(dropDuplicates(temp));
+                }
+            });
+
+        }
+        this.nodes = output;
     };
 
 
