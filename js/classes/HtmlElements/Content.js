@@ -445,16 +445,17 @@ function Content(str) {
 	 * @return         {void}
 	 */
 	this.stickTo = function(el){
-		// var rnd = parseInt(Math.random()*1000, 10);
+		var rnd = parseInt(Math.random()*1000, 10);
 		// console.info(rnd, 'Content::stickTo() called with argument ', el, ', this = ', this);
 		if (typeof el.appendChild === 'function'){
 			// console.info(rnd, 'argument has "appendChild" method');
 			elements.forEach(function(ch){
-				// console.info(rnd, 'child = ', ch);
+				// console.info(rnd, 'child = ', ch, ', type: ', typeof ch);
 				if (typeof ch.toNode === 'function'){
 					// console.info(rnd, ' the child has toNode() method');
 					el.appendChild(ch.toNode());
 				} else {
+					el.appendChild(document.createTextNode(ch));
 					// console.info(rnd, ' the child has NO toNode() method');
 				}
 			});

@@ -99,13 +99,18 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link, obj,
                 factory = FACTORY.factory;
 
-            // if selection is empty
-            if (selection.isEmpty()){
+            // if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
+            if (isEnabled){
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
                 link.setContent(new Content(this.getValueOf('tab-general', 'text')));
-                editor.insertHtml(link.toHtml());
+                if (selection.isEmpty()){
+                    editor.insertHtml(link.toHtml());
+                } else {
+                    obj = selection.nodes[0][0];
+                    obj.$.parentNode.replaceChild(link.toNode(), obj.$);
+                }
             } else {
                 // parse all selected nodes
                 selection.nodes.forEach(function(arr){

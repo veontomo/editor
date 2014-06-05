@@ -141,6 +141,7 @@ function PlainText(text) {
 	 * @return {DOM.Text}
 	 */
 	this.toNode = function(){
+		// console.log('it is called toNode on a PlainText element', this.getContent());
 		return document.createTextNode(this.getContent());
 	};
 

@@ -256,19 +256,19 @@ describe('Tag-related functionality', function() {
 
         });
         it('gets string like <tag> for a tag with empty styles and attributes', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname'});
+            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname';});
             spyOn(attr, 'toString').andCallFake(function(){return '';});
             spyOn(stl, 'toString').andCallFake(function(){return '';});
             expect(tag.openingTag()).toBe('<stubname>');
         });
         it('gets string like <div attr="1" width="92"> if styles are empty', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'div'});
+            spyOn(tag, 'getTag').andCallFake(function(){return 'div';});
             spyOn(attr, 'toString').andCallFake(function(){return '"attributes"';});
             spyOn(stl, 'toString').andCallFake(function(){return '';});
             expect(tag.openingTag()).toBe('<div "attributes">');
         });
         it('gets string like <span "styles"> if attributes are empty', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'span'});
+            spyOn(tag, 'getTag').andCallFake(function(){return 'span';});
             spyOn(attr, 'toString').andCallFake(function(){return '';});
             spyOn(stl, 'toString').andCallFake(function(){return '"styles"';});
             expect(tag.openingTag()).toBe('<span "styles">');
@@ -276,12 +276,12 @@ describe('Tag-related functionality', function() {
 
     });
 
-describe('Gets html tag footer', function(){
-    it('gets string like </tag> for a tag with empty styles and attributes', function(){
-        spyOn(tag, 'getTag').andCallFake(function(){return 'stubname'});
-        expect(tag.closingTag()).toBe('</stubname>');
+    describe('Gets html tag footer', function(){
+        it('gets string like </tag> for a tag with empty styles and attributes', function(){
+            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname';});
+            expect(tag.closingTag()).toBe('</stubname>');
+        });
     });
-});
 
 
 
@@ -1107,6 +1107,21 @@ describe('Gets html tag footer', function(){
             tag.toNode();
             expect(content.stickTo).toHaveBeenCalled();
         });
+        it('transorms a realistic tag into node', function(){
+            tag = new Tag();
+            tag.setTag('a');
+            tag.setContent(new PlainText('link text'));
+            console.log('the tag: ', tag.toHtml());
+            var node = tag.toNode();
+            expect(typeof node).toBe('object');
+            expect(node.nodeType).toBe(Node.ELEMENT_NODE);
+            expect(node.tagName).toBe('A');
+            expect(node.childNodes.length).toBe(1);
+            expect(node.firstChild.nodeType).toBe(Node.TEXT_NODE);
+            expect(node.firstChild.nodeValue).toBe('link text');
+
+        });
+
     });
 
 });
