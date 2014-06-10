@@ -11,7 +11,7 @@ describe('Image-related functionality:', function() {
         invalidLink = 'http://www.aaa.ccc/img.jpg';
     });
 
-    describe('Image::constructor: inherits properly from getTag()() class', function(){
+    describe('Image::constructor: inherits properly from getTag() class', function(){
         it('instance of Image is an instance of getTag() as well', function(){
             expect(img instanceof Tag).toBe(true);
         });
@@ -47,12 +47,14 @@ describe('Image-related functionality:', function() {
 
     describe('Sets image origin', function(){
         it('sets "src" attribute if url points to a valid image', function(){
+            img = new Image();
             img.setOrigin(validLink);
             var src = img.getOrigin();
             expect(src).toBe(validLink);
         });
 
         it('does not set "src" attribute if url points to an invalid image', function(){
+            img = new Image();
             img.setOrigin(invalidLink);
             expect(img.getOrigin()).not.toBe(invalidLink);
         });
@@ -80,7 +82,7 @@ describe('Image-related functionality:', function() {
             expect(img.getOrigin()).not.toBeDefined();
             expect(img.getWidth()).toBe(0);
         });
-        it('gets width if src is not set', function(){
+        it('gets width if src is set', function(){
             img.setOrigin(validLink);
             expect(img.getWidth()).toBe(582);
         });
@@ -91,7 +93,7 @@ describe('Image-related functionality:', function() {
             expect(img.getOrigin()).not.toBeDefined();
             expect(img.getHeight()).toBe(0);
         });
-        it('gets zero height if src is not set', function(){
+        it('gets height if src is set', function(){
             img.setOrigin(validLink);
             expect(img.getHeight()).toBe(253);
         });

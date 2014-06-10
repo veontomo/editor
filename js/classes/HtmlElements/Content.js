@@ -432,37 +432,29 @@ function Content(str) {
 	};
 
 	/**
-	 * Takes each element of the array {{#crossLink "Content/elements:property"}}Content::elements{{/crossLink}}
-	 * and appends it as a child node to the argument which is supposed to be an instance of
-	 * [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node), but in fact it is enough
+	 * Converts each element of this instance into a node and appends it to the argument.
+	 *
+	 * Takes each element of the array {{#crossLink "Content/elements:property"}}Content::elements{{/crossLink}},
+	 * converts it into a node (if the element responds to `toNode()` method, the convertion will
+	 * be performed using this method, otherwise a text node will be constructed)
+	 * and then appends this node to the argument which is supposed to be an instance of
+	 * [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in fact, it is enough
 	 * that is has [appendChild()](https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild)
-	 * method. In order to append, the array element should respond to `toNode()` method which
-	 * returns [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 * instance of the element. If the element does not respond to the
-	 * above-mentioned method, this element is ignored.
+	 * method).
 	 * @method         stickTo
-	 * @param          {Object}             el
+	 * @param          {Object}             el      [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 * @return         {void}
 	 */
 	this.stickTo = function(el){
-		var rnd = parseInt(Math.random()*1000, 10);
-		// console.info(rnd, 'Content::stickTo() called with argument ', el, ', this = ', this);
 		if (typeof el.appendChild === 'function'){
-			// console.info(rnd, 'argument has "appendChild" method');
 			elements.forEach(function(ch){
-				// console.info(rnd, 'child = ', ch, ', type: ', typeof ch);
 				if (typeof ch.toNode === 'function'){
-					// console.info(rnd, ' the child has toNode() method');
 					el.appendChild(ch.toNode());
 				} else {
 					el.appendChild(document.createTextNode(ch));
-					// console.info(rnd, ' the child has NO toNode() method');
 				}
 			});
-		} else {
-			// console.info(rnd, 'argument has no "appendChild" method');
 		}
-		// console.info(rnd, 'Content::stickTo() finished with final value of el = ', el);
 	};
 
 	/**

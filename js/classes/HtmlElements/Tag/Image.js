@@ -16,6 +16,8 @@ function Image() {
 	// inherit tag properties
 	Tag.call(this);
 
+	var allowedProtocols = ['http', 'https'];
+
 	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
 	 * <ol><li>
@@ -41,23 +43,85 @@ function Image() {
 	 * @param          {String}             url
 	 * @return         {void}
 	 */
+	// this.setOrigin = function(url){
+	// 	var urlWithoutProtocol = this.dropProtocol(url),
+	// 		url2 = 'http://' + urlWithoutProtocol;
+	// 	var timeStart = new Date(),
+	// 		timeLimit = 5000,
+	// 		currentTime,
+	// 		imgWidth, imgHeight, imgElem;
+	// 	if (typeof urlWithoutProtocol === 'string' && urlWithoutProtocol.length > 0){
+	// 		var httpRequest;
+	// 		if (window.XMLHttpRequest) {
+	// 			httpRequest = new XMLHttpRequest();
+	// 		} else if (window.ActiveXObject) {
+	// 		    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	// 		}
+	// 		// httpRequest.onreadystatechange = function(){
+	// 		//   console.log("READY");
+	// 		//   // console.log(httpRequest.responseText);
+	// 		//   temp = 'new value';
+	// 		//   console.log('temp =: ' + temp);
+
+	// 		// };
+
+	// 		/**
+	// 		 * httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 		 */
+	// 		// httpRequest.open('GET', url2, false);
+	// 		// httpRequest.send(null);
+	// 		// console.log(	httpRequest.responseText);
+	// 		// console.log(httpRequest);
+	// 		imgElem = document.createElement('img');
+	// 		imgElem.setAttribute('src', url2);
+	// 		currentTime = new Date();
+	// 		imgWidth =  imgElem.naturalWidth;
+	// 		imgHeight = imgElem.naturalHeight;
+	// 		while (!(imgWidth > 0 && imgHeight > 0)){
+	// 			imgElem = document.createElement('img');
+	// 			imgElem.setAttribute('src', url2);
+	// 			imgWidth =  imgElem.naturalWidth;
+	// 			imgHeight = imgElem.naturalHeight;
+	// 			currentTime = new Date();
+	// 			if (currentTime - timeStart > timeLimit){
+	// 				console.log('time limit is achieved...');
+	// 				break;
+	// 			}
+
+	// 		}
+
+	// 		// if (ns.imgWidth > 0 && ns.imgHeight > 0){
+	// 		this.setAttrProperty('src', url2);
+	// 		this.setAttrProperty('width', imgWidth);
+	// 		this.setAttrProperty('height', imgHeight);
+	// 		this.setWidth(imgWidth);
+	// 		this.setStyleProperty('height', imgHeight);
+
+	// 		// elemFound.parentNode.removeChild(elemFound);
+	// 		// }
+	// 	}
+	// };
 	this.setOrigin = function(url){
-		var urlWithoutProtocol = this.dropProtocol(url),
-			url2 = 'http://' + urlWithoutProtocol;
-		if (typeof urlWithoutProtocol === 'string' && urlWithoutProtocol.length > 0){
+		var protocol = this.getProtocol(url);
+
+		if (allowedProtocols.indexOf(protocol) !== -1){
 			var img = document.createElement('img'),
 				imgWidth, imgHeight;
-			img.src = url2;
+			img.setAttribute('src', url);
+			console.log(img, img.width, img.height);
 			imgWidth = img.width;
 			imgHeight = img.height;
 			if (imgWidth > 0 && imgHeight > 0){
-				this.setAttrProperty('src', url2);
+				this.setAttrProperty('src', url);
 				this.setAttrProperty('width', imgWidth);
 				this.setAttrProperty('height', imgHeight);
 				this.setWidth(imgWidth);
 				this.setStyleProperty('height', imgHeight);
 			}
+		} else {
+			console.log('protocol ' + protocol + ' is not supported!');
 		}
+
 	};
 
 	/**
@@ -72,6 +136,25 @@ function Image() {
 		    re = new RegExp(pattern, 'gi');
 		return url.replace(re, '');
 	};
+
+	/**
+	 * Returns protocol corresponding to `url`: everything starting from the beginning of line until
+	 * first occurence of '://' (exclusively).
+	 * @method         getProtocol
+	 * @param          {String}             url
+	 * @return         {String}
+	 */
+	this.getProtocol = function(url){
+		var delimiter = '://',
+		    pattern = '^[^' + delimiter + ']+' + delimiter,
+		    re = new RegExp(pattern, 'gi'),
+		    needle = url.match(re);
+		if (Array.isArray(needle) && typeof needle[0] === 'string'){
+			return needle[0].replace(delimiter, '');
+		}
+		return null;
+	};
+
 
 	/**
 	 * Gets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from

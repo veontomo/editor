@@ -1111,7 +1111,6 @@ describe('Tag-related functionality', function() {
             tag = new Tag();
             tag.setTag('a');
             tag.setContent(new PlainText('link text'));
-            console.log('the tag: ', tag.toHtml());
             var node = tag.toNode();
             expect(typeof node).toBe('object');
             expect(node.nodeType).toBe(Node.ELEMENT_NODE);
