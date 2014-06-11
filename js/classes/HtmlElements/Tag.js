@@ -372,6 +372,8 @@ function Tag() {
 		if (w !== undefined){
 		    this.setAttrProperty('width', w);
 			this.setStyleProperty('width', w);
+			this.setStyleProperty('min-width', w);
+			this.setStyleProperty('max-width', w);
 		}
 	};
 

@@ -103,20 +103,18 @@ function Image() {
 	// };
 	this.setOrigin = function(url){
 		var protocol = this.getProtocol(url);
-
 		if (allowedProtocols.indexOf(protocol) !== -1){
 			var img = document.createElement('img'),
 				imgWidth, imgHeight;
-			img.setAttribute('src', url);
-			console.log(img, img.width, img.height);
+			img.src = url;
 			imgWidth = img.width;
 			imgHeight = img.height;
-			if (imgWidth > 0 && imgHeight > 0){
+			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
 				this.setAttrProperty('src', url);
 				this.setAttrProperty('width', imgWidth);
-				this.setAttrProperty('height', imgHeight);
 				this.setWidth(imgWidth);
 				this.setStyleProperty('height', imgHeight);
+				this.setAttrProperty('height', imgHeight);
 			}
 		} else {
 			console.log('protocol ' + protocol + ' is not supported!');

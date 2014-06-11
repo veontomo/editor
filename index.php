@@ -75,7 +75,19 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-<a href="test.com">Slackware punta</a> alla qualit&agrave;, alla stabilit&agrave; e alla semplicit&agrave; e intende essere la distribuzione pi&ugrave; Unix-like, attenendosi agli standard, evitando di apportare <a href="www.aaa.com">modifiche</a> non necessarie al software incluso e non aggiungendo strumenti di configurazione supplementari, oltre a quelli previsti dai rispettivi autori. La configurazione e l&#39;amministrazione del sistema avvengono principalmente attraverso la modifica manuale dei file di configurazione, oppure grazie <img alt="yuidoc" height="52" src="http://yuilibrary.com/img/yui-logo.png" style="border-style: none; width: 117px; padding: 0px; margin: 0px; height: 52px" title="yuidoc" width="117" />ad alcuni script dotati di interfaccia semi-grafica o a riga di comando. Slackware fornisce un sistema operativo <a href="link-to-globe">text and image inside link <img alt="logo" height="128" src="http://www.lib.umn.edu/sites/default/files/images/earth_128.png" style="border-style: none; width: 128px; padding: 0px; margin: 0px; height: 128px" title="logo" width="128" /> continue</a> svariati window manager
+			<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none; padding: 0px; margin: 0px; width: 500px; max-width: 0px; min-width: 0px; border-spacing: 0px 0px" width="500">
+	<tbody>
+		<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
+			<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
+			<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
+		</tr>
+		<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
+			<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
+			<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
+		</tr>
+	</tbody>
+</table>
+
 </textarea>
 	</div>
 </body>
