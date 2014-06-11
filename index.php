@@ -72,23 +72,24 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	</form>
 	<div class="editor">
 		<textarea name="editor" id="editor">
+			<div id="content">
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none; padding: 0px; margin: 0px; width: 500px; max-width: 0px; min-width: 0px; border-spacing: 0px 0px" width="500">
-	<tbody>
-		<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
-			<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
-			<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
-		</tr>
-		<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
-			<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
-			<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
-		</tr>
-	</tbody>
-</table>
-
-</textarea>
+				<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none; padding: 0px; margin: 0px; width: 500px; max-width: 0px; min-width: 0px; border-spacing: 0px 0px" width="500">
+					<tbody>
+						<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
+							<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
+							<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
+						</tr>
+						<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px">
+							<td data-marker="Cell" style="border-style: none; width: 199px; max-width: 199px; min-width: 199px; margin: 0px; vertical-align: top; color: #000001; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px">cell0</td>
+							<td data-marker="Cell" style="border-style: none; width: 299px; max-width: 299px; min-width: 299px; margin: 0px; vertical-align: top; color: #000001; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px">cell1</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</textarea>
 	</div>
 </body>
 </html>

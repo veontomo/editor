@@ -95,7 +95,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-                // current,
                 link, obj,
                 factory = FACTORY.factory;
 
@@ -112,6 +111,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     obj.$.parentNode.replaceChild(link.toNode(), obj.$);
                 }
             } else {
+                console.log('not enabled');
                 // parse all selected nodes
                 selection.nodes.forEach(function(arr){
                     arr.forEach(function(el){
@@ -121,9 +121,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link.underline(isUnderlined);
                         obj = factory.mimic(el.$);
                         if (obj &&  !obj.isEmpty()){
-                            if (obj && typeof obj.setAttrProperty === 'function'){
-                                obj.setAttrProperty('data-cke-saved-href', url);    // CKeditor remembers this attr and replaces proper url
-                                                                                    // by this one.
+                            // CKeditor remembers this attr and replaces proper url by this one.
+                            // So, if the current object is a Link instance, let us update
+                            // value of "data-cke-saved-href"
+                            if (obj &&  (obj instanceof Link) && (typeof obj.setAttrProperty === 'function')){
+                                obj.setAttrProperty('data-cke-saved-href', url);
                             }
                             objLink = link.apply(obj);
                             newNode = objLink.toNode();
