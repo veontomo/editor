@@ -42,6 +42,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 				editorContent = editor.document.getBody().getHtml(),
 				fileContent, sanitizedContent;
 			sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, ' '));
+			sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\"[a-zA-Z0-9_ ]+?\"/g, '');
 			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" +
 				sanitizedContent +  "\n</body></html>";
 			$.post('php/saveDraft.php',

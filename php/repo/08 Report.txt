@@ -1,0 +1,23 @@
+------------------------------------------------------------
+mailing - 12/06/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+------------------------------------------------------------
+Email Iniziali : 1
+Email Senza Doppioni : 1
+  ** La Lista DIVENTA non esiste!! **
+Effettuato Controllo Diventa su lista Email in Spedizione!
+Email Senza BlackList : 1
+Data/Ora Inizio Spedizione : 12/06/2014 / 11:05:33
+Data/Ora Fine Spedizione : 12/06/2014 / 11:05:36
+
+Spediti : 1
+
+Configurazione : 
+  Manda un'Email per ogni Indirizzo
+  Indirizzi in [Ccn:]
+  Priorita' : Normale
+  Controlla i Doppioni
+  Controlla la BlackList
+  Controlla lista Diventa
+  EMAIL: a.shcherbakov@ritoll.it (a.shcherbakov@ritoll.it)
+  SMTP : mailbus.fastweb.it
+

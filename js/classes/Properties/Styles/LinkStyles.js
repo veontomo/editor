@@ -31,7 +31,7 @@ function LinkStyles(obj) {
      * @type     {Object}
      * @private
      */
-    var linkStyleCore = {'text-decoration': 'underline', 'font-size': 14, 'font-weight': 'normal', 'padding': 0, 'margin': 0};
+    var linkStyleCore = {'text-decoration': 'underline', 'font-size': 14, 'font-weight': 'normal', 'padding': 0, 'margin': 0, 'color': '#154007'};
     this.suggestProperty(linkStyleCore);
 
 }

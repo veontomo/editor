@@ -20,9 +20,13 @@ CKEDITOR.editorConfig = function( config ) {
 	config.disableObjectResizing = true;
 
 	config.toolbarGroups = [
+		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] }, // mode -> it is responsible for "source"
+		// { name: 'document',	   groups: [ 'document', 'doctools' ] },
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		// { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+		{ name: 'editing',     groups: [ 'find', 'selection' ] },
+
+
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
@@ -37,7 +41,7 @@ CKEDITOR.editorConfig = function( config ) {
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
-	config.removePlugins = 'tabletools,table,link';
+	config.removePlugins = 'tabletools,table,link,save,newpage,templates';
 
 
 };

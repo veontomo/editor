@@ -270,6 +270,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				inputFields = hiddenDiv.getElementsByTag('input'),
 				len = inputFields.count(),
 				userInput = [],
+				factory = FACTORY.factory,
 				tableMarker = (new Table()).getName(),
 				currentElem, table, currentTable, tableStr, tableElem,
 				i;
@@ -282,13 +283,19 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				return el.getName() === 'table' &&
 					el.getAttribute(NEWSLETTER['marker-name'] ) === tableMarker;
 			});
-			currentTable = table.getOuterHtml().createTableFromHtml();
+
+			// currentTable = table.getOuterHtml().createTableFromHtml();
+			console.log('parent table ', table);
+			currentTable = factory.mimic(table.$);
+			currentTable.disentangle();
+			console.log('constructed table ', currentTable.toHtml());
 			currentTable.setProfile(userInput);
 
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			table.remove();
 			editor.insertElement(tableElem);
+			console.log('resized table ', currentTable.toHtml());
 			return null;
 		}
 	};

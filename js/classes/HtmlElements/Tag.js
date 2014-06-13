@@ -679,11 +679,11 @@ function Tag() {
 	 * <ol><li>
 	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}}
 	 * </li><li>
-	 * {{#crossLink "Tag/attr:property"}}attr{{/crossLink}} by calling
-	 * {{#crossLink "Attribute/load:method"}}Attribute::load(){{/crossLink}} method.
+	 * {{#crossLink "Tag/attributes:property"}}attr{{/crossLink}} by calling
+	 * {{#crossLink "Attributes/load:method"}}Attribute::load(){{/crossLink}} method.
 	 * </li><li>
-	 * {{#crossLink "Tag/style:property"}}style{{/crossLink}} by calling
-	 * {{#crossLink "Style/load:method"}}Style::load(){{/crossLink}} method.
+	 * {{#crossLink "Tag/styles:property"}}style{{/crossLink}} by calling
+	 * {{#crossLink "Styles/load:method"}}Styles::load(){{/crossLink}} method.
 	 * </li><li>
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} by calling
 	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.

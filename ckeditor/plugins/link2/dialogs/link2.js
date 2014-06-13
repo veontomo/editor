@@ -111,7 +111,6 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     obj.$.parentNode.replaceChild(link.toNode(), obj.$);
                 }
             } else {
-                console.log('not enabled');
                 // parse all selected nodes
                 selection.nodes.forEach(function(arr){
                     arr.forEach(function(el){

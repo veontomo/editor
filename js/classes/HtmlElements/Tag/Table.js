@@ -435,7 +435,9 @@ function Table() {
 			throw new Error('Wrong input array lenght!');
 		}
 		for (i = 0; i < len; i++){
+			// console.log('elem ' + i + 'before: ' + this.getElem(i).toHtml());
 			this.getElem(i).setCellWidths(profile);
+			// console.log('elem ' + i + ' after: ' + this.getElem(i).toHtml());
 		}
 	};
 
@@ -539,6 +541,7 @@ function Table() {
 		if (rowNum === 0){
 			return 0;
 		}
+		console.log(this.getElem(0).toHtml());
 		firstRowCellNum = this.getElem(0).cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
@@ -645,10 +648,12 @@ function Table() {
 	 * @return         {Boolean}            true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
+		// console.log('number of rows = ', this.rowNum(), ', table: ', this.toHtml());
 		if (this.rowNum() === 0){
 			return false;
 		}
 		return this.getElements().every(function(row){
+			console.log('row? ', row.toHtml());
 			return row.onlyTableInside();
 		});
 	};
