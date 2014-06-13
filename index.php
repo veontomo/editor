@@ -72,7 +72,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	</form>
 	<div class="editor">
 		<textarea name="editor" id="editor">
-			<div id="content">
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
