@@ -440,7 +440,7 @@ function Selection(ed) {
                 if (Array.isArray(block) && block.length > 0){
                     temp = [];
                     block.forEach(function(elem){
-                        var link = elem.getAscendant('a', true);
+                        link = elem.getAscendant('a', true);
                         temp.push(link || elem) ;
                     });
                     output.push(dropDuplicates(temp));
@@ -451,6 +451,19 @@ function Selection(ed) {
         this.nodes = output;
     };
 
+    /**
+     * Propagate style property named `prop` with the value `val` to the last descendant of each node.
+     * If the n
+     * @method         propagateStyle
+     * @param          String               prop        name of the property to be imposed
+     * @param          String               val         property value
+     * @since          0.0.4
+     * @return         void
+     */
+    this.propagateStyle = function(prop, val){
+        console.log(prop, val);
+        console.log(this.nodes);
 
+    };
 
 }

@@ -15,7 +15,7 @@ CKEDITOR.plugins.add('selection', {
 			exec: function(editor){
 				console.log('inside Selection plugin');
 				var	selection = new Selection(editor),
-					nodes = selection.selectedNodes();
+					nodes = selection.nodes;
 					console.log(nodes);
 			}
 		});
