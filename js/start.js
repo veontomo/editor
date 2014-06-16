@@ -6,7 +6,7 @@ $(document).ready(function () {
 	});
 	editor.on('instanceReady', function () {
 		// disabling default plugins by removing them from the context menu
-		var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink'];
+		var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink', 'bar'];
 		menuItemsToRemove.forEach(function (item) {
 			editor.removeMenuItem(item);
 		});
