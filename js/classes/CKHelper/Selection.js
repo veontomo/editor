@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global DOMParser, CKHelper, CKEDITOR */
+/*global DOMParser, CKHelper, CKEDITOR, Node, Styles */
 
 /**
 * Represents selected elements in the editor window. The argument `ed` is a
@@ -121,7 +121,9 @@ function Selection(ed) {
     * @method          selectedNodes
     * @param           {Selection}          sel
     * @private
-    * @return          {Array}              two dimensional array of nodes or empty array
+    * @return          {Array}              two dimensional array of
+    *                                       [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
+    *                                       or empty array
     */
     var selectedNodes = function(sel){
         var startContainer, endContainer,
@@ -243,7 +245,7 @@ function Selection(ed) {
      * a way that if one calles it multiple times, a wrong array offset is requested, hence, an
      * error is generated.
      * @property       {Array}      nodes
-     * @type           {Array}
+     * @type           {Array}      array of [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
      */
     this.nodes = selectedNodes(this);
 
@@ -452,8 +454,70 @@ function Selection(ed) {
     };
 
     /**
-     * Propagate style property named `prop` with the value `val` to the last descendant of each node.
-     * If the n
+     * Imposes style property `prop` to be `val` to last descendant of `node`. If the last descendant of `node`
+     * is
+     * <ol><li>
+     * a text element without siblings, then applies requested style property to its parent,
+     * </li><li>
+     * a text element with siblings, then converts it into a `span` node with required style property,
+     * </li><li>
+     * a node element, then applies requested style property to it.
+     * </li></ol>
+     * @private
+     * @method         _propagateStyle
+     * @param          {Node}               node                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {String}             prop                name of style property (i.e., "width" or "text-decoration")
+     * @param          {String}             val                 value of style property (i.e., "10px" or "underline")
+     * @return         {void}
+     * @since          0.0.4
+     * @todo           Try to make this method shorter
+     */
+    var _propagateStyle = function(n, prop, val){
+        var childNodes = n.childNodes,
+            childNum = childNodes.length,
+            stl, child, span, parent;
+        switch (childNum)
+        {
+             // node has no children
+            case 0:
+                if (n.nodeType === Node.TEXT_NODE){
+                    span = document.createElement('span');
+                    span.setAttribute("style", prop + ": " + val);
+                    span.textContent = n.nodeValue;
+                    parent = n.parentNode;
+                    if (parent){
+                        parent.replaceChild(span, n);
+                    } else {
+                        console.log("parent not found");
+                    }
+                } else {
+                    stl = new Styles(n.getAttribute('style'));
+                    stl.setProperty(prop, val);
+                    n.setAttribute("style", stl.toBareString());
+                }
+                break;
+            // node has only one child
+            case 1:
+                child = n.firstChild;
+                if (child.nodeType === Node.TEXT_NODE){
+                    stl = new Styles(n.getAttribute('style'));
+                    stl.setProperty(prop, val);
+                    n.setAttribute("style", stl.toBareString());
+                } else {
+                    _propagateStyle(child, prop, val);
+                }
+                break;
+            // node has many children
+            default:
+                childNodes.forEach(function(ch){
+                    _propagateStyle(ch, prop, val);
+                });
+        }
+    };
+
+    /**
+     * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
+     * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
      * @method         propagateStyle
      * @param          String               prop        name of the property to be imposed
      * @param          String               val         property value
@@ -463,6 +527,13 @@ function Selection(ed) {
     this.propagateStyle = function(prop, val){
         console.log(prop, val);
         console.log(this.nodes);
+        this.nodes.forEach(function(line){
+            if (line){
+                line.forEach(function(node){
+                    _propagateStyle(node.$, prop, val);
+                });
+            }
+        });
 
     };
 

@@ -75,6 +75,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<h1 class="text-shadow">Thank you for downloading Eclipse</h1>
+
+			<p class="download-link-msg">If the download doesn&#39;t start in a few seconds, please <a href="http://www.rcp-vision.com/eclipse/eclipseMirror/technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-win32-x86_64.zip">click here</a> to start the download.</p>
 		</textarea>
 	</div>
 </body>
