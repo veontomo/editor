@@ -475,14 +475,15 @@ function Selection(ed) {
     var _propagateStyle = function(n, prop, val){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
-            stl, child, span, parent;
+            stl, child, span, parent,
+            attrName = 'style';              // Node instance attribute name that is supposed to be updated
         switch (childNum)
         {
              // node has no children
             case 0:
                 if (n.nodeType === Node.TEXT_NODE){
                     span = document.createElement('span');
-                    span.setAttribute("style", prop + ": " + val);
+                    span.setAttribute(attrName, prop + ": " + val);
                     span.textContent = n.nodeValue;
                     parent = n.parentNode;
                     if (parent){
@@ -493,16 +494,16 @@ function Selection(ed) {
                 } else {
                     stl = new Styles(n.getAttribute('style'));
                     stl.setProperty(prop, val);
-                    n.setAttribute("style", stl.toBareString());
+                    n.setAttribute(attrName, stl.toBareString());
                 }
                 break;
             // node has only one child
             case 1:
                 child = n.firstChild;
                 if (child.nodeType === Node.TEXT_NODE){
-                    stl = new Styles(n.getAttribute('style'));
+                    stl = new Styles(n.getAttribute(attrName));
                     stl.setProperty(prop, val);
-                    n.setAttribute("style", stl.toBareString());
+                    n.setAttribute(attrName, stl.toBareString());
                 } else {
                     _propagateStyle(child, prop, val);
                 }

@@ -178,8 +178,29 @@ function Properties(input) {
 		// console.info(rnd, 'Properties::appendProperty() is called with ', obj);
 		// console.info(rnd, 'Properties::appendProperty() is calling private function appendPropertyAsStringOrObj with 2 arguments: ', obj, this);
 		appendPropertyAsStringOrObj(obj, this);
-
 	};
+
+
+	/**
+	 * Toggle property `propName`:
+	 * <ol><li>
+	 * if Property instance contains property `propName` equal to `val`, then the method imposes
+	 * its value to be `altVal` (if `altVal` is `null`, then the key `propName` gets dropped).
+	 * </li><li>
+	 * if Property instance contains property `propName` equal to `altVal`, then the method imposes
+	 * its value to be `val`.
+	 * </li><li>
+	 * if Property instance does not have property `propName`, then the method imposes it to be `val`.
+	 * </li></ol>
+	 * @param          {String}        propName       property key to toggle (i.e., "width", "position")
+	 * @param          {String}        val            value of the property key (i.e., "25em", "fixed")
+	 * @param          {String}        altVal         value of the property key (i.e. null, "0em").
+	 *                                                This parameter is optional.
+	 * @return         {void}
+	 */
+	this.toggleProperty = function(propName, val, altVal = null){
+
+	}
 
 	/**
 	 * Splits the argument in key-value pieces as it is performed in
