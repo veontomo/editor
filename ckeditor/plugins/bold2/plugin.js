@@ -26,7 +26,7 @@ CKEDITOR.plugins.add('bold2', {
 			// The command to execute on click.
 			command: 'bold2',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'basicstyles'
+			toolbar: 'basicstyles2'
 		});
 
 	}

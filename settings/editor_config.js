@@ -29,7 +29,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 		{ name: 'others' },
 		'/',
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		// { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'basicstyles2', groups: ['bold2', 'italic2', 'underline2', 'strike2']},
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align'] },
 		{ name: 'styles' },
 		{ name: 'colors' }
@@ -37,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection,bold2,italic2,underline2';
+	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection,bold2,italic2,underline2,strike2';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 

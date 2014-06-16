@@ -22,11 +22,11 @@ CKEDITOR.plugins.add('underline2', {
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('underline2', {
 			// The text part of the button (if available) and tooltip.
-			label: editor.lang.basicstyles.bold,
+			label: editor.lang.basicstyles.underline,
 			// The command to execute on click.
 			command: 'underline2',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'basicstyles'
+			toolbar: 'basicstyles2'
 		});
 
 	}
