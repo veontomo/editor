@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\classes\CKHelper.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkAttributes.html">LinkAttributes</a></li>
+            
+                <li><a href="../classes/LinkStyles.html">LinkStyles</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyles.html">ListItemStyles</a></li>
+            
+                <li><a href="../classes/ListStyles.html">ListStyles</a></li>
+            
+                <li><a href="../classes/Mapping.html">Mapping</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/StringHelper.html">StringHelper</a></li>
+            
+                <li><a href="../classes/Styles.html">Styles</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyles.html">TableCellStyles</a></li>
+            
+                <li><a href="../classes/TableRowStyles.html">TableRowStyles</a></li>
+            
+                <li><a href="../classes/TableStyles.html">TableStyles</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\classes\CKHelper.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection, FACTORY, Node */
+/*jslint plusplus: true, white: true */
+
+/**
+ * Collection of functions used by various plugins of the CKEditor.
+ * @module    Helper
+ * @class     CKHelper
+ * @type      {Object}
+ * @since     0.0.1
+ * @author    A.Shcherbakov
+ */
+var CKHelper = {
+	/**
+	 * Finds the nearest ascendant of the &quot;elem&quot; for which &quot;filter&quot; returns true
+	 * @method     findAscendant
+	 * @param      {CKEDITOR.dom.element}        elem
+	 * @param      {function}                    filter
+	 * @return     {CKEDITOR.dom.element|null}
+	 */
+	findAscendant: function (elem, filter) {
+		if (typeof filter !== &#x27;function&#x27;) {
+			return null;
+		}
+		while (elem &amp;&amp; elem.type === CKEDITOR.NODE_ELEMENT) {
+			if (filter(elem)) {
+				return elem;
+			}
+			elem = elem.getParent();
+		}
+		return null;
+	},
+
+	/**
+	* Drops inline property named &#x60;propName&#x60; from DOM element
+	* @method           dropInlineStyleAttr
+	* @param            {Object}    element              an inline attribute of  this element will be dropped.
+	*                                                    The element should respond to jQuery &quot;attr&quot; method.
+	* @param            {string}    attrName             attribute name to be dropped.
+	* @return           {void}
+	*/
+	dropInlineStyleAttr: function(element, propName){
+		// unhovering table
+		var attr = element.attr(&#x27;style&#x27;),
+	 	style = new Styles(attr),
+	 	styleStr;
+		style.dropProperty(propName);
+		// might have format style=&quot;...&quot; or just &quot;...&quot;, so one needs to select &quot;...&quot;
+		styleStr = style.toBareString();
+		element.attr(&#x27;style&#x27;, styleStr);
+	},
+
+
+	/**
+	 * Removes link-related stuff from &#x60;link&#x60;  and then replaces it in the editor.
+	 * @method     unlink
+	 * @param      {CKEditor.editor}        ed             Represents an editor instance.
+	 * @param      {CKEDITOR.dom.element}   link
+	 * @return     {void}
+	 */
+	unlink: function(ed, link){
+		// the arguments must be of required type
+		if (!(ed instanceof CKEDITOR.editor) || !(link instanceof CKEDITOR.dom.element)){
+			return null;
+		}
+		var linkNative = link.$,
+			parent = linkNative.parentNode,
+			nextSibling = linkNative.nextSibling,
+			factory = FACTORY.factory,
+			linkObj = factory.mimic(linkNative);
+		linkObj.getContent().getElements().forEach(function(el){
+			parent.insertBefore(el.toNode(), nextSibling);
+		});
+		linkNative.remove();
+
+	},
+
+	/**
+	 * Drops the table row. If after removing the table becomes empty, then removes it as well.
+	 * @method     dropRow
+	 * @param      {CKEditor.editor}        ed             Represents an editor instance.
+	 * @return     {null}
+	 */
+	dropRow: function (ed) {
+		var row = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			return ((el.getName() === &quot;tr&quot;) &amp;&amp; (el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === &quot;Row&quot;));
+		}),
+			parentTable, tableLength;
+		if (row) {
+			parentTable = CKHelper.findAscendant(row, function (el) {
+				return el.getName() === &#x27;table&#x27;;
+			});
+			row.remove();
+			// calculating the number of remaining rows
+			tableLength = parentTable.getElementsByTag(&#x27;tr&#x27;).count();
+			if (tableLength === 0) {
+				parentTable.remove();
+			}
+		}
+	},
+
+   /**
+   * Whether the argument is a CKEDITOR.editor instance.
+   * @method  isEditor
+   * @param   {any}   obj
+   */
+  isEditor: function(obj){
+    return (obj instanceof CKEDITOR.editor);
+  },
+
+   /**
+   * Whether the argument is a CKEDITOR.dom.selection instance.
+   * @method  isSelection
+   * @param   {any}   obj
+   */
+  isSelection: function(obj){
+    return (obj instanceof CKEDITOR.dom.selection);
+  },
+
+
+	/**
+	 * Inserts a row at a specified position with respect to the selected element.
+	 * The command to insert the row is obtained by capitalizing the second argument
+	 * and appending it to the string &#x27;insert&#x27;. Example: if pos is &#x27;after&#x27;, the command
+	 * to be executed is &#x27;insertAfter&#x27;.
+	 * @method     insertRow
+	 * @param      {CKEDITOR.editor}	 ed        Represents an editor instance.
+	 * @param      {String}	             pos 	   where to insert the element with respect to the current one.
+	 */
+	insertRow: function (ed, pos) {
+		var tag = &#x27;tr&#x27;,
+			dataMarkerAttr = NEWSLETTER[&#x27;marker-name&#x27;],
+			dataMarkerVal = &#x27;Row&#x27;,
+			currentElem = ed.getSelection().getStartElement(),
+			newElement, operation, currentChildren, childNum, i, child, newChild, row = currentElem.getAscendant(tag, true);
+		// looking for the table row marked as data-marker=&quot;row&quot;
+		while (!((row.getName() === tag) &amp;&amp; (row.getAttribute(dataMarkerAttr) === dataMarkerVal))) {
+			row = row.getParent();
+			// whether the newly defined element exists and is of CKEDITOR type
+			if (!(row &amp;&amp; row.type === CKEDITOR.NODE_ELEMENT)) {
+				return null; // exit in case no element is found in the DOM
+			}
+		}
+		newElement = new CKEDITOR.dom.element(tag);
+		operation = &#x27;insert&#x27; + Helper.firstLetterUpperCase(pos);
+		currentChildren = row.getChildren();
+		childNum = currentChildren.count();
+
+		if (newElement[operation] !== undefined) {
+			newElement[operation](row);
+		} else {
+			return null;
+		}
+
+		row.copyAttributes(newElement);
+		for (i = 0; i &lt; childNum; i++) {
+			child = currentChildren.getItem(i);
+			newChild = new CKEDITOR.dom.element(child.getName());
+			newChild.setHtml(row.getChild(i).getHtml());
+			newElement.append(newChild);
+			child.copyAttributes(newChild);
+		}
+	},
+
+	/**
+	 * Inserts a column in the table. The localtion of the column to insert is given by the second
+	 * argument that admits two values &quot;before&quot; and &quot;after&quot; and is inserted before or after the column
+	 * of the selected cell, respectively.
+	 * @method     insertColumn
+	 * @param      {CKEDITOR.editor} ed                 Represents an editor instance.
+	 * @param      {String}          pos                &quot;before&quot; or &quot;after&quot;: location of the column to insert w.r.t. the current cell
+	 * @return     {void}
+	 */
+	insertColumn: function(ed, pos){
+		if (pos !== &#x27;before&#x27; &amp;&amp; pos !== &#x27;after&#x27;){
+			return null;
+		}
+		var cell, cellObj, cellObjStyles, cellObjAttr, cellIndex, parentTable, newTableProfile,
+			cellToInsert, cellToInsertAttr, cellToInsertStyles, tableProfile, newTable, tableObj,
+			// offset to be added for the insertion of the column
+			offset;
+
+		// find the current cell, and not a bogus cell
+		cell = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Cell()).getName();
+			return (el.getName() === &#x27;td&#x27; &amp;&amp; el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === marker);
+		});
+		// find parent table to be sure that we treat a cell and not a bogus cell.
+		parentTable = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
+			var marker = (new Table()).getName();
+			return (el.getName() === &#x27;table&#x27; &amp;&amp; el.getAttribute(NEWSLETTER[&#x27;marker-name&#x27;]) === marker);
+		});
+
+		cellIndex = cell.getIndex();
+		// create objects in order to retrieve their properties
+		cellObj = cell.getOuterHtml().createCellFromHtml();
+		tableObj = parentTable.getOuterHtml().createTableFromHtml();
+		cellObjStyles = cellObj.getStyles();
+		cellObjAttr = cellObj.getAttributes();
+		tableProfile = tableObj.getProfile().map(function(el){return parseFloat(el);});
+
+		newTableProfile = Helper.crack(tableProfile, cellIndex);
+		cellToInsert = new Cell(&#x27;cella&#x27;);
+		cellToInsertAttr = new Attributes(cellObjAttr);
+		cellToInsertStyles = new Styles(cellObjStyles);
+
+
+		if (pos === &#x27;before&#x27;){
+			offset = 0;
+			cellToInsertStyles.setProperty(&#x27;padding-right&#x27;,  0);
+			tableObj.appendStyleToCol(cellIndex, &#x27;padding-left: 0px&#x27;);
+		}
+
+		if (pos === &#x27;after&#x27;){
+			offset = 1;
+			cellToInsertStyles.setProperty(&#x27;padding-left&#x27;, 0);
+			tableObj.appendStyleToCol(cellIndex, &#x27;padding-right: 0px&#x27;);
+		}
+
+
+		// binding the styles and attributes to the newly created cell
+		cellToInsert.setAttributes(cellToInsertAttr);
+		cellToInsert.setStyles(cellToInsertStyles);
+
+		// offset variable is responsible for insertion &#x27;before&#x27; or &#x27;after&#x27;
+		tableObj.insertColAt(cellIndex + offset, cellToInsert);
+		console.log(&#x27;new table profile: &#x27;, newTableProfile);
+		tableObj.setProfile(newTableProfile);
+
+		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
+		parentTable.remove();
+		// call a custom method to insert the table and assign hovering effects on it
+		// CKHelper.insertTableWithHoverEff(ed, newTable);
+		ed.insertElement(newTable);
+		console.log(&#x27;inserting: &#x27;, tableObj.toHtml());
+	},
+
+
+	/**
+	 * Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,
+	 * if it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, &#x27;&#x27; (empty string is returned)
+	 * @method nodeString
+	 * @param    {CKEDITOR.dom.element}     node
+	 * @return   {String}
+	 */
+	nodeString: function(node){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return node.getOuterHtml();
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			return node.getText();
+		}
+		return &#x27;...&#x27;;
+	},
+
+	/**
+	 * Gets the string representation of the node subelement: if the argument is of CKEDITOR.NODE_ELEMENT type, then
+	 * the string representation of its child &quot;offset&quot; is returned. If the argument is of CKEDITOR.NODE_TEXT type,
+	 * then: 1. if dir is &quot;start&quot; or null, then its substring starting from position 0 to &quot;offset&quot; (excluded) is returned;
+	 * 2. if dir=&quot;end&quot;; then its substring starting from position &quot;offset&quot; is returned.
+	 * @method   nodeOffsetString
+	 * @param    {Number}               offset
+	 * @param    {CKEDITOR.dom.element} node
+	 * @param    {String}               dir       &quot;start&quot; - for the beginning of the string, &quot;end&quot; for the end. Default - &quot;start&quot;
+	 * @return   {String}
+	 */
+	nodeOffsetString: function(node, offset, dir){
+		if (node.type === CKEDITOR.NODE_ELEMENT){
+			return CKHelper.nodeString(node.getChild(offset));
+		}
+		if (node.type === CKEDITOR.NODE_TEXT){
+			if (dir === &#x27;start&#x27; || dir === undefined){
+				return node.getText().substring(0, offset);
+			}
+			if (dir === &#x27;end&#x27;){
+				return node.getText().substring(offset);
+			}
+		}
+		return &#x27;wrong&#x27;;
+	},
+
+	/**
+	 * If &#x60;elem&#x60; is of CKEDITOR.NODE_ELEMENT type, pushes it into array &#x60;container&#x60; . Otherwise, it is ignored.
+	 * @method  insertNode
+	 * @param   {Array} container 	array in which an element is to be inserted.
+	 * @param   {Any}   elem         if of CKEDITOR.NODE_ELEMENT type, it is to be inserted into container.
+	 * @return  {void}
+	 */
+	insertNode: function(container, elem){
+		if (elem.type === CKEDITOR.NODE_ELEMENT){
+		    container.push(elem);
+		}
+	},
+
+	/**
+	 * Transforms each element of the array into a string and concatenates them. String representation
+	 * of the element is supposed to be a text version (without tags).
+	 * @method         arrayToText
+	 * @param          {Array}              arr        array of elements (of mixed types)
+	 * @param          {String}             sep        a string which will separate the text representation of each element.
+	 *                                                 Default is &quot;&quot; (empty string).
+	 * @return         {String}
+	 */
+	arrayToText: function(arr, sep){
+		sep = sep || &#x27;&#x27;;
+		return arr.map(function(elem){
+			var str;
+            switch (elem.type){
+                case CKEDITOR.NODE_ELEMENT:
+                    str =  elem.textContent;
+                    break;
+                case CKEDITOR.NODE_TEXT:
+                    str = elem.getText();
+                    break;
+                default:
+                    str = &#x27;...&#x27;;
+            }
+            return str;
+        }).join(sep);
+	},
+
+	/**
+	 * Check whether two different CKEDITOR.dom.node&#x27;s &quot;overlaps&quot;. Returns true, if:
+	 * &lt;ol&gt;&lt;li&gt;both &#x60;elem1&#x60; and &#x60;elem2&#x60; are of &#x60;CKEDITOR.dom.element&#x60; type and either &#x60;elem1&#x60; contains &#x60;elem2&#x60; or viceverse,&lt;/li&gt;
+	 * &lt;li&gt;only one of &#x60;elem1&#x60;, &#x60;elem2&#x60; is of &#x60;CKEDITOR.dom.element&#x60; and it contains other,&lt;/li&gt;
+	 * &lt;li&gt;both &#x60;elem1&#x60; and &#x60;elem2&#x60; are of &#x60;CKEDITOR.dom.text&#x60; and they are equal.&lt;/li&gt;&lt;/ol&gt;
+	 * Otherwise, false is returned.
+	 * @param {CKEDITOR.dom.element|CKEDITOR.dom.text}   elem1
+	 * @param {CKEDITOR.dom.element|CKEDITOR.dom.text}   elem2
+	 * @method  doesOverlap
+	 * @return {Boolean}
+	 */
+	doesOverlap: function(elem1, elem2){
+		var outcome = false;
+		if (elem1.type === elem2.type &amp;&amp; elem1.type === CKEDITOR.NODE_ELEMENT){
+			outcome = elem1.equals(elem2) || elem1.contains(elem2) || elem2.contains(elem1) ;
+		} else if (elem1.type === CKEDITOR.NODE_ELEMENT) {
+			outcome = elem1.contains(elem2);
+		} else if (elem1.type === CKEDITOR.NODE_ELEMENT){
+			outcome = elem2.contains(elem1);
+		} else {
+			outcome = elem1.equals(elem2);
+		}
+		//console.info(&#x27;CKHelper&#x27;, &#x27;returning &#x27; + outcome);
+		return outcome;
+
+	},
+
+
+
+	/**
+	 * Inserts a list which items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @method         insertList
+	 * @param          {CKEDITOR.editor}    editor                 Represents an editor instance.
+	 * @param          {String}             listType               Type of the list to insert (ol, ul)
+	 * @return         {void}
+	 */
+	insertList: function(editor, listType){
+		var selection = new Selection(editor),
+		    selectedNodes = selection.nodes,                   // 2-dim array
+		    factory = FACTORY.factory;
+		console.log(&#x27;CKHelper::insertListNew &#x27;, selectedNodes);
+		selectedNodes.forEach(function(block){
+			var len = block.length,
+				elem, list, content, newNode, firstElem;
+			list = new List(listType);
+			// if the block is empty (it means that the selection is empty), insert a link and exit
+			if (len === 0){
+				list.appendElem(new ListItem());
+				newNode = CKEDITOR.dom.element.createFromHtml(list.toHtml());
+				editor.insertElement(newNode);
+				return null;
+			}
+			// if still here, it means that the block has at least one item
+			firstElem = block.shift().$;                                  // NB: block lenght gets reduced here
+			if (len === 1 &amp;&amp; (firstElem.nodeType === Node.ELEMENT_NODE)){ // the block has only one item
+																		  // and this item is an ELEMENT_NODE
+				elem = factory.mimic(firstElem);
+				content = elem.getContent();
+				list = new List(listType);
+				list.appendAsItems(content);
+				elem.setElements([list]);
+				newNode = elem.toNode();
+				firstElem.parentNode.replaceChild(newNode, firstElem);
+				return null;
+			}
+			// default case
+			var current = [factory.mimic(firstElem)];         // create array with one element
+			block.forEach(function(el){
+				current.push(factory.mimic(el.$));
+				el.$.remove();
+			});
+			list.appendAsItems(current);
+			newNode = list.toNode();
+			firstElem.parentNode.replaceChild(newNode, firstElem);
+			// newNode.focus()
+		});
+
+	},
+
+
+	/**
+	 * Change the type of &#x60;list&#x60; to be &#x60;newListType&#x60; and replace the old list with newer one.
+	 * @method         changeListType
+	 * @param          {CKEDITOR}                editor
+	 * @param          {CKEDITOR.dom.element}    list
+	 * @param          {String}                  newListType
+	 * @return         {void}
+	 */
+	changeListType: function(editor, list, newListType){
+		var listCopy, listObj, listHtml;
+		if (list){
+			listCopy = new List();
+			listCopy.load(list.$);
+			listCopy.switchName(newListType);
+			listCopy.trim();
+			listHtml = listCopy.toHtml();
+			listObj = CKEDITOR.dom.element.createFromHtml(listHtml);
+			list.remove();
+			editor.insertElement(listObj);
+		}
+	},
+
+
+  	/**
+  	 * Returns an array of elements that are next siblings of the given one. The first next sibling becomes the first element
+  	 * of the array, the second next sibling becomes the second one and so on.
+  	 * @method  next-siblings
+  	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}      elem
+  	 * @return {Array}                                       array of CKEDITOR.dom.node
+  	 */
+  	&#x27;next-siblings&#x27;: function(elem){
+  		var container = [],
+  			currentElem = elem;
+  		while(currentElem.hasNext()){
+  			currentElem = currentElem.getNext();
+			container.push(currentElem);
+  		}
+  		return container;
+	},
+
+  	/**
+  	 * Returns an array of elements that are siblings of the given one and that come before it. The first prevoius
+  	 * sibling becomes the first element of the array, the second previous sibling becomes the second one and so on.
+  	 * @method  prev-siblings
+  	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}      elem
+  	 * @return {Array}                                       array of CKEDITOR.dom.node
+  	 */
+  	&#x27;prev-siblings&#x27;: function(elem){
+  		var container = [],
+  			currentElem = elem;
+  		while(currentElem.hasPrevious()){
+  			currentElem = currentElem.getPrevious();
+  			container.push(currentElem);
+  		}
+  		return container;
+	},
+
+	/**
+	 * Returns an array containing &#x60;node&#x60; and elements that come after it
+	 * the in DOM in the context of &#x60;root&#x60;. Therefore, all array elements
+	 * belong to &#x60;root&#x60;. &#x60;root&#x60; itself is not included in the output except
+	 * the case when it is equal to &#x60;node&#x60;. If &#x60;root&#x60; does not contain &#x60;node&#x60;,
+	 * the output must be an empty array.
+	 * Uses {{#crossLink &quot;CKHelper/next-siblings:method&quot;}}CKHelper[&#x27;next-siblings&#x27;]{{/crossLink}}
+	 * to fill in array with the next siblings.
+	 * @method                                            bunch-next-siblings
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
+	 * @return {Array}                                                 nodes between &#x60;node&#x60; and &#x60;root&#x60; last child (inclusively)
+	 */
+	&#x27;bunch-next-siblings&#x27;: function(node, root){
+		if (node.equals(root)){
+			return [node];
+		}
+		if (!root.contains(node)){
+			return [];
+		}
+		var output = [node],
+			elem = node,
+			parent = elem.getParent(),
+			fun = CKHelper[&#x27;next-siblings&#x27;];
+		while (!root.equals(parent)){
+			output = output.concat(fun(elem));
+			elem = parent;
+			parent = parent.getParent();
+		}
+		output = output.concat(fun(elem));
+		return output;
+	},
+
+	/**
+	 * Returns an array containing &#x60;node&#x60; and elements that come before it
+	 * the in DOM in the context of &#x60;root&#x60;. Therefore, all array elements
+	 * belong to &#x60;root&#x60;. &#x60;root&#x60; itself is not included in the output except
+	 * the case when it is equal to &#x60;node&#x60;. If &#x60;root&#x60; does not contain &#x60;node&#x60;,
+	 * the output must be an empty array.
+ 	 * Uses {{#crossLink &quot;CKHelper/prev-siblings:method&quot;}}CKHelper[&#x27;prev-siblings&#x27;]{{/crossLink}}
+	 * to fill in array with the next siblings.
+	 * @method                                            bunch-prev-siblings
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
+	 * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
+	 * @return {Array}                                                 nodes between &#x60;node&#x60; and &#x60;root&#x60; first child (inclusively)
+	 */
+	&#x27;bunch-prev-siblings&#x27;: function(node, root){
+		if (node.equals(root)){
+			return [node];
+		}
+		if (!root.contains(node)){
+			return [];
+		}
+		var output = [node],
+			elem = node,
+			parent = elem.getParent(),
+			fun = CKHelper[&#x27;prev-siblings&#x27;];
+		while (!root.equals(parent)){
+			output = output.concat(fun(elem));
+			elem = parent;
+			parent = parent.getParent();
+		}
+		output = output.concat(fun(elem));
+		return output;
+	},
+
+	/**
+	 * Returns the first child of the &#x60;root&#x60; containing &#x60;node&#x60;.
+	 * If &#x60;root&#x60; does not contain &#x60;node&#x60;, &#x60;null&#x60; is returned.
+	 * Uses {{#crossLink &quot;CKHelper/containsOrEqual:method&quot;}}CKHelper::containsOrEqual(){{/crossLink}}.
+	 * @method childWithNode
+	 * @param  {CKEDITOR.dom.node}       root        haystack to be searched in
+	 * @param  {CKEDITOR.dom.node}       node        needle to be present in the haystack
+	 * @return {CKEDITOR.dom.node|null}              the first child of the haystack that contians needle, or &#x60;null&#x60;
+	 *                                               if there is no nedlee in the haystack.
+	 */
+	&#x27;childWithNode&#x27;: function(root, node){
+		var children, len, i, item;
+		if (root.contains(node)){
+			children = root.getChildren();
+			len = children.count();
+			for (i = 0; i &lt; len; i++){
+				item = children.getItem(i);
+				if (CKHelper.containsOrEqual(item, node)){
+					return item;
+				}
+			}
+		}
+		return null;
+	},
+
+	/**
+	 * Returns true if &#x60;elem1&#x60; contains &#x60;elem2&#x60; or if they are equal. False otherwise.
+	 * @method  containsOrEqual
+	 * @param  {CKEDITOR.dom.node}     elem1
+	 * @param  {CKEDITOR.dom.node}     elem2
+	 * @return {Boolean}
+	 */
+	containsOrEqual: function(elem1, elem2){
+		var elem1Type = elem1.type;
+		if (elem1Type === CKEDITOR.NODE_ELEMENT){
+		    return  (elem1.contains(elem2) || elem1.equals(elem2));
+		}
+		if (elem1Type === CKEDITOR.NODE_TEXT){
+		    return (elem1.equals(elem2));
+		}
+		return false;
+	}
+};
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,5 +1,4 @@
 vendor/*
-apidocs/*
 yuidoc-bootstrap-theme/*
 npm-debug.log
 test/coverage/*

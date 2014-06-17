@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\classes\HtmlElements\Content.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Attributes.html">Attributes</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkAttributes.html">LinkAttributes</a></li>
+            
+                <li><a href="../classes/LinkStyles.html">LinkStyles</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemStyles.html">ListItemStyles</a></li>
+            
+                <li><a href="../classes/ListStyles.html">ListStyles</a></li>
+            
+                <li><a href="../classes/Mapping.html">Mapping</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/StringHelper.html">StringHelper</a></li>
+            
+                <li><a href="../classes/Styles.html">Styles</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
+            
+                <li><a href="../classes/TableCellStyles.html">TableCellStyles</a></li>
+            
+                <li><a href="../classes/TableRowStyles.html">TableRowStyles</a></li>
+            
+                <li><a href="../classes/TableStyles.html">TableStyles</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\classes\HtmlElements\Content.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global Node, Link, FACTORY */
+
+/**
+ * This class is used to encompass other objects.
+ * @module 	    HtmlElements
+ * @class  		Content
+ * @constructor
+ * @param 		{String} 	str 		an optional argument that will be inserted into
+ *                                      {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+ */
+function Content(str) {
+	&quot;use strict&quot;;
+	if (!(this instanceof Content)) {
+		return new Content(str || null);
+	}
+
+	/**
+	 * The  name of the class.
+	 * @property        {String}            className
+	 * @type            {String}
+	 * @private
+	 */
+	var className = &#x27;Content&#x27;;
+
+
+	/**
+	 * Array in which Content items are stored.
+	 * @property       {Array}              elements
+	 * @private
+	 * @default        [str]
+	 */
+	var elements = str ? [str] : [];
+
+	/**
+	 * {{#crossLink &quot;Content/className:property&quot;}}Class name{{/crossLink}} getter.
+	 * @method         getName
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
+	};
+
+
+	/**
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} getter. &lt;br/&gt;
+	 * *NB*: the method tries to return a copy of {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 * content.
+	 * @method         getElements
+	 * @return         {Array}
+	 */
+	this.getElements = function(){
+		var output = [];
+		elements.forEach(function(el){
+			var copy = (typeof el.clone === &#x27;function&#x27;) ? el.clone() : el;
+			output.push(copy);
+		});
+		return output;
+	};
+
+	/**
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} setter.
+	 * @method         setElements
+	 * @param          {Array}             items       array of items
+	 * @return         {void}
+	 */
+	this.setElements = function(items){
+		if (Array.isArray(items)){
+			elements = items;
+		}
+	};
+
+	/**
+	 * The number of items in the &quot;elements&quot; property
+	 * @method length
+	 * @return {Integer}
+	 */
+	this.length = function () {
+		return elements.length;
+	};
+
+	/**
+	 * Gets a copy of element correspoinding to index &#x60;pos&#x60;. If it does not exist, null is returned.
+	 * @method         getElem
+	 * @param          {Number}             pos
+	 * @return         {mixed}
+	 */
+	this.getElem = function(pos){
+		var current = elements[pos];
+		if (current !== undefined){
+			return (typeof current.clone === &#x27;function&#x27;) ?  current.clone() : current;
+		}
+		return null;
+	};
+
+	/**
+	 * Gets the first element. Alias for {{#crossLink &quot;Content/getElem:method&quot;}}getElem(0){{/crossLink}}.
+	 * @method getFirst
+	 * @return {mixed}
+	 */
+	this.getFirst = function(){
+		return this.getElem(0);
+	};
+
+	/**
+	 * Gets the last element. Alias for {{#crossLink &quot;Content/getElem:method&quot;}}getElem(...){{/crossLink}}.
+	 * @method         getLast
+	 * @return         {mixed}
+	 */
+	this.getLast = function(){
+		var len = this.length();
+		return len &gt; 0 ? this.getElem(len - 1) : null;
+	};
+
+	/**
+	 * Inserts element at position pos inside the array of elements. If the lenght of array &quot;elements&quot;
+	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
+	 * position index is outside that range, an error is thrown. If the position index is equal to N
+	 * (that corresponds to appending the element), then Content::appendElem is called.
+	 * @method         insertElemAt
+	 * @param          {Number}             pos
+	 * @param          {mixed}              elem
+	 * @return         {void}
+	 */
+	this.insertElemAt = function(pos, elem){
+		var len = this.length(),
+			isInt = parseInt(pos, 10) === pos;
+		if (!isInt || pos &lt; 0 || pos &gt; len) {
+			throw new Error(&#x27;Wrong index to insert the element at!&#x27;);
+		}
+		if (pos === len){
+			this.appendElem(elem);
+		} else {
+			elements.splice(pos, 0, elem);
+		}
+		return null;
+	};
+
+	/**
+	 * Reset {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} array.
+	 * @method  flush
+	 * @return  {void}
+	 */
+	this.flush = function(){
+		elements = [];
+	};
+
+	/**
+	 * Appends argument to the array of {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}.
+	 * If the argument is a {{#crossLink &quot;Content&quot;}}Content{{/crossLink}} instance, then its
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} are appended one by one to the
+	 * target instance {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} array.
+	 * @method   appendElem
+	 * @param    {mixed}           elem
+	 * @return   {void}
+	 */
+	this.appendElem = function(elem){
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.info(rnd, &#x27;Content: before appending elem &#x27;, elem, &#x27; to &#x27;, this.toHtml());
+		if(elem !== undefined){
+			if (elem instanceof Content){
+				this.absorb(elem);
+			} else {
+				elements.push(elem);
+			}
+		}
+		// console.info(rnd, &#x27;Content: after appending elem &#x27;, this.toHtml());
+		return null;
+	};
+
+	/**
+	 * If the argument is an instance of Content, then its {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 * are copied (if possible) and inserted into target {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 * array.
+	 * @method         absorb
+	 * @param          {Content}            cntn
+	 * @return         {void}
+	 */
+	this.absorb = function(cntn){
+		if (cntn instanceof Content){
+			var cntnElements = cntn.getElements();
+			cntnElements.forEach(function(el){
+				elements.push(el);
+			});
+		}
+	};
+
+	/**
+	 * Drops the element at the given position and returns it. If element at the position does not exist,
+	 * an error is thrown.
+	 * @method dropElemAt
+	 * @param  {Number}      pos
+	 * @return {mixed}
+	 */
+	this.dropElemAt = function(pos){
+		var elem = elements[pos];
+		if (elem !== undefined){
+			elements.splice(pos, 1);
+			return elem;
+		}
+
+	};
+
+
+	/**
+	 * Drops the first element. Alias for {{#crossLink &quot;Content/dropElemAt:method&quot;}}Content/dropElemAt(0){{/crossLink}}.
+	 * @method   dropFirst
+	 * @return   {void}
+	 */
+	this.dropFirst = function(){
+		this.dropElemAt(0);
+	};
+
+	/**
+	 * Drops the last element. If the number of current elements is greater than zero, then it is called
+	 * {{#crossLink &quot;Content/dropElemAt:method&quot;}}Content/dropElemAt(pos){{/crossLink}} with pos being
+	 * the index of the last element.
+	 * @method  dropLast
+	 * @return  {void}
+	 */
+	this.dropLast = function(){
+		var len = this.length();
+		if (len &gt; 0){
+			this.dropElemAt(len-1);
+		}
+	};
+
+	/**
+	 * Transforms the object into html form. Object-type entries of the &quot;elements&quot; property,
+	 * should have &#x60;toHtml()&#x60; method in order the html string to be generated. If it has no
+	 * &#x60;toHtml()&#x60;, then html comment &#x60;&lt;!--- ... --&gt;&#x60; will be generated.
+	 * @method toHtml
+	 * @return {String}
+	 */
+	this.toHtml = function () {
+		var i, elem,  methodExists,
+			output = &#x27;&#x27;,
+			len = this.length();
+		for (i = 0; i &lt; len; i++) {
+			elem = this.getElem(i);
+			switch (typeof elem) {
+			case &#x27;string&#x27;:
+				output += elem;
+				break;
+			case &#x27;number&#x27;:
+				output += elem.toString();
+				break;
+			default:
+				methodExists = (typeof elem.toHtml === &#x27;function&#x27;);
+				output += methodExists ? elem.toHtml() : &#x27;&lt;!-- no html representation --&gt;&#x27;;
+				break;
+			}
+		}
+		return output;
+	};
+	/**
+	 * Text representation of the content. Object-type entries of the &quot;elements&quot; property,
+	 * should have &#x60;toText()&#x60; method in order the html string to be generated. If it has no
+	 * &#x60;toText()&#x60;, then this object will be ignored.
+	 * @method toText
+	 * @return {String}
+	 */
+	this.toText = function(){
+		var i, elem,
+			output = &#x27;&#x27;,
+			len = this.length();
+		for (i = 0; i &lt; len; i++){
+			elem = this.getElem(i);
+			switch (typeof elem) {
+				case &#x27;string&#x27;:
+					output += elem;
+					break;
+				case &#x27;number&#x27;:
+					output += elem.toString();
+					break;
+				default:
+					if (typeof elem.toText === &#x27;function&#x27;){
+						output += elem.toText();
+					}
+					break;
+			}
+		}
+		return output;
+	};
+	/**
+	 * Scans recursively the content of &quot;element&quot; property and returns true, if each item of the content is empty.
+	 * Returns false otherwise.
+	 * What is supposed to be empty:
+	 * &lt;ul&gt;&lt;li&gt;objects having method &#x60;isEmpty()&#x60; and which returns &#x60;true&#x60;&lt;/li&gt;
+	 * &lt;li&gt; &#x27;&#x27; or &#x27;&amp;nbsp;&#x27; &lt;/li&gt;
+	 * &lt;li&gt;objects without any attributes&lt;/li&gt; &lt;ul&gt;
+	 * @todo decide whether consider functions to be empty or not.
+	 * @method  isEmpty
+	 * @return {Boolean}
+	 */
+	this.isEmpty = function(){
+		var output = true,
+			len = this.length(),
+			i, elem, elemType;
+		for (i = 0; i &lt; len; i++){
+			elem = this.getElem(i);
+			// if the element has &quot;isEmpty&quot; method, make use of it
+			if (typeof elem.isEmpty === &#x27;function&#x27;){
+				output = elem.isEmpty();
+				if (!output){
+					return false;
+				}
+			} else {
+				elemType = typeof elem;
+				if (elemType === &#x27;number&#x27;){
+					return false;
+				}
+				if (elemType === &#x27;string&#x27;){
+					return elem === &#x27;&amp;nbsp;&#x27; || elem === &#x27;&#x27;;
+				}
+
+				if (elemType === &#x27;object&#x27;){
+					if(Object.getOwnPropertyNames(elem).length !== 0){
+						return false;
+					}
+				}
+			}
+		}
+		return output;
+	};
+
+	/**
+	 * Apply recursively this function to all items in &#x60;elements&#x60; property. In the case, the last
+	 * item is empty, deletes it.
+	 * @method trim
+	 * @return {void}
+	 * @deprecated
+	 */
+	this.trim = function(){
+		// console.log(&#x27;trim called on &#x27;, this.toHtml() );
+		var len = this.length(),
+			i, elem;
+		// console.log(&#x27;trim target: length = &#x27;, len, &#x27;, content: &#x27;, this.toHtml() );
+		if (len &gt; 0){
+			// call trim() function on all but last element
+			for (i = 0; i &lt; len; i++){
+				// console.log(&#x27;trim: loop#&#x27;, i);
+				elem = this.getElem(i);
+				// console.log(&#x27;elem: &#x27;, elem);
+				if (typeof elem.trim === &#x27;function&#x27;){
+					// console.log(&#x27;trim: elem has trim function&#x27;);
+					elem.trim();
+				}
+				// check whether the last element is empty
+				if (i === len - 1 &amp;&amp; (typeof elem.isEmpty === &#x27;function&#x27;) &amp;&amp; elem.isEmpty()){
+					// console.log(&#x27;trim: dropping last elem&#x27;);
+					// here the deletion occurs
+					this.dropLast();
+					this.trim();
+				}
+			}
+		}
+	};
+
+	/**
+	 * Returns true, if the argument is empty, and false otherwise.
+	 * What is supposed to be empty:
+	 * &lt;ol&gt;
+	 * &lt;li&gt;object that has a method &#x60;isEmpty&#x60; that returns &#x60;true&#x60;&lt;/li&gt;
+	 * &lt;li&gt;object without methods&lt;/li&gt;
+	 * &lt;li&gt;string &#x27;&#x27;&lt;/li&gt;
+	 * &lt;li&gt;array [] &lt;/li&gt;
+	 * &lt;/ol&gt;
+	 * @method         isElemEmpty
+	 * @param          {any}                arg
+	 * @return         {Boolean}
+	 */
+	this.isElemEmpty = function(arg){
+		switch(typeof arg){
+			case &#x27;object&#x27;:
+				if (typeof arg.isEmpty === &#x27;function&#x27;){
+					return arg.isEmpty();
+				}
+				if (Object.getOwnPropertyNames(arg).length === 0){
+					return true;
+				}
+				if (Array.isArray(arg) ){
+					return arg.length === 0;
+				}
+				break;
+			case &#x27;string&#x27;:
+				if (arg === &#x27;&#x27;){
+					return true;
+				}
+				break;
+		}
+		return false;
+	};
+
+	/**
+	 * If the argument is not empty, calls {{#crossLink &quot;Content/appendElem:method&quot;}}Content::appendElem(){{/crossLink}}.
+	 * If the argument is empty, nothing is done. The argument is considered empty, if the method
+	 * {{#crossLink &quot;Content/isElemEmpty:method&quot;}}Content::isElemEmpty(arg){{/crossLink}} returns &#x60;true&#x60;.
+	 * @method         appendElemIfNotEmpty
+	 * @param          {any} 	            obj 		Object to be inserted if not empty
+	 * @return         {void}
+	 */
+	this.appendElemIfNotEmpty = function(obj){
+		if (!this.isElemEmpty(obj)){
+			this.appendElem(obj);
+		}
+	};
+
+	/**
+	 * Loads elements into the {{#crossLink &quot;Content/elements:property&quot;}}element{{/crossLink}} property.
+	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
+	 * defined, then no loading is performed and &#x60;false&#x60; is returned. Otherwise, the method tries to load
+	 * and returns &#x60;true&#x60;.
+	 * @method         load
+	 * @param          {Array}              arr       array of Elements or Text instances
+	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
+	 */
+	this.load = function(arr){
+		if (Array.isArray(arr) &amp;&amp; (window.FACTORY !== undefined) &amp;&amp; FACTORY.factory){
+			var factory = FACTORY.factory,
+			   	items = [];
+			arr.forEach(function(el){
+				var baby = factory.mimic(el);
+				items.push(baby);
+			});
+			this.setElements(items);
+			return true;
+		}
+		console.info(&#x27;Content::load()&#x27;, &#x27;FACTORY is not defined, so I am returning FALSE&#x27;);
+		return false;
+	};
+
+	/**
+	 * Converts each element of this instance into a node and appends it to the argument.
+	 *
+	 * Takes each element of the array {{#crossLink &quot;Content/elements:property&quot;}}Content::elements{{/crossLink}},
+	 * converts it into a node (if the element responds to &#x60;toNode()&#x60; method, the convertion will
+	 * be performed using this method, otherwise a text node will be constructed)
+	 * and then appends this node to the argument which is supposed to be an instance of
+	 * [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in fact, it is enough
+	 * that is has [appendChild()](https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild)
+	 * method).
+	 * @method         stickTo
+	 * @param          {Object}             el      [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @return         {void}
+	 */
+	this.stickTo = function(el){
+		if (typeof el.appendChild === &#x27;function&#x27;){
+			elements.forEach(function(ch){
+				if (typeof ch.toNode === &#x27;function&#x27;){
+					el.appendChild(ch.toNode());
+				} else {
+					el.appendChild(document.createTextNode(ch));
+				}
+			});
+		}
+	};
+
+	/**
+	 * Clones the target. Tries to create a clone of each {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 * item. In case the item is an object with no &quot;clone&quot; method, it is inserted into
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} by reference.
+	 * @method         clone
+	 * @return         {Object}
+	 */
+	this.clone = function(){
+		var clone = new Content();
+		elements.forEach(function(el){
+			var current = (typeof el.clone === &#x27;function&#x27;) ? el.clone() : el;
+			clone.appendElem(current);
+		});
+		return clone;
+	};
+
+	/**
+	 * Appends Style &#x60;stl&#x60; to element at position &#x60;pos&#x60;.
+	 * @method         appendStyleToElemAt
+	 * @param          {Integer}            pos
+	 * @param          {Object}             obj
+	 * @return         {void}
+	 */
+	this.appendStyleToElemAt = function(pos, stl){
+		var item = elements[pos];
+		if (item !== undefined &amp;&amp; typeof item.appendStyle === &#x27;function&#x27;){
+			item.appendStyle(stl);
+		}
+
+	};
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
