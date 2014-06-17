@@ -610,6 +610,36 @@ function Selection(ed) {
     };
 
     /**
+     * Toggles inline style property &#x60;prop&#x60; of node &#x60;n&#x60;. When it turns out that the property should
+     * be set, it is set to value &#x60;val&#x60;.
+     *
+     * @method          _toggleNodeStyle
+     * @private
+     * @param          {DOM.Node}           n          instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+     * @param          {String}             prop       style property name to be toggled
+     * @param          {String}             val        on-value of the the style property
+     * @param          {String|Null}        altVal     off-value of the style property
+     * @return         {void}
+     * @since          0.0.4
+     */
+    var _toggleNodeStyle = function(n, prop, val, altVal){
+        var attrName = &#x27;style&#x27;,
+            stl, stlStr;
+        if (!(typeof n === &#x27;object&#x27; &amp;&amp; n.nodeType)){
+            return;
+        }
+        stl = new Styles(n.getAttribute(attrName));
+        stl.toggleProperty(prop, val, altVal);
+        stlStr = stl.toBareString();
+        if (stlStr){
+            n.setAttribute(attrName, stlStr);
+        } else {
+            n.removeAttribute(attrName);
+        }
+    };
+
+
+    /**
      * Imposes style property &#x60;prop&#x60; to be &#x60;val&#x60; to last descendant of &#x60;node&#x60;. If the last descendant of &#x60;node&#x60;
      * is
      * &lt;ol&gt;&lt;li&gt;
@@ -631,46 +661,45 @@ function Selection(ed) {
     var _propagateStyle = function(n, prop, val){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
-            stl, child, span, parent,
+            child, span, parent,
             attrName = &#x27;style&#x27;;              // Node instance attribute name that is supposed to be updated
-        switch (childNum)
-        {
+        switch (childNum){
              // node has no children
             case 0:
+                if (n.nodeType === Node.ELEMENT_NODE){
+                    _toggleNodeStyle(n, prop, val);
+                    break;
+                }
                 if (n.nodeType === Node.TEXT_NODE){
-                    span = document.createElement(&#x27;span&#x27;);
-                    span.setAttribute(attrName, prop + &quot;: &quot; + val);
-                    span.textContent = n.nodeValue;
+                    span = new Tag();
+                    span.setTag(&#x27;span&#x27;);
+                    span.setStyleProperty(prop, val);
+                    span.setContent(n.nodeValue);
                     parent = n.parentNode;
                     if (parent){
-                        parent.replaceChild(span, n);
-                    } else {
-                        console.log(&quot;parent not found&quot;);
+                        parent.replaceChild(span.toNode(), n);
                     }
-                } else {
-                    stl = new Styles(n.getAttribute(&#x27;style&#x27;));
-                    stl.setProperty(prop, val);
-                    n.setAttribute(attrName, stl.toBareString());
+                    break;
                 }
                 break;
             // node has only one child
             case 1:
                 child = n.firstChild;
                 if (child.nodeType === Node.TEXT_NODE){
-                    stl = new Styles(n.getAttribute(attrName));
-                    stl.setProperty(prop, val);
-                    n.setAttribute(attrName, stl.toBareString());
+                     _toggleNodeStyle(n, prop, val);
                 } else {
                     _propagateStyle(child, prop, val);
                 }
                 break;
             // node has many children
             default:
+                console.log(&quot;children no. : &quot;, childNum, childNodes);
                 childNodes.forEach(function(ch){
                     _propagateStyle(ch, prop, val);
                 });
         }
     };
+
 
     /**
      * Propagate style property named &#x60;prop&#x60; with the value &#x60;val&#x60; to the last descendant of each node in the selection.

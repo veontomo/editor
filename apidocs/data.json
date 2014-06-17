@@ -1138,6 +1138,44 @@
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
             "line": 456,
+            "description": "Toggles inline style property `prop` of node `n`. When it turns out that the property should\nbe set, it is set to value `val`.",
+            "itemtype": "method",
+            "name": "_toggleNodeStyle",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "prop",
+                    "description": "style property name to be toggled",
+                    "type": "String"
+                },
+                {
+                    "name": "val",
+                    "description": "on-value of the the style property",
+                    "type": "String"
+                },
+                {
+                    "name": "altVal",
+                    "description": "off-value of the style property",
+                    "type": "String|Null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.4",
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 486,
             "description": "Imposes style property `prop` to be `val` to last descendant of `node`. If the last descendant of `node`\nis\n<ol><li>\na text element without siblings, then applies requested style property to its parent,\n</li><li>\na text element with siblings, then converts it into a `span` node with required style property,\n</li><li>\na node element, then applies requested style property to it.\n</li></ol>",
             "access": "private",
             "tagname": "",
@@ -1173,7 +1211,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 519,
+            "line": 548,
             "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
             "itemtype": "method",
             "name": "propagateStyle",

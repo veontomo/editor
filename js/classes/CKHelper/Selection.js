@@ -454,6 +454,36 @@ function Selection(ed) {
     };
 
     /**
+     * Toggles inline style property `prop` of node `n`. When it turns out that the property should
+     * be set, it is set to value `val`.
+     *
+     * @method          _toggleNodeStyle
+     * @private
+     * @param          {DOM.Node}           n          instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+     * @param          {String}             prop       style property name to be toggled
+     * @param          {String}             val        on-value of the the style property
+     * @param          {String|Null}        altVal     off-value of the style property
+     * @return         {void}
+     * @since          0.0.4
+     */
+    var _toggleNodeStyle = function(n, prop, val, altVal){
+        var attrName = 'style',
+            stl, stlStr;
+        if (!(typeof n === 'object' && n.nodeType)){
+            return;
+        }
+        stl = new Styles(n.getAttribute(attrName));
+        stl.toggleProperty(prop, val, altVal);
+        stlStr = stl.toBareString();
+        if (stlStr){
+            n.setAttribute(attrName, stlStr);
+        } else {
+            n.removeAttribute(attrName);
+        }
+    };
+
+
+    /**
      * Imposes style property `prop` to be `val` to last descendant of `node`. If the last descendant of `node`
      * is
      * <ol><li>
@@ -475,49 +505,32 @@ function Selection(ed) {
     var _propagateStyle = function(n, prop, val){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
-            stl, child, span, parent, stlStr,
+            child, span, parent,
             attrName = 'style';              // Node instance attribute name that is supposed to be updated
-            console.log("# of children = ", childNum);
-
-        switch (childNum)
-        {
+        switch (childNum){
              // node has no children
             case 0:
+                if (n.nodeType === Node.ELEMENT_NODE){
+                    _toggleNodeStyle(n, prop, val);
+                    break;
+                }
                 if (n.nodeType === Node.TEXT_NODE){
-                    span = document.createElement('span');
-                    span.setAttribute(attrName, prop + ": " + val);
-                    span.textContent = n.nodeValue;
+                    span = new Tag();
+                    span.setTag('span');
+                    span.setStyleProperty(prop, val);
+                    span.setContent(n.nodeValue);
                     parent = n.parentNode;
                     if (parent){
-                        parent.replaceChild(span, n);
-                    } else {
-                        console.log("parent not found");
+                        parent.replaceChild(span.toNode(), n);
                     }
-                } else {
-                    stl = new Styles(n.getAttribute('style'));
-                    stl.toggleProperty(prop, val);
-                    stlStr = stl.toBareString();
-                    if (stlStr){
-                        n.setAttribute(attrName, stlStr);
-                    } else {
-                        n.removeAttribute(attrName);
-                    }
-
+                    break;
                 }
                 break;
             // node has only one child
             case 1:
                 child = n.firstChild;
                 if (child.nodeType === Node.TEXT_NODE){
-                    stl = new Styles(n.getAttribute(attrName));
-                    stl.toggleProperty(prop, val);
-                    stlStr = stl.toBareString();
-                    if (stlStr){
-                        n.setAttribute(attrName, stlStr);
-                    } else {
-                        n.removeAttribute(attrName);
-                    }
-
+                     _toggleNodeStyle(n, prop, val);
                 } else {
                     _propagateStyle(child, prop, val);
                 }
@@ -530,6 +543,7 @@ function Selection(ed) {
                 });
         }
     };
+
 
     /**
      * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
