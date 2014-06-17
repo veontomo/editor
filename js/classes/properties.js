@@ -185,7 +185,7 @@ function Properties(input) {
 	 * Toggle property `propName`:
 	 * <ol><li>
 	 * if Property instance contains property `propName` equal to `val`, then the method imposes
-	 * its value to be `altVal` (if `altVal` is `null`, then the key `propName` gets dropped).
+	 * its value to be `altVal` (if `altVal` is not defined, then the key `propName` gets dropped).
 	 * </li><li>
 	 * if Property instance contains property `propName` equal to `altVal`, then the method imposes
 	 * its value to be `val`.
@@ -198,9 +198,41 @@ function Properties(input) {
 	 *                                                This parameter is optional.
 	 * @return         {void}
 	 */
-	this.toggleProperty = function(propName, val, altVal = null){
+	this.toggleProperty = function(propName, val, altVal){
+		var valToSet;
+		if (altVal !== undefined){
+			valToSet = this.hasSet(propName, [altVal]) ? altVal : val;
+			this.setProperty(propName, valToSet);
+		} else {
+			if (this.hasSet(propName)){
+				this.dropProperty(propName);
+			} else {
+				this.setProperty(propName, val);
+			}
+		}
+	};
 
-	}
+
+	/**
+	 * Returns `true` if the instance has property `key` set and the value of this property is not
+	 * in `ignoreValues` array. Otherwise, `false` is returned.
+	 * @method         hasSet
+	 * @param          {String}             key                 property name which value is to be checked
+	 * @param          {Array}              ignoreValues        Optional. Array of property values that are
+	 *                                                          considered as not set. If it is not an array,
+	 *                                                          then it is ignored.
+	 * @return         {Boolean}
+	 */
+	this.hasSet = function(key, ignoreValues){
+		if (!this.hasProperty(key)){
+			return false;
+		}
+		var propValue = this.getProperty(key);
+		if (ignoreValues === undefined || !Array.isArray(ignoreValues)){
+			return true;
+		}
+		return ignoreValues.indexOf(propValue) === -1;
+	};
 
 	/**
 	 * Splits the argument in key-value pieces as it is performed in

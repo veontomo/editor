@@ -426,9 +426,6 @@ describe('Properties-related functionality', function(){
             props.dropAllProperties();
             expect(props.propNum()).toBe(0);
         });
-
-
-
     });
 
     describe('Properties::clone(): gives the property clone', function(){
@@ -525,6 +522,66 @@ describe('Properties-related functionality', function(){
             expect(clone.getProperty(1)).toBe('first');
             expect(clone.getProperty('second')).toBe(2);
         });
+    });
+
+    describe('Controls whether the property has been set', function(){
+        it('returns false if the key is not present', function(){
+            spyOn(props, 'hasProperty').andCallFake(function(){return false;}); // turns out that no one key is present
+            expect(props.hasSet('a property')).toBe(false);
+        });
+
+        it('returns true if the key is present and optional parameter is not provided', function(){
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;}); // turns out that any key is present
+            expect(props.hasSet('a property')).toBe(true);
+        });
+
+        it('returns true if the key is present and its value is not among values to ignore', function(){
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
+            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            expect(props.hasSet('property', ['none', '0', 'to ignore'])).toBe(true);
+        });
+
+        it('returns false if the key is present and its value is among values to ignore', function(){
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
+            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            expect(props.hasSet('src', ['to ignore', 'src-value'])).toBe(false);
+        });
+
+        it('returns true if the key is present and the second parameter is given as a string', function(){
+            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
+            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            expect(props.hasSet('src', 'to ignore, src-value')).toBe(true);
+        });
+    });
+
+    describe('Toggles the property', function(){
+        it('sets the property if it is not set and the second argument is not given', function(){
+            var propName = 'dumbProp';
+            spyOn(props, 'hasSet').andCallFake(function(){return false;});
+            props.toggleProperty(propName, 'to be set');
+            expect(props.getProperty(propName)).toBe('to be set');
+        });
+        it('sets the property if it is not set and the second argument is provided ', function(){
+            var propName = 'dumbProp';
+            spyOn(props, 'hasSet').andCallFake(function(){return false;});
+            props.toggleProperty(propName, 'to be set', 'not-value');
+            expect(props.getProperty(propName)).toBe('to be set');
+        });
+
+        it('sets the property to be equal to the second argument if the key has been set', function(){
+            var propName = 'dumbProp';
+            spyOn(props, 'hasSet').andCallFake(function(){return true;});
+            props.toggleProperty(propName, 'to be set', 'not-value');
+            expect(props.getProperty(propName)).toBe('not-value');
+        });
+
+        it('drops the property if it is set and the second argument is not given', function(){
+            var propName = 'dumbProp';
+            props.setProperty(propName, 'dumb value');
+            props.toggleProperty(propName, 'to be set');
+            expect(props.hasProperty(propName)).toBe(false);
+        });
+
     });
 
 });
