@@ -182,34 +182,33 @@ function Properties(input) {
 
 
 	/**
-	 * Toggle property `propName`:
+	 * Switches property `propName` between `val` and `altVal` in the following way:
 	 * <ol><li>
-	 * if Property instance contains property `propName` equal to `val`, then the method imposes
+	 * if the instance has property `propName` equal to `val`, then the method imposes
 	 * its value to be `altVal` (if `altVal` is not defined, then the key `propName` gets dropped).
 	 * </li><li>
-	 * if Property instance contains property `propName` equal to `altVal`, then the method imposes
+	 * if the instance contains property `propName` equal to `altVal`, then the method sets
 	 * its value to be `val`.
 	 * </li><li>
-	 * if Property instance does not have property `propName`, then the method imposes it to be `val`.
+	 * if the instance does not have property `propName`, then the method imposes it to be `val`.
 	 * </li></ol>
+	 * @method         toggleProperty
 	 * @param          {String}        propName       property key to toggle (i.e., "width", "position")
-	 * @param          {String}        val            value of the property key (i.e., "25em", "fixed")
-	 * @param          {String}        altVal         value of the property key (i.e. null, "0em").
+	 * @param          {String}        val            value of property key (i.e., "25em", "fixed")
+	 * @param          {String|null}   altVal         alternative value of property key (i.e. null, "0em").
 	 *                                                This parameter is optional.
 	 * @return         {void}
 	 */
 	this.toggleProperty = function(propName, val, altVal){
-		var valToSet;
 		if (altVal !== undefined){
-			valToSet = this.hasSet(propName, [altVal]) ? altVal : val;
-			this.setProperty(propName, valToSet);
-		} else {
-			if (this.hasSet(propName)){
-				this.dropProperty(propName);
-			} else {
-				this.setProperty(propName, val);
-			}
+			this.setProperty(propName,  this.hasSet(propName, [altVal]) ? altVal : val);
+			return;
 		}
+		if (this.hasSet(propName)){
+			this.dropProperty(propName);
+			return;
+		}
+		this.setProperty(propName, val);
 	};
 
 
@@ -218,9 +217,9 @@ function Properties(input) {
 	 * in `ignoreValues` array. Otherwise, `false` is returned.
 	 * @method         hasSet
 	 * @param          {String}             key                 property name which value is to be checked
-	 * @param          {Array}              ignoreValues        Optional. Array of property values that are
-	 *                                                          considered as not set. If it is not an array,
-	 *                                                          then it is ignored.
+	 * @param          {Array|Null}         ignoreValues        Optional. Array of "ignore-values": if key value belongs to
+	 *                                                          this array, then the key is considered as not set.
+	 *                                                          If this parameter is not an array, then it is ignored.
 	 * @return         {Boolean}
 	 */
 	this.hasSet = function(key, ignoreValues){
