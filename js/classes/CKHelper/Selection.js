@@ -475,8 +475,10 @@ function Selection(ed) {
     var _propagateStyle = function(n, prop, val){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
-            stl, child, span, parent,
+            stl, child, span, parent, stlStr,
             attrName = 'style';              // Node instance attribute name that is supposed to be updated
+            console.log("# of children = ", childNum);
+
         switch (childNum)
         {
              // node has no children
@@ -493,8 +495,14 @@ function Selection(ed) {
                     }
                 } else {
                     stl = new Styles(n.getAttribute('style'));
-                    stl.setProperty(prop, val);
-                    n.setAttribute(attrName, stl.toBareString());
+                    stl.toggleProperty(prop, val);
+                    stlStr = stl.toBareString();
+                    if (stlStr){
+                        n.setAttribute(attrName, stlStr);
+                    } else {
+                        n.removeAttribute(attrName);
+                    }
+
                 }
                 break;
             // node has only one child
@@ -502,14 +510,21 @@ function Selection(ed) {
                 child = n.firstChild;
                 if (child.nodeType === Node.TEXT_NODE){
                     stl = new Styles(n.getAttribute(attrName));
-                    stl.setProperty(prop, val);
-                    n.setAttribute(attrName, stl.toBareString());
+                    stl.toggleProperty(prop, val);
+                    stlStr = stl.toBareString();
+                    if (stlStr){
+                        n.setAttribute(attrName, stlStr);
+                    } else {
+                        n.removeAttribute(attrName);
+                    }
+
                 } else {
                     _propagateStyle(child, prop, val);
                 }
                 break;
             // node has many children
             default:
+                console.log("children no. : ", childNum, childNodes);
                 childNodes.forEach(function(ch){
                     _propagateStyle(ch, prop, val);
                 });

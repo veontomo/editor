@@ -13,7 +13,6 @@ CKEDITOR.plugins.add('strike2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('strike2', {
 			exec: function(editor){
-				console.log('inside strike2 plugin');
 				var	selection = new Selection(editor);
 				selection.propagateStyle('text-decoration', 'line-through');
 			}

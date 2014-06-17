@@ -13,7 +13,6 @@ CKEDITOR.plugins.add('bold2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('bold2', {
 			exec: function(editor){
-				console.log('inside bold2 plugin');
 				var	selection = new Selection(editor);
 				selection.propagateStyle('font-weight', 'bold');
 			}
