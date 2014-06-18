@@ -85,8 +85,79 @@ describe('Selection-related functionality', function(){
             editor.insertElement(el3);
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
-
         });
+    });
+
+    describe('Getting common parent', function(){
+        var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
+//                    n00                                m00
+//         ____________|_________                    _____|____
+//         |                     |                   |         |
+//        n10                   n11                 m10       m11
+//   ______|______               |
+//   |     |      |              |
+//  n20   n21    n22            n23
+//      ___|____
+//      |       |
+//     n30     n31
+//
+        beforeEach(function(){
+            n00 = document.createElement('div00');
+            n10 = document.createElement('div10');
+            n11 = document.createElement('div11');
+            n20 = document.createElement('div20');
+            n21 = document.createElement('div21');
+            n22 = document.createElement('div22');
+            n23 = document.createElement('div23');
+            n30 = document.createElement('div30');
+            n31 = document.createElement('div31');
+            m00 = document.createElement('div');
+            m10 = document.createElement('div');
+            m11 = document.createElement('div');
+            n00.appendChild(n10);
+            n00.appendChild(n11);
+            n10.appendChild(n20);
+            n10.appendChild(n21);
+            n10.appendChild(n22);
+            n21.appendChild(n30);
+            n21.appendChild(n31);
+            n11.appendChild(n23);
+            m00.appendChild(m10);
+            m00.appendChild(m11);
+        });
+
+        it('returns the first argument if it contains the second argument', function(){
+            console.log(n00.outerHTML);
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n10, n31)).toBe(n10);
+        });
+
+        it('returns the second argument if it contains the first argument', function(){
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n23, n00)).toBe(n00);
+        });
+
+
+        it('returns null if the nodes have no common parent', function(){
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n23, m10)).toBe(null);
+        });
+
+        it('returns the common parent if the nodes are siblings of each other', function(){
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n21, n22)).toBe(n10);
+        });
+
+        it('returns the common parent if the first argument is located deeper than the second', function(){
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n21, n22)).toBe(n10);
+        });
+
+        it('returns the common parent if the second argument is located deeper than the first', function(){
+            sel = new Selection(editor);
+            expect(sel.commonAncestor(n30, n23)).toBe(n00);
+        });
+
 
 
     });

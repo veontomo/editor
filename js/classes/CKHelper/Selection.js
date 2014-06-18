@@ -505,8 +505,7 @@ function Selection(ed) {
     var _propagateStyle = function(n, prop, val){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
-            child, span, parent,
-            attrName = 'style';              // Node instance attribute name that is supposed to be updated
+            child, span, parent, counter;
         switch (childNum){
              // node has no children
             case 0:
@@ -538,9 +537,12 @@ function Selection(ed) {
             // node has many children
             default:
                 console.log("children no. : ", childNum, childNodes);
-                childNodes.forEach(function(ch){
-                    _propagateStyle(ch, prop, val);
-                });
+                for (counter = 0; counter < childNum; counter++){
+                    _propagateStyle(childNodes[counter], prop, val);
+                }
+                // childNodes.forEach(function(ch){
+                //     _propagateStyle(ch, prop, val);
+                // });
         }
     };
 
@@ -555,16 +557,98 @@ function Selection(ed) {
      * @return         void
      */
     this.propagateStyle = function(prop, val){
-        console.log(prop, val);
-        console.log(this.nodes);
+        console.log("text content of selection at start: " + this.toText('|', ' ***'));
         this.nodes.forEach(function(line){
             if (line){
                 line.forEach(function(node){
                     _propagateStyle(node.$, prop, val);
                 });
+            this.normalizeParentOf(line);
             }
         });
+        console.log("text content of selection at the end: " + this.toText('|', ' ***'));
 
     };
+
+    /**
+     * Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.
+     * @method         _commonAncestor
+     * @private
+     * @param          {DOM.Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {DOM.Node|Null}
+     * @since          0.0.4
+     */
+    var _commonAncestor = function(n1, n2){
+        console.log(n1, n2);
+        if (n1 === undefined || n2 === undefined){
+            console.log('return undefined');
+            return;
+        }
+        if (n1.contains(n2)){
+            console.log('return first argument', n1);
+            return n1;
+        }
+        if (n2.contains(n1)){
+            console.log('return second argument', n2);
+            return n2;
+        }
+        var parent = n1.parentNode;
+        while (parent && !(parent.contains(n2))){
+            console.log('inside while loop: ', parent);
+            parent = parent.parentNode;
+        }
+        console.log('return parent', parent);
+        return parent;
+    };
+
+    /**
+     * Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.
+     * @method         commonAncestor
+     * @param          {DOM.Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {DOM.Node|Null}
+     */
+    this.commonAncestor = function(n1, n2){
+        return _commonAncestor(n1, n2);
+    };
+
+    /**
+     * Returns commons ancestor of all array elements. If an element is not a
+     * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
+     * @return {DOM.Node|Null}   common ancestor of the arguments
+     */
+    this.commonAncestorSoft = function(elems){
+        if (!Array.isArray(elems)){
+            return null;
+        }
+        var arg = elems.filter(function(el){
+            return el && el.nodeType !== undefined;
+        });
+        if (arg.length === 0){
+            return null;
+        }
+        var el = arg.shift(),
+            elTmp;
+        while (arg.length > 0){
+            elTmp = arg.shift();
+            el = _commonAncestor(el, elTmp);
+        }
+        return el;
+    };
+
+    /**
+     * Normalize parent of elements of the array.
+     * @param  {Array}     elems
+     * @return {void}
+     */
+    this.normalizeParentOf = function(elems){
+        var el = this.commonAncestorSoft(elems);
+        if (el){
+            el.normalize();
+        }
+    }
+
+
 
 }

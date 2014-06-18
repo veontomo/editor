@@ -1,7 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<?php
+		$developMode = (strpos(__FILE__, "projects") == true);
+		$title = 'Creatore di newsletter' ;
+		if ($developMode){
+			$title = 'develop mode ' . $title;
+		}
+		echo '<style>#marker{
+			position: relative;
+			top: 3em;
+			left: -2em;
+			width: 10em;
+			color: red;
+			font-size: 1.3em;
+			padding-left: 2em;
+			-webkit-transform: rotate(-45deg);
+			-webkit-transform-origin: 0% 0%;
+			-o-transform: rotate(-45deg);
+			-o-transform-origin:0% 0%;
+			transform: rotate(-45deg);
+			transform-origin: 0% 0%;
+			color: #D22415;
+			background-color: #3D7899}</style>';
+
+	?>
+
+ 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -47,7 +72,7 @@
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	<title>Creatore di newsletter</title>
+	<title><?= $title ?></title>
 <?php
 require 'php/fileContent.php';
 if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']) && ($_FILES['fileInput']['error'] === 0)){
@@ -57,7 +82,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 </head>
 <body>
     <div class="panel">
-      <a href="apidocs/"><img src="images/yui-logo.png" width="100px"/>API</a>
+    	<?php
+    		if ($developMode){
+    			echo '<div id="marker">Test Mode</div>';
+    		}
+    	?>
+
+	    <a href="apidocs/"><img src="images/yui-logo.png" width="100px"/>API</a>
     </div>
     <div class="panel">
       <a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
@@ -75,9 +106,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<h1 class="text-shadow">Thank you for downloading Eclipse</h1>
-
-			<p class="download-link-msg">If the download doesn&#39;t start in a few seconds, please <a href="http://www.rcp-vision.com/eclipse/eclipseMirror/technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-win32-x86_64.zip">click here</a> to start the download.</p>
+			<p>
+				If the download doesn&#39;t start in a few seconds, please
+				<a href="http://www.com">
+					click here
+				</a>
+				to start the download.
+			</p>
 		</textarea>
 	</div>
 </body>
