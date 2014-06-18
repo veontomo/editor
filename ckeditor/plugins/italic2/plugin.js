@@ -15,7 +15,7 @@ CKEDITOR.plugins.add('italic2', {
 			exec: function(editor){
 				console.log('inside bold2 plugin');
 				var	selection = new Selection(editor);
-				selection.propagateStyle('font-style', 'italic');
+				selection.propagateStyle('font-style', 'italic', 'normal');
 			}
 		});
 

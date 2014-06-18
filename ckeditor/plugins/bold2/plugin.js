@@ -14,7 +14,7 @@ CKEDITOR.plugins.add('bold2', {
 		editor.addCommand('bold2', {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				selection.propagateStyle('font-weight', 'bold');
+				selection.propagateStyle('font-weight', 'bold', 'normal');
 			}
 		});
 

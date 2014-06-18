@@ -502,7 +502,7 @@ function Selection(ed) {
      * @since          0.0.4
      * @todo           Try to make this method shorter
      */
-    var _propagateStyle = function(n, prop, val){
+    var _propagateStyle = function(n, prop, val, altVal){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
             child, span, parent, counter;
@@ -510,7 +510,7 @@ function Selection(ed) {
              // node has no children
             case 0:
                 if (n.nodeType === Node.ELEMENT_NODE){
-                    _toggleNodeStyle(n, prop, val);
+                    _toggleNodeStyle(n, prop, val, altVal);
                     break;
                 }
                 if (n.nodeType === Node.TEXT_NODE){
@@ -529,20 +529,17 @@ function Selection(ed) {
             case 1:
                 child = n.firstChild;
                 if (child.nodeType === Node.TEXT_NODE){
-                     _toggleNodeStyle(n, prop, val);
+                     _toggleNodeStyle(n, prop, val, altVal);
                 } else {
-                    _propagateStyle(child, prop, val);
+                    _propagateStyle(child, prop, val, altVal);
                 }
                 break;
             // node has many children
             default:
                 console.log("children no. : ", childNum, childNodes);
                 for (counter = 0; counter < childNum; counter++){
-                    _propagateStyle(childNodes[counter], prop, val);
+                    _propagateStyle(childNodes[counter], prop, val, altVal);
                 }
-                // childNodes.forEach(function(ch){
-                //     _propagateStyle(ch, prop, val);
-                // });
         }
     };
 
@@ -552,18 +549,20 @@ function Selection(ed) {
      * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
      * @method         propagateStyle
      * @param          String               prop        name of the property to be imposed
-     * @param          String               val         property value
+     * @param          String               val         on-value of the above property
+     * @param          String               altVal      off-value of the property
      * @since          0.0.4
      * @return         void
      */
-    this.propagateStyle = function(prop, val){
+    this.propagateStyle = function(prop, val, altVal){
         console.log("text content of selection at start: " + this.toText('|', ' ***'));
+        var that = this;
         this.nodes.forEach(function(line){
             if (line){
                 line.forEach(function(node){
-                    _propagateStyle(node.$, prop, val);
+                    _propagateStyle(node.$, prop, val, altVal);
                 });
-            this.normalizeParentOf(line);
+            that.normalizeParentOf(line);
             }
         });
         console.log("text content of selection at the end: " + this.toText('|', ' ***'));
