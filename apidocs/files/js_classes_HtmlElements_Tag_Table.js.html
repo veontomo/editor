@@ -317,6 +317,46 @@ function Table() {
 		}
 	};
 
+	/**
+	 * Returns copy of {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 * of {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. Overrides parent
+	 * method {{#crossLink &quot;Tag/getElements:method&quot;}}getElements{{/crossLink}} because
+	 * table might contain &#x60;tbody&#x60; inside (especially, those constructed from DOM.Node).
+	 * @method         getElements
+	 * @return         {Array}
+	 */
+	this.getElements = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			if (cntn.length() === 1 &amp;&amp; cntn.getFirst().getTag() === &#x27;tbody&#x27;){
+				return cntn.getFirst().getElements();
+			}
+			return cntn.getElements();
+		}
+
+	};
+
+	/**
+	 * Gets the element stored in {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. Delegates its
+	 * functionality to class {{#crossLink &quot;Content&quot;}}Content{{/crossLink}}. Overrides parent
+	 * method {{#crossLink &quot;Tag/getElem:method&quot;}}getElem{{/crossLink}} because
+	 * table might contain &#x60;tbody&#x60; inside (especially, those constructed from DOM.Node).
+	 * @method getElem
+	 * @param  {Number}    pos
+	 * @return {any}
+	 * @since  0.0.1
+	 */
+	this.getElem = function(pos){
+		var cntn = this.getContent();
+		if (cntn){
+			if (cntn.length() === 1 &amp;&amp; cntn.getFirst().getTag() === &#x27;tbody&#x27;){
+				return cntn.getFirst().getContent().getElem(pos);
+			}
+			return this.getContent().getElem(pos);
+		}
+
+	};
+
 
 	/**
 	 * {{#crossLink &quot;Table/phantomCellStyles:property&quot;}}phantomCellStyles{{/crossLink}} getter.
@@ -523,11 +563,24 @@ function Table() {
 
 
 	/**
-	 * The number of the rows in the table. Alias of length() of the parent class.
+	 * The number of the rows in the table. It applies parent method
+	 * {{#crossLink &quot;Tag/length:method&quot;}}length{{/crossLink}} on:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * &quot;tbody&quot; content, if the instance contains &quot;tbody&quot;.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * on &quot;this&quot;, if the instance does not contain &quot;tbody&quot;.
+	 * &lt;/li&gt;&lt;/ol&gt;
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
+		var cntn = this.getContent();
+		if (cntn &amp;&amp; cntn.length() === 1){
+			var tbody = cntn.getFirst();
+			if (tbody.getTag() === &#x27;tbody&#x27;){
+				return tbody.length();
+			}
+		}
 		return this.length();
 	};
 
@@ -810,7 +863,9 @@ function Table() {
 		}
 		return this.getElements().every(function(row){
 			console.log(&#x27;row? &#x27;, row.toHtml());
-			return row.onlyTableInside();
+			var res = row.onlyTableInside();
+			console.log(res ? &#x27;returning true&#x27; : &#x27;returning false&#x27;);
+			return res;
 		});
 	};
 

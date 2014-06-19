@@ -1204,11 +1204,9 @@
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
             "line": 513,
-            "description": "Returns proxy node of `n`.\n\nDefinition of **proxy** node of a node A:\n<ol><li>\nif A is a text element without siblings, then proxy of A is its parent node,\n</li><li>\nif A is a text element with siblings or is a node element, then proxy of A is A itself,\n</li></ol>",
+            "description": "Returns **proxy** node of `n`:\n<ol><li>\nif `n` is a text element without siblings, then proxy of `n` is its parent node,\n</li><li>\nif `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.\n</li></ol>",
             "itemtype": "method",
             "name": "_proxy",
-            "access": "private",
-            "tagname": "",
             "params": [
                 {
                     "name": "n",
@@ -1218,14 +1216,32 @@
             ],
             "return": {
                 "description": "",
-                "type": "DOM.Node"
+                "type": "DOM.Node|Null"
             },
             "class": "Selection",
             "module": "CKHelper"
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 532,
+            "line": 534,
+            "description": "Gets value of style property `key` of nearest ascendant up to `limitNode`\nthat has that property set.\nIf the property is not found, null is returned.",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "name of property to find among inline style of ascendants",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String|Number|Null"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 547,
             "description": "Modifies inline style properties of a {{#crossLink \"Selection/_proxy:method\"}}proxy{{/crossLink}}\nnode of deepest children of node `n` in the following way:\n<ol><li>\nif style property `prop` of the deepest child is equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `altVal`.\n</li><li>\nif style property `prop` of the deepest child is not equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `val`.\n</li></ol>",
             "access": "private",
             "tagname": "",
@@ -1261,7 +1277,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 594,
+            "line": 609,
             "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
             "itemtype": "method",
             "name": "switchDeepestChildStyle",
@@ -1288,7 +1304,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 620,
+            "line": 635,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "_commonAncestor",
@@ -1316,7 +1332,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 652,
+            "line": 667,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -1341,7 +1357,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 663,
+            "line": 678,
             "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -1354,7 +1370,7 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 688,
+            "line": 703,
             "description": "Normalize parent of elements of the array.",
             "params": [
                 {
@@ -2366,7 +2382,41 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 165,
+            "line": 164,
+            "description": "Returns copy of {{#crossLink \"Content/elements:property\"}}elements{{/crossLink}}\nof {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. Overrides parent\nmethod {{#crossLink \"Tag/getElements:method\"}}getElements{{/crossLink}} because\ntable might contain `tbody` inside (especially, those constructed from DOM.Node).",
+            "itemtype": "method",
+            "name": "getElements",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
+            "line": 183,
+            "description": "Gets the element stored in {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. Delegates its\nfunctionality to class {{#crossLink \"Content\"}}Content{{/crossLink}}. Overrides parent\nmethod {{#crossLink \"Tag/getElem:method\"}}getElem{{/crossLink}} because\ntable might contain `tbody` inside (especially, those constructed from DOM.Node).",
+            "itemtype": "method",
+            "name": "getElem",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "since": "0.0.1",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
+            "line": 205,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomCellStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomCellStyles",
@@ -2379,7 +2429,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 177,
+            "line": 217,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomCellStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomCellStyles",
@@ -2399,7 +2449,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 195,
+            "line": 235,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomRowStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomRowStyles",
@@ -2412,7 +2462,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 206,
+            "line": 246,
             "description": "{{#crossLink \"Table/phantomRowStyles:property\"}}setPhantomRowStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomRowStyles",
@@ -2432,7 +2482,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 224,
+            "line": 264,
             "description": "{{#crossLink \"Table/phantomTableStyles:property\"}}phantomTableStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomTableStyles",
@@ -2445,7 +2495,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 235,
+            "line": 275,
             "description": "{{#crossLink \"Table/phantomTableStyles:property\"}}phantomTableStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomTableStyles",
@@ -2465,7 +2515,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 253,
+            "line": 293,
             "description": "{{#crossLink \"FramedTable/phantomCellAttributes:property\"}}phantomCellAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomCellAttributes",
@@ -2478,7 +2528,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 265,
+            "line": 305,
             "description": "{{#crossLink \"FramedTable/phantomCellAttributes:property\"}}phantomCellAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomCellAttributes",
@@ -2498,7 +2548,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 282,
+            "line": 322,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomRowAttributes",
@@ -2511,7 +2561,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 294,
+            "line": 334,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomRowAttributes",
@@ -2531,7 +2581,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 311,
+            "line": 351,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomTableAttributes",
@@ -2544,7 +2594,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 323,
+            "line": 363,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomTableAttributes",
@@ -2564,7 +2614,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 340,
+            "line": 380,
             "description": "Returns {{#crossLink \"Tag/openingTag:method\"}}opening{{/crossLink}} or\n{{#crossLink \"Tag/closingTag:method\"}}closing{{/crossLink}} tag for one of the\nphantom elements: {{#crossLink \"Table/phantomCell:property\"}}cell{{/crossLink}},\n{{#crossLink \"Table/phantomRow:property\"}}row{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}table{{/crossLink}}.",
             "itemtype": "method",
             "name": "getPhantomTag",
@@ -2589,8 +2639,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 369,
-            "description": "The number of the rows in the table. Alias of length() of the parent class.",
+            "line": 409,
+            "description": "The number of the rows in the table. It applies parent method\n{{#crossLink \"Tag/length:method\"}}length{{/crossLink}} on:\n<ol><li>\n\"tbody\" content, if the instance contains \"tbody\".\n</li><li>\non \"this\", if the instance does not contain \"tbody\".\n</li></ol>",
             "itemtype": "method",
             "name": "rowNum",
             "return": {
@@ -2602,7 +2652,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 378,
+            "line": 431,
             "description": "Appends a row to the content property. If the argument is not a Row instance, an error is thrown.",
             "itemtype": "method",
             "name": "appendRow",
@@ -2622,7 +2672,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 391,
+            "line": 444,
             "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
             "itemtype": "method",
             "name": "getMatrix",
@@ -2635,7 +2685,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 407,
+            "line": 460,
             "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise null is returned.",
             "itemtype": "method",
             "name": "getProfile",
@@ -2648,7 +2698,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 419,
+            "line": 472,
             "description": "Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.\nIf the array length is different from the number of columns, an error is thrown. Otherwise, it is called\nmethod of Row::setCellWidths on each table row.",
             "itemtype": "method",
             "name": "setProfile",
@@ -2668,7 +2718,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 444,
+            "line": 497,
             "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
             "itemtype": "method",
             "name": "insertColAt",
@@ -2693,7 +2743,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 476,
+            "line": 529,
             "description": "insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "insertColumnAt",
@@ -2720,7 +2770,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 489,
+            "line": 542,
             "description": "Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`",
             "itemtype": "method",
             "name": "knockOutCol",
@@ -2740,7 +2790,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 503,
+            "line": 556,
             "description": "dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "dropColumn",
@@ -2767,7 +2817,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 517,
+            "line": 570,
             "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
@@ -2787,7 +2837,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 531,
+            "line": 584,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
@@ -2800,7 +2850,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 559,
+            "line": 612,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "isSameWidth",
@@ -2813,7 +2863,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 596,
+            "line": 649,
             "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
             "itemtype": "method",
             "name": "setBorder",
@@ -2834,7 +2884,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 621,
+            "line": 674,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -2847,7 +2897,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 642,
+            "line": 695,
             "description": "Returns true if the table is fragmented, and false otherwise. It takes table rows and call method\n`Row::onlyTableInside()` on each of them until first \"false\" is encountered.\n<br />A table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
             "name": "isFragmented",
@@ -2860,7 +2910,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 661,
+            "line": 716,
             "description": "Returns `true` if at least one of the following variables  {{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}},\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}} is set. `False` otherwise.",
             "itemtype": "method",
             "name": "isFramed",
@@ -2873,7 +2923,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 672,
+            "line": 727,
             "description": "Unsets phantom properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "unsetPhantom",
@@ -2886,7 +2936,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 683,
+            "line": 738,
             "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -2911,7 +2961,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 705,
+            "line": 760,
             "description": "Generates html code corresponding to this instance. Eventually, wraps each element of\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} with strings corresponding to phantom\nelements. Generation of html string of each {{#crossLink \"Tag/content:property\"}}content element{{/crossLink}}\nis delegated to its `toHtml` method (if the elements has `toHtml` method, this element gets ignored).",
             "itemtype": "method",
             "name": "toHtml",
@@ -2924,7 +2974,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 733,
+            "line": 788,
             "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getPhantomRowProp",
@@ -2944,7 +2994,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 777,
+            "line": 832,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomCellProp",
@@ -2964,7 +3014,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 805,
+            "line": 860,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomTableProp",
@@ -2984,7 +3034,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 834,
+            "line": 889,
             "description": "If the table is fragmented, then sets up the phantom properties and rearrange content property.\nIf not, the table remains as it is.",
             "itemtype": "method",
             "name": "desintangle",
@@ -6418,8 +6468,12 @@
     ],
     "warnings": [
         {
+            "message": "Missing item type\nGets value of style property `key` of nearest ascendant up to `limitNode`\nthat has that property set.\nIf the property is not found, null is returned.",
+            "line": " js\\classes\\CKHelper\\Selection.js:534"
+        },
+        {
             "message": "Missing item type\nNormalize parent of elements of the array.",
-            "line": " js\\classes\\CKHelper\\Selection.js:688"
+            "line": " js\\classes\\CKHelper\\Selection.js:703"
         }
     ]
 }
