@@ -511,20 +511,45 @@ function Selection(ed) {
 
 
     /**
-     * Imposes style property `prop` to be `val` to last descendant of `node`. If the last descendant of `node`
-     * is
+     * Returns **proxy** node of `n`:
      * <ol><li>
-     * a text element without siblings, then applies requested style property to its parent,
+     * if `n` is a text element without siblings, then proxy of `n` is its parent node,
      * </li><li>
-     * a text element with siblings, then converts it into a `span` node with required style property,
+     * if `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.
+     * </li></ol>
+     * @method         _proxy
+     * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {DOM.Node}
+     */
+    this.proxy = function(n){
+        if (n === undefined || n.nodeType === undefined){
+            throw new Error('Argument must be a DOM.Node instance!');
+        }
+        console.log("node type: ", n.nodeType, Node.ELEMENT_NODE);
+        if (n.nodeType === Node.ELEMENT_NODE){
+            console.log("returning node itself");
+            return n;
+        }
+        console.log(n.nextSibling || n.previousSibling);
+        return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
+    }
+
+
+    /**
+     * Modifies inline style properties of a {{#crossLink "Selection/_proxy:method"}}proxy{{/crossLink}}
+     * node of deepest children of node `n` in the following way:
+     * <ol><li>
+     * if style property `prop` of the deepest child is equal to `val`, then inline
+     * style property of its "proxy" node is set to be `altVal`.
      * </li><li>
-     * a node element, then applies requested style property to it.
+     * if style property `prop` of the deepest child is not equal to `val`, then inline
+     * style property of its "proxy" node is set to be `val`.
      * </li></ol>
      * @private
      * @method         _deferToggleStyle
      * @param          {Node}               n                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-     * @param          {String}             prop                name of style property (i.e., "width" or "text-decoration")
-     * @param          {String}             val                 value of style property (i.e., "10px" or "underline")
+     * @param          {String}             prop               name of style property (i.e., "width" or "text-decoration")
+     * @param          {String}             val                value of style property (i.e., "10px" or "underline")
      * @return         {void}
      * @since          0.0.4
      * @todo           Try to make this method shorter

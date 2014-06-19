@@ -157,11 +157,70 @@ describe('Selection-related functionality', function(){
             sel = new Selection(editor);
             expect(sel.commonAncestor(n30, n23)).toBe(n00);
         });
-
-
-
     });
 
+    describe('Finds proxy node', function(){
+        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
+//                    e00
+//         ____________|_________
+//         |                     |
+//        e10                   e11
+//   ______|______ ________      |
+//   |     |      |    |   |     |
+//  t20   e21    t22  e23 t24   t25
+//      ___|____
+//      |       |
+//     e30     t31
+
+        beforeEach(function(){
+            e00 = document.createElement('div00');
+            e10 = document.createElement('div10');
+            e11 = document.createElement('div11');
+            t20 = document.createTextNode('text node 2.0');
+            e21 = document.createElement('div21');
+            t22 = document.createTextNode('text node 2.2');
+            e23 = document.createElement('div21');
+            t24 = document.createTextNode('text node 2.4');
+            t25 = document.createTextNode('text node 2.5');
+            e30 = document.createElement('div30');
+            t31 = document.createTextNode('text node 3.1');
+            e00.appendChild(e10);
+            e00.appendChild(e11);
+            e10.appendChild(t20);
+            e10.appendChild(e21);
+            e10.appendChild(t22);
+            e10.appendChild(e23);
+            e10.appendChild(t24);
+            e21.appendChild(e30);
+            e21.appendChild(t31);
+            e11.appendChild(t25);
+        });
+
+        it('gets proxy of an element node', function(){
+            sel = new Selection(editor);
+            expect(sel.proxy(e21)).toBe(e21);
+        });
+
+        it('gets proxy of a text node without siblings', function(){
+            sel = new Selection(editor);
+            expect(sel.proxy(t25)).toBe(e11);
+        });
+
+        it('gets proxy of a middle (among its siblings) text node', function(){
+            sel = new Selection(editor);
+            expect(sel.proxy(t22)).toBe(t22);
+        });
+
+        it('gets proxy of the first (among its siblings) text node', function(){
+            sel = new Selection(editor);
+            expect(sel.proxy(t20)).toBe(t20);
+        });
+        it('gets proxy of the last (among its siblings) text node', function(){
+            sel = new Selection(editor);
+            expect(sel.proxy(t24)).toBe(t24);
+        });
+
+    });
 });
 
 

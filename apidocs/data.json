@@ -1138,6 +1138,34 @@
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
             "line": 456,
+            "description": "Returns value of style property `prop` of node `n`. It looks up the chain of parents until finds\nfirst occurence of key `prop`. If the key is not present in any of ancestors, nothing is returned.",
+            "itemtype": "method",
+            "name": "_lookUpInParents",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "prop",
+                    "description": "name of the property to look for",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String|void"
+            },
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.4",
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 482,
             "description": "Toggles inline style property `prop` of node `n`. When it turns out that the property should\nbe set, it is set to value `val`.",
             "itemtype": "method",
             "name": "_toggleNodeStyle",
@@ -1175,15 +1203,37 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 486,
-            "description": "Imposes style property `prop` to be `val` to last descendant of `node`. If the last descendant of `node`\nis\n<ol><li>\na text element without siblings, then applies requested style property to its parent,\n</li><li>\na text element with siblings, then converts it into a `span` node with required style property,\n</li><li>\na node element, then applies requested style property to it.\n</li></ol>",
+            "line": 513,
+            "description": "Returns proxy node of `n`.\n\nDefinition of **proxy** node of a node A:\n<ol><li>\nif A is a text element without siblings, then proxy of A is its parent node,\n</li><li>\nif A is a text element with siblings or is a node element, then proxy of A is A itself,\n</li></ol>",
+            "itemtype": "method",
+            "name": "_proxy",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 532,
+            "description": "Modifies inline style properties of a {{#crossLink \"Selection/_proxy:method\"}}proxy{{/crossLink}}\nnode of deepest children of node `n` in the following way:\n<ol><li>\nif style property `prop` of the deepest child is equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `altVal`.\n</li><li>\nif style property `prop` of the deepest child is not equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `val`.\n</li></ol>",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_propagateStyle",
+            "name": "_deferToggleStyle",
             "params": [
                 {
-                    "name": "node",
+                    "name": "n",
                     "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
                     "type": "Node"
                 },
@@ -1211,10 +1261,10 @@
         },
         {
             "file": "js\\classes\\CKHelper\\Selection.js",
-            "line": 548,
+            "line": 594,
             "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
             "itemtype": "method",
-            "name": "propagateStyle",
+            "name": "switchDeepestChildStyle",
             "params": [
                 {
                     "name": "String",
@@ -1222,12 +1272,100 @@
                 },
                 {
                     "name": "String",
-                    "description": "val         property value"
+                    "description": "val         on-value of the above property"
+                },
+                {
+                    "name": "String",
+                    "description": "altVal      off-value of the property"
                 }
             ],
             "since": "0.0.4",
             "return": {
                 "description": "void"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 620,
+            "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
+            "itemtype": "method",
+            "name": "_commonAncestor",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "n1",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "n2",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node|Null"
+            },
+            "since": "0.0.4",
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 652,
+            "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
+            "itemtype": "method",
+            "name": "commonAncestor",
+            "params": [
+                {
+                    "name": "n1",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "n2",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node|Null"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 663,
+            "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
+            "itemtype": "method",
+            "name": "commonAncestor",
+            "return": {
+                "description": "common ancestor of the arguments",
+                "type": "DOM.Node|Null"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 688,
+            "description": "Normalize parent of elements of the array.",
+            "params": [
+                {
+                    "name": "elems",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
             },
             "class": "Selection",
             "module": "CKHelper"
@@ -6278,5 +6416,10 @@
             "module": "Properties"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type\nNormalize parent of elements of the array.",
+            "line": " js\\classes\\CKHelper\\Selection.js:688"
+        }
+    ]
 }

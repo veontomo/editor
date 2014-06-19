@@ -206,7 +206,28 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method__propagateStyle">_propagateStyle</a>
+                                <a href="#method__commonAncestor">_commonAncestor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__deferToggleStyle">_deferToggleStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__lookUpInParents">_lookUpInParents</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__proxy">_proxy</a>
 
                                 
                                 
@@ -221,6 +242,20 @@
                         
                             <li class="index-item method">
                                 <a href="#method_absorbLink">absorbLink</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_commonAncestor">commonAncestor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_commonAncestor">commonAncestor</a>
 
                                 
                                 
@@ -275,13 +310,6 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_propagateStyle">propagateStyle</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method private">
                                 <a href="#method_selectedNodes">selectedNodes</a>
 
@@ -305,6 +333,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_startsInsideLink">startsInsideLink</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_switchDeepestChildStyle">switchDeepestChildStyle</a>
 
                                 
                                 
@@ -369,8 +404,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__propagateStyle" class="method item private">
-    <h3 class="name"><code>_propagateStyle</code></h3>
+                    <div id="method__commonAncestor" class="method item private">
+    <h3 class="name"><code>_commonAncestor</code></h3>
 
     
         <div class="args">
@@ -378,7 +413,138 @@
             
                 <li class="arg">
                     
-                        <code>node</code>
+                        <code>n1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>n2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node | Null</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l620"><code>js\classes\CKHelper\Selection.js:620</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.4</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Gives common ancestor of nodes n1 and n2. If it does not exist, <code>null</code> is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">n1</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">n2</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__deferToggleStyle" class="method item private">
+    <h3 class="name"><code>_deferToggleStyle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>n</code>
                     
                 </li>
             
@@ -429,7 +595,7 @@
             
         
         
-        <a href="../files/js_classes_CKHelper_Selection.js.html#l486"><code>js\classes\CKHelper\Selection.js:486</code></a>
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l532"><code>js\classes\CKHelper\Selection.js:532</code></a>
         
         </p>
 
@@ -442,14 +608,14 @@
     </div>
 
     <div class="description">
-        <p>Imposes style property <code>prop</code> to be <code>val</code> to last descendant of <code>node</code>. If the last descendant of <code>node</code>
-is</p>
+        <p>Modifies inline style properties of a <a href="../classes/Selection.html#method__proxy" class="crosslink">proxy</a>
+node of deepest children of node <code>n</code> in the following way:</p>
 <ol><li>
-a text element without siblings, then applies requested style property to its parent,
+if style property <code>prop</code> of the deepest child is equal to <code>val</code>, then inline
+style property of its "proxy" node is set to be <code>altVal</code>.
 </li><li>
-a text element with siblings, then converts it into a <code>span</code> node with required style property,
-</li><li>
-a node element, then applies requested style property to it.
+if style property <code>prop</code> of the deepest child is not equal to <code>val</code>, then inline
+style property of its "proxy" node is set to be <code>val</code>.
 </li></ol>
     </div>
 
@@ -461,7 +627,7 @@ a node element, then applies requested style property to it.
             
                 <li class="param">
                     
-                        <code class="param-name">node</code>
+                        <code class="param-name">n</code>
                         <span class="type">Node</span>
                     
 
@@ -519,6 +685,250 @@ a node element, then applies requested style property to it.
                 
                     
                         <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__lookUpInParents" class="method item private">
+    <h3 class="name"><code>_lookUpInParents</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>n</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String | Void</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l456"><code>js\classes\CKHelper\Selection.js:456</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.4</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns value of style property <code>prop</code> of node <code>n</code>. It looks up the chain of parents until finds
+first occurence of key <code>prop</code>. If the key is not present in any of ancestors, nothing is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">n</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>name of the property to look for</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String | Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__proxy" class="method item private">
+    <h3 class="name"><code>_proxy</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>n</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l513"><code>js\classes\CKHelper\Selection.js:513</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns proxy node of <code>n</code>.</p>
+<p>Definition of <strong>proxy</strong> node of a node A:</p>
+<ol><li>
+if A is a text element without siblings, then proxy of A is its parent node,
+</li><li>
+if A is a text element with siblings or is a node element, then proxy of A is A itself,
+</li></ol>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">n</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node</span>:
                     
                 
             </div>
@@ -595,7 +1005,7 @@ a node element, then applies requested style property to it.
             
         
         
-        <a href="../files/js_classes_CKHelper_Selection.js.html#l456"><code>js\classes\CKHelper\Selection.js:456</code></a>
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l482"><code>js\classes\CKHelper\Selection.js:482</code></a>
         
         </p>
 
@@ -770,6 +1180,207 @@ without duplicates.</p>
                 
                     
                         <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_commonAncestor" class="method item">
+    <h3 class="name"><code>commonAncestor</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l663"><code>js\classes\CKHelper\Selection.js:663</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns common ancestor of all array elements. If an element is not a
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance, it is ignored.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node | Null</span>:
+                    
+                    <p>common ancestor of the arguments</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_commonAncestor" class="method item">
+    <h3 class="name"><code>commonAncestor</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>n1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>n2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l652"><code>js\classes\CKHelper\Selection.js:652</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gives common ancestor of nodes n1 and n2. If it does not exist, <code>null</code> is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">n1</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">n2</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node | Null</span>:
                     
                 
             </div>
@@ -1332,136 +1943,6 @@ if it is either empty array <code>[]</code> or an array containing empty array: 
 </div>
 
                 
-                    <div id="method_propagateStyle" class="method item">
-    <h3 class="name"><code>propagateStyle</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>String</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>String</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_CKHelper_Selection.js.html#l548"><code>js\classes\CKHelper\Selection.js:548</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 0.0.4</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Propagate style property named <code>prop</code> with the value <code>val</code> to the last descendant of each node in the selection.
-Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">String</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>prop        name of the property to be imposed</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">String</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>val         property value</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>void</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_selectedNodes" class="method item private">
     <h3 class="name"><code>selectedNodes</code></h3>
 
@@ -1810,6 +2291,158 @@ of empty selection.</p>
                         <span class="type">Boolean</span>:
                     
                     <p>whether the selection starts inside a link</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_switchDeepestChildStyle" class="method item">
+    <h3 class="name"><code>switchDeepestChildStyle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>String</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>String</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>String</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_CKHelper_Selection.js.html#l594"><code>js\classes\CKHelper\Selection.js:594</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.4</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Propagate style property named <code>prop</code> with the value <code>val</code> to the last descendant of each node in the selection.
+Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">String</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>prop        name of the property to be imposed</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">String</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>val         on-value of the above property</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">String</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>altVal      off-value of the property</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>void</p>
 
                 
             </div>
