@@ -14,7 +14,7 @@ CKEDITOR.plugins.add('strike2', {
 		editor.addCommand('strike2', {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				selection.propagateStyle('text-decoration', 'line-through', 'none');
+				selection.switchDeepestChildStyle('text-decoration', 'line-through', 'none');
 			}
 		});
 

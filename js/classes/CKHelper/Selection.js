@@ -454,6 +454,32 @@ function Selection(ed) {
     };
 
     /**
+     * Returns value of style property `prop` of node `n`. It looks up the chain of parents until finds
+     * first occurence of key `prop`. If the key is not present in any of ancestors, nothing is returned.
+     * @method          _lookUpInParents
+     * @param          {DOM.Node}           n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {String}             prop      name of the property to look for
+     * @return         {String|void}
+     * @private
+     * @since          0.0.4
+     */
+    var _lookUpInParents = function(n, prop){
+        console.log('inside _lookUpInParents');
+        var currentNode = n,
+            stl;
+        while (currentNode){
+            console.log('current Node: ', currentNode);
+            if (typeof currentNode.getAttribute === 'function'){
+                stl = new Styles(currentNode.getAttribute('style'));
+                if (stl.hasProperty(prop)){
+                    return stl.getProperty(prop);
+                }
+            }
+            currentNode = currentNode.parentNode;
+        }
+    };
+
+    /**
      * Toggles inline style property `prop` of node `n`. When it turns out that the property should
      * be set, it is set to value `val`.
      *
@@ -472,6 +498,7 @@ function Selection(ed) {
         if (!(typeof n === 'object' && n.nodeType)){
             return;
         }
+        console.log('from parents: ', _lookUpInParents(n, prop));
         stl = new Styles(n.getAttribute(attrName));
         stl.toggleProperty(prop, val, altVal);
         stlStr = stl.toBareString();
@@ -494,15 +521,15 @@ function Selection(ed) {
      * a node element, then applies requested style property to it.
      * </li></ol>
      * @private
-     * @method         _propagateStyle
-     * @param          {Node}               node                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @method         _deferToggleStyle
+     * @param          {Node}               n                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
      * @param          {String}             prop                name of style property (i.e., "width" or "text-decoration")
      * @param          {String}             val                 value of style property (i.e., "10px" or "underline")
      * @return         {void}
      * @since          0.0.4
      * @todo           Try to make this method shorter
      */
-    var _propagateStyle = function(n, prop, val, altVal){
+    var _deferToggleStyle = function(n, prop, val, altVal){
         var childNodes = n.childNodes,
             childNum = childNodes.length,
             child, span, parent, counter;
@@ -514,6 +541,7 @@ function Selection(ed) {
                     break;
                 }
                 if (n.nodeType === Node.TEXT_NODE){
+                    console.log('from parents: ', _lookUpInParents(n, prop));
                     span = new Tag();
                     span.setTag('span');
                     span.setStyleProperty(prop, val);
@@ -531,14 +559,14 @@ function Selection(ed) {
                 if (child.nodeType === Node.TEXT_NODE){
                      _toggleNodeStyle(n, prop, val, altVal);
                 } else {
-                    _propagateStyle(child, prop, val, altVal);
+                    _deferToggleStyle(child, prop, val, altVal);
                 }
                 break;
             // node has many children
             default:
                 console.log("children no. : ", childNum, childNodes);
                 for (counter = 0; counter < childNum; counter++){
-                    _propagateStyle(childNodes[counter], prop, val, altVal);
+                    _deferToggleStyle(childNodes[counter], prop, val, altVal);
                 }
         }
     };
@@ -547,21 +575,22 @@ function Selection(ed) {
     /**
      * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
      * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
-     * @method         propagateStyle
+     * @method         switchDeepestChildStyle
      * @param          String               prop        name of the property to be imposed
      * @param          String               val         on-value of the above property
      * @param          String               altVal      off-value of the property
      * @since          0.0.4
      * @return         void
      */
-    this.propagateStyle = function(prop, val, altVal){
+    this.switchDeepestChildStyle = function(prop, val, altVal){
         console.log("text content of selection at start: " + this.toText('|', ' ***'));
         var that = this;
         this.nodes.forEach(function(line){
             if (line){
                 line.forEach(function(node){
-                    _propagateStyle(node.$, prop, val, altVal);
+                    _deferToggleStyle(node.$, prop, val, altVal);
                 });
+            // seems to be useless
             that.normalizeParentOf(line);
             }
         });
@@ -613,9 +642,10 @@ function Selection(ed) {
     };
 
     /**
-     * Returns commons ancestor of all array elements. If an element is not a
+     * Returns common ancestor of all array elements. If an element is not a
      * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
-     * @return {DOM.Node|Null}   common ancestor of the arguments
+     * @method         commonAncestor
+     * @return         {DOM.Node|Null}      common ancestor of the arguments
      */
     this.commonAncestorSoft = function(elems){
         if (!Array.isArray(elems)){
@@ -646,7 +676,7 @@ function Selection(ed) {
         if (el){
             el.normalize();
         }
-    }
+    };
 
 
 

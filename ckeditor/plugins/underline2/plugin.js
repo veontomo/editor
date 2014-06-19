@@ -15,7 +15,7 @@ CKEDITOR.plugins.add('underline2', {
 			exec: function(editor){
 				console.log('inside underline2 plugin');
 				var	selection = new Selection(editor);
-				selection.propagateStyle('text-decoration', 'underline', 'none');
+				selection.switchDeepestChildStyle('text-decoration', 'underline', 'none');
 			}
 		});
 
