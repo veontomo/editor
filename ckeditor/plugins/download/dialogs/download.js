@@ -43,8 +43,8 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 				fileContent, sanitizedContent;
 			sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, ' '));
 			sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\"[a-zA-Z0-9_ ]+?\"/g, '');
-			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n" +
-				sanitizedContent +  "\n</body></html>";
+			fileContent = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n<center>" +
+				sanitizedContent +  "\n</center>\n</body>\n</html>";
 			$.post('php/saveDraft.php',
 				{'data': fileContent, 'filename': fileName},
 					function(filename){
