@@ -97,6 +97,14 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<a href="coverage.php" target="blank"><img src="images/coverage.png" width="100px" /></a>
     </div>
 
+	<?php
+		$fileName = '.git/index';
+		if (file_exists($fileName)){
+			echo '<div class="panel">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
+		}
+
+	?>
+
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
