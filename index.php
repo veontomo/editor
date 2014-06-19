@@ -100,7 +100,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	<?php
 		$fileName = '.git/index';
 		if (file_exists($fileName)){
-			echo '<div class="panel">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
+			echo '<div class="panel">Ultimo aggiornamento : ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
 
 	?>
