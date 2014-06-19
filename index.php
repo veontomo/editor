@@ -114,13 +114,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<p>
-				If the download doesn&#39;t start in a few seconds, please
-				<a href="http://www.com">
-					click here
-				</a>
-				to start the download.
-			</p>
 		</textarea>
 	</div>
 </body>
