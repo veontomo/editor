@@ -519,18 +519,15 @@ function Selection(ed) {
      * </li></ol>
      * @method         _proxy
      * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-     * @return         {DOM.Node}
+     * @return         {DOM.Node|Null}
      */
     this.proxy = function(n){
         if (n === undefined || n.nodeType === undefined){
-            throw new Error('Argument must be a DOM.Node instance!');
+            return null;
         }
-        console.log("node type: ", n.nodeType, Node.ELEMENT_NODE);
         if (n.nodeType === Node.ELEMENT_NODE){
-            console.log("returning node itself");
             return n;
         }
-        console.log(n.nextSibling || n.previousSibling);
         return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
     }
 
