@@ -1,13 +1,14 @@
 ------------------------------------------------------------
-mailing - 12/06/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+test editor - 19/06/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
 Email Iniziali : 1
 Email Senza Doppioni : 1
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
 Email Senza BlackList : 1
-Data/Ora Inizio Spedizione : 12/06/2014 / 11:05:33
-Data/Ora Fine Spedizione : 12/06/2014 / 11:05:36
+  Crea Lista di Check con Codice Versione : OK
+Data/Ora Inizio Spedizione : 19/06/2014 / 12:43:32
+Data/Ora Fine Spedizione : 19/06/2014 / 12:43:45
 
 Spediti : 1
 

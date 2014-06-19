@@ -287,7 +287,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			// currentTable = table.getOuterHtml().createTableFromHtml();
 			console.log('parent table ', table);
 			currentTable = factory.mimic(table.$);
-			currentTable.disentangle();
+			// currentTable.disentangle();
 			console.log('constructed table ', currentTable.toHtml());
 			currentTable.setProfile(userInput);
 
