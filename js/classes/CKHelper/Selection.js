@@ -529,6 +529,18 @@ function Selection(ed) {
             return n;
         }
         return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
+    };
+
+    /**
+     * Gets value of style property `key` of nearest ascendant up to `limitNode`
+     * that has that property set.
+     * If the property is not found, null is returned.
+     * @param          {String}             key       name of property to find among inline style of ascendants
+     * @return         {String|Number|Null}
+     */
+    this.getInheritedStyleProp = function(key, limitNode){
+        /// !!! stub
+        return null;
     }
 
 
