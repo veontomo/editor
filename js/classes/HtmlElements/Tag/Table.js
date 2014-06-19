@@ -201,6 +201,7 @@ function Table() {
 
 	};
 
+
 	/**
 	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
 	 * @method         getPhantomCellStyles
@@ -406,11 +407,24 @@ function Table() {
 
 
 	/**
-	 * The number of the rows in the table. Alias of length() of the parent class.
+	 * The number of the rows in the table. It applies parent method
+	 * {{#crossLink "Tag/length:method"}}length{{/crossLink}} on:
+	 * <ol><li>
+	 * "tbody" content, if the instance contains "tbody".
+	 * </li><li>
+	 * on "this", if the instance does not contain "tbody".
+	 * </li></ol>
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
+		var cntn = this.getContent();
+		if (cntn && cntn.length() === 1){
+			var tbody = cntn.getFirst();
+			if (tbody.getTag() === 'tbody'){
+				return tbody.length();
+			}
+		}
 		return this.length();
 	};
 
