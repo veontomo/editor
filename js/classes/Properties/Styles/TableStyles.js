@@ -32,7 +32,7 @@ function TableStyles(obj) {
      * @type     {Object}
      * @private
      */
-    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0, 'min-width': 0, 'border-spacing': '0px 0px'};
+    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0, 'min-width': 0, 'border-spacing': '0px 0px', 'font-size': 13, 'text-alignment': 'justify', 'font-family': "Arial, sans-serif"};
     this.suggestProperty(tableStyleCore);
 
 }
