@@ -128,7 +128,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				id: 'frameWidth',
 				'default': '0',
 				'inputStyle': inputStyle
-			}, {
+			},{
 				type: 'text',
 				label: editor.lang.image.vSpace + ' (px)',
 				'default': '1',
@@ -146,6 +146,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}, {
 				type: 'html',
 				html: '<div id="columnWidthTable"></div>',
+			}, {
+				// whether the line separator between table rows should be included
+				type: 'checkbox',
+				label: 'Inserire separatore tra le righe',
+				id: 'trSeparator',
+				'inputStyle': inputStyle,
+				'default': false
 			}
 
 			]
@@ -160,6 +167,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				frameWidth = parseInt(dialog.getValueOf('info', 'frameWidth'), 10),
 				vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
 				hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
+				withSeparator = dialog.getValueOf('info',  'trSeparator'),
 
 				// variables to be used in what follows
 				phantomRowAttr, phantomRowStyle,  phantomCellAttr, phantomCellStyle, phantomTableAttr, phantomTableStyle,
@@ -317,6 +325,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				cellStyle.setProperty('padding-top',  spaceTop);
 				cellStyle.setProperty('padding-bottom', spaceBottom);
 				cellStyle.setProperty('margin', 0);
+
+				if (withSeparator){
+					cellStyle.setProperty('border-bottom', '1px solid #cccccc');
+				}
 
 				// binding the styles and attributes and the object
 				cell.setStyles(cellStyle);
