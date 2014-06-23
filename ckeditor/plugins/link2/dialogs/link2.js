@@ -96,6 +96,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link = selection.getStartElement().getAscendant('a', true);
                 href = link.getAttribute('href');
             }
+            // if the selection is nothing but a link, then pick up its title
+            if (isEnabled && !selection.isEmpty()){
+                var title = selection.nodes[0][0].getAttribute('title');
+                this.setValueOf('tab-general', 'optionalTitle', title);
+            }
 
             if (!isEnabled){
                 this.getContentElement('tab-general', 'text').disable();
@@ -115,7 +120,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
                 target = this.getValueOf('tab-general', 'target') ? '_blank' : '_self',
-                optionalTitle = this.getValueOf('tab-general', 'optionalTitle');
+                optionalTitle = this.getValueOf('tab-general', 'optionalTitle'),
                 link, obj,
                 factory = FACTORY.factory;
 
