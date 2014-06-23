@@ -27,6 +27,15 @@ CKEDITOR.plugins.add( 'image2', {
 			toolbar: 'document'
 		});
 
+		editor.addCommand('image2Cancel', {
+			exec: function(editor){
+				console.log('image cancel');
+				var startElem = editor.getSelection().getStartElement(),
+					elem = startElem.getAscendant('img', true);
+				elem.$.remove();
+			}
+		});
+
 
 
 		// Register our dialog file. this.path is the plugin folder path.
@@ -38,13 +47,13 @@ CKEDITOR.plugins.add( 'image2', {
 			editor.addMenuItem('image2Edit', {
 				label: editor.lang.image.title,
 				icon: this.path + 'icons/image2edit.png',
-				command: 'link2',
+				command: 'image2',
 				group: 'image2Group'
 			});
 			editor.addMenuItem('image2Cancel', {
 				label: 'Rimuovi immagine',
 				icon: this.path + 'icons/image2cancel.png',
-				command: 'link2',
+				command: 'image2Cancel',
 				group: 'image2Group'
 			});
 			editor.contextMenu.addListener(function(element) {

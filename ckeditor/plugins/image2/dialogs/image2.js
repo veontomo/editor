@@ -51,6 +51,19 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 			},
 		],
 
+		onShow: function(){
+			var startElem = editor.getSelection().getStartElement();
+			if (startElem && startElem.getName() === 'img'){
+				var imageUrl = startElem.getAttribute('src'),
+					alt = startElem.getAttribute('alt');
+				this.setValueOf('tab-general', 'imageUrl', imageUrl || '');
+				this.setValueOf('tab-general', 'textAlt', alt || '');
+			} else {
+				console.log('there is NO image');
+			}
+
+		},
+
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			// removes eventual warning text
