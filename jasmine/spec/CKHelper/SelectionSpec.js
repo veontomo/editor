@@ -284,21 +284,22 @@ describe('Selection-related functionality', function(){
     });
 
     describe('Finds style in the ascendants', function(){
-        /// !!! to finish!!!
         var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 
-//                    e00
-//         ____________|_________
-//         |                     |
-//        e10                   e11
-//   ______|______ ________      |
-//   |     |      |    |   |     |
-//  t20   e21    t22  e23 t24   t25
-//      ___|____
-//      |       |
-//     e30     t31
+//                             e00 (block: wide)
+//         ____________________________|_________
+//         |                                     |
+//        e10                                   e11 (block: narrow)
+//   ______|_______________________________      |
+//   |     |                      |    |   |     |
+//  t20   e21 (block: narrow)    t22  e23 t24   t25
+//      ___|_________________
+//      |                    |
+//     e30 (block: wide)    t31
 
         beforeEach(function(){
+            var stl1 = 'class: media; block: wide;',
+                stl2 = 'size: biggest; block: narrow;';
             e00 = document.createElement('div00');
             e10 = document.createElement('div10');
             e11 = document.createElement('div11');
@@ -320,6 +321,15 @@ describe('Selection-related functionality', function(){
             e21.appendChild(e30);
             e21.appendChild(t31);
             e11.appendChild(t25);
+            e00.setAttribute('style', stl1);
+            e30.setAttribute('style', stl1);
+            e11.setAttribute('style', stl2);
+            e21.setAttribute('style', stl2);
+        });
+
+        it('find value of style property if the element has it imposed', function(){
+            sel = new Selection(editor);
+            expect(sel.);
         });
 
 
