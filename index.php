@@ -97,14 +97,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<a href="coverage.php" target="blank"><img src="images/coverage.png" width="100px" /></a>
     </div>
 
-	<?php
-		$fileName = '.git/index';
-		if (file_exists($fileName)){
-			echo '<div class="panel">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
-		}
-
-	?>
-
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
@@ -114,8 +106,16 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<img alt="copertina" height="234" src="http://algs4.cs.princeton.edu/cover.png" style="border-style: none; width: 188px; padding: 0px; margin: 0px; height: 234px; min-width: 188px; max-width: 188px" title="copertina" width="188" />
+
 		</textarea>
 	</div>
+	<?php
+		$fileName = '.git/index';
+		if (file_exists($fileName)){
+			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
+		}
+
+	?>
+
 </body>
 </html>
