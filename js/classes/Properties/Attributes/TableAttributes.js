@@ -29,7 +29,7 @@ function TableAttributes(attr){
 	 * @property 	{String} 	tableAttrCore
 	 * @private
 	 */
-	var tableAttrCore = {cellpadding: 0, cellspacing: 0};
+	var tableAttrCore = {cellpadding: 0, cellspacing: 0, 'text-align': 'justify'};
 	this.suggestProperty(tableAttrCore);
 
 }

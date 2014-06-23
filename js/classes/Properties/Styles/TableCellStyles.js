@@ -32,7 +32,7 @@ function TableCellStyles(obj) {
      * @type     {Object}
      * @private
      */
-    var tableCellStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0, 'vertical-align': 'top', 'color': '#000001'};
+    var tableCellStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0, 'vertical-align': 'top', 'color': '#000001', 'text-align': 'justify'};
     this.suggestProperty(tableCellStyleCore);
 }
 TableCellStyles.prototype = Object.create(Styles.prototype);
