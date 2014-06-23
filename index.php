@@ -114,6 +114,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<img alt="copertina" height="234" src="http://algs4.cs.princeton.edu/cover.png" style="border-style: none; width: 188px; padding: 0px; margin: 0px; height: 234px; min-width: 188px; max-width: 188px" title="copertina" width="188" />
 		</textarea>
 	</div>
 </body>

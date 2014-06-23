@@ -1,3 +1,6 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+
 // Register the plugin within the editor.
 CKEDITOR.plugins.add( 'image2', {
 
@@ -28,6 +31,31 @@ CKEDITOR.plugins.add( 'image2', {
 
 		// Register our dialog file. this.path is the plugin folder path.
 		CKEDITOR.dialog.add( 'imageSimplified', this.path + 'dialogs/image2.js' );
+
+		if (editor.contextMenu) {
+			editor.addMenuGroup('image2Group');
+
+			editor.addMenuItem('image2Edit', {
+				label: editor.lang.image.title,
+				icon: this.path + 'icons/image2edit.png',
+				command: 'link2',
+				group: 'image2Group'
+			});
+			editor.addMenuItem('image2Cancel', {
+				label: 'Rimuovi immagine',
+				icon: this.path + 'icons/image2cancel.png',
+				command: 'link2',
+				group: 'image2Group'
+			});
+			editor.contextMenu.addListener(function(element) {
+				if (element.getAscendant('img', true)) {
+					return {
+						image2Edit: CKEDITOR.TRISTATE_OFF,
+						image2Cancel: CKEDITOR.TRISTATE_OFF,
+					};
+				}
+			});
+		}
 
 	}
 });
