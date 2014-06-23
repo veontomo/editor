@@ -30,7 +30,7 @@ function LinkAttributes(attr){
 	 * @property 	{String} 	linkAttrCore
 	 * @private
 	 */
-	var linkAttrCore = {href: ''};
+	var linkAttrCore = {href: '', target: '_blank'};
 	this.suggestProperty(linkAttrCore);
 
 	/**

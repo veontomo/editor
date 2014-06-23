@@ -58,6 +58,11 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 id: 'underlined',
                 label: editor.lang.basicstyles.underline,
                 "default": true,
+            }, {
+                type: 'checkbox',
+                id: 'target',
+                label: editor.lang.common.targetNew,
+                "default": true,
             }]
         }],
 
@@ -95,14 +100,17 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             var isUnderlined = this.getValueOf('tab-general', 'underlined'),
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
+                target = this.getValueOf('tab-general', 'target') ? '_blank' : '_self',
                 link, obj,
                 factory = FACTORY.factory;
+
 
             // if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
             if (isEnabled){
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
+                link.setAttrProperty('target', target);
                 link.setContent(new Content(this.getValueOf('tab-general', 'text')));
                 if (selection.isEmpty()){
                     editor.insertHtml(link.toHtml());
@@ -118,6 +126,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link = new Link();
                         link.setHref(url);
                         link.underline(isUnderlined);
+                        link.setAttrProperty('target', target);
                         obj = factory.mimic(el.$);
                         if (obj &&  !obj.isEmpty()){
                             // CKeditor remembers this attr and replaces proper url by this one.
