@@ -42,7 +42,7 @@ CKEDITOR.editorConfig = function( config ) {
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
-	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold';
+	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 
 
 };
