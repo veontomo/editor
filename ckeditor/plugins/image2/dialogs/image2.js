@@ -63,9 +63,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 			img.setOrigin(imageUrl);
 			img.setAttrProperty('alt', textAlt);
 			img.setAttrProperty('title', textAlt);
-			console.log('image width: ' , img.getAttrProperty('width'));
 			imgHtml = img.toHtml();
-			console.log(imgHtml);
 			if (typeof imgHtml === 'string' && imgHtml.length > 0){
 				imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
 				editor.insertElement(imgObj);
