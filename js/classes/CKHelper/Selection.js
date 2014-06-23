@@ -532,13 +532,16 @@ function Selection(ed) {
     };
 
     /**
-     * Gets value of style property `key` of nearest ascendant up to `limitNode`
+     * Gets value of style property `key` of nearest ascendant of `startNode` up to `limitNode`
      * that has that property set.
      * If the property is not found, null is returned.
-     * @param          {String}             key       name of property to find among inline style of ascendants
+     * @method         getInheritedStyleProp
+     * @param          {DOM.Node}           startNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance to start
+     * @param          {DOM.Node}           limitNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {String}             key            name of property to find among inline style of ascendants
      * @return         {String|Number|Null}
      */
-    this.getInheritedStyleProp = function(key, limitNode){
+    this.getInheritedStyleProp = function(key, startNode, limitNode){
         /// !!! stub
         return null;
     }
