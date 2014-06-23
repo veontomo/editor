@@ -35,18 +35,13 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						type: 'html',
 						html: '<div id="warning" style="color:red;"></div>'
 					},
-
 					{
 						// alternative text
 						type: 'text',
 						id: 'textAlt',
-						label: editor.lang.image.alt,
-
-						// Validation checking whether the field is not empty.
+						label: editor.lang.image.alt + ' / ' + editor.lang.common.advisoryTitle,
 						default: ""
 					},
-
-
 				]
 			},
 		],
