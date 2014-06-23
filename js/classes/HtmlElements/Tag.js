@@ -746,7 +746,23 @@ function Tag() {
 		this.getContent().stickTo(el);
 		// console.info(rnd, 'Tag::toNode() returns ', el);
 		return el;
-
 	};
+
+
+	/**
+	 * Erases current value of atttribute "title" and sets it to `str` if `str` is a non-empty string.
+	 *
+	 * @method         setTitle
+	 * @param          {String}             str
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.setTitle = function(str){
+		if (typeof str === 'string' && str.length > 0){
+			this.setAttrProperty('title', str);
+		} else {
+			this.dropAttrProperty('title');
+		}
+	}
 }
 

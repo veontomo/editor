@@ -48,7 +48,21 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                     type: 'text',
                     id: 'text',
                     style: 'padding-left: 0px; margin: 0; float: left; width: 100%;',
-                    "default": "descrizione del link"
+                    'default': 'descrizione del link'
+                }]
+            },
+            {
+                type: 'hbox',
+                widths: ['10%', '90%'],
+                children: [{
+                    type: 'html',
+                    html: 'Titolo',
+                    style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;'
+                }, {
+                    type: 'text',
+                    id: 'optionalTitle',
+                    style: 'padding-left: 0px; margin: 0; float: left; width: 100%;',
+                    'default': ''
                 }]
             }, {
                 type: 'html',
@@ -61,7 +75,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }, {
                 type: 'checkbox',
                 id: 'target',
-                label: editor.lang.common.targetNew,
+                label: editor.lang.link.advisoryTitle,
                 "default": true,
             }]
         }],
@@ -101,6 +115,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
                 url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
                 target = this.getValueOf('tab-general', 'target') ? '_blank' : '_self',
+                optionalTitle = this.getValueOf('tab-general', 'optionalTitle');
                 link, obj,
                 factory = FACTORY.factory;
 
@@ -111,6 +126,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link.setHref(url);
                 link.underline(isUnderlined);
                 link.setAttrProperty('target', target);
+                link.setTitle(optionalTitle);
                 link.setContent(new Content(this.getValueOf('tab-general', 'text')));
                 if (selection.isEmpty()){
                     editor.insertHtml(link.toHtml());
@@ -127,6 +143,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link.setHref(url);
                         link.underline(isUnderlined);
                         link.setAttrProperty('target', target);
+                        link.setTitle(optionalTitle);
                         obj = factory.mimic(el.$);
                         if (obj &&  !obj.isEmpty()){
                             // CKeditor remembers this attr and replaces proper url by this one.

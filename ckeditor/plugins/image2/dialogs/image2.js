@@ -68,7 +68,6 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 				imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
 				editor.insertElement(imgObj);
 			}
-
 		}
 	};
 });

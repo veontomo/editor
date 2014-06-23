@@ -1123,4 +1123,40 @@ describe('Tag-related functionality', function() {
 
     });
 
+    describe('Sets title to the tag', function(){
+        it('sets title attribute if the argument is not empty string', function(){
+            tag.setTitle('tag title');
+            expect(tag.getAttrProperty('title')).toBe('tag title');
+        });
+        it('does not set title attribute if the argument is an empty string', function(){
+            tag.setTitle('');
+            expect(tag.getAttrProperty('title')).not.toBeDefined();
+        });
+        it('removes previously imposed value (if any) of attribute "title" if the argument is an empty string', function(){
+            tag.setTitle('title to be wiped off');
+            tag.setTitle('');
+            expect(tag.getAttrProperty('title')).not.toBeDefined();
+        });
+        it('does not set attribute "title" if the argument is a number, function, array or object', function(){
+            var invalids = [0, 1, -2, 4.1, -3.7, function(){return null;}, [], [0], [1, 4, -3.21], {}];
+            invalids.forEach(function(invalid){
+                var tag2 = new Tag();
+                tag2.setTitle(invalid);
+                expect(tag.getAttrProperty('title')).not.toBeDefined();
+            });
+        });
+        it('removes previously imposed value (if any) of attribute attribute "title" if the argument is a number, function, array or object', function(){
+            var invalids = [0, 1, -2, 4.1, -3.7, function(){return null;}, [], [0], [1, 4, -3.21], {}];
+            invalids.forEach(function(invalid){
+                var tag2 = new Tag();
+                tag2.setTitle("old title");
+                tag2.setTitle(invalid);
+                expect(tag.getAttrProperty('title')).not.toBeDefined();
+            });
+        });
+
+
+
+    });
+
 });
