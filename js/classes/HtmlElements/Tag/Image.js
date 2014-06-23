@@ -43,64 +43,6 @@ function Image() {
 	 * @param          {String}             url
 	 * @return         {void}
 	 */
-	// this.setOrigin = function(url){
-	// 	var urlWithoutProtocol = this.dropProtocol(url),
-	// 		url2 = 'http://' + urlWithoutProtocol;
-	// 	var timeStart = new Date(),
-	// 		timeLimit = 5000,
-	// 		currentTime,
-	// 		imgWidth, imgHeight, imgElem;
-	// 	if (typeof urlWithoutProtocol === 'string' && urlWithoutProtocol.length > 0){
-	// 		var httpRequest;
-	// 		if (window.XMLHttpRequest) {
-	// 			httpRequest = new XMLHttpRequest();
-	// 		} else if (window.ActiveXObject) {
-	// 		    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-	// 		}
-	// 		// httpRequest.onreadystatechange = function(){
-	// 		//   console.log("READY");
-	// 		//   // console.log(httpRequest.responseText);
-	// 		//   temp = 'new value';
-	// 		//   console.log('temp =: ' + temp);
-
-	// 		// };
-
-	// 		/**
-	// 		 * httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	// 		 */
-	// 		// httpRequest.open('GET', url2, false);
-	// 		// httpRequest.send(null);
-	// 		// console.log(	httpRequest.responseText);
-	// 		// console.log(httpRequest);
-	// 		imgElem = document.createElement('img');
-	// 		imgElem.setAttribute('src', url2);
-	// 		currentTime = new Date();
-	// 		imgWidth =  imgElem.naturalWidth;
-	// 		imgHeight = imgElem.naturalHeight;
-	// 		while (!(imgWidth > 0 && imgHeight > 0)){
-	// 			imgElem = document.createElement('img');
-	// 			imgElem.setAttribute('src', url2);
-	// 			imgWidth =  imgElem.naturalWidth;
-	// 			imgHeight = imgElem.naturalHeight;
-	// 			currentTime = new Date();
-	// 			if (currentTime - timeStart > timeLimit){
-	// 				console.log('time limit is achieved...');
-	// 				break;
-	// 			}
-
-	// 		}
-
-	// 		// if (ns.imgWidth > 0 && ns.imgHeight > 0){
-	// 		this.setAttrProperty('src', url2);
-	// 		this.setAttrProperty('width', imgWidth);
-	// 		this.setAttrProperty('height', imgHeight);
-	// 		this.setWidth(imgWidth);
-	// 		this.setStyleProperty('height', imgHeight);
-
-	// 		// elemFound.parentNode.removeChild(elemFound);
-	// 		// }
-	// 	}
-	// };
 	this.setOrigin = function(url){
 		var protocol = this.getProtocol(url);
 		if (allowedProtocols.indexOf(protocol) !== -1){
