@@ -178,6 +178,7 @@ function Dom(){
 	 * @param          {String}             prop      name of the property to look for
 	 * @return         {String|void}
 	 * @private
+	 * @deprecated     in favour of {{#crossLink &quot;Dom/getInheritedStyleProp:method&quot;}}getInheritedStyleProp{{/crossLink}}
 	 * @since          0.0.4
 	 */
 	var _lookUpInParents = function(n, prop){
@@ -264,13 +265,11 @@ function Dom(){
 	 * @since          0.0.4
 	 */
 	this.getInheritedStyleProp = function(key, node, scope){
-		console.log(&#x27;getInheritedStyleProp is called with: &#x27;, key, node, scope);
 		if (node === undefined){
 			throw new Error(&quot;Starting node must be defined!&quot;);
 		}
-		var root, parent,
-			currentNode = node,
-			stl;
+		var root, parent, stl,
+			currentNode = node;
 		root = scope;
 		// if the scope is not defined or if it is erraneous, impose scope to be the root.
 		if (root === undefined || !root.contains(node)){
@@ -392,25 +391,25 @@ function Dom(){
 	 * @since          0.0.4
 	 */
 	var _commonAncestor = function(n1, n2){
-	    console.log(n1, n2);
+	    // console.log(n1, n2);
 	    if (n1 === undefined || n2 === undefined){
-	        console.log(&#x27;return undefined&#x27;);
+	        // console.log(&#x27;return undefined&#x27;);
 	        return;
 	    }
 	    if (n1.contains(n2)){
-	        console.log(&#x27;return first argument&#x27;, n1);
+	        // console.log(&#x27;return first argument&#x27;, n1);
 	        return n1;
 	    }
 	    if (n2.contains(n1)){
-	        console.log(&#x27;return second argument&#x27;, n2);
+	        // console.log(&#x27;return second argument&#x27;, n2);
 	        return n2;
 	    }
 	    var parent = n1.parentNode;
 	    while (parent &amp;&amp; !(parent.contains(n2))){
-	        console.log(&#x27;inside while loop: &#x27;, parent);
+	        // console.log(&#x27;inside while loop: &#x27;, parent);
 	        parent = parent.parentNode;
 	    }
-	    console.log(&#x27;return parent&#x27;, parent);
+	    // console.log(&#x27;return parent&#x27;, parent);
 	    return parent;
 	};
 
@@ -461,6 +460,61 @@ function Dom(){
 	    if (el){
 	        el.normalize();
 	    }
+	};
+
+
+	/**
+	 * Toggles style property &#x60;key&#x60; of element &#x60;elem&#x60; from &#x60;primary&#x60; to &#x60;secondary&#x60;.
+	 * If the element has style property &#x60;key&#x60; equal to &#x60;primary&#x60;, then it is imposed to &#x60;secondary&#x60;.
+	 * Otherwise, it is imposed to &#x60;primary&#x60;.
+	 *
+	 * An element is considered to have style property imposed if either the element itself, or any of
+	 * its parents has that value imposed.
+	 *
+	 * If not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first
+	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
+	 * since text nodes have no attributes.
+	 * @method         toggleElementStyle
+	 * @param          {DOM.Element}        elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * @param          {String}             key        name of style property to change
+	 * @param          {String|Number}      primary    primary value of the above style property
+	 * @param          {String|Number}      secondary  secondary value of the style property
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.toggleElementStyle = function(elem, key, primary, secondary){
+		if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
+			var attrName = &#x27;style&#x27;,
+				stl = new Styles(elem.getAttribute(attrName)),
+				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+			elem.setAttribute(attrName, stl.toBareString());
+		}
+	};
+
+	/**
+	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style
+	 * property &#x60;key&#x60; equal to &#x60;secondary&#x60; if value of &#x60;key&#x60; attribute in &quot;style&quot; property  is equal to &#x60;primary&#x60;. Otherwise,
+	 * &#x60;key&#x60; value will be imposed to &#x60;primary&#x60;.
+	 *
+	 * Created instance is a &quot;span&quot; html tag.
+	 * @method         createToggledElemFromText
+	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
+	 *                                                      instance whose &quot;toggle&quot; copy is to be created
+	 * @param          {String}             key             name of style property (i.e., text-decoration&quot;, &quot;font-style&quot;)
+	 * @param          {String|Number}      primary         primary value of the style property
+	 * @param          {String|Number}      secondary       secondary value
+	 * @return         {DOM.Node}
+	 * @since          0.0.4
+	 */
+	this.createToggledElemFromText = function(textNode, key, primary, secondary){
+		if (textNode &amp;&amp; textNode.nodeType === Node.TEXT_NODE){
+			var output = document.createElement(&#x27;span&#x27;),
+				styleValue = this.getInheritedStyleProp(key, textNode),
+				styleToggled = styleValue === primary ? secondary : primary;
+			output.setAttribute(&#x27;style&#x27;, key + &#x27;: &#x27; + styleToggled + &#x27;;&#x27;);
+			return output;
+		}
 	};
 
 }

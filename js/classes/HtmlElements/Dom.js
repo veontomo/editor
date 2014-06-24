@@ -352,9 +352,11 @@ function Dom(){
 	this.createToggledElemFromText = function(textNode, key, primary, secondary){
 		if (textNode && textNode.nodeType === Node.TEXT_NODE){
 			var output = document.createElement('span'),
+				textNodeCopy = document.createTextNode(textNode.nodeValue);
 				styleValue = this.getInheritedStyleProp(key, textNode),
 				styleToggled = styleValue === primary ? secondary : primary;
 			output.setAttribute('style', key + ': ' + styleToggled + ';');
+			output.appendChild(textNodeCopy);
 			return output;
 		}
 	};

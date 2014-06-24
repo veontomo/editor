@@ -3290,13 +3290,15 @@
             },
             "access": "private",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "in favour of {{#crossLink \"Dom/getInheritedStyleProp:method\"}}getInheritedStyleProp{{/crossLink}}",
             "since": "0.0.4",
             "class": "Dom",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 41,
+            "line": 42,
             "description": "Toggles inline style property `prop` of node `n`. When it turns out that the property should\nbe set, it is set to value `val`.",
             "itemtype": "method",
             "name": "_toggleNodeStyle",
@@ -3334,7 +3336,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 72,
+            "line": 73,
             "description": "Returns **proxy** node of `n`:\n<ol><li>\nif `n` is a text element without siblings, then proxy of `n` is its parent node,\n</li><li>\nif `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.\n</li></ol>",
             "itemtype": "method",
             "name": "_proxy",
@@ -3354,7 +3356,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 93,
+            "line": 94,
             "description": "Looks for a value of style property `key` of nearest ascendant of `node` in the scope of node `scope`.\nIf the property is found, its value is returned, otherwise,  `undefined` is returned.\n\nLimit node `scope` is supposed to contain `node`. Otherwise, the search for the property\nis performed up to the \"highest\" parent of `node`.\n\nNB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **",
             "itemtype": "method",
             "name": "getInheritedStyleProp",
@@ -3385,7 +3387,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 139,
+            "line": 138,
             "description": "Modifies inline style properties of a {{#crossLink \"Selection/_proxy:method\"}}proxy{{/crossLink}}\nnode of deepest children of node `n` in the following way:\n<ol><li>\nif style property `prop` of the deepest child is equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `altVal`.\n</li><li>\nif style property `prop` of the deepest child is not equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `val`.\n</li></ol>",
             "access": "private",
             "tagname": "",
@@ -3421,7 +3423,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 201,
+            "line": 200,
             "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
             "itemtype": "method",
             "name": "switchDeepestChildStyle",
@@ -3448,7 +3450,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 227,
+            "line": 226,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "_commonAncestor",
@@ -3476,7 +3478,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 259,
+            "line": 258,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -3501,7 +3503,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 270,
+            "line": 269,
             "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
             "itemtype": "method",
             "name": "commonAncestorSoft",
@@ -3514,7 +3516,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 295,
+            "line": 294,
             "description": "Normalize parent of elements of the array.",
             "itemtype": "method",
             "name": "normalizeParentOf",
@@ -3529,6 +3531,78 @@
                 "description": "",
                 "type": "Void"
             },
+            "class": "Dom",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 308,
+            "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
+            "itemtype": "method",
+            "name": "toggleElementStyle",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance",
+                    "type": "DOM.Element"
+                },
+                {
+                    "name": "key",
+                    "description": "name of style property to change",
+                    "type": "String"
+                },
+                {
+                    "name": "primary",
+                    "description": "primary value of the above style property",
+                    "type": "String|Number"
+                },
+                {
+                    "name": "secondary",
+                    "description": "secondary value of the style property",
+                    "type": "String|Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.4",
+            "class": "Dom",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 337,
+            "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
+            "itemtype": "method",
+            "name": "createToggledElemFromText",
+            "params": [
+                {
+                    "name": "textNode",
+                    "description": "[Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)\n                                                     instance whose \"toggle\" copy is to be created",
+                    "type": "DOM.Text"
+                },
+                {
+                    "name": "key",
+                    "description": "name of style property (i.e., text-decoration\", \"font-style\")",
+                    "type": "String"
+                },
+                {
+                    "name": "primary",
+                    "description": "primary value of the style property",
+                    "type": "String|Number"
+                },
+                {
+                    "name": "secondary",
+                    "description": "secondary value",
+                    "type": "String|Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "since": "0.0.4",
             "class": "Dom",
             "module": "HtmlElements"
         },

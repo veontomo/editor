@@ -762,7 +762,7 @@ function Table() {
 		if (rowNum === 0){
 			return 0;
 		}
-		console.log(this.getElem(0).toHtml());
+		// console.log(this.getElem(0).toHtml());
 		firstRowCellNum = this.getElem(0).cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
@@ -874,9 +874,9 @@ function Table() {
 			return false;
 		}
 		return this.getElements().every(function(row){
-			console.log(&#x27;row? &#x27;, row.toHtml());
+			// console.log(&#x27;row? &#x27;, row.toHtml());
 			var res = row.onlyTableInside();
-			console.log(res ? &#x27;returning true&#x27; : &#x27;returning false&#x27;);
+			// console.log(res ? &#x27;returning true&#x27; : &#x27;returning false&#x27;);
 			return res;
 		});
 	};

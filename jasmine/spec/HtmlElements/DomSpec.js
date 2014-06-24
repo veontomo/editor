@@ -370,7 +370,7 @@ describe('Getting common parent', function(){
             })).toBe(true);
         });
 
-         it('creates an element node with "font" set to primary value if the text element inherited "font" is different from primary value', function(){
+        it('creates an element node with "font" set to primary value if the text element inherited "font" is different from primary value', function(){
             var n = dom.createToggledElemFromText(t22, 'font', 'normal', 'large'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
@@ -380,5 +380,10 @@ describe('Getting common parent', function(){
             })).toBe(true);
         });
 
+        it('creates an element whose text representation is the original text node', function(){
+            var n = dom.createToggledElemFromText(t22, 'font', 'normal', 'large');
+            expect(n.childNodes.length).toBe(1);
+            expect(n.firstChild.nodeValue).toBe(t22.nodeValue);
+        });
 
     });
