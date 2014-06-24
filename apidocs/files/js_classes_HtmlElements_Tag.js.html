@@ -49,6 +49,8 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
                 <li><a href="../classes/Factory.html">Factory</a></li>
             
                 <li><a href="../classes/Helper.html">Helper</a></li>
@@ -902,8 +904,24 @@ function Tag() {
 		this.getContent().stickTo(el);
 		// console.info(rnd, &#x27;Tag::toNode() returns &#x27;, el);
 		return el;
-
 	};
+
+
+	/**
+	 * Erases current value of atttribute &quot;title&quot; and sets it to &#x60;str&#x60; if &#x60;str&#x60; is a non-empty string.
+	 *
+	 * @method         setTitle
+	 * @param          {String}             str
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.setTitle = function(str){
+		if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
+			this.setAttrProperty(&#x27;title&#x27;, str);
+		} else {
+			this.dropAttrProperty(&#x27;title&#x27;);
+		}
+	}
 }
 
 

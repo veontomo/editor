@@ -95,27 +95,44 @@ function Dom(){
 	 * If the property is found, its value is returned, otherwise,  `undefined` is returned.
 	 *
 	 * Limit node `scope` is supposed to contain `node`. Otherwise, the search for the property
-	 * is performed up to the "oldest" parent of `node`.
+	 * is performed up to the "highest" parent of `node`.
+	 *
+	 * NB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **
 	 * @method         getInheritedStyleProp
 	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {DOM.Node}           scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of property to find among inline style of ascendants
 	 * @return         {String|Number|Null}
+	 * @since          0.0.4
 	 */
 	this.getInheritedStyleProp = function(key, node, scope){
+		console.log('getInheritedStyleProp is called with: ', key, node, scope);
 		if (node === undefined){
-			throw new Exception("Starting node must be defined!");
+			throw new Error("Starting node must be defined!");
 		}
-		var limitNode = (scope === undefined || !scope.contain(node)) ? null : scope;
-		var currentNode = node;
-		var stl = new Style(currentNode.getAttribute('style'));
-		var goOn = stl.hasProperty(key);
-		while (!f){
-
+		var root, parent, stl,
+			currentNode = node;
+		root = scope;
+		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		if (root === undefined || !root.contains(node)){
+			root = node;
+			parent = root.parentNode;
+			while (parent){
+				root = parent;
+				parent = root.parentNode;
+			}
 		}
-
-
-	}
+		while (root.contains(currentNode)){
+			// a node might have no "getAttribute" method (as text node does)
+			if (typeof currentNode.getAttribute === 'function'){
+				stl = new Styles(currentNode.getAttribute('style'));
+				if (stl.hasProperty(key)){
+					return stl.getProperty(key);
+				}
+			}
+			currentNode = currentNode.parentNode;
+		}
+	};
 
 
 	/**

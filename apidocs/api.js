@@ -5,6 +5,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "CKHelper",
         "Cell",
         "Content",
+        "Dom",
         "Factory",
         "Helper",
         "Image",

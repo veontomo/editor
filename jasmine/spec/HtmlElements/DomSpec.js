@@ -190,6 +190,7 @@ describe('Getting common parent', function(){
         });
 
         it('returns parent node style property which when the parent is the limit node', function(){
+            console.log('-----------------------');
             expect(dom.getInheritedStyleProp('block', t31, e21)).toBe('narrow');
         });
 

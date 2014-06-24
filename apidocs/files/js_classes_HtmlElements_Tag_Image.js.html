@@ -49,6 +49,8 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
                 <li><a href="../classes/Factory.html">Factory</a></li>
             
                 <li><a href="../classes/Helper.html">Helper</a></li>
@@ -199,64 +201,6 @@ function Image() {
 	 * @param          {String}             url
 	 * @return         {void}
 	 */
-	// this.setOrigin = function(url){
-	// 	var urlWithoutProtocol = this.dropProtocol(url),
-	// 		url2 = &#x27;http://&#x27; + urlWithoutProtocol;
-	// 	var timeStart = new Date(),
-	// 		timeLimit = 5000,
-	// 		currentTime,
-	// 		imgWidth, imgHeight, imgElem;
-	// 	if (typeof urlWithoutProtocol === &#x27;string&#x27; &amp;&amp; urlWithoutProtocol.length &gt; 0){
-	// 		var httpRequest;
-	// 		if (window.XMLHttpRequest) {
-	// 			httpRequest = new XMLHttpRequest();
-	// 		} else if (window.ActiveXObject) {
-	// 		    httpRequest = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
-	// 		}
-	// 		// httpRequest.onreadystatechange = function(){
-	// 		//   console.log(&quot;READY&quot;);
-	// 		//   // console.log(httpRequest.responseText);
-	// 		//   temp = &#x27;new value&#x27;;
-	// 		//   console.log(&#x27;temp =: &#x27; + temp);
-
-	// 		// };
-
-	// 		/**
-	// 		 * httpRequest.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/x-www-form-urlencoded&#x27;);
-	// 		 */
-	// 		// httpRequest.open(&#x27;GET&#x27;, url2, false);
-	// 		// httpRequest.send(null);
-	// 		// console.log(	httpRequest.responseText);
-	// 		// console.log(httpRequest);
-	// 		imgElem = document.createElement(&#x27;img&#x27;);
-	// 		imgElem.setAttribute(&#x27;src&#x27;, url2);
-	// 		currentTime = new Date();
-	// 		imgWidth =  imgElem.naturalWidth;
-	// 		imgHeight = imgElem.naturalHeight;
-	// 		while (!(imgWidth &gt; 0 &amp;&amp; imgHeight &gt; 0)){
-	// 			imgElem = document.createElement(&#x27;img&#x27;);
-	// 			imgElem.setAttribute(&#x27;src&#x27;, url2);
-	// 			imgWidth =  imgElem.naturalWidth;
-	// 			imgHeight = imgElem.naturalHeight;
-	// 			currentTime = new Date();
-	// 			if (currentTime - timeStart &gt; timeLimit){
-	// 				console.log(&#x27;time limit is achieved...&#x27;);
-	// 				break;
-	// 			}
-
-	// 		}
-
-	// 		// if (ns.imgWidth &gt; 0 &amp;&amp; ns.imgHeight &gt; 0){
-	// 		this.setAttrProperty(&#x27;src&#x27;, url2);
-	// 		this.setAttrProperty(&#x27;width&#x27;, imgWidth);
-	// 		this.setAttrProperty(&#x27;height&#x27;, imgHeight);
-	// 		this.setWidth(imgWidth);
-	// 		this.setStyleProperty(&#x27;height&#x27;, imgHeight);
-
-	// 		// elemFound.parentNode.removeChild(elemFound);
-	// 		// }
-	// 	}
-	// };
 	this.setOrigin = function(url){
 		var protocol = this.getProtocol(url);
 		if (allowedProtocols.indexOf(protocol) !== -1){
