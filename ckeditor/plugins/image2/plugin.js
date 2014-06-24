@@ -51,7 +51,7 @@ CKEDITOR.plugins.add( 'image2', {
 				group: 'image2Group'
 			});
 			editor.addMenuItem('image2Cancel', {
-				label: 'Rimuovi immagine',
+				label: 'Eliminare immagine',
 				icon: this.path + 'icons/image2cancel.png',
 				command: 'image2Cancel',
 				group: 'image2Group'

@@ -44,6 +44,5 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 
-
 };
 
