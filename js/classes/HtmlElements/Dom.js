@@ -20,6 +20,7 @@ function Dom(){
 	 * @param          {String}             prop      name of the property to look for
 	 * @return         {String|void}
 	 * @private
+	 * @deprecated     in favour of {{#crossLink "Dom/getInheritedStyleProp:method"}}getInheritedStyleProp{{/crossLink}}
 	 * @since          0.0.4
 	 */
 	var _lookUpInParents = function(n, prop){
@@ -106,7 +107,6 @@ function Dom(){
 	 * @since          0.0.4
 	 */
 	this.getInheritedStyleProp = function(key, node, scope){
-		console.log('getInheritedStyleProp is called with: ', key, node, scope);
 		if (node === undefined){
 			throw new Error("Starting node must be defined!");
 		}
@@ -233,25 +233,25 @@ function Dom(){
 	 * @since          0.0.4
 	 */
 	var _commonAncestor = function(n1, n2){
-	    console.log(n1, n2);
+	    // console.log(n1, n2);
 	    if (n1 === undefined || n2 === undefined){
-	        console.log('return undefined');
+	        // console.log('return undefined');
 	        return;
 	    }
 	    if (n1.contains(n2)){
-	        console.log('return first argument', n1);
+	        // console.log('return first argument', n1);
 	        return n1;
 	    }
 	    if (n2.contains(n1)){
-	        console.log('return second argument', n2);
+	        // console.log('return second argument', n2);
 	        return n2;
 	    }
 	    var parent = n1.parentNode;
 	    while (parent && !(parent.contains(n2))){
-	        console.log('inside while loop: ', parent);
+	        // console.log('inside while loop: ', parent);
 	        parent = parent.parentNode;
 	    }
-	    console.log('return parent', parent);
+	    // console.log('return parent', parent);
 	    return parent;
 	};
 
@@ -303,6 +303,34 @@ function Dom(){
 	        el.normalize();
 	    }
 	};
+
+
+	/**
+	 * Toggles style property `key` of element `elem` from `init` to `alt`.
+	 * If the element has style property `key` equal to `init`, then it is imposed to `alt`.
+	 * Otherwise, it is imposed to `init`.
+	 *
+	 * An element is considered to have style property imposed if either the element itself, or any of
+	 * its parents has that value imposed.
+	 *
+	 * If not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first
+	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
+	 * since text nodes have no attributes.
+	 *
+	 * @param          {DOM.Element}        elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * @param          {String}             key        name of style property to change
+	 * @param          {String|Number}      init       initial value of the above style property
+	 * @param          {String|Number}      alt        alternative value of the style property
+	 * @return         {void}
+	 */
+	this.toggleElementStyle = function(elem, key, init, alt){
+		if (elem && elem.nodeType === Node.ELEMENT_NODE){
+			var stl = new Styles(elem.getAttribute('style'));
+			var styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setProperty(key, (styleValue === init) ? alt :  init);
+			elem.setAttribute('style', stl.toBareString());
+		}
+	}
 
 }
 

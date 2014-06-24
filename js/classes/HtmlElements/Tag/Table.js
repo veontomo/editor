@@ -604,7 +604,7 @@ function Table() {
 		if (rowNum === 0){
 			return 0;
 		}
-		console.log(this.getElem(0).toHtml());
+		// console.log(this.getElem(0).toHtml());
 		firstRowCellNum = this.getElem(0).cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
@@ -716,9 +716,9 @@ function Table() {
 			return false;
 		}
 		return this.getElements().every(function(row){
-			console.log('row? ', row.toHtml());
+			// console.log('row? ', row.toHtml());
 			var res = row.onlyTableInside();
-			console.log(res ? 'returning true' : 'returning false');
+			// console.log(res ? 'returning true' : 'returning false');
 			return res;
 		});
 	};

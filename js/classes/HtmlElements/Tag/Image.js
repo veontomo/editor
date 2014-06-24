@@ -59,7 +59,7 @@ function Image() {
 				this.setAttrProperty('height', imgHeight);
 			}
 		} else {
-			console.log('protocol ' + protocol + ' is not supported!');
+			// console.log('protocol ' + protocol + ' is not supported!');
 		}
 
 	};
