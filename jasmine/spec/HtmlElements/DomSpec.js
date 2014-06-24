@@ -173,9 +173,37 @@ describe('Getting common parent', function(){
             e21.setAttribute('style', stl2);
         });
 
-        it('find value of style property if the element has it imposed', function(){
-            // expect(dom.);
+        it('returns the value of the attribute if the element has this property and limit node is set', function(){
+            expect(dom.getInheritedStyleProp('block', e30, e00)).toBe('wide');
         });
+
+        it('returns the value of the attribute if the element has this property and limit node is not set', function(){
+            expect(dom.getInheritedStyleProp('block', e30)).toBe('wide');
+        });
+
+        it('returns the node style property if the limit node is equal to the node', function(){
+            expect(dom.getInheritedStyleProp('block', e11, e11)).toBe('narrow');
+        });
+
+        it('returns null if the node has no style property if the limit node is equal to the node', function(){
+            expect(dom.getInheritedStyleProp('block', e23, e23)).not.toBeDefined();
+        });
+
+        it('returns parent node style property which when the parent is the limit node', function(){
+            expect(dom.getInheritedStyleProp('block', t31, e21)).toBe('narrow');
+        });
+
+        it('returns parent node style property if the limit node is not set', function(){
+            expect(dom.getInheritedStyleProp('block', t31)).toBe('narrow');
+        });
+
+        it('returns style property of one of the parents if the limit node is not a parent of the start node', function(){
+            expect(dom.getInheritedStyleProp('block', t22, e11)).toBe('wide');
+        });
+
+
+
+
 
 
     });

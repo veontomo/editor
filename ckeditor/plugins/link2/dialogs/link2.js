@@ -75,7 +75,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             }, {
                 type: 'checkbox',
                 id: 'target',
-                label: editor.lang.link.advisoryTitle,
+                label: editor.lang.common.targetNew,
                 "default": true,
             }]
         }],

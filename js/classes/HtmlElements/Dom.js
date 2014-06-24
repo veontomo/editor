@@ -91,19 +91,31 @@ function Dom(){
 	};
 
 	/**
-	 * Gets value of style property `key` of nearest ascendant of `startNode` up to `limitNode`
-	 * that has that property set.
-	 * If the property is not found, null is returned.
+	 * Looks for a value of style property `key` of nearest ascendant of `node` in the scope of node `scope`.
+	 * If the property is found, its value is returned, otherwise,  `undefined` is returned.
+	 *
+	 * Limit node `scope` is supposed to contain `node`. Otherwise, the search for the property
+	 * is performed up to the "oldest" parent of `node`.
 	 * @method         getInheritedStyleProp
-	 * @param          {DOM.Node}           startNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance to start
-	 * @param          {DOM.Node}           limitNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key            name of property to find among inline style of ascendants
+	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {DOM.Node}           scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key       name of property to find among inline style of ascendants
 	 * @return         {String|Number|Null}
 	 */
-	// this.getInheritedStyleProp = function(key, startNode, limitNode){
-	    /// !!! stub
-	    // return null;
-	// }
+	this.getInheritedStyleProp = function(key, node, scope){
+		if (node === undefined){
+			throw new Exception("Starting node must be defined!");
+		}
+		var limitNode = (scope === undefined || !scope.contain(node)) ? null : scope;
+		var currentNode = node;
+		var stl = new Style(currentNode.getAttribute('style'));
+		var goOn = stl.hasProperty(key);
+		while (!f){
+
+		}
+
+
+	}
 
 
 	/**
@@ -240,7 +252,7 @@ function Dom(){
 	/**
 	 * Returns common ancestor of all array elements. If an element is not a
 	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
-	 * @method         commonAncestor
+	 * @method         commonAncestorSoft
 	 * @return         {DOM.Node|Null}      common ancestor of the arguments
 	 */
 	this.commonAncestorSoft = function(elems){
@@ -264,6 +276,7 @@ function Dom(){
 
 	/**
 	 * Normalize parent of elements of the array.
+	 * @method  normalizeParentOf
 	 * @param  {Array}     elems
 	 * @return {void}
 	 */
