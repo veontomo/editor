@@ -62,6 +62,8 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/UList.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Link.js"></script>
 
+	<script type="text/javascript" src="js/classes/HtmlElements/Dom.js"></script>
+
 	<script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
 
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
