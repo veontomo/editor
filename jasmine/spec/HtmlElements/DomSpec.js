@@ -251,19 +251,17 @@ describe('Getting common parent', function(){
             e21.setAttribute('style', 'width: large;');
         });
 
-        it('sets "width" to alternative value if the element has it set to primer value', function(){
-            console.log('--------- before: ', e21.getAttribute('style'));
+        it('sets "width" to alternative value if the element has it set to primary value', function(){
             dom.toggleElementStyle(e21, 'width', 'large', 'superlarge');
             var stl = e21.getAttribute('style'),
                 arr = stl.split(';');
-            console.log('--------- after: ', stl);
             expect(arr.some(function(str){
                 var tmp = str.split(':');
                 return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'superlarge';
             })).toBe(true);
         });
 
-        it('sets "width" to primer value if the element has it different from primer value', function(){
+        it('sets "width" to primary value if the element has it different from primary value', function(){
             dom.toggleElementStyle(e21, 'width', 'extreme', 'narrow');
             var stl = e21.getAttribute('style'),
                 arr = stl.split(';');
@@ -273,7 +271,7 @@ describe('Getting common parent', function(){
             })).toBe(true);
         });
 
-        it('sets "font" to alternative value if the element inherites "font" to  primer value"', function(){
+        it('sets "font" to alternative value if the element inherites "font" to  primary value"', function(){
             dom.toggleElementStyle(e30, 'font', 'bold', 'large');
             var stl = e30.getAttribute('style'),
                 arr = stl.split(';');
@@ -283,9 +281,98 @@ describe('Getting common parent', function(){
             })).toBe(true);
         });
 
-         it('sets "font" to primer value if the element inherites "font" to not a primer value', function(){
+         it('sets "font" to primary value if the element inherites "font" to not a primary value', function(){
             dom.toggleElementStyle(e30, 'font', 'normal', 'large');
             var stl = e30.getAttribute('style'),
+                arr = stl.split(';');
+            expect(arr.some(function(str){
+                var tmp = str.split(':');
+                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'normal';
+            })).toBe(true);
+        });
+    });
+
+
+
+    describe('Creates an element node from a text one with a "toggled" style property', function(){
+        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31,
+            dom;
+
+//                                     e00
+//          ____________________________|________
+//         |                                     |
+//        e10 (font: bold)                  e11 (block: narrow)
+//    _____|_______________________________      |_________
+//   |     |                      |    |   |     |         |
+//  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
+//      ___|___
+//     |       |
+//     e30    t31
+
+        beforeEach(function(){
+            dom = new Dom();
+            e00 = document.createElement('div00');
+            e10 = document.createElement('div10');
+            e11 = document.createElement('div11');
+            t20 = document.createTextNode('text node 2.0');
+            e21 = document.createElement('div21');
+            t22 = document.createTextNode('text node 2.2');
+            e23 = document.createElement('div21');
+            t24 = document.createTextNode('text node 2.4');
+            e25 = document.createElement('div25');
+            e26 = document.createElement('div26');
+            e30 = document.createElement('div30');
+            t31 = document.createTextNode('text node 3.1');
+            e00.appendChild(e10);
+            e00.appendChild(e11);
+            e10.appendChild(t20);
+            e10.appendChild(e21);
+            e10.appendChild(t22);
+            e10.appendChild(e23);
+            e10.appendChild(t24);
+            e21.appendChild(e30);
+            e21.appendChild(t31);
+            e11.appendChild(e25);
+            e11.appendChild(e26);
+            e10.setAttribute('style', 'font: bold;');
+            e26.setAttribute('style', 'font: normal;');
+            e11.setAttribute('style', 'block: narrow;');
+            e21.setAttribute('style', 'width: large;');
+        });
+
+        it('creates an element node with "width" set to secondary value if the text node inherited "width" is equal to primary value', function(){
+            var n = dom.createToggledElemFromText(t31, 'width', 'large', 'superlarge'),
+                stl = n.getAttribute('style'),
+                arr = stl.split(';');
+            expect(arr.some(function(str){
+                var tmp = str.split(':');
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'superlarge';
+            })).toBe(true);
+        });
+
+        it('creates an element node with "width" set to primary value if text node inherited "width" is different from primary value', function(){
+            var n = dom.createToggledElemFromText(t31, 'width', 'extreme', 'narrow'),
+                stl = n.getAttribute('style'),
+                arr = stl.split(';');
+            expect(arr.some(function(str){
+                var tmp = str.split(':');
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'extreme';
+            })).toBe(true);
+        });
+
+        it('creates an element node with "font" set to alternative value if the text node inherited "font" is equal to primary value', function(){
+            var n = dom.createToggledElemFromText(t22, 'font', 'bold', 'large');
+            var stl = n.getAttribute('style'),
+                arr = stl.split(';');
+            expect(arr.some(function(str){
+                var tmp = str.split(':');
+                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'large';
+            })).toBe(true);
+        });
+
+         it('creates an element node with "font" set to primary value if the text element inherited "font" is different from primary value', function(){
+            var n = dom.createToggledElemFromText(t22, 'font', 'normal', 'large'),
+                stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');

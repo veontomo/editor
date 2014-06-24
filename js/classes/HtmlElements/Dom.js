@@ -306,9 +306,9 @@ function Dom(){
 
 
 	/**
-	 * Toggles style property `key` of element `elem` from `init` to `alt`.
-	 * If the element has style property `key` equal to `init`, then it is imposed to `alt`.
-	 * Otherwise, it is imposed to `init`.
+	 * Toggles style property `key` of element `elem` from `primary` to `secondary`.
+	 * If the element has style property `key` equal to `primary`, then it is imposed to `secondary`.
+	 * Otherwise, it is imposed to `primary`.
 	 *
 	 * An element is considered to have style property imposed if either the element itself, or any of
 	 * its parents has that value imposed.
@@ -316,21 +316,48 @@ function Dom(){
 	 * If not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first
 	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
 	 * since text nodes have no attributes.
-	 *
+	 * @method         toggleElementStyle
 	 * @param          {DOM.Element}        elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {String}             key        name of style property to change
-	 * @param          {String|Number}      init       initial value of the above style property
-	 * @param          {String|Number}      alt        alternative value of the style property
+	 * @param          {String|Number}      primary    primary value of the above style property
+	 * @param          {String|Number}      secondary  secondary value of the style property
 	 * @return         {void}
+	 * @since          0.0.4
 	 */
-	this.toggleElementStyle = function(elem, key, init, alt){
+	this.toggleElementStyle = function(elem, key, primary, secondary){
 		if (elem && elem.nodeType === Node.ELEMENT_NODE){
-			var stl = new Styles(elem.getAttribute('style'));
-			var styleValue = this.getInheritedStyleProp(key, elem);
-			stl.setProperty(key, (styleValue === init) ? alt :  init);
-			elem.setAttribute('style', stl.toBareString());
+			var attrName = 'style',
+				stl = new Styles(elem.getAttribute(attrName)),
+				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+			elem.setAttribute(attrName, stl.toBareString());
 		}
-	}
+	};
+
+	/**
+	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style
+	 * property `key` equal to `secondary` if value of `key` attribute in "style" property  is equal to `primary`. Otherwise,
+	 * `key` value will be imposed to `primary`.
+	 *
+	 * Created instance is a "span" html tag.
+	 * @method         createToggledElemFromText
+	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
+	 *                                                      instance whose "toggle" copy is to be created
+	 * @param          {String}             key             name of style property (i.e., text-decoration", "font-style")
+	 * @param          {String|Number}      primary         primary value of the style property
+	 * @param          {String|Number}      secondary       secondary value
+	 * @return         {DOM.Node}
+	 * @since          0.0.4
+	 */
+	this.createToggledElemFromText = function(textNode, key, primary, secondary){
+		if (textNode && textNode.nodeType === Node.TEXT_NODE){
+			var output = document.createElement('span'),
+				styleValue = this.getInheritedStyleProp(key, textNode),
+				styleToggled = styleValue === primary ? secondary : primary;
+			output.setAttribute('style', key + ': ' + styleToggled + ';');
+			return output;
+		}
+	};
 
 }
 
