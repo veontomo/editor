@@ -491,6 +491,7 @@ describe('Dom-specific functionality', function(){
 
         it('returns array containing a sibling of the end node and its "high level cousins"', function(){
             var res = dom.complementNodes(e10, e30);
+            console.log(res);
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(4);
             expect(res.indexOf(e31) != -1).toBe(true);
@@ -501,6 +502,7 @@ describe('Dom-specific functionality', function(){
 
         it('does not loose any node even if path from start node to end node contains a node with unique child', function(){
             var res = dom.complementNodes(e21, e50);
+
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(2);
             expect(res.indexOf(e51) != -1).toBe(true);

@@ -353,17 +353,34 @@ function Dom(){
 	 * </dd>
 	 * </dl>
 	 * @method         complementNodes
-	 * @param          {DOM.Node}           scopeNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @param          {DOM.Node}           startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instance from which to start the path
-	 * @param          {DOM.Node}           targetNode         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @param          {DOM.Node}           endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instance at which to finish the path
 	 * @return         {Array}                                 one-dimensional array of
 	 *                                                         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instances or empty array
 	 */
-	this.complementNodes = function(scopeNode, targetNode){
-		/// !!! stub
-		return [];
+	this.complementNodes = function(startNode, endNode){
+		if (!startNode.contains(endNode)){
+			throw new Error("Start node must contain the end one!");
+		}
+		if (startNode.isEqualNode(endNode)){
+			return [];
+		}
+		var children = startNode.childNodes,
+			len = children.length,
+			i, child,
+			result = [];
+		for (i = 0; i < len; i++){
+			child = children[i];
+			if (!child.contains(endNode)){
+				result.push(child);
+			} else {
+				result = result.concat(this.complementNodes(child, endNode));
+			}
+		}
+		return result;
 	};
 
 }
