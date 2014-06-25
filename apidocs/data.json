@@ -1160,6 +1160,33 @@
             "module": "CKHelper"
         },
         {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 456,
+            "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
+            "itemtype": "method",
+            "name": "switchDeepestChildStyle",
+            "params": [
+                {
+                    "name": "String",
+                    "description": "prop        name of the property to be imposed"
+                },
+                {
+                    "name": "String",
+                    "description": "val         on-value of the above property"
+                },
+                {
+                    "name": "String",
+                    "description": "altVal      off-value of the property"
+                }
+            ],
+            "since": "0.0.4",
+            "return": {
+                "description": "void"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
             "file": "js\\classes\\Helper\\String.js",
             "line": 15,
             "description": "Transforms a cell-html string into Cell object. It is supposed that the string to process is of the\nfollowing form: `<td ... > ... </td>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
@@ -3423,34 +3450,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 200,
-            "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).",
-            "itemtype": "method",
-            "name": "switchDeepestChildStyle",
-            "params": [
-                {
-                    "name": "String",
-                    "description": "prop        name of the property to be imposed"
-                },
-                {
-                    "name": "String",
-                    "description": "val         on-value of the above property"
-                },
-                {
-                    "name": "String",
-                    "description": "altVal      off-value of the property"
-                }
-            ],
-            "since": "0.0.4",
-            "return": {
-                "description": "void"
-            },
-            "class": "Dom",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 226,
+            "line": 202,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "_commonAncestor",
@@ -3478,7 +3478,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 258,
+            "line": 234,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -3503,7 +3503,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 269,
+            "line": 245,
             "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
             "itemtype": "method",
             "name": "commonAncestorSoft",
@@ -3516,7 +3516,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 294,
+            "line": 270,
             "description": "Normalize parent of elements of the array.",
             "itemtype": "method",
             "name": "normalizeParentOf",
@@ -3536,7 +3536,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 308,
+            "line": 284,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -3572,7 +3572,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 337,
+            "line": 313,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -3603,6 +3603,31 @@
                 "type": "DOM.Node"
             },
             "since": "0.0.4",
+            "class": "Dom",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 341,
+            "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are direct descendants of `scopeNode-...-targetNode` path but do not belong to that path.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
+            "itemtype": "method",
+            "name": "complementNodes",
+            "params": [
+                {
+                    "name": "scopeNode",
+                    "description": "[description]",
+                    "type": "[type]"
+                },
+                {
+                    "name": "targetNode",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
             "class": "Dom",
             "module": "HtmlElements"
         },

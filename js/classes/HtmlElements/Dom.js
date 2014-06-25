@@ -328,13 +328,42 @@ function Dom(){
 	this.createToggledElemFromText = function(textNode, key, primary, secondary){
 		if (textNode && textNode.nodeType === Node.TEXT_NODE){
 			var output = document.createElement('span'),
-				textNodeCopy = document.createTextNode(textNode.nodeValue);
+				textNodeCopy = document.createTextNode(textNode.nodeValue),
 				styleValue = this.getInheritedStyleProp(key, textNode),
 				styleToggled = styleValue === primary ? secondary : primary;
 			output.setAttribute('style', key + ': ' + styleToggled + ';');
 			output.appendChild(textNodeCopy);
 			return output;
 		}
+	};
+
+
+	/**
+	 * Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * that are descendants of `startNode-...-endNode` path but do not belong to that path.
+	 * If path from `startNode` to `endNode` does not exist, an error is thrown.
+	 * <dl>
+	 * <dt> Path A - ... - B</dt>
+	 * <dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order
+	 * to arrive to node B starting from node A passing always from a node to its child.
+	 * </dd>
+	 * <dt> Descendant of a path A - ... - B</dt>
+	 * <dd>
+	 * 	A node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.
+	 * </dd>
+	 * </dl>
+	 * @method         complementNodes
+	 * @param          {DOM.Node}           scopeNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance from which to start the path
+	 * @param          {DOM.Node}           targetNode         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance at which to finish the path
+	 * @return         {Array}                                 one-dimensional array of
+	 *                                                         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instances or empty array
+	 */
+	this.complementNodes = function(scopeNode, targetNode){
+		/// !!! stub
+		return [];
 	};
 
 }

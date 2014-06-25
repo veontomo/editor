@@ -355,31 +355,7 @@ function Dom(){
 	};
 
 
-	/**
-	 * Propagate style property named &#x60;prop&#x60; with the value &#x60;val&#x60; to the last descendant of each node in the selection.
-	 * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
-	 * @method         switchDeepestChildStyle
-	 * @param          String               prop        name of the property to be imposed
-	 * @param          String               val         on-value of the above property
-	 * @param          String               altVal      off-value of the property
-	 * @since          0.0.4
-	 * @return         void
-	 */
-	this.switchDeepestChildStyle = function(prop, val, altVal){
-	    console.log(&quot;text content of selection at start: &quot; + this.toText(&#x27;|&#x27;, &#x27; ***&#x27;));
-	    var that = this;
-	    this.nodes.forEach(function(line){
-	        if (line){
-	            line.forEach(function(node){
-	                _deferToggleStyle(node.$, prop, val, altVal);
-	            });
-	        // seems to be useless
-	        that.normalizeParentOf(line);
-	        }
-	    });
-	    console.log(&quot;text content of selection at the end: &quot; + this.toText(&#x27;|&#x27;, &#x27; ***&#x27;));
 
-	};
 
 	/**
 	 * Gives common ancestor of nodes n1 and n2. If it does not exist, &#x60;null&#x60; is returned.
@@ -510,11 +486,37 @@ function Dom(){
 	this.createToggledElemFromText = function(textNode, key, primary, secondary){
 		if (textNode &amp;&amp; textNode.nodeType === Node.TEXT_NODE){
 			var output = document.createElement(&#x27;span&#x27;),
+				textNodeCopy = document.createTextNode(textNode.nodeValue),
 				styleValue = this.getInheritedStyleProp(key, textNode),
 				styleToggled = styleValue === primary ? secondary : primary;
 			output.setAttribute(&#x27;style&#x27;, key + &#x27;: &#x27; + styleToggled + &#x27;;&#x27;);
+			output.appendChild(textNodeCopy);
 			return output;
 		}
+	};
+
+
+	/**
+	 * Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * that are direct descendants of &#x60;scopeNode-...-targetNode&#x60; path but do not belong to that path.
+	 * &lt;dl&gt;
+	 * &lt;dt&gt; Path A - ... - B&lt;/dt&gt;
+	 * &lt;dd&gt; An ordered collection of nodes n&lt;sub&gt;i&lt;/sub&gt; from which one needs to pass through in order
+	 * to arrive to node B starting from node A passing always from a node to its child.
+	 * &lt;/dd&gt;
+	 * &lt;dt&gt; Descendant of a path A - ... - B&lt;/dt&gt;
+	 * &lt;dd&gt;
+	 * 	A node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.
+	 * &lt;/dd&gt;
+	 * &lt;/dl&gt;
+	 * @method  complementNodes
+	 * @param  {[type]} scopeNode  [description]
+	 * @param  {[type]} targetNode [description]
+	 * @return {[type]}            [description]
+	 */
+	this.complementNodes = function(scopeNode, targetNode){
+		/// !!! stub
+		return [];
 	};
 
 }

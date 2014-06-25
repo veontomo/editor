@@ -1,7 +1,8 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Dom */
 
-describe('Getting common parent', function(){
+describe('Dom-specific functionality', function(){
+    describe('Getting common parent', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11,
             dom;
 //                    n00                                m00
@@ -385,5 +386,128 @@ describe('Getting common parent', function(){
             expect(n.childNodes.length).toBe(1);
             expect(n.firstChild.nodeValue).toBe(t22.nodeValue);
         });
-
     });
+
+    describe('Gets complement nodes', function(){
+        var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
+            e41, e50, e51, e60, e61, e62, e63,
+            dom;
+//                                                   e00
+//                        ____________________________|________
+//                       |                                     |
+//                      e10                                   e11
+//            ___________|________                             |_________
+//           |           |       |                             |         |
+//          e20         e21     e22                           e23       e24
+//      _____|____    ___|___
+//      |    |    |  |       |
+//     e30  e31  e32 e33    e34
+//                   |       |
+//                  e40     e41
+//          _________|
+//         |         |
+//        e50       e51
+//     ____|      ___|___
+//    |    |     |       |
+//   e60  e61   e62     e63
+//
+        beforeEach(function(){
+            dom = new Dom();
+            e00 = document.createElement('div00');
+            e10 = document.createElement('div10');
+            e11 = document.createElement('div11');
+            e20 = document.createElement('div20');
+            e21 = document.createElement('div21');
+            e22 = document.createElement('div22');
+            e23 = document.createElement('div23');
+            e24 = document.createElement('div24');
+            e30 = document.createElement('div30');
+            e31 = document.createElement('div31');
+            e32 = document.createElement('div32');
+            e33 = document.createElement('div33');
+            e34 = document.createElement('div34');
+            e40 = document.createElement('div40');
+            e41 = document.createElement('div41');
+            e50 = document.createElement('div50');
+            e51 = document.createElement('div51');
+            e60 = document.createElement('div60');
+            e61 = document.createElement('div61');
+            e62 = document.createElement('div62');
+            e63 = document.createElement('div63');
+
+            e00.appendChild(e10);
+            e00.appendChild(e11);
+
+            e10.appendChild(e20);
+            e10.appendChild(e21);
+            e10.appendChild(e22);
+            e11.appendChild(e23);
+            e11.appendChild(e24);
+
+            e20.appendChild(e30);
+            e20.appendChild(e31);
+            e20.appendChild(e32);
+            e21.appendChild(e33);
+            e21.appendChild(e34);
+
+            e33.appendChild(e40);
+            e34.appendChild(e41);
+
+            e40.appendChild(e50);
+            e40.appendChild(e51);
+
+            e50.appendChild(e60);
+            e50.appendChild(e61);
+            e51.appendChild(e62);
+            e51.appendChild(e63);
+        });
+
+        it('returns empty array if start node and end node coincide', function(){
+            var res = dom.complementNodes(e21, e21);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+
+        it('returns empty array if end node is a unique child of the start node', function(){
+            var res = dom.complementNodes(e34, e41);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+
+        });
+
+        it('throws an error if the start node is not a parent of the end node', function(){
+            expect(function(){
+                dom.complementNodes(e11, e40);
+            }).toThrow("Start node must contain the end one!");
+        });
+
+        it('returns array with two nodes if the start node has three children and the end node is one of them', function(){
+            var res = dom.complementNodes(e20, e31);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res.indexOf(e30) != -1).toBe(true);
+            expect(res.indexOf(e32) != -1).toBe(true);
+        });
+
+        it('returns array containing a sibling of the end node and its "high level cousins"', function(){
+            var res = dom.complementNodes(e10, e30);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(4);
+            expect(res.indexOf(e31) != -1).toBe(true);
+            expect(res.indexOf(e32) != -1).toBe(true);
+            expect(res.indexOf(e21) != -1).toBe(true);
+            expect(res.indexOf(e22) != -1).toBe(true);
+        });
+
+        it('does not loose any node even if path from start node to end node contains a node with unique child', function(){
+            var res = dom.complementNodes(e21, e50);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res.indexOf(e51) != -1).toBe(true);
+            expect(res.indexOf(e34) != -1).toBe(true);
+        });
+
+
+    } );
+
+});
