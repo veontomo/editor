@@ -453,7 +453,39 @@ function Selection(ed) {
         this.nodes = output;
     };
 
+    /**
+     * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
+     * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
+     * @method         switchDeepestChildStyle
+     * @param          String               prop        name of the property to be imposed
+     * @param          String               val         on-value of the above property
+     * @param          String               altVal      off-value of the property
+     * @since          0.0.4
+     * @return         void
+     */
+    this.switchDeepestChildStyle = function(prop, val, altVal){
+        console.log("text content of selection at start: " + this.toText('|', ' ***'));
+        var that = this;
+        this.nodes.forEach(function(line){
+            var dom = new Dom();
+            if (line){
+                line.forEach(function(node){
+                    // _deferToggleStyle(node.$, prop, val, altVal);
+                    var proxy = dom.proxy(node.$);
+                    if (proxy.nodeType === Node.TEXT_NODE){
+                        var copy = dom.createToggledElemFromText(proxy, prop, val, altVal);
+                        proxy.parentNode.replaceChild(copy, proxy);
+                    } else if (proxy.nodeType === Node.ELEMENT_NODE){
+                        dom.toggleElementStyle(proxy, prop, val, altVal);
+                    }
+                });
+            // seems to be useless
+            // that.normalizeParentOf(line);
+            }
+        });
+        console.log("text content of selection at the end: " + this.toText('|', ' ***'));
 
+    };
 
 
 

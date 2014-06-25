@@ -197,31 +197,7 @@ function Dom(){
 	};
 
 
-	/**
-	 * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
-	 * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
-	 * @method         switchDeepestChildStyle
-	 * @param          String               prop        name of the property to be imposed
-	 * @param          String               val         on-value of the above property
-	 * @param          String               altVal      off-value of the property
-	 * @since          0.0.4
-	 * @return         void
-	 */
-	this.switchDeepestChildStyle = function(prop, val, altVal){
-	    console.log("text content of selection at start: " + this.toText('|', ' ***'));
-	    var that = this;
-	    this.nodes.forEach(function(line){
-	        if (line){
-	            line.forEach(function(node){
-	                _deferToggleStyle(node.$, prop, val, altVal);
-	            });
-	        // seems to be useless
-	        that.normalizeParentOf(line);
-	        }
-	    });
-	    console.log("text content of selection at the end: " + this.toText('|', ' ***'));
 
-	};
 
 	/**
 	 * Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.
