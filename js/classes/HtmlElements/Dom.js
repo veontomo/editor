@@ -282,14 +282,26 @@ function Dom(){
 
 
 	/**
-	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `null`.
+	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.
 	 * @method         getMentor
 	 * @param          {String}             key               name of inline style property
 	 * @param          {DOM.Node}           node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {DOM.Node|null}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|undefined}                   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 */
 	this.getMentor = function(key, node){
-
+		var currentNode = node,
+			stl;
+		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		while (currentNode){
+			// whether the current node has attributes
+			if (typeof currentNode.getAttribute === 'function'){
+				stl = new Styles(currentNode.getAttribute('style'));
+				if (stl.hasProperty(key)){
+					return currentNode;
+				}
+			}
+			currentNode = currentNode.parentNode;
+		}
 	}
 
 

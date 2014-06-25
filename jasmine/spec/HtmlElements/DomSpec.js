@@ -174,11 +174,11 @@ describe('Dom-specific functionality', function(){
         });
 
         it('returns null if mentor does not exist', function(){
-            expect(dom.getMentor('width', e30)).toBe(null);
+            expect(dom.getMentor('width', e30)).not.toBeDefined();
         });
 
         it('returns node itself if has the property imposed', function(){
-            expect(dom.getMentor('width', e30)).toBe(e30);
+            expect(dom.getMentor('block', e30)).toBe(e30);
         });
 
         it('returns the parent node if it has the property imposed', function(){
