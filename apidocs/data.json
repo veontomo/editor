@@ -2350,10 +2350,7 @@
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
             "line": 322,
             "description": "Returns `true` if the content of the instance contains the only element\nwhich is a \"tbody\" tag instance.",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
+            "type": "{Boolean}",
             "class": "Table",
             "module": "HtmlElements"
         },
@@ -3537,6 +3534,66 @@
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 284,
+            "description": "Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.",
+            "itemtype": "method",
+            "name": "getMentor",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "name of inline style property",
+                    "type": "String"
+                },
+                {
+                    "name": "node",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                "type": "DOM.Node|undefined"
+            },
+            "class": "Dom",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 307,
+            "description": "Toggles inline style property `key` of `node` between `primary` and `secondary`.\n\nIf `node` has a mentor node, then:\n<ol><li>\nassign value of inline style property `key` of the mentor to each {{#crossLink \"Dom/complementNodes:method\"}}complement\nnode{{#/crossLink}} to the path `mentor - ... - node`,\n</li><li>\neliminate inline style property `key` from the mentor,\n</li><li>\ncall {{#crossLink \"Dom/alternateStyleProperty:method\"}}alternateStyleProperty{{/crossLink}} method that takes care of\nchanging current style of `node`.\n</li></ol>\nIf `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`",
+            "itemtype": "method",
+            "name": "toggleStyleProperty",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "key",
+                    "description": "name of inline style property",
+                    "type": "String"
+                },
+                {
+                    "name": "primary",
+                    "description": "primary value of inline style property",
+                    "type": "String|Number"
+                },
+                {
+                    "name": "secondary",
+                    "description": "secondary value of inline style property",
+                    "type": "String|Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Dom",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 333,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -3572,7 +3629,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 313,
+            "line": 362,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -3584,7 +3641,7 @@
                 },
                 {
                     "name": "key",
-                    "description": "name of style property (i.e., text-decoration\", \"font-style\")",
+                    "description": "name of style property (i.e., \"text-decoration\", \"font-style\")",
                     "type": "String"
                 },
                 {
@@ -3608,7 +3665,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 341,
+            "line": 390,
             "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",

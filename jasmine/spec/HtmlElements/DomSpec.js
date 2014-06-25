@@ -577,4 +577,113 @@ describe('Dom-specific functionality', function(){
 
     } );
 
+
+
+    describe('Toggling style property', function(){
+        var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
+            e41, e50, e51, e60, e61, e62, e63,
+            dom;
+//                                                   e00
+//                        ____________________________|________
+//                       |                                     |
+//                      e10  (font: nice)                     e11
+//            ___________|_______                              |_________
+//           |           |       |                             |         |
+//          e20         e21     e22                           e23       e24
+//      _____|____    ___|___
+//      |    |    |  |       |
+//     e30  e31  e32 e33    e34
+//                   |       |
+//                  e40     e41
+//          _________|
+//         |         |
+//        e50       e51
+//     ____|      ___|___
+//    |    |     |       |
+//   e60  e61   e62     e63
+//
+        beforeEach(function(){
+            dom = new Dom();
+            e00 = document.createElement('div00');
+            e10 = document.createElement('div10');
+            e11 = document.createElement('div11');
+            e20 = document.createElement('div20');
+            e21 = document.createElement('div21');
+            e22 = document.createElement('div22');
+            e23 = document.createElement('div23');
+            e24 = document.createElement('div24');
+            e30 = document.createElement('div30');
+            e31 = document.createElement('div31');
+            e32 = document.createElement('div32');
+            e33 = document.createElement('div33');
+            e34 = document.createElement('div34');
+            e40 = document.createElement('div40');
+            e41 = document.createElement('div41');
+            e50 = document.createElement('div50');
+            e51 = document.createElement('div51');
+            e60 = document.createElement('div60');
+            e61 = document.createElement('div61');
+            e62 = document.createElement('div62');
+            e63 = document.createElement('div63');
+
+            e00.appendChild(e10);
+            e00.appendChild(e11);
+
+            e10.appendChild(e20);
+            e10.appendChild(e21);
+            e10.appendChild(e22);
+            e11.appendChild(e23);
+            e11.appendChild(e24);
+
+            e20.appendChild(e30);
+            e20.appendChild(e31);
+            e20.appendChild(e32);
+            e21.appendChild(e33);
+            e21.appendChild(e34);
+
+            e33.appendChild(e40);
+            e34.appendChild(e41);
+
+            e40.appendChild(e50);
+            e40.appendChild(e51);
+
+            e50.appendChild(e60);
+            e50.appendChild(e61);
+            e51.appendChild(e62);
+            e51.appendChild(e63);
+        });
+
+        it('calls "setStyleProperty" with primary value of the style property on a node that has no mentor', function(){
+            spyOn(dom, 'getMentor');
+            spyOn(dom, 'setStyleProperty');
+            dom.toggleStyleProperty(e50, 'src', 'primary', 'secondary');
+            expect(dom.getMentor).toHaveBeenCalledWith(e50, 'src');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'src', 'primary');
+        });
+
+        it('calls "setStyleProperty" with mentor inline style property value on all complement nodes if mentor exists', function(){
+            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22]});
+            spyOn(dom, 'setStyleProperty');
+            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            expect(dom.getMentor).toHaveBeenCalledWith(e51, 'src');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'font', 'nice');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e34, 'font', 'nice');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e20, 'font', 'nice');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e22, 'font', 'nice');
+        });
+
+        it('calls "setStyleProperty" with primary inline style property value on target node if mentor exists', function(){
+            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22]});
+            spyOn(dom, 'setStyleProperty');
+            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            expect(dom.getMentor).toHaveBeenCalledWith(e51, 'src');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'good');
+        });
+
+
+
+    } );
+
 });

@@ -440,6 +440,55 @@ function Dom(){
 
 
 	/**
+	 * Returns the nearest node from which &#x60;node&#x60; inherits inline style property &#x60;key&#x60;. If no such node exists, returns &#x60;undefined&#x60;.
+	 * @method         getMentor
+	 * @param          {String}             key               name of inline style property
+	 * @param          {DOM.Node}           node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|undefined}                   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 */
+	this.getMentor = function(key, node){
+		var currentNode = node,
+			stl;
+		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		while (currentNode){
+			// whether the current node has attributes
+			if (typeof currentNode.getAttribute === &#x27;function&#x27;){
+				stl = new Styles(currentNode.getAttribute(&#x27;style&#x27;));
+				if (stl.hasProperty(key)){
+					return currentNode;
+				}
+			}
+			currentNode = currentNode.parentNode;
+		}
+	}
+
+	/**
+	 * Toggles inline style property &#x60;key&#x60; of &#x60;node&#x60; between &#x60;primary&#x60; and &#x60;secondary&#x60;.
+	 *
+	 * If &#x60;node&#x60; has a mentor node, then:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * assign value of inline style property &#x60;key&#x60; of the mentor to each {{#crossLink &quot;Dom/complementNodes:method&quot;}}complement
+	 * node{{#/crossLink}} to the path &#x60;mentor - ... - node&#x60;,
+	 * &lt;/li&gt;&lt;li&gt;
+	 * eliminate inline style property &#x60;key&#x60; from the mentor,
+	 * &lt;/li&gt;&lt;li&gt;
+	 * call {{#crossLink &quot;Dom/alternateStyleProperty:method&quot;}}alternateStyleProperty{{/crossLink}} method that takes care of
+	 * changing current style of &#x60;node&#x60;.
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * If &#x60;node&#x60; has no mentor node, then set its inline style property &#x60;key&#x60; to be equal to &#x60;secondary&#x60;
+	 * @method         toggleStyleProperty
+	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key              name of inline style property
+	 * @param          {String|Number}      primary          primary value of inline style property
+	 * @param          {String|Number}      secondary        secondary value of inline style property
+	 * @return         {void}
+	 */
+	this.toggleStyleProperty = function(node, key, primary, secondary){
+
+	}
+
+
+	/**
 	 * Toggles style property &#x60;key&#x60; of element &#x60;elem&#x60; from &#x60;primary&#x60; to &#x60;secondary&#x60;.
 	 * If the element has style property &#x60;key&#x60; equal to &#x60;primary&#x60;, then it is imposed to &#x60;secondary&#x60;.
 	 * Otherwise, it is imposed to &#x60;primary&#x60;.
@@ -477,7 +526,7 @@ function Dom(){
 	 * @method         createToggledElemFromText
 	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
 	 *                                                      instance whose &quot;toggle&quot; copy is to be created
-	 * @param          {String}             key             name of style property (i.e., text-decoration&quot;, &quot;font-style&quot;)
+	 * @param          {String}             key             name of style property (i.e., &quot;text-decoration&quot;, &quot;font-style&quot;)
 	 * @param          {String|Number}      primary         primary value of the style property
 	 * @param          {String|Number}      secondary       secondary value
 	 * @return         {DOM.Node}

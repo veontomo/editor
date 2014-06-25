@@ -304,6 +304,46 @@ function Dom(){
 		}
 	}
 
+	/**
+	 * Toggles inline style property `key` of `node` between `primary` and `secondary`.
+	 *
+	 * If `node` has a mentor node, then:
+	 * <ol><li>
+	 * assign value of inline style property `key` of the mentor to each {{#crossLink "Dom/complementNodes:method"}}complement
+	 * node{{#/crossLink}} to the path `mentor - ... - node`,
+	 * </li><li>
+	 * eliminate inline style property `key` from the mentor,
+	 * </li><li>
+	 * call {{#crossLink "Dom/setStyleProperty:method"}}setStyleProperty{{/crossLink}} method that takes care of
+	 * setting inline style property of `node` to required value.
+	 * </li></ol>
+	 * If `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`
+	 * @method         toggleStyleProperty
+	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key              name of inline style property
+	 * @param          {String|Number}      primary          primary value of inline style property
+	 * @param          {String|Number}      secondary        secondary value of inline style property
+	 * @return         {void}
+	 */
+	this.toggleStyleProperty = function(node, key, primary, secondary){
+
+	}
+
+
+	/**
+	 * Imposes inline style property `key` of `node` to equal to `value`. If `node` is a
+	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with
+	 * dumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly
+	 * imposed inline style.
+	 * @param  {[type]} node  [description]
+	 * @param  {[type]} key   [description]
+	 * @param  {[type]} value [description]
+	 * @return {[type]}       [description]
+	 */
+	this.setStyleProperty = function(node, key, value){
+		/// !!! stub
+	}
+
 
 	/**
 	 * Toggles style property `key` of element `elem` from `primary` to `secondary`.

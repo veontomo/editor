@@ -465,22 +465,20 @@ function Selection(ed) {
      */
     this.switchDeepestChildStyle = function(prop, val, altVal){
         // console.log("text content of selection at start: " + this.toText('|', ' ***'));
-        var that = this;
         this.nodes.forEach(function(line){
             var dom = new Dom();
             if (line){
                 line.forEach(function(node){
-                    // _deferToggleStyle(node.$, prop, val, altVal);
-                    var proxy = dom.proxy(node.$);
-                    if (proxy.nodeType === Node.TEXT_NODE){
-                        var copy = dom.createToggledElemFromText(proxy, prop, val, altVal);
-                        proxy.parentNode.replaceChild(copy, proxy);
-                    } else if (proxy.nodeType === Node.ELEMENT_NODE){
-                        dom.toggleElementStyle(proxy, prop, val, altVal);
-                    }
+                    dom.toggleStyleProperty(node.$, prop, val, altVal);
+                    // // _deferToggleStyle(node.$, prop, val, altVal);
+                    // var proxy = dom.proxy(node.$);
+                    // if (proxy.nodeType === Node.TEXT_NODE){
+                    //     var copy = dom.createToggledElemFromText(proxy, prop, val, altVal);
+                    //     proxy.parentNode.replaceChild(copy, proxy);
+                    // } else if (proxy.nodeType === Node.ELEMENT_NODE){
+                    //     dom.toggleElementStyle(proxy, prop, val, altVal);
+                    // }
                 });
-            // seems to be useless
-            // that.normalizeParentOf(line);
             }
         });
         console.log("text content of selection at the end: " + this.toText('|', ' ***'));

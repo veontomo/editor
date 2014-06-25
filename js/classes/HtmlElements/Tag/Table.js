@@ -322,7 +322,7 @@ function Table() {
 	/**
 	 * Returns `true` if the content of the instance contains the only element
 	 * which is a "tbody" tag instance.
-	 * @return {Boolean}
+	 * @type           {Boolean}
 	 */
 	this.hasTBody = function(){
 		/// !!! stub
