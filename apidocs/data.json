@@ -3609,24 +3609,24 @@
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 341,
-            "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are direct descendants of `scopeNode-...-targetNode` path but do not belong to that path.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
+            "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",
             "params": [
                 {
-                    "name": "scopeNode",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "name": "startNode",
+                    "description": "a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)\n                                                        instance from which to start the path",
+                    "type": "DOM.Node"
                 },
                 {
-                    "name": "targetNode",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "name": "endNode",
+                    "description": "a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)\n                                                        instance at which to finish the path",
+                    "type": "DOM.Node"
                 }
             ],
             "return": {
-                "description": "[description]",
-                "type": "[type]"
+                "description": "one-dimensional array of\n                                                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)\n                                                        instances or empty array",
+                "type": "Array"
             },
             "class": "Dom",
             "module": "HtmlElements"

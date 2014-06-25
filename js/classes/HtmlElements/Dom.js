@@ -282,6 +282,18 @@ function Dom(){
 
 
 	/**
+	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `null`.
+	 * @method         getMentor
+	 * @param          {String}             key               name of inline style property
+	 * @param          {DOM.Node}           node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|null}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 */
+	this.getMentor = function(key, node){
+
+	}
+
+
+	/**
 	 * Toggles style property `key` of element `elem` from `primary` to `secondary`.
 	 * If the element has style property `key` equal to `primary`, then it is imposed to `secondary`.
 	 * Otherwise, it is imposed to `primary`.
@@ -319,7 +331,7 @@ function Dom(){
 	 * @method         createToggledElemFromText
 	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
 	 *                                                      instance whose "toggle" copy is to be created
-	 * @param          {String}             key             name of style property (i.e., text-decoration", "font-style")
+	 * @param          {String}             key             name of style property (i.e., "text-decoration", "font-style")
 	 * @param          {String|Number}      primary         primary value of the style property
 	 * @param          {String|Number}      secondary       secondary value
 	 * @return         {DOM.Node}

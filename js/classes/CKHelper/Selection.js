@@ -464,7 +464,7 @@ function Selection(ed) {
      * @return         void
      */
     this.switchDeepestChildStyle = function(prop, val, altVal){
-        console.log("text content of selection at start: " + this.toText('|', ' ***'));
+        // console.log("text content of selection at start: " + this.toText('|', ' ***'));
         var that = this;
         this.nodes.forEach(function(line){
             var dom = new Dom();

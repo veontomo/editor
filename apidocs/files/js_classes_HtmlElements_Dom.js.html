@@ -498,7 +498,8 @@ function Dom(){
 
 	/**
 	 * Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
-	 * that are direct descendants of &#x60;scopeNode-...-targetNode&#x60; path but do not belong to that path.
+	 * that are descendants of &#x60;startNode-...-endNode&#x60; path but do not belong to that path.
+	 * If path from &#x60;startNode&#x60; to &#x60;endNode&#x60; does not exist, an error is thrown.
 	 * &lt;dl&gt;
 	 * &lt;dt&gt; Path A - ... - B&lt;/dt&gt;
 	 * &lt;dd&gt; An ordered collection of nodes n&lt;sub&gt;i&lt;/sub&gt; from which one needs to pass through in order
@@ -509,14 +510,35 @@ function Dom(){
 	 * 	A node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.
 	 * &lt;/dd&gt;
 	 * &lt;/dl&gt;
-	 * @method  complementNodes
-	 * @param  {[type]} scopeNode  [description]
-	 * @param  {[type]} targetNode [description]
-	 * @return {[type]}            [description]
+	 * @method         complementNodes
+	 * @param          {DOM.Node}           startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance from which to start the path
+	 * @param          {DOM.Node}           endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance at which to finish the path
+	 * @return         {Array}                                 one-dimensional array of
+	 *                                                         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instances or empty array
 	 */
-	this.complementNodes = function(scopeNode, targetNode){
-		/// !!! stub
-		return [];
+	this.complementNodes = function(startNode, endNode){
+		if (!startNode.contains(endNode)){
+			throw new Error(&quot;Start node must contain the end one!&quot;);
+		}
+		if (startNode.isEqualNode(endNode)){
+			return [];
+		}
+		var children = startNode.childNodes,
+			len = children.length,
+			i, child,
+			result = [];
+		for (i = 0; i &lt; len; i++){
+			child = children[i];
+			if (!child.contains(endNode)){
+				result.push(child);
+			} else {
+				result = result.concat(this.complementNodes(child, endNode));
+			}
+		}
+		return result;
 	};
 
 }

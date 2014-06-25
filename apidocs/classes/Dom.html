@@ -1228,13 +1228,13 @@ be set, it is set to value <code>val</code>.</p>
             
                 <li class="arg">
                     
-                        <code>scopeNode</code>
+                        <code>startNode</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>targetNode</code>
+                        <code>endNode</code>
                     
                 </li>
             
@@ -1244,7 +1244,7 @@ be set, it is set to value <code>val</code>.</p>
 
     
         <span class="returns-inline">
-            <span class="type">type</span>
+            <span class="type">Array</span>
         </span>
     
 
@@ -1283,7 +1283,8 @@ be set, it is set to value <code>val</code>.</p>
 
     <div class="description">
         <p>Returns a one-dimensional array of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instances
-that are direct descendants of <code>scopeNode-...-targetNode</code> path but do not belong to that path.</p>
+that are descendants of <code>startNode-...-endNode</code> path but do not belong to that path.
+If path from <code>startNode</code> to <code>endNode</code> does not exist, an error is thrown.</p>
 <dl>
 <dt> Path A - ... - B</dt>
 <dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order
@@ -1304,14 +1305,15 @@ to arrive to node B starting from node A passing always from a node to its child
             
                 <li class="param">
                     
-                        <code class="param-name">scopeNode</code>
-                        <span class="type">type</span>
+                        <code class="param-name">startNode</code>
+                        <span class="type">DOM.Node</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p>a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a>
+                                                        instance from which to start the path</p>
 
                     </div>
 
@@ -1320,14 +1322,15 @@ to arrive to node B starting from node A passing always from a node to its child
             
                 <li class="param">
                     
-                        <code class="param-name">targetNode</code>
-                        <span class="type">type</span>
+                        <code class="param-name">endNode</code>
+                        <span class="type">DOM.Node</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p>a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a>
+                                                        instance at which to finish the path</p>
 
                     </div>
 
@@ -1345,9 +1348,11 @@ to arrive to node B starting from node A passing always from a node to its child
             <div class="returns-description">
                 
                     
-                        <span class="type">type</span>:
+                        <span class="type">Array</span>:
                     
-                    <p>[description]</p>
+                    <p>one-dimensional array of
+                                                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a>
+                                                        instances or empty array</p>
 
                 
             </div>

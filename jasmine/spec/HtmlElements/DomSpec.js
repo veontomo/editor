@@ -127,6 +127,71 @@ describe('Dom-specific functionality', function(){
         });
     });
 
+    describe('Finds mentor node', function(){
+        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31,
+            dom;
+
+//                             e00 (block: wide)
+//         ____________________________|_________
+//         |                                     |
+//        e10                                   e11 (block: narrow)
+//   ______|_______________________________      |
+//   |     |                      |    |   |     |
+//  t20   e21 (block: narrow)    t22  e23 t24   t25
+//      ___|_________________
+//      |                    |
+//     e30 (block: wide)    t31
+
+        beforeEach(function(){
+            dom = new Dom();
+            var stl1 = 'class: media; block: wide;',
+                stl2 = 'size: biggest; block: narrow;';
+            e00 = document.createElement('div00');
+            e10 = document.createElement('div10');
+            e11 = document.createElement('div11');
+            t20 = document.createTextNode('text node 2.0');
+            e21 = document.createElement('div21');
+            t22 = document.createTextNode('text node 2.2');
+            e23 = document.createElement('div21');
+            t24 = document.createTextNode('text node 2.4');
+            t25 = document.createTextNode('text node 2.5');
+            e30 = document.createElement('div30');
+            t31 = document.createTextNode('text node 3.1');
+            e00.appendChild(e10);
+            e00.appendChild(e11);
+            e10.appendChild(t20);
+            e10.appendChild(e21);
+            e10.appendChild(t22);
+            e10.appendChild(e23);
+            e10.appendChild(t24);
+            e21.appendChild(e30);
+            e21.appendChild(t31);
+            e11.appendChild(t25);
+            e00.setAttribute('style', stl1);
+            e30.setAttribute('style', stl1);
+            e11.setAttribute('style', stl2);
+            e21.setAttribute('style', stl2);
+        });
+
+        it('returns null if mentor does not exist', function(){
+            expect(dom.getMentor('width', e30)).toBe(null);
+        });
+
+        it('returns node itself if has the property imposed', function(){
+            expect(dom.getMentor('width', e30)).toBe(e30);
+        });
+
+        it('returns the parent node if it has the property imposed', function(){
+            expect(dom.getMentor('block', e10)).toBe(e00);
+        });
+
+        it('returns the parent node of text node if it has the property imposed', function(){
+            expect(dom.getMentor('block', t31)).toBe(e21);
+        });
+    });
+
+
+
 
     describe('Finds style in the ascendants', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31,
