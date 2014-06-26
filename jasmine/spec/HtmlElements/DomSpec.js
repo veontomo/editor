@@ -550,8 +550,8 @@ describe('Dom-specific functionality', function(){
             var res = dom.complementNodes(e20, e31);
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(2);
-            expect(res.indexOf(e30) != -1).toBe(true);
-            expect(res.indexOf(e32) != -1).toBe(true);
+            expect(res.indexOf(e30) !== -1).toBe(true);
+            expect(res.indexOf(e32) !== -1).toBe(true);
         });
 
         it('returns array containing a sibling of the end node and its "high level cousins"', function(){
@@ -559,23 +559,20 @@ describe('Dom-specific functionality', function(){
             console.log(res);
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(4);
-            expect(res.indexOf(e31) != -1).toBe(true);
-            expect(res.indexOf(e32) != -1).toBe(true);
-            expect(res.indexOf(e21) != -1).toBe(true);
-            expect(res.indexOf(e22) != -1).toBe(true);
+            expect(res.indexOf(e31) !== -1).toBe(true);
+            expect(res.indexOf(e32) !== -1).toBe(true);
+            expect(res.indexOf(e21) !== -1).toBe(true);
+            expect(res.indexOf(e22) !== -1).toBe(true);
         });
 
         it('does not loose any node even if path from start node to end node contains a node with unique child', function(){
             var res = dom.complementNodes(e21, e50);
-
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(2);
-            expect(res.indexOf(e51) != -1).toBe(true);
-            expect(res.indexOf(e34) != -1).toBe(true);
+            expect(res.indexOf(e51) !== -1).toBe(true);
+            expect(res.indexOf(e34) !== -1).toBe(true);
         });
-
-
-    } );
+    });
 
 
 
@@ -653,37 +650,71 @@ describe('Dom-specific functionality', function(){
             e51.appendChild(e63);
         });
 
-        it('calls "setStyleProperty" with primary value of the style property on a node that has no mentor', function(){
+        it('calls getMentor method to find out whether the style key is imposed', function(){
+            spyOn(dom, 'getMentor');
+            dom.toggleStyleProperty(e34, 'whatever', 'primary', 'secondary');
+            expect(dom.getMentor).toHaveBeenCalledWith('whatever', e34);
+        });
+
+        it('calls "setStyleProperty" with primary value of the style property on the target if it has no mentor', function(){
             spyOn(dom, 'getMentor');
             spyOn(dom, 'setStyleProperty');
             dom.toggleStyleProperty(e50, 'src', 'primary', 'secondary');
-            expect(dom.getMentor).toHaveBeenCalledWith(e50, 'src');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'src', 'primary');
         });
 
-        it('calls "setStyleProperty" with mentor inline style property value on all complement nodes if mentor exists', function(){
+        it('calls "setStyleProperty" with mentor (assuming it exists) inline style property value on all complement nodes', function(){
             spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22]});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
+            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';});
             dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
-            expect(dom.getMentor).toHaveBeenCalledWith(e51, 'src');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e34, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e20, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e22, 'font', 'nice');
         });
 
-        it('calls "setStyleProperty" with primary inline style property value on target node if mentor exists', function(){
+        it('calls "dropStyleProperty" for mentor (assuming it exists) inline style property', function(){
             spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22]});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
             dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
-            expect(dom.getMentor).toHaveBeenCalledWith(e51, 'src');
-            expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'good');
+            expect(dom.dropStyleProperty).toHaveBeenCalledWith(e10, 'font');
+        });
+
+        it('calls "dropStyleProperty" on the mentor and "setStyleProperty" on the node, if complement node array is empty', function(){
+            spyOn(dom, 'getMentor').andCallFake(function(){return e21;});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [];});
+            spyOn(dom, 'dropStyleProperty');
+            spyOn(dom, 'setStyleProperty');
+            dom.toggleStyleProperty(e63, 'font', 'good', 'ugly');
+            expect(dom.dropStyleProperty).toHaveBeenCalledWith(e21, 'font');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e63, 'font', 'good');
         });
 
 
 
-    } );
+        it('calls "setStyleProperty" with primary inline style property value on target node if mentor exists', function(){
+            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'setStyleProperty');
+            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';}); // mentor inline style
+            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'good');
+        });
+
+        it('calls "setStyleProperty" with secondary inline style property value on target node if mentor style property is equal to primary', function(){
+            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
+            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'setStyleProperty');
+            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'good';}); // mentor inline style
+            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'ugly');
+        });
+
+    });
 
 });

@@ -302,7 +302,7 @@ function Dom(){
 			}
 			currentNode = currentNode.parentNode;
 		}
-	}
+	};
 
 	/**
 	 * Toggles inline style property `key` of `node` between `primary` and `secondary`.
@@ -326,8 +326,29 @@ function Dom(){
 	 * @return         {void}
 	 */
 	this.toggleStyleProperty = function(node, key, primary, secondary){
-
-	}
+		var mentor = this.getMentor(key, node);
+		// changing target node if there is no mentor
+		if (mentor === undefined){
+			this.setStyleProperty(node, key, primary);
+			return;
+		}
+		// from now on, mentor exists.
+		// It might coincide with the node (in this case, array of complement nodes is empty).
+		var complNodes = this.complementNodes(mentor, node),
+			len = complNodes.length,
+			i;
+		// apply mentor's style property on them and
+		if (len){
+			var mentorStyle = this.getStyleProperty(mentor, key);
+			for (i = 0; i < len; i++){
+				this.setStyleProperty(complNodes[i], key, mentorStyle);
+			}
+		}
+		// drop the property from the mentor
+		this.dropStyleProperty(mentor, key);
+		// impose secondary value of the style property on the target node
+		this.setStyleProperty(node, key, mentorStyle === primary ? secondary : primary);
+	};
 
 
 	/**
@@ -335,12 +356,37 @@ function Dom(){
 	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with
 	 * dumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly
 	 * imposed inline style.
+	 * @method  setStyleProperty
 	 * @param  {[type]} node  [description]
 	 * @param  {[type]} key   [description]
 	 * @param  {[type]} value [description]
 	 * @return {[type]}       [description]
 	 */
 	this.setStyleProperty = function(node, key, value){
+		/// !!! stub
+	};
+
+	/**
+	 * Gets inline style property with name `key` of `node`. Returns `undefined` if `node`
+	 * does not have inline style property `key`.
+	 * @method         getStyleProperty
+	 * @param          {DOM.Node}           node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key           name of inline style property of `node`
+	 * @return         {String|Number}
+	 */
+	this.getStyleProperty = function(node, key){
+		/// !!! stub
+	};
+
+
+	/**
+	 * Drops inline style property `key` from `node`.
+	 * @method  dropStyleProperty
+	 * @param  {[type]} node [description]
+	 * @param  {[type]} key  [description]
+	 * @return {[type]}      [description]
+	 */
+	this.dropStyleProperty = function(node, key){
 		/// !!! stub
 	}
 
