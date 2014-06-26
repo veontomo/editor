@@ -397,22 +397,22 @@ function Dom(){
 	 *                                                 and `false` otherwise
 	 */
 	this.dropStyleProperty = function(node, key){
-		if (node && key && typeof node.getAttribute === 'function'){
-			var attrName = 'style';
-			var stl = new Styles(node.getAttribute(attrName));
-			if (stl.hasProperty(key)){
-				stl.dropProperty(key);
-				if (stl.isEmpty()){
-					node.removeAttribute(attrName);
-				} else {
-					node.setAttribute(attrName, stl.toBareString());
-				}
-				return true;
-			}
+		if (!node || !key || typeof node.getAttribute !== 'function'){
 			return false;
 		}
-		return false;
-	}
+		var attrName = 'style';
+		var stl = new Styles(node.getAttribute(attrName));
+		if (!stl.hasProperty(key)){
+			return false;
+		}
+		stl.dropProperty(key);
+		if (stl.isEmpty()){
+			node.removeAttribute(attrName);
+		} else {
+			node.setAttribute(attrName, stl.toBareString());
+		}
+		return true;
+	};
 
 
 	/**
