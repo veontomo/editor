@@ -337,13 +337,11 @@ function Dom(){
 		// It might coincide with the node (in this case, array of complement nodes is empty).
 		var complNodes = this.complementNodes(mentor, node),
 			len = complNodes.length,
+			mentorStyle = this.getStyleProperty(mentor, key),
 			i;
-		// apply mentor's style property on them
-		if (len){
-			var mentorStyle = this.getStyleProperty(mentor, key);
-			for (i = 0; i < len; i++){
-				this.setStyleProperty(complNodes[i], key, mentorStyle);
-			}
+		// apply mentor's style property on complement nodes
+		for (i = 0; i < len; i++){
+			this.setStyleProperty(complNodes[i], key, mentorStyle);
 		}
 		// drop the property from the mentor
 		this.dropStyleProperty(mentor, key);

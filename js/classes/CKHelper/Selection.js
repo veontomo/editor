@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global DOMParser, CKHelper, CKEDITOR, Node, Styles */
+/*global DOMParser, CKHelper, CKEDITOR, Node, Styles, Dom */
 
 /**
 * Represents selected elements in the editor window. The argument `ed` is a
@@ -464,25 +464,14 @@ function Selection(ed) {
      * @return         void
      */
     this.switchDeepestChildStyle = function(prop, val, altVal){
-        // console.log("text content of selection at start: " + this.toText('|', ' ***'));
         this.nodes.forEach(function(line){
             var dom = new Dom();
             if (line){
                 line.forEach(function(node){
-                    dom.toggleStyleProperty(node.$, prop, val, altVal);
-                    // // _deferToggleStyle(node.$, prop, val, altVal);
-                    // var proxy = dom.proxy(node.$);
-                    // if (proxy.nodeType === Node.TEXT_NODE){
-                    //     var copy = dom.createToggledElemFromText(proxy, prop, val, altVal);
-                    //     proxy.parentNode.replaceChild(copy, proxy);
-                    // } else if (proxy.nodeType === Node.ELEMENT_NODE){
-                    //     dom.toggleElementStyle(proxy, prop, val, altVal);
-                    // }
+                    dom.nailStyleProperty(node.$, prop, val, altVal);
                 });
             }
         });
-        console.log("text content of selection at the end: " + this.toText('|', ' ***'));
-
     };
 
 
