@@ -393,7 +393,21 @@ function Dom(){
 	 * @return {[type]}      [description]
 	 */
 	this.dropStyleProperty = function(node, key){
-		/// !!! stub
+		if (node && key && typeof node.getAttribute === 'function'){
+			var attrName = 'style';
+			var stl = new Styles(node.getAttribute(attrName));
+			if (stl.hasProperty(key)){
+				stl.dropProperty(key);
+				if (stl.isEmpty()){
+					node.removeAttribute(attrName);
+				} else {
+					node.setAttribute(attrName, stl.toBareString());
+				}
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
 

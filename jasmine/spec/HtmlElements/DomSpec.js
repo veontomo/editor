@@ -716,10 +716,10 @@ describe('Dom-specific functionality', function(){
         });
     });
 
-    describe('Getting inline style property of nodes', function(){
-    var e0, e1, t2, e3, dom;
-//                    e0 (font: nice; color: red)
-//            ___________|_______
+    describe('Managing inline style property of nodes', function(){
+    var e0, e1, t2, e3, e4, dom;
+//                    e0 (font: nice; color: red)           e4 (size: 5)
+//            ___________|________________
 //           |           |       |
 //          e1          t2     e3 (width: big; border: 2)
 //
@@ -729,30 +729,72 @@ describe('Dom-specific functionality', function(){
             e1 = document.createElement('div1');
             t2 = document.createTextNode('text node');
             e3 = document.createElement('div3');
+            e4 = document.createElement('div4');
 
             e0.setAttribute('style', 'font: nice; color: red');
             e3.setAttribute('style', 'width: big; border: 2');
+            e4.setAttribute('style', 'size: 5');
 
             e0.appendChild(e1);
             e0.appendChild(t2);
             e0.appendChild(e3);
         });
 
-        it('returns undefined if asked about a text node', function(){
-            expect(dom.getStyleProperty(t2, 'whatever')).not.toBeDefined();
+        describe('Getting property', function(){
+            it('returns undefined if asked about a text node', function(){
+                expect(dom.getStyleProperty(t2, 'whatever')).not.toBeDefined();
+            });
+
+            it('returns undefined if the node does not have that property', function(){
+                expect(dom.getStyleProperty(e3, 'height')).not.toBeDefined();
+            });
+
+            it('returns undefined if the node does not have any property', function(){
+                expect(dom.getStyleProperty(e1, 'height')).not.toBeDefined();
+            });
+
+            it('returns property value if the node has that property', function(){
+                expect(dom.getStyleProperty(e0, 'color')).toBe('red');
+            });
         });
 
-        it('returns undefined if the node does not have that property', function(){
-            expect(dom.getStyleProperty(e3, 'height')).not.toBeDefined();
+        describe('Deleting property', function(){
+            it('returns false if the argument does not support attributes (like a text node)', function(){
+                expect(dom.dropStyleProperty(t2, 'any')).toBe(false);
+            });
+
+            it('returns false if the argument does not have that property', function(){
+                expect(dom.dropStyleProperty(e3, 'excellence')).toBe(false);
+            });
+
+            it('returns false if the argument has no inline style properties', function(){
+                expect(dom.dropStyleProperty(e1, 'width')).toBe(false);
+            });
+
+            it('returns true if the argument has required inline style property', function(){
+                expect(dom.dropStyleProperty(e3, 'width')).toBe(true);
+            });
+
+            it('removes the required inline style property if the argument has that property', function(){
+                expect(e0.getAttribute('style').indexOf('color')).not.toBe(-1);
+                dom.dropStyleProperty(e0, 'color');
+                expect(e0.getAttribute('style').indexOf('color')).toBe(-1);
+            });
+
+            it('does not remove other inline style properties', function(){
+                expect(e0.getAttribute('style').indexOf('font')).not.toBe(-1);
+                dom.dropStyleProperty(e0, 'color');
+                expect(e0.getAttribute('style').indexOf('font')).not.toBe(-1);
+            });
+
+            it('removes \"style\" attribute if after deleting requested key it remains empty', function(){
+                expect(e4.getAttribute('style').indexOf('size')).not.toBe(-1);
+                dom.dropStyleProperty(e4, 'size');
+                expect(e4.getAttribute('style')).toBe(null);
+            });
         });
 
-        it('returns undefined if the node does not have any property', function(){
-            expect(dom.getStyleProperty(e1, 'height')).not.toBeDefined();
-        });
 
-        it('returns property value if the node has that property', function(){
-            expect(dom.getStyleProperty(e0, 'color')).toBe('red');
-        });
 
 
 
