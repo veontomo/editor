@@ -305,12 +305,13 @@ function Dom(){
 	};
 
 	/**
-	 * Toggles inline style property `key` of `node` between `primary` and `secondary`.
+	 * Nails inline style property `key` of `node`:  applies style property on "innocent" nodes
+	 * and toggles node inline property `key` between `primary` and `secondary`.
 	 *
 	 * If `node` has a mentor node, then:
 	 * <ol><li>
-	 * assign value of inline style property `key` of the mentor to each {{#crossLink "Dom/complementNodes:method"}}complement
-	 * node{{#/crossLink}} to the path `mentor - ... - node`,
+	 * assign value of inline style property `key` of the mentor to each
+	 * {{#crossLink "Dom/complementNodes:method"}}complement node{{/crossLink}} to the path `mentor - ... - node`,
 	 * </li><li>
 	 * eliminate inline style property `key` from the mentor,
 	 * </li><li>
@@ -318,14 +319,14 @@ function Dom(){
 	 * setting inline style property of `node` to required value.
 	 * </li></ol>
 	 * If `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`
-	 * @method         toggleStyleProperty
+	 * @method         nailStyleProperty
 	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key              name of inline style property
 	 * @param          {String|Number}      primary          primary value of inline style property
 	 * @param          {String|Number}      secondary        secondary value of inline style property
 	 * @return         {void}
 	 */
-	this.toggleStyleProperty = function(node, key, primary, secondary){
+	this.nailStyleProperty = function(node, key, primary, secondary){
 		var mentor = this.getMentor(key, node);
 		// changing target node if there is no mentor
 		if (mentor === undefined){
@@ -337,7 +338,7 @@ function Dom(){
 		var complNodes = this.complementNodes(mentor, node),
 			len = complNodes.length,
 			i;
-		// apply mentor's style property on them and
+		// apply mentor's style property on them
 		if (len){
 			var mentorStyle = this.getStyleProperty(mentor, key);
 			for (i = 0; i < len; i++){

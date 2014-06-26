@@ -576,7 +576,7 @@ describe('Dom-specific functionality', function(){
 
 
 
-    describe('Toggling style property', function(){
+    describe('Nailing style property', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
             e41, e50, e51, e60, e61, e62, e63,
             dom;
@@ -652,14 +652,14 @@ describe('Dom-specific functionality', function(){
 
         it('calls getMentor method to find out whether the style key is imposed', function(){
             spyOn(dom, 'getMentor');
-            dom.toggleStyleProperty(e34, 'whatever', 'primary', 'secondary');
+            dom.nailStyleProperty(e34, 'whatever', 'primary', 'secondary');
             expect(dom.getMentor).toHaveBeenCalledWith('whatever', e34);
         });
 
         it('calls "setStyleProperty" with primary value of the style property on the target if it has no mentor', function(){
             spyOn(dom, 'getMentor');
             spyOn(dom, 'setStyleProperty');
-            dom.toggleStyleProperty(e50, 'src', 'primary', 'secondary');
+            dom.nailStyleProperty(e50, 'src', 'primary', 'secondary');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'src', 'primary');
         });
 
@@ -669,7 +669,7 @@ describe('Dom-specific functionality', function(){
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
             spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';});
-            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e34, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e20, 'font', 'nice');
@@ -681,7 +681,7 @@ describe('Dom-specific functionality', function(){
             spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
-            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.dropStyleProperty).toHaveBeenCalledWith(e10, 'font');
         });
 
@@ -690,7 +690,7 @@ describe('Dom-specific functionality', function(){
             spyOn(dom, 'complementNodes').andCallFake(function(){return [];});
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
-            dom.toggleStyleProperty(e63, 'font', 'good', 'ugly');
+            dom.nailStyleProperty(e63, 'font', 'good', 'ugly');
             expect(dom.dropStyleProperty).toHaveBeenCalledWith(e21, 'font');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e63, 'font', 'good');
         });
@@ -702,7 +702,7 @@ describe('Dom-specific functionality', function(){
             spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
             spyOn(dom, 'setStyleProperty');
             spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';}); // mentor inline style
-            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'good');
         });
 
@@ -711,7 +711,7 @@ describe('Dom-specific functionality', function(){
             spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
             spyOn(dom, 'setStyleProperty');
             spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'good';}); // mentor inline style
-            dom.toggleStyleProperty(e51, 'font', 'good', 'ugly');
+            dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'ugly');
         });
 

@@ -460,31 +460,93 @@ function Dom(){
 			}
 			currentNode = currentNode.parentNode;
 		}
-	}
+	};
 
 	/**
-	 * Toggles inline style property &#x60;key&#x60; of &#x60;node&#x60; between &#x60;primary&#x60; and &#x60;secondary&#x60;.
+	 * Nails inline style property &#x60;key&#x60; of &#x60;node&#x60;:  applies style property on &quot;innocent&quot; nodes
+	 * and toggles node inline property &#x60;key&#x60; between &#x60;primary&#x60; and &#x60;secondary&#x60;.
 	 *
 	 * If &#x60;node&#x60; has a mentor node, then:
 	 * &lt;ol&gt;&lt;li&gt;
-	 * assign value of inline style property &#x60;key&#x60; of the mentor to each {{#crossLink &quot;Dom/complementNodes:method&quot;}}complement
-	 * node{{#/crossLink}} to the path &#x60;mentor - ... - node&#x60;,
+	 * assign value of inline style property &#x60;key&#x60; of the mentor to each
+	 * {{#crossLink &quot;Dom/complementNodes:method&quot;}}complement node{{/crossLink}} to the path &#x60;mentor - ... - node&#x60;,
 	 * &lt;/li&gt;&lt;li&gt;
 	 * eliminate inline style property &#x60;key&#x60; from the mentor,
 	 * &lt;/li&gt;&lt;li&gt;
-	 * call {{#crossLink &quot;Dom/alternateStyleProperty:method&quot;}}alternateStyleProperty{{/crossLink}} method that takes care of
-	 * changing current style of &#x60;node&#x60;.
+	 * call {{#crossLink &quot;Dom/setStyleProperty:method&quot;}}setStyleProperty{{/crossLink}} method that takes care of
+	 * setting inline style property of &#x60;node&#x60; to required value.
 	 * &lt;/li&gt;&lt;/ol&gt;
 	 * If &#x60;node&#x60; has no mentor node, then set its inline style property &#x60;key&#x60; to be equal to &#x60;secondary&#x60;
-	 * @method         toggleStyleProperty
+	 * @method         nailStyleProperty
 	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key              name of inline style property
 	 * @param          {String|Number}      primary          primary value of inline style property
 	 * @param          {String|Number}      secondary        secondary value of inline style property
 	 * @return         {void}
 	 */
-	this.toggleStyleProperty = function(node, key, primary, secondary){
+	this.nailStyleProperty = function(node, key, primary, secondary){
+		var mentor = this.getMentor(key, node);
+		// changing target node if there is no mentor
+		if (mentor === undefined){
+			this.setStyleProperty(node, key, primary);
+			return;
+		}
+		// from now on, mentor exists.
+		// It might coincide with the node (in this case, array of complement nodes is empty).
+		var complNodes = this.complementNodes(mentor, node),
+			len = complNodes.length,
+			i;
+		// apply mentor&#x27;s style property on them
+		if (len){
+			var mentorStyle = this.getStyleProperty(mentor, key);
+			for (i = 0; i &lt; len; i++){
+				this.setStyleProperty(complNodes[i], key, mentorStyle);
+			}
+		}
+		// drop the property from the mentor
+		this.dropStyleProperty(mentor, key);
+		// impose secondary value of the style property on the target node
+		this.setStyleProperty(node, key, mentorStyle === primary ? secondary : primary);
+	};
 
+
+	/**
+	 * Imposes inline style property &#x60;key&#x60; of &#x60;node&#x60; to equal to &#x60;value&#x60;. If &#x60;node&#x60; is a
+	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with
+	 * dumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly
+	 * imposed inline style.
+	 * @method  setStyleProperty
+	 * @param  {[type]} node  [description]
+	 * @param  {[type]} key   [description]
+	 * @param  {[type]} value [description]
+	 * @return {[type]}       [description]
+	 */
+	this.setStyleProperty = function(node, key, value){
+		/// !!! stub
+	};
+
+	/**
+	 * Gets inline style property with name &#x60;key&#x60; of &#x60;node&#x60;. Returns &#x60;undefined&#x60; if &#x60;node&#x60;
+	 * does not have inline style property &#x60;key&#x60;.
+	 * @method         getStyleProperty
+	 * @param          {DOM.Node}           node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key           name of inline style property of &#x60;node&#x60;
+	 * @return         {String|Number}
+	 */
+	this.getStyleProperty = function(node, key){
+		/// !!! stub
+	};
+
+
+	/**
+	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60;.
+	 * @method  dropStyleProperty
+	 * @param  {[type]} node [description]
+	 * @param  {[type]} key  [description]
+	 * @return {[type]}      [description]
+	 */
+	this.dropStyleProperty = function(node, key){
+		/// !!! stub
 	}
 
 
