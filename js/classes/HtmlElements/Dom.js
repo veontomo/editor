@@ -376,7 +376,12 @@ function Dom(){
 	 * @return         {String|Number}
 	 */
 	this.getStyleProperty = function(node, key){
-		/// !!! stub
+		if (node && key && typeof node.getAttribute === 'function'){
+			var stl = new Styles(node.getAttribute('style'));
+			if (stl.hasProperty(key)){
+				return stl.getProperty(key);
+			}
+		}
 	};
 
 

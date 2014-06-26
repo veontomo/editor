@@ -714,6 +714,48 @@ describe('Dom-specific functionality', function(){
             dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'ugly');
         });
+    });
+
+    describe('Getting inline style property of nodes', function(){
+    var e0, e1, t2, e3, dom;
+//                    e0 (font: nice; color: red)
+//            ___________|_______
+//           |           |       |
+//          e1          t2     e3 (width: big; border: 2)
+//
+        beforeEach(function(){
+            dom = new Dom();
+            e0 = document.createElement('div0');
+            e1 = document.createElement('div1');
+            t2 = document.createTextNode('text node');
+            e3 = document.createElement('div3');
+
+            e0.setAttribute('style', 'font: nice; color: red');
+            e3.setAttribute('style', 'width: big; border: 2');
+
+            e0.appendChild(e1);
+            e0.appendChild(t2);
+            e0.appendChild(e3);
+        });
+
+        it('returns undefined if asked about a text node', function(){
+            expect(dom.getStyleProperty(t2, 'whatever')).not.toBeDefined();
+        });
+
+        it('returns undefined if the node does not have that property', function(){
+            expect(dom.getStyleProperty(e3, 'height')).not.toBeDefined();
+        });
+
+        it('returns undefined if the node does not have any property', function(){
+            expect(dom.getStyleProperty(e1, 'height')).not.toBeDefined();
+        });
+
+        it('returns property value if the node has that property', function(){
+            expect(dom.getStyleProperty(e0, 'color')).toBe('red');
+        });
+
+
+
 
     });
 
