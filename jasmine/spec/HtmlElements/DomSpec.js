@@ -556,7 +556,6 @@ describe('Dom-specific functionality', function(){
 
         it('returns array containing a sibling of the end node and its "high level cousins"', function(){
             var res = dom.complementNodes(e10, e30);
-            console.log(res);
             expect(Array.isArray(res)).toBe(true);
             expect(res.length).toBe(4);
             expect(res.indexOf(e31) !== -1).toBe(true);
@@ -719,7 +718,7 @@ describe('Dom-specific functionality', function(){
     describe('Managing inline style property of nodes', function(){
     var e0, e1, t2, e3, e4, dom;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
-//            ___________|________________
+//            ___________|_______
 //           |           |       |
 //          e1          t2     e3 (width: big; border: 2)
 //
@@ -795,14 +794,77 @@ describe('Dom-specific functionality', function(){
         });
 
         describe('Setting property', function(){
-            it();
+            it('return node itself (modified) if the target is an element node', function(){
+                var n = dom.setStyleProperty(e3, 'color', 'blue');
+                expect(n.nodeType).toBe(Node.ELEMENT_NODE);
+                expect(n.isEqualNode(e3)).toBe(true);
+            });
+
+            it('returns a wrapping node if the target is a text node', function(){
+                var n = dom.setStyleProperty(t2, 'color', 'blue');
+                expect(n.nodeType).toBe(Node.ELEMENT_NODE);
+            });
+
+            it('appends the property to the node with inline style', function(){
+                dom.setStyleProperty(e0, 'position', 'absolute');
+                var styles = e0.getAttribute('style').split(';'),
+                    // splitting style in pieces and look for the presence of "position: absolute"
+                    res = styles.some(function(record){
+                        var tmp = record.split(':');
+                        return tmp.length === 2 && tmp[0].trim() === 'position' && tmp[1].trim() === 'absolute';
+                    });
+                expect(res).toBe(true);
+            });
+
+            it('sets the property to the node without inline style', function(){
+                dom.setStyleProperty(e1, 'position', 'absolute');
+                var styles = e1.getAttribute('style').split(';'),
+                    // splitting style in pieces and look for the presence of "position: absolute"
+                    res = styles.some(function(record){
+                        var tmp = record.split(':');
+                        return tmp.length === 2 && tmp[0].trim() === 'position' && tmp[1].trim() === 'absolute';
+                    });
+                expect(res).toBe(true);
+            });
+
+
+            it('overrides the property of the node', function(){
+                dom.setStyleProperty(e0, 'color', 'green');
+                var styles = e0.getAttribute('style').split(';'),
+                    // splitting style in pieces and look for the presence of "position: absolute"
+                    isPresentNew = styles.some(function(record){
+                        var tmp = record.split(':');
+                        return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'green';
+                    }),
+                    isPresentOld = styles.some(function(record){
+                        var tmp = record.split(':');
+                        return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'red';
+                    });
+                expect(isPresentNew).toBe(true);
+                expect(isPresentOld).toBe(false);
+            });
+
+            it('sets inline property of the wrapping node when calling on a text node', function(){
+                var n = dom.setStyleProperty(t2, 'color', 'blue');
+                var styles = n.getAttribute('style').split(';'),
+                    res = styles.some(function(record){
+                        var tmp = record.split(':');
+                        return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'blue';
+                    });
+                expect(res).toBe(true);
+
+            });
+
+            it('inserts wrapping node in the DOM at place of the text node', function(){
+                var n = dom.setStyleProperty(t2, 'color', 'blue');
+                expect(n.nextSibling).toBe(e3);
+                expect(n.previousSibling).toBe(e1);
+                expect(n.firstChild.nodeValue).toBe('text node');
+
+            })
+
+
         });
-
-
-
-
-
-
     });
 
 });

@@ -353,18 +353,33 @@ function Dom(){
 
 
 	/**
-	 * Imposes inline style property `key` of `node` to equal to `value`. If `node` is a
-	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with
-	 * dumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly
-	 * imposed inline style.
-	 * @method  setStyleProperty
-	 * @param  {[type]} node  [description]
-	 * @param  {[type]} key   [description]
-	 * @param  {[type]} value [description]
-	 * @return {[type]}       [description]
+	 * Returns reference to a node with inline style property `key` being set to `value`.
+	 * If `node` is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+	 * then reference it itself is returned. Otherwise, it is returned a new
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains
+	 * a clone of `node` and which replaces `node`.
+	 * @method         setStyleProperty
+	 * @param          {DOM.Node}           node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key      name of inline style property to set
+	 * @param          {String|Number}      value    value of the inline style property
+	 * @return         {DOM.Node}                    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 */
 	this.setStyleProperty = function(node, key, value){
-		/// !!! stub
+		if (!node || !key || !value){
+			throw new Error('Node, key and value must be given!');
+		}
+		var attrName = 'style',
+			isElem = node.nodeType === Node.ELEMENT_NODE,
+			node2 = isElem ? node : document.createElement('span'),
+			style = new Styles(node2.getAttribute(attrName));
+		style.setProperty(key, value);
+		node2.setAttribute(attrName, style.toBareString());
+		// arrange the node if it was created as a span
+		if (!isElem){
+			node2.appendChild(node.cloneNode(false));
+			node.parentNode.replaceChild(node2, node);
+		}
+		return node2;
 	};
 
 	/**
