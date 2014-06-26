@@ -794,6 +794,10 @@ describe('Dom-specific functionality', function(){
             });
         });
 
+        describe('Setting property', function(){
+            it();
+        });
+
 
 
 

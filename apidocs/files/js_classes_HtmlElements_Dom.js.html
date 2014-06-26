@@ -534,19 +534,41 @@ function Dom(){
 	 * @return         {String|Number}
 	 */
 	this.getStyleProperty = function(node, key){
-		/// !!! stub
+		if (node &amp;&amp; key &amp;&amp; typeof node.getAttribute === &#x27;function&#x27;){
+			var stl = new Styles(node.getAttribute(&#x27;style&#x27;));
+			if (stl.hasProperty(key)){
+				return stl.getProperty(key);
+			}
+		}
 	};
 
 
 	/**
-	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60;.
-	 * @method  dropStyleProperty
-	 * @param  {[type]} node [description]
-	 * @param  {[type]} key  [description]
-	 * @return {[type]}      [description]
+	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60;. If after that the inline style remains empty,
+	 * removes it (to maintain the node clean).
+	 * Returns &#x60;true&#x60; if the initially contains inline style property &#x60;key&#x60; and &#x60;false&#x60; otherwise.
+	 *
+	 * @method         dropStyleProperty
+	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key       name of inline style attribute to drop
+	 * @return         {Boolean}
 	 */
 	this.dropStyleProperty = function(node, key){
-		/// !!! stub
+		if (node &amp;&amp; key &amp;&amp; typeof node.getAttribute === &#x27;function&#x27;){
+			var attrName = &#x27;style&#x27;;
+			var stl = new Styles(node.getAttribute(attrName));
+			if (stl.hasProperty(key)){
+				stl.dropProperty(key);
+				if (stl.isEmpty()){
+					node.removeAttribute(attrName);
+				} else {
+					node.setAttribute(attrName, stl.toBareString());
+				}
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
 

@@ -3653,32 +3653,32 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 383,
-            "description": "Drops inline style property `key` from `node`.",
+            "line": 388,
+            "description": "Drops inline style property `key` from `node`. If after that the inline style remains empty,\nremoves it (to maintain the node clean).\nReturns `true` if the initially contains inline style property `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "dropStyleProperty",
             "params": [
                 {
                     "name": "node",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
                 },
                 {
                     "name": "key",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "name of inline style attribute to drop",
+                    "type": "String"
                 }
             ],
             "return": {
-                "description": "[description]",
-                "type": "[type]"
+                "description": "",
+                "type": "Boolean"
             },
             "class": "Dom",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 395,
+            "line": 417,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -3714,7 +3714,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 424,
+            "line": 446,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -3750,7 +3750,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 452,
+            "line": 474,
             "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",

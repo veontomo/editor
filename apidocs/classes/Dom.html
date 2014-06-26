@@ -1306,7 +1306,7 @@ be set, it is set to value <code>val</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l452"><code>js\classes\HtmlElements\Dom.js:452</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l474"><code>js\classes\HtmlElements\Dom.js:474</code></a>
         
         </p>
 
@@ -1462,7 +1462,7 @@ to arrive to node B starting from node A passing always from a node to its child
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l424"><code>js\classes\HtmlElements\Dom.js:424</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l446"><code>js\classes\HtmlElements\Dom.js:446</code></a>
         
         </p>
 
@@ -1600,7 +1600,7 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
 
     
         <span class="returns-inline">
-            <span class="type">type</span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -1627,7 +1627,7 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l383"><code>js\classes\HtmlElements\Dom.js:383</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l388"><code>js\classes\HtmlElements\Dom.js:388</code></a>
         
         </p>
 
@@ -1638,7 +1638,9 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
     </div>
 
     <div class="description">
-        <p>Drops inline style property <code>key</code> from <code>node</code>.</p>
+        <p>Drops inline style property <code>key</code> from <code>node</code>. If after that the inline style remains empty,
+removes it (to maintain the node clean).
+Returns <code>true</code> if the initially contains inline style property <code>key</code> and <code>false</code> otherwise.</p>
 
     </div>
 
@@ -1651,13 +1653,13 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
                 <li class="param">
                     
                         <code class="param-name">node</code>
-                        <span class="type">type</span>
+                        <span class="type">DOM.Node</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
 
                     </div>
 
@@ -1667,13 +1669,13 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
                 <li class="param">
                     
                         <code class="param-name">key</code>
-                        <span class="type">type</span>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p>name of inline style attribute to drop</p>
 
                     </div>
 
@@ -1691,10 +1693,8 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
             <div class="returns-description">
                 
                     
-                        <span class="type">type</span>:
+                        <span class="type">Boolean</span>:
                     
-                    <p>[description]</p>
-
                 
             </div>
         </div>
@@ -2621,7 +2621,7 @@ imposed inline style.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l395"><code>js\classes\HtmlElements\Dom.js:395</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l417"><code>js\classes\HtmlElements\Dom.js:417</code></a>
         
         </p>
 

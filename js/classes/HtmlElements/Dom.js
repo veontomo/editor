@@ -386,11 +386,15 @@ function Dom(){
 
 
 	/**
-	 * Drops inline style property `key` from `node`.
-	 * @method  dropStyleProperty
-	 * @param  {[type]} node [description]
-	 * @param  {[type]} key  [description]
-	 * @return {[type]}      [description]
+	 * Drops inline style property `key` from `node` and removes inline style attribute if
+	 * it becomes empty.
+	 * Returns `true` if the initially contains inline style property `key` and `false` otherwise.
+	 *
+	 * @method         dropStyleProperty
+	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key       name of inline style attribute to drop
+	 * @return         {Boolean}                      `true` if successefully deleted the requested property
+	 *                                                 and `false` otherwise
 	 */
 	this.dropStyleProperty = function(node, key){
 		if (node && key && typeof node.getAttribute === 'function'){
