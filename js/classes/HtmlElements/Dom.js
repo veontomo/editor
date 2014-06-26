@@ -23,21 +23,21 @@ function Dom(){
 	 * @deprecated     in favour of {{#crossLink "Dom/getInheritedStyleProp:method"}}getInheritedStyleProp{{/crossLink}}
 	 * @since          0.0.4
 	 */
-	var _lookUpInParents = function(n, prop){
-	    console.log('inside _lookUpInParents');
-	    var currentNode = n,
-	        stl;
-	    while (currentNode){
-	        console.log('current Node: ', currentNode);
-	        if (typeof currentNode.getAttribute === 'function'){
-	            stl = new Styles(currentNode.getAttribute('style'));
-	            if (stl.hasProperty(prop)){
-	                return stl.getProperty(prop);
-	            }
-	        }
-	        currentNode = currentNode.parentNode;
-	    }
-	};
+	// var _lookUpInParents = function(n, prop){
+	//     console.log('inside _lookUpInParents');
+	//     var currentNode = n,
+	//         stl;
+	//     while (currentNode){
+	//         console.log('current Node: ', currentNode);
+	//         if (typeof currentNode.getAttribute === 'function'){
+	//             stl = new Styles(currentNode.getAttribute('style'));
+	//             if (stl.hasProperty(prop)){
+	//                 return stl.getProperty(prop);
+	//             }
+	//         }
+	//         currentNode = currentNode.parentNode;
+	//     }
+	// };
 
 	/**
 	 * Toggles inline style property `prop` of node `n`. When it turns out that the property should
@@ -52,22 +52,22 @@ function Dom(){
 	 * @return         {void}
 	 * @since          0.0.4
 	 */
-	var _toggleNodeStyle = function(n, prop, val, altVal){
-	    var attrName = 'style',
-	        stl, stlStr;
-	    if (!(typeof n === 'object' && n.nodeType)){
-	        return;
-	    }
-	    console.log('from parents: ', _lookUpInParents(n, prop));
-	    stl = new Styles(n.getAttribute(attrName));
-	    stl.toggleProperty(prop, val, altVal);
-	    stlStr = stl.toBareString();
-	    if (stlStr){
-	        n.setAttribute(attrName, stlStr);
-	    } else {
-	        n.removeAttribute(attrName);
-	    }
-	};
+	// var _toggleNodeStyle = function(n, prop, val, altVal){
+	//     var attrName = 'style',
+	//         stl, stlStr;
+	//     if (!(typeof n === 'object' && n.nodeType)){
+	//         return;
+	//     }
+	//     console.log('from parents: ', _lookUpInParents(n, prop));
+	//     stl = new Styles(n.getAttribute(attrName));
+	//     stl.toggleProperty(prop, val, altVal);
+	//     stlStr = stl.toBareString();
+	//     if (stlStr){
+	//         n.setAttribute(attrName, stlStr);
+	//     } else {
+	//         n.removeAttribute(attrName);
+	//     }
+	// };
 
 
 	/**
@@ -81,15 +81,15 @@ function Dom(){
 	 * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {DOM.Node|Null}
 	 */
-	this.proxy = function(n){
-	    if (n === undefined || n.nodeType === undefined){
-	        return null;
-	    }
-	    if (n.nodeType === Node.ELEMENT_NODE){
-	        return n;
-	    }
-	    return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
-	};
+	// this.proxy = function(n){
+	//     if (n === undefined || n.nodeType === undefined){
+	//         return null;
+	//     }
+	//     if (n.nodeType === Node.ELEMENT_NODE){
+	//         return n;
+	//     }
+	//     return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
+	// };
 
 	/**
 	 * Looks for a value of style property `key` of nearest ascendant of `node` in the scope of node `scope`.
@@ -154,47 +154,47 @@ function Dom(){
 	 * @since          0.0.4
 	 * @todo           Try to make this method shorter
 	 */
-	var _deferToggleStyle = function(n, prop, val, altVal){
-	    var childNodes = n.childNodes,
-	        childNum = childNodes.length,
-	        child, span, parent, counter;
-	    switch (childNum){
-	         // node has no children
-	        case 0:
-	            if (n.nodeType === Node.ELEMENT_NODE){
-	                _toggleNodeStyle(n, prop, val, altVal);
-	                break;
-	            }
-	            if (n.nodeType === Node.TEXT_NODE){
-	                console.log('from parents: ', _lookUpInParents(n, prop));
-	                span = new Tag();
-	                span.setTag('span');
-	                span.setStyleProperty(prop, val);
-	                span.setContent(n.nodeValue);
-	                parent = n.parentNode;
-	                if (parent){
-	                    parent.replaceChild(span.toNode(), n);
-	                }
-	                break;
-	            }
-	            break;
-	        // node has only one child
-	        case 1:
-	            child = n.firstChild;
-	            if (child.nodeType === Node.TEXT_NODE){
-	                 _toggleNodeStyle(n, prop, val, altVal);
-	            } else {
-	                _deferToggleStyle(child, prop, val, altVal);
-	            }
-	            break;
-	        // node has many children
-	        default:
-	            console.log("children no. : ", childNum, childNodes);
-	            for (counter = 0; counter < childNum; counter++){
-	                _deferToggleStyle(childNodes[counter], prop, val, altVal);
-	            }
-	    }
-	};
+	// var _deferToggleStyle = function(n, prop, val, altVal){
+	//     var childNodes = n.childNodes,
+	//         childNum = childNodes.length,
+	//         child, span, parent, counter;
+	//     switch (childNum){
+	//          // node has no children
+	//         case 0:
+	//             if (n.nodeType === Node.ELEMENT_NODE){
+	//                 _toggleNodeStyle(n, prop, val, altVal);
+	//                 break;
+	//             }
+	//             if (n.nodeType === Node.TEXT_NODE){
+	//                 console.log('from parents: ', _lookUpInParents(n, prop));
+	//                 span = new Tag();
+	//                 span.setTag('span');
+	//                 span.setStyleProperty(prop, val);
+	//                 span.setContent(n.nodeValue);
+	//                 parent = n.parentNode;
+	//                 if (parent){
+	//                     parent.replaceChild(span.toNode(), n);
+	//                 }
+	//                 break;
+	//             }
+	//             break;
+	//         // node has only one child
+	//         case 1:
+	//             child = n.firstChild;
+	//             if (child.nodeType === Node.TEXT_NODE){
+	//                  _toggleNodeStyle(n, prop, val, altVal);
+	//             } else {
+	//                 _deferToggleStyle(child, prop, val, altVal);
+	//             }
+	//             break;
+	//         // node has many children
+	//         default:
+	//             console.log("children no. : ", childNum, childNodes);
+	//             for (counter = 0; counter < childNum; counter++){
+	//                 _deferToggleStyle(childNodes[counter], prop, val, altVal);
+	//             }
+	//     }
+	// };
 
 
 
@@ -208,28 +208,28 @@ function Dom(){
 	 * @return         {DOM.Node|Null}
 	 * @since          0.0.4
 	 */
-	var _commonAncestor = function(n1, n2){
-	    // console.log(n1, n2);
-	    if (n1 === undefined || n2 === undefined){
-	        // console.log('return undefined');
-	        return;
-	    }
-	    if (n1.contains(n2)){
-	        // console.log('return first argument', n1);
-	        return n1;
-	    }
-	    if (n2.contains(n1)){
-	        // console.log('return second argument', n2);
-	        return n2;
-	    }
-	    var parent = n1.parentNode;
-	    while (parent && !(parent.contains(n2))){
-	        // console.log('inside while loop: ', parent);
-	        parent = parent.parentNode;
-	    }
-	    // console.log('return parent', parent);
-	    return parent;
-	};
+	// var _commonAncestor = function(n1, n2){
+	//     // console.log(n1, n2);
+	//     if (n1 === undefined || n2 === undefined){
+	//         // console.log('return undefined');
+	//         return;
+	//     }
+	//     if (n1.contains(n2)){
+	//         // console.log('return first argument', n1);
+	//         return n1;
+	//     }
+	//     if (n2.contains(n1)){
+	//         // console.log('return second argument', n2);
+	//         return n2;
+	//     }
+	//     var parent = n1.parentNode;
+	//     while (parent && !(parent.contains(n2))){
+	//         // console.log('inside while loop: ', parent);
+	//         parent = parent.parentNode;
+	//     }
+	//     // console.log('return parent', parent);
+	//     return parent;
+	// };
 
 	/**
 	 * Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.
@@ -238,9 +238,9 @@ function Dom(){
 	 * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {DOM.Node|Null}
 	 */
-	this.commonAncestor = function(n1, n2){
-	    return _commonAncestor(n1, n2);
-	};
+	// this.commonAncestor = function(n1, n2){
+	//     return _commonAncestor(n1, n2);
+	// };
 
 	/**
 	 * Returns common ancestor of all array elements. If an element is not a
@@ -248,37 +248,37 @@ function Dom(){
 	 * @method         commonAncestorSoft
 	 * @return         {DOM.Node|Null}      common ancestor of the arguments
 	 */
-	this.commonAncestorSoft = function(elems){
-	    if (!Array.isArray(elems)){
-	        return null;
-	    }
-	    var arg = elems.filter(function(el){
-	        return el && el.nodeType !== undefined;
-	    });
-	    if (arg.length === 0){
-	        return null;
-	    }
-	    var el = arg.shift(),
-	        elTmp;
-	    while (arg.length > 0){
-	        elTmp = arg.shift();
-	        el = _commonAncestor(el, elTmp);
-	    }
-	    return el;
-	};
+	// this.commonAncestorSoft = function(elems){
+	//     if (!Array.isArray(elems)){
+	//         return null;
+	//     }
+	//     var arg = elems.filter(function(el){
+	//         return el && el.nodeType !== undefined;
+	//     });
+	//     if (arg.length === 0){
+	//         return null;
+	//     }
+	//     var el = arg.shift(),
+	//         elTmp;
+	//     while (arg.length > 0){
+	//         elTmp = arg.shift();
+	//         el = _commonAncestor(el, elTmp);
+	//     }
+	//     return el;
+	// };
 
-	/**
-	 * Normalize parent of elements of the array.
-	 * @method  normalizeParentOf
-	 * @param  {Array}     elems
-	 * @return {void}
-	 */
-	this.normalizeParentOf = function(elems){
-	    var el = this.commonAncestorSoft(elems);
-	    if (el){
-	        el.normalize();
-	    }
-	};
+	// /**
+	//  * Normalize parent of elements of the array.
+	//  * @method  normalizeParentOf
+	//  * @param  {Array}     elems
+	//  * @return {void}
+	//  */
+	// this.normalizeParentOf = function(elems){
+	//     var el = this.commonAncestorSoft(elems);
+	//     if (el){
+	//         el.normalize();
+	//     }
+	// };
 
 
 	/**
