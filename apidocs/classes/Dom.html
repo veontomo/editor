@@ -305,13 +305,6 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_normalizeParentOf">normalizeParentOf</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_setStyleProperty">setStyleProperty</a>
 
                                 
@@ -1306,7 +1299,7 @@ be set, it is set to value <code>val</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l474"><code>js\classes\HtmlElements\Dom.js:474</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l488"><code>js\classes\HtmlElements\Dom.js:488</code></a>
         
         </p>
 
@@ -1462,7 +1455,7 @@ to arrive to node B starting from node A passing always from a node to its child
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l446"><code>js\classes\HtmlElements\Dom.js:446</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l460"><code>js\classes\HtmlElements\Dom.js:460</code></a>
         
         </p>
 
@@ -1627,7 +1620,7 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l388"><code>js\classes\HtmlElements\Dom.js:388</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l401"><code>js\classes\HtmlElements\Dom.js:401</code></a>
         
         </p>
 
@@ -1638,8 +1631,8 @@ property <code>key</code> equal to <code>secondary</code> if value of <code>key<
     </div>
 
     <div class="description">
-        <p>Drops inline style property <code>key</code> from <code>node</code>. If after that the inline style remains empty,
-removes it (to maintain the node clean).
+        <p>Drops inline style property <code>key</code> from <code>node</code> and removes inline style attribute if
+it becomes empty.
 Returns <code>true</code> if the initially contains inline style property <code>key</code> and <code>false</code> otherwise.</p>
 
     </div>
@@ -1695,6 +1688,9 @@ Returns <code>true</code> if the initially contains inline style property <code>
                     
                         <span class="type">Boolean</span>:
                     
+                    <p><code>true</code> if successefully deleted the requested property
+                                                and <code>false</code> otherwise</p>
+
                 
             </div>
         </div>
@@ -2040,7 +2036,7 @@ is performed up to the &quot;highest&quot; parent of <code>node</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l370"><code>js\classes\HtmlElements\Dom.js:370</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l383"><code>js\classes\HtmlElements\Dom.js:383</code></a>
         
         </p>
 
@@ -2299,110 +2295,6 @@ If <code>node</code> has no mentor node, then set its inline style property <cod
 </div>
 
                 
-                    <div id="method_normalizeParentOf" class="method item">
-    <h3 class="name"><code>normalizeParentOf</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>elems</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l270"><code>js\classes\HtmlElements\Dom.js:270</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Normalize parent of elements of the array.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">elems</code>
-                        <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Void</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_setStyleProperty" class="method item">
     <h3 class="name"><code>setStyleProperty</code></h3>
 
@@ -2434,7 +2326,7 @@ If <code>node</code> has no mentor node, then set its inline style property <cod
 
     
         <span class="returns-inline">
-            <span class="type">type</span>
+            <span class="type">DOM.Node</span>
         </span>
     
 
@@ -2461,7 +2353,7 @@ If <code>node</code> has no mentor node, then set its inline style property <cod
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l355"><code>js\classes\HtmlElements\Dom.js:355</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l353"><code>js\classes\HtmlElements\Dom.js:353</code></a>
         
         </p>
 
@@ -2472,10 +2364,11 @@ If <code>node</code> has no mentor node, then set its inline style property <cod
     </div>
 
     <div class="description">
-        <p>Imposes inline style property <code>key</code> of <code>node</code> to equal to <code>value</code>. If <code>node</code> is a
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/Text">Text</a> instance, then wraps it with
-dumb <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance with properly
-imposed inline style.</p>
+        <p>Returns reference to a node with inline style property <code>key</code> being set to <code>value</code>.
+If <code>node</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance,
+then reference it itself is returned. Otherwise, it is returned a new
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance, which contains
+a clone of <code>node</code> and which replaces <code>node</code>.</p>
 
     </div>
 
@@ -2488,13 +2381,13 @@ imposed inline style.</p>
                 <li class="param">
                     
                         <code class="param-name">node</code>
-                        <span class="type">type</span>
+                        <span class="type">DOM.Node</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
 
                     </div>
 
@@ -2504,13 +2397,13 @@ imposed inline style.</p>
                 <li class="param">
                     
                         <code class="param-name">key</code>
-                        <span class="type">type</span>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p>name of inline style property to set</p>
 
                     </div>
 
@@ -2520,13 +2413,13 @@ imposed inline style.</p>
                 <li class="param">
                     
                         <code class="param-name">value</code>
-                        <span class="type">type</span>
+                        <span class="type">String | Number</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>[description]</p>
+                        <p>value of the inline style property</p>
 
                     </div>
 
@@ -2544,9 +2437,9 @@ imposed inline style.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">type</span>:
+                        <span class="type">DOM.Node</span>:
                     
-                    <p>[description]</p>
+                    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a></p>
 
                 
             </div>
@@ -2621,7 +2514,7 @@ imposed inline style.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Dom.js.html#l417"><code>js\classes\HtmlElements\Dom.js:417</code></a>
+        <a href="../files/js_classes_HtmlElements_Dom.js.html#l431"><code>js\classes\HtmlElements\Dom.js:431</code></a>
         
         </p>
 

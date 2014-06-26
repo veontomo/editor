@@ -312,47 +312,47 @@ function Dom(){
 	 * @since          0.0.4
 	 * @todo           Try to make this method shorter
 	 */
-	var _deferToggleStyle = function(n, prop, val, altVal){
-	    var childNodes = n.childNodes,
-	        childNum = childNodes.length,
-	        child, span, parent, counter;
-	    switch (childNum){
-	         // node has no children
-	        case 0:
-	            if (n.nodeType === Node.ELEMENT_NODE){
-	                _toggleNodeStyle(n, prop, val, altVal);
-	                break;
-	            }
-	            if (n.nodeType === Node.TEXT_NODE){
-	                console.log(&#x27;from parents: &#x27;, _lookUpInParents(n, prop));
-	                span = new Tag();
-	                span.setTag(&#x27;span&#x27;);
-	                span.setStyleProperty(prop, val);
-	                span.setContent(n.nodeValue);
-	                parent = n.parentNode;
-	                if (parent){
-	                    parent.replaceChild(span.toNode(), n);
-	                }
-	                break;
-	            }
-	            break;
-	        // node has only one child
-	        case 1:
-	            child = n.firstChild;
-	            if (child.nodeType === Node.TEXT_NODE){
-	                 _toggleNodeStyle(n, prop, val, altVal);
-	            } else {
-	                _deferToggleStyle(child, prop, val, altVal);
-	            }
-	            break;
-	        // node has many children
-	        default:
-	            console.log(&quot;children no. : &quot;, childNum, childNodes);
-	            for (counter = 0; counter &lt; childNum; counter++){
-	                _deferToggleStyle(childNodes[counter], prop, val, altVal);
-	            }
-	    }
-	};
+	// var _deferToggleStyle = function(n, prop, val, altVal){
+	//     var childNodes = n.childNodes,
+	//         childNum = childNodes.length,
+	//         child, span, parent, counter;
+	//     switch (childNum){
+	//          // node has no children
+	//         case 0:
+	//             if (n.nodeType === Node.ELEMENT_NODE){
+	//                 _toggleNodeStyle(n, prop, val, altVal);
+	//                 break;
+	//             }
+	//             if (n.nodeType === Node.TEXT_NODE){
+	//                 console.log(&#x27;from parents: &#x27;, _lookUpInParents(n, prop));
+	//                 span = new Tag();
+	//                 span.setTag(&#x27;span&#x27;);
+	//                 span.setStyleProperty(prop, val);
+	//                 span.setContent(n.nodeValue);
+	//                 parent = n.parentNode;
+	//                 if (parent){
+	//                     parent.replaceChild(span.toNode(), n);
+	//                 }
+	//                 break;
+	//             }
+	//             break;
+	//         // node has only one child
+	//         case 1:
+	//             child = n.firstChild;
+	//             if (child.nodeType === Node.TEXT_NODE){
+	//                  _toggleNodeStyle(n, prop, val, altVal);
+	//             } else {
+	//                 _deferToggleStyle(child, prop, val, altVal);
+	//             }
+	//             break;
+	//         // node has many children
+	//         default:
+	//             console.log(&quot;children no. : &quot;, childNum, childNodes);
+	//             for (counter = 0; counter &lt; childNum; counter++){
+	//                 _deferToggleStyle(childNodes[counter], prop, val, altVal);
+	//             }
+	//     }
+	// };
 
 
 
@@ -425,18 +425,18 @@ function Dom(){
 	    return el;
 	};
 
-	/**
-	 * Normalize parent of elements of the array.
-	 * @method  normalizeParentOf
-	 * @param  {Array}     elems
-	 * @return {void}
-	 */
-	this.normalizeParentOf = function(elems){
-	    var el = this.commonAncestorSoft(elems);
-	    if (el){
-	        el.normalize();
-	    }
-	};
+	// /**
+	//  * Normalize parent of elements of the array.
+	//  * @method  normalizeParentOf
+	//  * @param  {Array}     elems
+	//  * @return {void}
+	//  */
+	// this.normalizeParentOf = function(elems){
+	//     var el = this.commonAncestorSoft(elems);
+	//     if (el){
+	//         el.normalize();
+	//     }
+	// };
 
 
 	/**
@@ -495,13 +495,11 @@ function Dom(){
 		// It might coincide with the node (in this case, array of complement nodes is empty).
 		var complNodes = this.complementNodes(mentor, node),
 			len = complNodes.length,
+			mentorStyle = this.getStyleProperty(mentor, key),
 			i;
-		// apply mentor&#x27;s style property on them
-		if (len){
-			var mentorStyle = this.getStyleProperty(mentor, key);
-			for (i = 0; i &lt; len; i++){
-				this.setStyleProperty(complNodes[i], key, mentorStyle);
-			}
+		// apply mentor&#x27;s style property on complement nodes
+		for (i = 0; i &lt; len; i++){
+			this.setStyleProperty(complNodes[i], key, mentorStyle);
 		}
 		// drop the property from the mentor
 		this.dropStyleProperty(mentor, key);
@@ -511,18 +509,33 @@ function Dom(){
 
 
 	/**
-	 * Imposes inline style property &#x60;key&#x60; of &#x60;node&#x60; to equal to &#x60;value&#x60;. If &#x60;node&#x60; is a
-	 * [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with
-	 * dumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly
-	 * imposed inline style.
-	 * @method  setStyleProperty
-	 * @param  {[type]} node  [description]
-	 * @param  {[type]} key   [description]
-	 * @param  {[type]} value [description]
-	 * @return {[type]}       [description]
+	 * Returns reference to a node with inline style property &#x60;key&#x60; being set to &#x60;value&#x60;.
+	 * If &#x60;node&#x60; is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+	 * then reference it itself is returned. Otherwise, it is returned a new
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains
+	 * a clone of &#x60;node&#x60; and which replaces &#x60;node&#x60;.
+	 * @method         setStyleProperty
+	 * @param          {DOM.Node}           node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key      name of inline style property to set
+	 * @param          {String|Number}      value    value of the inline style property
+	 * @return         {DOM.Node}                    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 */
 	this.setStyleProperty = function(node, key, value){
-		/// !!! stub
+		if (!node || !key || !value){
+			throw new Error(&#x27;Node, key and value must be given!&#x27;);
+		}
+		var attrName = &#x27;style&#x27;,
+			isElem = node.nodeType === Node.ELEMENT_NODE,
+			node2 = isElem ? node : document.createElement(&#x27;span&#x27;),
+			style = new Styles(node2.getAttribute(attrName));
+		style.setProperty(key, value);
+		node2.setAttribute(attrName, style.toBareString());
+		// arrange the node if it was created as a span
+		if (!isElem){
+			node2.appendChild(node.cloneNode(false));
+			node.parentNode.replaceChild(node2, node);
+		}
+		return node2;
 	};
 
 	/**
@@ -544,32 +557,33 @@ function Dom(){
 
 
 	/**
-	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60;. If after that the inline style remains empty,
-	 * removes it (to maintain the node clean).
+	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60; and removes inline style attribute if
+	 * it becomes empty.
 	 * Returns &#x60;true&#x60; if the initially contains inline style property &#x60;key&#x60; and &#x60;false&#x60; otherwise.
 	 *
 	 * @method         dropStyleProperty
 	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of inline style attribute to drop
-	 * @return         {Boolean}
+	 * @return         {Boolean}                      &#x60;true&#x60; if successefully deleted the requested property
+	 *                                                 and &#x60;false&#x60; otherwise
 	 */
 	this.dropStyleProperty = function(node, key){
-		if (node &amp;&amp; key &amp;&amp; typeof node.getAttribute === &#x27;function&#x27;){
-			var attrName = &#x27;style&#x27;;
-			var stl = new Styles(node.getAttribute(attrName));
-			if (stl.hasProperty(key)){
-				stl.dropProperty(key);
-				if (stl.isEmpty()){
-					node.removeAttribute(attrName);
-				} else {
-					node.setAttribute(attrName, stl.toBareString());
-				}
-				return true;
-			}
+		if (!node || !key || typeof node.getAttribute !== &#x27;function&#x27;){
 			return false;
 		}
-		return false;
-	}
+		var attrName = &#x27;style&#x27;;
+		var stl = new Styles(node.getAttribute(attrName));
+		if (!stl.hasProperty(key)){
+			return false;
+		}
+		stl.dropProperty(key);
+		if (stl.isEmpty()){
+			node.removeAttribute(attrName);
+		} else {
+			node.setAttribute(attrName, stl.toBareString());
+		}
+		return true;
+	};
 
 
 	/**
@@ -591,15 +605,15 @@ function Dom(){
 	 * @return         {void}
 	 * @since          0.0.4
 	 */
-	this.toggleElementStyle = function(elem, key, primary, secondary){
-		if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
-			var attrName = &#x27;style&#x27;,
-				stl = new Styles(elem.getAttribute(attrName)),
-				styleValue = this.getInheritedStyleProp(key, elem);
-			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
-			elem.setAttribute(attrName, stl.toBareString());
-		}
-	};
+		this.toggleElementStyle = function(elem, key, primary, secondary){
+			if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
+				var attrName = &#x27;style&#x27;,
+					stl = new Styles(elem.getAttribute(attrName)),
+					styleValue = this.getInheritedStyleProp(key, elem);
+				stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+				elem.setAttribute(attrName, stl.toBareString());
+			}
+		};
 
 	/**
 	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style

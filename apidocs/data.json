@@ -1658,7 +1658,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
             "line": 209,
-            "description": "Returns a new Link instance with `href` as in the target, {{#crossLink \"Link/content:property\"}}content{{/crossLink}}\nas in the argument, {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values\nfrom the target",
+            "description": "Returns a new Link instance with `href` as in the target, {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nas in the argument, {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values\nfrom the target",
             "itemtype": "method",
             "name": "updateLink",
             "params": [
@@ -3518,26 +3518,6 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 270,
-            "description": "Normalize parent of elements of the array.",
-            "itemtype": "method",
-            "name": "normalizeParentOf",
-            "params": [
-                {
-                    "name": "elems",
-                    "description": "",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Dom",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 284,
             "description": "Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.",
             "itemtype": "method",
@@ -3598,37 +3578,37 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 355,
-            "description": "Imposes inline style property `key` of `node` to equal to `value`. If `node` is a\n[Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then wraps it with\ndumb [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance with properly\nimposed inline style.",
+            "line": 353,
+            "description": "Returns reference to a node with inline style property `key` being set to `value`.\nIf `node` is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,\nthen reference it itself is returned. Otherwise, it is returned a new\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains\na clone of `node` and which replaces `node`.",
             "itemtype": "method",
             "name": "setStyleProperty",
             "params": [
                 {
                     "name": "node",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
                 },
                 {
                     "name": "key",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "name of inline style property to set",
+                    "type": "String"
                 },
                 {
                     "name": "value",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "value of the inline style property",
+                    "type": "String|Number"
                 }
             ],
             "return": {
-                "description": "[description]",
-                "type": "[type]"
+                "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)",
+                "type": "DOM.Node"
             },
             "class": "Dom",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 370,
+            "line": 383,
             "description": "Gets inline style property with name `key` of `node`. Returns `undefined` if `node`\ndoes not have inline style property `key`.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -3653,8 +3633,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 388,
-            "description": "Drops inline style property `key` from `node`. If after that the inline style remains empty,\nremoves it (to maintain the node clean).\nReturns `true` if the initially contains inline style property `key` and `false` otherwise.",
+            "line": 401,
+            "description": "Drops inline style property `key` from `node` and removes inline style attribute if\nit becomes empty.\nReturns `true` if the initially contains inline style property `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "dropStyleProperty",
             "params": [
@@ -3670,7 +3650,7 @@
                 }
             ],
             "return": {
-                "description": "",
+                "description": "`true` if successefully deleted the requested property\n                                                and `false` otherwise",
                 "type": "Boolean"
             },
             "class": "Dom",
@@ -3678,7 +3658,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 417,
+            "line": 431,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -3714,7 +3694,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 446,
+            "line": 460,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -3750,7 +3730,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 474,
+            "line": 488,
             "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",

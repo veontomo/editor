@@ -182,6 +182,7 @@ describe('Link-related functionality:', function() {
             arg.setStyleProperty('level', 'argLevel');
             arg.setStyleProperty('padding', 'minor');
             arg.setStyleProperty('width', 10);
+            arg.setStyleProperty('color', 'nice');
             arg.setAttrProperty('lesson', 'first');
             arg.setAttrProperty('profile', 1);
             arg.setHref('vino.pane');
@@ -191,7 +192,7 @@ describe('Link-related functionality:', function() {
             attr = result.getAttributes();
             expect(result instanceof Link).toBe(true);
             expect(stl.getProperty('level')).toBe('argLevel');
-            expect(stl.getProperty('color')).toBe('invisible');
+            expect(stl.getProperty('color')).toBe('nice');
             expect(stl.getProperty('width')).toBe(10);
             expect(stl.getProperty('padding')).toBe('minor');
             expect(attr.getProperty('lesson')).toBe('first');

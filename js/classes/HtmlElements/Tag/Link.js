@@ -207,7 +207,7 @@ function Link(href) {
 	};
 
 	/**
-	 * Returns a new Link instance with `href` as in the target, {{#crossLink "Link/content:property"}}content{{/crossLink}}
+	 * Returns a new Link instance with `href` as in the target, {{#crossLink "Tag/content:property"}}content{{/crossLink}}
 	 * as in the argument, {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
 	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values
 	 * from the target
