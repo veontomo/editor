@@ -13,7 +13,6 @@ CKEDITOR.plugins.add('underline2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('underline2', {
 			exec: function(editor){
-				console.log('inside underline2 plugin');
 				var	selection = new Selection(editor);
 				selection.switchDeepestChildStyle('text-decoration', 'underline', 'none');
 			}

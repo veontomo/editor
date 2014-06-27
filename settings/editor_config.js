@@ -43,6 +43,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.magicline_color = '#ababab';
 
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
-
+	config.contentsCss = 'css/editorContent.css';
 };
 
