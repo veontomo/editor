@@ -386,6 +386,37 @@ var Helper = {
             doc = parser.parseFromString('<div id="' + id + '">' + str + '</div>', 'text/html'),
             node = doc.getElementById(id);
         return node.innerHTML === str.trim();
+    },
+
+    /**
+     * Picks up styles of `sel` from css string `str`. Value of each occurence of `sel`
+     * is passed to {{#crossLink "Styles"}}Styles{{/crossLink}} constructor and transformed
+     * into a string representation. After all, all strings are concatenated.
+     * @method         cssOfSelector
+     * @param          {String}             sel         name of selector
+     * @param          {String}             str         css string (i.e: "div {width: 100px; color: red} img {float: left;}")
+     * @return         {String}                         all styles of the selector
+     */
+    cssOfSelector: function(sel, str){
+        console.log('cssOfSelector', sel, str);
+        var pattern = sel + '\\s*\\{([^{}]+?)\\}',
+            regexp = new RegExp(pattern, 'gi'),
+            found = str.match(regexp),
+            output = [];
+        if(!found){
+            return '';
+        }
+        console.log('found: ', found);
+        regexp = new RegExp(pattern, 'i');
+        found.forEach(function(item){
+            var content = item.match(regexp);
+            if (content){
+                var tmp = new Styles(content[1]);
+                output.push(tmp.toBareString());
+            }
+        });
+        // console.log('found ', found);
+        return output.join('; ');
     }
 };
 

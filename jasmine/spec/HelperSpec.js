@@ -387,10 +387,27 @@ describe('Test helper functions', function(){
             expect(Helper.isSemanticallyValid('<ul><li>first item</li></ul>')).toBe(true);
             expect(Helper.isSemanticallyValid('<ol><li></li></ol>')).toBe(true);
         });
+    });
 
+    describe('Getting tag styles', function(){
+        var css1, css2, css3;
+        beforeEach(function(){
+            css1 = "div{width: 100px; color: #00AABB;} span {font: 14em;font-weight:bold;}";
+            css2 = "#wrapper {width: 100px; color: #00AABB;} body {min-width: 20em;} body {color: red;}";
+            css3 = "div {width: 100px; color: #00AABB}div {min-width: 20em;} div{padding: 1px}";
+        });
 
+        it('returns empty string if selector is not found', function(){
+            expect(Helper.cssOfSelector('a', css1)).toBe('');
+        });
 
+        it('concatenates strings if selector is found two times', function(){
+            expect(Helper.cssOfSelector('body', css2)).toBe('min-width: 20em; color: red');
+        });
 
+        it('delimiters concatenated strings by semicolon', function(){
+            expect(Helper.cssOfSelector('div', css3)).toBe('width: 100px; color: #00AABB; min-width: 20em; padding: 1px');
+        });
 
     });
 

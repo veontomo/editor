@@ -30,3 +30,5 @@ CKEDITOR.plugins.add('underline2', {
 
 	}
 });
+
+console.log(JSON.parse(CKEDITOR.getCss()));
