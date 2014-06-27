@@ -6421,6 +6421,31 @@
             "module": "Helper"
         },
         {
+            "file": "js\\classes\\Helper.js",
+            "line": 391,
+            "description": "Picks up styles of `sel` from css string `str`. Value corresponding to each occurence\nof `sel` is passed to {{#crossLink \"Styles\"}}Styles{{/crossLink}} constructor and transformed\ninto a string representation. After all, these strings are concatenated using semicolon as separator.",
+            "itemtype": "method",
+            "name": "cssOfSelector",
+            "params": [
+                {
+                    "name": "sel",
+                    "description": "name of selector",
+                    "type": "String"
+                },
+                {
+                    "name": "str",
+                    "description": "css string (i.e: \"div {width: 100px; color: red} img {float: left;}\")",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "all styles of the selector",
+                "type": "String"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
             "file": "js\\classes\\Properties.js",
             "line": 21,
             "description": "Object that contains all the properties. Its keys and values must be either strings or numbers.\nUse {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}} and\n{{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} methods to\naccess the content of this object.",

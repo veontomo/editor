@@ -381,7 +381,7 @@ var CKHelper = {
 
 		// offset variable is responsible for insertion &#x27;before&#x27; or &#x27;after&#x27;
 		tableObj.insertColAt(cellIndex + offset, cellToInsert);
-		console.log(&#x27;new table profile: &#x27;, newTableProfile);
+		// console.log(&#x27;new table profile: &#x27;, newTableProfile);
 		tableObj.setProfile(newTableProfile);
 
 		newTable = CKEDITOR.dom.element.createFromHtml(tableObj.toHtml());
@@ -389,7 +389,7 @@ var CKHelper = {
 		// call a custom method to insert the table and assign hovering effects on it
 		// CKHelper.insertTableWithHoverEff(ed, newTable);
 		ed.insertElement(newTable);
-		console.log(&#x27;inserting: &#x27;, tableObj.toHtml());
+		// console.log(&#x27;inserting: &#x27;, tableObj.toHtml());
 	},
 
 

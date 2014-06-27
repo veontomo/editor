@@ -544,6 +544,34 @@ var Helper = {
             doc = parser.parseFromString(&#x27;&lt;div id=&quot;&#x27; + id + &#x27;&quot;&gt;&#x27; + str + &#x27;&lt;/div&gt;&#x27;, &#x27;text/html&#x27;),
             node = doc.getElementById(id);
         return node.innerHTML === str.trim();
+    },
+
+    /**
+     * Picks up styles of &#x60;sel&#x60; from css string &#x60;str&#x60;. Value corresponding to each occurence
+     * of &#x60;sel&#x60; is passed to {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}} constructor and transformed
+     * into a string representation. After all, these strings are concatenated using semicolon as separator.
+     * @method         cssOfSelector
+     * @param          {String}             sel         name of selector
+     * @param          {String}             str         css string (i.e: &quot;div {width: 100px; color: red} img {float: left;}&quot;)
+     * @return         {String}                         all styles of the selector
+     */
+    cssOfSelector: function(sel, str){
+        var pattern = sel + &#x27;\\s*\\{([^{}]+?)\\}&#x27;,
+            regexp = new RegExp(pattern, &#x27;gi&#x27;),
+            found = str.match(regexp),
+            output = [];
+        if(!found){
+            return &#x27;&#x27;;
+        }
+        regexp = new RegExp(pattern, &#x27;i&#x27;);
+        found.forEach(function(item){
+            var content = item.match(regexp);
+            if (content &amp;&amp; content[1]){
+                var tmp = new Styles(content[1]);
+                output.push(tmp.toBareString());
+            }
+        });
+        return output.join(&#x27;; &#x27;);
     }
 };
 
