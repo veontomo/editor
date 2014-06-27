@@ -14,7 +14,7 @@ CKEDITOR.plugins.add('bold2', {
 		editor.addCommand('bold2', {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				console.log(selection);
+				// console.log(selection);
 				selection.switchDeepestChildStyle('font-weight', 'bold', 'normal');
 			}
 		});

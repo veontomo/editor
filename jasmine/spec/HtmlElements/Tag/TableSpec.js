@@ -1728,5 +1728,4 @@ describe('Table-related functionality:', function(){
         });
     });
 
-
 });

@@ -108,12 +108,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-
 		</textarea>
-		<script>
-			var body = document.getElementsByTagName('body')[0];
-			console.log(window.getComputedStyle(body));
-		</script>
 	</div>
 	<?php
 		$fileName = '.git/index';

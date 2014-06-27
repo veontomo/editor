@@ -325,10 +325,10 @@ function Table() {
 	 * @method           hasTBody
 	 * @return           {Boolean}
 	 */
-	this.hasTBody = function(){
-		/// !!! stub
-		return false;
-	}
+	// this.hasTBody = function(){
+	// 	console.log(this.getElements());
+	// 	return this.getElements().length === 1 && this.getElements()[0].getTag() === 'tbody';
+	// }
 
 	/**
 	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} getter.
@@ -496,6 +496,7 @@ function Table() {
 			throw new Error('Wrong argument type: array expected.');
 		}
 		if (profile.length !== cols){
+			console.log("profile: ", profile, "cols = ", cols);
 			throw new Error('Wrong input array lenght!');
 		}
 		for (i = 0; i < len; i++){
@@ -924,6 +925,45 @@ function Table() {
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
 		this.setContent(newContent);
+	};
+
+	/**
+	 * Overrides parent method {{#crossLink "Tag/load:method"}}load{{/crossLink}} because all tables
+	 * have nested tag `tbody`. Here this tag gets ignored: all its children are inserted directly
+	 * into {{#crossLink "Tag/content"}}table content{{/crossLink}}.
+	 * @method    load
+	 * @param  {elem} elem [description]
+	 * @return {[type]}      [description]
+	 */
+	this.load = function(elem){
+		if (!elem){
+			return false;
+		}
+		var attrSucc = false,
+			styleSucc = false,
+			contentSucc = false,
+			childrenArr = [],
+			children, currentChild, attr, i, len;
+		if ((elem.nodeType === Node.ELEMENT_NODE)){
+			// gives all child nodes (including Elements, TextNodes, etc.)
+			// if it is "tbody", gets its children
+			children = elem.nodeName.toLowerCase() === 'tbody' ? elem.firstChild.childNodes :  elem.childNodes;
+			len = children.length;
+			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
+			attr  = elem.attributes;                        // NamedNodeMap
+			// //console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
+			attrSucc = this.getAttributes().load(attr);
+			// //console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
+			styleSucc = this.getStyles().load(attr);
+			for (i = 0; i < len; i++){
+				currentChild = children.item(i);
+				childrenArr.push(currentChild);
+			}
+			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
+			contentSucc = content.load(childrenArr);
+		}
+		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
+		return attrSucc && styleSucc && contentSucc;
 	};
 
 

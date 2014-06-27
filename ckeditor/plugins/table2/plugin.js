@@ -285,17 +285,17 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			});
 
 			// currentTable = table.getOuterHtml().createTableFromHtml();
-			console.log('parent table ', table);
+			// console.log('parent table ', table);
 			currentTable = factory.mimic(table.$);
 			// currentTable.disentangle();
-			console.log('constructed table ', currentTable.toHtml());
+			// console.log('constructed table ', currentTable.toHtml());
 			currentTable.setProfile(userInput);
 
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			table.remove();
 			editor.insertElement(tableElem);
-			console.log('resized table ', currentTable.toHtml());
+			// console.log('resized table ', currentTable.toHtml());
 			return null;
 		}
 	};
