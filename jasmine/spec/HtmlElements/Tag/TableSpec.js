@@ -1101,7 +1101,7 @@ describe('Table-related functionality:', function(){
 
         it('returns zero if table has tfoot only', function(){
             var tFoot = new Tag('tfoot');
-            tHead.setContent('table head');
+            tFoot.setContent('table head');
             table.appendElem(tFoot);
             expect(table.rowNum()).toBe(0);
         });
