@@ -418,25 +418,28 @@ function Table() {
 
 
 	/**
-	 * The number of the rows in the table. It applies parent method
-	 * {{#crossLink "Tag/length:method"}}length{{/crossLink}} on:
-	 * <ol><li>
-	 * "tbody" content, if the instance contains "tbody".
-	 * </li><li>
-	 * on "this", if the instance does not contain "tbody".
-	 * </li></ol>
+	 * The number of the rows in the table. It scans {{#crossLink "Table/content:property"}}content{{/crossLink}}
+	 * of the instance until the first occurrence of `tbody` tag. Once found, its length is returned. If not found,
+	 * zero is returned.
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
 		var cntn = this.getContent();
-		if (cntn && cntn.length() === 1){
-			var tbody = cntn.getFirst();
-			if (tbody.getTag() === 'tbody'){
-				return tbody.length();
-			}
+		if (!cntn){
+			return 0;
 		}
-		return this.length();
+		var len = cntn.length(),
+			counter = 0,
+			item;
+		while (counter < len){
+			item = cntn.getElem(counter);
+			if (item.getTag() === 'tbody'){
+				return item.length();
+			}
+			counter++;
+		}
+		return 0;
 	};
 
 	/**
@@ -925,45 +928,6 @@ function Table() {
 			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
 		}
 		this.setContent(newContent);
-	};
-
-	/**
-	 * Overrides parent method {{#crossLink "Tag/load:method"}}load{{/crossLink}} because all tables
-	 * have nested tag `tbody`. Here this tag gets ignored: all its children are inserted directly
-	 * into {{#crossLink "Tag/content"}}table content{{/crossLink}}.
-	 * @method    load
-	 * @param  {elem} elem [description]
-	 * @return {[type]}      [description]
-	 */
-	this.load = function(elem){
-		if (!elem){
-			return false;
-		}
-		var attrSucc = false,
-			styleSucc = false,
-			contentSucc = false,
-			childrenArr = [],
-			children, currentChild, attr, i, len;
-		if ((elem.nodeType === Node.ELEMENT_NODE)){
-			// gives all child nodes (including Elements, TextNodes, etc.)
-			// if it is "tbody", gets its children
-			children = elem.nodeName.toLowerCase() === 'tbody' ? elem.firstChild.childNodes :  elem.childNodes;
-			len = children.length;
-			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
-			attr  = elem.attributes;                        // NamedNodeMap
-			// //console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
-			attrSucc = this.getAttributes().load(attr);
-			// //console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
-			styleSucc = this.getStyles().load(attr);
-			for (i = 0; i < len; i++){
-				currentChild = children.item(i);
-				childrenArr.push(currentChild);
-			}
-			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
-			contentSucc = content.load(childrenArr);
-		}
-		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
-		return attrSucc && styleSucc && contentSucc;
 	};
 
 

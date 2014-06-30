@@ -7,11 +7,12 @@
  * @module 	    HtmlElements
  * @class  		Tag
  * @constructor
+ * @param      {String}        tName           html tag corresponding to the class.
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
  */
-function Tag() {
+function Tag(tName) {
 	"use strict";
 	if (!(this instanceof Tag)) {
 		return new Tag();
@@ -24,7 +25,7 @@ function Tag() {
 	 * @private
 	 * @since          0.0.1
 	 */
-	var tag = null;
+	var tag = tName || null;
 
 	/**
 	 * Name of the current class.  This property is introduced for compatibility with IE: i.e.
