@@ -527,4 +527,18 @@ function Content(str) {
 		 	counter++;
 		}
 	};
+
+	/**
+	 * Filters out array {{#crossLink "Content/elements:property"}}elements{{/crossLink}} in such a way
+	 * that only those elements for which `fun` returns `true` remain.
+	 * @method         filterOut
+	 * @param          {function}           fun    function to be applied to each element
+	 * @return         {void}
+	 */
+	this.filterOut = function(fun){
+		var filtered = elements.filter(function(elem){
+			return fun(elem);
+		});
+		elements = filtered;
+	}
 }

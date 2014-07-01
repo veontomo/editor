@@ -963,5 +963,64 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+	describe('Filters out elements', function(){
+		var item1, item2, item3, fun;
+		beforeEach(function(){
+			item1 = {};
+			item2 = {double: 1.1, res: function(){}};
+			item3 = 'string';
+		});
+		it('leaves content empty if it was empty', function(){
+			fun = function(){};
+			expect(c.length()).toBe(0);
+			c.filterOut(fun);
+			expect(c.length()).toBe(0);
+		});
+
+		it('drops first element if it does not pass through the filter', function(){
+			c.setElements([item1, item2, item3]);
+			fun = function(el){return el !== item1};
+			c.filterOut(fun);
+			expect(c.length()).toBe(2);
+			expect(c.getElem(0)).toBe(item2);
+			expect(c.getElem(1)).toBe(item3);
+		});
+		it('drops middle element if it does not pass through the filter', function(){
+			c.setElements([item1, item2, item3]);
+			fun = function(el){return el !== item2};
+			c.filterOut(fun);
+			expect(c.length()).toBe(2);
+			expect(c.getElem(0)).toBe(item1);
+			expect(c.getElem(1)).toBe(item3);
+		});
+		it('drops last element if it does not pass through the filter', function(){
+			c.setElements([item1, item2, item3]);
+			fun = function(el){return el !== item3};
+			c.filterOut(fun);
+			expect(c.length()).toBe(2);
+			expect(c.getElem(0)).toBe(item1);
+			expect(c.getElem(1)).toBe(item2);
+		});
+		it('drops all elements if they do not pass through the filter', function(){
+			c.setElements([item1, item2, item3]);
+			fun = function(){return false;};
+			c.filterOut(fun);
+			expect(c.length()).toBe(0);
+		});
+		it('leaves all elements if they pass through the filter', function(){
+			c.setElements([item1, item2, item3]);
+			fun = function(){return true;};
+			c.filterOut(fun);
+			expect(c.length()).toBe(3);
+			expect(c.getElem(0)).toBe(item1);
+			expect(c.getElem(1)).toBe(item2);
+			expect(c.getElem(2)).toBe(item3);
+		});
+
+
+
+
+	});
+
 
 });

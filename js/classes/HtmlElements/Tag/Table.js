@@ -425,27 +425,19 @@ function Table() {
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
-		var cntn = this.getContent();
-		if (!cntn){
-			return 0;
-		}
-		var len = cntn.length(),
-			counter = 0,
-			item;
-		while (counter < len){
-			item = cntn.getElem(counter);
-			if (item.getTag() === 'tbody'){
-				return item.length();
-			}
-			counter++;
-		}
-		return 0;
+		var cntn = this.getBody();
+		return cntn ? cntn.length : 0;
 	};
 
 	/**
 	 * Sets `tbody` part of the table. The argument must be either a {{#crossLink "Row"}}Row{{/crossLink}}
 	 * instance or an array of {{#crossLink "Row"}}Row{{/crossLink}} instances.
 	 * Otherwise, an error is thrown.
+	 *
+	 * Even though not more than one instance of `tbody` must be present among
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}}, all `tbody` tags are first dropped
+	 * from {{#crossLink "Tag/content:property"}}content{{/crossLink}} and then the requested one is inserted.
 	 * @method         setBody
 	 * @param          {array|Row}  body    array of {{#crossLink "Row"}}Row{{/crossLink}} instances or
 	 *                                      {{#crossLink "Row"}}Row{{/crossLink}} instance
@@ -453,14 +445,29 @@ function Table() {
 	 * @since          0.0.5
 	 */
 	this.setBody = function(body){
-		// var isRow = body instanceof Row;
-		// var isArr = Array.isArray(body);
-		// if (!isArr && !isRow){
-		// 	throw new Error("Instance of Row class is required to be set as tbody");
-		// }
-		// if ()
-		// var areAllRows =
-	}
+		var bodyArr = Array.isArray(body) ? body : [body],
+			valid;
+		valid = bodyArr.every(function(elem){
+			return (elem instanceof Row);
+		});
+
+		if (!valid){
+			throw new Error('Instance of Row class is required to be set as tbody!');
+		}
+		var cntn = this.getContent(),
+			oldTBodyPos = cntn.findTagPos('tbody'),
+			newTbody = new Tag('tbody');
+		newTbody.setElements(bodyArr);
+		if (oldTBodyPos.length > 0){
+			oldTBodyPos.sort(function(a, b){return b - a;});  // sort elements in descreasing order
+			oldTBodyPos.forEach(function(pos){
+				cntn.dropElemAt(pos);
+			});
+		}
+		cntn.appendElem(newTbody);
+		this.setContent(cntn);
+
+	};
 
 	/**
 	 * Returns array of {{#crossLink "Row"}}Row{{/crossLink}} instances in `tbody` part of the table.
@@ -468,22 +475,13 @@ function Table() {
 	 * @return         {Array}              one dimensional array of
 	 *                                      {{#crossLink "Row"}}Row{{/crossLink}} instances
 	 *                                      or empty array
+	 * @since          0.0.5
 	 */
 	this.getBody = function(){
-		// var cntn = this.getContent(),
-		// 	pos;
-		// if (cntn){
-		// 	pos = cntn.findTagPos('tbody');
-		// }
-
-		// while (counter < len){
-		// 	item = this.getElem(counter);
-		// 	if (item.getTag() === 'tbody'){
-		// 		return item.getElements();
-		// 	}
-		// }
-		// return [];
-	}
+		var cntn = this.getContent(),
+			tbody = cntn.getFirstEntryOfTag('tbody');
+		return tbody ? tbody.getElements() : [];
+	};
 
 	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
@@ -494,6 +492,11 @@ function Table() {
 	this.appendRow = function(row){
 		if (!(row instanceof Row)){
 			throw new Error('The argument is not a Row instance!');
+		}
+		var tbody = this.getFirstEntryOfTag('tbody');
+		if (tbody){
+			tbody.appendElem(row);
+			this.
 		}
 		this.appendElem(row);
 	};
@@ -506,9 +509,11 @@ function Table() {
 	 */
 	this.getMatrix = function(){
 		var output = [],
-			rowsNum = this.rowNum(), i;
+			rowsNum = this.rowNum(), i,
+			body = this.getBody();
 		for (i = 0; i < rowsNum; i++){
-			output.push(this.getElem(i).getCellWidths());
+			consol.log('pushing', body[i].getCellWidths());
+			output.push(body[i].getCellWidths());
 		}
 		//console.log('Table::getMatrix() returning ', output);
 		return output;

@@ -645,6 +645,46 @@ function Content(str) {
 		}
 
 	};
+
+	/**
+	 * Returns array of positions at which object with tag name &#x60;name&#x60; is situated.
+	 * @method         findTagPos
+	 * @param          {String}             name
+	 * @return         {Array}
+	 * @since          0.0.5
+	 */
+	this.findTagPos = function(name){
+		var output = [];
+		elements.forEach(function(obj, pos){
+			if (obj &amp;&amp; (typeof obj.getTag === &#x27;function&#x27;) &amp;&amp; obj.getTag() === name){
+				output.push(pos);
+			}
+		});
+		return output;
+	};
+
+	/**
+	 * Returns first element from {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} whose getTag() returns &#x60;name&#x60;.
+	 * If nothing is found, nothing is defined.
+	 * @method         getFirstEntryOfTag
+	 * @param          {String}        name
+	 * @return         {Any}                   first element from
+	 *                                         {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
+	 *                                         which &quot;getTag&quot; method returns &#x60;name&#x60;.
+	 * @since          0.0.5
+	 */
+	this.getFirstEntryOfTag = function(name){
+		var len = this.length(),
+		     counter = 0,
+		     item;
+		while (counter &lt; len){
+		 	item = this.getElem(counter);
+		 	if (typeof item.getTag === &#x27;function&#x27; &amp;&amp; item.getTag() === name){
+		 		return item;
+		 	}
+		 	counter++;
+		}
+	};
 }
     </pre>
 </div>

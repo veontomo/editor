@@ -604,12 +604,52 @@ function Table() {
 	 * Sets &#x60;tbody&#x60; part of the table. The argument must be either a {{#crossLink &quot;Row&quot;}}Row{{/crossLink}}
 	 * instance or an array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances.
 	 * Otherwise, an error is thrown.
+	 *
+	 * Even though not more than one instance of &#x60;tbody&#x60; must be present among
+	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}, all &#x60;tbody&#x60; tags are dropped
+	 * from {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} and then the requested one is inserted.
 	 * @method         setBody
+	 * @param          {array|Row}  body    array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances or
+	 *                                      {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instance
 	 * @return         {void}
 	 * @since          0.0.5
 	 */
-	this.setBody = function(){
-		/// !!! stub
+	this.setBody = function(body){
+		var arr = [],
+			isRow = body instanceof Row,
+			isArr = Array.isArray(body),
+			valid;
+		if (!isRow &amp;&amp; !isArr){
+			throw new Error(&#x27;Instance of Row class is required to be set as tbody&#x27;);
+		}
+		if (isRow){
+			arr.push(body);
+		} else if  (Array.isArray(body)){
+			var valid = body.every(function(elem){
+				return (elem instanceof Row);
+			});
+			if (!valid){
+				throw new Error(&#x27;All array elements must be Row instances to be set as tbody&#x27;);
+			}
+			arr = body;
+		}
+		if (!isRow &amp;&amp; !valid){
+			throw new Error(&#x27;Instance of Row class is required to be set as tbody&#x27;);
+		}
+		var cntn = this.getContent(),
+			oldTBodyPos = cntn.findTagPos(&#x27;tbody&#x27;),
+			newTbody = new Tag(&#x27;tbody&#x27;);
+		newTbody.setElements(arr);
+		if (oldTBodyPos.length &gt; 0){
+			oldTBodyPos.sort(function(a, b){return b - a;});  // sort elements in descreasing order
+			oldTBodyPos.forEach(function(pos){
+				cntn.dropElemAt(pos);
+			});
+		}
+		cntn.appendElem(newTbody);
+		this.setContent(cntn);
+
 	}
 
 	/**
@@ -618,10 +658,13 @@ function Table() {
 	 * @return         {Array}              one dimensional array of
 	 *                                      {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances
 	 *                                      or empty array
+	 * @since          0.0.5
 	 */
 	this.getBody = function(){
-		/// !!! stub
-	}
+		var cntn = this.getContent(),
+			tbody = cntn.getFirstEntryOfTag(&#x27;tbody&#x27;);
+		return tbody ? tbody.getElements() : [];
+	};
 
 	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
@@ -681,7 +724,7 @@ function Table() {
 		}
 		if (profile.length !== cols){
 			console.log(&quot;profile: &quot;, profile, &quot;cols = &quot;, cols);
-			throw new Error(&#x27;Wrong input array lenght!&#x27;);
+			throw new Error(&#x27;Wrong input array length!&#x27;);
 		}
 		for (i = 0; i &lt; len; i++){
 			// console.log(&#x27;elem &#x27; + i + &#x27;before: &#x27; + this.getElem(i).toHtml());
