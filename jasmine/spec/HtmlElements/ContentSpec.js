@@ -286,9 +286,6 @@ describe('Content-related functionality', function(){
 			// assure that the original element array does not change
 			expect(c.getElements()[0]).toBe(el1);
 		});
-
-
-
 	});
 
 	describe('Content::appendElemIfNotEmpty()', function(){
@@ -830,7 +827,6 @@ describe('Content-related functionality', function(){
 		});
 	});
 
-
 	describe('Content::clone(): clone content', function(){
 		it('gets an instance of content class', function(){
 			expect(c.clone() instanceof Content).toBe(true);
@@ -883,5 +879,51 @@ describe('Content-related functionality', function(){
 			expect(clone.getElements().indexOf(c2Clone) !== -1).toBe(true);
 		});
 	});
+
+	describe('Finds positions of specified tags among elements', function(){
+		beforeEach(function(){
+			c.setElements([
+				{getTag: function(){return 'span';}},
+				{getTag: function(){return 'a';}},
+				{getTag: function(){return 'a';}},
+				'plain string',
+				{getTag: function(){return 'span';}},
+				{getTag: function(){return 'a';}}
+				]);
+		});
+		it('returns empty array if content has no elements', function(){
+			c.setElements([]);
+			var pos = c.findTagPos('any');
+			expect(Array.isArray(pos)).toBe(true);
+			expect(pos.length).toBe(0);
+		});
+
+		it('returns empty array if there is no specified tag among elements', function(){
+			var pos = c.findTagPos('non-existent-tag');
+			expect(Array.isArray(pos)).toBe(true);
+			expect(pos.length).toBe(0);
+		});
+
+		it('returns positions of three occurrences', function(){
+			var pos = c.findTagPos('a');
+			expect(Array.isArray(pos)).toBe(true);
+			expect(pos.length).toBe(3);
+			expect(pos[0]).toBe(1);
+			expect(pos[1]).toBe(2);
+			expect(pos[2]).toBe(5);
+
+		});
+
+		it('returns positions of two occurrences', function(){
+			var pos = c.findTagPos('span');
+			expect(Array.isArray(pos)).toBe(true);
+			expect(pos.length).toBe(2);
+			expect(pos[0]).toBe(0);
+			expect(pos[1]).toBe(4);
+		});
+
+
+	});
+
 
 });

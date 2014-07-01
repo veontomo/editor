@@ -487,4 +487,20 @@ function Content(str) {
 		}
 
 	};
+
+	/**
+	 * Returns array of positions at which object with tag name `name` is situated.
+	 * @method         findTagPos
+	 * @param          {String}             name
+	 * @return         {Array}
+	 */
+	this.findTagPos = function(name){
+		var output = [];
+		elements.forEach(function(obj, pos){
+			if (obj && (typeof obj.getTag === 'function') && obj.getTag() === name){
+				output.push(pos);
+			}
+		});
+		return output;
+	};
 }

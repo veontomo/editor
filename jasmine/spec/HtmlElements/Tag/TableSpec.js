@@ -338,8 +338,69 @@ describe('Table-related functionality:', function(){
 
 
         });
+    });
+
+    describe('table body getter/setter', function(){
+        it('returns null if table content property does not contain "tbody" element', function(){
+            expect(table.getBody()).toBe(null);
+        });
+        // it('returns Tag instance if table content property contains "tbody" element', function(){
+        //     var tbody = new Tag();
+        //     table.setBody(tbody);
+        //     expect(table.getBody()).toBe(tbody);
+        // });
+        // it('overrides the previous value of "tbody"', function(){
+        //     var tbody = new Tag('tbody'),
+        //         tbody2 = new Tag('tbody');
+        //     table.setBody(tbody);
+        //     table.setBody(tbody2);
+        //     expect(table.getBody()).toBe(tbody2);
+        // });
+        it('throws an error if the argument of the setter is non-table-row object', function(){
+            var invalids = ['span', 'div', 'a', 'td', 'h1'];
+            var tag;
+            invalids.forEach(function(invalid){
+                tag = new Tag(invalid);
+                expect(function(){
+                    table.setBody(tag);
+                }).toThrow('Instance of Row class is required to be set as tbody');
+            });
+        });
+        it('throws an error if the argument of the setter is an array which first element is a non-table-row object', function(){
+            var cntn = ['span', 'div', 'a', 'td', 'h1'];
+            expect(function(){
+                table.setBody([new Tag(cntn), new Row(), new Row()]);
+           }).toThrow('All array elements must be Row instances to be set as tbody');
+        });
+
+        it('throws an error if the argument of the setter is an array which middle element is a non-table-row object', function(){
+            var cntn = ['span', 'div', 'a', 'td', 'h1'];
+            expect(function(){
+                table.setBody([new Row(), new Tag(cntn), new Row(), new Row(), new Row()]);
+           }).toThrow('All array elements must be Row instances to be set as tbody');
+        });
 
 
+        it('throws an error if the argument of the setter is an array which last element is a non-table-row object', function(){
+            var cntn = ['span', 'div', 'a', 'td', 'h1'];
+            expect(function(){
+                table.setBody([new Row(), new Row(), new Row(), new Tag(cntn)]);
+           }).toThrow('All array elements must be Row instances to be set as tbody');
+        });
+
+        it('sets table body if the argument is an object that has method getTag() that returns "tr"', function(){
+            var fakeRow = {getTag: function(){return "tr";}};
+            table.setBody(fakeRow);
+            expect(table.getBody(fakeRow)).toBe([fakeRow]);
+        });
+
+        it('sets table body if the argument is an array whose elements are objects that have methods getTag() that returns "tr"', function(){
+            var fakeRow1 = {getTag: function(){return "tr";}},
+            fakeRow2 = {getTag: function(){return "tr";}}
+            fakeRow3 = {getTag: function(){return "tr";}};
+            table.setBody([fakeRow1, fakeRow2, fakeRow3]);
+            expect(table.getBody(fakeRow)).toBe([fakeRow1, fakeRow2, fakeRow3]);
+        });
 
     });
 

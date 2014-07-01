@@ -443,6 +443,46 @@ function Table() {
 	};
 
 	/**
+	 * Sets `tbody` part of the table. The argument must be either a {{#crossLink "Row"}}Row{{/crossLink}}
+	 * instance or an array of {{#crossLink "Row"}}Row{{/crossLink}} instances.
+	 * Otherwise, an error is thrown.
+	 * @method         setBody
+	 * @param          {array|Row}  body    array of {{#crossLink "Row"}}Row{{/crossLink}} instances or
+	 *                                      {{#crossLink "Row"}}Row{{/crossLink}} instance
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setBody = function(body){
+		// var isRow = body instanceof Row;
+		// var isArr = Array.isArray(body);
+		// if (!isArr && !isRow){
+		// 	throw new Error("Instance of Row class is required to be set as tbody");
+		// }
+		// if ()
+		// var areAllRows =
+	}
+
+	/**
+	 * Returns array of {{#crossLink "Row"}}Row{{/crossLink}} instances in `tbody` part of the table.
+	 * @method         getBody
+	 * @return         {Array}              one dimensional array of
+	 *                                      {{#crossLink "Row"}}Row{{/crossLink}} instances
+	 *                                      or empty array
+	 */
+	this.getBody = function(){
+		var len = this.length(),
+			counter = 0,
+			item;
+		while (counter < len){
+			item = this.getElem(counter);
+			if (item.getTag() === 'tbody'){
+				return item.getElements();
+			}
+		}
+		return [];
+	}
+
+	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
 	 * @method   appendRow
 	 * @param    {Object} row     a row to append. If not a Row instance, an error is thrown.
@@ -500,7 +540,7 @@ function Table() {
 		}
 		if (profile.length !== cols){
 			console.log("profile: ", profile, "cols = ", cols);
-			throw new Error('Wrong input array lenght!');
+			throw new Error('Wrong input array length!');
 		}
 		for (i = 0; i < len; i++){
 			// console.log('elem ' + i + 'before: ' + this.getElem(i).toHtml());

@@ -483,10 +483,10 @@ function Table() {
 	 * @method           hasTBody
 	 * @return           {Boolean}
 	 */
-	this.hasTBody = function(){
-		/// !!! stub
-		return false;
-	}
+	// this.hasTBody = function(){
+	// 	console.log(this.getElements());
+	// 	return this.getElements().length === 1 &amp;&amp; this.getElements()[0].getTag() === &#x27;tbody&#x27;;
+	// }
 
 	/**
 	 * {{#crossLink &quot;FramedTable/phantomRowAttributes:property&quot;}}phantomRowAttributes{{/crossLink}} getter.
@@ -576,26 +576,52 @@ function Table() {
 
 
 	/**
-	 * The number of the rows in the table. It applies parent method
-	 * {{#crossLink &quot;Tag/length:method&quot;}}length{{/crossLink}} on:
-	 * &lt;ol&gt;&lt;li&gt;
-	 * &quot;tbody&quot; content, if the instance contains &quot;tbody&quot;.
-	 * &lt;/li&gt;&lt;li&gt;
-	 * on &quot;this&quot;, if the instance does not contain &quot;tbody&quot;.
-	 * &lt;/li&gt;&lt;/ol&gt;
+	 * The number of the rows in the table. It scans {{#crossLink &quot;Table/content:property&quot;}}content{{/crossLink}}
+	 * of the instance until the first occurrence of &#x60;tbody&#x60; tag. Once found, its length is returned. If not found,
+	 * zero is returned.
 	 * @method  rowNum
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
 		var cntn = this.getContent();
-		if (cntn &amp;&amp; cntn.length() === 1){
-			var tbody = cntn.getFirst();
-			if (tbody.getTag() === &#x27;tbody&#x27;){
-				return tbody.length();
-			}
+		if (!cntn){
+			return 0;
 		}
-		return this.length();
+		var len = cntn.length(),
+			counter = 0,
+			item;
+		while (counter &lt; len){
+			item = cntn.getElem(counter);
+			if (item.getTag() === &#x27;tbody&#x27;){
+				return item.length();
+			}
+			counter++;
+		}
+		return 0;
 	};
+
+	/**
+	 * Sets &#x60;tbody&#x60; part of the table. The argument must be either a {{#crossLink &quot;Row&quot;}}Row{{/crossLink}}
+	 * instance or an array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances.
+	 * Otherwise, an error is thrown.
+	 * @method         setBody
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setBody = function(){
+		/// !!! stub
+	}
+
+	/**
+	 * Returns array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances in &#x60;tbody&#x60; part of the table.
+	 * @method         getBody
+	 * @return         {Array}              one dimensional array of
+	 *                                      {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances
+	 *                                      or empty array
+	 */
+	this.getBody = function(){
+		/// !!! stub
+	}
 
 	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
@@ -654,6 +680,7 @@ function Table() {
 			throw new Error(&#x27;Wrong argument type: array expected.&#x27;);
 		}
 		if (profile.length !== cols){
+			console.log(&quot;profile: &quot;, profile, &quot;cols = &quot;, cols);
 			throw new Error(&#x27;Wrong input array lenght!&#x27;);
 		}
 		for (i = 0; i &lt; len; i++){
