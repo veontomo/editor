@@ -493,6 +493,7 @@ function Content(str) {
 	 * @method         findTagPos
 	 * @param          {String}             name
 	 * @return         {Array}
+	 * @since          0.0.5
 	 */
 	this.findTagPos = function(name){
 		var output = [];
@@ -502,5 +503,28 @@ function Content(str) {
 			}
 		});
 		return output;
+	};
+
+	/**
+	 * Returns first element from {{#crossLink "Content/elements:property"}}elements{{/crossLink}} whose getTag() returns `name`.
+	 * If nothing is found, nothing is defined.
+	 * @method         getFirstEntryOfTag
+	 * @param          {String}        name
+	 * @return         {Any}                   first element from
+	 *                                         {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 *                                         which "getTag" method returns `name`.
+	 * @since          0.0.5
+	 */
+	this.getFirstEntryOfTag = function(name){
+		var len = this.length(),
+		     counter = 0,
+		     item;
+		while (counter < len){
+		 	item = this.getElem(counter);
+		 	if (typeof item.getTag === 'function' && item.getTag() === name){
+		 		return item;
+		 	}
+		 	counter++;
+		}
 	};
 }

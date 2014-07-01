@@ -921,8 +921,46 @@ describe('Content-related functionality', function(){
 			expect(pos[0]).toBe(0);
 			expect(pos[1]).toBe(4);
 		});
+	});
 
 
+	describe('Returns first entry with specified tag', function(){
+		var item1, item2, item3, item4, item5, item6, item7;
+		beforeEach(function(){
+			item1 = {getTag: function(){return 'span';}};
+            item2 = {getTag: function(){return 'a';}};
+            item3 = {noTag: true};
+            item4 = {getTag: function(){return 'a';}};
+            item5 = 'plain string';
+            item6 = {getTag: function(){return 'span';}};
+            item7 = {getTag: function(){return 'last';}};
+			c.setElements([item1, item2, item3, item4, item5, item6, item7]);
+		});
+		it('returns undefined if content is empty', function(){
+			c.setElements([]);
+			var pos = c.getFirstEntryOfTag('any');
+			expect(pos).not.toBeDefined();
+		});
+
+		it('returns undefined if there is no specified tag among elements', function(){
+			var pos = c.getFirstEntryOfTag('any');
+			expect(pos).not.toBeDefined();
+		});
+
+		it('returns the very first element', function(){
+			var elem = c.getFirstEntryOfTag('span');
+			expect(elem).toBe(item1);
+		});
+
+		it('returns the very last element', function(){
+			var elem = c.getFirstEntryOfTag('last');
+			expect(elem).toBe(item7);
+		});
+
+		it('returns first among middle elements', function(){
+			var elem = c.getFirstEntryOfTag('a');
+			expect(elem).toBe(item2);
+		});
 	});
 
 

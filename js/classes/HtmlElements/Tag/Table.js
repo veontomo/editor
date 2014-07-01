@@ -470,16 +470,19 @@ function Table() {
 	 *                                      or empty array
 	 */
 	this.getBody = function(){
-		var len = this.length(),
-			counter = 0,
-			item;
-		while (counter < len){
-			item = this.getElem(counter);
-			if (item.getTag() === 'tbody'){
-				return item.getElements();
-			}
-		}
-		return [];
+		// var cntn = this.getContent(),
+		// 	pos;
+		// if (cntn){
+		// 	pos = cntn.findTagPos('tbody');
+		// }
+
+		// while (counter < len){
+		// 	item = this.getElem(counter);
+		// 	if (item.getTag() === 'tbody'){
+		// 		return item.getElements();
+		// 	}
+		// }
+		// return [];
 	}
 
 	/**
