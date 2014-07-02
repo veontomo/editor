@@ -1772,15 +1772,15 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    xdescribe('Table::getBogusTableAttr(): gets bogus table attributes', function(){
-        it('calls Table::getBogusTableProp("attr")', function(){
-            spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb attr';});
-            expect(table.getBogusTableAttr()).toBe('dumb attr');
-            expect(table.getBogusTableProp).toHaveBeenCalledWith('attr');
+    describe('Table::getPhantomTableAttributes (): gets bogus table attributes', function(){
+        it('calls Table::getPhantomTableAttributes ("attr")', function(){
+            spyOn(table, 'getPhantomTableAttributes').andCallFake(function(){return 'dumb attr';});
+            expect(table.getPhantomTableAttributes()).toBe('dumb attr');
+            expect(table.getPhantomTableAttributes).toHaveBeenCalledWith('dumb attr');
         });
     });
 
-    xdescribe('Table::getBogusTableStyle(): gets bogus table style', function(){
+    describe('Table::getBogusTableStyle(): gets bogus table style', function(){
         it('calls Table::getBogusTableProp("style")', function(){
             spyOn(table, 'getBogusTableProp').andCallFake(function(){return 'dumb style';});
             expect(table.getBogusTableStyle()).toBe('dumb style');

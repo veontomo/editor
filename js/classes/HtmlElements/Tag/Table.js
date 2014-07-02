@@ -161,46 +161,6 @@ function Table() {
 		}
 	};
 
-	/**
-	 * Returns copy of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
-	 * of {{#crossLink "Tag/content:property"}}content{{/crossLink}}. Overrides parent
-	 * method {{#crossLink "Tag/getElements:method"}}getElements{{/crossLink}} because
-	 * table might contain `tbody` inside (especially, those constructed from DOM.Node).
-	 * @method         getElements
-	 * @return         {Array}
-	 */
-	this.getElements___ = function(){
-		var cntn = this.getContent();
-		if (cntn){
-			if (cntn.length() === 1 && cntn.getFirst().getTag() === 'tbody'){
-				return cntn.getFirst().getElements();
-			}
-			return cntn.getElements();
-		}
-
-	};
-
-	/**
-	 * Gets the element stored in {{#crossLink "Tag/content:property"}}content{{/crossLink}}. Delegates its
-	 * functionality to class {{#crossLink "Content"}}Content{{/crossLink}}. Overrides parent
-	 * method {{#crossLink "Tag/getElem:method"}}getElem{{/crossLink}} because
-	 * table might contain `tbody` inside (especially, those constructed from DOM.Node).
-	 * @method getElem
-	 * @param  {Number}    pos
-	 * @return {any}
-	 * @since  0.0.1
-	 */
-	this.getElem___ = function(pos){
-		var cntn = this.getContent();
-		if (cntn){
-			if (cntn.length() === 1 && cntn.getFirst().getTag() === 'tbody'){
-				return cntn.getFirst().getContent().getElem(pos);
-			}
-			return this.getContent().getElem(pos);
-		}
-
-	};
-
 
 	/**
 	 * {{#crossLink "Table/phantomCellStyles:property"}}phantomCellStyles{{/crossLink}} getter.
