@@ -392,7 +392,7 @@ describe('Table-related functionality:', function(){
 
         it('sets table body if the argument is an array whose all elements are Row instances', function(){
             var fakeRow1 = new Row(),
-                fakeRow2 = new Row()
+                fakeRow2 = new Row(),
                 fakeRow3 = new Row();
             fakeRow1.setAttrProperty('id', 'first');
             fakeRow1.setAttrProperty('id', 'second');
@@ -407,45 +407,130 @@ describe('Table-related functionality:', function(){
 
     });
 
+    describe('Getting table first row', function(){
+        it('returns nothing, if table has no rows', function(){
+            expect(table.getFirstRow()).not.toBeDefined();
+        });
+
+        it('returns the row, if it is unique', function(){
+            var r1 = new Row();
+            r1.setAttrProperty('data', 32);
+            table.setBody([r1]);
+            expect(table.getFirstRow().toHtml()).toBe(r1.toHtml());
+        });
+
+        it('returns the first row, if table has three rows', function(){
+            var r1 = new Row(),
+                r2 = new Row(),
+                r3 = new Row();
+            r1.setAttrProperty('marker', 'kjhy1');
+            r2.setAttrProperty('marker', 'kjhy2');
+            r3.setAttrProperty('marker', 'kjhy3');
+            table.setBody([r1, r2, r3]);
+            expect(table.getFirstRow().toHtml()).toBe(r1.toHtml());
+        });
+    });
+
+    describe('Getting table last row', function(){
+        it('returns nothing, if table has no rows', function(){
+            expect(table.getLastRow()).not.toBeDefined();
+        });
+
+        it('returns the row, if it is unique', function(){
+            var r1 = new Row();
+            r1.setAttrProperty('data', 32);
+            table.setBody([r1]);
+            expect(table.getLastRow().toHtml()).toBe(r1.toHtml());
+        });
+
+        it('returns the last row, if table has three rows', function(){
+            var r1 = new Row(),
+                r2 = new Row(),
+                r3 = new Row();
+            r1.setAttrProperty('marker', 'kjhy1');
+            r2.setAttrProperty('marker', 'kjhy2');
+            r3.setAttrProperty('marker', 'kjhy3');
+            table.setBody([r1, r2, r3]);
+            expect(table.getLastRow().toHtml()).toBe(r3.toHtml());
+        });
+    });
+
+    describe('Getting table row', function(){
+        var t0, t3, r1, r2, r3;
+        beforeEach(function(){
+            t0 = new Table();   /// empty table
+            t0.setBody([]);
+
+            t3 = new Table();   /// 3-row table
+            r1 = new Row();
+            r2 = new Row();
+            r3 = new Row();
+            r1.setAttrProperty('marker', 'kjhy1');
+            r2.setAttrProperty('marker', 'kjhy2');
+            r3.setAttrProperty('marker', 'kjhy3');
+            t3.setBody([r1, r2, r3]);
+
+        });
+        it('returns nothing, if row number is not provided and table is empty', function(){
+            expect(t0.getRow()).not.toBeDefined();
+        });
+        it('returns nothing, if row number is not provided and table is not empty', function(){
+            expect(t3.getRow()).not.toBeDefined();
+        });
+        it('returns nothing, if row number is provided and table is empty', function(){
+            expect(t0.getRow(5)).not.toBeDefined();
+        });
+        it('returns first row, if it is requested row number 0', function(){
+            expect(t3.getRow(0).toHtml()).toBe(r1.toHtml());
+        });
+        it('returns middle row', function(){
+            expect(t3.getRow(1).toHtml()).toBe(r2.toHtml());
+        });
+        it('returns last rows', function(){
+            expect(t3.getRow(2).toHtml()).toBe(r3.toHtml());
+        });
+        it('returns nothing, if requested row does not exist', function(){
+            expect(t3.getRow(5)).not.toBeDefined();
+        });
+    });
+
+
     describe('Creates html representation', function(){
-        var stls, attrs, elem1, elem2, elem3, elem4;
+        var stls, attrs;
         beforeEach(function(){
             stls = {toString: function(){return '"styles"';}};
             attrs = {toString: function(){return '"attributes"';}};
-            elem1 = {toHtml: function(){return '"element 1"';}};
-            elem2 = {toHtml: function(){return '"element 2"';}};
-            elem3 = {toHtml: function(){return '"element 3"';}};
-            elem4 = {};       // object with no 'toHtml' method
+            row1 = new Row();
+            row2 = new Row();
+            row3 = new Row();
+            row4 = new Row();       // object with no 'toHtml' method
+            spyOn(row1, 'toHtml').andCallFake(function(){return '"row 1"';});
+            spyOn(row2, 'toHtml').andCallFake(function(){return '"row 2"';});
+            spyOn(row3, 'toHtml').andCallFake(function(){return '"row 3"';});
+            spyOn(row4, 'toHtml').andCallFake(function(){return '"row 4"';});
         });
+
         it('generates html string for non-framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return false;});
             spyOn(table, 'getStyles').andCallFake(function(){return stls;});
             spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
-            table.setElements([elem1, elem2]);
-            expect(table.toHtml()).toBe('<table "attributes" "styles">"element 1""element 2"</table>');
+            table.setBody([row1, row2]);
+            expect(table.toHtml()).toBe('<table "attributes" "styles"><tbody>"row 1""row 2"</tbody></table>');
         });
 
-        it('ignores elements without "toHtml" methods ', function(){
-            spyOn(table, 'isFramed').andCallFake(function(){return false;});
-            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
-            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
-            table.setElements([elem1, elem2, elem4, elem3]);
-            expect(table.toHtml()).toBe('<table "attributes" "styles">"element 1""element 2""element 3"</table>');
-
-        });
 
         it('generates html string for framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return true;});
             spyOn(table, 'getPhantomTag').andCallFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
             spyOn(table, 'getStyles').andCallFake(function(){return stls;});
             spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
-            table.setElements([elem1, elem2, elem3]);
+            table.setBody([row1, row2, row3]);
 
-            expect(table.toHtml()).toBe('<table "attributes" "styles">\
-<row open><cell open><table open>"element 1"<table close><cell close><row close>\
-<row open><cell open><table open>"element 2"<table close><cell close><row close>\
-<row open><cell open><table open>"element 3"<table close><cell close><row close>\
-</table>');
+            expect(table.toHtml()).toBe('<table "attributes" "styles"><tbody>\
+<row open><cell open><table open>"row 1"<table close><cell close><row close>\
+<row open><cell open><table open>"row 2"<table close><cell close><row close>\
+<row open><cell open><table open>"row 3"<table close><cell close><row close>\
+</tbody></table>');
         });
     });
 
@@ -459,12 +544,36 @@ describe('Table-related functionality:', function(){
                 table.appendRow(foo);
             }).toThrow('The argument is not a Row instance!');
          });
-        it('calls parent method appendElem() if a Row instance is given', function(){
-            spyOn(table, 'appendElem').andCallFake(function(){return null;});
-            expect(row1 instanceof Row).toBe(true);
+        // it('calls parent method appendElem() if a Row instance is given', function(){
+        //     spyOn(table, 'appendElem').andCallFake(function(){return null;});
+        //     expect(row1 instanceof Row).toBe(true);
+        //     table.appendRow(row1);
+        //     // expect(table.appendElem).toHaveBeenCalledWith(row1);
+        // });
+        it('appends row to a table without rows', function(){
+            row1 = new Row();
+            row1.setAttrProperty('marker', '@w');
+            expect(table.rowNum()).toBe(0);
             table.appendRow(row1);
-            expect(table.appendElem).toHaveBeenCalledWith(row1);
+            expect(table.rowNum()).toBe(1);
+            expect(table.getBody()[0].toHtml()).toBe(row1.toHtml());
         });
+        it('appends row to a table with two rows', function(){
+            row1 = new Row();
+            row2 = new Row();
+            row3 = new Row();
+            table.setBody([row1, row2]);
+            row1.setAttrProperty('marker', '@w');
+            row2.setAttrProperty('marker', '@s');
+            row3.setAttrProperty('marker', '@x');
+            expect(table.rowNum()).toBe(2);
+            table.appendRow(row3);
+            expect(table.rowNum()).toBe(3);
+            expect(table.getBody()[0].toHtml()).toBe(row1.toHtml());
+            expect(table.getBody()[1].toHtml()).toBe(row2.toHtml());
+            expect(table.getBody()[2].toHtml()).toBe(row3.toHtml());
+        });
+
     });
 
     describe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
@@ -519,7 +628,7 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'colNum').andCallFake(function(){return 20;});
             expect(function(){
                 table.setProfile([1, 2]);
-            }).toThrow('Wrong input array lenght!');
+            }).toThrow('Wrong input array length!');
         });
         it('does not throw an error if input array and the table have zero lengths', function(){
             spyOn(table, 'colNum').andCallFake(function(){return 0;});
@@ -685,7 +794,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'cellNum').andCallFake(function(){return 5;});
             spyOn(row3, 'cellNum').andCallFake(function(){return 7;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 5;});
-            table.setElements([row1, row2, row3, row4]);
+            table.setBody([row1, row2, row3, row4]);
             expect(table.colNum()).toBe(null);
         });
         it('gives null, if all rows are not of different lenght', function(){
@@ -694,7 +803,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 98;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 3;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 14;});
-            table.setElements([row1, row2, row3, row4, row5]);
+            table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(null);
         });
         it('gives zero, for empty table', function(){
@@ -706,7 +815,7 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 0;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 0;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 0;});
-            table.setElements([row1, row2, row3, row4, row5]);
+            table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(0);
         });
         it('gives number of cells', function(){
@@ -715,12 +824,12 @@ describe('Table-related functionality:', function(){
             spyOn(row3, 'cellNum').andCallFake(function(){return 4;});
             spyOn(row4, 'cellNum').andCallFake(function(){return 4;});
             spyOn(row5, 'cellNum').andCallFake(function(){return 4;});
-            table.setElements([row1, row2, row3, row4, row5]);
+            table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(4);
         });
         it('gives number of cells if table has only one row', function(){
             spyOn(row1, 'cellNum').andCallFake(function(){return 53;});
-            table.setElements([row1]);
+            table.setBody([row1]);
             expect(table.colNum()).toBe(53);
         });
     });
@@ -760,7 +869,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.setElements([row1, row2, row3]);
+            table.setBody([row1, row2, row3]);
             table.insertColAt(1, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(1, c);
@@ -774,7 +883,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'appendCell').andCallFake(function(){return null;});
             spyOn(row3, 'appendCell').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 10;});
-            table.setElements([row1, row2, row3]);
+            table.setBody([row1, row2, row3]);
             table.insertColAt(10, c);
             expect(row1.appendCell).toHaveBeenCalledWith(c);
             expect(row2.appendCell).toHaveBeenCalledWith(c);
@@ -787,7 +896,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.setElements([row1, row2, row3]);
+            table.setBody([row1, row2, row3]);
             table.insertColAt(0, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(0, c);
@@ -800,7 +909,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 10;});
-            table.setElements([row1, row2, row3]);
+            table.setBody([row1, row2, row3]);
             table.insertColAt(9, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
             expect(row2.insertCellAt).toHaveBeenCalledWith(9, c);
@@ -812,7 +921,7 @@ describe('Table-related functionality:', function(){
             spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
             spyOn(table, 'colNum').andCallFake(function(){return 3;});
-            table.setElements([row1, row2, row3]);
+            table.setBody([row1, row2, row3]);
             table.insertColAt(2);
             expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
             expect(row2.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
@@ -903,7 +1012,7 @@ describe('Table-related functionality:', function(){
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table attributes for the table table styles>row 1 row 2 html row 3 content</table>');
+            expect(table.toHtml()).toEqual('<table attributes for the table table styles><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
         it('generates html code of the table if style property is empty', function(){
@@ -926,7 +1035,7 @@ describe('Table-related functionality:', function(){
              table.setAttributes(tableAttr);
              table.setStyles(tableStyle);
              table.setElements([row1, row2, row3]);
-             expect(table.toHtml()).toEqual('<table table attributes>row 1 row 2 html row 3 content</table>');
+             expect(table.toHtml()).toEqual('<table table attributes><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
         it('generates html code of the table if attribute property is empty', function(){
@@ -949,7 +1058,7 @@ describe('Table-related functionality:', function(){
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table table-styles>row 1 row 2 html row 3 content</table>');
+            expect(table.toHtml()).toEqual('<table table-styles><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
         it('generates html code of the table if both attribute and style properties are empty', function(){
@@ -972,7 +1081,7 @@ describe('Table-related functionality:', function(){
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table>row 1 row 2 html row 3 content</table>');
+            expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
 
@@ -1170,12 +1279,22 @@ describe('Table-related functionality:', function(){
             expect(table.rowNum()).toBe(0);
         });
 
-        it('returns result of length() applied on tbody tag', function(){
-            var tBody = new Tag('tbody');
-            spyOn(tBody, 'length').andCallFake(function(){return 'table body length';});
-            table.appendElem(tBody);
-            expect(table.rowNum()).toBe('table body length');
+        it('returns zero if table has empty tbody', function(){
+            table.setBody([]);
+            expect(table.rowNum()).toBe(0);
         });
+
+        it('returns 1 if table body has one row', function(){
+            table.setBody([new Row()]);
+            expect(table.rowNum()).toBe(1);
+        });
+
+        it('returns 3 if table body has three rows', function(){
+            table.setBody([new Row(), new Row(), new Row()]);
+            expect(table.rowNum()).toBe(3);
+        });
+
+
 
 
     });
@@ -1277,7 +1396,7 @@ describe('Table-related functionality:', function(){
         });
         it('gives true for a table with one row that is framed', function(){
             spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            table.setElements([row1]);
+            table.setBody([row1]);
             expect(table.isFragmented()).toBe(true);
             expect(row1.onlyTableInside).toHaveBeenCalled();
         });
@@ -1815,7 +1934,7 @@ describe('Table-related functionality:', function(){
     describe('Loading element into table', function(){
         var t00, t10, t11, t13; //t20, t22, t23;
         beforeEach(function(){
-            var tRow, tCell, thead, capt;
+            var tRow, tCell, thead, tbody, capt;
             // table 0 x 0 (no rows and hence no cells)
             t00 = document.createElement('table');
             t00.setAttribute('class', 'highest');
@@ -1823,16 +1942,22 @@ describe('Table-related functionality:', function(){
 
             // table 1 x 0 (single row without cells, header and caption)
             t10 = document.createElement('table');
-            tRow = document.createElement('tr');
-            tRow.setAttribute('data', 'table-row');
-            tRow.setAttribute('id', '#uniqueElem');
-            t10.appendChild(tRow);
             thead = document.createElement('thead');
             thead.appendChild(document.createTextNode('table header'));
             t10.appendChild(thead);
+
             capt = document.createElement('caption');
             capt.appendChild(document.createTextNode('table caption'));
             t10.appendChild(capt);
+
+            tbody = document.createElement('tbody');
+            tRow = document.createElement('tr');
+            tRow.setAttribute('data', 'table-row');
+            tRow.setAttribute('id', '#uniqueElem');
+            t10.appendChild(tbody);
+            tbody.appendChild(tRow);
+
+            t10.normalize();
 
 
             // table 1 x 1 (single row with one cells)
@@ -1919,7 +2044,7 @@ describe('Table-related functionality:', function(){
         it('loads a table with single row and no cells', function(){
             table.load(t10);
             expect(table.rowNum()).toBe(1);
-            var row = table.getFirst();
+            var row = table.getBody()[0];
             expect(row instanceof Row).toBe(true);
             expect(row.length()).toBe(0);
             expect(row.getAttrProperty('data')).toBe('table-row');
