@@ -292,6 +292,13 @@ tr.normal {
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_bodyToHtml">bodyToHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_colNum">colNum</a>
 
                                 
@@ -336,14 +343,35 @@ tr.normal {
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getElem">getElem</a>
+                                <a href="#method_getCaption">getCaption</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getElements">getElements</a>
+                                <a href="#method_getFirstRow">getFirstRow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getFooter">getFooter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getHeader">getHeader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getLastRow">getLastRow</a>
 
                                 
                                 
@@ -434,6 +462,13 @@ tr.normal {
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getRow">getRow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_hasTBody">hasTBody</a>
 
                                 
@@ -507,6 +542,13 @@ tr.normal {
                         
                             <li class="index-item method">
                                 <a href="#method_setBorder">setBorder</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setElements">setElements</a>
 
                                 
                                 
@@ -673,7 +715,7 @@ tr.normal {
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l511"><code>js\classes\HtmlElements\Tag\Table.js:511</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l494"><code>js\classes\HtmlElements\Tag\Table.js:494</code></a>
         
         </p>
 
@@ -784,7 +826,7 @@ tr.normal {
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l819"><code>js\classes\HtmlElements\Tag\Table.js:819</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l827"><code>js\classes\HtmlElements\Tag\Table.js:827</code></a>
         
         </p>
 
@@ -860,6 +902,114 @@ on each of the table rows.</p>
 </div>
 
                 
+                    <div id="method_bodyToHtml" class="method item">
+    <h3 class="name"><code>bodyToHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>withFrame</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l851"><code>js\classes\HtmlElements\Tag\Table.js:851</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Generates html representation of the table body. If table is framed, then each row is &quot;sandwiched&quot; with
+phantom elements.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">withFrame</code>
+                        <span class="type">Boolean</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>whether the table is framed or not.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_colNum" class="method item">
     <h3 class="name"><code>colNum</code></h3>
 
@@ -896,7 +1046,7 @@ on each of the table rows.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l665"><code>js\classes\HtmlElements\Tag\Table.js:665</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l670"><code>js\classes\HtmlElements\Tag\Table.js:670</code></a>
         
         </p>
 
@@ -1033,7 +1183,7 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l970"><code>js\classes\HtmlElements\Tag\Table.js:970</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1043"><code>js\classes\HtmlElements\Tag\Table.js:1043</code></a>
         
         </p>
 
@@ -1046,6 +1196,7 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
     <div class="description">
         <p>If the table is fragmented, then sets up the phantom properties and rearrange content property.
 If not, the table remains as it is.</p>
+<p>NB: refactor it!!!!</p>
 
     </div>
 
@@ -1115,7 +1266,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l651"><code>js\classes\HtmlElements\Tag\Table.js:651</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l654"><code>js\classes\HtmlElements\Tag\Table.js:654</code></a>
         
         </p>
 
@@ -1228,7 +1379,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l637"><code>js\classes\HtmlElements\Tag\Table.js:637</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l640"><code>js\classes\HtmlElements\Tag\Table.js:640</code></a>
         
         </p>
 
@@ -1339,7 +1490,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l497"><code>js\classes\HtmlElements\Tag\Table.js:497</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l444"><code>js\classes\HtmlElements\Tag\Table.js:444</code></a>
         
         </p>
 
@@ -1380,26 +1531,16 @@ If not, the table remains as it is.</p>
 </div>
 
                 
-                    <div id="method_getElem" class="method item">
-    <h3 class="name"><code>getElem</code></h3>
+                    <div id="method_getCaption" class="method item">
+    <h3 class="name"><code>getCaption</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>pos</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">Any</span>
+            <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>
         </span>
     
 
@@ -1426,7 +1567,7 @@ If not, the table remains as it is.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l183"><code>js\classes\HtmlElements\Tag\Table.js:183</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l482"><code>js\classes\HtmlElements\Tag\Table.js:482</code></a>
         
         </p>
 
@@ -1434,41 +1575,13 @@ If not, the table remains as it is.</p>
         
 
         
-            <p>Available since 0.0.1</p>
-        
     </div>
 
     <div class="description">
-        <p>Gets the element stored in <a href="../classes/Tag.html#property_content" class="crosslink">content</a>. Delegates its
-functionality to class <a href="../classes/Content.html" class="crosslink">Content</a>. Overrides parent
-method <a href="../classes/Tag.html#method_getElem" class="crosslink">getElem</a> because
-table might contain <code>tbody</code> inside (especially, those constructed from DOM.Node).</p>
+        <p>Returns header of the table.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">pos</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1478,7 +1591,7 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
             <div class="returns-description">
                 
                     
-                        <span class="type">Any</span>:
+                        <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>:
                     
                 
             </div>
@@ -1489,8 +1602,8 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
 </div>
 
                 
-                    <div id="method_getElements" class="method item">
-    <h3 class="name"><code>getElements</code></h3>
+                    <div id="method_getFirstRow" class="method item">
+    <h3 class="name"><code>getFirstRow</code></h3>
 
     
         <span class="paren">()</span>
@@ -1498,7 +1611,7 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
 
     
         <span class="returns-inline">
-            <span class="type">Array</span>
+            <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a></span>
         </span>
     
 
@@ -1525,7 +1638,7 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l164"><code>js\classes\HtmlElements\Tag\Table.js:164</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l961"><code>js\classes\HtmlElements\Tag\Table.js:961</code></a>
         
         </p>
 
@@ -1533,13 +1646,12 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
         
 
         
+            <p>Available since 0.0.5</p>
+        
     </div>
 
     <div class="description">
-        <p>Returns copy of <a href="../classes/Content.html#property_elements" class="crosslink">elements</a>
-of <a href="../classes/Tag.html#property_content" class="crosslink">content</a>. Overrides parent
-method <a href="../classes/Tag.html#method_getElements" class="crosslink">getElements</a> because
-table might contain <code>tbody</code> inside (especially, those constructed from DOM.Node).</p>
+        <p>Returns copy of the first row stored in table body. If that row does not exist, nothing is returned.</p>
 
     </div>
 
@@ -1552,7 +1664,222 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
             <div class="returns-description">
                 
                     
-                        <span class="type">Array</span>:
+                        <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFooter" class="method item">
+    <h3 class="name"><code>getFooter</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l458"><code>js\classes\HtmlElements\Tag\Table.js:458</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns footer of the table.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getHeader" class="method item">
+    <h3 class="name"><code>getHeader</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l470"><code>js\classes\HtmlElements\Tag\Table.js:470</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns header of the table.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getLastRow" class="method item">
+    <h3 class="name"><code>getLastRow</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l973"><code>js\classes\HtmlElements\Tag\Table.js:973</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns copy of last row stored in table body. If that row does not exist, nothing is returned.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a></span>:
                     
                 
             </div>
@@ -1599,7 +1926,7 @@ table might contain <code>tbody</code> inside (especially, those constructed fro
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l524"><code>js\classes\HtmlElements\Tag\Table.js:524</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l518"><code>js\classes\HtmlElements\Tag\Table.js:518</code></a>
         
         </p>
 
@@ -1671,7 +1998,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l293"><code>js\classes\HtmlElements\Tag\Table.js:293</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l253"><code>js\classes\HtmlElements\Tag\Table.js:253</code></a>
         
         </p>
 
@@ -1752,7 +2079,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l913"><code>js\classes\HtmlElements\Tag\Table.js:913</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l986"><code>js\classes\HtmlElements\Tag\Table.js:986</code></a>
         
         </p>
 
@@ -1848,7 +2175,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l205"><code>js\classes\HtmlElements\Tag\Table.js:205</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l165"><code>js\classes\HtmlElements\Tag\Table.js:165</code></a>
         
         </p>
 
@@ -1919,7 +2246,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l333"><code>js\classes\HtmlElements\Tag\Table.js:333</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l293"><code>js\classes\HtmlElements\Tag\Table.js:293</code></a>
         
         </p>
 
@@ -2000,7 +2327,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l869"><code>js\classes\HtmlElements\Tag\Table.js:869</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l902"><code>js\classes\HtmlElements\Tag\Table.js:902</code></a>
         
         </p>
 
@@ -2101,7 +2428,7 @@ with boolean-valued method isTheSameAs().</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l235"><code>js\classes\HtmlElements\Tag\Table.js:235</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l195"><code>js\classes\HtmlElements\Tag\Table.js:195</code></a>
         
         </p>
 
@@ -2172,7 +2499,7 @@ with boolean-valued method isTheSameAs().</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l362"><code>js\classes\HtmlElements\Tag\Table.js:362</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l322"><code>js\classes\HtmlElements\Tag\Table.js:322</code></a>
         
         </p>
 
@@ -2253,7 +2580,7 @@ with boolean-valued method isTheSameAs().</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l941"><code>js\classes\HtmlElements\Tag\Table.js:941</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1014"><code>js\classes\HtmlElements\Tag\Table.js:1014</code></a>
         
         </p>
 
@@ -2349,7 +2676,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l264"><code>js\classes\HtmlElements\Tag\Table.js:264</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l224"><code>js\classes\HtmlElements\Tag\Table.js:224</code></a>
         
         </p>
 
@@ -2436,7 +2763,7 @@ the same for all rows. Otherwise, null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l391"><code>js\classes\HtmlElements\Tag\Table.js:391</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l351"><code>js\classes\HtmlElements\Tag\Table.js:351</code></a>
         
         </p>
 
@@ -2552,7 +2879,7 @@ phantom elements: <a href="../classes/Table.html#property_phantomCell" class="cr
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l540"><code>js\classes\HtmlElements\Tag\Table.js:540</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l535"><code>js\classes\HtmlElements\Tag\Table.js:535</code></a>
         
         </p>
 
@@ -2578,6 +2905,112 @@ have the same cell widths. Otherwise null is returned.</p>
                 
                     
                         <span class="type">Array | Null</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getRow" class="method item">
+    <h3 class="name"><code>getRow</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>n</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a> | Null</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l945"><code>js\classes\HtmlElements\Tag\Table.js:945</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Gets copy of n-th row stored in table body. If that row does not exist, nothing is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">n</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Row.html" class="crosslink">Row</a> | Null</span>:
                     
                 
             </div>
@@ -2624,7 +3057,7 @@ have the same cell widths. Otherwise null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l322"><code>js\classes\HtmlElements\Tag\Table.js:322</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l282"><code>js\classes\HtmlElements\Tag\Table.js:282</code></a>
         
         </p>
 
@@ -2712,7 +3145,7 @@ which is a &quot;tbody&quot; tag instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l578"><code>js\classes\HtmlElements\Tag\Table.js:578</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l576"><code>js\classes\HtmlElements\Tag\Table.js:576</code></a>
         
         </p>
 
@@ -2843,7 +3276,7 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l610"><code>js\classes\HtmlElements\Tag\Table.js:610</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l611"><code>js\classes\HtmlElements\Tag\Table.js:611</code></a>
         
         </p>
 
@@ -2954,7 +3387,7 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l776"><code>js\classes\HtmlElements\Tag\Table.js:776</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l782"><code>js\classes\HtmlElements\Tag\Table.js:782</code></a>
         
         </p>
 
@@ -2965,9 +3398,10 @@ the valid values for &quot;pos&quot; are 0, 1, 2, 3, 4 and 5.</p>
     </div>
 
     <div class="description">
-        <p>Returns true if the table is fragmented, and false otherwise. It takes table rows and call method
-<code>Row::onlyTableInside()</code> on each of them until first &quot;false&quot; is encountered.
-<br />A table is a <strong>framed table</strong> if all table rows have only one cell and this cell contains
+        <p>Returns true if the table is fragmented, and false otherwise. It takes table rows and calls method
+<a href="../classes/Row.html#method_onlyTableInside" class="crosslink">onlyTableInside</a> on each of them until
+first "false" is encountered.</p>
+<p>A table is a <strong>framed table</strong> if all table rows have only one cell and this cell contains
 only one element that is a Table instance.</p>
 
     </div>
@@ -3030,7 +3464,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l797"><code>js\classes\HtmlElements\Tag\Table.js:797</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l805"><code>js\classes\HtmlElements\Tag\Table.js:805</code></a>
         
         </p>
 
@@ -3103,7 +3537,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l693"><code>js\classes\HtmlElements\Tag\Table.js:693</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l699"><code>js\classes\HtmlElements\Tag\Table.js:699</code></a>
         
         </p>
 
@@ -3186,7 +3620,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l623"><code>js\classes\HtmlElements\Tag\Table.js:623</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l624"><code>js\classes\HtmlElements\Tag\Table.js:624</code></a>
         
         </p>
 
@@ -3281,7 +3715,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l755"><code>js\classes\HtmlElements\Tag\Table.js:755</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l761"><code>js\classes\HtmlElements\Tag\Table.js:761</code></a>
         
         </p>
 
@@ -3356,7 +3790,7 @@ only one element that is a Table instance.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l420"><code>js\classes\HtmlElements\Tag\Table.js:420</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l380"><code>js\classes\HtmlElements\Tag\Table.js:380</code></a>
         
         </p>
 
@@ -3439,7 +3873,7 @@ zero is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l445"><code>js\classes\HtmlElements\Tag\Table.js:445</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l392"><code>js\classes\HtmlElements\Tag\Table.js:392</code></a>
         
         </p>
 
@@ -3457,7 +3891,7 @@ instance or an array of <a href="../classes/Row.html" class="crosslink">Row</a> 
 Otherwise, an error is thrown.</p>
 <p>Even though not more than one instance of <code>tbody</code> must be present among
 <a href="../classes/Tag.html#property_content" class="crosslink">content</a>
-<a href="../classes/Content.html#property_elements" class="crosslink">elements</a>, all <code>tbody</code> tags are dropped
+<a href="../classes/Content.html#property_elements" class="crosslink">elements</a>, all <code>tbody</code> tags are first dropped
 from <a href="../classes/Tag.html#property_content" class="crosslink">content</a> and then the requested one is inserted.</p>
 
     </div>
@@ -3553,7 +3987,7 @@ from <a href="../classes/Tag.html#property_content" class="crosslink">content</a
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l730"><code>js\classes\HtmlElements\Tag\Table.js:730</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l736"><code>js\classes\HtmlElements\Tag\Table.js:736</code></a>
         
         </p>
 
@@ -3617,6 +4051,97 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
 </div>
 
                 
+                    <div id="method_setElements" class="method item">
+    <h3 class="name"><code>setElements</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>elems</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l432"><code>js\classes\HtmlElements\Tag\Table.js:432</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Alias for <a href="../classes/Table.html#method_setBody" class="crosslink">setBody</a> method.</p>
+<p>Overrides parent method <a href="../classes/Tag.html#method_setElements" class="crosslink">setElements</a>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">elems</code>
+                        <span class="type">Array | <a href="../classes/Row.html" class="crosslink">Row</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>array of <a href="../classes/Row.html" class="crosslink">Row</a> instances or
+                                     <a href="../classes/Row.html" class="crosslink">Row</a> instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_setPhantomCellAttributes" class="method item">
     <h3 class="name"><code>setPhantomCellAttributes</code></h3>
 
@@ -3663,7 +4188,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l305"><code>js\classes\HtmlElements\Tag\Table.js:305</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l265"><code>js\classes\HtmlElements\Tag\Table.js:265</code></a>
         
         </p>
 
@@ -3767,7 +4292,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l217"><code>js\classes\HtmlElements\Tag\Table.js:217</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l177"><code>js\classes\HtmlElements\Tag\Table.js:177</code></a>
         
         </p>
 
@@ -3871,7 +4396,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l345"><code>js\classes\HtmlElements\Tag\Table.js:345</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l305"><code>js\classes\HtmlElements\Tag\Table.js:305</code></a>
         
         </p>
 
@@ -3975,7 +4500,7 @@ Note that if after setting the border there is an assigment of &#39;style&#39; o
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l246"><code>js\classes\HtmlElements\Tag\Table.js:246</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l206"><code>js\classes\HtmlElements\Tag\Table.js:206</code></a>
         
         </p>
 
@@ -4153,7 +4678,7 @@ If they are initialized, no re-initialization happens.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l374"><code>js\classes\HtmlElements\Tag\Table.js:374</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l334"><code>js\classes\HtmlElements\Tag\Table.js:334</code></a>
         
         </p>
 
@@ -4257,7 +4782,7 @@ If they are initialized, no re-initialization happens.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l275"><code>js\classes\HtmlElements\Tag\Table.js:275</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l235"><code>js\classes\HtmlElements\Tag\Table.js:235</code></a>
         
         </p>
 
@@ -4361,7 +4886,7 @@ If they are initialized, no re-initialization happens.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l552"><code>js\classes\HtmlElements\Tag\Table.js:552</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l547"><code>js\classes\HtmlElements\Tag\Table.js:547</code></a>
         
         </p>
 
@@ -4458,7 +4983,7 @@ method of Row::setCellWidths on each table row.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l841"><code>js\classes\HtmlElements\Tag\Table.js:841</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l875"><code>js\classes\HtmlElements\Tag\Table.js:875</code></a>
         
         </p>
 
@@ -4532,7 +5057,7 @@ is delegated to its <code>toHtml</code> method (if the elements has <code>toHtml
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l808"><code>js\classes\HtmlElements\Tag\Table.js:808</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l816"><code>js\classes\HtmlElements\Tag\Table.js:816</code></a>
         
         </p>
 

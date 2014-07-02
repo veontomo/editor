@@ -665,10 +665,10 @@ function Content(str) {
 
 	/**
 	 * Returns first element from {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} whose getTag() returns &#x60;name&#x60;.
-	 * If nothing is found, nothing is defined.
+	 * If nothing is found, nothing is returned.
 	 * @method         getFirstEntryOfTag
 	 * @param          {String}        name
-	 * @return         {Any}                   first element from
+	 * @return         {Tag|Null}              first element from
 	 *                                         {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
 	 *                                         which &quot;getTag&quot; method returns &#x60;name&#x60;.
 	 * @since          0.0.5
@@ -685,6 +685,20 @@ function Content(str) {
 		 	counter++;
 		}
 	};
+
+	/**
+	 * Filters out array {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} in such a way
+	 * that only those elements for which &#x60;fun&#x60; returns &#x60;true&#x60; remain.
+	 * @method         filterOut
+	 * @param          {function}           fun    function to be applied to each element
+	 * @return         {void}
+	 */
+	this.filterOut = function(fun){
+		var filtered = elements.filter(function(elem){
+			return fun(elem);
+		});
+		elements = filtered;
+	}
 }
     </pre>
 </div>

@@ -281,15 +281,18 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 			currentElem = editor.getSelection().getStartElement();
 			table = CKHelper.findAscendant(currentElem, function(el){
 				return el.getName() === 'table' &&
-					el.getAttribute(NEWSLETTER['marker-name'] ) === tableMarker;
+					el.getAttribute(NEWSLETTER['marker-name']) === tableMarker;
 			});
 
 			// currentTable = table.getOuterHtml().createTableFromHtml();
 			// console.log('parent table ', table);
 			currentTable = factory.mimic(table.$);
-			// currentTable.disentangle();
-			// console.log('constructed table ', currentTable.toHtml());
+			console.log('constructed table has ', currentTable.rowNum() , ' rows');
+			currentTable.disentangle();
+			console.log('disentangled table has ', currentTable.rowNum() , ' rows');
+			console.log('imposing profile ', userInput);
 			currentTable.setProfile(userInput);
+			console.log('resized table has ', currentTable.rowNum() , ' rows');
 
 			tableStr = currentTable.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);

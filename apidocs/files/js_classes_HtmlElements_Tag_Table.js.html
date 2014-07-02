@@ -319,46 +319,6 @@ function Table() {
 		}
 	};
 
-	/**
-	 * Returns copy of {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}
-	 * of {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. Overrides parent
-	 * method {{#crossLink &quot;Tag/getElements:method&quot;}}getElements{{/crossLink}} because
-	 * table might contain &#x60;tbody&#x60; inside (especially, those constructed from DOM.Node).
-	 * @method         getElements
-	 * @return         {Array}
-	 */
-	this.getElements = function(){
-		var cntn = this.getContent();
-		if (cntn){
-			if (cntn.length() === 1 &amp;&amp; cntn.getFirst().getTag() === &#x27;tbody&#x27;){
-				return cntn.getFirst().getElements();
-			}
-			return cntn.getElements();
-		}
-
-	};
-
-	/**
-	 * Gets the element stored in {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. Delegates its
-	 * functionality to class {{#crossLink &quot;Content&quot;}}Content{{/crossLink}}. Overrides parent
-	 * method {{#crossLink &quot;Tag/getElem:method&quot;}}getElem{{/crossLink}} because
-	 * table might contain &#x60;tbody&#x60; inside (especially, those constructed from DOM.Node).
-	 * @method getElem
-	 * @param  {Number}    pos
-	 * @return {any}
-	 * @since  0.0.1
-	 */
-	this.getElem = function(pos){
-		var cntn = this.getContent();
-		if (cntn){
-			if (cntn.length() === 1 &amp;&amp; cntn.getFirst().getTag() === &#x27;tbody&#x27;){
-				return cntn.getFirst().getContent().getElem(pos);
-			}
-			return this.getContent().getElem(pos);
-		}
-
-	};
-
 
 	/**
 	 * {{#crossLink &quot;Table/phantomCellStyles:property&quot;}}phantomCellStyles{{/crossLink}} getter.
@@ -583,21 +543,8 @@ function Table() {
 	 * @return {Number}
 	 */
 	this.rowNum = function(){
-		var cntn = this.getContent();
-		if (!cntn){
-			return 0;
-		}
-		var len = cntn.length(),
-			counter = 0,
-			item;
-		while (counter &lt; len){
-			item = cntn.getElem(counter);
-			if (item.getTag() === &#x27;tbody&#x27;){
-				return item.length();
-			}
-			counter++;
-		}
-		return 0;
+		var cntn = this.getBody();
+		return cntn ? cntn.length : 0;
 	};
 
 	/**
@@ -607,7 +554,7 @@ function Table() {
 	 *
 	 * Even though not more than one instance of &#x60;tbody&#x60; must be present among
 	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}
-	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}, all &#x60;tbody&#x60; tags are dropped
+	 * {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}}, all &#x60;tbody&#x60; tags are first dropped
 	 * from {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} and then the requested one is inserted.
 	 * @method         setBody
 	 * @param          {array|Row}  body    array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances or
@@ -616,31 +563,19 @@ function Table() {
 	 * @since          0.0.5
 	 */
 	this.setBody = function(body){
-		var arr = [],
-			isRow = body instanceof Row,
-			isArr = Array.isArray(body),
+		var bodyArr = Array.isArray(body) ? body : [body],
 			valid;
-		if (!isRow &amp;&amp; !isArr){
-			throw new Error(&#x27;Instance of Row class is required to be set as tbody&#x27;);
-		}
-		if (isRow){
-			arr.push(body);
-		} else if  (Array.isArray(body)){
-			var valid = body.every(function(elem){
-				return (elem instanceof Row);
-			});
-			if (!valid){
-				throw new Error(&#x27;All array elements must be Row instances to be set as tbody&#x27;);
-			}
-			arr = body;
-		}
-		if (!isRow &amp;&amp; !valid){
-			throw new Error(&#x27;Instance of Row class is required to be set as tbody&#x27;);
+		valid = bodyArr.every(function(elem){
+			return (elem instanceof Row);
+		});
+
+		if (!valid){
+			throw new Error(&#x27;Instance of Row class is required to be set as tbody!&#x27;);
 		}
 		var cntn = this.getContent(),
 			oldTBodyPos = cntn.findTagPos(&#x27;tbody&#x27;),
 			newTbody = new Tag(&#x27;tbody&#x27;);
-		newTbody.setElements(arr);
+		newTbody.setElements(bodyArr);
 		if (oldTBodyPos.length &gt; 0){
 			oldTBodyPos.sort(function(a, b){return b - a;});  // sort elements in descreasing order
 			oldTBodyPos.forEach(function(pos){
@@ -649,8 +584,20 @@ function Table() {
 		}
 		cntn.appendElem(newTbody);
 		this.setContent(cntn);
+	};
 
-	}
+
+	/**
+	 * Alias for {{#crossLink &quot;Table/setBody:method&quot;}}setBody{{/crossLink}} method.
+	 *
+	 * Overrides parent method {{#crossLink &quot;Tag/setElements:method&quot;}}setElements{{/crossLink}}.
+	 * @method         setElements
+	 * @param          {array|Row}  elems    array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances or
+	 *                                      {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instance
+	 */
+	this.setElements = function(elems){
+		this.setBody(elems);
+	};
 
 	/**
 	 * Returns array of {{#crossLink &quot;Row&quot;}}Row{{/crossLink}} instances in &#x60;tbody&#x60; part of the table.
@@ -667,6 +614,42 @@ function Table() {
 	};
 
 	/**
+	 * Returns footer of the table.
+	 * @method         getFooter
+	 * @return         {Tag|Null}
+	 */
+	this.getFooter = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag(&#x27;tfoot&#x27;);
+		}
+	};
+
+	/**
+	 * Returns header of the table.
+	 * @method         getHeader
+	 * @return         {Tag|Null}
+	 */
+	this.getHeader = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag(&#x27;thead&#x27;);
+		}
+	};
+
+	/**
+	 * Returns header of the table.
+	 * @method         getCaption
+	 * @return         {Tag|Null}
+	 */
+	this.getCaption = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag(&#x27;caption&#x27;);
+		}
+	};
+
+	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
 	 * @method   appendRow
 	 * @param    {Object} row     a row to append. If not a Row instance, an error is thrown.
@@ -676,7 +659,18 @@ function Table() {
 		if (!(row instanceof Row)){
 			throw new Error(&#x27;The argument is not a Row instance!&#x27;);
 		}
-		this.appendElem(row);
+		var cntn = this.getContent(),
+			tbody = cntn.getFirstEntryOfTag(&#x27;tbody&#x27;);
+		if (tbody){
+			tbody.appendElem(row);
+			// this.
+		} else {
+			tbody = new Tag(&#x27;tbody&#x27;);
+			tbody.setElements([row]);
+			cntn.appendElem(tbody);
+		}
+		// cntn.filterOut(function(el){return elem.getTag() === &#x27;tbody&#x27;;});
+		this.setContent(cntn);
 	};
 
 	/**
@@ -687,9 +681,10 @@ function Table() {
 	 */
 	this.getMatrix = function(){
 		var output = [],
-			rowsNum = this.rowNum(), i;
+			rowsNum = this.rowNum(), i,
+			body = this.getBody();
 		for (i = 0; i &lt; rowsNum; i++){
-			output.push(this.getElem(i).getCellWidths());
+			output.push(body[i].getCellWidths());
 		}
 		//console.log(&#x27;Table::getMatrix() returning &#x27;, output);
 		return output;
@@ -711,14 +706,15 @@ function Table() {
 	 * Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.
 	 * If the array length is different from the number of columns, an error is thrown. Otherwise, it is called
 	 * method of Row::setCellWidths on each table row.
-	 * @method  setProfile
-	 * @param   {Array}   profile      an array of cell widths that will be applied to each row.
-	 * @return  {void}
+	 * @method         setProfile
+	 * @param          {Array}         profile      an array of cell widths that will be applied to each row.
+	 * @return         {void}
 	 */
 	this.setProfile = function(profile){
 		var len = this.rowNum(),
 			cols = this.colNum(),
 			i;
+		console.log(&#x27;Table has &#x27; , len, &#x27; rows&#x27;);
 		if (!Array.isArray(profile)){
 			throw new Error(&#x27;Wrong argument type: array expected.&#x27;);
 		}
@@ -726,11 +722,13 @@ function Table() {
 			console.log(&quot;profile: &quot;, profile, &quot;cols = &quot;, cols);
 			throw new Error(&#x27;Wrong input array length!&#x27;);
 		}
+		var tbody = this.getBody();
 		for (i = 0; i &lt; len; i++){
-			// console.log(&#x27;elem &#x27; + i + &#x27;before: &#x27; + this.getElem(i).toHtml());
-			this.getElem(i).setCellWidths(profile);
-			// console.log(&#x27;elem &#x27; + i + &#x27; after: &#x27; + this.getElem(i).toHtml());
+			console.log(&#x27;elem &#x27; + i + &#x27;before: &#x27; + tbody[i].toHtml());
+			tbody[i].setCellWidths(profile);
+			console.log(&#x27;elem &#x27; + i + &#x27; after: &#x27; + tbody[i].toHtml());
 		}
+		this.setBody(tbody);
 	};
 
 	/**
@@ -748,6 +746,7 @@ function Table() {
 		cell = cell || (new Cell());
 		var colNum = this.colNum(),
 			rowNum = this.rowNum(),
+			tbody = this.getBody(),
 			i;
 
 		if (colNum &lt;= 0 || pos &lt; 0 || pos &gt; colNum){
@@ -755,13 +754,15 @@ function Table() {
 		}
 		if (pos &lt; colNum){
 			for (i = 0; i &lt; rowNum; i++){
-				this.getElem(i).insertCellAt(pos, cell);
+				tbody[i].insertCellAt(pos, cell);
 			}
 		} else {
 			for (i = 0; i &lt; rowNum; i++){
-				this.getElem(i).appendCell(cell);
+				tbody[i].appendCell(cell);
 			}
 		}
+		this.setBody(tbody);
+
 		return null;
 	};
 
@@ -786,10 +787,12 @@ function Table() {
 	 */
 	this.knockOutCol = function(colNum){
 		var rowsNum = this.rowNum(),
-		i;
+			tbody = this.getBody(),
+			i;
 		for (i = 0; i &lt; rowsNum; i++){
-			this.getElem(i).knockOutCell(colNum);
+			tbody[i].knockOutCell(colNum);
 		}
+		this.setBody(tbody);
 	};
 
 	/**
@@ -814,10 +817,12 @@ function Table() {
 	 */
 	this.dropColAt = function(colNum){
 		var rowsNum = this.rowNum(),
-		i;
+			tbody = this.getBody(),
+			i;
 		for (i = 0; i &lt; rowsNum; i++){
-			this.getElem(i).dropCellAt(colNum);
+			tbody[i].dropCellAt(colNum);
 		}
+		this.setBody(tbody);
 	};
 
 	/**
@@ -828,20 +833,21 @@ function Table() {
 	 */
 	this.colNum = function(){
 		var rowNum = this.rowNum(),
-			firstRowCellNum, i;
+			firstRowCellNum, i, tbody;
 		// if table has no rows, return 0 as number of column
 		if (rowNum === 0){
 			return 0;
 		}
+		tbody = this.getBody();
 		// console.log(this.getElem(0).toHtml());
-		firstRowCellNum = this.getElem(0).cellNum();
+		firstRowCellNum = tbody[0].cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
 			return firstRowCellNum;
 		}
 
 		for (i = 1; i &lt; rowNum; i++){
-			if (this.getElem(i).cellNum() !== firstRowCellNum){
+			if (tbody[i].cellNum() !== firstRowCellNum){
 				return null;
 			}
 		}
@@ -932,9 +938,11 @@ function Table() {
 	};
 
 	/**
-	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and call method
-	 * &#x60;Row::onlyTableInside()&#x60; on each of them until first &quot;false&quot; is encountered.
-	 * &lt;br /&gt;A table is a __framed table__ if all table rows have only one cell and this cell contains
+	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and calls method
+	 * {{#crossLink &quot;Row/onlyTableInside:method&quot;}}onlyTableInside{{/crossLink}} on each of them until
+	 * first &quot;false&quot; is encountered.
+	 *
+	 * A table is a __framed table__ if all table rows have only one cell and this cell contains
 	 * only one element that is a Table instance.
 	 * @method         isFragmented
 	 * @return         {Boolean}            true if the table is framed, and false otherwise
@@ -944,7 +952,7 @@ function Table() {
 		if (this.rowNum() === 0){
 			return false;
 		}
-		return this.getElements().every(function(row){
+		return this.getBody().every(function(row){
 			// console.log(&#x27;row? &#x27;, row.toHtml());
 			var res = row.onlyTableInside();
 			// console.log(res ? &#x27;returning true&#x27; : &#x27;returning false&#x27;);
@@ -986,14 +994,40 @@ function Table() {
 		var colNumInt = parseInt(colNum, 10),
 			colLen = this.colNum(),
 			rowLen = this.rowNum(),
+			tbody = this.getBody(),
 			i;
 		if (colNumInt === colNum &amp;&amp; colNum &gt;= 0 &amp;&amp; colNum &lt; colLen) {
 			for (i = 0; i &lt; rowLen; i++){
-				this.getElem(i).appendStyleToCellAt(colNum, style);
+				tbody[i].appendStyleToCellAt(colNum, style);
 			}
+			this.setBody(tbody);
 		} else {
 			throw new Error(&#x27;The column is not present!&#x27;);
 		}
+	};
+
+	/**
+	 * Generates html representation of the table body. If table is framed, then each row is &quot;sandwiched&quot; with
+	 * phantom elements.
+	 * @method         bodyToHtml
+	 * @param          {Boolean}            withFrame         whether the table is framed or not.
+	 * @return         {String}
+	 * @since          0.0.5
+	 */
+	this.bodyToHtml = function(){
+		var prologue = &#x27;&#x27;,
+			epilogue  = &#x27;&#x27;,
+			bodyHtml = &#x27;&#x27;;
+		if (this.isFramed()){
+			epilogue = this.getPhantomTag(&#x27;row&#x27;, &#x27;open&#x27;) + this.getPhantomTag(&#x27;cell&#x27;, &#x27;open&#x27;) + this.getPhantomTag(&#x27;table&#x27;, &#x27;open&#x27;);
+			prologue = this.getPhantomTag(&#x27;table&#x27;, &#x27;close&#x27;) + this.getPhantomTag(&#x27;cell&#x27;, &#x27;close&#x27;) + this.getPhantomTag(&#x27;row&#x27;, &#x27;close&#x27;);
+		}
+		this.getBody().forEach(function(el){
+			if (typeof el.toHtml === &#x27;function&#x27;){
+				bodyHtml += epilogue + el.toHtml() + prologue;
+			}
+		});
+		return bodyHtml;
 	};
 
 	/**
@@ -1005,23 +1039,22 @@ function Table() {
 	 * @return         {String}
 	 */
 	this.toHtml = function () {
-		var prologue = &#x27;&#x27;,
-			epilogue  = &#x27;&#x27;,
-			tableHtml;
-		if (this.isFramed()){
-			epilogue = this.getPhantomTag(&#x27;row&#x27;, &#x27;open&#x27;) + this.getPhantomTag(&#x27;cell&#x27;, &#x27;open&#x27;) + this.getPhantomTag(&#x27;table&#x27;, &#x27;open&#x27;);
-			prologue = this.getPhantomTag(&#x27;table&#x27;, &#x27;close&#x27;) + this.getPhantomTag(&#x27;cell&#x27;, &#x27;close&#x27;) + this.getPhantomTag(&#x27;row&#x27;, &#x27;close&#x27;);
-		}
-		tableHtml  = this.openingTag();
+		var tableHtml  = this.openingTag();
+		var that = this;
+
 		this.getElements().forEach(function(el){
 			if (typeof el.toHtml === &#x27;function&#x27;){
-				tableHtml += epilogue + el.toHtml() + prologue;
+				if (el.getTag() === &#x27;tbody&#x27;){
+					tableHtml += el.openingTag() + that.bodyToHtml() + el.closingTag();
+				} else {
+					tableHtml += el.toHtml();
+				}
+
 			}
 		});
 		tableHtml += this.closingTag();
 		return tableHtml;
 	};
-
 
 
 	/**
@@ -1067,6 +1100,46 @@ function Table() {
 
 	};
 
+	/**
+	 * Gets copy of n-th row stored in table body. If that row does not exist, nothing is returned.
+	 * @method        getRow
+	 * @param         {Number}    n
+	 * @return        {Row|Null}
+	 * @since         0.0.5
+	 */
+	this.getRow = function(n){
+		if (n !== undefined){
+			var len = this.rowNum();
+			if (len &gt; 0 &amp;&amp; n &gt;= 0 &amp;&amp; n &lt; len){
+				return this.getBody()[n];
+			}
+		}
+	};
+
+	/**
+	 * Returns copy of the first row stored in table body. If that row does not exist, nothing is returned.
+	 * @method         getFirstRow
+	 * @return         {Row}
+	 * @since          0.0.5
+	 */
+	this.getFirstRow = function(){
+		if (this.rowNum() &gt; 0){
+			return this.getBody()[0];
+		}
+	};
+
+	/**
+	 * Returns copy of last row stored in table body. If that row does not exist, nothing is returned.
+	 * @method        getLastRow
+	 * @return        {Row}
+	 * @since         0.0.5
+	 */
+	this.getLastRow = function(){
+		var len = this.rowNum();
+		if (len &gt; 0){
+			return this.getBody()[len - 1];
+		}
+	};
 
 	/**
 	 * If the table is fragmented, gives the requested property of the phantom cell if that property is
@@ -1128,6 +1201,8 @@ function Table() {
 	/**
 	 * If the table is fragmented, then sets up the phantom properties and rearrange content property.
 	 * If not, the table remains as it is.
+	 *
+	 * NB: refactor it!!!!
 	 * @method   desintangle
 	 * @return   {void}
 	 */
@@ -1135,23 +1210,26 @@ function Table() {
 		if (!this.isFragmented()){
 			return null;
 		}
-		var newContent = new Content(),
+		var rows = [],
 			rowNum = this.rowNum(),
-			i;
+			i,
+			firstRow = this.getFirstRow(),
+			cellInside = firstRow.getFirst(),
+			tableInside = cellInside.getFirst();
 
-		this.setPhantomCellStyles(this.getFirst().getFirst().getStyles());
-		this.setPhantomCellAttributes(this.getFirst().getFirst().getAttributes());
+		this.setPhantomRowStyles(firstRow.getStyles());
+		this.setPhantomRowAttributes(firstRow.getAttributes());
 
-		this.setPhantomRowStyles(this.getFirst().getFirst().getStyles());
-		this.setPhantomRowAttributes(this.getFirst().getFirst().getAttributes());
+		this.setPhantomCellStyles(cellInside.getStyles());
+		this.setPhantomCellAttributes(cellInside.getAttributes());
 
-		this.setPhantomTableStyles(this.getFirst().getFirst().getFirst().getStyles());
-		this.setPhantomTableAttributes(this.getFirst().getFirst().getFirst().getAttributes());
+		this.setPhantomTableStyles(tableInside.getStyles());
+		this.setPhantomTableAttributes(tableInside.getAttributes());
 
 		for (i = 0; i &lt; rowNum; i++){
-			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
+			rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
 		}
-		this.setContent(newContent);
+		this.setBody(rows);
 	};
 
 

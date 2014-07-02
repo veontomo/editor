@@ -556,18 +556,19 @@ function Table() {
 		var len = this.rowNum(),
 			cols = this.colNum(),
 			i;
+		console.log('Table has ' , len, ' rows');
 		if (!Array.isArray(profile)){
 			throw new Error('Wrong argument type: array expected.');
 		}
 		if (profile.length !== cols){
-			// console.log("profile: ", profile, "cols = ", cols);
+			console.log("profile: ", profile, "cols = ", cols);
 			throw new Error('Wrong input array length!');
 		}
 		var tbody = this.getBody();
 		for (i = 0; i < len; i++){
-			// console.log('elem ' + i + 'before: ' + this.getElem(i).toHtml());
+			console.log('elem ' + i + 'before: ' + tbody[i].toHtml());
 			tbody[i].setCellWidths(profile);
-			// console.log('elem ' + i + ' after: ' + this.getElem(i).toHtml());
+			console.log('elem ' + i + ' after: ' + tbody[i].toHtml());
 		}
 		this.setBody(tbody);
 	};
@@ -779,9 +780,11 @@ function Table() {
 	};
 
 	/**
-	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and call method
-	 * `Row::onlyTableInside()` on each of them until first "false" is encountered.
-	 * <br />A table is a __framed table__ if all table rows have only one cell and this cell contains
+	 * Returns true if the table is fragmented, and false otherwise. It takes table rows and calls method
+	 * {{#crossLink "Row/onlyTableInside:method"}}onlyTableInside{{/crossLink}} on each of them until
+	 * first "false" is encountered.
+	 *
+	 * A table is a __framed table__ if all table rows have only one cell and this cell contains
 	 * only one element that is a Table instance.
 	 * @method         isFragmented
 	 * @return         {Boolean}            true if the table is framed, and false otherwise
@@ -1049,23 +1052,26 @@ function Table() {
 		if (!this.isFragmented()){
 			return null;
 		}
-		var newContent = new Content(),
+		var rows = [],
 			rowNum = this.rowNum(),
-			i;
+			i,
+			firstRow = this.getFirstRow(),
+			cellInside = firstRow.getFirst(),
+			tableInside = cellInside.getFirst();
 
-		this.setPhantomCellStyles(this.getFirstRow().getFirst().getStyles());
-		this.setPhantomCellAttributes(this.getFirstRow().getFirst().getAttributes());
+		this.setPhantomRowStyles(firstRow.getStyles());
+		this.setPhantomRowAttributes(firstRow.getAttributes());
 
-		this.setPhantomRowStyles(this.getFirstRow().getFirst().getStyles());
-		this.setPhantomRowAttributes(this.getFirstRow().getFirst().getAttributes());
+		this.setPhantomCellStyles(cellInside.getStyles());
+		this.setPhantomCellAttributes(cellInside.getAttributes());
 
-		this.setPhantomTableStyles(this.getFirstRow().getFirst().getFirst().getStyles());
-		this.setPhantomTableAttributes(this.getFirstRow().getFirst().getFirst().getAttributes());
+		this.setPhantomTableStyles(tableInside.getStyles());
+		this.setPhantomTableAttributes(tableInside.getAttributes());
 
 		for (i = 0; i < rowNum; i++){
-			newContent.appendElem(this.getRow(i).getFirst().getFirst().getFirst());
+			rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
 		}
-		this.setContent(newContent);
+		this.setBody(rows);
 	};
 
 

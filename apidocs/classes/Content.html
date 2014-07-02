@@ -263,6 +263,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_filterOut">filterOut</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_findTagPos">findTagPos</a>
 
                                 
@@ -1195,6 +1202,112 @@ the index of the last element.</p>
 </div>
 
                 
+                    <div id="method_filterOut" class="method item">
+    <h3 class="name"><code>filterOut</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>fun</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Content.js.html#l531"><code>js\classes\HtmlElements\Content.js:531</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Filters out array <a href="../classes/Content.html#property_elements" class="crosslink">elements</a> in such a way
+that only those elements for which <code>fun</code> returns <code>true</code> remain.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">fun</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>function to be applied to each element</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_findTagPos" class="method item">
     <h3 class="name"><code>findTagPos</code></h3>
 
@@ -1639,7 +1752,7 @@ content.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Any</span>
+            <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>
         </span>
     
 
@@ -1680,7 +1793,7 @@ content.</p>
 
     <div class="description">
         <p>Returns first element from <a href="../classes/Content.html#property_elements" class="crosslink">elements</a> whose getTag() returns <code>name</code>.
-If nothing is found, nothing is defined.</p>
+If nothing is found, nothing is returned.</p>
 
     </div>
 
@@ -1716,7 +1829,7 @@ If nothing is found, nothing is defined.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Any</span>:
+                        <span class="type"><a href="../classes/Tag.html" class="crosslink">Tag</a> | Null</span>:
                     
                     <p>first element from
                                         <a href="../classes/Content.html#property_elements" class="crosslink">elements</a>
