@@ -545,9 +545,9 @@ function Table() {
 	};
 
 	/**
-	 * Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.
+	 * Imposes the widths of all cell in all rows of the table body. If the argument is not array, an error is thrown.
 	 * If the array length is different from the number of columns, an error is thrown. Otherwise, it is called
-	 * method of Row::setCellWidths on each table row.
+	 * method {{#crossLink "Row/setCellWidths:method"}}setCellWidths{{/crossLink}} on each row of table body.
 	 * @method         setProfile
 	 * @param          {Array}         profile      an array of cell widths that will be applied to each row.
 	 * @return         {void}

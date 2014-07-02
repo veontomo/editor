@@ -1197,6 +1197,8 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
         <p>If the table is fragmented, then sets up the phantom properties and rearrange content property.
 If not, the table remains as it is.</p>
 <p>NB: refactor it!!!!</p>
+<p>NB: note that disentanglement only of table body occurs. If table header contains fragmented table,
+it remains untouched.</p>
 
     </div>
 
@@ -4897,9 +4899,9 @@ If they are initialized, no re-initialization happens.</p>
     </div>
 
     <div class="description">
-        <p>Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.
+        <p>Imposes the widths of all cell in all rows of the table body. If the argument is not array, an error is thrown.
 If the array length is different from the number of columns, an error is thrown. Otherwise, it is called
-method of Row::setCellWidths on each table row.</p>
+method <a href="../classes/Row.html#method_setCellWidths" class="crosslink">setCellWidths</a> on each row of table body.</p>
 
     </div>
 

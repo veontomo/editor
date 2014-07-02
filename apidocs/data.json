@@ -2568,7 +2568,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
             "line": 547,
-            "description": "Imposes the widths of all cell in all rows of the table. If the argument is not array, an error is thrown.\nIf the array length is different from the number of columns, an error is thrown. Otherwise, it is called\nmethod of Row::setCellWidths on each table row.",
+            "description": "Imposes the widths of all cell in all rows of the table body. If the argument is not array, an error is thrown.\nIf the array length is different from the number of columns, an error is thrown. Otherwise, it is called\nmethod {{#crossLink \"Row/setCellWidths:method\"}}setCellWidths{{/crossLink}} on each row of table body.",
             "itemtype": "method",
             "name": "setProfile",
             "params": [
@@ -2974,7 +2974,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
             "line": 1043,
-            "description": "If the table is fragmented, then sets up the phantom properties and rearrange content property.\nIf not, the table remains as it is.\n\nNB: refactor it!!!!",
+            "description": "If the table is fragmented, then sets up the phantom properties and rearrange content property.\nIf not, the table remains as it is.\n\nNB: refactor it!!!!\n\nNB: note that disentanglement only of table body occurs. If table header contains fragmented table,\nit remains untouched.",
             "itemtype": "method",
             "name": "desintangle",
             "return": {
