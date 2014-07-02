@@ -1045,6 +1045,9 @@ function Table() {
 	 * If not, the table remains as it is.
 	 *
 	 * NB: refactor it!!!!
+	 *
+	 * NB: note that disentanglement only of table body occurs. If table header contains fragmented table,
+	 * it remains untouched.
 	 * @method   desintangle
 	 * @return   {void}
 	 */
