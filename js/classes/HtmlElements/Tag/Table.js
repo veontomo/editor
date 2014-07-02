@@ -556,19 +556,15 @@ function Table() {
 		var len = this.rowNum(),
 			cols = this.colNum(),
 			i;
-		console.log('Table has ' , len, ' rows');
 		if (!Array.isArray(profile)){
 			throw new Error('Wrong argument type: array expected.');
 		}
 		if (profile.length !== cols){
-			console.log("profile: ", profile, "cols = ", cols);
 			throw new Error('Wrong input array length!');
 		}
 		var tbody = this.getBody();
 		for (i = 0; i < len; i++){
-			console.log('elem ' + i + 'before: ' + tbody[i].toHtml());
 			tbody[i].setCellWidths(profile);
-			console.log('elem ' + i + ' after: ' + tbody[i].toHtml());
 		}
 		this.setBody(tbody);
 	};
@@ -1058,23 +1054,28 @@ function Table() {
 		var rows = [],
 			rowNum = this.rowNum(),
 			i,
-			firstRow = this.getFirstRow(),
-			cellInside = firstRow.getFirst(),
-			tableInside = cellInside.getFirst();
-
-		this.setPhantomRowStyles(firstRow.getStyles());
-		this.setPhantomRowAttributes(firstRow.getAttributes());
-
-		this.setPhantomCellStyles(cellInside.getStyles());
-		this.setPhantomCellAttributes(cellInside.getAttributes());
-
-		this.setPhantomTableStyles(tableInside.getStyles());
-		this.setPhantomTableAttributes(tableInside.getAttributes());
-
-		for (i = 0; i < rowNum; i++){
-			rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+			firstRow,
+			cellInside,
+			tableInside;
+		firstRow = this.getFirstRow();
+		if (firstRow){
+			this.setPhantomRowStyles(firstRow.getStyles());
+			this.setPhantomRowAttributes(firstRow.getAttributes());
+			cellInside = firstRow.getFirst();
+			if (cellInside){
+				this.setPhantomCellStyles(cellInside.getStyles());
+				this.setPhantomCellAttributes(cellInside.getAttributes());
+				tableInside = cellInside.getFirst();
+				if(tableInside){
+					this.setPhantomTableStyles(tableInside.getStyles());
+					this.setPhantomTableAttributes(tableInside.getAttributes());
+					for (i = 0; i < rowNum; i++){
+						rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+					}
+					this.setBody(rows);
+				}
+			}
 		}
-		this.setBody(rows);
 	};
 
 
