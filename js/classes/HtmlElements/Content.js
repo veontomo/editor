@@ -507,10 +507,10 @@ function Content(str) {
 
 	/**
 	 * Returns first element from {{#crossLink "Content/elements:property"}}elements{{/crossLink}} whose getTag() returns `name`.
-	 * If nothing is found, nothing is defined.
+	 * If nothing is found, nothing is returned.
 	 * @method         getFirstEntryOfTag
 	 * @param          {String}        name
-	 * @return         {Any}                   first element from
+	 * @return         {Tag|Null}              first element from
 	 *                                         {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
 	 *                                         which "getTag" method returns `name`.
 	 * @since          0.0.5

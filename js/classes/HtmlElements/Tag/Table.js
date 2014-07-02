@@ -496,6 +496,42 @@ function Table() {
 	};
 
 	/**
+	 * Returns footer of the table.
+	 * @method         getFooter
+	 * @return         {Tag|Null}
+	 */
+	this.getFooter = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag('tfoot');
+		}
+	};
+
+	/**
+	 * Returns header of the table.
+	 * @method         getHeader
+	 * @return         {Tag|Null}
+	 */
+	this.getHeader = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag('thead');
+		}
+	};
+
+	/**
+	 * Returns header of the table.
+	 * @method         getCaption
+	 * @return         {Tag|Null}
+	 */
+	this.getCaption = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getFirstEntryOfTag('caption');
+		}
+	};
+
+	/**
 	 * Appends a row to the content property. If the argument is not a Row instance, an error is thrown.
 	 * @method   appendRow
 	 * @param    {Object} row     a row to append. If not a Row instance, an error is thrown.

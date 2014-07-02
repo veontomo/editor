@@ -1932,9 +1932,9 @@ describe('Table-related functionality:', function(){
     });
 
     describe('Loading element into table', function(){
-        var t00, t10, t11, t13; //t20, t22, t23;
+        var t00, t10, t11, t13, t23; //t20, t22, t23;
         beforeEach(function(){
-            var tRow, tCell, thead, tbody, capt;
+            var tRow, tCell, thead, tbody, tfoot, capt;
             // table 0 x 0 (no rows and hence no cells)
             t00 = document.createElement('table');
             t00.setAttribute('class', 'highest');
@@ -1957,9 +1957,6 @@ describe('Table-related functionality:', function(){
             t10.appendChild(tbody);
             tbody.appendChild(tRow);
 
-            t10.normalize();
-
-
             // table 1 x 1 (single row with one cells)
             tRow = document.createElement('tr');
             tRow.setAttribute('width', '200');
@@ -1969,6 +1966,40 @@ describe('Table-related functionality:', function(){
             tCell.setAttribute('style', 'text-align: right; font-size: 12px');
             t11 = document.createElement('table');
             t11.appendChild(tRow);
+            tRow.appendChild(tCell);
+
+
+            // table 1 x 3 (one row with three cells)
+            t13 = document.createElement('table');
+            thead = document.createElement('thead');
+            tbody = document.createElement('tbody');
+            tfoot = document.createElement('tfoot');
+            t13.appendChild(thead);
+            t13.appendChild(tfoot);
+            t13.appendChild(tbody);
+
+            // first row
+            tRow = document.createElement('tr');
+            tbody.appendChild(tRow);
+            tRow.setAttribute('width', '200');
+            tRow.setAttribute('style', 'uniqueElem: true');
+            // first cell
+            tCell = document.createElement('td');
+            tCell.setAttribute('border', '2');
+            tCell.setAttribute('style', 'text-align: right; font-size: 12px');
+            tCell.appendChild(document.createTextNode('cell 1.1'));
+            tRow.appendChild(tCell);
+            // second cell
+            tCell = document.createElement('td');
+            tCell.setAttribute('width', '150');
+            tCell.setAttribute('style', 'text-align: center; font-size: 12px');
+            tCell.appendChild(document.createTextNode('cell 1.2'));
+            tRow.appendChild(tCell);
+            // third cell
+            tCell = document.createElement('td');
+            tCell.setAttribute('width', '20');
+            tCell.setAttribute('style', 'text-align: justify; font-size: 11px');
+            tCell.appendChild(document.createTextNode('cell 1.3'));
             tRow.appendChild(tCell);
 
             // table 2 x 3 (two rows and with three cells each, caption, header, footer)
@@ -2053,47 +2084,41 @@ describe('Table-related functionality:', function(){
 
         it('loads a table with single row and three cells', function(){
             table.load(t13);
-            expect(table.length()).toBe(1);
             expect(table.rowNum()).toBe(1);
             expect(table.colNum()).toBe(3);
-            var row = table.getElem(0);
+            var row = table.getRow(0);
             expect(row instanceof Row).toBe(true);
             expect(row.length()).toBe(3);
-            var cell = row.getElem(0);
+
             expect(row.getElem(0) instanceof Cell).toBe(true);
             expect(row.getElem(1) instanceof Cell).toBe(true);
             expect(row.getElem(2) instanceof Cell).toBe(true);
 
-            expect(row.getElem(0).getFirst().toHtml()).toBe('cell 1');
-            expect(row.getElem(1).getFirst().toHtml()).toBe('cell 2');
-            expect(row.getElem(2).getFirst().toHtml()).toBe('cell 3');
+            expect(row.getElem(0).getFirst().toHtml()).toBe('cell 1.1');
+            expect(row.getElem(1).getFirst().toHtml()).toBe('cell 1.2');
+            expect(row.getElem(2).getFirst().toHtml()).toBe('cell 1.3');
         });
 
         it('loads table header', function(){
-            var thead = document.createElement('thead');
+            var thead = t13.getElementsByTagName('thead')[0];
             thead.appendChild(document.createTextNode('table header'));
-            t13.appendChild(thead);
             table.load(t13);
             expect(table.getHeader().length()).toBe(1);
-            expect(table.getHeader().getFirst()).toBe('table header');
+            expect(table.getHeader().getFirst().toHtml()).toBe('table header');
         });
 
         it('loads table footer', function(){
-            var tfoot = document.createElement('tfoot');
+            var tfoot = t13.getElementsByTagName('tfoot')[0];
             tfoot.appendChild(document.createTextNode('table footer'));
-            t11.appendChild(tfoot);
-            table.load(t11);
+            table.load(t13);
             expect(table.getFooter().length()).toBe(1);
-            expect(table.getFooter().getFirst()).toBe('table footer');
+            expect(table.getFooter().getFirst().toHtml()).toBe('table footer');
         });
 
         it('loads table caption', function(){
-            var cap = document.createElement('caption');
-            cap.appendChild(document.createTextNode('table caption'));
-            t00.appendChild(cap);
-            table.load(t00);
+            table.load(t10);
             expect(table.getCaption().length()).toBe(1);
-            expect(table.getCaption().getFirst()).toBe('table caption');
+            expect(table.getCaption().getFirst().toHtml()).toBe('table caption');
         });
 
 
