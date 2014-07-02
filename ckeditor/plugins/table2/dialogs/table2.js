@@ -251,7 +251,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				phantomRowStyle.setProperty('margin', 0);
 				// mark the phantom row
 				phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-				console.log('hantom row attrs: ' + phantomRowAttr.toString());
 				phantomCellWidth = phantomRowStyle.getProperty('width') - 2 * phantomRowStyle.getProperty('padding') - 2 * frameWidth;
 				phantomCellStyle.setWidth(phantomCellWidth);
 				allWidths.push({'value': phantomCellWidth, 'descr': 'larghezza della cella fittizia'});

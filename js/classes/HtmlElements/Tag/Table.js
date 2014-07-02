@@ -1080,6 +1080,8 @@ function Table() {
 	/**
 	 * If the table is fragmented, then sets up the phantom properties and rearrange content property.
 	 * If not, the table remains as it is.
+	 *
+	 * NB: refactor it!!!!
 	 * @method   desintangle
 	 * @return   {void}
 	 */
@@ -1091,17 +1093,17 @@ function Table() {
 			rowNum = this.rowNum(),
 			i;
 
-		this.setPhantomCellStyles(this.getFirst().getFirst().getStyles());
-		this.setPhantomCellAttributes(this.getFirst().getFirst().getAttributes());
+		this.setPhantomCellStyles(this.getFirstRow().getFirst().getStyles());
+		this.setPhantomCellAttributes(this.getFirstRow().getFirst().getAttributes());
 
-		this.setPhantomRowStyles(this.getFirst().getFirst().getStyles());
-		this.setPhantomRowAttributes(this.getFirst().getFirst().getAttributes());
+		this.setPhantomRowStyles(this.getFirstRow().getFirst().getStyles());
+		this.setPhantomRowAttributes(this.getFirstRow().getFirst().getAttributes());
 
-		this.setPhantomTableStyles(this.getFirst().getFirst().getFirst().getStyles());
-		this.setPhantomTableAttributes(this.getFirst().getFirst().getFirst().getAttributes());
+		this.setPhantomTableStyles(this.getFirstRow().getFirst().getFirst().getStyles());
+		this.setPhantomTableAttributes(this.getFirstRow().getFirst().getFirst().getAttributes());
 
 		for (i = 0; i < rowNum; i++){
-			newContent.appendElem(this.getElem(i).getFirst().getFirst().getFirst());
+			newContent.appendElem(this.getRow(i).getFirst().getFirst().getFirst());
 		}
 		this.setContent(newContent);
 	};
