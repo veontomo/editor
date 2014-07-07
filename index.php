@@ -73,6 +73,8 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
 	<script type="text/javascript" src="settings/general_config.js"></script>
+
+	<!-- external plugins -->
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<title><?= $title ?></title>
 <?php

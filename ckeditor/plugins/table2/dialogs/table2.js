@@ -98,7 +98,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		// Dialog window contents definition.
 		contents: [{
 			id: "info",
-			label: editor.lang.table.title,
+			label: editor.lang.table.columns + ' & ' + editor.lang.table.rows,
 			elements: [
 			{
 				type: 'text',
@@ -106,7 +106,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				id: 'tblRows',
 				"default": '2',
 				'inputStyle': inputStyle,
-
 			},
 			{
 				type: "text",
@@ -153,10 +152,167 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				id: 'trSeparator',
 				'inputStyle': inputStyle,
 				'default': false
-			}
+			}]
+		}, {
+			id: 'borderTab',
+			label: 'Bordi', // it is better to make it I18n
+			elements: [
+			{
+				type: 'vbox',
+				children: [{
+					type: 'html',
+					html: 'Bordo globale',
+				}, {
+					type: 'hbox',
+					widths: ['50%', '50%'],
+					children: [{
+						type: 'text',
+						label: editor.lang.common.width,
+						title: 'larghezza in pixel',
+						id: 'globalBorder',
+						"default": '0',
+					}, {
+						type: 'text',
+						label: editor.lang.colordialog.title,
+						id: 'globalBorderColor',
+						'default': '#000001'
+					}]
+				}]
+			}, {
+				type: 'vbox',
+				children: [{
+					type: 'html',
+					html: 'Bordo attorno a ogni riga',
+				}, {
+					type: 'hbox',
+					widths: ['50%', '50%'],
+					children: [{
+						type: 'text',
+						label: editor.lang.common.width,
+						id: 'phantomBorder',
+						"default": '0',
+					}, {
+						type: 'text',
+						label: editor.lang.colordialog.title,
+						id: 'phantomBorderColor',
+						'default': '#000001'
+					}]
 
-			]
-		}],
+				}]
+			},  {
+				type: 'vbox',
+				children: [{
+					type: 'html',
+					html: 'Bordo attorno a celle',
+				}, {
+					type: 'hbox',
+					widths: ['10%', '10%', '10%', '10%', '10%', '10%', '20%'],
+					children: [{
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/left.gif" title="left border" width="15" />',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'left border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/middleVer.gif" title="middle vertical border" width="15" />',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'middle vertical border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/right.gif" title="right border" width="15" />',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'right border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/upper.gif" title="upper border" width="15"/ >',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'upper border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/middleHor.gif" title="middle horizontal border" width="15" />',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'middle horizontal border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: '<img src="ckeditor/plugins/table2/icons/lower.gif" title="lower border" width="15"/>',
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: 'lower border'
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: editor.lang.colordialog.title,
+						}, {
+							type: 'text',
+							label: '',
+							title: 'inserisci colore',
+							'default': '#000001'
+						}]
+					}]
+				}]
+			}]
+		}, {
+			id: 'backgroundTab',
+			label: 'Sfondo',   // it is better to make it I18n
+			elements: [
+			{
+				type: 'text',
+				label: editor.lang.table.cell.bgColor,
+				id: 'backgroundColor',
+			}]
+		}, {
+			id: 'spacesTab',
+			label: 'Spazi', // it is better to make it I18n
+			elements: [
+			{
+				type: 'hbox',
+				widths: ['50%', '50%'],
+				children: [{
+					type: 'html',
+					html: 'Spaziatura',
+					title: 'inserisci valore in pixel'
+				}, {
+					type: 'text',
+					id: 'spaces',
+					"default": '0',
+					title: 'inserisci valore in pixel'
+					// 'inputStyle': inputStyle,
+				}]
+			}]
+		}
+
+
+		],
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function () {
 			var dialog = this,
