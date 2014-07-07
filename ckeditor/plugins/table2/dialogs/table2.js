@@ -175,7 +175,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
-						'default': '#000001'
+						'default': '#000001',
+						"onclick": 'colorPicker(click)'
 					}]
 				}]
 			}, {
@@ -276,7 +277,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: '',
 							title: 'inserisci colore',
-							'default': '#000001'
+							'default': '#000001',
+
 						}]
 					}]
 				}]
@@ -289,6 +291,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: editor.lang.table.cell.bgColor,
 				id: 'backgroundColor',
+
 			}]
 		}, {
 			id: 'spacesTab',
