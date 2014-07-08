@@ -13,7 +13,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.defaultLanguage = config.language;
 	// size
 	config.width = '850px';
-	config.height = '500px';
+	config.height = '650px';
 	// when pressing "ENTER", <br> is inserted, not <p>
 	config.enterMode = CKEDITOR.ENTER_BR;
 
@@ -38,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection,bold2,italic2,underline2,strike2';
+	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection,bold2,italic2,underline2,strike2,info2,setScale2';
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 

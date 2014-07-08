@@ -23,7 +23,6 @@ $(document).ready(function () {
 	font-weight: normal;\
 	padding: 0;\
 	margin: 0;\
-	width: 500px;\
 }\
 \
 tr:hover {\
