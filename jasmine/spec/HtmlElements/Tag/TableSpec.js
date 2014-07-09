@@ -495,9 +495,8 @@ describe('Table-related functionality:', function(){
 
 
     describe('Creates html representation', function(){
-        var stls, attrs;
+        var attrs;
         beforeEach(function(){
-            stls = {toString: function(){return '"styles"';}};
             attrs = {toString: function(){return '"attributes"';}};
             row1 = new Row();
             row2 = new Row();
@@ -511,21 +510,19 @@ describe('Table-related functionality:', function(){
 
         it('generates html string for non-framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return false;});
-            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
             spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
             table.setBody([row1, row2]);
-            expect(table.toHtml()).toBe('<table "attributes" "styles"><tbody>"row 1""row 2"</tbody></table>');
+            expect(table.toHtml()).toBe('<table "attributes"><tbody>"row 1""row 2"</tbody></table>');
         });
 
 
         it('generates html string for framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return true;});
             spyOn(table, 'getPhantomTag').andCallFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
-            spyOn(table, 'getStyles').andCallFake(function(){return stls;});
             spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
             table.setBody([row1, row2, row3]);
 
-            expect(table.toHtml()).toBe('<table "attributes" "styles"><tbody>\
+            expect(table.toHtml()).toBe('<table "attributes"><tbody>\
 <row open><cell open><table open>"row 1"<table close><cell close><row close>\
 <row open><cell open><table open>"row 2"<table close><cell close><row close>\
 <row open><cell open><table open>"row 3"<table close><cell close><row close>\
@@ -1003,37 +1000,11 @@ describe('Table-related functionality:', function(){
             spyOn(tableAttr, 'toString').andCallFake(function(){
                 return 'attributes for the table';
             });
-            spyOn(tableStyle, 'toString').andCallFake(function(){
-                return 'table styles';
-            });
             table.setAttributes(tableAttr);
-            table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table attributes for the table table styles><tbody>row 1 row 2 html row 3 content</tbody></table>');
+            expect(table.toHtml()).toEqual('<table attributes for the table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
-        it('generates html code of the table if style property is empty', function(){
-             spyOn(row1, 'toHtml').andCallFake(function(){
-                 return 'row 1 ';
-             });
-             spyOn(row2, 'toHtml').andCallFake(function(){
-                 return 'row 2 html ';
-             });
-             spyOn(row3, 'toHtml').andCallFake(function(){
-                 return 'row 3 content';
-             });
-
-             spyOn(tableAttr, 'toString').andCallFake(function(){
-                 return 'table attributes';
-             });
-             spyOn(tableStyle, 'toString').andCallFake(function(){
-                 return '';
-             });
-             table.setAttributes(tableAttr);
-             table.setStyles(tableStyle);
-             table.setElements([row1, row2, row3]);
-             expect(table.toHtml()).toEqual('<table table attributes><tbody>row 1 row 2 html row 3 content</tbody></table>');
-        });
 
         it('generates html code of the table if attribute property is empty', function(){
             spyOn(row1, 'toHtml').andCallFake(function(){
@@ -1049,13 +1020,9 @@ describe('Table-related functionality:', function(){
             spyOn(tableAttr, 'toString').andCallFake(function(){
                 return '';
             });
-            spyOn(tableStyle, 'toString').andCallFake(function(){
-                return 'table-styles';
-            });
             table.setAttributes(tableAttr);
-            table.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table table-styles><tbody>row 1 row 2 html row 3 content</tbody></table>');
+            expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
         it('generates html code of the table if both attribute and style properties are empty', function(){
@@ -1175,10 +1142,12 @@ describe('Table-related functionality:', function(){
 
     describe('Table.setBorder(): sets table border', function(){
         beforeEach(function(){
+            if (table.getStyles()){
                 delete table.getStyles()['border-width'];
                 delete table.getStyles()['border-color'];
                 delete table.getStyles()['border-style'];
                 delete table.getAttributes().width;
+            }
         });
         it('sets the default values for the table border', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);

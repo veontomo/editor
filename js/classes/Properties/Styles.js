@@ -25,19 +25,16 @@ function Styles(obj) {
     this.setName('Styles');
 
     /**
-     * Returns html representation of current instance. It takes output of
-     * {{#crossLink "Styles/toBareString:method"}}toBareString{{/crossLink}} and if it is not empty, returns a string of
-     * the following format `style="..."`. If it is empty, retuns it as it is.
+     * It is just an alias for {{#crossLink "Styles/toBareString:method"}}toBareString(){{/crossLink}} method.
+     *
      * @method         toString
      * @param          {String|null}        unit          measurement unit to be added to the numerical attribute values.
      * @return         {String}             String        empty string or string of this format: `style="attribute: value; ..."`,
      */
     this.toString = function (unit) {
         var output = this.toBareString(unit);
-        if (output !== ''){
-            output = 'style="' + output + '"';
-        }
         return output;
+
     };
 
     /**

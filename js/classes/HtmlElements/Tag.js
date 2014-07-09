@@ -94,7 +94,7 @@ function Tag(tName) {
 	 * @private
 	 * @since          0.0.4
 	 */
-	var styles = new Styles();
+	// var styles = new Styles();
 
 
 	/**
@@ -146,21 +146,21 @@ function Tag(tName) {
 	*/
 	this.setStyles = function(stl){
 		if (stl instanceof Styles){
-			styles = stl;
+			attributes.setProperty('style', stl);
 		} else {
-			styles = new Styles(stl);
+			attributes.setProperty('style', new Styles(stl));
 		}
 	};
 
 
 	/**
 	* Returns copy of {{#crossLink "Tag/styles:property"}}Styles{{/crossLink}}.
-	* @method          getStyle
+	* @method          getStyles
 	* @return          {Styles}
 	* @since           0.0.4
 	*/
 	this.getStyles = function(){
-		return styles.clone();
+		return attributes.getProperty('style');
 	};
 
 
@@ -229,7 +229,8 @@ function Tag(tName) {
 	 * @since          0.0.1
 	 */
 	this.appendStyle = function(newStyle){
-		styles.appendStyle(newStyle);
+		this.initializeStyle();
+		this.getStyles().appendStyle(newStyle);
 	};
 
 	/**
@@ -267,7 +268,25 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 */
 	this.getStyleProperty = function(prop) {
-		return this.getStyles().getProperty(prop);
+		var stl = this.getStyles();
+		if (stl){
+			return stl.getProperty(prop);
+		}
+	};
+
+	/**
+	 * Initializes `style` property of tag attributes: if it does not exist, set it to
+	 * {{#crossLink "Styles"}}Styles{{/crossLink}}.
+	 * @since          0.0.5
+	 * @return         {void}
+	 */
+	this.initializeStyle = function(){
+		var propName = 'style';
+		if (!this.getAttrProperty(propName)){
+			// console.log('initializing styles');
+			this.setAttrProperty(propName, new Styles());
+			// console.log(this.getAttrProperty(propName));
+		}
 	};
 
 	/**
@@ -280,7 +299,8 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 */
 	this.setStyleProperty = function(key, value) {
-		return styles.setProperty(key, value);
+		this.initializeStyle();
+		return this.getStyles().setProperty(key, value);
 	};
 
 
@@ -357,7 +377,7 @@ function Tag(tName) {
 	 */
 	this.dropStyleProperty = function(key) {
 		if (this.hasStyleProperty(key)){
-			return styles.dropProperty(key);
+			return this.getStyles().dropProperty(key);
 		}
 	};
 
@@ -385,7 +405,9 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 */
 	this.getWidth = function(){
-		return this.getStyles().getProperty('width');
+		if (this.getStyles()){
+			return this.getStyles().getProperty('width');
+		}
 	};
 
 	/**
@@ -545,17 +567,17 @@ function Tag(tName) {
 	 */
 	this.openingTag = function(){
 		var t = this.getTag(),
-			stl, attr, output;
+			attr, output;
 		if (typeof t === 'string' && t.length > 0){
-			stl = this.getStyles().toString();
+			// stl = this.getStyles().toString();
 			attr =  this.getAttributes().toString();
-			if (stl.length > 0){
-				stl = ' ' + stl;
-			}
+			// if (stl.length > 0){
+				// stl = ' ' + stl;
+			// }
 			if (attr.length > 0){
 				attr = ' ' + attr;
 			}
-			output = '<' + t + attr + stl + '>';
+			output = '<' + t + attr + '>';
 			return output;
 		}
 	};
@@ -710,6 +732,10 @@ function Tag(tName) {
 			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
 			attr  = elem.attributes;                        // NamedNodeMap
 			attrSucc = this.getAttributes().load(attr);
+			if (!this.getStyles()){
+				// this.setAttrProperty('style', new Styles());
+				attributes.setProperty('style', new Styles());
+			}
 			styleSucc = this.getStyles().load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
@@ -730,15 +756,12 @@ function Tag(tName) {
 	 * @return  {DOM.Element}
 	 */
 	this.toNode = function(){
-		// var rnd = parseInt(Math.random()*1000, 10);
-		// console.info(rnd, 'Tag::toNode() called', this.getTag());
 		var el = document.createElement(this.getTag());
-		this.getStyles().decorateElement(el);
+		if (this.getStyles()){
+			this.getStyles().decorateElement(el);
+		}
 		this.getAttributes().decorateElement(el);
-		// console.info(rnd, 'Tag::toNode() el before this.getContent().stickTo', el);
-		// console.log('content: ', this.getContent().toHtml(), ' of type: ' , this.getContent());
 		this.getContent().stickTo(el);
-		// console.info(rnd, 'Tag::toNode() returns ', el);
 		return el;
 	};
 
@@ -757,6 +780,6 @@ function Tag(tName) {
 		} else {
 			this.dropAttrProperty('title');
 		}
-	}
+	};
 }
 

@@ -43,7 +43,7 @@ describe('Style-related functionality', function(){
         });
         it('wraps output of "toBareString" if it is not empty string', function(){
             spyOn(stl, 'toBareString').andCallFake(function(){return 'anything'});
-            expect(stl.toString()).toBe('style="anything"');
+            expect(stl.toString()).toBe('anything');
         });
 
     });

@@ -762,11 +762,14 @@ function Table() {
 	 * @return {void}
 	 */
 	this.removeBorder = function(){
-		if (this.getStyles().hasProperty('border-width')) {
-			this.dropStyleProperty('border-width');
-		}
-		if (this.getStyles().hasProperty('border-color')) {
-			this.dropStyleProperty('border-color');
+		var stl = this.getStyles();
+		if (stl){
+			if (stl.hasProperty('border-width')) {
+				this.dropStyleProperty('border-width');
+			}
+			if (stl.hasProperty('border-color')) {
+				this.dropStyleProperty('border-color');
+			}
 		}
 		this.setStyleProperty('border-style', 'none');
 

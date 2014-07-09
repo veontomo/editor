@@ -9,48 +9,67 @@ describe('Properties-related functionality', function(){
     });
 
     describe('setProperty(): property setter', function(){
+        beforeEach(function(){
+
+        });
         it('returns false, if no argument is given', function(){
             expect(props.setProperty()).toBe(false);
         });
         it('returns false if only one argument is given', function(){
            expect(props.setProperty('a')).toBe(false);
         });
-        it('returns true if string-string pair is given', function(){
-           expect(props.setProperty('a', 'value')).toBe(true);
+        it('returns true if both key and value types are among allowed ones', function(){
+            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['string', 'number'];});
+            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['object'];});
+            expect(props.setProperty('a key', {1: 'good'})).toBe(true);
         });
-        it('returns true if string-number pair is given', function(){
-           expect(props.setProperty('class', 2)).toBe(true);
+        // it('returns true if string-number pair is given', function(){
+        //    expect(props.setProperty('class', 2)).toBe(true);
+        // });
+        // it('returns true if number-string pair is given', function(){
+        //    expect(props.setProperty(4, 'value')).toBe(true);
+        // });
+        // it('returns true if number-number pair is given', function(){
+        //    expect(props.setProperty(8.9, 16)).toBe(true);
+        // });
+        it('returns false if key type is not among allowed, but value is among allowed', function(){
+            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
+            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
+            expect(props.setProperty('class', 'value')).toBe(false);
         });
-        it('returns true if number-string pair is given', function(){
-           expect(props.setProperty(4, 'value')).toBe(true);
+        it('returns false if key type is among allowed, but value is not among allowed', function(){
+            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
+            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['number'];});
+            expect(props.setProperty(2, {})).toBe(false);
         });
-        it('returns true if number-number pair is given', function(){
-           expect(props.setProperty(8.9, 16)).toBe(true);
+
+        it('returns false if both key and value types are not among allowed', function(){
+            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['object'];});
+            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
+            expect(props.setProperty('a string', 3)).toBe(false);
         });
-        it('returns false if string-function pair is given', function(){
-           expect(props.setProperty('class', function(){return null;})).toBe(false);
-        });
-        it('returns false if string-object pair is given', function(){
-           expect(props.setProperty('class', {})).toBe(false);
-        });
-        it('returns false if number-function pair is given', function(){
-           expect(props.setProperty(34, function(){return null;})).toBe(false);
-        });
-        it('returns false if number-object pair is given', function(){
-           expect(props.setProperty(9, {})).toBe(false);
-        });
-        it('returns false if function-string pair is given', function(){
-          expect(props.setProperty(function(){return null;}, 'class')).toBe(false);
-        });
-        it('returns false if object-string pair is given', function(){
-          expect(props.setProperty({}, 'module')).toBe(false);
-        });
-        it('returns false if function-number pair is given', function(){
-          expect(props.setProperty(function(){return null;}, -4)).toBe(false);
-        });
-        it('returns false if object-number pair is given', function(){
-          expect(props.setProperty({}, 64)).toBe(false);
-        });
+
+        // it('returns false if string-object pair is given', function(){
+        //    expect(props.setProperty('class', {})).toBe(false);
+        // });
+        // it('returns false if number-function pair is given', function(){
+        //    expect(props.setProperty(34, function(){return null;})).toBe(false);
+        // });
+        // it('returns false if number-object pair is given', function(){
+        //    expect(props.setProperty(9, {})).toBe(false);
+        // });
+        // it('returns false if function-string pair is given', function(){
+        //   expect(props.setProperty(function(){return null;}, 'class')).toBe(false);
+        // });
+        // it('returns false if object-string pair is given', function(){
+        //   expect(props.setProperty({}, 'module')).toBe(false);
+        // });
+        // it('returns false if function-number pair is given', function(){
+        //   expect(props.setProperty(function(){return null;}, -4)).toBe(false);
+        // });
+        // it('returns false if object-number pair is given', function(){
+        //   expect(props.setProperty({}, 64)).toBe(false);
+        // });
     });
 
 

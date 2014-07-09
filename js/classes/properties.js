@@ -30,6 +30,22 @@ function Properties(input) {
 	var core = {};
 
 	/**
+	 * Allowed types for core keys.
+	 * since           0.0.5
+	 * @type           {Array}
+	 */
+	var allowedCoreKeyTypes = ['string', 'number'];
+
+	/**
+	 * Allowed types for core values. For the moment, it is allowed to have string-valued, number-valued
+	 * and object-valued values of the keys.
+	 * since           0.0.5
+	 * @type           {Array}
+	 */
+	var allowedCoreValueTypes = ['string', 'number', 'object'];
+
+
+	/**
 	 * The  name of the class.
 	 * @property        {String}            className
 	 * @type            {String}
@@ -59,24 +75,45 @@ function Properties(input) {
 	};
 
 	/**
-	 * If `key` and `value` are either string or number, then property `key`
+	 * If both `key` and `value` are of allowed types (given by
+	 * {{#crossLink "Property/allowedCoreKeyTypes:property"}}allowedCoreKeyTypes{{/crossLink}} and
+	 * {{#crossLink "Property/allowedCoreValueTypes:property"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of
 	 * ({{#crossLink "Properties/core:property"}}core{{/crossLink}}) is set to `value`
 	 * and `true` is returned. Otherwise, `false` is returned.
 	 * @method   setProperty
-	 * @param    {String|Number}         key
-	 * @param    {String|Number}         value
+	 * @param    {Any}                   key
+	 * @param    {Any}                   value
 	 * @return   {Boolean}               true in case of success, false otherwise.
 	 */
 	this.setProperty = function(key, value){
-		var allowedTypes = ['string', 'number'],
-			keyType = typeof key,
+		var keyType = typeof key,
 			valueType = typeof value;
-		if (allowedTypes.indexOf(keyType) !== -1 &&  allowedTypes.indexOf(valueType) !== -1){
+		if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 &&  this.getAllowedValueTypes().indexOf(valueType) !== -1){
 			core[key] = value;
 			return true;
 		}
 		return false;
 	};
+
+
+	/**
+	 * allowed key types getter
+	 * @since          0.0.5
+	 * @return         {Array}              array of strings
+	 */
+	this.getAllowedKeyTypes = function(){
+		return allowedCoreKeyTypes;
+	};
+
+	/**
+	 * allowed value types getter
+	 * @since          0.0.5
+	 * @return         {Array}              array of strings
+	 */
+	this.getAllowedValueTypes = function(){
+		return allowedCoreValueTypes;
+	};
+
 
 
 	/**
@@ -180,6 +217,15 @@ function Properties(input) {
 		appendPropertyAsStringOrObj(obj, this);
 	};
 
+	/**
+	 * Appends `obj` to property named `key`.
+	 * @param  {[type]} key [description]
+	 * @param  {[type]} obj [description]
+	 * @return {[type]}     [description]
+	 */
+	this.appendToKey = function(key, obj){
+
+	}
 
 	/**
 	 * Switches property `propName` between `val` and `altVal` in the following way:
