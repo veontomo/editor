@@ -10,12 +10,9 @@ CKEDITOR.plugins.add('setScale2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-		// Define an editor command that opens our dialog.
-		editor.addCommand('setScale2', {
-			exec: function(editor){
-				console.log('inside Selection plugin');
-			}
-		});
+
+		editor.addCommand('setScale2', new CKEDITOR.dialogCommand('setScale2'));
+		CKEDITOR.dialog.add('setScale2', this.path + 'dialogs/setScale2.js');
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('setScale2', {
@@ -26,6 +23,5 @@ CKEDITOR.plugins.add('setScale2', {
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
-
 	}
 });

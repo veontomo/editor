@@ -699,9 +699,6 @@ function Tag(tName) {
 	 * @return     {Boolean}
 	 */
 	this.load = function(elem){
-		// var rnd = parseInt(Math.random()*1000, 10);
-		// //console.info(rnd, 'Tag::load is called with argument ', elem);
-		// assure that the argument is an Element instance
 		var attrSucc = false,
 			styleSucc = false,
 			contentSucc = false,
@@ -712,18 +709,14 @@ function Tag(tName) {
 			len = children.length;
 			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
 			attr  = elem.attributes;                        // NamedNodeMap
-			// //console.info(rnd, 'Tag::load is calling Attribute::load with argument ', attr);
 			attrSucc = this.getAttributes().load(attr);
-			// //console.info(rnd, 'Tag::load is calling Style::load with argument ', attr);
 			styleSucc = this.getStyles().load(attr);
 			for (i = 0; i < len; i++){
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
-			// console.info(rnd, 'Tag::load is calling Content::load with argument ', childrenArr);
 			contentSucc = content.load(childrenArr);
 		}
-		// console.info(rnd, 'attrSucc = ', attrSucc, ', styleSucc = ', attrSucc,', contentSucc = ', contentSucc);
 		return attrSucc && styleSucc && contentSucc;
 	};
 

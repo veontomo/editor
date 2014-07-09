@@ -2,8 +2,8 @@
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapping, Node */
 var NEWSLETTER = {};
 Object.defineProperty(NEWSLETTER, 'maxWidth', {
-	value:    717,             // massima largezza di tabella
-	writable: false            // protect from overwrite
+	value:    500,             // massima largezza di tabella
+	writable: true             // prohibit or allow overwrite
 });
 Object.defineProperty(NEWSLETTER, 'marker-name', {
 	value:    'data-marker',   // an attribute to mark objects
