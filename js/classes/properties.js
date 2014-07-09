@@ -54,6 +54,46 @@ function Properties(input) {
 	var className = 'Properties';
 
 	/**
+	 * Mode to be used when representing this instance as a string by means of
+	 * {{#crossLink "Properties/toString:method"}}toString{{/crossLink}} method.
+	 * If it is set to 0, then string representation has the following form
+	 * `width="20" title="read me!"`
+	 * If it is set to 1, then string representation has the following form
+	 * `width: 50px; color: red`.
+	 * @property       {0|1}                mode             determines string representation of the instance
+	 * @private
+	 * @type           {Integer}
+	 * @default        0
+	 */
+	var mode = 0;
+
+	/**
+	 * {{#crossLink "Property/mode:property"}}mode{{/crossLink}} setter. If argument
+	 * is different from 0 and 1, it is ignored.
+	 * @method         setMode
+	 * @param          {Integer}            m
+	 * @return         {void}
+	 */
+	this.setMode = function(m){
+		if (m === 1 || m === 0){
+			mode = m;
+		} else {
+			throw new Error('Allowed values for mode are 0, 1.');
+		}
+
+	}
+
+	/**
+	 * {{#crossLink "Property/mode:property"}}mode{{/crossLink}} getter.
+	 * @method         getMode
+	 * @return         {Integer}
+	 * @since          0.0.5
+	 */
+	this.getMode = function(){
+		return mode;
+	}
+
+	/**
 	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
 	 * @method         getName
 	 * @return         {String}

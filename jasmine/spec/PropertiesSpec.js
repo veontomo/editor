@@ -9,9 +9,6 @@ describe('Properties-related functionality', function(){
     });
 
     describe('setProperty(): property setter', function(){
-        beforeEach(function(){
-
-        });
         it('returns false, if no argument is given', function(){
             expect(props.setProperty()).toBe(false);
         });
@@ -23,15 +20,6 @@ describe('Properties-related functionality', function(){
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['object'];});
             expect(props.setProperty('a key', {1: 'good'})).toBe(true);
         });
-        // it('returns true if string-number pair is given', function(){
-        //    expect(props.setProperty('class', 2)).toBe(true);
-        // });
-        // it('returns true if number-string pair is given', function(){
-        //    expect(props.setProperty(4, 'value')).toBe(true);
-        // });
-        // it('returns true if number-number pair is given', function(){
-        //    expect(props.setProperty(8.9, 16)).toBe(true);
-        // });
         it('returns false if key type is not among allowed, but value is among allowed', function(){
             spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
@@ -48,28 +36,25 @@ describe('Properties-related functionality', function(){
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
             expect(props.setProperty('a string', 3)).toBe(false);
         });
+    });
 
-        // it('returns false if string-object pair is given', function(){
-        //    expect(props.setProperty('class', {})).toBe(false);
-        // });
-        // it('returns false if number-function pair is given', function(){
-        //    expect(props.setProperty(34, function(){return null;})).toBe(false);
-        // });
-        // it('returns false if number-object pair is given', function(){
-        //    expect(props.setProperty(9, {})).toBe(false);
-        // });
-        // it('returns false if function-string pair is given', function(){
-        //   expect(props.setProperty(function(){return null;}, 'class')).toBe(false);
-        // });
-        // it('returns false if object-string pair is given', function(){
-        //   expect(props.setProperty({}, 'module')).toBe(false);
-        // });
-        // it('returns false if function-number pair is given', function(){
-        //   expect(props.setProperty(function(){return null;}, -4)).toBe(false);
-        // });
-        // it('returns false if object-number pair is given', function(){
-        //   expect(props.setProperty({}, 64)).toBe(false);
-        // });
+    describe('Setting mode', function(){
+        it ('sets mode to 0 if the argument is 0', function(){
+            props.setMode(0);
+            expect(props.getMode()).toBe(0);
+        });
+        it ('sets mode to 1 if the argument is 1', function(){
+            props.setMode(1);
+            expect(props.getMode()).toBe(1);
+        });
+        it ('throws an error if the argument is not 0 or 1', function(){
+            var invalids = [2, 6.1, 'string', [1, 2], [], {}, {'load': 10}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    props.setMode(invalid);
+                }).toThrow('Allowed values for mode are 0, 1.');
+            });
+        });
     });
 
 
