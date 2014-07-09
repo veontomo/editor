@@ -277,6 +277,7 @@ function Tag(tName) {
 	/**
 	 * Initializes `style` property of tag attributes: if it does not exist, set it to
 	 * {{#crossLink "Styles"}}Styles{{/crossLink}}.
+	 * @method         initializeStyle
 	 * @since          0.0.5
 	 * @return         {void}
 	 */

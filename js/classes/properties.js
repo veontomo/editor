@@ -30,15 +30,19 @@ function Properties(input) {
 	var core = {};
 
 	/**
-	 * Allowed types for core keys.
+	 * Array of allowed types for core keys. Set to 'string', 'number'.
+	 * @property       {Array}              allowedCoreKeyTypes
+	 * @private
 	 * since           0.0.5
 	 * @type           {Array}
 	 */
 	var allowedCoreKeyTypes = ['string', 'number'];
 
 	/**
-	 * Allowed types for core values. For the moment, it is allowed to have string-valued, number-valued
+	 * Array of allowed types for core values. For the moment, it is allowed to have string-valued, number-valued
 	 * and object-valued values of the keys.
+	 * @property       {Array}              allowedCoreValueTypes
+	 * @private
 	 * since           0.0.5
 	 * @type           {Array}
 	 */
@@ -60,7 +64,7 @@ function Properties(input) {
 	 * `width="20" title="read me!"`
 	 * If it is set to 1, then string representation has the following form
 	 * `width: 50px; color: red`.
-	 * @property       {0|1}                mode             determines string representation of the instance
+	 * @property       {0|1}                mode
 	 * @private
 	 * @type           {Integer}
 	 * @default        0
@@ -81,7 +85,7 @@ function Properties(input) {
 			throw new Error('Allowed values for mode are 0, 1.');
 		}
 
-	}
+	};
 
 	/**
 	 * {{#crossLink "Property/mode:property"}}mode{{/crossLink}} getter.
@@ -91,7 +95,7 @@ function Properties(input) {
 	 */
 	this.getMode = function(){
 		return mode;
-	}
+	};
 
 	/**
 	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
@@ -138,6 +142,7 @@ function Properties(input) {
 
 	/**
 	 * allowed key types getter
+	 * @method         getAllowedKeyTypes
 	 * @since          0.0.5
 	 * @return         {Array}              array of strings
 	 */
@@ -147,6 +152,7 @@ function Properties(input) {
 
 	/**
 	 * allowed value types getter
+	 * @method         getAllowedValueTypes
 	 * @since          0.0.5
 	 * @return         {Array}              array of strings
 	 */
@@ -257,15 +263,6 @@ function Properties(input) {
 		appendPropertyAsStringOrObj(obj, this);
 	};
 
-	/**
-	 * Appends `obj` to property named `key`.
-	 * @param  {[type]} key [description]
-	 * @param  {[type]} obj [description]
-	 * @return {[type]}     [description]
-	 */
-	this.appendToKey = function(key, obj){
-
-	}
 
 	/**
 	 * Switches property `propName` between `val` and `altVal` in the following way:

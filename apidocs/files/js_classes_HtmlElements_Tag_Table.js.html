@@ -714,19 +714,15 @@ function Table() {
 		var len = this.rowNum(),
 			cols = this.colNum(),
 			i;
-		console.log(&#x27;Table has &#x27; , len, &#x27; rows&#x27;);
 		if (!Array.isArray(profile)){
 			throw new Error(&#x27;Wrong argument type: array expected.&#x27;);
 		}
 		if (profile.length !== cols){
-			console.log(&quot;profile: &quot;, profile, &quot;cols = &quot;, cols);
 			throw new Error(&#x27;Wrong input array length!&#x27;);
 		}
 		var tbody = this.getBody();
 		for (i = 0; i &lt; len; i++){
-			console.log(&#x27;elem &#x27; + i + &#x27;before: &#x27; + tbody[i].toHtml());
 			tbody[i].setCellWidths(profile);
-			console.log(&#x27;elem &#x27; + i + &#x27; after: &#x27; + tbody[i].toHtml());
 		}
 		this.setBody(tbody);
 	};
@@ -924,11 +920,14 @@ function Table() {
 	 * @return {void}
 	 */
 	this.removeBorder = function(){
-		if (this.getStyles().hasProperty(&#x27;border-width&#x27;)) {
-			this.dropStyleProperty(&#x27;border-width&#x27;);
-		}
-		if (this.getStyles().hasProperty(&#x27;border-color&#x27;)) {
-			this.dropStyleProperty(&#x27;border-color&#x27;);
+		var stl = this.getStyles();
+		if (stl){
+			if (stl.hasProperty(&#x27;border-width&#x27;)) {
+				this.dropStyleProperty(&#x27;border-width&#x27;);
+			}
+			if (stl.hasProperty(&#x27;border-color&#x27;)) {
+				this.dropStyleProperty(&#x27;border-color&#x27;);
+			}
 		}
 		this.setStyleProperty(&#x27;border-style&#x27;, &#x27;none&#x27;);
 
@@ -1216,23 +1215,28 @@ function Table() {
 		var rows = [],
 			rowNum = this.rowNum(),
 			i,
-			firstRow = this.getFirstRow(),
-			cellInside = firstRow.getFirst(),
-			tableInside = cellInside.getFirst();
-
-		this.setPhantomRowStyles(firstRow.getStyles());
-		this.setPhantomRowAttributes(firstRow.getAttributes());
-
-		this.setPhantomCellStyles(cellInside.getStyles());
-		this.setPhantomCellAttributes(cellInside.getAttributes());
-
-		this.setPhantomTableStyles(tableInside.getStyles());
-		this.setPhantomTableAttributes(tableInside.getAttributes());
-
-		for (i = 0; i &lt; rowNum; i++){
-			rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+			firstRow,
+			cellInside,
+			tableInside;
+		firstRow = this.getFirstRow();
+		if (firstRow){
+			this.setPhantomRowStyles(firstRow.getStyles());
+			this.setPhantomRowAttributes(firstRow.getAttributes());
+			cellInside = firstRow.getFirst();
+			if (cellInside){
+				this.setPhantomCellStyles(cellInside.getStyles());
+				this.setPhantomCellAttributes(cellInside.getAttributes());
+				tableInside = cellInside.getFirst();
+				if(tableInside){
+					this.setPhantomTableStyles(tableInside.getStyles());
+					this.setPhantomTableAttributes(tableInside.getAttributes());
+					for (i = 0; i &lt; rowNum; i++){
+						rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+					}
+					this.setBody(rows);
+				}
+			}
 		}
-		this.setBody(rows);
 	};
 
 

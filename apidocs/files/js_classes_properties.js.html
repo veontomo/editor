@@ -188,12 +188,72 @@ function Properties(input) {
 	var core = {};
 
 	/**
+	 * Array of allowed types for core keys. Set to &#x27;string&#x27;, &#x27;number&#x27;.
+	 * @property       {Array}              allowedCoreKeyTypes
+	 * @private
+	 * since           0.0.5
+	 * @type           {Array}
+	 */
+	var allowedCoreKeyTypes = [&#x27;string&#x27;, &#x27;number&#x27;];
+
+	/**
+	 * Array of allowed types for core values. For the moment, it is allowed to have string-valued, number-valued
+	 * and object-valued values of the keys.
+	 * @property       {Array}              allowedCoreValueTypes
+	 * @private
+	 * since           0.0.5
+	 * @type           {Array}
+	 */
+	var allowedCoreValueTypes = [&#x27;string&#x27;, &#x27;number&#x27;, &#x27;object&#x27;];
+
+
+	/**
 	 * The  name of the class.
 	 * @property        {String}            className
 	 * @type            {String}
 	 * @private
 	 */
 	var className = &#x27;Properties&#x27;;
+
+	/**
+	 * Mode to be used when representing this instance as a string by means of
+	 * {{#crossLink &quot;Properties/toString:method&quot;}}toString{{/crossLink}} method.
+	 * If it is set to 0, then string representation has the following form
+	 * &#x60;width=&quot;20&quot; title=&quot;read me!&quot;&#x60;
+	 * If it is set to 1, then string representation has the following form
+	 * &#x60;width: 50px; color: red&#x60;.
+	 * @property       {0|1}                mode
+	 * @private
+	 * @type           {Integer}
+	 * @default        0
+	 */
+	var mode = 0;
+
+	/**
+	 * {{#crossLink &quot;Property/mode:property&quot;}}mode{{/crossLink}} setter. If argument
+	 * is different from 0 and 1, it is ignored.
+	 * @method         setMode
+	 * @param          {Integer}            m
+	 * @return         {void}
+	 */
+	this.setMode = function(m){
+		if (m === 1 || m === 0){
+			mode = m;
+		} else {
+			throw new Error(&#x27;Allowed values for mode are 0, 1.&#x27;);
+		}
+
+	};
+
+	/**
+	 * {{#crossLink &quot;Property/mode:property&quot;}}mode{{/crossLink}} getter.
+	 * @method         getMode
+	 * @return         {Integer}
+	 * @since          0.0.5
+	 */
+	this.getMode = function(){
+		return mode;
+	};
 
 	/**
 	 * {{#crossLink &quot;Properties/className:property&quot;}}Class name{{/crossLink}} getter.
@@ -217,24 +277,47 @@ function Properties(input) {
 	};
 
 	/**
-	 * If &#x60;key&#x60; and &#x60;value&#x60; are either string or number, then property &#x60;key&#x60;
+	 * If both &#x60;key&#x60; and &#x60;value&#x60; are of allowed types (given by
+	 * {{#crossLink &quot;Property/allowedCoreKeyTypes:property&quot;}}allowedCoreKeyTypes{{/crossLink}} and
+	 * {{#crossLink &quot;Property/allowedCoreValueTypes:property&quot;}}allowedCoreValueTypes{{/crossLink}}), then property &#x60;key&#x60; of
 	 * ({{#crossLink &quot;Properties/core:property&quot;}}core{{/crossLink}}) is set to &#x60;value&#x60;
 	 * and &#x60;true&#x60; is returned. Otherwise, &#x60;false&#x60; is returned.
 	 * @method   setProperty
-	 * @param    {String|Number}         key
-	 * @param    {String|Number}         value
+	 * @param    {Any}                   key
+	 * @param    {Any}                   value
 	 * @return   {Boolean}               true in case of success, false otherwise.
 	 */
 	this.setProperty = function(key, value){
-		var allowedTypes = [&#x27;string&#x27;, &#x27;number&#x27;],
-			keyType = typeof key,
+		var keyType = typeof key,
 			valueType = typeof value;
-		if (allowedTypes.indexOf(keyType) !== -1 &amp;&amp;  allowedTypes.indexOf(valueType) !== -1){
+		if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 &amp;&amp;  this.getAllowedValueTypes().indexOf(valueType) !== -1){
 			core[key] = value;
 			return true;
 		}
 		return false;
 	};
+
+
+	/**
+	 * allowed key types getter
+	 * @method         getAllowedKeyTypes
+	 * @since          0.0.5
+	 * @return         {Array}              array of strings
+	 */
+	this.getAllowedKeyTypes = function(){
+		return allowedCoreKeyTypes;
+	};
+
+	/**
+	 * allowed value types getter
+	 * @method         getAllowedValueTypes
+	 * @since          0.0.5
+	 * @return         {Array}              array of strings
+	 */
+	this.getAllowedValueTypes = function(){
+		return allowedCoreValueTypes;
+	};
+
 
 
 	/**
