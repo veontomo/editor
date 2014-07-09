@@ -57,6 +57,54 @@ describe('Properties-related functionality', function(){
         });
     });
 
+    describe('Produces string representation', function(){
+        var propEmpty, propSimple, propComplex;
+        beforeEach(function(){
+            propEmpty = new Properties();
+            propSimple = new Properties();
+            propNested = new Properties();
+            propSimple.setProperty('width', 200);
+            propSimple.setProperty('class', 'screen');
+            propSimple.setProperty('id', "#abcd");
+            propComplex.setProperty('width', 200);
+            propComplex.setProperty('class', 'screen');
+            propComplex.setProperty('nested', propSimple);
+        });
+        it('produces empty string for empty property if mode is 0', function(){
+            spyOn(propEmpty, 'getMode').andCallFake(function(){return 0;});
+            expect(propEmpty.toString()).toBe('');
+        });
+        it('produces empty string for empty property if mode is 1', function(){
+            spyOn(propEmpty, 'getMode').andCallFake(function(){return 1;});
+            expect(propEmpty.toString()).toBe('');
+        });
+
+        it('produces inline-like representation if mode is 1', function(){
+            spyOn(propSimple, 'getMode').andCallFake(function(){return 1;});
+            expect(propSimple.toString()).toBe('width: 200; class: screen; id: #abcd');
+        });
+
+        it('produces attribute-like representation if mode is 0', function(){
+            spyOn(propSimple, 'getMode').andCallFake(function(){return 0;});
+            expect(propSimple.toString()).toBe('width="200" class="screen" id="#abcd"');
+        });
+
+        it('produces inline-like representation if mode is 0', function(){
+            spyOn(propComplex, 'getMode').andCallFake(function(){return 0;});
+            spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
+            expect(propComplex.toString()).toBe('width="200" class="screen" nested="nested representation"');
+        });
+
+        it('produces inline-like representation if mode is 1', function(){
+            spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
+            spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
+            expect(propComplex.toString()).toBe('width: 200; class: screen; nested: nested representation');
+        });
+
+
+
+    });
+
 
     describe('getProperty(): property getter', function(){
         it('returns "undefined" if the property is not set', function(){

@@ -460,4 +460,19 @@ function Properties(input) {
 		var coreCopy = this.getCore();
 		return (!coreCopy) || (Object.keys(coreCopy).length === 0);
 	};
+
+	/**
+	 * String representation of the instance. If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 0,
+	 * the representation of the following type is produced:
+	 * `width="20" title="read me!"`
+	 * if {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 1, the representation of the following
+	 * type is produced:
+	 * `width: 50px; color: red`.
+	 * @method         toString
+	 * @return         {String}
+	 * @since          0.0.5
+	 */
+	this.toString = function(){
+		/// !!! stub
+	}
 }
