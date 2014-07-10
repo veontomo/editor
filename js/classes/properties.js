@@ -120,10 +120,11 @@ function Properties(input) {
 
 	/**
 	 * If both `key` and `value` are of allowed types (given by
-	 * {{#crossLink "Property/allowedCoreKeyTypes:property"}}allowedCoreKeyTypes{{/crossLink}} and
-	 * {{#crossLink "Property/allowedCoreValueTypes:property"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of
-	 * ({{#crossLink "Properties/core:property"}}core{{/crossLink}}) is set to `value`
-	 * and `true` is returned. Otherwise, `false` is returned.
+	 * {{#crossLink "Properties/allowedCoreKeyTypes:property"}}allowedCoreKeyTypes{{/crossLink}} and
+	 * {{#crossLink "Properties/allowedCoreValueTypes:property"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of
+	 * {{#crossLink "Properties/core:property"}}core{{/crossLink}} is set to `value`
+	 * and `true` is returned. Otherwise, `false` is returned. If `key` is a string `style`, then method
+	 * {{#crossLink "Properties/setStyles:method"}}setStyles(){{/crossLink}} is envoked.
 	 * @method   setProperty
 	 * @param    {Any}                   key
 	 * @param    {Any}                   value
@@ -132,13 +133,16 @@ function Properties(input) {
 	this.setProperty = function(key, value){
 		var keyType = typeof key,
 			valueType = typeof value;
-		if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 &&  this.getAllowedValueTypes().indexOf(valueType) !== -1){
-			core[key] = value;
+		if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 && this.getAllowedValueTypes().indexOf(valueType) !== -1){
+			if (key === 'style'){
+				this.setStyles(value);
+			} else {
+				core[key] = value;
+			}
 			return true;
 		}
 		return false;
 	};
-
 
 	/**
 	 * allowed key types getter
@@ -170,7 +174,6 @@ function Properties(input) {
 	 * @return  {Any}
 	 */
 	this.getProperty = function(key){
-		// console.log('I was asked to pick up key ' + key + ' from core ', core);
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
@@ -255,11 +258,7 @@ function Properties(input) {
 	 * @param     {Any}               obj
 	 * @return    {void}
 	 */
-
 	this.appendProperty = function(obj){
-		// var rnd = parseInt(Math.random()*10000 , 10);
-		// console.info(rnd, 'Properties::appendProperty() is called with ', obj);
-		// console.info(rnd, 'Properties::appendProperty() is calling private function appendPropertyAsStringOrObj with 2 arguments: ', obj, this);
 		appendPropertyAsStringOrObj(obj, this);
 	};
 
@@ -383,7 +382,6 @@ function Properties(input) {
 			attr;
 		for (attr in core){
 			if (core.hasOwnProperty(attr)){
-				// console.log('key ', attr, ' is among my keys');
 				output[attr] = core[attr];
 			}
 		}
@@ -466,7 +464,7 @@ function Properties(input) {
 	 * If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 1, the representation of the following
 	 * type is produced:
 	 * <div style="font-family: Courier; font-weight: bold;padding: 1em;">width: 50px; color: red</div>
-	 * It parses all {{#crossLink "Properties:core/property"}}core{{/crossLink}} keys and if
+	 * It parses all {{#crossLink "Properties/core:property"}}core{{/crossLink}} keys and if
 	 * <ol><li>
 	 * corresponding value responds to a `toString()` method
 	 * </li><li>
@@ -513,7 +511,7 @@ function Properties(input) {
 
 
 	/**
-	 * Loads attributes from the argument into {{#crossLink "Properties:core/property"}}core{{/crossLink}}.
+	 * Loads attributes from the argument into {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
 	 *
 	 * The argument is supposed to be of a type
 	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
@@ -523,15 +521,14 @@ function Properties(input) {
 	 * @return    {void}                           true, if the properties are loaded, false otherwise
 	 */
 	this.loadFrom = function(attr){
-		var pos, attrName, attrValue, seed, newStl, stl;
+		var pos, attrName, attrValue, newStl;
 		for (pos in attr){
 			if (attr.hasOwnProperty(pos)){
-				seed = {};
 				attrName = attr[pos].name;
 				attrValue = attr[pos].value;
 				if (attrName === 'style'){
 					newStl = new Properties(attrValue);
-					newStl.setMode(1);
+					newStl.setMode(1); // in order to print this as "attr1: val1; attr2: val2; ..."
 					if (this.hasProperty('style')){
 						attrValue = this.getProperty('style');
 						attrValue.appendProperty(newStl);
@@ -542,5 +539,38 @@ function Properties(input) {
 				this.setProperty(attrName, attrValue);
 			}
 		}
-	}
+	};
+
+	/**
+	 * Returns `true` if the instance has key `style`, `false` otherwise. Alias for
+	 * {{#crossLink "Properties/hasProperty:method"}}hasProperty('style'){{/crossLink}} method.
+	 * @method         hasStyles
+	 * @return         {Boolean}
+	 */
+	this.hasStyles = function(){
+		return this.hasProperty('style');
+	};
+
+	/**
+	 * Returns value of `style` key. Alias for {{#crossLink "Properties/getProperty:method"}}getProperty('styles'){{/crossLink}}.
+	 * @method         getStyles
+	 * @return         {Properties}
+	 * @since          0.0.5
+	 */
+	this.getStyles = function(){
+		return this.getProperty('style');
+	};
+
+	/**
+	 * Sets value of `style` key. Converts argument into {{#crossLink "Properties"}}Properties{{/crossLink}} instance
+	 * and then performs assignment.
+	 * @method         setStyles
+	 * @param          {Any}                stl
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setStyles = function(stl){
+		core['style'] = stl instanceof Properties ? stl : new Properties(stl);
+	};
+
 }

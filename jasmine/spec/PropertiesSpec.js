@@ -767,9 +767,34 @@ describe('Properties-related functionality', function(){
             expect(stl.getProperty('padding')).toBe('auto');
         });
 
-
-
     });
 
+    describe('Detects "style" key', function(){
+        it('returns true, if key "style" is present', function(){
+            props.setProperty('style', 'whatever');
+            expect(props.hasStyles()).toBe(true);
+        });
+        it('returns false, if key "style" is not present', function(){
+            props.dropProperty('style');
+            expect(props.hasStyles()).toBe(false);
+        });
+    });
+
+    describe('style setter/getter', function(){
+        it('returns undefined if "style" is not present', function(){
+            expect(props.getStyles()).not.toBeDefined();
+        });
+        it('returns an instance of Properties if "style" is present', function(){
+            props.setStyles('whatever');
+            expect(props.getStyles() instanceof Properties).toBe(true);
+        });
+        it('sets "style"', function(){
+            props.setStyles('whatever: yes');
+            var stl = props.getStyles();
+            expect(stl.propNum()).toBe(1);
+            expect(stl.getProperty('whatever')).toBe('yes');
+        });
+
+    });
 });
 
