@@ -7059,7 +7059,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 419,
+            "line": 417,
             "description": "Clones the target. Parses all attributes of the target. If the attribute responds to \"clone\"\nmethod, then assign the result of this method to the corresponding clone attribute. Otherwise,\nassign the attribute value to the clone attribute (potentially problematic for what is passed\nby reference and not by value, like arrays).\n{{#crossLink \"Properties/core:property\"}}Core{{/crossLink}} is a private variable, so in the\nclone it is populated by means of {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}}\nand {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "clone",
@@ -7072,7 +7072,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 453,
+            "line": 451,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -7085,23 +7085,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 464,
-            "description": "Produces string separated representation of the form\n`width=\"20\" title=\"read me!\"`",
-            "itemtype": "method",
-            "name": "toStringSpaceSeparated",
-            "access": "private",
-            "tagname": "",
-            "since": "0.0.5",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Properties",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties.js",
-            "line": 477,
+            "line": 462,
             "description": "String representation of the instance. If {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties:core/property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a string or a number\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
             "name": "toString",
@@ -7110,6 +7094,26 @@
                 "type": "String"
             },
             "since": "0.0.5",
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 515,
+            "description": "Loads attributes from the argument into {{#crossLink \"Properties:core/property\"}}core{{/crossLink}}.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
+            "itemtype": "method",
+            "name": "loadFRom",
+            "params": [
+                {
+                    "name": "attr",
+                    "description": "instance of NamedNodeMap",
+                    "type": "NamedNodeMap"
+                }
+            ],
+            "return": {
+                "description": "true, if the properties are loaded, false otherwise",
+                "type": "Void"
+            },
             "class": "Properties",
             "module": "Properties"
         }

@@ -412,8 +412,6 @@ function Properties(input) {
 		return keys.every(function(val){
 			return core1[val] === core2[val];
 		});
-
-
 	};
 
 	/**
@@ -460,19 +458,6 @@ function Properties(input) {
 		var coreCopy = this.getCore();
 		return (!coreCopy) || (Object.keys(coreCopy).length === 0);
 	};
-
-	/**
-	 * Produces string separated representation of the form
-	 * `width="20" title="read me!"`
-	 * @method 	       toStringSpaceSeparated
-	 * @private
-	 * @since          0.0.5
-	 * @return         {String}
-	 */
-	// var toStringSpaceSeparated = function(){
-	// };
-
-
 
 	/**
 	 * String representation of the instance. If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 0,
@@ -524,4 +509,38 @@ function Properties(input) {
 		});
 		return output.join(' ');
 	};
+
+
+
+	/**
+	 * Loads attributes from the argument into {{#crossLink "Properties:core/property"}}core{{/crossLink}}.
+	 *
+	 * The argument is supposed to be of a type
+	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
+	 * Nevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.
+	 * @method    loadFRom
+	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
+	 * @return    {void}                           true, if the properties are loaded, false otherwise
+	 */
+	this.loadFrom = function(attr){
+		var pos, attrName, attrValue, seed, newStl, stl;
+		for (pos in attr){
+			if (attr.hasOwnProperty(pos)){
+				seed = {};
+				attrName = attr[pos].name;
+				attrValue = attr[pos].value;
+				if (attrName === 'style'){
+					newStl = new Properties(attrValue);
+					newStl.setMode(1);
+					if (this.hasProperty('style')){
+						attrValue = this.getProperty('style');
+						attrValue.appendProperty(newStl);
+					} else {
+						attrValue = newStl;
+					}
+				}
+				this.setProperty(attrName, attrValue);
+			}
+		}
+	}
 }

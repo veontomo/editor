@@ -643,5 +643,133 @@ describe('Properties-related functionality', function(){
 
     });
 
+
+    describe('Loads attributes from the argument', function(){
+        var attr0, attr1, attr2;
+        beforeEach(function(){
+            var node0 = document.createElement('div');
+            var node1 = document.createElement('div');
+            var node2 = document.createElement('div');
+
+            node1.setAttribute('width', '21');
+            node1.setAttribute('class', 'hidden');
+            node1.setAttribute('border', '9');
+
+            node2.setAttribute('id', 'wrapper');
+            node2.setAttribute('style', 'font-size: 4em; color: #001234; padding: auto;');
+            node2.setAttribute('data-marker', 'line');
+
+            attr0 = node0.attributes;
+            attr1 = node1.attributes;
+            attr2 = node2.attributes;
+        });
+        it('does not change existing properties if argument is empty', function(){
+            props.setProperty('test', '1');
+            props.setProperty('media', 'paper');
+            expect(props.propNum()).toBe(2);
+            props.loadFrom(attr0);
+            expect(props.propNum()).toBe(2);
+            expect(props.getProperty('test')).toBe('1');
+            expect(props.getProperty('media')).toBe('paper');
+        });
+
+        it('adds properties if argument has only "new" ones ', function(){
+            props.setProperty('test', '1');
+            props.setProperty('media', 'paper');
+            expect(props.propNum()).toBe(2);
+            props.loadFrom(attr1);
+            expect(props.propNum()).toBe(5);
+            expect(props.getProperty('test')).toBe('1');
+            expect(props.getProperty('media')).toBe('paper');
+            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('class')).toBe('hidden');
+            expect(props.getProperty('border')).toBe('9');
+        });
+
+        it('overrides properties if argument has the same properties', function(){
+            props.setProperty('width', '4%');
+            props.setProperty('class', 'new');
+            props.setProperty('border', 'none');
+            expect(props.propNum()).toBe(3);
+            props.loadFrom(attr1);
+            expect(props.propNum()).toBe(3);
+            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('class')).toBe('hidden');
+            expect(props.getProperty('border')).toBe('9');
+        });
+
+        it('overrides properties if argument has some properties in common', function(){
+            props.setProperty('color', 'red');
+            props.setProperty('class', 'old');
+            props.setProperty('position', 'absolute');
+            expect(props.propNum()).toBe(3);
+            props.loadFrom(attr1);
+            expect(props.propNum()).toBe(5);
+            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('class')).toBe('hidden');
+            expect(props.getProperty('border')).toBe('9');
+            expect(props.getProperty('color')).toBe('red');
+            expect(props.getProperty('position')).toBe('absolute');
+        });
+
+        it('loads "style" key, if arguments contains styles', function(){
+            expect(props.hasProperty('style')).toBe(false);
+            props.loadFrom(attr2);
+            expect(props.hasProperty('style')).toBe(true);
+        });
+
+        it('loads "style" key as an instance of Property', function(){
+            expect(props.hasProperty('style')).toBe(false);
+            props.loadFrom(attr2);
+            expect(props.getProperty('style') instanceof Properties).toBe(true);
+        });
+
+        it('creates Properties instance with all properties inside style', function(){
+            props.loadFrom(attr2);
+            var stl = props.getProperty('style');
+            expect(stl.getProperty('font-size')).toBe('4em');
+            expect(stl.getProperty('color')).toBe('#001234');
+            expect(stl.getProperty('padding')).toBe('auto');
+        });
+
+        it('appends style properties', function(){
+            var tempProp = new Properties();
+            tempProp.setProperty('font-family', 'Fancy');
+            tempProp.setProperty('text-align', 'left');
+
+            props.setProperty('style', tempProp);
+
+            props.loadFrom(attr2);
+
+            var stl = props.getProperty('style');
+
+            expect(stl.propNum()).toBe(5);
+            expect(stl.getProperty('font-family')).toBe('Fancy');
+            expect(stl.getProperty('text-align')).toBe('left');
+            expect(stl.getProperty('font-size')).toBe('4em');
+            expect(stl.getProperty('color')).toBe('#001234');
+            expect(stl.getProperty('padding')).toBe('auto');
+        });
+
+        it('overrides style properties', function(){
+            var tempProp = new Properties();
+            tempProp.setProperty('font-size', '10px');
+            tempProp.setProperty('text-align', 'left');
+
+            props.setProperty('style', tempProp);
+            props.loadFrom(attr2);
+
+            var stl = props.getProperty('style');
+            expect(stl.propNum()).toBe(4);
+            expect(stl.getProperty('text-align')).toBe('left');
+            expect(stl.getProperty('font-size')).toBe('4em');
+            expect(stl.getProperty('color')).toBe('#001234');
+            expect(stl.getProperty('padding')).toBe('auto');
+        });
+
+
+
+    });
+
 });
 

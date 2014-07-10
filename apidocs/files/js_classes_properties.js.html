@@ -570,8 +570,6 @@ function Properties(input) {
 		return keys.every(function(val){
 			return core1[val] === core2[val];
 		});
-
-
 	};
 
 	/**
@@ -618,19 +616,6 @@ function Properties(input) {
 		var coreCopy = this.getCore();
 		return (!coreCopy) || (Object.keys(coreCopy).length === 0);
 	};
-
-	/**
-	 * Produces string separated representation of the form
-	 * &#x60;width=&quot;20&quot; title=&quot;read me!&quot;&#x60;
-	 * @method 	       toStringSpaceSeparated
-	 * @private
-	 * @since          0.0.5
-	 * @return         {String}
-	 */
-	// var toStringSpaceSeparated = function(){
-	// };
-
-
 
 	/**
 	 * String representation of the instance. If {{#crossLink &quot;Properties/mode:property&quot;}}mode{{/crossLink}} is set to 0,
@@ -682,6 +667,40 @@ function Properties(input) {
 		});
 		return output.join(&#x27; &#x27;);
 	};
+
+
+
+	/**
+	 * Loads attributes from the argument into {{#crossLink &quot;Properties:core/property&quot;}}core{{/crossLink}}.
+	 *
+	 * The argument is supposed to be of a type
+	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
+	 * Nevertheless, it is sufficient that &#x60;attr&#x60; be a collection of objects with &#x60;name&#x60; and &#x60;value&#x60; properties.
+	 * @method    loadFRom
+	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
+	 * @return    {void}                           true, if the properties are loaded, false otherwise
+	 */
+	this.loadFrom = function(attr){
+		var pos, attrName, attrValue, seed, newStl, stl;
+		for (pos in attr){
+			if (attr.hasOwnProperty(pos)){
+				seed = {};
+				attrName = attr[pos].name;
+				attrValue = attr[pos].value;
+				if (attrName === &#x27;style&#x27;){
+					newStl = new Properties(attrValue);
+					newStl.setMode(1);
+					if (this.hasProperty(&#x27;style&#x27;)){
+						attrValue = this.getProperty(&#x27;style&#x27;);
+						attrValue.appendProperty(newStl);
+					} else {
+						attrValue = newStl;
+					}
+				}
+				this.setProperty(attrName, attrValue);
+			}
+		}
+	}
 }
     </pre>
 </div>
