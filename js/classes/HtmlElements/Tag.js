@@ -83,8 +83,17 @@ function Tag(tName) {
 	 * @default        Attributes()
 	 * @private
 	 * @since          0.0.4
+	 * @deprecated     Use _properties instead
 	 */
 	var attributes = new Attributes();
+
+	/**
+	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
+	 * @private
+	 * @type           {Properties}
+	 * @since          0.0.5
+	 */
+	var _properties = new Properties();
 
 	/**
 	 * Tag styles
@@ -93,8 +102,9 @@ function Tag(tName) {
 	 * @default        Styles()
 	 * @private
 	 * @since          0.0.4
+	 * @deprecated     Use _properties instead
 	 */
-	// var styles = new Styles();
+	var styles = new Styles();
 
 
 	/**
