@@ -462,17 +462,66 @@ function Properties(input) {
 	};
 
 	/**
+	 * Produces string separated representation of the form
+	 * `width="20" title="read me!"`
+	 * @method 	       toStringSpaceSeparated
+	 * @private
+	 * @since          0.0.5
+	 * @return         {String}
+	 */
+	// var toStringSpaceSeparated = function(){
+	// };
+
+
+
+	/**
 	 * String representation of the instance. If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 0,
 	 * the representation of the following type is produced:
-	 * `width="20" title="read me!"`
-	 * if {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 1, the representation of the following
+	 * <div style="font-family: Courier; font-weight: bold;padding: 1em;">width="20" title="read me!"</div>
+	 * If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 1, the representation of the following
 	 * type is produced:
-	 * `width: 50px; color: red`.
+	 * <div style="font-family: Courier; font-weight: bold;padding: 1em;">width: 50px; color: red</div>
+	 * It parses all {{#crossLink "Properties:core/property"}}core{{/crossLink}} keys and if
+	 * <ol><li>
+	 * corresponding value responds to a `toString()` method
+	 * </li><li>
+	 * corresponding value is a string or a number
+	 * </li>
+	 * </ol>
+	 * then uses it for further substitution. Otherwise, the value is ignored.
+	 *
+	 * Further, if the corresponding string representation of the value turns out to be empty or undefined,
+	 * the whole key-value pair is ignored.
 	 * @method         toString
 	 * @return         {String}
 	 * @since          0.0.5
 	 */
 	this.toString = function(){
-		/// !!! stub
-	}
+		var output = [],
+		    keys = Object.keys(core),
+		    separ1, separ2;
+		switch (this.getMode()){
+			case 1:
+				separ1 = ': ';
+				separ2 = ';';
+				break;
+			case 0:
+			default:
+				separ1 = '="';
+				separ2 = '"';
+		}
+
+		keys.forEach(function(key){
+			var value = core[key], str;
+			if (typeof value.toString === 'function'){
+				str = value.toString();
+			} else if ((typeof value === 'string') || (typeof value === 'number')){
+				str = value;
+			}
+			if (typeof str === 'string' && str.length > 0){
+				output.push(key.toString() + separ1 + str + separ2);
+			}
+		});
+		return output.join(' ');
+	};
 }

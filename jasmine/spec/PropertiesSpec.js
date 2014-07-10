@@ -62,7 +62,7 @@ describe('Properties-related functionality', function(){
         beforeEach(function(){
             propEmpty = new Properties();
             propSimple = new Properties();
-            propNested = new Properties();
+            propComplex = new Properties();
             propSimple.setProperty('width', 200);
             propSimple.setProperty('class', 'screen');
             propSimple.setProperty('id', "#abcd");
@@ -81,7 +81,7 @@ describe('Properties-related functionality', function(){
 
         it('produces inline-like representation if mode is 1', function(){
             spyOn(propSimple, 'getMode').andCallFake(function(){return 1;});
-            expect(propSimple.toString()).toBe('width: 200; class: screen; id: #abcd');
+            expect(propSimple.toString()).toBe('width: 200; class: screen; id: #abcd;');
         });
 
         it('produces attribute-like representation if mode is 0', function(){
@@ -98,8 +98,15 @@ describe('Properties-related functionality', function(){
         it('produces inline-like representation if mode is 1', function(){
             spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
             spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
-            expect(propComplex.toString()).toBe('width: 200; class: screen; nested: nested representation');
+            expect(propComplex.toString()).toBe('width: 200; class: screen; nested: nested representation;');
         });
+
+        it('ignores attribute if its toString() method returns empty string', function(){
+            spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
+            spyOn(propSimple, 'toString').andCallFake(function(){return '';});
+            expect(propComplex.toString()).toBe('width: 200; class: screen;');
+        });
+
 
 
 

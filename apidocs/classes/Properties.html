@@ -355,6 +355,20 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_toStringSpaceSeparated">toStringSpaceSeparated</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -2409,6 +2423,170 @@ if the instance does not have property <code>propName</code>, then the method im
 </div>
 
                 
+                    <div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l477"><code>js\classes\Properties.js:477</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>String representation of the instance. If <a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> is set to 0,
+the representation of the following type is produced:</p>
+<p><div style="font-family: Courier; font-weight: bold;padding: 1em;">width="20" title="read me!"</div>
+If <a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> is set to 1, the representation of the following
+type is produced:</p>
+<p><div style="font-family: Courier; font-weight: bold;padding: 1em;">width: 50px; color: red</div>
+It parses all Properties:core/property keys and if</p>
+<p><ol><li>
+corresponding value responds to a <code>toString()</code> method
+</li><li>
+corresponding value is a string or a number
+</li>
+</ol>
+then uses it for further substitution. Otherwise, the value is ignored.</p>
+<p>Further, if the corresponding string representation of the value turns out to be empty or undefined,
+the whole key-value pair is ignored.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toStringSpaceSeparated" class="method item private">
+    <h3 class="name"><code>toStringSpaceSeparated</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l464"><code>js\classes\Properties.js:464</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Produces string separated representation of the form
+<code>width=&quot;20&quot; title=&quot;read me!&quot;</code></p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
             </div>
         
 
@@ -2645,7 +2823,7 @@ access the content of this object.</p>
 
     <div class="description">
         <p>Mode to be used when representing this instance as a string by means of
-Properties/toString:method method.
+<a href="../classes/Properties.html#method_toString" class="crosslink">toString</a> method.
 If it is set to 0, then string representation has the following form
 <code>width="20" title="read me!"</code>
 If it is set to 1, then string representation has the following form

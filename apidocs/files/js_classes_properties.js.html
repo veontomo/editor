@@ -618,6 +618,70 @@ function Properties(input) {
 		var coreCopy = this.getCore();
 		return (!coreCopy) || (Object.keys(coreCopy).length === 0);
 	};
+
+	/**
+	 * Produces string separated representation of the form
+	 * &#x60;width=&quot;20&quot; title=&quot;read me!&quot;&#x60;
+	 * @method 	       toStringSpaceSeparated
+	 * @private
+	 * @since          0.0.5
+	 * @return         {String}
+	 */
+	// var toStringSpaceSeparated = function(){
+	// };
+
+
+
+	/**
+	 * String representation of the instance. If {{#crossLink &quot;Properties/mode:property&quot;}}mode{{/crossLink}} is set to 0,
+	 * the representation of the following type is produced:
+	 * &lt;div style=&quot;font-family: Courier; font-weight: bold;padding: 1em;&quot;&gt;width=&quot;20&quot; title=&quot;read me!&quot;&lt;/div&gt;
+	 * If {{#crossLink &quot;Properties/mode:property&quot;}}mode{{/crossLink}} is set to 1, the representation of the following
+	 * type is produced:
+	 * &lt;div style=&quot;font-family: Courier; font-weight: bold;padding: 1em;&quot;&gt;width: 50px; color: red&lt;/div&gt;
+	 * It parses all {{#crossLink &quot;Properties:core/property&quot;}}core{{/crossLink}} keys and if
+	 * &lt;ol&gt;&lt;li&gt;
+	 * corresponding value responds to a &#x60;toString()&#x60; method
+	 * &lt;/li&gt;&lt;li&gt;
+	 * corresponding value is a string or a number
+	 * &lt;/li&gt;
+	 * &lt;/ol&gt;
+	 * then uses it for further substitution. Otherwise, the value is ignored.
+	 *
+	 * Further, if the corresponding string representation of the value turns out to be empty or undefined,
+	 * the whole key-value pair is ignored.
+	 * @method         toString
+	 * @return         {String}
+	 * @since          0.0.5
+	 */
+	this.toString = function(){
+		var output = [],
+		    keys = Object.keys(core),
+		    separ1, separ2;
+		switch (this.getMode()){
+			case 1:
+				separ1 = &#x27;: &#x27;;
+				separ2 = &#x27;;&#x27;;
+				break;
+			case 0:
+			default:
+				separ1 = &#x27;=&quot;&#x27;;
+				separ2 = &#x27;&quot;&#x27;;
+		}
+
+		keys.forEach(function(key){
+			var value = core[key], str;
+			if (typeof value.toString === &#x27;function&#x27;){
+				str = value.toString();
+			} else if ((typeof value === &#x27;string&#x27;) || (typeof value === &#x27;number&#x27;)){
+				str = value;
+			}
+			if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
+				output.push(key.toString() + separ1 + str + separ2);
+			}
+		});
+		return output.join(&#x27; &#x27;);
+	};
 }
     </pre>
 </div>

@@ -7082,6 +7082,36 @@
             },
             "class": "Properties",
             "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 464,
+            "description": "Produces string separated representation of the form\n`width=\"20\" title=\"read me!\"`",
+            "itemtype": "method",
+            "name": "toStringSpaceSeparated",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.5",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 477,
+            "description": "String representation of the instance. If {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties:core/property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a string or a number\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "since": "0.0.5",
+            "class": "Properties",
+            "module": "Properties"
         }
     ],
     "warnings": []
