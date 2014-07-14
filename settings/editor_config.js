@@ -7,13 +7,14 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.editorConfig = function( config ) {
+CKEDITOR.editorConfig = function(config){
 	// language
 	config.language = 'it';
 	config.defaultLanguage = config.language;
 	// size
 	config.width = '850px';
 	config.height = '650px';
+
 	// when pressing "ENTER", <br> is inserted, not <p>
 	config.enterMode = CKEDITOR.ENTER_BR;
 
@@ -36,29 +37,21 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' }
 	];
 
+	// registering custom plugins
 	var basePath = CKEDITOR.basePath,
 		customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
 			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2'],
 		pluginDir = basePath.substr(0, basePath.indexOf("ckeditor/")) + NEWSLETTER['customPluginDir'];
 
-	// (function() {
-   		// CKEDITOR.plugins.addExternal('table2', parentDir + 'customPlugins/table2/', 'plugin.js');
-	// })();
 	customPluginNames.forEach(function(pluginName){
 		CKEDITOR.plugins.addExternal(pluginName, pluginDir + pluginName + '/', 'plugin.js');
 	});
-	// CKEDITOR.plugins.addExternal('table2', parentDir + 'customPlugins/table2/', 'plugin.js');
 
 
 	config.allowedContent = true;
 
-	config.extraPlugins = customPluginNames.join(',');
-	/*config.extraPlugins = 'abbr';*/
+	config.extraPlugins = customPluginNames.join(','); // comma-separated string of custom plugin names
 	config.magicline_color = '#ababab';
-
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 	// config.contentsCss = 'css/editorContent.css';
-
 };
-
-console.log(CKEDITOR.basePath);
