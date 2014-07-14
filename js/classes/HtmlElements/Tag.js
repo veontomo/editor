@@ -834,10 +834,10 @@ function Tag(tName) {
 	 */
 	this.toNode = function(){
 		var el = document.createElement(this.getTag());
-		if (this.getStyles()){
-			this.getStyles().decorateElement(el);
-		}
-		this.getAttributes().decorateElement(el);
+		// if (this.getStyles()){
+		// 	this.getStyles().decorateElement(el);
+		// }
+		this.getProperties().decorateElement(el);
 		this.getContent().stickTo(el);
 		return el;
 	};

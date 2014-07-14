@@ -85,6 +85,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 			output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 			output.value = Math.round(output.value);
+			// console.log('parentWidth returns ', output);
 			return output;
 		};
 
@@ -331,13 +332,13 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// variables to be used in what follows
 				phantomRowAttr, phantomRowStyle,  phantomCellAttr, phantomCellStyle, phantomTableAttr, phantomTableStyle,
 				parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
-				i, table, tableWidth, tableElem, cellWidths, rowWidth,
+				i, table, tableWidth, tableElem, tableProp, tableStyles, cellWidths, rowWidth,
 				// rowContentWidth,
 				spaceTop, spaceBottom,
 				inputField, cellWeights, row, cell,
 				// TableStyles, tableAttr,
 				rowStyle, rowAttr, cellStyle,
-				cellAttr, cellWidth, allCellsWidth, tableStr, isFramed,
+				cellAttr, cellWidth, allCellsWidth, isFramed,
 				allWidths = [];
 
 
@@ -358,18 +359,25 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 			isFramed = frameWidth > 0;
 			table = new Table();
+			tableProp = new TableAttributes();
+			tableStyles = new TableStyles();
+			table.setProperties(tableProp);
+
 			// impose styles and attribute values
+
+			tableStyles.setProperty('margin', 0);
+			tableStyles.setProperty('padding', 0);
+			tableStyles.setMode(1);
+			tableProp.setStyles(tableStyles);
 			table.setWidth(tableWidth);
-			//console.log('table2.js: tableWidth = ', tableWidth);
-			table.setStyleProperty('margin', 0);
-			table.setStyleProperty('padding', 0);
-			table.setProperty(NEWSLETTER['marker-name'], table.getName());
-			table.setProperty('width', tableWidth);
+
+			tableProp.setProperty(NEWSLETTER['marker-name'], table.getName());
+			tableProp.setProperty('width', tableWidth);
 			// binding the styles and attributes and the table object
 			if (borderWidth > 0){
 				table.setBorder({
 					'width': borderWidth,
-					'color': '#000000',
+					'color': '#000001',
 					'style': 'solid'
 				});
 			}
@@ -379,6 +387,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			row  = new Row();
 			rowStyle = new TableRowStyles();
 			rowAttr = new Attributes();
+			row.setProperties(rowAttr);
+			row.setStyles(rowStyle);
 
 			// By default, table style is a parent style for the nested rows.
 			// The properties of the the nested elements will be calculated based on this style.
@@ -396,7 +406,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
 				phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
-				phantomRowStyle.setWidth(phantomRowWidth);
+			 	phantomRowStyle.setWidth(phantomRowWidth);
 				//console.log('table2.js: phantomRowWidth = ', phantomRowWidth);
 				allWidths.push({'value': phantomRowWidth, 'descr': 'larghezza della riga fittizia'});
 				phantomRowStyle.setProperty('padding', 0);
@@ -448,8 +458,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			rowStyle.setProperty('padding', 0);
 
 			// binding the row properties and the row object
-			row.setStyles(rowStyle);
-			row.setProperties(rowAttr);
+			// row.setStyles(rowStyle);
+			// row.setProperties(rowAttr);
 
 			// fill in the row with the cells
 			allCellsWidth = rowStyle.getProperty('width') - rowStyle.getProperty('padding');     // sum of all cell widths
@@ -461,13 +471,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				// in order to avoid influence of previously imposed values
 				cell = new Cell('cell' + i);
 				cellStyle = new TableCellStyles();
-				cellAttr = new Attributes();
+				cellAttr = new Properties();
 
 				// imposing cell styles and attributes
 				// mark the cell
 				cellAttr.setProperty(NEWSLETTER['marker-name'], cell.getName());
 				// adjust width of the first and the last cell
 				cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
+				console.log(i + ': ' + cellWidth + ' ' + cellWidths[i]);
 				cellStyle.setWidth(cellWidth);
 				allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
 				cellStyle.dropProperty('padding');
@@ -480,11 +491,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				if (withSeparator){
 					cellStyle.setProperty('border-bottom', '1px solid #cccccc');
 				}
-
 				// binding the styles and attributes and the object
-				cell.setStyles(cellStyle);
+				cellAttr.setStyles(cellStyle);
 				cell.setProperties(cellAttr);
-
 				// add the newly created cell to the row
 				row.appendCell(cell);
 			}
@@ -505,9 +514,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			{
 				return null;
 			}
-			console.log(table.toNode());
-			tableStr = table.toHtml();
-			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
+			tableElem = CKEDITOR.document.createElement(table.toNode());
 			editor.insertElement(tableElem);
 			// CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}

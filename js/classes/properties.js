@@ -636,4 +636,24 @@ function Properties(input) {
 	};
 
 
+    /**
+     * Applies the attributes on the argument. The argument is supposed to be an instance of
+     * [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,
+     * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
+     * method of that instance.
+     * @method         decorateElement
+     * @param          {Object}             elem
+     * @return         {void}
+     */
+    this.decorateElement = function(elem){
+    	if (typeof elem.setAttribute === 'function'){
+			var summary = this.getCore(),
+				keys = Object.keys(summary);
+			keys.forEach(function(key){
+				elem.setAttribute(key, summary[key]);
+			});
+    	}
+    };
+
+
 }
