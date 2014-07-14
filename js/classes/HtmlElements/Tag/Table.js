@@ -111,7 +111,7 @@ function Table() {
 	this.setTag('table');
 	this.setName('Table');
 	this.setStyles(new TableStyles());
-	this.setAttributes(new TableAttributes());
+	this.setProperties(new TableAttributes());
 
 	/**
 	 * Phantom cell.

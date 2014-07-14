@@ -348,7 +348,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
 				cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
 			}
-
 			// calculating widths
 			try {
 				tableWidth = Math.min(parentWidth().value, NEWSLETTER.maxWidth); // integer, the width in px
@@ -357,20 +356,15 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}
 			spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
-
 			isFramed = frameWidth > 0;
-
 			table = new Table();
-
 			// impose styles and attribute values
 			table.setWidth(tableWidth);
 			//console.log('table2.js: tableWidth = ', tableWidth);
 			table.setStyleProperty('margin', 0);
 			table.setStyleProperty('padding', 0);
-
 			table.setProperty(NEWSLETTER['marker-name'], table.getName());
 			table.setProperty('width', tableWidth);
-
 			// binding the styles and attributes and the table object
 			if (borderWidth > 0){
 				table.setBorder({
@@ -389,7 +383,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// By default, table style is a parent style for the nested rows.
 			// The properties of the the nested elements will be calculated based on this style.
 			parentElemStyle = table.getStyles();
-
 			if (isFramed){
 				// creating phantom styles and attributes
 				phantomRowAttr    = new Attributes();
@@ -512,6 +505,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			{
 				return null;
 			}
+			console.log(table.toNode());
 			tableStr = table.toHtml();
 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
 			editor.insertElement(tableElem);

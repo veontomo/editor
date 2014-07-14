@@ -192,10 +192,12 @@ var CKHelper = {
 
 		cellIndex = cell.getIndex();
 		// create objects in order to retrieve their properties
-		cellObj = cell.getOuterHtml().createCellFromHtml();
-		tableObj = parentTable.getOuterHtml().createTableFromHtml();
+		cellObj = FACTORY.factory.mimic(cell.$);
+		// cellObj = cell.getOuterHtml().createCellFromHtml();
+		tableObj = FACTORY.factory.mimic(parentTable.$);
+		// tableObj = parentTable.getOuterHtml().createTableFromHtml();
 		cellObjStyles = cellObj.getStyles();
-		cellObjAttr = cellObj.getAttributes();
+		cellObjAttr = cellObj.getProperties();
 		tableProfile = tableObj.getProfile().map(function(el){return parseFloat(el);});
 
 		newTableProfile = Helper.crack(tableProfile, cellIndex);

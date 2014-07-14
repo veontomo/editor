@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Table, Row, Cell,  Helper, CKHelper */
+/*global CKEDITOR, NEWSLETTER, Table, Row, Cell,  Helper, CKHelper, FACTORY */
 /*jslint plusplus: true, white: true */
 
 CKEDITOR.plugins.add('table2', {
@@ -153,9 +153,7 @@ CKEDITOR.plugins.add('table2', {
 						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF,
 						table2InsertColumnAfter: CKEDITOR.TRISTATE_OFF
 					};
-
-					// some get info about clicked table
-					elemObj = el.getOuterHtml().createTableFromHtml();
+					elemObj = FACTORY.factory.mimic(el.$);
 					// if the table has more than one column, than add possibility to drop columns and to resize them.
 					if (elemObj.colNum() > 1){
 						menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
@@ -204,7 +202,8 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 				return null;
 			}
 
-			var tableObj = table.getOuterHtml().createTableFromHtml();
+			// var tableObj = table.getOuterHtml().createTableFromHtml();
+			var tableObj = FACTORY.factory.mimic(table.$);
 			var	profile = tableObj.getProfile().map(function(el){
 				return parseFloat(el);
 			}),
@@ -359,7 +358,8 @@ CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
 				// column number to drop
 				cellNumber = cellElem.getIndex(),
 
-				tableObj = tableElem.getOuterHtml().createTableFromHtml(),
+				// tableObj = tableElem.getOuterHtml().createTableFromHtml(),
+				tableObj = FACTORY.factory.mimic(tableElem.$),
 				colNum = tableObj.colNum(),
 				tableStr, tableElem2;
 

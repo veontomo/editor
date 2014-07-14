@@ -103,9 +103,11 @@ String.prototype.createTableFromHtml = function(){
      * Only one table is supposed to be processed at a time, so the string to be processed is to
      * be of the following form `<table ...> ... </table>`. Inside the tag, there should be tags "tr"
      * that will be processed one by one by function String::createRowFromHtml().
-     * @method  createTableFromHtml
-     * @return  {Table|null}
+     * @method         createTableFromHtml
+     * @return         {Table|null}
+     * @deprecated     Use Factory.mimic() method
      */
+    console.info('!', 'Method createTableFromHtml is deprecated! Use Factory.mimic() method.');
     var htmlStr = this,
         parser = new DOMParser(),
         doc = parser.parseFromString(htmlStr, 'text/html'),

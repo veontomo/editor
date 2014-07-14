@@ -105,17 +105,17 @@ function Styles(obj) {
      * If the Style has no Properties 'border-color', then it will not be set.
      * @method         getBorderInfo
      * @return         {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
+     * @deprecated     Definition of the method is moved to the parent class
      */
-    this.getBorderInfo = function(){
-        var output = {};
-        output.width = this.getProperty('border-width') || 0;
-        output.style = this.getProperty('border-style') || 'none';
-        if (this.hasProperty('border-color')){
-            output.color = this.getProperty('border-color');
-        }
-        return output;
-
-    };
+    // this.getBorderInfo = function(){
+    //     var output = {};
+    //     output.width = this.getProperty('border-width') || 0;
+    //     output.style = this.getProperty('border-style') || 'none';
+    //     if (this.hasProperty('border-color')){
+    //         output.color = this.getProperty('border-color');
+    //     }
+    //     return output;
+    // };
 
     /**
      * Loads style Properties from the argument that is supposed to be either of type

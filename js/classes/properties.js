@@ -616,4 +616,24 @@ function Properties(input) {
 		this.getStyles().setProperty(key, value);
 	};
 
+
+	/**
+	 * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties
+	 * 'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.
+	 * If the Style has no Properties 'border-color', then it will not be set.
+	 * @method         getBorderInfo
+	 * @return         {Object}              object of the form {'width': ..., 'color': ..., 'style': ...}
+	 * @since          0.0.5
+	 */
+	this.getBorderInfo = function(){
+	    var output = {};
+	    output.width = this.getProperty('border-width') || 0;
+	    output.style = this.getProperty('border-style') || 'none';
+	    if (this.hasProperty('border-color')){
+	        output.color = this.getProperty('border-color');
+	    }
+	    return output;
+	};
+
+
 }
