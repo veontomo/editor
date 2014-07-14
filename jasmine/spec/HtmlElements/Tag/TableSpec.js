@@ -239,15 +239,15 @@ describe('Table-related functionality:', function(){
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            table.setPhantomTableAttributes('level: 1em; home: big');
-            var attr = table.getPhantomTableAttributes();
+            table.setPhantomTableProperties('level: 1em; home: big');
+            var attr = table.getPhantomTableProperties();
             expect(attr.getProperty('level')).toBe('1em');
             expect(attr.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            table.setPhantomTableAttributes({level: 4.6, sky: 'blue'});
-            var attr = table.getPhantomTableAttributes();
+            table.setPhantomTableProperties({level: 4.6, sky: 'blue'});
+            var attr = table.getPhantomTableProperties();
             expect(attr.getProperty('level')).toBe(4.6);
             expect(attr.getProperty('sky')).toBe('blue');
         });
@@ -258,7 +258,7 @@ describe('Table-related functionality:', function(){
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
             table.setPhantomTableAttributes(seed);
-            var attr = table.getPhantomTableAttributes();
+            var attr = table.getPhantomTableProperties();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('b')).toBe('low');
             expect(attr.getProperty('z')).toBe(100.1);
@@ -303,10 +303,10 @@ describe('Table-related functionality:', function(){
                 table.setPhantomTableProperties({class: 'media'});
                 table.setPhantomTableStyles({mass: '2kg', 'os': 'win'});
 
-                table.setPhantomRowAttributes({length: 335, 'dim': 'large'});
+                table.setPhantomRowProperties({length: 335, 'dim': 'large'});
                 table.setPhantomRowStyles({spec: 'agile'});
 
-                table.setPhantomCellAttributes({block: 'media', type: 'school', nod: 'left'});
+                table.setPhantomCellProperties({block: 'media', type: 'school', nod: 'left'});
                 table.setPhantomCellStyles({lep: 'r'});
 
             });
@@ -394,9 +394,9 @@ describe('Table-related functionality:', function(){
             var fakeRow1 = new Row(),
                 fakeRow2 = new Row(),
                 fakeRow3 = new Row();
-            fakeRow1.setAttrProperty('id', 'first');
-            fakeRow1.setAttrProperty('id', 'second');
-            fakeRow1.setAttrProperty('id', 'third');
+            fakeRow1.setProperty('id', 'first');
+            fakeRow1.setProperty('id', 'second');
+            fakeRow1.setProperty('id', 'third');
             table.setBody([fakeRow1, fakeRow2, fakeRow3]);
             var tbody = table.getBody();
             expect(tbody.length).toBe(3);
@@ -413,7 +413,7 @@ describe('Table-related functionality:', function(){
 
         it('returns the row, if it is unique', function(){
             var r1 = new Row();
-            r1.setAttrProperty('data', 32);
+            r1.setProperty('data', 32);
             table.setBody([r1]);
             expect(table.getFirstRow().toHtml()).toBe(r1.toHtml());
         });
@@ -422,9 +422,9 @@ describe('Table-related functionality:', function(){
             var r1 = new Row(),
                 r2 = new Row(),
                 r3 = new Row();
-            r1.setAttrProperty('marker', 'kjhy1');
-            r2.setAttrProperty('marker', 'kjhy2');
-            r3.setAttrProperty('marker', 'kjhy3');
+            r1.setProperty('marker', 'kjhy1');
+            r2.setProperty('marker', 'kjhy2');
+            r3.setProperty('marker', 'kjhy3');
             table.setBody([r1, r2, r3]);
             expect(table.getFirstRow().toHtml()).toBe(r1.toHtml());
         });
@@ -437,7 +437,7 @@ describe('Table-related functionality:', function(){
 
         it('returns the row, if it is unique', function(){
             var r1 = new Row();
-            r1.setAttrProperty('data', 32);
+            r1.setProperty('data', 32);
             table.setBody([r1]);
             expect(table.getLastRow().toHtml()).toBe(r1.toHtml());
         });
@@ -446,9 +446,9 @@ describe('Table-related functionality:', function(){
             var r1 = new Row(),
                 r2 = new Row(),
                 r3 = new Row();
-            r1.setAttrProperty('marker', 'kjhy1');
-            r2.setAttrProperty('marker', 'kjhy2');
-            r3.setAttrProperty('marker', 'kjhy3');
+            r1.setProperty('marker', 'kjhy1');
+            r2.setProperty('marker', 'kjhy2');
+            r3.setProperty('marker', 'kjhy3');
             table.setBody([r1, r2, r3]);
             expect(table.getLastRow().toHtml()).toBe(r3.toHtml());
         });
@@ -464,9 +464,9 @@ describe('Table-related functionality:', function(){
             r1 = new Row();
             r2 = new Row();
             r3 = new Row();
-            r1.setAttrProperty('marker', 'kjhy1');
-            r2.setAttrProperty('marker', 'kjhy2');
-            r3.setAttrProperty('marker', 'kjhy3');
+            r1.setProperty('marker', 'kjhy1');
+            r2.setProperty('marker', 'kjhy2');
+            r3.setProperty('marker', 'kjhy3');
             t3.setBody([r1, r2, r3]);
 
         });
@@ -508,9 +508,17 @@ describe('Table-related functionality:', function(){
             spyOn(row4, 'toHtml').andCallFake(function(){return '"row 4"';});
         });
 
+        it('generates html string for a table with empty body', function(){
+            spyOn(table, 'isFramed').andCallFake(function(){return false;});
+            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
+            table.setBody([]);
+            expect(table.toHtml()).toBe('<table "attributes"><tbody></tbody></table>');
+        });
+
+
         it('generates html string for non-framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return false;});
-            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
+            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
             table.setBody([row1, row2]);
             expect(table.toHtml()).toBe('<table "attributes"><tbody>"row 1""row 2"</tbody></table>');
         });
@@ -519,7 +527,7 @@ describe('Table-related functionality:', function(){
         it('generates html string for framed table', function(){
             spyOn(table, 'isFramed').andCallFake(function(){return true;});
             spyOn(table, 'getPhantomTag').andCallFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
-            spyOn(table, 'getAttributes').andCallFake(function(){return attrs;});
+            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
             table.setBody([row1, row2, row3]);
 
             expect(table.toHtml()).toBe('<table "attributes"><tbody>\
@@ -548,7 +556,7 @@ describe('Table-related functionality:', function(){
         // });
         it('appends row to a table without rows', function(){
             row1 = new Row();
-            row1.setAttrProperty('marker', '@w');
+            row1.setProperty('marker', '@w');
             expect(table.rowNum()).toBe(0);
             table.appendRow(row1);
             expect(table.rowNum()).toBe(1);
@@ -559,9 +567,9 @@ describe('Table-related functionality:', function(){
             row2 = new Row();
             row3 = new Row();
             table.setBody([row1, row2]);
-            row1.setAttrProperty('marker', '@w');
-            row2.setAttrProperty('marker', '@s');
-            row3.setAttrProperty('marker', '@x');
+            row1.setProperty('marker', '@w');
+            row2.setProperty('marker', '@s');
+            row3.setProperty('marker', '@x');
             expect(table.rowNum()).toBe(2);
             table.appendRow(row3);
             expect(table.rowNum()).toBe(3);
@@ -1000,7 +1008,7 @@ describe('Table-related functionality:', function(){
             spyOn(tableAttr, 'toString').andCallFake(function(){
                 return 'attributes for the table';
             });
-            table.setAttributes(tableAttr);
+            table.setProperties(tableAttr);
             table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table attributes for the table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
@@ -1020,7 +1028,7 @@ describe('Table-related functionality:', function(){
             spyOn(tableAttr, 'toString').andCallFake(function(){
                 return '';
             });
-            table.setAttributes(tableAttr);
+            table.setProperties(tableAttr);
             table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
@@ -1155,7 +1163,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).toBeDefined();
             expect(table.getStyleProperty('border-color')).toBeDefined();
             expect(table.getStyleProperty('border-style')).toBeDefined();
-            expect(table.getAttrProperty('border')).toBeDefined();
+            expect(table.getProperty('border')).toBeDefined();
         });
         it('imposes all parameters if they are passed as argument', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);
@@ -1163,7 +1171,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).toBe(20);
             expect(table.getStyleProperty('border-color')).toBe('very nice color');
             expect(table.getStyleProperty('border-style')).toBe('modern');
-            expect(table.getAttrProperty('border')).toBe(20);
+            expect(table.getProperty('border')).toBe(20);
         });
         it('imposes default color if it is missing in the argument', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);
@@ -1171,7 +1179,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).toBe(20);
             expect(table.getStyleProperty('border-color')).toBeDefined();
             expect(table.getStyleProperty('border-style')).toBe('modern');
-            expect(table.getAttrProperty('border')).toBe(20);
+            expect(table.getProperty('border')).toBe(20);
         });
         it('imposes default border width if it is missing in the argument', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);
@@ -1179,7 +1187,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).toBeDefined();
             expect(table.getStyleProperty('border-color')).toBe('green');
             expect(table.getStyleProperty('border-style')).toBe('modern');
-            expect(table.getAttrProperty('border')).toBeDefined(20);
+            expect(table.getProperty('border')).toBeDefined(20);
         });
         it('imposes default border style if it is missing in the argument', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);
@@ -1187,7 +1195,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).toBe('modern');
             expect(table.getStyleProperty('border-color')).toBe('red');
             expect(table.getStyleProperty('border-style')).toBeDefined();
-            expect(table.getAttrProperty('border')).toBe('modern');
+            expect(table.getProperty('border')).toBe('modern');
         });
     });
 
@@ -1200,7 +1208,7 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).not.toBeDefined();
             expect(table.getStyleProperty('border-color')).not.toBeDefined();
             expect(table.getStyleProperty('border-style')).toBe('none');
-            expect(table.getAttrProperty('border')).not.toBeDefined();
+            expect(table.getProperty('border')).not.toBeDefined();
         });
 
         it('removes existing info about border table from the styles', function(){
@@ -1211,16 +1219,16 @@ describe('Table-related functionality:', function(){
             expect(table.getStyleProperty('border-width')).not.toBeDefined();
             expect(table.getStyleProperty('border-color')).not.toBeDefined();
             expect(table.getStyleProperty('border-style')).toBe('none');
-            expect(table.getAttrProperty('border')).not.toBeDefined();
+            expect(table.getProperty('border')).not.toBeDefined();
         });
 
         it('removes existing info about border table from the attributes', function(){
-            table.setAttrProperty('border', 2);
+            table.setProperty('border', 2);
             table.removeBorder();
             expect(table.getStyleProperty('border-width')).not.toBeDefined();
             expect(table.getStyleProperty('border-color')).not.toBeDefined();
             expect(table.getStyleProperty('border-style')).toBe('none');
-            expect(table.getAttrProperty('border')).not.toBeDefined();
+            expect(table.getProperty('border')).not.toBeDefined();
         });
     });
 
@@ -1713,7 +1721,7 @@ describe('Table-related functionality:', function(){
         it('loads empty table', function(){
             table.load(t00);
             expect(table.length()).toBe(0);
-            expect(table.getAttrProperty('class')).toBe('highest');
+            expect(table.getProperty('class')).toBe('highest');
             expect(table.getStyleProperty('width')).toBe('80%');
             expect(table.getStyleProperty('color')).toBe('blue');
         });
@@ -1724,8 +1732,8 @@ describe('Table-related functionality:', function(){
             var row = table.getBody()[0];
             expect(row instanceof Row).toBe(true);
             expect(row.length()).toBe(0);
-            expect(row.getAttrProperty('data')).toBe('table-row');
-            expect(row.getAttrProperty('id')).toBe('#uniqueElem');
+            expect(row.getProperty('data')).toBe('table-row');
+            expect(row.getProperty('id')).toBe('#uniqueElem');
         });
 
         it('loads a table with single row and three cells', function(){

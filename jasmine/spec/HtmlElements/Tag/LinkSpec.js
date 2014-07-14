@@ -89,7 +89,7 @@ describe('Link-related functionality:', function() {
     describe('href getter and getter', function(){
         it('calls LinkAttributes.getHref() method', function(){
             spyOn(attr, 'getHref').andCallFake(function(){return 'href';});
-            link.setAttributes(attr);
+            link.setProperties(attr);
             expect(link.getHref()).toBe('href');
             expect(attr.getHref).toHaveBeenCalled();
         });
@@ -172,8 +172,8 @@ describe('Link-related functionality:', function() {
             link.setStyleProperty('level', 'sealevel');
             link.setStyleProperty('color', 'invisible');
             link.setStyleProperty('width', 98);
-            link.setAttrProperty('method', 'deduct');
-            link.setAttrProperty('profile', 8);
+            link.setProperty('method', 'deduct');
+            link.setProperty('profile', 8);
             link.setHref('www.pizza.it');
         });
 
@@ -183,13 +183,13 @@ describe('Link-related functionality:', function() {
             arg.setStyleProperty('padding', 'minor');
             arg.setStyleProperty('width', 10);
             arg.setStyleProperty('color', 'nice');
-            arg.setAttrProperty('lesson', 'first');
-            arg.setAttrProperty('profile', 1);
+            arg.setProperty('lesson', 'first');
+            arg.setProperty('profile', 1);
             arg.setHref('vino.pane');
 
             result = link.apply(arg);
             var stl = result.getStyles();
-            attr = result.getAttributes();
+            attr = result.getProperties();
             expect(result instanceof Link).toBe(true);
             expect(stl.getProperty('level')).toBe('argLevel');
             expect(stl.getProperty('color')).toBe('nice');
@@ -216,8 +216,8 @@ describe('Link-related functionality:', function() {
                 expect(result.getElem(i).getStyleProperty('level')).toBe('sealevel');
                 expect(result.getElem(i).getStyleProperty('color')).toBe('invisible');
                 expect(result.getElem(i).getStyleProperty('width')).toBe(98);
-                expect(result.getElem(i).getAttrProperty('method')).toBe('deduct');
-                expect(result.getElem(i).getAttrProperty('profile')).toBe(8);
+                expect(result.getElem(i).getProperty('method')).toBe('deduct');
+                expect(result.getElem(i).getProperty('profile')).toBe(8);
                 expect(result.getElem(i).getHref()).toBe('www.pizza.it');
 
                 expect(typeof result.getElem(i).getElem(0)).toBe('string');
@@ -235,15 +235,15 @@ describe('Link-related functionality:', function() {
             // el1.setElements(['element 1']);
             // el2.setElements(['element 2']);
             // arg.setElements([el1, el2]);
-            arg.setAttrProperty('window', 'wide');
-            arg.setAttrProperty('color', 'rainbow');
+            arg.setProperty('window', 'wide');
+            arg.setProperty('color', 'rainbow');
             arg.setStyleProperty('mix', 8);
             arg.setStyleProperty('lead', 'astray');
 
             result = link.apply(arg);
             expect(result instanceof Tag).toBe(true);
-            expect(result.getAttrProperty('window')).toBe('wide');
-            expect(result.getAttrProperty('color')).toBe('rainbow');
+            expect(result.getProperty('window')).toBe('wide');
+            expect(result.getProperty('color')).toBe('rainbow');
             expect(result.getStyleProperty('mix')).toBe(8);
             expect(result.getStyleProperty('lead')).toBe('astray');
             expect(result.length()).toBe(2);
@@ -252,8 +252,8 @@ describe('Link-related functionality:', function() {
                 expect(result.getElem(i).getStyleProperty('level')).toBe('sealevel');
                 expect(result.getElem(i).getStyleProperty('color')).toBe('invisible');
                 expect(result.getElem(i).getStyleProperty('width')).toBe(98);
-                expect(result.getElem(i).getAttrProperty('method')).toBe('deduct');
-                expect(result.getElem(i).getAttrProperty('profile')).toBe(8);
+                expect(result.getElem(i).getProperty('method')).toBe('deduct');
+                expect(result.getElem(i).getProperty('profile')).toBe(8);
                 expect(result.getElem(i).getHref()).toBe('www.pizza.it');
             }
             expect(result.getElem(0).getElem(0)).toBe('element 1');
@@ -263,16 +263,16 @@ describe('Link-related functionality:', function() {
 
         it('transforms Tag with empty content into a Link', function(){
             arg = new Tag();
-            arg.setAttrProperty('window', 'wide');
-            arg.setAttrProperty('color', 'rainbow');
+            arg.setProperty('window', 'wide');
+            arg.setProperty('color', 'rainbow');
             arg.setStyleProperty('mix', 8);
             arg.setStyleProperty('lead', 'astray');
 
             result = link.apply(arg);
             expect(result instanceof Link).toBe(true);
             expect(result.getHref()).toBe('www.pizza.it');
-            expect(result.getAttrProperty('method')).toBe('deduct');
-            expect(result.getAttrProperty('profile')).toBe(8);
+            expect(result.getProperty('method')).toBe('deduct');
+            expect(result.getProperty('profile')).toBe(8);
             expect(result.getStyleProperty('level')).toBe('sealevel');
             expect(result.getStyleProperty('color')).toBe('invisible');
             expect(result.getStyleProperty('width')).toBe(98);
@@ -281,8 +281,8 @@ describe('Link-related functionality:', function() {
             expect(result.getElem(0) instanceof Tag).toBe(true);
             expect(result.getElem(0).getStyleProperty('mix')).toBe(8);
             expect(result.getElem(0).getStyleProperty('lead')).toBe('astray');
-            expect(result.getElem(0).getAttrProperty('window')).toBe('wide');
-            expect(result.getElem(0).getAttrProperty('color')).toBe('rainbow');
+            expect(result.getElem(0).getProperty('window')).toBe('wide');
+            expect(result.getElem(0).getProperty('color')).toBe('rainbow');
         });
 
         it('transforms an object into a Link', function(){
@@ -291,8 +291,8 @@ describe('Link-related functionality:', function() {
             result = link.apply(arg);
             expect(result instanceof Link).toBe(true);
             expect(result.getHref()).toBe('www.pizza.it');
-            expect(result.getAttrProperty('method')).toBe('deduct');
-            expect(result.getAttrProperty('profile')).toBe(8);
+            expect(result.getProperty('method')).toBe('deduct');
+            expect(result.getProperty('profile')).toBe(8);
             expect(result.getStyleProperty('level')).toBe('sealevel');
             expect(result.getStyleProperty('color')).toBe('invisible');
             expect(result.getStyleProperty('width')).toBe(98);

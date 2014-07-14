@@ -314,18 +314,6 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Sets property &#x60;propName&#x60; of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
-	 * to be &#x60;propValue&#x60;. Alias for {{#crossLink &quot;Properties/setProperty:property&quot;}}setProperty{{/crossLink}}.
-	 * @method         setProperty
-	 * @param          {Any}                propName
-	 * @param          {Any}                propValue
-	 */
-	this.setProperty = function(propName, propValue){
-		_properties.setProperty(propName, propValue);
-	}
-
-
-	/**
 	 * Returns clone of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
 	 * @method        getProperties
 	 * @since         0.0.5
@@ -559,13 +547,12 @@ function Tag(tName) {
 	 * @method         setProperty
 	 * @param          {String} 	        key 	   property name to be set
 	 * @param          {String} 	        value 	   property value
-	 * @return         {Any}
+	 * @return         {void}
 	 * @since          0.0.5
 	 */
 	this.setProperty = function(key, value) {
 		_properties.setProperty(key, value);
 	};
-
 
 
 	/**
@@ -1032,7 +1019,7 @@ function Tag(tName) {
 		if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
 			this.setProperty(&#x27;title&#x27;, str);
 		} else {
-			this.dropAttrProperty(&#x27;title&#x27;);
+			this.dropProperty(&#x27;title&#x27;);
 		}
 	};
 }

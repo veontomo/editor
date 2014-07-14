@@ -265,18 +265,12 @@ function Table() {
 	/**
 	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} setter.
 	 * @method         setPhantomCellAttributes
-	 * @param          {Properties}             attr
+	 * @param          {Properties}             prop
 	 * @return         {void}
 	 */
-	this.setPhantomCellAttributes = function(attr){
-		if (attr !== undefined){
-			this.initPhantoms();
-			if (attr instanceof Attributes){
-				phantomCell.setProperties(attr);
-			} else {
-				phantomCell.setAttributes(new Attributes(attr));
-			}
-		}
+	this.setPhantomCellAttributes = function(prop){
+		this.initPhantoms();
+		phantomCell.setProperties(prop);
 	};
 
 	/**
@@ -307,8 +301,10 @@ function Table() {
 	 * @method         setPhantomRowAttributes
 	 * @param          {Properties}         attr
 	 * @return         {void}
+	 * @deprecated     Use setPhantomRowProperties instead
 	 */
 	this.setPhantomRowAttributes = function(attr){
+		console.warn('Use setPhantomRowProperties instead');
 		if (attr !== undefined){
 			this.initPhantoms();
 			if (attr instanceof Attributes){
@@ -318,6 +314,33 @@ function Table() {
 			}
 		}
 	};
+
+	/**
+	 * Sets {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} of
+	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
+	 * @method         setPhantomRowProperties
+	 * @param          {Properties}             prop
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setPhantomRowProperties = function(prop){
+		this.initPhantoms();
+		phantomRow.setProperties(prop);
+	};
+
+	/**
+	 * Sets {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} of
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}}.
+	 * @method         setPhantomCellProperties
+	 * @param          {Properties}             prop
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setPhantomCellProperties = function(prop){
+		this.initPhantoms();
+		phantomCell.setProperties(prop);
+	};
+
 
 	/**
 	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} getter.
@@ -363,7 +386,21 @@ function Table() {
 	this.setPhantomTableProperties = function(prop){
 		this.initPhantoms();
 		phantomTable.setProperties(prop);
-	}
+	};
+
+
+	/**
+	 * {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}}
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink "Tag/getProperties:property"}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomTableProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomTableProperties = function(){
+		return phantomTable.getProperties();
+	};
 
 	/**
 	 * Returns {{#crossLink "Tag/openingTag:method"}}opening{{/crossLink}} or
@@ -748,28 +785,29 @@ function Table() {
 	};
 
 	/**
-	 * Set the border of the table. It updates the properties 'attr' and 'style' of the instance:
-	 * 1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'
-	 * 2. in 'attr' property, sets up 'border' property.
-	 * Note that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.
-	 * @method  setBorder
-	 * @param   {Object}     borderInfo        Object containing 'width', 'color' and 'style' for the border to set.
-	 * @default border-width is set to 1, border-color is set to #000000, border-style is set to solid.
-	 * @return {void}
+	 * Set the border of the table. It sets key `border` of {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}
+	 *  as well as keys `border-width`, `border-color` and `border-style` of `style` key of
+	 *  {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
+	 * @method         setBorder
+	 * @param          {Object}     borderInfo        Object containing 'width', 'color' and 'style' for the border to set.
+	 * @return         {void}
 	 */
 	this.setBorder = function(borderInfo){
-		var bw, bc, bs;
+		var bw, bc, bs,
+			defaultWidth = 1,
+			defaultColor = '#000001',
+			defaultStyle = 'solid';
 		if (borderInfo === undefined){
-			borderInfo = {'width': 1, 'color': '#000000', 'style': 'solid'};
+			borderInfo = {'width': defaultWidth, 'color': defaultColor, 'style': defaultStyle};
 		}
-		bw = borderInfo.width || 1;
-		bc = borderInfo.color || '#000000';
-		bs = borderInfo.style || 'solid';
+		bw = borderInfo.width || defaultWidth;
+		bc = borderInfo.color || defaultColor;
+		bs = borderInfo.style || defaultStyle;
 
 		this.setStyleProperty('border-width', bw);
 		this.setStyleProperty('border-color', bc);
 		this.setStyleProperty('border-style', bs);
-		this.setAttrProperty('border', bw);
+		this.setProperty('border', bw);
 	};
 
 	/**
@@ -791,8 +829,8 @@ function Table() {
 		}
 		this.setStyleProperty('border-style', 'none');
 
-		if (this.getAttributes().hasProperty('border')) {
-			this.dropAttrProperty('border');
+		if (this.getProperties().hasProperty('border')) {
+			this.dropProperty('border');
 		}
 	};
 

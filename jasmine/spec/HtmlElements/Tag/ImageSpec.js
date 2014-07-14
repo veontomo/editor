@@ -71,7 +71,7 @@ describe('Image-related functionality:', function() {
     describe('Image::getOrigin(): gets source', function(){
         it('calls Attribute::getProperty() to retrieve image source', function(){
             spyOn(attr, 'getProperty').andCallFake(function(){return 'file-image-is-here';});
-            img.setAttributes(attr);
+            img.setProperties(attr);
             expect(img.getOrigin()).toBe('file-image-is-here');
             expect(attr.getProperty).toHaveBeenCalledWith('src');
         });

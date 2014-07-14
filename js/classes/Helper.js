@@ -350,6 +350,7 @@ var Helper = {
         while(doc.getElementById(id)){
             id += pool.substr(Math.floor(Math.random()*(poolLen + 1)), 1);
         }
+        // console.log('returning id ' + id);
         return id;
     },
 

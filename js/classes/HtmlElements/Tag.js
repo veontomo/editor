@@ -104,7 +104,7 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use _properties instead
 	 */
-	var styles = new Styles();
+	// var styles = new Styles();
 
 
 	/**
@@ -362,11 +362,11 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use getProperty instead
 	 */
-	this.getAttrProperty = function(prop) {
+	// this.getAttrProperty = function(prop) {
 		/// !!! commented to surpress its usage
 		// return this.getAttributes().getProperty(prop);
-		return;
-	};
+		// return;
+	// };
 
 
 	/**
@@ -407,11 +407,11 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use setProperty instead
 	 */
-	this.setAttrProperty = function(key, value) {
+	// this.setAttrProperty = function(key, value) {
 		/// !!! commented to avoid its usage
 		// return attributes.setProperty(key, value);
-		return;
-	};
+		// return;
+	// };
 
 	/**
 	 * Returns `true` if {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}
@@ -476,7 +476,7 @@ function Tag(tName) {
 	 */
 	this.setWidth = function(w){
 		if (w !== undefined){
-		    this.setAttrProperty('width', w);
+		    this.setProperty('width', w);
 			this.setStyleProperty('width', w);
 			this.setStyleProperty('min-width', w);
 			this.setStyleProperty('max-width', w);
@@ -783,11 +783,8 @@ function Tag(tName) {
 	 * <ol><li>
 	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}}
 	 * </li><li>
-	 * {{#crossLink "Tag/attributes:property"}}attr{{/crossLink}} by calling
-	 * {{#crossLink "Attributes/load:method"}}Attribute::load(){{/crossLink}} method.
-	 * </li><li>
-	 * {{#crossLink "Tag/styles:property"}}style{{/crossLink}} by calling
-	 * {{#crossLink "Styles/load:method"}}Styles::load(){{/crossLink}} method.
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by calling
+	 * {{#crossLink "Properties/load:method"}}load(){{/crossLink}} method.
 	 * </li><li>
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} by calling
 	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.
@@ -803,7 +800,6 @@ function Tag(tName) {
 	 */
 	this.load = function(elem){
 		var attrSucc = false,
-			// styleSucc = false,
 			contentSucc = false,
 			childrenArr = [],
 			children, currentChild, attr, i, len;
@@ -824,8 +820,6 @@ function Tag(tName) {
 			}
 			contentSucc = content.load(childrenArr);
 		}
-		// return attrSucc && styleSucc && contentSucc;
-		console.log(attrSucc, contentSucc);
 		return attrSucc && contentSucc;
 	};
 

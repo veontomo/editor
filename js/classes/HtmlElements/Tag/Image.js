@@ -52,11 +52,11 @@ function Image() {
 			imgWidth = img.width;
 			imgHeight = img.height;
 			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
-				this.setAttrProperty('src', url);
-				this.setAttrProperty('width', imgWidth);
+				this.setProperty('src', url);
+				this.setProperty('width', imgWidth);
 				this.setWidth(imgWidth);
 				this.setStyleProperty('height', imgHeight);
-				this.setAttrProperty('height', imgHeight);
+				this.setProperty('height', imgHeight);
 			}
 		} else {
 			// console.log('protocol ' + protocol + ' is not supported!');
@@ -104,7 +104,7 @@ function Image() {
 	 */
 	this.getOrigin = function(){
 		// console.log('get origin: ' + this.getAttributes());
-		return this.getAttrProperty('src');
+		return this.getProperty('src');
 	};
 
 	/**
@@ -115,7 +115,7 @@ function Image() {
 	 * @return         {Integer}
 	 */
 	this.getHeight = function(){
-		return this.getAttrProperty('height') || 0;
+		return this.getProperty('height') || 0;
 	};
 
 	/**

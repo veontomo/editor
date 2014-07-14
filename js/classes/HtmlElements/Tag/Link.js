@@ -45,7 +45,7 @@ function Link(href) {
 	 * @return    {String}
 	 */
 	this.getHref =  function(){
-		var attrCopy = this.getAttributes();
+		var attrCopy = this.getProperties();
 		return (typeof attrCopy.getHref === 'function') ? attrCopy.getHref() : attrCopy.getProperty('href');
 	};
 
@@ -56,9 +56,8 @@ function Link(href) {
 	 * @return   {void}
 	 */
 	this.setHref =  function(url){
-		this.setAttrProperty('href', url);
+		this.setProperty('href', url);
 	};
-
 
 	// set url if it is given
 	if(href && (typeof href === 'string')){
@@ -143,7 +142,7 @@ function Link(href) {
 		/// the object which will be returned.
 		var output = new Link(),
 			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
-		output.setAttributes(this.getAttributes().clone());
+		output.setProperties(this.getProperties().clone());
 		output.setStyles(this.getStyles().clone());
 		output.setElements([item]);
 		return output;
@@ -221,10 +220,10 @@ function Link(href) {
 			var result = new Link(),
 				src = this.getHref();
 			result.setElements(link.getElements());
-			result.setAttributes(this.getAttributes());
+			result.setProperties(this.getProperties());
 			result.setStyles(this.getStyles());
 			result.appendStyle(link.getStyles());
-			result.appendAttributes(link.getAttributes());
+			result.appendProperties(link.getProperties());
 			result.setHref(src);
 			// console.log('returning ', result.toHtml());
 			return result;
