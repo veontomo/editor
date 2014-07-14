@@ -41,7 +41,7 @@ CKEDITOR.editorConfig = function(config){
 	var basePath = CKEDITOR.basePath,
 		customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
 			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2'],
-		pluginDir = basePath.substr(0, basePath.indexOf("ckeditor/")) + NEWSLETTER['customPluginDir'];
+		pluginDir = basePath.substr(0, basePath.indexOf('ckeditor/')) + NEWSLETTER['customPluginDir'];
 
 	customPluginNames.forEach(function(pluginName){
 		CKEDITOR.plugins.addExternal(pluginName, pluginDir + pluginName + '/', 'plugin.js');
