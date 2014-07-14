@@ -262,7 +262,7 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use _properties instead
 	 */
-	var styles = new Styles();
+	// var styles = new Styles();
 
 
 	/**
@@ -520,11 +520,11 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use getProperty instead
 	 */
-	this.getAttrProperty = function(prop) {
+	// this.getAttrProperty = function(prop) {
 		/// !!! commented to surpress its usage
 		// return this.getAttributes().getProperty(prop);
-		return;
-	};
+		// return;
+	// };
 
 
 	/**
@@ -565,11 +565,11 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use setProperty instead
 	 */
-	this.setAttrProperty = function(key, value) {
+	// this.setAttrProperty = function(key, value) {
 		/// !!! commented to avoid its usage
 		// return attributes.setProperty(key, value);
-		return;
-	};
+		// return;
+	// };
 
 	/**
 	 * Returns &#x60;true&#x60; if {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
@@ -634,7 +634,7 @@ function Tag(tName) {
 	 */
 	this.setWidth = function(w){
 		if (w !== undefined){
-		    this.setAttrProperty(&#x27;width&#x27;, w);
+		    this.setProperty(&#x27;width&#x27;, w);
 			this.setStyleProperty(&#x27;width&#x27;, w);
 			this.setStyleProperty(&#x27;min-width&#x27;, w);
 			this.setStyleProperty(&#x27;max-width&#x27;, w);
@@ -941,11 +941,8 @@ function Tag(tName) {
 	 * &lt;ol&gt;&lt;li&gt;
 	 * {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}}
 	 * &lt;/li&gt;&lt;li&gt;
-	 * {{#crossLink &quot;Tag/attributes:property&quot;}}attr{{/crossLink}} by calling
-	 * {{#crossLink &quot;Attributes/load:method&quot;}}Attribute::load(){{/crossLink}} method.
-	 * &lt;/li&gt;&lt;li&gt;
-	 * {{#crossLink &quot;Tag/styles:property&quot;}}style{{/crossLink}} by calling
-	 * {{#crossLink &quot;Styles/load:method&quot;}}Styles::load(){{/crossLink}} method.
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} by calling
+	 * {{#crossLink &quot;Properties/load:method&quot;}}load(){{/crossLink}} method.
 	 * &lt;/li&gt;&lt;li&gt;
 	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} by calling
 	 * {{#crossLink &quot;Content/load:method&quot;}}Content::load(){{/crossLink}} method.
@@ -961,7 +958,6 @@ function Tag(tName) {
 	 */
 	this.load = function(elem){
 		var attrSucc = false,
-			// styleSucc = false,
 			contentSucc = false,
 			childrenArr = [],
 			children, currentChild, attr, i, len;
@@ -982,8 +978,6 @@ function Tag(tName) {
 			}
 			contentSucc = content.load(childrenArr);
 		}
-		// return attrSucc &amp;&amp; styleSucc &amp;&amp; contentSucc;
-		console.log(attrSucc, contentSucc);
 		return attrSucc &amp;&amp; contentSucc;
 	};
 

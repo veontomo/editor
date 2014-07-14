@@ -423,18 +423,12 @@ function Table() {
 	/**
 	 * {{#crossLink &quot;FramedTable/phantomCellAttributes:property&quot;}}phantomCellAttributes{{/crossLink}} setter.
 	 * @method         setPhantomCellAttributes
-	 * @param          {Properties}             attr
+	 * @param          {Properties}             prop
 	 * @return         {void}
 	 */
-	this.setPhantomCellAttributes = function(attr){
-		if (attr !== undefined){
-			this.initPhantoms();
-			if (attr instanceof Attributes){
-				phantomCell.setProperties(attr);
-			} else {
-				phantomCell.setAttributes(new Attributes(attr));
-			}
-		}
+	this.setPhantomCellAttributes = function(prop){
+		this.initPhantoms();
+		phantomCell.setProperties(prop);
 	};
 
 	/**
@@ -465,8 +459,10 @@ function Table() {
 	 * @method         setPhantomRowAttributes
 	 * @param          {Properties}         attr
 	 * @return         {void}
+	 * @deprecated     Use setPhantomRowProperties instead
 	 */
 	this.setPhantomRowAttributes = function(attr){
+		console.warn(&#x27;Use setPhantomRowProperties instead&#x27;);
 		if (attr !== undefined){
 			this.initPhantoms();
 			if (attr instanceof Attributes){
@@ -476,6 +472,33 @@ function Table() {
 			}
 		}
 	};
+
+	/**
+	 * Sets {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} of
+	 * {{#crossLink &quot;Table/phantomRow:property&quot;}}phantomRow{{/crossLink}}.
+	 * @method         setPhantomRowProperties
+	 * @param          {Properties}             prop
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setPhantomRowProperties = function(prop){
+		this.initPhantoms();
+		phantomRow.setProperties(prop);
+	};
+
+	/**
+	 * Sets {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} of
+	 * {{#crossLink &quot;Table/phantomCell:property&quot;}}phantomCell{{/crossLink}}.
+	 * @method         setPhantomCellProperties
+	 * @param          {Properties}             prop
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setPhantomCellProperties = function(prop){
+		this.initPhantoms();
+		phantomCell.setProperties(prop);
+	};
+
 
 	/**
 	 * {{#crossLink &quot;FramedTable/phantomTableAttributes:property&quot;}}phantomTableAttributes{{/crossLink}} getter.
@@ -521,7 +544,21 @@ function Table() {
 	this.setPhantomTableProperties = function(prop){
 		this.initPhantoms();
 		phantomTable.setProperties(prop);
-	}
+	};
+
+
+	/**
+	 * {{#crossLink &quot;Table/phantomTable:property&quot;}}phantomTable{{/crossLink}}
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink &quot;Tag/getProperties:property&quot;}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomTableProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomTableProperties = function(){
+		return phantomTable.getProperties();
+	};
 
 	/**
 	 * Returns {{#crossLink &quot;Tag/openingTag:method&quot;}}opening{{/crossLink}} or
@@ -906,28 +943,29 @@ function Table() {
 	};
 
 	/**
-	 * Set the border of the table. It updates the properties &#x27;attr&#x27; and &#x27;style&#x27; of the instance:
-	 * 1. in &#x27;style&#x27; property, sets up the following properties: &#x27;border-width&#x27;, &#x27;border-color&#x27; and &#x27;border-style&#x27;
-	 * 2. in &#x27;attr&#x27; property, sets up &#x27;border&#x27; property.
-	 * Note that if after setting the border there is an assigment of &#x27;style&#x27; or &#x27;attr&#x27; property, then some info about the border might be overwritten.
-	 * @method  setBorder
-	 * @param   {Object}     borderInfo        Object containing &#x27;width&#x27;, &#x27;color&#x27; and &#x27;style&#x27; for the border to set.
-	 * @default border-width is set to 1, border-color is set to #000000, border-style is set to solid.
-	 * @return {void}
+	 * Set the border of the table. It sets key &#x60;border&#x60; of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 *  as well as keys &#x60;border-width&#x60;, &#x60;border-color&#x60; and &#x60;border-style&#x60; of &#x60;style&#x60; key of
+	 *  {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method         setBorder
+	 * @param          {Object}     borderInfo        Object containing &#x27;width&#x27;, &#x27;color&#x27; and &#x27;style&#x27; for the border to set.
+	 * @return         {void}
 	 */
 	this.setBorder = function(borderInfo){
-		var bw, bc, bs;
+		var bw, bc, bs,
+			defaultWidth = 1,
+			defaultColor = &#x27;#000001&#x27;,
+			defaultStyle = &#x27;solid&#x27;;
 		if (borderInfo === undefined){
-			borderInfo = {&#x27;width&#x27;: 1, &#x27;color&#x27;: &#x27;#000000&#x27;, &#x27;style&#x27;: &#x27;solid&#x27;};
+			borderInfo = {&#x27;width&#x27;: defaultWidth, &#x27;color&#x27;: defaultColor, &#x27;style&#x27;: defaultStyle};
 		}
-		bw = borderInfo.width || 1;
-		bc = borderInfo.color || &#x27;#000000&#x27;;
-		bs = borderInfo.style || &#x27;solid&#x27;;
+		bw = borderInfo.width || defaultWidth;
+		bc = borderInfo.color || defaultColor;
+		bs = borderInfo.style || defaultStyle;
 
 		this.setStyleProperty(&#x27;border-width&#x27;, bw);
 		this.setStyleProperty(&#x27;border-color&#x27;, bc);
 		this.setStyleProperty(&#x27;border-style&#x27;, bs);
-		this.setAttrProperty(&#x27;border&#x27;, bw);
+		this.setProperty(&#x27;border&#x27;, bw);
 	};
 
 	/**
@@ -949,8 +987,8 @@ function Table() {
 		}
 		this.setStyleProperty(&#x27;border-style&#x27;, &#x27;none&#x27;);
 
-		if (this.getAttributes().hasProperty(&#x27;border&#x27;)) {
-			this.dropAttrProperty(&#x27;border&#x27;);
+		if (this.getProperties().hasProperty(&#x27;border&#x27;)) {
+			this.dropProperty(&#x27;border&#x27;);
 		}
 	};
 

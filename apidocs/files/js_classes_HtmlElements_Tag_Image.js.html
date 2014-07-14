@@ -210,11 +210,11 @@ function Image() {
 			imgWidth = img.width;
 			imgHeight = img.height;
 			if (typeof imgWidth === &#x27;number&#x27; &amp;&amp; imgWidth &gt; 0 &amp;&amp; typeof imgHeight === &#x27;number&#x27; &amp;&amp; imgHeight &gt; 0){
-				this.setAttrProperty(&#x27;src&#x27;, url);
-				this.setAttrProperty(&#x27;width&#x27;, imgWidth);
+				this.setProperty(&#x27;src&#x27;, url);
+				this.setProperty(&#x27;width&#x27;, imgWidth);
 				this.setWidth(imgWidth);
 				this.setStyleProperty(&#x27;height&#x27;, imgHeight);
-				this.setAttrProperty(&#x27;height&#x27;, imgHeight);
+				this.setProperty(&#x27;height&#x27;, imgHeight);
 			}
 		} else {
 			// console.log(&#x27;protocol &#x27; + protocol + &#x27; is not supported!&#x27;);
@@ -262,7 +262,7 @@ function Image() {
 	 */
 	this.getOrigin = function(){
 		// console.log(&#x27;get origin: &#x27; + this.getAttributes());
-		return this.getAttrProperty(&#x27;src&#x27;);
+		return this.getProperty(&#x27;src&#x27;);
 	};
 
 	/**
@@ -273,7 +273,7 @@ function Image() {
 	 * @return         {Integer}
 	 */
 	this.getHeight = function(){
-		return this.getAttrProperty(&#x27;height&#x27;) || 0;
+		return this.getProperty(&#x27;height&#x27;) || 0;
 	};
 
 	/**

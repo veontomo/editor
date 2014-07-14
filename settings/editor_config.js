@@ -36,13 +36,29 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' }
 	];
 
+	var basePath = CKEDITOR.basePath,
+		customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
+			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2'],
+		pluginDir = basePath.substr(0, basePath.indexOf("ckeditor/")) + NEWSLETTER['customPluginDir'];
+
+	// (function() {
+   		// CKEDITOR.plugins.addExternal('table2', parentDir + 'customPlugins/table2/', 'plugin.js');
+	// })();
+	customPluginNames.forEach(function(pluginName){
+		CKEDITOR.plugins.addExternal(pluginName, pluginDir + pluginName + '/', 'plugin.js');
+	});
+	// CKEDITOR.plugins.addExternal('table2', parentDir + 'customPlugins/table2/', 'plugin.js');
+
+
 	config.allowedContent = true;
 
-	config.extraPlugins = 'download,image2,table2,link2,upload,olist2,ulist2,selection,bold2,italic2,underline2,strike2,info2,setScale2';
+	config.extraPlugins = customPluginNames.join(',');
 	/*config.extraPlugins = 'abbr';*/
 	config.magicline_color = '#ababab';
 
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 	// config.contentsCss = 'css/editorContent.css';
+
 };
 
+console.log(CKEDITOR.basePath);

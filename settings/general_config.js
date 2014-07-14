@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapping, Node */
+/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapping, Node, Image */
 var NEWSLETTER = {};
 Object.defineProperty(NEWSLETTER, 'maxWidth', {
 	value:    500,             // massima largezza di tabella
@@ -8,6 +8,15 @@ Object.defineProperty(NEWSLETTER, 'maxWidth', {
 Object.defineProperty(NEWSLETTER, 'marker-name', {
 	value:    'data-marker',   // an attribute to mark objects
 	writable: false            // protect from overwrite
+});
+
+/**
+ * Name of custom plugin directory. It is supposed that this directory is a siblings
+ * of directory in which CKEDITOR resides ("ckeditor/").
+ */
+Object.defineProperty(NEWSLETTER, 'customPluginDir', {
+	value: 'customPlugins/',
+	writable: false
 });
 
 

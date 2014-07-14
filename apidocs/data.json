@@ -1544,7 +1544,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 69,
+            "line": 68,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property.\nIf the argument is missing or equal to `true`, \"underline\" is imposed.\nIf the argument is false, then \"none\" is imposed.\nIf the argument is a string,  `text-property` will be assigned to be equal to that string.\nIf nothing of the above holds, `text-property` remains unchanged.",
             "itemtype": "method",
             "name": "underline",
@@ -1564,7 +1564,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 89,
+            "line": 88,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property to be `none`.",
             "itemtype": "method",
             "name": "dropUnderline",
@@ -1577,7 +1577,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 98,
+            "line": 97,
             "description": "Apply target properties on the argument `obj`. The following cases are distinguished:\n<ul><li>\nthe argument is an instance of {{#crossLink \"Link\"}}Link{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/updateLink:method\"}}updateLink{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Content\"}}Content{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Tag\"}}Tag{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyTag:method\"}}applyTag{{/crossLink}} method.\n</li></ul>\nIf non of the above holds, result of {{#crossLink \"Link/wrap:method\"}}wrap{{/crossLink}} method is returned.",
             "itemtype": "method",
             "name": "apply",
@@ -1597,7 +1597,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 132,
+            "line": 131,
             "description": "Returns a copy of the target in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\ncontains the only element which is `obj`.",
             "itemtype": "method",
             "name": "wrap",
@@ -1617,7 +1617,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 153,
+            "line": 152,
             "description": "Converts the argument in link. Argument `tagObj` must be a {{#crossLink \"Tag\"}}Tag{{/crossLink}} instance.\nIf its {{#crossLink \"Tag/content\"}}content{{/crossLink}} is\n<ol><li>\nnon empty, then it is returned a copy of the argument in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nis replaced by output of {{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nempty, then a {{#crossLink \"Link\"}}Link{{/crossLink}} instance is returned. This instance has\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} of the target and its\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} contains `tagObj` as the only element.\n</li><li>\n</li></ol>",
             "itemtype": "method",
             "name": "applyTag",
@@ -1637,7 +1637,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 185,
+            "line": 184,
             "description": "Modifies a Content instance in such a way that {{#crossLink \"Link/apply:method\"}}apply{{/crossLink}}\nis applied on all elements of the argumet.",
             "itemtype": "method",
             "name": "applyContent",
@@ -1657,7 +1657,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 209,
+            "line": 208,
             "description": "Returns a new Link instance with `href` as in the target, {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nas in the argument, {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values\nfrom the target",
             "itemtype": "method",
             "name": "updateLink",
@@ -2300,7 +2300,7 @@
             "name": "setPhantomCellAttributes",
             "params": [
                 {
-                    "name": "attr",
+                    "name": "prop",
                     "description": "",
                     "type": "Properties"
                 }
@@ -2314,7 +2314,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 282,
+            "line": 276,
             "description": "Returns `true` if the content of the instance contains the only element\nwhich is a \"tbody\" tag instance.",
             "itemtype": "method",
             "name": "hasTBody",
@@ -2327,7 +2327,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 293,
+            "line": 287,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomRowAttributes",
@@ -2340,7 +2340,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 305,
+            "line": 299,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomRowAttributes",
@@ -2355,12 +2355,56 @@
                 "description": "",
                 "type": "Void"
             },
+            "deprecated": true,
+            "deprecationMessage": "Use setPhantomRowProperties instead",
             "class": "Table",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 322,
+            "line": 318,
+            "description": "Sets {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} of\n{{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "setPhantomRowProperties",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "",
+                    "type": "Properties"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.5",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
+            "line": 331,
+            "description": "Sets {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} of\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "setPhantomCellProperties",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "",
+                    "type": "Properties"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.5",
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
+            "line": 345,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomTableAttributes",
@@ -2373,7 +2417,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 334,
+            "line": 357,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomTableAttributes",
@@ -2395,7 +2439,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 355,
+            "line": 378,
             "description": "Sets private variable {{#crossLink \"Tag/_property:property\"}}_property{{/crossLink}} of\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}}.",
             "itemtype": "method",
             "name": "setPhantomTableProperties",
@@ -2416,7 +2460,21 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 368,
+            "line": 392,
+            "description": "{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}}\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} getter.\nAlias for {{#crossLink \"Tag/getProperties:property\"}}getProperties{{/crossLink}}\nmethod.",
+            "itemtype": "method",
+            "name": "getPhantomTableProperties",
+            "since": "0.0.5",
+            "return": {
+                "description": "",
+                "type": "Properties|Null"
+            },
+            "class": "Table",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
+            "line": 405,
             "description": "Returns {{#crossLink \"Tag/openingTag:method\"}}opening{{/crossLink}} or\n{{#crossLink \"Tag/closingTag:method\"}}closing{{/crossLink}} tag for one of the\nphantom elements: {{#crossLink \"Table/phantomCell:property\"}}cell{{/crossLink}},\n{{#crossLink \"Table/phantomRow:property\"}}row{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}table{{/crossLink}}.",
             "itemtype": "method",
             "name": "getPhantomTag",
@@ -2441,7 +2499,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 398,
+            "line": 435,
             "description": "The number of the rows in the table. It scans {{#crossLink \"Table/content:property\"}}content{{/crossLink}}\nof the instance until the first occurrence of `tbody` tag. Once found, its length is returned. If not found,\nzero is returned.",
             "itemtype": "method",
             "name": "rowNum",
@@ -2454,7 +2512,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 410,
+            "line": 447,
             "description": "Sets `tbody` part of the table. The argument must be either a {{#crossLink \"Row\"}}Row{{/crossLink}}\ninstance or an array of {{#crossLink \"Row\"}}Row{{/crossLink}} instances.\nOtherwise, an error is thrown.\n\nEven though not more than one instance of `tbody` must be present among\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\n{{#crossLink \"Content/elements:property\"}}elements{{/crossLink}}, all `tbody` tags are first dropped\nfrom {{#crossLink \"Tag/content:property\"}}content{{/crossLink}} and then the requested one is inserted.",
             "itemtype": "method",
             "name": "setBody",
@@ -2475,7 +2533,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 450,
+            "line": 487,
             "description": "Alias for {{#crossLink \"Table/setBody:method\"}}setBody{{/crossLink}} method.\n\nOverrides parent method {{#crossLink \"Tag/setElements:method\"}}setElements{{/crossLink}}.",
             "itemtype": "method",
             "name": "setElements",
@@ -2491,7 +2549,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 462,
+            "line": 499,
             "description": "Returns array of {{#crossLink \"Row\"}}Row{{/crossLink}} instances in `tbody` part of the table.",
             "itemtype": "method",
             "name": "getBody",
@@ -2505,7 +2563,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 476,
+            "line": 513,
             "description": "Returns footer of the table.",
             "itemtype": "method",
             "name": "getFooter",
@@ -2518,7 +2576,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 488,
+            "line": 525,
             "description": "Returns header of the table.",
             "itemtype": "method",
             "name": "getHeader",
@@ -2531,7 +2589,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 500,
+            "line": 537,
             "description": "Returns header of the table.",
             "itemtype": "method",
             "name": "getCaption",
@@ -2544,7 +2602,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 512,
+            "line": 549,
             "description": "Appends a row to the content property. If the argument is not a Row instance, an error is thrown.",
             "itemtype": "method",
             "name": "appendRow",
@@ -2564,7 +2622,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 536,
+            "line": 573,
             "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
             "itemtype": "method",
             "name": "getMatrix",
@@ -2577,7 +2635,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 553,
+            "line": 590,
             "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise null is returned.",
             "itemtype": "method",
             "name": "getProfile",
@@ -2590,7 +2648,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 565,
+            "line": 602,
             "description": "Imposes the widths of all cell in all rows of the table body. If the argument is not array, an error is thrown.\nIf the array length is different from the number of columns, an error is thrown. Otherwise, it is called\nmethod {{#crossLink \"Row/setCellWidths:method\"}}setCellWidths{{/crossLink}} on each row of table body.",
             "itemtype": "method",
             "name": "setProfile",
@@ -2610,7 +2668,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 590,
+            "line": 627,
             "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
             "itemtype": "method",
             "name": "insertColAt",
@@ -2635,7 +2693,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 625,
+            "line": 662,
             "description": "insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "insertColumnAt",
@@ -2662,7 +2720,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 638,
+            "line": 675,
             "description": "Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`",
             "itemtype": "method",
             "name": "knockOutCol",
@@ -2682,7 +2740,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 654,
+            "line": 691,
             "description": "dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "dropColumn",
@@ -2709,7 +2767,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 668,
+            "line": 705,
             "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
@@ -2729,7 +2787,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 684,
+            "line": 721,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
@@ -2742,7 +2800,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 713,
+            "line": 750,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "isSameWidth",
@@ -2755,8 +2813,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 750,
-            "description": "Set the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, sets up the following properties: 'border-width', 'border-color' and 'border-style'\n2. in 'attr' property, sets up 'border' property.\nNote that if after setting the border there is an assigment of 'style' or 'attr' property, then some info about the border might be overwritten.",
+            "line": 787,
+            "description": "Set the border of the table. It sets key `border` of {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\n as well as keys `border-width`, `border-color` and `border-style` of `style` key of\n {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "setBorder",
             "params": [
@@ -2766,7 +2824,6 @@
                     "type": "Object"
                 }
             ],
-            "default": "border-width is set to 1, border-color is set to #000000, border-style is set to solid.",
             "return": {
                 "description": "",
                 "type": "Void"
@@ -2776,7 +2833,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 775,
+            "line": 813,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -2789,7 +2846,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 799,
+            "line": 837,
             "description": "Returns true if the table is fragmented, and false otherwise. It takes table rows and calls method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}} on each of them until\nfirst \"false\" is encountered.\n\nA table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
             "name": "isFragmented",
@@ -2802,7 +2859,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 822,
+            "line": 860,
             "description": "Returns `true` if at least one of the following variables  {{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}},\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}} is set. `False` otherwise.",
             "itemtype": "method",
             "name": "isFramed",
@@ -2815,7 +2872,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 833,
+            "line": 871,
             "description": "Unsets phantom properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "unsetPhantom",
@@ -2828,7 +2885,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 844,
+            "line": 882,
             "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -2853,7 +2910,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 868,
+            "line": 906,
             "description": "Generates html representation of the table body. If table is framed, then each row is \"sandwiched\" with\nphantom elements.",
             "itemtype": "method",
             "name": "bodyToHtml",
@@ -2874,7 +2931,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 892,
+            "line": 930,
             "description": "Generates html code corresponding to this instance. Eventually, wraps each element of\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} with strings corresponding to phantom\nelements. Generation of html string of each {{#crossLink \"Tag/content:property\"}}content element{{/crossLink}}\nis delegated to its `toHtml` method (if the elements has `toHtml` method, this element gets ignored).",
             "itemtype": "method",
             "name": "toHtml",
@@ -2887,7 +2944,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 919,
+            "line": 957,
             "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getPhantomRowProp",
@@ -2907,7 +2964,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 962,
+            "line": 1000,
             "description": "Gets copy of n-th row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getRow",
@@ -2928,7 +2985,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 978,
+            "line": 1016,
             "description": "Returns copy of the first row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getFirstRow",
@@ -2942,7 +2999,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 990,
+            "line": 1028,
             "description": "Returns copy of last row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getLastRow",
@@ -2956,7 +3013,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1003,
+            "line": 1041,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomCellProp",
@@ -2976,7 +3033,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1031,
+            "line": 1069,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomTableProp",
@@ -2996,7 +3053,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1060,
+            "line": 1098,
             "description": "If the table is fragmented, then sets up the phantom properties and rearrange content property.\nIf not, the table remains as it is.\n\nNB: refactor it!!!!\n\nNB: note that disentanglement only of table body occurs. If table header contains fragmented table,\nit remains untouched.",
             "itemtype": "method",
             "name": "desintangle",
@@ -5350,7 +5407,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
             "line": 781,
-            "description": "Populates the following properties of the target object\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/attributes:property\"}}attr{{/crossLink}} by calling\n{{#crossLink \"Attributes/load:method\"}}Attribute::load(){{/crossLink}} method.\n</li><li>\n{{#crossLink \"Tag/styles:property\"}}style{{/crossLink}} by calling\n{{#crossLink \"Styles/load:method\"}}Styles::load(){{/crossLink}} method.\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} by calling\n{{#crossLink \"Content/load:method\"}}Content::load(){{/crossLink}} method.\n</li></ol>\nfrom the argument which must be an instance of\n[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if\nthe argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,\n`false` is returned.<br />\nNB: DOM.Element.attributes has the form `{1: {tag: \"width\", value:\"100\", ...}, 2: {tag: \"color\", value:\"black\", ...}, ...}`",
+            "description": "Populates the following properties of the target object\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} by calling\n{{#crossLink \"Properties/load:method\"}}load(){{/crossLink}} method.\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} by calling\n{{#crossLink \"Content/load:method\"}}Content::load(){{/crossLink}} method.\n</li></ol>\nfrom the argument which must be an instance of\n[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if\nthe argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,\n`false` is returned.<br />\nNB: DOM.Element.attributes has the form `{1: {tag: \"width\", value:\"100\", ...}, 2: {tag: \"color\", value:\"black\", ...}, ...}`",
             "itemtype": "method",
             "name": "load",
             "params": [
@@ -5369,7 +5426,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 832,
+            "line": 826,
             "description": "Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.\nCalls methods {{#crossLink \"Attributes/decorateElement:method\"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,\n{{#crossLink \"Style/decorateElement:method\"}}Style::decorateElement(){{/crossLink}} to apply styles and\n{{#crossLink \"Content/stickTo:method\"}}Content::stickTo(){{/crossLink}} to append elements from the\n{{#crossLink \"Tag/content:property\"}}Tag::content{{/crossLink}}.",
             "itemtype": "method",
             "name": "toNode",
@@ -5382,7 +5439,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 852,
+            "line": 846,
             "description": "Erases current value of atttribute \"title\" and sets it to `str` if `str` is a non-empty string.",
             "itemtype": "method",
             "name": "setTitle",
@@ -6719,7 +6776,7 @@
         },
         {
             "file": "js\\classes\\Helper.js",
-            "line": 356,
+            "line": 357,
             "description": "Inserts element into array `arr` just before the last element. If the array is empty,\nthe element is inserted into array (so that the element becomes the first and the last\nelement of the array).",
             "itemtype": "method",
             "name": "pushBeforeLast",
@@ -6744,7 +6801,7 @@
         },
         {
             "file": "js\\classes\\Helper.js",
-            "line": 377,
+            "line": 378,
             "description": "Returns true if the string is a semantically valid html string.",
             "itemtype": "method",
             "name": "isSemanticallyValid",
@@ -6764,7 +6821,7 @@
         },
         {
             "file": "js\\classes\\Helper.js",
-            "line": 391,
+            "line": 392,
             "description": "Picks up styles of `sel` from css string `str`. Value corresponding to each occurence\nof `sel` is passed to {{#crossLink \"Styles\"}}Styles{{/crossLink}} constructor and transformed\ninto a string representation. After all, these strings are concatenated using semicolon as separator.",
             "itemtype": "method",
             "name": "cssOfSelector",
