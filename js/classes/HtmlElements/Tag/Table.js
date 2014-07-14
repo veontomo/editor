@@ -257,7 +257,7 @@ function Table() {
 	 */
 	this.getPhantomCellAttributes = function(){
 		if (phantomCell instanceof Cell){
-			return phantomCell.getAttributes();
+			return phantomCell.getProperties();
 		}
 
 	};
@@ -334,19 +334,36 @@ function Table() {
 	/**
 	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} setter.
 	 * @method         setPhantomTableAttributes
-	 * @param          {Properties}         attr
+	 * @param          {Properties}         prop
 	 * @return         {void}
+	 * @deprecated     Use setPhantomTableProperties instead
 	 */
-	this.setPhantomTableAttributes = function(attr){
-		if (attr !== undefined){
+	this.setPhantomTableAttributes = function(prop){
+		console.log('Table::setPhantomTableAttributes method is deprecated. Use setPhantomTableProperties instead.');
+		if (prop !== undefined){
 			this.initPhantoms();
-			if (attr instanceof Attributes){
-				phantomTable.setAttributes(attr);
-			} else {
-				phantomTable.setAttributes(new Attributes(attr));
-			}
+			phantomTable.setProperties(prop);
+			// if (prop instanceof Attributes){
+			// 	phantomTable.setAttributes(prop);
+			// } else {
+			// 	phantomTable.setAttributes(new Attributes(prop));
+			// }
 		}
 	};
+
+
+	/**
+	 * Sets private variable {{#crossLink "Tag/_property:property"}}_property{{/crossLink}} of
+	 * {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}}.
+	 * @method         setPhantomTableProperties
+	 * @param          {Any}                prop
+	 * @since          0.0.5
+	 * @return         {void}
+	 */
+	this.setPhantomTableProperties = function(prop){
+		this.initPhantoms();
+		phantomTable.setProperties(prop);
+	}
 
 	/**
 	 * Returns {{#crossLink "Tag/openingTag:method"}}opening{{/crossLink}} or
@@ -371,6 +388,7 @@ function Table() {
 				return phantomRow[tagType]();
 			}
 			if (phElemName === 'table' && phantomTable !== undefined && typeof phantomTable[tagType] === 'function') {
+				console.log('envoking phantomTable:openingtag()');
 				return phantomTable[tagType]();
 			}
 		}

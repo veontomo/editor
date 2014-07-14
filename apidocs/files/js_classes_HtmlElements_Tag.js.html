@@ -158,7 +158,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Attributes, Content, Styles, window, Helper */
+/*global DOMParser, Node, Attributes, Content, Styles, window, Helper, Properties */
 
 /**
  * This class is used to represent a general html tag.
@@ -228,9 +228,7 @@ function Tag(tName) {
 			} else if (nameType === &#x27;number&#x27;){
 				tag = name.toString();
 			}
-
 		}
-
 	};
 
 
@@ -241,8 +239,19 @@ function Tag(tName) {
 	 * @default        Attributes()
 	 * @private
 	 * @since          0.0.4
+	 * @deprecated     Use _properties instead
 	 */
 	var attributes = new Attributes();
+
+	/**
+	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
+	 * @private
+	 * @property       {Properties}         _properties
+	 * @type           {Properties}
+	 * @default 	   Properties()
+	 * @since          0.0.5
+	 */
+	var _properties = new Properties();
 
 	/**
 	 * Tag styles
@@ -251,8 +260,9 @@ function Tag(tName) {
 	 * @default        Styles()
 	 * @private
 	 * @since          0.0.4
+	 * @deprecated     Use _properties instead
 	 */
-	// var styles = new Styles();
+	var styles = new Styles();
 
 
 	/**
@@ -272,15 +282,35 @@ function Tag(tName) {
 	* @param           {String|Object}      attr
 	* @return          {void}
 	* @since           0.0.1
+	* @deprecated      Use setProperties
 	*/
 	this.setAttributes = function(attr){
+		console.log(&#x27;setAttributes method is deprecated. Use setProperties instead!&#x27;);
 		if (attr instanceof Attributes){
 			attributes = attr;
 		} else {
 			attributes = new Attributes(attr);
 		}
+	};
 
 
+	/**
+	 * Sets {{#crossLink &quot;Tag/_properties:property&quot;}}properties{{/crossLink}} of the tag. If the argument is an instance
+	 * of {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}, its clone is assigned to private variable
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}, otherwise the argument is passed to the
+	 * {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} constructor and newly created instance is assigned to
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method         setProperties
+	 * @since          0.0.5
+	 * @param          {Any}                prop
+	 * @return         {void}
+	 */
+	this.setProperties = function(prop){
+		if (prop instanceof Properties){
+			_properties = prop.clone();
+		} else {
+			_properties = new Properties(prop);
+		}
 	};
 
 	/**
@@ -288,26 +318,31 @@ function Tag(tName) {
 	* @method          getAttributes
 	* @return          {Attributes}
 	* @since           0.0.4
+	* @deprecated      Use getProperties instead
 	*/
 	this.getAttributes = function(){
+		console.log(&#x27;Method getAttributes is deprecated. Use getProperties instead!&#x27;);
 		return attributes.clone();
 	};
 
 
 
 	/**
-	* Smart {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}} setter.
+	* Sets &#x60;style&#x60; property inside {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}. It is an alias
+	* for {{#crossLink &quot;Properties/setStyles:method&quot;}}setStyles(&#x27;styles&#x27;, ...){{/crossLink}} method.
+	*
 	* @method          setStyles
 	* @param           {any}                stl
 	* @return          {void}
 	* @since           0.0.4
 	*/
 	this.setStyles = function(stl){
-		if (stl instanceof Styles){
-			attributes.setProperty(&#x27;style&#x27;, stl);
-		} else {
-			attributes.setProperty(&#x27;style&#x27;, new Styles(stl));
-		}
+		_properties.setStyles(&#x27;style&#x27;, stl);
+		// if (stl instanceof Styles){
+		// 	_properties.setProperty(&#x27;style&#x27;, stl);
+		// } else {
+		// 	_properties.setProperty(&#x27;style&#x27;, new Styles(stl));
+		// }
 	};
 
 

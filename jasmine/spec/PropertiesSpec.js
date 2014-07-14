@@ -667,7 +667,7 @@ describe('Properties-related functionality', function(){
             props.setProperty('test', '1');
             props.setProperty('media', 'paper');
             expect(props.propNum()).toBe(2);
-            props.loadFrom(attr0);
+            props.load(attr0);
             expect(props.propNum()).toBe(2);
             expect(props.getProperty('test')).toBe('1');
             expect(props.getProperty('media')).toBe('paper');
@@ -677,7 +677,7 @@ describe('Properties-related functionality', function(){
             props.setProperty('test', '1');
             props.setProperty('media', 'paper');
             expect(props.propNum()).toBe(2);
-            props.loadFrom(attr1);
+            props.load(attr1);
             expect(props.propNum()).toBe(5);
             expect(props.getProperty('test')).toBe('1');
             expect(props.getProperty('media')).toBe('paper');
@@ -691,7 +691,7 @@ describe('Properties-related functionality', function(){
             props.setProperty('class', 'new');
             props.setProperty('border', 'none');
             expect(props.propNum()).toBe(3);
-            props.loadFrom(attr1);
+            props.load(attr1);
             expect(props.propNum()).toBe(3);
             expect(props.getProperty('width')).toBe('21');
             expect(props.getProperty('class')).toBe('hidden');
@@ -703,7 +703,7 @@ describe('Properties-related functionality', function(){
             props.setProperty('class', 'old');
             props.setProperty('position', 'absolute');
             expect(props.propNum()).toBe(3);
-            props.loadFrom(attr1);
+            props.load(attr1);
             expect(props.propNum()).toBe(5);
             expect(props.getProperty('width')).toBe('21');
             expect(props.getProperty('class')).toBe('hidden');
@@ -714,18 +714,18 @@ describe('Properties-related functionality', function(){
 
         it('loads "style" key, if arguments contains styles', function(){
             expect(props.hasProperty('style')).toBe(false);
-            props.loadFrom(attr2);
+            props.load(attr2);
             expect(props.hasProperty('style')).toBe(true);
         });
 
         it('loads "style" key as an instance of Property', function(){
             expect(props.hasProperty('style')).toBe(false);
-            props.loadFrom(attr2);
+            props.load(attr2);
             expect(props.getProperty('style') instanceof Properties).toBe(true);
         });
 
         it('creates Properties instance with all properties inside style', function(){
-            props.loadFrom(attr2);
+            props.load(attr2);
             var stl = props.getProperty('style');
             expect(stl.getProperty('font-size')).toBe('4em');
             expect(stl.getProperty('color')).toBe('#001234');
@@ -739,7 +739,7 @@ describe('Properties-related functionality', function(){
 
             props.setProperty('style', tempProp);
 
-            props.loadFrom(attr2);
+            props.load(attr2);
 
             var stl = props.getProperty('style');
 
@@ -757,7 +757,7 @@ describe('Properties-related functionality', function(){
             tempProp.setProperty('text-align', 'left');
 
             props.setProperty('style', tempProp);
-            props.loadFrom(attr2);
+            props.load(attr2);
 
             var stl = props.getProperty('style');
             expect(stl.propNum()).toBe(4);

@@ -262,6 +262,32 @@ function Properties(input) {
 		appendPropertyAsStringOrObj(obj, this);
 	};
 
+	/**
+	 * Appends properties to `style` key. If the key does not exist, creates it.
+	 * @method         appendStyle
+	 * @param          {Properties}         prop
+	 * @since          0.0.5
+	 * @return         {void}
+	 */
+	this.appendStyle = function(stl){
+		this.initializeStyle();
+		this.getStyles().appendProperty(stl);
+	};
+
+	/**
+	 * Initializes `style` key: if it does not exist, set it to
+	 * a new instance of {{#crossLink "Properties"}}Properties{{/crossLink}}.
+	 * @method         initializeStyle
+	 * @since          0.0.5
+	 * @return         {void}
+	 */
+	this.initializeStyle = function(){
+		var propName = 'style';
+		if (!this.getProperty(propName)){
+			this.setProperty(propName, new Properties());
+		}
+	};
+
 
 	/**
 	 * Switches property `propName` between `val` and `altVal` in the following way:
@@ -516,11 +542,11 @@ function Properties(input) {
 	 * The argument is supposed to be of a type
 	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
 	 * Nevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.
-	 * @method    loadFRom
+	 * @method    load
 	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
 	 * @return    {void}                           true, if the properties are loaded, false otherwise
 	 */
-	this.loadFrom = function(attr){
+	this.load = function(attr){
 		var pos, attrName, attrValue, newStl;
 		for (pos in attr){
 			if (attr.hasOwnProperty(pos)){
@@ -570,7 +596,24 @@ function Properties(input) {
 	 * @since          0.0.5
 	 */
 	this.setStyles = function(stl){
-		core['style'] = stl instanceof Properties ? stl : new Properties(stl);
+		core.style = stl instanceof Properties ? stl : new Properties(stl);
+	};
+
+
+	/**
+	 * Sets the `key` to be equal to `value` inside object {{#crossLink "Properties"}}Properties{{/crossLink}}
+	 * instance corresponding to `style` key of the current objects which is, naturally,
+	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance as well.
+	 *
+	 * @method  setStyleProperty
+	 * @since   0.0.5
+	 * @param   {Any}    key
+	 * @param   {Any}    value
+	 *
+	 */
+	this.setStyleProperty = function(key, value){
+		this.initializeStyle();
+		this.getStyles().setProperty(key, value);
 	};
 
 }

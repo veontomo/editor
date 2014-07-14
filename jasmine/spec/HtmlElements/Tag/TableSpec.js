@@ -300,7 +300,7 @@ describe('Table-related functionality:', function(){
 
         describe('If phantom elements are defined', function(){
             beforeEach(function(){
-                table.setPhantomTableAttributes({class: 'media'});
+                table.setPhantomTableProperties({class: 'media'});
                 table.setPhantomTableStyles({mass: '2kg', 'os': 'win'});
 
                 table.setPhantomRowAttributes({length: 335, 'dim': 'large'});
