@@ -314,6 +314,28 @@ function Tag(tName) {
 	};
 
 	/**
+	 * Sets property &#x60;propName&#x60; of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * to be &#x60;propValue&#x60;. Alias for {{#crossLink &quot;Properties/setProperty:property&quot;}}setProperty{{/crossLink}}.
+	 * @method         setProperty
+	 * @param          {Any}                propName
+	 * @param          {Any}                propValue
+	 */
+	this.setProperty = function(propName, propValue){
+		_properties.setProperty(propName, propValue);
+	}
+
+
+	/**
+	 * Returns clone of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method        getProperties
+	 * @since         0.0.5
+	 * @return        {Properties}
+	 */
+	this.getProperties = function(){
+		return _properties.clone();
+	};
+
+	/**
 	* Returns copy of {{#crossLink &quot;Tag/attributes:property&quot;}}Attributes{{/crossLink}}.
 	* @method          getAttributes
 	* @return          {Attributes}
@@ -329,7 +351,7 @@ function Tag(tName) {
 
 	/**
 	* Sets &#x60;style&#x60; property inside {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}. It is an alias
-	* for {{#crossLink &quot;Properties/setStyles:method&quot;}}setStyles(&#x27;styles&#x27;, ...){{/crossLink}} method.
+	* for {{#crossLink &quot;Properties/setStyles:method&quot;}}setStyles(){{/crossLink}} method.
 	*
 	* @method          setStyles
 	* @param           {any}                stl
@@ -337,7 +359,7 @@ function Tag(tName) {
 	* @since           0.0.4
 	*/
 	this.setStyles = function(stl){
-		_properties.setStyles(&#x27;style&#x27;, stl);
+		_properties.setStyles(stl);
 		// if (stl instanceof Styles){
 		// 	_properties.setProperty(&#x27;style&#x27;, stl);
 		// } else {
@@ -347,13 +369,15 @@ function Tag(tName) {
 
 
 	/**
-	* Returns copy of {{#crossLink &quot;Tag/styles:property&quot;}}Styles{{/crossLink}}.
+	* Gets &#x60;style&#x60; key of private variable {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	* It is an alias for {{#crossLink &quot;Properties/getStyles:method&quot;}}getStyles{{/crossLink}} method.
 	* @method          getStyles
 	* @return          {Styles}
 	* @since           0.0.4
 	*/
 	this.getStyles = function(){
-		return attributes.getProperty(&#x27;style&#x27;);
+		return _properties.getStyles();
+		// return attributes.getProperty(&#x27;style&#x27;);
 	};
 
 
@@ -422,8 +446,9 @@ function Tag(tName) {
 	 * @since          0.0.1
 	 */
 	this.appendStyle = function(newStyle){
-		this.initializeStyle();
-		this.getStyles().appendStyle(newStyle);
+		_properties.appendStyle(newStyle);
+		// this.initializeStyle();
+		// this.getStyles().appendStyle(newStyle);
 	};
 
 	/**
@@ -433,10 +458,26 @@ function Tag(tName) {
 	 * @param          {Obj}                attr   attributes to be appended
 	 * @return         {void}
 	 * @since          0.0.1
+	 * @deprecated     Use appendProperties instead
 	 */
 	this.appendAttributes = function(attr){
 		attributes.appendProperty(attr);
 	};
+
+
+	/**
+	 * Appends properties to {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the instance. Alias for
+	 * {{#crossLink &quot;Properties/appendProperty:method&quot;}}appendProperty(){{/crossLink}} method.
+	 * @method         appendProperties
+	 * @param          {Obj}                prop   properties to be appended
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.appendProperties = function(prop){
+		_properties.appendProperty(prop);
+	};
+
 
 	/**
 	 * Appends style &#x60;stl&#x60; to element at position &#x60;pos.&#x60; It is an alias for the method
@@ -467,21 +508,6 @@ function Tag(tName) {
 		}
 	};
 
-	/**
-	 * Initializes &#x60;style&#x60; property of tag attributes: if it does not exist, set it to
-	 * {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}}.
-	 * @method         initializeStyle
-	 * @since          0.0.5
-	 * @return         {void}
-	 */
-	this.initializeStyle = function(){
-		var propName = &#x27;style&#x27;;
-		if (!this.getAttrProperty(propName)){
-			// console.log(&#x27;initializing styles&#x27;);
-			this.setAttrProperty(propName, new Styles());
-			// console.log(this.getAttrProperty(propName));
-		}
-	};
 
 	/**
 	 * Imposes requested property value in {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}}
@@ -493,8 +519,7 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 */
 	this.setStyleProperty = function(key, value) {
-		this.initializeStyle();
-		return this.getStyles().setProperty(key, value);
+		return _properties.setStyleProperty(key, value);
 	};
 
 
@@ -505,10 +530,43 @@ function Tag(tName) {
 	 * @param          {String} 	        prop 	property name to be retrieved from the attributes
 	 * @return         {Any}
 	 * @since          0.0.4
+	 * @deprecated     Use getProperty instead
 	 */
 	this.getAttrProperty = function(prop) {
-		return this.getAttributes().getProperty(prop);
+		/// !!! commented to surpress its usage
+		// return this.getAttributes().getProperty(prop);
+		return;
 	};
+
+
+	/**
+	 * Retrieves value of &#x60;prop&#x60; from {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the current object.
+	 * @method         getProperty
+	 * @param          {String} 	        prop 	property name to be retrieved from the attributes
+	 * @return         {Any}
+	 * @since          0.0.5
+	 */
+	this.getProperty = function(prop) {
+		return this.getProperties().getProperty(prop);
+
+	};
+
+
+	/**
+	 * Sets the value of &#x60;key&#x60; of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * to &#x60;value&#x60;. Alias for {{#crossLink &quot;Properties/setProperty:property&quot;}}setProperty{{/crossLink}}
+	 * @method         setProperty
+	 * @param          {String} 	        key 	   property name to be set
+	 * @param          {String} 	        value 	   property value
+	 * @return         {Any}
+	 * @since          0.0.5
+	 */
+	this.setProperty = function(key, value) {
+		_properties.setProperty(key, value);
+	};
+
+
 
 	/**
 	 * Imposes requested property value in {{#crossLink &quot;Tag/attributes:property&quot;}}attributes{{/crossLink}}
@@ -518,21 +576,25 @@ function Tag(tName) {
 	 * @param          {String} 	        value 	   property value
 	 * @return         {Any}
 	 * @since          0.0.4
+	 * @deprecated     Use setProperty instead
 	 */
 	this.setAttrProperty = function(key, value) {
-		return attributes.setProperty(key, value);
+		/// !!! commented to avoid its usage
+		// return attributes.setProperty(key, value);
+		return;
 	};
 
 	/**
-	 * Returns &#x60;true&#x60; if {{#crossLink &quot;Tag/attributes:property&quot;}}attributes{{/crossLink}}
-	 * contains attribute &#x60;key&#x60; and &#x60;false&#x60; otherwise.
-	 * @method         hasAttrProperty
+	 * Returns &#x60;true&#x60; if {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * contains &#x60;key&#x60; and &#x60;false&#x60; otherwise. Alias for
+	 * {{#crossLink &quot;Properties/hasProperty:method&quot;}}hasProperty{{/crossLink}}
+	 * @method         hasProperty
 	 * @param          {String}             key
 	 * @return         {Boolean}
 	 */
-	this.hasAttrProperty = function(key){
-		var attr = this.getAttributes();
-		return (attr &amp;&amp; attr.hasProperty(key));
+	this.hasProperty = function(key){
+		var prop = this.getProperties();
+		return (prop &amp;&amp; prop.hasProperty(key));
 	};
 
 	/**
@@ -548,16 +610,16 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Drops requested property from {{#crossLink &quot;Tag/attributes:property&quot;}}attributes{{/crossLink}}
-	 * property of the current object and returns a value of the key to be dropped.
-	 * @method         dropAttrProperty
+	 * Drops &#x60;key&#x60; from {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the current object and returns a value of the key.
+	 * @method         dropProperty
 	 * @param          {String} 	        key 	property name to be retrieved from the attributes
 	 * @return         {Any}                        value of the key in the attributes
-	 * @since          0.0.4
+	 * @since          0.0.5
 	 */
-	this.dropAttrProperty = function(key) {
-		if (this.hasAttrProperty(key)){
-			return attributes.dropProperty(key);
+	this.dropProperty = function(key) {
+		if (this.hasProperty(key)){
+			return _properties.dropProperty(key);
 		}
 	};
 
@@ -757,22 +819,18 @@ function Tag(tName) {
 	 * returned a string with which html representaion of current instance starts,
 	 * i.e.: &#x60;&lt;div class=&quot;media&quot; style=&quot;color: red; width: 73%&quot;&gt;&#x60;.
 	 * @method         openingTag
-	 * @return         {String}
+	 * @return         {String|Null}
 	 */
 	this.openingTag = function(){
 		var t = this.getTag(),
-			attr, output;
+			prop;
 		if (typeof t === &#x27;string&#x27; &amp;&amp; t.length &gt; 0){
-			// stl = this.getStyles().toString();
-			attr =  this.getAttributes().toString();
-			// if (stl.length &gt; 0){
-				// stl = &#x27; &#x27; + stl;
-			// }
-			if (attr.length &gt; 0){
-				attr = &#x27; &#x27; + attr;
+			prop =  this.getProperties();
+			prop = (prop &amp;&amp; typeof prop.toString === &#x27;function&#x27;) ? prop.toString() : &#x27;&#x27;;
+			if (prop.length &gt; 0){
+				prop = &#x27; &#x27; + prop;
 			}
-			output = &#x27;&lt;&#x27; + t + attr + &#x27;&gt;&#x27;;
-			return output;
+			return &#x27;&lt;&#x27; + t + prop + &#x27;&gt;&#x27;;
 		}
 	};
 
@@ -828,7 +886,7 @@ function Tag(tName) {
 	 * @since          0.0.1
 	 */
 	this.isEmpty = function(){
-		return this.getAttributes().isEmpty() &amp;&amp; this.getStyles().isEmpty() &amp;&amp; this.getContent().isEmpty();
+		return this.getProperties().isEmpty() &amp;&amp; this.getContent().isEmpty();
 	};
 
 	/**
@@ -916,7 +974,7 @@ function Tag(tName) {
 	 */
 	this.load = function(elem){
 		var attrSucc = false,
-			styleSucc = false,
+			// styleSucc = false,
 			contentSucc = false,
 			childrenArr = [],
 			children, currentChild, attr, i, len;
@@ -925,19 +983,21 @@ function Tag(tName) {
 			len = children.length;
 			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
 			attr  = elem.attributes;                        // NamedNodeMap
-			attrSucc = this.getAttributes().load(attr);
+			attrSucc = this.getProperties().load(attr);
 			if (!this.getStyles()){
 				// this.setAttrProperty(&#x27;style&#x27;, new Styles());
 				attributes.setProperty(&#x27;style&#x27;, new Styles());
 			}
-			styleSucc = this.getStyles().load(attr);
+			// styleSucc = this.getStyles().load(attr);
 			for (i = 0; i &lt; len; i++){
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
 			contentSucc = content.load(childrenArr);
 		}
-		return attrSucc &amp;&amp; styleSucc &amp;&amp; contentSucc;
+		// return attrSucc &amp;&amp; styleSucc &amp;&amp; contentSucc;
+		console.log(attrSucc, contentSucc);
+		return attrSucc &amp;&amp; contentSucc;
 	};
 
 	/**
@@ -970,7 +1030,7 @@ function Tag(tName) {
 	 */
 	this.setTitle = function(str){
 		if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
-			this.setAttrProperty(&#x27;title&#x27;, str);
+			this.setProperty(&#x27;title&#x27;, str);
 		} else {
 			this.dropAttrProperty(&#x27;title&#x27;);
 		}

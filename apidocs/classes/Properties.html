@@ -223,6 +223,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_appendStyle">appendStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_clone">clone</a>
 
                                 
@@ -314,6 +321,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_initializeStyle">initializeStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_isEmpty">isEmpty</a>
 
                                 
@@ -328,7 +342,7 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_loadFRom">loadFRom</a>
+                                <a href="#method_load">load</a>
 
                                 
                                 
@@ -357,6 +371,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                         
                             <li class="index-item method">
                                 <a href="#method_setProperty">setProperty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setStyleProperty">setStyleProperty</a>
 
                                 
                                 
@@ -665,6 +686,112 @@ method.</p>
 </div>
 
                 
+                    <div id="method_appendStyle" class="method item">
+    <h3 class="name"><code>appendStyle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l265"><code>js\classes\Properties.js:265</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Appends properties to <code>style</code> key. If the key does not exist, creates it.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_clone" class="method item">
     <h3 class="name"><code>clone</code></h3>
 
@@ -701,7 +828,7 @@ method.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l415"><code>js\classes\Properties.js:415</code></a>
+        <a href="../files/js_classes_Properties.js.html#l441"><code>js\classes\Properties.js:441</code></a>
         
         </p>
 
@@ -1104,7 +1231,7 @@ returns the key value.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l375"><code>js\classes\Properties.js:375</code></a>
+        <a href="../files/js_classes_Properties.js.html#l401"><code>js\classes\Properties.js:401</code></a>
         
         </p>
 
@@ -1392,7 +1519,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l554"><code>js\classes\Properties.js:554</code></a>
+        <a href="../files/js_classes_Properties.js.html#l580"><code>js\classes\Properties.js:580</code></a>
         
         </p>
 
@@ -1475,7 +1602,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l355"><code>js\classes\Properties.js:355</code></a>
+        <a href="../files/js_classes_Properties.js.html#l381"><code>js\classes\Properties.js:381</code></a>
         
         </p>
 
@@ -1586,7 +1713,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l297"><code>js\classes\Properties.js:297</code></a>
+        <a href="../files/js_classes_Properties.js.html#l323"><code>js\classes\Properties.js:323</code></a>
         
         </p>
 
@@ -1700,7 +1827,7 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l544"><code>js\classes\Properties.js:544</code></a>
+        <a href="../files/js_classes_Properties.js.html#l570"><code>js\classes\Properties.js:570</code></a>
         
         </p>
 
@@ -1726,6 +1853,80 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
                 
                     
                         <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_initializeStyle" class="method item">
+    <h3 class="name"><code>initializeStyle</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l277"><code>js\classes\Properties.js:277</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Initializes <code>style</code> key: if it does not exist, set it to
+a new instance of <a href="../classes/Properties.html" class="crosslink">Properties</a>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
                     
                 
             </div>
@@ -1772,7 +1973,7 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l449"><code>js\classes\Properties.js:449</code></a>
+        <a href="../files/js_classes_Properties.js.html#l475"><code>js\classes\Properties.js:475</code></a>
         
         </p>
 
@@ -1854,7 +2055,7 @@ otherwise - <code>false</code>.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l391"><code>js\classes\Properties.js:391</code></a>
+        <a href="../files/js_classes_Properties.js.html#l417"><code>js\classes\Properties.js:417</code></a>
         
         </p>
 
@@ -1913,8 +2114,8 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
 </div>
 
                 
-                    <div id="method_loadFRom" class="method item">
-    <h3 class="name"><code>loadFRom</code></h3>
+                    <div id="method_load" class="method item">
+    <h3 class="name"><code>load</code></h3>
 
     
         <div class="args">
@@ -1959,7 +2160,7 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l513"><code>js\classes\Properties.js:513</code></a>
+        <a href="../files/js_classes_Properties.js.html#l539"><code>js\classes\Properties.js:539</code></a>
         
         </p>
 
@@ -2059,7 +2260,7 @@ Nevertheless, it is sufficient that <code>attr</code> be a collection of objects
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l366"><code>js\classes\Properties.js:366</code></a>
+        <a href="../files/js_classes_Properties.js.html#l392"><code>js\classes\Properties.js:392</code></a>
         
         </p>
 
@@ -2435,6 +2636,119 @@ and <code>true</code> is returned. Otherwise, <code>false</code> is returned. If
 </div>
 
                 
+                    <div id="method_setStyleProperty" class="method item">
+    <h3 class="name"><code>setStyleProperty</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l603"><code>js\classes\Properties.js:603</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the <code>key</code> to be equal to <code>value</code> inside object <a href="../classes/Properties.html" class="crosslink">Properties</a>
+instance corresponding to <code>style</code> key of the current objects which is, naturally,
+<a href="../classes/Properties.html" class="crosslink">Properties</a> instance as well.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">key</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_setStyles" class="method item">
     <h3 class="name"><code>setStyles</code></h3>
 
@@ -2481,7 +2795,7 @@ and <code>true</code> is returned. Otherwise, <code>false</code> is returned. If
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l564"><code>js\classes\Properties.js:564</code></a>
+        <a href="../files/js_classes_Properties.js.html#l590"><code>js\classes\Properties.js:590</code></a>
         
         </p>
 
@@ -2588,7 +2902,7 @@ and then performs assignment.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l318"><code>js\classes\Properties.js:318</code></a>
+        <a href="../files/js_classes_Properties.js.html#l344"><code>js\classes\Properties.js:344</code></a>
         
         </p>
 
@@ -2707,7 +3021,7 @@ with <code>value</code>. Otherwise, it is ignored.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l266"><code>js\classes\Properties.js:266</code></a>
+        <a href="../files/js_classes_Properties.js.html#l292"><code>js\classes\Properties.js:292</code></a>
         
         </p>
 
@@ -2843,7 +3157,7 @@ if the instance does not have property <code>propName</code>, then the method im
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l460"><code>js\classes\Properties.js:460</code></a>
+        <a href="../files/js_classes_Properties.js.html#l486"><code>js\classes\Properties.js:486</code></a>
         
         </p>
 

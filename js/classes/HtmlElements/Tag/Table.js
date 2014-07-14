@@ -272,7 +272,7 @@ function Table() {
 		if (attr !== undefined){
 			this.initPhantoms();
 			if (attr instanceof Attributes){
-				phantomCell.setAttributes(attr);
+				phantomCell.setProperties(attr);
 			} else {
 				phantomCell.setAttributes(new Attributes(attr));
 			}

@@ -206,10 +206,12 @@
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_appendAttributes">appendAttributes</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -222,6 +224,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_appendElemIfNotEmpty">appendElemIfNotEmpty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_appendProperties">appendProperties</a>
 
                                 
                                 
@@ -256,13 +265,6 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_dropAttrProperty">dropAttrProperty</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
                                 <a href="#method_dropElemAt">dropElemAt</a>
 
                                 
@@ -278,6 +280,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_dropLast">dropLast</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_dropProperty">dropProperty</a>
 
                                 
                                 
@@ -306,10 +315,12 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_getAttrProperty">getAttrProperty</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -356,6 +367,20 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getProperties">getProperties</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getProperty">getProperty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getStyleProperty">getStyleProperty</a>
 
                                 
@@ -391,7 +416,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_hasAttrProperty">hasAttrProperty</a>
+                                <a href="#method_hasProperty">hasProperty</a>
 
                                 
                                 
@@ -399,13 +424,6 @@
                         
                             <li class="index-item method">
                                 <a href="#method_hasStyleProperty">hasStyleProperty</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_initializeStyle">initializeStyle</a>
 
                                 
                                 
@@ -455,10 +473,12 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method deprecated">
                                 <a href="#method_setAttrProperty">setAttrProperty</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -485,6 +505,20 @@
                         
                             <li class="index-item method">
                                 <a href="#method_setProperties">setProperties</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setProperty">setProperty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setProperty">setProperty</a>
 
                                 
                                 
@@ -623,7 +657,7 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_appendAttributes" class="method item">
+                    <div id="method_appendAttributes" class="method item deprecated">
     <h3 class="name"><code>appendAttributes</code></h3>
 
     
@@ -647,6 +681,8 @@
     
 
     
+        <span class="flag deprecated" title="Use appendProperties instead">deprecated</span>
+    
 
     
 
@@ -669,11 +705,13 @@
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l271"><code>js\classes\HtmlElements\Tag.js:271</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l296"><code>js\classes\HtmlElements\Tag.js:296</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: Use appendProperties instead</p>
         
 
         
@@ -777,7 +815,7 @@ Attributes/appendAttributes:method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l541"><code>js\classes\HtmlElements\Tag.js:541</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l603"><code>js\classes\HtmlElements\Tag.js:603</code></a>
         
         </p>
 
@@ -883,7 +921,7 @@ Attributes/appendAttributes:method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l696"><code>js\classes\HtmlElements\Tag.js:696</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l754"><code>js\classes\HtmlElements\Tag.js:754</code></a>
         
         </p>
 
@@ -915,6 +953,115 @@ Attributes/appendAttributes:method.</p>
 
                     <div class="param-description">
                          
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_appendProperties" class="method item">
+    <h3 class="name"><code>appendProperties</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l310"><code>js\classes\HtmlElements\Tag.js:310</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Appends properties to <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+of the instance. Alias for
+<a href="../classes/Properties.html#method_appendProperty" class="crosslink">appendProperty()</a> method.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type">Obj</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>properties to be appended</p>
+
                     </div>
 
                     
@@ -988,7 +1135,7 @@ Attributes/appendAttributes:method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l259"><code>js\classes\HtmlElements\Tag.js:259</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l283"><code>js\classes\HtmlElements\Tag.js:283</code></a>
         
         </p>
 
@@ -1101,7 +1248,7 @@ Attributes/appendAttributes:method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l283"><code>js\classes\HtmlElements\Tag.js:283</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l324"><code>js\classes\HtmlElements\Tag.js:324</code></a>
         
         </p>
 
@@ -1213,7 +1360,7 @@ Attributes/appendAttributes:method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l708"><code>js\classes\HtmlElements\Tag.js:708</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l766"><code>js\classes\HtmlElements\Tag.js:766</code></a>
         
         </p>
 
@@ -1290,7 +1437,7 @@ a potential problem with what is passed by reference and not by values, i.e. arr
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l621"><code>js\classes\HtmlElements\Tag.js:621</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l679"><code>js\classes\HtmlElements\Tag.js:679</code></a>
         
         </p>
 
@@ -1316,116 +1463,6 @@ a potential problem with what is passed by reference and not by values, i.e. arr
                     
                         <span class="type">String</span>:
                     
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_dropAttrProperty" class="method item">
-    <h3 class="name"><code>dropAttrProperty</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>key</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Any</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l392"><code>js\classes\HtmlElements\Tag.js:392</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 0.0.4</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Drops requested property from <a href="../classes/Tag.html#property_attributes" class="crosslink">attributes</a>
-property of the current object and returns a value of the key to be dropped.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">key</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>property name to be retrieved from the attributes</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Any</span>:
-                    
-                    <p>value of the key in the attributes</p>
-
                 
             </div>
         </div>
@@ -1481,7 +1518,7 @@ property of the current object and returns a value of the key to be dropped.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l562"><code>js\classes\HtmlElements\Tag.js:562</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l624"><code>js\classes\HtmlElements\Tag.js:624</code></a>
         
         </p>
 
@@ -1579,7 +1616,7 @@ property of the current object and returns a value of the key to be dropped.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l574"><code>js\classes\HtmlElements\Tag.js:574</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l636"><code>js\classes\HtmlElements\Tag.js:636</code></a>
         
         </p>
 
@@ -1653,7 +1690,7 @@ property of the current object and returns a value of the key to be dropped.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l585"><code>js\classes\HtmlElements\Tag.js:585</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l647"><code>js\classes\HtmlElements\Tag.js:647</code></a>
         
         </p>
 
@@ -1682,6 +1719,116 @@ property of the current object and returns a value of the key to be dropped.</p>
                     
                         <span class="type">Void</span>:
                     
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dropProperty" class="method item">
+    <h3 class="name"><code>dropProperty</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Any</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l454"><code>js\classes\HtmlElements\Tag.js:454</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Drops <code>key</code> from <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+of the current object and returns a value of the key.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>property name to be retrieved from the attributes</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Any</span>:
+                    
+                    <p>value of the key in the attributes</p>
+
                 
             </div>
         </div>
@@ -1737,7 +1884,7 @@ property of the current object and returns a value of the key to be dropped.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l406"><code>js\classes\HtmlElements\Tag.js:406</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l468"><code>js\classes\HtmlElements\Tag.js:468</code></a>
         
         </p>
 
@@ -1837,7 +1984,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l676"><code>js\classes\HtmlElements\Tag.js:676</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l734"><code>js\classes\HtmlElements\Tag.js:734</code></a>
         
         </p>
 
@@ -1910,7 +2057,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l158"><code>js\classes\HtmlElements\Tag.js:158</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l180"><code>js\classes\HtmlElements\Tag.js:180</code></a>
         
         </p>
 
@@ -1949,7 +2096,7 @@ property of the current object.</p>
 </div>
 
                 
-                    <div id="method_getAttrProperty" class="method item">
+                    <div id="method_getAttrProperty" class="method item deprecated">
     <h3 class="name"><code>getAttrProperty</code></h3>
 
     
@@ -1973,6 +2120,8 @@ property of the current object.</p>
     
 
     
+        <span class="flag deprecated" title="Use getProperty instead">deprecated</span>
+    
 
     
 
@@ -1995,11 +2144,13 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l343"><code>js\classes\HtmlElements\Tag.js:343</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l368"><code>js\classes\HtmlElements\Tag.js:368</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: Use getProperty instead</p>
         
 
         
@@ -2093,7 +2244,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l224"><code>js\classes\HtmlElements\Tag.js:224</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l248"><code>js\classes\HtmlElements\Tag.js:248</code></a>
         
         </p>
 
@@ -2176,7 +2327,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l494"><code>js\classes\HtmlElements\Tag.js:494</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l556"><code>js\classes\HtmlElements\Tag.js:556</code></a>
         
         </p>
 
@@ -2273,7 +2424,7 @@ functionality to class <a href="../classes/Content.html" class="crosslink">Conte
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l467"><code>js\classes\HtmlElements\Tag.js:467</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l529"><code>js\classes\HtmlElements\Tag.js:529</code></a>
         
         </p>
 
@@ -2345,7 +2496,7 @@ Tag/content.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l506"><code>js\classes\HtmlElements\Tag.js:506</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l568"><code>js\classes\HtmlElements\Tag.js:568</code></a>
         
         </p>
 
@@ -2419,7 +2570,7 @@ Alias for <a href="../classes/Content.html#method_getFirst" class="crosslink">Co
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l517"><code>js\classes\HtmlElements\Tag.js:517</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l579"><code>js\classes\HtmlElements\Tag.js:579</code></a>
         
         </p>
 
@@ -2493,7 +2644,7 @@ Alias for <a href="../classes/Content.html#method_getLast" class="crosslink">Con
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l234"><code>js\classes\HtmlElements\Tag.js:234</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l258"><code>js\classes\HtmlElements\Tag.js:258</code></a>
         
         </p>
 
@@ -2518,6 +2669,187 @@ Alias for <a href="../classes/Content.html#method_getLast" class="crosslink">Con
                 
                     
                         <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getProperties" class="method item">
+    <h3 class="name"><code>getProperties</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l170"><code>js\classes\HtmlElements\Tag.js:170</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns clone of <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getProperty" class="method item">
+    <h3 class="name"><code>getProperty</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>prop</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Any</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l384"><code>js\classes\HtmlElements\Tag.js:384</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Retrieves value of <code>prop</code> from <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+of the current object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">prop</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>property name to be retrieved from the attributes</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Any</span>:
                     
                 
             </div>
@@ -2574,7 +2906,7 @@ Alias for <a href="../classes/Content.html#method_getLast" class="crosslink">Con
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l297"><code>js\classes\HtmlElements\Tag.js:297</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l338"><code>js\classes\HtmlElements\Tag.js:338</code></a>
         
         </p>
 
@@ -2672,7 +3004,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l191"><code>js\classes\HtmlElements\Tag.js:191</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l213"><code>js\classes\HtmlElements\Tag.js:213</code></a>
         
         </p>
 
@@ -2685,7 +3017,8 @@ property of the current object.</p>
     </div>
 
     <div class="description">
-        <p>Returns copy of <a href="../classes/Tag.html#property_styles" class="crosslink">Styles</a>.</p>
+        <p>Gets <code>style</code> key of private variable <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>.
+It is an alias for <a href="../classes/Properties.html#method_getStyles" class="crosslink">getStyles</a> method.</p>
 
     </div>
 
@@ -2818,7 +3151,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l437"><code>js\classes\HtmlElements\Tag.js:437</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l499"><code>js\classes\HtmlElements\Tag.js:499</code></a>
         
         </p>
 
@@ -2891,7 +3224,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l449"><code>js\classes\HtmlElements\Tag.js:449</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l511"><code>js\classes\HtmlElements\Tag.js:511</code></a>
         
         </p>
 
@@ -2930,8 +3263,8 @@ can not be found, then <code>undefined</code> is returned.</p>
 </div>
 
                 
-                    <div id="method_hasAttrProperty" class="method item">
-    <h3 class="name"><code>hasAttrProperty</code></h3>
+                    <div id="method_hasProperty" class="method item">
+    <h3 class="name"><code>hasProperty</code></h3>
 
     
         <div class="args">
@@ -2976,7 +3309,7 @@ can not be found, then <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l368"><code>js\classes\HtmlElements\Tag.js:368</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l429"><code>js\classes\HtmlElements\Tag.js:429</code></a>
         
         </p>
 
@@ -2987,8 +3320,9 @@ can not be found, then <code>undefined</code> is returned.</p>
     </div>
 
     <div class="description">
-        <p>Returns <code>true</code> if <a href="../classes/Tag.html#property_attributes" class="crosslink">attributes</a>
-contains attribute <code>key</code> and <code>false</code> otherwise.</p>
+        <p>Returns <code>true</code> if <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+contains <code>key</code> and <code>false</code> otherwise. Alias for
+<a href="../classes/Properties.html#method_hasProperty" class="crosslink">hasProperty</a></p>
 
     </div>
 
@@ -3081,7 +3415,7 @@ contains attribute <code>key</code> and <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l380"><code>js\classes\HtmlElements\Tag.js:380</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l442"><code>js\classes\HtmlElements\Tag.js:442</code></a>
         
         </p>
 
@@ -3130,80 +3464,6 @@ contains attribute <code>key</code> and <code>false</code> otherwise.</p>
                 
                     
                         <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_initializeStyle" class="method item">
-    <h3 class="name"><code>initializeStyle</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l312"><code>js\classes\HtmlElements\Tag.js:312</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 0.0.5</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Initializes <code>style</code> property of tag attributes: if it does not exist, set it to
-<a href="../classes/Styles.html" class="crosslink">Styles</a>.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Void</span>:
                     
                 
             </div>
@@ -3266,7 +3526,7 @@ contains attribute <code>key</code> and <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l528"><code>js\classes\HtmlElements\Tag.js:528</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l590"><code>js\classes\HtmlElements\Tag.js:590</code></a>
         
         </p>
 
@@ -3378,7 +3638,7 @@ contains attribute <code>key</code> and <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l664"><code>js\classes\HtmlElements\Tag.js:664</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l722"><code>js\classes\HtmlElements\Tag.js:722</code></a>
         
         </p>
 
@@ -3453,7 +3713,7 @@ and <a href="../classes/Tag.html#property_styles" class="crosslink">styles</a> a
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l552"><code>js\classes\HtmlElements\Tag.js:552</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l614"><code>js\classes\HtmlElements\Tag.js:614</code></a>
         
         </p>
 
@@ -3536,7 +3796,7 @@ and <a href="../classes/Tag.html#property_styles" class="crosslink">styles</a> a
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l736"><code>js\classes\HtmlElements\Tag.js:736</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l794"><code>js\classes\HtmlElements\Tag.js:794</code></a>
         
         </p>
 
@@ -3621,7 +3881,7 @@ NB: DOM.Element.attributes has the form <code>{1: {tag: "width", value:"100", ..
 
     
         <span class="returns-inline">
-            <span class="type">String</span>
+            <span class="type">String | Null</span>
         </span>
     
 
@@ -3648,7 +3908,7 @@ NB: DOM.Element.attributes has the form <code>{1: {tag: "width", value:"100", ..
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l597"><code>js\classes\HtmlElements\Tag.js:597</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l659"><code>js\classes\HtmlElements\Tag.js:659</code></a>
         
         </p>
 
@@ -3674,7 +3934,7 @@ i.e.: <code>&lt;div class="media" style="color: red; width: 73%"&gt;</code>.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="type">String | Null</span>:
                     
                 
             </div>
@@ -3795,7 +4055,7 @@ i.e.: <code>&lt;div class="media" style="color: red; width: 73%"&gt;</code>.</p>
 </div>
 
                 
-                    <div id="method_setAttrProperty" class="method item">
+                    <div id="method_setAttrProperty" class="method item deprecated">
     <h3 class="name"><code>setAttrProperty</code></h3>
 
     
@@ -3825,6 +4085,8 @@ i.e.: <code>&lt;div class="media" style="color: red; width: 73%"&gt;</code>.</p>
     
 
     
+        <span class="flag deprecated" title="Use setProperty instead">deprecated</span>
+    
 
     
 
@@ -3847,11 +4109,13 @@ i.e.: <code>&lt;div class="media" style="color: red; width: 73%"&gt;</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l355"><code>js\classes\HtmlElements\Tag.js:355</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l413"><code>js\classes\HtmlElements\Tag.js:413</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: Use setProperty instead</p>
         
 
         
@@ -3971,7 +4235,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l202"><code>js\classes\HtmlElements\Tag.js:202</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l226"><code>js\classes\HtmlElements\Tag.js:226</code></a>
         
         </p>
 
@@ -4079,7 +4343,7 @@ with provided and the ar</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l481"><code>js\classes\HtmlElements\Tag.js:481</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l543"><code>js\classes\HtmlElements\Tag.js:543</code></a>
         
         </p>
 
@@ -4173,7 +4437,7 @@ is not array, not assignment occures.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l243"><code>js\classes\HtmlElements\Tag.js:243</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l267"><code>js\classes\HtmlElements\Tag.js:267</code></a>
         
         </p>
 
@@ -4343,6 +4607,246 @@ of <a href="../classes/Properties.html" class="crosslink">Properties</a>, its cl
 </div>
 
                 
+                    <div id="method_setProperty" class="method item">
+    <h3 class="name"><code>setProperty</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>key</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Any</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l398"><code>js\classes\HtmlElements\Tag.js:398</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the value of <code>key</code> of <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+to <code>value</code>. Alias for Properties/setProperty:property</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>property name to be set</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>property value</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Any</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setProperty" class="method item">
+    <h3 class="name"><code>setProperty</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>propName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>propValue</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l158"><code>js\classes\HtmlElements\Tag.js:158</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets property <code>propName</code> of <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>
+to be <code>propValue</code>. Alias for Properties/setProperty:property.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">propName</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">propValue</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_setStyleProperty" class="method item">
     <h3 class="name"><code>setStyleProperty</code></h3>
 
@@ -4395,7 +4899,7 @@ of <a href="../classes/Properties.html" class="crosslink">Properties</a>, its cl
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l328"><code>js\classes\HtmlElements\Tag.js:328</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l354"><code>js\classes\HtmlElements\Tag.js:354</code></a>
         
         </p>
 
@@ -4519,7 +5023,7 @@ property of the current object.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l172"><code>js\classes\HtmlElements\Tag.js:172</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l194"><code>js\classes\HtmlElements\Tag.js:194</code></a>
         
         </p>
 
@@ -4533,7 +5037,7 @@ property of the current object.</p>
 
     <div class="description">
         <p>Sets <code>style</code> property inside <a href="../classes/Tag.html#property__properties" class="crosslink">_properties</a>. It is an alias
-for <a href="../classes/Properties.html#method_setStyles" class="crosslink">setStyles(&#39;styles&#39;, ...)</a> method.</p>
+for <a href="../classes/Properties.html#method_setStyles" class="crosslink">setStyles()</a> method.</p>
 
     </div>
 
@@ -4734,7 +5238,7 @@ assignment. If the argument is of any other type, no assignment occures.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l805"><code>js\classes\HtmlElements\Tag.js:805</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l865"><code>js\classes\HtmlElements\Tag.js:865</code></a>
         
         </p>
 
@@ -4840,7 +5344,7 @@ assignment. If the argument is of any other type, no assignment occures.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l420"><code>js\classes\HtmlElements\Tag.js:420</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l482"><code>js\classes\HtmlElements\Tag.js:482</code></a>
         
         </p>
 
@@ -4937,7 +5441,7 @@ assignment. If the argument is of any other type, no assignment occures.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l633"><code>js\classes\HtmlElements\Tag.js:633</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l691"><code>js\classes\HtmlElements\Tag.js:691</code></a>
         
         </p>
 
@@ -5011,7 +5515,7 @@ If <a href="../classes/Tag.html#property_tag" class="crosslink">tag</a> is not a
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l785"><code>js\classes\HtmlElements\Tag.js:785</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l845"><code>js\classes\HtmlElements\Tag.js:845</code></a>
         
         </p>
 
@@ -5086,7 +5590,7 @@ Style/decorateElement:method to apply styles and
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l654"><code>js\classes\HtmlElements\Tag.js:654</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l712"><code>js\classes\HtmlElements\Tag.js:712</code></a>
         
         </p>
 
@@ -5159,7 +5663,7 @@ Style/decorateElement:method to apply styles and
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag.js.html#l685"><code>js\classes\HtmlElements\Tag.js:685</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag.js.html#l743"><code>js\classes\HtmlElements\Tag.js:743</code></a>
         
         </p>
 

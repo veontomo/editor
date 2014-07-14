@@ -415,7 +415,7 @@ function Table() {
 	 */
 	this.getPhantomCellAttributes = function(){
 		if (phantomCell instanceof Cell){
-			return phantomCell.getAttributes();
+			return phantomCell.getProperties();
 		}
 
 	};
@@ -492,19 +492,36 @@ function Table() {
 	/**
 	 * {{#crossLink &quot;FramedTable/phantomTableAttributes:property&quot;}}phantomTableAttributes{{/crossLink}} setter.
 	 * @method         setPhantomTableAttributes
-	 * @param          {Properties}         attr
+	 * @param          {Properties}         prop
 	 * @return         {void}
+	 * @deprecated     Use setPhantomTableProperties instead
 	 */
-	this.setPhantomTableAttributes = function(attr){
-		if (attr !== undefined){
+	this.setPhantomTableAttributes = function(prop){
+		console.log(&#x27;Table::setPhantomTableAttributes method is deprecated. Use setPhantomTableProperties instead.&#x27;);
+		if (prop !== undefined){
 			this.initPhantoms();
-			if (attr instanceof Attributes){
-				phantomTable.setAttributes(attr);
-			} else {
-				phantomTable.setAttributes(new Attributes(attr));
-			}
+			phantomTable.setProperties(prop);
+			// if (prop instanceof Attributes){
+			// 	phantomTable.setAttributes(prop);
+			// } else {
+			// 	phantomTable.setAttributes(new Attributes(prop));
+			// }
 		}
 	};
+
+
+	/**
+	 * Sets private variable {{#crossLink &quot;Tag/_property:property&quot;}}_property{{/crossLink}} of
+	 * {{#crossLink &quot;Table/phantomTable:property&quot;}}phantomTable{{/crossLink}}.
+	 * @method         setPhantomTableProperties
+	 * @param          {Any}                prop
+	 * @since          0.0.5
+	 * @return         {void}
+	 */
+	this.setPhantomTableProperties = function(prop){
+		this.initPhantoms();
+		phantomTable.setProperties(prop);
+	}
 
 	/**
 	 * Returns {{#crossLink &quot;Tag/openingTag:method&quot;}}opening{{/crossLink}} or
@@ -529,6 +546,7 @@ function Table() {
 				return phantomRow[tagType]();
 			}
 			if (phElemName === &#x27;table&#x27; &amp;&amp; phantomTable !== undefined &amp;&amp; typeof phantomTable[tagType] === &#x27;function&#x27;) {
+				console.log(&#x27;envoking phantomTable:openingtag()&#x27;);
 				return phantomTable[tagType]();
 			}
 		}

@@ -165,7 +165,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('returns instance of Attributes class', function(){
-            expect(table.getPhantomCellAttributes() instanceof Attributes).toBe(true);
+            expect(table.getPhantomCellAttributes() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
