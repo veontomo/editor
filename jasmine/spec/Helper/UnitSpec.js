@@ -211,9 +211,6 @@ describe('Unit-related functionality', function () {
             expect(u.toString('-')).toBe('0-bar');
         });
 
-
-
-
     });
 
 });

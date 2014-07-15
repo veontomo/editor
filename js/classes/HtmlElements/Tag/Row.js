@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Table, TableRowStyles, Tag, Content */
+/*global Attributes, Cell, Table, TableRowStyles, Tag, Content, Unit */
 
 /**
  * Represents a table row
@@ -147,21 +147,17 @@ function Row() {
 				acceptor = this.getElem(cellNum + 1);
 			} else {
 				if (this.getElem(cellNum - 1)){
-				acceptor = this.getElem(cellNum - 1);
+					acceptor = this.getElem(cellNum - 1);
 				}
 			}
 			if (acceptor){
 				acceptorWidth = acceptor.getWidth();
 				currentCell = this.getElem(cellNum);
 				currentCellWidth = currentCell.getWidth();
-				if (window.Unit){
-					acceptorWidthObj  = new Unit(acceptorWidth);
-					currentCellWidthObj  = new Unit(currentCellWidth);
-					widthTotal = acceptorWidth.add(currentCellWidthObj);
-					console.log('calculated total width: ' + widthTotal + ' and ' + currentCellWidth);
-				}
-				console.log('setting width to the sum of: ' + acceptorWidth + ' and ' + currentCellWidth);
-				acceptor.setWidth(acceptorWidth + currentCellWidth);
+				acceptorWidthObj  = new Unit(acceptorWidth);
+				currentCellWidthObj  = new Unit(currentCellWidth);
+				widthTotal = acceptorWidthObj.add(currentCellWidthObj);
+				acceptor.setWidth(widthTotal.getValue());
 			}
 			this.dropElemAt(cellNum);
 		}
