@@ -463,7 +463,6 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		console.log('entered Properties::clone');
 		var Constr = window[this.getName()],
 			clone, attr, current,
 			coreContent = this.getCore();
@@ -483,7 +482,6 @@ function Properties(input) {
 				clone.setProperty(attr, coreContent[attr]);
 			}
 		}
-		console.log('exiting  Properties::clone');
 		return clone;
 	};
 

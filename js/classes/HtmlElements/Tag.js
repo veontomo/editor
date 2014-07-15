@@ -162,9 +162,7 @@ function Tag(tName) {
 	 * @return        {Properties}
 	 */
 	this.getProperties = function(){
-		console.log('enetring Tag::getProperties');
 		var clone = _properties.clone();
-		console.log('exiting Tag::getProperties');
 		return clone;
 	};
 

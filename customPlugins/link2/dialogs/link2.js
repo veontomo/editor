@@ -130,7 +130,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 link = new Link();
                 link.setHref(url);
                 link.underline(isUnderlined);
-                link.setAttrProperty('target', target);
+                link.setProperty('target', target);
                 link.setTitle(optionalTitle);
                 link.setContent(new Content(this.getValueOf('tab-general', 'text')));
                 if (selection.isEmpty()){
@@ -147,15 +147,15 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                         link = new Link();
                         link.setHref(url);
                         link.underline(isUnderlined);
-                        link.setAttrProperty('target', target);
+                        link.setProperty('target', target);
                         link.setTitle(optionalTitle);
                         obj = factory.mimic(el.$);
                         if (obj &&  !obj.isEmpty()){
                             // CKeditor remembers this attr and replaces proper url by this one.
                             // So, if the current object is a Link instance, let us update
                             // value of "data-cke-saved-href"
-                            if (obj &&  (obj instanceof Link) && (typeof obj.setAttrProperty === 'function')){
-                                obj.setAttrProperty('data-cke-saved-href', url);
+                            if (obj &&  (obj instanceof Link) && (typeof obj.setProperty === 'function')){
+                                obj.setProperty('data-cke-saved-href', url);
                             }
                             objLink = link.apply(obj);
                             newNode = objLink.toNode();
