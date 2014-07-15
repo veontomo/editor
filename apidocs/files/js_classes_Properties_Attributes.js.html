@@ -211,36 +211,37 @@ function Attributes(obj) {
      * Nevertheless, it is sufficient that &#x60;attr&#x60; be a collection of objects with &#x60;name&#x60; and &#x60;value&#x60; properties.
      * If among the attributes there is node with name &quot;style&quot;, it gets ignored. If it is attempted to override
      * a method and not a property,  then &#x60;false&#x60; is returned.
-     * @method    load
-     * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
-     * @return    {Boolean}                           true, if the properties are loaded, false otherwise
+     * @method         load
+     * @param          {NamedNodeMap}       attr           instance of NamedNodeMap
+     * @return         {Boolean}                           true, if the properties are loaded, false otherwise
+     * @deprecated     Use Property::load method
      */
-    this.load = function(attr){
-        // var rnd = parseInt(Math.random()*10000, 10);
-    	var pos, attrName, attrValue, seed;
-    	// console.info(rnd, &quot;Attributes::load() is called with &quot;, attr);
-    	for (pos in attr){
-    		if (attr.hasOwnProperty(pos)){
-    			seed = {};
-    			attrName = attr[pos].name;
-    			if (attrName &amp;&amp; attrName !== &#x27;style&#x27;){
-    				if (typeof this[attrName] !== &#x27;function&#x27;) {
-    					attrValue = attr[pos].value;
-    					if(attrValue){
-    						seed[attrName] = attrValue;
-    					}
-                        // console.info(rnd, &quot;Attributes::load() is calling appendProperty with &quot;, seed);
-    					this.appendProperty(seed);
-    				} else {
-                        // console.info(rnd, &quot;Attributes::load() is returning false &quot;, attr);
-    					return false;
-    				}
-    			}
-    		}
-    	}
-        // console.info(rnd, &quot;Attributes::load() is returning true&quot;);
-    	return true;
-    };
+    // this.load = function(attr){
+    //     // var rnd = parseInt(Math.random()*10000, 10);
+    // 	var pos, attrName, attrValue, seed;
+    // 	// console.info(rnd, &quot;Attributes::load() is called with &quot;, attr);
+    // 	for (pos in attr){
+    // 		if (attr.hasOwnProperty(pos)){
+    // 			seed = {};
+    // 			attrName = attr[pos].name;
+    // 			if (attrName &amp;&amp; attrName !== &#x27;style&#x27;){
+    // 				if (typeof this[attrName] !== &#x27;function&#x27;) {
+    // 					attrValue = attr[pos].value;
+    // 					if(attrValue){
+    // 						seed[attrName] = attrValue;
+    // 					}
+    //                     // console.info(rnd, &quot;Attributes::load() is calling appendProperty with &quot;, seed);
+    // 					this.appendProperty(seed);
+    // 				} else {
+    //                     // console.info(rnd, &quot;Attributes::load() is returning false &quot;, attr);
+    // 					return false;
+    // 				}
+    // 			}
+    // 		}
+    // 	}
+    //     // console.info(rnd, &quot;Attributes::load() is returning true&quot;);
+    // 	return true;
+    // };
 
     /**
      * Applies the attributes on the argument. The argument is supposed to be an instance of

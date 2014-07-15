@@ -1222,12 +1222,14 @@
                 "description": "",
                 "type": "Table|null"
             },
+            "deprecated": true,
+            "deprecationMessage": "Use Factory.mimic() method",
             "class": "StringHelper",
             "module": "Helper"
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 153,
+            "line": 155,
             "description": "Transforms a list string into a List object. The argument listType is used to initialize the\nproperty \"name\" of the returned instance. If it is not provided, that the node tag-name property is used.\nIt is supposed that the string to process is of the following form:\n`<ol ... > ... </ol>` or `<ul ... > ... </ul>`.\nInside the tag, there might be other nodes. If they are recognized as a \"supported\" ones, the\ncorresponding functions will be called to transform them into objects.",
             "itemtype": "method",
             "name": "createListFromHtml",
@@ -1247,7 +1249,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 203,
+            "line": 205,
             "description": "Calls String::createListFromHtml('ul') on the target string.",
             "itemtype": "method",
             "name": "createUlFromHtml",
@@ -1260,7 +1262,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 213,
+            "line": 215,
             "description": "Calls String::createListFromHtml('ol') on the target string.",
             "itemtype": "method",
             "name": "createOlFromHtml",
@@ -1273,7 +1275,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 222,
+            "line": 224,
             "description": "Transforms a list item string into a ListItem object. It is supposed that the string to process is of the\nfollowing form: `<li ... > ... </li>`. Inside the tag, there might be other nodes. If they are recognized\nas a \"supported\" ones, the corresponding functions will be called to transform them into objects.",
             "itemtype": "method",
             "name": "createListItemFromHtml",
@@ -1286,7 +1288,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 278,
+            "line": 280,
             "description": "Creates an instance of Tag class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform `<tag [tag-attributes] [style=\"...\"]>....</tag>`.",
             "itemtype": "method",
             "name": "createTagFromHtml",
@@ -1299,7 +1301,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 334,
+            "line": 336,
             "description": "Creates an instance of Link class and fills in its property \"elements\" with\nthe elements recognized inside the string. It is supposed that the string is of the\nform `<tag [tag-attributes] [style=\"...\"]>....</tag>`.",
             "itemtype": "method",
             "name": "createLinkFromHtml",
@@ -1312,7 +1314,7 @@
         },
         {
             "file": "js\\classes\\Helper\\String.js",
-            "line": 389,
+            "line": 391,
             "description": "Creates an instance of Content class and fills in its property \"elements\" with\nthe elements recognized inside the string.",
             "itemtype": "method",
             "name": "inflate",
@@ -1325,7 +1327,56 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 46,
+            "line": 21,
+            "description": "Absolute value of the Unit instance.",
+            "itemtype": "property",
+            "name": "value",
+            "type": "Number",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 27,
+            "description": "Measurement unit of the Unit instance.",
+            "itemtype": "property",
+            "name": "measure",
+            "type": "String|null",
+            "default": "null",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 61,
+            "description": "{{#crossLink \"Unit/value:property\"}}value{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getValue",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 71,
+            "description": "{{#crossLink \"Unit/value:property\"}}measure{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getMeasure",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 82,
             "description": "Compares the target with the argument. Returns true, if the argument can be cast to the target type\nwith the same \"measurement\" property. False otherwise.",
             "itemtype": "method",
             "name": "isLikeAs",
@@ -1345,7 +1396,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 63,
+            "line": 99,
             "description": "Sums up the target and the argument. If they have different units of measurement, an error is thrown.",
             "itemtype": "method",
             "name": "add",
@@ -1365,7 +1416,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 79,
+            "line": 115,
             "description": "Subtracts the argument from the target. The argument is converted to a Unit object,\nthen its sign is changed and the method Unit::add() is called.",
             "itemtype": "method",
             "name": "sub",
@@ -1379,6 +1430,26 @@
             "return": {
                 "description": "the difference between target and the argument.",
                 "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 129,
+            "description": "Returns string representation of the instance: join absolute value and unit of measurement.\nIf parameter is provided, it is used as a separator between the abs.value and unit of\nmeasurement.",
+            "itemtype": "method",
+            "name": "toString",
+            "params": [
+                {
+                    "name": "sep",
+                    "description": "",
+                    "type": "String|null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
             },
             "class": "Unit",
             "module": "Helper"
@@ -1983,7 +2054,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 163,
+            "line": 166,
             "description": "Appends style to a given cell of the row. Alias for Tag::appendStyleToElemAt().",
             "itemtype": "method",
             "name": "appendStyleToCellAt",
@@ -2008,7 +2079,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 174,
+            "line": 177,
             "description": "Populates the attributes from a string that is an html repersentation of some row.\nIt takes a string that is an html representation of a row and update current object\nparameters such that it will correspond to the html representation.\nIn other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString\n(eventually up to presence/absence of some parameters and attributes).",
             "itemtype": "method",
             "name": "loadFromHtml",
@@ -2030,7 +2101,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 206,
+            "line": 209,
             "description": "This is an alias for {{#crossLink \"Row/getPhantomCellProp:method\"}}getPhantomCellProp('style'){{/crossLink}}.",
             "itemtype": "method",
             "name": "phantomCellStyles",
@@ -2043,7 +2114,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 215,
+            "line": 218,
             "description": "This is an alias for {{#crossLink \"Row/getPhantomCellProp:method\"}}getPhantomCellProp('attr'){{/crossLink}}.",
             "itemtype": "method",
             "name": "phantomCellAttr",
@@ -2056,7 +2127,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 224,
+            "line": 227,
             "description": "If the row corresponds to a framed row (a row for which method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}} returns `true`), then\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} or\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} is returned.",
             "itemtype": "method",
             "name": "getPhantomCellProp",
@@ -2076,7 +2147,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 244,
+            "line": 247,
             "description": "If the row corresponds to a framed row (a row for which method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}} returns true),\nthen {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} or\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} of the table inside first cell of current row is returned.",
             "itemtype": "method",
             "name": "getPhantomTableProp",
@@ -2096,7 +2167,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 266,
+            "line": 269,
             "description": "If the row corresponds to a framed row (a row for which method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}}\nreturns `true`), then style of the table inside the cell is returned.\nThis is an alias for {{#crossLink \"Row/getPhantomTableProp:method\"}}getPhantomTableProp('style'){{/crossLink}}\nmethod.",
             "itemtype": "method",
             "name": "phantomTableStyles",
@@ -2109,7 +2180,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Row.js",
-            "line": 279,
+            "line": 282,
             "description": "If the row corresponds to a framed row (a row for which method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}}\nreturns `true`), then attribute of the table inside the cell is returned.\nThis is an alias for {{#crossLink \"Row/getPhantomTableProp:method\"}}getPhantomTableProp('attr'){{/crossLink}}.",
             "itemtype": "method",
             "name": "phantomTableAttr",
@@ -4606,7 +4677,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 168,
+            "line": 171,
             "description": "Returns copy of {{#crossLink \"Tag/attributes:property\"}}Attributes{{/crossLink}}.",
             "itemtype": "method",
             "name": "getAttributes",
@@ -4622,7 +4693,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 182,
+            "line": 185,
             "description": "Sets `style` property inside {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}. It is an alias\nfor {{#crossLink \"Properties/setStyles:method\"}}setStyles(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "setStyles",
@@ -4643,7 +4714,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 201,
+            "line": 199,
             "description": "Gets `style` key of private variable {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.\nIt is an alias for {{#crossLink \"Properties/getStyles:method\"}}getStyles{{/crossLink}} method.",
             "itemtype": "method",
             "name": "getStyles",
@@ -4657,7 +4728,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 214,
+            "line": 212,
             "description": "Smart {{#crossLink \"Tag/content:property\"}}content{{/crossLink}} setter. If the argument is a\n{{#crossLink \"Content\"}}Content{{/crossLink}} instance, then\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nis set to this value. Otherwise, the argument is passed to the constructor of new instance of\n{{#crossLink \"Content\"}}Content{{/crossLink}} and the result is assigned to\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nwith provided and the ar",
             "itemtype": "method",
             "name": "setContent",
@@ -4678,7 +4749,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 236,
+            "line": 234,
             "description": "Returns copy of {{#crossLink \"Tag/content:property\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getContent",
@@ -4692,7 +4763,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 246,
+            "line": 244,
             "description": "{{#crossLink \"Tag/className:property\"}}Class name{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getName",
@@ -4705,7 +4776,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 255,
+            "line": 253,
             "description": "{{#crossLink \"Tag/className:property\"}}Class name{{/crossLink}} setter. Use it with caution. This\nmethod is intended to be used in classes that inherite from this one in order to set the name attribute.\n(If only were there a late binding ...)",
             "itemtype": "method",
             "name": "setName",
@@ -4725,7 +4796,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 271,
+            "line": 269,
             "description": "Appends style to the instance. Alias for {{#crossLink \"Styles/appendStyle:method\"}}Styles::appendStyle{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendStyle",
@@ -4746,7 +4817,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 284,
+            "line": 282,
             "description": "Appends style to the instance. Alias for\n{{#crossLink \"Attributes/appendAttributes:method\"}}Attributes::appendAttributes{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendAttributes",
@@ -4769,7 +4840,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 298,
+            "line": 296,
             "description": "Appends properties to {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the instance. Alias for\n{{#crossLink \"Properties/appendProperty:method\"}}appendProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "appendProperties",
@@ -4790,7 +4861,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 312,
+            "line": 310,
             "description": "Appends style `stl` to element at position `pos.` It is an alias for the method\n{{#crossLink \"Content/appendStyleToElemAt:method\"}}appendStyleToElemAt{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendStyleToElemAt",
@@ -4816,7 +4887,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 326,
+            "line": 324,
             "description": "Retrieves requested property from {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -4837,7 +4908,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 342,
+            "line": 340,
             "description": "Imposes requested property value in {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -4863,30 +4934,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 356,
-            "description": "Retrieves requested property from {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}}\nproperty of the current object.",
-            "itemtype": "method",
-            "name": "getAttrProperty",
-            "params": [
-                {
-                    "name": "prop",
-                    "description": "property name to be retrieved from the attributes",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Any"
-            },
-            "since": "0.0.4",
-            "deprecated": true,
-            "deprecationMessage": "Use getProperty instead",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 372,
+            "line": 354,
             "description": "Retrieves value of `prop` from {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the current object.",
             "itemtype": "method",
             "name": "getProperty",
@@ -4907,7 +4955,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 386,
+            "line": 368,
             "description": "Sets the value of `key` of {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nto `value`. Alias for {{#crossLink \"Properties/setProperty:property\"}}setProperty{{/crossLink}}",
             "itemtype": "method",
             "name": "setProperty",
@@ -4933,35 +4981,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 400,
-            "description": "Imposes requested property value in {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}}\nproperty of the current object.",
-            "itemtype": "method",
-            "name": "setAttrProperty",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "property name to be set",
-                    "type": "String"
-                },
-                {
-                    "name": "value",
-                    "description": "property value",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Any"
-            },
-            "since": "0.0.4",
-            "deprecated": true,
-            "deprecationMessage": "Use setProperty instead",
-            "class": "Tag",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 416,
+            "line": 382,
             "description": "Returns `true` if {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\ncontains `key` and `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty{{/crossLink}}",
             "itemtype": "method",
             "name": "hasProperty",
@@ -4981,7 +5001,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 429,
+            "line": 395,
             "description": "Returns `true` if {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\ncontains attribute `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "hasStyleProperty",
@@ -5001,7 +5021,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 441,
+            "line": 407,
             "description": "Drops `key` from {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the current object and returns a value of the key.",
             "itemtype": "method",
             "name": "dropProperty",
@@ -5022,7 +5042,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 455,
+            "line": 421,
             "description": "Drops requested property from {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "dropStyleProperty",
@@ -5043,7 +5063,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 469,
+            "line": 435,
             "description": "Calls {{#crossLink \"Styles/setWidth:method\"}}setWidth(){{/crossLink}} and\n{{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} methods to set the widths.",
             "itemtype": "method",
             "name": "setWidth",
@@ -5064,7 +5084,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 486,
+            "line": 452,
             "description": "Retrieves `width` attribute of {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} property.",
             "itemtype": "method",
             "name": "getWidth",
@@ -5078,7 +5098,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 498,
+            "line": 464,
             "description": "Returns absolute value of `width` attribute of {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty without unit of measurement. If `width` is not defined or defined but its absolute value\ncan not be found, then `undefined` is returned.",
             "itemtype": "method",
             "name": "getWidthValue",
@@ -5091,7 +5111,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 516,
+            "line": 482,
             "description": "Returns copy of {{#crossLink \"Content/elements\"}}elements{{/crossLink}} of\n{{#crossLink \"Tag/content\"}}content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getElements",
@@ -5104,7 +5124,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 530,
+            "line": 496,
             "description": "Imposes {{#crossLink \"Content/elements:property\"}}elements{{/crossLink}} of\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. If the argument\nis not array, not assignment occures.",
             "itemtype": "method",
             "name": "setElements",
@@ -5120,7 +5140,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 543,
+            "line": 509,
             "description": "Gets the element stored in {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. Delegates its\nfunctionality to class {{#crossLink \"Content\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getElem",
@@ -5141,7 +5161,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 555,
+            "line": 521,
             "description": "Returns copy of the first element of {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.\nAlias for {{#crossLink \"Content/getFirst:method\"}}Content::getFirst{{/crossLink}}.",
             "itemtype": "method",
             "name": "getFirst",
@@ -5155,7 +5175,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 566,
+            "line": 532,
             "description": "Returns copy of the first element of {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.\nAlias for {{#crossLink \"Content/getLast:method\"}}Content::getlast{{/crossLink}}.",
             "itemtype": "method",
             "name": "getLast",
@@ -5169,7 +5189,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 577,
+            "line": 543,
             "description": "Inserts an element into given position. Delegates its functionality to the class\n{{#crossLink \"Content\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "insertElemAt",
@@ -5195,7 +5215,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 590,
+            "line": 556,
             "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
             "itemtype": "method",
             "name": "appendElem",
@@ -5216,7 +5236,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 601,
+            "line": 567,
             "description": "Returns the number of elements inside its content. Delegates to Content::length().",
             "itemtype": "method",
             "name": "length",
@@ -5230,7 +5250,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 611,
+            "line": 577,
             "description": "Deletes element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropElemAt:method}}dropElemAt{{/crossLink}}.",
             "itemtype": "method",
             "name": "dropElemAt",
@@ -5251,7 +5271,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 623,
+            "line": 589,
             "description": "Deletes first element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropFirst:method\"}}Content::dropFirst(){{/crossLink}}.",
             "itemtype": "method",
             "name": "dropFirst",
@@ -5265,7 +5285,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 634,
+            "line": 600,
             "description": "Deletes last element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropLast:method\"}}Content::dropLast(){{/crossLink}}.",
             "itemtype": "method",
             "name": "dropLast",
@@ -5279,7 +5299,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 646,
+            "line": 612,
             "description": "If {{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} is a non-empty string, then it is\nreturned a string with which html representaion of current instance starts,\ni.e.: `<div class=\"media\" style=\"color: red; width: 73%\">`.",
             "itemtype": "method",
             "name": "openingTag",
@@ -5292,7 +5312,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 666,
+            "line": 632,
             "description": "Returns html closing tag, i.e. `</span>`.",
             "itemtype": "method",
             "name": "closingTag",
@@ -5305,7 +5325,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 678,
+            "line": 644,
             "description": "Gives html representation of the instance.\nIf {{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} is not a non-empty string, just html comment is generated.",
             "itemtype": "method",
             "name": "toHtml",
@@ -5319,7 +5339,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 699,
+            "line": 665,
             "description": "Generates plain text representation of the tag content. Calls {{#crossLink \"Content/toText:method\"}}Content::toText(){{/crossLink}}.",
             "itemtype": "method",
             "name": "toText",
@@ -5333,7 +5353,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 709,
+            "line": 675,
             "description": "Returns true, if the tag is empty. Returns false otherwise.<br />\nThe tag is considered empty if `isEmpty()` method for its {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}}\nand {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} and {{#crossLink \"Content\"}}content{{/crossLink}} returns true.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -5347,7 +5367,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 721,
+            "line": 687,
             "description": "Empties {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.",
             "itemtype": "method",
             "name": "flushContent",
@@ -5360,7 +5380,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 730,
+            "line": 696,
             "description": "Trims the content. Calls method {{#crossLink \"Content/trim:method\"}}Content::trim(){{/crossLink}} on the\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} property.",
             "itemtype": "method",
             "name": "trim",
@@ -5373,7 +5393,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 741,
+            "line": 707,
             "description": "Appends element to the content. It is alias for the\n{{#crossLink \"Content/appendElemIfNotEmpty:method\"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}",
             "itemtype": "method",
             "name": "appendElemIfNotEmpty",
@@ -5393,7 +5413,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 753,
+            "line": 719,
             "description": "Creates a clone of the target. If the target has a `className` attribute corresponding to\nexisiting class, then that class instance is to be returned. Otherwise a {{#crossLink \"Tag\"}}Tag{{/crossLink}}\ninstance is returned. The method parses all attributes of the target and if the attribute\nresponds to a \"clone\" method, then calls this method and assigns its result to the corresponding\nclone attribute. Otherwise, assign target attribute value to the clone attribute (there might be\na potential problem with what is passed by reference and not by values, i.e. array). But among\n{{#crossLink \"Tag\"}}Tag{{/crossLink}} properties there are no array-valued ones.",
             "itemtype": "method",
             "name": "clone",
@@ -5406,7 +5426,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 781,
+            "line": 747,
             "description": "Populates the following properties of the target object\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} by calling\n{{#crossLink \"Properties/load:method\"}}load(){{/crossLink}} method.\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} by calling\n{{#crossLink \"Content/load:method\"}}Content::load(){{/crossLink}} method.\n</li></ol>\nfrom the argument which must be an instance of\n[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if\nthe argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,\n`false` is returned.<br />\nNB: DOM.Element.attributes has the form `{1: {tag: \"width\", value:\"100\", ...}, 2: {tag: \"color\", value:\"black\", ...}, ...}`",
             "itemtype": "method",
             "name": "load",
@@ -5426,7 +5446,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 826,
+            "line": 792,
             "description": "Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.\nCalls methods {{#crossLink \"Attributes/decorateElement:method\"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,\n{{#crossLink \"Style/decorateElement:method\"}}Style::decorateElement(){{/crossLink}} to apply styles and\n{{#crossLink \"Content/stickTo:method\"}}Content::stickTo(){{/crossLink}} to append elements from the\n{{#crossLink \"Tag/content:property\"}}Tag::content{{/crossLink}}.",
             "itemtype": "method",
             "name": "toNode",
@@ -5439,7 +5459,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 846,
+            "line": 812,
             "description": "Erases current value of atttribute \"title\" and sets it to `str` if `str` is a non-empty string.",
             "itemtype": "method",
             "name": "setTitle",
@@ -5722,12 +5742,14 @@
                 "description": "true, if the properties are loaded, false otherwise",
                 "type": "Boolean"
             },
+            "deprecated": true,
+            "deprecationMessage": "Use Property::load method",
             "class": "Attributes",
             "module": "Properties"
         },
         {
             "file": "js\\classes\\Properties\\Attributes.js",
-            "line": 87,
+            "line": 88,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance.",
             "itemtype": "method",
             "name": "decorateElement",
@@ -5816,7 +5838,7 @@
         },
         {
             "file": "js\\classes\\Properties\\Styles.js",
-            "line": 90,
+            "line": 86,
             "description": "Imposes the width, min-width and max-width.",
             "itemtype": "method",
             "name": "setWidth",
@@ -5836,7 +5858,7 @@
         },
         {
             "file": "js\\classes\\Properties\\Styles.js",
-            "line": 102,
+            "line": 98,
             "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
             "itemtype": "method",
             "name": "getBorderInfo",
@@ -5844,12 +5866,14 @@
                 "description": "object of the form {'width': ..., 'color': ..., 'style': ...}",
                 "type": "Object"
             },
+            "deprecated": true,
+            "deprecationMessage": "Definition of the method is moved to the parent class",
             "class": "Styles",
             "module": "Properties"
         },
         {
             "file": "js\\classes\\Properties\\Styles.js",
-            "line": 120,
+            "line": 116,
             "description": "Loads style Properties from the argument that is supposed to be either of type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)\n(or, at least, respond to a `getNamedItem()` method) or a string. If not of these types, `false` is returned.\nIn case the argument is a [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)\ninstance, its `style` item is picked up and transformed into a string.",
             "itemtype": "method",
             "name": "load",
@@ -5864,12 +5888,13 @@
                 "description": "true, if the properties are loaded, false otherwise",
                 "type": "Boolean"
             },
+            "default": "Use Properties::load method",
             "class": "Styles",
             "module": "Properties"
         },
         {
             "file": "js\\classes\\Properties\\Styles.js",
-            "line": 152,
+            "line": 149,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance.",
             "itemtype": "method",
             "name": "decorateElement",
@@ -6062,7 +6087,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 238,
+            "line": 240,
             "description": "Gets the node string representation: if it is of CKEDITOR.NODE_ELEMENT type, then getOuterHtml() is returned,\nif it is of CKEDITOR.NODE_TEXT type, then getText() is returned. If none of the above types, '' (empty string is returned)",
             "itemtype": "method",
             "name": "nodeString",
@@ -6082,7 +6107,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 255,
+            "line": 257,
             "description": "Gets the string representation of the node subelement: if the argument is of CKEDITOR.NODE_ELEMENT type, then\nthe string representation of its child \"offset\" is returned. If the argument is of CKEDITOR.NODE_TEXT type,\nthen: 1. if dir is \"start\" or null, then its substring starting from position 0 to \"offset\" (excluded) is returned;\n2. if dir=\"end\"; then its substring starting from position \"offset\" is returned.",
             "itemtype": "method",
             "name": "nodeOffsetString",
@@ -6112,7 +6137,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 281,
+            "line": 283,
             "description": "If `elem` is of CKEDITOR.NODE_ELEMENT type, pushes it into array `container` . Otherwise, it is ignored.",
             "itemtype": "method",
             "name": "insertNode",
@@ -6137,7 +6162,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 294,
+            "line": 296,
             "description": "Transforms each element of the array into a string and concatenates them. String representation\nof the element is supposed to be a text version (without tags).",
             "itemtype": "method",
             "name": "arrayToText",
@@ -6162,7 +6187,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 321,
+            "line": 323,
             "description": "Check whether two different CKEDITOR.dom.node's \"overlaps\". Returns true, if:\n<ol><li>both `elem1` and `elem2` are of `CKEDITOR.dom.element` type and either `elem1` contains `elem2` or viceverse,</li>\n<li>only one of `elem1`, `elem2` is of `CKEDITOR.dom.element` and it contains other,</li>\n<li>both `elem1` and `elem2` are of `CKEDITOR.dom.text` and they are equal.</li></ol>\nOtherwise, false is returned.",
             "params": [
                 {
@@ -6187,7 +6212,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 350,
+            "line": 352,
             "description": "Inserts a list which items are populated from the selection. If the selection is empty,\na list item with empty content is generated.",
             "itemtype": "method",
             "name": "insertList",
@@ -6212,7 +6237,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 402,
+            "line": 404,
             "description": "Change the type of `list` to be `newListType` and replace the old list with newer one.",
             "itemtype": "method",
             "name": "changeListType",
@@ -6242,7 +6267,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 425,
+            "line": 427,
             "description": "Returns an array of elements that are next siblings of the given one. The first next sibling becomes the first element\nof the array, the second next sibling becomes the second one and so on.",
             "itemtype": "method",
             "name": "next-siblings",
@@ -6262,7 +6287,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 442,
+            "line": 444,
             "description": "Returns an array of elements that are siblings of the given one and that come before it. The first prevoius\nsibling becomes the first element of the array, the second previous sibling becomes the second one and so on.",
             "itemtype": "method",
             "name": "prev-siblings",
@@ -6282,7 +6307,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 459,
+            "line": 461,
             "description": "Returns an array containing `node` and elements that come after it\nthe in DOM in the context of `root`. Therefore, all array elements\nbelong to `root`. `root` itself is not included in the output except\nthe case when it is equal to `node`. If `root` does not contain `node`,\nthe output must be an empty array.\nUses {{#crossLink \"CKHelper/next-siblings:method\"}}CKHelper['next-siblings']{{/crossLink}}\nto fill in array with the next siblings.",
             "itemtype": "method",
             "name": "bunch-next-siblings",
@@ -6307,7 +6332,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 492,
+            "line": 494,
             "description": "Returns an array containing `node` and elements that come before it\nthe in DOM in the context of `root`. Therefore, all array elements\nbelong to `root`. `root` itself is not included in the output except\nthe case when it is equal to `node`. If `root` does not contain `node`,\nthe output must be an empty array.\nUses {{#crossLink \"CKHelper/prev-siblings:method\"}}CKHelper['prev-siblings']{{/crossLink}}\nto fill in array with the next siblings.",
             "itemtype": "method",
             "name": "bunch-prev-siblings",
@@ -6332,7 +6357,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 525,
+            "line": 527,
             "description": "Returns the first child of the `root` containing `node`.\nIf `root` does not contain `node`, `null` is returned.\nUses {{#crossLink \"CKHelper/containsOrEqual:method\"}}CKHelper::containsOrEqual(){{/crossLink}}.",
             "itemtype": "method",
             "name": "childWithNode",
@@ -6357,7 +6382,7 @@
         },
         {
             "file": "js\\classes\\CKHelper.js",
-            "line": 550,
+            "line": 552,
             "description": "Returns true if `elem1` contains `elem2` or if they are equal. False otherwise.",
             "itemtype": "method",
             "name": "containsOrEqual",
@@ -7304,7 +7329,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 475,
+            "line": 477,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -7317,7 +7342,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 486,
+            "line": 488,
             "description": "String representation of the instance. If {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a string or a number\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
             "name": "toString",
@@ -7331,8 +7356,8 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 539,
-            "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
+            "line": 541,
+            "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nReturns `true` if loading succeeds and `false` otherwise.\n\nTo do: for the moment, thw method always returns `true`.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
             "itemtype": "method",
             "name": "load",
             "params": [
@@ -7344,14 +7369,14 @@
             ],
             "return": {
                 "description": "true, if the properties are loaded, false otherwise",
-                "type": "Void"
+                "type": "Boolean"
             },
             "class": "Properties",
             "module": "Properties"
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 570,
+            "line": 576,
             "description": "Returns `true` if the instance has key `style`, `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty('style'){{/crossLink}} method.",
             "itemtype": "method",
             "name": "hasStyles",
@@ -7364,7 +7389,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 580,
+            "line": 586,
             "description": "Returns value of `style` key. Alias for {{#crossLink \"Properties/getProperty:method\"}}getProperty('styles'){{/crossLink}}.",
             "itemtype": "method",
             "name": "getStyles",
@@ -7378,7 +7403,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 590,
+            "line": 596,
             "description": "Sets value of `style` key. Converts argument into {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance\nand then performs assignment.",
             "itemtype": "method",
             "name": "setStyles",
@@ -7399,7 +7424,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 603,
+            "line": 609,
             "description": "Sets the `key` to be equal to `value` inside object {{#crossLink \"Properties\"}}Properties{{/crossLink}}\ninstance corresponding to `style` key of the current objects which is, naturally,\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance as well.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -7416,6 +7441,40 @@
                     "type": "Any"
                 }
             ],
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 626,
+            "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
+            "itemtype": "method",
+            "name": "getBorderInfo",
+            "return": {
+                "description": "object of the form {'width': ..., 'color': ..., 'style': ...}",
+                "type": "Object"
+            },
+            "since": "0.0.5",
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 645,
+            "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance.",
+            "itemtype": "method",
+            "name": "decorateElement",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "",
+                    "type": "DOM.Element"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "Properties",
             "module": "Properties"
         }

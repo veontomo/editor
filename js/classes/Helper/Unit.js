@@ -130,6 +130,7 @@ function Unit(value, measure) {
      * Returns string representation of the instance: join absolute value and unit of measurement.
      * If parameter is provided, it is used as a separator between the abs.value and unit of
      * measurement.
+     * @method         toString
      * @param          {String|null}        sep
      * @return         {String}
      */

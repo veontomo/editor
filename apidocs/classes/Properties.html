@@ -237,6 +237,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_decorateElement">decorateElement</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_dropAllProperties">dropAllProperties</a>
 
                                 
@@ -259,6 +266,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                         
                             <li class="index-item method">
                                 <a href="#method_getAllowedValueTypes">getAllowedValueTypes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getBorderInfo">getBorderInfo</a>
 
                                 
                                 
@@ -869,6 +883,113 @@ and <a href="../classes/Properties.html#method_setProperty" class="crosslink">se
 </div>
 
                 
+                    <div id="method_decorateElement" class="method item">
+    <h3 class="name"><code>decorateElement</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>elem</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l645"><code>js\classes\Properties.js:645</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Applies the attributes on the argument. The argument is supposed to be an instance of
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/element">DOM.Element</a>. In fact,
+it is used only <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute">setAttribute()</a>
+method of that instance.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">elem</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_dropAllProperties" class="method item">
     <h3 class="name"><code>dropAllProperties</code></h3>
 
@@ -1185,6 +1306,83 @@ returns the key value.</p>
                         <span class="type">Array</span>:
                     
                     <p>array of strings</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getBorderInfo" class="method item">
+    <h3 class="name"><code>getBorderInfo</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l626"><code>js\classes\Properties.js:626</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties
+&#39;border-style&#39;, then &#39;none&#39; will be used. If the Style has no &#39;border-width&#39;, then zero will be used.
+If the Style has no Properties &#39;border-color&#39;, then it will not be set.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>object of the form {&#39;width&#39;: ..., &#39;color&#39;: ..., &#39;style&#39;: ...}</p>
 
                 
             </div>
@@ -1519,7 +1717,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l580"><code>js\classes\Properties.js:580</code></a>
+        <a href="../files/js_classes_Properties.js.html#l586"><code>js\classes\Properties.js:586</code></a>
         
         </p>
 
@@ -1827,7 +2025,7 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l570"><code>js\classes\Properties.js:570</code></a>
+        <a href="../files/js_classes_Properties.js.html#l576"><code>js\classes\Properties.js:576</code></a>
         
         </p>
 
@@ -1973,7 +2171,7 @@ a new instance of <a href="../classes/Properties.html" class="crosslink">Propert
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l475"><code>js\classes\Properties.js:475</code></a>
+        <a href="../files/js_classes_Properties.js.html#l477"><code>js\classes\Properties.js:477</code></a>
         
         </p>
 
@@ -2133,7 +2331,7 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -2160,7 +2358,7 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l539"><code>js\classes\Properties.js:539</code></a>
+        <a href="../files/js_classes_Properties.js.html#l541"><code>js\classes\Properties.js:541</code></a>
         
         </p>
 
@@ -2171,7 +2369,9 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
     </div>
 
     <div class="description">
-        <p>Loads attributes from the argument into <a href="../classes/Properties.html#property_core" class="crosslink">core</a>.</p>
+        <p>Loads attributes from the argument into <a href="../classes/Properties.html#property_core" class="crosslink">core</a>.
+Returns <code>true</code> if loading succeeds and <code>false</code> otherwise.</p>
+<p>To do: for the moment, thw method always returns <code>true</code>.</p>
 <p>The argument is supposed to be of a type
 <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922">NamedNodeMap</a>.
 Nevertheless, it is sufficient that <code>attr</code> be a collection of objects with <code>name</code> and <code>value</code> properties.</p>
@@ -2211,7 +2411,7 @@ Nevertheless, it is sufficient that <code>attr</code> be a collection of objects
             <div class="returns-description">
                 
                     
-                        <span class="type">Void</span>:
+                        <span class="type">Boolean</span>:
                     
                     <p>true, if the properties are loaded, false otherwise</p>
 
@@ -2684,7 +2884,7 @@ and <code>true</code> is returned. Otherwise, <code>false</code> is returned. If
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l603"><code>js\classes\Properties.js:603</code></a>
+        <a href="../files/js_classes_Properties.js.html#l609"><code>js\classes\Properties.js:609</code></a>
         
         </p>
 
@@ -2795,7 +2995,7 @@ instance corresponding to <code>style</code> key of the current objects which is
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l590"><code>js\classes\Properties.js:590</code></a>
+        <a href="../files/js_classes_Properties.js.html#l596"><code>js\classes\Properties.js:596</code></a>
         
         </p>
 
@@ -3157,7 +3357,7 @@ if the instance does not have property <code>propName</code>, then the method im
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l486"><code>js\classes\Properties.js:486</code></a>
+        <a href="../files/js_classes_Properties.js.html#l488"><code>js\classes\Properties.js:488</code></a>
         
         </p>
 

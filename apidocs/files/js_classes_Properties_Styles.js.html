@@ -237,11 +237,7 @@ function Styles(obj) {
      * @return  {void}
      */
     this.appendStyle = function(stl){
-        // var rnd = parseInt(Math.random()*10000 , 10);
-        // console.info(rnd, &#x27;Style::appendStyle is called with &#x27;, stl);
-        // console.info(rnd, &#x27;style core is = &#x27;, this.getCore());
     	this.appendProperty(stl);
-        // console.info(rnd, &#x27;Style::appendStyle is finished. The style core is now = &#x27;, this.getCore());
     };
 
 
@@ -263,17 +259,17 @@ function Styles(obj) {
      * If the Style has no Properties &#x27;border-color&#x27;, then it will not be set.
      * @method         getBorderInfo
      * @return         {Object}              object of the form {&#x27;width&#x27;: ..., &#x27;color&#x27;: ..., &#x27;style&#x27;: ...}
+     * @deprecated     Definition of the method is moved to the parent class
      */
-    this.getBorderInfo = function(){
-        var output = {};
-        output.width = this.getProperty(&#x27;border-width&#x27;) || 0;
-        output.style = this.getProperty(&#x27;border-style&#x27;) || &#x27;none&#x27;;
-        if (this.hasProperty(&#x27;border-color&#x27;)){
-            output.color = this.getProperty(&#x27;border-color&#x27;);
-        }
-        return output;
-
-    };
+    // this.getBorderInfo = function(){
+    //     var output = {};
+    //     output.width = this.getProperty(&#x27;border-width&#x27;) || 0;
+    //     output.style = this.getProperty(&#x27;border-style&#x27;) || &#x27;none&#x27;;
+    //     if (this.hasProperty(&#x27;border-color&#x27;)){
+    //         output.color = this.getProperty(&#x27;border-color&#x27;);
+    //     }
+    //     return output;
+    // };
 
     /**
      * Loads style Properties from the argument that is supposed to be either of type
@@ -281,31 +277,32 @@ function Styles(obj) {
      * (or, at least, respond to a &#x60;getNamedItem()&#x60; method) or a string. If not of these types, &#x60;false&#x60; is returned.
      * In case the argument is a [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
      * instance, its &#x60;style&#x60; item is picked up and transformed into a string.
-     * @method  load
-     * @param  {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
-     * @return {Boolean}                                  true, if the properties are loaded, false otherwise
+     * @method         load
+     * @param          {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
+     * @return         {Boolean}                                  true, if the properties are loaded, false otherwise
+     * @default        Use Properties::load method
      */
-    this.load = function(attr){
-        // var rnd = parseInt(Math.random()*1000, 10);
-        // console.info(rnd, &#x27;Style::load is called with &#x27;, attr);
-        var seed, seedObj;
-        if (attr !== undefined){
-            if (typeof attr === &#x27;string&#x27;){
-                seed = attr;
-            } else if (typeof attr.getNamedItem === &#x27;function&#x27;) {
-                seedObj =  attr.getNamedItem(&#x27;style&#x27;);
-                seed = seedObj ? seedObj.value : &#x27;&#x27;;
-            } else {
-                // console.info(rnd, &#x27;Style::load is returning false&#x27;);
-                return false;
-            }
-            // console.info(rnd, &#x27;Style::load is calling Style::appendStyle with &#x27;, seed);
-            this.appendStyle(seed);
-        }
-        // console.info(rnd, &#x27;Style::load: value of style before returning true: &#x27;, this.toString());
-        // console.info(rnd, &#x27;Style::load is returning true&#x27;);
-        return true;
-    };
+    // this.load = function(attr){
+    //     // var rnd = parseInt(Math.random()*1000, 10);
+    //     // console.info(rnd, &#x27;Style::load is called with &#x27;, attr);
+    //     var seed, seedObj;
+    //     if (attr !== undefined){
+    //         if (typeof attr === &#x27;string&#x27;){
+    //             seed = attr;
+    //         } else if (typeof attr.getNamedItem === &#x27;function&#x27;) {
+    //             seedObj =  attr.getNamedItem(&#x27;style&#x27;);
+    //             seed = seedObj ? seedObj.value : &#x27;&#x27;;
+    //         } else {
+    //             // console.info(rnd, &#x27;Style::load is returning false&#x27;);
+    //             return false;
+    //         }
+    //         // console.info(rnd, &#x27;Style::load is calling Style::appendStyle with &#x27;, seed);
+    //         this.appendStyle(seed);
+    //     }
+    //     // console.info(rnd, &#x27;Style::load: value of style before returning true: &#x27;, this.toString());
+    //     // console.info(rnd, &#x27;Style::load is returning true&#x27;);
+    //     return true;
+    // };
 
     /**
      * Applies the attributes on the argument. The argument is supposed to be an instance of

@@ -608,6 +608,7 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
+		console.log(&#x27;entered Properties::clone&#x27;);
 		var Constr = window[this.getName()],
 			clone, attr, current,
 			coreContent = this.getCore();
@@ -627,6 +628,7 @@ function Properties(input) {
 				clone.setProperty(attr, coreContent[attr]);
 			}
 		}
+		console.log(&#x27;exiting  Properties::clone&#x27;);
 		return clone;
 	};
 
@@ -696,13 +698,16 @@ function Properties(input) {
 
 	/**
 	 * Loads attributes from the argument into {{#crossLink &quot;Properties/core:property&quot;}}core{{/crossLink}}.
+	 * Returns &#x60;true&#x60; if loading succeeds and &#x60;false&#x60; otherwise.
+	 *
+	 * To do: for the moment, thw method always returns &#x60;true&#x60;.
 	 *
 	 * The argument is supposed to be of a type
 	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
 	 * Nevertheless, it is sufficient that &#x60;attr&#x60; be a collection of objects with &#x60;name&#x60; and &#x60;value&#x60; properties.
 	 * @method    load
 	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
-	 * @return    {void}                           true, if the properties are loaded, false otherwise
+	 * @return    {boolean}                           true, if the properties are loaded, false otherwise
 	 */
 	this.load = function(attr){
 		var pos, attrName, attrValue, newStl;
@@ -712,7 +717,7 @@ function Properties(input) {
 				attrValue = attr[pos].value;
 				if (attrName === &#x27;style&#x27;){
 					newStl = new Properties(attrValue);
-					newStl.setMode(1); // in order to print this as &quot;attr1: val1; attr2: val2; ...&quot;
+					newStl.setMode(1);                        // in order to print this as &quot;attr1: val1; attr2: val2; ...&quot;
 					if (this.hasProperty(&#x27;style&#x27;)){
 						attrValue = this.getProperty(&#x27;style&#x27;);
 						attrValue.appendProperty(newStl);
@@ -723,6 +728,7 @@ function Properties(input) {
 				this.setProperty(attrName, attrValue);
 			}
 		}
+		return true;
 	};
 
 	/**
@@ -773,6 +779,46 @@ function Properties(input) {
 		this.initializeStyle();
 		this.getStyles().setProperty(key, value);
 	};
+
+
+	/**
+	 * Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties
+	 * &#x27;border-style&#x27;, then &#x27;none&#x27; will be used. If the Style has no &#x27;border-width&#x27;, then zero will be used.
+	 * If the Style has no Properties &#x27;border-color&#x27;, then it will not be set.
+	 * @method         getBorderInfo
+	 * @return         {Object}              object of the form {&#x27;width&#x27;: ..., &#x27;color&#x27;: ..., &#x27;style&#x27;: ...}
+	 * @since          0.0.5
+	 */
+	this.getBorderInfo = function(){
+	    var output = {};
+	    output.width = this.getProperty(&#x27;border-width&#x27;) || 0;
+	    output.style = this.getProperty(&#x27;border-style&#x27;) || &#x27;none&#x27;;
+	    if (this.hasProperty(&#x27;border-color&#x27;)){
+	        output.color = this.getProperty(&#x27;border-color&#x27;);
+	    }
+	    return output;
+	};
+
+
+    /**
+     * Applies the attributes on the argument. The argument is supposed to be an instance of
+     * [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,
+     * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
+     * method of that instance.
+     * @method         decorateElement
+     * @param          {DOM.Element}             elem
+     * @return         {void}
+     */
+    this.decorateElement = function(elem){
+    	if (typeof elem.setAttribute === &#x27;function&#x27;){
+			var summary = this.getCore(),
+				keys = Object.keys(summary);
+			keys.forEach(function(key){
+				elem.setAttribute(key, summary[key]);
+			});
+    	}
+    };
+
 
 }
     </pre>
