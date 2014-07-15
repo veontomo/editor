@@ -78,7 +78,6 @@ function Unit(value, measure) {
         return this.measure;
     };
 
-
     /**
      * Compares the target with the argument. Returns true, if the argument can be cast to the target type
      * with the same "measurement" property. False otherwise.
@@ -96,6 +95,7 @@ function Unit(value, measure) {
         }
         return this.measure === obj.measure;
     };
+
     /**
      * Sums up the target and the argument. If they have different units of measurement, an error is thrown.
      * @method  add

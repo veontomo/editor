@@ -202,9 +202,8 @@ var CKHelper = {
 
 		newTableProfile = Helper.crack(tableProfile, cellIndex);
 		cellToInsert = new Cell('cella');
-		cellToInsertAttr = new Attributes(cellObjAttr);
+		cellToInsertAttr = new Properties(cellObjAttr);
 		cellToInsertStyles = new Styles(cellObjStyles);
-
 
 		if (pos === 'before'){
 			offset = 0;
@@ -220,8 +219,10 @@ var CKHelper = {
 
 
 		// binding the styles and attributes to the newly created cell
-		cellToInsert.setAttributes(cellToInsertAttr);
+		cellToInsert.setProperties(cellToInsertAttr);
 		cellToInsert.setStyles(cellToInsertStyles);
+		cellToInsert.setProperty(NEWSLETTER['marker-name'], cellToInsert.getName());
+
 
 		// offset variable is responsible for insertion 'before' or 'after'
 		tableObj.insertColAt(cellIndex + offset, cellToInsert);

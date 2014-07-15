@@ -118,6 +118,19 @@ function Properties(input) {
 		}
 	};
 
+
+	/**
+	 * Sets value of `style` key. Converts argument into {{#crossLink "Properties"}}Properties{{/crossLink}} instance
+	 * and then performs assignment.
+	 * @method         setStyles
+	 * @param          {Any}                stl
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setStyles = function(stl){
+		core.style = stl instanceof Properties ? stl : new Properties(stl);
+	};
+
 	/**
 	 * If both `key` and `value` are of allowed types (given by
 	 * {{#crossLink "Properties/allowedCoreKeyTypes:property"}}allowedCoreKeyTypes{{/crossLink}} and
@@ -591,18 +604,6 @@ function Properties(input) {
 	 */
 	this.getStyles = function(){
 		return this.getProperty('style');
-	};
-
-	/**
-	 * Sets value of `style` key. Converts argument into {{#crossLink "Properties"}}Properties{{/crossLink}} instance
-	 * and then performs assignment.
-	 * @method         setStyles
-	 * @param          {Any}                stl
-	 * @return         {void}
-	 * @since          0.0.5
-	 */
-	this.setStyles = function(stl){
-		core.style = stl instanceof Properties ? stl : new Properties(stl);
 	};
 
 
