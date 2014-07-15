@@ -141,7 +141,7 @@ function Row() {
 	 * @return         {void}
 	 */
 	this.knockOutCell = function(cellNum){
-		var acceptor, acceptorWidth, currentCell, currentCellWidth;
+		var acceptor, acceptorWidth, currentCell, currentCellWidth, widthTotal, acceptorWidthObj, currentCellWidthObj;
 		if (cellNum < this.cellNum()){
 			if (this.getElem(cellNum + 1)){
 				acceptor = this.getElem(cellNum + 1);
@@ -154,6 +154,13 @@ function Row() {
 				acceptorWidth = acceptor.getWidth();
 				currentCell = this.getElem(cellNum);
 				currentCellWidth = currentCell.getWidth();
+				if (window.Unit){
+					acceptorWidthObj  = new Unit(acceptorWidth);
+					currentCellWidthObj  = new Unit(currentCellWidth);
+					widthTotal = acceptorWidth.add(currentCellWidthObj);
+					console.log('calculated total width: ' + widthTotal + ' and ' + currentCellWidth);
+				}
+				console.log('setting width to the sum of: ' + acceptorWidth + ' and ' + currentCellWidth);
 				acceptor.setWidth(acceptorWidth + currentCellWidth);
 			}
 			this.dropElemAt(cellNum);

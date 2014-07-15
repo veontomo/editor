@@ -17,6 +17,21 @@ function Unit(value, measure) {
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);
     }
+
+    /**
+     * Absolute value of the Unit instance.
+     * @property       {Number}             value
+     */
+    this.value = undefined;
+
+    /**
+     * Measurement unit of the Unit instance.
+     * @property       {String|null}        measure
+     * @default        null
+     */
+    this.measure = null;
+
+
     if (value instanceof Unit) {
         return value;
     }
@@ -42,6 +57,27 @@ function Unit(value, measure) {
         this.value = 0;
         this.measure = '';
     }
+
+    /**
+     * {{#crossLink "Unit/value:property"}}value{{/crossLink}} getter.
+     * @method         getValue
+     * @return         {Number}
+     * @since          0.0.5
+     */
+    this.getValue = function(){
+        return this.value;
+    };
+
+    /**
+     * {{#crossLink "Unit/value:property"}}measure{{/crossLink}} getter.
+     * @method         getMeasure
+     * @return         {String}
+     * @since          0.0.5
+     */
+    this.getMeasure = function(){
+        return this.measure;
+    };
+
 
     /**
      * Compares the target with the argument. Returns true, if the argument can be cast to the target type
@@ -87,5 +123,27 @@ function Unit(value, measure) {
         var unit = new Unit(obj),
             negative = new Unit(-unit.value, unit.measure);
         return this.add(negative);
+    };
+
+
+    /**
+     * Returns string representation of the instance: join absolute value and unit of measurement.
+     * If parameter is provided, it is used as a separator between the abs.value and unit of
+     * measurement.
+     * @param          {String|null}        sep
+     * @return         {String}
+     */
+    this.toString = function(sep){
+        var out = '',
+            abs = this.getValue();
+        if (typeof abs !== 'number'){
+            return out;
+        }
+        out += abs.toString();
+        var meas = this.getMeasure();
+        if (typeof meas === 'string' && meas.length > 0){
+            out += (sep || '') + meas;
+        }
+        return out;
     };
 }

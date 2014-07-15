@@ -150,4 +150,70 @@ describe('Unit-related functionality', function () {
         });
     });
 
+    describe('Creates string represenation of the object', function(){
+        it('returns empty string if the value is not given', function(){
+            spyOn(u, 'getValue');
+            expect(u.toString('---')).toBe('');
+        });
+
+        it('returns string representation of value if measure unit is not set and glue is not given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 82;});
+            spyOn(u, 'getMeasure');
+            expect(u.toString()).toBe('82');
+        });
+
+        it('returns "0" if value is zero and measure unit is not set and glue is not given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 0;});
+            spyOn(u, 'getMeasure');
+            expect(u.toString()).toBe('0');
+        });
+
+        it('returns "0" if value is zero and measure unit is not set and glue is given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 0;});
+            spyOn(u, 'getMeasure');
+            expect(u.toString('---')).toBe('0');
+        });
+
+
+        it('returns string representation of value if measure unit is not set and glue is given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 23.1;});
+            spyOn(u, 'getMeasure');
+            expect(u.toString('glue')).toBe('23.1');
+        });
+
+        it('returns string representation of value if measure unit is empty string and and glue is not given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 4;});
+            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            expect(u.toString()).toBe('4');
+        });
+
+        it('returns string representation of value if measure unit is empty string and and glue is given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 4;});
+            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            expect(u.toString('glue')).toBe('4');
+        });
+
+        it('returns concatenation of value and measure unit if glue is not given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 4;});
+            spyOn(u, 'getMeasure').andCallFake(function(){return 'cm';});
+            expect(u.toString()).toBe('4cm');
+        });
+
+        it('returns concatenation of value and measure unit if glue is given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 43;});
+            spyOn(u, 'getMeasure').andCallFake(function(){return 'bar';});
+            expect(u.toString('-')).toBe('43-bar');
+        });
+
+        it('returns concatenation of zero value and measure unit if glue is given', function(){
+            spyOn(u, 'getValue').andCallFake(function(){return 0;});
+            spyOn(u, 'getMeasure').andCallFake(function(){return 'bar';});
+            expect(u.toString('-')).toBe('0-bar');
+        });
+
+
+
+
+    });
+
 });
