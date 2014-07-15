@@ -79,11 +79,7 @@ function Styles(obj) {
      * @return  {void}
      */
     this.appendStyle = function(stl){
-        // var rnd = parseInt(Math.random()*10000 , 10);
-        // console.info(rnd, 'Style::appendStyle is called with ', stl);
-        // console.info(rnd, 'style core is = ', this.getCore());
     	this.appendProperty(stl);
-        // console.info(rnd, 'Style::appendStyle is finished. The style core is now = ', this.getCore());
     };
 
 
@@ -123,31 +119,32 @@ function Styles(obj) {
      * (or, at least, respond to a `getNamedItem()` method) or a string. If not of these types, `false` is returned.
      * In case the argument is a [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922)
      * instance, its `style` item is picked up and transformed into a string.
-     * @method  load
-     * @param  {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
-     * @return {Boolean}                                  true, if the properties are loaded, false otherwise
+     * @method         load
+     * @param          {String|NamedNodeMap}       attr           instance of NamedNodeMap or a
+     * @return         {Boolean}                                  true, if the properties are loaded, false otherwise
+     * @default        Use Properties::load method
      */
-    this.load = function(attr){
-        // var rnd = parseInt(Math.random()*1000, 10);
-        // console.info(rnd, 'Style::load is called with ', attr);
-        var seed, seedObj;
-        if (attr !== undefined){
-            if (typeof attr === 'string'){
-                seed = attr;
-            } else if (typeof attr.getNamedItem === 'function') {
-                seedObj =  attr.getNamedItem('style');
-                seed = seedObj ? seedObj.value : '';
-            } else {
-                // console.info(rnd, 'Style::load is returning false');
-                return false;
-            }
-            // console.info(rnd, 'Style::load is calling Style::appendStyle with ', seed);
-            this.appendStyle(seed);
-        }
-        // console.info(rnd, 'Style::load: value of style before returning true: ', this.toString());
-        // console.info(rnd, 'Style::load is returning true');
-        return true;
-    };
+    // this.load = function(attr){
+    //     // var rnd = parseInt(Math.random()*1000, 10);
+    //     // console.info(rnd, 'Style::load is called with ', attr);
+    //     var seed, seedObj;
+    //     if (attr !== undefined){
+    //         if (typeof attr === 'string'){
+    //             seed = attr;
+    //         } else if (typeof attr.getNamedItem === 'function') {
+    //             seedObj =  attr.getNamedItem('style');
+    //             seed = seedObj ? seedObj.value : '';
+    //         } else {
+    //             // console.info(rnd, 'Style::load is returning false');
+    //             return false;
+    //         }
+    //         // console.info(rnd, 'Style::load is calling Style::appendStyle with ', seed);
+    //         this.appendStyle(seed);
+    //     }
+    //     // console.info(rnd, 'Style::load: value of style before returning true: ', this.toString());
+    //     // console.info(rnd, 'Style::load is returning true');
+    //     return true;
+    // };
 
     /**
      * Applies the attributes on the argument. The argument is supposed to be an instance of

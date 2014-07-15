@@ -1050,8 +1050,8 @@ describe('Table-related functionality:', function(){
             spyOn(tableStyle, 'toString').andCallFake(function(){
                 return '';
             });
-            table.setAttributes(tableAttr);
-            table.setStyles(tableStyle);
+            table.setProperties(tableAttr);
+            tableAttr.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
@@ -1724,6 +1724,7 @@ describe('Table-related functionality:', function(){
             expect(table.getProperty('class')).toBe('highest');
             expect(table.getStyleProperty('width')).toBe('80%');
             expect(table.getStyleProperty('color')).toBe('blue');
+            console.log(table.toHtml());
         });
 
         it('loads a table with single row and no cells', function(){

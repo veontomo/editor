@@ -88,11 +88,6 @@ describe('Attribute-related functionality', function(){
             expect(attr.hasOwnProperty('style')).toBe(false);
         });
 
-        it('returns false if trying to override a function', function(){
-            attrMap = root.attributes;
-            attr.module = function(){};
-            expect(attr.load(attrMap)).toBe(false);
-        });
     });
 
     describe('Attributes::decorateElement(): sets the attributes on the element', function(){

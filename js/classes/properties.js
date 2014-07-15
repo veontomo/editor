@@ -450,6 +450,7 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
+		console.log('entered Properties::clone');
 		var Constr = window[this.getName()],
 			clone, attr, current,
 			coreContent = this.getCore();
@@ -469,6 +470,7 @@ function Properties(input) {
 				clone.setProperty(attr, coreContent[attr]);
 			}
 		}
+		console.log('exiting  Properties::clone');
 		return clone;
 	};
 
@@ -538,13 +540,16 @@ function Properties(input) {
 
 	/**
 	 * Loads attributes from the argument into {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+	 * Returns `true` if loading succeeds and `false` otherwise.
+	 *
+	 * To do: for the moment, thw method always returns `true`.
 	 *
 	 * The argument is supposed to be of a type
 	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
 	 * Nevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.
 	 * @method    load
 	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
-	 * @return    {void}                           true, if the properties are loaded, false otherwise
+	 * @return    {boolean}                           true, if the properties are loaded, false otherwise
 	 */
 	this.load = function(attr){
 		var pos, attrName, attrValue, newStl;
@@ -554,7 +559,7 @@ function Properties(input) {
 				attrValue = attr[pos].value;
 				if (attrName === 'style'){
 					newStl = new Properties(attrValue);
-					newStl.setMode(1); // in order to print this as "attr1: val1; attr2: val2; ..."
+					newStl.setMode(1);                        // in order to print this as "attr1: val1; attr2: val2; ..."
 					if (this.hasProperty('style')){
 						attrValue = this.getProperty('style');
 						attrValue.appendProperty(newStl);
@@ -565,6 +570,7 @@ function Properties(input) {
 				this.setProperty(attrName, attrValue);
 			}
 		}
+		return true;
 	};
 
 	/**
@@ -642,7 +648,7 @@ function Properties(input) {
      * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
      * method of that instance.
      * @method         decorateElement
-     * @param          {Object}             elem
+     * @param          {DOM.Element}             elem
      * @return         {void}
      */
     this.decorateElement = function(elem){
