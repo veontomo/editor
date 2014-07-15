@@ -133,6 +133,7 @@ function Unit(value, measure) {
      * @method         toString
      * @param          {String|null}        sep
      * @return         {String}
+     * @since          0.0.5
      */
     this.toString = function(sep){
         var out = '',
