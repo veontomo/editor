@@ -1,4 +1,5 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection, FACTORY, Node */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row,
+Selection, FACTORY, Node, Properties */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -221,7 +222,7 @@ var CKHelper = {
 		// binding the styles and attributes to the newly created cell
 		cellToInsert.setProperties(cellToInsertAttr);
 		cellToInsert.setStyles(cellToInsertStyles);
-		cellToInsert.setProperty(NEWSLETTER['marker-name'], cellToInsert.getName());
+		cellToInsert.setProperty(NEWSLETTER['marker-name'], (new Cell()).getName());
 
 
 		// offset variable is responsible for insertion 'before' or 'after'
