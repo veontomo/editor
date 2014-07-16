@@ -31,7 +31,7 @@ function Row() {
 	 */
 	this.setTag('tr');
 	this.setName('Row');
-	this.setStyles(new TableRowStyles());
+	this.setProperties(new RowProperties());
 
 	/**
 	 * Returns an array of absolute cell widths (widths without unit of measurement).
