@@ -32,7 +32,7 @@ function Image() {
 	 */
 	this.setTag('img');
 	this.setName('Image');
-	this.setProperties(new ImageStyles());
+	this.setProperties(new ImageProperties());
 
 	/**
 	 * Sets `src` property of image {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}

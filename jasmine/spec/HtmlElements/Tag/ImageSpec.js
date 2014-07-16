@@ -60,9 +60,12 @@ describe('Image-related functionality:', function() {
         });
 
         it('does not set "src" attribute if url is empty after dropping protocol', function(){
+            var url = img.getOrigin(),
+                newUrl = 'whatever';
+            expect(url).not.toBe(newUrl);
             spyOn(img, 'dropProtocol').andCallFake(function(){return '';});
-            img.setOrigin('whatever');
-            expect(img.getOrigin()).not.toBeDefined();
+            img.setOrigin(newUrl);
+            expect(img.getOrigin()).toBe(url);
         });
 
 
@@ -79,7 +82,7 @@ describe('Image-related functionality:', function() {
 
     describe('Automatically derives image width', function(){
         it('gets zero width if src is not set', function(){
-            expect(img.getOrigin()).not.toBeDefined();
+            expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getWidth()).toBe(0);
         });
         it('gets width if src is set', function(){
@@ -90,7 +93,7 @@ describe('Image-related functionality:', function() {
 
     describe('Automatically derive image height', function(){
         it('gets zero height if src is not set', function(){
-            expect(img.getOrigin()).not.toBeDefined();
+            expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getHeight()).toBe(0);
         });
         it('gets height if src is set', function(){

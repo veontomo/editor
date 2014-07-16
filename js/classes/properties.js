@@ -606,6 +606,19 @@ function Properties(input) {
 
 
 	/**
+	 * Returns `true` if instance contains `style` key inside which there is a key `propName`.
+	 * Otherwise, `false` is returned.
+	 * @method         hasStyleProperty
+	 * @param          {String}             propName
+	 * @return         {Boolean}
+	 * @since          0.0.5
+	 */
+	this.hasStyleProperty = function(propName){
+		return this.hasStyles() && this.getStyles().hasProperty(propName);
+	}
+
+
+	/**
 	 * Sets the `key` to be equal to `value` inside object {{#crossLink "Properties"}}Properties{{/crossLink}}
 	 * instance corresponding to `style` key of the current objects which is, naturally,
 	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance as well.
@@ -619,6 +632,22 @@ function Properties(input) {
 	this.setStyleProperty = function(key, value){
 		this.initializeStyle();
 		this.getStyles().setProperty(key, value);
+	};
+
+
+	/**
+	 * Returns the value of key `propName` inside `style` key (if it exists) of the current object.
+	 * If it does not exist, nothing is returned.
+	 * @method  getStyleProperty
+	 * @since   0.0.5
+	 * @param   {String}    propName
+	 * @return  {Any}
+	 *
+	 */
+	this.getStyleProperty = function(propName){
+		if (this.hasStyles()){
+			return this.getStyles().getProperty(propName);
+		}
 	};
 
 

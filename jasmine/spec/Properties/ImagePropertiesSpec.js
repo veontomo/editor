@@ -26,7 +26,7 @@ describe('ImageProperties-related functionality', function(){
     describe('Sets image attribute keys', function(){
         it('contains key "src" set to empty string', function(){
             expect(prop.hasProperty('src')).toBe(true);
-            expect(prop.getProperty('src')).toBe('');
+            expect(prop.getProperty('src')).toBe(null);
         });
         // 'border-style': 'none', 'width': 0, 'padding': 0, 'margin': 0, 'height': 0
         it('contains key "width" set to 0', function(){
