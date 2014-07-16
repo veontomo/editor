@@ -9,7 +9,7 @@ describe('ImageProperties-related functionality', function(){
 
     describe('construction of ImageProperties', function(){
         it('is an instance of Properties', function(){
-            expect(prop instanceof ImageProperties).toBe(true);
+            expect(prop instanceof Properties).toBe(true);
         });
 
         it('sets "className" property to be equal to "ImageProperties"', function(){

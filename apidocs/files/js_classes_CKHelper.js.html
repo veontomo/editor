@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/Image.html">Image</a></li>
             
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/Link.html">Link</a></li>
             
                 <li><a href="../classes/LinkAttributes.html">LinkAttributes</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
             
                 <li><a href="../classes/LinkStyles.html">LinkStyles</a></li>
             
@@ -156,7 +160,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row, Selection, FACTORY, Node */
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row,
+Selection, FACTORY, Node, Properties */
 /*jslint plusplus: true, white: true */
 
 /**
@@ -360,9 +365,8 @@ var CKHelper = {
 
 		newTableProfile = Helper.crack(tableProfile, cellIndex);
 		cellToInsert = new Cell(&#x27;cella&#x27;);
-		cellToInsertAttr = new Attributes(cellObjAttr);
+		cellToInsertAttr = new Properties(cellObjAttr);
 		cellToInsertStyles = new Styles(cellObjStyles);
-
 
 		if (pos === &#x27;before&#x27;){
 			offset = 0;
@@ -378,8 +382,10 @@ var CKHelper = {
 
 
 		// binding the styles and attributes to the newly created cell
-		cellToInsert.setAttributes(cellToInsertAttr);
+		cellToInsert.setProperties(cellToInsertAttr);
 		cellToInsert.setStyles(cellToInsertStyles);
+		cellToInsert.setProperty(NEWSLETTER[&#x27;marker-name&#x27;], (new Cell()).getName());
+
 
 		// offset variable is responsible for insertion &#x27;before&#x27; or &#x27;after&#x27;
 		tableObj.insertColAt(cellIndex + offset, cellToInsert);

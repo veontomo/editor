@@ -26,7 +26,8 @@ function ImageProperties(obj) {
 
 
     /**
-     * Default attributes for this instance.
+     * Default key-value pairs for image attributes.
+     * <pre>{'src': null, 'width': 0, 'height': 0, 'title': ''}</pre>
      * @property       {Object}             imageCore
      * @private
      * @type           {Object}
@@ -39,7 +40,8 @@ function ImageProperties(obj) {
 
 
     /**
-     * Object with key-values for images. They should be set if they were not set before. <br/>
+     * Object with key-value pairs for image style. To be set, if corresponding key is not set.
+     * <pre>{'border-style': 'none', 'width': 0, 'padding': 0, 'margin': 0, 'height': 0}</pre>
      * @property {Object}  imageStyleCore
      * @type     {Object}
      * @private

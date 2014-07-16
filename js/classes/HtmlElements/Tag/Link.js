@@ -32,8 +32,7 @@ function Link(href) {
 	 */
 	this.setTag('a');
 	this.setName('Link');
-	this.setProperties(new LinkAttributes());
-	this.setStyles(new LinkStyles());
+	this.setProperties(new LinkProperties());
 
 
 	/**

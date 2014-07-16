@@ -1,10 +1,10 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkStyles, LinkAttributes, Attributes, Content, Table, Cell, Factory, PlainText */
+/*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkProperties, Content, Table, Cell, Factory, PlainText */
 
 describe('Link-related functionality:', function() {
-    var link, attr;
+    var link, prop;
     beforeEach(function() {
-        attr = new LinkAttributes();
+        prop = new LinkProperties();
         // style = new LinkStyles();
         link = new Link();
         // content = new Content();
@@ -27,7 +27,7 @@ describe('Link-related functionality:', function() {
             expect(link2 instanceof Link).toBe(true);
         });
 
-        it('does not affect parent attr if it is changed in the child', function(){
+        it('does not affect parent prop if it is changed in the child', function(){
             expect((new Link()).dumbAttribute).not.toBe('www.one.com');
             link.dumbAttribute = 'www.one.com';
             expect((new Link()).dumbAttribute).not.toBe('www.one.com');
@@ -53,45 +53,29 @@ describe('Link-related functionality:', function() {
         });
     });
 
+    describe('Link properties are an instance of LinkProperties', function(){
+        it('has properties which ar a LinkProperties instance', function(){
+            expect(link.getProperties() instanceof LinkProperties).toBe(true);
+        });
+    });
+
     describe('Link has tag equal to "a"', function(){
         it('A Link object name is set to "a"', function(){
             expect(link.getTag()).toBe('a');
         });
     });
 
-    describe('Link has href attribute', function(){
-        it('returnes href if the target has "attributes" which is a LinkAttributes instance', function(){
-            expect(link.getAttributes() instanceof LinkAttributes).toBe(true);
-            link.setHref('test_url');
-            expect(link.getHref()).toBe('test_url');
-        });
-        it('returnes href if the target has "attributes" which is a general Attributes instance', function(){
-            link.setAttributes(new Attributes());
-            expect(link.getAttributes() instanceof Attributes).toBe(true);
-            expect(link.getAttributes() instanceof LinkAttributes).toBe(false);
-            link.setHref('test_url');
-            expect(link.getHref()).toBe('test_url');
-        });
-    });
-
-    describe('Link attribute is an instance of LinkAttributes', function(){
-        it('has attribute property which is a LinkAttr instance', function(){
-            expect(link.getAttributes() instanceof LinkAttributes).toBe(true);
-        });
-    });
-
-    describe('Link style is an instance of LinkStyles', function(){
-        it('has a style property which is a LinkStyle instance', function(){
-            expect(link.getStyles() instanceof LinkStyles).toBe(true);
-        });
-    });
-
     describe('href getter and getter', function(){
-        it('calls LinkAttributes.getHref() method', function(){
-            spyOn(attr, 'getHref').andCallFake(function(){return 'href';});
-            link.setProperties(attr);
-            expect(link.getHref()).toBe('href');
-            expect(attr.getHref).toHaveBeenCalled();
+        it('calls Properties method to get value of "href" key', function(){
+            spyOn(prop, 'getProperty').andCallFake(function(){return 'www.test.com';});
+            link.setProperties(prop);
+            expect(link.getHref()).toBe('www.test.com');
+            expect(prop.getProperty).toHaveBeenCalledWith('href');
+        });
+
+        it('sets value of "href" key', function(){
+            link.setHref('impose.url');
+            expect(link.getHref()).toBe('impose.url');
         });
     });
 
@@ -189,15 +173,15 @@ describe('Link-related functionality:', function() {
 
             result = link.apply(arg);
             var stl = result.getStyles();
-            attr = result.getProperties();
+            prop = result.getProperties();
             expect(result instanceof Link).toBe(true);
             expect(stl.getProperty('level')).toBe('argLevel');
             expect(stl.getProperty('color')).toBe('nice');
             expect(stl.getProperty('width')).toBe(10);
             expect(stl.getProperty('padding')).toBe('minor');
-            expect(attr.getProperty('lesson')).toBe('first');
-            expect(attr.getProperty('method')).toBe('deduct');
-            expect(attr.getProperty('profile')).toBe(1);
+            expect(prop.getProperty('lesson')).toBe('first');
+            expect(prop.getProperty('method')).toBe('deduct');
+            expect(prop.getProperty('profile')).toBe(1);
             expect(result.getHref()).toBe('www.pizza.it');
         });
 

@@ -37,6 +37,8 @@
 	<script type="text/javascript" src="js/classes/Helper.js"></script>
 	<script type="text/javascript" src="js/classes/Helper/unit.js"></script>
 	<script type="text/javascript" src="js/classes/Properties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/ImageProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/LinkProperties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/Attributes.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/Attributes/TableAttributes.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/Attributes/LinkAttributes.js"></script>

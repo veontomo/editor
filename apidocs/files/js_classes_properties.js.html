@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties.js - Newsletter API</title>
+    <title>js\classes\properties.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -57,11 +57,15 @@
             
                 <li><a href="../classes/Image.html">Image</a></li>
             
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
                 <li><a href="../classes/ImageStyle.html">ImageStyle</a></li>
             
                 <li><a href="../classes/Link.html">Link</a></li>
             
                 <li><a href="../classes/LinkAttributes.html">LinkAttributes</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
             
                 <li><a href="../classes/LinkStyles.html">LinkStyles</a></li>
             
@@ -152,7 +156,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties.js</h1>
+                        <h1 class="file-heading">File: js\classes\properties.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -274,6 +278,19 @@ function Properties(input) {
 		if (typeof name === &#x27;string&#x27;){
 			className = name;
 		}
+	};
+
+
+	/**
+	 * Sets value of &#x60;style&#x60; key. Converts argument into {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance
+	 * and then performs assignment.
+	 * @method         setStyles
+	 * @param          {Any}                stl
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setStyles = function(stl){
+		core.style = stl instanceof Properties ? stl : new Properties(stl);
 	};
 
 	/**
@@ -608,7 +625,6 @@ function Properties(input) {
 	 * @return    {Object}
 	 */
 	this.clone = function(){
-		console.log(&#x27;entered Properties::clone&#x27;);
 		var Constr = window[this.getName()],
 			clone, attr, current,
 			coreContent = this.getCore();
@@ -628,7 +644,6 @@ function Properties(input) {
 				clone.setProperty(attr, coreContent[attr]);
 			}
 		}
-		console.log(&#x27;exiting  Properties::clone&#x27;);
 		return clone;
 	};
 
@@ -751,17 +766,18 @@ function Properties(input) {
 		return this.getProperty(&#x27;style&#x27;);
 	};
 
+
 	/**
-	 * Sets value of &#x60;style&#x60; key. Converts argument into {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance
-	 * and then performs assignment.
-	 * @method         setStyles
-	 * @param          {Any}                stl
-	 * @return         {void}
+	 * Returns &#x60;true&#x60; if instance contains &#x60;style&#x60; key inside which there is a key &#x60;propName&#x60;.
+	 * Otherwise, &#x60;false&#x60; is returned.
+	 * @method         hasStyleProperty
+	 * @param          {String}             propName
+	 * @return         {Boolean}
 	 * @since          0.0.5
 	 */
-	this.setStyles = function(stl){
-		core.style = stl instanceof Properties ? stl : new Properties(stl);
-	};
+	this.hasStyleProperty = function(propName){
+		return this.hasStyles() &amp;&amp; this.getStyles().hasProperty(propName);
+	}
 
 
 	/**
@@ -778,6 +794,22 @@ function Properties(input) {
 	this.setStyleProperty = function(key, value){
 		this.initializeStyle();
 		this.getStyles().setProperty(key, value);
+	};
+
+
+	/**
+	 * Returns the value of key &#x60;propName&#x60; inside &#x60;style&#x60; key (if it exists) of the current object.
+	 * If it does not exist, nothing is returned.
+	 * @method  getStyleProperty
+	 * @since   0.0.5
+	 * @param   {String}    propName
+	 * @return  {Any}
+	 *
+	 */
+	this.getStyleProperty = function(propName){
+		if (this.hasStyles()){
+			return this.getStyles().getProperty(propName);
+		}
 	};
 
 
