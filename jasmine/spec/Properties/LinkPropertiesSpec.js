@@ -61,7 +61,7 @@ describe('LinkProperties-related functionality', function(){
             expect(prop.getStyleProperty('padding')).toBe(0);
         });
 
-        it('contains key "margin set to 0', function(){
+        it('contains key "margin" set to 0', function(){
             expect(prop.hasStyleProperty('margin')).toBe(true);
             expect(prop.getStyleProperty('margin')).toBe(0);
         });

@@ -42,7 +42,7 @@ function List(listType) {
 	 */
 	this.setTag(allowedTags.indexOf(listType) !== -1 ? listType : allowedTags[0]);
 	this.setName('List');
-	this.setStyles(new ListStyles());
+	this.setProperties(new ListProperties());
 
 	/**
 	 * Change the {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} of the list. If the argument is not in
