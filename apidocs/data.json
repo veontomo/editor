@@ -172,15 +172,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Attributes\\LinkAttributes.js": {
-            "name": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "modules": {},
-            "classes": {
-                "LinkAttributes": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "js\\classes\\Properties\\Attributes\\TableAttributes.js": {
             "name": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
             "modules": {},
@@ -190,8 +181,17 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\ImageStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\ImageStyles.js",
+        "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js": {
+            "name": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "modules": {},
+            "classes": {
+                "LinkAttributes": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
             "modules": {},
             "classes": {
                 "ImageStyle": 1
@@ -199,8 +199,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\LinkStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\LinkStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
             "modules": {},
             "classes": {
                 "LinkStyles": 1
@@ -208,8 +208,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\ListItemStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\ListItemStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
             "modules": {},
             "classes": {
                 "ListItemStyles": 1
@@ -217,8 +217,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\ListStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\ListStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
             "modules": {},
             "classes": {
                 "ListStyles": 1
@@ -226,8 +226,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\TableCellStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\TableCellStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
             "modules": {},
             "classes": {
                 "TableCellStyles": 1
@@ -235,8 +235,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\TableRowStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\TableRowStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
             "modules": {},
             "classes": {
                 "TableRowStyles": 1
@@ -244,8 +244,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\TableStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\TableStyles.js",
+        "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js": {
+            "name": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
             "modules": {},
             "classes": {
                 "TableStyles": 1
@@ -258,6 +258,15 @@
             "modules": {},
             "classes": {
                 "Attributes": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\CellProperties.js": {
+            "name": "js\\classes\\Properties\\CellProperties.js",
+            "modules": {},
+            "classes": {
+                "CellProperties": 1
             },
             "fors": {},
             "namespaces": {}
@@ -280,11 +289,47 @@
             "fors": {},
             "namespaces": {}
         },
+        "js\\classes\\Properties\\ListItemProperties.js": {
+            "name": "js\\classes\\Properties\\ListItemProperties.js",
+            "modules": {},
+            "classes": {
+                "ListItemProperties": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\ListProperties.js": {
+            "name": "js\\classes\\Properties\\ListProperties.js",
+            "modules": {},
+            "classes": {
+                "ListProperties": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\RowProperties.js": {
+            "name": "js\\classes\\Properties\\RowProperties.js",
+            "modules": {},
+            "classes": {
+                "RowProperties": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "js\\classes\\Properties\\Styles.js": {
             "name": "js\\classes\\Properties\\Styles.js",
             "modules": {},
             "classes": {
                 "Styles": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\TableProperties.js": {
+            "name": "js\\classes\\Properties\\TableProperties.js",
+            "modules": {},
+            "classes": {
+                "TableProperties": 1
             },
             "fors": {},
             "namespaces": {}
@@ -415,8 +460,8 @@
             "name": "Properties",
             "submodules": {},
             "classes": {
-                "LinkAttributes": 1,
                 "TableAttributes": 1,
+                "LinkAttributes": 1,
                 "ImageStyle": 1,
                 "LinkStyles": 1,
                 "ListItemStyles": 1,
@@ -425,9 +470,14 @@
                 "TableRowStyles": 1,
                 "TableStyles": 1,
                 "Attributes": 1,
+                "CellProperties": 1,
                 "ImageProperties": 1,
                 "LinkProperties": 1,
+                "ListItemProperties": 1,
+                "ListProperties": 1,
+                "RowProperties": 1,
                 "Styles": 1,
+                "TableProperties": 1,
                 "Properties": 1
             },
             "fors": {},
@@ -708,21 +758,6 @@
             "line": 5,
             "description": "This class is used to represent a general html tag."
         },
-        "LinkAttributes": {
-            "name": "LinkAttributes",
-            "shortname": "LinkAttributes",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Properties",
-            "namespace": "",
-            "file": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "line": 4,
-            "description": "Table-specific attributes.",
-            "extends": "Attributes"
-        },
         "TableAttributes": {
             "name": "TableAttributes",
             "shortname": "TableAttributes",
@@ -738,6 +773,21 @@
             "description": "Table-specific attributes.",
             "extends": "Attributes"
         },
+        "LinkAttributes": {
+            "name": "LinkAttributes",
+            "shortname": "LinkAttributes",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "line": 4,
+            "description": "Table-specific attributes.",
+            "extends": "Attributes"
+        },
         "ImageStyle": {
             "name": "ImageStyle",
             "shortname": "ImageStyle",
@@ -748,7 +798,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\ImageStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
             "line": 3,
             "description": "Represents image styles."
         },
@@ -762,7 +812,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\LinkStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
             "line": 4,
             "description": "Represents hyperlink style.",
             "params": [
@@ -783,7 +833,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\ListItemStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
             "line": 3,
             "description": "Represents list item styles."
         },
@@ -797,7 +847,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\ListStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
             "line": 4,
             "description": "Represents image styles."
         },
@@ -811,7 +861,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\TableCellStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
             "line": 4,
             "description": "Represents table cell styles."
         },
@@ -825,7 +875,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\TableRowStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
             "line": 3,
             "description": "Represents table row style."
         },
@@ -839,7 +889,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\TableStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
             "line": 4,
             "description": "Represents table style."
         },
@@ -863,6 +913,20 @@
                     "type": "String|Object"
                 }
             ]
+        },
+        "CellProperties": {
+            "name": "CellProperties",
+            "shortname": "CellProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\CellProperties.js",
+            "line": 3,
+            "description": "Represents table cell properties."
         },
         "ImageProperties": {
             "name": "ImageProperties",
@@ -892,6 +956,48 @@
             "line": 3,
             "description": "Represents image properties."
         },
+        "ListItemProperties": {
+            "name": "ListItemProperties",
+            "shortname": "ListItemProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\ListItemProperties.js",
+            "line": 3,
+            "description": "Represents list item styles."
+        },
+        "ListProperties": {
+            "name": "ListProperties",
+            "shortname": "ListProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\ListProperties.js",
+            "line": 4,
+            "description": "Represents image styles."
+        },
+        "RowProperties": {
+            "name": "RowProperties",
+            "shortname": "RowProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\RowProperties.js",
+            "line": 3,
+            "description": "Represents image properties."
+        },
         "Styles": {
             "name": "Styles",
             "shortname": "Styles",
@@ -912,6 +1018,20 @@
                     "type": "String|Object"
                 }
             ]
+        },
+        "TableProperties": {
+            "name": "TableProperties",
+            "shortname": "TableProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\TableProperties.js",
+            "line": 3,
+            "description": "Represents image properties."
         },
         "CKHelper": {
             "name": "CKHelper",
@@ -1933,7 +2053,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\ListItem.js",
             "line": 20,
-            "description": "Re-set private properties defined in parent class {{#crossLink \"Tag\"}}Tag{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} to be \"td\"\n</li><li>\n{{#crossLink \"Tag/className:property\"}}className{{/crossLink}} to be \"Cell\"\n</li><li>\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} to be\n{{#crossLink \"TableCellStyles\"}}TableCellStyles{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} accepts current class argument.\n</li></ol>",
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Tag\"}}Tag{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} to be \"td\"\n</li><li>\n{{#crossLink \"Tag/className:property\"}}className{{/crossLink}} to be \"Cell\"\n</li><li>\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} to be\n{{#crossLink \"ListItemProperties\"}}ListItemProperties{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} accepts current class argument.\n</li></ol>",
             "itemtype": "method",
             "name": "constructor",
             "class": "ListItem",
@@ -2251,7 +2371,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 117,
+            "line": 116,
             "description": "Phantom cell.",
             "itemtype": "property",
             "name": "phantomCell",
@@ -2264,7 +2384,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 126,
+            "line": 125,
             "description": "Phantom row.",
             "itemtype": "property",
             "name": "phantomRow",
@@ -2277,7 +2397,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 136,
+            "line": 135,
             "description": "Phantom table {{#crossLink \"Styles\"}}styles{{/crossLink}}.",
             "itemtype": "property",
             "name": "phantomTable",
@@ -2290,7 +2410,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 145,
+            "line": 144,
             "description": "Initializes {{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}},\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}} if not initialized.\nIf they are initialized, no re-initialization happens.",
             "itemtype": "method",
             "name": "setPhantoms",
@@ -2302,7 +2422,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 166,
+            "line": 165,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomCellStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomCellStyles",
@@ -2315,7 +2435,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 178,
+            "line": 177,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomCellStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomCellStyles",
@@ -2335,7 +2455,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 196,
+            "line": 195,
             "description": "{{#crossLink \"Table/phantomCellStyles:property\"}}phantomRowStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomRowStyles",
@@ -2348,7 +2468,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 207,
+            "line": 206,
             "description": "{{#crossLink \"Table/phantomRowStyles:property\"}}setPhantomRowStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomRowStyles",
@@ -2368,7 +2488,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 225,
+            "line": 224,
             "description": "{{#crossLink \"Table/phantomTableStyles:property\"}}phantomTableStyles{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomTableStyles",
@@ -2381,7 +2501,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 236,
+            "line": 235,
             "description": "{{#crossLink \"Table/phantomTableStyles:property\"}}phantomTableStyles{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomTableStyles",
@@ -2401,7 +2521,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 254,
+            "line": 253,
             "description": "{{#crossLink \"FramedTable/phantomCellAttributes:property\"}}phantomCellAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomCellAttributes",
@@ -2414,7 +2534,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 266,
+            "line": 265,
             "description": "{{#crossLink \"FramedTable/phantomCellAttributes:property\"}}phantomCellAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomCellAttributes",
@@ -2434,7 +2554,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 277,
+            "line": 276,
             "description": "Returns `true` if the content of the instance contains the only element\nwhich is a \"tbody\" tag instance.",
             "itemtype": "method",
             "name": "hasTBody",
@@ -2447,7 +2567,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 288,
+            "line": 287,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomRowAttributes",
@@ -2460,7 +2580,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 300,
+            "line": 299,
             "description": "{{#crossLink \"FramedTable/phantomRowAttributes:property\"}}phantomRowAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomRowAttributes",
@@ -2482,7 +2602,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 319,
+            "line": 318,
             "description": "Sets {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} of\n{{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}}.",
             "itemtype": "method",
             "name": "setPhantomRowProperties",
@@ -2503,7 +2623,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 332,
+            "line": 331,
             "description": "Sets {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} of\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}}.",
             "itemtype": "method",
             "name": "setPhantomCellProperties",
@@ -2524,7 +2644,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 346,
+            "line": 345,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getPhantomTableAttributes",
@@ -2537,7 +2657,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 358,
+            "line": 357,
             "description": "{{#crossLink \"FramedTable/phantomTableAttributes:property\"}}phantomTableAttributes{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setPhantomTableAttributes",
@@ -2559,7 +2679,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 379,
+            "line": 378,
             "description": "Sets private variable {{#crossLink \"Tag/_property:property\"}}_property{{/crossLink}} of\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}}.",
             "itemtype": "method",
             "name": "setPhantomTableProperties",
@@ -2580,7 +2700,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 393,
+            "line": 392,
             "description": "{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}}\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} getter.\nAlias for {{#crossLink \"Tag/getProperties:property\"}}getProperties{{/crossLink}}\nmethod.",
             "itemtype": "method",
             "name": "getPhantomTableProperties",
@@ -2594,7 +2714,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 406,
+            "line": 405,
             "description": "Returns {{#crossLink \"Tag/openingTag:method\"}}opening{{/crossLink}} or\n{{#crossLink \"Tag/closingTag:method\"}}closing{{/crossLink}} tag for one of the\nphantom elements: {{#crossLink \"Table/phantomCell:property\"}}cell{{/crossLink}},\n{{#crossLink \"Table/phantomRow:property\"}}row{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}table{{/crossLink}}.",
             "itemtype": "method",
             "name": "getPhantomTag",
@@ -2619,7 +2739,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 436,
+            "line": 435,
             "description": "The number of the rows in the table. It scans {{#crossLink \"Table/content:property\"}}content{{/crossLink}}\nof the instance until the first occurrence of `tbody` tag. Once found, its length is returned. If not found,\nzero is returned.",
             "itemtype": "method",
             "name": "rowNum",
@@ -2632,7 +2752,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 448,
+            "line": 447,
             "description": "Sets `tbody` part of the table. The argument must be either a {{#crossLink \"Row\"}}Row{{/crossLink}}\ninstance or an array of {{#crossLink \"Row\"}}Row{{/crossLink}} instances.\nOtherwise, an error is thrown.\n\nEven though not more than one instance of `tbody` must be present among\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\n{{#crossLink \"Content/elements:property\"}}elements{{/crossLink}}, all `tbody` tags are first dropped\nfrom {{#crossLink \"Tag/content:property\"}}content{{/crossLink}} and then the requested one is inserted.",
             "itemtype": "method",
             "name": "setBody",
@@ -2653,7 +2773,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 488,
+            "line": 487,
             "description": "Alias for {{#crossLink \"Table/setBody:method\"}}setBody{{/crossLink}} method.\n\nOverrides parent method {{#crossLink \"Tag/setElements:method\"}}setElements{{/crossLink}}.",
             "itemtype": "method",
             "name": "setElements",
@@ -2669,7 +2789,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 500,
+            "line": 499,
             "description": "Returns array of {{#crossLink \"Row\"}}Row{{/crossLink}} instances in `tbody` part of the table.",
             "itemtype": "method",
             "name": "getBody",
@@ -2683,7 +2803,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 514,
+            "line": 513,
             "description": "Returns footer of the table.",
             "itemtype": "method",
             "name": "getFooter",
@@ -2696,7 +2816,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 526,
+            "line": 525,
             "description": "Returns header of the table.",
             "itemtype": "method",
             "name": "getHeader",
@@ -2709,7 +2829,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 538,
+            "line": 537,
             "description": "Returns header of the table.",
             "itemtype": "method",
             "name": "getCaption",
@@ -2722,7 +2842,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 550,
+            "line": 549,
             "description": "Appends a row to the content property. If the argument is not a Row instance, an error is thrown.",
             "itemtype": "method",
             "name": "appendRow",
@@ -2742,7 +2862,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 574,
+            "line": 573,
             "description": "Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]\nwhere w_ij is width of the cell located in the row i and column j.",
             "itemtype": "method",
             "name": "getMatrix",
@@ -2755,7 +2875,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 591,
+            "line": 590,
             "description": "Returns array of widths of the cells in the table rows if all rows\nhave the same cell widths. Otherwise null is returned.",
             "itemtype": "method",
             "name": "getProfile",
@@ -2768,7 +2888,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 603,
+            "line": 602,
             "description": "Imposes the widths of all cell in all rows of the table body. If the argument is not array, an error is thrown.\nIf the array length is different from the number of columns, an error is thrown. Otherwise, it is called\nmethod {{#crossLink \"Row/setCellWidths:method\"}}setCellWidths{{/crossLink}} on each row of table body.",
             "itemtype": "method",
             "name": "setProfile",
@@ -2788,7 +2908,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 628,
+            "line": 627,
             "description": "Inserts a cell \"cell\" into a given position \"pos\" of each row of the table.\nIf the table has 5 columns, then after insertion it will have 5+1=6 columns.\nPosition \"pos\" will correspond to the index of the inserted cell in the row after insertion.\n\"pos\" must be a valid cell number into the table after insertion. So, for the example above,\nthe valid values for \"pos\" are 0, 1, 2, 3, 4 and 5.",
             "itemtype": "method",
             "name": "insertColAt",
@@ -2813,7 +2933,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 663,
+            "line": 662,
             "description": "insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "insertColumnAt",
@@ -2840,7 +2960,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 676,
+            "line": 675,
             "description": "Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`",
             "itemtype": "method",
             "name": "knockOutCol",
@@ -2860,7 +2980,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 692,
+            "line": 691,
             "description": "dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .",
             "itemtype": "method",
             "name": "dropColumn",
@@ -2887,7 +3007,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 706,
+            "line": 705,
             "description": "Drops specified column from the table. The operation is delegated to the `Row::dropCellAt()`",
             "itemtype": "method",
             "name": "dropColAt",
@@ -2907,7 +3027,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 722,
+            "line": 721,
             "description": "Gives the number of columns in the table or null if not all rows have the same number of cells.\nThe operation is delegated to the `Row::cellNum()`.",
             "itemtype": "method",
             "name": "colNum",
@@ -2920,7 +3040,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 751,
+            "line": 750,
             "description": "Whether all rows in the table have the same cell widths.",
             "itemtype": "method",
             "name": "isSameWidth",
@@ -2933,7 +3053,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 788,
+            "line": 787,
             "description": "Set the border of the table. It sets key `border` of {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\n as well as keys `border-width`, `border-color` and `border-style` of `style` key of\n {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "setBorder",
@@ -2953,7 +3073,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 814,
+            "line": 813,
             "description": "Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:\n1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'\n2. in 'attr' property, deletes 'border' property.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -2966,7 +3086,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 838,
+            "line": 837,
             "description": "Returns true if the table is fragmented, and false otherwise. It takes table rows and calls method\n{{#crossLink \"Row/onlyTableInside:method\"}}onlyTableInside{{/crossLink}} on each of them until\nfirst \"false\" is encountered.\n\nA table is a __framed table__ if all table rows have only one cell and this cell contains\nonly one element that is a Table instance.",
             "itemtype": "method",
             "name": "isFragmented",
@@ -2979,7 +3099,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 861,
+            "line": 860,
             "description": "Returns `true` if at least one of the following variables  {{#crossLink \"Table/phantomRow:property\"}}phantomRow{{/crossLink}},\n{{#crossLink \"Table/phantomCell:property\"}}phantomCell{{/crossLink}},\n{{#crossLink \"Table/phantomTable:property\"}}phantomTable{{/crossLink}} is set. `False` otherwise.",
             "itemtype": "method",
             "name": "isFramed",
@@ -2992,7 +3112,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 872,
+            "line": 871,
             "description": "Unsets phantom properties. After resetting those properties, the table becomes a table without frame.",
             "itemtype": "method",
             "name": "unsetPhantom",
@@ -3005,7 +3125,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 883,
+            "line": 882,
             "description": "Appends the style to the column. If the column exists, the method call `Row::appendStyleToCell()`\non each of the table rows.",
             "itemtype": "method",
             "name": "appendStyleToCol",
@@ -3030,7 +3150,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 907,
+            "line": 906,
             "description": "Generates html representation of the table body. If table is framed, then each row is \"sandwiched\" with\nphantom elements.",
             "itemtype": "method",
             "name": "bodyToHtml",
@@ -3051,7 +3171,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 931,
+            "line": 930,
             "description": "Generates html code corresponding to this instance. Eventually, wraps each element of\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} with strings corresponding to phantom\nelements. Generation of html string of each {{#crossLink \"Tag/content:property\"}}content element{{/crossLink}}\nis delegated to its `toHtml` method (if the elements has `toHtml` method, this element gets ignored).",
             "itemtype": "method",
             "name": "toHtml",
@@ -3064,7 +3184,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 958,
+            "line": 957,
             "description": "If the table is fragmented and all rows have the same requested property, then\nthis property of the first row is returned. In any other case, null is returned.\nNB: to compare requested property for all rows, this property must be an object\nwith boolean-valued method isTheSameAs().",
             "itemtype": "method",
             "name": "getPhantomRowProp",
@@ -3084,7 +3204,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1001,
+            "line": 1000,
             "description": "Gets copy of n-th row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getRow",
@@ -3105,7 +3225,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1017,
+            "line": 1016,
             "description": "Returns copy of the first row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getFirstRow",
@@ -3119,7 +3239,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1029,
+            "line": 1028,
             "description": "Returns copy of last row stored in table body. If that row does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getLastRow",
@@ -3133,7 +3253,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1042,
+            "line": 1041,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomCellProp",
@@ -3153,7 +3273,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1070,
+            "line": 1069,
             "description": "If the table is fragmented, gives the requested property of the phantom cell if that property is\nthe same for all rows. Otherwise, null is returned.",
             "itemtype": "method",
             "name": "getPhantomTableProp",
@@ -3173,7 +3293,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1099,
+            "line": 1098,
             "description": "If the table is fragmented, then sets up the phantom properties and rearrange content property.\nIf not, the table remains as it is.\n\nNB: refactor it!!!!\n\nNB: note that disentanglement only of table body occurs. If table header contains fragmented table,\nit remains untouched.",
             "itemtype": "method",
             "name": "desintangle",
@@ -5528,60 +5648,6 @@
             "module": "HtmlElements"
         },
         {
-            "file": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "line": 19,
-            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"LinkAttributes\"\n</li></ol>",
-            "itemtype": "method",
-            "name": "constructor",
-            "class": "LinkAttributes",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "line": 28,
-            "description": "Object with key-values for link attributes. They should be set if they were not set before.",
-            "itemtype": "property",
-            "name": "linkAttrCore",
-            "type": "String",
-            "access": "private",
-            "tagname": "",
-            "class": "LinkAttributes",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "line": 36,
-            "description": "Href getter.",
-            "itemtype": "method",
-            "name": "getHref",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "LinkAttributes",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties\\Attributes\\LinkAttributes.js",
-            "line": 45,
-            "description": "Href setter. Native javascript function `encodeURI()` will be applied to the argument.",
-            "itemtype": "method",
-            "name": "setHref",
-            "params": [
-                {
-                    "name": "url",
-                    "description": "`encodeURI()` is to be applied when assigning to this.url",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "LinkAttributes",
-            "module": "Properties"
-        },
-        {
             "file": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableAttributes\"\n</li></ol>",
@@ -5603,7 +5669,61 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ImageStyles.js",
+            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "line": 19,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"LinkAttributes\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "LinkAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "line": 28,
+            "description": "Object with key-values for link attributes. They should be set if they were not set before.",
+            "itemtype": "property",
+            "name": "linkAttrCore",
+            "type": "String",
+            "access": "private",
+            "tagname": "",
+            "class": "LinkAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "line": 36,
+            "description": "Href getter.",
+            "itemtype": "method",
+            "name": "getHref",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "LinkAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "line": 45,
+            "description": "Href setter. Native javascript function `encodeURI()` will be applied to the argument.",
+            "itemtype": "method",
+            "name": "setHref",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "`encodeURI()` is to be applied when assigning to this.url",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "LinkAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ImageStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5612,7 +5732,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ImageStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
             "line": 27,
             "description": "Object with key-values for images. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5624,7 +5744,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\LinkStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
             "line": 19,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"LinkStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5633,7 +5753,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\LinkStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
             "line": 28,
             "description": "Object with key-values for hyperlinks. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5645,7 +5765,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ListItemStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListItemStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5654,7 +5774,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ListItemStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
             "line": 27,
             "description": "Object with key-values for lists. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5666,7 +5786,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ListStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5675,7 +5795,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\ListStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
             "line": 29,
             "description": "Object with key-values for lists. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5687,7 +5807,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableCellStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableCellStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5696,7 +5816,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableCellStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
             "line": 28,
             "description": "Object with key-values for table cells. They should be set if they were not set before. <br/>\nNB: Gmail removes color tags corresponding to black color, so use `#000001` instead of `#000000`.",
             "itemtype": "property",
@@ -5708,7 +5828,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableRowStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableRowStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5717,7 +5837,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableRowStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
             "line": 26,
             "description": "Object with key-values for table rows. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5729,7 +5849,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5738,7 +5858,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\TableStyles.js",
+            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
             "line": 29,
             "description": "Object with key-values for tables. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5817,6 +5937,27 @@
             "module": "Properties"
         },
         {
+            "file": "js\\classes\\Properties\\CellProperties.js",
+            "line": 18,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"CellProperties\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "CellProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\CellProperties.js",
+            "line": 27,
+            "description": "Object with key-value pairs for image style. To be set, if corresponding key is not set.\n<pre>{'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0,\n'margin': 0, 'vertical-align': 'top', 'color': '#000001', 'text-align': 'justify'};</pre>",
+            "itemtype": "property",
+            "name": "imageStyleCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "CellProperties",
+            "module": "Properties"
+        },
+        {
             "file": "js\\classes\\Properties\\ImageProperties.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ImageProperties\"\n</li></ol>",
@@ -5880,6 +6021,69 @@
             "access": "private",
             "tagname": "",
             "class": "LinkProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\ListItemProperties.js",
+            "line": 18,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListItemProperties\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "ListItemProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\ListItemProperties.js",
+            "line": 28,
+            "description": "Object with key-value pairs for styles of list items. To be set, if corresponding key is not set.\n<pre>{'padding': 0, 'margin': 0, 'font-size': 12, 'font-weight': 'normal', 'color': '#000001'}</pre>",
+            "itemtype": "property",
+            "name": "listItemStyleCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "ListItemProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\ListProperties.js",
+            "line": 18,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListProperties\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "ListProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\ListProperties.js",
+            "line": 27,
+            "description": "Object with key-value pairs for link style. To be set, if corresponding key is not set.\n<pre>{'padding': 0, 'margin-left': 40, 'margin-right': 0, 'margin-top': 0, 'margin-bottom': 0}</pre>",
+            "itemtype": "property",
+            "name": "linkStyleCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "ListProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\RowProperties.js",
+            "line": 18,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"RowProperties\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "RowProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\RowProperties.js",
+            "line": 28,
+            "description": "Object with key-value pairs for link style. To be set, if corresponding key is not set.\n<pre>{'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0}</pre>",
+            "itemtype": "property",
+            "name": "rowStyleCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "RowProperties",
             "module": "Properties"
         },
         {
@@ -6025,6 +6229,39 @@
                 "type": "Void"
             },
             "class": "Styles",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\TableProperties.js",
+            "line": 18,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableProperties\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "TableProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\TableProperties.js",
+            "line": 28,
+            "description": "Default key-value pairs for image attributes.\n<pre>{'cellpadding': 0, 'cellspacing': 0}</pre>",
+            "itemtype": "property",
+            "name": "tableCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "TableProperties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\TableProperties.js",
+            "line": 42,
+            "description": "Object with key-value pairs for image style. To be set, if corresponding key is not set.\n<pre>{'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0,  'min-width': 0,\n'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'}</pre>",
+            "itemtype": "property",
+            "name": "tableStyleCore",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "TableProperties",
             "module": "Properties"
         },
         {

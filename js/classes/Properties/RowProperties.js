@@ -25,21 +25,6 @@ function RowProperties(obj) {
     this.setName('RowProperties');
 
 
-
-    /**
-     * Default key-value pairs for table row attributes.
-     * <pre>{'cellpadding': 0, 'cellspacing': 0}</pre>
-     * @property       {Object}             rowCore
-     * @private
-     * @type           {Object}
-     */
-    var rowCore = {'cellpadding': 0, 'cellspacing': 0};
-    // Sets the above keys in the parent object core
-    Object.keys(rowCore).forEach(function(key){
-        this.setProperty(key, rowCore[key]);
-    }.bind(this));
-
-
     /**
      * Object with key-value pairs for link style. To be set, if corresponding key is not set.
      * <pre>{'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0}</pre>

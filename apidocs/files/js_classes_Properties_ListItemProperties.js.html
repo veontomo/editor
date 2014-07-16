@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\Styles\ListItemStyles.js - Newsletter API</title>
+    <title>js\classes\Properties\ListItemProperties.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -45,6 +45,8 @@
             
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
                 <li><a href="../classes/CKHelper.html">CKHelper</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
@@ -73,7 +75,11 @@
             
                 <li><a href="../classes/ListItem.html">ListItem</a></li>
             
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
                 <li><a href="../classes/ListItemStyles.html">ListItemStyles</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
             
                 <li><a href="../classes/ListStyles.html">ListStyles</a></li>
             
@@ -87,6 +93,8 @@
             
                 <li><a href="../classes/Row.html">Row</a></li>
             
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
                 <li><a href="../classes/Selection.html">Selection</a></li>
             
                 <li><a href="../classes/StringHelper.html">StringHelper</a></li>
@@ -98,6 +106,8 @@
                 <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
             
                 <li><a href="../classes/TableCellStyles.html">TableCellStyles</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
             
                 <li><a href="../classes/TableRowStyles.html">TableRowStyles</a></li>
             
@@ -156,46 +166,51 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\Styles\ListItemStyles.js</h1>
+                        <h1 class="file-heading">File: js\classes\Properties\ListItemProperties.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Styles */
+/*global Properties */
 /**
  * Represents list item styles.
  * @module        Properties
- * @class         ListItemStyles
- * @extends       Styles
+ * @class         ListItemProperties
+ * @extends       Properties
  * @constructor
+ * @since         0.0.5
  */
-function ListItemStyles(obj) {
+function ListItemProperties(obj) {
     &#x27;use strict&#x27;;
-    if (!(this instanceof ListItemStyles)) {
-        return new ListItemStyles(obj);
+    if (!(this instanceof ListItemProperties)) {
+        return new ListItemProperties(obj);
     }
-    Styles.call(this, obj);
+    Properties.call(this, obj);
 
     /**
     * Re-set private properties defined in parent class {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}}:
     * &lt;ol&gt;&lt;li&gt;
-    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;ListItemStyles&quot;
+    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;ListItemProperties&quot;
     * &lt;/li&gt;&lt;/ol&gt;
     * @method         constructor
     */
-    this.setName(&#x27;ListItemStyles&#x27;);
+    this.setName(&#x27;ListItemProperties&#x27;);
 
 
     /**
-     * Object with key-values for lists. They should be set if they were not set before. &lt;br/&gt;
+     * Object with key-value pairs for styles of list items. To be set, if corresponding key is not set.
+     * &lt;pre&gt;{&#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;font-size&#x27;: 12, &#x27;font-weight&#x27;: &#x27;normal&#x27;, &#x27;color&#x27;: &#x27;#000001&#x27;}&lt;/pre&gt;
      * @property {Object}  listItemStyleCore
      * @type     {Object}
      * @private
      */
     var listItemStyleCore = {&#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;font-size&#x27;: 12, &#x27;font-weight&#x27;: &#x27;normal&#x27;, &#x27;color&#x27;: &#x27;#000001&#x27;};
-    this.suggestProperty(listItemStyleCore);
+    this.initializeStyle();
+    var stl = this.getStyles();
+    stl.suggestProperty(listItemStyleCore);
+    this.setStyles(stl);
 }
-ListItemStyles.prototype = Object.create(Styles.prototype);
+ListItemProperties.prototype = Object.create(Properties.prototype);
     </pre>
 </div>
 

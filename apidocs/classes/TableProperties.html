@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ImageStyle - Newsletter API</title>
+    <title>TableProperties - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,7 +166,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ImageStyle Class</h1>
+                        <h1>TableProperties Class</h1>
 <div class="box meta">
     
 
@@ -174,7 +174,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l3"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:3</code></a>
+            Defined in: <a href="../files/js_classes_Properties_TableProperties.js.html#l3"><code>js\classes\Properties\TableProperties.js:3</code></a>
         </div>
     
 
@@ -190,7 +190,7 @@
 
 
 <div class="box intro">
-    <p>Represents image styles.</p>
+    <p>Represents image properties.</p>
 
 </div>
 
@@ -238,7 +238,14 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property_imageStyleCore">imageStyleCore</a>
+                                <a href="#property_tableCore">tableCore</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property_tableStyleCore">tableStyleCore</a>
 
                                 
                                 
@@ -290,7 +297,7 @@
             
         
         
-        <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l17"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:17</code></a>
+        <a href="../files/js_classes_Properties_TableProperties.js.html#l18"><code>js\classes\Properties\TableProperties.js:18</code></a>
         
         </p>
 
@@ -301,9 +308,9 @@
     </div>
 
     <div class="description">
-        <p>Re-set private properties defined in parent class <a href="../classes/Styles.html" class="crosslink">Styles</a>:</p>
+        <p>Re-set private properties defined in parent class <a href="../classes/Properties.html" class="crosslink">Properties</a>:</p>
 <ol><li>
-<a href="../classes/Properties.html#property_className" class="crosslink">className</a> to be "ImageStyles"
+<a href="../classes/Properties.html#property_className" class="crosslink">className</a> to be "TableProperties"
 </li></ol>
     </div>
 
@@ -323,8 +330,8 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_imageStyleCore" class="property item private">
-    <h3 class="name"><code>imageStyleCore</code></h3>
+                    <div id="property_tableCore" class="property item private">
+    <h3 class="name"><code>tableCore</code></h3>
     <span class="type">Object</span>
 
     
@@ -348,7 +355,7 @@
             
         
         
-        <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l27"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:27</code></a>
+        <a href="../files/js_classes_Properties_TableProperties.js.html#l28"><code>js\classes\Properties\TableProperties.js:28</code></a>
         
         </p>
 
@@ -358,8 +365,56 @@
     </div>
 
     <div class="description">
-        <p>Object with key-values for images. They should be set if they were not set before. <br/></p>
+        <p>Default key-value pairs for image attributes.</p>
+<pre>{'cellpadding': 0, 'cellspacing': 0}</pre>
+    </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tableStyleCore" class="property item private">
+    <h3 class="name"><code>tableStyleCore</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties_TableProperties.js.html#l42"><code>js\classes\Properties\TableProperties.js:42</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Object with key-value pairs for image style. To be set, if corresponding key is not set.</p>
+<pre>{'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0,  'min-width': 0,
+'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'}</pre>
     </div>
 
     

@@ -23,19 +23,6 @@ describe('RowProperties-related functionality', function(){
         });
     });
 
-    describe('Sets table row attribute keys', function(){
-        //   {'cellpadding': 0, 'cellspacing': 0};
-        it('contains key "target" set to 0', function(){
-            expect(prop.hasProperty('cellpadding')).toBe(true);
-            expect(prop.getProperty('cellpadding')).toBe(0);
-        });
-
-        it('contains key "cellspacing" set to 0', function(){
-            expect(prop.hasProperty('cellspacing')).toBe(true);
-            expect(prop.getProperty('cellspacing')).toBe(0);
-        });
-    });
-
     describe('Sets link attribute key "style"', function(){
         it('is an instance of Properties', function(){
             expect(prop.getStyles() instanceof Properties).toBe(true);

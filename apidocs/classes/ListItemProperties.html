@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\Styles\TableStyles.js - Newsletter API</title>
+    <title>ListItemProperties - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -45,6 +45,8 @@
             
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
                 <li><a href="../classes/CKHelper.html">CKHelper</a></li>
             
                 <li><a href="../classes/Content.html">Content</a></li>
@@ -73,7 +75,11 @@
             
                 <li><a href="../classes/ListItem.html">ListItem</a></li>
             
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
                 <li><a href="../classes/ListItemStyles.html">ListItemStyles</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
             
                 <li><a href="../classes/ListStyles.html">ListStyles</a></li>
             
@@ -87,6 +93,8 @@
             
                 <li><a href="../classes/Row.html">Row</a></li>
             
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
                 <li><a href="../classes/Selection.html">Selection</a></li>
             
                 <li><a href="../classes/StringHelper.html">StringHelper</a></li>
@@ -98,6 +106,8 @@
                 <li><a href="../classes/TableAttributes.html">TableAttributes</a></li>
             
                 <li><a href="../classes/TableCellStyles.html">TableCellStyles</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
             
                 <li><a href="../classes/TableRowStyles.html">TableRowStyles</a></li>
             
@@ -156,51 +166,217 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\Styles\TableStyles.js</h1>
+                        <h1>ListItemProperties Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/*jslint plusplus: true, white: true */
-/*global Styles */
+    
 
-/**
- * Represents table style.
- * @module        Properties
- * @class         TableStyles
- * @constructor
- * @extends       Styles
- */
-function TableStyles(obj) {
-    &#x27;use strict&#x27;;
-    if (!(this instanceof TableStyles)) {
-        return new TableStyles();
-    }
-    Styles.call(this, obj);
+    
+        <div class="foundat">
+            Defined in: <a href="../files/js_classes_Properties_ListItemProperties.js.html#l3"><code>js\classes\Properties\ListItemProperties.js:3</code></a>
+        </div>
+    
 
-    /**
-    * Re-set private properties defined in parent class {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}}:
-    * &lt;ol&gt;&lt;li&gt;
-    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableStyles&quot;
-    * &lt;/li&gt;&lt;/ol&gt;
-    * @method         constructor
-    */
-    this.setName(&#x27;TableStyles&#x27;);
+    
+        
+            Module: <a href="../modules/Properties.html">Properties</a>
+        
+    
+
+    
+</div>
 
 
 
-    /**
-     * Object with key-values for tables. They should be set if they were not set before.
-     * @property {Object}  tableStyleCore
-     * @type     {Object}
-     * @private
-     */
-    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
-    this.suggestProperty(tableStyleCore);
+<div class="box intro">
+    <p>Represents list item styles.</p>
 
-}
-TableStyles.prototype = Object.create(Styles.prototype);
+</div>
 
-    </pre>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_constructor">constructor</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property private">
+                                <a href="#property_listItemStyleCore">listItemStyleCore</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_constructor" class="method item">
+    <h3 class="name"><code>constructor</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties_ListItemProperties.js.html#l18"><code>js\classes\Properties\ListItemProperties.js:18</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Re-set private properties defined in parent class <a href="../classes/Styles.html" class="crosslink">Styles</a>:</p>
+<ol><li>
+<a href="../classes/Properties.html#property_className" class="crosslink">className</a> to be "ListItemProperties"
+</li></ol>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_listItemStyleCore" class="property item private">
+    <h3 class="name"><code>listItemStyleCore</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties_ListItemProperties.js.html#l28"><code>js\classes\Properties\ListItemProperties.js:28</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Object with key-value pairs for styles of list items. To be set, if corresponding key is not set.</p>
+<pre>{'padding': 0, 'margin': 0, 'font-size': 12, 'font-weight': 'normal', 'color': '#000001'}</pre>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>

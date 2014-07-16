@@ -39,18 +39,25 @@
 	<script type="text/javascript" src="js/classes/Properties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/ImageProperties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/LinkProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/CellProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/ListProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/ListItemProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/RowProperties.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/TableProperties.js"></script>
+
+
 	<script type="text/javascript" src="js/classes/Properties/Attributes.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Attributes/TableAttributes.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Attributes/LinkAttributes.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Attributes/to_delete_TableAttributes.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Attributes/to_delete_LinkAttributes.js"></script>
 
 	<script type="text/javascript" src="js/classes/Properties/Styles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/TableStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/LinkStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/TableRowStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/TableCellStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/ImageStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/ListStyles.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/Styles/ListItemStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_LinkStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableRowStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableCellStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ImageStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ListStyles.js"></script>
+	<script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ListItemStyles.js"></script>
 
 	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>

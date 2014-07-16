@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ImageStyle - Newsletter API</title>
+    <title>js\classes\Properties\TableProperties.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,217 +166,68 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>ImageStyle Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: js\classes\Properties\TableProperties.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global Properties */
+/**
+ * Represents image properties.
+ * @module      Properties
+ * @class       TableProperties
+ * @constructor
+ * @extends     Properties
+ * @since       0.0.5
+ */
+function TableProperties(obj) {
+    &#x27;use strict&#x27;;
+    if (!(this instanceof TableProperties)) {
+        return new TableProperties(obj);
+    }
+    Properties.call(this, obj);
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l3"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:3</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/Properties.html">Properties</a>
-        
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>Represents image styles.</p>
-
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_constructor">constructor</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property_imageStyleCore">imageStyleCore</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_constructor" class="method item">
-    <h3 class="name"><code>constructor</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l17"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:17</code></a>
-        
-        </p>
+    /**
+     * Re-set private properties defined in parent class {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}:
+     * &lt;ol&gt;&lt;li&gt;
+     * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableProperties&quot;
+     * &lt;/li&gt;&lt;/ol&gt;
+     * @method         constructor
+     */
+    this.setName(&#x27;TableProperties&#x27;);
 
 
-        
+    /**
+     * Default key-value pairs for image attributes.
+     * &lt;pre&gt;{&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0}&lt;/pre&gt;
+     * @property       {Object}             tableCore
+     * @private
+     * @type           {Object}
+     */
+    var tableCore = {&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0};
+    // Sets the above keys in the parent object core
+    Object.keys(tableCore).forEach(function(key){
+        this.setProperty(key, tableCore[key]);
+    }.bind(this));
 
-        
-    </div>
 
-    <div class="description">
-        <p>Re-set private properties defined in parent class <a href="../classes/Styles.html" class="crosslink">Styles</a>:</p>
-<ol><li>
-<a href="../classes/Properties.html#property_className" class="crosslink">className</a> to be "ImageStyles"
-</li></ol>
-    </div>
+    /**
+     * Object with key-value pairs for image style. To be set, if corresponding key is not set.
+     * &lt;pre&gt;{&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0,  &#x27;min-width&#x27;: 0,
+     * &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;}&lt;/pre&gt;
+     * @property {Object}  tableStyleCore
+     * @type     {Object}
+     * @private
+     */
+    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
+    this.initializeStyle();
+    var stl = this.getStyles();
+    stl.suggestProperty(tableStyleCore);
+    this.setStyles(stl);
 
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_imageStyleCore" class="property item private">
-    <h3 class="name"><code>imageStyleCore</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties_Styles_to_delete_ImageStyles.js.html#l27"><code>js\classes\Properties\Styles\to_delete_ImageStyles.js:27</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Object with key-values for images. They should be set if they were not set before. <br/></p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-    </div>
+}
+TableProperties.prototype = Object.create(Properties.prototype);
+    </pre>
 </div>
 
                     </div>

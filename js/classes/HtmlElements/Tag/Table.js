@@ -110,8 +110,7 @@ function Table() {
 	 */
 	this.setTag('table');
 	this.setName('Table');
-	this.setProperties(new TableAttributes());
-	this.setStyles(new TableStyles());
+	this.setProperties(new TableProperties());
 
 
 	/**
