@@ -1623,7 +1623,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
             "line": 18,
-            "description": "Re-set private properties defined in parent class {{#crossLink \"Tag\"}}Tag{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} to be \"a\"\n</li><li>\n{{#crossLink \"Tag/className:property\"}}className{{/crossLink}} to be \"Link\"\n</li><li>\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} to be\n{{#crossLink \"LinkStyles\"}}LinkStyles{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} to be\n{{#crossLink \"LinkAttributes\"}}LinkAttributes{{/crossLink}}\n</li></ol>",
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Tag\"}}Tag{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} to be \"a\"\n</li><li>\n{{#crossLink \"Tag/className:property\"}}className{{/crossLink}} to be \"Link\"\n</li><li>\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} to be\n{{#crossLink \"LinkProperties\"}}LinkProperties{{/crossLink}}\n</li></ol>",
             "itemtype": "method",
             "name": "constructor",
             "class": "Link",
@@ -1631,8 +1631,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 38,
-            "description": "Returns value of \"href\" key of the current object attribute. If it turns out to be an instance of\n{{#crossLink \"LinkAttributes\"}}LinkAttributes{{/crossLink}} class, then calls\n{{#crossLink \"LinkAttributes/getHref:method\"}}getHref(){{/crossLink}} method, otherwise\nreturns \"href\" key value of {{#crossLink \"Link/attributes:property\"}}attributes{{/crossLink}}.",
+            "line": 35,
+            "description": "Returns value of \"href\" key inside {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "getHref",
             "return": {
@@ -1644,8 +1644,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 51,
-            "description": "Href setter. Calles method {{#crossLink \"Attributes/setAttrProperty:method\"}}setAttrProperty('href', ...){{/crossLink}}.",
+            "line": 44,
+            "description": "Href setter. Calles parent method  {{#crossLink \"Tag/setProperty:method\"}}setProperty{{/crossLink}}('href', ...).",
             "itemtype": "method",
             "name": "setHref",
             "params": [
@@ -1664,7 +1664,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 67,
+            "line": 60,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property.\nIf the argument is missing or equal to `true`, \"underline\" is imposed.\nIf the argument is false, then \"none\" is imposed.\nIf the argument is a string,  `text-property` will be assigned to be equal to that string.\nIf nothing of the above holds, `text-property` remains unchanged.",
             "itemtype": "method",
             "name": "underline",
@@ -1684,7 +1684,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 87,
+            "line": 80,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property to be `none`.",
             "itemtype": "method",
             "name": "dropUnderline",
@@ -1697,7 +1697,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 96,
+            "line": 89,
             "description": "Apply target properties on the argument `obj`. The following cases are distinguished:\n<ul><li>\nthe argument is an instance of {{#crossLink \"Link\"}}Link{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/updateLink:method\"}}updateLink{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Content\"}}Content{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Tag\"}}Tag{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyTag:method\"}}applyTag{{/crossLink}} method.\n</li></ul>\nIf non of the above holds, result of {{#crossLink \"Link/wrap:method\"}}wrap{{/crossLink}} method is returned.",
             "itemtype": "method",
             "name": "apply",
@@ -1717,7 +1717,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 130,
+            "line": 123,
             "description": "Returns a copy of the target in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\ncontains the only element which is `obj`.",
             "itemtype": "method",
             "name": "wrap",
@@ -1737,7 +1737,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 151,
+            "line": 144,
             "description": "Converts the argument in link. Argument `tagObj` must be a {{#crossLink \"Tag\"}}Tag{{/crossLink}} instance.\nIf its {{#crossLink \"Tag/content\"}}content{{/crossLink}} is\n<ol><li>\nnon empty, then it is returned a copy of the argument in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nis replaced by output of {{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nempty, then a {{#crossLink \"Link\"}}Link{{/crossLink}} instance is returned. This instance has\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} of the target and its\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} contains `tagObj` as the only element.\n</li><li>\n</li></ol>",
             "itemtype": "method",
             "name": "applyTag",
@@ -1757,7 +1757,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 183,
+            "line": 176,
             "description": "Modifies a Content instance in such a way that {{#crossLink \"Link/apply:method\"}}apply{{/crossLink}}\nis applied on all elements of the argumet.",
             "itemtype": "method",
             "name": "applyContent",
@@ -1777,7 +1777,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 207,
+            "line": 200,
             "description": "Returns a new Link instance with `href` as in the target, {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nas in the argument, {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values\nfrom the target",
             "itemtype": "method",
             "name": "updateLink",

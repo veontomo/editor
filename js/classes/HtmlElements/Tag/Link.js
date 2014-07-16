@@ -22,11 +22,8 @@ function Link(href) {
 	 * </li><li>
 	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Link"
 	 * </li><li>
-	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} to be
-	 * {{#crossLink "LinkStyles"}}LinkStyles{{/crossLink}}
-	 * </li><li>
-	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
-	 * {{#crossLink "LinkAttributes"}}LinkAttributes{{/crossLink}}
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} to be
+	 * {{#crossLink "LinkProperties"}}LinkProperties{{/crossLink}}
 	 * </li></ol>
 	 * @method         constructor
 	 */
@@ -36,20 +33,16 @@ function Link(href) {
 
 
 	/**
-	 * Returns value of "href" key of the current object attribute. If it turns out to be an instance of
-	 * {{#crossLink "LinkAttributes"}}LinkAttributes{{/crossLink}} class, then calls
-	 * {{#crossLink "LinkAttributes/getHref:method"}}getHref(){{/crossLink}} method, otherwise
-	 * returns "href" key value of {{#crossLink "Link/attributes:property"}}attributes{{/crossLink}}.
+	 * Returns value of "href" key inside {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
 	 * @method    getHref
 	 * @return    {String}
 	 */
 	this.getHref =  function(){
-		var attrCopy = this.getProperties();
-		return (typeof attrCopy.getHref === 'function') ? attrCopy.getHref() : attrCopy.getProperty('href');
+		return this.getProperty('href');
 	};
 
 	/**
-	 * Href setter. Calles method {{#crossLink "Attributes/setAttrProperty:method"}}setAttrProperty('href', ...){{/crossLink}}.
+	 * Href setter. Calles parent method  {{#crossLink "Tag/setProperty:method"}}setProperty{{/crossLink}}('href', ...).
 	 * @method   setHref
 	 * @param    {String}         url
 	 * @return   {void}
