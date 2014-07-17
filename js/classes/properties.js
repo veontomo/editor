@@ -289,7 +289,8 @@ function Properties(input) {
 
 	/**
 	 * Initializes `style` key: if it does not exist, set it to
-	 * a new instance of {{#crossLink "Properties"}}Properties{{/crossLink}}.
+	 * a new instance of {{#crossLink "Properties"}}Properties{{/crossLink}} with
+	 * {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} set to 1.
 	 * @method         initializeStyle
 	 * @since          0.0.5
 	 * @return         {void}
@@ -297,7 +298,9 @@ function Properties(input) {
 	this.initializeStyle = function(){
 		var propName = 'style';
 		if (!this.getProperty(propName)){
-			this.setProperty(propName, new Properties());
+			var stl = new Properties();
+			stl.setMode(1);
+			this.setProperty(propName, stl);
 		}
 	};
 
@@ -519,6 +522,7 @@ function Properties(input) {
 	 * @since          0.0.5
 	 */
 	this.toString = function(){
+		console.log(this.getCore());
 		var output = [],
 		    keys = Object.keys(core),
 		    separ1, separ2;
@@ -534,11 +538,14 @@ function Properties(input) {
 		}
 
 		keys.forEach(function(key){
-			var value = core[key], str;
-			if (typeof value.toString === 'function'){
-				str = value.toString();
-			} else if ((typeof value === 'string') || (typeof value === 'number')){
-				str = value;
+			var value = core[key],
+				str;
+			if (value !== null){
+				if (typeof value.toString === 'function'){
+					str = value.toString();
+				} else if ((typeof value === 'string') || (typeof value === 'number')){
+					str = value;
+				}
 			}
 			if (typeof str === 'string' && str.length > 0){
 				output.push(key.toString() + separ1 + str + separ2);
@@ -615,7 +622,7 @@ function Properties(input) {
 	 */
 	this.hasStyleProperty = function(propName){
 		return this.hasStyles() && this.getStyles().hasProperty(propName);
-	}
+	};
 
 
 	/**
@@ -687,6 +694,23 @@ function Properties(input) {
 				elem.setAttribute(key, summary[key]);
 			});
     	}
+    };
+
+
+    /**
+     * Sets key `width` inside {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}
+     * as well as keys `width`, `max-width` and `min-width` inside `styles` of
+     * {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}.
+     * @method         setWidth
+     * @param          {Any}                w
+     * @since          0.0.5
+     */
+    this.setWidth = function(w){
+    	this.initializeStyle();
+    	this.setProperty('width', w);
+    	this.setStyleProperty('width', w);
+    	this.setStyleProperty('max-width', w);
+    	this.setStyleProperty('min-width', w);
     };
 
 

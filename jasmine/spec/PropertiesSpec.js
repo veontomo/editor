@@ -106,10 +106,6 @@ describe('Properties-related functionality', function(){
             spyOn(propSimple, 'toString').andCallFake(function(){return '';});
             expect(propComplex.toString()).toBe('width: 200; class: screen;');
         });
-
-
-
-
     });
 
 
@@ -794,6 +790,38 @@ describe('Properties-related functionality', function(){
             expect(stl.propNum()).toBe(1);
             expect(stl.getProperty('whatever')).toBe('yes');
         });
+    });
+
+    describe('Set widths', function(){
+        it('sets key "width"', function(){
+            props.setWidth(120);
+            expect(props.getProperty('width')).toBe(120);
+        });
+
+        it('overrides key "width"', function(){
+            props.setWidth(120);
+            props.setWidth(32);
+            expect(props.getProperty('width')).toBe(32);
+        });
+
+
+        it('sets width, max-width and min-width inside "style" key if "style" is not present', function(){
+            expect(props.hasProperty('style')).toBe(false);
+            props.setWidth(83);
+            expect(props.getStyleProperty('width')).toBe(83);
+            expect(props.getStyleProperty('min-width')).toBe(83);
+            expect(props.getStyleProperty('max-width')).toBe(83);
+        });
+
+        it('overrides width, max-width and min-width inside "style" key if "style" is present', function(){
+            props.setStyles(new Properties({width: 20}));
+            expect(props.hasProperty('style')).toBe(true);
+            props.setWidth(31);
+            expect(props.getStyleProperty('width')).toBe(31);
+            expect(props.getStyleProperty('min-width')).toBe(31);
+            expect(props.getStyleProperty('max-width')).toBe(31);
+        });
+
 
     });
 });

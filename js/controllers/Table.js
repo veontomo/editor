@@ -10,7 +10,6 @@
  * @author    A.Shcherbakov
  */
 var TableC = {
-
 	/**
 	 * Returns the width of the parent element available for its children.
 	 * <pre>
@@ -52,6 +51,7 @@ var TableC = {
 	},
 
 	produceTabeNode: function(context, editor){
+		console.log((new ImageProperties()).toString());
 		var INPUTCOLWIDTHNAME = 'widthCol';
 		var dialog = context,
 			// user input
@@ -204,7 +204,7 @@ var TableC = {
 			// It is better to recreate objects for every cell
 			// in order to avoid influence of previously imposed values
 			cell = new Cell('cell' + i);
-			cellStyle = new TableCellStyles();
+			cellStyle = new CellProperties();
 			cellAttr = new Properties();
 
 			// imposing cell styles and attributes

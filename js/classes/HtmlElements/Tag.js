@@ -128,11 +128,14 @@ function Tag(tName) {
 	*/
 	this.setAttributes = function(attr){
 		console.log('setAttributes method is deprecated. Use setProperties instead!');
-		if (attr instanceof Attributes){
-			attributes = attr;
-		} else {
-			attributes = new Attributes(attr);
-		}
+		/// original code
+		// if (attr instanceof Attributes){
+		// 	attributes = attr;
+		// } else {
+		// 	attributes = new Attributes(attr);
+		// }
+		// new version. Added juts for compatibility with previous version.
+		this.setProperties(attr);
 	};
 
 
@@ -174,8 +177,12 @@ function Tag(tName) {
 	* @deprecated      Use getProperties instead
 	*/
 	this.getAttributes = function(){
-		console.log('Method getAttributes is deprecated. Use getProperties instead!');
-		return attributes.clone();
+		// initial code
+		// console.log('Method getAttributes is deprecated. Use getProperties instead!');
+		// return attributes.clone();
+		// replaced by this
+		return _properties.clone();
+
 	};
 
 

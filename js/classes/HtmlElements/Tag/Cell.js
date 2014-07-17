@@ -33,7 +33,7 @@ function Cell(arg) {
 	 */
 	this.setTag('td');
 	this.setName('Cell');
-	this.setProperties(new TableCellStyles());
+	this.setProperties(new CellProperties());
 	this.setContent(new Content(arg));
 }
 
