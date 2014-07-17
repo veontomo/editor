@@ -80,6 +80,11 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Mapping.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
+
+	<!-- Controllers -->
+	<script type="text/javascript" src="js/controllers/Table.js"></script>
+
+
 	<script type="text/javascript" src="settings/general_config.js"></script>
 
 	<!-- external plugins -->
