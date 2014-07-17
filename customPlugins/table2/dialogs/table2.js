@@ -359,8 +359,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 			isFramed = frameWidth > 0;
 			table = new Table();
-			tableProp = new TableAttributes();
-			tableStyles = new TableStyles();
+			tableProp = new TableProperties();
+			// tableStyles = new Properties();
 			table.setProperties(tableProp);
 
 			// impose styles and attribute values

@@ -83,7 +83,7 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use _properties instead
 	 */
-	var attributes = new Attributes();
+	// var attributes = new Attributes();
 
 	/**
 	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
