@@ -51,7 +51,6 @@ var TableC = {
 	},
 
 	produceTabeNode: function(context, editor){
-		console.log((new ImageProperties()).toString());
 		var INPUTCOLWIDTHNAME = 'widthCol';
 		var dialog = context,
 			// user input
@@ -119,10 +118,12 @@ var TableC = {
 
 		// creating table row
 		row  = new Row();
-		rowStyle = new Properties();
-		rowAttr = new RowProperties();
-		row.setProperties(rowAttr);
-		row.setStyles(rowStyle);
+		// rowStyle = new Properties();
+		// rowAttr = new RowProperties();
+		// row.setProperties(rowAttr);
+		// console.log('----------- 1' + row.toHtml());
+		// row.setStyles(rowStyle);
+		// console.log('----------- 2' + row.toHtml());
 
 		// By default, table style is a parent style for the nested rows.
 		// The properties of the the nested elements will be calculated based on this style.
@@ -183,20 +184,21 @@ var TableC = {
 			parentElemStyle = phantomTableStyle;
 		} else {
 			// if the table is not framed, mark the row
-			rowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
+			row.setProperty(NEWSLETTER['marker-name'], row.getName());
 		}
 
 		// impose row styles and attributes
 		rowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-		rowStyle.setWidth(rowWidth);
-		rowStyle.setProperty('padding', 0);
+		row.setWidth(rowWidth);
+		row.setStyleProperty('padding', 0);
+
 
 		// binding the row properties and the row object
 		// row.setStyles(rowStyle);
 		// row.setProperties(rowAttr);
 
 		// fill in the row with the cells
-		allCellsWidth = rowStyle.getProperty('width') - rowStyle.getProperty('padding');     // sum of all cell widths
+		allCellsWidth = row.getProperty('width') - row.getStyleProperty('padding');     // sum of all cell widths
 		cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                        // array of column widths
 
 		// creating cells to be inserted into the row
@@ -204,33 +206,34 @@ var TableC = {
 			// It is better to recreate objects for every cell
 			// in order to avoid influence of previously imposed values
 			cell = new Cell('cell' + i);
-			cellStyle = new CellProperties();
-			cellAttr = new Properties();
+			// cellStyle = new CellProperties();
+			// cellAttr = new Properties();
 
 			// imposing cell styles and attributes
 			// mark the cell
-			cellAttr.setProperty(NEWSLETTER['marker-name'], cell.getName());
+			cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
 			// adjust width of the first and the last cell
 			cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 			console.log(i + ': ' + cellWidth + ' ' + cellWidths[i]);
-			cellStyle.setWidth(cellWidth);
+			cell.setWidth(cellWidth);
 			allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
-			cellStyle.dropProperty('padding');
-			cellStyle.setProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
-			cellStyle.setProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
-			cellStyle.setProperty('padding-top',  spaceTop);
-			cellStyle.setProperty('padding-bottom', spaceBottom);
-			cellStyle.setProperty('margin', 0);
+			cell.dropStyleProperty('padding');
+			cell.setStyleProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
+			cell.setStyleProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
+			cell.setStyleProperty('padding-top',  spaceTop);
+			cell.setStyleProperty('padding-bottom', spaceBottom);
+			cell.setStyleProperty('margin', 0);
 
 			if (withSeparator){
-				cellStyle.setProperty('border-bottom', '1px solid #cccccc');
+				cell.setStyleProperty('border-bottom', '1px solid #cccccc');
 			}
 			// binding the styles and attributes and the object
-			cellAttr.setStyles(cellStyle);
-			cell.setProperties(cellAttr);
+			// cellAttr.setStyles(cellStyle);
+			// cell.setProperties(cellAttr);
 			// add the newly created cell to the row
 			row.appendCell(cell);
 		}
+
 		// clone the row created above
 		for (i = 0; i < rows; i++){
 			table.appendRow(row);

@@ -522,7 +522,6 @@ function Properties(input) {
 	 * @since          0.0.5
 	 */
 	this.toString = function(){
-		console.log(this.getCore());
 		var output = [],
 		    keys = Object.keys(core),
 		    separ1, separ2;
@@ -540,6 +539,7 @@ function Properties(input) {
 		keys.forEach(function(key){
 			var value = core[key],
 				str;
+			// some attributes might be deliberately set to null (especially default values)
 			if (value !== null){
 				if (typeof value.toString === 'function'){
 					str = value.toString();
