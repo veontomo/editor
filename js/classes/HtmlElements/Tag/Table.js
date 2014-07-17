@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Helper, TableStyles, Styles, TableAttributes, Row, Tag, Content */
+/*global Attributes, Cell, Helper, TableProperties, Properties, Row, Tag, Content */
 
 /**
 * Represents table.
@@ -183,10 +183,10 @@ function Table() {
 	this.setPhantomCellStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomCell.setStyles(stl);
 			} else {
-				phantomCell.setStyles(new Styles(stl));
+				phantomCell.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -212,10 +212,10 @@ function Table() {
 	this.setPhantomRowStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomRow.setStyles(stl);
 			} else {
-				phantomRow.setStyles(new Styles(stl));
+				phantomRow.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -241,10 +241,10 @@ function Table() {
 	this.setPhantomTableStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomTable.setStyles(stl);
 			} else {
-				phantomTable.setStyles(new Styles(stl));
+				phantomTable.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -402,6 +402,34 @@ function Table() {
 		return phantomTable.getProperties();
 	};
 
+
+	/**
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}}
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink "Tag/getProperties:property"}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomCellProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomCellProperties = function(){
+		return phantomCell.getProperties();
+	};
+
+
+	/**
+	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink "Tag/getProperties:property"}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomRowProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomRowProperties = function(){
+		return phantomRow.getProperties();
+	};
+
 	/**
 	 * Returns {{#crossLink "Tag/openingTag:method"}}opening{{/crossLink}} or
 	 * {{#crossLink "Tag/closingTag:method"}}closing{{/crossLink}} tag for one of the
@@ -425,7 +453,6 @@ function Table() {
 				return phantomRow[tagType]();
 			}
 			if (phElemName === 'table' && phantomTable !== undefined && typeof phantomTable[tagType] === 'function') {
-				console.log('envoking phantomTable:openingtag()');
 				return phantomTable[tagType]();
 			}
 		}

@@ -294,7 +294,9 @@ function Tag(tName) {
 	 * @deprecated     Use appendProperties instead
 	 */
 	this.appendAttributes = function(attr){
-		attributes.appendProperty(attr);
+		console.log('This method is deprecated. Redirected to appendProperties()');
+		// attributes.appendProperty(attr);
+		_properties.appendProperties(attr);
 	};
 
 
@@ -801,9 +803,6 @@ function Tag(tName) {
 	 */
 	this.toNode = function(){
 		var el = document.createElement(this.getTag());
-		// if (this.getStyles()){
-		// 	this.getStyles().decorateElement(el);
-		// }
 		this.getProperties().decorateElement(el);
 		this.getContent().stickTo(el);
 		return el;

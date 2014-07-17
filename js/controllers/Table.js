@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Table, TableProperties, Properties, Row, RowProperties, Cell, CellProperties */
+/*global Unit, CKEDITOR, NEWSLETTER, Table, TableProperties, Properties, Row, RowProperties, Cell, CellProperties, Helper */
 
 /**
  * Table Controller.
@@ -50,7 +50,15 @@ var TableC = {
 		return output;
 	},
 
-	produceTabeNode: function(context, editor){
+
+	/**
+	 * Returns html string for the table with properties specified by the user
+	 * in the dialog menu.
+	 * @param  {Object}    context           context by means the variables are passed from view to the controller
+	 * @param  {Object}    editor            editor instance
+	 * @return {String}
+	 */
+	html: function(context, editor){
 		var INPUTCOLWIDTHNAME = 'widthCol';
 		var dialog = context,
 			// user input
@@ -63,15 +71,12 @@ var TableC = {
 			withSeparator = dialog.getValueOf('info',  'trSeparator'),
 
 			// variables to be used in what follows
-			phantomRowAttr, phantomRowStyle,  phantomCellAttr, phantomCellStyle, phantomTableAttr, phantomTableStyle,
+			phantomCellAttr, phantomTableAttr, phantomRowAttr,
 			parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
-			i, table, tableWidth, tableProp, tableStyles, cellWidths, rowWidth,
-			// rowContentWidth,
+			i, table, tableWidth, cellWidths, rowWidth,
 			spaceTop, spaceBottom, parentWidth,
 			inputField, cellWeights, row, cell,
-			// TableStyles, tableAttr,
-			rowStyle, rowAttr, cellStyle,
-			cellAttr, cellWidth, allCellsWidth, isFramed,
+			cellWidth, allCellsWidth, isFramed,
 			allWidths = [];
 
 
@@ -97,10 +102,9 @@ var TableC = {
 
 		table.setStyleProperty('margin', 0);
 		table.setStyleProperty('padding', 0);
-		// tableProp.setStyles(tableStyles);
-		table.setWidth(tableWidth, 'px');
-
+		table.setWidth(tableWidth);
 		table.setProperty(NEWSLETTER['marker-name'], table.getName());
+
 		// binding the styles and attributes and the table object
 		if (borderWidth > 0){
 			table.setBorder({
@@ -121,57 +125,48 @@ var TableC = {
 		if (isFramed){
 			// creating phantom styles and attributes
 			phantomRowAttr    = new RowProperties();
-			phantomRowStyle   = new Properties();
 			phantomCellAttr   = new CellProperties();
-			phantomCellStyle  = new Properties();
 			phantomTableAttr  = new TableProperties();
-			phantomTableStyle = new Properties();
 
 			// calculating widths of the phantom elements
 			// NB: if the parent table has no border, then its 'border-width' attribute is not set!
 			phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
-		 	phantomRowStyle.setWidth(phantomRowWidth, 'px');
-			//console.log('table2.js: phantomRowWidth = ', phantomRowWidth);
+		 	phantomRowAttr.setWidth(phantomRowWidth);
 			allWidths.push({'value': phantomRowWidth, 'descr': 'larghezza della riga fittizia'});
-			phantomRowStyle.setProperty('padding', 0);
-			phantomRowStyle.setProperty('margin', 0);
+			phantomRowAttr.setStyleProperty('padding', 0);
+			phantomRowAttr.setStyleProperty('margin', 0);
 			// mark the phantom row
 			phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-			phantomCellWidth = phantomRowStyle.getProperty('width') - 2 * phantomRowStyle.getProperty('padding') - 2 * frameWidth;
-			phantomCellStyle.setWidth(phantomCellWidth, 'px');
+			phantomCellWidth = phantomRowAttr.getStyleProperty('width') - 2 * phantomRowAttr.getStyleProperty('padding') - 2 * frameWidth;
+			phantomCellAttr.setWidth(phantomCellWidth);
 			allWidths.push({'value': phantomCellWidth, 'descr': 'larghezza della cella fittizia'});
 
 			// if remains zero, then in MS Outlook the cell content overlaps the border
 			// and latter becomes invisible
-			phantomCellStyle.setProperty('padding-left', frameWidth);
-			phantomCellStyle.setProperty('padding-right', frameWidth);
-			phantomCellStyle.setProperty('padding-top', spaceTop);
-			phantomCellStyle.setProperty('padding-bottom', spaceBottom);
-			phantomCellStyle.setProperty('margin', 0);
+			phantomCellAttr.setStyleProperty('padding-left', frameWidth);
+			phantomCellAttr.setStyleProperty('padding-right', frameWidth);
+			phantomCellAttr.setStyleProperty('padding-top', spaceTop);
+			phantomCellAttr.setStyleProperty('padding-bottom', spaceBottom);
+			phantomCellAttr.setStyleProperty('margin', 0);
 
-			phantomTableWidth = phantomCellStyle.getProperty('width') - phantomCellStyle.getProperty('padding-left') - phantomCellStyle.getProperty('padding-right');
-			phantomTableStyle.setWidth(phantomTableWidth, 'px');
-			phantomTableAttr.setProperty('width', phantomTableWidth);
+			phantomTableWidth = phantomCellAttr.getStyleProperty('width') - phantomCellAttr.getStyleProperty('padding-left') - phantomCellAttr.getStyleProperty('padding-right');
+			phantomTableAttr.setWidth(phantomTableWidth);
 
 			allWidths.push({'value': phantomTableWidth, 'descr': 'larghezza della tabella fittizia'});
 
-			phantomTableStyle.setProperty('border-style', 'solid');
-			phantomTableStyle.setProperty('border-color', '#000001');
-			phantomTableStyle.setProperty('border-width', frameWidth);
+			phantomTableAttr.setStyleProperty('border-style', 'solid');
+			phantomTableAttr.setStyleProperty('border-color', '#000001');
+			phantomTableAttr.setStyleProperty('border-width', frameWidth);
 			phantomTableAttr.setProperty('border', frameWidth);
 
-			// binding attributes and styles with the objects
-			table.setPhantomTableStyles(phantomTableStyle);
 			table.setPhantomTableProperties(phantomTableAttr);
-			table.setPhantomRowStyles(phantomRowStyle);
-			table.setPhantomRowAttributes(phantomRowAttr);
-			table.setPhantomCellStyles(phantomCellStyle);
-			table.setPhantomCellAttributes(phantomCellAttr);
+			table.setPhantomRowProperties(phantomRowAttr);
+			table.setPhantomCellProperties(phantomCellAttr);
 
 			// defining a parent style. The properties of the the nested elements
 			// will be calculated based on this style.
-			parentElemStyle = phantomTableStyle;
+			parentElemStyle = phantomTableAttr.getStyles();
 			parentWidth = phantomTableWidth;
 		} else {
 			// if the table is not framed, mark the row
@@ -180,7 +175,7 @@ var TableC = {
 
 		// impose row styles and attributes
 		rowWidth = parentWidth - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-		row.setWidth(rowWidth, 'px');
+		row.setWidth(rowWidth);
 		row.setStyleProperty('padding', 0);
 
 
@@ -199,7 +194,7 @@ var TableC = {
 			cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
 			// adjust width of the first and the last cell
 			cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
-			cell.setWidth(cellWidth, 'px');
+			cell.setWidth(cellWidth);
 			allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
 			cell.dropStyleProperty('padding');
 			cell.setStyleProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
@@ -232,8 +227,6 @@ var TableC = {
 		{
 			return null;
 		}
-
-		return table.toNode();
-
+		return table.toHtml();
 	}
 };

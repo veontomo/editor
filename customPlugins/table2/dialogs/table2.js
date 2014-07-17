@@ -319,7 +319,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		],
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function () {
-			var tableNode = TableC.produceTabeNode(this, editor);
+			var tableNode = TableC.html(this, editor);
 			// var dialog = this,
 			// 	// user input
 			// 	rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
@@ -516,7 +516,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// 	return null;
 			// }
 			// tableElem = CKEDITOR.document.createElement(table.toNode());
-			var tableElem = CKEDITOR.document.createElement(tableNode);
+			var tableElem = CKEDITOR.dom.element.createFromHtml(tableNode);
 			editor.insertElement(tableElem);
 			// CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}
