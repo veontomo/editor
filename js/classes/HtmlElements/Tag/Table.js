@@ -759,7 +759,6 @@ function Table() {
 			return 0;
 		}
 		tbody = this.getBody();
-		// console.log(this.getElem(0).toHtml());
 		firstRowCellNum = tbody[0].cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
@@ -872,14 +871,11 @@ function Table() {
 	 * @return         {Boolean}            true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
-		// console.log('number of rows = ', this.rowNum(), ', table: ', this.toHtml());
 		if (this.rowNum() === 0){
 			return false;
 		}
 		return this.getBody().every(function(row){
-			// console.log('row? ', row.toHtml());
 			var res = row.onlyTableInside();
-			// console.log(res ? 'returning true' : 'returning false');
 			return res;
 		});
 	};
@@ -931,8 +927,10 @@ function Table() {
 	};
 
 	/**
-	 * Generates html representation of the table body. If table is framed, then each row is "sandwiched" with
-	 * phantom elements.
+	 * Generates html representation of the table body. If table is framed, wraps each element of
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} with strings corresponding to phantom
+	 * elements. Generation of html string of each {{#crossLink "Tag/content:property"}}content element{{/crossLink}}
+	 * is delegated to its `toHtml` method (if an element has no `toHtml` method, this element gets ignored).
 	 * @method         bodyToHtml
 	 * @param          {Boolean}            withFrame         whether the table is framed or not.
 	 * @return         {String}
@@ -955,10 +953,13 @@ function Table() {
 	};
 
 	/**
-	 * Generates html code corresponding to this instance. Eventually, wraps each element of
-	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} with strings corresponding to phantom
-	 * elements. Generation of html string of each {{#crossLink "Tag/content:property"}}content element{{/crossLink}}
-	 * is delegated to its `toHtml` method (if the elements has `toHtml` method, this element gets ignored).
+	 * Generates html code corresponding to this instance. Makes use of
+	 * {{#crossLink "Table/bodyToHtml:method"}}bodyToHtml{{/crossLink}} method.
+	 *
+	 * This method overrides parent one {{#crossLink "Tag/toHtml:method"}}toHtml{{/crossLink}} because one has to manage
+	 * presence of properties {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}},
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}} and
+	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
 	 * @method         toHtml
 	 * @return         {String}
 	 */
@@ -979,6 +980,22 @@ function Table() {
 		tableHtml += this.closingTag();
 		return tableHtml;
 	};
+
+
+	/**
+	 * Generates instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
+	 * corresponding to this instance.
+	 *
+	 * This method overrides parent one  {{#crossLink "Tag/toNode:method"}}toNode{{/crossLink}} because
+	 * one has to manage presence of properties {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}},
+	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}} and
+	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
+	 * @method         toNode
+	 * @return         {DOM.Element}
+	 */
+	this.toNode = function(){
+		var elem = document.createElement(this.getTag());
+	}
 
 
 	/**

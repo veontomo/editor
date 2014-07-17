@@ -466,7 +466,9 @@ function Tag(tName) {
 	 * @deprecated     Use appendProperties instead
 	 */
 	this.appendAttributes = function(attr){
-		attributes.appendProperty(attr);
+		console.log(&#x27;This method is deprecated. Redirected to appendProperties()&#x27;);
+		// attributes.appendProperty(attr);
+		_properties.appendProperties(attr);
 	};
 
 
@@ -613,13 +615,12 @@ function Tag(tName) {
 	 * Calls {{#crossLink &quot;Properties/setWidth:method&quot;}}setWidth(){{/crossLink}} methods to set the widths.
 	 * @method         setWidth
 	 * @param          {String|Number} 	    w
-	 * @param          {String|Null}             unit      unit of measurement
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
-	this.setWidth = function(w, unit){
+	this.setWidth = function(w){
 		if (w !== undefined){
-			_properties.setWidth(w, unit);
+			_properties.setWidth(w);
 		}
 	};
 
@@ -974,9 +975,6 @@ function Tag(tName) {
 	 */
 	this.toNode = function(){
 		var el = document.createElement(this.getTag());
-		// if (this.getStyles()){
-		// 	this.getStyles().decorateElement(el);
-		// }
 		this.getProperties().decorateElement(el);
 		this.getContent().stickTo(el);
 		return el;

@@ -113,7 +113,7 @@ var TableC = {
 				'style': 'solid'
 			});
 		}
-		allWidths.push({'value': tableWidth, 'descr': 'larghezza della tabella'});
+		allWidths.push(tableWidth);
 
 		// creating table row
 		row  = new Row();
@@ -133,14 +133,14 @@ var TableC = {
 			phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
 		 	phantomRowAttr.setWidth(phantomRowWidth);
-			allWidths.push({'value': phantomRowWidth, 'descr': 'larghezza della riga fittizia'});
+			allWidths.push(phantomRowWidth);
 			phantomRowAttr.setStyleProperty('padding', 0);
 			phantomRowAttr.setStyleProperty('margin', 0);
 			// mark the phantom row
 			phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
 			phantomCellWidth = phantomRowAttr.getStyleProperty('width') - 2 * phantomRowAttr.getStyleProperty('padding') - 2 * frameWidth;
 			phantomCellAttr.setWidth(phantomCellWidth);
-			allWidths.push({'value': phantomCellWidth, 'descr': 'larghezza della cella fittizia'});
+			allWidths.push(phantomCellWidth);
 
 			// if remains zero, then in MS Outlook the cell content overlaps the border
 			// and latter becomes invisible
@@ -153,7 +153,7 @@ var TableC = {
 			phantomTableWidth = phantomCellAttr.getStyleProperty('width') - phantomCellAttr.getStyleProperty('padding-left') - phantomCellAttr.getStyleProperty('padding-right');
 			phantomTableAttr.setWidth(phantomTableWidth);
 
-			allWidths.push({'value': phantomTableWidth, 'descr': 'larghezza della tabella fittizia'});
+			allWidths.push(phantomTableWidth);
 
 			phantomTableAttr.setStyleProperty('border-style', 'solid');
 			phantomTableAttr.setStyleProperty('border-color', '#000001');
@@ -195,7 +195,7 @@ var TableC = {
 			// adjust width of the first and the last cell
 			cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
 			cell.setWidth(cellWidth);
-			allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
+			allWidths.push(cellWidth);
 			cell.dropStyleProperty('padding');
 			cell.setStyleProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
 			cell.setStyleProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
@@ -206,7 +206,6 @@ var TableC = {
 			if (withSeparator){
 				cell.setStyleProperty('border-bottom', '1px solid #cccccc');
 			}
-
 			row.appendCell(cell);
 		}
 
@@ -215,16 +214,12 @@ var TableC = {
 			table.appendRow(row);
 		}
 
+		var isAllPositive = allWidths.some(function(el){
+			return el < 0;
+		});
 		// if at least one of the values becomes negative, flash alert message
-		if (allWidths.some(
-			function(el){
-				var result = el.value < 0;
-				if (result){
-					alert('Rilevato un numero negativo:' + el.value + "\n(" + el.descr + ")\nLa tabella non sarà inserita." );
-				}
-				return result;
-			}))
-		{
+		if (isAllPositive){
+			alert("Rilevato un numero negativo:\n" + allWidths.join(' ') + "\nLa tabella non sarà inserita." );
 			return null;
 		}
 		return table.toHtml();

@@ -471,6 +471,13 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
+                                <a href="#property__mode">_mode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property_allowedCoreKeyTypes">allowedCoreKeyTypes</a>
 
                                 
@@ -493,13 +500,6 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
                         
                             <li class="index-item property private">
                                 <a href="#property_core">core</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_mode">mode</a>
 
                                 
                                 
@@ -964,7 +964,7 @@ and <a href="../classes/Properties.html#method_setProperty" class="crosslink">se
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l691"><code>js\classes\Properties.js:691</code></a>
+        <a href="../files/js_classes_Properties.js.html#l686"><code>js\classes\Properties.js:686</code></a>
         
         </p>
 
@@ -1387,7 +1387,7 @@ returns the key value.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l672"><code>js\classes\Properties.js:672</code></a>
+        <a href="../files/js_classes_Properties.js.html#l667"><code>js\classes\Properties.js:667</code></a>
         
         </p>
 
@@ -1548,7 +1548,7 @@ If the Style has no Properties &#39;border-color&#39;, then it will not be set.<
     </div>
 
     <div class="description">
-        <p>Property/mode:property getter.</p>
+        <p>Property/_mode:property getter.</p>
 
     </div>
 
@@ -1762,7 +1762,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l656"><code>js\classes\Properties.js:656</code></a>
+        <a href="../files/js_classes_Properties.js.html#l651"><code>js\classes\Properties.js:651</code></a>
         
         </p>
 
@@ -1859,7 +1859,7 @@ If it does not exist, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l615"><code>js\classes\Properties.js:615</code></a>
+        <a href="../files/js_classes_Properties.js.html#l610"><code>js\classes\Properties.js:610</code></a>
         
         </p>
 
@@ -2177,7 +2177,7 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l626"><code>js\classes\Properties.js:626</code></a>
+        <a href="../files/js_classes_Properties.js.html#l621"><code>js\classes\Properties.js:621</code></a>
         
         </p>
 
@@ -2274,7 +2274,7 @@ Otherwise, <code>false</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l605"><code>js\classes\Properties.js:605</code></a>
+        <a href="../files/js_classes_Properties.js.html#l600"><code>js\classes\Properties.js:600</code></a>
         
         </p>
 
@@ -2361,7 +2361,7 @@ Otherwise, <code>false</code> is returned.</p>
     <div class="description">
         <p>Initializes <code>style</code> key: if it does not exist, set it to
 a new instance of <a href="../classes/Properties.html" class="crosslink">Properties</a> with
-<a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> set to 1.</p>
+<a href="../classes/Properties.html#property__mode" class="crosslink">_mode</a> set to 1.</p>
 
     </div>
 
@@ -2608,7 +2608,7 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l570"><code>js\classes\Properties.js:570</code></a>
+        <a href="../files/js_classes_Properties.js.html#l565"><code>js\classes\Properties.js:565</code></a>
         
         </p>
 
@@ -2802,7 +2802,7 @@ Nevertheless, it is sufficient that <code>attr</code> be a collection of objects
     </div>
 
     <div class="description">
-        <p>Property/mode:property setter. If argument
+        <p>Property/_mode:property setter. If argument
 is different from 0 and 1, it is ignored.</p>
 
     </div>
@@ -3134,7 +3134,7 @@ and <code>true</code> is returned. Otherwise, <code>false</code> is returned. If
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l639"><code>js\classes\Properties.js:639</code></a>
+        <a href="../files/js_classes_Properties.js.html#l634"><code>js\classes\Properties.js:634</code></a>
         
         </p>
 
@@ -3319,12 +3319,6 @@ and then performs assignment.</p>
                     
                 </li>
             
-                <li class="arg">
-                    
-                        <code>unit</code>
-                    
-                </li>
-            
             </ul><span class="paren">)</span>
         </div>
     
@@ -3354,7 +3348,7 @@ and then performs assignment.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l711"><code>js\classes\Properties.js:711</code></a>
+        <a href="../files/js_classes_Properties.js.html#l706"><code>js\classes\Properties.js:706</code></a>
         
         </p>
 
@@ -3369,10 +3363,6 @@ and then performs assignment.</p>
     <div class="description">
         <p>Sets key <code>width</code> inside Poroperties/_core:property
 as well as keys <code>width</code>, <code>max-width</code> and <code>min-width</code> inside <code>style</code> of
-Poroperties/_core:property.</p>
-<p>If <code>w</code> is a string, then the above mentioned values are installed without changes.
-If <code>w</code> is a number and optional parameter <code>measure</code> is provided, then it is appended to the
-value of width when setting value of widths inside <code>style</code> of
 Poroperties/_core:property.</p>
 
     </div>
@@ -3393,22 +3383,6 @@ Poroperties/_core:property.</p>
 
                     <div class="param-description">
                          
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">unit</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>unit of measurment</p>
-
                     </div>
 
                     
@@ -3738,17 +3712,17 @@ if the instance does not have property <code>propName</code>, then the method im
     </div>
 
     <div class="description">
-        <p>String representation of the instance. If <a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> is set to 0,
+        <p>String representation of the instance. If <a href="../classes/Properties.html#property__mode" class="crosslink">_mode</a> is set to 0,
 the representation of the following type is produced:</p>
 <p><div style="font-family: Courier; font-weight: bold;padding: 1em;">width="20" title="read me!"</div>
-If <a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> is set to 1, the representation of the following
+If <a href="../classes/Properties.html#property__mode" class="crosslink">_mode</a> is set to 1, the representation of the following
 type is produced:</p>
 <p><div style="font-family: Courier; font-weight: bold;padding: 1em;">width: 50px; color: red</div>
 It parses all <a href="../classes/Properties.html#property_core" class="crosslink">core</a> keys and if</p>
 <p><ol><li>
 corresponding value responds to a <code>toString()</code> method
 </li><li>
-corresponding value is a number and <a href="../classes/Properties.html#property_mode" class="crosslink">mode</a> is 1,
+corresponding value is a number and <a href="../classes/Properties.html#property__mode" class="crosslink">_mode</a> is 1,
 then &#39;px&#39; is appended (<strong>resolve this explicit dependency on unit of measurement!</strong>)
 </li><li>
 corresponding value is a string
@@ -3786,6 +3760,60 @@ the whole key-value pair is ignored.</p>
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__mode" class="property item private">
+    <h3 class="name"><code>_mode</code></h3>
+    <span class="type">Integer</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Properties.js.html#l60"><code>js\classes\Properties.js:60</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Mode to be used when representing this instance as a string by means of
+<a href="../classes/Properties.html#method_toString" class="crosslink">toString</a> method.
+If it is set to 0, then string representation has the following form
+<code>width="20" title="read me!"</code>
+If it is set to 1, then string representation has the following form
+<code>width: 50px; color: red</code>.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="property_allowedCoreKeyTypes" class="property item private">
@@ -3972,60 +4000,6 @@ access the content of this object.</p>
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_mode" class="property item private">
-    <h3 class="name"><code>mode</code></h3>
-    <span class="type">Integer</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties.js.html#l60"><code>js\classes\Properties.js:60</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Mode to be used when representing this instance as a string by means of
-<a href="../classes/Properties.html#method_toString" class="crosslink">toString</a> method.
-If it is set to 0, then string representation has the following form
-<code>width="20" title="read me!"</code>
-If it is set to 1, then string representation has the following form
-<code>width: 50px; color: red</code>.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
     
 
     

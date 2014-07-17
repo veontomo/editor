@@ -172,7 +172,7 @@
     <pre class="code prettyprint linenums">
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Helper, TableStyles, Styles, TableAttributes, Row, Tag, Content */
+/*global Attributes, Cell, Helper, TableProperties, Properties, Row, Tag, Content */
 
 /**
 * Represents table.
@@ -355,10 +355,10 @@ function Table() {
 	this.setPhantomCellStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomCell.setStyles(stl);
 			} else {
-				phantomCell.setStyles(new Styles(stl));
+				phantomCell.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -384,10 +384,10 @@ function Table() {
 	this.setPhantomRowStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomRow.setStyles(stl);
 			} else {
-				phantomRow.setStyles(new Styles(stl));
+				phantomRow.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -413,10 +413,10 @@ function Table() {
 	this.setPhantomTableStyles = function(stl){
 		if (stl !== undefined){
 			this.initPhantoms();
-			if (stl instanceof Styles){
+			if (stl instanceof Properties){
 				phantomTable.setStyles(stl);
 			} else {
-				phantomTable.setStyles(new Styles(stl));
+				phantomTable.setStyles(new Properties(stl));
 			}
 		}
 	};
@@ -574,6 +574,34 @@ function Table() {
 		return phantomTable.getProperties();
 	};
 
+
+	/**
+	 * {{#crossLink &quot;Table/phantomCell:property&quot;}}phantomCell{{/crossLink}}
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink &quot;Tag/getProperties:property&quot;}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomCellProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomCellProperties = function(){
+		return phantomCell.getProperties();
+	};
+
+
+	/**
+	 * {{#crossLink &quot;Table/phantomRow:property&quot;}}phantomRow{{/crossLink}}
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} getter.
+	 * Alias for {{#crossLink &quot;Tag/getProperties:property&quot;}}getProperties{{/crossLink}}
+	 * method.
+	 * @method         getPhantomRowProperties
+	 * @since          0.0.5
+	 * @return         {Properties|Null}
+	 */
+	this.getPhantomRowProperties = function(){
+		return phantomRow.getProperties();
+	};
+
 	/**
 	 * Returns {{#crossLink &quot;Tag/openingTag:method&quot;}}opening{{/crossLink}} or
 	 * {{#crossLink &quot;Tag/closingTag:method&quot;}}closing{{/crossLink}} tag for one of the
@@ -597,7 +625,6 @@ function Table() {
 				return phantomRow[tagType]();
 			}
 			if (phElemName === &#x27;table&#x27; &amp;&amp; phantomTable !== undefined &amp;&amp; typeof phantomTable[tagType] === &#x27;function&#x27;) {
-				console.log(&#x27;envoking phantomTable:openingtag()&#x27;);
 				return phantomTable[tagType]();
 			}
 		}
@@ -904,7 +931,6 @@ function Table() {
 			return 0;
 		}
 		tbody = this.getBody();
-		// console.log(this.getElem(0).toHtml());
 		firstRowCellNum = tbody[0].cellNum();
 		// if the table has a unique row
 		if (rowNum === 1){
@@ -1017,14 +1043,11 @@ function Table() {
 	 * @return         {Boolean}            true if the table is framed, and false otherwise
 	 */
 	this.isFragmented = function(){
-		// console.log(&#x27;number of rows = &#x27;, this.rowNum(), &#x27;, table: &#x27;, this.toHtml());
 		if (this.rowNum() === 0){
 			return false;
 		}
 		return this.getBody().every(function(row){
-			// console.log(&#x27;row? &#x27;, row.toHtml());
 			var res = row.onlyTableInside();
-			// console.log(res ? &#x27;returning true&#x27; : &#x27;returning false&#x27;);
 			return res;
 		});
 	};
@@ -1076,8 +1099,10 @@ function Table() {
 	};
 
 	/**
-	 * Generates html representation of the table body. If table is framed, then each row is &quot;sandwiched&quot; with
-	 * phantom elements.
+	 * Generates html representation of the table body. If table is framed, wraps each element of
+	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} with strings corresponding to phantom
+	 * elements. Generation of html string of each {{#crossLink &quot;Tag/content:property&quot;}}content element{{/crossLink}}
+	 * is delegated to its &#x60;toHtml&#x60; method (if an element has no &#x60;toHtml&#x60; method, this element gets ignored).
 	 * @method         bodyToHtml
 	 * @param          {Boolean}            withFrame         whether the table is framed or not.
 	 * @return         {String}
@@ -1100,10 +1125,13 @@ function Table() {
 	};
 
 	/**
-	 * Generates html code corresponding to this instance. Eventually, wraps each element of
-	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} with strings corresponding to phantom
-	 * elements. Generation of html string of each {{#crossLink &quot;Tag/content:property&quot;}}content element{{/crossLink}}
-	 * is delegated to its &#x60;toHtml&#x60; method (if the elements has &#x60;toHtml&#x60; method, this element gets ignored).
+	 * Generates html code corresponding to this instance. Makes use of
+	 * {{#crossLink &quot;Table/bodyToHtml:method&quot;}}bodyToHtml{{/crossLink}} method.
+	 *
+	 * This method overrides parent one {{#crossLink &quot;Tag/toHtml:method&quot;}}toHtml{{/crossLink}} because one has to manage
+	 * presence of properties {{#crossLink &quot;Table/phantomTable:property&quot;}}phantomTable{{/crossLink}},
+	 * {{#crossLink &quot;Table/phantomCell:property&quot;}}phantomCell{{/crossLink}} and
+	 * {{#crossLink &quot;Table/phantomRow:property&quot;}}phantomRow{{/crossLink}}.
 	 * @method         toHtml
 	 * @return         {String}
 	 */
@@ -1124,6 +1152,22 @@ function Table() {
 		tableHtml += this.closingTag();
 		return tableHtml;
 	};
+
+
+	/**
+	 * Generates instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
+	 * corresponding to this instance.
+	 *
+	 * This method overrides parent one  {{#crossLink &quot;Tag/toNode:method&quot;}}toNode{{/crossLink}} because
+	 * one has to manage presence of properties {{#crossLink &quot;Table/phantomTable:property&quot;}}phantomTable{{/crossLink}},
+	 * {{#crossLink &quot;Table/phantomCell:property&quot;}}phantomCell{{/crossLink}} and
+	 * {{#crossLink &quot;Table/phantomRow:property&quot;}}phantomRow{{/crossLink}}.
+	 * @method         toNode
+	 * @return         {DOM.Element}
+	 */
+	this.toNode = function(){
+		/// !!!stub
+	}
 
 
 	/**
