@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\Styles\to_delete_ListItemStyles.js - Newsletter API</title>
+    <title>js\classes\Properties\to_delete_Styles\to_delete_TableStyles.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,46 +166,50 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\Styles\to_delete_ListItemStyles.js</h1>
+                        <h1 class="file-heading">File: js\classes\Properties\to_delete_Styles\to_delete_TableStyles.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
 /*global Styles */
+
 /**
- * Represents list item styles.
+ * Represents table style.
  * @module        Properties
- * @class         ListItemStyles
- * @extends       Styles
+ * @class         TableStyles
  * @constructor
+ * @extends       Styles
  */
-function ListItemStyles(obj) {
+function TableStyles(obj) {
     &#x27;use strict&#x27;;
-    if (!(this instanceof ListItemStyles)) {
-        return new ListItemStyles(obj);
+    if (!(this instanceof TableStyles)) {
+        return new TableStyles();
     }
     Styles.call(this, obj);
 
     /**
     * Re-set private properties defined in parent class {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}}:
     * &lt;ol&gt;&lt;li&gt;
-    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;ListItemStyles&quot;
+    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableStyles&quot;
     * &lt;/li&gt;&lt;/ol&gt;
     * @method         constructor
     */
-    this.setName(&#x27;ListItemStyles&#x27;);
+    this.setName(&#x27;TableStyles&#x27;);
+
 
 
     /**
-     * Object with key-values for lists. They should be set if they were not set before. &lt;br/&gt;
-     * @property {Object}  listItemStyleCore
+     * Object with key-values for tables. They should be set if they were not set before.
+     * @property {Object}  tableStyleCore
      * @type     {Object}
      * @private
      */
-    var listItemStyleCore = {&#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;font-size&#x27;: 12, &#x27;font-weight&#x27;: &#x27;normal&#x27;, &#x27;color&#x27;: &#x27;#000001&#x27;};
-    this.suggestProperty(listItemStyleCore);
+    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
+    this.suggestProperty(tableStyleCore);
+
 }
-ListItemStyles.prototype = Object.create(Styles.prototype);
+TableStyles.prototype = Object.create(Styles.prototype);
+
     </pre>
 </div>
 

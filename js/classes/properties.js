@@ -64,15 +64,15 @@ function Properties(input) {
 	 * `width="20" title="read me!"`
 	 * If it is set to 1, then string representation has the following form
 	 * `width: 50px; color: red`.
-	 * @property       {0|1}                mode
+	 * @property       {0|1}                _mode
 	 * @private
 	 * @type           {Integer}
 	 * @default        0
 	 */
-	var mode = 0;
+	var _mode = 0;
 
 	/**
-	 * {{#crossLink "Property/mode:property"}}mode{{/crossLink}} setter. If argument
+	 * {{#crossLink "Property/_mode:property"}}_mode{{/crossLink}} setter. If argument
 	 * is different from 0 and 1, it is ignored.
 	 * @method         setMode
 	 * @param          {Integer}            m
@@ -80,7 +80,7 @@ function Properties(input) {
 	 */
 	this.setMode = function(m){
 		if (m === 1 || m === 0){
-			mode = m;
+			_mode = m;
 		} else {
 			throw new Error('Allowed values for mode are 0, 1.');
 		}
@@ -88,13 +88,13 @@ function Properties(input) {
 	};
 
 	/**
-	 * {{#crossLink "Property/mode:property"}}mode{{/crossLink}} getter.
+	 * {{#crossLink "Property/_mode:property"}}_mode{{/crossLink}} getter.
 	 * @method         getMode
 	 * @return         {Integer}
 	 * @since          0.0.5
 	 */
 	this.getMode = function(){
-		return mode;
+		return _mode;
 	};
 
 	/**
@@ -290,7 +290,7 @@ function Properties(input) {
 	/**
 	 * Initializes `style` key: if it does not exist, set it to
 	 * a new instance of {{#crossLink "Properties"}}Properties{{/crossLink}} with
-	 * {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} set to 1.
+	 * {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} set to 1.
 	 * @method         initializeStyle
 	 * @since          0.0.5
 	 * @return         {void}
@@ -500,17 +500,20 @@ function Properties(input) {
 	};
 
 	/**
-	 * String representation of the instance. If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 0,
+	 * String representation of the instance. If {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} is set to 0,
 	 * the representation of the following type is produced:
 	 * <div style="font-family: Courier; font-weight: bold;padding: 1em;">width="20" title="read me!"</div>
-	 * If {{#crossLink "Properties/mode:property"}}mode{{/crossLink}} is set to 1, the representation of the following
+	 * If {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} is set to 1, the representation of the following
 	 * type is produced:
 	 * <div style="font-family: Courier; font-weight: bold;padding: 1em;">width: 50px; color: red</div>
 	 * It parses all {{#crossLink "Properties/core:property"}}core{{/crossLink}} keys and if
 	 * <ol><li>
 	 * corresponding value responds to a `toString()` method
 	 * </li><li>
-	 * corresponding value is a string or a number
+	 * corresponding value is a number and {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} is 1,
+	 * then 'px' is appended (**resolve this explicit dependency on unit of measurement!**)
+	 * </li><li>
+	 * corresponding value is a string
 	 * </li>
 	 * </ol>
 	 * then uses it for further substitution. Otherwise, the value is ignored.
@@ -524,27 +527,30 @@ function Properties(input) {
 	this.toString = function(){
 		var output = [],
 		    keys = Object.keys(core),
-		    separ1, separ2;
-		switch (this.getMode()){
-			case 1:
-				separ1 = ': ';
-				separ2 = ';';
-				break;
-			case 0:
-			default:
-				separ1 = '="';
-				separ2 = '"';
-		}
+		    separ1, separ2,
+		    md = this.getMode();
+
+		separ1 = md === 1 ? ': ' : '="';
+		separ2 = md === 1 ? ';' : '"';
 
 		keys.forEach(function(key){
 			var value = core[key],
-				str;
+				str, valueType;
 			// some attributes might be deliberately set to null (especially default values)
 			if (value !== null){
-				if (typeof value.toString === 'function'){
-					str = value.toString();
-				} else if ((typeof value === 'string') || (typeof value === 'number')){
-					str = value;
+				valueType = typeof value;
+				switch (valueType){
+					case 'object':
+						if (typeof value.toString === 'function'){
+							str = value.toString();
+						}
+						break;
+					case 'number':
+						str = value.toString() + (md === 1 ? 'px' : '');
+						break;
+					default:
+						str = value;
+
 				}
 			}
 			if (typeof str === 'string' && str.length > 0){
@@ -699,10 +705,10 @@ function Properties(input) {
 
     /**
      * Sets key `width` inside {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}
-     * as well as keys `width`, `max-width` and `min-width` inside `styles` of
+     * as well as keys `width`, `max-width` and `min-width` inside `style` of
      * {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}.
      * @method         setWidth
-     * @param          {Any}                w
+     * @param          {Number|String}      w
      * @since          0.0.5
      */
     this.setWidth = function(w){
@@ -712,6 +718,8 @@ function Properties(input) {
     	this.setStyleProperty('max-width', w);
     	this.setStyleProperty('min-width', w);
     };
+
+
 
 
 }

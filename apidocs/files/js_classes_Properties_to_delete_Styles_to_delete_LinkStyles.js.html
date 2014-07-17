@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\Attributes\to_delete_LinkAttributes.js - Newsletter API</title>
+    <title>js\classes\Properties\to_delete_Styles\to_delete_LinkStyles.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,67 +166,48 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\Attributes\to_delete_LinkAttributes.js</h1>
+                        <h1 class="file-heading">File: js\classes\Properties\to_delete_Styles\to_delete_LinkStyles.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Property, Attributes, core */
+/*global Styles */
 
 /**
-* Table-specific attributes.
-* @module     	Properties
-* @extends      Attributes
-* @class        LinkAttributes
-* @constructor
-*/
-function LinkAttributes(attr){
-	&quot;use strict&quot;;
-	if (!(this instanceof LinkAttributes)) {
-		return new LinkAttributes(attr);
-	}
+ * Represents hyperlink style.
+ * @module        Properties
+ * @param         {String|Object}      obj      Style class variable will be instantiated using this input
+ * @class         LinkStyles
+ * @constructor
+ * @extends       Styles
+ */
+function LinkStyles(obj) {
+    &#x27;use strict&#x27;;
+    if (!(this instanceof LinkStyles)) {
+        return new LinkStyles(obj);
+    }
+    Styles.call(this, obj);
 
-	Attributes.call(this, attr);
+    /**
+    * Re-set private properties defined in parent class {{#crossLink &quot;Styles&quot;}}Styles{{/crossLink}}:
+    * &lt;ol&gt;&lt;li&gt;
+    * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;LinkStyles&quot;
+    * &lt;/li&gt;&lt;/ol&gt;
+    * @method         constructor
+    */
+    this.setName(&#x27;LinkStyles&#x27;);
 
-	/**
-	 * Re-set private properties defined in parent class {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}:
-	 * &lt;ol&gt;&lt;li&gt;
-	 * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;LinkAttributes&quot;
-	 * &lt;/li&gt;&lt;/ol&gt;
-	 * @method         constructor
-	 */
-	this.setName(&#x27;LinkAttributes&#x27;);
-
-	/**
-	 * Object with key-values for link attributes. They should be set if they were not set before.
-	 * @property 	{String} 	linkAttrCore
-	 * @private
-	 */
-	var linkAttrCore = {href: &#x27;&#x27;, target: &#x27;_blank&#x27;};
-	this.suggestProperty(linkAttrCore);
-
-	/**
-	 * Href getter.
-	 * @method  getHref
-	 * @return  {String}
-	 */
-	this.getHref =  function(){
-		return this.getProperty(&#x27;href&#x27;);
-	};
-
-	/**
-	 * Href setter. Native javascript function &#x60;encodeURI()&#x60; will be applied to the argument.
-	 * @method  setHref
-	 * @param   {String}         url               &#x60;encodeURI()&#x60; is to be applied when assigning to this.url
-	 * @return  {String}
-	 */
-	this.setHref =  function(url){
-		this.setProperty(&#x27;href&#x27;, encodeURI(url));
-	};
-
+    /**
+     * Object with key-values for hyperlinks. They should be set if they were not set before.
+     * @property {Object}  linkStyleCore
+     * @type     {Object}
+     * @private
+     */
+    var linkStyleCore = {&#x27;text-decoration&#x27;: &#x27;underline&#x27;, &#x27;font-size&#x27;: 14, &#x27;font-weight&#x27;: &#x27;normal&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;color&#x27;: &#x27;#154007&#x27;};
+    this.suggestProperty(linkStyleCore);
 
 }
-LinkAttributes.prototype = Object.create(Attributes.prototype);
+LinkStyles.prototype = Object.create(Styles.prototype);
 
     </pre>
 </div>

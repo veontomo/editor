@@ -438,8 +438,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Calls {{#crossLink "Styles/setWidth:method"}}setWidth(){{/crossLink}} and
-	 * {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}} methods to set the widths.
+	 * Calls {{#crossLink "Properties/setWidth:method"}}setWidth(){{/crossLink}} methods to set the widths.
 	 * @method         setWidth
 	 * @param          {String|Number} 	    w
 	 * @return         {void}
@@ -447,10 +446,7 @@ function Tag(tName) {
 	 */
 	this.setWidth = function(w){
 		if (w !== undefined){
-		    this.setProperty('width', w);
-			this.setStyleProperty('width', w);
-			this.setStyleProperty('min-width', w);
-			this.setStyleProperty('max-width', w);
+			_properties.setWidth(w);
 		}
 	};
 

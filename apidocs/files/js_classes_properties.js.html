@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\properties.js - Newsletter API</title>
+    <title>js\classes\Properties.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,7 +166,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\properties.js</h1>
+                        <h1 class="file-heading">File: js\classes\Properties.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -461,7 +461,8 @@ function Properties(input) {
 
 	/**
 	 * Initializes &#x60;style&#x60; key: if it does not exist, set it to
-	 * a new instance of {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}.
+	 * a new instance of {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} with
+	 * {{#crossLink &quot;Properties/mode:property&quot;}}mode{{/crossLink}} set to 1.
 	 * @method         initializeStyle
 	 * @since          0.0.5
 	 * @return         {void}
@@ -469,7 +470,9 @@ function Properties(input) {
 	this.initializeStyle = function(){
 		var propName = &#x27;style&#x27;;
 		if (!this.getProperty(propName)){
-			this.setProperty(propName, new Properties());
+			var stl = new Properties();
+			stl.setMode(1);
+			this.setProperty(propName, stl);
 		}
 	};
 
@@ -679,7 +682,10 @@ function Properties(input) {
 	 * &lt;ol&gt;&lt;li&gt;
 	 * corresponding value responds to a &#x60;toString()&#x60; method
 	 * &lt;/li&gt;&lt;li&gt;
-	 * corresponding value is a string or a number
+	 * corresponding value is a number and {{#crossLink &quot;Properties/mode:property&quot;}}mode{{/crossLink}} is 1,
+	 * then &#x27;px&#x27; is appended (**resolve this explicit dependency on unit of measurement!**)
+	 * &lt;/li&gt;&lt;li&gt;
+	 * corresponding value is a string
 	 * &lt;/li&gt;
 	 * &lt;/ol&gt;
 	 * then uses it for further substitution. Otherwise, the value is ignored.
@@ -699,18 +705,30 @@ function Properties(input) {
 				separ1 = &#x27;: &#x27;;
 				separ2 = &#x27;;&#x27;;
 				break;
-			case 0:
 			default:
 				separ1 = &#x27;=&quot;&#x27;;
 				separ2 = &#x27;&quot;&#x27;;
 		}
 
 		keys.forEach(function(key){
-			var value = core[key], str;
-			if (typeof value.toString === &#x27;function&#x27;){
-				str = value.toString();
-			} else if ((typeof value === &#x27;string&#x27;) || (typeof value === &#x27;number&#x27;)){
-				str = value;
+			var value = core[key],
+				str, valueType;
+			// some attributes might be deliberately set to null (especially default values)
+			if (value !== null){
+				valueType = typeof value;
+				switch (valueType){
+					case &#x27;object&#x27;:
+						if (typeof value.toString === &#x27;function&#x27;){
+							str = value.toString();
+						}
+						break;
+					case &#x27;number&#x27;:
+						str = value.toString() + &#x27;px&#x27;;
+						break;
+					default:
+						str = value;
+
+				}
 			}
 			if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
 				output.push(key.toString() + separ1 + str + separ2);
@@ -787,7 +805,7 @@ function Properties(input) {
 	 */
 	this.hasStyleProperty = function(propName){
 		return this.hasStyles() &amp;&amp; this.getStyles().hasProperty(propName);
-	}
+	};
 
 
 	/**
@@ -860,6 +878,33 @@ function Properties(input) {
 			});
     	}
     };
+
+
+    /**
+     * Sets key &#x60;width&#x60; inside {{#crossLink &quot;Poroperties/_core:property&quot;}}_core{{/crossLink}}
+     * as well as keys &#x60;width&#x60;, &#x60;max-width&#x60; and &#x60;min-width&#x60; inside &#x60;style&#x60; of
+     * {{#crossLink &quot;Poroperties/_core:property&quot;}}_core{{/crossLink}}.
+     *
+     * If &#x60;w&#x60; is a string, then the above mentioned values are installed without changes.
+     * If &#x60;w&#x60; is a number and optional parameter &#x60;measure&#x60; is provided, then it is appended to the
+     * value of width when setting value of widths inside &#x60;style&#x60; of
+     * {{#crossLink &quot;Poroperties/_core:property&quot;}}_core{{/crossLink}}.
+     * @method         setWidth
+     * @param          {Number|String}      w
+     * @param          {String}             unit        unit of measurment
+     * @since          0.0.5
+     */
+    this.setWidth = function(w, unit){
+    	var w1;
+    	this.initializeStyle();
+    	w1 = (typeof w === &#x27;number&#x27; &amp;&amp; typeof unit === &#x27;string&#x27;) ? w.toString() + unit : w;
+    	this.setProperty(&#x27;width&#x27;, w);
+    	this.setStyleProperty(&#x27;width&#x27;, w1);
+    	this.setStyleProperty(&#x27;max-width&#x27;, w1);
+    	this.setStyleProperty(&#x27;min-width&#x27;, w1);
+    };
+
+
 
 
 }

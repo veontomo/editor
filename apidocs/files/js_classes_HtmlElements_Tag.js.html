@@ -255,7 +255,7 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 * @deprecated     Use _properties instead
 	 */
-	var attributes = new Attributes();
+	// var attributes = new Attributes();
 
 	/**
 	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
@@ -300,11 +300,14 @@ function Tag(tName) {
 	*/
 	this.setAttributes = function(attr){
 		console.log(&#x27;setAttributes method is deprecated. Use setProperties instead!&#x27;);
-		if (attr instanceof Attributes){
-			attributes = attr;
-		} else {
-			attributes = new Attributes(attr);
-		}
+		/// original code
+		// if (attr instanceof Attributes){
+		// 	attributes = attr;
+		// } else {
+		// 	attributes = new Attributes(attr);
+		// }
+		// new version. Added juts for compatibility with previous version.
+		this.setProperties(attr);
 	};
 
 
@@ -346,8 +349,12 @@ function Tag(tName) {
 	* @deprecated      Use getProperties instead
 	*/
 	this.getAttributes = function(){
-		console.log(&#x27;Method getAttributes is deprecated. Use getProperties instead!&#x27;);
-		return attributes.clone();
+		// initial code
+		// console.log(&#x27;Method getAttributes is deprecated. Use getProperties instead!&#x27;);
+		// return attributes.clone();
+		// replaced by this
+		return _properties.clone();
+
 	};
 
 
@@ -603,19 +610,16 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Calls {{#crossLink &quot;Styles/setWidth:method&quot;}}setWidth(){{/crossLink}} and
-	 * {{#crossLink &quot;Properties/setProperty:method&quot;}}setProperty(){{/crossLink}} methods to set the widths.
+	 * Calls {{#crossLink &quot;Properties/setWidth:method&quot;}}setWidth(){{/crossLink}} methods to set the widths.
 	 * @method         setWidth
 	 * @param          {String|Number} 	    w
+	 * @param          {String|Null}             unit      unit of measurement
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
-	this.setWidth = function(w){
+	this.setWidth = function(w, unit){
 		if (w !== undefined){
-		    this.setProperty(&#x27;width&#x27;, w);
-			this.setStyleProperty(&#x27;width&#x27;, w);
-			this.setStyleProperty(&#x27;min-width&#x27;, w);
-			this.setStyleProperty(&#x27;max-width&#x27;, w);
+			_properties.setWidth(w, unit);
 		}
 	};
 

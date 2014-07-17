@@ -172,17 +172,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Attributes\\TableAttributes.js": {
-            "name": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
-            "modules": {},
-            "classes": {
-                "TableAttributes": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js": {
-            "name": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+        "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js": {
+            "name": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "modules": {},
             "classes": {
                 "LinkAttributes": 1
@@ -190,8 +181,17 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
+        "js\\classes\\Properties\\to_delete_Attributes\\to_delete_TableAttributes.js": {
+            "name": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_TableAttributes.js",
+            "modules": {},
+            "classes": {
+                "TableAttributes": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_ImageStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ImageStyles.js",
             "modules": {},
             "classes": {
                 "ImageStyle": 1
@@ -199,8 +199,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_LinkStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_LinkStyles.js",
             "modules": {},
             "classes": {
                 "LinkStyles": 1
@@ -208,8 +208,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListItemStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListItemStyles.js",
             "modules": {},
             "classes": {
                 "ListItemStyles": 1
@@ -217,8 +217,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListStyles.js",
             "modules": {},
             "classes": {
                 "ListStyles": 1
@@ -226,8 +226,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableCellStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableCellStyles.js",
             "modules": {},
             "classes": {
                 "TableCellStyles": 1
@@ -235,8 +235,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableRowStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableRowStyles.js",
             "modules": {},
             "classes": {
                 "TableRowStyles": 1
@@ -244,8 +244,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js": {
-            "name": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
+        "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableStyles.js": {
+            "name": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableStyles.js",
             "modules": {},
             "classes": {
                 "TableStyles": 1
@@ -354,8 +354,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\properties.js": {
-            "name": "js\\classes\\properties.js",
+        "js\\classes\\Properties.js": {
+            "name": "js\\classes\\Properties.js",
             "modules": {
                 "Properties": 1
             },
@@ -460,8 +460,8 @@
             "name": "Properties",
             "submodules": {},
             "classes": {
-                "TableAttributes": 1,
                 "LinkAttributes": 1,
+                "TableAttributes": 1,
                 "ImageStyle": 1,
                 "LinkStyles": 1,
                 "ListItemStyles": 1,
@@ -483,7 +483,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 5,
             "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties.",
             "extends": "Attributes",
@@ -758,21 +758,6 @@
             "line": 5,
             "description": "This class is used to represent a general html tag."
         },
-        "TableAttributes": {
-            "name": "TableAttributes",
-            "shortname": "TableAttributes",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Properties",
-            "namespace": "",
-            "file": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
-            "line": 3,
-            "description": "Table-specific attributes.",
-            "extends": "Attributes"
-        },
         "LinkAttributes": {
             "name": "LinkAttributes",
             "shortname": "LinkAttributes",
@@ -783,8 +768,23 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "line": 4,
+            "description": "Table-specific attributes.",
+            "extends": "Attributes"
+        },
+        "TableAttributes": {
+            "name": "TableAttributes",
+            "shortname": "TableAttributes",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Properties",
+            "namespace": "",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_TableAttributes.js",
+            "line": 3,
             "description": "Table-specific attributes.",
             "extends": "Attributes"
         },
@@ -798,7 +798,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ImageStyles.js",
             "line": 3,
             "description": "Represents image styles."
         },
@@ -812,7 +812,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_LinkStyles.js",
             "line": 4,
             "description": "Represents hyperlink style.",
             "params": [
@@ -833,7 +833,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListItemStyles.js",
             "line": 3,
             "description": "Represents list item styles."
         },
@@ -847,7 +847,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListStyles.js",
             "line": 4,
             "description": "Represents image styles."
         },
@@ -861,7 +861,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableCellStyles.js",
             "line": 4,
             "description": "Represents table cell styles."
         },
@@ -875,7 +875,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableRowStyles.js",
             "line": 3,
             "description": "Represents table row style."
         },
@@ -889,7 +889,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableStyles.js",
             "line": 4,
             "description": "Represents table style."
         },
@@ -1071,7 +1071,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 5,
             "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties."
         }
@@ -4811,7 +4811,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 139,
+            "line": 142,
             "description": "Sets {{#crossLink \"Tag/_properties:property\"}}properties{{/crossLink}} of the tag. If the argument is an instance\nof {{#crossLink \"Properties\"}}Properties{{/crossLink}}, its clone is assigned to private variable\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}, otherwise the argument is passed to the\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} constructor and newly created instance is assigned to\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "setProperties",
@@ -4832,7 +4832,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 158,
+            "line": 161,
             "description": "Returns clone of {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "getProperties",
@@ -4846,7 +4846,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 169,
+            "line": 172,
             "description": "Returns copy of {{#crossLink \"Tag/attributes:property\"}}Attributes{{/crossLink}}.",
             "itemtype": "method",
             "name": "getAttributes",
@@ -4862,7 +4862,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 183,
+            "line": 190,
             "description": "Sets `style` property inside {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}. It is an alias\nfor {{#crossLink \"Properties/setStyles:method\"}}setStyles(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "setStyles",
@@ -4883,7 +4883,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 197,
+            "line": 204,
             "description": "Gets `style` key of private variable {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.\nIt is an alias for {{#crossLink \"Properties/getStyles:method\"}}getStyles{{/crossLink}} method.",
             "itemtype": "method",
             "name": "getStyles",
@@ -4897,7 +4897,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 210,
+            "line": 217,
             "description": "Smart {{#crossLink \"Tag/content:property\"}}content{{/crossLink}} setter. If the argument is a\n{{#crossLink \"Content\"}}Content{{/crossLink}} instance, then\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nis set to this value. Otherwise, the argument is passed to the constructor of new instance of\n{{#crossLink \"Content\"}}Content{{/crossLink}} and the result is assigned to\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nwith provided and the ar",
             "itemtype": "method",
             "name": "setContent",
@@ -4918,7 +4918,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 232,
+            "line": 239,
             "description": "Returns copy of {{#crossLink \"Tag/content:property\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getContent",
@@ -4932,7 +4932,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 242,
+            "line": 249,
             "description": "{{#crossLink \"Tag/className:property\"}}Class name{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getName",
@@ -4945,7 +4945,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 251,
+            "line": 258,
             "description": "{{#crossLink \"Tag/className:property\"}}Class name{{/crossLink}} setter. Use it with caution. This\nmethod is intended to be used in classes that inherite from this one in order to set the name attribute.\n(If only were there a late binding ...)",
             "itemtype": "method",
             "name": "setName",
@@ -4965,7 +4965,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 267,
+            "line": 274,
             "description": "Appends style to the instance. Alias for {{#crossLink \"Styles/appendStyle:method\"}}Styles::appendStyle{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendStyle",
@@ -4986,7 +4986,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 280,
+            "line": 287,
             "description": "Appends style to the instance. Alias for\n{{#crossLink \"Attributes/appendAttributes:method\"}}Attributes::appendAttributes{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendAttributes",
@@ -5009,7 +5009,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 294,
+            "line": 301,
             "description": "Appends properties to {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the instance. Alias for\n{{#crossLink \"Properties/appendProperty:method\"}}appendProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "appendProperties",
@@ -5030,7 +5030,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 308,
+            "line": 315,
             "description": "Appends style `stl` to element at position `pos.` It is an alias for the method\n{{#crossLink \"Content/appendStyleToElemAt:method\"}}appendStyleToElemAt{{/crossLink}}.",
             "itemtype": "method",
             "name": "appendStyleToElemAt",
@@ -5056,7 +5056,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 322,
+            "line": 329,
             "description": "Retrieves requested property from {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -5077,7 +5077,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 338,
+            "line": 345,
             "description": "Imposes requested property value in {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -5103,7 +5103,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 352,
+            "line": 359,
             "description": "Retrieves value of `prop` from {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the current object.",
             "itemtype": "method",
             "name": "getProperty",
@@ -5124,7 +5124,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 366,
+            "line": 373,
             "description": "Sets the value of `key` of {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nto `value`. Alias for {{#crossLink \"Properties/setProperty:property\"}}setProperty{{/crossLink}}",
             "itemtype": "method",
             "name": "setProperty",
@@ -5150,7 +5150,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 380,
+            "line": 387,
             "description": "Returns `true` if {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\ncontains `key` and `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty{{/crossLink}}",
             "itemtype": "method",
             "name": "hasProperty",
@@ -5170,7 +5170,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 393,
+            "line": 400,
             "description": "Returns `true` if {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\ncontains attribute `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "hasStyleProperty",
@@ -5190,7 +5190,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 405,
+            "line": 412,
             "description": "Drops `key` from {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}\nof the current object and returns a value of the key.",
             "itemtype": "method",
             "name": "dropProperty",
@@ -5211,7 +5211,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 419,
+            "line": 426,
             "description": "Drops requested property from {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty of the current object.",
             "itemtype": "method",
             "name": "dropStyleProperty",
@@ -5232,8 +5232,8 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 433,
-            "description": "Calls {{#crossLink \"Styles/setWidth:method\"}}setWidth(){{/crossLink}} and\n{{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} methods to set the widths.",
+            "line": 440,
+            "description": "Calls {{#crossLink \"Properties/setWidth:method\"}}setWidth(){{/crossLink}} methods to set the widths.",
             "itemtype": "method",
             "name": "setWidth",
             "params": [
@@ -5241,6 +5241,11 @@
                     "name": "w",
                     "description": "",
                     "type": "String|Number"
+                },
+                {
+                    "name": "unit",
+                    "description": "unit of measurement",
+                    "type": "String|Null"
                 }
             ],
             "return": {
@@ -5253,7 +5258,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 450,
+            "line": 454,
             "description": "Retrieves `width` attribute of {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} property.",
             "itemtype": "method",
             "name": "getWidth",
@@ -5267,7 +5272,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 462,
+            "line": 466,
             "description": "Returns absolute value of `width` attribute of {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}}\nproperty without unit of measurement. If `width` is not defined or defined but its absolute value\ncan not be found, then `undefined` is returned.",
             "itemtype": "method",
             "name": "getWidthValue",
@@ -5280,7 +5285,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 480,
+            "line": 484,
             "description": "Returns copy of {{#crossLink \"Content/elements\"}}elements{{/crossLink}} of\n{{#crossLink \"Tag/content\"}}content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getElements",
@@ -5293,7 +5298,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 494,
+            "line": 498,
             "description": "Imposes {{#crossLink \"Content/elements:property\"}}elements{{/crossLink}} of\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. If the argument\nis not array, not assignment occures.",
             "itemtype": "method",
             "name": "setElements",
@@ -5309,7 +5314,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 507,
+            "line": 511,
             "description": "Gets the element stored in {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}. Delegates its\nfunctionality to class {{#crossLink \"Content\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "getElem",
@@ -5330,7 +5335,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 519,
+            "line": 523,
             "description": "Returns copy of the first element of {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.\nAlias for {{#crossLink \"Content/getFirst:method\"}}Content::getFirst{{/crossLink}}.",
             "itemtype": "method",
             "name": "getFirst",
@@ -5344,7 +5349,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 530,
+            "line": 534,
             "description": "Returns copy of the first element of {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.\nAlias for {{#crossLink \"Content/getLast:method\"}}Content::getlast{{/crossLink}}.",
             "itemtype": "method",
             "name": "getLast",
@@ -5358,7 +5363,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 541,
+            "line": 545,
             "description": "Inserts an element into given position. Delegates its functionality to the class\n{{#crossLink \"Content\"}}Content{{/crossLink}}.",
             "itemtype": "method",
             "name": "insertElemAt",
@@ -5384,7 +5389,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 554,
+            "line": 558,
             "description": "Appends the element to the content of the list item. Delegates to Content::appendElem().",
             "itemtype": "method",
             "name": "appendElem",
@@ -5405,7 +5410,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 565,
+            "line": 569,
             "description": "Returns the number of elements inside its content. Delegates to Content::length().",
             "itemtype": "method",
             "name": "length",
@@ -5419,7 +5424,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 575,
+            "line": 579,
             "description": "Deletes element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropElemAt:method}}dropElemAt{{/crossLink}}.",
             "itemtype": "method",
             "name": "dropElemAt",
@@ -5440,7 +5445,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 587,
+            "line": 591,
             "description": "Deletes first element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropFirst:method\"}}Content::dropFirst(){{/crossLink}}.",
             "itemtype": "method",
             "name": "dropFirst",
@@ -5454,7 +5459,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 598,
+            "line": 602,
             "description": "Deletes last element from \"content\" property. Delegates its functionalality to\n{{#crossLink \"Content/dropLast:method\"}}Content::dropLast(){{/crossLink}}.",
             "itemtype": "method",
             "name": "dropLast",
@@ -5468,7 +5473,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 610,
+            "line": 614,
             "description": "If {{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} is a non-empty string, then it is\nreturned a string with which html representaion of current instance starts,\ni.e.: `<div class=\"media\" style=\"color: red; width: 73%\">`.",
             "itemtype": "method",
             "name": "openingTag",
@@ -5481,7 +5486,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 630,
+            "line": 634,
             "description": "Returns html closing tag, i.e. `</span>`.",
             "itemtype": "method",
             "name": "closingTag",
@@ -5494,7 +5499,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 642,
+            "line": 646,
             "description": "Gives html representation of the instance.\nIf {{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}} is not a non-empty string, just html comment is generated.",
             "itemtype": "method",
             "name": "toHtml",
@@ -5508,7 +5513,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 663,
+            "line": 667,
             "description": "Generates plain text representation of the tag content. Calls {{#crossLink \"Content/toText:method\"}}Content::toText(){{/crossLink}}.",
             "itemtype": "method",
             "name": "toText",
@@ -5522,7 +5527,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 673,
+            "line": 677,
             "description": "Returns true, if the tag is empty. Returns false otherwise.<br />\nThe tag is considered empty if `isEmpty()` method for its {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}}\nand {{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} and {{#crossLink \"Content\"}}content{{/crossLink}} returns true.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -5536,7 +5541,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 685,
+            "line": 689,
             "description": "Empties {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}.",
             "itemtype": "method",
             "name": "flushContent",
@@ -5549,7 +5554,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 694,
+            "line": 698,
             "description": "Trims the content. Calls method {{#crossLink \"Content/trim:method\"}}Content::trim(){{/crossLink}} on the\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} property.",
             "itemtype": "method",
             "name": "trim",
@@ -5562,7 +5567,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 705,
+            "line": 709,
             "description": "Appends element to the content. It is alias for the\n{{#crossLink \"Content/appendElemIfNotEmpty:method\"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}",
             "itemtype": "method",
             "name": "appendElemIfNotEmpty",
@@ -5582,7 +5587,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 717,
+            "line": 721,
             "description": "Creates a clone of the target. If the target has a `className` attribute corresponding to\nexisiting class, then that class instance is to be returned. Otherwise a {{#crossLink \"Tag\"}}Tag{{/crossLink}}\ninstance is returned. The method parses all attributes of the target and if the attribute\nresponds to a \"clone\" method, then calls this method and assigns its result to the corresponding\nclone attribute. Otherwise, assign target attribute value to the clone attribute (there might be\na potential problem with what is passed by reference and not by values, i.e. array). But among\n{{#crossLink \"Tag\"}}Tag{{/crossLink}} properties there are no array-valued ones.",
             "itemtype": "method",
             "name": "clone",
@@ -5595,7 +5600,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 745,
+            "line": 749,
             "description": "Populates the following properties of the target object\n<ol><li>\n{{#crossLink \"Tag/tag:property\"}}tag{{/crossLink}}\n</li><li>\n{{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} by calling\n{{#crossLink \"Properties/load:method\"}}load(){{/crossLink}} method.\n</li><li>\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} by calling\n{{#crossLink \"Content/load:method\"}}Content::load(){{/crossLink}} method.\n</li></ol>\nfrom the argument which must be an instance of\n[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if\nthe argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,\n`false` is returned.<br />\nNB: DOM.Element.attributes has the form `{1: {tag: \"width\", value:\"100\", ...}, 2: {tag: \"color\", value:\"black\", ...}, ...}`",
             "itemtype": "method",
             "name": "load",
@@ -5615,7 +5620,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 790,
+            "line": 794,
             "description": "Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.\nCalls methods {{#crossLink \"Attributes/decorateElement:method\"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,\n{{#crossLink \"Style/decorateElement:method\"}}Style::decorateElement(){{/crossLink}} to apply styles and\n{{#crossLink \"Content/stickTo:method\"}}Content::stickTo(){{/crossLink}} to append elements from the\n{{#crossLink \"Tag/content:property\"}}Tag::content{{/crossLink}}.",
             "itemtype": "method",
             "name": "toNode",
@@ -5628,7 +5633,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag.js",
-            "line": 810,
+            "line": 814,
             "description": "Erases current value of atttribute \"title\" and sets it to `str` if `str` is a non-empty string.",
             "itemtype": "method",
             "name": "setTitle",
@@ -5648,28 +5653,7 @@
             "module": "HtmlElements"
         },
         {
-            "file": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
-            "line": 17,
-            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableAttributes\"\n</li></ol>",
-            "itemtype": "method",
-            "name": "constructor",
-            "class": "TableAttributes",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties\\Attributes\\TableAttributes.js",
-            "line": 27,
-            "description": "Object with key-values for table attributes. They should be set if they were not set before.",
-            "itemtype": "property",
-            "name": "tableAttrCore",
-            "type": "String",
-            "access": "private",
-            "tagname": "",
-            "class": "TableAttributes",
-            "module": "Properties"
-        },
-        {
-            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "line": 19,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"LinkAttributes\"\n</li></ol>",
             "itemtype": "method",
@@ -5678,7 +5662,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "line": 28,
             "description": "Object with key-values for link attributes. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5690,7 +5674,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "line": 36,
             "description": "Href getter.",
             "itemtype": "method",
@@ -5703,7 +5687,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Attributes\\to_delete_LinkAttributes.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_LinkAttributes.js",
             "line": 45,
             "description": "Href setter. Native javascript function `encodeURI()` will be applied to the argument.",
             "itemtype": "method",
@@ -5723,7 +5707,28 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_TableAttributes.js",
+            "line": 17,
+            "description": "Re-set private properties defined in parent class {{#crossLink \"Properties\"}}Properties{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableAttributes\"\n</li></ol>",
+            "itemtype": "method",
+            "name": "constructor",
+            "class": "TableAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\to_delete_Attributes\\to_delete_TableAttributes.js",
+            "line": 27,
+            "description": "Object with key-values for table attributes. They should be set if they were not set before.",
+            "itemtype": "property",
+            "name": "tableAttrCore",
+            "type": "String",
+            "access": "private",
+            "tagname": "",
+            "class": "TableAttributes",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ImageStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ImageStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5732,7 +5737,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ImageStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ImageStyles.js",
             "line": 27,
             "description": "Object with key-values for images. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5744,7 +5749,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_LinkStyles.js",
             "line": 19,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"LinkStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5753,7 +5758,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_LinkStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_LinkStyles.js",
             "line": 28,
             "description": "Object with key-values for hyperlinks. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5765,7 +5770,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListItemStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListItemStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5774,7 +5779,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListItemStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListItemStyles.js",
             "line": 27,
             "description": "Object with key-values for lists. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5786,7 +5791,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"ListStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5795,7 +5800,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_ListStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_ListStyles.js",
             "line": 29,
             "description": "Object with key-values for lists. They should be set if they were not set before. <br/>",
             "itemtype": "property",
@@ -5807,7 +5812,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableCellStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableCellStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5816,7 +5821,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableCellStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableCellStyles.js",
             "line": 28,
             "description": "Object with key-values for table cells. They should be set if they were not set before. <br/>\nNB: Gmail removes color tags corresponding to black color, so use `#000001` instead of `#000000`.",
             "itemtype": "property",
@@ -5828,7 +5833,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableRowStyles.js",
             "line": 17,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableRowStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5837,7 +5842,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableRowStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableRowStyles.js",
             "line": 26,
             "description": "Object with key-values for table rows. They should be set if they were not set before.",
             "itemtype": "property",
@@ -5849,7 +5854,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableStyles.js",
             "line": 18,
             "description": "Re-set private properties defined in parent class {{#crossLink \"Styles\"}}Styles{{/crossLink}}:\n<ol><li>\n{{#crossLink \"Properties/className:property\"}}className{{/crossLink}} to be \"TableStyles\"\n</li></ol>",
             "itemtype": "method",
@@ -5858,7 +5863,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties\\Styles\\to_delete_TableStyles.js",
+            "file": "js\\classes\\Properties\\to_delete_Styles\\to_delete_TableStyles.js",
             "line": 29,
             "description": "Object with key-values for tables. They should be set if they were not set before.",
             "itemtype": "property",
@@ -7222,7 +7227,7 @@
             "module": "Helper"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 21,
             "description": "Object that contains all the properties. Its keys and values must be either strings or numbers.\nUse {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}} and\n{{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} methods to\naccess the content of this object.",
             "itemtype": "property",
@@ -7234,7 +7239,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 32,
             "description": "Array of allowed types for core keys. Set to 'string', 'number'.",
             "itemtype": "property",
@@ -7246,7 +7251,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 41,
             "description": "Array of allowed types for core values. For the moment, it is allowed to have string-valued, number-valued\nand object-valued values of the keys.",
             "itemtype": "property",
@@ -7258,7 +7263,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 52,
             "description": "The  name of the class.",
             "itemtype": "property",
@@ -7270,7 +7275,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 60,
             "description": "Mode to be used when representing this instance as a string by means of\n{{#crossLink \"Properties/toString:method\"}}toString{{/crossLink}} method.\nIf it is set to 0, then string representation has the following form\n`width=\"20\" title=\"read me!\"`\nIf it is set to 1, then string representation has the following form\n`width: 50px; color: red`.",
             "itemtype": "property",
@@ -7283,7 +7288,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 74,
             "description": "{{#crossLink \"Property/mode:property\"}}mode{{/crossLink}} setter. If argument\nis different from 0 and 1, it is ignored.",
             "itemtype": "method",
@@ -7303,7 +7308,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 90,
             "description": "{{#crossLink \"Property/mode:property\"}}mode{{/crossLink}} getter.",
             "itemtype": "method",
@@ -7317,7 +7322,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 100,
             "description": "{{#crossLink \"Properties/className:property\"}}Class name{{/crossLink}} getter.",
             "itemtype": "method",
@@ -7330,7 +7335,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 109,
             "description": "{{#crossLink \"Properties/className:property\"}}Class name{{/crossLink}} setter.",
             "itemtype": "method",
@@ -7350,7 +7355,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 122,
             "description": "Sets value of `style` key. Converts argument into {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance\nand then performs assignment.",
             "itemtype": "method",
@@ -7371,7 +7376,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 134,
             "description": "If both `key` and `value` are of allowed types (given by\n{{#crossLink \"Properties/allowedCoreKeyTypes:property\"}}allowedCoreKeyTypes{{/crossLink}} and\n{{#crossLink \"Properties/allowedCoreValueTypes:property\"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}} is set to `value`\nand `true` is returned. Otherwise, `false` is returned. If `key` is a string `style`, then method\n{{#crossLink \"Properties/setStyles:method\"}}setStyles(){{/crossLink}} is envoked.",
             "itemtype": "method",
@@ -7396,7 +7401,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 160,
             "description": "allowed key types getter",
             "itemtype": "method",
@@ -7410,7 +7415,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 170,
             "description": "allowed value types getter",
             "itemtype": "method",
@@ -7424,7 +7429,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 182,
             "description": "Retrieves the value of the requested property from\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}\nIf it does not exist, `undefined` is returned.",
             "itemtype": "method",
@@ -7437,7 +7442,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 195,
             "description": "If the key is present in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, drops it and\nreturns the key value.",
             "itemtype": "method",
@@ -7457,7 +7462,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 210,
             "description": "Replaces {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} with empty object {}.",
             "itemtype": "method",
@@ -7470,7 +7475,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 221,
             "description": "Fills in the core with key-value pairs from the argument if any. If the argument\nis a string, splits it according to the pattern \"key: value;\". If the argument is\nan object, then it gets its key-value pairs. Obtained blocks are then sent one\nby one to {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}}\nmethod.",
             "itemtype": "method",
@@ -7492,7 +7497,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 266,
             "description": "Adds properties into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}. It passes its argument to a\nprivate method\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.",
             "itemtype": "method",
@@ -7512,7 +7517,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 278,
             "description": "Appends properties to `style` key. If the key does not exist, creates it.",
             "itemtype": "method",
@@ -7533,9 +7538,9 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
+            "file": "js\\classes\\Properties.js",
             "line": 290,
-            "description": "Initializes `style` key: if it does not exist, set it to\na new instance of {{#crossLink \"Properties\"}}Properties{{/crossLink}}.",
+            "description": "Initializes `style` key: if it does not exist, set it to\na new instance of {{#crossLink \"Properties\"}}Properties{{/crossLink}} with\n{{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} set to 1.",
             "itemtype": "method",
             "name": "initializeStyle",
             "since": "0.0.5",
@@ -7547,8 +7552,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 305,
+            "file": "js\\classes\\Properties.js",
+            "line": 308,
             "description": "Switches property `propName` between `val` and `altVal` in the following way:\n<ol><li>\nif the instance has property `propName` equal to `val`, then the method imposes\nits value to be `altVal` (if `altVal` is not defined, then the key `propName` gets dropped).\n</li><li>\nif the instance contains property `propName` equal to `altVal`, then the method sets\nits value to be `val`.\n</li><li>\nif the instance does not have property `propName`, then the method imposes it to be `val`.\n</li></ol>",
             "itemtype": "method",
             "name": "toggleProperty",
@@ -7577,8 +7582,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 336,
+            "file": "js\\classes\\Properties.js",
+            "line": 339,
             "description": "Returns `true` if the instance has property `key` set and the value of this property is not\nin `ignoreValues` array. Otherwise, `false` is returned.",
             "itemtype": "method",
             "name": "hasSet",
@@ -7602,8 +7607,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 357,
+            "file": "js\\classes\\Properties.js",
+            "line": 360,
             "description": "Splits the argument in key-value pieces as it is performed in\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.\nIf the `key` is not present in the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, it is initialized\nwith `value`. Otherwise, it is ignored.",
             "itemtype": "method",
             "name": "suggestProperty",
@@ -7622,8 +7627,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 394,
+            "file": "js\\classes\\Properties.js",
+            "line": 397,
             "description": "Returns `true` if requested property is the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} key,\n`false` otherwise.",
             "itemtype": "method",
             "name": "hasProperty",
@@ -7642,8 +7647,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 405,
+            "file": "js\\classes\\Properties.js",
+            "line": 408,
             "description": "Gets the number of records in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "propNum",
@@ -7655,8 +7660,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 414,
+            "file": "js\\classes\\Properties.js",
+            "line": 417,
             "description": "Returns a copy of the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "getCore",
@@ -7668,8 +7673,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 430,
+            "file": "js\\classes\\Properties.js",
+            "line": 433,
             "description": "Compares {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} of the target and the argument.\nReturns `true` if they are equal, `false` otherwise.",
             "itemtype": "method",
             "name": "isTheSameAs",
@@ -7688,8 +7693,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 454,
+            "file": "js\\classes\\Properties.js",
+            "line": 457,
             "description": "Clones the target. Parses all attributes of the target. If the attribute responds to \"clone\"\nmethod, then assign the result of this method to the corresponding clone attribute. Otherwise,\nassign the attribute value to the clone attribute (potentially problematic for what is passed\nby reference and not by value, like arrays).\n{{#crossLink \"Properties/core:property\"}}Core{{/crossLink}} is a private variable, so in the\nclone it is populated by means of {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}}\nand {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "clone",
@@ -7701,8 +7706,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 488,
+            "file": "js\\classes\\Properties.js",
+            "line": 491,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -7714,9 +7719,9 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 499,
-            "description": "String representation of the instance. If {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a string or a number\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
+            "file": "js\\classes\\Properties.js",
+            "line": 502,
+            "description": "String representation of the instance. If {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a number and {{#crossLink \"Properties/mode:property\"}}mode{{/crossLink}} is 1,\nthen 'px' is appended (**resolve this explicit dependency on unit of measurement!**)\n</li><li>\ncorresponding value is a string\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -7728,8 +7733,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 552,
+            "file": "js\\classes\\Properties.js",
+            "line": 570,
             "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nReturns `true` if loading succeeds and `false` otherwise.\n\nTo do: for the moment, thw method always returns `true`.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
             "itemtype": "method",
             "name": "load",
@@ -7748,8 +7753,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 587,
+            "file": "js\\classes\\Properties.js",
+            "line": 605,
             "description": "Returns `true` if the instance has key `style`, `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty('style'){{/crossLink}} method.",
             "itemtype": "method",
             "name": "hasStyles",
@@ -7761,8 +7766,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 597,
+            "file": "js\\classes\\Properties.js",
+            "line": 615,
             "description": "Returns value of `style` key. Alias for {{#crossLink \"Properties/getProperty:method\"}}getProperty('styles'){{/crossLink}}.",
             "itemtype": "method",
             "name": "getStyles",
@@ -7775,8 +7780,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 608,
+            "file": "js\\classes\\Properties.js",
+            "line": 626,
             "description": "Returns `true` if instance contains `style` key inside which there is a key `propName`.\nOtherwise, `false` is returned.",
             "itemtype": "method",
             "name": "hasStyleProperty",
@@ -7796,8 +7801,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 621,
+            "file": "js\\classes\\Properties.js",
+            "line": 639,
             "description": "Sets the `key` to be equal to `value` inside object {{#crossLink \"Properties\"}}Properties{{/crossLink}}\ninstance corresponding to `style` key of the current objects which is, naturally,\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance as well.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -7818,8 +7823,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 638,
+            "file": "js\\classes\\Properties.js",
+            "line": 656,
             "description": "Returns the value of key `propName` inside `style` key (if it exists) of the current object.\nIf it does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -7839,8 +7844,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 654,
+            "file": "js\\classes\\Properties.js",
+            "line": 672,
             "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
             "itemtype": "method",
             "name": "getBorderInfo",
@@ -7853,8 +7858,8 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\properties.js",
-            "line": 673,
+            "file": "js\\classes\\Properties.js",
+            "line": 691,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance.",
             "itemtype": "method",
             "name": "decorateElement",
@@ -7869,6 +7874,28 @@
                 "description": "",
                 "type": "Void"
             },
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 711,
+            "description": "Sets key `width` inside {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}\nas well as keys `width`, `max-width` and `min-width` inside `style` of\n{{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}.\n\nIf `w` is a string, then the above mentioned values are installed without changes.\nIf `w` is a number and optional parameter `measure` is provided, then it is appended to the\nvalue of width when setting value of widths inside `style` of\n{{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "setWidth",
+            "params": [
+                {
+                    "name": "w",
+                    "description": "",
+                    "type": "Number|String"
+                },
+                {
+                    "name": "unit",
+                    "description": "unit of measurment",
+                    "type": "String"
+                }
+            ],
+            "since": "0.0.5",
             "class": "Properties",
             "module": "Properties"
         }

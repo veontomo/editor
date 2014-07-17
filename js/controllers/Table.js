@@ -67,7 +67,7 @@ var TableC = {
 			parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
 			i, table, tableWidth, tableProp, tableStyles, cellWidths, rowWidth,
 			// rowContentWidth,
-			spaceTop, spaceBottom,
+			spaceTop, spaceBottom, parentWidth,
 			inputField, cellWeights, row, cell,
 			// TableStyles, tableAttr,
 			rowStyle, rowAttr, cellStyle,
@@ -92,20 +92,15 @@ var TableC = {
 		spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 		isFramed = frameWidth > 0;
 		table = new Table();
-		tableProp = new TableProperties();
-		tableStyles = new Properties();
-		table.setProperties(tableProp);
 
 		// impose styles and attribute values
 
-		tableStyles.setProperty('margin', 0);
-		tableStyles.setProperty('padding', 0);
-		tableStyles.setMode(1);
-		tableProp.setStyles(tableStyles);
-		table.setWidth(tableWidth);
+		table.setStyleProperty('margin', 0);
+		table.setStyleProperty('padding', 0);
+		// tableProp.setStyles(tableStyles);
+		table.setWidth(tableWidth, 'px');
 
-		tableProp.setProperty(NEWSLETTER['marker-name'], table.getName());
-		tableProp.setProperty('width', tableWidth);
+		table.setProperty(NEWSLETTER['marker-name'], table.getName());
 		// binding the styles and attributes and the table object
 		if (borderWidth > 0){
 			table.setBorder({
@@ -118,16 +113,11 @@ var TableC = {
 
 		// creating table row
 		row  = new Row();
-		// rowStyle = new Properties();
-		// rowAttr = new RowProperties();
-		// row.setProperties(rowAttr);
-		// console.log('----------- 1' + row.toHtml());
-		// row.setStyles(rowStyle);
-		// console.log('----------- 2' + row.toHtml());
 
 		// By default, table style is a parent style for the nested rows.
 		// The properties of the the nested elements will be calculated based on this style.
 		parentElemStyle = table.getStyles();
+		parentWidth = tableWidth;
 		if (isFramed){
 			// creating phantom styles and attributes
 			phantomRowAttr    = new RowProperties();
@@ -141,7 +131,7 @@ var TableC = {
 			// NB: if the parent table has no border, then its 'border-width' attribute is not set!
 			phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
-		 	phantomRowStyle.setWidth(phantomRowWidth);
+		 	phantomRowStyle.setWidth(phantomRowWidth, 'px');
 			//console.log('table2.js: phantomRowWidth = ', phantomRowWidth);
 			allWidths.push({'value': phantomRowWidth, 'descr': 'larghezza della riga fittizia'});
 			phantomRowStyle.setProperty('padding', 0);
@@ -149,7 +139,7 @@ var TableC = {
 			// mark the phantom row
 			phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
 			phantomCellWidth = phantomRowStyle.getProperty('width') - 2 * phantomRowStyle.getProperty('padding') - 2 * frameWidth;
-			phantomCellStyle.setWidth(phantomCellWidth);
+			phantomCellStyle.setWidth(phantomCellWidth, 'px');
 			allWidths.push({'value': phantomCellWidth, 'descr': 'larghezza della cella fittizia'});
 
 			// if remains zero, then in MS Outlook the cell content overlaps the border
@@ -161,7 +151,7 @@ var TableC = {
 			phantomCellStyle.setProperty('margin', 0);
 
 			phantomTableWidth = phantomCellStyle.getProperty('width') - phantomCellStyle.getProperty('padding-left') - phantomCellStyle.getProperty('padding-right');
-			phantomTableStyle.setWidth(phantomTableWidth);
+			phantomTableStyle.setWidth(phantomTableWidth, 'px');
 			phantomTableAttr.setProperty('width', phantomTableWidth);
 
 			allWidths.push({'value': phantomTableWidth, 'descr': 'larghezza della tabella fittizia'});
@@ -182,40 +172,34 @@ var TableC = {
 			// defining a parent style. The properties of the the nested elements
 			// will be calculated based on this style.
 			parentElemStyle = phantomTableStyle;
+			parentWidth = phantomTableWidth;
 		} else {
 			// if the table is not framed, mark the row
 			row.setProperty(NEWSLETTER['marker-name'], row.getName());
 		}
 
 		// impose row styles and attributes
-		rowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-		row.setWidth(rowWidth);
+		rowWidth = parentWidth - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
+		row.setWidth(rowWidth, 'px');
 		row.setStyleProperty('padding', 0);
 
 
-		// binding the row properties and the row object
-		// row.setStyles(rowStyle);
-		// row.setProperties(rowAttr);
-
 		// fill in the row with the cells
-		allCellsWidth = row.getProperty('width') - row.getStyleProperty('padding');     // sum of all cell widths
-		cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                        // array of column widths
+		// allCellsWidth = row.getProperty('width') - row.getStyleProperty('padding');     // sum of all cell widths
+		allCellsWidth = rowWidth - row.getStyleProperty('padding');                        // sum of all cell widths
+		cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                      // array of column widths
 
 		// creating cells to be inserted into the row
 		for (i = 0; i < cols; i++) {
 			// It is better to recreate objects for every cell
 			// in order to avoid influence of previously imposed values
 			cell = new Cell('cell' + i);
-			// cellStyle = new CellProperties();
-			// cellAttr = new Properties();
-
 			// imposing cell styles and attributes
 			// mark the cell
 			cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
 			// adjust width of the first and the last cell
 			cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
-			console.log(i + ': ' + cellWidth + ' ' + cellWidths[i]);
-			cell.setWidth(cellWidth);
+			cell.setWidth(cellWidth, 'px');
 			allWidths.push({'value': cellWidth, 'descr': 'larghezza della cella numero ' + i});
 			cell.dropStyleProperty('padding');
 			cell.setStyleProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
@@ -227,10 +211,7 @@ var TableC = {
 			if (withSeparator){
 				cell.setStyleProperty('border-bottom', '1px solid #cccccc');
 			}
-			// binding the styles and attributes and the object
-			// cellAttr.setStyles(cellStyle);
-			// cell.setProperties(cellAttr);
-			// add the newly created cell to the row
+
 			row.appendCell(cell);
 		}
 

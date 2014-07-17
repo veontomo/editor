@@ -81,7 +81,7 @@ describe('Properties-related functionality', function(){
 
         it('produces inline-like representation if mode is 1', function(){
             spyOn(propSimple, 'getMode').andCallFake(function(){return 1;});
-            expect(propSimple.toString()).toBe('width: 200; class: screen; id: #abcd;');
+            expect(propSimple.toString()).toBe('width: 200px; class: screen; id: #abcd;');
         });
 
         it('produces attribute-like representation if mode is 0', function(){
@@ -98,13 +98,13 @@ describe('Properties-related functionality', function(){
         it('produces inline-like representation if mode is 1', function(){
             spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
             spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
-            expect(propComplex.toString()).toBe('width: 200; class: screen; nested: nested representation;');
+            expect(propComplex.toString()).toBe('width: 200px; class: screen; nested: nested representation;');
         });
 
         it('ignores attribute if its toString() method returns empty string', function(){
             spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
             spyOn(propSimple, 'toString').andCallFake(function(){return '';});
-            expect(propComplex.toString()).toBe('width: 200; class: screen;');
+            expect(propComplex.toString()).toBe('width: 200px; class: screen;');
         });
     });
 
@@ -823,6 +823,13 @@ describe('Properties-related functionality', function(){
         });
 
 
+        it('sets widths if argument is given as a string', function(){
+            props.setWidth('12');
+            expect(props.getProperty('width')).toBe('12');
+            expect(props.getStyleProperty('width')).toBe('12');
+            expect(props.getStyleProperty('min-width')).toBe('12');
+            expect(props.getStyleProperty('max-width')).toBe('12');
+        });
     });
 });
 
