@@ -190,15 +190,15 @@
 var CLink = {
 
 	/**
-	 * Reads the content of the link insertion dialog and insert the link into the editor.
-	 * @method        convertToLink
+	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
+	 * @method        convertToLinks
 	 * @param         {Object}              context           context of the dialog menu
 	 * @param         {Object}              editor            editor instance
-	 * @param         {Selection}           selection         instance of Selection class.
+	 * @param         {Selection}           selection         instance of Selection class
 	 *                                                        Contains objects that user selects in the editor window.
 	 * @return        {void}                                  inserts link into the editor
 	 */
-	convertToLink: function(context, editor, selection){
+	convertToLinks: function(context, editor, selection){
 		var isUnderlined = context.getValueOf(&#x27;tab-general&#x27;, &#x27;underlined&#x27;),
 		    isEnabled = context.getContentElement(&#x27;tab-general&#x27;, &#x27;text&#x27;).isEnabled(),
 		    url = &#x27;http://&#x27; + encodeURI(Helper.dropProtocol(context.getValueOf(&#x27;tab-general&#x27;, &#x27;href_input_field&#x27;))),
@@ -247,6 +247,38 @@ var CLink = {
 		        });
 		    });
 		}
+	},
+
+	/**
+	 * Populates the field of the link insertion dialog.
+	 * @method        fillInDialog
+	 * @param         {Object}              context           context of the dialog menu
+	 * @param         {Object}              editor            editor instance
+	 * @param         {Selection}           selection         instance of Selection class
+	 * @return        {void}
+	 */
+	fillInDialog: function(context, editor, selection){
+		var text = selection.toText(),
+		    href = &#x27;&#x27;,
+		    isEnabled = selection.isEditable(),
+		    link;
+
+		if (selection.startsInsideLink()){
+		    link = selection.getStartElement().getAscendant(&#x27;a&#x27;, true);
+		    href = link.getAttribute(&#x27;href&#x27;);
+		}
+		// if the selection is nothing but a link, then pick up its title
+		if (isEnabled &amp;&amp; !selection.isEmpty()){
+		    var title = selection.nodes[0][0].getAttribute(&#x27;title&#x27;);
+		    context.setValueOf(&#x27;tab-general&#x27;, &#x27;optionalTitle&#x27;, title);
+		}
+
+		if (!isEnabled){
+		    context.getContentElement(&#x27;tab-general&#x27;, &#x27;text&#x27;).disable();
+		}
+		context.setValueOf(&#x27;tab-general&#x27;, &#x27;text&#x27;, text);
+		context.setValueOf(&#x27;tab-general&#x27;, &#x27;href_input_field&#x27;, Helper.dropProtocol(href));
+
 	}
 };
     </pre>

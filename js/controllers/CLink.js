@@ -12,15 +12,15 @@
 var CLink = {
 
 	/**
-	 * Reads the content of the link insertion dialog and insert the link into the editor.
-	 * @method        convertToLink
+	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
+	 * @method        convertToLinks
 	 * @param         {Object}              context           context of the dialog menu
 	 * @param         {Object}              editor            editor instance
-	 * @param         {Selection}           selection         instance of Selection class.
+	 * @param         {Selection}           selection         instance of Selection class
 	 *                                                        Contains objects that user selects in the editor window.
 	 * @return        {void}                                  inserts link into the editor
 	 */
-	convertToLink: function(context, editor, selection){
+	convertToLinks: function(context, editor, selection){
 		var isUnderlined = context.getValueOf('tab-general', 'underlined'),
 		    isEnabled = context.getContentElement('tab-general', 'text').isEnabled(),
 		    url = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf('tab-general', 'href_input_field'))),
@@ -69,5 +69,36 @@ var CLink = {
 		        });
 		    });
 		}
+	},
+
+	/**
+	 * Populates the field of the link insertion dialog.
+	 * @method        fillInDialog
+	 * @param         {Object}              context           context of the dialog menu
+	 * @param         {Object}              editor            editor instance
+	 * @param         {Selection}           selection         instance of Selection class
+	 * @return        {void}
+	 */
+	fillInDialog: function(context, editor, selection){
+		var text = selection.toText(),
+		    href = '',
+		    isEnabled = selection.isEditable(),
+		    link;
+
+		if (selection.startsInsideLink()){
+		    link = selection.getStartElement().getAscendant('a', true);
+		    href = link.getAttribute('href');
+		}
+		// if the selection is nothing but a link, then pick up its title
+		if (isEnabled && !selection.isEmpty()){
+		    var title = selection.nodes[0][0].getAttribute('title');
+		    context.setValueOf('tab-general', 'optionalTitle', title);
+		}
+
+		if (!isEnabled){
+		    context.getContentElement('tab-general', 'text').disable();
+		}
+		context.setValueOf('tab-general', 'text', text);
+		context.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
 	}
 };

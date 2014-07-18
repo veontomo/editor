@@ -354,8 +354,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\classes\\Properties.js": {
-            "name": "js\\classes\\Properties.js",
+        "js\\classes\\properties.js": {
+            "name": "js\\classes\\properties.js",
             "modules": {
                 "Properties": 1
             },
@@ -503,7 +503,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 5,
             "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties.",
             "extends": "Attributes",
@@ -1108,7 +1108,7 @@
             "extension_for": [],
             "module": "Properties",
             "namespace": "",
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 5,
             "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties."
         },
@@ -7328,7 +7328,7 @@
             "module": "Helper"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 21,
             "description": "Object that contains all the properties. Its keys and values must be either strings or numbers.\nUse {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}} and\n{{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} methods to\naccess the content of this object.",
             "itemtype": "property",
@@ -7340,7 +7340,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 32,
             "description": "Array of allowed types for core keys. Set to 'string', 'number'.",
             "itemtype": "property",
@@ -7352,7 +7352,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 41,
             "description": "Array of allowed types for core values. For the moment, it is allowed to have string-valued, number-valued\nand object-valued values of the keys.",
             "itemtype": "property",
@@ -7364,7 +7364,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 52,
             "description": "The  name of the class.",
             "itemtype": "property",
@@ -7376,7 +7376,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 60,
             "description": "Mode to be used when representing this instance as a string by means of\n{{#crossLink \"Properties/toString:method\"}}toString{{/crossLink}} method.\nIf it is set to 0, then string representation has the following form\n`width=\"20\" title=\"read me!\"`\nIf it is set to 1, then string representation has the following form\n`width: 50px; color: red`.",
             "itemtype": "property",
@@ -7389,7 +7389,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 74,
             "description": "{{#crossLink \"Property/_mode:property\"}}_mode{{/crossLink}} setter. If argument\nis different from 0 and 1, it is ignored.",
             "itemtype": "method",
@@ -7409,7 +7409,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 90,
             "description": "{{#crossLink \"Property/_mode:property\"}}_mode{{/crossLink}} getter.",
             "itemtype": "method",
@@ -7423,7 +7423,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 100,
             "description": "{{#crossLink \"Properties/className:property\"}}Class name{{/crossLink}} getter.",
             "itemtype": "method",
@@ -7436,7 +7436,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 109,
             "description": "{{#crossLink \"Properties/className:property\"}}Class name{{/crossLink}} setter.",
             "itemtype": "method",
@@ -7456,7 +7456,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 122,
             "description": "Sets value of `style` key. Converts argument into {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance\nand then performs assignment.",
             "itemtype": "method",
@@ -7477,7 +7477,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 135,
             "description": "If both `key` and `value` are of allowed types (given by\n{{#crossLink \"Properties/allowedCoreKeyTypes:property\"}}allowedCoreKeyTypes{{/crossLink}} and\n{{#crossLink \"Properties/allowedCoreValueTypes:property\"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}} is set to `value`\nand `true` is returned. Otherwise, `false` is returned. If `key` is a string `style`, then method\n{{#crossLink \"Properties/setStyles:method\"}}setStyles(){{/crossLink}} is envoked.",
             "itemtype": "method",
@@ -7502,7 +7502,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 161,
             "description": "allowed key types getter",
             "itemtype": "method",
@@ -7516,7 +7516,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 171,
             "description": "allowed value types getter",
             "itemtype": "method",
@@ -7530,7 +7530,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 183,
             "description": "Retrieves the value of the requested property from\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}\nIf it does not exist, `undefined` is returned.",
             "itemtype": "method",
@@ -7543,7 +7543,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 196,
             "description": "If the key is present in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, drops it and\nreturns the key value.",
             "itemtype": "method",
@@ -7563,7 +7563,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 211,
             "description": "Replaces {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} with empty object {}.",
             "itemtype": "method",
@@ -7576,7 +7576,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 222,
             "description": "Fills in the core with key-value pairs from the argument if any. If the argument\nis a string, splits it according to the pattern \"key: value;\". If the argument is\nan object, then it gets its key-value pairs. Obtained blocks are then sent one\nby one to {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}}\nmethod.",
             "itemtype": "method",
@@ -7598,7 +7598,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 267,
             "description": "Adds properties into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}. It passes its argument to a\nprivate method\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.",
             "itemtype": "method",
@@ -7618,7 +7618,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 279,
             "description": "Appends properties to `style` key. If the key does not exist, creates it.",
             "itemtype": "method",
@@ -7639,7 +7639,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 291,
             "description": "Initializes `style` key: if it does not exist, set it to\na new instance of {{#crossLink \"Properties\"}}Properties{{/crossLink}} with\n{{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} set to 1.",
             "itemtype": "method",
@@ -7653,7 +7653,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 309,
             "description": "Switches property `propName` between `val` and `altVal` in the following way:\n<ol><li>\nif the instance has property `propName` equal to `val`, then the method imposes\nits value to be `altVal` (if `altVal` is not defined, then the key `propName` gets dropped).\n</li><li>\nif the instance contains property `propName` equal to `altVal`, then the method sets\nits value to be `val`.\n</li><li>\nif the instance does not have property `propName`, then the method imposes it to be `val`.\n</li></ol>",
             "itemtype": "method",
@@ -7683,7 +7683,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 340,
             "description": "Returns `true` if the instance has property `key` set and the value of this property is not\nin `ignoreValues` array. Otherwise, `false` is returned.",
             "itemtype": "method",
@@ -7708,7 +7708,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 361,
             "description": "Splits the argument in key-value pieces as it is performed in\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.\nIf the `key` is not present in the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, it is initialized\nwith `value`. Otherwise, it is ignored.",
             "itemtype": "method",
@@ -7728,7 +7728,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 398,
             "description": "Returns `true` if requested property is the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} key,\n`false` otherwise.",
             "itemtype": "method",
@@ -7748,7 +7748,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 409,
             "description": "Gets the number of records in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
@@ -7761,7 +7761,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 418,
             "description": "Returns a copy of the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
@@ -7774,7 +7774,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 434,
             "description": "Compares {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} of the target and the argument.\nReturns `true` if they are equal, `false` otherwise.",
             "itemtype": "method",
@@ -7794,7 +7794,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 458,
             "description": "Clones the target. Parses all attributes of the target. If the attribute responds to \"clone\"\nmethod, then assign the result of this method to the corresponding clone attribute. Otherwise,\nassign the attribute value to the clone attribute (potentially problematic for what is passed\nby reference and not by value, like arrays).\n{{#crossLink \"Properties/core:property\"}}Core{{/crossLink}} is a private variable, so in the\nclone it is populated by means of {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}}\nand {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} method.",
             "itemtype": "method",
@@ -7807,7 +7807,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 492,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
@@ -7820,7 +7820,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 503,
             "description": "String representation of the instance. If {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a number and {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is 1,\nthen 'px' is appended (**resolve this explicit dependency on unit of measurement!**)\n</li><li>\ncorresponding value is a string\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
@@ -7834,7 +7834,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 566,
             "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nReturns `true` if loading succeeds and `false` otherwise.\n\nTo do: for the moment, thw method always returns `true`.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
             "itemtype": "method",
@@ -7854,7 +7854,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 601,
             "description": "Returns `true` if the instance has key `style`, `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty('style'){{/crossLink}} method.",
             "itemtype": "method",
@@ -7867,7 +7867,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 611,
             "description": "Returns value of `style` key. Alias for {{#crossLink \"Properties/getProperty:method\"}}getProperty('styles'){{/crossLink}}.",
             "itemtype": "method",
@@ -7881,7 +7881,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 622,
             "description": "Returns `true` if instance contains `style` key inside which there is a key `propName`.\nOtherwise, `false` is returned.",
             "itemtype": "method",
@@ -7902,7 +7902,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 635,
             "description": "Sets the `key` to be equal to `value` inside object {{#crossLink \"Properties\"}}Properties{{/crossLink}}\ninstance corresponding to `style` key of the current objects which is, naturally,\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance as well.",
             "itemtype": "method",
@@ -7924,7 +7924,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 652,
             "description": "Returns the value of key `propName` inside `style` key (if it exists) of the current object.\nIf it does not exist, nothing is returned.",
             "itemtype": "method",
@@ -7945,7 +7945,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 668,
             "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
             "itemtype": "method",
@@ -7959,7 +7959,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 687,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance.",
             "itemtype": "method",
@@ -7979,7 +7979,7 @@
             "module": "Properties"
         },
         {
-            "file": "js\\classes\\Properties.js",
+            "file": "js\\classes\\properties.js",
             "line": 707,
             "description": "Sets key `width` inside {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}\nas well as keys `width`, `max-width` and `min-width` inside `style` of\n{{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}.",
             "itemtype": "method",
@@ -7998,9 +7998,9 @@
         {
             "file": "js\\controllers\\CLink.js",
             "line": 14,
-            "description": "Reads the content of the link insertion dialog and insert the link into the editor.",
+            "description": "Reads the content of the link insertion dialog, generates links and inserts them into the editor.",
             "itemtype": "method",
-            "name": "convertToLink",
+            "name": "convertToLinks",
             "params": [
                 {
                     "name": "context",
@@ -8014,12 +8014,42 @@
                 },
                 {
                     "name": "selection",
-                    "description": "instance of Selection class.\n                                                       Contains objects that user selects in the editor window.",
+                    "description": "instance of Selection class\n                                                       Contains objects that user selects in the editor window.",
                     "type": "Selection"
                 }
             ],
             "return": {
                 "description": "inserts link into the editor",
+                "type": "Void"
+            },
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 74,
+            "description": "Populates the field of the link insertion dialog.",
+            "itemtype": "method",
+            "name": "fillInDialog",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "context of the dialog menu",
+                    "type": "Object"
+                },
+                {
+                    "name": "editor",
+                    "description": "editor instance",
+                    "type": "Object"
+                },
+                {
+                    "name": "selection",
+                    "description": "instance of Selection class",
+                    "type": "Selection"
+                }
+            ],
+            "return": {
+                "description": "",
                 "type": "Void"
             },
             "class": "CLink",

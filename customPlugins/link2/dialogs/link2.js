@@ -84,29 +84,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
             // console.log('starting onShow');
             selection = new Selection(editor);
             selection.absorbLink();
-            var text = selection.toText(),
-                href = '',
-                isEnabled = selection.isEditable(),
-                link;
-            // console.log('selection text: ' + text);
-            // console.log('selection: ', selection.nodes);
-            // console.log(selection.isEditable() ? 'editable' : 'not editable');
-
-            if (selection.startsInsideLink()){
-                link = selection.getStartElement().getAscendant('a', true);
-                href = link.getAttribute('href');
-            }
-            // if the selection is nothing but a link, then pick up its title
-            if (isEnabled && !selection.isEmpty()){
-                var title = selection.nodes[0][0].getAttribute('title');
-                this.setValueOf('tab-general', 'optionalTitle', title);
-            }
-
-            if (!isEnabled){
-                this.getContentElement('tab-general', 'text').disable();
-            }
-            this.setValueOf('tab-general', 'text', text);
-            this.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+            CLink.fillInDialog(this, editor, selection);
             return null;
         },
 
