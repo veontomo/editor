@@ -315,16 +315,16 @@ describe('Table-related functionality:', function(){
                 expect(table.getPhantomTag('dumb name', 'anything')).not.toBeDefined();
             });
             it('gives opening tag if arguments are "table" and "open"', function(){
-                expect(table.getPhantomTag('table', 'open')).toBe('<table class="media" style="mass: 2kg; os: win">');
+                expect(table.getPhantomTag('table', 'open')).toBe('<table class="media" style="mass: 2kg; os: win;">');
             });
             it('gives opening tag if arguments are "row" and "open"', function(){
-                expect(table.getPhantomTag('row', 'open')).toBe('<tr length="335" dim="large" style="spec: agile">');
+                expect(table.getPhantomTag('row', 'open')).toBe('<tr length="335" dim="large" style="spec: agile;">');
             });
             it('gives opening tag if arguments are "cell" and "open"', function(){
-                expect(table.getPhantomTag('cell', 'open')).toBe('<td block="media" type="school" nod="left" style="lep: r">');
+                expect(table.getPhantomTag('cell', 'open')).toBe('<td block="media" type="school" nod="left" style="lep: r;">');
             });
             it('gives opening tag if firts argument is "cell" and the second is missing', function(){
-                expect(table.getPhantomTag('cell')).toBe('<td block="media" type="school" nod="left" style="lep: r">');
+                expect(table.getPhantomTag('cell')).toBe('<td block="media" type="school" nod="left" style="lep: r;">');
             });
             it('gives closing tag if arguments are "cell" and "close"', function(){
                 expect(table.getPhantomTag('cell', 'close')).toBe('</td>');

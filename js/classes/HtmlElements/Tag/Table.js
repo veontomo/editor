@@ -146,7 +146,7 @@ function Table() {
 	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}},
 	 * {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}} if not initialized.
 	 * If they are initialized, no re-initialization happens.
-	 * @method          setPhantoms
+	 * @method          initPhantoms
 	 * @return          void
 	 */
 	this.initPhantoms = function(){

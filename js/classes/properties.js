@@ -129,6 +129,7 @@ function Properties(input) {
 	 */
 	this.setStyles = function(stl){
 		core.style = stl instanceof Properties ? stl : new Properties(stl);
+		core.style.setMode(1);
 	};
 
 	/**
