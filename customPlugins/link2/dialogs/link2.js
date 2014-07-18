@@ -81,15 +81,12 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         }],
 
         onShow: function() {
-            // console.log('starting onShow');
             selection = new Selection(editor);
             selection.absorbLink();
             CLink.fillInDialog(this, editor, selection);
-            return null;
         },
 
         onCancel: function(){
-            // clear the value of the warning field
             CKEDITOR.document.getById(warningFieldId).setHtml('');
         },
 
