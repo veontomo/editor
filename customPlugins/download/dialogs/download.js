@@ -1,7 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-
-/*global CKEDITOR, Helper, location */
+/*global CKEDITOR, CDownload*/
 
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 	var timeNow = new Date(),
@@ -38,28 +37,29 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 		],
 
 		onOk: function() {
-			var fileName = this.getValueOf('tab-general', 'filename'),
-				editorContent = editor.document.getBody().getHtml(),
-				fileHeader, fileFooter, fileBody, fileContent, sanitizedContent,
-				editorCss = CKEDITOR.getCss() || '',
-				bodyCss = Helper.cssOfSelector('body', editorCss);
-			if (bodyCss){
-				bodyCss = ' style="' + bodyCss + '"';
-			}
+			CDownload.download(this, editor);
+			// var fileName = this.getValueOf('tab-general', 'filename'),
+			// 	editorContent = editor.document.getBody().getHtml(),
+			// 	fileHeader, fileFooter, fileBody, fileContent, sanitizedContent,
+			// 	editorCss = CKEDITOR.getCss() || '',
+			// 	bodyCss = Helper.cssOfSelector('body', editorCss);
+			// if (bodyCss){
+			// 	bodyCss = ' style="' + bodyCss + '"';
+			// }
 
-			sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, ' '));
-			sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\"[a-zA-Z0-9_ ]+?\"/g, '');
-			fileHeader = "<!DOCTYPE html><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body>";
-			fileBody = "<center><div" + bodyCss + ">" + sanitizedContent +  "</div></center>";
-			fileFooter = "</body></html>";
-			fileContent = fileHeader + fileBody + fileFooter;
-			$.post('php/saveDraft.php',
-				{'data': fileContent, 'filename': fileName},
-					function(filename){
-						// console.log("data sent and file name is recieved: " + filename);
-						$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
-				}
-			);
+			// sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, ' '));
+			// sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\"[a-zA-Z0-9_ ]+?\"/g, '');
+			// fileHeader = "<!DOCTYPE html><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body>";
+			// fileBody = "<center><div" + bodyCss + ">" + sanitizedContent +  "</div></center>";
+			// fileFooter = "</body></html>";
+			// fileContent = fileHeader + fileBody + fileFooter;
+			// $.post('php/saveDraft.php',
+			// 	{'data': fileContent, 'filename': fileName},
+			// 		function(filename){
+			// 			// console.log("data sent and file name is recieved: " + filename);
+			// 			$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
+			// 	}
+			// );
 		}
 	};
 });

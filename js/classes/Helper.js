@@ -410,8 +410,9 @@ var Helper = {
         found.forEach(function(item){
             var content = item.match(regexp);
             if (content && content[1]){
-                var tmp = new Styles(content[1]);
-                output.push(tmp.toBareString());
+                var tmp = new Properties(content[1]);
+                tmp.setMode(1);
+                output.push(tmp.toString());
             }
         });
         return output.join('; ');
