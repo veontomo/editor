@@ -515,8 +515,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			// {
 			// 	return null;
 			// }
-			// tableElem = CKEDITOR.document.createElement(table.toNode());
-			var tableElem = CKEDITOR.dom.element.createFromHtml(tableNode);
+			var tableElem = CKEDITOR.document.createElement(tableNode);
+			// var tableElem = CKEDITOR.dom.element.createFromHtml(tableNode);
 			editor.insertElement(tableElem);
 			// CKHelper.insertTableWithHoverEff(editor, tableElem);
 		}

@@ -56,7 +56,7 @@ var TableC = {
 	 * in the dialog menu.
 	 * @param  {Object}    context           context by means the variables are passed from view to the controller
 	 * @param  {Object}    editor            editor instance
-	 * @return {String}
+	 * @return {DOM.Element}
 	 */
 	html: function(context, editor){
 		var INPUTCOLWIDTHNAME = 'widthCol';
@@ -222,6 +222,7 @@ var TableC = {
 			alert("Rilevato un numero negativo:\n" + allWidths.join(' ') + "\nLa tabella non sarà inserita." );
 			return null;
 		}
-		return table.toHtml();
+		// console.log(table.toNode());
+		return table.toNode();
 	}
 };

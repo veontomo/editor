@@ -994,8 +994,25 @@ function Table() {
 	 * @return         {DOM.Element}
 	 */
 	this.toNode = function(){
-		var elem = document.createElement(this.getTag());
-	}
+		var el = document.createElement(this.getTag());
+		this.getProperties().decorateElement(el);
+		if (this.isFramed()){
+			var body = this.getBody();
+			body.forEach(function(row){
+				var rowNode = row.toNode();
+				var phantomRowNode = phantomRow.toNode();
+				var phantomCellNode = phantomCell.toNode();
+				var phantomTableNode = phantomTable.toNode();
+				phantomRowNode.appendChild(phantomCellNode);
+				phantomCellNode.appendChild(phantomTableNode);
+				phantomTableNode.appendChild(rowNode);
+				el.appendChild(phantomRowNode);
+			});
+		} else {
+			this.getContent().stickTo(el);
+		}
+		return el;
+	};
 
 
 	/**
