@@ -49,7 +49,11 @@
             
                 <li><a href="../classes/CKHelper.html">CKHelper</a></li>
             
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
                 <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
             
                 <li><a href="../classes/Dom.html">Dom</a></li>
             
@@ -124,6 +128,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
             
@@ -301,6 +307,7 @@ function Properties(input) {
 	 */
 	this.setStyles = function(stl){
 		core.style = stl instanceof Properties ? stl : new Properties(stl);
+		core.style.setMode(1);
 	};
 
 	/**

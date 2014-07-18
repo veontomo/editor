@@ -4,7 +4,7 @@
     "version": "0.0.2",
     "options": {
         "outdir": "apidocs",
-        "paths": "js/classes"
+        "paths": ["js/classes", "js/controllers"]
     },
     "logo": "/logo.png"
 }

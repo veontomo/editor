@@ -82,7 +82,8 @@
 
 
 	<!-- Controllers -->
-	<script type="text/javascript" src="js/controllers/Table.js"></script>
+	<script type="text/javascript" src="js/controllers/CTable.js"></script>
+	<script type="text/javascript" src="js/controllers/CLink.js"></script>
 
 
 	<script type="text/javascript" src="settings/general_config.js"></script>

@@ -49,7 +49,11 @@
             
                 <li><a href="../classes/CKHelper.html">CKHelper</a></li>
             
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
                 <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
             
                 <li><a href="../classes/Dom.html">Dom</a></li>
             
@@ -124,6 +128,8 @@
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
             
@@ -511,6 +517,13 @@ tr.normal {
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_initPhantoms">initPhantoms</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_insertColAt">insertColAt</a>
 
                                 
@@ -628,13 +641,6 @@ tr.normal {
                         
                             <li class="index-item method">
                                 <a href="#method_setPhantomRowStyles">setPhantomRowStyles</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_setPhantoms">setPhantoms</a>
 
                                 
                                 
@@ -1252,7 +1258,7 @@ The operation is delegated to the <code>Row::cellNum()</code>.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1142"><code>js\classes\HtmlElements\Tag\Table.js:1142</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1159"><code>js\classes\HtmlElements\Tag\Table.js:1159</code></a>
         
         </p>
 
@@ -1709,7 +1715,7 @@ it remains untouched.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1060"><code>js\classes\HtmlElements\Tag\Table.js:1060</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1077"><code>js\classes\HtmlElements\Tag\Table.js:1077</code></a>
         
         </p>
 
@@ -1924,7 +1930,7 @@ it remains untouched.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1072"><code>js\classes\HtmlElements\Tag\Table.js:1072</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1089"><code>js\classes\HtmlElements\Tag\Table.js:1089</code></a>
         
         </p>
 
@@ -2150,7 +2156,7 @@ where w_ij is width of the cell located in the row i and column j.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1085"><code>js\classes\HtmlElements\Tag\Table.js:1085</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1102"><code>js\classes\HtmlElements\Tag\Table.js:1102</code></a>
         
         </p>
 
@@ -2474,7 +2480,7 @@ method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1001"><code>js\classes\HtmlElements\Tag\Table.js:1001</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1018"><code>js\classes\HtmlElements\Tag\Table.js:1018</code></a>
         
         </p>
 
@@ -2803,7 +2809,7 @@ method.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1113"><code>js\classes\HtmlElements\Tag\Table.js:1113</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1130"><code>js\classes\HtmlElements\Tag\Table.js:1130</code></a>
         
         </p>
 
@@ -3260,7 +3266,7 @@ have the same cell widths. Otherwise null is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1044"><code>js\classes\HtmlElements\Tag\Table.js:1044</code></a>
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l1061"><code>js\classes\HtmlElements\Tag\Table.js:1061</code></a>
         
         </p>
 
@@ -3383,6 +3389,80 @@ which is a &quot;tbody&quot; tag instance.</p>
                     
                         <span class="type">Boolean</span>:
                     
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_initPhantoms" class="method item">
+    <h3 class="name"><code>initPhantoms</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l144"><code>js\classes\HtmlElements\Tag\Table.js:144</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Initializes <a href="../classes/Table.html#property_phantomRow" class="crosslink">phantomRow</a>,
+<a href="../classes/Table.html#property_phantomCell" class="crosslink">phantomCell</a>,
+<a href="../classes/Table.html#property_phantomTable" class="crosslink">phantomTable</a> if not initialized.
+If they are initialized, no re-initialization happens.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>void</p>
+
                 
             </div>
         </div>
@@ -5063,80 +5143,6 @@ from <a href="../classes/Tag.html#property_content" class="crosslink">content</a
                     
                         <span class="type">Void</span>:
                     
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setPhantoms" class="method item">
-    <h3 class="name"><code>setPhantoms</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Tag_Table.js.html#l144"><code>js\classes\HtmlElements\Tag\Table.js:144</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Initializes <a href="../classes/Table.html#property_phantomRow" class="crosslink">phantomRow</a>,
-<a href="../classes/Table.html#property_phantomCell" class="crosslink">phantomCell</a>,
-<a href="../classes/Table.html#property_phantomTable" class="crosslink">phantomTable</a> if not initialized.
-If they are initialized, no re-initialization happens.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                    <p>void</p>
-
                 
             </div>
         </div>

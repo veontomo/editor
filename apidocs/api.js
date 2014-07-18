@@ -3,6 +3,8 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "Attributes",
         "CKHelper",
+        "CLink",
+        "CTable",
         "Cell",
         "CellProperties",
         "Content",
@@ -43,6 +45,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "CKHelper",
+        "Controllers",
         "Helper",
         "HtmlElements",
         "Properties"
@@ -52,6 +55,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "CKHelper",
             "name": "CKHelper",
             "description": "Represents selected elements in the editor window. The argument `ed` is a\n[CKEditor editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor \"see official site\")  instance."
+        },
+        {
+            "displayName": "Controllers",
+            "name": "Controllers",
+            "description": "Link Controller."
         },
         {
             "displayName": "Helper",

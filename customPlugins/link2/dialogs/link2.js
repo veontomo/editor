@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY, CLink */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
@@ -116,54 +116,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
         },
 
         onOk: function(){
-            var isUnderlined = this.getValueOf('tab-general', 'underlined'),
-                isEnabled = this.getContentElement('tab-general', 'text').isEnabled(),
-                url = 'http://' + encodeURI(Helper.dropProtocol(this.getValueOf('tab-general', 'href_input_field'))),
-                target = this.getValueOf('tab-general', 'target') ? '_blank' : '_self',
-                optionalTitle = this.getValueOf('tab-general', 'optionalTitle'),
-                link, obj,
-                factory = FACTORY.factory;
-
-
-            // if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
-            if (isEnabled){
-                link = new Link();
-                link.setHref(url);
-                link.underline(isUnderlined);
-                link.setProperty('target', target);
-                link.setTitle(optionalTitle);
-                link.setContent(new Content(this.getValueOf('tab-general', 'text')));
-                if (selection.isEmpty()){
-                    editor.insertHtml(link.toHtml());
-                } else {
-                    obj = selection.nodes[0][0];
-                    obj.$.parentNode.replaceChild(link.toNode(), obj.$);
-                }
-            } else {
-                // parse all selected nodes
-                selection.nodes.forEach(function(arr){
-                    arr.forEach(function(el){
-                        var newNode, objLink;
-                        link = new Link();
-                        link.setHref(url);
-                        link.underline(isUnderlined);
-                        link.setProperty('target', target);
-                        link.setTitle(optionalTitle);
-                        obj = factory.mimic(el.$);
-                        if (obj &&  !obj.isEmpty()){
-                            // CKeditor remembers this attr and replaces proper url by this one.
-                            // So, if the current object is a Link instance, let us update
-                            // value of "data-cke-saved-href"
-                            if (obj &&  (obj instanceof Link) && (typeof obj.setProperty === 'function')){
-                                obj.setProperty('data-cke-saved-href', url);
-                            }
-                            objLink = link.apply(obj);
-                            newNode = objLink.toNode();
-                            el.$.parentNode.replaceChild(newNode, el.$);
-                        }
-                    });
-                });
-            }
+            CLink.convertToLinks(this, editor, selection);
         }
     };
 });
