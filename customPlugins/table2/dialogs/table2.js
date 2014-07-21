@@ -48,46 +48,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				element.append(colWidthInput);
 				title.setHtml('Fattori con i quali le colonne contribuiscono<br>nella larghezza della tabella:');
 			}
-		},
-
-		/**
-		 * Returns the width of the parent element available for its children.
-		 * <pre>
-		 * available width = (element width) - (element left border width) -
-		 * 		(element right border width) - (element left margin) - (element right margin)
-		 * </pre>
-		 * The element width is supposed to be greater than zero and hence to have a unit of
-		 * measurement (e.g. 'px'). If not set, widths of other attributes are equal to zero
-		 * without unit of measurement.  In this case one has to set the unit of measurement
-		 * equal to the element width.
-		 * @return     {Number}             available width for the children as Unit object
-		 *                                  (with properties "value" and "measure")
-		 */
-		parentWidth = function () {
-			var startElem = editor.getSelection().getStartElement(),
-				rawWidth = new Unit(startElem.getComputedStyle('width')),
-				borderWidthL = new Unit(startElem.getComputedStyle('border-width-left')),
-				borderWidthR = new Unit(startElem.getComputedStyle('border-width-right')),
-				paddingL = new Unit(startElem.getComputedStyle('padding-left')),
-				paddingR = new Unit(startElem.getComputedStyle('padding-right')),
-				output;
-			if (borderWidthL.value === 0) {
-				borderWidthL.measure = rawWidth.measure;
-			}
-			if (borderWidthR.value === 0) {
-				borderWidthR.measure = rawWidth.measure;
-			}
-			if (paddingL.value === 0) {
-				paddingL.measure = rawWidth.measure;
-			}
-			if (paddingR.value === 0) {
-				paddingR.measure = rawWidth.measure;
-			}
-			output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
-			output.value = Math.round(output.value);
-			// console.log('parentWidth returns ', output);
-			return output;
 		};
+
 
 
 	return {
@@ -177,7 +139,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
-						"onclick": 'colorPicker(click)'
+						"onclick": 'colorPicker(click)' // does not work
 					}]
 				}]
 			}, {
@@ -213,7 +175,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/left.gif', 'left border', 15, 15)
+							html: CTable.iconTag('left.gif', 'left border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -223,7 +185,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/middleVer.gif', 'middle vertical border', 15, 15)
+							html: CTable.iconTag('middleVer.gif', 'middle vertical border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -233,7 +195,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/right.gif', 'right border', 15, 15)
+							html: CTable.iconTag('right.gif', 'right border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -243,7 +205,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/upper.gif', 'upper border', 15, 15)
+							html: CTable.iconTag('upper.gif', 'upper border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -253,7 +215,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/middleHor.gif', 'middle horizontal border', 15, 15)
+							html: CTable.iconTag('middleHor.gif', 'middle horizontal border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -263,7 +225,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('customPlugins/table2/icons/lower.gif', 'lower border', 15, 15)
+							html: CTable.iconTag('lower.gif', 'lower border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',

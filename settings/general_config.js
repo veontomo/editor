@@ -15,7 +15,7 @@ Object.defineProperty(NEWSLETTER, 'marker-name', {
  * of directory in which CKEDITOR resides ("ckeditor/").
  */
 Object.defineProperty(NEWSLETTER, 'customPluginDir', {
-	value: 'customPlugins/',
+	value: CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf('ckeditor/')) + 'customPlugins/',
 	writable: false
 });
 

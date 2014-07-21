@@ -229,18 +229,20 @@ var CTable = {
 	/**
 	 * Returns html tag to insert icon.
 	 * @method         iconName
-	 * @param          {String}             path      path to icon file.
+	 * @param          {String}             fileName  icon file name. It should be located in "table2/icons" folder of the
+	 *                                      custom plugin folder.
 	 * @param          {String}             title
 	 * @param          {Number|Null}        width     icon width in px
 	 * @param          {Number|Null}        height    icon height in px
 	 * @return         {String}
 	 */
-	iconTag: function(path, title, width, height){
-		if (typeof path === 'string' && path.trim()){
+	iconTag: function(fileName, title, width, height){
+		if (typeof fileName === 'string' && fileName.trim()){
 			var titleText = '',
 				heightText = '',
-				widthText = '';
-			titleText = title ? (' title="' + title + '"') : '';
+				widthText = '',
+				path = NEWSLETTER.customPluginDir + 'table2/icons/' + fileName;
+			titleText =' title="' + (title || fileName) + '"';
 			heightText = height ? (' height="' + height + '"') : '';
 			widthText = width ? (' width="' + width + '"') : '';
 			return '<img src="' + path + '"' + titleText + heightText + widthText + '/>';
