@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper */
+/*global Node, Dom, Properties, Tag, Helper, CKEDITOR */
 
 /**
  * This singleton deals with the content of the editor document.
@@ -76,7 +76,7 @@ var Document = {
 	importToFluid: function(content){
 		/// !!!stub
 		return content;
-	},
+	}
 
-}
+};
 
