@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles, TableCellStyles, Attributes, Content, TableAttributes, NEWSLETTER, alert, CKHelper, Helper
+/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles, TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
@@ -213,7 +213,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/left.gif" title="left border" width="15" />',
+							html: CTable.iconTag('customPlugins/table2/icons/left.gif', 'left border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -223,7 +223,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/middleVer.gif" title="middle vertical border" width="15" />',
+							html: CTable.iconTag('customPlugins/table2/icons/middleVer.gif', 'middle vertical border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -233,7 +233,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/right.gif" title="right border" width="15" />',
+							html: CTable.iconTag('customPlugins/table2/icons/right.gif', 'right border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -243,7 +243,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/upper.gif" title="upper border" width="15"/ >',
+							html: CTable.iconTag('customPlugins/table2/icons/upper.gif', 'upper border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -253,7 +253,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/middleHor.gif" title="middle horizontal border" width="15" />',
+							html: CTable.iconTag('customPlugins/table2/icons/middleHor.gif', 'middle horizontal border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -263,7 +263,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: '<img src="ckeditor/plugins/table2/icons/lower.gif" title="lower border" width="15"/>',
+							html: CTable.iconTag('customPlugins/table2/icons/lower.gif', 'lower border', 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',

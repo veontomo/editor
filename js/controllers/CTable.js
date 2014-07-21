@@ -224,5 +224,27 @@ var CTable = {
 			return null;
 		}
 		return table.toNode();
+	},
+
+	/**
+	 * Returns html tag to insert icon.
+	 * @method         iconName
+	 * @param          {String}             path      path to icon file.
+	 * @param          {String}             title
+	 * @param          {Number|Null}        width     icon width in px
+	 * @param          {Number|Null}        height    icon height in px
+	 * @return         {String}
+	 */
+	iconTag: function(path, title, width, height){
+		if (typeof path === 'string' && path.trim()){
+			var titleText = '',
+				heightText = '',
+				widthText = '';
+			titleText = title ? (' title="' + title + '"') : '';
+			heightText = height ? (' height="' + height + '"') : '';
+			widthText = width ? (' width="' + width + '"') : '';
+			return '<img src="' + path + '"' + titleText + heightText + widthText + '/>';
+		}
+
 	}
 };
