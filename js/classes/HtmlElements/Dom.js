@@ -374,7 +374,7 @@ function Dom(){
 			style = new Properties(node2.getAttribute(attrName));
 		style.setMode(1);
 		style.setProperty(key, value);
-		node2.setAttribute(attrName, style.toBareString());
+		node2.setAttribute(attrName, style.toString());
 		// arrange the node if it was created as a span
 		if (!isElem){
 			node2.appendChild(node.cloneNode(false));
