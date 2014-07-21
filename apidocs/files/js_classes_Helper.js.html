@@ -43,9 +43,13 @@
             
                 <li><a href="../classes/Attributes.html">Attributes</a></li>
             
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
                 <li><a href="../classes/Cell.html">Cell</a></li>
             
                 <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
             
                 <li><a href="../classes/CKHelper.html">CKHelper</a></li>
             
@@ -588,8 +592,9 @@ var Helper = {
         found.forEach(function(item){
             var content = item.match(regexp);
             if (content &amp;&amp; content[1]){
-                var tmp = new Styles(content[1]);
-                output.push(tmp.toBareString());
+                var tmp = new Properties(content[1]);
+                tmp.setMode(1);
+                output.push(tmp.toString());
             }
         });
         return output.join(&#x27;; &#x27;);

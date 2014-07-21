@@ -2,6 +2,8 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "Attributes",
+        "CDownload",
+        "CImage",
         "CKHelper",
         "CLink",
         "CTable",
@@ -59,7 +61,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Controllers",
             "name": "Controllers",
-            "description": "Link Controller."
+            "description": "Download Controller."
         },
         {
             "displayName": "Helper",

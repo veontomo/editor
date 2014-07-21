@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\TableProperties.js - Newsletter API</title>
+    <title>js\controllers\CImage.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -176,67 +176,52 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\TableProperties.js</h1>
+                        <h1 class="file-heading">File: js\controllers\CImage.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Properties */
+/*global Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, Image */
+
 /**
- * Represents image properties.
- * @module      Properties
- * @class       TableProperties
- * @constructor
- * @extends     Properties
- * @since       0.0.5
+ * Link Controller.
+ * @module    Controllers
+ * @class     CImage
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
  */
-function TableProperties(obj) {
-    &#x27;use strict&#x27;;
-    if (!(this instanceof TableProperties)) {
-        return new TableProperties(obj);
-    }
-    Properties.call(this, obj);
+var CImage = {
 
-    /**
-     * Re-set private properties defined in parent class {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}:
-     * &lt;ol&gt;&lt;li&gt;
-     * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableProperties&quot;
-     * &lt;/li&gt;&lt;/ol&gt;
-     * @method         constructor
-     */
-    this.setName(&#x27;TableProperties&#x27;);
+	/**
+	 * Inserts image into &#x60;editor&#x60;.
+	 *
+	 * It uses information inserted in the dialog menu.
+	 * @method         insert
+	 * @param          {Object}             context          context by means the variables are passed from view to the controller
+	 * @param          {Object}             editor           instance of CKEDITOR
+	 * @return         {void}
+	 */
+	insert: function(contenxt, editor){
+		// removes eventual warning text
+		CKEDITOR.document.getById(&#x27;warning&#x27;).setHtml(&#x27;&#x27;);
+		// user input
+		var textAlt = contenxt.getValueOf(&#x27;tab-general&#x27;, &#x27;textAlt&#x27;),
+			imageUrl = contenxt.getValueOf(&#x27;tab-general&#x27;, &#x27;imageUrl&#x27;);
+		// creating image object
+		var img = new Image(),
+			imgObj, imgHtml;
+		img.setOrigin(imageUrl);
+		img.setProperty(&#x27;alt&#x27;, textAlt);
+		img.setProperty(&#x27;title&#x27;, textAlt);
+		imgHtml = img.toHtml();
+		if (typeof imgHtml === &#x27;string&#x27; &amp;&amp; imgHtml.length &gt; 0){
+			imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
+			editor.insertElement(imgObj);
+		}
 
-
-    /**
-     * Default key-value pairs for image attributes.
-     * &lt;pre&gt;{&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0}&lt;/pre&gt;
-     * @property       {Object}             tableCore
-     * @private
-     * @type           {Object}
-     */
-    var tableCore = {&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0};
-    // Sets the above keys in the parent object core
-    Object.keys(tableCore).forEach(function(key){
-        this.setProperty(key, tableCore[key]);
-    }.bind(this));
-
-
-    /**
-     * Object with key-value pairs for image style. To be set, if corresponding key is not set.
-     * &lt;pre&gt;{&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0,  &#x27;min-width&#x27;: 0,
-     * &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;}&lt;/pre&gt;
-     * @property {Object}  tableStyleCore
-     * @type     {Object}
-     * @private
-     */
-    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
-    this.initializeStyle();
-    var stl = this.getStyles();
-    stl.suggestProperty(tableStyleCore);
-    this.setStyles(stl);
-
-}
-TableProperties.prototype = Object.create(Properties.prototype);
+	}
+};
     </pre>
 </div>
 

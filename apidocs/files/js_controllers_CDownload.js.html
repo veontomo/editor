@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\TableProperties.js - Newsletter API</title>
+    <title>js\controllers\CDownload.js - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -176,67 +176,78 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\TableProperties.js</h1>
+                        <h1 class="file-heading">File: js\controllers\CDownload.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Properties */
+/*global Helper, CKEDITOR, location */
+
 /**
- * Represents image properties.
- * @module      Properties
- * @class       TableProperties
- * @constructor
- * @extends     Properties
- * @since       0.0.5
+ * Download Controller.
+ * @module    Controllers
+ * @class     CDownload
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
  */
-function TableProperties(obj) {
-    &#x27;use strict&#x27;;
-    if (!(this instanceof TableProperties)) {
-        return new TableProperties(obj);
-    }
-    Properties.call(this, obj);
+var CDownload = {
 
-    /**
-     * Re-set private properties defined in parent class {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}:
-     * &lt;ol&gt;&lt;li&gt;
-     * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableProperties&quot;
-     * &lt;/li&gt;&lt;/ol&gt;
-     * @method         constructor
-     */
-    this.setName(&#x27;TableProperties&#x27;);
+	/**
+	 * Prepares the content of the editor window for downloading and launches the window
+	 * for downloading.
+	 * @method         download
+	 * @param          {Object}            context
+	 * @param          {Object}            editor
+	 * @return         {void}
+	 */
+	download: function(context, editor){
+		var fileName = context.getValueOf(&#x27;tab-general&#x27;, &#x27;filename&#x27;),
+			editorContent = editor.document.getBody().getHtml(),
+			fileHeader, fileFooter, fileBody, fileContent, sanitizedContent,
+			editorCss = CKEDITOR.getCss() || &#x27;&#x27;,
+			bodyCss = Helper.cssOfSelector(&#x27;body&#x27;, editorCss);
+		if (bodyCss){
+			bodyCss = &#x27; style=&quot;&#x27; + bodyCss + &#x27;&quot;&#x27;;
+		}
+
+		sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, &#x27; &#x27;));
+		sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\&quot;[a-zA-Z0-9_ ]+?\&quot;/g, &#x27;&#x27;);
+		fileHeader = &quot;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;;
+		fileBody = &quot;&lt;center&gt;&lt;div&quot; + bodyCss + &quot;&gt;&quot; + sanitizedContent +  &quot;&lt;/div&gt;&lt;/center&gt;&quot;;
+		fileFooter = &quot;&lt;/body&gt;&lt;/html&gt;&quot;;
+		fileContent = fileHeader + fileBody + fileFooter;
+		$.post(&#x27;php/saveDraft.php&#x27;,
+			{&#x27;data&#x27;: fileContent, &#x27;filename&#x27;: fileName},
+				function(filename){
+					// console.log(&quot;data sent and file name is recieved: &quot; + filename);
+					$(location).attr(&#x27;href&#x27;, &#x27;php/downloadFile.php?filename=&#x27; + filename);
+			}
+		);
+	},
+
+	/**
+	 * Appends time stamp string to the argument.
+	 * @method         appendTimeStamp
+	 * @param          {String|Null}        seed       the time stamp is to be appended to this string
+	 * @return         {String}
+	 */
+	appendTimeStamp: function(seed){
+		seed = (typeof seed === &#x27;string&#x27;) ? seed : &#x27;&#x27;;
+		var timeNow = new Date(),
+			templateName = seed + [
+				timeNow.getFullYear(),
+				(&#x27;0&#x27; + (timeNow.getMonth() + 1)).slice(-2),     // padding with zeros in case the string is one-symbol length
+				(&#x27;0&#x27; + timeNow.getDate()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getHours()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getMinutes()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getSeconds()).slice(-2)
+			].join(&#x27;-&#x27;) + &#x27;.html&#x27;;
+		return templateName;
+	}
 
 
-    /**
-     * Default key-value pairs for image attributes.
-     * &lt;pre&gt;{&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0}&lt;/pre&gt;
-     * @property       {Object}             tableCore
-     * @private
-     * @type           {Object}
-     */
-    var tableCore = {&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0};
-    // Sets the above keys in the parent object core
-    Object.keys(tableCore).forEach(function(key){
-        this.setProperty(key, tableCore[key]);
-    }.bind(this));
-
-
-    /**
-     * Object with key-value pairs for image style. To be set, if corresponding key is not set.
-     * &lt;pre&gt;{&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0,  &#x27;min-width&#x27;: 0,
-     * &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;}&lt;/pre&gt;
-     * @property {Object}  tableStyleCore
-     * @type     {Object}
-     * @private
-     */
-    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
-    this.initializeStyle();
-    var stl = this.getStyles();
-    stl.suggestProperty(tableStyleCore);
-    this.setStyles(stl);
-
-}
-TableProperties.prototype = Object.create(Properties.prototype);
+};
     </pre>
 </div>
 

@@ -365,11 +365,29 @@
             "fors": {},
             "namespaces": {}
         },
-        "js\\controllers\\CLink.js": {
-            "name": "js\\controllers\\CLink.js",
+        "js\\controllers\\CDownload.js": {
+            "name": "js\\controllers\\CDownload.js",
             "modules": {
                 "Controllers": 1
             },
+            "classes": {
+                "CDownload": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\controllers\\CImage.js": {
+            "name": "js\\controllers\\CImage.js",
+            "modules": {},
+            "classes": {
+                "CImage": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\controllers\\CLink.js": {
+            "name": "js\\controllers\\CLink.js",
+            "modules": {},
             "classes": {
                 "CLink": 1
             },
@@ -521,6 +539,8 @@
             "name": "Controllers",
             "submodules": {},
             "classes": {
+                "CDownload": 1,
+                "CImage": 1,
                 "CLink": 1,
                 "CTable": 1
             },
@@ -529,7 +549,7 @@
             "tag": "module",
             "file": "js\\controllers\\CTable.js",
             "line": 4,
-            "description": "Link Controller.",
+            "description": "Download Controller.",
             "type": "{Object}",
             "since": "0.0.5",
             "author": "A.Shcherbakov"
@@ -1111,6 +1131,34 @@
             "file": "js\\classes\\properties.js",
             "line": 5,
             "description": "A general Property class. If the argument is an object, then its properties are copied\ninto Property instance. If the argument is a string, then it will be splitted according to\nthe pattern \"key: value;\" to populate object properties."
+        },
+        "CDownload": {
+            "name": "CDownload",
+            "shortname": "CDownload",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Controllers",
+            "namespace": "",
+            "file": "js\\controllers\\CDownload.js",
+            "line": 4,
+            "description": "Download Controller."
+        },
+        "CImage": {
+            "name": "CImage",
+            "shortname": "CImage",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Controllers",
+            "namespace": "",
+            "file": "js\\controllers\\CImage.js",
+            "line": 4,
+            "description": "Link Controller."
         },
         "CLink": {
             "name": "CLink",
@@ -7994,6 +8042,76 @@
             "since": "0.0.5",
             "class": "Properties",
             "module": "Properties"
+        },
+        {
+            "file": "js\\controllers\\CDownload.js",
+            "line": 14,
+            "description": "Prepares the content of the editor window for downloading and launches the window\nfor downloading.",
+            "itemtype": "method",
+            "name": "download",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "editor",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CDownload",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CDownload.js",
+            "line": 47,
+            "description": "Appends time stamp string to the argument.",
+            "itemtype": "method",
+            "name": "appendTimeStamp",
+            "params": [
+                {
+                    "name": "seed",
+                    "description": "the time stamp is to be appended to this string",
+                    "type": "String|Null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "CDownload",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CImage.js",
+            "line": 14,
+            "description": "Inserts image into `editor`.\n\nIt uses information inserted in the dialog menu.",
+            "itemtype": "method",
+            "name": "insert",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "context by means the variables are passed from view to the controller",
+                    "type": "Object"
+                },
+                {
+                    "name": "editor",
+                    "description": "instance of CKEDITOR",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CImage",
+            "module": "Controllers"
         },
         {
             "file": "js\\controllers\\CLink.js",

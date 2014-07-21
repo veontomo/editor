@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js\classes\Properties\TableProperties.js - Newsletter API</title>
+    <title>CDownload - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -176,68 +176,328 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: js\classes\Properties\TableProperties.js</h1>
+                        <h1>CDownload Class</h1>
+<div class="box meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/*jslint plusplus: true, white: true */
-/*global Properties */
-/**
- * Represents image properties.
- * @module      Properties
- * @class       TableProperties
- * @constructor
- * @extends     Properties
- * @since       0.0.5
- */
-function TableProperties(obj) {
-    &#x27;use strict&#x27;;
-    if (!(this instanceof TableProperties)) {
-        return new TableProperties(obj);
-    }
-    Properties.call(this, obj);
+    
 
-    /**
-     * Re-set private properties defined in parent class {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}:
-     * &lt;ol&gt;&lt;li&gt;
-     * {{#crossLink &quot;Properties/className:property&quot;}}className{{/crossLink}} to be &quot;TableProperties&quot;
-     * &lt;/li&gt;&lt;/ol&gt;
-     * @method         constructor
-     */
-    this.setName(&#x27;TableProperties&#x27;);
+    
+        <div class="foundat">
+            Defined in: <a href="../files/js_controllers_CDownload.js.html#l4"><code>js\controllers\CDownload.js:4</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/Controllers.html">Controllers</a>
+        
+    
+
+    
+</div>
 
 
-    /**
-     * Default key-value pairs for image attributes.
-     * &lt;pre&gt;{&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0}&lt;/pre&gt;
-     * @property       {Object}             tableCore
-     * @private
-     * @type           {Object}
-     */
-    var tableCore = {&#x27;cellpadding&#x27;: 0, &#x27;cellspacing&#x27;: 0};
-    // Sets the above keys in the parent object core
-    Object.keys(tableCore).forEach(function(key){
-        this.setProperty(key, tableCore[key]);
-    }.bind(this));
+
+<div class="box intro">
+    <p>Download Controller.</p>
+
+</div>
 
 
-    /**
-     * Object with key-value pairs for image style. To be set, if corresponding key is not set.
-     * &lt;pre&gt;{&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0,  &#x27;min-width&#x27;: 0,
-     * &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;}&lt;/pre&gt;
-     * @property {Object}  tableStyleCore
-     * @type     {Object}
-     * @private
-     */
-    var tableStyleCore = {&#x27;border-style&#x27;: &#x27;none&#x27;, &#x27;padding&#x27;: 0, &#x27;margin&#x27;: 0, &#x27;width&#x27;: 0, &#x27;max-width&#x27;: 0, &#x27;min-width&#x27;: 0, &#x27;border-spacing&#x27;: &#x27;0px 0px&#x27;, &#x27;font-size&#x27;: 13, &#x27;text-align&#x27;: &#x27;justify&#x27;, &#x27;font-family&#x27;: &#x27;Arial, sans-serif&#x27;};
-    this.initializeStyle();
-    var stl = this.getStyles();
-    stl.suggestProperty(tableStyleCore);
-    this.setStyles(stl);
 
-}
-TableProperties.prototype = Object.create(Properties.prototype);
-    </pre>
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_appendTimeStamp">appendTimeStamp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_download">download</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_appendTimeStamp" class="method item">
+    <h3 class="name"><code>appendTimeStamp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>seed</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CDownload.js.html#l47"><code>js\controllers\CDownload.js:47</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appends time stamp string to the argument.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">seed</code>
+                        <span class="type">String | Null</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>the time stamp is to be appended to this string</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_download" class="method item">
+    <h3 class="name"><code>download</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>context</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>editor</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CDownload.js.html#l14"><code>js\controllers\CDownload.js:14</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Prepares the content of the editor window for downloading and launches the window
+for downloading.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">context</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">editor</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
+        
+    </div>
 </div>
 
                     </div>
