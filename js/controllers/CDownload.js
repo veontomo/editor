@@ -24,12 +24,12 @@ var CDownload = {
 	download: function(context, editor){
 		var fileName = context.getValueOf('tab-general', 'filename'),
 			isFluid = context.getValueOf('tab-general', 'mode'),
-			editorContent = editor.document.getBody().getHtml(),
+			editorContent = editor.document.getBody().$,
 			fileContent, sanitizedContent;
 
 		sanitizedContent = Document.clear(editorContent);
+		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
 		fileContent = Document.docHtml(sanitizedContent);
-		fileContent = isFluid ? Document.importToFluid(fileContent) : Document.importToFixed(fileContent);
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},

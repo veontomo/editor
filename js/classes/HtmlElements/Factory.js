@@ -80,7 +80,7 @@ function Factory(map){
 	 * @return         {Object}
 	 */
 	this.mimic = function(obj){
-		var rnd = parseInt(Math.random()*1000);
+		// var rnd = parseInt(Math.random()*1000);
 		// console.info(rnd, 'Factory::mimic argument = ', obj);
 		var stub = this.stub(obj);
 		if (stub && typeof stub.load === 'function'){
