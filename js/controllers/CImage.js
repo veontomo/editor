@@ -20,12 +20,10 @@ var CImage = {
 	 * @param          {Object}             editor           instance of CKEDITOR
 	 * @return         {void}
 	 */
-	insert: function(contenxt, editor){
-		// removes eventual warning text
-		CKEDITOR.document.getById('warning').setHtml('');
+	insert: function(context, editor){
 		// user input
-		var textAlt = contenxt.getValueOf('tab-general', 'textAlt'),
-			imageUrl = contenxt.getValueOf('tab-general', 'imageUrl');
+		var textAlt = context.getValueOf('tab-general', 'textAlt'),
+			imageUrl = context.getValueOf('tab-general', 'imageUrl');
 		// creating image object
 		var img = new Image(),
 			imgObj, imgHtml;
@@ -36,6 +34,25 @@ var CImage = {
 		if (typeof imgHtml === 'string' && imgHtml.length > 0){
 			imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
 			editor.insertElement(imgObj);
+		}
+	},
+
+	/**
+	 * Loads information about image into dialog menu if the selection contains image.
+	 * @method         load
+	 * @param          {Object}             context          context by means the variables are passed from view to the controller
+	 * @param          {Object}             editor           instance of CKEDITOR
+	 * @return         {void}
+	 */
+	load: function(context, editor){
+		var startElem = editor.getSelection().getStartElement();
+		if (startElem && startElem.getName() === 'img'){
+			var imageUrl = startElem.getAttribute('src'),
+				alt = startElem.getAttribute('alt');
+			context.setValueOf('tab-general', 'imageUrl', imageUrl || '');
+			context.setValueOf('tab-general', 'textAlt', alt || '');
+		} else {
+			console.log('there is NO image: controller');
 		}
 
 	}

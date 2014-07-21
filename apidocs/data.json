@@ -8114,6 +8114,31 @@
             "module": "Controllers"
         },
         {
+            "file": "js\\controllers\\CImage.js",
+            "line": 40,
+            "description": "Loads information about image into dialog menu if the selection contains image.",
+            "itemtype": "method",
+            "name": "load",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "context by means the variables are passed from view to the controller",
+                    "type": "Object"
+                },
+                {
+                    "name": "editor",
+                    "description": "instance of CKEDITOR",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CImage",
+            "module": "Controllers"
+        },
+        {
             "file": "js\\controllers\\CLink.js",
             "line": 14,
             "description": "Reads the content of the link insertion dialog, generates links and inserts them into the editor.",
