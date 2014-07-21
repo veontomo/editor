@@ -406,6 +406,30 @@ var CTable = {
 			return null;
 		}
 		return table.toNode();
+	},
+
+	/**
+	 * Returns html tag to insert icon.
+	 * @method         iconName
+	 * @param          {String}             fileName  icon file name. It should be located in &quot;table2/icons&quot; folder of the
+	 *                                      custom plugin folder.
+	 * @param          {String}             title
+	 * @param          {Number|Null}        width     icon width in px
+	 * @param          {Number|Null}        height    icon height in px
+	 * @return         {String}
+	 */
+	iconTag: function(fileName, title, width, height){
+		if (typeof fileName === &#x27;string&#x27; &amp;&amp; fileName.trim()){
+			var titleText = &#x27;&#x27;,
+				heightText = &#x27;&#x27;,
+				widthText = &#x27;&#x27;,
+				path = NEWSLETTER.customPluginDir + &#x27;table2/icons/&#x27; + fileName;
+			titleText =&#x27; title=&quot;&#x27; + (title || fileName) + &#x27;&quot;&#x27;;
+			heightText = height ? (&#x27; height=&quot;&#x27; + height + &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			widthText = width ? (&#x27; width=&quot;&#x27; + width + &#x27;&quot;&#x27;) : &#x27;&#x27;;
+			return &#x27;&lt;img src=&quot;&#x27; + path + &#x27;&quot;&#x27; + titleText + heightText + widthText + &#x27;/&gt;&#x27;;
+		}
+
 	}
 };
     </pre>

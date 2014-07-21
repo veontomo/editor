@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Styles, Tag */
+/*global Node, Dom, Properties, Tag */
 
 /**
  * This class is sort of helper to deal with DOM elements.
@@ -30,7 +30,7 @@ function Dom(){
 	    while (currentNode){
 	        console.log('current Node: ', currentNode);
 	        if (typeof currentNode.getAttribute === 'function'){
-	            stl = new Styles(currentNode.getAttribute('style'));
+	            stl = new Properties(currentNode.getAttribute('style'));
 	            if (stl.hasProperty(prop)){
 	                return stl.getProperty(prop);
 	            }
@@ -59,9 +59,10 @@ function Dom(){
 	        return;
 	    }
 	    console.log('from parents: ', _lookUpInParents(n, prop));
-	    stl = new Styles(n.getAttribute(attrName));
+	    stl = new Properties(n.getAttribute(attrName));
+	    stl.setMode(1);
 	    stl.toggleProperty(prop, val, altVal);
-	    stlStr = stl.toBareString();
+	    stlStr = stl.toString();
 	    if (stlStr){
 	        n.setAttribute(attrName, stlStr);
 	    } else {
@@ -125,7 +126,8 @@ function Dom(){
 		while (root.contains(currentNode)){
 			// a node might have no "getAttribute" method (as text node does)
 			if (typeof currentNode.getAttribute === 'function'){
-				stl = new Styles(currentNode.getAttribute('style'));
+				stl = new Properties(currentNode.getAttribute('style'));
+				stl.setMode(1);
 				if (stl.hasProperty(key)){
 					return stl.getProperty(key);
 				}
@@ -295,7 +297,7 @@ function Dom(){
 		while (currentNode){
 			// whether the current node has attributes
 			if (typeof currentNode.getAttribute === 'function'){
-				stl = new Styles(currentNode.getAttribute('style'));
+				stl = new Properties(currentNode.getAttribute('style'));
 				if (stl.hasProperty(key)){
 					return currentNode;
 				}
@@ -369,7 +371,8 @@ function Dom(){
 		var attrName = 'style',
 			isElem = node.nodeType === Node.ELEMENT_NODE,
 			node2 = isElem ? node : document.createElement('span'),
-			style = new Styles(node2.getAttribute(attrName));
+			style = new Properties(node2.getAttribute(attrName));
+		style.setMode(1);
 		style.setProperty(key, value);
 		node2.setAttribute(attrName, style.toBareString());
 		// arrange the node if it was created as a span
@@ -390,7 +393,7 @@ function Dom(){
 	 */
 	this.getStyleProperty = function(node, key){
 		if (node && key && typeof node.getAttribute === 'function'){
-			var stl = new Styles(node.getAttribute('style'));
+			var stl = new Properties(node.getAttribute('style'));
 			if (stl.hasProperty(key)){
 				return stl.getProperty(key);
 			}
@@ -414,7 +417,7 @@ function Dom(){
 			return false;
 		}
 		var attrName = 'style';
-		var stl = new Styles(node.getAttribute(attrName));
+		var stl = new Properties(node.getAttribute(attrName));
 		if (!stl.hasProperty(key)){
 			return false;
 		}
@@ -422,7 +425,7 @@ function Dom(){
 		if (stl.isEmpty()){
 			node.removeAttribute(attrName);
 		} else {
-			node.setAttribute(attrName, stl.toBareString());
+			node.setAttribute(attrName, stl.toString());
 		}
 		return true;
 	};
@@ -447,15 +450,15 @@ function Dom(){
 	 * @return         {void}
 	 * @since          0.0.4
 	 */
-		this.toggleElementStyle = function(elem, key, primary, secondary){
-			if (elem && elem.nodeType === Node.ELEMENT_NODE){
-				var attrName = 'style',
-					stl = new Styles(elem.getAttribute(attrName)),
-					styleValue = this.getInheritedStyleProp(key, elem);
-				stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
-				elem.setAttribute(attrName, stl.toBareString());
-			}
-		};
+	this.toggleElementStyle = function(elem, key, primary, secondary){
+		if (elem && elem.nodeType === Node.ELEMENT_NODE){
+			var attrName = 'style',
+				stl = new Styles(elem.getAttribute(attrName)),
+				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+			elem.setAttribute(attrName, stl.toBareString());
+		}
+	};
 
 	/**
 	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style

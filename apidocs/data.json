@@ -8089,6 +8089,66 @@
             "module": "Controllers"
         },
         {
+            "file": "js\\controllers\\CDownload.js",
+            "line": 67,
+            "description": "Converts document into fixed format (not fluid).\n\nIt means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).",
+            "itemtype": "method",
+            "name": "importToFixed",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "html formatted string of the editor window",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "fixed-format html string of the editor window.",
+                "type": "String"
+            },
+            "class": "CDownload",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CDownload.js",
+            "line": 81,
+            "description": "Converts document into fluid format.\n\nIt means that all allowed measures are expressed in percentage or other relative units (like em, pt).\nNote that not all html attributes can be expressed in relative units: i.e. obsolete parameters\n\"cellspacing\", \"cellpadding\", \"border\" etc.",
+            "itemtype": "method",
+            "name": "importToFluid",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "html formatted string of the editor window",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "CDownload",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CDownload.js",
+            "line": 96,
+            "description": "Creates a valid html document whose body is given by string `content`.",
+            "itemtype": "method",
+            "name": "docHtml",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "content of html document",
+                "type": "String"
+            },
+            "class": "CDownload",
+            "module": "Controllers"
+        },
+        {
             "file": "js\\controllers\\CImage.js",
             "line": 14,
             "description": "Inserts image into `editor`.\n\nIt uses information inserted in the dialog menu.",
@@ -8257,6 +8317,41 @@
             "return": {
                 "description": "",
                 "type": "DOM.Element"
+            },
+            "class": "CTable",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CTable.js",
+            "line": 229,
+            "description": "Returns html tag to insert icon.",
+            "itemtype": "method",
+            "name": "iconName",
+            "params": [
+                {
+                    "name": "fileName",
+                    "description": "icon file name. It should be located in \"table2/icons\" folder of the\n                                     custom plugin folder.",
+                    "type": "String"
+                },
+                {
+                    "name": "title",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "width",
+                    "description": "icon width in px",
+                    "type": "Number|Null"
+                },
+                {
+                    "name": "height",
+                    "description": "icon height in px",
+                    "type": "Number|Null"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
             },
             "class": "CTable",
             "module": "Controllers"

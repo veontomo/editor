@@ -17,19 +17,21 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 				label: 'Info generale',
 
 				// The tab contents.
-				elements: [
-					{
-						type: 'text',
-						id: 'filename',
-						label: editor.lang.common.name,
-						"default": CDownload.appendTimeStamp()
-					}
-				]
+				elements: [{
+					type: 'text',
+					id: 'filename',
+					label: editor.lang.common.name,
+					"default": CDownload.appendTimeStamp()
+				}, {
+					type: 'checkbox',
+					id: 'mode',
+					label: 'fluid'
+				}]
 			}
 		],
 
 		onShow: function(){
-			this.setValueOf('tab-general', 'filename', CDownload.appendTimeStamp());
+			this.setValueOf('tab-general', 'filename', CDownload.appendTimeStamp('template'));
 		},
 
 		onOk: function() {

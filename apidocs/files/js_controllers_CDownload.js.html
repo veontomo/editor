@@ -244,6 +244,46 @@ var CDownload = {
 				(&#x27;0&#x27; + timeNow.getSeconds()).slice(-2)
 			].join(&#x27;-&#x27;) + &#x27;.html&#x27;;
 		return templateName;
+	},
+
+	/**
+	 * Converts document into fixed format (not fluid).
+	 *
+	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
+	 * @method         importToFixed
+	 * @param          {String}             content        html formatted string of the editor window
+	 * @return         {String}                            fixed-format html string of the editor window.
+	 */
+	importToFixed: function(content){
+		/// !!! stub
+		return content;
+	},
+
+
+	/**
+	 * Converts document into fluid format.
+	 *
+	 * It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
+	 * Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
+	 * &quot;cellspacing&quot;, &quot;cellpadding&quot;, &quot;border&quot; etc.
+	 * @method         importToFluid
+	 * @param          {String}               content      html formatted string of the editor window
+	 * @return         {String}
+	 */
+	importToFluid: function(content){
+		/// !!!stub
+		return content;
+	},
+
+	/**
+	 * Creates a valid html document whose body is given by string &#x60;content&#x60;.
+	 * @method         docHtml
+	 * @param          {String}             content
+	 * @return         {String}                            content of html document
+	 */
+	docHtml: function(content){
+
+
 	}
 
 
