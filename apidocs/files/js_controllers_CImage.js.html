@@ -236,7 +236,25 @@ var CImage = {
 		} else {
 			console.log(&#x27;there is NO image: controller&#x27;);
 		}
+	},
 
+
+	/**
+	 * Validator for url in the dialog menu.
+	 *
+	 * &lt;span style=&quot;color: red&quot;&gt;To do&lt;/span&gt;: for the moment, the method has side effect: it shows some info in case the validation fails.
+	 * @method         validateUrl
+	 * @param          {String}             value
+	 * @param          {Object}             editor           instance of CKEDITOR
+	 * @return         {Boolean}
+	 */
+	validateUrl: function(value, editor){
+		var isOk = typeof value === &#x27;string&#x27; &amp;&amp; value.trim().length &gt; 0;
+		if (!isOk){
+			var warningField = CKEDITOR.document.getById(&#x27;warning&#x27;);
+			warningField.setHtml(editor.lang.common.invalidValue);
+		}
+		return isOk;
 	}
 };
     </pre>

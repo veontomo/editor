@@ -22,14 +22,9 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						id: 'imageUrl',
 						label: editor.lang.common.url,
 						validate: function(){
-							var isOk = Boolean(this.getValue().trim());
-							if (!isOk){
-								var warningField = CKEDITOR.document.getById('warning');
-								warningField.setHtml(editor.lang.common.invalidValue);
-							}
-							return isOk;
+							return CImage.validateUrl(this.getValue(), editor);
 						},
-						default: ""
+						default: ''
 					},
 					{
 						type: 'html',

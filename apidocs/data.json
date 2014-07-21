@@ -8139,6 +8139,31 @@
             "module": "Controllers"
         },
         {
+            "file": "js\\controllers\\CImage.js",
+            "line": 60,
+            "description": "Validator for url in the dialog menu.\n\n<span style=\"color: red\">To do</span>: for the moment, the method has side effect: it shows some info in case the validation fails.",
+            "itemtype": "method",
+            "name": "validateUrl",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "editor",
+                    "description": "instance of CKEDITOR",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "CImage",
+            "module": "Controllers"
+        },
+        {
             "file": "js\\controllers\\CLink.js",
             "line": 14,
             "description": "Reads the content of the link insertion dialog, generates links and inserts them into the editor.",
