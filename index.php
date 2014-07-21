@@ -45,19 +45,8 @@
 	<script type="text/javascript" src="js/classes/Properties/RowProperties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/TableProperties.js"></script>
 
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Attributes.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Attributes/to_delete_TableAttributes.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Attributes/to_delete_LinkAttributes.js"></script> -->
 
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_LinkStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableRowStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_TableCellStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ImageStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ListStyles.js"></script> -->
-	<!-- // <script type="text/javascript" src="js/classes/Properties/Styles/to_delete_ListItemStyles.js"></script> -->
-
+	<!-- models -->
 	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
@@ -69,11 +58,14 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/OList.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/UList.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Link.js"></script>
-
-	<script type="text/javascript" src="js/classes/HtmlElements/Dom.js"></script>
-
 	<script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
 
+
+	 <!-- document-related models -->
+	<script type="text/javascript" src="js/classes/HtmlElements/Document.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Dom.js"></script>
+
+	<!-- helpers  -->
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
 	<script type="text/javascript" src="js/classes/Helper/String.js"></script>

@@ -1,9 +1,13 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag */
+/*global Node, Dom, Properties, Tag, Helper */
 
 /**
- * This class is sort of helper to deal with DOM elements.
+ * This class deals with the elements of the editor document. Its functionality is similar
+ * to those of {{#crossLink "Document"}}Document{{/crossLink}}.
+ *
+ * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
+ * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a function that accepts creation of multiple
+ * instances.
  * @module 	    HtmlElements
  * @class  		Dom
  * @constructor
@@ -453,10 +457,10 @@ function Dom(){
 	this.toggleElementStyle = function(elem, key, primary, secondary){
 		if (elem && elem.nodeType === Node.ELEMENT_NODE){
 			var attrName = 'style',
-				stl = new Styles(elem.getAttribute(attrName)),
+				stl = new Properties(elem.getAttribute(attrName)),
 				styleValue = this.getInheritedStyleProp(key, elem);
 			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
-			elem.setAttribute(attrName, stl.toBareString());
+			elem.setAttribute(attrName, stl.toString());
 		}
 	};
 
