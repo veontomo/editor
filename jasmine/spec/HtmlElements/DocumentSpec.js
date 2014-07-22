@@ -18,6 +18,8 @@ describe('Document-related functionality', function(){
 		ch11.setAttribute('style', 'width: 100%; color: red;');
 		ch11.setAttribute('width', '200px');
 		ch11.setAttribute('alt', 'no image available');
+		ch11.setAttribute('id', 'imageId');
+		ch11.setAttribute('class', 'big bottom');
 
 		var ch2 = document.createElement('a');
 		ch2.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
@@ -32,15 +34,46 @@ describe('Document-related functionality', function(){
 	});
 
 	describe('Cleaning document tags from technicalities', function(){
-		it('removes css classes inside tags', function(){
+		it('removes "class" attribute inside tags', function(){
 			var doc2 = Document.clean(doc);
 			expect(doc2.hasAttribute('class')).toBe(false);
 		});
-		it('removes id attributes inside tags', function(){
+
+		it('removes "id" attribute inside tags', function(){
 			var doc2 = Document.clean(doc);
-			console.log(doc2.outerHTML);
 			expect(doc2.hasAttribute('id')).toBe(false);
 		});
+
+		it('removes "class" attribute from nested tags', function(){
+			var doc2 = Document.clean(doc);
+			var img = doc2.firstChild.childNodes.item(1);
+			expect(img.hasAttribute('class')).toBe(false);
+		});
+
+		it('removes "id" attribute from nested tags', function(){
+			var doc2 = Document.clean(doc);
+			var img = doc2.firstChild.childNodes.item(1);
+			expect(img.hasAttribute('id')).toBe(false);
+		});
+
+		it('leaves "style" attribute in the nested tags', function(){
+			var doc2 = Document.clean(doc);
+			var img = doc2.firstChild.childNodes.item(1);
+			expect(img.hasAttribute('style')).toBe(true);
+		});
+
+		it('leaves unchanged the content of attribute "style" in the nested tags', function(){
+			var doc2 = Document.clean(doc);
+			var img = doc2.firstChild.childNodes.item(1);
+			expect(img.getAttribute('style')).toBe('width: 100%; color: red;');
+		});
+
+
+
+
+
+
+
 
 	});
 
