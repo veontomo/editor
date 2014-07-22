@@ -401,21 +401,20 @@ var Helper = {
     cssOfSelector: function(sel, str){
         var pattern = sel + '\\s*\\{([^{}]+?)\\}',
             regexp = new RegExp(pattern, 'gi'),
-            found = str.match(regexp),
-            output = [];
+            found = str.match(regexp);
         if(!found){
             return '';
         }
+        var result = new Properties();
+        result.setMode(1);
         regexp = new RegExp(pattern, 'i');
         found.forEach(function(item){
             var content = item.match(regexp);
             if (content && content[1]){
-                var tmp = new Properties(content[1]);
-                tmp.setMode(1);
-                output.push(tmp.toString());
+                result.appendProperty(content[1]);
             }
         });
-        return output.join('; ');
+        return result.toString();
     }
 };
 

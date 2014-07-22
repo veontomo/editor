@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper, CKEDITOR */
+/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY */
 
 /**
  * This singleton deals with the content of the editor document.
@@ -12,20 +12,47 @@
 
 var Document = {
 	/**
-	 * Removes specified attributes and properties from `content`.
+	 * Removes specified attributes and properties from `node` and all its children.
+	 * It first creates a "shallow" (without children) copy of the argument and applies
+	 * {{#crossLink "Document/cleanCurrent:method"}}cleanCurrent{{/crossLink}} method
+	 * to remove attributes from the argument. Then, consider each child of the argument
+	 * and applies {{#crossLink "Document/clean:method"}}clean{{/crossLink}} method to them
+	 * and append the result to the shallow copy.
 	 *
-	 * @param          {DOM.Element}             content
+	 * @method         clean
+	 * @param          {DOM.Element}             node
 	 * @return         {DOM.Element}
 	 */
-	clear: function(content){
-		/// !!!stub
-		// if (typeof content !== 'string'){
-		// 	return content;
-		// }
-		// var output = content.trim();
-		// output = Helper.specialChar(output.replace(/\t/g, ' '));
-		// output = output.replace(/\s+(id|class)=\"[a-zA-Z0-9_ ]+?\"/g, '');
-		return content;
+	clean: function(node){
+		var out = node.cloneNode(false);
+		this.cleanCurrent(out);
+		var children = node.childNodes,
+			len = children.length,
+			i, cleanChild;
+		// parsing each child one by one
+		for (i = 0; i < len; i++){
+			cleanChild = this.clean(children.item(i));
+			out.appendChild(cleanChild);
+		}
+		return out;
+	},
+
+	/**
+	 * Removes class and id attributes from the current node without affecting child nodes.
+	 * If the node is a not an element node, then nothing is performed upon it.
+	 * @method        cleanCurrent
+	 * @param          {DOM.Element}             node
+	 * @return         {void}
+	 */
+	cleanCurrent: function(node){
+		var attrs = ['class', 'id'];
+		if (node.nodeType === Node.ELEMENT_NODE){
+			attrs.forEach(function(attr){
+				if (node.hasAttribute(attr)){
+					node.removeAttribute(attr);
+				}
+			});
+		}
 	},
 
 	/**

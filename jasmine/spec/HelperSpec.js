@@ -402,11 +402,11 @@ describe('Test helper functions', function(){
         });
 
         it('concatenates strings if selector is found two times', function(){
-            expect(Helper.cssOfSelector('body', css2)).toBe('min-width: 20em; color: red');
+            expect(Helper.cssOfSelector('body', css2)).toBe('min-width: 20em; color: red;');
         });
 
         it('delimiters concatenated strings by semicolon', function(){
-            expect(Helper.cssOfSelector('div', css3)).toBe('width: 100px; color: #00AABB; min-width: 20em; padding: 1px');
+            expect(Helper.cssOfSelector('div', css3)).toBe('width: 100px; color: #00AABB; min-width: 20em; padding: 1px;');
         });
 
     });

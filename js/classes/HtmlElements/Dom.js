@@ -459,6 +459,7 @@ function Dom(){
 			var attrName = 'style',
 				stl = new Properties(elem.getAttribute(attrName)),
 				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setMode(1);
 			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
 			elem.setAttribute(attrName, stl.toString());
 		}

@@ -27,7 +27,7 @@ var CDownload = {
 			editorContent = editor.document.getBody().$,
 			fileContent, sanitizedContent;
 
-		sanitizedContent = Document.clear(editorContent);
+		sanitizedContent = Document.clean(editorContent);
 		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
 		fileContent = Document.docHtml(sanitizedContent);
 
