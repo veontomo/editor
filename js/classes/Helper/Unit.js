@@ -148,4 +148,54 @@ function Unit(value, measure) {
         }
         return out;
     };
+
+    /**
+     * Returns the result of division of the target by the argument.
+     *
+     * If the argument is a non-zero number, then {{#crossLink "Unit/value:property"}}value{{/crossLink}}
+     * of the target is divided by this number. If it is zero, an error is thrown.
+     * If the argument is not an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} class, then it gets
+     * converted into Unit instance and if they have the same {{#crossLink "Unit/measure:property"}}measure{{/crossLink}},
+     * division is performed. The returned Unit instance has {{#crossLink "Unit/value:property"}}value{{/crossLink}}
+     * equal to fraction of target's one and argument's one and the {{#crossLink "Unit/measure:property"}}measure{{/crossLink}}
+     * equal to "" (empty string).
+     * @method         frac
+     * @param          {Unit}               u
+     * @return         {Unit}
+     */
+    this.frac = function(u){
+        if (u === undefined){
+            throw new Error('Can not divide by nothing!');
+        }
+        var res = new Unit();
+        if (typeof u === 'number'){
+            if (u === 0){
+                throw new Error('Can not divide by zero!');
+            }
+            res.value = this.getValue() / u;
+            res.measure = this.getMeasure();
+            return res;
+        }
+        if (u instanceof Unit){
+            var uVal = u.getValue(),
+                uMeas = u.getMeasure();
+            if (uVal === 0){
+                throw new Error('Can not divide by zero!');
+            }
+            res.value = this.getValue() / uVal;
+            if (uMeas === '' || uMeas === null || uMeas === undefined){
+                res.measure = this.getMeasure();
+            } else if (uMeas === this.getMeasure()){
+               res.measure = '';
+            } else {
+                throw new Error('Can not divide these objects!');
+            }
+            return res;
+        }
+        return this.frac(new Unit(u));
+    };
+
+    this.toPercentage = function(){
+
+    }
 }

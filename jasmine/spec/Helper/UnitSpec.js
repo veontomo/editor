@@ -150,6 +150,71 @@ describe('Unit-related functionality', function () {
         });
     });
 
+    describe('Unit division of two Unit objects', function(){
+        var u1, u2, u3, u4, u5;
+        beforeEach(function(){
+            u1 = new Unit(12, 'px');
+            u2 = new Unit(5, 'px');
+            u3 = new Unit(10);
+            u4 = new Unit(20, 'cm');
+            u5 = new Unit(4);
+        });
+
+        it('divides two Unit objects with the same measure', function(){
+            var res = u1.frac(u2);
+            expect(res.value).toBe(2.4);
+            expect(res.measure).toBe('');
+        });
+
+        it('divides two Unit objects without measure', function(){
+            var res = u5.frac(u3);
+            expect(res.value).toBe(0.4);
+            expect(res.measure).toBe('');
+        });
+
+        it('divides a Unit object with measure by a Unit without measure', function(){
+            var res = u1.frac(u3);
+            expect(res.value).toBe(1.2);
+            expect(res.measure).toBe('px');
+        });
+
+        it('divides a Unit object by a number', function(){
+            var res = u1.frac(3);
+            expect(res.value).toBe(4);
+            expect(res.measure).toBe('px');
+        });
+
+        it('divides a Unit object by a dimensionless number represented as a string ', function(){
+            var res = u1.frac('3');
+            expect(res.value).toBe(4);
+            expect(res.measure).toBe('px');
+        });
+
+        it('divides a Unit object by a dimension number represented as a string ', function(){
+            var res = u1.frac('2px');
+            expect(res.value).toBe(6);
+            expect(res.measure).toBe('');
+        });
+
+        it('throws an error when dividing two objects with different units', function(){
+            expect(function(){
+                u4.frac(u1);
+            }).toThrow("Can not divide these objects!");
+        });
+
+        it('throws an error when dividing by zero', function(){
+            expect(function(){
+                u4.frac(0);
+            }).toThrow("Can not divide by zero!");
+        });
+
+        it('throws an error when argument is missing', function(){
+            expect(function(){
+                u4.frac();
+            }).toThrow("Can not divide by nothing!");
+        });
+    });
+
     describe('Creates string represenation of the object', function(){
         it('returns empty string if the value is not given', function(){
             spyOn(u, 'getValue');
