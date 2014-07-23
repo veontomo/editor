@@ -69,7 +69,7 @@ function Document(node){
 	 */
 	this.getConverter = function(){
 		return _converter;
-	}
+	};
 
 
 	/**
