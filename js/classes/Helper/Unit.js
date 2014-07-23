@@ -273,9 +273,9 @@ function Unit(value, measure) {
      * @since          0.0.5
      */
     this.fromPercent = function(){
-        if (this.hasMeasure()){
-            throw new Error('Only dimensionless numbers can be representred as percents!');
+        if (this.getMeasure() !== '%'){
+            throw new Error('The target must be in percentage form!');
         }
-        return new Unit(this.getValue() * 100, '%');
+        return new Unit(this.getValue()/100);
     };
 }

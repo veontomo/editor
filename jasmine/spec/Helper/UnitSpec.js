@@ -344,9 +344,46 @@ describe('Unit-related functionality', function () {
             expect(res.getValue()).toBe(-123.2);
             expect(res.getMeasure()).toBe('%');
         });
+    });
 
+    describe('Convert from % to a dimensionless number', function(){
+        it('throws an exception if the target\'s measure is not %', function(){
+            spyOn(u, 'getMeasure').andCallFake(function(){return "anything not equal to %";});
+            expect(function(){
+                u.fromPercent();
+            }).toThrow('The target must be in percentage form!');
+        });
+        it('returns 0 for 0%', function(){
+            u.setValue(0);
+            u.setMeasure('%');
+            var res = u.fromPercent();
+            expect(res.getValue()).toBe(0);
+            expect(res.hasMeasure()).toBe(false);
+        });
+        it('returns 1 for 100%', function(){
+            u.setValue(100);
+            u.setMeasure('%');
+            var res = u.fromPercent();
+            expect(res.getValue()).toBe(1);
+            expect(res.hasMeasure()).toBe(false);
 
+        });
+        it('returns 3.23 for 323%', function(){
+            u.setValue(323);
+            u.setMeasure('%');
+            var res = u.fromPercent();
+            expect(res.getValue()).toBe(3.23);
+            expect(res.hasMeasure()).toBe(false);
 
+        });
+        it('returns 0.43287 for 43.287%', function(){
+            u.setValue(43.287);
+            u.setMeasure('%');
+            var res = u.fromPercent();
+            expect(res.getValue()).toBe(0.43287);
+            expect(res.hasMeasure()).toBe(false);
+
+        });
     });
 
 });
