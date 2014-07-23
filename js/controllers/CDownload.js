@@ -29,7 +29,7 @@ var CDownload = {
 
 		sanitizedContent = Document.clean(editorContent);
 		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
-		fileContent = Document.docHtml(sanitizedContent);
+		fileContent = Document.docHtml(fileContent);
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},

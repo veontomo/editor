@@ -118,6 +118,18 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none; padding: 0px; margin: 0px; width: 500px; max-width: 500px; min-width: 500px; border-spacing: 0px 0px; font-size: 13px; text-align: justify; font-family: Arial, sans-serif;" width="500">
+				<tbody>
+					<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px;" width="500">
+						<td data-marker="Cell" style="border-style: none; width: 249px; max-width: 249px; min-width: 249px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px;" width="249">cell0</td>
+						<td data-marker="Cell" style="border-style: none; width: 249px; max-width: 249px; min-width: 249px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px;" width="249">cell1</td>
+					</tr>
+					<tr data-marker="Row" style="border-style: none; width: 500px; max-width: 500px; min-width: 500px; padding: 0px; margin: 0px;" width="500">
+						<td data-marker="Cell" style="border-style: none; width: 249px; max-width: 249px; min-width: 249px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; padding-left: 1px; padding-right: 0px; padding-top: 0px; padding-bottom: 1px;" width="249">cell0</td>
+						<td data-marker="Cell" style="border-style: none; width: 249px; max-width: 249px; min-width: 249px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; padding-left: 0px; padding-right: 1px; padding-top: 0px; padding-bottom: 1px;" width="249">cell1</td>
+					</tr>
+				</tbody>
+			</table>
 
 		</textarea>
 	</div>
