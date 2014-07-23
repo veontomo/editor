@@ -27,6 +27,15 @@ function Document(node){
 	 */
 	var _content;
 
+
+	/**
+	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsability is to convert
+	 * current instance into different formats.
+	 * @property       {Converter}          _converter
+	 * @private
+	 */
+	var _converter;
+
 	/**
 	 * Constructor.
 	 *
@@ -39,6 +48,29 @@ function Document(node){
 	if (node && node.nodeType !== undefined){
 		_content = node;
 	}
+
+	/**
+	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} setter. Supposed to be an
+	 * instance of {{#crossLink "Converter"}}Converter{{/crossLink}} though no validation control is
+	 * performed.
+	 * @method         setConverter
+	 * @param          {Any}                c
+	 * @return         {void}
+	 */
+	this.setConverter = function(c){
+		_converter = c;
+	};
+
+	/**
+	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} getter.
+	 * @method         getConverter
+	 * @return         {Any}                Supposed to be an instance of
+	 *                                      {{#crossLink "Converter"}}Converter{{/crossLink}}
+	 */
+	this.setConverter = function(){
+		return _converter;
+	}
+
 
 	/**
 	 * Returns "deep" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
