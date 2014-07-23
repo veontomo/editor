@@ -116,7 +116,7 @@ var Document = {
 		if (!width){
 			width = new Unit(NEWSLETTER.maxWidth, 'px');
 		}
-		this.convertCurrentToFluid(width.value, result);
+		this.convertCurrentToFluid(width.getValue(), result);
 		var children = node.childNodes,
 			len = children.length,
 			i, childFluid;
@@ -184,6 +184,7 @@ var Document = {
 	 */
 	convertPropInFluid: function(scale, props){
 		if (typeof scale !== 'number'){
+			console.log(scale);
 			throw new Error('Scale parameter must be a number!');
 		}
 		if (!(props instanceof Properties)){

@@ -20,16 +20,19 @@ function Unit(value, measure) {
 
     /**
      * Absolute value of the Unit instance.
-     * @property       {Number}             value
+     * @property       {Number}             _value
+     * @private
+     * @since          0.0.5
      */
-    this.value = undefined;
+    var _value;
 
     /**
      * Measurement unit of the Unit instance.
-     * @property       {String|null}        measure
-     * @default        null
+     * @property       {String}        _measure
+     * @private
+     * @since          0.0.5
      */
-    this.measure = null;
+    var _measure;
 
 
     if (value instanceof Unit) {
@@ -41,8 +44,8 @@ function Unit(value, measure) {
     measure = (measure || '').trim();
     switch (typeof value) {
     case 'number':
-        this.value = value;
-        this.measure = measure;
+        _value = value;
+        _measure = measure;
         break;
     case 'string':
         parsedValue = value === '' ? 0 : parseFloat(value);
@@ -50,32 +53,62 @@ function Unit(value, measure) {
             throw new Error("Can not convert into a Unit object!");
         }
         parsedMeasure = value.replace(parsedValue.toString(), '').trim();
-        this.value = parsedValue;
-        this.measure = measure || parsedMeasure;
+        _value = parsedValue;
+        _measure = measure || parsedMeasure;
         break;
     default:
-        this.value = 0;
-        this.measure = '';
+        _value = 0;
+        _measure = '';
     }
 
     /**
-     * {{#crossLink "Unit/value:property"}}value{{/crossLink}} getter.
+     * {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} getter.
      * @method         getValue
      * @return         {Number}
      * @since          0.0.5
      */
     this.getValue = function(){
-        return this.value;
+        return _value;
     };
 
     /**
-     * {{#crossLink "Unit/value:property"}}measure{{/crossLink}} getter.
+     * {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} setter.
+     * @method         setValue
+     * @param          {Number}             val
+     * @return         {void}
+     * @since          0.0.5
+     */
+    this.setValue = function(val){
+        if (typeof val !== 'number'){
+            throw new Error('Value attribute of Unit instance must be a number!');
+        }
+        _value = val;
+
+    };
+
+    /**
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} getter.
      * @method         getMeasure
      * @return         {String}
      * @since          0.0.5
      */
     this.getMeasure = function(){
-        return this.measure;
+        return _measure;
+    };
+
+
+    /**
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} setter.
+     * @method         setMeasure
+     * @param          {String}             m
+     * @return         {void}
+     * @since          0.0.5
+     */
+    this.setMeasure = function(m){
+        if (typeof m !== 'string'){
+            throw new Error('Measure attribute of Unit instance must be a string!');
+        }
+        _measure = m;
     };
 
     /**
@@ -94,7 +127,7 @@ function Unit(value, measure) {
                 return false;
             }
         }
-        return this.measure === obj.measure;
+        return this.getMeasure() === obj.getMeasure();
     };
 
     /**
@@ -108,7 +141,7 @@ function Unit(value, measure) {
             throw new Error("These Unit instances can not be summed up!");
         }
         unit = new Unit(unit);
-        return new Unit(this.value + unit.value, this.measure);
+        return new Unit(this.getValue() + unit.getValue(), this.getMeasure());
 
     };
 
@@ -122,7 +155,7 @@ function Unit(value, measure) {
      */
     this.sub = function (obj) {
         var unit = new Unit(obj),
-            negative = new Unit(-unit.value, unit.measure);
+            negative = new Unit(-unit.getValue(), unit.getMeasure());
         return this.add(negative);
     };
 
@@ -181,8 +214,8 @@ function Unit(value, measure) {
             if (u === 0){
                 throw new Error('Can not divide by zero!');
             }
-            res.value = this.getValue() / u;
-            res.measure = this.getMeasure();
+            res.setValue(this.getValue() / u);
+            res.setMeasure(this.getMeasure());
             return res;
         }
         if (u instanceof Unit){
@@ -190,11 +223,11 @@ function Unit(value, measure) {
             if (uVal === 0){
                 throw new Error('Can not divide by zero!');
             }
-            res.value = this.getValue() / uVal;
+            res.setValue(this.getValue() / uVal);
             if (!u.hasMeasure()){
-                res.measure = this.getMeasure();
+                res.setMeasure(this.getMeasure());
             } else if (this.isLikeAs(u)){
-               res.measure = '';
+               res.setMeasure('');
             } else {
                 throw new Error('Can not divide these objects!');
             }
@@ -217,10 +250,32 @@ function Unit(value, measure) {
     };
 
     /**
-     * [toPercentage description]
-     * @return {[type]} [description]
+     * Returns an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} that represents
+     * the target in percentage form if it is a dimensionless number.
+     * If instead it has a dimension, an error is thrown.
+     * @method         toPercent
+     * @return         {Unit}
+     * @since          0.0.5
      */
-    this.toPercentage = function(){
+    this.toPercent = function(){
+        if (this.hasMeasure()){
+            throw new Error('Only dimensionless numbers can be representred as percents!');
+        }
+        return new Unit(this.getValue() * 100, '%');
+    };
 
+    /**
+     * Returns an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} that represents
+     * the target in percentage form if it is a dimensionless number.
+     * If instead it has a dimension, an error is thrown.
+     * @method         fromPercent
+     * @return         {Unit}
+     * @since          0.0.5
+     */
+    this.fromPercent = function(){
+        if (this.hasMeasure()){
+            throw new Error('Only dimensionless numbers can be representred as percents!');
+        }
+        return new Unit(this.getValue() * 100, '%');
     };
 }

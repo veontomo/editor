@@ -1639,26 +1639,31 @@
             "line": 21,
             "description": "Absolute value of the Unit instance.",
             "itemtype": "property",
-            "name": "value",
+            "name": "_value",
             "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.5",
             "class": "Unit",
             "module": "Helper"
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 27,
+            "line": 29,
             "description": "Measurement unit of the Unit instance.",
             "itemtype": "property",
-            "name": "measure",
-            "type": "String|null",
-            "default": "null",
+            "name": "_measure",
+            "type": "String",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.5",
             "class": "Unit",
             "module": "Helper"
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 61,
-            "description": "{{#crossLink \"Unit/value:property\"}}value{{/crossLink}} getter.",
+            "line": 64,
+            "description": "{{#crossLink \"Unit/_value:property\"}}_value{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getValue",
             "return": {
@@ -1671,8 +1676,29 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 71,
-            "description": "{{#crossLink \"Unit/value:property\"}}measure{{/crossLink}} getter.",
+            "line": 74,
+            "description": "{{#crossLink \"Unit/_value:property\"}}_value{{/crossLink}} setter.",
+            "itemtype": "method",
+            "name": "setValue",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 89,
+            "description": "{{#crossLink \"Unit/_measure:property\"}}_measure{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getMeasure",
             "return": {
@@ -1685,8 +1711,29 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 81,
-            "description": "Compares the target with the argument. Returns true, if the argument can be cast to the target type\nwith the same \"measurement\" property. False otherwise.",
+            "line": 100,
+            "description": "{{#crossLink \"Unit/_measure:property\"}}_measure{{/crossLink}} setter.",
+            "itemtype": "method",
+            "name": "setMeasure",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 114,
+            "description": "Compares the target with the argument. Returns `true`, if the argument can be coverted into Unit instance\nwith {{#crossLink \"Unit/measure:property\"}}measure{{/crossLink}} attribute being equal to the target's one.\nOtherwise, returns `false`.",
             "itemtype": "method",
             "name": "isLikeAs",
             "params": [
@@ -1705,7 +1752,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 99,
+            "line": 133,
             "description": "Sums up the target and the argument. If they have different units of measurement, an error is thrown.",
             "itemtype": "method",
             "name": "add",
@@ -1725,7 +1772,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 115,
+            "line": 149,
             "description": "Subtracts the argument from the target. The argument is converted to a Unit object,\nthen its sign is changed and the method Unit::add() is called.",
             "itemtype": "method",
             "name": "sub",
@@ -1745,7 +1792,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 129,
+            "line": 163,
             "description": "Returns string representation of the instance: join absolute value and unit of measurement.\nIf parameter is provided, it is used as a separator between the abs.value and unit of\nmeasurement.",
             "itemtype": "method",
             "name": "toString",
@@ -1766,8 +1813,8 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 152,
-            "description": "Returns the result of division of the target by the argument.\n\nThe following cases are distinguished (in order of processing):\n<ol><li>\nIf the argument is a non-zero number, then {{#crossLink \"Unit/value:property\"}}value{{/crossLink}}\nof the target is divided by this number. If it is zero, an error is thrown.\n</li><li>\nIf the argument is an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}}:\n<ul><li>\nif the denominator is dimensionless or has the same dimensionality as the numerator,\nthen division is performed normally\n</li><li>\nif the numerator and  denominator have different dimesions, then an error is thrown.\n</li></ul>\n</li></ol>\nIf the argument is not an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} class, then it gets\nconverted into Unit instance and the method is called again with argument being transformed into Unit instance.",
+            "line": 186,
+            "description": "Returns the result of division of the target by the argument.\n\nThe following cases are distinguished (in order of processing):\n<ol><li>\nIf the argument is a non-zero number, then {{#crossLink \"Unit/value:property\"}}value{{/crossLink}}\nof the target is divided by this number. If it is zero, an error is thrown.\n</li><li>\nIf the argument is an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}}:\n<ul><li>\nif the denominator is dimensionless or has the same dimensionality as the numerator,\nthen division is performed normally\n</li><li>\nif the numerator and  denominator have different dimesions, then an error is thrown.\n</li></ul>\n</li></ol>\nIf the argument is not an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} class, then\nthe method is called again with argument being converted into Unit instance.",
             "itemtype": "method",
             "name": "frac",
             "params": [
@@ -1786,7 +1833,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 206,
+            "line": 240,
             "description": "Returns `true` if the target's unit of measurement is a non-empty string. Otherwise,\nreturns `false`.",
             "itemtype": "method",
             "name": "hasMeasure",
@@ -1800,12 +1847,15 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 218,
-            "description": "[toPercentage description]",
+            "line": 252,
+            "description": "Returns an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} that represents\nthe target in percentage form if it is a dimensionless number.\nIf instead it has a dimension, an error is thrown.",
+            "itemtype": "method",
+            "name": "asPercent",
             "return": {
-                "description": "[description]",
-                "type": "[type]"
+                "description": "",
+                "type": "Unit"
             },
+            "since": "0.0.5",
             "class": "Unit",
             "module": "Helper"
         },
@@ -8540,10 +8590,5 @@
             "module": "Controllers"
         }
     ],
-    "warnings": [
-        {
-            "message": "Missing item type\n[toPercentage description]",
-            "line": " js\\classes\\Helper\\Unit.js:218"
-        }
-    ]
+    "warnings": []
 }

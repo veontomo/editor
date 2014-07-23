@@ -15,53 +15,53 @@ describe('Unit-related functionality', function () {
 
         it('when value is an integer, measure is a string', function () {
             u = new Unit(1, 'cm');
-            expect(u.value).toEqual(1);
-            expect(u.measure).toEqual('cm');
+            expect(u.getValue()).toEqual(1);
+            expect(u.getMeasure()).toEqual('cm');
         });
         it('when value is a float, measure is a string', function () {
             u = new Unit(29.50206, 'l');
-            expect(u.value).toEqual(29.50206);
-            expect(u.measure).toEqual('l');
+            expect(u.getValue()).toEqual(29.50206);
+            expect(u.getMeasure()).toEqual('l');
         });
         it('when value is a float, measure is missing', function () {
             u = new Unit(2.5);
-            expect(u.value).toEqual(2.5);
-            expect(u.measure).toEqual('');
+            expect(u.getValue()).toEqual(2.5);
+            expect(u.getMeasure()).toEqual('');
         });
         it('when value is an integer, measure is an empty string', function () {
             u = new Unit(73, '');
-            expect(u.value).toEqual(73);
-            expect(u.measure).toEqual('');
+            expect(u.getValue()).toEqual(73);
+            expect(u.getMeasure()).toEqual('');
         });
         it('when value is an integer, measure is a string with spaces at the end', function () {
             u = new Unit(12, 'cm ');
-            expect(u.value).toEqual(12);
-            expect(u.measure).toEqual('cm');
+            expect(u.getValue()).toEqual(12);
+            expect(u.getMeasure()).toEqual('cm');
         });
         it('when value is a float, measure is a string with spaces at the beginning', function () {
             u = new Unit(23.98, ' cm');
-            expect(u.value).toEqual(23.98);
-            expect(u.measure).toEqual('cm');
+            expect(u.getValue()).toEqual(23.98);
+            expect(u.getMeasure()).toEqual('cm');
         });
         it('when both value and measure are missing', function () {
             u = new Unit();
-            expect(u.value).toEqual(0);
-            expect(u.measure).toEqual('');
+            expect(u.getValue()).toEqual(0);
+            expect(u.getMeasure()).toEqual('');
         });
         it('when value is a string with unit of measurement, measure is missing', function () {
             u = new Unit('345lk');
-            expect(u.value).toEqual(345);
-            expect(u.measure).toEqual('lk');
+            expect(u.getValue()).toEqual(345);
+            expect(u.getMeasure()).toEqual('lk');
         });
         it('when value is a string with unit of measurement, measure is missing', function () {
             u = new Unit('0.76 cm');
-            expect(u.value).toEqual(0.76);
-            expect(u.measure).toEqual('cm');
+            expect(u.getValue()).toEqual(0.76);
+            expect(u.getMeasure()).toEqual('cm');
         });
         it('when value is an empty string, measure is missing', function () {
             u = new Unit('');
-            expect(u.value).toEqual(0);
-            expect(u.measure).toEqual('');
+            expect(u.getValue()).toEqual(0);
+            expect(u.getMeasure()).toEqual('');
         });
         it('throws an error if the measurement is a number', function(){
             expect(function(){
@@ -137,8 +137,8 @@ describe('Unit-related functionality', function () {
             var u2 = new Unit(10, 'cm');
             spyOn(u, 'isLikeAs').andCallFake(function(){return true;});
             var sum = u.add(u2);
-            expect(sum.value).toBe(33);
-            expect(sum.measure).toBe('cm');
+            expect(sum.getValue()).toBe(33);
+            expect(sum.getMeasure()).toBe('cm');
             expect(u.isLikeAs).toHaveBeenCalledWith(u2);
         });
     });
@@ -153,22 +153,22 @@ describe('Unit-related functionality', function () {
 
     describe('Has unit of measurement or not?', function(){
         it('returns true if object\'s unit of measurement is a non-empty string', function(){
-            var u = new Unit();
+            u = new Unit();
             spyOn(u, 'getMeasure').andCallFake(function(){return 'abc';});
             expect(u.hasMeasure()).toBe(true);
         });
         it('returns false if object\'s unit of measurement is an empty string', function(){
-            var u = new Unit();
+            u = new Unit();
             spyOn(u, 'getMeasure').andCallFake(function(){return '';});
             expect(u.hasMeasure()).toBe(false);
         });
         it('returns false if object\'s unit of measurement is null', function(){
-            var u = new Unit();
+            u = new Unit();
             spyOn(u, 'getMeasure').andCallFake(function(){return null;});
             expect(u.hasMeasure()).toBe(false);
         });
         it('returns false if object\'s unit of measurement is undefined', function(){
-            var u = new Unit();
+            u = new Unit();
             spyOn(u, 'getMeasure').andCallFake(function(){});
             expect(u.hasMeasure()).toBe(false);
         });
@@ -189,38 +189,38 @@ describe('Unit-related functionality', function () {
 
         it('divides two Unit objects with the same measure', function(){
             var res = u1.frac(u2);
-            expect(res.value).toBe(2.4);
-            expect(res.measure).toBe('');
+            expect(res.getValue()).toBe(2.4);
+            expect(res.getMeasure()).toBe('');
         });
 
         it('divides two Unit objects without measure', function(){
             var res = u5.frac(u3);
-            expect(res.value).toBe(0.4);
-            expect(res.measure).toBe('');
+            expect(res.getValue()).toBe(0.4);
+            expect(res.getMeasure()).toBe('');
         });
 
         it('divides a Unit object with measure by a Unit without measure', function(){
             var res = u1.frac(u3);
-            expect(res.value).toBe(1.2);
-            expect(res.measure).toBe('px');
+            expect(res.getValue()).toBe(1.2);
+            expect(res.getMeasure()).toBe('px');
         });
 
         it('divides a Unit object by a number', function(){
             var res = u1.frac(3);
-            expect(res.value).toBe(4);
-            expect(res.measure).toBe('px');
+            expect(res.getValue()).toBe(4);
+            expect(res.getMeasure()).toBe('px');
         });
 
         it('divides a Unit object by a dimensionless number represented as a string ', function(){
             var res = u1.frac('3');
-            expect(res.value).toBe(4);
-            expect(res.measure).toBe('px');
+            expect(res.getValue()).toBe(4);
+            expect(res.getMeasure()).toBe('px');
         });
 
         it('divides a Unit object by a dimension number represented as a string ', function(){
             var res = u1.frac('2px');
-            expect(res.value).toBe(6);
-            expect(res.measure).toBe('');
+            expect(res.getValue()).toBe(6);
+            expect(res.getMeasure()).toBe('');
         });
 
         it('throws an error when dividing two objects with different units', function(){
@@ -302,6 +302,50 @@ describe('Unit-related functionality', function () {
             spyOn(u, 'getMeasure').andCallFake(function(){return 'bar';});
             expect(u.toString('-')).toBe('0-bar');
         });
+
+    });
+
+    describe('Percentage representation', function(){
+        it('throws exception if the target has dimension', function(){
+            spyOn(u, 'hasMeasure').andCallFake(function(){return true;});
+            expect(function(){
+                u.toPercent();
+            }).toThrow('Only dimensionless numbers can be representred as percents!');
+        });
+
+        it('converts zero into percent', function(){
+            u.setValue(0);
+            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            var res = u.toPercent();
+            expect(res.getValue()).toBe(0);
+            expect(res.getMeasure()).toBe('%');
+        });
+
+        it('converts integer into percent', function(){
+            u.setValue(3);
+            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            var res = u.toPercent();
+            expect(res.getValue()).toBe(300);
+            expect(res.getMeasure()).toBe('%');
+        });
+
+        it('converts float into percent', function(){
+            u.setValue(0.1234567);
+            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            var res = u.toPercent();
+            expect(res.getValue()).toBe(12.34567);
+            expect(res.getMeasure()).toBe('%');
+        });
+
+        it('converts negative into percent', function(){
+            u.setValue(-1.232);
+            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            var res = u.toPercent();
+            expect(res.getValue()).toBe(-123.2);
+            expect(res.getMeasure()).toBe('%');
+        });
+
+
 
     });
 
