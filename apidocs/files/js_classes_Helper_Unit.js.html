@@ -332,6 +332,80 @@ function Unit(value, measure) {
         }
         return out;
     };
+
+    /**
+     * Returns the result of division of the target by the argument.
+     *
+     * The following cases are distinguished (in order of processing):
+     * &lt;ol&gt;&lt;li&gt;
+     * If the argument is a non-zero number, then {{#crossLink &quot;Unit/value:property&quot;}}value{{/crossLink}}
+     * of the target is divided by this number. If it is zero, an error is thrown.
+     * &lt;/li&gt;&lt;li&gt;
+     * If the argument is an instance of {{#crossLink &quot;Unit&quot;}}Unit{{/crossLink}}:
+     * &lt;ul&gt;&lt;li&gt;
+     * if the denominator is dimensionless or has the same dimensionality as the numerator,
+     * then division is performed normally
+     * &lt;/li&gt;&lt;li&gt;
+     * if the numerator and  denominator have different dimesions, then an error is thrown.
+     * &lt;/li&gt;&lt;/ul&gt;
+     * &lt;/li&gt;&lt;/ol&gt;
+     * If the argument is not an instance of {{#crossLink &quot;Unit&quot;}}Unit{{/crossLink}} class, then it gets
+     * converted into Unit instance and the method is called again with argument being transformed into Unit instance.
+     * @method         frac
+     * @param          {Unit}               u
+     * @return         {Unit}
+     */
+    this.frac = function(u){
+        if (u === undefined){
+            throw new Error(&#x27;Can not divide by nothing!&#x27;);
+        }
+        var res = new Unit();
+        if (typeof u === &#x27;number&#x27;){
+            if (u === 0){
+                throw new Error(&#x27;Can not divide by zero!&#x27;);
+            }
+            res.value = this.getValue() / u;
+            res.measure = this.getMeasure();
+            return res;
+        }
+        if (u instanceof Unit){
+            var uVal = u.getValue();
+            if (uVal === 0){
+                throw new Error(&#x27;Can not divide by zero!&#x27;);
+            }
+            res.value = this.getValue() / uVal;
+            if (!u.hasMeasure()){
+                res.measure = this.getMeasure();
+            } else if (u.getMeasure() === this.getMeasure()){
+               res.measure = &#x27;&#x27;;
+            } else {
+                throw new Error(&#x27;Can not divide these objects!&#x27;);
+            }
+            return res;
+        }
+        return this.frac(new Unit(u));
+    };
+
+
+    /**
+     * Returns &#x60;true&#x60; if the target&#x27;s unit of measurement is a non-empty string. Otherwise,
+     * returns &#x60;false&#x60;.
+     * @method         hasMeasure
+     * @since          0.0.5
+     * @return         {Boolean}
+     */
+    this.hasMeasure = function(){
+        var meas = this.getMeasure();
+        return (typeof meas === &#x27;string&#x27;) &amp;&amp; (meas.length &gt; 0);
+    };
+
+    /**
+     * [toPercentage description]
+     * @return {[type]} [description]
+     */
+    this.toPercentage = function(){
+
+    };
 }
 
     </pre>

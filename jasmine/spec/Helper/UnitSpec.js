@@ -142,6 +142,7 @@ describe('Unit-related functionality', function () {
             expect(u.isLikeAs).toHaveBeenCalledWith(u2);
         });
     });
+
     describe('Unit::sub(): subtracts two Unit objects', function(){
         it('calls Unit::add() method', function(){
             spyOn(u, 'add').andCallFake(function(){return 'the result';});
@@ -149,6 +150,32 @@ describe('Unit-related functionality', function () {
             expect(u.add).toHaveBeenCalled();
         });
     });
+
+    describe('Has unit of measurement or not?', function(){
+        it('returns true if object\'s unit of measurement is a non-empty string', function(){
+            var u = new Unit();
+            spyOn(u, 'getMeasure').andCallFake(function(){return 'abc';});
+            expect(u.hasMeasure()).toBe(true);
+        });
+        it('returns false if object\'s unit of measurement is an empty string', function(){
+            var u = new Unit();
+            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            expect(u.hasMeasure()).toBe(false);
+        });
+        it('returns false if object\'s unit of measurement is null', function(){
+            var u = new Unit();
+            spyOn(u, 'getMeasure').andCallFake(function(){return null;});
+            expect(u.hasMeasure()).toBe(false);
+        });
+        it('returns false if object\'s unit of measurement is undefined', function(){
+            var u = new Unit();
+            spyOn(u, 'getMeasure').andCallFake(function(){});
+            expect(u.hasMeasure()).toBe(false);
+        });
+
+
+    });
+
 
     describe('Unit division of two Unit objects', function(){
         var u1, u2, u3, u4, u5;

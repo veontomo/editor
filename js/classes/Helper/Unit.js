@@ -79,11 +79,12 @@ function Unit(value, measure) {
     };
 
     /**
-     * Compares the target with the argument. Returns true, if the argument can be cast to the target type
-     * with the same "measurement" property. False otherwise.
-     * @method  isLikeAs
-     * @param   {obj}     obj
-     * @return  {Boolean}
+     * Compares the target with the argument. Returns `true`, if the argument can be coverted into Unit instance
+     * with {{#crossLink "Unit/measure:property"}}measure{{/crossLink}} attribute being equal to the target's one.
+     * Otherwise, returns `false`.
+     * @method         isLikeAs
+     * @param          {obj}                obj
+     * @return         {Boolean}
      */
     this.isLikeAs = function (obj) {
         if (!(obj instanceof Unit)) {
@@ -152,13 +153,21 @@ function Unit(value, measure) {
     /**
      * Returns the result of division of the target by the argument.
      *
+     * The following cases are distinguished (in order of processing):
+     * <ol><li>
      * If the argument is a non-zero number, then {{#crossLink "Unit/value:property"}}value{{/crossLink}}
      * of the target is divided by this number. If it is zero, an error is thrown.
-     * If the argument is not an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} class, then it gets
-     * converted into Unit instance and if they have the same {{#crossLink "Unit/measure:property"}}measure{{/crossLink}},
-     * division is performed. The returned Unit instance has {{#crossLink "Unit/value:property"}}value{{/crossLink}}
-     * equal to fraction of target's one and argument's one and the {{#crossLink "Unit/measure:property"}}measure{{/crossLink}}
-     * equal to "" (empty string).
+     * </li><li>
+     * If the argument is an instance of {{#crossLink "Unit"}}Unit{{/crossLink}}:
+     * <ul><li>
+     * if the denominator is dimensionless or has the same dimensionality as the numerator,
+     * then division is performed normally
+     * </li><li>
+     * if the numerator and  denominator have different dimesions, then an error is thrown.
+     * </li></ul>
+     * </li></ol>
+     * If the argument is not an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} class, then
+     * the method is called again with argument being converted into Unit instance.
      * @method         frac
      * @param          {Unit}               u
      * @return         {Unit}
@@ -177,15 +186,14 @@ function Unit(value, measure) {
             return res;
         }
         if (u instanceof Unit){
-            var uVal = u.getValue(),
-                uMeas = u.getMeasure();
+            var uVal = u.getValue();
             if (uVal === 0){
                 throw new Error('Can not divide by zero!');
             }
             res.value = this.getValue() / uVal;
-            if (uMeas === '' || uMeas === null || uMeas === undefined){
+            if (!u.hasMeasure()){
                 res.measure = this.getMeasure();
-            } else if (uMeas === this.getMeasure()){
+            } else if (this.isLikeAs(u)){
                res.measure = '';
             } else {
                 throw new Error('Can not divide these objects!');
@@ -195,7 +203,24 @@ function Unit(value, measure) {
         return this.frac(new Unit(u));
     };
 
+
+    /**
+     * Returns `true` if the target's unit of measurement is a non-empty string. Otherwise,
+     * returns `false`.
+     * @method         hasMeasure
+     * @since          0.0.5
+     * @return         {Boolean}
+     */
+    this.hasMeasure = function(){
+        var meas = this.getMeasure();
+        return (typeof meas === 'string') && (meas.length > 0);
+    };
+
+    /**
+     * [toPercentage description]
+     * @return {[type]} [description]
+     */
     this.toPercentage = function(){
 
-    }
+    };
 }

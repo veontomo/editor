@@ -3,7 +3,7 @@
         "name": "Newsletter API",
         "description": "Javascript classes",
         "version": "0.0.5",
-        "logo": "images\\logo.png"
+        "logo": "images/logo.png"
     },
     "files": {
         "js\\classes\\CKHelper\\Selection.js": {
@@ -1761,6 +1761,51 @@
                 "type": "String"
             },
             "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 152,
+            "description": "Returns the result of division of the target by the argument.\n\nThe following cases are distinguished (in order of processing):\n<ol><li>\nIf the argument is a non-zero number, then {{#crossLink \"Unit/value:property\"}}value{{/crossLink}}\nof the target is divided by this number. If it is zero, an error is thrown.\n</li><li>\nIf the argument is an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}}:\n<ul><li>\nif the denominator is dimensionless or has the same dimensionality as the numerator,\nthen division is performed normally\n</li><li>\nif the numerator and  denominator have different dimesions, then an error is thrown.\n</li></ul>\n</li></ol>\nIf the argument is not an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} class, then it gets\nconverted into Unit instance and the method is called again with argument being transformed into Unit instance.",
+            "itemtype": "method",
+            "name": "frac",
+            "params": [
+                {
+                    "name": "u",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 206,
+            "description": "Returns `true` if the target's unit of measurement is a non-empty string. Otherwise,\nreturns `false`.",
+            "itemtype": "method",
+            "name": "hasMeasure",
+            "since": "0.0.5",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 218,
+            "description": "[toPercentage description]",
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
             "class": "Unit",
             "module": "Helper"
         },
@@ -8495,5 +8540,10 @@
             "module": "Controllers"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type\n[toPercentage description]",
+            "line": " js\\classes\\Helper\\Unit.js:218"
+        }
+    ]
 }

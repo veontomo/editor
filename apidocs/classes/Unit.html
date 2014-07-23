@@ -240,6 +240,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_frac">frac</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getMeasure">getMeasure</a>
 
                                 
@@ -248,6 +255,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getValue">getValue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_hasMeasure">hasMeasure</a>
 
                                 
                                 
@@ -418,6 +432,125 @@
 </div>
 
                 
+                    <div id="method_frac" class="method item">
+    <h3 class="name"><code>frac</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>u</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Helper_Unit.js.html#l152"><code>js\classes\Helper\Unit.js:152</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the result of division of the target by the argument.</p>
+<p>The following cases are distinguished (in order of processing):</p>
+<p><ol><li>
+If the argument is a non-zero number, then <a href="../classes/Unit.html#property_value" class="crosslink">value</a>
+of the target is divided by this number. If it is zero, an error is thrown.
+</li><li>
+If the argument is an instance of <a href="../classes/Unit.html" class="crosslink">Unit</a>:</p>
+<p><ul><li>
+if the denominator is dimensionless or has the same dimensionality as the numerator,
+then division is performed normally
+</li><li>
+if the numerator and  denominator have different dimesions, then an error is thrown.
+</li></ul>
+</li></ol>
+If the argument is not an instance of <a href="../classes/Unit.html" class="crosslink">Unit</a> class, then it gets
+converted into Unit instance and the method is called again with argument being transformed into Unit instance.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">u</code>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getMeasure" class="method item">
     <h3 class="name"><code>getMeasure</code></h3>
 
@@ -554,6 +687,80 @@
                 
                     
                         <span class="type">Number</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_hasMeasure" class="method item">
+    <h3 class="name"><code>hasMeasure</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Helper_Unit.js.html#l206"><code>js\classes\Helper\Unit.js:206</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns <code>true</code> if the target&#39;s unit of measurement is a non-empty string. Otherwise,
+returns <code>false</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
                     
                 
             </div>
