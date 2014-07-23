@@ -1,8 +1,8 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine */
+/*global describe, it, expect, spyOn, beforeEach, jasmine, Document */
 
 describe('Document-related functionality', function(){
-	var doc;
+	var doc, d;
 	beforeEach(function(){
 		doc = document.createElement('div');
 		doc.setAttribute('class', 'media');
@@ -31,46 +31,52 @@ describe('Document-related functionality', function(){
 		doc.appendChild(ch2);
 		doc.appendChild(document.createTextNode('Some text'));
 		ch1.appendChild(ch11);
+		d = new Document(doc);
 	});
 
 	describe('Cleaning document tags from technicalities', function(){
 		it('removes "class" attribute inside tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			expect(doc2.hasAttribute('class')).toBe(false);
 		});
 
 		it('removes "id" attribute inside tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			expect(doc2.hasAttribute('id')).toBe(false);
 		});
 
 		it('removes "class" attribute from nested tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('class')).toBe(false);
 		});
 
 		it('removes "id" attribute from nested tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('id')).toBe(false);
 		});
 
 		it('leaves "style" attribute in the nested tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('style')).toBe(true);
 		});
 
 		it('leaves unchanged the content of attribute "style" in the nested tags', function(){
-			var doc2 = Document.clean(doc);
+			d.clean();
+			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.getAttribute('style')).toBe('width: 100%; color: red;');
 		});
 	});
 
 	describe('Calculates relative widths', function(){
-		var doc;
 		beforeEach(function(){
 			doc = document.createElement('div');
 			doc.setAttribute('class', 'media');
@@ -100,17 +106,23 @@ describe('Document-related functionality', function(){
 			doc.appendChild(ch2);
 			doc.appendChild(document.createTextNode('Some text'));
 			ch1.appendChild(ch11);
+			d = new Document(doc);
 		});
-		it('transforms fixed values into relative', function(){
+
+
+
+		it('----- NO EXPECTATION HERE transforms fixed values into relative', function(){
 			var div = document.createElement('div');
 			div.setAttribute('style', 'width: 234px;');
 			div.setAttribute('width', '321px');
-			console.log(Document.importToFluid(div).outerHTML);
-
+			d = new Document(div);
+			d.importToFluid();
+			console.log(d.getContent().outerHTML);
 		});
 
-		it('transforms fixed values into relative 2', function(){
-			console.log(Document.importToFluid(doc).outerHTML);
+		it('----- NO EXPECTATION HERE transforms fixed values into relative 2', function(){
+			d.importToFluid();
+			console.log(d.getContent().outerHTML);
 
 		});
 

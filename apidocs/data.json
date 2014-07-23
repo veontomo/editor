@@ -771,7 +771,7 @@
             "namespace": "",
             "file": "js\\classes\\HtmlElements\\Document.js",
             "line": 4,
-            "description": "This singleton deals with the content of the editor document."
+            "description": "This class is to deal with documents: parsing, converting, saving."
         },
         "Dom": {
             "name": "Dom",
@@ -1850,7 +1850,21 @@
             "line": 252,
             "description": "Returns an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} that represents\nthe target in percentage form if it is a dimensionless number.\nIf instead it has a dimension, an error is thrown.",
             "itemtype": "method",
-            "name": "asPercent",
+            "name": "toPercent",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "since": "0.0.5",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 267,
+            "description": "Returns an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} that represents\nthe target in percentage form if it is a dimensionless number.\nIf instead it has a dimension, an error is thrown.",
+            "itemtype": "method",
+            "name": "fromPercent",
             "return": {
                 "description": "",
                 "type": "Unit"
@@ -4082,35 +4096,85 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 16,
-            "description": "Removes specified attributes and properties from `node` and all its children.\nIt first creates a \"shallow\" (without children) copy of the argument and applies\n{{#crossLink \"Document/cleanCurrent:method\"}}cleanCurrent{{/crossLink}} method\nto remove attributes from the argument. Then, consider each child of the argument\nand applies {{#crossLink \"Document/clean:method\"}}clean{{/crossLink}} method to them\nand append the result to the shallow copy.",
+            "line": 21,
+            "description": "Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing\nthe content of the class instance.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "property",
+            "name": "_content",
+            "type": "{DOM.Node}",
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 30,
+            "description": "Constructor.\n\nSets {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} to `node` if it is\nan instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in fact,\nit is just checked whether the argument has `typeNode` property).",
             "itemtype": "method",
-            "name": "clean",
+            "name": "constructor",
             "params": [
                 {
                     "name": "node",
                     "description": "",
-                    "type": "DOM.Element"
+                    "type": "DOM.Node"
                 }
             ],
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 52,
+            "description": "Returns \"deep\" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}. If it is not set, nothing\nis returned",
+            "itemtype": "method",
+            "name": "getContent",
             "return": {
                 "description": "",
-                "type": "DOM.Element"
+                "type": "DOM.Node"
             },
             "class": "Document",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 42,
-            "description": "Removes class and id attributes from the current node without affecting child nodes.\nIf the node is a not an element node, then nothing is performed upon it.",
+            "line": 65,
+            "description": "{{#crossLink \"Unit/_content:property\"}}_content{{/crossLink}} setter.",
             "itemtype": "method",
-            "name": "cleanCurrent",
+            "name": "setContent",
             "params": [
                 {
                     "name": "node",
                     "description": "",
-                    "type": "DOM.Element"
+                    "type": "DOM.Node"
+                }
+            ],
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 76,
+            "description": "Removes specified attributes and properties from\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}\nIt first creates a \"shallow\" (without children) copy of the argument and applies\n{{#crossLink \"Document/cleanCurrent:method\"}}cleanCurrent{{/crossLink}} method\nto remove attributes from the argument. Then, consider each child of the argument\nand applies {{#crossLink \"Document/clean:method\"}}clean{{/crossLink}} method to them\nand append the result to the shallow copy.",
+            "itemtype": "method",
+            "name": "clean",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 105,
+            "description": "Removes class and id attributes from the current node without affecting child nodes.\nIf the node is a not an element node, then nothing is performed upon it.",
+            "itemtype": "method",
+            "name": "cleanRoot",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "",
+                    "type": "DOM.Node"
                 }
             ],
             "return": {
@@ -4122,7 +4186,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 60,
+            "line": 123,
             "description": "Creates a valid html document whose body is given by string `content`.\n\n**NB**: it uses css of the editor content body.",
             "itemtype": "method",
             "name": "docHtml",
@@ -4142,47 +4206,33 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 80,
+            "line": 143,
             "description": "Converts document into fixed format (not fluid).\n\nIt means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).",
             "itemtype": "method",
             "name": "importToFixed",
-            "params": [
-                {
-                    "name": "content",
-                    "description": "html formatted string of the editor window",
-                    "type": "DOM.Element"
-                }
-            ],
-            "return": {
-                "description": "fixed-format html string of the editor window.",
-                "type": "DOM.Element"
-            },
-            "class": "Document",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 94,
-            "description": "Converts `node` attributes into relative units.\n\nIt means that all allowed measures are expressed in percentage or other relative units (like em, pt).\nNote that not all html attributes can be expressed in relative units: i.e. obsolete parameters\n\"cellspacing\", \"cellpadding\", \"border\" etc.",
-            "itemtype": "method",
-            "name": "importToFluid",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "html formatted string of the editor window",
-                    "type": "DOM.Element"
-                }
-            ],
             "return": {
                 "description": "",
-                "type": "DOM.Element"
+                "type": "Void"
             },
             "class": "Document",
             "module": "HtmlElements"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 132,
+            "line": 155,
+            "description": "Converts {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} attributes into relative units.\n\nIt means that all allowed measures are expressed in percentage or other relative units (like em, pt).\nNote that not all html attributes can be expressed in relative units: i.e. obsolete parameters\n\"cellspacing\", \"cellpadding\", \"border\" etc.",
+            "itemtype": "method",
+            "name": "importToFluid",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 192,
             "description": "Returns {{#crossLink \"Unit\"}}Unit{{/crossLink}} instance representing width of `node` which must\nbe a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.\nIf width can not be established, nothing is returned.",
             "itemtype": "method",
             "name": "getElemWidth",
@@ -4190,7 +4240,7 @@
                 {
                     "name": "node",
                     "description": "",
-                    "type": "DOM.Element"
+                    "type": "DOM.Node"
                 }
             ],
             "return": {
@@ -4202,7 +4252,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 154,
+            "line": 214,
             "description": "Returns a copy of the argument in which properties are replaced by their relative equivalients.",
             "itemtype": "method",
             "name": "convertCurrentToFluid",
@@ -4227,7 +4277,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 173,
+            "line": 233,
             "description": "Returns another {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance in which\nfixed units (that is, pixels) are replaced by their relative equivalents.\n\nRelative values are calculated on the base of parent width which must be provided and\nmust be given in pixels.",
             "itemtype": "method",
             "name": "convertPropInFluid",

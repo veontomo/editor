@@ -2,19 +2,71 @@
 /*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER */
 
 /**
- * This singleton deals with the content of the editor document.
+ * This class is to deal with documents: parsing, converting, saving.
  * @module 	    HtmlElements
  * @class  		Document
- * @constructor
+ * @param       {DOM.Node}          node          the content of the document
  * @since       0.0.5
  * @author      A.Shcherbakov
  * @uses        Unit              class to deal with numbers with unit of measurements
  * @uses        Properties        class to deal with Properties of document nodes
  */
 
-var Document = {
+function Document(node){
+	"use strict";
+	if (!(this instanceof Document)) {
+		return new Document(node);
+	}
+
 	/**
-	 * Removes specified attributes and properties from `node` and all its children.
+	 * Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing
+	 * the content of the class instance.
+	 * @private
+	 * @property       {DOM.Node}           _content
+	 * @type           {DOM.Node}
+	 */
+	var _content;
+
+	/**
+	 * Constructor.
+	 *
+	 * Sets {{#crossLink "Document/_content:property"}}_content{{/crossLink}} to be equal to `node`
+	 * if it is an instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * (in fact, it is enough that `node` has `typeNode` property).
+	 * @method         constructor
+	 * @param          {DOM.Node}           node
+	 */
+	if (node && node.nodeType !== undefined){
+		_content = node;
+	}
+
+	/**
+	 * Returns "deep" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
+	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}. If it is not set, nothing
+	 * is returned
+	 * @method         getContent
+	 * @return         {DOM.Node}
+	 */
+	this.getContent = function(){
+		if (_content){
+			return _content.cloneNode(true);
+		}
+	};
+
+	/**
+	 * {{#crossLink "Unit/_content:property"}}_content{{/crossLink}} setter.
+	 * @method         setContent
+	 * @param          {DOM.Node}           n
+	 */
+	this.setContent = function(n){
+		if (n && n.nodeType){
+			_content = n;
+		}
+	};
+
+	/**
+	 * Removes specified attributes and properties from
+	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
 	 * It first creates a "shallow" (without children) copy of the argument and applies
 	 * {{#crossLink "Document/cleanCurrent:method"}}cleanCurrent{{/crossLink}} method
 	 * to remove attributes from the argument. Then, consider each child of the argument
@@ -22,32 +74,34 @@ var Document = {
 	 * and append the result to the shallow copy.
 	 *
 	 * @method         clean
-	 * @param          {DOM.Element}             node
-	 * @return         {DOM.Element}
+	 * @return         {void}
 	 */
-	clean: function(node){
-		var out = node.cloneNode(false);
-		this.cleanCurrent(out);
-		var children = node.childNodes,
+	this.clean = function(){
+		var n = this.getContent(),
+			out = n.cloneNode(false);
+		this.cleanRoot(out);
+		var children = n.childNodes,
 			len = children.length,
-			i, cleanChild;
+			i, cleanChild, d;
 		// parsing each child one by one
 		for (i = 0; i < len; i++){
-			cleanChild = this.clean(children.item(i));
+			d = new Document(children.item(i));
+			d.clean();
+			cleanChild = d.getContent();
 			out.appendChild(cleanChild);
 		}
-		return out;
-	},
+		this.setContent(out);
+	};
 
 	/**
 	 * Removes class and id attributes from the current node without affecting child nodes.
 	 * If the node is a not an element node, then nothing is performed upon it.
-	 * @method        cleanCurrent
-	 * @param          {DOM.Element}             node
+	 * @method         cleanRoot
+	 * @param          {DOM.Node}             node
 	 * @return         {void}
 	 */
-	cleanCurrent: function(node){
-		var attrs = ['class', 'id'];
+	this.cleanRoot = function(node){
+		var attrs = ['class', 'id', 'data-marker'];
 		if (node.nodeType === Node.ELEMENT_NODE){
 			attrs.forEach(function(attr){
 				if (node.hasAttribute(attr)){
@@ -55,61 +109,62 @@ var Document = {
 				}
 			});
 		}
-	},
+	};
 
 	/**
 	 * Creates a valid html document whose body is given by string `content`.
 	 *
 	 * **NB**: it uses css of the editor content body.
 	 * @method         docHtml
-	 * @param          {DOM.Element}       node
 	 * @return         {String}            content of html document
 	 */
-	docHtml: function(node){
+	this.docHtml = function(){
 		var	editorCss = CKEDITOR.getCss() || '',
 			bodyCss = Helper.cssOfSelector('body', editorCss);
 		if (bodyCss){
 			bodyCss = ' style="' + bodyCss + '"';
 		}
+		var bodyContent = this.getContent();
+		bodyContent = bodyContent ? bodyContent.innerHTML : '';
 		var header = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n";
-		var body = "<center>\n<div" + bodyCss + ">\n" + node.innerHTML +  "\n</div>\n</center>\n";
+		var body = "<center>\n<div" + bodyCss + ">\n" + bodyContent +  "\n</div>\n</center>\n";
 		var footer = "</body>\n</html>";
 		return header + body + footer;
-	},
+	};
 
 	/**
 	 * Converts document into fixed format (not fluid).
 	 *
 	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
 	 * @method         importToFixed
-	 * @param          {DOM.Element}             content        html formatted string of the editor window
-	 * @return         {DOM.Element}                            fixed-format html string of the editor window.
+	 * @return         {void}
 	 */
-	importToFixed: function(content){
-		// for the moment this method has trivial action.
-		return content;
-	},
+	this.importToFixed = function(){
+		// for the moment this method has trivial action (i.e. no action).
+	};
 
 
 	/**
-	 * Converts `node` attributes into relative units.
+	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} attributes into relative units.
 	 *
 	 * It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
 	 * Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
 	 * "cellspacing", "cellpadding", "border" etc.
 	 * @method         importToFluid
-	 * @param          {DOM.Element}               node      html formatted string of the editor window
-	 * @return         {DOM.Element}
+	 * @return         {void}
 	 */
-	importToFluid: function(node){
-		// console.log('import to fluid');
-		var result = node.cloneNode(false),
+	this.importToFluid = function(){
+		// var rnd = parseInt(Math.random()*1000, 10);
+		// console.log(rnd, 'import started');
+		var n = this.getContent();
+		// console.log(rnd, 'content: ' + n.outerHTML);
+		var result = n.cloneNode(false),
 			parent,
 			width;
-		if (node.nodeType === Node.TEXT_NODE){
+		if (n.nodeType === Node.TEXT_NODE){
 			return result;
 		}
-		parent = node.parent;
+		parent = n.parent;
 		if (parent){
 			width = this.getElemWidth(parent);
 		}
@@ -117,27 +172,29 @@ var Document = {
 			width = new Unit(NEWSLETTER.maxWidth, 'px');
 		}
 		this.convertCurrentToFluid(width.getValue(), result);
-		var children = node.childNodes,
+		var children = n.childNodes,
 			len = children.length,
-			i, childFluid;
+			i, childFluid, d;
 		for (i = 0; i < len; i++){
-			childFluid = this.importToFluid(children.item(i));
+			d = new Document(children.item(i));
+			d.importToFluid();
+			childFluid = d.getContent();
 			result.appendChild(childFluid);
 		}
-		console.log('result: ', result);
-		console.log('result html: ', result.outerHTML);
-		return result;
-	},
+		// console.log(rnd, 'importToFluid: setting new content to ' + result.outerHTML);
+		this.setContent(result);
+		// console.log(rnd, 'setting new content: ' + result.outerHTML);
+	};
 
 	/**
 	 * Returns {{#crossLink "Unit"}}Unit{{/crossLink}} instance representing width of `node` which must
 	 * be a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.
 	 * If width can not be established, nothing is returned.
-	 * @method  getElemWidth
-	 * @param  {DOM.Element}              node
-	 * @return {Unit|undefined}
+	 * @method         getElemWidth
+	 * @param          {DOM.Node}              node
+	 * @return         {Unit|undefined}
 	 */
-	getElemWidth: function(node){
+	this.getElemWidth = function(node){
 		if (node.hasAttribute('width')){
 			return new Unit(node.getAttribute('width'));
 		}
@@ -148,7 +205,7 @@ var Document = {
 			}
 		}
 
-	},
+	};
 
 
 	/**
@@ -156,18 +213,23 @@ var Document = {
 	 * @method         convertCurrentToFluid
 	 * @param          {Number}            scale          value of width in pixel with respect to which the relative sizes
 	 *                                                    are to be calculated
-	 * @param          {DOM.Element}       node
+	 * @param          {DOM.Element}       n
 	 * @return         {void}
 	 */
-	convertCurrentToFluid: function(scale, node){
-		var elem = FACTORY.factory.mimic(node),
+	this.convertCurrentToFluid = function(scale, n){
+		var rnd = parseInt(Math.random()*1000, 10);
+		console.log(rnd, 'convertCurrentToFluid started');
+		console.log(rnd, 'content: ' + n.outerHTML);
+
+		var elem = FACTORY.factory.mimic(n),
 			props, propsFluid;
 		if (typeof elem.getProperties === 'function'){
 			props = elem.getProperties();
 			propsFluid = this.convertPropInFluid(scale, props);
-			propsFluid.decorateElement(node);
+			propsFluid.decorateElement(n);
 		}
-	},
+		console.log(rnd, 'convertCurrentToFluid is over: ' + n.outerHTML);
+	};
 
 
 	/**
@@ -182,7 +244,7 @@ var Document = {
 	 * @param          {Properties}    props     instance of Properties class
 	 * @return         {Properties}
 	 */
-	convertPropInFluid: function(scale, props){
+	this.convertPropInFluid = function(scale, props){
 		if (typeof scale !== 'number'){
 			console.log(scale);
 			throw new Error('Scale parameter must be a number!');
@@ -197,24 +259,22 @@ var Document = {
 			var width, widthRel;
 			if (result.hasProperty(attr)){
 				width = new Unit(result.getProperty(attr));
-				if (width.measure === 'px'){
-					widthRel = (width.value / scale * 100) + '%';
+				if (width.getMeasure() === 'px'){
+					widthRel = (width.getValue() / scale * 100) + '%';
 					result.setProperty(attr, widthRel);
 				}
 			}
 			if (result.hasStyleProperty(attr)){
 				width = new Unit(result.getStyleProperty(attr));
-				if (width.measure === 'px'){
-					widthRel = (width.value / scale * 100) + '%';
+				if (width.getMeasure() === 'px'){
+					widthRel = (width.getValue() / scale * 100) + '%';
 					result.setStyleProperty(attr, widthRel);
 				}
 			}
 
 		});
 		return result;
-	}
+	};
 
-
-
-};
+}
 

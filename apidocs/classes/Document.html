@@ -202,7 +202,7 @@
 
 
 <div class="box intro">
-    <p>This singleton deals with the content of the editor document.</p>
+    <p>This class is to deal with documents: parsing, converting, saving.</p>
 
 </div>
 
@@ -215,6 +215,8 @@
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -238,7 +240,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_cleanCurrent">cleanCurrent</a>
+                                <a href="#method_cleanRoot">cleanRoot</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_constructor">constructor</a>
 
                                 
                                 
@@ -266,6 +275,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_getContent">getContent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getElemWidth">getElemWidth</a>
 
                                 
@@ -286,10 +302,32 @@
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_setContent">setContent</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
 
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property private">
+                                <a href="#property__content">_content</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
             
 
             
@@ -306,22 +344,12 @@
     <h3 class="name"><code>clean</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>node</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">DOM.Element</span>
+            <span class="type">Void</span>
         </span>
     
 
@@ -348,7 +376,7 @@
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l16"><code>js\classes\HtmlElements\Document.js:16</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l76"><code>js\classes\HtmlElements\Document.js:76</code></a>
         
         </p>
 
@@ -359,38 +387,16 @@
     </div>
 
     <div class="description">
-        <p>Removes specified attributes and properties from <code>node</code> and all its children.
+        <p>Removes specified attributes and properties from
+<a href="../classes/Document.html#property__content" class="crosslink">_content</a>
 It first creates a "shallow" (without children) copy of the argument and applies
-<a href="../classes/Document.html#method_cleanCurrent" class="crosslink">cleanCurrent</a> method
+Document/cleanCurrent:method method
 to remove attributes from the argument. Then, consider each child of the argument
 and applies <a href="../classes/Document.html#method_clean" class="crosslink">clean</a> method to them
 and append the result to the shallow copy.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -400,7 +406,7 @@ and append the result to the shallow copy.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">DOM.Element</span>:
+                        <span class="type">Void</span>:
                     
                 
             </div>
@@ -411,8 +417,8 @@ and append the result to the shallow copy.</p>
 </div>
 
                 
-                    <div id="method_cleanCurrent" class="method item">
-    <h3 class="name"><code>cleanCurrent</code></h3>
+                    <div id="method_cleanRoot" class="method item">
+    <h3 class="name"><code>cleanRoot</code></h3>
 
     
         <div class="args">
@@ -457,7 +463,7 @@ and append the result to the shallow copy.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l42"><code>js\classes\HtmlElements\Document.js:42</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l105"><code>js\classes\HtmlElements\Document.js:105</code></a>
         
         </p>
 
@@ -482,7 +488,7 @@ If the node is a not an element node, then nothing is performed upon it.</p>
                 <li class="param">
                     
                         <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
+                        <span class="type">DOM.Node</span>
                     
 
                     
@@ -510,6 +516,97 @@ If the node is a not an element node, then nothing is performed upon it.</p>
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_constructor" class="method item">
+    <h3 class="name"><code>constructor</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l30"><code>js\classes\HtmlElements\Document.js:30</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Constructor.</p>
+<p>Sets <a href="../classes/Document.html#property__content" class="crosslink">_content</a> to <code>node</code> if it is
+an instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">DOM.Node</a> (in fact,
+it is just checked whether the argument has <code>typeNode</code> property).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Node</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -568,7 +665,7 @@ If the node is a not an element node, then nothing is performed upon it.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l154"><code>js\classes\HtmlElements\Document.js:154</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l214"><code>js\classes\HtmlElements\Document.js:214</code></a>
         
         </p>
 
@@ -695,7 +792,7 @@ If the node is a not an element node, then nothing is performed upon it.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l173"><code>js\classes\HtmlElements\Document.js:173</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l233"><code>js\classes\HtmlElements\Document.js:233</code></a>
         
         </p>
 
@@ -820,7 +917,7 @@ must be given in pixels.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l60"><code>js\classes\HtmlElements\Document.js:60</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l123"><code>js\classes\HtmlElements\Document.js:123</code></a>
         
         </p>
 
@@ -881,6 +978,79 @@ must be given in pixels.</p>
 </div>
 
                 
+                    <div id="method_getContent" class="method item">
+    <h3 class="name"><code>getContent</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l52"><code>js\classes\HtmlElements\Document.js:52</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns "deep" <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode">clone</a> of
+<a href="../classes/Document.html#property__content" class="crosslink">_content</a>. If it is not set, nothing
+is returned</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getElemWidth" class="method item">
     <h3 class="name"><code>getElemWidth</code></h3>
 
@@ -927,7 +1097,7 @@ must be given in pixels.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l132"><code>js\classes\HtmlElements\Document.js:132</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l192"><code>js\classes\HtmlElements\Document.js:192</code></a>
         
         </p>
 
@@ -953,7 +1123,7 @@ If width can not be established, nothing is returned.</p>
                 <li class="param">
                     
                         <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
+                        <span class="type">DOM.Node</span>
                     
 
                     
@@ -991,22 +1161,12 @@ If width can not be established, nothing is returned.</p>
     <h3 class="name"><code>importToFixed</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>content</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">DOM.Element</span>
+            <span class="type">Void</span>
         </span>
     
 
@@ -1033,7 +1193,7 @@ If width can not be established, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l80"><code>js\classes\HtmlElements\Document.js:80</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l143"><code>js\classes\HtmlElements\Document.js:143</code></a>
         
         </p>
 
@@ -1050,30 +1210,6 @@ If width can not be established, nothing is returned.</p>
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">content</code>
-                        <span class="type">DOM.Element</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>html formatted string of the editor window</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
 
     
         <div class="returns">
@@ -1082,10 +1218,8 @@ If width can not be established, nothing is returned.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">DOM.Element</span>:
+                        <span class="type">Void</span>:
                     
-                    <p>fixed-format html string of the editor window.</p>
-
                 
             </div>
         </div>
@@ -1099,22 +1233,12 @@ If width can not be established, nothing is returned.</p>
     <h3 class="name"><code>importToFluid</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>node</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type">DOM.Element</span>
+            <span class="type">Void</span>
         </span>
     
 
@@ -1141,7 +1265,7 @@ If width can not be established, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l94"><code>js\classes\HtmlElements\Document.js:94</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l155"><code>js\classes\HtmlElements\Document.js:155</code></a>
         
         </p>
 
@@ -1152,10 +1276,87 @@ If width can not be established, nothing is returned.</p>
     </div>
 
     <div class="description">
-        <p>Converts <code>node</code> attributes into relative units.</p>
+        <p>Converts <a href="../classes/Document.html#property__content" class="crosslink">_content</a> attributes into relative units.</p>
 <p>It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
 Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
-&quot;cellspacing&quot;, &quot;cellpadding&quot;, &quot;border&quot; etc.</p>
+"cellspacing", "cellpadding", "border" etc.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setContent" class="method item">
+    <h3 class="name"><code>setContent</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l65"><code>js\classes\HtmlElements\Document.js:65</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unit/_content:property setter.</p>
 
     </div>
 
@@ -1168,14 +1369,13 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
                 <li class="param">
                     
                         <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
+                        <span class="type">DOM.Node</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>html formatted string of the editor window</p>
-
+                         
                     </div>
 
                     
@@ -1186,18 +1386,6 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">DOM.Element</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
@@ -1206,6 +1394,60 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__content" class="property item private">
+    <h3 class="name"><code>_content</code></h3>
+    <span class="type">DOM.Node</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l21"><code>js\classes\HtmlElements\Document.js:21</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">DOM.Node</a> representing
+the content of the class instance.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

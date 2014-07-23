@@ -186,19 +186,80 @@
 /*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER */
 
 /**
- * This singleton deals with the content of the editor document.
+ * This class is to deal with documents: parsing, converting, saving.
  * @module 	    HtmlElements
  * @class  		Document
- * @constructor
+ * @param       {DOM.Node}          node          the content of the document
  * @since       0.0.5
  * @author      A.Shcherbakov
  * @uses        Unit              class to deal with numbers with unit of measurements
  * @uses        Properties        class to deal with Properties of document nodes
  */
 
-var Document = {
+function Document(node){
+	&quot;use strict&quot;;
+	if (!(this instanceof Document)) {
+		return new Document(node);
+	}
+
 	/**
-	 * Removes specified attributes and properties from &#x60;node&#x60; and all its children.
+	 * Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing
+	 * the content of the class instance.
+	 * @private
+	 * @property       {DOM.Node}           _content
+	 * @type           {DOM.Node}
+	 */
+	var _content;
+
+	/**
+	 * Constructor.
+	 *
+	 * Sets {{#crossLink &quot;Document/_content:property&quot;}}_content{{/crossLink}} to &#x60;node&#x60; if it is
+	 * an instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in fact,
+	 * it is just checked whether the argument has &#x60;typeNode&#x60; property).
+	 * @method         constructor
+	 * @param          {DOM.Node}           node
+	 */
+
+	if (node){
+		console.log(&quot;node is set&quot;);
+		if(node.nodeType !== undefined){
+			console.log(&quot;type node is set&quot;);
+			_content = node;
+		} else {
+			console.log(&quot;type node is not set&quot;);
+		}
+	} else {
+		console.log(&quot;node is not set&quot;);
+	}
+
+	/**
+	 * Returns &quot;deep&quot; [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
+	 * {{#crossLink &quot;Document/_content:property&quot;}}_content{{/crossLink}}. If it is not set, nothing
+	 * is returned
+	 * @method         getContent
+	 * @return         {DOM.Node}
+	 */
+	this.getContent = function(){
+		if (_content){
+			return _content.cloneNode(true);
+		}
+	};
+
+	/**
+	 * {{#crossLink &quot;Unit/_content:property&quot;}}_content{{/crossLink}} setter.
+	 * @method         setContent
+	 * @param          {DOM.Node}           node
+	 */
+	this.setContent = function(node){
+		if (node &amp;&amp; node.nodeType){
+			_content = node;
+		}
+	};
+
+	/**
+	 * Removes specified attributes and properties from
+	 * {{#crossLink &quot;Document/_content:property&quot;}}_content{{/crossLink}}
 	 * It first creates a &quot;shallow&quot; (without children) copy of the argument and applies
 	 * {{#crossLink &quot;Document/cleanCurrent:method&quot;}}cleanCurrent{{/crossLink}} method
 	 * to remove attributes from the argument. Then, consider each child of the argument
@@ -206,31 +267,33 @@ var Document = {
 	 * and append the result to the shallow copy.
 	 *
 	 * @method         clean
-	 * @param          {DOM.Element}             node
-	 * @return         {DOM.Element}
+	 * @return         {void}
 	 */
-	clean: function(node){
-		var out = node.cloneNode(false);
-		this.cleanCurrent(out);
-		var children = node.childNodes,
+	this.clean = function(){
+		var n = this.getContent(),
+			out = n.cloneNode(false);
+		this.cleanRoot(out);
+		var children = n.childNodes,
 			len = children.length,
-			i, cleanChild;
+			i, cleanChild, d;
 		// parsing each child one by one
 		for (i = 0; i &lt; len; i++){
-			cleanChild = this.clean(children.item(i));
+			d = new Document(children.item(i));
+			d.clean();
+			cleanChild = d.getContent();
 			out.appendChild(cleanChild);
 		}
-		return out;
-	},
+		this.setContent(out);
+	};
 
 	/**
 	 * Removes class and id attributes from the current node without affecting child nodes.
 	 * If the node is a not an element node, then nothing is performed upon it.
-	 * @method        cleanCurrent
-	 * @param          {DOM.Element}             node
+	 * @method         cleanRoot
+	 * @param          {DOM.Node}             node
 	 * @return         {void}
 	 */
-	cleanCurrent: function(node){
+	this.cleanRoot = function(node){
 		var attrs = [&#x27;class&#x27;, &#x27;id&#x27;];
 		if (node.nodeType === Node.ELEMENT_NODE){
 			attrs.forEach(function(attr){
@@ -239,7 +302,7 @@ var Document = {
 				}
 			});
 		}
-	},
+	};
 
 	/**
 	 * Creates a valid html document whose body is given by string &#x60;content&#x60;.
@@ -249,7 +312,7 @@ var Document = {
 	 * @param          {DOM.Element}       node
 	 * @return         {String}            content of html document
 	 */
-	docHtml: function(node){
+	this.docHtml = function(node){
 		var	editorCss = CKEDITOR.getCss() || &#x27;&#x27;,
 			bodyCss = Helper.cssOfSelector(&#x27;body&#x27;, editorCss);
 		if (bodyCss){
@@ -259,34 +322,31 @@ var Document = {
 		var body = &quot;&lt;center&gt;\n&lt;div&quot; + bodyCss + &quot;&gt;\n&quot; + node.innerHTML +  &quot;\n&lt;/div&gt;\n&lt;/center&gt;\n&quot;;
 		var footer = &quot;&lt;/body&gt;\n&lt;/html&gt;&quot;;
 		return header + body + footer;
-	},
+	};
 
 	/**
 	 * Converts document into fixed format (not fluid).
 	 *
 	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
 	 * @method         importToFixed
-	 * @param          {DOM.Element}             content        html formatted string of the editor window
-	 * @return         {DOM.Element}                            fixed-format html string of the editor window.
+	 * @return         {void}
 	 */
-	importToFixed: function(content){
-		// for the moment this method has trivial action.
-		return content;
-	},
+	this.importToFixed = function(){
+		// for the moment this method has trivial action (i.e. no action).
+	};
 
 
 	/**
-	 * Converts &#x60;node&#x60; attributes into relative units.
+	 * Converts {{#crossLink &quot;Document/_content:property&quot;}}_content{{/crossLink}} attributes into relative units.
 	 *
 	 * It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
 	 * Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
 	 * &quot;cellspacing&quot;, &quot;cellpadding&quot;, &quot;border&quot; etc.
 	 * @method         importToFluid
-	 * @param          {DOM.Element}               node      html formatted string of the editor window
-	 * @return         {DOM.Element}
+	 * @return         {void}
 	 */
-	importToFluid: function(node){
-		// console.log(&#x27;import to fluid&#x27;);
+	this.importToFluid = function(){
+		var node = this.getContent();
 		var result = node.cloneNode(false),
 			parent,
 			width;
@@ -303,25 +363,25 @@ var Document = {
 		this.convertCurrentToFluid(width.getValue(), result);
 		var children = node.childNodes,
 			len = children.length,
-			i, childFluid;
+			i, childFluid, d;
 		for (i = 0; i &lt; len; i++){
-			childFluid = this.importToFluid(children.item(i));
+			d = new Document(children.item(i));
+			d.importToFluid();
+			childFluid = this.getContent();
 			result.appendChild(childFluid);
 		}
-		console.log(&#x27;result: &#x27;, result);
-		console.log(&#x27;result html: &#x27;, result.outerHTML);
-		return result;
-	},
+		this.setContent(result);
+	};
 
 	/**
 	 * Returns {{#crossLink &quot;Unit&quot;}}Unit{{/crossLink}} instance representing width of &#x60;node&#x60; which must
 	 * be a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.
 	 * If width can not be established, nothing is returned.
-	 * @method  getElemWidth
-	 * @param  {DOM.Element}              node
-	 * @return {Unit|undefined}
+	 * @method         getElemWidth
+	 * @param          {DOM.Node}              node
+	 * @return         {Unit|undefined}
 	 */
-	getElemWidth: function(node){
+	this.getElemWidth = function(node){
 		if (node.hasAttribute(&#x27;width&#x27;)){
 			return new Unit(node.getAttribute(&#x27;width&#x27;));
 		}
@@ -332,7 +392,7 @@ var Document = {
 			}
 		}
 
-	},
+	};
 
 
 	/**
@@ -343,7 +403,7 @@ var Document = {
 	 * @param          {DOM.Element}       node
 	 * @return         {void}
 	 */
-	convertCurrentToFluid: function(scale, node){
+	this.convertCurrentToFluid = function(scale, node){
 		var elem = FACTORY.factory.mimic(node),
 			props, propsFluid;
 		if (typeof elem.getProperties === &#x27;function&#x27;){
@@ -351,7 +411,7 @@ var Document = {
 			propsFluid = this.convertPropInFluid(scale, props);
 			propsFluid.decorateElement(node);
 		}
-	},
+	};
 
 
 	/**
@@ -366,7 +426,7 @@ var Document = {
 	 * @param          {Properties}    props     instance of Properties class
 	 * @return         {Properties}
 	 */
-	convertPropInFluid: function(scale, props){
+	this.convertPropInFluid = function(scale, props){
 		if (typeof scale !== &#x27;number&#x27;){
 			console.log(scale);
 			throw new Error(&#x27;Scale parameter must be a number!&#x27;);
@@ -396,11 +456,9 @@ var Document = {
 
 		});
 		return result;
-	}
+	};
 
-
-
-};
+}
 
 
     </pre>

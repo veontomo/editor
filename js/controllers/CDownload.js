@@ -25,11 +25,18 @@ var CDownload = {
 		var fileName = context.getValueOf('tab-general', 'filename'),
 			isFluid = context.getValueOf('tab-general', 'mode'),
 			editorContent = editor.document.getBody().$,
-			fileContent, sanitizedContent;
+			fileContent, sanitizedContent, doc;
 
-		sanitizedContent = Document.clean(editorContent);
-		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
-		fileContent = Document.docHtml(fileContent);
+		doc = new Document(editorContent);
+		doc.clean();
+		if (isFluid){
+			// console.log('before import to fluid: ' + doc.getContent().innerHTML);
+			doc.importToFluid();
+			// console.log('after import to fluid: ' + doc.getContent().innerHTML);
+		} else {
+			doc.importToFixed();
+		}
+		fileContent = doc.docHtml();
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},

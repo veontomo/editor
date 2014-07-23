@@ -240,14 +240,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_asPercent">asPercent</a>
+                                <a href="#method_frac">frac</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_frac">frac</a>
+                                <a href="#method_fromPercent">fromPercent</a>
 
                                 
                                 
@@ -297,6 +297,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_sub">sub</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_toPercent">toPercent</a>
 
                                 
                                 
@@ -453,81 +460,6 @@
 </div>
 
                 
-                    <div id="method_asPercent" class="method item">
-    <h3 class="name"><code>asPercent</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Helper_Unit.js.html#l252"><code>js\classes\Helper\Unit.js:252</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 0.0.5</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Returns an instance of <a href="../classes/Unit.html" class="crosslink">Unit</a> that represents
-the target in percentage form if it is a dimensionless number.
-If instead it has a dimension, an error is thrown.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_frac" class="method item">
     <h3 class="name"><code>frac</code></h3>
 
@@ -627,6 +559,81 @@ the method is called again with argument being converted into Unit instance.</p>
             
             </ul>
         </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_fromPercent" class="method item">
+    <h3 class="name"><code>fromPercent</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Helper_Unit.js.html#l267"><code>js\classes\Helper\Unit.js:267</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an instance of <a href="../classes/Unit.html" class="crosslink">Unit</a> that represents
+the target in percentage form if it is a dimensionless number.
+If instead it has a dimension, an error is thrown.</p>
+
+    </div>
+
     
 
     
@@ -1284,6 +1291,81 @@ then its sign is changed and the method Unit::add() is called.</p>
                     
                     <p>the difference between target and the argument.</p>
 
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_toPercent" class="method item">
+    <h3 class="name"><code>toPercent</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_Helper_Unit.js.html#l252"><code>js\classes\Helper\Unit.js:252</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.5</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns an instance of <a href="../classes/Unit.html" class="crosslink">Unit</a> that represents
+the target in percentage form if it is a dimensionless number.
+If instead it has a dimension, an error is thrown.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>:
+                    
                 
             </div>
         </div>

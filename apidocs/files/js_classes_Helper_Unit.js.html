@@ -437,15 +437,30 @@ function Unit(value, measure) {
      * Returns an instance of {{#crossLink &quot;Unit&quot;}}Unit{{/crossLink}} that represents
      * the target in percentage form if it is a dimensionless number.
      * If instead it has a dimension, an error is thrown.
-     * @method         asPercent
+     * @method         toPercent
      * @return         {Unit}
      * @since          0.0.5
      */
-    this.asPercent = function(){
+    this.toPercent = function(){
         if (this.hasMeasure()){
             throw new Error(&#x27;Only dimensionless numbers can be representred as percents!&#x27;);
         }
         return new Unit(this.getValue() * 100, &#x27;%&#x27;);
+    };
+
+    /**
+     * Returns an instance of {{#crossLink &quot;Unit&quot;}}Unit{{/crossLink}} that represents
+     * the target in percentage form if it is a dimensionless number.
+     * If instead it has a dimension, an error is thrown.
+     * @method         fromPercent
+     * @return         {Unit}
+     * @since          0.0.5
+     */
+    this.fromPercent = function(){
+        if (this.getMeasure() !== &#x27;%&#x27;){
+            throw new Error(&#x27;The target must be in percentage form!&#x27;);
+        }
+        return new Unit(this.getValue()/100);
     };
 }
 
