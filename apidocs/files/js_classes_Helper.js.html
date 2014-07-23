@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..\logo.png" title="Newsletter API"></h1>
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.2</em>
+            <em>API Docs for: 0.0.5</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,8 @@
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
             
                 <li><a href="../classes/Dom.html">Dom</a></li>
             
@@ -583,21 +585,20 @@ var Helper = {
     cssOfSelector: function(sel, str){
         var pattern = sel + &#x27;\\s*\\{([^{}]+?)\\}&#x27;,
             regexp = new RegExp(pattern, &#x27;gi&#x27;),
-            found = str.match(regexp),
-            output = [];
+            found = str.match(regexp);
         if(!found){
             return &#x27;&#x27;;
         }
+        var result = new Properties();
+        result.setMode(1);
         regexp = new RegExp(pattern, &#x27;i&#x27;);
         found.forEach(function(item){
             var content = item.match(regexp);
             if (content &amp;&amp; content[1]){
-                var tmp = new Properties(content[1]);
-                tmp.setMode(1);
-                output.push(tmp.toString());
+                result.appendProperty(content[1]);
             }
         });
-        return output.join(&#x27;; &#x27;);
+        return result.toString();
     }
 };
 

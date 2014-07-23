@@ -8,7 +8,8 @@
  * @constructor
  * @since       0.0.5
  * @author      A.Shcherbakov
- * @depend      Unit, Properties
+ * @uses        Unit              class to deal with numbers with unit of measurements
+ * @uses        Properties        class to deal with Properties of document nodes
  */
 
 var Document = {
@@ -152,10 +153,11 @@ var Document = {
 
 	/**
 	 * Returns a copy of the argument in which properties are replaced by their relative equivalients.
-	 * @param  {Number}      scale          value of width in pixel with respect to which the relative sizes
-	 *                                      are to be calculated
-	 * @param  {DOM.Element} node
-	 * @return {void}
+	 * @method         convertCurrentToFluid
+	 * @param          {Number}            scale          value of width in pixel with respect to which the relative sizes
+	 *                                                    are to be calculated
+	 * @param          {DOM.Element}       node
+	 * @return         {void}
 	 */
 	convertCurrentToFluid: function(scale, node){
 		var elem = FACTORY.factory.mimic(node),
@@ -174,6 +176,7 @@ var Document = {
 	 *
 	 * Relative values are calculated on the base of parent width which must be provided and
 	 * must be given in pixels.
+	 * @method         convertPropInFluid
 	 * @param          {Number}        scale     parameter to setup the scale (in pixels) w.r.t. which the relative
 	 *                                           values are to be calculated.
 	 * @param          {Properties}    props     instance of Properties class

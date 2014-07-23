@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..\logo.png" title="Newsletter API"></h1>
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.2</em>
+            <em>API Docs for: 0.0.5</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,8 @@
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
             
                 <li><a href="../classes/Dom.html">Dom</a></li>
             
@@ -180,12 +182,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Styles, Tag */
+/*global Node, Dom, Properties, Tag, Helper */
 
 /**
- * This class is sort of helper to deal with DOM elements.
+ * This class deals with the elements of the editor document. Its functionality is similar
+ * to those of {{#crossLink &quot;Document&quot;}}Document{{/crossLink}}.
+ *
+ * The difference between them: {{#crossLink &quot;Document&quot;}}Document{{/crossLink}} is a singleton,
+ * while {{#crossLink &quot;Dom&quot;}}Dom{{/crossLink}} is a function that accepts creation of multiple
+ * instances.
  * @module 	    HtmlElements
  * @class  		Dom
  * @constructor
@@ -212,7 +218,7 @@ function Dom(){
 	    while (currentNode){
 	        console.log(&#x27;current Node: &#x27;, currentNode);
 	        if (typeof currentNode.getAttribute === &#x27;function&#x27;){
-	            stl = new Styles(currentNode.getAttribute(&#x27;style&#x27;));
+	            stl = new Properties(currentNode.getAttribute(&#x27;style&#x27;));
 	            if (stl.hasProperty(prop)){
 	                return stl.getProperty(prop);
 	            }
@@ -241,9 +247,10 @@ function Dom(){
 	        return;
 	    }
 	    console.log(&#x27;from parents: &#x27;, _lookUpInParents(n, prop));
-	    stl = new Styles(n.getAttribute(attrName));
+	    stl = new Properties(n.getAttribute(attrName));
+	    stl.setMode(1);
 	    stl.toggleProperty(prop, val, altVal);
-	    stlStr = stl.toBareString();
+	    stlStr = stl.toString();
 	    if (stlStr){
 	        n.setAttribute(attrName, stlStr);
 	    } else {
@@ -307,7 +314,8 @@ function Dom(){
 		while (root.contains(currentNode)){
 			// a node might have no &quot;getAttribute&quot; method (as text node does)
 			if (typeof currentNode.getAttribute === &#x27;function&#x27;){
-				stl = new Styles(currentNode.getAttribute(&#x27;style&#x27;));
+				stl = new Properties(currentNode.getAttribute(&#x27;style&#x27;));
+				stl.setMode(1);
 				if (stl.hasProperty(key)){
 					return stl.getProperty(key);
 				}
@@ -477,7 +485,7 @@ function Dom(){
 		while (currentNode){
 			// whether the current node has attributes
 			if (typeof currentNode.getAttribute === &#x27;function&#x27;){
-				stl = new Styles(currentNode.getAttribute(&#x27;style&#x27;));
+				stl = new Properties(currentNode.getAttribute(&#x27;style&#x27;));
 				if (stl.hasProperty(key)){
 					return currentNode;
 				}
@@ -551,9 +559,10 @@ function Dom(){
 		var attrName = &#x27;style&#x27;,
 			isElem = node.nodeType === Node.ELEMENT_NODE,
 			node2 = isElem ? node : document.createElement(&#x27;span&#x27;),
-			style = new Styles(node2.getAttribute(attrName));
+			style = new Properties(node2.getAttribute(attrName));
+		style.setMode(1);
 		style.setProperty(key, value);
-		node2.setAttribute(attrName, style.toBareString());
+		node2.setAttribute(attrName, style.toString());
 		// arrange the node if it was created as a span
 		if (!isElem){
 			node2.appendChild(node.cloneNode(false));
@@ -572,7 +581,7 @@ function Dom(){
 	 */
 	this.getStyleProperty = function(node, key){
 		if (node &amp;&amp; key &amp;&amp; typeof node.getAttribute === &#x27;function&#x27;){
-			var stl = new Styles(node.getAttribute(&#x27;style&#x27;));
+			var stl = new Properties(node.getAttribute(&#x27;style&#x27;));
 			if (stl.hasProperty(key)){
 				return stl.getProperty(key);
 			}
@@ -596,7 +605,7 @@ function Dom(){
 			return false;
 		}
 		var attrName = &#x27;style&#x27;;
-		var stl = new Styles(node.getAttribute(attrName));
+		var stl = new Properties(node.getAttribute(attrName));
 		if (!stl.hasProperty(key)){
 			return false;
 		}
@@ -604,7 +613,7 @@ function Dom(){
 		if (stl.isEmpty()){
 			node.removeAttribute(attrName);
 		} else {
-			node.setAttribute(attrName, stl.toBareString());
+			node.setAttribute(attrName, stl.toString());
 		}
 		return true;
 	};
@@ -629,15 +638,16 @@ function Dom(){
 	 * @return         {void}
 	 * @since          0.0.4
 	 */
-		this.toggleElementStyle = function(elem, key, primary, secondary){
-			if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
-				var attrName = &#x27;style&#x27;,
-					stl = new Styles(elem.getAttribute(attrName)),
-					styleValue = this.getInheritedStyleProp(key, elem);
-				stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
-				elem.setAttribute(attrName, stl.toBareString());
-			}
-		};
+	this.toggleElementStyle = function(elem, key, primary, secondary){
+		if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
+			var attrName = &#x27;style&#x27;,
+				stl = new Properties(elem.getAttribute(attrName)),
+				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setMode(1);
+			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+			elem.setAttribute(attrName, stl.toString());
+		}
+	};
 
 	/**
 	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style

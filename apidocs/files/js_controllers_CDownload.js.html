@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..\logo.png" title="Newsletter API"></h1>
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.2</em>
+            <em>API Docs for: 0.0.5</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,8 @@
                 <li><a href="../classes/Content.html">Content</a></li>
             
                 <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
             
                 <li><a href="../classes/Dom.html">Dom</a></li>
             
@@ -181,7 +183,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Helper, CKEDITOR, location */
+/*global CKEDITOR, location, Document */
 
 /**
  * Download Controller.
@@ -196,6 +198,8 @@ var CDownload = {
 	/**
 	 * Prepares the content of the editor window for downloading and launches the window
 	 * for downloading.
+	 *
+	 * It sends ajax post request to the script &#x60;php/saveDraft.php&#x60; using JQuery library.
 	 * @method         download
 	 * @param          {Object}            context
 	 * @param          {Object}            editor
@@ -203,24 +207,17 @@ var CDownload = {
 	 */
 	download: function(context, editor){
 		var fileName = context.getValueOf(&#x27;tab-general&#x27;, &#x27;filename&#x27;),
-			editorContent = editor.document.getBody().getHtml(),
-			fileHeader, fileFooter, fileBody, fileContent, sanitizedContent,
-			editorCss = CKEDITOR.getCss() || &#x27;&#x27;,
-			bodyCss = Helper.cssOfSelector(&#x27;body&#x27;, editorCss);
-		if (bodyCss){
-			bodyCss = &#x27; style=&quot;&#x27; + bodyCss + &#x27;&quot;&#x27;;
-		}
+			isFluid = context.getValueOf(&#x27;tab-general&#x27;, &#x27;mode&#x27;),
+			editorContent = editor.document.getBody().$,
+			fileContent, sanitizedContent;
 
-		sanitizedContent = Helper.specialChar(editorContent.replace(/\t/g, &#x27; &#x27;));
-		sanitizedContent = sanitizedContent.replace(/\s+(id|class)=\&quot;[a-zA-Z0-9_ ]+?\&quot;/g, &#x27;&#x27;);
-		fileHeader = &quot;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;;
-		fileBody = &quot;&lt;center&gt;&lt;div&quot; + bodyCss + &quot;&gt;&quot; + sanitizedContent +  &quot;&lt;/div&gt;&lt;/center&gt;&quot;;
-		fileFooter = &quot;&lt;/body&gt;&lt;/html&gt;&quot;;
-		fileContent = fileHeader + fileBody + fileFooter;
+		sanitizedContent = Document.clean(editorContent);
+		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
+		fileContent = Document.docHtml(fileContent);
+
 		$.post(&#x27;php/saveDraft.php&#x27;,
 			{&#x27;data&#x27;: fileContent, &#x27;filename&#x27;: fileName},
 				function(filename){
-					// console.log(&quot;data sent and file name is recieved: &quot; + filename);
 					$(location).attr(&#x27;href&#x27;, &#x27;php/downloadFile.php?filename=&#x27; + filename);
 			}
 		);
@@ -246,45 +243,6 @@ var CDownload = {
 		return templateName;
 	},
 
-	/**
-	 * Converts document into fixed format (not fluid).
-	 *
-	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
-	 * @method         importToFixed
-	 * @param          {String}             content        html formatted string of the editor window
-	 * @return         {String}                            fixed-format html string of the editor window.
-	 */
-	importToFixed: function(content){
-		/// !!! stub
-		return content;
-	},
-
-
-	/**
-	 * Converts document into fluid format.
-	 *
-	 * It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
-	 * Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
-	 * &quot;cellspacing&quot;, &quot;cellpadding&quot;, &quot;border&quot; etc.
-	 * @method         importToFluid
-	 * @param          {String}               content      html formatted string of the editor window
-	 * @return         {String}
-	 */
-	importToFluid: function(content){
-		/// !!!stub
-		return content;
-	},
-
-	/**
-	 * Creates a valid html document whose body is given by string &#x60;content&#x60;.
-	 * @method         docHtml
-	 * @param          {String}             content
-	 * @return         {String}                            content of html document
-	 */
-	docHtml: function(content){
-
-
-	}
 
 
 };

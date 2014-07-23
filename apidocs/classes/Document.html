@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Mapping - Newsletter API</title>
+    <title>Document - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -178,7 +178,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Mapping Class</h1>
+                        <h1>Document Class</h1>
 <div class="box meta">
     
 
@@ -186,7 +186,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_classes_HtmlElements_Mapping.js.html#l5"><code>js\classes\HtmlElements\Mapping.js:5</code></a>
+            Defined in: <a href="../files/js_classes_HtmlElements_Document.js.html#l4"><code>js\classes\HtmlElements\Document.js:4</code></a>
         </div>
     
 
@@ -202,10 +202,7 @@
 
 
 <div class="box intro">
-    <p>This class associates different types of object. It is intended to be used along with
-<a href="../classes/Factory.html" class="crosslink">Factory</a> class.
-The idea is to have criteria on which decide what type of objects should be constructed.
-This class is responsible for these criteria.</p>
+    <p>This singleton deals with the content of the editor document.</p>
 
 </div>
 
@@ -218,8 +215,6 @@ This class is responsible for these criteria.</p>
         
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
@@ -236,49 +231,56 @@ This class is responsible for these criteria.</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_add">add</a>
+                                <a href="#method_clean">clean</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_findTargetFor">findTargetFor</a>
+                                <a href="#method_cleanCurrent">cleanCurrent</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_flush">flush</a>
+                                <a href="#method_convertCurrentToFluid">convertCurrentToFluid</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getDefaultTarget">getDefaultTarget</a>
+                                <a href="#method_convertPropInFluid">convertPropInFluid</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getMappings">getMappings</a>
+                                <a href="#method_docHtml">docHtml</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_isValidMapping">isValidMapping</a>
+                                <a href="#method_getElemWidth">getElemWidth</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_setDefaultTarget">setDefaultTarget</a>
+                                <a href="#method_importToFixed">importToFixed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_importToFluid">importToFluid</a>
 
                                 
                                 
@@ -288,28 +290,6 @@ This class is responsible for these criteria.</p>
                 </div>
             
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property_defaultTarget">defaultTarget</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_mappings">mappings</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
             
 
             
@@ -322,8 +302,8 @@ This class is responsible for these criteria.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_add" class="method item">
-    <h3 class="name"><code>add</code></h3>
+                    <div id="method_clean" class="method item">
+    <h3 class="name"><code>clean</code></h3>
 
     
         <div class="args">
@@ -331,13 +311,7 @@ This class is responsible for these criteria.</p>
             
                 <li class="arg">
                     
-                        <code>criterion</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>target</code>
+                        <code>node</code>
                     
                 </li>
             
@@ -347,7 +321,7 @@ This class is responsible for these criteria.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Boolean</span>
+            <span class="type">DOM.Element</span>
         </span>
     
 
@@ -374,7 +348,7 @@ This class is responsible for these criteria.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l64"><code>js\classes\HtmlElements\Mapping.js:64</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l16"><code>js\classes\HtmlElements\Document.js:16</code></a>
         
         </p>
 
@@ -385,12 +359,12 @@ This class is responsible for these criteria.</p>
     </div>
 
     <div class="description">
-        <p>Forms an object {&#39;criterion&#39;: crit, &#39;target&#39;: target} from the input and it it
-turns out to be a valid mapping, then this mapping is
-appended to <a href="../classes/Mapping.html#property_mappings" class="crosslink">mappings</a>
-and the <code>true</code> is returned. Otherwise, <code>false</code> is returned.<br>
-A mapping is a valid one if method
-<a href="../classes/Mapping.html#method_isValidMapping" class="crosslink">isValidMapping()</a> returns <code>true</code>.</p>
+        <p>Removes specified attributes and properties from <code>node</code> and all its children.
+It first creates a "shallow" (without children) copy of the argument and applies
+<a href="../classes/Document.html#method_cleanCurrent" class="crosslink">cleanCurrent</a> method
+to remove attributes from the argument. Then, consider each child of the argument
+and applies <a href="../classes/Document.html#method_clean" class="crosslink">clean</a> method to them
+and append the result to the shallow copy.</p>
 
     </div>
 
@@ -402,23 +376,8 @@ A mapping is a valid one if method
             
                 <li class="param">
                     
-                        <code class="param-name">criterion</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">target</code>
-                        <span class="type">Function</span>
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
                     
 
                     
@@ -441,7 +400,7 @@ A mapping is a valid one if method
             <div class="returns-description">
                 
                     
-                        <span class="type">Boolean</span>:
+                        <span class="type">DOM.Element</span>:
                     
                 
             </div>
@@ -452,8 +411,8 @@ A mapping is a valid one if method
 </div>
 
                 
-                    <div id="method_findTargetFor" class="method item">
-    <h3 class="name"><code>findTargetFor</code></h3>
+                    <div id="method_cleanCurrent" class="method item">
+    <h3 class="name"><code>cleanCurrent</code></h3>
 
     
         <div class="args">
@@ -461,434 +420,7 @@ A mapping is a valid one if method
             
                 <li class="arg">
                     
-                        <code>needle</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Function | Null</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l122"><code>js\classes\HtmlElements\Mapping.js:122</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Finds target for the argument. It parses array <a href="../classes/Mapping.html#property_mappings" class="crosslink">mappings</a>
-and calls <code>criterion</code> function of the array element. Value of <code>target</code> key of first <code>criterion</code> that returns
-<code>true</code>, is returned. If not found,
-<a href="../classes/Mapping.html#method_getDefaultTarget" class="crosslink">getDefaultTarget()</a> is returned.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">needle</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>this variable is to be given as input for <code>criterion</code> function
-                                                of each array of mappings.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Function | Null</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_flush" class="method item">
-    <h3 class="name"><code>flush</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l113"><code>js\classes\HtmlElements\Mapping.js:113</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Reset <a href="../classes/Mapping.html#property_mappings" class="crosslink">mappings</a> to an empty array.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Void</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getDefaultTarget" class="method item">
-    <h3 class="name"><code>getDefaultTarget</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Function | Null</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l54"><code>js\classes\HtmlElements\Mapping.js:54</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p><a href="../classes/Mapping.html#property_defaultTarget" class="crosslink">Default target</a> getter.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Function | Null</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getMappings" class="method item">
-    <h3 class="name"><code>getMappings</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l91"><code>js\classes\HtmlElements\Mapping.js:91</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a copy of the <a href="../classes/Mapping.html#property_mappings" class="crosslink">mappings</a>.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_isValidMapping" class="method item">
-    <h3 class="name"><code>isValidMapping</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>map</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l102"><code>js\classes\HtmlElements\Mapping.js:102</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns <code>true</code> if the argument is an object with function-valued keys <code>criterion</code> and <code>target</code>.
-Returns <code>false</code> otherwise.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">map</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_setDefaultTarget" class="method item">
-    <h3 class="name"><code>setDefaultTarget</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>fun</code>
+                        <code>node</code>
                     
                 </li>
             
@@ -925,7 +457,7 @@ Returns <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l41"><code>js\classes\HtmlElements\Mapping.js:41</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l42"><code>js\classes\HtmlElements\Document.js:42</code></a>
         
         </p>
 
@@ -936,8 +468,8 @@ Returns <code>false</code> otherwise.</p>
     </div>
 
     <div class="description">
-        <p><a href="../classes/Mapping.html#property_defaultTarget" class="crosslink">Default target</a> setter. Assigns only
-if the argument is a function.</p>
+        <p>Removes class and id attributes from the current node without affecting child nodes.
+If the node is a not an element node, then nothing is performed upon it.</p>
 
     </div>
 
@@ -949,8 +481,8 @@ if the argument is a function.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">fun</code>
-                        <span class="type">Function</span>
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
                     
 
                     
@@ -984,22 +516,41 @@ if the argument is a function.</p>
 </div>
 
                 
-            </div>
-        
+                    <div id="method_convertCurrentToFluid" class="method item">
+    <h3 class="name"><code>convertCurrentToFluid</code></h3>
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>scale</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
 
-                
-                    <div id="property_defaultTarget" class="property item private">
-    <h3 class="name"><code>defaultTarget</code></h3>
-    <span class="type">Function | Null</span>
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
 
     
 
     
-        <span class="flag private">private</span>
+
     
 
     
@@ -1017,9 +568,10 @@ if the argument is a function.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l33"><code>js\classes\HtmlElements\Mapping.js:33</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l154"><code>js\classes\HtmlElements\Document.js:154</code></a>
         
         </p>
+
 
         
 
@@ -1027,28 +579,105 @@ if the argument is a function.</p>
     </div>
 
     <div class="description">
-        <p>Default target.</p>
+        <p>Returns a copy of the argument in which properties are replaced by their relative equivalients.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> null</p>
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">scale</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>value of width in pixel with respect to which the relative sizes
+                                                   are to be calculated</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="property_mappings" class="property item private">
-    <h3 class="name"><code>mappings</code></h3>
-    <span class="type">Array</span>
+                    <div id="method_convertPropInFluid" class="method item">
+    <h3 class="name"><code>convertPropInFluid</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>scale</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>props</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
+        </span>
+    
+
+    
 
     
 
     
-        <span class="flag private">private</span>
+
     
 
     
@@ -1066,9 +695,10 @@ if the argument is a function.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Mapping.js.html#l23"><code>js\classes\HtmlElements\Mapping.js:23</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l173"><code>js\classes\HtmlElements\Document.js:173</code></a>
         
         </p>
+
 
         
 
@@ -1076,15 +706,497 @@ if the argument is a function.</p>
     </div>
 
     <div class="description">
-        <p>Array of mappings. Each array element is an object with two keys: <code>criterion</code> and <code>target</code>.
-Value of <code>criterion</code> must be a boolean-valued function, while <code>target</code> must be a class.</p>
+        <p>Returns another <a href="../classes/Properties.html" class="crosslink">Properties</a> instance in which
+fixed units (that is, pixels) are replaced by their relative equivalents.</p>
+<p>Relative values are calculated on the base of parent width which must be provided and
+must be given in pixels.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> []</p>
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">scale</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>parameter to setup the scale (in pixels) w.r.t. which the relative
+                                          values are to be calculated.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">props</code>
+                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>instance of Properties class</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_docHtml" class="method item">
+    <h3 class="name"><code>docHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l60"><code>js\classes\HtmlElements\Document.js:60</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a valid html document whose body is given by string <code>content</code>.</p>
+<p><strong>NB</strong>: it uses css of the editor content body.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>content of html document</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getElemWidth" class="method item">
+    <h3 class="name"><code>getElemWidth</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | Undefined</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l132"><code>js\classes\HtmlElements\Document.js:132</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns <a href="../classes/Unit.html" class="crosslink">Unit</a> instance representing width of <code>node</code> which must
+be a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance.
+If width can not be established, nothing is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | Undefined</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_importToFixed" class="method item">
+    <h3 class="name"><code>importToFixed</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>content</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Element</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l80"><code>js\classes\HtmlElements\Document.js:80</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts document into fixed format (not fluid).</p>
+<p>It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">content</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>html formatted string of the editor window</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Element</span>:
+                    
+                    <p>fixed-format html string of the editor window.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_importToFluid" class="method item">
+    <h3 class="name"><code>importToFluid</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>node</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Element</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l94"><code>js\classes\HtmlElements\Document.js:94</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts <code>node</code> attributes into relative units.</p>
+<p>It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
+Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
+&quot;cellspacing&quot;, &quot;cellpadding&quot;, &quot;border&quot; etc.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">node</code>
+                        <span class="type">DOM.Element</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>html formatted string of the editor window</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Element</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
@@ -1092,6 +1204,8 @@ Value of <code>criterion</code> must be a boolean-valued function, while <code>t
 
                 
             </div>
+        
+
         
 
         
