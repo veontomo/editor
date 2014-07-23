@@ -67,7 +67,7 @@ function Document(node){
 	 * @return         {Any}                Supposed to be an instance of
 	 *                                      {{#crossLink "Converter"}}Converter{{/crossLink}}
 	 */
-	this.setConverter = function(){
+	this.getConverter = function(){
 		return _converter;
 	}
 
