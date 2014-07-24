@@ -105,7 +105,7 @@ describe('Tag-related functionality', function() {
 
     describe('Tag::getWidth(): retrieves the width value from the style', function(){
         it('calls "getProperty()" method on its "styles"', function(){
-            var stl = new Styles();
+            var stl = new Properties();
             spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
             spyOn(stl, 'getProperty');
             tag.getWidth();
@@ -113,7 +113,7 @@ describe('Tag-related functionality', function() {
             expect(tag.getStyles).toHaveBeenCalled();
         });
         it('returns "getProperty()" output applied on its "styles"', function(){
-            var stl = new Styles();
+            var stl = new Properties();
             spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
             spyOn(stl, 'getProperty').andCallFake(function(){return 'width value';});
             expect(tag.getWidth()).toBe('width value');

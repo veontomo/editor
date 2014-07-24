@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
 	Content, Link, Ulist, Factory, Tag, Table, ListItem, OList, UList,
-	Cell, Row, Registry, PlainText, Mapping, Node, window */
+	Cell, Row, Registry, PlainText, TagMapper, Node, window */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -645,7 +645,7 @@ describe('Content-related functionality', function(){
 	describe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20,
 			e30, e31, e32, t33, t001, e200, e310, t320,
-			map = new Mapping();
+			map = new TagMapper();
 		//                    root
 		//      ________________|_____________
 		//     |      |      |         |      |
@@ -967,7 +967,7 @@ describe('Content-related functionality', function(){
 		var item1, item2, item3, fun;
 		beforeEach(function(){
 			item1 = {};
-			item2 = {double: 1.1, res: function(){}};
+			item2 = {double: 1.1, res: function(){return;}};
 			item3 = 'string';
 		});
 		it('leaves content empty if it was empty', function(){
@@ -979,7 +979,7 @@ describe('Content-related functionality', function(){
 
 		it('drops first element if it does not pass through the filter', function(){
 			c.setElements([item1, item2, item3]);
-			fun = function(el){return el !== item1};
+			fun = function(el){return el !== item1;};
 			c.filterOut(fun);
 			expect(c.length()).toBe(2);
 			expect(c.getElem(0)).toBe(item2);
@@ -987,7 +987,7 @@ describe('Content-related functionality', function(){
 		});
 		it('drops middle element if it does not pass through the filter', function(){
 			c.setElements([item1, item2, item3]);
-			fun = function(el){return el !== item2};
+			fun = function(el){return el !== item2;};
 			c.filterOut(fun);
 			expect(c.length()).toBe(2);
 			expect(c.getElem(0)).toBe(item1);
@@ -995,7 +995,7 @@ describe('Content-related functionality', function(){
 		});
 		it('drops last element if it does not pass through the filter', function(){
 			c.setElements([item1, item2, item3]);
-			fun = function(el){return el !== item3};
+			fun = function(el){return el !== item3;};
 			c.filterOut(fun);
 			expect(c.length()).toBe(2);
 			expect(c.getElem(0)).toBe(item1);

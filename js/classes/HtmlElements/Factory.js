@@ -4,13 +4,13 @@
 
 /**
  * This class is to be used to create different objects. What type of object is to be created
- * is decided based on functionality of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class,
+ * is decided based on functionality of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class,
  * an instance of which might be passed as an argument.
  * instance.
  * @module 	           HtmlElements
  * @class  		       Factory
  * @constructor
- * @param              {Mapping}            mapping          an instance of Mapping class
+ * @param              {TagMapper}            mapping          an instance of TagMapper class
  * @since              0.0.2
  * @author             A.Shcherbakov
  *
@@ -22,31 +22,31 @@ function Factory(map){
 	}
 
 	/**
-	 * An instance of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class.
+	 * An instance of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class.
 	 * @property       mapping
 	 * @private
-	 * @type           {Mapping}
+	 * @type           {TagMapper}
 	 */
 	var mapping = (map instanceof TagMapper) ? map : new TagMapper();
 
 	/**
-	 * {{#crossLink "Factory/mapping:property"}}Mapping{{/crossLink}} getter.
+	 * {{#crossLink "Factory/mapping:property"}}TagMapper{{/crossLink}} getter.
 	 * @method         getMapping
-	 * @return         {Mapping}
+	 * @return         {TagMapper}
 	 */
 	this.getMapping = function(){
 		return mapping;
 	};
 
 	/**
-	 * {{#crossLink "Factory/mapping:property"}}Mapping{{/crossLink}} setter. Returns `true`
-	 * if the argument is an instance of {{#crossLink "Mapping"}}Mapping{{/crossLink}} class and
+	 * {{#crossLink "Factory/mapping:property"}}TagMapper{{/crossLink}} setter. Returns `true`
+	 * if the argument is an instance of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class and
 	 * `false` otherwise.
 	 * @method         setMapping
 	 * @return         {Boolean}
 	 */
 	this.setMapping = function(map){
-		var isMap = map instanceof Mapping;
+		var isMap = map instanceof TagMapper;
 		if (isMap){
 			mapping = map;
 		}
@@ -55,7 +55,7 @@ function Factory(map){
 
 	/**
 	 * Creates a class instance corresponding to the argument. The decision is to be taken
-	 * based on the {{#crossLink "Mapping/findTargetFor:method"}}findTargetFor(){{/crossLink}}
+	 * based on the {{#crossLink "TagMapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
 	 * of {{#crossLink "Factory/mapping:method"}}mapping{{/crossLink}} property.
 	 * @method         stub
 	 * @param          {Any}                obj

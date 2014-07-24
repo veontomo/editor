@@ -1,12 +1,12 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Image, Content, Attributes, jasmine, Tag */
+/*global describe, it, expect, spyOn, beforeEach, Image, Content, Properties, jasmine, Tag */
 
 describe('Image-related functionality:', function() {
     var img, attr, validLink, invalidLink;
 
     beforeEach(function() {
         img = new Image();
-        attr = new Attributes();
+        attr = new Properties();
         validLink = 'http://localhost/projects/editor/images/Compact_spaces.png';
         invalidLink = 'http://www.aaa.ccc/img.jpg';
     });

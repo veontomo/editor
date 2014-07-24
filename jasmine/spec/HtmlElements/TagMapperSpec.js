@@ -1,20 +1,20 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Mapping, window */
+/*global describe, it, expect, spyOn, beforeEach, TagMapper, window */
 
-describe('Mapping-related functionality', function(){
+describe('TagMapper-related functionality', function(){
     var map;
     beforeEach(function(){
-        map = new Mapping();
+        map = new TagMapper();
     });
 
-    describe('Mapping construction', function(){
+    describe('TagMapper construction', function(){
         it('prevents accidental call without "new"', function(){
-            map = Mapping();
-            expect(map instanceof Mapping).toBe(true);
+            map = TagMapper();
+            expect(map instanceof TagMapper).toBe(true);
         });
     });
 
-    describe('Mapping::getCriteria(): gets criteria', function(){
+    describe('TagMapper::getCriteria(): gets criteria', function(){
         it('returns an array', function(){
             expect(Array.isArray(map.getMappings())).toBe(true);
         });
@@ -25,7 +25,7 @@ describe('Mapping-related functionality', function(){
         });
     });
 
-    describe('Mapping::isValidMapping() decides whether the mapping is valid', function(){
+    describe('TagMapper::isValidMapping() decides whether the mapping is valid', function(){
         var DummyClass;
         beforeEach(function(){
             DummyClass = function(){return null;};
@@ -52,7 +52,7 @@ describe('Mapping-related functionality', function(){
         });
     });
 
-    describe('Mapping::default: setter and getter', function(){
+    describe('TagMapper::default: setter and getter', function(){
         var DummyClass;
         beforeEach(function(){
             DummyClass = function(){return null;};
@@ -72,7 +72,7 @@ describe('Mapping-related functionality', function(){
         });
     });
 
-    describe('Mapping::add(): adds mapping', function(){
+    describe('TagMapper::add(): adds mapping', function(){
         it('calls isValidMapping', function(){
             spyOn(map, 'isValidMapping');
             map.add('whatever');
@@ -95,7 +95,7 @@ describe('Mapping-related functionality', function(){
         });
     });
 
-    describe('Mapping::flush(): removes all mappings', function(){
+    describe('TagMapper::flush(): removes all mappings', function(){
         it('flushes empty mappings', function(){
             expect(map.getMappings().length).toBe(0);
             map.flush();
@@ -130,7 +130,7 @@ describe('Mapping-related functionality', function(){
         });
     });
 
-    describe('Mapping::findTargetFor(): finds target for the argument', function(){
+    describe('TagMapper::findTargetFor(): finds target for the argument', function(){
         var T1, T2, T3, T4;
         beforeEach(function(){
             window.crit1 = function(){return null;};
@@ -146,7 +146,8 @@ describe('Mapping-related functionality', function(){
                 {'criterion': crit2, 'target': T2},
                 {'criterion': crit3, 'target': T3},
                 {'criterion': crit4, 'target': T4}
-            ]});
+                ];
+        });
 
         });
 

@@ -1,25 +1,25 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Styles,
-Content, TableStyles, TableRowStyles, TableCellStyles, TableAttributes, Attributes, jasmine, Tag */
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Properties,
+Content, TableProperties, RowProperties, TableCellStyles, TableAttributes, Properties, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3, row4, row5,
         bogusTableAttr, bogusTableStyle, bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle;
     beforeEach(function(){
         table = new Table();
-        tableAttr = new Attributes();
-        tableStyle = new TableStyles();
+        tableAttr = new TableProperties();
+        // tableStyle = new TableProperties();
         row1 = new Row();
         row2 = new Row();
         row3 = new Row();
         row4 = new Row();
         row5 = new Row();
-        bogusTableAttr = new Attributes();
-        bogusTableStyle = new Attributes();
-        bogusRowAttr  = new Attributes();
-        bogusRowStyle  = new Attributes();
-        bogusCellAttr  = new Attributes();
-        bogusCellStyle  = new Attributes();
+        bogusTableAttr = new TableProperties();
+        // bogusTableStyle = new Properties();
+        bogusRowAttr  = new RowProperties();
+        // bogusRowStyle  = new Properties();
+        bogusCellAttr  = new CellProperties();
+        // bogusCellStyle  = new Properties();
     });
 
     describe('inherits properly from Tag() class', function(){
@@ -54,11 +54,11 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom cell styles setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomCellStyles(new TableRowStyles());
+            table.setPhantomCellStyles(new RowProperties());
         });
 
-        it('returns instance of Styles class', function(){
-            expect(table.getPhantomCellStyles() instanceof Styles).toBe(true);
+        it('returns instance of Properties class', function(){
+            expect(table.getPhantomCellStyles() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
@@ -75,8 +75,8 @@ describe('Table-related functionality:', function(){
             expect(stl.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Styles instance', function(){
-            var seed = new Styles();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
@@ -90,11 +90,11 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom row style setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomRowStyles(new TableRowStyles());
+            table.setPhantomRowStyles(new RowProperties());
         });
 
-        it('returns instance of Styles class', function(){
-            expect(table.getPhantomRowStyles() instanceof Styles).toBe(true);
+        it('returns instance of Properties class', function(){
+            expect(table.getPhantomRowStyles() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
@@ -111,8 +111,8 @@ describe('Table-related functionality:', function(){
             expect(stl.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Styles instance', function(){
-            var seed = new Styles();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('x', 4);
             seed.setProperty('z', 100.1);
@@ -126,10 +126,10 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom table styles setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomTableStyles(new TableStyles());
+            table.setPhantomTableStyles(new TableProperties());
         });
-        it('returns instance of Styles class', function(){
-            expect(table.getPhantomTableStyles() instanceof Styles).toBe(true);
+        it('returns instance of Properties class', function(){
+            expect(table.getPhantomTableStyles() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
@@ -146,8 +146,8 @@ describe('Table-related functionality:', function(){
             expect(stl.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Styles instance', function(){
-            var seed = new Styles();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
@@ -161,10 +161,10 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom cell attributes setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomCellAttributes(new Attributes());
+            table.setPhantomCellAttributes(new Properties());
         });
 
-        it('returns instance of Attributes class', function(){
+        it('returns instance of Properties class', function(){
             expect(table.getPhantomCellAttributes() instanceof Properties).toBe(true);
         });
 
@@ -182,8 +182,8 @@ describe('Table-related functionality:', function(){
             expect(attr.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Attributes instance', function(){
-            var seed = new Attributes();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
@@ -197,10 +197,10 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom row attributes setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomRowAttributes(new Attributes());
+            table.setPhantomRowAttributes(new Properties());
         });
-        it('returns instance of Attributes class', function(){
-            expect(table.getPhantomRowAttributes() instanceof Attributes).toBe(true);
+        it('returns instance of Properties class', function(){
+            expect(table.getPhantomRowAttributes() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
@@ -217,8 +217,8 @@ describe('Table-related functionality:', function(){
             expect(attr.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Attributes instance', function(){
-            var seed = new Attributes();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('x', 4);
             seed.setProperty('z', 100.1);
@@ -232,10 +232,10 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom table attributes setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomTableAttributes(new Attributes());
+            table.setPhantomTableAttributes(new Properties());
         });
-        it('returns instance of Attributes class', function(){
-            expect(table.getPhantomTableAttributes() instanceof Attributes).toBe(true);
+        it('returns instance of Properties class', function(){
+            expect(table.getPhantomTableAttributes() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
@@ -252,8 +252,8 @@ describe('Table-related functionality:', function(){
             expect(attr.getProperty('sky')).toBe('blue');
         });
 
-        it('sets the attributes of the the phantom cell if provided as a Attributes instance', function(){
-            var seed = new Attributes();
+        it('sets the attributes of the the phantom cell if provided as a Properties instance', function(){
+            var seed = new Properties();
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
@@ -1047,9 +1047,6 @@ describe('Table-related functionality:', function(){
             spyOn(tableAttr, 'toString').andCallFake(function(){
                 return '';
             });
-            spyOn(tableStyle, 'toString').andCallFake(function(){
-                return '';
-            });
             table.setProperties(tableAttr);
             tableAttr.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
@@ -1273,32 +1270,32 @@ describe('Table-related functionality:', function(){
         });
 
         it('gives true, if phantomTableAttributes is set', function(){
-            table.setPhantomTableAttributes(new Attributes());
+            table.setPhantomTableAttributes(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomTableStyle is set', function(){
-            table.setPhantomTableStyles(new Styles());
+            table.setPhantomTableStyles(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomCellAttributes is set', function(){
-            table.setPhantomCellAttributes(new Attributes());
+            table.setPhantomCellAttributes(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomCellStyles is set', function(){
-            table.setPhantomCellStyles(new Styles());
+            table.setPhantomCellStyles(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomRowAttr is set', function(){
-            table.setPhantomRowAttributes(new Attributes());
+            table.setPhantomRowAttributes(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomRowStyle is set', function(){
-            table.setPhantomRowAttributes(new Attributes());
+            table.setPhantomRowAttributes(new Properties());
             expect(table.isFramed()).toBe(true);
         });
     });
@@ -1309,8 +1306,8 @@ describe('Table-related functionality:', function(){
             phantomGetters = ['getPhantomTableStyles', 'getPhantomTableAttributes', 'getPhantomCellStyles',
                 'getPhantomCellAttributes', 'getPhantomRowStyles', 'getPhantomRowAttributes'];
             len = phantomGetters.length;
-            stl = new Styles();
-            attr = new Attributes();
+            stl = new Properties();
+            attr = new Properties();
         });
 
         afterEach(function(){

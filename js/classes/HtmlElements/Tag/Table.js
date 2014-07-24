@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Helper, TableProperties, Properties, Row, Tag, Content */
+/*global Properties, Cell, Helper, TableProperties, Properties, Row, Tag, Content */
 
 /**
 * Represents table.
@@ -253,7 +253,7 @@ function Table() {
 	/**
 	 * {{#crossLink "FramedTable/phantomCellAttributes:property"}}phantomCellAttributes{{/crossLink}} getter.
 	 * @method         getPhantomCellAttributes
-	 * @return         {Attributes}
+	 * @return         {Properties}
 	 */
 	this.getPhantomCellAttributes = function(){
 		if (phantomCell instanceof Cell){
@@ -287,7 +287,7 @@ function Table() {
 	/**
 	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} getter.
 	 * @method         getPhantomRowAttributes
-	 * @return         {Attributes}
+	 * @return         {Properties}
 	 */
 	this.getPhantomRowAttributes = function(){
 		if (phantomRow instanceof Row){
@@ -307,10 +307,10 @@ function Table() {
 		console.warn('Use setPhantomRowProperties instead');
 		if (attr !== undefined){
 			this.initPhantoms();
-			if (attr instanceof Attributes){
+			if (attr instanceof Properties){
 				phantomRow.setAttributes(attr);
 			} else {
-				phantomRow.setAttributes(new Attributes(attr));
+				phantomRow.setAttributes(new Properties(attr));
 			}
 		}
 	};
@@ -345,7 +345,7 @@ function Table() {
 	/**
 	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} getter.
 	 * @method         getPhantomTableAttributes
-	 * @return         {Attributes}
+	 * @return         {Properties}
 	 */
 	this.getPhantomTableAttributes = function(){
 		if (phantomTable instanceof Table){
@@ -366,10 +366,10 @@ function Table() {
 		if (prop !== undefined){
 			this.initPhantoms();
 			phantomTable.setProperties(prop);
-			// if (prop instanceof Attributes){
+			// if (prop instanceof Properties){
 			// 	phantomTable.setAttributes(prop);
 			// } else {
-			// 	phantomTable.setAttributes(new Attributes(prop));
+			// 	phantomTable.setAttributes(new Properties(prop));
 			// }
 		}
 	};
