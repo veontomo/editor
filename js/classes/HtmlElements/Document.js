@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER */
+/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER, Converter */
 
 /**
  * This class is to deal with documents: parsing, converting, saving.
@@ -32,9 +32,10 @@ function Document(node){
 	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsability is to convert
 	 * current instance into different formats.
 	 * @property       {Converter}          _converter
+	 * @default        Converter
 	 * @private
 	 */
-	var _converter;
+	var _converter = new Converter();
 
 	/**
 	 * Constructor.
@@ -172,7 +173,12 @@ function Document(node){
 	 * @return         {void}
 	 */
 	this.importToFixed = function(){
-		// for the moment this method has trivial action (i.e. no action).
+		var c = this.getConverter();
+		if (c){
+			var fixed = c.convertTo(this.getContent(), 'fixed');
+			this.setContent(fixed);
+
+		}
 	};
 
 
@@ -186,127 +192,135 @@ function Document(node){
 	 * @return         {void}
 	 */
 	this.importToFluid = function(){
-		// var rnd = parseInt(Math.random()*1000, 10);
-		// console.log(rnd, 'import started');
-		var n = this.getContent();
-		// console.log(rnd, 'content: ' + n.outerHTML);
-		var result = n.cloneNode(false),
-			parent,
-			width;
-		if (n.nodeType === Node.TEXT_NODE){
-			return result;
+		var c = this.getConverter();
+		if (c){
+			var fluid = c.convertTo(this.getContent(), 'fluid');
+			this.setContent(fluid);
+
 		}
-		parent = n.parent;
-		if (parent){
-			width = this.getElemWidth(parent);
-		}
-		if (!width){
-			width = new Unit(NEWSLETTER.maxWidth, 'px');
-		}
-		this.convertCurrentToFluid(width.getValue(), result);
-		var children = n.childNodes,
-			len = children.length,
-			i, childFluid, d;
-		for (i = 0; i < len; i++){
-			d = new Document(children.item(i));
-			d.importToFluid();
-			childFluid = d.getContent();
-			result.appendChild(childFluid);
-		}
-		// console.log(rnd, 'importToFluid: setting new content to ' + result.outerHTML);
-		this.setContent(result);
-		// console.log(rnd, 'setting new content: ' + result.outerHTML);
 	};
+	// this.importToFluid = function(){
+	// 	// var rnd = parseInt(Math.random()*1000, 10);
+	// 	// console.log(rnd, 'import started');
+	// 	var n = this.getContent();
+	// 	// console.log(rnd, 'content: ' + n.outerHTML);
+	// 	var result = n.cloneNode(false),
+	// 		parent,
+	// 		width;
+	// 	if (n.nodeType === Node.TEXT_NODE){
+	// 		return result;
+	// 	}
+	// 	parent = n.parent;
+	// 	if (parent){
+	// 		width = this.getElemWidth(parent);
+	// 	}
+	// 	if (!width){
+	// 		width = new Unit(NEWSLETTER.maxWidth, 'px');
+	// 	}
+	// 	this.convertCurrentToFluid(width.getValue(), result);
+	// 	var children = n.childNodes,
+	// 		len = children.length,
+	// 		i, childFluid, d;
+	// 	for (i = 0; i < len; i++){
+	// 		d = new Document(children.item(i));
+	// 		d.importToFluid();
+	// 		childFluid = d.getContent();
+	// 		result.appendChild(childFluid);
+	// 	}
+	// 	// console.log(rnd, 'importToFluid: setting new content to ' + result.outerHTML);
+	// 	this.setContent(result);
+	// 	// console.log(rnd, 'setting new content: ' + result.outerHTML);
+	// };
 
-	/**
-	 * Returns {{#crossLink "Unit"}}Unit{{/crossLink}} instance representing width of `node` which must
-	 * be a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.
-	 * If width can not be established, nothing is returned.
-	 * @method         getElemWidth
-	 * @param          {DOM.Node}              node
-	 * @return         {Unit|undefined}
-	 */
-	this.getElemWidth = function(node){
-		if (node.hasAttribute('width')){
-			return new Unit(node.getAttribute('width'));
-		}
-		var styles = node.style;
-		if (node.hasAttribute('style')){
-			if (styles.width){
-				return new Unit(node.getAttribute('width'));
-			}
-		}
+	// /**
+	//  * Returns {{#crossLink "Unit"}}Unit{{/crossLink}} instance representing width of `node` which must
+	//  * be a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.
+	//  * If width can not be established, nothing is returned.
+	//  * @method         getElemWidth
+	//  * @param          {DOM.Node}              node
+	//  * @return         {Unit|undefined}
+	//  */
+	// this.getElemWidth = function(node){
+	// 	if (node.hasAttribute('width')){
+	// 		return new Unit(node.getAttribute('width'));
+	// 	}
+	// 	var styles = node.style;
+	// 	if (node.hasAttribute('style')){
+	// 		if (styles.width){
+	// 			return new Unit(node.getAttribute('width'));
+	// 		}
+	// 	}
 
-	};
-
-
-	/**
-	 * Returns a copy of the argument in which properties are replaced by their relative equivalients.
-	 * @method         convertCurrentToFluid
-	 * @param          {Number}            scale          value of width in pixel with respect to which the relative sizes
-	 *                                                    are to be calculated
-	 * @param          {DOM.Element}       n
-	 * @return         {void}
-	 */
-	this.convertCurrentToFluid = function(scale, n){
-		var rnd = parseInt(Math.random()*1000, 10);
-		console.log(rnd, 'convertCurrentToFluid started');
-		console.log(rnd, 'content: ' + n.outerHTML);
-
-		var elem = FACTORY.factory.mimic(n),
-			props, propsFluid;
-		if (typeof elem.getProperties === 'function'){
-			props = elem.getProperties();
-			propsFluid = this.convertPropInFluid(scale, props);
-			propsFluid.decorateElement(n);
-		}
-		console.log(rnd, 'convertCurrentToFluid is over: ' + n.outerHTML);
-	};
+	// };
 
 
-	/**
-	 * Returns another {{#crossLink "Properties"}}Properties{{/crossLink}} instance in which
-	 * fixed units (that is, pixels) are replaced by their relative equivalents.
-	 *
-	 * Relative values are calculated on the base of parent width which must be provided and
-	 * must be given in pixels.
-	 * @method         convertPropInFluid
-	 * @param          {Number}        scale     parameter to setup the scale (in pixels) w.r.t. which the relative
-	 *                                           values are to be calculated.
-	 * @param          {Properties}    props     instance of Properties class
-	 * @return         {Properties}
-	 */
-	this.convertPropInFluid = function(scale, props){
-		if (typeof scale !== 'number'){
-			console.log(scale);
-			throw new Error('Scale parameter must be a number!');
-		}
-		if (!(props instanceof Properties)){
-			throw new Error('Please, provide a Properties class instance!');
-		}
+	// /**
+	//  * Returns a copy of the argument in which properties are replaced by their relative equivalients.
+	//  * @method         convertCurrentToFluid
+	//  * @param          {Number}            scale          value of width in pixel with respect to which the relative sizes
+	//  *                                                    are to be calculated
+	//  * @param          {DOM.Element}       n
+	//  * @return         {void}
+	//  */
+	// this.convertCurrentToFluid = function(scale, n){
+	// 	var rnd = parseInt(Math.random()*1000, 10);
+	// 	console.log(rnd, 'convertCurrentToFluid started');
+	// 	console.log(rnd, 'content: ' + n.outerHTML);
 
-		var result = props.clone(),
-			fluidAttrs = ['font-size', 'width', 'max-width', 'min-width', 'padding', 'margin'];
-		fluidAttrs.forEach(function(attr){
-			var width, widthRel;
-			if (result.hasProperty(attr)){
-				width = new Unit(result.getProperty(attr));
-				if (width.getMeasure() === 'px'){
-					widthRel = (width.getValue() / scale * 100) + '%';
-					result.setProperty(attr, widthRel);
-				}
-			}
-			if (result.hasStyleProperty(attr)){
-				width = new Unit(result.getStyleProperty(attr));
-				if (width.getMeasure() === 'px'){
-					widthRel = (width.getValue() / scale * 100) + '%';
-					result.setStyleProperty(attr, widthRel);
-				}
-			}
+	// 	var elem = FACTORY.factory.mimic(n),
+	// 		props, propsFluid;
+	// 	if (typeof elem.getProperties === 'function'){
+	// 		props = elem.getProperties();
+	// 		propsFluid = this.convertPropInFluid(scale, props);
+	// 		propsFluid.decorateElement(n);
+	// 	}
+	// 	console.log(rnd, 'convertCurrentToFluid is over: ' + n.outerHTML);
+	// };
 
-		});
-		return result;
-	};
+
+	// /**
+	//  * Returns another {{#crossLink "Properties"}}Properties{{/crossLink}} instance in which
+	//  * fixed units (that is, pixels) are replaced by their relative equivalents.
+	//  *
+	//  * Relative values are calculated on the base of parent width which must be provided and
+	//  * must be given in pixels.
+	//  * @method         convertPropInFluid
+	//  * @param          {Number}        scale     parameter to setup the scale (in pixels) w.r.t. which the relative
+	//  *                                           values are to be calculated.
+	//  * @param          {Properties}    props     instance of Properties class
+	//  * @return         {Properties}
+	//  */
+	// this.convertPropInFluid = function(scale, props){
+	// 	if (typeof scale !== 'number'){
+	// 		console.log(scale);
+	// 		throw new Error('Scale parameter must be a number!');
+	// 	}
+	// 	if (!(props instanceof Properties)){
+	// 		throw new Error('Please, provide a Properties class instance!');
+	// 	}
+
+	// 	var result = props.clone(),
+	// 		fluidAttrs = ['font-size', 'width', 'max-width', 'min-width', 'padding', 'margin'];
+	// 	fluidAttrs.forEach(function(attr){
+	// 		var width, widthRel;
+	// 		if (result.hasProperty(attr)){
+	// 			width = new Unit(result.getProperty(attr));
+	// 			if (width.getMeasure() === 'px'){
+	// 				widthRel = (width.getValue() / scale * 100) + '%';
+	// 				result.setProperty(attr, widthRel);
+	// 			}
+	// 		}
+	// 		if (result.hasStyleProperty(attr)){
+	// 			width = new Unit(result.getStyleProperty(attr));
+	// 			if (width.getMeasure() === 'px'){
+	// 				widthRel = (width.getValue() / scale * 100) + '%';
+	// 				result.setStyleProperty(attr, widthRel);
+	// 			}
+	// 		}
+
+	// 	});
+	// 	return result;
+	// };
 
 
 	/**
@@ -318,9 +332,13 @@ function Document(node){
 	this.convertTo = function(format){
 		var c = this.getConverter();
 		if (typeof c.convertTo === 'function'){
-			this.setContent(c.convertTo(this.getContent(), format));
+			var newContent = c.convertTo(this.getContent(), format);
+			if (newContent){
+				this.setContent(newContent);
+			}
+
 		}
-	}
+	};
 
 }
 

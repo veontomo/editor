@@ -29,13 +29,14 @@ var CDownload = {
 
 		doc = new Document(editorContent);
 		doc.clean();
-		if (isFluid){
-			// console.log('before import to fluid: ' + doc.getContent().innerHTML);
-			doc.importToFluid();
-			// console.log('after import to fluid: ' + doc.getContent().innerHTML);
-		} else {
-			doc.importToFixed();
-		}
+		doc.convertTo(isFluid ? 'fluid' : 'fixed');
+		// if (isFluid){
+		// 	console.log('before import to fluid: ' + doc.getContent().innerHTML);
+		// 	doc.importToFluid();
+		// 	console.log('after import to fluid: ' + doc.getContent().innerHTML);
+		// } else {
+		// 	doc.importToFixed();
+		// }
 		fileContent = doc.docHtml();
 
 		$.post('php/saveDraft.php',
