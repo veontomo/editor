@@ -308,5 +308,19 @@ function Document(node){
 		return result;
 	};
 
+
+	/**
+	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} into prescribed format.
+	 * @method         convertTo
+	 * @param          {String}             format
+	 * @return         {void}
+	 */
+	this.convertTo = function(format){
+		var c = this.getConverter();
+		if (typeof c.convertTo === 'function'){
+			this.setContent(c.convertTo(this.getContent(), format));
+		}
+	}
+
 }
 

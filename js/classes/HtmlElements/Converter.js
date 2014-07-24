@@ -16,5 +16,19 @@ function Converter(){
 	}
 
 
+
+	/**
+	 * Converts `content` in format `format`.
+	 * @param          {DOM.Node}           content
+	 * @param          {String}             format
+	 * @return         {DOM.Node}
+	 */
+	this.convertTo = function(content, format){
+
+	}
+
+
+
+
 }
 
