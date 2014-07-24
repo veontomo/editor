@@ -33,7 +33,6 @@ map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NOD
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, Image);
 map.setDefaultTarget(Tag);
 
-
 var FACTORY = {};
 // it is possible to use Factory methods to modify FACTORY.factory
 // but it is prohibited to remove Factory.factory attribute
@@ -41,3 +40,6 @@ Object.defineProperty(FACTORY, 'factory', {
 	value:    new Factory(map),
 	writable: false
 });
+
+// format dispatcher
+// var fd = new FormatDispatcher();
