@@ -70,7 +70,7 @@
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
 	<script type="text/javascript" src="js/classes/Helper/String.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Mapping.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/TagMapper.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
 

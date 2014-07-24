@@ -8,16 +8,16 @@
  * The idea is to have criteria on which decide what type of objects should be constructed.
  * This class is responsible for these criteria.
  * @module 	    HtmlElements
- * @class  		Mapping
+ * @class  		TagMapper
  * @constructor
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
  */
-function Mapping(){
+function TagMapper(){
 	"use strict";
-	if (!(this instanceof Mapping)) {
-		return new Mapping();
+	if (!(this instanceof TagMapper)) {
+		return new TagMapper();
 	}
 
 	/**
@@ -39,7 +39,7 @@ function Mapping(){
 	var defaultTarget = null;
 
 	/**
-	 * {{#crossLink "Mapping/defaultTarget:property"}}Default target{{/crossLink}} setter. Assigns only
+	 * {{#crossLink "TagMapper/defaultTarget:property"}}Default target{{/crossLink}} setter. Assigns only
 	 * if the argument is a function.
 	 * @method   setDefaultTarget
 	 * @param    {Function}     fun
@@ -52,7 +52,7 @@ function Mapping(){
 	};
 
 	/**
-	 * {{#crossLink "Mapping/defaultTarget:property"}}Default target{{/crossLink}} getter.
+	 * {{#crossLink "TagMapper/defaultTarget:property"}}Default target{{/crossLink}} getter.
 	 * @method   getDefaultTarget
 	 * @return   {Function|Null}
 	 */
@@ -64,10 +64,10 @@ function Mapping(){
 	/**
 	 * Forms an object {'criterion': crit, 'target': target} from the input and it it
 	 * turns out to be a valid mapping, then this mapping is
-	 * appended to {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
+	 * appended to {{#crossLink "TagMapper/mappings:property"}}mappings{{/crossLink}}
 	 * and the `true` is returned. Otherwise, `false` is returned.<br>
 	 * A mapping is a valid one if method
-	 * {{#crossLink "Mapping/isValidMapping:method"}}isValidMapping(){{/crossLink}} returns `true`.
+	 * {{#crossLink "TagMapper/isValidMapping:method"}}isValidMapping(){{/crossLink}} returns `true`.
 	 * @method    add
 	 * @param     {Function}         criterion
 	 * @param     {Function}         target
@@ -89,7 +89,7 @@ function Mapping(){
 	};
 
 	/**
-	 * Returns a copy of the {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}.
+	 * Returns a copy of the {{#crossLink "TagMapper/mappings:property"}}mappings{{/crossLink}}.
 	 * @method    getMappings
 	 * @return    {Array}
 	 */
@@ -111,7 +111,7 @@ function Mapping(){
 	};
 
 	/**
-	 * Reset {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}} to an empty array.
+	 * Reset {{#crossLink "TagMapper/mappings:property"}}mappings{{/crossLink}} to an empty array.
 	 * @method   flush
 	 * @return   {void}
 	 */
@@ -120,10 +120,10 @@ function Mapping(){
 	};
 
 	/**
-	 * Finds target for the argument. It parses array {{#crossLink "Mapping/mappings:property"}}mappings{{/crossLink}}
+	 * Finds target for the argument. It parses array {{#crossLink "TagMapper/mappings:property"}}mappings{{/crossLink}}
 	 * and calls `criterion` function of the array element. Value of `target` key of first `criterion` that returns
 	 * `true`, is returned. If not found,
-	 * {{#crossLink "Mapping/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned.
+	 * {{#crossLink "TagMapper/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned.
 	 * @method     findTargetFor
 	 * @param      {Any}           needle              this variable is to be given as input for `criterion` function
 	 *                                                 of each array of mappings.

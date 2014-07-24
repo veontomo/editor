@@ -15,6 +15,10 @@ function Converter(){
 		return new Converter();
 	}
 
+	/**
+	 * Dispatcher that decides what converter should be used.
+	 */
+	var _mapper;
 
 
 	/**

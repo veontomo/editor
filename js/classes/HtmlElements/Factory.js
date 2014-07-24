@@ -18,7 +18,7 @@
 function Factory(map){
 	"use strict";
 	if (!(this instanceof Factory)) {
-		return new Factory(mapping);
+		return new Factory(map);
 	}
 
 	/**
@@ -27,7 +27,7 @@ function Factory(map){
 	 * @private
 	 * @type           {Mapping}
 	 */
-	var mapping = (map instanceof Mapping) ? map : new Mapping();
+	var mapping = (map instanceof TagMapper) ? map : new TagMapper();
 
 	/**
 	 * {{#crossLink "Factory/mapping:property"}}Mapping{{/crossLink}} getter.

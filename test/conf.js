@@ -36,7 +36,7 @@ var path = require('path'),
 
 
     'HtmlElements/Dom.js',
-    'HtmlElements/Mapping.js',
+    'HtmlElements/TagMapper.js',
     'HtmlElements/Factory.js',
 
     'HtmlElements/PlainText.js',

@@ -21,7 +21,7 @@ Object.defineProperty(NEWSLETTER, 'customPluginDir', {
 
 
 // rules to be used when creating instances by means of Factory() class
-var map = new Mapping();
+var map = new TagMapper();
 map.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);
