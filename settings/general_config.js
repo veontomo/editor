@@ -21,25 +21,34 @@ Object.defineProperty(NEWSLETTER, 'customPluginDir', {
 
 
 // rules to be used when creating instances by means of Factory() class
-var map = new Mapper();
-map.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TR';}, Row);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'A';}, Link);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'LI';}, ListItem);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'OL';}, OList);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
-map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, Image);
-map.setDefaultTarget(Tag);
+var tagMapper = new Mapper();
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TR';}, Row);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'A';}, Link);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'LI';}, ListItem);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'OL';}, OList);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
+tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, Image);
+tagMapper.setDefaultTarget(Tag);
 
 var FACTORY = {};
 // it is possible to use Factory methods to modify FACTORY.factory
 // but it is prohibited to remove Factory.factory attribute
 Object.defineProperty(FACTORY, 'factory', {
-	value:    new Factory(map),
+	value:    new Factory(tagMapper),
 	writable: false
 });
 
-// format dispatcher
-// var fd = new FormatDispatcher();
+
+
+var formatMapper = new Mapper();
+formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fixed'}, ConverterFixed);
+formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fluid'}, ConverterFluid);
+
+var CONVERTERFACTORY = {};
+Object.defineProperty(CONVERTERFACTORY, 'factory', {
+	value:    new Factory(formatMapper),
+	writable: false
+});

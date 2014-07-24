@@ -1,85 +1,19 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER */
+/*global Properties, FACTORY, Unit, Node, NEWSLETTER*/
 
 /**
- * Methods of this class convert one format in another.
+ * Methods of this class converts into fluid format.
  * @module 	    HtmlElements
- * @class  		Converter
+ * @class  		ConverterFluid
  * @since       0.0.5
  * @author      A.Shcherbakov
  */
 
-function Converter(){
+function ConverterFluid(){
 	"use strict";
-	if (!(this instanceof Converter)) {
-		return new Converter();
+	if (!(this instanceof ConverterFluid)) {
+		return new ConverterFluid();
 	}
-
-	/**
-	 * Dispatcher that decides what converter should be used.
-	 * @property       {FormatMapper}       _mapper
-	 * @private
-	 */
-	var _mapper;
-
-
-	/**
-	 * Among all methods present in this class, finds one which name is equal to value of `name` (case insensitive).
-	 *
-	 * It gets names of all methods in the class, transforms them in lower case, then looks up for
-	 * lowered-case of `name` among them. Corrresponding method name of the first occurrence is returned.
-	 * @method         _findMostSimilarMethodName
-	 * @private
-	 * @param          {String}             name
-	 * @return         {String|void}
-	 */
-	var _findMostSimilarMethodName = function(name){
-		var allMethods = Object.getOwnPropertyNames(this),
-			nameLower = name.toLowerCase(),
-			len = allMethods.length, i;
-		for (i = 0; i < len; i++){
-			if (allMethods[i].toLowerCase() === nameLower){
-				return allMethods[i];
-			}
-		}
-	}.bind(this);
-
-
-	/**
-	 * Converts `content` in format `format`.
-	 *
-	 * In order to find appropriate method, argument `format` is prepended with string "convertTo"
-	 * and then it attemps to find a method inside this class that is equal to string "convertTo..."
-	 * (case insensitive). If such a method is found, then it gets executed and the result of its
-	 * action is returned.
-	 * @method         convertTo
-	 * @param          {DOM.Node}           content
-	 * @param          {String}             format
-	 * @return         {DOM.Node}
-	 */
-	this.convertTo = function(content, format){
-		if (typeof format ==='string'){
-			var methodName = 'convertTo' + format,
-				foundName = _findMostSimilarMethodName(methodName);
-			if (foundName && foundName !== 'convertTo'){ // compare to this method name in order
-														 // to avoid any self-call
-				return this[foundName](content);
-			}
-		}
-	};
-
-
-	/**
-	 * Converts `content` into fixed format. It means that all units of measure must be expressed in pixels.
-	 *
-	 * For the moment the action of this method is trivial.
-	 * @method         convertToFixed
-	 * @param          {DOM.Node}           content
-	 * @return         {DOM.Node}
-	 */
-	this.convertToFixed = function(content){
-		return content;
-	};
 
 	/**
 	 * Converts `content` into fluid format. It means that all units of measure must be expressed in relative units (in %).
@@ -87,7 +21,7 @@ function Converter(){
 	 * @param          {DOM.Node}           content
 	 * @return         {DOM.Node}
 	 */
-	this.convertToFluid = function(content){
+	this.convert = function(content){
 		// var rnd = parseInt(Math.random()*1000, 10);
 		// console.log(rnd, 'import started');
 		// var n = this.getContent();
@@ -113,7 +47,7 @@ function Converter(){
 			// d = new Document(children.item(i));
 			// .importToFluid();
 			// childFluid = d.getContent();
-			childFluid = this.convertToFluid(children.item(i));
+			childFluid = this.convert(children.item(i));
 			result.appendChild(childFluid);
 		}
 		// console.log(rnd, 'importToFluid: setting new content to ' + result.outerHTML);
@@ -214,6 +148,4 @@ function Converter(){
 
 
 
-
 }
-
