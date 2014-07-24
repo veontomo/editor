@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapping, Node, Image */
+/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper, Node, Image, CKEDITOR */
 var NEWSLETTER = {};
 Object.defineProperty(NEWSLETTER, 'maxWidth', {
 	value:    500,             // massima largezza di tabella
@@ -21,7 +21,7 @@ Object.defineProperty(NEWSLETTER, 'customPluginDir', {
 
 
 // rules to be used when creating instances by means of Factory() class
-var map = new TagMapper();
+var map = new Mapper();
 map.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
 map.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);

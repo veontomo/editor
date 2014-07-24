@@ -1,16 +1,16 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node */
+/*global Node, Mapper */
 
 /**
  * This class is to be used to create different objects. What type of object is to be created
- * is decided based on functionality of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class,
+ * is decided based on functionality of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class,
  * an instance of which might be passed as an argument.
  * instance.
  * @module 	           HtmlElements
  * @class  		       Factory
  * @constructor
- * @param              {TagMapper}            mapping          an instance of TagMapper class
+ * @param              {Mapper}            map          an instance of Mapper class
  * @since              0.0.2
  * @author             A.Shcherbakov
  *
@@ -22,49 +22,49 @@ function Factory(map){
 	}
 
 	/**
-	 * An instance of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class.
-	 * @property       mapping
+	 * An instance of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class.
+	 * @property       _mapping
 	 * @private
-	 * @type           {TagMapper}
+	 * @type           {Mapper}
 	 */
-	var mapping = (map instanceof TagMapper) ? map : new TagMapper();
+	var _mapping = (map instanceof Mapper) ? map : new Mapper();
 
 	/**
-	 * {{#crossLink "Factory/mapping:property"}}TagMapper{{/crossLink}} getter.
+	 * {{#crossLink "Factory/_mapping:property"}}Mapper{{/crossLink}} getter.
 	 * @method         getMapping
-	 * @return         {TagMapper}
+	 * @return         {Mapper}
 	 */
 	this.getMapping = function(){
-		return mapping;
+		return _mapping;
 	};
 
 	/**
-	 * {{#crossLink "Factory/mapping:property"}}TagMapper{{/crossLink}} setter. Returns `true`
-	 * if the argument is an instance of {{#crossLink "TagMapper"}}TagMapper{{/crossLink}} class and
+	 * {{#crossLink "Factory/_mapping:property"}}Mapper{{/crossLink}} setter. Returns `true`
+	 * if the argument is an instance of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class and
 	 * `false` otherwise.
 	 * @method         setMapping
 	 * @return         {Boolean}
 	 */
 	this.setMapping = function(map){
-		var isMap = map instanceof TagMapper;
+		var isMap = map instanceof Mapper;
 		if (isMap){
-			mapping = map;
+			_mapping = map;
 		}
 		return isMap;
-	}
+	};
 
 	/**
 	 * Creates a class instance corresponding to the argument. The decision is to be taken
-	 * based on the {{#crossLink "TagMapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
-	 * of {{#crossLink "Factory/mapping:method"}}mapping{{/crossLink}} property.
+	 * based on the {{#crossLink "Mapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
+	 * of {{#crossLink "Factory/_mapping:method"}}_mapping{{/crossLink}} property.
 	 * @method         stub
 	 * @param          {Any}                obj
 	 * @return         {Object|Null}
 	 */
 	this.stub = function(obj){
-		var map = this.getMapping();
-		if (map){
-			var TargetClass = map.findTargetFor(obj);
+		var m = this.getMapping();
+		if (m){
+			var TargetClass = m.findTargetFor(obj);
 			if (typeof TargetClass === 'function'){
 				return new TargetClass();
 			}
@@ -88,7 +88,6 @@ function Factory(map){
 		}
 		// console.info(rnd, 'Factory::mimic argument = ', obj);
 		return stub;
-
-	}
+	};
 
 }

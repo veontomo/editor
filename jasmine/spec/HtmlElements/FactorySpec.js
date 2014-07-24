@@ -1,11 +1,11 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, it, expect, spyOn, beforeEach, Factory, TagMapper*/
+/*global describe, it, it, expect, spyOn, beforeEach, Factory, Mapper*/
 
 describe('Factory-related functionality', function(){
     var f, mapping;
     beforeEach(function(){
         f = new Factory();
-        mapping = new TagMapper();
+        mapping = new Mapper();
     });
 
     describe('Factory construction', function(){
@@ -13,15 +13,15 @@ describe('Factory-related functionality', function(){
             f = Factory();
             expect(f instanceof Factory).toBe(true);
         });
-        it('imposes mapping to be TagMapper instance if no argument is provided', function(){
+        it('imposes mapping to be Mapper instance if no argument is provided', function(){
             f = new Factory();
-            expect(f.getMapping() instanceof TagMapper).toBe(true);
+            expect(f.getMapping() instanceof Mapper).toBe(true);
         });
 
-        it('imposes TagMapper instance if passed as argument', function(){
+        it('imposes Mapper instance if passed as argument', function(){
             f = new Factory(mapping);
             expect(f.getMapping()).toBe(mapping);
-            expect(f.getMapping() instanceof TagMapper).toBe(true);
+            expect(f.getMapping() instanceof Mapper).toBe(true);
         });
 
 
@@ -30,17 +30,17 @@ describe('Factory-related functionality', function(){
             invalids.forEach(function(invalid){
                 f = new Factory(invalid);
                 expect(f.getMapping()).not.toBe(invalid);
-                expect(f.getMapping() instanceof TagMapper).toBe(true);
+                expect(f.getMapping() instanceof Mapper).toBe(true);
             });
         });
 
         describe('Factory::mapping: setter and getter', function(){
-            it('sets mapping if it is a TagMapper class instance', function(){
+            it('sets mapping if it is a Mapper class instance', function(){
                 f.setMapping(mapping);
                 expect(f.getMapping()).toBe(mapping);
             });
 
-            it('returns true, if the argument is a TagMapper class instance', function(){
+            it('returns true, if the argument is a Mapper class instance', function(){
                 expect(f.setMapping(mapping)).toBe(true);
             });
 

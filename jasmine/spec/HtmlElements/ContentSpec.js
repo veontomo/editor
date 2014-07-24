@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine,
 	Content, Link, Ulist, Factory, Tag, Table, ListItem, OList, UList,
-	Cell, Row, Registry, PlainText, TagMapper, Node, window */
+	Cell, Row, Registry, PlainText, Mapper, Node, window */
 
 describe('Content-related functionality', function(){
 	var c;
@@ -645,7 +645,7 @@ describe('Content-related functionality', function(){
 	describe('Content::load(): loads the content' , function(){
 		var root, e0, t1, e2, e3, t4, e00, e01, e20,
 			e30, e31, e32, t33, t001, e200, e310, t320,
-			map = new TagMapper();
+			map = new Mapper();
 		//                    root
 		//      ________________|_____________
 		//     |      |      |         |      |

@@ -17,6 +17,8 @@ function Converter(){
 
 	/**
 	 * Dispatcher that decides what converter should be used.
+	 * @property       {FormatMapper}       _mapper
+	 * @private
 	 */
 	var _mapper;
 
