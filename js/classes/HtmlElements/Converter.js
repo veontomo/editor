@@ -18,11 +18,12 @@ function Converter(){
 
 
 	/**
-	 * Finds a method among all methods present in this class that is most simlar to `name`.
+	 * Among all methods present in this class, finds one which name is equal to value of `name` (case insensitive).
 	 *
 	 * It gets names of all methods in the class, transforms them in lower case, then looks up for
-	 * lowered-case of `fname` among them. Corrresponding method name of the first occurrence is returned.
+	 * lowered-case of `name` among them. Corrresponding method name of the first occurrence is returned.
 	 * @method         _findMostSimilarMethodName
+	 * @private
 	 * @param          {String}             name
 	 * @return         {String|void}
 	 */

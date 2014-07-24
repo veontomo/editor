@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
                 <li><a href="../classes/CTable.html">CTable</a></li>
             
                 <li><a href="../classes/Document.html">Document</a></li>
@@ -209,11 +211,19 @@ var CDownload = {
 		var fileName = context.getValueOf(&#x27;tab-general&#x27;, &#x27;filename&#x27;),
 			isFluid = context.getValueOf(&#x27;tab-general&#x27;, &#x27;mode&#x27;),
 			editorContent = editor.document.getBody().$,
-			fileContent, sanitizedContent;
+			fileContent, sanitizedContent, doc;
 
-		sanitizedContent = Document.clean(editorContent);
-		fileContent = isFluid ? Document.importToFluid(sanitizedContent) : Document.importToFixed(sanitizedContent);
-		fileContent = Document.docHtml(fileContent);
+		doc = new Document(editorContent);
+		doc.clean();
+		doc.convertTo(isFluid ? &#x27;fluid&#x27; : &#x27;fixed&#x27;);
+		// if (isFluid){
+		// 	console.log(&#x27;before import to fluid: &#x27; + doc.getContent().innerHTML);
+		// 	doc.importToFluid();
+		// 	console.log(&#x27;after import to fluid: &#x27; + doc.getContent().innerHTML);
+		// } else {
+		// 	doc.importToFixed();
+		// }
+		fileContent = doc.docHtml();
 
 		$.post(&#x27;php/saveDraft.php&#x27;,
 			{&#x27;data&#x27;: fileContent, &#x27;filename&#x27;: fileName},

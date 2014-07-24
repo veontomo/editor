@@ -127,6 +127,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "js\\classes\\HtmlElements\\Converter.js": {
+            "name": "js\\classes\\HtmlElements\\Converter.js",
+            "modules": {},
+            "classes": {
+                "Converter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "js\\classes\\HtmlElements\\Document.js": {
             "name": "js\\classes\\HtmlElements\\Document.js",
             "modules": {},
@@ -479,6 +488,7 @@
                 "Table": 1,
                 "UList": 1,
                 "Content": 1,
+                "Converter": 1,
                 "Document": 1,
                 "Dom": 1,
                 "Factory": 1,
@@ -758,6 +768,20 @@
             "file": "js\\classes\\HtmlElements\\Content.js",
             "line": 5,
             "description": "This class is used to encompass other objects."
+        },
+        "Converter": {
+            "name": "Converter",
+            "shortname": "Converter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "HtmlElements",
+            "namespace": "",
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 4,
+            "description": "Methods of this class convert one format in another."
         },
         "Document": {
             "name": "Document",
@@ -4095,6 +4119,163 @@
             "module": "HtmlElements"
         },
         {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 20,
+            "description": "Among all methods present in this class, finds one which name is equal to value of `name` (case insensitive).\n\nIt gets names of all methods in the class, transforms them in lower case, then looks up for\nlowered-case of `name` among them. Corrresponding method name of the first occurrence is returned.",
+            "itemtype": "method",
+            "name": "_findMostSimilarMethodName",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String|void"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 42,
+            "description": "Converts `content` in format `format`.\n\nIn order to find appropriate method, argument `format` is prepended with string \"convertTo\"\nand then it attemps to find a method inside this class that is equal to string \"convertTo...\"\n(case insensitive). If such a method is found, then it gets executed and the result of its\naction is returned.",
+            "itemtype": "method",
+            "name": "convertTo",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "format",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 66,
+            "description": "Converts `content` into fixed format. It means that all units of measure must be expressed in pixels.\n\nFor the moment the action of this method is trivial.",
+            "itemtype": "method",
+            "name": "convertToFixed",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 78,
+            "description": "Converts `content` into fluid format. It means that all units of measure must be expressed in relative units (in %).",
+            "itemtype": "method",
+            "name": "convertToFluid",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 119,
+            "description": "Returns {{#crossLink \"Unit\"}}Unit{{/crossLink}} instance representing width of `node` which must\nbe a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.\nIf width can not be established, nothing is returned.",
+            "itemtype": "method",
+            "name": "getElemWidth",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "",
+                    "type": "DOM.Node"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit|undefined"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 141,
+            "description": "Returns a copy of the argument in which properties are replaced by their relative equivalients.",
+            "itemtype": "method",
+            "name": "convertCurrentToFluid",
+            "params": [
+                {
+                    "name": "scale",
+                    "description": "value of width in pixel with respect to which the relative sizes\n                                                   are to be calculated",
+                    "type": "Number"
+                },
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "DOM.Element"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Converter.js",
+            "line": 165,
+            "description": "Returns another {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance in which\nfixed units (that is, pixels) are replaced by their relative equivalents.\n\nRelative values are calculated on the base of parent width which must be provided and\nmust be given in pixels.",
+            "itemtype": "method",
+            "name": "convertPropInFluid",
+            "params": [
+                {
+                    "name": "scale",
+                    "description": "parameter to setup the scale (in pixels) w.r.t. which the relative\n                                          values are to be calculated.",
+                    "type": "Number"
+                },
+                {
+                    "name": "props",
+                    "description": "instance of Properties class",
+                    "type": "Properties"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Properties"
+            },
+            "class": "Converter",
+            "module": "HtmlElements"
+        },
+        {
             "file": "js\\classes\\HtmlElements\\Document.js",
             "line": 21,
             "description": "Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing\nthe content of the class instance.",
@@ -4108,8 +4289,21 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 30,
-            "description": "Constructor.\n\nSets {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} to `node` if it is\nan instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) (in fact,\nit is just checked whether the argument has `typeNode` property).",
+            "line": 31,
+            "description": "Instance of {{#crossLink \"Converter\"}}Converter{{/crossLink}}. Its responsability is to convert\ncurrent instance into different formats.",
+            "itemtype": "property",
+            "name": "_converter",
+            "type": "Converter",
+            "default": "Converter",
+            "access": "private",
+            "tagname": "",
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 40,
+            "description": "Constructor.\n\nSets {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} to be equal to `node`\nif it is an instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)\n(in fact, it is enough that `node` has `typeNode` property).",
             "itemtype": "method",
             "name": "constructor",
             "params": [
@@ -4124,7 +4318,40 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 52,
+            "line": 53,
+            "description": "{{#crossLink \"Document/_converter:property\"}}_converter{{/crossLink}} setter. Supposed to be an\ninstance of {{#crossLink \"Converter\"}}Converter{{/crossLink}} though no validation control is\nperformed.",
+            "itemtype": "method",
+            "name": "setConverter",
+            "params": [
+                {
+                    "name": "c",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 65,
+            "description": "{{#crossLink \"Document/_converter:property\"}}_converter{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getConverter",
+            "return": {
+                "description": "Supposed to be an instance of\n                                     {{#crossLink \"Converter\"}}Converter{{/crossLink}}",
+                "type": "Any"
+            },
+            "class": "Document",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Document.js",
+            "line": 76,
             "description": "Returns \"deep\" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}. If it is not set, nothing\nis returned",
             "itemtype": "method",
             "name": "getContent",
@@ -4137,13 +4364,13 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 65,
+            "line": 89,
             "description": "{{#crossLink \"Unit/_content:property\"}}_content{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setContent",
             "params": [
                 {
-                    "name": "node",
+                    "name": "n",
                     "description": "",
                     "type": "DOM.Node"
                 }
@@ -4153,7 +4380,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 76,
+            "line": 100,
             "description": "Removes specified attributes and properties from\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}\nIt first creates a \"shallow\" (without children) copy of the argument and applies\n{{#crossLink \"Document/cleanCurrent:method\"}}cleanCurrent{{/crossLink}} method\nto remove attributes from the argument. Then, consider each child of the argument\nand applies {{#crossLink \"Document/clean:method\"}}clean{{/crossLink}} method to them\nand append the result to the shallow copy.",
             "itemtype": "method",
             "name": "clean",
@@ -4166,7 +4393,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 105,
+            "line": 129,
             "description": "Removes class and id attributes from the current node without affecting child nodes.\nIf the node is a not an element node, then nothing is performed upon it.",
             "itemtype": "method",
             "name": "cleanRoot",
@@ -4186,17 +4413,10 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 123,
+            "line": 147,
             "description": "Creates a valid html document whose body is given by string `content`.\n\n**NB**: it uses css of the editor content body.",
             "itemtype": "method",
             "name": "docHtml",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "",
-                    "type": "DOM.Element"
-                }
-            ],
             "return": {
                 "description": "content of html document",
                 "type": "String"
@@ -4206,7 +4426,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 143,
+            "line": 168,
             "description": "Converts document into fixed format (not fluid).\n\nIt means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).",
             "itemtype": "method",
             "name": "importToFixed",
@@ -4219,7 +4439,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 155,
+            "line": 185,
             "description": "Converts {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} attributes into relative units.\n\nIt means that all allowed measures are expressed in percentage or other relative units (like em, pt).\nNote that not all html attributes can be expressed in relative units: i.e. obsolete parameters\n\"cellspacing\", \"cellpadding\", \"border\" etc.",
             "itemtype": "method",
             "name": "importToFluid",
@@ -4232,70 +4452,20 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 192,
-            "description": "Returns {{#crossLink \"Unit\"}}Unit{{/crossLink}} instance representing width of `node` which must\nbe a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.\nIf width can not be established, nothing is returned.",
+            "line": 202,
+            "description": "Converts {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} into prescribed format.",
             "itemtype": "method",
-            "name": "getElemWidth",
+            "name": "convertTo",
             "params": [
                 {
-                    "name": "node",
+                    "name": "format",
                     "description": "",
-                    "type": "DOM.Node"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Unit|undefined"
-            },
-            "class": "Document",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 214,
-            "description": "Returns a copy of the argument in which properties are replaced by their relative equivalients.",
-            "itemtype": "method",
-            "name": "convertCurrentToFluid",
-            "params": [
-                {
-                    "name": "scale",
-                    "description": "value of width in pixel with respect to which the relative sizes\n                                                   are to be calculated",
-                    "type": "Number"
-                },
-                {
-                    "name": "node",
-                    "description": "",
-                    "type": "DOM.Element"
+                    "type": "String"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
-            },
-            "class": "Document",
-            "module": "HtmlElements"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 233,
-            "description": "Returns another {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance in which\nfixed units (that is, pixels) are replaced by their relative equivalents.\n\nRelative values are calculated on the base of parent width which must be provided and\nmust be given in pixels.",
-            "itemtype": "method",
-            "name": "convertPropInFluid",
-            "params": [
-                {
-                    "name": "scale",
-                    "description": "parameter to setup the scale (in pixels) w.r.t. which the relative\n                                          values are to be calculated.",
-                    "type": "Number"
-                },
-                {
-                    "name": "props",
-                    "description": "instance of Properties class",
-                    "type": "Properties"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Properties"
             },
             "class": "Document",
             "module": "HtmlElements"
@@ -8413,7 +8583,7 @@
         },
         {
             "file": "js\\controllers\\CDownload.js",
-            "line": 42,
+            "line": 50,
             "description": "Appends time stamp string to the argument.",
             "itemtype": "method",
             "name": "appendTimeStamp",

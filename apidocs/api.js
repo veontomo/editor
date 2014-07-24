@@ -10,6 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Cell",
         "CellProperties",
         "Content",
+        "Converter",
         "Document",
         "Dom",
         "Factory",

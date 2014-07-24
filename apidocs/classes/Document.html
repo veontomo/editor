@@ -57,6 +57,8 @@
             
                 <li><a href="../classes/Content.html">Content</a></li>
             
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
                 <li><a href="../classes/CTable.html">CTable</a></li>
             
                 <li><a href="../classes/Document.html">Document</a></li>
@@ -254,14 +256,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_convertCurrentToFluid">convertCurrentToFluid</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_convertPropInFluid">convertPropInFluid</a>
+                                <a href="#method_convertTo">convertTo</a>
 
                                 
                                 
@@ -282,7 +277,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getElemWidth">getElemWidth</a>
+                                <a href="#method_getConverter">getConverter</a>
 
                                 
                                 
@@ -309,6 +304,13 @@
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_setConverter">setConverter</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -321,6 +323,13 @@
                         
                             <li class="index-item property private">
                                 <a href="#property__content">_content</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__converter">_converter</a>
 
                                 
                                 
@@ -376,7 +385,7 @@
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l76"><code>js\classes\HtmlElements\Document.js:76</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l100"><code>js\classes\HtmlElements\Document.js:100</code></a>
         
         </p>
 
@@ -463,7 +472,7 @@ and append the result to the shallow copy.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l105"><code>js\classes\HtmlElements\Document.js:105</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l129"><code>js\classes\HtmlElements\Document.js:129</code></a>
         
         </p>
 
@@ -564,7 +573,7 @@ If the node is a not an element node, then nothing is performed upon it.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l30"><code>js\classes\HtmlElements\Document.js:30</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l40"><code>js\classes\HtmlElements\Document.js:40</code></a>
         
         </p>
 
@@ -576,9 +585,9 @@ If the node is a not an element node, then nothing is performed upon it.</p>
 
     <div class="description">
         <p>Constructor.</p>
-<p>Sets <a href="../classes/Document.html#property__content" class="crosslink">_content</a> to <code>node</code> if it is
-an instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">DOM.Node</a> (in fact,
-it is just checked whether the argument has <code>typeNode</code> property).</p>
+<p>Sets <a href="../classes/Document.html#property__content" class="crosslink">_content</a> to be equal to <code>node</code>
+if it is an instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">DOM.Node</a>
+(in fact, it is enough that <code>node</code> has <code>typeNode</code> property).</p>
 
     </div>
 
@@ -613,8 +622,8 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
 </div>
 
                 
-                    <div id="method_convertCurrentToFluid" class="method item">
-    <h3 class="name"><code>convertCurrentToFluid</code></h3>
+                    <div id="method_convertTo" class="method item">
+    <h3 class="name"><code>convertTo</code></h3>
 
     
         <div class="args">
@@ -622,13 +631,7 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
             
                 <li class="arg">
                     
-                        <code>scale</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>node</code>
+                        <code>format</code>
                     
                 </li>
             
@@ -665,7 +668,7 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l214"><code>js\classes\HtmlElements\Document.js:214</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l202"><code>js\classes\HtmlElements\Document.js:202</code></a>
         
         </p>
 
@@ -676,7 +679,7 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
     </div>
 
     <div class="description">
-        <p>Returns a copy of the argument in which properties are replaced by their relative equivalients.</p>
+        <p>Converts <a href="../classes/Document.html#property__content" class="crosslink">_content</a> into prescribed format.</p>
 
     </div>
 
@@ -688,25 +691,8 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
             
                 <li class="param">
                     
-                        <code class="param-name">scale</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>value of width in pixel with respect to which the relative sizes
-                                                   are to be calculated</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
+                        <code class="param-name">format</code>
+                        <span class="type">String</span>
                     
 
                     
@@ -740,152 +726,11 @@ it is just checked whether the argument has <code>typeNode</code> property).</p>
 </div>
 
                 
-                    <div id="method_convertPropInFluid" class="method item">
-    <h3 class="name"><code>convertPropInFluid</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>scale</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>props</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l233"><code>js\classes\HtmlElements\Document.js:233</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns another <a href="../classes/Properties.html" class="crosslink">Properties</a> instance in which
-fixed units (that is, pixels) are replaced by their relative equivalents.</p>
-<p>Relative values are calculated on the base of parent width which must be provided and
-must be given in pixels.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">scale</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>parameter to setup the scale (in pixels) w.r.t. which the relative
-                                          values are to be calculated.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">props</code>
-                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>instance of Properties class</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Properties.html" class="crosslink">Properties</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_docHtml" class="method item">
     <h3 class="name"><code>docHtml</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>node</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
@@ -917,7 +762,7 @@ must be given in pixels.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l123"><code>js\classes\HtmlElements\Document.js:123</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l147"><code>js\classes\HtmlElements\Document.js:147</code></a>
         
         </p>
 
@@ -933,29 +778,6 @@ must be given in pixels.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">node</code>
-                        <span class="type">DOM.Element</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1014,7 +836,7 @@ must be given in pixels.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l52"><code>js\classes\HtmlElements\Document.js:52</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l76"><code>js\classes\HtmlElements\Document.js:76</code></a>
         
         </p>
 
@@ -1051,26 +873,16 @@ is returned</p>
 </div>
 
                 
-                    <div id="method_getElemWidth" class="method item">
-    <h3 class="name"><code>getElemWidth</code></h3>
+                    <div id="method_getConverter" class="method item">
+    <h3 class="name"><code>getConverter</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>node</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
     
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | Undefined</span>
+            <span class="type">Any</span>
         </span>
     
 
@@ -1097,7 +909,7 @@ is returned</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l192"><code>js\classes\HtmlElements\Document.js:192</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l65"><code>js\classes\HtmlElements\Document.js:65</code></a>
         
         </p>
 
@@ -1108,35 +920,10 @@ is returned</p>
     </div>
 
     <div class="description">
-        <p>Returns <a href="../classes/Unit.html" class="crosslink">Unit</a> instance representing width of <code>node</code> which must
-be a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance.
-If width can not be established, nothing is returned.</p>
+        <p><a href="../classes/Document.html#property__converter" class="crosslink">_converter</a> getter.</p>
 
     </div>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">node</code>
-                        <span class="type">DOM.Node</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1146,8 +933,11 @@ If width can not be established, nothing is returned.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | Undefined</span>:
+                        <span class="type">Any</span>:
                     
+                    <p>Supposed to be an instance of
+                                     <a href="../classes/Converter.html" class="crosslink">Converter</a></p>
+
                 
             </div>
         </div>
@@ -1193,7 +983,7 @@ If width can not be established, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l143"><code>js\classes\HtmlElements\Document.js:143</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l168"><code>js\classes\HtmlElements\Document.js:168</code></a>
         
         </p>
 
@@ -1265,7 +1055,7 @@ If width can not be established, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l155"><code>js\classes\HtmlElements\Document.js:155</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l185"><code>js\classes\HtmlElements\Document.js:185</code></a>
         
         </p>
 
@@ -1312,7 +1102,7 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
             
                 <li class="arg">
                     
-                        <code>node</code>
+                        <code>n</code>
                     
                 </li>
             
@@ -1345,7 +1135,7 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
             
         
         
-        <a href="../files/js_classes_HtmlElements_Document.js.html#l65"><code>js\classes\HtmlElements\Document.js:65</code></a>
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l89"><code>js\classes\HtmlElements\Document.js:89</code></a>
         
         </p>
 
@@ -1368,7 +1158,7 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
             
                 <li class="param">
                     
-                        <code class="param-name">node</code>
+                        <code class="param-name">n</code>
                         <span class="type">DOM.Node</span>
                     
 
@@ -1385,6 +1175,112 @@ Note that not all html attributes can be expressed in relative units: i.e. obsol
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_setConverter" class="method item">
+    <h3 class="name"><code>setConverter</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>c</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l53"><code>js\classes\HtmlElements\Document.js:53</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p><a href="../classes/Document.html#property__converter" class="crosslink">_converter</a> setter. Supposed to be an
+instance of <a href="../classes/Converter.html" class="crosslink">Converter</a> though no validation control is
+performed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">c</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
     
 
     
@@ -1439,6 +1335,56 @@ the content of the class instance.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__converter" class="property item private">
+    <h3 class="name"><code>_converter</code></h3>
+    <span class="type"><a href="../classes/Converter.html" class="crosslink">Converter</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_classes_HtmlElements_Document.js.html#l31"><code>js\classes\HtmlElements\Document.js:31</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Instance of <a href="../classes/Converter.html" class="crosslink">Converter</a>. Its responsability is to convert
+current instance into different formats.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> Converter</p>
     
 
     
