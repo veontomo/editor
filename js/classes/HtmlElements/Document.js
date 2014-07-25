@@ -72,6 +72,17 @@ function Document(node){
 		return _converter;
 	};
 
+	/**
+	 * Sets {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}} of
+	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}}.
+	 * Alias for {{#crossLink "Converter/setMapper:method"}}setMapper{{/crossLink}} method.
+	 * @method         setMapper
+	 * @param          {void}               m
+	 */
+	this.setMapper = function(m){
+		_converter.setMapper(m);
+	}
+
 
 	/**
 	 * Returns "deep" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
@@ -87,7 +98,7 @@ function Document(node){
 	};
 
 	/**
-	 * {{#crossLink "Unit/_content:property"}}_content{{/crossLink}} setter.
+	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}} setter.
 	 * @method         setContent
 	 * @param          {DOM.Node}           n
 	 */
@@ -206,6 +217,7 @@ function Document(node){
 	 * @return         {void}
 	 */
 	this.convertTo = function(format){
+		console.log('Document::convertTo is called with argument ' + format);
 		var c = this.getConverter();
 		if (typeof c.convertTo === 'function'){
 			var newContent = c.convertTo(this.getContent(), format);

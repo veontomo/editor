@@ -22,10 +22,6 @@ function ConverterFluid(){
 	 * @return         {DOM.Node}
 	 */
 	this.convert = function(content){
-		// var rnd = parseInt(Math.random()*1000, 10);
-		// console.log(rnd, 'import started');
-		// var n = this.getContent();
-		// console.log(rnd, 'content: ' + n.outerHTML);
 		var result = content.cloneNode(false),
 			parent,
 			width;
@@ -44,16 +40,10 @@ function ConverterFluid(){
 			len = children.length,
 			i, childFluid;
 		for (i = 0; i < len; i++){
-			// d = new Document(children.item(i));
-			// .importToFluid();
-			// childFluid = d.getContent();
 			childFluid = this.convert(children.item(i));
 			result.appendChild(childFluid);
 		}
-		// console.log(rnd, 'importToFluid: setting new content to ' + result.outerHTML);
-		// this.setContent(result);
 		return result;
-		// console.log(rnd, 'setting new content: ' + result.outerHTML);
 	};
 
 	/**

@@ -1,5 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper, Node, Image, CKEDITOR */
+/*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper, Node, Image, CKEDITOR,
+ConverterFixed, ConverterFluid */
 var NEWSLETTER = {};
 Object.defineProperty(NEWSLETTER, 'maxWidth', {
 	value:    500,             // massima largezza di tabella
@@ -44,11 +45,11 @@ Object.defineProperty(FACTORY, 'factory', {
 
 
 var formatMapper = new Mapper();
-formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fixed'}, ConverterFixed);
-formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fluid'}, ConverterFluid);
+formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fixed';}, ConverterFixed);
+formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fluid';}, ConverterFluid);
 
-var CONVERTERFACTORY = {};
-Object.defineProperty(CONVERTERFACTORY, 'factory', {
-	value:    new Factory(formatMapper),
+var FORMATMAPPER = {};
+Object.defineProperty(FORMATMAPPER, 'mapper', {
+	value:    formatMapper,
 	writable: false
 });

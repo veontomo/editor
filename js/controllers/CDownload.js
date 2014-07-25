@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, location, Document */
+/*global CKEDITOR, location, Document, FORMATMAPPER */
 
 /**
  * Download Controller.
@@ -25,24 +25,18 @@ var CDownload = {
 		var fileName = context.getValueOf('tab-general', 'filename'),
 			isFluid = context.getValueOf('tab-general', 'mode'),
 			editorContent = editor.document.getBody().$,
-			fileContent, sanitizedContent, doc;
+			fileContent, doc;
 
 		doc = new Document(editorContent);
+		doc.setMapper(FORMATMAPPER.mapper);
 		doc.clean();
 		doc.convertTo(isFluid ? 'fluid' : 'fixed');
-		// if (isFluid){
-		// 	console.log('before import to fluid: ' + doc.getContent().innerHTML);
-		// 	doc.importToFluid();
-		// 	console.log('after import to fluid: ' + doc.getContent().innerHTML);
-		// } else {
-		// 	doc.importToFixed();
-		// }
 		fileContent = doc.docHtml();
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},
 				function(filename){
-					// $(location).attr('href', 'php/downloadFile.php?filename=' + filename);
+					$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
 			}
 		);
 	},

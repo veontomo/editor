@@ -35,7 +35,7 @@ function Converter(map){
 
 	/**
 	 * {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}} setter.
-	 * @method         getMapper
+	 * @method         setMapper
 	 * @param          {Mapper}
 	 */
 	this.setMapper = function(m){
@@ -43,29 +43,6 @@ function Converter(map){
 			_mapper = m;
 		}
 	};
-
-
-
-	/**
-	 * Among all methods present in this class, finds one which name is equal to value of `name` (case insensitive).
-	 *
-	 * It gets names of all methods in the class, transforms them in lower case, then looks up for
-	 * lowered-case of `name` among them. Corrresponding method name of the first occurrence is returned.
-	 * @method         _findMostSimilarMethodName
-	 * @private
-	 * @param          {String}             name
-	 * @return         {String|void}
-	 */
-	// var _findMostSimilarMethodName = function(name){
-	// 	var allMethods = Object.getOwnPropertyNames(this),
-	// 		nameLower = name.toLowerCase(),
-	// 		len = allMethods.length, i;
-	// 	for (i = 0; i < len; i++){
-	// 		if (allMethods[i].toLowerCase() === nameLower){
-	// 			return allMethods[i];
-	// 		}
-	// 	}
-	// }.bind(this);
 
 
 	/**
