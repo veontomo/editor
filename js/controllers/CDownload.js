@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, location, Document, FORMATMAPPER */
+/*global CKEDITOR, location, Document, NEWSLETTER */
 
 /**
  * Download Controller.
@@ -28,7 +28,7 @@ var CDownload = {
 			fileContent, doc;
 
 		doc = new Document(editorContent);
-		doc.setMapper(FORMATMAPPER.mapper);
+		doc.setMapper(NEWSLETTER.formatMapper);
 		doc.clean();
 		doc.convertTo(isFluid ? 'fluid' : 'fixed');
 		fileContent = doc.docHtml();

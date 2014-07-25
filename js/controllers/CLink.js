@@ -27,7 +27,7 @@ var CLink = {
 		    target = context.getValueOf('tab-general', 'target') ? '_blank' : '_self',
 		    optionalTitle = context.getValueOf('tab-general', 'optionalTitle'),
 		    link, obj,
-		    factory = FACTORY.factory;
+		    factory = NEWSLETTER.factory;
 
 
 		// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)

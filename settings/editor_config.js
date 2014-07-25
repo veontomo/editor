@@ -1,6 +1,5 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, List, ListItem*/
+/*global CKEDITOR, List, ListItem, NEWSLETTER*/
 
 /**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
@@ -38,10 +37,9 @@ CKEDITOR.editorConfig = function(config){
 	];
 
 	// registering custom plugins
-	var basePath = CKEDITOR.basePath,
-		customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
+	var customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
 			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2'],
-		pluginDir =  NEWSLETTER['customPluginDir'];
+		pluginDir =  NEWSLETTER.customPluginDir;
 
 	customPluginNames.forEach(function(pluginName){
 		CKEDITOR.plugins.addExternal(pluginName, pluginDir + pluginName + '/', 'plugin.js');

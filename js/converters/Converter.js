@@ -36,7 +36,7 @@ function Converter(map){
 	/**
 	 * {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}} setter.
 	 * @method         setMapper
-	 * @param          {Mapper}
+	 * @param          {Mapper}        m
 	 */
 	this.setMapper = function(m){
 		if (m instanceof Mapper){

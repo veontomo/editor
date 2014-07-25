@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Link, FACTORY */
+/*global Node, Link, NEWSLETTER */
 
 /**
  * This class is used to encompass other objects.
@@ -417,8 +417,8 @@ function Content(str) {
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		if (Array.isArray(arr) && (window.FACTORY !== undefined) && FACTORY.factory){
-			var factory = FACTORY.factory,
+		if (Array.isArray(arr) && (window.FACTORY !== undefined) && NEWSLETTER.factory){
+			var factory = NEWSLETTER.factory,
 			   	items = [];
 			arr.forEach(function(el){
 				var baby = factory.mimic(el);
@@ -540,5 +540,5 @@ function Content(str) {
 			return fun(elem);
 		});
 		elements = filtered;
-	}
+	};
 }

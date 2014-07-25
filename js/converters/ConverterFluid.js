@@ -81,7 +81,7 @@ function ConverterFluid(){
 		console.log(rnd, 'convertCurrentToFluid started');
 		console.log(rnd, 'content: ' + n.outerHTML);
 
-		var elem = FACTORY.factory.mimic(n),
+		var elem = NEWSLETTER.factory.mimic(n),
 			props, propsFluid;
 		if (typeof elem.getProperties === 'function'){
 			props = elem.getProperties();

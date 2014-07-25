@@ -66,7 +66,7 @@ var CKHelper = {
 		var linkNative = link.$,
 			parent = linkNative.parentNode,
 			nextSibling = linkNative.nextSibling,
-			factory = FACTORY.factory,
+			factory = NEWSLETTER.factory,
 			linkObj = factory.mimic(linkNative);
 		linkObj.getContent().getElements().forEach(function(el){
 			parent.insertBefore(el.toNode(), nextSibling);
@@ -193,9 +193,9 @@ var CKHelper = {
 
 		cellIndex = cell.getIndex();
 		// create objects in order to retrieve their properties
-		cellObj = FACTORY.factory.mimic(cell.$);
+		cellObj = NEWSLETTER.factory.mimic(cell.$);
 		// cellObj = cell.getOuterHtml().createCellFromHtml();
-		tableObj = FACTORY.factory.mimic(parentTable.$);
+		tableObj = NEWSLETTER.factory.mimic(parentTable.$);
 		// tableObj = parentTable.getOuterHtml().createTableFromHtml();
 		cellObjStyles = cellObj.getStyles();
 		cellObjAttr = cellObj.getProperties();
@@ -362,7 +362,7 @@ var CKHelper = {
 	insertList: function(editor, listType){
 		var selection = new Selection(editor),
 		    selectedNodes = selection.nodes,                   // 2-dim array
-		    factory = FACTORY.factory;
+		    factory = NEWSLETTER.factory;
 		console.log('CKHelper::insertListNew ', selectedNodes);
 		selectedNodes.forEach(function(block){
 			var len = block.length,
