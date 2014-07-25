@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER, Converter */
+/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER, Converter, Mapper */
 
 /**
  * This class is to deal with documents: parsing, converting, saving.
@@ -35,7 +35,7 @@ function Document(node){
 	 * @default        Converter
 	 * @private
 	 */
-	var _converter = new Converter();
+	var _converter = new Converter(NEWSLETTER.formatMapper || (new Mapper()));
 
 	/**
 	 * Constructor.
@@ -81,7 +81,7 @@ function Document(node){
 	 */
 	this.setMapper = function(m){
 		_converter.setMapper(m);
-	}
+	};
 
 
 	/**

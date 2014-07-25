@@ -417,7 +417,7 @@ function Content(str) {
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		if (Array.isArray(arr) && (window.FACTORY !== undefined) && NEWSLETTER.factory){
+		if (Array.isArray(arr) && NEWSLETTER.factory){
 			var factory = NEWSLETTER.factory,
 			   	items = [];
 			arr.forEach(function(el){
@@ -427,7 +427,7 @@ function Content(str) {
 			this.setElements(items);
 			return true;
 		}
-		console.info('Content::load()', 'FACTORY is not defined, so I am returning FALSE');
+		console.info('Content::load()', 'factory is not defined, so I am returning FALSE');
 		return false;
 	};
 

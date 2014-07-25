@@ -28,7 +28,7 @@ var CDownload = {
 			fileContent, doc;
 
 		doc = new Document(editorContent);
-		doc.setMapper(NEWSLETTER.formatMapper);
+		// doc.setMapper(NEWSLETTER.formatMapper);
 		doc.clean();
 		doc.convertTo(isFluid ? 'fluid' : 'fixed');
 		fileContent = doc.docHtml();
