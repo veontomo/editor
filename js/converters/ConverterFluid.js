@@ -224,11 +224,12 @@ function ConverterFluid(){
 		try {
 			newWidth = width.frac(parentWidthObj).toPercent();
 			tagProps.setWidth(newWidth.toString());
-			var styles = tagProps.getStyles();
-			styles.dropProperty('max-width');
-			styles.dropProperty('min-width');
-			tagProps.setStyles(styles);
-
+			// var styles = tagProps.getStyles();
+			// styles.dropProperty('max-width');
+			// styles.dropProperty('min-width');
+			// tagProps.setStyles(styles);
+			tagProps.dropStyleProperty('max-width');
+			tagProps.dropStyleProperty('min-width');
 			tagProps.decorateElement(node);
 			node.setAttribute(widthMarker, width.toString());
 		}

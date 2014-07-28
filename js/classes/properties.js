@@ -218,6 +218,24 @@ function Properties(input) {
 	};
 
 
+	/**
+	 * If `key` is present in `style` object of {{#crossLink "Properties/styles:property"}}core{{/crossLink}}, drops it and
+	 * returns the key value.
+	 * @method         dropStyleProperty
+	 * @param          {String}                key
+	 * @return         {Any}
+	 * @since          0.0.5
+	 */
+	this.dropStyleProperty = function(key){
+		if (this.hasStyleProperty(key)){
+			var stl = this.getStyles();
+			var val = stl.dropProperty(key);
+			this.setStyles(stl);
+			return val;
+		}
+	};
+
+
 
 	/**
 	 * Fills in the core with key-value pairs from the argument if any. If the argument
