@@ -29,29 +29,70 @@ function ConverterFluid(){
 	 * @param          {DOM.Node}           content
 	 * @return         {DOM.Node}
 	 */
-	this.convert = function(content){
-		var result = content.cloneNode(false),
-			parent,
-			width;
-		if (content.nodeType === Node.TEXT_NODE){
-			return result;
-		}
-		parent = content.parent;
-		if (parent){
-			width = new Unit(this.getElemWidth(parent));
-		}
-		if (!width){
-			width = new Unit(NEWSLETTER.maxWidth);
-		}
-		this.convertCurrentToFluid(width, result);
-		var children = content.childNodes,
-			len = children.length,
-			i, childFluid;
-		for (i = 0; i < len; i++){
-			childFluid = this.convert(children.item(i));
-			result.appendChild(childFluid);
-		}
+	// this.convert = function(content){
+	// 	var result = content.cloneNode(false),
+	// 		parent,
+	// 		width;
+	// 	if (content.nodeType === Node.TEXT_NODE){
+	// 		return result;
+	// 	}
+	// 	parent = content.parent;
+	// 	if (parent){
+	// 		width = new Unit(this.getElemWidth(parent));
+	// 	}
+	// 	if (!width){
+	// 		width = new Unit(NEWSLETTER.width());
+	// 	}
+	// 	this.convertCurrentToFluid(width, result);
+	// 	var children = content.childNodes,
+	// 		len = children.length,
+	// 		i, childFluid;
+	// 	for (i = 0; i < len; i++){
+	// 		childFluid = this.convert(children.item(i));
+	// 		result.appendChild(childFluid);
+	// 	}
+	// 	return result;
+	// };
+	this.convert = function(n){
+		var result = n.cloneNode(true);
+		this.process(result);
 		return result;
+	};
+
+
+	/**
+	 * Applies each function from {{#crossLink "Converter/_workers:property"}}_worker{{/crossLink}}
+	 * to node `n` and then to each children.
+	 * @method         process
+	 * @param          {DOM.Node} n
+	 * @return         {void}
+	 */
+	this.process = function(n){
+		this.processRoot(n);
+		if (n.nodeType === Node.ELEMENT_NODE){
+			var i,
+				children = n.childNodes,
+				len = children.length;
+			for (i = 0; i < len; i++){
+				this.process(children.item(i));
+			}
+		}
+	};
+
+
+	/**
+	 * Applies all functions from {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}} to
+	 * only to root element of node `n` and not to its children.
+	 * @method         processRoot
+	 * @param          {DOM.Node} n
+	 * @return         {void}
+	 */
+	this.processRoot = function(n){
+		var i, len = _workers.length;
+		for (i = 0; i < len; i++){
+			_workers[i](n);
+		}
+		console.log('process root is over');
 	};
 
 	/**
@@ -117,7 +158,7 @@ function ConverterFluid(){
 		}
 
 		var result = props.clone(),
-			fluidAttrs = ['width', 'max-width', 'min-width', 'padding', 'margin'],
+			fluidAttrs = ['width', 'padding', 'margin'],
 			defaultMeasure = 'px';
 		fluidAttrs.forEach(function(attr){
 			var width, widthRel;
@@ -152,35 +193,49 @@ function ConverterFluid(){
 
 
 
-	/**
-	 * Applies each function from {{#crossLink "Converter/_workers:property"}}_worker{{/crossLink}}
-	 * to node `n` and then to each children.
-	 * @method         process
-	 * @param          {DOM.Node} n
-	 * @return         {void}
-	 */
-	this.process = function(n){
-		this.processRoot(n);
-		var i, children = n.childNodes, len = children.length();
-		for (i = 0; i < len; i++){
-			this.processRoot(children.item(i));
-		}
-	};
 
 
 	/**
-	 * Applies all functions from {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}} to
-	 * only to root element of node `n` and not to its children.
-	 * @method         processRoot
-	 * @param          {DOM.Node} n
-	 * @return         {void}
+	 * Modifies width-related properties in `node`.
+	 * @param  {[type]} node   [description]
+	 * @param  {[type]} parent [description]
+	 * @return {[type]}        [description]
 	 */
-	this.processRoot = function(n){
-		var i, len = _workers.length;
-		for (i = 0; i < len; i++){
-			_workers[i](n);
+	var _widthFluid = function(node){
+		if (node.nodeType !== Node.ELEMENT_NODE){
+			return undefined;
+		}
+		var	parent, parentWidth, width, parentWidthObj, newWidth, nodeAsTag, tagProps,
+			widthMarker = 'data-original-width';
+		parent = node.parent;
+		parentWidth = parent && parent.hasAttribute(widthMarker) ? parent.getAttribute(widthMarker) : NEWSLETTER.width();
+		parentWidthObj = new Unit(parentWidth);
+
+		nodeAsTag = NEWSLETTER.factory.mimic(node);
+		tagProps = nodeAsTag.getProperties();
+		width = nodeAsTag.getWidth();
+		if (width === undefined){
+			return undefined;
+		}
+		width =  new Unit(width);
+		if (!width.hasMeasure()){
+			width.setMeasure(NEWSLETTER.unitMeasure());
+		}
+		try {
+			newWidth = width.frac(parentWidthObj).toPercent();
+			tagProps.setWidth(newWidth.toString());
+			var styles = tagProps.getStyles();
+			styles.dropProperty('max-width');
+			styles.dropProperty('min-width');
+			tagProps.setStyles(styles);
+
+			tagProps.decorateElement(node);
+			node.setAttribute(widthMarker, width.toString());
+		}
+		catch (e){
+			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
 		}
 	};
 
-
+	_workers.push(_widthFluid);
 }

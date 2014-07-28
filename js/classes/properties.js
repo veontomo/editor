@@ -31,22 +31,22 @@ function Properties(input) {
 
 	/**
 	 * Array of allowed types for core keys. Set to 'string', 'number'.
-	 * @property       {Array}              allowedCoreKeyTypes
+	 * @property       {Array}              _allowedCoreKeyTypes
 	 * @private
 	 * since           0.0.5
 	 * @type           {Array}
 	 */
-	var allowedCoreKeyTypes = ['string', 'number'];
+	var _allowedCoreKeyTypes = ['string', 'number'];
 
 	/**
 	 * Array of allowed types for core values. For the moment, it is allowed to have string-valued, number-valued
 	 * and object-valued values of the keys.
-	 * @property       {Array}              allowedCoreValueTypes
+	 * @property       {Array}              _allowedCoreValueTypes
 	 * @private
 	 * since           0.0.5
 	 * @type           {Array}
 	 */
-	var allowedCoreValueTypes = ['string', 'number', 'object'];
+	var _allowedCoreValueTypes = ['string', 'number', 'object'];
 
 
 	/**
@@ -98,7 +98,7 @@ function Properties(input) {
 	};
 
 	/**
-	 * {{#crossLink "Properties/className:property"}}Class name{{/crossLink}} getter.
+	 * {{#crossLink "Properties/className:property"}}className{{/crossLink}} getter.
 	 * @method         getName
 	 * @return         {String}
 	 */
@@ -134,8 +134,8 @@ function Properties(input) {
 
 	/**
 	 * If both `key` and `value` are of allowed types (given by
-	 * {{#crossLink "Properties/allowedCoreKeyTypes:property"}}allowedCoreKeyTypes{{/crossLink}} and
-	 * {{#crossLink "Properties/allowedCoreValueTypes:property"}}allowedCoreValueTypes{{/crossLink}}), then property `key` of
+	 * {{#crossLink "Properties/_allowedCoreKeyTypes:property"}}_allowedCoreKeyTypes{{/crossLink}} and
+	 * {{#crossLink "Properties/_allowedCoreValueTypes:property"}}_allowedCoreValueTypes{{/crossLink}}), then property `key` of
 	 * {{#crossLink "Properties/core:property"}}core{{/crossLink}} is set to `value`
 	 * and `true` is returned. Otherwise, `false` is returned. If `key` is a string `style`, then method
 	 * {{#crossLink "Properties/setStyles:method"}}setStyles(){{/crossLink}} is envoked.
@@ -165,7 +165,7 @@ function Properties(input) {
 	 * @return         {Array}              array of strings
 	 */
 	this.getAllowedKeyTypes = function(){
-		return allowedCoreKeyTypes;
+		return _allowedCoreKeyTypes;
 	};
 
 	/**
@@ -175,7 +175,7 @@ function Properties(input) {
 	 * @return         {Array}              array of strings
 	 */
 	this.getAllowedValueTypes = function(){
-		return allowedCoreValueTypes;
+		return _allowedCoreValueTypes;
 	};
 
 

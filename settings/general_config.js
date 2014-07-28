@@ -2,7 +2,7 @@
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper,
 		Node, Image, CKEDITOR, ConverterFixed, ConverterFluid */
 /**
- * Application configuration.
+ * Application configuration object.
  * @module    Config
  * @class     NEWSLETTER
  * @type      {Object}
@@ -12,14 +12,62 @@
 var NEWSLETTER = {};
 
 /**
- * Imposes the scale and the maximum width (in pixels).
- * @property  {Number}     maxWidth
- * @type      {Number}
+ * Default width, to be set to elements whose width can not be established.
+ * @property    {String}     defaultWidth
+ * @type        {String}
  */
-Object.defineProperty(NEWSLETTER, 'maxWidth', {
-	value:    500,             // massima largezza di tabella
-	writable: true             // prohibit or allow overwrite
+Object.defineProperty(NEWSLETTER, 'defaultWidth', {
+	value:    "500px",
+	writable: true
 });
+
+/**
+ * {{#crossLink "NEWSLETTER/maxWidth:property"}}maxWidth{{/crossLink}} getter.
+ * @method    width
+ * @return    {String}
+ */
+NEWSLETTER.width = function(){
+	return NEWSLETTER.defaultWidth;
+};
+
+/**
+ * Default font size, to be set to elements whose width can not be established.
+ * @property    {String}     defaultFontSize
+ * @type        {String}
+ */
+Object.defineProperty(NEWSLETTER, 'defaultFontSize', {
+	value:    "14px",
+	writable: true
+});
+
+/**
+ * {{#crossLink "NEWSLETTER/maxWidth:property"}}maxWidth{{/crossLink}} getter.
+ * @method    fontsize
+ * @return    {String}
+ */
+NEWSLETTER.fontsize = function(){
+	return NEWSLETTER.defaultFontSize;
+};
+
+
+/**
+ * Default unit of measurementze, to be set to elements whose width can not be established.
+ * @property    {String}     defaultFontSize
+ * @type        {String}
+ */
+Object.defineProperty(NEWSLETTER, 'defaultUnitMeasure', {
+	value:    "px",
+	writable: true
+});
+
+/**
+ * {{#crossLink "NEWSLETTER/maxWidth:property"}}unitMeasure{{/crossLink}} getter.
+ * @method    unitMeasure
+ * @return    {String}
+ */
+NEWSLETTER.unitMeasure = function(){
+	return NEWSLETTER.defaultUnitMeasure;
+};
 
 /**
  * Name of the marker attribute to be used in order to mark tag elements.
