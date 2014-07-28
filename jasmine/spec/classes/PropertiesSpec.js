@@ -12,19 +12,23 @@ describe('Properties-related functionality', function(){
         it('returns false, if no argument is given', function(){
             expect(props.setProperty()).toBe(false);
         });
+
         it('returns false if only one argument is given', function(){
            expect(props.setProperty('a')).toBe(false);
         });
+
         it('returns true if both key and value types are among allowed ones', function(){
             spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['string', 'number'];});
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['object'];});
             expect(props.setProperty('a key', {1: 'good'})).toBe(true);
         });
+
         it('returns false if key type is not among allowed, but value is among allowed', function(){
             spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
             expect(props.setProperty('class', 'value')).toBe(false);
         });
+
         it('returns false if key type is among allowed, but value is not among allowed', function(){
             spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
             spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['number'];});
