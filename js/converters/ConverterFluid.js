@@ -17,7 +17,7 @@ function ConverterFluid(){
 
 	/**
 	 * Array of functions to be applied to each node. Each element is supposed to modify the argument it acts on.
-	 * @property    {Array}               _generators
+	 * @property    {Array}               _workers
 	 * @type        {Array}
 	 * @private
 	 */
@@ -29,30 +29,6 @@ function ConverterFluid(){
 	 * @param          {DOM.Node}           content
 	 * @return         {DOM.Node}
 	 */
-	// this.convert = function(content){
-	// 	var result = content.cloneNode(false),
-	// 		parent,
-	// 		width;
-	// 	if (content.nodeType === Node.TEXT_NODE){
-	// 		return result;
-	// 	}
-	// 	parent = content.parent;
-	// 	if (parent){
-	// 		width = new Unit(this.getElemWidth(parent));
-	// 	}
-	// 	if (!width){
-	// 		width = new Unit(NEWSLETTER.width());
-	// 	}
-	// 	this.convertCurrentToFluid(width, result);
-	// 	var children = content.childNodes,
-	// 		len = children.length,
-	// 		i, childFluid;
-	// 	for (i = 0; i < len; i++){
-	// 		childFluid = this.convert(children.item(i));
-	// 		result.appendChild(childFluid);
-	// 	}
-	// 	return result;
-	// };
 	this.convert = function(n){
 		var result = n.cloneNode(true);
 		this.process(result);
@@ -92,114 +68,18 @@ function ConverterFluid(){
 		for (i = 0; i < len; i++){
 			_workers[i](n);
 		}
-		console.log('process root is over');
-	};
-
-	/**
-	 * Returns {{#crossLink "Unit"}}Unit{{/crossLink}} instance representing width of `node` which must
-	 * be a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance.
-	 * If width can not be established, nothing is returned.
-	 * @method         getElemWidth
-	 * @param          {DOM.Node}              node
-	 * @return         {Unit|undefined}
-	 */
-	this.getElemWidth = function(node){
-		if (node.hasAttribute('width')){
-			return new Unit(node.getAttribute('width'));
-		}
-		var styles = node.style;
-		if (node.hasAttribute('style')){
-			if (styles.width){
-				return new Unit(node.getAttribute('width'));
-			}
-		}
-
 	};
 
 
 	/**
-	 * Returns a copy of the argument in which properties are replaced by their relative equivalients.
-	 * @method         convertCurrentToFluid
-	 * @param          {Unit}            scale            value with respect to which the relative sizes
-	 *                                                    are to be calculated
-	 * @param          {DOM.Element}       n
-	 * @return         {void}
-	 */
-	this.convertCurrentToFluid = function(scale, n){
-		var elem = NEWSLETTER.factory.mimic(n),
-			props, propsFluid;
-		if (typeof elem.getProperties === 'function'){
-			props = elem.getProperties();
-			propsFluid = this.convertPropInFluid(scale, props);
-			propsFluid.decorateElement(n);
-		}
-		// console.log(rnd, 'convertCurrentToFluid is over: ' + n.outerHTML);
-	};
-
-
-	/**
-	 * Returns another {{#crossLink "Properties"}}Properties{{/crossLink}} instance in which
-	 * fixed units (that is, pixels) are replaced by their relative equivalents.
+	 * Modifies width-related properties in `node`. This function is to be added to
+	 * {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}}.
 	 *
-	 * Relative values are calculated on the base of parent width which must be provided and
-	 * must be given in pixels.
-	 * @method         convertPropInFluid
-	 * @param          {Unit}          scale     parameter to setup the scale w.r.t. which the relative
-	 *                                           values are to be calculated.
-	 * @param          {Properties}    props     instance of Properties class
-	 * @return         {Properties}
-	 */
-	this.convertPropInFluid = function(scale, props){
-		if (!(scale instanceof Unit)){
-			throw new Error('Scale parameter must be a Unit instance!');
-		}
-		if (!(props instanceof Properties)){
-			throw new Error('Please, provide a Properties class instance!');
-		}
-
-		var result = props.clone(),
-			fluidAttrs = ['width', 'padding', 'margin'],
-			defaultMeasure = 'px';
-		fluidAttrs.forEach(function(attr){
-			var width, widthRel;
-			if (result.hasProperty(attr)){
-				width = new Unit(result.getProperty(attr));
-				if (!width.getMeasure()){
-					width.setMeasure(defaultMeasure);
-				}
-				try {
-					widthRel = width.frac(scale);
-					result.setProperty(attr, widthRel.toPercent().toString());
-				}
-				catch(e){
-					console.log('Error: ' + e);
-				}
-			}
-			if (result.hasStyleProperty(attr)){
-				width = new Unit(result.getStyleProperty(attr));
-				try {
-					widthRel = width.frac(scale);
-					result.setStyleProperty(attr, widthRel.toPercent().toString());
-				}
-				catch(e){
-					console.log('Error: ' + e);
-				}
-			}
-
-		});
-		return result;
-	};
-
-
-
-
-
-
-	/**
-	 * Modifies width-related properties in `node`.
-	 * @param  {[type]} node   [description]
-	 * @param  {[type]} parent [description]
-	 * @return {[type]}        [description]
+	 * It updates value of width attribute of `node` on the base of the width attribute of its parent node.
+	 * @method     _widthFluid
+	 * @param      {DOM.Element}        node
+	 * @return     {void}
+	 * @private
 	 */
 	var _widthFluid = function(node){
 		if (node.nodeType !== Node.ELEMENT_NODE){
@@ -224,10 +104,6 @@ function ConverterFluid(){
 		try {
 			newWidth = width.frac(parentWidthObj).toPercent();
 			tagProps.setWidth(newWidth.toString());
-			// var styles = tagProps.getStyles();
-			// styles.dropProperty('max-width');
-			// styles.dropProperty('min-width');
-			// tagProps.setStyles(styles);
 			tagProps.dropStyleProperty('max-width');
 			tagProps.dropStyleProperty('min-width');
 			tagProps.decorateElement(node);
@@ -238,5 +114,52 @@ function ConverterFluid(){
 		}
 	};
 
+	/**
+	 * Updates font sizes.
+	 *
+	 * @method  _fontFluid
+	 * @param  {DOM.Element}    node
+	 * @return {void}
+	 */
+	var _fontFluid = function(node){
+		if (node.nodeType !== Node.ELEMENT_NODE){
+			return undefined;
+		}
+		var propName = 'font-size';
+		// console.log('font resizing', node.outerHTML);
+		var	parent, parentSize, fontSize, parentSizeObj, newFontSize, nodeAsTag, tagProps,
+			marker = 'data-original-' + propName;
+		parent = node.parent;
+		parentSize = parent && parent.hasAttribute(marker) ? parent.getAttribute(marker) : NEWSLETTER.fontsize();
+		parentSizeObj = new Unit(parentSize);
+
+		nodeAsTag = NEWSLETTER.factory.mimic(node);
+		tagProps = nodeAsTag.getProperties();
+		fontSize = nodeAsTag.getStyleProperty(propName);
+		if (fontSize === undefined){
+			return undefined;
+		}
+		fontSize =  new Unit(fontSize);
+		if (!fontSize.hasMeasure()){
+			fontSize.setMeasure(NEWSLETTER.unitMeasure());
+		}
+		try {
+			newFontSize = fontSize.frac(parentSizeObj).toPercent();
+			// console.log('tagProps before setting: ', tagProps.getStyleProperty('font-size'));
+			// console.log('setting to ', newFontSize.toString());
+			tagProps.setStyleProperty(propName, newFontSize.toString());
+			// console.log('tagProps after setting: ', tagProps.getStyleProperty('font-size'));
+			// console.log('Error when dividing ' + newFontSize.toString() + ' and ' + parentSizeObj.toString());
+			tagProps.decorateElement(node);
+			node.setAttribute(marker, fontSize.toString());
+		}
+		catch (e){
+			console.log('Error when dividing ' + newFontSize.toString() + ' and ' + parentSizeObj.toString());
+		}
+		// console.log('font resizing is over: ', node.outerHTML);
+	};
+
+	_workers.push(_fontFluid);
 	_workers.push(_widthFluid);
+
 }
