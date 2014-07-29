@@ -32,7 +32,7 @@ function RowProperties(obj) {
      * @type           {Object}
      * @private
      */
-    var rowStyleCore = {'border-style': 'none', 'width': 0, 'max-width': 0, 'min-width': 0, 'padding': 0, 'margin': 0};
+    var rowStyleCore = {'border-style': 'none', 'width': 0, 'padding': 0, 'margin': 0};
     this.initializeStyle();
     var stl = this.getStyles();
     stl.suggestProperty(rowStyleCore);

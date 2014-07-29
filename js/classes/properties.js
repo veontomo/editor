@@ -217,7 +217,6 @@ function Properties(input) {
 		core = {};
 	};
 
-
 	/**
 	 * If `key` is present in `style` object of {{#crossLink "Properties/styles:property"}}core{{/crossLink}}, drops it and
 	 * returns the key value.
@@ -228,14 +227,13 @@ function Properties(input) {
 	 */
 	this.dropStyleProperty = function(key){
 		if (this.hasStyleProperty(key)){
-			var stl = this.getStyles();
-			var val = stl.dropProperty(key);
+			var stl = this.getStyles(),
+				val = stl.dropProperty(key);
 			this.setStyles(stl);
+			stl = this.getStyles();
 			return val;
 		}
 	};
-
-
 
 	/**
 	 * Fills in the core with key-value pairs from the argument if any. If the argument
@@ -706,7 +704,7 @@ function Properties(input) {
      * Applies the attributes on the argument. The argument is supposed to be an instance of
      * [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,
      * it is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)
-     * method of that instance.
+     * method of that instance. It
      * @method         decorateElement
      * @param          {DOM.Element}             elem
      * @return         {void}
@@ -721,11 +719,9 @@ function Properties(input) {
     	}
     };
 
-
     /**
      * Sets key `width` inside {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}
-     * as well as keys `width`, `max-width` and `min-width` inside `style` of
-     * {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}.
+     * as well as key `width` inside `style` of {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}.
      * @method         setWidth
      * @param          {Number|String}      w
      * @since          0.0.5
@@ -734,8 +730,8 @@ function Properties(input) {
     	this.initializeStyle();
     	this.setProperty('width', w);
     	this.setStyleProperty('width', w);
-    	this.setStyleProperty('max-width', w);
-    	this.setStyleProperty('min-width', w);
+    	// this.setStyleProperty('max-width', w);
+    	// this.setStyleProperty('min-width', w);
     };
 
 

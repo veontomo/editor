@@ -64,13 +64,9 @@ describe('TableProperties-related functionality', function(){
         });
 
 
-        it('contains keys "width", "max-width" and "min-width" set to 0', function(){
+        it('contains keys "width" set to 0', function(){
             expect(prop.hasStyleProperty('width')).toBe(true);
             expect(prop.getStyleProperty('width')).toBe(0);
-            expect(prop.hasStyleProperty('max-width')).toBe(true);
-            expect(prop.getStyleProperty('max-width')).toBe(0);
-            expect(prop.hasStyleProperty('min-width')).toBe(true);
-            expect(prop.getStyleProperty('min-width')).toBe(0);
         });
 
         it('contains key "padding" set to 0', function(){

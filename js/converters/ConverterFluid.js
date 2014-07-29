@@ -64,10 +64,12 @@ function ConverterFluid(){
 	 * @return         {void}
 	 */
 	this.processRoot = function(n){
+		console.log('process root before: ', (n.nodeType === Node.ELEMENT_NODE ? n.outerHTML : n.nodeValue))
 		var i, len = _workers.length;
 		for (i = 0; i < len; i++){
 			_workers[i](n);
 		}
+		console.log('process root after: ', (n.nodeType === Node.ELEMENT_NODE ? n.outerHTML : n.nodeValue))
 	};
 
 
@@ -82,6 +84,7 @@ function ConverterFluid(){
 	 * @private
 	 */
 	var _widthFluid = function(node){
+		console.log("_width fluid");
 		if (node.nodeType !== Node.ELEMENT_NODE){
 			return undefined;
 		}
@@ -94,11 +97,15 @@ function ConverterFluid(){
 		nodeAsTag = NEWSLETTER.factory.mimic(node);
 		tagProps = nodeAsTag.getProperties();
 		width = nodeAsTag.getWidth();
+		console.log("width: " + width);
+		width =  new Unit(width);
 		if (width === undefined){
 			return undefined;
 		}
 		width =  new Unit(width);
+		console.log("width: " + width.toString());
 		if (!width.hasMeasure()){
+			// console.log("width: " + width.toString());
 			width.setMeasure(NEWSLETTER.unitMeasure());
 		}
 		try {
@@ -106,8 +113,11 @@ function ConverterFluid(){
 			tagProps.setWidth(newWidth.toString());
 			tagProps.dropStyleProperty('max-width');
 			tagProps.dropStyleProperty('min-width');
+			console.log("styles: " + tagProps.getStyles().toString());
 			tagProps.decorateElement(node);
 			node.setAttribute(widthMarker, width.toString());
+			// node.removeAttribute("style");
+			node.setAttribute('style', tagProps.getStyles().toString());
 		}
 		catch (e){
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
@@ -159,7 +169,53 @@ function ConverterFluid(){
 		// console.log('font resizing is over: ', node.outerHTML);
 	};
 
+	/**
+	 * Updates padding.
+	 *
+	 * @method  _fontFluid
+	 * @param  {DOM.Element}    node
+	 * @return {void}
+	 */
+	var _paddingFluid = function(node){
+		if (node.nodeType !== Node.ELEMENT_NODE){
+			return undefined;
+		}
+		var propName = 'padding';
+		// console.log('font resizing', node.outerHTML);
+		var	parent, parentSize, propValue, parentSizeObj, newPropValue, nodeAsTag, tagProps,
+			marker = 'data-original-' + propName;
+		parent = node.parent;
+		parentSize = parent && parent.hasAttribute(marker) ? parent.getAttribute(marker) : NEWSLETTER.fontsize();
+		parentSizeObj = new Unit(parentSize);
+
+		nodeAsTag = NEWSLETTER.factory.mimic(node);
+		tagProps = nodeAsTag.getProperties();
+		propValue = nodeAsTag.getStyleProperty(propName);
+		if (propValue === undefined){
+			return undefined;
+		}
+		propValue =  new Unit(propValue);
+		if (!propValue.hasMeasure()){
+			propValue.setMeasure(NEWSLETTER.unitMeasure());
+		}
+		try {
+			newPropValue = propValue.frac(parentSizeObj).toPercent();
+			// console.log('tagProps before setting: ', tagProps.getStyleProperty('font-size'));
+			// console.log('setting to ', newFontSize.toString());
+			tagProps.setStyleProperty(propName, newPropValue.toString());
+			// console.log('tagProps after setting: ', tagProps.getStyleProperty('font-size'));
+			// console.log('Error when dividing ' + newFontSize.toString() + ' and ' + parentSizeObj.toString());
+			tagProps.decorateElement(node);
+			node.setAttribute(marker, propValue.toString());
+		}
+		catch (e){
+			console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
+		}
+		// console.log('font resizing is over: ', node.outerHTML);
+	};
+
 	_workers.push(_fontFluid);
 	_workers.push(_widthFluid);
+	_workers.push(_paddingFluid);
 
 }

@@ -453,14 +453,20 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Retrieves `width` attribute of {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} property.
+	 * Retrieves value of `width` attribute of {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} property.
+	 * If it does not exist, value of `width` key of {{#crossLink "Tag/_core:property"}}_core{{/crossLink}} is returned.
 	 * @method         getWidth
 	 * @return         {mixed}
 	 * @since          0.0.4
 	 */
 	this.getWidth = function(){
-		if (this.getStyles()){
-			return this.getStyles().getProperty('width');
+		var propName = 'width',
+			stl = this.getStyles();
+		if (stl && stl.hasProperty(propName)){
+			return stl.getProperty(propName);
+		}
+		if (this.hasProperty(propName)){
+			return this.getProperty(propName);
 		}
 	};
 

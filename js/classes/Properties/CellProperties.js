@@ -32,10 +32,8 @@ function CellProperties(obj) {
      * @type     {Object}
      * @private
      */
-    var cellStyleCore = {'border-style': 'none',
-        'width': 0, 'max-width': 0, 'min-width': 0,
-        'padding': 0, 'margin': 0, 'vertical-align': 'top',
-        'color': '#000001', 'text-align': 'justify'};
+    var cellStyleCore = {'border-style': 'none', 'width': 0, 'padding': 0, 'margin': 0,
+        'vertical-align': 'top', 'color': '#000001', 'text-align': 'justify'};
     this.initializeStyle();
     var stl = this.getStyles();
     stl.suggestProperty(cellStyleCore);

@@ -809,30 +809,24 @@ describe('Properties-related functionality', function(){
         });
 
 
-        it('sets width, max-width and min-width inside "style" key if "style" is not present', function(){
+        it('sets width inside "style" key if "style" is not present', function(){
             expect(props.hasProperty('style')).toBe(false);
             props.setWidth(83);
             expect(props.getStyleProperty('width')).toBe(83);
-            expect(props.getStyleProperty('min-width')).toBe(83);
-            expect(props.getStyleProperty('max-width')).toBe(83);
         });
 
-        it('overrides width, max-width and min-width inside "style" key if "style" is present', function(){
+        it('overrides width inside "style" key if "style" is present', function(){
             props.setStyles(new Properties({width: 20}));
             expect(props.hasProperty('style')).toBe(true);
             props.setWidth(31);
             expect(props.getStyleProperty('width')).toBe(31);
-            expect(props.getStyleProperty('min-width')).toBe(31);
-            expect(props.getStyleProperty('max-width')).toBe(31);
         });
 
 
-        it('sets widths if argument is given as a string', function(){
+        it('sets width if argument is given as a string', function(){
             props.setWidth('12');
             expect(props.getProperty('width')).toBe('12');
             expect(props.getStyleProperty('width')).toBe('12');
-            expect(props.getStyleProperty('min-width')).toBe('12');
-            expect(props.getStyleProperty('max-width')).toBe('12');
         });
     });
 });

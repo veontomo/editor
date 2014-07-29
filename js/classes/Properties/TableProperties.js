@@ -47,7 +47,7 @@ function TableProperties(obj) {
      * @type     {Object}
      * @private
      */
-    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0, 'min-width': 0, 'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'};
+    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'};
     this.initializeStyle();
     var stl = this.getStyles();
     stl.suggestProperty(tableStyleCore);

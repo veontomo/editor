@@ -107,6 +107,7 @@ describe('Tag-related functionality', function() {
         it('calls "getProperty()" method on its "styles"', function(){
             var stl = new Properties();
             spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
+            spyOn(stl, 'hasProperty').andCallFake(function(){return true;});
             spyOn(stl, 'getProperty');
             tag.getWidth();
             expect(stl.getProperty).toHaveBeenCalledWith('width');
@@ -116,6 +117,7 @@ describe('Tag-related functionality', function() {
             var stl = new Properties();
             spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
             spyOn(stl, 'getProperty').andCallFake(function(){return 'width value';});
+            spyOn(stl, 'hasProperty').andCallFake(function(){return true;});
             expect(tag.getWidth()).toBe('width value');
         });
     });
