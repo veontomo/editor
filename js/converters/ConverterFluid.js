@@ -25,7 +25,7 @@ function ConverterFluid(){
 
 	/**
 	 * Converts `content` into fluid format. It means that all units of measure must be expressed in relative units (in %).
-	 * @method         convertToFluid
+	 * @method         convert
 	 * @param          {DOM.Node}           content
 	 * @return         {DOM.Node}
 	 */
