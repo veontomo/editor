@@ -64,12 +64,10 @@ function ConverterFluid(){
 	 * @return         {void}
 	 */
 	this.processRoot = function(n){
-		console.log('process root before: ', (n.nodeType === Node.ELEMENT_NODE ? n.outerHTML : n.nodeValue))
 		var i, len = _workers.length;
 		for (i = 0; i < len; i++){
 			_workers[i](n);
 		}
-		console.log('process root after: ', (n.nodeType === Node.ELEMENT_NODE ? n.outerHTML : n.nodeValue))
 	};
 
 
@@ -84,7 +82,6 @@ function ConverterFluid(){
 	 * @private
 	 */
 	var _widthFluid = function(node){
-		console.log("_width fluid");
 		if (node.nodeType !== Node.ELEMENT_NODE){
 			return undefined;
 		}
@@ -97,13 +94,11 @@ function ConverterFluid(){
 		nodeAsTag = NEWSLETTER.factory.mimic(node);
 		tagProps = nodeAsTag.getProperties();
 		width = nodeAsTag.getWidth();
-		console.log("width: " + width);
 		width =  new Unit(width);
 		if (width === undefined){
 			return undefined;
 		}
 		width =  new Unit(width);
-		console.log("width: " + width.toString());
 		if (!width.hasMeasure()){
 			// console.log("width: " + width.toString());
 			width.setMeasure(NEWSLETTER.unitMeasure());
@@ -113,11 +108,9 @@ function ConverterFluid(){
 			tagProps.setWidth(newWidth.toString());
 			tagProps.dropStyleProperty('max-width');
 			tagProps.dropStyleProperty('min-width');
-			console.log("styles: " + tagProps.getStyles().toString());
 			tagProps.decorateElement(node);
 			node.setAttribute(widthMarker, width.toString());
-			// node.removeAttribute("style");
-			node.setAttribute('style', tagProps.getStyles().toString());
+			// node.setAttribute('style', tagProps.getStyles().toString());
 		}
 		catch (e){
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
