@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Properties, FACTORY, Unit, Node, NEWSLETTER*/
+/*global Properties, FACTORY, Unit, Node, NEWSLETTER, ConverterFluid, ConverterGeneral */
 
 /**
  * Methods of this class converts into fluid format.
@@ -14,62 +14,7 @@ function ConverterFluid(){
 	if (!(this instanceof ConverterFluid)) {
 		return new ConverterFluid();
 	}
-
-	/**
-	 * Array of functions to be applied to each node. Each element is supposed to modify the argument it acts on.
-	 * @property    {Array}               _workers
-	 * @type        {Array}
-	 * @private
-	 */
-	var _workers = [];
-
-	/**
-	 * Converts `content` into fluid format. It means that all units of measure must be expressed in relative units (in %).
-	 * @method         convert
-	 * @param          {DOM.Node}           content
-	 * @return         {DOM.Node}
-	 */
-	this.convert = function(n){
-		var result = n.cloneNode(true);
-		this.process(result);
-		return result;
-	};
-
-
-	/**
-	 * Applies each function from {{#crossLink "Converter/_workers:property"}}_worker{{/crossLink}}
-	 * to node `n` and then to each children.
-	 * @method         process
-	 * @param          {DOM.Node} n
-	 * @return         {void}
-	 */
-	this.process = function(n){
-		this.processRoot(n);
-		if (n.nodeType === Node.ELEMENT_NODE){
-			var i,
-				children = n.childNodes,
-				len = children.length;
-			for (i = 0; i < len; i++){
-				this.process(children.item(i));
-			}
-		}
-	};
-
-
-	/**
-	 * Applies all functions from {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}} to
-	 * only to root element of node `n` and not to its children.
-	 * @method         processRoot
-	 * @param          {DOM.Node} n
-	 * @return         {void}
-	 */
-	this.processRoot = function(n){
-		var i, len = _workers.length;
-		for (i = 0; i < len; i++){
-			_workers[i](n);
-		}
-	};
-
+	ConverterGeneral.call(this);
 
 	/**
 	 * Modifies width-related properties in `node`. This function is to be added to
@@ -207,8 +152,10 @@ function ConverterFluid(){
 		// console.log('font resizing is over: ', node.outerHTML);
 	};
 
-	_workers.push(_fontFluid);
-	_workers.push(_widthFluid);
-	_workers.push(_paddingFluid);
+	/**
+	 * Appends workers
+	 */
+	this.setWorkers([_fontFluid, _widthFluid, _paddingFluid]);
 
 }
+ConverterFluid.prototype = Object.create(ConverterGeneral.prototype);

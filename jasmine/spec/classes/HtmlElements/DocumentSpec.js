@@ -117,12 +117,12 @@ describe('Document-related functionality', function(){
 			div.setAttribute('width', '321px');
 			d = new Document(div);
 			d.importToFluid();
-			console.log(d.getContent().outerHTML);
+			// console.log(d.getContent().outerHTML);
 		});
 
 		it('----- NO EXPECTATION HERE transforms fixed values into relative 2', function(){
 			d.importToFluid();
-			console.log(d.getContent().outerHTML);
+			// console.log(d.getContent().outerHTML);
 
 		});
 
