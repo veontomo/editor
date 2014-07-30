@@ -59,9 +59,40 @@ describe ('Converter to fluid format', function(){
     		expect(style.hasProperty('max-width')).toBe(false);
     		expect(style.hasProperty('min-width')).toBe(false);
     		expect(style.getProperty('width')).toBe('24.9%');
-
-
     	});
+
+        it('elaborates padding attribute if parent node has width attribute', function(){
+            n.setAttribute('style', 'padding: 12px');
+            n.setAttribute('width', '100');
+            var nParent = document.createElement('div');
+            nParent.setAttribute('width', '120px');
+            nParent.appendChild(n);
+            var n2 = c.convert(n, nParent);
+            var style = new Properties(n2.getAttribute('style'));
+            expect(style.getProperty('padding')).toBe('10%');
+        });
+
+
+        it('elaborates padding attribute if parent node has width style', function(){
+            n.setAttribute('style', 'padding: 12px');
+            n.setAttribute('width', '100');
+            var nParent = document.createElement('div');
+            nParent.setAttribute('style', 'width: 120px;');
+            nParent.appendChild(n);
+            var n2 = c.convert(n, nParent);
+            var style = new Properties(n2.getAttribute('style'));
+            expect(style.getProperty('padding')).toBe('10%');
+        });
+
+
+        it('elaborates padding attribute if node has no parent', function(){
+            n.setAttribute('style', 'padding: 21px');
+            n.setAttribute('width', '100px');
+            var n2 = c.convert(n);
+            var style = new Properties(n2.getAttribute('style'));
+            expect(style.getProperty('padding')).toBe('2.1%');
+        });
+
 
     });
 

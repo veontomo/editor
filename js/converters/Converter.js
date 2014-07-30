@@ -46,22 +46,23 @@ function Converter(map){
 
 
 	/**
-	 * Converts `content` into format `format`.
+	 * Converts `n` into format `format`.
 	 *
 	 * It makes use of functionality of {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}}
 	 * which is an instance of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class.
 	 * @method         convertTo
-	 * @param          {DOM.Node}           content
+	 * @param          {DOM.Node}           n
 	 * @param          {String}             format
+	 * @param          {DOM.Node}           parent of n
 	 * @return         {DOM.Node}
 	 */
-	this.convertTo = function(content, format){
+	this.convertTo = function(n, format, par){
 		var m = this.getMapper(),
 			TargetConverterClass = m.findTargetFor(format);
 			// console.log('Converter mapper found the target: ', TargetConverterClass);
 		if (TargetConverterClass){
 			var c = new TargetConverterClass();
-			return c.convert(content);
+			return c.convert(n, par);
 		}
 	};
 }

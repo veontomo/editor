@@ -30,7 +30,7 @@ var CDownload = {
 		doc = new Document(editorContent);
 		// doc.setMapper(NEWSLETTER.formatMapper);
 		doc.clean();
-		doc.convertTo(isFluid ? 'fluid' : 'fixed');
+		// doc.convertTo(isFluid ? 'fluid' : 'fixed');
 		fileContent = doc.docHtml();
 
 		$.post('php/saveDraft.php',
