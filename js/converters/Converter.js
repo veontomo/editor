@@ -58,7 +58,7 @@ function Converter(map){
 	this.convertTo = function(content, format){
 		var m = this.getMapper(),
 			TargetConverterClass = m.findTargetFor(format);
-			console.log('Converter mapper found the target: ', TargetConverterClass);
+			// console.log('Converter mapper found the target: ', TargetConverterClass);
 		if (TargetConverterClass){
 			var c = new TargetConverterClass();
 			return c.convert(content);

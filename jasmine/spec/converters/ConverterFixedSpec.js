@@ -50,8 +50,8 @@ describe ('Converter to fixed format', function(){
             n = document.createElement('ul');
             var n2 = c.convert(n);
             var style = new Properties(n2.getAttribute('style'));
-            // expect(style.hasProperty('margin-left')).toBe(true);
-            // expect(style.getProperty('margin-left')).toBe("40px");
+            expect(style.hasProperty('margin-left')).toBe(true);
+            expect(style.getProperty('margin-left')).toBe("40px");
 
 
 

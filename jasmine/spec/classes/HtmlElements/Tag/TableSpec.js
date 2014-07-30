@@ -1721,7 +1721,6 @@ describe('Table-related functionality:', function(){
             expect(table.getProperty('class')).toBe('highest');
             expect(table.getStyleProperty('width')).toBe('80%');
             expect(table.getStyleProperty('color')).toBe('blue');
-            console.log(table.toHtml());
         });
 
         it('loads a table with single row and no cells', function(){

@@ -56,19 +56,26 @@ function ConverterFixed(){
 	 * @return        {void}
 	 */
 	var _listMargin = function(node){
-		 // style="padding: 0px; margin-left: 40px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px;
 		 if (node.nodeType !== Node.ELEMENT_NODE){
 			return undefined;
 		}
-		// var
+		var nodeAsTag = NEWSLETTER.factory.mimic(node);
+		if (nodeAsTag instanceof List){
+			var prop = nodeAsTag.getProperties();
+			prop.setStyleProperty('margin-left', '40px');
+			prop.setStyleProperty('margin-top', '0px');
+			prop.setStyleProperty('margin-bottom', '0px');
+			prop.setStyleProperty('margin-right', '0px');
+			prop.decorateElement(node);
+		}
 
-	}
+	};
 
 	/**
 	 * Appends workers
 	 * @method    constructor
 	 * @return {void}
 	 */
-	this.setWorkers([_widthFixed]);
+	this.setWorkers([_widthFixed, _listMargin]);
 }
 ConverterFixed.prototype = Object.create(ConverterGeneral.prototype);
