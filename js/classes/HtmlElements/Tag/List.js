@@ -27,9 +27,9 @@ function List(listType) {
 	var _allowedTags = ['ol', 'ul'];
 
 	/**
-	 * {{#crossLink "ConverterFixed/getAllowedTags:method"}}getAllowedTags{{/crossLink}} getter.
+	 * {{#crossLink "List/_allowedTags:property"}}_allowedTags{{/crossLink}} getter.
 	 *
-	 * It returns copy, not reference.
+	 * It returns by value, not by reference.
 	 * @method         getAllowedTags
 	 * @return         {Array}
 	 */
