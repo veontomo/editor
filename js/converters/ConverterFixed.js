@@ -48,7 +48,7 @@ function ConverterFixed(){
 
 	/**
 	 * Appends workers
-	 * @constructor
+	 * @method    constructor
 	 * @return {void}
 	 */
 	this.setWorkers([_widthFixed]);

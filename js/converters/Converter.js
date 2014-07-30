@@ -64,11 +64,5 @@ function Converter(map){
 			return c.convert(content);
 		}
 	};
-
-
-
-
-
-
 }
 

@@ -89,11 +89,14 @@ var CTable = {
 			cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
 		}
 		// calculating widths
+		var defaultWidth = new Unit(NEWSLETTER.defaultWidth);
+		console.log(defaultWidth.toString());
 		try {
-			tableWidth = Math.min(this.parentWidth(editor).value, NEWSLETTER.maxWidth); // integer, the width in px
+			tableWidth = Math.min(this.parentWidth(editor).value, defaultWidth.getValue()); // integer, the width in px
 		} catch (e){
-			tableWidth = NEWSLETTER.maxWidth; // integer, the width in px
+			tableWidth = defaultWidth.getValue(); // integer, the width in px
 		}
+		console.log(tableWidth);
 		spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 		spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 		isFramed = frameWidth > 0;
@@ -176,6 +179,7 @@ var CTable = {
 
 		// impose row styles and attributes
 		rowWidth = parentWidth - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
+		console.log(parentWidth, parentElemStyle.getProperty('padding'), parentElemStyle.getBorderInfo().width);
 		row.setWidth(rowWidth);
 		row.setStyleProperty('padding', 0);
 
