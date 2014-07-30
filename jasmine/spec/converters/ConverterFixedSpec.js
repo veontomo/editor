@@ -39,6 +39,24 @@ describe ('Converter to fixed format', function(){
     		expect(style.hasProperty('max-width')).toBe(true);
     		expect(style.getProperty('max-width')).toBe("341px");
     	});
+        it('adds min-width into styles', function(){
+            n.setAttribute('width', '341');
+            var n2 = c.convert(n);
+            var style = new Properties(n2.getAttribute('style'));
+            expect(style.hasProperty('min-width')).toBe(true);
+            expect(style.getProperty('min-width')).toBe("341px");
+        });
+        it('adds margin-left into styles of unordered list', function(){
+            n = document.createElement('ul');
+            var n2 = c.convert(n);
+            var style = new Properties(n2.getAttribute('style'));
+            // expect(style.hasProperty('margin-left')).toBe(true);
+            // expect(style.getProperty('margin-left')).toBe("40px");
+
+
+
+        });
+
 
     });
 

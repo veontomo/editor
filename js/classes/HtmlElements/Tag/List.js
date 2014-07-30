@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global ListStyles, Content, Tag, ListItem */
+/*global ListStyles, Content, Tag, ListItem, ListProperties */
 
 /**
  * This is a parent class for ordered and unordred lists. If argument is provided and is allowed one, it will be used
@@ -20,11 +20,22 @@ function List(listType) {
 
 	/**
 	 * Array of allowed values for the tag names: ['ol', 'ul'].
-	 * @property {Array}    allowedTags
+	 * @property {Array}    _allowedTags
 	 * @type     {Array}
-	 * @protected
+	 * @private
 	 */
-	var allowedTags = ['ol', 'ul'];
+	var _allowedTags = ['ol', 'ul'];
+
+	/**
+	 * {{#crossLink "ConverterFixed/getAllowedTags:method"}}getAllowedTags{{/crossLink}} getter.
+	 *
+	 * It returns copy, not reference.
+	 * @method         getAllowedTags
+	 * @return         {Array}
+	 */
+	this.getAllowedTags = function(){
+		return _allowedTags.slice(0);
+	}
 
 	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
@@ -40,19 +51,19 @@ function List(listType) {
 	 * </li></ol>
 	 * @method         constructor
 	 */
-	this.setTag(allowedTags.indexOf(listType) !== -1 ? listType : allowedTags[0]);
+	this.setTag(_allowedTags.indexOf(listType) !== -1 ? listType : _allowedTags[0]);
 	this.setName('List');
 	this.setProperties(new ListProperties());
 
 	/**
 	 * Change the {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} of the list. If the argument is not in
-	 * the array of allowed names {{#crossLink "List/allowedTags:property"}}allowedTags{{/crossLink}}, then no
+	 * the array of allowed names {{#crossLink "List/_allowedTags:property"}}_allowedTags{{/crossLink}}, then no
 	 * change occurs.
 	 * @method   switchName
 	 * @param    {String}        name       the value to be imposed as a list type.
 	 */
 	this.switchName = function(name){
-		if (allowedTags.indexOf(name) !== -1){
+		if (_allowedTags.indexOf(name) !== -1){
 			this.setTag(name);
 		}
 	};

@@ -102,6 +102,21 @@ describe('List-related functionality:', function(){
         });
     });
 
+    describe('Returns allowed list types', function(){
+        it ('contains value "ul"', function(){
+            expect(l.getAllowedTags().indexOf('ul') !== -1).toBe(true);
+        });
+        it ('contains value "ol"', function(){
+            expect(l.getAllowedTags().indexOf('ol') !== -1).toBe(true);
+        });
+        it('returns a copy: changes in it do not affect the array of allowed tag stored in the class', function(){
+            var allowed = l.getAllowedTags();
+            allowed.push("new tag");
+            expect(l.getAllowedTags().indexOf("new tag") === -1).toBe(true);
+        });
+
+    });
+
     describe('List::name imposes list type', function(){
         it('imposes name to be "ul" (it is among allowed ones)', function(){
             expect((new List('ul')).getTag()).toBe('ul');

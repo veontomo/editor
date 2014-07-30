@@ -46,6 +46,24 @@ function ConverterFixed(){
 		prop.decorateElement(node);
 	};
 
+
+	/**
+	 * If the argument is a list (ordered or unordered), then margin-related keys are added
+	 * into styles.
+	 * @method         _listMargins
+	 * @private
+	 * @param         {DOM.Element}     node
+	 * @return        {void}
+	 */
+	var _listMargin = function(node){
+		 // style="padding: 0px; margin-left: 40px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px;
+		 if (node.nodeType !== Node.ELEMENT_NODE){
+			return undefined;
+		}
+		// var
+
+	}
+
 	/**
 	 * Appends workers
 	 * @method    constructor
