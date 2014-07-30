@@ -139,7 +139,11 @@ function ConverterFluid(){
 
 
 	/**
-	 * Updates padding.
+	 * Updates the following attributes
+	 * <pre>
+	 * 'padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom'
+	 * </pre>
+	 * inside style property of the node.
 	 *
 	 * @method         _paddingFluid
 	 * @private
@@ -154,9 +158,9 @@ function ConverterFluid(){
 		}
 		// console.log('node: ' + node.outerHTML);
 		// console.log('its parent: ' + parent.outerHTML);
-		var propName = 'padding';
-		var	parentSize, propValue, parentSizeObj, newPropValue, nodeAsTag, tagProps,
-			marker = 'data-original-' + propName;
+		var propNames = ['padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom'];
+		var	parentSize, propValue, parentSizeObj, newPropValue, nodeAsTag, tagProps;
+
 
 		if (par !== undefined){
 			parentSize =  _findWidthInfo(par);
@@ -164,29 +168,31 @@ function ConverterFluid(){
 		if (!parentSize){
 			parentSize = NEWSLETTER.width();
 		}
-
-		// console.log('parent size: ' + parentSize);
 		parentSizeObj = new Unit(parentSize);
 
 		nodeAsTag = NEWSLETTER.factory.mimic(node);
 		tagProps = nodeAsTag.getProperties();
-		propValue = nodeAsTag.getStyleProperty(propName);
-		if (propValue === undefined){
-			return undefined;
-		}
-		propValue =  new Unit(propValue);
-		if (!propValue.hasMeasure()){
-			propValue.setMeasure(NEWSLETTER.unitMeasure());
-		}
-		try {
-			newPropValue = propValue.frac(parentSizeObj).toPercent();
-			tagProps.setStyleProperty(propName, newPropValue.toString());
-			tagProps.decorateElement(node);
-			node.setAttribute(marker, propValue.toString());
-		}
-		catch (e){
-			console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
-		}
+		propNames.forEach(function(propName){
+			var marker = 'data-original-' + propName;
+			propValue = nodeAsTag.getStyleProperty(propName);
+			if (propValue === undefined){
+				return;
+			}
+			propValue =  new Unit(propValue);
+			if (!propValue.hasMeasure()){
+				propValue.setMeasure(NEWSLETTER.unitMeasure());
+			}
+			try {
+				newPropValue = propValue.frac(parentSizeObj).toPercent();
+				tagProps.setStyleProperty(propName, newPropValue.toString());
+				tagProps.decorateElement(node);
+				node.setAttribute(marker, propValue.toString());
+			}
+			catch (e){
+				console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
+			}
+
+		});
 	};
 
 	var _paddingAll = function(node, par){
