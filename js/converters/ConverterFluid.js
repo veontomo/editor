@@ -17,8 +17,13 @@ function ConverterFluid(){
 	ConverterGeneral.call(this);
 
 	/**
-	 * Returns information about node width. The following locations are explored: "data-original-width",
-	 * "width" and "style: .... width: ...; ...".
+	 * Returns information about node width. The following locations are explored (in order of precedence):
+	 * <ol>
+	 * <li>"data-original-width",</li>
+	 * <li>"width"</li>
+	 * <li>"style: .... width: ...; ..."</li>
+	 * <li>offsetWidth property of the node. See [explanation here](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements).</li>
+	 * </ol>
 	 * @method         _findWidthInfo
 	 * @param          {DOM.Element}        node
 	 * @return         {String|Number}
@@ -35,6 +40,9 @@ function ConverterFluid(){
 		if (style.hasProperty(propName)){
 			return style.getProperty(propName);
 		}
+		// if nothing else helps
+		return node.offsetWidth;
+
 	};
 
 
@@ -85,6 +93,7 @@ function ConverterFluid(){
 			// node.setAttribute('style', tagProps.getStyles().toString());
 		}
 		catch (e){
+			console.log('node', node, 'parent', par);
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
 		}
 	};
@@ -156,9 +165,8 @@ function ConverterFluid(){
 			// console.log('node is not element');
 			return undefined;
 		}
-		// console.log('node: ' + node.outerHTML);
-		// console.log('its parent: ' + parent.outerHTML);
-		var propNames = ['padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom'];
+		var propNames = ['padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
+			'margin', 'margin-left', 'margin-right', 'margin-top', 'margin-bottom'];
 		var	parentSize, propValue, parentSizeObj, newPropValue, nodeAsTag, tagProps;
 
 

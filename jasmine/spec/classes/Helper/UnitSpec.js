@@ -26,12 +26,12 @@ describe('Unit-related functionality', function () {
         it('when value is a float, measure is missing', function () {
             u = new Unit(2.5);
             expect(u.getValue()).toEqual(2.5);
-            expect(u.getMeasure()).toEqual('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
         it('when value is an integer, measure is an empty string', function () {
             u = new Unit(73, '');
             expect(u.getValue()).toEqual(73);
-            expect(u.getMeasure()).toEqual('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
         it('when value is an integer, measure is a string with spaces at the end', function () {
             u = new Unit(12, 'cm ');
@@ -46,7 +46,7 @@ describe('Unit-related functionality', function () {
         it('when both value and measure are missing', function () {
             u = new Unit();
             expect(u.getValue()).toEqual(0);
-            expect(u.getMeasure()).toEqual('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
         it('when value is a string with unit of measurement, measure is missing', function () {
             u = new Unit('345lk');
@@ -61,7 +61,7 @@ describe('Unit-related functionality', function () {
         it('when value is an empty string, measure is missing', function () {
             u = new Unit('');
             expect(u.getValue()).toEqual(0);
-            expect(u.getMeasure()).toEqual('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
         it('throws an error if the measurement is a number', function(){
             expect(function(){
@@ -190,13 +190,13 @@ describe('Unit-related functionality', function () {
         it('divides two Unit objects with the same measure', function(){
             var res = u1.frac(u2);
             expect(res.getValue()).toBe(2.4);
-            expect(res.getMeasure()).toBe('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
 
         it('divides two Unit objects without measure', function(){
             var res = u5.frac(u3);
             expect(res.getValue()).toBe(0.4);
-            expect(res.getMeasure()).toBe('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
 
         it('divides a Unit object with measure by a Unit without measure', function(){
@@ -220,7 +220,7 @@ describe('Unit-related functionality', function () {
         it('divides a Unit object by a dimension number represented as a string ', function(){
             var res = u1.frac('2px');
             expect(res.getValue()).toBe(6);
-            expect(res.getMeasure()).toBe('');
+            expect(u.getMeasure()).not.toBeDefined();
         });
 
         it('throws an error when dividing two objects with different units', function(){

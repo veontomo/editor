@@ -72,7 +72,6 @@ describe ('Converter to fluid format', function(){
             expect(style.getProperty('padding')).toBe('10%');
         });
 
-
         it('elaborates padding attribute if parent node has width style', function(){
             n.setAttribute('style', 'padding: 12px');
             n.setAttribute('width', '100');
@@ -84,6 +83,14 @@ describe ('Converter to fluid format', function(){
             expect(style.getProperty('padding')).toBe('10%');
         });
 
+        it('elaborates padding attribute if node has no parent', function(){
+            n.setAttribute('style', 'padding: 21px');
+            n.setAttribute('width', '100px');
+            var n2 = c.convert(n);
+            var style = new Properties(n2.getAttribute('style'));
+            expect(style.getProperty('padding')).toBe('2.1%');
+        });
+
 
         it('elaborates padding attribute if node has no parent', function(){
             n.setAttribute('style', 'padding: 21px');
@@ -91,6 +98,25 @@ describe ('Converter to fluid format', function(){
             var n2 = c.convert(n);
             var style = new Properties(n2.getAttribute('style'));
             expect(style.getProperty('padding')).toBe('2.1%');
+        });
+
+        it ('elaborates padding in ordered list', function(){
+            n = document.createElement('ol');
+            n.setAttribute('style', 'width: 100px; padding: 0px; margin-left: 40px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px;');
+            var li1 = document.createElement('li'),
+                li2 = document.createElement('li');
+            n.appendChild(li1);
+            n.appendChild(li2);
+            li1.setAttribute('style', 'padding: 10px; margin: 20px; width: 70px');
+            li2.setAttribute('style', 'padding: 15px; margin: 25px; width: 70px');
+            li1.appendChild(document.createTextNode('list item 1'));
+            li2.appendChild(document.createTextNode('list item 2'));
+
+            var n2 = c.convert(n);
+            console.log(n.outerHTML);
+            console.log(n2.outerHTML);
+            expect(1==2).toBe(true);
+
         });
 
 

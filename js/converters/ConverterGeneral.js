@@ -137,7 +137,7 @@ function ConverterGeneral(){
 
 	/**
 	 * Applies all functions from {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}} to
-	 * only to root element of node `n` and not to its children.
+	 * node `n` and not to its children.
 	 * @method         processRoot
 	 * @param          {DOM.Node}          n
 	 * @param          {DOM.Node}          par    parent of n

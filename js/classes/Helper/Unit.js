@@ -34,32 +34,64 @@ function Unit(value, measure) {
      */
     var _measure;
 
-
-    if (value instanceof Unit) {
-        return value;
-    }
-    if ((typeof measure !== 'string') && (measure !== undefined)) {
-        throw new Error('The unit of measurement must be a string!');
-    }
-    measure = (measure || '').trim();
-    switch (typeof value) {
-    case 'number':
-        _value = value;
-        _measure = measure;
-        break;
-    case 'string':
-        parsedValue = value === '' ? 0 : parseFloat(value);
-        if (isNaN(parsedValue)) {
-            throw new Error("Can not convert into a Unit object!");
+    /**
+     * Initializes properties {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} and
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}}. The order is as follows:
+     * <ol><li>
+     * If `value` is an instance of {{#crossLink "Unit"}}Unit{{/crossLink}}, then its value and measure
+     * are used to initialize corresponding properties of the current instance.
+     * </li><li>
+     * In case `measure` is provided and it is not an empty string, its value is assigned to
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}}.
+     * </li><li>
+     * If `value` is a number, then {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} is set to that value.
+     * </li><li>
+     * If `value` is a string, it is parsed into a float number which is then assigned to
+     * {{#crossLink "Unit/_value:property"}}_value{{/crossLink}}. Then it is tried to pick up eventual information
+     * about dimension from that string and if the dimensiomnturns out to be non-empty string and
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} turns out to be not initialized,
+     * the found dimension is assigned to {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}}.
+     * </li></oi>
+     *
+     * @method    constructor
+     * @param     {Any}          value
+     * @param     {String|Null}          measure
+     */
+    (function(){
+        if (value instanceof Unit) {
+            _measure = value.getMeasure();
+            _value = value.getValue();
+            return;
         }
-        parsedMeasure = value.replace(parsedValue.toString(), '').trim();
-        _value = parsedValue;
-        _measure = measure || parsedMeasure;
-        break;
-    default:
-        _value = 0;
-        _measure = '';
-    }
+        if (!value){
+            _value = 0;
+        }
+        if ((typeof measure !== 'string') && (measure !== undefined)) {
+            throw new Error('The unit of measurement must be a string!');
+        }
+        if (measure && measure.trim() !== ''){
+            _measure = measure.trim();
+        }
+        switch (typeof value) {
+        case 'number':
+            _value = value;
+            break;
+        case 'string':
+            parsedValue = value === '' ? 0 : parseFloat(value);
+            if (isNaN(parsedValue)) {
+                throw new Error("Can not convert into a Unit object!");
+            }
+            parsedMeasure = value.replace(parsedValue.toString(), '').trim();
+            _value = parsedValue;
+            if(_measure === undefined && parsedMeasure !== ''){
+                _measure = parsedMeasure;
+            }
+            break;
+        default:
+            // _value = 0;
+            // _measure = '';
+        }
+    }(value, measure));
 
     /**
      * {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} getter.
@@ -105,15 +137,15 @@ function Unit(value, measure) {
      * @since          0.0.5
      */
     this.setMeasure = function(m){
-        if (typeof m !== 'string'){
-            throw new Error('Measure attribute of Unit instance must be a string!');
+        if (typeof m !== 'string' || m.trim() === ''){
+            throw new Error('Measure attribute of Unit instance must be a non-empty string!');
         }
         _measure = m;
     };
 
     /**
      * Compares the target with the argument. Returns `true`, if the argument can be coverted into Unit instance
-     * with {{#crossLink "Unit/measure:property"}}measure{{/crossLink}} attribute being equal to the target's one.
+     * with {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} attribute being equal to the target's one.
      * Otherwise, returns `false`.
      * @method         isLikeAs
      * @param          {obj}                obj
@@ -209,31 +241,24 @@ function Unit(value, measure) {
         if (u === undefined){
             throw new Error('Can not divide by nothing!');
         }
+        var uUnit;
+        try {
+            uUnit = (u instanceof Unit) ? u : new Unit(u);
+        } catch(e){
+            throw new Error("Encountered error when converting argument into Unit instance: " + e);
+        }
         var res = new Unit();
-        if (typeof u === 'number'){
-            if (u === 0){
-                throw new Error('Can not divide by zero!');
-            }
-            res.setValue(this.getValue() / u);
+        var uVal = uUnit.getValue();
+        if (uVal === 0){
+            throw new Error('Can not divide by zero!');
+        }
+        if (!uUnit.hasMeasure() && this.hasMeasure()){
             res.setMeasure(this.getMeasure());
-            return res;
+        } else if (this.getMeasure() !== uUnit.getMeasure()){
+             throw new Error('Can not divide these objects!');
         }
-        if (u instanceof Unit){
-            var uVal = u.getValue();
-            if (uVal === 0){
-                throw new Error('Can not divide by zero!');
-            }
-            res.setValue(this.getValue() / uVal);
-            if (!u.hasMeasure()){
-                res.setMeasure(this.getMeasure());
-            } else if (this.isLikeAs(u)){
-               res.setMeasure('');
-            } else {
-                throw new Error('Can not divide these objects!');
-            }
-            return res;
-        }
-        return this.frac(new Unit(u));
+        res.setValue(this.getValue() / uVal);
+        return res;
     };
 
 
