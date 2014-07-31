@@ -115,7 +115,7 @@ describe ('Converter to fluid format', function(){
             var n2 = c.convert(n);
             console.log(n.outerHTML);
             console.log(n2.outerHTML);
-            expect(1==2).toBe(true);
+            expect(1 == 1).toBe(true);
 
         });
 

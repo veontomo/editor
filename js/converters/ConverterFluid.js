@@ -69,6 +69,7 @@ function ConverterFluid(){
 		if (!parentWidth){
 			parentWidth = NEWSLETTER.width();
 		}
+		console.log(parentWidth);
 		parentWidthObj = new Unit(parentWidth);
 
 		nodeAsTag = NEWSLETTER.factory.mimic(node);
@@ -94,6 +95,7 @@ function ConverterFluid(){
 		}
 		catch (e){
 			console.log('node', node, 'parent', par);
+			console.log(e.toString());
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
 		}
 	};
@@ -141,7 +143,8 @@ function ConverterFluid(){
 			node.setAttribute(marker, fontSize.toString());
 		}
 		catch (e){
-			console.log('Error when dividing ' + newFontSize.toString() + ' and ' + parentSizeObj.toString());
+			console.log('Error when dividing ' + fontSize.toString() + ' and ' + parentSizeObj.toString());
+			console.log(e);
 		}
 		// console.log('font resizing is over: ', node.outerHTML);
 	};

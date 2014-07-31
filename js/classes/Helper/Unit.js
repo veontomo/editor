@@ -303,4 +303,22 @@ function Unit(value, measure) {
         }
         return new Unit(this.getValue()/100);
     };
+
+    /**
+     * If the instance has no {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}}, then
+     * calls method {{#crossLink "Unit/setMeasure:method"}}setMeasure{{/crossLink}} to impose it
+     * to value `m`.
+     * @method         suggestMeasure
+     * @param          {Any}            m
+     * @return         {void}
+     */
+    this.suggestMeasure = function(m){
+        if (!this.hasMeasure()){
+            try {
+                this.setMeasure(m);
+            } catch(e){
+                console.log("Suggested measure was not set. Reason: " + e.toString());
+            }
+        }
+    };
 }
