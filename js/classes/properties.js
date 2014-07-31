@@ -589,28 +589,44 @@ function Properties(input) {
 	 * [NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).
 	 * Nevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.
 	 * @method    load
-	 * @param     {NamedNodeMap}       attr           instance of NamedNodeMap
+	 * @param     {NamedNodeMap}       attrs           instance of NamedNodeMap
 	 * @return    {boolean}                           true, if the properties are loaded, false otherwise
 	 */
-	this.load = function(attr){
-		var pos, attrName, attrValue, newStl;
-		for (pos in attr){
-			if (attr.hasOwnProperty(pos)){
-				attrName = attr[pos].name;
-				attrValue = attr[pos].value;
-				if (attrName === 'style'){
-					newStl = new Properties(attrValue);
-					newStl.setMode(1);                        // in order to print this as "attr1: val1; attr2: val2; ..."
-					if (this.hasProperty('style')){
-						attrValue = this.getProperty('style');
-						attrValue.appendProperty(newStl);
-					} else {
-						attrValue = newStl;
-					}
-				}
-				this.setProperty(attrName, attrValue);
+	this.load = function(attrs){
+		// var pos, attrName, attrValue, newStl;
+		// for (pos in attr){
+		// 	if (attr.hasOwnProperty(pos)){
+		// 		attrName = attr[pos].name;
+		// 		attrValue = attr[pos].value;
+		// 		if (attrName === 'style'){
+		// 			newStl = new Properties(attrValue);
+		// 			newStl.setMode(1);                        // in order to print this as "attr1: val1; attr2: val2; ..."
+		// 			if (this.hasProperty('style')){
+		// 				attrValue = this.getProperty('style');
+		// 				attrValue.appendProperty(newStl);
+		// 			} else {
+		// 				attrValue = newStl;
+		// 			}
+		// 		}
+		// 		this.setProperty(attrName, attrValue);
+		// 	}
+		// }
+    	var	len = attrs.length,
+    		i, key, val, valNum;
+    	for (i = 0; i < len; i++){
+			key = attrs[i].nodeName.trim();
+			val = attrs[i].nodeValue.trim();
+			console.log(i + ': key = ' + key + ', value = ' + val);
+			// try to convert into a string
+			valNum = parseFloat(val);
+			console.log(valNum, val);
+			if (valNum.toString() === val){
+				console.log('seems to be a number');
+				val = valNum;
 			}
-		}
+			this.setProperty(key, val);
+    	}
+
 		return true;
 	};
 
@@ -732,6 +748,55 @@ function Properties(input) {
     	this.setStyleProperty('width', w);
     	// this.setStyleProperty('max-width', w);
     	// this.setStyleProperty('min-width', w);
+    };
+
+
+    /**
+     * Returns value of key `width` of the instance: first looks up key `width` inside
+     * styles and if it is not present there, looks it up among attributes.
+     * @method         getWidth
+     * @return         {Number|String}      w
+     * @since          0.0.5
+     */
+    this.getWidth = function(){
+    	var propName = 'width';
+    	if (this.hasStyleProperty(propName)){
+    		return this.getStyleProperty(propName);
+    	}
+    	if (this.hasProperty(propName)){
+    		return this.getProperty(propName);
+    	}
+    };
+
+    /**
+     * Loads properties from the node attributes into the current instance. Each property value is
+     * attempted to be converted into a number and if this operation succeeds, that number is inserted
+     * as key value.
+     * @method loadNodeProperties
+     * @param  {DOM.Node}        n
+     * @return {void}
+     */
+    this.loadNodeProperties = function(n){
+   //  	var attrs = n.attributes,
+   //  		len = attrs.length,
+   //  		i, key, val, valNum;
+   //  	for (i = 0; i < len; i++){
+			// key = attrs[i].nodeName.trim();
+			// val = attrs[i].nodeValue.trim();
+			// console.log(i + ': key = ' + key + ', value = ' + val);
+			// // try to convert into a string
+			// valNum = parseFloat(val);
+			// console.log(valNum, val);
+			// if (valNum.toString() === val){
+			// 	console.log(valNum, val);
+			// 	val = valNum;
+			// }
+			// this.setProperty(key, val);
+    	// }
+    	var attrs = n.attributes;
+    	if (attrs){
+    		this.load(attrs);
+    	}
     };
 
 

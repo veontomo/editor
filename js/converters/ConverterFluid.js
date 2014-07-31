@@ -19,16 +19,19 @@ function ConverterFluid(){
 	/**
 	 * Returns information about node width. The following locations are explored (in order of precedence):
 	 * <ol>
+	 * <li>offsetWidth property of the node. See
+	 * [explanation here](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements).
+	 * </li>
 	 * <li>"data-original-width",</li>
 	 * <li>"width"</li>
 	 * <li>"style: .... width: ...; ..."</li>
-	 * <li>offsetWidth property of the node. See [explanation here](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements).</li>
 	 * </ol>
 	 * @method         _findWidthInfo
 	 * @param          {DOM.Element}        node
 	 * @return         {String|Number}
 	 */
 	var _findWidthInfo = function(node){
+		// if nothing else helps
 		var propName = 'width';
 		if (node.hasAttribute('data-original-width')){
 			return node.getAttribute('data-original-width');
@@ -40,8 +43,11 @@ function ConverterFluid(){
 		if (style.hasProperty(propName)){
 			return style.getProperty(propName);
 		}
-		// if nothing else helps
-		return node.offsetWidth;
+		var width = node.offsetWidth;
+		if (width !== undefined){
+			return width;
+		}
+
 
 	};
 
@@ -58,10 +64,11 @@ function ConverterFluid(){
 	 * @private
 	 */
 	var _widthFluid = function(node, par){
+		// console.log('_widthFluid: ', node, par);
 		if (node.nodeType !== Node.ELEMENT_NODE){
 			return undefined;
 		}
-		var	parentWidth, width, parentWidthObj, newWidth, nodeAsTag, tagProps,
+		var	parentWidth, width, parentWidthObj, newWidth,
 			widthMarker = 'data-original-width';
 		if (par !== undefined){
 			parentWidth =  _findWidthInfo(par);
@@ -69,27 +76,25 @@ function ConverterFluid(){
 		if (!parentWidth){
 			parentWidth = NEWSLETTER.width();
 		}
-		console.log(parentWidth);
 		parentWidthObj = new Unit(parentWidth);
+		parentWidthObj.suggestMeasure(NEWSLETTER.unitMeasure());
 
-		nodeAsTag = NEWSLETTER.factory.mimic(node);
-		tagProps = nodeAsTag.getProperties();
-		width = nodeAsTag.getWidth();
-		width =  new Unit(width);
+		var props = new Properties();
+		props.loadNodeProperties(node);
+
+		// tagProps = nodeAsTag.getProperties();
+		width = props.getWidth();
 		if (width === undefined){
 			return undefined;
 		}
 		width =  new Unit(width);
-		if (!width.hasMeasure()){
-			// console.log("width: " + width.toString());
-			width.setMeasure(NEWSLETTER.unitMeasure());
-		}
+		width.suggestMeasure(NEWSLETTER.unitMeasure());
 		try {
 			newWidth = width.frac(parentWidthObj).toPercent();
-			tagProps.setWidth(newWidth.toString());
-			tagProps.dropStyleProperty('max-width');
-			tagProps.dropStyleProperty('min-width');
-			tagProps.decorateElement(node);
+			props.setWidth(newWidth.toString());
+			props.dropStyleProperty('max-width');
+			props.dropStyleProperty('min-width');
+			props.decorateElement(node);
 			node.setAttribute(widthMarker, width.toString());
 			// node.setAttribute('style', tagProps.getStyles().toString());
 		}
@@ -170,36 +175,42 @@ function ConverterFluid(){
 		}
 		var propNames = ['padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
 			'margin', 'margin-left', 'margin-right', 'margin-top', 'margin-bottom'];
-		var	parentSize, propValue, parentSizeObj, newPropValue, nodeAsTag, tagProps;
+		var	parentSize, propValue, parentSizeObj, newPropValue;
 
 
 		if (par !== undefined){
+			console.log('Parent is present');
 			parentSize =  _findWidthInfo(par);
+			console.log('Parent size ', parentSize);
 		}
 		if (!parentSize){
 			parentSize = NEWSLETTER.width();
 		}
 		parentSizeObj = new Unit(parentSize);
+		parentSizeObj.suggestMeasure(NEWSLETTER.unitMeasure());
 
-		nodeAsTag = NEWSLETTER.factory.mimic(node);
-		tagProps = nodeAsTag.getProperties();
+		var props = new Properties();
+		props.loadNodeProperties(node);
+
+
+		// nodeAsTag = NEWSLETTER.factory.mimic(node);
+		// tagProps = nodeAsTag.getProperties();
 		propNames.forEach(function(propName){
 			var marker = 'data-original-' + propName;
-			propValue = nodeAsTag.getStyleProperty(propName);
+			propValue = props.getStyleProperty(propName);
 			if (propValue === undefined){
 				return;
 			}
 			propValue =  new Unit(propValue);
-			if (!propValue.hasMeasure()){
-				propValue.setMeasure(NEWSLETTER.unitMeasure());
-			}
+			propValue.suggestMeasure(NEWSLETTER.unitMeasure());
 			try {
 				newPropValue = propValue.frac(parentSizeObj).toPercent();
-				tagProps.setStyleProperty(propName, newPropValue.toString());
-				tagProps.decorateElement(node);
+				props.setStyleProperty(propName, newPropValue.toString());
+				props.decorateElement(node);
 				node.setAttribute(marker, propValue.toString());
 			}
 			catch (e){
+				console.log(e.toString());
 				console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
 			}
 

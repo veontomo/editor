@@ -68,6 +68,8 @@ describe ('Converter to fluid format', function(){
             nParent.setAttribute('width', '120px');
             nParent.appendChild(n);
             var n2 = c.convert(n, nParent);
+            console.log(nParent.outerHTML);
+            console.log(n2.outerHTML);
             var style = new Properties(n2.getAttribute('style'));
             expect(style.getProperty('padding')).toBe('10%');
         });

@@ -681,9 +681,9 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(5);
             expect(props.getProperty('test')).toBe('1');
             expect(props.getProperty('media')).toBe('paper');
-            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('width')).toBe(21);
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe('9');
+            expect(props.getProperty('border')).toBe(9);
         });
 
         it('overrides properties if argument has the same properties', function(){
@@ -693,9 +693,9 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(3);
             props.load(attr1);
             expect(props.propNum()).toBe(3);
-            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('width')).toBe(21);
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe('9');
+            expect(props.getProperty('border')).toBe(9);
         });
 
         it('overrides properties if argument has some properties in common', function(){
@@ -705,9 +705,9 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(3);
             props.load(attr1);
             expect(props.propNum()).toBe(5);
-            expect(props.getProperty('width')).toBe('21');
+            expect(props.getProperty('width')).toBe(21);
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe('9');
+            expect(props.getProperty('border')).toBe(9);
             expect(props.getProperty('color')).toBe('red');
             expect(props.getProperty('position')).toBe('absolute');
         });
@@ -732,7 +732,7 @@ describe('Properties-related functionality', function(){
             expect(stl.getProperty('padding')).toBe('auto');
         });
 
-        it('appends style properties', function(){
+        it('overrides style properties', function(){
             var tempProp = new Properties();
             tempProp.setProperty('font-family', 'Fancy');
             tempProp.setProperty('text-align', 'left');
@@ -741,11 +741,9 @@ describe('Properties-related functionality', function(){
 
             props.load(attr2);
 
-            var stl = props.getProperty('style');
+            var stl = props.getStyles();
 
-            expect(stl.propNum()).toBe(5);
-            expect(stl.getProperty('font-family')).toBe('Fancy');
-            expect(stl.getProperty('text-align')).toBe('left');
+            expect(stl.propNum()).toBe(3);
             expect(stl.getProperty('font-size')).toBe('4em');
             expect(stl.getProperty('color')).toBe('#001234');
             expect(stl.getProperty('padding')).toBe('auto');
@@ -759,9 +757,8 @@ describe('Properties-related functionality', function(){
             props.setProperty('style', tempProp);
             props.load(attr2);
 
-            var stl = props.getProperty('style');
-            expect(stl.propNum()).toBe(4);
-            expect(stl.getProperty('text-align')).toBe('left');
+            var stl = props.getStyles();
+            expect(stl.propNum()).toBe(3);
             expect(stl.getProperty('font-size')).toBe('4em');
             expect(stl.getProperty('color')).toBe('#001234');
             expect(stl.getProperty('padding')).toBe('auto');
@@ -828,6 +825,60 @@ describe('Properties-related functionality', function(){
             expect(props.getProperty('width')).toBe('12');
             expect(props.getStyleProperty('width')).toBe('12');
         });
+    });
+
+    describe('Loading properties from node attributes', function(){
+        it('loads nothing if node has no attributes', function(){
+            var n = document.createElement('span');
+            props.loadNodeProperties(n);
+            expect(props.propNum()).toBe(0);
+        });
+        it('loads single numeric attribute if the node has only that attribute', function(){
+            var n = document.createElement('span');
+            n.setAttribute('width', 200);
+            props.loadNodeProperties(n);
+            expect(props.propNum()).toBe(1);
+            expect(props.getProperty('width')).toBe(200);
+        });
+
+        it('loads single string attribute if the node has only that attribute', function(){
+            var n = document.createElement('span');
+            n.setAttribute('media', 'screen');
+            props.loadNodeProperties(n);
+            expect(props.propNum()).toBe(1);
+            expect(props.getProperty('media')).toBe('screen');
+        });
+
+        it('loads four attributes', function(){
+            var n = document.createElement('span');
+            n.setAttribute('media', 'screen');
+            n.setAttribute('padding', 20);
+            n.setAttribute('margin', '14%');
+            n.setAttribute('width', 211);
+            props.loadNodeProperties(n);
+            expect(props.propNum()).toBe(4);
+            expect(props.getProperty('media')).toBe('screen');
+            expect(props.getProperty('padding')).toBe(20);
+            expect(props.getProperty('margin')).toBe('14%');
+            expect(props.getProperty('width')).toBe(211);
+        });
+
+        it('loads styles as object', function(){
+            var n = document.createElement('span');
+            n.setAttribute('style', 'screen: wide; port: 10;');
+            props = new Properties();
+            props.loadNodeProperties(n);
+            expect(props.propNum()).toBe(1);
+            expect(props.hasStyles()).toBe(true);
+            expect(props.getStyles().propNum()).toBe(2);
+            expect(props.getStyleProperty('screen')).toBe('wide');
+            // expect(props.getStyleProperty('port')).toBe(10);
+            console.log(props.getStyles().getMode());
+        });
+
+
+
+
     });
 });
 

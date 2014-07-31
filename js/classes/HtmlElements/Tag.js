@@ -96,18 +96,6 @@ function Tag(tName) {
 	var _properties = new Properties();
 
 	/**
-	 * Tag styles
-	 * @property       {Styles}             styles
-	 * @type           {Styles}
-	 * @default        Styles()
-	 * @private
-	 * @since          0.0.4
-	 * @deprecated     Use _properties instead
-	 */
-	// var styles = new Styles();
-
-
-	/**
 	 * Content of the tag.
 	 * @property       {Content}            content
 	 * @type           {Content}
@@ -460,13 +448,9 @@ function Tag(tName) {
 	 * @since          0.0.4
 	 */
 	this.getWidth = function(){
-		var propName = 'width',
-			stl = this.getStyles();
-		if (stl && stl.hasProperty(propName)){
-			return stl.getProperty(propName);
-		}
-		if (this.hasProperty(propName)){
-			return this.getProperty(propName);
+		var props = this.getProperties();
+		if (props){
+			return props.getWidth();
 		}
 	};
 
