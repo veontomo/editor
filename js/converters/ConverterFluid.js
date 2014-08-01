@@ -97,13 +97,11 @@ function ConverterFluid(){
 		width.suggestMeasure(NEWSLETTER.unitMeasure());
 		try {
 			newWidth = width.frac(parentWidthObj, _precision).toPercent();
-			console.log('new width: ' + newWidth.toString());
 			props.setWidth(newWidth.toString());
 			props.dropStyleProperty('max-width');
 			props.dropStyleProperty('min-width');
 			props.decorateElement(node);
 			node.setAttribute(widthMarker, width.toString());
-			// node.setAttribute('style', tagProps.getStyles().toString());
 		}
 		catch (e){
 			console.log(e.toString());

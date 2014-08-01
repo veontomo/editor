@@ -68,8 +68,8 @@ describe ('Converter to fluid format', function(){
             nParent.setAttribute('width', '120px');
             nParent.appendChild(n);
             var n2 = c.convert(n, nParent);
-            console.log(nParent.outerHTML);
-            console.log(n2.outerHTML);
+            // console.log(nParent.outerHTML);
+            // console.log(n2.outerHTML);
             var style = new Properties(n2.getAttribute('style'));
             expect(style.getProperty('padding')).toBe('10%');
         });
@@ -115,8 +115,8 @@ describe ('Converter to fluid format', function(){
             li2.appendChild(document.createTextNode('list item 2'));
 
             var n2 = c.convert(n);
-            console.log(n.outerHTML);
-            console.log(n2.outerHTML);
+            // console.log(n.outerHTML);
+            // console.log(n2.outerHTML);
             expect(1 == 1).toBe(true);
 
         });

@@ -872,8 +872,6 @@ describe('Properties-related functionality', function(){
             expect(props.hasStyles()).toBe(true);
             expect(props.getStyles().propNum()).toBe(2);
             expect(props.getStyleProperty('screen')).toBe('wide');
-            // expect(props.getStyleProperty('port')).toBe(10);
-            console.log(props.getStyles().getMode());
         });
 
 
