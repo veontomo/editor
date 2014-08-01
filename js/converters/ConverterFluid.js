@@ -16,6 +16,15 @@ function ConverterFluid(){
 	}
 	ConverterGeneral.call(this);
 
+
+	/**
+	 * Number of digits after decimal point to maintain.
+	 *
+	 * @property        {Integer}           _precision
+	 * @type            {Number}
+	 */
+	var _precision = 5;
+
 	/**
 	 * Returns information about node width. The following locations are explored (in order of precedence):
 	 * <ol>
@@ -47,8 +56,6 @@ function ConverterFluid(){
 		if (width !== undefined){
 			return width;
 		}
-
-
 	};
 
 
@@ -82,7 +89,6 @@ function ConverterFluid(){
 		var props = new Properties();
 		props.loadNodeProperties(node);
 
-		// tagProps = nodeAsTag.getProperties();
 		width = props.getWidth();
 		if (width === undefined){
 			return undefined;
@@ -90,7 +96,8 @@ function ConverterFluid(){
 		width =  new Unit(width);
 		width.suggestMeasure(NEWSLETTER.unitMeasure());
 		try {
-			newWidth = width.frac(parentWidthObj).toPercent();
+			newWidth = width.frac(parentWidthObj, _precision).toPercent();
+			console.log('new width: ' + newWidth.toString());
 			props.setWidth(newWidth.toString());
 			props.dropStyleProperty('max-width');
 			props.dropStyleProperty('min-width');
@@ -99,7 +106,6 @@ function ConverterFluid(){
 			// node.setAttribute('style', tagProps.getStyles().toString());
 		}
 		catch (e){
-			console.log('node', node, 'parent', par);
 			console.log(e.toString());
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
 		}
@@ -120,38 +126,31 @@ function ConverterFluid(){
 		}
 		var propName = 'font-size';
 		// console.log('font resizing', node.outerHTML);
-		var	parentSize, fontSize, parentSizeObj, newFontSize, nodeAsTag, tagProps,
+		var	parentSize, propValue, parentSizeObj, newPropValue,
 			marker = 'data-original-' + propName;
 
 
 		parentSize = par && par.hasAttribute(marker) ? par.getAttribute(marker) : NEWSLETTER.fontsize();
 		parentSizeObj = new Unit(parentSize);
 
-		nodeAsTag = NEWSLETTER.factory.mimic(node);
-		tagProps = nodeAsTag.getProperties();
-		fontSize = nodeAsTag.getStyleProperty(propName);
-		if (fontSize === undefined){
+		var props = new Properties();
+		props.loadNodeProperties(node);
+		propValue = props.getStyleProperty(propName);
+		if (propValue === undefined){
 			return undefined;
 		}
-		fontSize =  new Unit(fontSize);
-		if (!fontSize.hasMeasure()){
-			fontSize.setMeasure(NEWSLETTER.unitMeasure());
-		}
+		propValue =  new Unit(propValue);
+		propValue.suggestMeasure(NEWSLETTER.unitMeasure());
 		try {
-			newFontSize = fontSize.frac(parentSizeObj).toPercent();
-			// console.log('tagProps before setting: ', tagProps.getStyleProperty('font-size'));
-			// console.log('setting to ', newFontSize.toString());
-			tagProps.setStyleProperty(propName, newFontSize.toString());
-			// console.log('tagProps after setting: ', tagProps.getStyleProperty('font-size'));
-			// console.log('Error when dividing ' + newFontSize.toString() + ' and ' + parentSizeObj.toString());
-			tagProps.decorateElement(node);
-			node.setAttribute(marker, fontSize.toString());
+			newPropValue = propValue.frac(parentSizeObj, _precision).toPercent();
+			props.setStyleProperty(propName, newPropValue.toString());
+			props.decorateElement(node);
+			node.setAttribute(marker, propValue.toString());
 		}
 		catch (e){
-			console.log('Error when dividing ' + fontSize.toString() + ' and ' + parentSizeObj.toString());
+			console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
 			console.log(e);
 		}
-		// console.log('font resizing is over: ', node.outerHTML);
 	};
 
 
@@ -170,18 +169,14 @@ function ConverterFluid(){
 	 */
 	var _paddingFluid = function(node, par){
 		if (node.nodeType !== Node.ELEMENT_NODE){
-			// console.log('node is not element');
 			return undefined;
 		}
 		var propNames = ['padding', 'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
 			'margin', 'margin-left', 'margin-right', 'margin-top', 'margin-bottom'];
 		var	parentSize, propValue, parentSizeObj, newPropValue;
 
-
 		if (par !== undefined){
-			console.log('Parent is present');
 			parentSize =  _findWidthInfo(par);
-			console.log('Parent size ', parentSize);
 		}
 		if (!parentSize){
 			parentSize = NEWSLETTER.width();
@@ -192,9 +187,6 @@ function ConverterFluid(){
 		var props = new Properties();
 		props.loadNodeProperties(node);
 
-
-		// nodeAsTag = NEWSLETTER.factory.mimic(node);
-		// tagProps = nodeAsTag.getProperties();
 		propNames.forEach(function(propName){
 			var marker = 'data-original-' + propName;
 			propValue = props.getStyleProperty(propName);
@@ -204,7 +196,7 @@ function ConverterFluid(){
 			propValue =  new Unit(propValue);
 			propValue.suggestMeasure(NEWSLETTER.unitMeasure());
 			try {
-				newPropValue = propValue.frac(parentSizeObj).toPercent();
+				newPropValue = propValue.frac(parentSizeObj, _precision).toPercent();
 				props.setStyleProperty(propName, newPropValue.toString());
 				props.decorateElement(node);
 				node.setAttribute(marker, propValue.toString());

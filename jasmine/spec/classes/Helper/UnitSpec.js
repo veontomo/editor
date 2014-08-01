@@ -240,6 +240,12 @@ describe('Unit-related functionality', function () {
                 u4.frac();
             }).toThrow("Can not divide by nothing!");
         });
+
+        it('divides with requested precision', function(){
+            var u6 = u2.frac(new Unit(3, 'px'), 3);
+            expect(u6.getValue()).toBe(1.666);
+            expect(u6.getMeasure()).not.toBeDefined();
+        });
     });
 
     describe('Creates string represenation of the object', function(){
@@ -343,6 +349,12 @@ describe('Unit-related functionality', function () {
             var res = u.toPercent();
             expect(res.getValue()).toBe(-123.2);
             expect(res.getMeasure()).toBe('%');
+        });
+
+        it('does not add artificial zeros', function(){
+            u.setValue(0.164);
+            var res = u.toPercent();
+            expect(res.getValue()).toBe(16.4);
         });
     });
 

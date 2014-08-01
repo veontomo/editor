@@ -216,6 +216,35 @@ function Unit(value, measure) {
     };
 
     /**
+     * Returns the result of division of `n` by `m` with `p` digits after point.
+     * @method         _fracWithPresicion
+     * @param          {Number}              n
+     * @param          {Number}              m        Non-zero number
+     * @param          {Integer}             p        Non-negative integer number
+     * @return         {Number}
+     * @since          0.0.5
+     * @private
+     */
+    var _fracWithPresicion = function(n, m, p){
+        console.log('Dividing ' + n + ' by ' + m + ' with presicion ' + p);
+        if (typeof n !== 'number' || typeof m !== 'number' || m === 0){
+            throw new Error('Numerator must be a number, denumerator must be a non-zero number.');
+        }
+        var frac = n / m;
+        if (p === undefined){
+            return frac;
+        }
+        if (!Number.isInteger(p) || p < 0){
+            throw new Error('Precision must be non-negative integer.');
+        }
+        var base = Math.pow(10, p),
+            res = parseInt(frac*base, 10)/base;
+        console.log('Result ' + res);
+        return res;
+    };
+
+
+    /**
      * Returns the result of division of the target by the argument.
      *
      * The following cases are distinguished (in order of processing):
@@ -235,9 +264,10 @@ function Unit(value, measure) {
      * the method is called again with argument being converted into Unit instance.
      * @method         frac
      * @param          {Unit}               u
+     * @param          {Integer}            p            Precision (optional). Number of digits after the decimal point
      * @return         {Unit}
      */
-    this.frac = function(u){
+    this.frac = function(u, p){
         if (u === undefined){
             throw new Error('Can not divide by nothing!');
         }
@@ -257,9 +287,10 @@ function Unit(value, measure) {
         } else if (this.getMeasure() !== uUnit.getMeasure()){
              throw new Error('Can not divide these objects!');
         }
-        res.setValue(this.getValue() / uVal);
+        res.setValue(_fracWithPresicion(this.getValue(), uVal, p));
         return res;
     };
+
 
 
     /**
@@ -286,7 +317,18 @@ function Unit(value, measure) {
         if (this.hasMeasure()){
             throw new Error('Only dimensionless numbers can be representred as percents!');
         }
-        return new Unit(this.getValue() * 100, '%');
+        var newVal,
+            currVal = this.getValue();
+        if (Number.isInteger(currVal)) {
+            newVal = currVal * 100;
+        } else {
+            var str = currVal.toString() + '00';
+            var parts = str.split('.');
+            newVal = parts[0] + parts[1].substr(0, 2) + '.' + parts[1].substr(2);
+            newVal = parseFloat(newVal, 10);
+        }
+
+        return new Unit(newVal, '%');
     };
 
     /**
