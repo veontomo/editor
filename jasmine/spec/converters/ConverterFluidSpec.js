@@ -10,7 +10,7 @@ describe ('Converter to fluid format', function(){
     	spyOn(NEWSLETTER, 'fontsize').andCallFake(function(){return "10px";});
     });
 
-    describe("Elaborates single node", function () {
+    describe('Elaborates node without children', function () {
     	it('converts width attribute if it is given without unit of measurement', function(){
     		n.setAttribute('width', '200');
     		var n2 = c.convert(n);
@@ -120,8 +120,40 @@ describe ('Converter to fluid format', function(){
             expect(1 == 1).toBe(true);
 
         });
+    });
 
+    describe('Elabotates node with children', function(){
+        var child1, child2, child3;
+        beforeEach(function(){
+            child1 = document.createElement('div');
+            child2 = document.createElement('span');
+            child3 = document.createElement('a');
+            n.setAttribute('width', 100);
+            child1.setAttribute('width', 50);
+            child2.setAttribute('width', 20);
+            child3.setAttribute('width', 30);
+            n.appendChild(child1);
+            n.appendChild(child2);
+            n.appendChild(child3);
+        });
 
+        it('preserves the number of child nodes', function(){
+            var n2 = c.convert(n);
+            expect(n2.childNodes.length).toBe(3);
+        });
+
+        it('modifies all children width', function(){
+            var n2 = c.convert(n),
+                children = n2.childNodes,
+                style = new Properties(n2.getAttribute('style'));
+                style1 = new Properties(children.item(0).getAttribute('style')),
+                style2 = new Properties(children.item(1).getAttribute('style')),
+                style3 = new Properties(children.item(2).getAttribute('style'));
+            expect(style.getProperty('width')).toBe('10%');   /// because overall default width is 1000px
+            expect(style1.getProperty('width')).toBe('50%');
+            expect(style2.getProperty('width')).toBe('20%');
+            expect(style3.getProperty('width')).toBe('30%');
+        });
     });
 
 

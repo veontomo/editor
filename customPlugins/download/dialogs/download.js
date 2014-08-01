@@ -23,9 +23,15 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 					label: editor.lang.common.name,
 					"default": CDownload.appendTimeStamp()
 				}, {
-					type: 'checkbox',
-					id: 'mode',
-					label: 'fluid'
+					// type: 'checkbox',
+					// id: 'mode',
+					// label: 'fluid'
+					type: 'radio',
+					   id: 'mode',
+					   label: 'Formato',
+					   style: 'line-height: 2em;',
+					   items: [['Fisso', 'fixed'], ['Elastico', 'fluid']],
+					   'default': 'fixed',
 				}]
 			}
 		],
