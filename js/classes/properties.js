@@ -593,35 +593,17 @@ function Properties(input) {
 	 * @return    {boolean}                           true, if the properties are loaded, false otherwise
 	 */
 	this.load = function(attrs){
-		// var pos, attrName, attrValue, newStl;
-		// for (pos in attr){
-		// 	if (attr.hasOwnProperty(pos)){
-		// 		attrName = attr[pos].name;
-		// 		attrValue = attr[pos].value;
-		// 		if (attrName === 'style'){
-		// 			newStl = new Properties(attrValue);
-		// 			newStl.setMode(1);                        // in order to print this as "attr1: val1; attr2: val2; ..."
-		// 			if (this.hasProperty('style')){
-		// 				attrValue = this.getProperty('style');
-		// 				attrValue.appendProperty(newStl);
-		// 			} else {
-		// 				attrValue = newStl;
-		// 			}
-		// 		}
-		// 		this.setProperty(attrName, attrValue);
-		// 	}
-		// }
     	var	len = attrs.length,
     		i, key, val, valNum;
     	for (i = 0; i < len; i++){
 			key = attrs[i].nodeName.trim();
 			val = attrs[i].nodeValue.trim();
-			console.log(i + ': key = ' + key + ', value = ' + val);
+			// console.log(i + ': key = ' + key + ', value = ' + val);
 			// try to convert into a string
 			valNum = parseFloat(val);
-			console.log(valNum, val);
+			// console.log(valNum, val);
 			if (valNum.toString() === val){
-				console.log('seems to be a number');
+				// console.log('seems to be a number');
 				val = valNum;
 			}
 			this.setProperty(key, val);
@@ -772,27 +754,14 @@ function Properties(input) {
      * Loads properties from the node attributes into the current instance. Each property value is
      * attempted to be converted into a number and if this operation succeeds, that number is inserted
      * as key value.
-     * @method loadNodeProperties
-     * @param  {DOM.Node}        n
-     * @return {void}
+     *
+     * In fact, it uses {{#crossLink "Properties/load:method"}}load{{/crossLink}} method which is
+     * called with node `n` attributes in case they are present.
+     * @method        loadNodeProperties
+     * @param         {DOM.Node}            n
+     * @return        {void}
      */
     this.loadNodeProperties = function(n){
-   //  	var attrs = n.attributes,
-   //  		len = attrs.length,
-   //  		i, key, val, valNum;
-   //  	for (i = 0; i < len; i++){
-			// key = attrs[i].nodeName.trim();
-			// val = attrs[i].nodeValue.trim();
-			// console.log(i + ': key = ' + key + ', value = ' + val);
-			// // try to convert into a string
-			// valNum = parseFloat(val);
-			// console.log(valNum, val);
-			// if (valNum.toString() === val){
-			// 	console.log(valNum, val);
-			// 	val = valNum;
-			// }
-			// this.setProperty(key, val);
-    	// }
     	var attrs = n.attributes;
     	if (attrs){
     		this.load(attrs);
