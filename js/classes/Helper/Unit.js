@@ -226,7 +226,6 @@ function Unit(value, measure) {
      * @private
      */
     var _fracWithPresicion = function(n, m, p){
-        console.log('Dividing ' + n + ' by ' + m + ' with presicion ' + p);
         if (typeof n !== 'number' || typeof m !== 'number' || m === 0){
             throw new Error('Numerator must be a number, denumerator must be a non-zero number.');
         }
@@ -239,7 +238,6 @@ function Unit(value, measure) {
         }
         var base = Math.pow(10, p),
             res = parseInt(frac*base, 10)/base;
-        console.log('Result ' + res);
         return res;
     };
 
@@ -309,6 +307,10 @@ function Unit(value, measure) {
      * Returns an instance of {{#crossLink "Unit"}}Unit{{/crossLink}} that represents
      * the target in percentage form if it is a dimensionless number.
      * If instead it has a dimension, an error is thrown.
+     *
+     * Some additional code is added in order to suppres possible artificial digits
+     * pertinent to javascript. For example, in javascript 0.164 * 100 is equal to
+     * something like 16.40000...02.
      * @method         toPercent
      * @return         {Unit}
      * @since          0.0.5
@@ -327,7 +329,6 @@ function Unit(value, measure) {
             newVal = parts[0] + parts[1].substr(0, 2) + '.' + parts[1].substr(2);
             newVal = parseFloat(newVal, 10);
         }
-
         return new Unit(newVal, '%');
     };
 

@@ -36,7 +36,7 @@ var CDownload = {
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},
 				function(filename){
-					// $(location).attr('href', 'php/downloadFile.php?filename=' + filename);
+					$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
 			}
 		);
 	},
