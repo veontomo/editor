@@ -108,7 +108,7 @@ describe('Content-related functionality', function(){
 		});
 
 		it('refers to the getElem when calling getFirst', function(){
-			spyOn(c, 'getElem').andCallFake(function(){return null;});
+			spyOn(c, 'getElem').and.returnValue(null);
 			c.setElements([]);
 			c.getFirst();
 			expect(c.getElem).toHaveBeenCalledWith(0);
@@ -120,7 +120,7 @@ describe('Content-related functionality', function(){
 		});
 
 		it('returns null when calling getLast on empty array', function(){
-			spyOn(c, 'getElem').andCallFake(function(){return null;});
+			spyOn(c, 'getElem').and.returnValue(null);
 			c.setElements([]);
 			var last = c.getLast();
 			expect(c.getElem).not.toHaveBeenCalled();
@@ -129,7 +129,7 @@ describe('Content-related functionality', function(){
 
 
 		it('refers the getElem when calling getLast', function(){
-			spyOn(c, 'getElem').andCallFake(function(){return null;});
+			spyOn(c, 'getElem').and.returnValue(null);
 			c.setElements(['string', 2344, '33']);
 			c.getLast();
 			expect(c.getElem).toHaveBeenCalledWith(2);
@@ -168,7 +168,7 @@ describe('Content-related functionality', function(){
 		});
 		it('returns false if content.elements contains an object that has isEmpty method that returns false', function(){
 			var obj = {1: 'property 1', isEmpty: function(){return null;}, 'descr': 'nice'};
-			spyOn(obj, 'isEmpty').andCallFake(function(){return false;});
+			spyOn(obj, 'isEmpty').and.returnValue(false);
 			c.setElements([obj]);
 			expect(c.isEmpty()).toBe(false);
 			expect(obj.isEmpty).toHaveBeenCalled();
@@ -177,8 +177,8 @@ describe('Content-related functionality', function(){
 			var obj1 = {isEmpty: function(){return null;}},
 				obj2 = {isEmpty: function(){return null;}},
 				obj3 = {isEmpty: function(){return null;}};
-			spyOn(obj1, 'isEmpty').andCallFake(function(){return true;});
-			spyOn(obj2, 'isEmpty').andCallFake(function(){return false;});
+			spyOn(obj1, 'isEmpty').and.returnValue(true);
+			spyOn(obj2, 'isEmpty').and.returnValue(false);
 			spyOn(obj3, 'isEmpty');
 
 			c.setElements([obj1, obj2, obj3]);
@@ -291,7 +291,7 @@ describe('Content-related functionality', function(){
 	describe('Content::appendElemIfNotEmpty()', function(){
 		it('calls Content::appendElem(arg) if  Content::isElemEmpty(arg) returns false', function(){
 			spyOn(c, 'appendElem');
-			spyOn(c, 'isElemEmpty').andCallFake(function(){return false;});
+			spyOn(c, 'isElemEmpty').and.returnValue(false);
 			var arg = 'foo';
 			c.appendElemIfNotEmpty(arg);
 			expect(c.appendElem).toHaveBeenCalledWith(arg);
@@ -299,7 +299,7 @@ describe('Content-related functionality', function(){
 		});
 		it('does not call Content::appendElem(arg) if Content::isElemEmpty(arg) returns true', function(){
 			spyOn(c, 'appendElem');
-			spyOn(c, 'isElemEmpty').andCallFake(function(){return true;});
+			spyOn(c, 'isElemEmpty').and.returnValue(true);
 			var obj = 'foo';
 			c.appendElemIfNotEmpty(obj);
 			expect(c.appendElem).not.toHaveBeenCalled();
@@ -309,22 +309,22 @@ describe('Content-related functionality', function(){
 
 	describe('Content::insertElemAt(): Inserts the element', function(){
 		it('throws an error if the position is too big', function(){
-			spyOn(c, 'length').andCallFake(function(){return 5;});
+			spyOn(c, 'length').and.returnValue(5);
 			expect(function(){
-				c.insertElemAt(10, 'whatever');
-			}).toThrow('Wrong index to insert the element at!');
+				return c.insertElemAt(10, 'whatever');
+			}).toThrow(new Error('Wrong index to insert the element at!'));
 		});
 
 		it('throws an error if the position is negative', function(){
 			expect(function(){
-				c.insertElemAt(-1, 'whatever');
-			}).toThrow('Wrong index to insert the element at!');
+				return c.insertElemAt(-1, 'whatever');
+			}).toThrow(new Error('Wrong index to insert the element at!'));
 		});
 
 		it('throws an error if the position is not integer', function(){
 			expect(function(){
-				c.insertElemAt(2.3, 'whatever');
-			}).toThrow('Wrong index to insert the element at!');
+				return c.insertElemAt(2.3, 'whatever');
+			}).toThrow(new Error('Wrong index to insert the element at!'));
 		});
 
 		it('inserts an object at the beginning', function(){
@@ -351,8 +351,8 @@ describe('Content-related functionality', function(){
 		});
 
 		it('calls Content::appendElem() when inserting at the end', function(){
-			spyOn(c, 'length').andCallFake(function(){return 2;});
-			spyOn(c, 'appendElem').andCallFake(function(){return null;});
+			spyOn(c, 'length').and.returnValue(2);
+			spyOn(c, 'appendElem').and.returnValue(null);
 			c.insertElemAt(2, 'whatever');
 			expect(c.appendElem).toHaveBeenCalledWith('whatever');
 		});
@@ -434,20 +434,20 @@ describe('Content-related functionality', function(){
 	describe('Content::dropLast(): drops last element', function(){
 		it('if the Content has no elements, no call to Content::dropElemAt() is performed', function(){
 			spyOn(c, 'dropElemAt');
-			spyOn(c, 'length').andCallFake(function(){return 0;});
+			spyOn(c, 'length').and.returnValue(0);
 			c.dropLast();
 			expect(c.dropElemAt).not.toHaveBeenCalled();
 		});
 
 		it('if the Content has one element, calls Content::dropElemAt(0)', function(){
 			spyOn(c, 'dropElemAt');
-			spyOn(c, 'length').andCallFake(function(){return 1;});
+			spyOn(c, 'length').and.returnValue(1);
 			c.dropLast();
 			expect(c.dropElemAt).toHaveBeenCalledWith(0);
 		});
 		it('if the Content has ten elements, calls Content::dropElemAt(9)', function(){
 			spyOn(c, 'dropElemAt');
-			spyOn(c, 'length').andCallFake(function(){return 10;});
+			spyOn(c, 'length').and.returnValue(10);
 			c.dropLast();
 			expect(c.dropElemAt).toHaveBeenCalledWith(9);
 		});
@@ -624,7 +624,7 @@ describe('Content-related functionality', function(){
 
         it('calls toText() method of the unique object in the elements', function(){
         	var fake = {toText: function(){return null;}};
-        	spyOn(fake, 'toText').andCallFake(function(){return 'fake text repr';});
+        	spyOn(fake, 'toText').and.returnValue('fake text repr');
         	c.setElements([fake]);
         	expect(c.toText()).toBe('fake text repr');
         	expect(fake.toText).toHaveBeenCalled();
@@ -633,8 +633,8 @@ describe('Content-related functionality', function(){
         	var fake1 = {toText: function(){return null;}},
         		fake2 = {},
         		fake3 = {toText: function(){return null;}};
-        	spyOn(fake1, 'toText').andCallFake(function(){return 'fake1 msg';});
-        	spyOn(fake3, 'toText').andCallFake(function(){return 'fake3 str';});
+        	spyOn(fake1, 'toText').and.returnValue('fake1 msg');
+        	spyOn(fake3, 'toText').and.returnValue('fake3 str');
         	c.setElements([fake1, fake2, fake3]);
         	expect(c.toText()).toBe('fake1 msgfake3 str');
         	expect(fake1.toText).toHaveBeenCalled();
@@ -795,9 +795,9 @@ describe('Content-related functionality', function(){
 		    c2 = {'toNode': function(){return null;}};
 		    c3 = {'toNode': function(){return null;}};
 		    c.setElements([c1, c2, c3]);
-		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
-		    spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
-		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
+		    spyOn(c1, 'toNode').and.returnValue('c1 node');
+		    spyOn(c2, 'toNode').and.returnValue('c2 node');
+		    spyOn(c3, 'toNode').and.returnValue('c3 node');
 		    c.stickTo(el);
 		    expect(c1.toNode).toHaveBeenCalled();
 		    expect(c2.toNode).toHaveBeenCalled();
@@ -814,9 +814,9 @@ describe('Content-related functionality', function(){
 		    c2 = {'no-toNode-method': function(){return null;}};
 		    c3 = {'toNode': function(){return null;}};
 		    c.setElements([c1, c2, c3]);
-		    spyOn(c1, 'toNode').andCallFake(function(){return 'c1 node';});
-		    // spyOn(c2, 'toNode').andCallFake(function(){return 'c2 node';});
-		    spyOn(c3, 'toNode').andCallFake(function(){return 'c3 node';});
+		    spyOn(c1, 'toNode').and.returnValue('c1 node');
+		    // spyOn(c2, 'toNode').and.returnValue('c2 node');
+		    spyOn(c3, 'toNode').and.returnValue('c3 node');
 		    c.stickTo(el);
 		    expect(c1.toNode).toHaveBeenCalled();
 		    // expect(c2.toNode).toHaveBeenCalled();
@@ -846,8 +846,8 @@ describe('Content-related functionality', function(){
 			var c1, c2;
 			c1 = {clone: function(){return null;}};
 			c2 = {clone: function(){return null;}};
-			spyOn(c1, 'clone').andCallFake(function(){return 'clone of c1';});
-			spyOn(c2, 'clone').andCallFake(function(){return 'clone of c2';});
+			spyOn(c1, 'clone').and.returnValue('clone of c1');
+			spyOn(c2, 'clone').and.returnValue('clone of c2');
 			c.setElements([c2, c1]);
 			var clone = c.clone();
 			expect(clone.getElem(0)).toBe('clone of c2');

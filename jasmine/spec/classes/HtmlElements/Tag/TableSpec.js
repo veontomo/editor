@@ -352,16 +352,16 @@ describe('Table-related functionality:', function(){
             invalids.forEach(function(invalid){
                 tag = new Tag(invalid);
                 expect(function(){
-                    table.setBody(tag);
-                }).toThrow('Instance of Row class is required to be set as tbody!');
+                    return table.setBody(tag);
+                }).toThrow(new Error('Instance of Row class is required to be set as tbody!'));
             });
         });
         it('throws an error if the argument of the setter is an array which first element is a non-table-row object', function(){
             var invalids = ['span', 'div', 'a', 'td', 'h1'];
             invalids.forEach(function(invalid){
                 expect(function(){
-                    table.setBody([new Tag(invalid), new Row(), new Row()]);
-               }).toThrow('Instance of Row class is required to be set as tbody!');
+                    return table.setBody([new Tag(invalid), new Row(), new Row()]);
+               }).toThrow(new Error('Instance of Row class is required to be set as tbody!'));
             });
         });
 
@@ -369,8 +369,8 @@ describe('Table-related functionality:', function(){
             var invalids = ['span', 'div', 'a', 'td', 'h1'];
             invalids.forEach(function(invalid){
                 expect(function(){
-                    table.setBody([new Row(), new Tag(invalid), new Row(), new Row(), new Row()]);
-               }).toThrow('Instance of Row class is required to be set as tbody!');
+                    return table.setBody([new Row(), new Tag(invalid), new Row(), new Row(), new Row()]);
+               }).toThrow(new Error('Instance of Row class is required to be set as tbody!'));
             });
         });
 
@@ -379,8 +379,8 @@ describe('Table-related functionality:', function(){
             var invalids = ['span', 'div', 'a', 'td', 'h1'];
             invalids.forEach(function(invalid){
                 expect(function(){
-                    table.setBody([new Row(), new Row(), new Row(), new Tag(invalid)]);
-               }).toThrow('Instance of Row class is required to be set as tbody!');
+                    return table.setBody([new Row(), new Row(), new Row(), new Tag(invalid)]);
+               }).toThrow(new Error('Instance of Row class is required to be set as tbody!'));
             });
         });
 
@@ -502,32 +502,32 @@ describe('Table-related functionality:', function(){
             row2 = new Row();
             row3 = new Row();
             row4 = new Row();       // object with no 'toHtml' method
-            spyOn(row1, 'toHtml').andCallFake(function(){return '"row 1"';});
-            spyOn(row2, 'toHtml').andCallFake(function(){return '"row 2"';});
-            spyOn(row3, 'toHtml').andCallFake(function(){return '"row 3"';});
-            spyOn(row4, 'toHtml').andCallFake(function(){return '"row 4"';});
+            spyOn(row1, 'toHtml').and.returnValue('"row 1"');
+            spyOn(row2, 'toHtml').and.returnValue('"row 2"');
+            spyOn(row3, 'toHtml').and.returnValue('"row 3"');
+            spyOn(row4, 'toHtml').and.returnValue('"row 4"');
         });
 
         it('generates html string for a table with empty body', function(){
-            spyOn(table, 'isFramed').andCallFake(function(){return false;});
-            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
+            spyOn(table, 'isFramed').and.returnValue(false);
+            spyOn(table, 'getProperties').and.returnValue(attrs);
             table.setBody([]);
             expect(table.toHtml()).toBe('<table "attributes"><tbody></tbody></table>');
         });
 
 
         it('generates html string for non-framed table', function(){
-            spyOn(table, 'isFramed').andCallFake(function(){return false;});
-            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
+            spyOn(table, 'isFramed').and.returnValue(false);
+            spyOn(table, 'getProperties').and.returnValue(attrs);
             table.setBody([row1, row2]);
             expect(table.toHtml()).toBe('<table "attributes"><tbody>"row 1""row 2"</tbody></table>');
         });
 
 
         it('generates html string for framed table', function(){
-            spyOn(table, 'isFramed').andCallFake(function(){return true;});
-            spyOn(table, 'getPhantomTag').andCallFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
-            spyOn(table, 'getProperties').andCallFake(function(){return attrs;});
+            spyOn(table, 'isFramed').and.returnValue(true);
+            spyOn(table, 'getPhantomTag').and.callFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
+            spyOn(table, 'getProperties').and.returnValue(attrs);
             table.setBody([row1, row2, row3]);
 
             expect(table.toHtml()).toBe('<table "attributes"><tbody>\
@@ -545,11 +545,11 @@ describe('Table-related functionality:', function(){
             var foo = {};
             expect(foo instanceof Row).toBe(false);
             expect(function(){
-                table.appendRow(foo);
-            }).toThrow('The argument is not a Row instance!');
+                return table.appendRow(foo);
+            }).toThrow(new Error('The argument is not a Row instance!'));
          });
         // it('calls parent method appendElem() if a Row instance is given', function(){
-        //     spyOn(table, 'appendElem').andCallFake(function(){return null;});
+        //     spyOn(table, 'appendElem').and.returnValue(null);
         //     expect(row1 instanceof Row).toBe(true);
         //     table.appendRow(row1);
         //     // expect(table.appendElem).toHaveBeenCalledWith(row1);
@@ -582,13 +582,11 @@ describe('Table-related functionality:', function(){
     describe('Table::getMatrix(): 2-dim array of the cell widths in each row', function(){
         var matrix;
         it('gives empty array if the table has no rows', function(){
-            spyOn(table, 'length').andCallFake(function(){return 0;});
+            spyOn(table, 'length').and.returnValue(0);
             expect(table.getMatrix().length).toBe(0);
         });
         it('calls Row::getCellWidths for one-row table', function(){
-            spyOn(row1, 'getCellWidths').andCallFake(function(){
-                return 'array of cell widths of the unique row';
-            });
+            spyOn(row1, 'getCellWidths').and.returnValue('array of cell widths of the unique row');
             table.appendRow(row1);
             matrix = table.getMatrix();
             expect(matrix.length).toBe(1);
@@ -596,15 +594,9 @@ describe('Table-related functionality:', function(){
             expect(matrix[0]).toBe('array of cell widths of the unique row');
         });
         it('calls Row::getCellWidths on each row for three-row table', function(){
-            spyOn(row1, 'getCellWidths').andCallFake(function(){
-                return 'array of cell widths of the first row';
-            });
-            spyOn(row2, 'getCellWidths').andCallFake(function(){
-                return 'array of cell widths of the second row';
-            });
-            spyOn(row3, 'getCellWidths').andCallFake(function(){
-                return 'array of cell widths of the third row';
-            });
+            spyOn(row1, 'getCellWidths').and.returnValue('array of cell widths of the first row');
+            spyOn(row2, 'getCellWidths').and.returnValue('array of cell widths of the second row');
+            spyOn(row3, 'getCellWidths').and.returnValue('array of cell widths of the third row');
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -623,35 +615,35 @@ describe('Table-related functionality:', function(){
     describe('Table::setProfile(): sets the widths of the columns', function(){
         it('throws an error if the argument is not array', function(){
             expect(function(){
-                table.setProfile('not array');
-            }).toThrow('Wrong argument type: array expected.');
+                return table.setProfile('not array');
+            }).toThrow(new Error('Wrong argument type: array expected.'));
         });
 
         it('throws an error if input array length is different from the number of the columns', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 20;});
+            spyOn(table, 'colNum').and.returnValue(20);
             expect(function(){
-                table.setProfile([1, 2]);
-            }).toThrow('Wrong input array length!');
+                return table.setProfile([1, 2]);
+            }).toThrow(new Error('Wrong input array length!'));
         });
         it('does not throw an error if input array and the table have zero lengths', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 0;});
+            spyOn(table, 'colNum').and.returnValue(0);
             expect(function(){
                 table.setProfile([]);
             }).not.toThrow('Wrong input array lenght!');
         });
 
         it('calls Row::setCellWidths if the table has one row', function(){
-            spyOn(row1, 'setCellWidths').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 5;});
+            spyOn(row1, 'setCellWidths').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(5);
             table.appendRow(row1);
             table.setProfile([2, 4, 6, 1, 2]);
             expect(row1.setCellWidths).toHaveBeenCalledWith([2, 4, 6, 1, 2]);
         });
         it('calls Row::setCellWidths if the table has three rows', function(){
-            spyOn(row1, 'setCellWidths').andCallFake(function(){return null;});
-            spyOn(row2, 'setCellWidths').andCallFake(function(){return null;});
-            spyOn(row3, 'setCellWidths').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 4;});
+            spyOn(row1, 'setCellWidths').and.returnValue(null);
+            spyOn(row2, 'setCellWidths').and.returnValue(null);
+            spyOn(row3, 'setCellWidths').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(4);
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -665,79 +657,57 @@ describe('Table-related functionality:', function(){
 
     describe('Table.getProfile(): gets table profile', function(){
         it('gets "null" if not all rows have the same cell widths', function(){
-            spyOn(table, 'isSameWidths').andCallFake(function(){
-                return false;
-            });
+            spyOn(table, 'isSameWidths').and.returnValue(false);
             expect(table.getProfile()).toBe(null);
         });
         it('gets the first element of getMatrix() array, if all rows have the same cell widths', function(){
-            spyOn(table, 'isSameWidths').andCallFake(function(){
-                return true;
-            });
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return ['profile of the first row', 'the rest'];
-            });
+            spyOn(table, 'isSameWidths').and.returnValue(true);
+            spyOn(table, 'getMatrix').and.returnValue(['profile of the first row', 'the rest']);
             expect(table.getProfile()).toBe('profile of the first row');
         });
     });
 
     describe('Table::isSameWidths(): whether all table rows have the same profiles', function(){
         it('gets true for empty table', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([]);
             expect(table.isSameWidths()).toBe(true);
         });
         it('gets true for a table with an empty row', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[]]);
             expect(table.isSameWidths()).toBe(true);
         });
         it('gets true for a 2 x 3 table with the same row profiles', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[1, 2, 3], [1, 2, 3]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[1, 2, 3], [1, 2, 3]]);
             expect(table.isSameWidths()).toBe(true);
         });
         it('gets false for a non-rectangular table with different row profiles', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[1, 2], [1, 2, 3]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[1, 2], [1, 2, 3]]);
             expect(table.isSameWidths()).toBe(false);
         });
 
         it('gets false for a table with empty first row and non-empty second row', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[], [1, 2, 3]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[], [1, 2, 3]]);
             expect(table.isSameWidths()).toBe(false);
         });
         it('gets true for a 4 x 4 tables with the same row profiles', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[89, 32, 83, 1], [89, 32, 83, 1], [89, 32, 83, 1], [89, 32, 83, 1]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[89, 32, 83, 1], [89, 32, 83, 1], [89, 32, 83, 1], [89, 32, 83, 1]]);
             expect(table.isSameWidths()).toBe(true);
         });
         it('gets true for a 5 x 4 tables with the same row profiles', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21]];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21]]);
             expect(table.isSameWidths()).toBe(true);
         });
         it('gets true for a 5 x 4 tables with different row profiles', function(){
-            spyOn(table, 'getMatrix').andCallFake(function(){
-                return [[94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 'XXX']];
-            });
+            spyOn(table, 'getMatrix').and.returnValue([[94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 21], [94, 354, 74.1, 'XXX']]);
             expect(table.isSameWidths()).toBe(false);
         });
     });
 
     describe('Table::knockOutCol(): knocks out given column', function(){
         it('calls method Row::dropCell() on each row', function(){
-            spyOn(row1, 'knockOutCell').andCallFake(function(){return null;});
-            spyOn(row2, 'knockOutCell').andCallFake(function(){return null;});
-            spyOn(row3, 'knockOutCell').andCallFake(function(){return null;});
+            spyOn(row1, 'knockOutCell').and.returnValue(null);
+            spyOn(row2, 'knockOutCell').and.returnValue(null);
+            spyOn(row3, 'knockOutCell').and.returnValue(null);
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -751,9 +721,9 @@ describe('Table-related functionality:', function(){
 
     describe('Table::dropColAt(): drops given column', function(){
         it('calls method Row::dropCellAt() on each row', function(){
-            spyOn(row1, 'dropCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'dropCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'dropCellAt').andCallFake(function(){return null;});
+            spyOn(row1, 'dropCellAt').and.returnValue(null);
+            spyOn(row2, 'dropCellAt').and.returnValue(null);
+            spyOn(row3, 'dropCellAt').and.returnValue(null);
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -767,10 +737,10 @@ describe('Table-related functionality:', function(){
 
     describe('Table::colNum(): gives the number of columns', function(){
         it('gives null, if first row is not of the same lenght as others', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 13;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 10;});
+            spyOn(row1, 'cellNum').and.returnValue(13);
+            spyOn(row2, 'cellNum').and.returnValue(10);
+            spyOn(row3, 'cellNum').and.returnValue(10);
+            spyOn(row4, 'cellNum').and.returnValue(10);
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -780,11 +750,11 @@ describe('Table-related functionality:', function(){
         });
 
         it('gives null, if last row is not of the same lenght as others', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 10;});
-            spyOn(row5, 'cellNum').andCallFake(function(){return 14;});
+            spyOn(row1, 'cellNum').and.returnValue(10);
+            spyOn(row2, 'cellNum').and.returnValue(10);
+            spyOn(row3, 'cellNum').and.returnValue(10);
+            spyOn(row4, 'cellNum').and.returnValue(10);
+            spyOn(row5, 'cellNum').and.returnValue(14);
             table.appendRow(row1);
             table.appendRow(row2);
             table.appendRow(row3);
@@ -793,19 +763,19 @@ describe('Table-related functionality:', function(){
             expect(table.colNum()).toBe(null);
         });
         it('gives null, if a middle row is not of the same lenght as others', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 5;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 5;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 7;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 5;});
+            spyOn(row1, 'cellNum').and.returnValue(5);
+            spyOn(row2, 'cellNum').and.returnValue(5);
+            spyOn(row3, 'cellNum').and.returnValue(7);
+            spyOn(row4, 'cellNum').and.returnValue(5);
             table.setBody([row1, row2, row3, row4]);
             expect(table.colNum()).toBe(null);
         });
         it('gives null, if all rows are not of different lenght', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 12;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 5;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 98;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 3;});
-            spyOn(row5, 'cellNum').andCallFake(function(){return 14;});
+            spyOn(row1, 'cellNum').and.returnValue(12);
+            spyOn(row2, 'cellNum').and.returnValue(5);
+            spyOn(row3, 'cellNum').and.returnValue(98);
+            spyOn(row4, 'cellNum').and.returnValue(3);
+            spyOn(row5, 'cellNum').and.returnValue(14);
             table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(null);
         });
@@ -813,25 +783,25 @@ describe('Table-related functionality:', function(){
             expect(table.colNum()).toBe(0);
         });
         it('gives zero, if table contains only empty rows', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 0;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 0;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 0;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 0;});
-            spyOn(row5, 'cellNum').andCallFake(function(){return 0;});
+            spyOn(row1, 'cellNum').and.returnValue(0);
+            spyOn(row2, 'cellNum').and.returnValue(0);
+            spyOn(row3, 'cellNum').and.returnValue(0);
+            spyOn(row4, 'cellNum').and.returnValue(0);
+            spyOn(row5, 'cellNum').and.returnValue(0);
             table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(0);
         });
         it('gives number of cells', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 4;});
-            spyOn(row2, 'cellNum').andCallFake(function(){return 4;});
-            spyOn(row3, 'cellNum').andCallFake(function(){return 4;});
-            spyOn(row4, 'cellNum').andCallFake(function(){return 4;});
-            spyOn(row5, 'cellNum').andCallFake(function(){return 4;});
+            spyOn(row1, 'cellNum').and.returnValue(4);
+            spyOn(row2, 'cellNum').and.returnValue(4);
+            spyOn(row3, 'cellNum').and.returnValue(4);
+            spyOn(row4, 'cellNum').and.returnValue(4);
+            spyOn(row5, 'cellNum').and.returnValue(4);
             table.setBody([row1, row2, row3, row4, row5]);
             expect(table.colNum()).toBe(4);
         });
         it('gives number of cells if table has only one row', function(){
-            spyOn(row1, 'cellNum').andCallFake(function(){return 53;});
+            spyOn(row1, 'cellNum').and.returnValue(53);
             table.setBody([row1]);
             expect(table.colNum()).toBe(53);
         });
@@ -839,28 +809,28 @@ describe('Table-related functionality:', function(){
 
     describe('Table::insertColAt(): inserts column at given position', function(){
         it('Throws an error if position index is too big', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 5;});
+            spyOn(table, 'colNum').and.returnValue(5);
             expect(function(){
-                table.insertColAt(7, "table");
-            }).toThrow('Wrong index for the cell to insert!');
+                return table.insertColAt(7, "table");
+            }).toThrow(new Error('Wrong index for the cell to insert!'));
         });
 
         it('Throws an error if position index is negative', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(table, 'colNum').and.returnValue(3);
             expect(function(){
-                table.insertColAt(-2, "table");
-            }).toThrow('Wrong index for the cell to insert!');
+                return table.insertColAt(-2, "table");
+            }).toThrow(new Error('Wrong index for the cell to insert!'));
         });
 
         it('Throws an error if position index is greater than the number of columns', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(table, 'colNum').and.returnValue(3);
             expect(function(){
-                table.insertColAt(4, "table");
-            }).toThrow('Wrong index for the cell to insert!');
+                return table.insertColAt(4, "table");
+            }).toThrow(new Error('Wrong index for the cell to insert!'));
         });
 
         it('Does not throw any error if position index is equal to the number of columns', function(){
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(table, 'colNum').and.returnValue(3);
             expect(function(){
                 table.insertColAt(3, "table");
             }).not.toThrow('Wrong index for the cell to insert!');
@@ -868,10 +838,10 @@ describe('Table-related functionality:', function(){
 
         it('calls a method to insert table', function(){
             var c = new Cell();
-            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(row1, 'insertCellAt').and.returnValue(null);
+            spyOn(row2, 'insertCellAt').and.returnValue(null);
+            spyOn(row3, 'insertCellAt').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(3);
             table.setBody([row1, row2, row3]);
             table.insertColAt(1, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(1, c);
@@ -882,10 +852,10 @@ describe('Table-related functionality:', function(){
 
         it('calls a method to insert cell at the end of the row (appending a column)', function(){
             var c = new Cell();
-            spyOn(row1, 'appendCell').andCallFake(function(){return null;});
-            spyOn(row2, 'appendCell').andCallFake(function(){return null;});
-            spyOn(row3, 'appendCell').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 10;});
+            spyOn(row1, 'appendCell').and.returnValue(null);
+            spyOn(row2, 'appendCell').and.returnValue(null);
+            spyOn(row3, 'appendCell').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(10);
             table.setBody([row1, row2, row3]);
             table.insertColAt(10, c);
             expect(row1.appendCell).toHaveBeenCalledWith(c);
@@ -895,10 +865,10 @@ describe('Table-related functionality:', function(){
 
         it('calls a method to insert column at the beginning of the row', function(){
             var c = new Table();
-            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(row1, 'insertCellAt').and.returnValue(null);
+            spyOn(row2, 'insertCellAt').and.returnValue(null);
+            spyOn(row3, 'insertCellAt').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(3);
             table.setBody([row1, row2, row3]);
             table.insertColAt(0, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(0, c);
@@ -908,10 +878,10 @@ describe('Table-related functionality:', function(){
 
         it('calls a method to insert column at one position before the end of the row', function(){
             var c = new Table();
-            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 10;});
+            spyOn(row1, 'insertCellAt').and.returnValue(null);
+            spyOn(row2, 'insertCellAt').and.returnValue(null);
+            spyOn(row3, 'insertCellAt').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(10);
             table.setBody([row1, row2, row3]);
             table.insertColAt(9, c);
             expect(row1.insertCellAt).toHaveBeenCalledWith(9, c);
@@ -920,10 +890,10 @@ describe('Table-related functionality:', function(){
         });
 
         it('calls a method to insert column if cell is not provided', function(){
-            spyOn(row1, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'insertCellAt').andCallFake(function(){return null;});
-            spyOn(table, 'colNum').andCallFake(function(){return 3;});
+            spyOn(row1, 'insertCellAt').and.returnValue(null);
+            spyOn(row2, 'insertCellAt').and.returnValue(null);
+            spyOn(row3, 'insertCellAt').and.returnValue(null);
+            spyOn(table, 'colNum').and.returnValue(3);
             table.setBody([row1, row2, row3]);
             table.insertColAt(2);
             expect(row1.insertCellAt).toHaveBeenCalledWith(2, jasmine.any(Cell));
@@ -934,57 +904,45 @@ describe('Table-related functionality:', function(){
 
     describe('Table::appendStyleToCol(): Appends style to a single column:', function(){
         it('Throw an error if column number is not integer ', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 12;
-            });
+            spyOn(table, 'colNum').and.returnValue(12);
             expect(function(){
-                table.appendStyleToCol(10.32, "whatever");
-            }).toThrow('The column is not present!');
+                return table.appendStyleToCol(10.32, "whatever");
+            }).toThrow(new Error('The column is not present!'));
         });
 
         it('Throw an error if column number is negative', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 1;
-            });
+            spyOn(table, 'colNum').and.returnValue(1);
             expect(function(){
-                table.appendStyleToCol(-3, "whatever");
-            }).toThrow('The column is not present!');
+                return table.appendStyleToCol(-3, "whatever");
+            }).toThrow(new Error('The column is not present!'));
         });
 
         it('Throw an error if column number is too big', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 5;
-            });
+            spyOn(table, 'colNum').and.returnValue(5);
             expect(function(){
-                table.appendStyleToCol(7, "whatever");
-            }).toThrow('The column is not present!');
+                return table.appendStyleToCol(7, "whatever");
+            }).toThrow(new Error('The column is not present!'));
         });
 
         it('Throw an error if column number is equal to the number of columns', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 6;
-            });
+            spyOn(table, 'colNum').and.returnValue(6);
             expect(function(){
-                table.appendStyleToCol(6, "whatever");
-            }).toThrow('The column is not present!');
+                return table.appendStyleToCol(6, "whatever");
+            }).toThrow(new Error('The column is not present!'));
         });
 
         it('Does not throw an error if column number is one less than the overall column number', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 6;
-            });
+            spyOn(table, 'colNum').and.returnValue(6);
             expect(function(){
                 table.appendStyleToCol(5, "whatever");
             }).not.toThrow('The column is not present!');
         });
 
         it('calls append style method to each row', function(){
-            spyOn(table, 'colNum').andCallFake(function(){
-                return 5;
-            });
-            spyOn(row1, 'appendStyleToCellAt').andCallFake(function(){return null;});
-            spyOn(row2, 'appendStyleToCellAt').andCallFake(function(){return null;});
-            spyOn(row3, 'appendStyleToCellAt').andCallFake(function(){return null;});
+            spyOn(table, 'colNum').and.returnValue(5);
+            spyOn(row1, 'appendStyleToCellAt').and.returnValue(null);
+            spyOn(row2, 'appendStyleToCellAt').and.returnValue(null);
+            spyOn(row3, 'appendStyleToCellAt').and.returnValue(null);
             table.setElements([row1, row2, row3]);
             table.appendStyleToCol(2, "whatever");
             expect(row1.appendStyleToCellAt).toHaveBeenCalledWith(2, "whatever");
@@ -995,19 +953,11 @@ describe('Table-related functionality:', function(){
 
     describe('Table::toHtml(): generates html representation of the table', function(){
         it('generates html code of the table if attribute and style properties are both present', function(){
-            spyOn(row1, 'toHtml').andCallFake(function(){
-                return 'row 1 ';
-            });
-            spyOn(row2, 'toHtml').andCallFake(function(){
-                return 'row 2 html ';
-            });
-            spyOn(row3, 'toHtml').andCallFake(function(){
-                return 'row 3 content';
-            });
+            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
+            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
+            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
 
-            spyOn(tableAttr, 'toString').andCallFake(function(){
-                return 'attributes for the table';
-            });
+            spyOn(tableAttr, 'toString').and.returnValue('attributes for the table');
             table.setProperties(tableAttr);
             table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table attributes for the table><tbody>row 1 row 2 html row 3 content</tbody></table>');
@@ -1015,38 +965,22 @@ describe('Table-related functionality:', function(){
 
 
         it('generates html code of the table if attribute property is empty', function(){
-            spyOn(row1, 'toHtml').andCallFake(function(){
-                return 'row 1 ';
-            });
-            spyOn(row2, 'toHtml').andCallFake(function(){
-                return 'row 2 html ';
-            });
-            spyOn(row3, 'toHtml').andCallFake(function(){
-                return 'row 3 content';
-            });
+            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
+            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
+            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
 
-            spyOn(tableAttr, 'toString').andCallFake(function(){
-                return '';
-            });
+            spyOn(tableAttr, 'toString').and.returnValue('');
             table.setProperties(tableAttr);
             table.setElements([row1, row2, row3]);
             expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
         });
 
         it('generates html code of the table if both attribute and style properties are empty', function(){
-            spyOn(row1, 'toHtml').andCallFake(function(){
-                return 'row 1 ';
-            });
-            spyOn(row2, 'toHtml').andCallFake(function(){
-                return 'row 2 html ';
-            });
-            spyOn(row3, 'toHtml').andCallFake(function(){
-                return 'row 3 content';
-            });
+            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
+            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
+            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
 
-            spyOn(tableAttr, 'toString').andCallFake(function(){
-                return '';
-            });
+            spyOn(tableAttr, 'toString').and.returnValue('');
             table.setProperties(tableAttr);
             tableAttr.setStyles(tableStyle);
             table.setElements([row1, row2, row3]);
@@ -1055,36 +989,16 @@ describe('Table-related functionality:', function(){
 
 
         xit('generates html code of the framed table: all bogus attributes and styles are present', function(){
-            spyOn(row1, 'toHtml').andCallFake(function(){
-                return 'row 1';
-            });
-            spyOn(row2, 'toHtml').andCallFake(function(){
-                return 'row 2 html';
-            });
-            spyOn(tableAttr, 'toString').andCallFake(function(){
-                return 'table attr';
-            });
-            spyOn(tableStyle, 'toString').andCallFake(function(){
-                return 'table styles';
-            });
-            spyOn(bogusTableStyle, 'toString').andCallFake(function(){
-                return 'bogus table styles';
-            });
-            spyOn(bogusTableAttr, 'toString').andCallFake(function(){
-                return 'bogus table attributes';
-            });
-            spyOn(bogusCellStyle, 'toString').andCallFake(function(){
-                return 'bogus table styles';
-            });
-            spyOn(bogusCellAttr, 'toString').andCallFake(function(){
-                return 'bogus table attributes';
-            });
-            spyOn(bogusRowStyle, 'toString').andCallFake(function(){
-                return 'bogus row styles';
-            });
-            spyOn(bogusRowAttr, 'toString').andCallFake(function(){
-                return 'bogus row attributes';
-            });
+            spyOn(row1, 'toHtml').and.returnValue('row 1');
+            spyOn(row2, 'toHtml').and.returnValue('row 2 html');
+            spyOn(tableAttr, 'toString').and.returnValue('table attr');
+            spyOn(tableStyle, 'toString').and.returnValue('table styles');
+            spyOn(bogusTableStyle, 'toString').and.returnValue('bogus table styles');
+            spyOn(bogusTableAttr, 'toString').and.returnValue('bogus table attributes');
+            spyOn(bogusCellStyle, 'toString').and.returnValue('bogus table styles');
+            spyOn(bogusCellAttr, 'toString').and.returnValue('bogus table attributes');
+            spyOn(bogusRowStyle, 'toString').and.returnValue('bogus row styles');
+            spyOn(bogusRowAttr, 'toString').and.returnValue('bogus row attributes');
 
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
@@ -1101,36 +1015,16 @@ describe('Table-related functionality:', function(){
 
 
         xit('generates html code of the framed table: bogus attributes are present, styles - not', function(){
-            spyOn(row1, 'toHtml').andCallFake(function(){
-                return 'row 1';
-            });
-            spyOn(row2, 'toHtml').andCallFake(function(){
-                return 'row 2 html';
-            });
-            spyOn(tableAttr, 'toString').andCallFake(function(){
-                return 'table attr';
-            });
-            spyOn(tableStyle, 'toString').andCallFake(function(){
-                return 'table styles';
-            });
-            spyOn(bogusTableStyle, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(bogusTableAttr, 'toString').andCallFake(function(){
-                return 'bogus table attributes';
-            });
-            spyOn(bogusCellStyle, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(bogusCellAttr, 'toString').andCallFake(function(){
-                return 'bogus table attributes';
-            });
-            spyOn(bogusRowStyle, 'toString').andCallFake(function(){
-                return '';
-            });
-            spyOn(bogusRowAttr, 'toString').andCallFake(function(){
-                return 'bogus row attributes';
-            });
+            spyOn(row1, 'toHtml').and.returnValue('row 1');
+            spyOn(row2, 'toHtml').and.returnValue('row 2 html');
+            spyOn(tableAttr, 'toString').and.returnValue('table attr');
+            spyOn(tableStyle, 'toString').and.returnValue('table styles');
+            spyOn(bogusTableStyle, 'toString').and.returnValue('');
+            spyOn(bogusTableAttr, 'toString').and.returnValue('bogus table attributes');
+            spyOn(bogusCellStyle, 'toString').and.returnValue('');
+            spyOn(bogusCellAttr, 'toString').and.returnValue('bogus table attributes');
+            spyOn(bogusRowStyle, 'toString').and.returnValue('');
+            spyOn(bogusRowAttr, 'toString').and.returnValue('bogus row attributes');
 
             table.setAttributes(tableAttr);
             table.setStyles(tableStyle);
@@ -1355,53 +1249,53 @@ describe('Table-related functionality:', function(){
 
     describe('Table::isFragmented(): whether the table looks like a framed table?', function(){
         it('gives false for empty tables', function(){
-            spyOn(table, 'rowNum').andCallFake(function(){return 0;});
+            spyOn(table, 'rowNum').and.returnValue(0);
             expect(table.isFragmented()).toBe(false);
             expect(table.rowNum).toHaveBeenCalled();
         });
         it('gives true for a table with one row that is framed', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(true);
             table.setBody([row1]);
             expect(table.isFragmented()).toBe(true);
             expect(row1.onlyTableInside).toHaveBeenCalled();
         });
         it('gives false for a table with one row that is not framed', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(false);
             table.setElements([row1]);
             expect(table.isFragmented()).toBe(false);
             expect(row1.onlyTableInside).toHaveBeenCalled();
         });
 
         it('gives false for a table with 3 rows, where only the last is not framed', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(true);
+            spyOn(row2, 'onlyTableInside').and.returnValue(true);
+            spyOn(row3, 'onlyTableInside').and.returnValue(false);
             table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
         });
 
         it('gives false for a table with 3 rows, where only the first is not framed', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(false);
+            spyOn(row2, 'onlyTableInside').and.returnValue(true);
+            spyOn(row3, 'onlyTableInside').and.returnValue(true);
             table.setElements([row1, row2, row3]);
             expect(table.isFragmented()).toBe(false);
         });
 
         it('gives false for a table with 4 rows, where only the second is not framed', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(true);
+            spyOn(row2, 'onlyTableInside').and.returnValue(false);
+            spyOn(row3, 'onlyTableInside').and.returnValue(true);
+            spyOn(row4, 'onlyTableInside').and.returnValue(true);
             table.setElements([row1, row2, row3, row4]);
             expect(table.isFragmented()).toBe(false);
         });
 
         it('calls Row() methods until the first row which is the first that returns false', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return false;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(false);
+            spyOn(row2, 'onlyTableInside').and.returnValue(true);
+            spyOn(row3, 'onlyTableInside').and.returnValue(true);
+            spyOn(row4, 'onlyTableInside').and.returnValue(false);
             table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
@@ -1411,10 +1305,10 @@ describe('Table-related functionality:', function(){
         });
 
         it('calls Row() methods until the second row which is the first that returns false', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return false;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return false;});
-            spyOn(row4, 'onlyTableInside').andCallFake(function(){return true;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(true);
+            spyOn(row2, 'onlyTableInside').and.returnValue(false);
+            spyOn(row3, 'onlyTableInside').and.returnValue(false);
+            spyOn(row4, 'onlyTableInside').and.returnValue(true);
             table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
@@ -1424,10 +1318,10 @@ describe('Table-related functionality:', function(){
         });
 
         it('calls Row() methods until the last row which is the first that returns false', function(){
-            spyOn(row1, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row2, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row3, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row4, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row1, 'onlyTableInside').and.returnValue(true);
+            spyOn(row2, 'onlyTableInside').and.returnValue(true);
+            spyOn(row3, 'onlyTableInside').and.returnValue(true);
+            spyOn(row4, 'onlyTableInside').and.returnValue(false);
             table.setElements([row1, row2, row3, row4]);
             table.isFragmented();
             expect(row1.onlyTableInside).toHaveBeenCalled();
@@ -1443,13 +1337,13 @@ describe('Table-related functionality:', function(){
     xdescribe('Table::desintangle(): converts table from fragmented into a framed', function(){
         it('sets bogus cell attributes, if the table is fragmented', function(){
             var obj = {};
-            spyOn(table, 'getPhantomCellAttributes').andCallFake(function(){return obj;});
+            spyOn(table, 'getPhantomCellAttributes').and.returnValue(obj);
             spyOn(table, 'getPhantomCellStyles');
             spyOn(table, 'getPhantomRowAttributes');
             spyOn(table, 'getPhantomRowStyles');
             spyOn(table, 'getPhantomTableAttributes');
             spyOn(table, 'getPhantomTableStyles');
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusCellAttr).toBe(null);
             table.disentangle();
             expect(table.bogusCellAttr).toBe(obj);
@@ -1459,11 +1353,11 @@ describe('Table-related functionality:', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusRowAttr').and.returnValue(obj);
             spyOn(table, 'getBogusRowStyle');
             spyOn(table, 'getBogusTableAttr');
             spyOn(table, 'getBogusTableStyle');
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusRowAttr).toBe(null);
             table.disentangle();
             expect(table.bogusRowAttr).toBe(obj);
@@ -1475,10 +1369,10 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'getBogusCellStyle');
             spyOn(table, 'getBogusRowAttr');
             spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusTableAttr').and.returnValue(obj);
             spyOn(table, 'getBogusTableStyle');
 
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusTableAttr).toBe(null);
             table.disentangle();
             expect(table.bogusTableAttr).toBe(obj);
@@ -1487,13 +1381,13 @@ describe('Table-related functionality:', function(){
         it('sets bogus cell style, if the table is fragmented', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusCellStyle').and.returnValue(obj);
             spyOn(table, 'getBogusRowAttr');
             spyOn(table, 'getBogusRowStyle');
             spyOn(table, 'getBogusTableAttr');
             spyOn(table, 'getBogusTableStyle');
 
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusCellStyle).toBe(null);
             table.disentangle();
             expect(table.bogusCellStyle).toBe(obj);
@@ -1504,11 +1398,11 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
             spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusRowStyle').and.returnValue(obj);
             spyOn(table, 'getBogusTableAttr');
             spyOn(table, 'getBogusTableStyle');
 
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusRowStyle).toBe(null);
             table.disentangle();
             expect(table.bogusRowStyle).toBe(obj);
@@ -1521,9 +1415,9 @@ describe('Table-related functionality:', function(){
             spyOn(table, 'getBogusRowAttr');
             spyOn(table, 'getBogusRowStyle');
             spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle').andCallFake(function(){return obj;});
+            spyOn(table, 'getBogusTableStyle').and.returnValue(obj);
 
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
             expect(table.bogusTableStyle).toBe(null);
             table.disentangle();
             expect(table.bogusTableStyle).toBe(obj);
@@ -1546,24 +1440,24 @@ describe('Table-related functionality:', function(){
                 innerRow2 = {},
                 innerRow3 = {};
 
-            spyOn(table, 'isFragmented').andCallFake(function(){return true;});
-            spyOn(table, 'getBogusRowAttr').andCallFake(function(){return bogusRowAttr;});
-            spyOn(table, 'getBogusRowStyle').andCallFake(function(){return bogusRowStyle;});
-            spyOn(table, 'getBogusCellAttr').andCallFake(function(){return bogusCellAttr;});
-            spyOn(table, 'getBogusCellStyle').andCallFake(function(){return bogusCellStyle;});
-            spyOn(table, 'getBogusTableAttr').andCallFake(function(){return bogusTableAttr;});
-            spyOn(table, 'getBogusTableStyle').andCallFake(function(){return bogusTableStyle;});
+            spyOn(table, 'isFragmented').and.returnValue(true);
+            spyOn(table, 'getBogusRowAttr').and.returnValue(bogusRowAttr);
+            spyOn(table, 'getBogusRowStyle').and.returnValue(bogusRowStyle);
+            spyOn(table, 'getBogusCellAttr').and.returnValue(bogusCellAttr);
+            spyOn(table, 'getBogusCellStyle').and.returnValue(bogusCellStyle);
+            spyOn(table, 'getBogusTableAttr').and.returnValue(bogusTableAttr);
+            spyOn(table, 'getBogusTableStyle').and.returnValue(bogusTableStyle);
 
-            spyOn(row1, 'getFirst').andCallFake(function(){return c1;});
-            spyOn(row2, 'getFirst').andCallFake(function(){return c2;});
-            spyOn(row3, 'getFirst').andCallFake(function(){return c3;});
-            spyOn(c1, 'getFirst').andCallFake(function(){return t1;});
-            spyOn(c2, 'getFirst').andCallFake(function(){return t2;});
-            spyOn(c3, 'getFirst').andCallFake(function(){return t3;});
+            spyOn(row1, 'getFirst').and.returnValue(c1);
+            spyOn(row2, 'getFirst').and.returnValue(c2);
+            spyOn(row3, 'getFirst').and.returnValue(c3);
+            spyOn(c1, 'getFirst').and.returnValue(t1);
+            spyOn(c2, 'getFirst').and.returnValue(t2);
+            spyOn(c3, 'getFirst').and.returnValue(t3);
 
-            spyOn(t1, 'getFirst').andCallFake(function(){return innerRow1;});
-            spyOn(t2, 'getFirst').andCallFake(function(){return innerRow2;});
-            spyOn(t3, 'getFirst').andCallFake(function(){return innerRow3;});
+            spyOn(t1, 'getFirst').and.returnValue(innerRow1);
+            spyOn(t2, 'getFirst').and.returnValue(innerRow2);
+            spyOn(t3, 'getFirst').and.returnValue(innerRow3);
 
             table.setElements([row1, row2, row3]);
 

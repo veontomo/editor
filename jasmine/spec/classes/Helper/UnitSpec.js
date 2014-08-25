@@ -64,24 +64,25 @@ describe('Unit-related functionality', function () {
             expect(u.getMeasure()).not.toBeDefined();
         });
         it('throws an error if the measurement is a number', function(){
-            expect(function(){
-                u = new Unit(1, 8);
-            }).toThrow('The unit of measurement must be a string!');
+            var u1 = function(){
+                return new Unit(1, 8);
+            };
+            expect(u1).toThrow(new Error('The unit of measurement must be a string!'));
+            // expect(function(){
+            //     u = new Unit(1, 8);
+            // }).toThrow('The unit of measurement must be a string!');
         });
         it('throws an error if the measurement is a function', function(){
-            expect(function(){
-                u = new Unit(1, function(x){return x;});
-            }).toThrow('The unit of measurement must be a string!');
+            u = function(){return new Unit(1, function(x){return x;});};
+            expect(u).toThrow(new Error('The unit of measurement must be a string!'));
         });
         it('throws an error if the measurement is an object', function(){
-            expect(function(){
-                u = new Unit(1, {});
-            }).toThrow('The unit of measurement must be a string!');
+            u = function(){return new Unit(1, {});};
+            expect(u).toThrow(new Error('The unit of measurement must be a string!'));
         });
         it('throws an error if the measurement is an array', function(){
-            expect(function(){
-                u = new Unit(1, [1, 'two', 3, {4: 5}]);
-            }).toThrow('The unit of measurement must be a string!');
+            u = function(){return new Unit(1, [1, 'two', 3, {4: 5}]);};
+            expect(u).toThrow(new Error('The unit of measurement must be a string!'));
         });
     });
 
@@ -121,21 +122,21 @@ describe('Unit-related functionality', function () {
 
     describe('Unit::add(): adds two Unit objects', function(){
         it('calls to Unit()::isLikeAs() before summing', function(){
-            spyOn(u, 'isLikeAs').andCallFake(function(){return 'anything';});
+            spyOn(u, 'isLikeAs').and.returnValue('anything');
             u.add(stub);
             expect(u.isLikeAs).toHaveBeenCalledWith(stub);
         });
         it('throws an error if Unit::isLikeAs() gives false', function(){
-            spyOn(u, 'isLikeAs').andCallFake(function(){return false;});
+            spyOn(u, 'isLikeAs').and.returnValue(false);
             expect(function(){
-                u.add('anything');
-            }).toThrow('These Unit instances can not be summed up!');
+                return u.add('anything');
+            }).toThrow(new Error('These Unit instances can not be summed up!'));
             expect(u.isLikeAs).toHaveBeenCalledWith('anything');
         });
         it('gives the correct sum, if isLikeAs() returns true', function(){
             u = new Unit(23, 'cm');
             var u2 = new Unit(10, 'cm');
-            spyOn(u, 'isLikeAs').andCallFake(function(){return true;});
+            spyOn(u, 'isLikeAs').and.returnValue(true);
             var sum = u.add(u2);
             expect(sum.getValue()).toBe(33);
             expect(sum.getMeasure()).toBe('cm');
@@ -145,7 +146,7 @@ describe('Unit-related functionality', function () {
 
     describe('Unit::sub(): subtracts two Unit objects', function(){
         it('calls Unit::add() method', function(){
-            spyOn(u, 'add').andCallFake(function(){return 'the result';});
+            spyOn(u, 'add').and.returnValue('the result');
             u.sub(stub);
             expect(u.add).toHaveBeenCalled();
         });
@@ -154,22 +155,22 @@ describe('Unit-related functionality', function () {
     describe('Has unit of measurement or not?', function(){
         it('returns true if object\'s unit of measurement is a non-empty string', function(){
             u = new Unit();
-            spyOn(u, 'getMeasure').andCallFake(function(){return 'abc';});
+            spyOn(u, 'getMeasure').and.returnValue('abc');
             expect(u.hasMeasure()).toBe(true);
         });
         it('returns false if object\'s unit of measurement is an empty string', function(){
             u = new Unit();
-            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            spyOn(u, 'getMeasure').and.returnValue('');
             expect(u.hasMeasure()).toBe(false);
         });
         it('returns false if object\'s unit of measurement is null', function(){
             u = new Unit();
-            spyOn(u, 'getMeasure').andCallFake(function(){return null;});
+            spyOn(u, 'getMeasure').and.returnValue(null);
             expect(u.hasMeasure()).toBe(false);
         });
         it('returns false if object\'s unit of measurement is undefined', function(){
             u = new Unit();
-            spyOn(u, 'getMeasure').andCallFake(function(){});
+            spyOn(u, 'getMeasure').and.returnValue();
             expect(u.hasMeasure()).toBe(false);
         });
 
@@ -225,20 +226,20 @@ describe('Unit-related functionality', function () {
 
         it('throws an error when dividing two objects with different units', function(){
             expect(function(){
-                u4.frac(u1);
-            }).toThrow("Can not divide these objects!");
+                return u4.frac(u1);
+            }).toThrow(new Error('Can not divide these objects!'));
         });
 
         it('throws an error when dividing by zero', function(){
             expect(function(){
-                u4.frac(0);
-            }).toThrow("Can not divide by zero!");
+                return u4.frac(0);
+            }).toThrow(new Error("Can not divide by zero!"));
         });
 
         it('throws an error when argument is missing', function(){
             expect(function(){
-                u4.frac();
-            }).toThrow("Can not divide by nothing!");
+                return u4.frac();
+            }).toThrow(new Error("Can not divide by nothing!"));
         });
 
         it('divides with requested precision', function(){
@@ -255,57 +256,57 @@ describe('Unit-related functionality', function () {
         });
 
         it('returns string representation of value if measure unit is not set and glue is not given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 82;});
+            spyOn(u, 'getValue').and.returnValue(82);
             spyOn(u, 'getMeasure');
             expect(u.toString()).toBe('82');
         });
 
         it('returns "0" if value is zero and measure unit is not set and glue is not given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 0;});
+            spyOn(u, 'getValue').and.returnValue(0);
             spyOn(u, 'getMeasure');
             expect(u.toString()).toBe('0');
         });
 
         it('returns "0" if value is zero and measure unit is not set and glue is given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 0;});
+            spyOn(u, 'getValue').and.returnValue(0);
             spyOn(u, 'getMeasure');
             expect(u.toString('---')).toBe('0');
         });
 
 
         it('returns string representation of value if measure unit is not set and glue is given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 23.1;});
+            spyOn(u, 'getValue').and.returnValue(23.1);
             spyOn(u, 'getMeasure');
             expect(u.toString('glue')).toBe('23.1');
         });
 
         it('returns string representation of value if measure unit is empty string and and glue is not given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 4;});
-            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            spyOn(u, 'getValue').and.returnValue(4);
+            spyOn(u, 'getMeasure').and.returnValue('');
             expect(u.toString()).toBe('4');
         });
 
         it('returns string representation of value if measure unit is empty string and and glue is given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 4;});
-            spyOn(u, 'getMeasure').andCallFake(function(){return '';});
+            spyOn(u, 'getValue').and.returnValue(4);
+            spyOn(u, 'getMeasure').and.returnValue('');
             expect(u.toString('glue')).toBe('4');
         });
 
         it('returns concatenation of value and measure unit if glue is not given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 4;});
-            spyOn(u, 'getMeasure').andCallFake(function(){return 'cm';});
+            spyOn(u, 'getValue').and.returnValue(4);
+            spyOn(u, 'getMeasure').and.returnValue('cm');
             expect(u.toString()).toBe('4cm');
         });
 
         it('returns concatenation of value and measure unit if glue is given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 43;});
-            spyOn(u, 'getMeasure').andCallFake(function(){return 'bar';});
+            spyOn(u, 'getValue').and.returnValue(43);
+            spyOn(u, 'getMeasure').and.returnValue('bar');
             expect(u.toString('-')).toBe('43-bar');
         });
 
         it('returns concatenation of zero value and measure unit if glue is given', function(){
-            spyOn(u, 'getValue').andCallFake(function(){return 0;});
-            spyOn(u, 'getMeasure').andCallFake(function(){return 'bar';});
+            spyOn(u, 'getValue').and.returnValue(0);
+            spyOn(u, 'getMeasure').and.returnValue('bar');
             expect(u.toString('-')).toBe('0-bar');
         });
 
@@ -313,15 +314,15 @@ describe('Unit-related functionality', function () {
 
     describe('Percentage representation', function(){
         it('throws exception if the target has dimension', function(){
-            spyOn(u, 'hasMeasure').andCallFake(function(){return true;});
+            spyOn(u, 'hasMeasure').and.returnValue(true);
             expect(function(){
-                u.toPercent();
-            }).toThrow('Only dimensionless numbers can be representred as percents!');
+                return u.toPercent();
+            }).toThrow(new Error('Only dimensionless numbers can be representred as percents!'));
         });
 
         it('converts zero into percent', function(){
             u.setValue(0);
-            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            spyOn(u, 'hasMeasure').and.returnValue(false);
             var res = u.toPercent();
             expect(res.getValue()).toBe(0);
             expect(res.getMeasure()).toBe('%');
@@ -329,7 +330,7 @@ describe('Unit-related functionality', function () {
 
         it('converts integer into percent', function(){
             u.setValue(3);
-            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            spyOn(u, 'hasMeasure').and.returnValue(false);
             var res = u.toPercent();
             expect(res.getValue()).toBe(300);
             expect(res.getMeasure()).toBe('%');
@@ -337,7 +338,7 @@ describe('Unit-related functionality', function () {
 
         it('converts float into percent', function(){
             u.setValue(0.1234567);
-            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            spyOn(u, 'hasMeasure').and.returnValue(false);
             var res = u.toPercent();
             expect(res.getValue()).toBe(12.34567);
             expect(res.getMeasure()).toBe('%');
@@ -345,7 +346,7 @@ describe('Unit-related functionality', function () {
 
         it('converts negative into percent', function(){
             u.setValue(-1.232);
-            spyOn(u, 'hasMeasure').andCallFake(function(){return false;});
+            spyOn(u, 'hasMeasure').and.returnValue(false);
             var res = u.toPercent();
             expect(res.getValue()).toBe(-123.2);
             expect(res.getMeasure()).toBe('%');
@@ -360,10 +361,10 @@ describe('Unit-related functionality', function () {
 
     describe('Convert from % to a dimensionless number', function(){
         it('throws an exception if the target\'s measure is not %', function(){
-            spyOn(u, 'getMeasure').andCallFake(function(){return "anything not equal to %";});
+            spyOn(u, 'getMeasure').and.returnValue("anything not equal to %");
             expect(function(){
-                u.fromPercent();
-            }).toThrow('The target must be in percentage form!');
+                return u.fromPercent();
+            }).toThrow(new Error('The target must be in percentage form!'));
         });
         it('returns 0 for 0%', function(){
             u.setValue(0);

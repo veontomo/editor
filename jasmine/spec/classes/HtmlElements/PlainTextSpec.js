@@ -60,23 +60,23 @@ describe('PlainText-related functionality', function(){
 
 	describe('PlainText:toHtml(): returns the value of the content property', function(){
  		it('calls getContent() method', function(){
- 			spyOn(text, 'getContent').andCallFake(function(){return 'text string';});
+ 			spyOn(text, 'getContent').and.returnValue('text string');
  			text.toHtml();
  			expect(text.getContent).toHaveBeenCalled();
  		});
  		it('returns the output of getContent() method, if it is an empty string', function(){
- 			spyOn(text, 'getContent').andCallFake(function(){return '';});
+ 			spyOn(text, 'getContent').and.returnValue('');
  			expect(text.toHtml()).toBe('');
 
  		});
 
  		it('returns the output of getContent() method, if it is a string', function(){
- 			spyOn(text, 'getContent').andCallFake(function(){return 'text string';});
+ 			spyOn(text, 'getContent').and.returnValue('text string');
  			expect(text.toHtml()).toBe('text string');
 
  		});
 		it('transforms getContent() output in string, if it is a number', function(){
- 			spyOn(text, 'getContent').andCallFake(function(){return 329;});
+ 			spyOn(text, 'getContent').and.returnValue(329);
  			expect(text.toHtml()).toBe('329');
  		});
 	});
@@ -131,37 +131,37 @@ describe('PlainText-related functionality', function(){
 
 	describe('PlainText::isEmpty(): whether the text tag is empty', function(){
 		it('gives true, if "getContent" returns an empty string', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return '';});
+			spyOn(text, 'getContent').and.returnValue('');
 			expect(text.isEmpty()).toBe(true);
 		});
 		it('gives true, if "getContent" returns null', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return null;});
+			spyOn(text, 'getContent').and.returnValue(null);
 			expect(text.isEmpty()).toBe(true);
 		});
 		it('gives true, if "getContent" result is undefined', function(){
-			spyOn(text, 'getContent').andCallFake(function(){});
+			spyOn(text, 'getContent').and.returnValue();
 			expect(text.isEmpty()).toBe(true);
 		});
 		it('gives false, if "getContent" returns a space " "', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return ' ';});
+			spyOn(text, 'getContent').and.returnValue(' ');
 			expect(text.isEmpty()).toBe(false);
 		});
 		it('gives false, if "getContent" returns "a string"', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return 'a string';});
+			spyOn(text, 'getContent').and.returnValue('a string');
 			expect(text.isEmpty()).toBe(false);
 		});
 	});
 
 	describe('PlainText::toNode(): returns DOM.Text object', function(){
 		it('returns empty text node if the target class has empty content', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return '';});
+			spyOn(text, 'getContent').and.returnValue('');
 			var el = text.toNode();
 			expect(el.textContent).toBe('');
 			expect(text.getContent).toHaveBeenCalled();
 		});
 
 		it('returns empty text node if the target class has non-empty content', function(){
-			spyOn(text, 'getContent').andCallFake(function(){return 'text node content';});
+			spyOn(text, 'getContent').and.returnValue('text node content');
 			var el = text.toNode();
 			expect(el.textContent).toBe('text node content');
 			expect(text.getContent).toHaveBeenCalled();
@@ -251,7 +251,7 @@ describe('PlainText-related functionality', function(){
 	    });
 	    it('assignes value of "clone" method if an attribute has that method', function(){
 	        text.m1 = {clone: function(){return null;}};
-	        spyOn(text.m1, 'clone').andCallFake(function(){return 'clone of m1';});
+	        spyOn(text.m1, 'clone').and.returnValue('clone of m1');
 	        var clone = text.clone();
 	        expect(clone.m1).toBe('clone of m1');
 	    });
@@ -263,7 +263,7 @@ describe('PlainText-related functionality', function(){
 	    });
 
 	    it('fills the core with "getCore" of the target', function(){
-	        spyOn(text, 'getContent').andCallFake(function(){return 'content of the text node';});
+	        spyOn(text, 'getContent').and.returnValue('content of the text node');
 	        var clone = text.clone();
 	        expect(clone.getContent()).toBe('content of the text node');
 	    });

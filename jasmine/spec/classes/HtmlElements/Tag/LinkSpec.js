@@ -67,7 +67,7 @@ describe('Link-related functionality:', function() {
 
     describe('href getter and getter', function(){
         it('calls Properties method to get value of "href" key', function(){
-            spyOn(prop, 'getProperty').andCallFake(function(){return 'www.test.com';});
+            spyOn(prop, 'getProperty').and.returnValue('www.test.com');
             link.setProperties(prop);
             expect(link.getHref()).toBe('www.test.com');
             expect(prop.getProperty).toHaveBeenCalledWith('href');

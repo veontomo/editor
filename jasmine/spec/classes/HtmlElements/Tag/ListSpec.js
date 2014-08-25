@@ -35,9 +35,7 @@ describe('List-related functionality:', function(){
 
     describe('List::itemNum(): gives the number of items in the list', function(){
         it('calls parent method Tag::length()', function(){
-            spyOn(l, 'length').andCallFake(function(){
-                return 'item number';
-            });
+            spyOn(l, 'length').and.returnValue('item number');
             expect(l.itemNum()).toBe('item number');
             expect(l.length).toHaveBeenCalled();
         });
@@ -46,8 +44,8 @@ describe('List-related functionality:', function(){
     describe('List::appendItem(): appends items to the list', function(){
         it('throws an error if appending not a ListItem object', function(){
             expect(function(){
-                l.appendItem("as");
-            }).toThrow('The argument is not a ListItem instance!');
+                return l.appendItem("as");
+            }).toThrow(new Error('The argument is not a ListItem instance!'));
             expect(l.itemNum()).toBe(0);
         });
         it('calls parent method Tag::appendElem', function(){
@@ -61,8 +59,8 @@ describe('List-related functionality:', function(){
     describe('List::insertItemAt(): inserts item into a given position', function(){
         it('throws an error if trying to insert non ListItem instance', function(){
             expect(function(){
-                l.insertItemAt('whatever position', "not a ListItem");
-            }).toThrow('The item to insert is not a ListItem instance!');
+                return l.insertItemAt('whatever position', "not a ListItem");
+            }).toThrow(new Error('The item to insert is not a ListItem instance!'));
         });
 
         it('calls parent method Tag::insertElemAt()', function(){
@@ -78,8 +76,8 @@ describe('List-related functionality:', function(){
             var foo = '';
             expect(foo instanceof List).toBe(false);
             expect(function(){
-                l.appendList(foo);
-            }).toThrow('The argument must be a List instance!');
+                return l.appendList(foo);
+            }).toThrow(new Error('The argument must be a List instance!'));
         });
         it('calls List::appendItem() for each list item in the target list', function(){
             var l2 = new List();
@@ -96,7 +94,7 @@ describe('List-related functionality:', function(){
         it('if list to append has zero length, nothing is called.', function(){
             var l2 = new List();
             spyOn(l, 'appendItem');
-            spyOn(l2, 'length').andCallFake(function(){return 0;});
+            spyOn(l2, 'length').and.returnValue(0);
             l.appendList(l2);
             expect(l.appendItem).not.toHaveBeenCalled();
         });

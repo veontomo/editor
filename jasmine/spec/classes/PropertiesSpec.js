@@ -18,26 +18,26 @@ describe('Properties-related functionality', function(){
         });
 
         it('returns true if both key and value types are among allowed ones', function(){
-            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['string', 'number'];});
-            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['object'];});
+            spyOn(props, 'getAllowedKeyTypes').and.returnValue(['string', 'number']);
+            spyOn(props, 'getAllowedValueTypes').and.returnValue(['object']);
             expect(props.setProperty('a key', {1: 'good'})).toBe(true);
         });
 
         it('returns false if key type is not among allowed, but value is among allowed', function(){
-            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
-            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
+            spyOn(props, 'getAllowedKeyTypes').and.returnValue(['number']);
+            spyOn(props, 'getAllowedValueTypes').and.returnValue(['string']);
             expect(props.setProperty('class', 'value')).toBe(false);
         });
 
         it('returns false if key type is among allowed, but value is not among allowed', function(){
-            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['number'];});
-            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['number'];});
+            spyOn(props, 'getAllowedKeyTypes').and.returnValue(['number']);
+            spyOn(props, 'getAllowedValueTypes').and.returnValue(['number']);
             expect(props.setProperty(2, {})).toBe(false);
         });
 
         it('returns false if both key and value types are not among allowed', function(){
-            spyOn(props, 'getAllowedKeyTypes').andCallFake(function(){return ['object'];});
-            spyOn(props, 'getAllowedValueTypes').andCallFake(function(){return ['string'];});
+            spyOn(props, 'getAllowedKeyTypes').and.returnValue(['object']);
+            spyOn(props, 'getAllowedValueTypes').and.returnValue(['string']);
             expect(props.setProperty('a string', 3)).toBe(false);
         });
     });
@@ -55,8 +55,8 @@ describe('Properties-related functionality', function(){
             var invalids = [2, 6.1, 'string', [1, 2], [], {}, {'load': 10}];
             invalids.forEach(function(invalid){
                 expect(function(){
-                    props.setMode(invalid);
-                }).toThrow('Allowed values for mode are 0, 1.');
+                    return props.setMode(invalid);
+                }).toThrow(new Error('Allowed values for mode are 0, 1.'));
             });
         });
     });
@@ -75,39 +75,39 @@ describe('Properties-related functionality', function(){
             propComplex.setProperty('nested', propSimple);
         });
         it('produces empty string for empty property if mode is 0', function(){
-            spyOn(propEmpty, 'getMode').andCallFake(function(){return 0;});
+            spyOn(propEmpty, 'getMode').and.returnValue(0);
             expect(propEmpty.toString()).toBe('');
         });
         it('produces empty string for empty property if mode is 1', function(){
-            spyOn(propEmpty, 'getMode').andCallFake(function(){return 1;});
+            spyOn(propEmpty, 'getMode').and.returnValue(1);
             expect(propEmpty.toString()).toBe('');
         });
 
         it('produces inline-like representation if mode is 1', function(){
-            spyOn(propSimple, 'getMode').andCallFake(function(){return 1;});
+            spyOn(propSimple, 'getMode').and.returnValue(1);
             expect(propSimple.toString()).toBe('width: 200px; class: screen; id: #abcd;');
         });
 
         it('produces attribute-like representation if mode is 0', function(){
-            spyOn(propSimple, 'getMode').andCallFake(function(){return 0;});
+            spyOn(propSimple, 'getMode').and.returnValue(0);
             expect(propSimple.toString()).toBe('width="200" class="screen" id="#abcd"');
         });
 
         it('produces inline-like representation if mode is 0', function(){
-            spyOn(propComplex, 'getMode').andCallFake(function(){return 0;});
-            spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
+            spyOn(propComplex, 'getMode').and.returnValue(0);
+            spyOn(propSimple, 'toString').and.returnValue('nested representation');
             expect(propComplex.toString()).toBe('width="200" class="screen" nested="nested representation"');
         });
 
         it('produces inline-like representation if mode is 1', function(){
-            spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
-            spyOn(propSimple, 'toString').andCallFake(function(){return 'nested representation';});
+            spyOn(propComplex, 'getMode').and.returnValue(1);
+            spyOn(propSimple, 'toString').and.returnValue('nested representation');
             expect(propComplex.toString()).toBe('width: 200px; class: screen; nested: nested representation;');
         });
 
         it('ignores attribute if its toString() method returns empty string', function(){
-            spyOn(propComplex, 'getMode').andCallFake(function(){return 1;});
-            spyOn(propSimple, 'toString').andCallFake(function(){return '';});
+            spyOn(propComplex, 'getMode').and.returnValue(1);
+            spyOn(propSimple, 'toString').and.returnValue('');
             expect(propComplex.toString()).toBe('width: 200px; class: screen;');
         });
     });
@@ -206,24 +206,24 @@ describe('Properties-related functionality', function(){
 
     describe('Whether the property is empty', function(){
         it('calls "getCore" method', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {};});
+            spyOn(props, 'getCore').and.returnValue({});
             props.isEmpty();
             expect(props.getCore).toHaveBeenCalled();
         });
         it('returns true if "getCore" returns empty object', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {};});
+            spyOn(props, 'getCore').and.returnValue({});
             expect(props.isEmpty()).toBe(true);
         });
         it('returns false if "getCore" returns single-record string-valued object', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {key: 'value'};});
+            spyOn(props, 'getCore').and.returnValue({key: 'value'});
             expect(props.isEmpty()).toBe(false);
         });
         it('returns false if "getCore" returns single-record number-valued object', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {prop: 2.98};});
+            spyOn(props, 'getCore').and.returnValue({prop: 2.98});
             expect(props.isEmpty()).toBe(false);
         });
         it('returns false if "getCore" returns two-record object', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {prop: 2.98, val: 'high'};});
+            spyOn(props, 'getCore').and.returnValue({prop: 2.98, val: 'high'});
             expect(props.isEmpty()).toBe(false);
         });
     });
@@ -231,7 +231,7 @@ describe('Properties-related functionality', function(){
     describe('Properties::suggestProperty(): sets property if it is not defined', function(){
         it('calls setProperty() method if a property is missing in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(){return false;});
+            spyOn(props, 'hasProperty').and.returnValue(false);
             props.suggestProperty('a: 192; b: new');
             expect(props.setProperty).toHaveBeenCalledWith('a', '192');
             expect(props.setProperty).toHaveBeenCalledWith('b', 'new');
@@ -240,7 +240,7 @@ describe('Properties-related functionality', function(){
         });
         it('does not call setProperty() method if a property is present in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;});
+            spyOn(props, 'hasProperty').and.returnValue(true);
             props.suggestProperty('hi: yes; b: new');
             expect(props.setProperty).not.toHaveBeenCalledWith('hi', 'yes');
             expect(props.setProperty).not.toHaveBeenCalledWith('b', 'new');
@@ -250,7 +250,7 @@ describe('Properties-related functionality', function(){
 
         it('calls setProperty() method only with keys not present in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(key){return key === 'present' || key === 'present2';});
+            spyOn(props, 'hasProperty').and.callFake(function(key){return key === 'present' || key === 'present2';});
             props.suggestProperty('hi: yes; present: 3; b: old; present2: nice');
             expect(props.setProperty).not.toHaveBeenCalledWith('present', '3');
             expect(props.setProperty).not.toHaveBeenCalledWith('present2', 'nice');
@@ -264,7 +264,7 @@ describe('Properties-related functionality', function(){
         });
         it('calls setProperty() method if a property is missing in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(){return false;});
+            spyOn(props, 'hasProperty').and.returnValue(false);
             props.suggestProperty({a: 192, b: 'new'});
             expect(props.setProperty).toHaveBeenCalledWith('a', 192);
             expect(props.setProperty).toHaveBeenCalledWith('b', 'new');
@@ -273,7 +273,7 @@ describe('Properties-related functionality', function(){
         });
         it('does not call setProperty() method if a property is present in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;});
+            spyOn(props, 'hasProperty').and.returnValue(true);
             props.suggestProperty({hi: 'yes', b: 'new'});
             expect(props.setProperty).not.toHaveBeenCalledWith('hi', 'yes');
             expect(props.setProperty).not.toHaveBeenCalledWith('b', 'new');
@@ -283,7 +283,7 @@ describe('Properties-related functionality', function(){
 
         it('calls setProperty() method only with keys not present in the core', function(){
             spyOn(props, 'setProperty');
-            spyOn(props, 'hasProperty').andCallFake(function(key){return key === 'present' || key === 'present2';});
+            spyOn(props, 'hasProperty').and.callFake(function(key){return key === 'present' || key === 'present2';});
             props.suggestProperty({hi: 'yes', present: 3, b: 'old', present2: 'nice'});
             expect(props.setProperty).not.toHaveBeenCalledWith('present', '3');
             expect(props.setProperty).not.toHaveBeenCalledWith('present2', 'nice');
@@ -428,15 +428,15 @@ describe('Properties-related functionality', function(){
         });
         it('gives false, if the instances have lengths 0 and 1', function(){
             var props2 = new Properties();
-            spyOn(props, 'propNum').andCallFake(function(){return 0;});
-            spyOn(props2, 'propNum').andCallFake(function(){return 1;});
+            spyOn(props, 'propNum').and.returnValue(0);
+            spyOn(props2, 'propNum').and.returnValue(1);
             expect(props.isTheSameAs(props2)).toBe(false);
         });
 
         it('gives false, if the instances have lengths 2 and 4', function(){
             var props2 = new Properties();
-            spyOn(props, 'propNum').andCallFake(function(){return 4;});
-            spyOn(props2, 'propNum').andCallFake(function(){return 2;});
+            spyOn(props, 'propNum').and.returnValue(4);
+            spyOn(props2, 'propNum').and.returnValue(2);
             expect(props.isTheSameAs(props2)).toBe(false);
         });
 
@@ -564,7 +564,7 @@ describe('Properties-related functionality', function(){
         });
         it('assignes value of "clone" method if an attribute has that method', function(){
             props.m1 = {clone: function(){return null;}};
-            spyOn(props.m1, 'clone').andCallFake(function(){return 'clone of m1';});
+            spyOn(props.m1, 'clone').and.returnValue('clone of m1');
             var clone = props.clone();
             expect(clone.m1).toBe('clone of m1');
         });
@@ -576,7 +576,7 @@ describe('Properties-related functionality', function(){
         });
 
         it('fills the core with "getCore" of the target', function(){
-            spyOn(props, 'getCore').andCallFake(function(){return {1: 'first', 'second': 2};});
+            spyOn(props, 'getCore').and.returnValue({1: 'first', 'second': 2});
             var clone = props.clone();
             expect(clone.getProperty(1)).toBe('first');
             expect(clone.getProperty('second')).toBe(2);
@@ -585,30 +585,30 @@ describe('Properties-related functionality', function(){
 
     describe('Controls whether the property has been set', function(){
         it('returns false if the key is not present', function(){
-            spyOn(props, 'hasProperty').andCallFake(function(){return false;}); // turns out that no one key is present
+            spyOn(props, 'hasProperty').and.returnValue(false); // turns out that no one key is present
             expect(props.hasSet('a property')).toBe(false);
         });
 
         it('returns true if the key is present and optional parameter is not provided', function(){
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;}); // turns out that any key is present
+            spyOn(props, 'hasProperty').and.returnValue(true); // turns out that any key is present
             expect(props.hasSet('a property')).toBe(true);
         });
 
         it('returns true if the key is present and its value is not among values to ignore', function(){
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
-            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            spyOn(props, 'hasProperty').and.returnValue(true);              // turns out that any key is present
+            spyOn(props, 'getProperty').and.callFake(function(boo){return boo + "-value";}); // generates dumb value
             expect(props.hasSet('property', ['none', '0', 'to ignore'])).toBe(true);
         });
 
         it('returns false if the key is present and its value is among values to ignore', function(){
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
-            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            spyOn(props, 'hasProperty').and.returnValue(true);              // turns out that any key is present
+            spyOn(props, 'getProperty').and.callFake(function(boo){return boo + "-value";}); // generates dumb value
             expect(props.hasSet('src', ['to ignore', 'src-value'])).toBe(false);
         });
 
         it('returns true if the key is present and the second parameter is given as a string', function(){
-            spyOn(props, 'hasProperty').andCallFake(function(){return true;});              // turns out that any key is present
-            spyOn(props, 'getProperty').andCallFake(function(boo){return boo + "-value";}); // generates dumb value
+            spyOn(props, 'hasProperty').and.returnValue(true);              // turns out that any key is present
+            spyOn(props, 'getProperty').and.callFake(function(boo){return boo + "-value";}); // generates dumb value
             expect(props.hasSet('src', 'to ignore, src-value')).toBe(true);
         });
     });
@@ -616,20 +616,20 @@ describe('Properties-related functionality', function(){
     describe('Toggles the property', function(){
         it('sets the property if it is not set and the second argument is not given', function(){
             var propName = 'dumbProp';
-            spyOn(props, 'hasSet').andCallFake(function(){return false;});
+            spyOn(props, 'hasSet').and.returnValue(false);
             props.toggleProperty(propName, 'to be set');
             expect(props.getProperty(propName)).toBe('to be set');
         });
         it('sets the property if it is not set and the second argument is provided ', function(){
             var propName = 'dumbProp';
-            spyOn(props, 'hasSet').andCallFake(function(){return false;});
+            spyOn(props, 'hasSet').and.returnValue(false);
             props.toggleProperty(propName, 'to be set', 'not-value');
             expect(props.getProperty(propName)).toBe('to be set');
         });
 
         it('sets the property to be equal to the second argument if the key has been set', function(){
             var propName = 'dumbProp';
-            spyOn(props, 'hasSet').andCallFake(function(){return true;});
+            spyOn(props, 'hasSet').and.returnValue(true);
             props.toggleProperty(propName, 'to be set', 'not-value');
             expect(props.getProperty(propName)).toBe('not-value');
         });

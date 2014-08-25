@@ -15,8 +15,8 @@ describe('Selection-related functionality', function(){
 
         it('throws an error if first argument is not a CKEDITOR.editor instance', function(){
             expect(function(){
-                new Selection('aaa');
-            }).toThrow('The first argument must be a CKEDITOR.editor instance!');
+                return new Selection('aaa');
+            }).toThrow(new Error('The first argument must be a CKEDITOR.editor instance!'));
         });
 
         it('instantiates "editor" property', function(){
@@ -36,8 +36,8 @@ describe('Selection-related functionality', function(){
         it('throws error if not CKEDITOR.editor instance is given to the setter', function(){
             expect(function(){
                 sel = new Selection();
-                sel.setEditor({});
-            }).toThrow('The argument must be a CKEDITOR.editor instance!');
+                return sel.setEditor({});
+            }).toThrow(new Error('The argument must be a CKEDITOR.editor instance!'));
         });
 
         it('sets the editor', function(){
@@ -52,8 +52,8 @@ describe('Selection-related functionality', function(){
         it('throws error if not CKEDITOR.dom.selection instance is given to the setter', function(){
             expect(function(){
                 sel = new Selection();
-                sel.setSelected();
-            }).toThrow('The argument must be a CKEDITOR.dom.selection instance!');
+                return sel.setSelected();
+            }).toThrow(new Error('The argument must be a CKEDITOR.dom.selection instance!'));
         });
 
         it('sets the editor', function(){

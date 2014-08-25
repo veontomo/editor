@@ -59,7 +59,7 @@ describe('Factory-related functionality', function(){
             });
             it('calls "getMapping"', function(){
                 function Foo(){}
-                spyOn(f.getMapping(), 'findTargetFor').andCallFake(function(){return Foo;});
+                spyOn(f.getMapping(), 'findTargetFor').and.returnValue(Foo);
                 var stub = f.stub('something');
                 expect(stub instanceof Foo).toBe(true);
                 expect(f.getMapping().findTargetFor).toHaveBeenCalledWith('something');
@@ -76,7 +76,7 @@ describe('Factory-related functionality', function(){
                 function Target(){this.load = function(){return null;};}
                 var target = new Target();
                 spyOn(target, 'load');
-                spyOn(f, 'stub').andCallFake(function(){return target;});
+                spyOn(f, 'stub').and.returnValue(target);
                 f.mimic('an element');
                 expect(f.stub).toHaveBeenCalledWith('an element');
                 expect(target.load).toHaveBeenCalledWith('an element');
@@ -84,7 +84,7 @@ describe('Factory-related functionality', function(){
             it('returns output of "stub" method if it has no "load" method', function(){
                 function Target(){}
                 var target = new Target();
-                spyOn(f, 'stub').andCallFake(function(){return target;});
+                spyOn(f, 'stub').and.returnValue(target);
                 var copy = f.mimic('an element');
                 expect(f.stub).toHaveBeenCalledWith('an element');
                 expect(copy instanceof Target).toBe(true);

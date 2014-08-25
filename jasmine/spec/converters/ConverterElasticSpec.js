@@ -6,8 +6,8 @@ describe ('Converter to elastic format', function(){
     beforeEach(function(){
     	c = new ConverterElastic();
     	n = document.createElement('span');
-    	spyOn(NEWSLETTER, 'width').andCallFake(function(){return "1000px";});
-    	spyOn(NEWSLETTER, 'fontsize').andCallFake(function(){return "10px";});
+    	spyOn(NEWSLETTER, 'width').and.returnValue("1000px");
+    	spyOn(NEWSLETTER, 'fontsize').and.returnValue("10px");
     });
 
     describe('Elaborates node without children', function () {

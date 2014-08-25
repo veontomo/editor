@@ -51,8 +51,8 @@ describe('Row-related functionality:', function(){
             var obj = {};
             expect(obj instanceof Cell).toBe(false);
             expect(function(){
-                row.appendCell(obj);
-            }).toThrow('The argument is not a Cell instance!');
+                return row.appendCell(obj);
+            }).toThrow(new Error('The argument is not a Cell instance!'));
         });
 
         it('call Content::appendElem when appending cell', function(){
@@ -65,7 +65,7 @@ describe('Row-related functionality:', function(){
 
     describe('Row::cellNum(): gets the number of cells', function(){
         it('calls parent method length()', function(){
-            spyOn(row, 'length').andCallFake(function(){return 'parent length';});
+            spyOn(row, 'length').and.returnValue('parent length');
             row.cellNum();
             expect(row.length).toHaveBeenCalled();
             expect(row.length()).toBe('parent length');
@@ -75,25 +75,19 @@ describe('Row-related functionality:', function(){
     describe('Row::getCellWidths(): gets widths of the cells', function(){
         it('gives empty array if the row content is empty', function(){
             var fakeContent = {length: function(){return null;}};
-            spyOn(row, 'getContent').andCallFake(function(){return fakeContent;});
-            spyOn(fakeContent, 'length').andCallFake(function(){return 0;});
+            spyOn(row, 'getContent').and.returnValue(fakeContent);
+            spyOn(fakeContent, 'length').and.returnValue(0);
             expect(row.getCellWidths().length).toBe(0);
         });
         it('returns 1-element array with cell width', function(){
-            spyOn(cell1, 'getWidthValue').andCallFake(function(){
-                return 'row 1 width';
-            });
+            spyOn(cell1, 'getWidthValue').and.returnValue('row 1 width');
             row.appendElem(cell1);
             expect(row.getCellWidths().length).toBe(1);
             expect(row.getCellWidths()[0]).toBe('row 1 width');
         });
         it('returns 2-element array with cell widths if the row has two cells', function(){
-            spyOn(cell1, 'getWidthValue').andCallFake(function(){
-                return 'row 1 width';
-            });
-            spyOn(cell2, 'getWidthValue').andCallFake(function(){
-                return 'row 2 width';
-            });
+            spyOn(cell1, 'getWidthValue').and.returnValue('row 1 width');
+            spyOn(cell2, 'getWidthValue').and.returnValue('row 2 width');
             row.appendElem(cell1);
             row.appendElem(cell2);
             expect(row.getCellWidths().length).toBe(2);
@@ -104,22 +98,22 @@ describe('Row-related functionality:', function(){
 
     describe('Row::setCellWidths(): sets widths of the cells of the row', function(){
         it('throws an error if the input array and the row have equal lengths', function(){
-            spyOn(row, 'length').andCallFake(function(){return 10;});
+            spyOn(row, 'length').and.returnValue(10);
             expect(function(){
-                row.setCellWidths([1, 0.11]);
-            }).toThrow('Incompatible array length!');
+                return row.setCellWidths([1, 0.11]);
+            }).toThrow(new Error('Incompatible array length!'));
         });
         it('does not throw an error if the input array and the row are both empty', function(){
-            spyOn(row, 'length').andCallFake(function(){return 0;});
+            spyOn(row, 'length').and.returnValue(0);
             expect(function(){
                 row.setCellWidths([]);
             }).not.toThrow('Incompatible array length!');
         });
 
         it('calls Cell::setWidth() on the Cell instances if the input array and the row have the same length', function(){
-            spyOn(cell1, 'setWidth').andCallFake(function(){return null;});
-            spyOn(cell2, 'setWidth').andCallFake(function(){return null;});
-            spyOn(row, 'length').andCallFake(function(){return 2;});
+            spyOn(cell1, 'setWidth').and.returnValue(null);
+            spyOn(cell2, 'setWidth').and.returnValue(null);
+            spyOn(row, 'length').and.returnValue(2);
             row.appendElem(cell1);
             row.appendElem(cell2);
             row.setCellWidths([1, 0.11]);
@@ -210,8 +204,8 @@ describe('Row-related functionality:', function(){
             var obj = {};
             expect(obj instanceof Cell).toBe(false);
             expect(function(){
-                row.insertCellAt('any position', obj);
-            }).toThrow('Only a Cell instance is allowed for insertion!');
+                return row.insertCellAt('any position', obj);
+            }).toThrow(new Error('Only a Cell instance is allowed for insertion!'));
         });
 
         it('calls parent method insertElemAt()', function(){
@@ -225,9 +219,7 @@ describe('Row-related functionality:', function(){
 
     describe('Row::appendStyleToCellAt(): append style to the cell:', function(){
         it('Throws an error if the cell number is negative', function(){
-            spyOn(row, 'appendStyleToElemAt').andCallFake(function(){
-                return null;
-            });
+            spyOn(row, 'appendStyleToElemAt').and.returnValue(null);
             row.appendStyleToCellAt(213, 'style stub');
             expect(row.appendStyleToElemAt).toHaveBeenCalledWith(213, 'style stub');
 
@@ -236,19 +228,19 @@ describe('Row-related functionality:', function(){
 
     describe('Row::onlyTableInside(): whether the row admits defragmentation', function(){
         it('gives false, if the row is empty', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 0;});
+            spyOn(row, 'cellNum').and.returnValue(0);
             expect(row.onlyTableInside()).toBe(false);
             expect(row.cellNum).toHaveBeenCalled();
         });
         it('gives false, if the row contains more than one cell', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 25;});
+            spyOn(row, 'cellNum').and.returnValue(25);
             expect(row.onlyTableInside()).toBe(false);
             expect(row.cellNum).toHaveBeenCalled();
         });
         it('gives false, if the row contains one cell and the cell has more than one element', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 1;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            spyOn(cell1, 'length').andCallFake(function(){return 2;});
+            spyOn(row, 'cellNum').and.returnValue(1);
+            spyOn(row, 'getFirst').and.returnValue(cell1);
+            spyOn(cell1, 'length').and.returnValue(2);
             expect(row.onlyTableInside()).toBe(false);
             expect(cell1.length).toHaveBeenCalled();
             expect(row.getFirst).toHaveBeenCalled();
@@ -257,10 +249,10 @@ describe('Row-related functionality:', function(){
 
 
         it('gives true, if the row has unique cell and this cell has a table and nothing more', function(){
-            spyOn(row, 'cellNum').andCallFake(function(){return 1;});
-            spyOn(row, 'getFirst').andCallFake(function(){return cell1;});
-            spyOn(cell1, 'length').andCallFake(function(){return 1;});
-            spyOn(cell1, 'getFirst').andCallFake(function(){return new Table();});
+            spyOn(row, 'cellNum').and.returnValue(1);
+            spyOn(row, 'getFirst').and.returnValue(cell1);
+            spyOn(cell1, 'length').and.returnValue(1);
+            spyOn(cell1, 'getFirst').and.returnValue(new Table());
             expect(row.onlyTableInside()).toBe(true);
             expect(cell1.length).toHaveBeenCalled();
             expect(row.getFirst).toHaveBeenCalled();
@@ -272,7 +264,7 @@ describe('Row-related functionality:', function(){
     describe('Gets phantom cell styles/attributes', function(){
         describe('If method onlyTableInside() returns false', function(){
             beforeEach(function(){
-                spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+                spyOn(row, 'onlyTableInside').and.returnValue(false);
             });
             it('returns undefined if onlyTableInside() returns false', function(){
                 expect(row.getPhantomCellProp('whatever')).not.toBeDefined();
@@ -280,17 +272,17 @@ describe('Row-related functionality:', function(){
         });
         describe('If method onlyTableInside() returns true', function(){
             beforeEach(function(){
-                spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
+                spyOn(row, 'onlyTableInside').and.returnValue(true);
             });
             it('returns undefined if called with neither "attr" nor "style"', function(){
                 expect(row.getPhantomCellProp('foo')).not.toBeDefined();
             });
             it('returns styles of the first element if called with argument "style"', function(){
-                spyOn(row, 'getFirst').andCallFake(function(){return {getStyles: function(){return 'first element styles';}};});
+                spyOn(row, 'getFirst').and.returnValue({getStyles: function(){return 'first element styles';}});
                 expect(row.getPhantomCellProp('style')).toBe('first element styles');
             });
             it('returns styles of the first element if called with argument "attr"', function(){
-                spyOn(row, 'getFirst').andCallFake(function(){return {getAttributes: function(){return 'first element attributes';}};});
+                spyOn(row, 'getFirst').and.returnValue({getAttributes: function(){return 'first element attributes';}});
                 expect(row.getPhantomCellProp('attr')).toBe('first element attributes');
             });
 
@@ -315,15 +307,15 @@ describe('Row-related functionality:', function(){
 
     describe('Retrieving styles of phantom table inside the row', function(){
         it('returns undefined, if onlyTableInside returns false', function(){
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+            spyOn(row, 'onlyTableInside').and.returnValue(false);
             expect(row.phantomTableStyles()).not.toBeDefined();
         });
         it('returns styles, if onlyTableInside returns true', function(){
             var c = new Cell(),
                 t = {'getStyles': function(){return 'fake style object';}};
-            spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-            spyOn(row, 'getFirst').andCallFake(function(){return c;});
-            spyOn(c, 'getFirst').andCallFake(function(){return t;});
+            spyOn(row, 'onlyTableInside').and.returnValue(true);
+            spyOn(row, 'getFirst').and.returnValue(c);
+            spyOn(c, 'getFirst').and.returnValue(t);
             expect(row.phantomTableStyles()).toBe('fake style object');
             expect(row.onlyTableInside).toHaveBeenCalled();
             expect(row.getFirst).toHaveBeenCalled();
@@ -350,7 +342,7 @@ describe('Row-related functionality:', function(){
     describe('Gets phantom table styles/attributes', function(){
         describe('If method onlyTableInside() returns false', function(){
             beforeEach(function(){
-                spyOn(row, 'onlyTableInside').andCallFake(function(){return false;});
+                spyOn(row, 'onlyTableInside').and.returnValue(false);
             });
             it('returns undefined if onlyTableInside() returns false', function(){
                 expect(row.getPhantomTableProp('whatever')).not.toBeDefined();
@@ -361,8 +353,8 @@ describe('Row-related functionality:', function(){
             beforeEach(function(){
                 tableMock = {getStyles: function(){return 'table styles';}, getAttributes: function(){return 'table attributes';}};
                 cellMock = {getFirst: function(){return tableMock;}};
-                spyOn(row, 'onlyTableInside').andCallFake(function(){return true;});
-                spyOn(row, 'getFirst').andCallFake(function(){return cellMock;});
+                spyOn(row, 'onlyTableInside').and.returnValue(true);
+                spyOn(row, 'getFirst').and.returnValue(cellMock);
 
             });
             it('returns undefined if called with neither "attr" nor "style"', function(){

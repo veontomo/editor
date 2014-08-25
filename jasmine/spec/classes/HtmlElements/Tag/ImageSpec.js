@@ -63,7 +63,7 @@ describe('Image-related functionality:', function() {
             var url = img.getOrigin(),
                 newUrl = 'whatever';
             expect(url).not.toBe(newUrl);
-            spyOn(img, 'dropProtocol').andCallFake(function(){return '';});
+            spyOn(img, 'dropProtocol').and.returnValue('');
             img.setOrigin(newUrl);
             expect(img.getOrigin()).toBe(url);
         });
@@ -73,7 +73,7 @@ describe('Image-related functionality:', function() {
 
     describe('Image::getOrigin(): gets source', function(){
         it('calls Attribute::getProperty() to retrieve image source', function(){
-            spyOn(attr, 'getProperty').andCallFake(function(){return 'file-image-is-here';});
+            spyOn(attr, 'getProperty').and.returnValue('file-image-is-here');
             img.setProperties(attr);
             expect(img.getOrigin()).toBe('file-image-is-here');
             expect(attr.getProperty).toHaveBeenCalledWith('src');
@@ -127,22 +127,22 @@ describe('Image-related functionality:', function() {
 
     describe('Creates html representation', function(){
         it('produces empty string, if getOrigin() returns undefined', function(){
-            spyOn(img, 'getOrigin').andCallFake(function(){});
+            spyOn(img, 'getOrigin').and.returnValue();
             expect(img.toHtml()).toBe('');
         });
         it('produces empty string, if getOrigin() returns null', function(){
-            spyOn(img, 'getOrigin').andCallFake(function(){return null;});
+            spyOn(img, 'getOrigin').and.returnValue(null);
             expect(img.toHtml()).toBe('');
         });
         it('produces empty string, if getOrigin() returns empty string', function(){
-            spyOn(img, 'getOrigin').andCallFake(function(){return '';});
+            spyOn(img, 'getOrigin').and.returnValue('');
             expect(img.toHtml()).toBe('');
         });
 
         it('calls opening and close tag methods if getOrigin() returns non-empty string', function(){
-            spyOn(img, 'getOrigin').andCallFake(function(){return 'a-link';});
-            spyOn(img, 'openingTag').andCallFake(function(){return '<open>';});
-            spyOn(img, 'closingTag').andCallFake(function(){return '<close>';});
+            spyOn(img, 'getOrigin').and.returnValue('a-link');
+            spyOn(img, 'openingTag').and.returnValue('<open>');
+            spyOn(img, 'closingTag').and.returnValue('<close>');
             expect(img.toHtml()).toBe('<open><close>');
         });
 

@@ -6,8 +6,8 @@ describe ('Converter to fixed format', function(){
     beforeEach(function(){
     	c = new ConverterFixed();
     	n = document.createElement('span');
-    	spyOn(NEWSLETTER, 'width').andCallFake(function(){return "1000px";});
-    	spyOn(NEWSLETTER, 'fontsize').andCallFake(function(){return "10px";});
+    	spyOn(NEWSLETTER, 'width').and.returnValue("1000px");
+    	spyOn(NEWSLETTER, 'fontsize').and.returnValue("10px");
     });
 
     describe("Elaborates single node", function () {

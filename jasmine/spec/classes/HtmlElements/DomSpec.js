@@ -542,8 +542,8 @@ describe('Dom-specific functionality', function(){
 
         it('throws an error if the start node is not a parent of the end node', function(){
             expect(function(){
-                dom.complementNodes(e11, e40);
-            }).toThrow("Start node must contain the end one!");
+                return dom.complementNodes(e11, e40);
+            }).toThrow(new Error("Start node must contain the end one!"));
         });
 
         it('returns array with two nodes if the start node has three children and the end node is one of them', function(){
@@ -663,11 +663,11 @@ describe('Dom-specific functionality', function(){
         });
 
         it('calls "setStyleProperty" with mentor (assuming it exists) inline style property value on all complement nodes', function(){
-            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'getMentor').and.returnValue(e10);
+            spyOn(dom, 'complementNodes').and.returnValue([e50, e34, e20, e22]);
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
-            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';});
+            spyOn(dom, 'getStyleProperty').and.returnValue('nice');
             dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e50, 'font', 'nice');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e34, 'font', 'nice');
@@ -676,8 +676,8 @@ describe('Dom-specific functionality', function(){
         });
 
         it('calls "dropStyleProperty" for mentor (assuming it exists) inline style property', function(){
-            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'getMentor').and.returnValue(e10);
+            spyOn(dom, 'complementNodes').and.returnValue([e50, e34, e20, e22]);
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
             dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
@@ -685,8 +685,8 @@ describe('Dom-specific functionality', function(){
         });
 
         it('calls "dropStyleProperty" on the mentor and "setStyleProperty" on the node, if complement node array is empty', function(){
-            spyOn(dom, 'getMentor').andCallFake(function(){return e21;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [];});
+            spyOn(dom, 'getMentor').and.returnValue(e21);
+            spyOn(dom, 'complementNodes').and.returnValue([]);
             spyOn(dom, 'dropStyleProperty');
             spyOn(dom, 'setStyleProperty');
             dom.nailStyleProperty(e63, 'font', 'good', 'ugly');
@@ -697,19 +697,19 @@ describe('Dom-specific functionality', function(){
 
 
         it('calls "setStyleProperty" with primary inline style property value on target node if mentor exists', function(){
-            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'getMentor').and.returnValue(e10);
+            spyOn(dom, 'complementNodes').and.returnValue([e50, e34, e20, e22]);
             spyOn(dom, 'setStyleProperty');
-            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'nice';}); // mentor inline style
+            spyOn(dom, 'getStyleProperty').and.returnValue('nice'); // mentor inline style
             dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'good');
         });
 
         it('calls "setStyleProperty" with secondary inline style property value on target node if mentor style property is equal to primary', function(){
-            spyOn(dom, 'getMentor').andCallFake(function(){return e10;});
-            spyOn(dom, 'complementNodes').andCallFake(function(){return [e50, e34, e20, e22];});
+            spyOn(dom, 'getMentor').and.returnValue(e10);
+            spyOn(dom, 'complementNodes').and.returnValue([e50, e34, e20, e22]);
             spyOn(dom, 'setStyleProperty');
-            spyOn(dom, 'getStyleProperty').andCallFake(function(){return 'good';}); // mentor inline style
+            spyOn(dom, 'getStyleProperty').and.returnValue('good'); // mentor inline style
             dom.nailStyleProperty(e51, 'font', 'good', 'ugly');
             expect(dom.setStyleProperty).toHaveBeenCalledWith(e51, 'font', 'ugly');
         });
@@ -861,7 +861,7 @@ describe('Dom-specific functionality', function(){
                 expect(n.previousSibling).toBe(e1);
                 expect(n.firstChild.nodeValue).toBe('text node');
 
-            })
+            });
 
 
         });

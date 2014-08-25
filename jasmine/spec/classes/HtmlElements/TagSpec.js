@@ -106,8 +106,8 @@ describe('Tag-related functionality', function() {
     describe('Tag::getWidth(): retrieves the width value from the style', function(){
         it('calls "getWidth()" method on its "property"', function(){
             var props = new Properties();
-            spyOn(tag, 'getProperties').andCallFake(function(){return props;});
-            spyOn(props, 'getWidth').andCallFake(function(){return 'width result';});
+            spyOn(tag, 'getProperties').and.returnValue(props);
+            spyOn(props, 'getWidth').and.returnValue('width result');
             expect(tag.getWidth()).toBe('width result');
             expect(props.getWidth).toHaveBeenCalled();
         });
@@ -159,13 +159,13 @@ describe('Tag-related functionality', function() {
             attr = {setProperty: function(){return null;}};  // mock
             spyOn(stl, 'setWidth');
             spyOn(attr, 'setProperty');
-            spyOn(tag, 'getStyles').andCallFake(function(){return stl;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return attr;});
+            spyOn(tag, 'getStyles').and.returnValue(stl);
+            spyOn(tag, 'getProperties').and.returnValue(attr);
         });
         it('does not call any method if no argument is given', function(){
             tag.setWidth();
-            expect(stl.setWidth).wasNotCalled();
-            expect(attr.setProperty).wasNotCalled();
+            expect(stl.setWidth).not.toHaveBeenCalled();
+            expect(attr.setProperty).not.toHaveBeenCalled();
         });
         it('sets the width (final check)', function(){
             var tag2 = new Tag();
@@ -176,8 +176,8 @@ describe('Tag-related functionality', function() {
 
     describe('Tag::getElem(): gets element from "content" property', function(){
         it('calls Content::getElem method when retrieving element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'getElem').andCallFake(function(){return null;});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(content, 'getElem').and.returnValue(null);
             tag.getElem('whatever');
             expect(content.getElem).toHaveBeenCalledWith('whatever');
         });
@@ -226,15 +226,15 @@ describe('Tag-related functionality', function() {
         var prop;
         beforeEach(function(){
             prop = {toString: function(){return '';}};
-            spyOn(tag, 'getProperties').andCallFake(function(){return prop;});
+            spyOn(tag, 'getProperties').and.returnValue(prop);
         });
         it('gets string like <tag> for a tag with empty properties', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname';});
+            spyOn(tag, 'getTag').and.returnValue('stubname');
             expect(tag.openingTag()).toBe('<stubname>');
         });
         it('gets string like <div attr="1" width="92"> if properties are not empty', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'div';});
-            spyOn(prop, 'toString').andCallFake(function(){return '"tag properties"';});
+            spyOn(tag, 'getTag').and.returnValue('div');
+            spyOn(prop, 'toString').and.returnValue('"tag properties"');
             expect(tag.openingTag()).toBe('<div "tag properties">');
         });
 
@@ -242,7 +242,7 @@ describe('Tag-related functionality', function() {
 
     describe('Gets html tag footer', function(){
         it('gets string like </tag> for a tag with empty styles and attributes', function(){
-            spyOn(tag, 'getTag').andCallFake(function(){return 'stubname';});
+            spyOn(tag, 'getTag').and.returnValue('stubname');
             expect(tag.closingTag()).toBe('</stubname>');
         });
     });
@@ -257,7 +257,7 @@ describe('Tag-related functionality', function() {
         });
         it('returns "getElements()" of the "getContent" output', function(){
             var obj = {getElements: function(){return 'elements';}};
-            spyOn(tag, 'getContent').andCallFake(function(){return obj;});
+            spyOn(tag, 'getContent').and.returnValue(obj);
             expect(tag.getElements()).toBe('elements');
             expect(tag.getContent).toHaveBeenCalled();
         });
@@ -325,19 +325,19 @@ describe('Tag-related functionality', function() {
 
     describe('getProperty(): retrieves property', function(){
         it('calls cell method "getProperties()"', function(){
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             tag.getProperty('a property');
             expect(tag.getProperties).toHaveBeenCalled();
         });
         it('calls getProperty() method on the object style', function(){
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             spyOn(tagProps, 'getProperty');
             tag.getProperty('a property');
             expect(tagProps.getProperty).toHaveBeenCalledWith('a property');
         });
         it('returns output of getProperty() method of the object style', function(){
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            spyOn(tagProps, 'getProperty').andCallFake(function(){return 'fake property value';});
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            spyOn(tagProps, 'getProperty').and.returnValue('fake property value');
             expect(tag.getProperty('a property')).toBe('fake property value');
         });
     });
@@ -353,8 +353,8 @@ describe('Tag-related functionality', function() {
 
     describe('getFirst(): gets first element of the content', function(){
         it('calls Content::getFirst method when retrieving first element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'getFirst').andCallFake(function(){return null;});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(content, 'getFirst').and.returnValue(null);
             tag.getFirst();
             expect(content.getFirst).toHaveBeenCalled();
         });
@@ -362,8 +362,8 @@ describe('Tag-related functionality', function() {
 
     describe('getLast(): gets last element of the content', function(){
         it('calls Content::getLast method when retrieving last element', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'getLast').andCallFake(function(){return null;});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(content, 'getLast').and.returnValue(null);
             tag.getLast();
             expect(content.getLast).toHaveBeenCalled();
         });
@@ -396,8 +396,8 @@ describe('Tag-related functionality', function() {
 
     describe('Tag::length(): gives the number of elements in the content', function(){
         it('calls Content::length method when retrieving length', function(){
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(content, 'length').andCallFake(function(){return 'content length';});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(content, 'length').and.returnValue('content length');
             expect(tag.length()).toBe('content length');
             expect(content.length).toHaveBeenCalled();
         });
@@ -555,29 +555,29 @@ describe('Tag-related functionality', function() {
 
     describe('creates html representation of the tag', function(){
         it('if properties are present', function(){
-            spyOn(tagProps, 'toString').andCallFake(function(){return '"attributes of the tag"';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
+            spyOn(tagProps, 'toString').and.returnValue('"attributes of the tag"');
+            spyOn(content, 'toHtml').and.returnValue('html representation of the content');
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            spyOn(tag, 'getTag').and.returnValue('htmltag');
             expect(tag.toHtml()).toBe('<htmltag "attributes of the tag">html representation of the content</htmltag>');
         });
 
         it('if attributes are empty', function(){
-            spyOn(tagProps, 'toString').andCallFake(function(){return '';});
-            spyOn(content, 'toHtml').andCallFake(function(){return 'html representation of the content';});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
+            spyOn(tagProps, 'toString').and.returnValue('');
+            spyOn(content, 'toHtml').and.returnValue('html representation of the content');
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            spyOn(tag, 'getTag').and.returnValue('htmltag');
             expect(tag.toHtml()).toBe('<htmltag>html representation of the content</htmltag>');
         });
 
         it('if content is empty', function(){
-            spyOn(tagProps, 'toString').andCallFake(function(){return '"attributes of the tag"';});
-            spyOn(content, 'toHtml').andCallFake(function(){return '';});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            spyOn(tag, 'getTag').andCallFake(function(){return 'htmltag';});
+            spyOn(tagProps, 'toString').and.returnValue('"attributes of the tag"');
+            spyOn(content, 'toHtml').and.returnValue('');
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            spyOn(tag, 'getTag').and.returnValue('htmltag');
             expect(tag.toHtml()).toBe('<htmltag "attributes of the tag"></htmltag>');
         });
 
@@ -617,8 +617,8 @@ describe('Tag-related functionality', function() {
 
     describe('Tag::toText(): generates text representation of the tag', function(){
         it('calls Content::toText() method', function(){
-            spyOn(content, 'toText').andCallFake(function(){return 'content text';});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
+            spyOn(content, 'toText').and.returnValue('content text');
+            spyOn(tag, 'getContent').and.returnValue(content);
             expect(tag.toText()).toBe('content text');
             expect(content.toText).toHaveBeenCalled();
         });
@@ -677,33 +677,33 @@ describe('Tag-related functionality', function() {
 
     describe('Tag::isEmpty(): decides whether the tag is empty', function(){
         it('returns false if properties are empty while content is not empty', function(){
-            spyOn(tagProps, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(content, 'isEmpty').andCallFake(function(){return true;});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tagProps, 'isEmpty').and.returnValue(false);
+            spyOn(content, 'isEmpty').and.returnValue(true);
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             expect(tag.isEmpty()).toBe(false);
         });
         it('returns false if content is empty while properties - not', function(){
-            spyOn(tagProps, 'isEmpty').andCallFake(function(){return true;});
-            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tagProps, 'isEmpty').and.returnValue(true);
+            spyOn(content, 'isEmpty').and.returnValue(false);
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             expect(tag.isEmpty()).toBe(false);
         });
 
         it('returns false if properties and content are not empty', function(){
-            spyOn(tagProps, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(content, 'isEmpty').andCallFake(function(){return false;});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tagProps, 'isEmpty').and.returnValue(false);
+            spyOn(content, 'isEmpty').and.returnValue(false);
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             expect(tag.isEmpty()).toBe(false);
         });
 
         it('returns true if properties and content are empty', function(){
-            spyOn(tagProps, 'isEmpty').andCallFake(function(){return true;});
-            spyOn(content, 'isEmpty').andCallFake(function(){return true;});
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
+            spyOn(tagProps, 'isEmpty').and.returnValue(true);
+            spyOn(content, 'isEmpty').and.returnValue(true);
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
             expect(tag.isEmpty()).toBe(true);
         });
 
@@ -713,7 +713,7 @@ describe('Tag-related functionality', function() {
     xdescribe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
         it('calls Content::appendElemIfNotEmpty()', function(){
             spyOn(content, 'appendElemIfNotEmpty');
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
+            spyOn(tag, 'getContent').and.returnValue(content);
             var foo = 'foo';
             tag.appendElemIfNotEmpty(foo);
             expect(content.appendElemIfNotEmpty).toHaveBeenCalledWith(foo);
@@ -818,7 +818,7 @@ describe('Tag-related functionality', function() {
         });
         it('assignes value of "clone" method if an attribute has that method', function(){
             tag.m1 = {clone: function(){return null;}};
-            spyOn(tag.m1, 'clone').andCallFake(function(){return 'clone of m1';});
+            spyOn(tag.m1, 'clone').and.returnValue('clone of m1');
             var clone = tag.clone();
             expect(clone.m1).toBe('clone of m1');
         });
@@ -851,9 +851,9 @@ describe('Tag-related functionality', function() {
             root.appendChild(t1);
             root.appendChild(e2);
 
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            // spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            // spyOn(tag, 'getStyles').and.returnValue(tagStyle);
         });
 
         it('does not call "load" methods, if the argument is missing', function(){
@@ -894,29 +894,29 @@ describe('Tag-related functionality', function() {
         });
 
         it('returns "true", if all "load" methods return "true"', function(){
-            spyOn(content, 'load').andCallFake(function(){return true;});
-            spyOn(tagProps, 'load').andCallFake(function(){return true;});
-            // spyOn(tagStyle, 'load').andCallFake(function(){return true;});
+            spyOn(content, 'load').and.returnValue(true);
+            spyOn(tagProps, 'load').and.returnValue(true);
+            // spyOn(tagStyle, 'load').and.returnValue(true);
             expect(tag.load(e0)).toBe(true);
         });
 
         it('returns "false", if all "load" methods return "false"', function(){
-            spyOn(content, 'load').andCallFake(function(){return false;});
-            spyOn(tagProps, 'load').andCallFake(function(){return false;});
-            // spyOn(tagStyle, 'load').andCallFake(function(){return false;});
+            spyOn(content, 'load').and.returnValue(false);
+            spyOn(tagProps, 'load').and.returnValue(false);
+            // spyOn(tagStyle, 'load').and.returnValue(false);
             expect(tag.load(e0)).toBe(false);
         });
 
         it('returns "false", if "content.load" method return "false", and the others - "true"', function(){
-            spyOn(content, 'load').andCallFake(function(){return false;});
-            spyOn(tagProps, 'load').andCallFake(function(){return true;});
-            // spyOn(tagStyle, 'load').andCallFake(function(){return true;});
+            spyOn(content, 'load').and.returnValue(false);
+            spyOn(tagProps, 'load').and.returnValue(true);
+            // spyOn(tagStyle, 'load').and.returnValue(true);
             expect(tag.load(t1)).toBe(false);
         });
         it('returns "false", if "attr.load" method return "false", and the others - "true"', function(){
-            spyOn(content, 'load').andCallFake(function(){return true;});
-            spyOn(tagProps, 'load').andCallFake(function(){return false;});
-            // spyOn(tagStyle, 'load').andCallFake(function(){return true;});
+            spyOn(content, 'load').and.returnValue(true);
+            spyOn(tagProps, 'load').and.returnValue(false);
+            // spyOn(tagStyle, 'load').and.returnValue(true);
             expect(tag.load(e2)).toBe(false);
         });
 
@@ -933,9 +933,9 @@ describe('Tag-related functionality', function() {
     describe('Tag::toNode(): transforms element into a DOM.Element', function(){
         beforeEach(function(){
             tag.setTag('mdk');
-            spyOn(tag, 'getContent').andCallFake(function(){return content;});
-            spyOn(tag, 'getProperties').andCallFake(function(){return tagProps;});
-            // spyOn(tag, 'getStyles').andCallFake(function(){return tagStyle;});
+            spyOn(tag, 'getContent').and.returnValue(content);
+            spyOn(tag, 'getProperties').and.returnValue(tagProps);
+            // spyOn(tag, 'getStyles').and.returnValue(tagStyle);
 
         });
         it('return DOM element with tag equal to the "tag" property', function(){
