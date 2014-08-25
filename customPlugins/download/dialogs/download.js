@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 					   id: 'mode',
 					   label: 'Formato',
 					   style: 'line-height: 2em;',
-					   items: [['Fisso', 'fixed'], ['Elastico', 'fluid']],
+					   items: [['Fisso', 'fixed'], ['Elastico', 'elastic']],
 					   'default': 'fixed',
 				}]
 			}

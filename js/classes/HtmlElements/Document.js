@@ -177,7 +177,7 @@ function Document(node){
 	};
 
 	/**
-	 * Converts document into fixed format (not fluid).
+	 * Converts document into fixed format (not elastic).
 	 *
 	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
 	 * @method         importToFixed
@@ -205,11 +205,12 @@ function Document(node){
 	this.importToFluid = function(){
 		var c = this.getConverter();
 		if (c){
-			var fluid = c.convertTo(this.getContent(), 'fluid');
+			var fluid = c.convertTo(this.getContent(), 'elastic');
 			this.setContent(fluid);
 
 		}
 	};
+
 	/**
 	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} into prescribed format.
 	 * @method         convertTo

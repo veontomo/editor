@@ -121,7 +121,7 @@ Object.defineProperty(NEWSLETTER, 'factory', {
  */
 var formatMapper = new Mapper();
 formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fixed';}, ConverterFixed);
-formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'fluid';}, ConverterFluid);
+formatMapper.add(function(str){return typeof str === 'string' && str.toLowerCase() === 'elastic';}, ConverterElastic);
 Object.defineProperty(NEWSLETTER, 'formatMapper', {
 	value:    formatMapper,
 	writable: false

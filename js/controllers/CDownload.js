@@ -23,19 +23,21 @@ var CDownload = {
 	 */
 	download: function(context, editor){
 		var fileName = context.getValueOf('tab-general', 'filename'),
-			isFluid = context.getValueOf('tab-general', 'mode'),
+			mode = context.getValueOf('tab-general', 'mode'),
 			editorContent = editor.document.getBody().$,
 			fileContent, doc;
+		console.log('mode = ' + mode);
 
 		doc = new Document(editorContent);
 		// doc.setMapper(NEWSLETTER.formatMapper);
 		doc.clean();
-		doc.convertTo(isFluid ? 'fluid' : 'fixed');
+		doc.convertTo(mode);
 		fileContent = doc.docHtml();
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},
 				function(filename){
+					// console.log('redirection is blocked');
 					$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
 			}
 		);
@@ -60,7 +62,4 @@ var CDownload = {
 			].join('-') + '.html';
 		return templateName;
 	},
-
-
-
 };
