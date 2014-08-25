@@ -1,10 +1,10 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, beforeEach, spyOn, ConverterFluid, Properties, NEWSLETTER */
+/*global describe, it, expect, beforeEach, spyOn, ConverterElastic, Properties, NEWSLETTER */
 
-describe ('Converter to fluid format', function(){
+describe ('Converter to elastic format', function(){
 	var c, n;
     beforeEach(function(){
-    	c = new ConverterFluid();
+    	c = new ConverterElastic();
     	n = document.createElement('span');
     	spyOn(NEWSLETTER, 'width').andCallFake(function(){return "1000px";});
     	spyOn(NEWSLETTER, 'fontsize').andCallFake(function(){return "10px";});
@@ -102,7 +102,7 @@ describe ('Converter to fluid format', function(){
             expect(style.getProperty('padding')).toBe('2.1%');
         });
 
-        it ('elaborates padding in ordered list', function(){
+        it('elaborates padding in ordered list', function(){
             n = document.createElement('ol');
             n.setAttribute('style', 'width: 100px; padding: 0px; margin-left: 40px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px;');
             var li1 = document.createElement('li'),
@@ -115,11 +115,14 @@ describe ('Converter to fluid format', function(){
             li2.appendChild(document.createTextNode('list item 2'));
 
             var n2 = c.convert(n);
-            // console.log(n.outerHTML);
-            // console.log(n2.outerHTML);
-            expect(1 == 1).toBe(true);
+            // pending();
+            // pending();
 
         });
+        it("can be declared by calling 'pending' in the spec body", function() {
+            expect(true).toBe(false);
+            pending();
+          });
     });
 
     describe('Elabotates node with children', function(){
@@ -145,7 +148,7 @@ describe ('Converter to fluid format', function(){
         it('modifies all children width', function(){
             var n2 = c.convert(n),
                 children = n2.childNodes,
-                style = new Properties(n2.getAttribute('style'));
+                style = new Properties(n2.getAttribute('style')),
                 style1 = new Properties(children.item(0).getAttribute('style')),
                 style2 = new Properties(children.item(1).getAttribute('style')),
                 style3 = new Properties(children.item(2).getAttribute('style'));

@@ -69,7 +69,7 @@
 	<script type="text/javascript" src="js/converters/Converter.js"></script>
 	<script type="text/javascript" src="js/converters/ConverterGeneral.js"></script>
 	<script type="text/javascript" src="js/converters/ConverterFixed.js"></script>
-	<script type="text/javascript" src="js/converters/ConverterFluid.js"></script>
+	<script type="text/javascript" src="js/converters/ConverterElastic.js"></script>
 
 	<!-- helpers  -->
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>

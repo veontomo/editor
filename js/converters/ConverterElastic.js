@@ -9,10 +9,10 @@
  * @author      A.Shcherbakov
  */
 
-function ConverterFluid(){
+function ConverterElastic(){
 	"use strict";
-	if (!(this instanceof ConverterFluid)) {
-		return new ConverterFluid();
+	if (!(this instanceof ConverterElastic)) {
+		return new ConverterElastic();
 	}
 	ConverterGeneral.call(this);
 
@@ -221,4 +221,4 @@ function ConverterFluid(){
 	 */
 	this.setWorkers([_fontFluid, _widthFluid, _paddingAll/*, _paddingFluid*/]);
 }
-ConverterFluid.prototype = Object.create(ConverterGeneral.prototype);
+ConverterElastic.prototype = Object.create(ConverterGeneral.prototype);

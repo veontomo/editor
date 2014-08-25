@@ -182,8 +182,10 @@ function Document(node){
 	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
 	 * @method         importToFixed
 	 * @return         {void}
+	 * @deprecated     in favour of convertTo()
 	 */
 	this.importToFixed = function(){
+		console.log('This method is deprecated, use Document.convertTo("fixed") instead.');
 		var c = this.getConverter();
 		if (c){
 			var fixed = c.convertTo(this.getContent(), 'fixed');
@@ -201,8 +203,10 @@ function Document(node){
 	 * "cellspacing", "cellpadding", "border" etc.
 	 * @method         importToFluid
 	 * @return         {void}
+	 * @deprecated     in favour of convertTo()
 	 */
 	this.importToFluid = function(){
+		console.log('This method is deprecated, use Document.convertTo("elastic") instead.');
 		var c = this.getConverter();
 		if (c){
 			var fluid = c.convertTo(this.getContent(), 'elastic');
