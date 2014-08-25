@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, ListItem , Tag*/
+/*global describe, it, expect, spyOn, beforeEach, ListItem , Tag*/
 
 describe('ListItem-related functionality', function(){
     var li;

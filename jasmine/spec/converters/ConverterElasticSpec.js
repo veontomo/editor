@@ -102,7 +102,7 @@ describe ('Converter to elastic format', function(){
             expect(style.getProperty('padding')).toBe('2.1%');
         });
 
-        it('elaborates padding in ordered list', function(){
+        it('elaborates padding in ordered list (pending test)', function(){
             n = document.createElement('ol');
             n.setAttribute('style', 'width: 100px; padding: 0px; margin-left: 40px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px;');
             var li1 = document.createElement('li'),
@@ -115,14 +115,9 @@ describe ('Converter to elastic format', function(){
             li2.appendChild(document.createTextNode('list item 2'));
 
             var n2 = c.convert(n);
-            // pending();
-            // pending();
+            pending();
 
         });
-        it("can be declared by calling 'pending' in the spec body", function() {
-            expect(true).toBe(false);
-            pending();
-          });
     });
 
     describe('Elabotates node with children', function(){

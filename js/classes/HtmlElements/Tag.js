@@ -547,7 +547,8 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Appends the element to the content of the list item. Delegates to Content::appendElem().
+	 * Appends the element to the content of the list item. Delegates its functionality to
+	 * {{#crossLink "Content/appendElem:method"}}appendElem{{/crossLink}}.
 	 * @method appendElem
 	 * @param  {any}     elem
 	 * @return {void}
@@ -699,7 +700,7 @@ function Tag(tName) {
 
 	/**
 	 * Appends element to the content. It is alias for the
-	 * {{#crossLink "Content/appendElemIfNotEmpty:method"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
+	 * {{#crossLink "Content/appendElem:method"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
 	 * @method appendElemIfNotEmpty
 	 * @param  {any}      arg
 	 * @return {void}

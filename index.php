@@ -74,7 +74,7 @@
 	<!-- helpers  -->
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
 	<script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script>
-	<script type="text/javascript" src="js/classes/Helper/String.js"></script>
+	// <script type="text/javascript" src="js/classes/Helper/String.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Mapper.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 

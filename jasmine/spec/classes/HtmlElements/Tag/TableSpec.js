@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Properties,
+/*global describe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Properties,
 Content, TableProperties, RowProperties, TableCellStyles, TableAttributes, Properties, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
@@ -988,7 +988,7 @@ describe('Table-related functionality:', function(){
         });
 
 
-        xit('generates html code of the framed table: all bogus attributes and styles are present', function(){
+        xit('generates html code of the framed table: all bogus attributes and styles are present (pending test)', function(){
             spyOn(row1, 'toHtml').and.returnValue('row 1');
             spyOn(row2, 'toHtml').and.returnValue('row 2 html');
             spyOn(tableAttr, 'toString').and.returnValue('table attr');
@@ -1014,7 +1014,7 @@ describe('Table-related functionality:', function(){
         });
 
 
-        xit('generates html code of the framed table: bogus attributes are present, styles - not', function(){
+        xit('generates html code of the framed table: bogus attributes are present, styles - not (pending test)', function(){
             spyOn(row1, 'toHtml').and.returnValue('row 1');
             spyOn(row2, 'toHtml').and.returnValue('row 2 html');
             spyOn(tableAttr, 'toString').and.returnValue('table attr');
@@ -1334,8 +1334,8 @@ describe('Table-related functionality:', function(){
 
 
 
-    xdescribe('Table::desintangle(): converts table from fragmented into a framed', function(){
-        it('sets bogus cell attributes, if the table is fragmented', function(){
+    describe('Table::desintangle(): converts table from fragmented into a framed', function(){
+        xit('sets bogus cell attributes, if the table is fragmented', function(){
             var obj = {};
             spyOn(table, 'getPhantomCellAttributes').and.returnValue(obj);
             spyOn(table, 'getPhantomCellStyles');
@@ -1349,7 +1349,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusCellAttr).toBe(obj);
         });
 
-        it('sets bogus row attributes, if the table is fragmented', function(){
+        xit('sets bogus row attributes, if the table is fragmented (pending test)', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
@@ -1363,7 +1363,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusRowAttr).toBe(obj);
         });
 
-        it('sets bogus table attributes, if the table is fragmented', function(){
+        xit('sets bogus table attributes, if the table is fragmented (pending test)', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
@@ -1378,7 +1378,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusTableAttr).toBe(obj);
         });
 
-        it('sets bogus cell style, if the table is fragmented', function(){
+        xit('sets bogus cell style, if the table is fragmented (pending test)', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle').and.returnValue(obj);
@@ -1393,7 +1393,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusCellStyle).toBe(obj);
         });
 
-        it('sets bogus row style, if the table is fragmented', function(){
+        xit('sets bogus row style, if the table is fragmented (pending test)', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
@@ -1408,7 +1408,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusRowStyle).toBe(obj);
         });
 
-        it('sets bogus table style, if the table is fragmented', function(){
+        xit('sets bogus table style, if the table is fragmented (pending test)', function(){
             var obj = {};
             spyOn(table, 'getBogusCellAttr');
             spyOn(table, 'getBogusCellStyle');
@@ -1423,7 +1423,7 @@ describe('Table-related functionality:', function(){
             expect(table.bogusTableStyle).toBe(obj);
         });
 
-        it('rearrange the table if it is fragmented', function(){
+        xit('rearrange the table if it is fragmented (pending test)', function(){
             var c1 = new Cell(), // bogusRowAttr = {},
                 c2 = new Cell(), // bogusRowStyle = {},
                 c3 = new Cell(), // bogusCellAttr = {},

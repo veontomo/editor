@@ -149,9 +149,10 @@ describe('Style-related functionality', function(){
         });
     });
 
-    xdescribe('Style::load(): loads the style', function(){
+    describe('Style::load(): loads the style', function(){
         it('returns true, if the argument is empty', function(){
             expect(stl.load()).toBe(true);
+            pending();
         });
 
         it('returns false if the argument is not a string or an object without "getNamedItem()" method', function(){

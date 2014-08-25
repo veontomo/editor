@@ -1,9 +1,9 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, it, expect, spyOn, beforeEach, Content, Table, Tag, Cell, Row, List, ListItem, Link*/
 
-xdescribe('String-related functionality', function(){
+describe('String-related functionality', function(){
 
-    describe('String::createTagFromHtml(): constructs a Tag object from its html representation', function(){
+    xdescribe('String::createTagFromHtml(): constructs a Tag object from its html representation', function(){
         var str, tag;
         beforeEach(function(){
             str = '<customtag margin="92" lesson="modular" finish="no" id="logo" style="margin:92; modular: yes; on-load: finish">content</customtag>';
@@ -59,7 +59,7 @@ xdescribe('String-related functionality', function(){
         });
     });
 
-    describe('String::createCellFromHtml(): constructs a Cell object from its html representation', function(){
+    xdescribe('String::createCellFromHtml(): constructs a Cell object from its html representation', function(){
         var cellHtml, cell, st, attr;
         beforeEach(function(){
             cellHtml = '<td style="color: red; width: 1; strange-attr: haha" underlined="why not" width="98">cell</td>';
@@ -162,7 +162,7 @@ xdescribe('String-related functionality', function(){
         });
     });
 
-    describe('String::createRowFromHtml(): constructs a Row object from its html representation', function(){
+    xdescribe('String::createRowFromHtml(): constructs a Row object from its html representation', function(){
         var rowHtml, row, st, attr;
         beforeEach(function(){
             rowHtml = '<tr style="color: red; width: 1; strange-attr: haha" color="red" width="1" strange-attr="haha"><td></td><td></td><td></td><td></td><td></td></tr>';
@@ -238,7 +238,7 @@ xdescribe('String-related functionality', function(){
         });
     });
 
-    describe('String::createTableFromHtml(): constructs a Table object from its html representation', function(){
+    xdescribe('String::createTableFromHtml(): constructs a Table object from its html representation', function(){
         var htmlTable, table, st, attr;
         beforeEach(function(){
              htmlTable = '<table style="color:red;border-style:solid" data-marker="30" border="table border"><tbody><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2</td></tr></tbody></table>';
@@ -459,7 +459,7 @@ xdescribe('String-related functionality', function(){
                 });
             });
 
-            describe('String::inflate(): creates Content object', function(){
+            xdescribe('String::inflate(): creates Content object', function(){
                 var str, obj;
                 it('creates a Content instance from empty string', function(){
                     str = '';
@@ -714,7 +714,7 @@ xdescribe('String-related functionality', function(){
                 });
     });
 
-    describe('String::createListItemFromHtml(): constructs a Table object from its html representation', function(){
+    xdescribe('String::createListItemFromHtml(): constructs a Table object from its html representation', function(){
         var li, liHtml;
         it('Returns null, if the target string is empty', function(){
             liHtml = '';
@@ -768,7 +768,7 @@ xdescribe('String-related functionality', function(){
         });
     });
 
-    describe('String::createLinkFromHtml(): constructs a link from its html representation', function(){
+    xdescribe('String::createLinkFromHtml(): constructs a link from its html representation', function(){
         var linkHtml = '<a href="http://www.test.com" title="link descr" style="text-decoration:none">this is a link</a>',
             link = linkHtml.createLinkFromHtml();
         it('creates an instance of Link() class', function(){

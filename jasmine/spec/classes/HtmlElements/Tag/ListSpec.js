@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine, Tag*/
+/*global describe, it, expect, spyOn, beforeEach, List, ListItem, Attributes, Style, ListStyle, Content, ListItemStyle, jasmine, Tag*/
 
 describe('List-related functionality:', function(){
     var l, li1, li2, li3, li4;

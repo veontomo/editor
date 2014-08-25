@@ -238,7 +238,7 @@ describe('Test helper functions', function(){
             expect(Helper.concatDropSpaces([], 'a glue')).toBe('');
         });
         it('default glue is a space', function(){
-            expect(Helper.concatDropSpaces(['a', 'b', 'c']) === Helper.concatDropSpaces(['a', 'b', 'c'], ' '));
+            expect(Helper.concatDropSpaces(['a', 'b', 'c']) === Helper.concatDropSpaces(['a', 'b', 'c'], ' ')).toBe(true);
         });
         it('returns array element for one-element array and non-defined glue', function(){
             expect(Helper.concatDropSpaces(['elem'])).toBe('elem');

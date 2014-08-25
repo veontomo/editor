@@ -111,18 +111,20 @@ describe('Document-related functionality', function(){
 
 
 
-		it('----- NO EXPECTATION HERE transforms fixed values into relative', function(){
+		it('transforms fixed values into relative', function(){
 			var div = document.createElement('div');
 			div.setAttribute('style', 'width: 234px;');
 			div.setAttribute('width', '321px');
 			d = new Document(div);
 			d.importToFluid();
 			// console.log(d.getContent().outerHTML);
+			pending();
 		});
 
-		it('----- NO EXPECTATION HERE transforms fixed values into relative 2', function(){
+		it('transforms fixed values into relative 2', function(){
 			d.importToFluid();
 			// console.log(d.getContent().outerHTML);
+			pending();
 
 		});
 

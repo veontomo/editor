@@ -326,39 +326,6 @@ function Content(str) {
 	};
 
 	/**
-	 * Apply recursively this function to all items in `elements` property. In the case, the last
-	 * item is empty, deletes it.
-	 * @method trim
-	 * @return {void}
-	 * @deprecated
-	 */
-	this.trim = function(){
-		// console.log('trim called on ', this.toHtml() );
-		var len = this.length(),
-			i, elem;
-		// console.log('trim target: length = ', len, ', content: ', this.toHtml() );
-		if (len > 0){
-			// call trim() function on all but last element
-			for (i = 0; i < len; i++){
-				// console.log('trim: loop#', i);
-				elem = this.getElem(i);
-				// console.log('elem: ', elem);
-				if (typeof elem.trim === 'function'){
-					// console.log('trim: elem has trim function');
-					elem.trim();
-				}
-				// check whether the last element is empty
-				if (i === len - 1 && (typeof elem.isEmpty === 'function') && elem.isEmpty()){
-					// console.log('trim: dropping last elem');
-					// here the deletion occurs
-					this.dropLast();
-					this.trim();
-				}
-			}
-		}
-	};
-
-	/**
 	 * Returns true, if the argument is empty, and false otherwise.
 	 * What is supposed to be empty:
 	 * <ol>

@@ -72,11 +72,11 @@ describe('Selection-related functionality', function(){
     });
 
     describe('Getting first element of the selection', function(){
-        it('gives empty element', function(){
+        it('gives undefined if nothing is selected', function(){
             sel = new Selection(editor);
             expect(sel.getStartElement()).not.toBeDefined();
         });
-        xit('gives empty element', function(){
+        it('gives first element (pending test)', function(){
             var el1 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid1">div 1</div>'),
                 el2 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid2">div 2</div>'),
                 el3 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid3">div 3</div>');
@@ -85,6 +85,7 @@ describe('Selection-related functionality', function(){
             editor.insertElement(el3);
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
+            pending();
         });
     });
 

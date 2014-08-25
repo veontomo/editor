@@ -192,7 +192,7 @@ describe('Mapper-related functionality', function(){
             expect(map.getDefaultTarget).not.toHaveBeenCalled();
         });
 
-        xit('returns output of "getDefaultTarget" if no criteria functions return "true"', function(){
+        it('returns output of "getDefaultTarget" if no criteria functions return "true"', function(){
             spyOn(wrapper, 'crit1').and.returnValue(false);
             spyOn(wrapper, 'crit2').and.returnValue(false);
             spyOn(wrapper, 'crit3').and.returnValue(false);

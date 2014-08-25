@@ -710,14 +710,27 @@ describe('Tag-related functionality', function() {
     });
 
 
-    xdescribe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
-        it('calls Content::appendElemIfNotEmpty()', function(){
-            spyOn(content, 'appendElemIfNotEmpty');
-            spyOn(tag, 'getContent').and.returnValue(content);
-            var foo = 'foo';
-            tag.appendElemIfNotEmpty(foo);
-            expect(content.appendElemIfNotEmpty).toHaveBeenCalledWith(foo);
+    describe('Tag::appendElemIfNotEmpty(): appends element if it is not empty', function(){
+        var emptyTag, nonEmptyTag;
+        beforeEach(function(){
+            emptyTag = new Tag();
+            nonEmptyTag = new Tag();
+            nonEmptyTag.appendElem('element 1');
         });
+
+        it('appends a string to a non-empty tag', function(){
+            nonEmptyTag.appendElemIfNotEmpty('a string');
+            expect(nonEmptyTag.length()).toBe(2);
+            expect(nonEmptyTag.getElem(1)).toBe('a string');
+        });
+
+        it('appends a string to an empty tag', function(){
+            emptyTag.appendElemIfNotEmpty('a string');
+            expect(emptyTag.length()).toBe(1);
+            expect(emptyTag.getElem(0)).toBe('a string');
+        });
+
+
     });
 
     describe('Setting the name of the class', function(){
@@ -944,6 +957,7 @@ describe('Tag-related functionality', function() {
         it('calls "decorateElement" on the style to set styles', function(){
             // spyOn(tagStyle, 'decorateElement');
             tag.toNode();
+            pending();
             // expect(tagStyle.decorateElement).toHaveBeenCalled();
         });
         it('calls "stickTo" on content to append children', function(){
