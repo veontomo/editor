@@ -282,7 +282,7 @@ describe('Row-related functionality:', function(){
                 expect(row.getPhantomCellProp('style')).toBe('first element styles');
             });
             it('returns styles of the first element if called with argument "attr"', function(){
-                spyOn(row, 'getFirst').and.returnValue({getAttributes: function(){return 'first element attributes';}});
+                spyOn(row, 'getFirst').and.returnValue({getProperties: function(){return 'first element attributes';}});
                 expect(row.getPhantomCellProp('attr')).toBe('first element attributes');
             });
 
@@ -351,7 +351,7 @@ describe('Row-related functionality:', function(){
         describe('If method onlyTableInside() returns true', function(){
             var tableMock, cellMock;
             beforeEach(function(){
-                tableMock = {getStyles: function(){return 'table styles';}, getAttributes: function(){return 'table attributes';}};
+                tableMock = {getStyles: function(){return 'table styles';}, getProperties: function(){return 'table attributes';}};
                 cellMock = {getFirst: function(){return tableMock;}};
                 spyOn(row, 'onlyTableInside').and.returnValue(true);
                 spyOn(row, 'getFirst').and.returnValue(cellMock);

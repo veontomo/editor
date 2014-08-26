@@ -291,7 +291,7 @@ function Table() {
 	 */
 	this.getPhantomRowAttributes = function(){
 		if (phantomRow instanceof Row){
-			return phantomRow.getAttributes();
+			return phantomRow.getProperties();
 		}
 
 	};
@@ -308,9 +308,9 @@ function Table() {
 		if (attr !== undefined){
 			this.initPhantoms();
 			if (attr instanceof Properties){
-				phantomRow.setAttributes(attr);
+				phantomRow.setProperties(attr);
 			} else {
-				phantomRow.setAttributes(new Properties(attr));
+				phantomRow.setProperties(new Properties(attr));
 			}
 		}
 	};
@@ -349,7 +349,7 @@ function Table() {
 	 */
 	this.getPhantomTableAttributes = function(){
 		if (phantomTable instanceof Table){
-			return phantomTable.getAttributes();
+			return phantomTable.getProperties();
 		}
 
 	};
@@ -367,9 +367,9 @@ function Table() {
 			this.initPhantoms();
 			phantomTable.setProperties(prop);
 			// if (prop instanceof Properties){
-			// 	phantomTable.setAttributes(prop);
+			// 	phantomTable.setProperties(prop);
 			// } else {
-			// 	phantomTable.setAttributes(new Properties(prop));
+			// 	phantomTable.setProperties(new Properties(prop));
 			// }
 		}
 	};
@@ -1034,7 +1034,7 @@ function Table() {
 			rowProp, i, firstRowProp;
 		switch (prop){
 			case 'attr':
-				firstRowProp = firstRow.getAttributes();
+				firstRowProp = firstRow.getProperties();
 				break;
 			case 'style':
 				firstRowProp = firstRow.getStyles();
@@ -1049,7 +1049,7 @@ function Table() {
 			return null;
 		}
 		for (i = 1; i < rowNum; i++){
-			rowProp = (prop === 'style') ? (this.getElem(i).getStyles()) : (prop === 'attr' ? this.getElem(i).getAttributes() : null) ;
+			rowProp = (prop === 'style') ? (this.getElem(i).getStyles()) : (prop === 'attr' ? this.getElem(i).getProperties() : null) ;
 			if (!firstRowProp.isTheSameAs(rowProp)){
 				return null;
 			}
@@ -1180,15 +1180,15 @@ function Table() {
 		firstRow = this.getFirstRow();
 		if (firstRow){
 			this.setPhantomRowStyles(firstRow.getStyles());
-			this.setPhantomRowAttributes(firstRow.getAttributes());
+			this.setPhantomRowAttributes(firstRow.getProperties());
 			cellInside = firstRow.getFirst();
 			if (cellInside){
 				this.setPhantomCellStyles(cellInside.getStyles());
-				this.setPhantomCellAttributes(cellInside.getAttributes());
+				this.setPhantomCellAttributes(cellInside.getProperties());
 				tableInside = cellInside.getFirst();
 				if(tableInside){
 					this.setPhantomTableStyles(tableInside.getStyles());
-					this.setPhantomTableAttributes(tableInside.getAttributes());
+					this.setPhantomTableAttributes(tableInside.getProperties());
 					for (i = 0; i < rowNum; i++){
 						rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
 					}

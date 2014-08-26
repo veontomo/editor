@@ -90,13 +90,11 @@ var CTable = {
 		}
 		// calculating widths
 		var defaultWidth = new Unit(NEWSLETTER.defaultWidth);
-		console.log(defaultWidth.toString());
 		try {
 			tableWidth = Math.min(this.parentWidth(editor).value, defaultWidth.getValue()); // integer, the width in px
 		} catch (e){
 			tableWidth = defaultWidth.getValue(); // integer, the width in px
 		}
-		console.log(tableWidth);
 		spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
 		spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
 		isFramed = frameWidth > 0;
@@ -179,7 +177,6 @@ var CTable = {
 
 		// impose row styles and attributes
 		rowWidth = parentWidth - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-		console.log(parentWidth, parentElemStyle.getProperty('padding'), parentElemStyle.getBorderInfo().width);
 		row.setWidth(rowWidth);
 		row.setStyleProperty('padding', 0);
 

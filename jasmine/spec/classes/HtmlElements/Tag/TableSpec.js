@@ -1000,7 +1000,7 @@ describe('Table-related functionality:', function(){
             spyOn(bogusRowStyle, 'toString').and.returnValue('bogus row styles');
             spyOn(bogusRowAttr, 'toString').and.returnValue('bogus row attributes');
 
-            table.setAttributes(tableAttr);
+            table.setProperties(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2]);
             table.bogusRowAttr = bogusRowAttr;
@@ -1026,7 +1026,7 @@ describe('Table-related functionality:', function(){
             spyOn(bogusRowStyle, 'toString').and.returnValue('');
             spyOn(bogusRowAttr, 'toString').and.returnValue('bogus row attributes');
 
-            table.setAttributes(tableAttr);
+            table.setProperties(tableAttr);
             table.setStyles(tableStyle);
             table.setElements([row1, row2]);
             table.bogusRowAttr = bogusRowAttr;
@@ -1041,12 +1041,7 @@ describe('Table-related functionality:', function(){
 
     describe('Table.setBorder(): sets table border', function(){
         beforeEach(function(){
-            if (table.getStyles()){
-                delete table.getStyles()['border-width'];
-                delete table.getStyles()['border-color'];
-                delete table.getStyles()['border-style'];
-                delete table.getAttributes().width;
-            }
+            table.setProperties(new Properties()); // flushing styles
         });
         it('sets the default values for the table border', function(){
             expect(table.hasOwnProperty('setBorder')).toBe(true);

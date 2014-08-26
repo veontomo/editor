@@ -231,7 +231,7 @@ function Row() {
 	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} is returned.
 	 * @method         getPhantomCellProp
 	 * @param          {String}             prop         "style" or "attr"
-	 * @return         {Styles|Attributes}
+	 * @return         {Properties}
 	 */
 	this.getPhantomCellProp = function(prop){
 		if (this.onlyTableInside()){
@@ -239,7 +239,7 @@ function Row() {
 				return this.getFirst().getStyles();
 			}
 			if (prop === 'attr'){
-				return this.getFirst().getAttributes();
+				return this.getFirst().getProperties();
 			}
 		}
 	};
@@ -251,7 +251,7 @@ function Row() {
 	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} of the table inside first cell of current row is returned.
 	 * @method         getPhantomTableProp
 	 * @param          {String}             prop        "style" or "attr"
-	 * @return         {Styles|Attributes}
+	 * @return         {Properties}
 	 */
 	this.getPhantomTableProp = function(prop){
 		// inside the row there is a cell, inside which there is a table
@@ -260,7 +260,8 @@ function Row() {
 				return this.getFirst().getFirst().getStyles();
 			}
 			if (prop === 'attr'){
-				return this.getFirst().getFirst().getAttributes();
+				console.log(this.getFirst().getFirst());
+				return this.getFirst().getFirst().getProperties();
 			}
 		}
 	};
@@ -285,7 +286,7 @@ function Row() {
 	 * returns `true`), then attribute of the table inside the cell is returned.
 	 * This is an alias for {{#crossLink "Row/getPhantomTableProp:method"}}getPhantomTableProp('attr'){{/crossLink}}.
 	 * @method         phantomTableAttr
-	 * @return         {Attributes}
+	 * @return         {Properties}
 	 */
 	this.phantomTableAttr = function(){
 		return this.getPhantomTableProp('attr');

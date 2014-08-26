@@ -73,18 +73,6 @@ function Tag(tName) {
 		}
 	};
 
-
-	/**
-	 * Attributes of the tag.
-	 * @property       {Attributes}         attributes
-	 * @type           {Attributes}
-	 * @default        Attributes()
-	 * @private
-	 * @since          0.0.4
-	 * @deprecated     Use _properties instead
-	 */
-	// var attributes = new Attributes();
-
 	/**
 	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
 	 * @private
@@ -115,7 +103,7 @@ function Tag(tName) {
 	* @deprecated      Use setProperties
 	*/
 	this.setAttributes = function(attr){
-		console.log('setAttributes method is deprecated. Use setProperties instead!');
+		console.log('----------', 'setAttributes method is deprecated. Use setProperties instead!');
 		/// original code
 		// if (attr instanceof Attributes){
 		// 	attributes = attr;
@@ -158,24 +146,6 @@ function Tag(tName) {
 	};
 
 	/**
-	* Returns copy of {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}}.
-	* @method          getAttributes
-	* @return          {Attributes}
-	* @since           0.0.4
-	* @deprecated      Use getProperties instead
-	*/
-	this.getAttributes = function(){
-		// initial code
-		// console.log('Method getAttributes is deprecated. Use getProperties instead!');
-		// return attributes.clone();
-		// replaced by this
-		return _properties.clone();
-
-	};
-
-
-
-	/**
 	* Sets `style` property inside {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}. It is an alias
 	* for {{#crossLink "Properties/setStyles:method"}}setStyles(){{/crossLink}} method.
 	*
@@ -191,9 +161,9 @@ function Tag(tName) {
 
 	/**
 	* Gets `style` key of private variable {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
-	* It is an alias for {{#crossLink "Properties/getStyles:method"}}getStyles{{/crossLink}} method.
+	* It is an alias for {{#crossLink "Properties/getStyles:method"}}Properties::getStyles{{/crossLink}} method.
 	* @method          getStyles
-	* @return          {Styles}
+	* @return          {Properties}
 	* @since           0.0.4
 	*/
 	this.getStyles = function(){
