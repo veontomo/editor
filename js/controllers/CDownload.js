@@ -26,8 +26,6 @@ var CDownload = {
 			mode = context.getValueOf('tab-general', 'mode'),
 			editorContent = editor.document.getBody().$,
 			fileContent, doc;
-		console.log('mode = ' + mode);
-		console.log(css);
 
 		doc = new Document(editorContent);
 		// doc.setMapper(NEWSLETTER.formatMapper);
