@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper,
-		Node, Image, CKEDITOR, ConverterFixed, ConverterFluid */
+		Node, Image, CKEDITOR, ConverterFixed, ConverterElastic */
 /**
  * Application configuration object.
  * @module    Config
@@ -48,7 +48,7 @@ NEWSLETTER.setWidth = function(w){
 	if (typeof w === 'number'){
 		NEWSLETTER.defaultWidth = w.toString() + NEWSLETTER.defaultUnitMeasure;
 	}
-}
+};
 
 /**
  * Default font size, to be set to elements whose width can not be established.
@@ -146,3 +146,31 @@ Object.defineProperty(NEWSLETTER, 'formatMapper', {
 	value:    formatMapper,
 	writable: false
 });
+
+
+NEWSLETTER.css = 'body {\
+	background-color: #ffffff;\
+	color: #000001;\
+	line-height: normal;\
+	text-align: center;\
+	font-size: 13px;\
+	font-family: Arial, sans-serif;\
+	font-style: normal;\
+	font-weight: normal;\
+	padding: 0;\
+	margin: 0;\
+}\
+\
+tr:hover {\
+	box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;\
+}\
+\
+td:hover {\
+	box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;\
+}\
+\
+a:hover {\
+	background-color: rgba(202, 234, 236, 0.5);\
+}';
+
+	CKEDITOR.addCss(NEWSLETTER.css);
