@@ -116,13 +116,13 @@ describe('Document-related functionality', function(){
 			div.setAttribute('style', 'width: 234px;');
 			div.setAttribute('width', '321px');
 			d = new Document(div);
-			d.importToFluid();
+			d.convertTo('elastic');
 			// console.log(d.getContent().outerHTML);
 			pending();
 		});
 
 		it('transforms fixed values into relative 2', function(){
-			d.importToFluid();
+			d.convertTo('elastic');
 			// console.log(d.getContent().outerHTML);
 			pending();
 

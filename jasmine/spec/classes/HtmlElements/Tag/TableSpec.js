@@ -197,21 +197,21 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom row attributes setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomRowAttributes(new Properties());
+            table.setPhantomRowProperties(new Properties());
         });
         it('returns instance of Properties class', function(){
             expect(table.getPhantomRowAttributes() instanceof Properties).toBe(true);
         });
 
         it('sets the attributes of the the phantom cell if provided as a string', function(){
-            table.setPhantomRowAttributes('new: 1em; home: big');
+            table.setPhantomRowProperties('new: 1em; home: big');
             var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('new')).toBe('1em');
             expect(attr.getProperty('home')).toBe('big');
         });
 
         it('sets the attributes of the the phantom cell if provided as a general object', function(){
-            table.setPhantomRowAttributes({level: 0.23, sky: 'blue'});
+            table.setPhantomRowProperties({level: 0.23, sky: 'blue'});
             var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('level')).toBe(0.23);
             expect(attr.getProperty('sky')).toBe('blue');
@@ -222,7 +222,7 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('x', 4);
             seed.setProperty('z', 100.1);
-            table.setPhantomRowAttributes(seed);
+            table.setPhantomRowProperties(seed);
             var attr = table.getPhantomRowAttributes();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('x')).toBe(4);
@@ -232,7 +232,7 @@ describe('Table-related functionality:', function(){
 
     describe('Phantom table attributes setter/getter', function(){
         beforeEach(function(){
-            table.setPhantomTableAttributes(new Properties());
+            table.setPhantomTableProperties(new Properties());
         });
         it('returns instance of Properties class', function(){
             expect(table.getPhantomTableAttributes() instanceof Properties).toBe(true);
@@ -257,7 +257,7 @@ describe('Table-related functionality:', function(){
             seed.setProperty('a', 'high');
             seed.setProperty('b', 'low');
             seed.setProperty('z', 100.1);
-            table.setPhantomTableAttributes(seed);
+            table.setPhantomTableProperties(seed);
             var attr = table.getPhantomTableProperties();
             expect(attr.getProperty('a')).toBe('high');
             expect(attr.getProperty('b')).toBe('low');
@@ -1159,7 +1159,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('gives true, if phantomTableAttributes is set', function(){
-            table.setPhantomTableAttributes(new Properties());
+            table.setPhantomTableProperties(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
@@ -1179,12 +1179,12 @@ describe('Table-related functionality:', function(){
         });
 
         it('gives true, if phantomRowAttr is set', function(){
-            table.setPhantomRowAttributes(new Properties());
+            table.setPhantomRowProperties(new Properties());
             expect(table.isFramed()).toBe(true);
         });
 
         it('gives true, if phantomRowStyle is set', function(){
-            table.setPhantomRowAttributes(new Properties());
+            table.setPhantomRowProperties(new Properties());
             expect(table.isFramed()).toBe(true);
         });
     });
@@ -1210,7 +1210,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('unsets phantoms, if only phantom table attributes are set', function(){
-            table.setPhantomTableAttributes(attr);
+            table.setPhantomTableProperties(attr);
             expect(table.getPhantomTableAttributes()).toBeDefined();
             table.unsetPhantom();
         });
@@ -1231,7 +1231,7 @@ describe('Table-related functionality:', function(){
             table.unsetPhantom();
         });
         it('unsets phantom attributes, if only phantomRowAttr was initially set', function(){
-            table.setPhantomRowAttributes(attr);
+            table.setPhantomRowProperties(attr);
             expect(table.getPhantomRowAttributes()).toBeDefined();
             table.unsetPhantom();
         });

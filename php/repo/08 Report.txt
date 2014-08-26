@@ -1,16 +1,15 @@
 ------------------------------------------------------------
-newsletter, fino a 30 luglio 2 - 08/07/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+test editor - 26/08/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
 Email Iniziali : 1
 Email Senza Doppioni : 1
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
 Email Senza BlackList : 1
-  Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 08/07/2014 / 11:59:33
-Data/Ora Fine Spedizione : 08/07/2014 / 11:59:38
+Data/Ora Inizio Spedizione : 26/08/2014 / 11:24:05
+Data/Ora Fine Spedizione : 26/08/2014 / 11:24:08
 
-Non Spediti : 1
+Spediti : 1
 
 Configurazione : 
   Manda un'Email per ogni Indirizzo

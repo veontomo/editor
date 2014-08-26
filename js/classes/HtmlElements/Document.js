@@ -177,52 +177,12 @@ function Document(node){
 	};
 
 	/**
-	 * Converts document into fixed format (not elastic).
-	 *
-	 * It means that all measures are expressed in pixels, not in percentage or other relative units (like em, pt).
-	 * @method         importToFixed
-	 * @return         {void}
-	 * @deprecated     in favour of convertTo()
-	 */
-	this.importToFixed = function(){
-		console.log('This method is deprecated, use Document.convertTo("fixed") instead.');
-		var c = this.getConverter();
-		if (c){
-			var fixed = c.convertTo(this.getContent(), 'fixed');
-			this.setContent(fixed);
-
-		}
-	};
-
-
-	/**
-	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} attributes into relative units.
-	 *
-	 * It means that all allowed measures are expressed in percentage or other relative units (like em, pt).
-	 * Note that not all html attributes can be expressed in relative units: i.e. obsolete parameters
-	 * "cellspacing", "cellpadding", "border" etc.
-	 * @method         importToFluid
-	 * @return         {void}
-	 * @deprecated     in favour of convertTo()
-	 */
-	this.importToFluid = function(){
-		console.log('This method is deprecated, use Document.convertTo("elastic") instead.');
-		var c = this.getConverter();
-		if (c){
-			var fluid = c.convertTo(this.getContent(), 'elastic');
-			this.setContent(fluid);
-
-		}
-	};
-
-	/**
 	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} into prescribed format.
 	 * @method         convertTo
 	 * @param          {String}             format
 	 * @return         {void}
 	 */
 	this.convertTo = function(format){
-		console.log('Document::convertTo is called with argument ' + format);
 		var c = this.getConverter();
 		if (typeof c.convertTo === 'function'){
 			var newContent = c.convertTo(this.getContent(), format);

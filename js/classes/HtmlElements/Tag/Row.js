@@ -174,37 +174,37 @@ function Row() {
 		this.appendStyleToElemAt(cellNum, stl);
 	};
 
-	/**
-	 * Populates the attributes from a string that is an html repersentation of some row.
-	 * It takes a string that is an html representation of a row and update current object
-	 * parameters such that it will correspond to the html representation.
-	 * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
-	 * (eventually up to presence/absence of some parameters and attributes).
-	 *
-	 * @method         loadFromHtml
-	 * @param          {String}             htmlStr
-	 * @return         {void}
-	 * @deprecated in favour of String::createRowFromHtml()
-	 */
-	this.loadFromHtml = function (htmlStr){
-		var parser = new DOMParser(),
-			doc = parser.parseFromString('<table>' + htmlStr + '</table>', "text/html"),
-			node = doc.getElementsByTagName('tr')[0],
-			attrs = node.attributes,
-			nodeStyle = node.getAttribute('style'),
-			attrObj = {},
-			len = attrs.length,
-			i, attr;
-			//console.log(doc, node);
-		for (i = 0; i < len; i++){
-			attr = attrs[i];
-			if (attr.name !== 'style'){
-				attrObj[attr.name] = attr.value;
-			}
-		}
-		this.setStyle(nodeStyle);
-		this.setAttr(attrObj);
-	};
+	// *
+	//  * Populates the attributes from a string that is an html repersentation of some row.
+	//  * It takes a string that is an html representation of a row and update current object
+	//  * parameters such that it will correspond to the html representation.
+	//  * In other words, (new Row()).loadFromHtml(htmlString).toHtml() should be similar to htmlString
+	//  * (eventually up to presence/absence of some parameters and attributes).
+	//  *
+	//  * @method         loadFromHtml
+	//  * @param          {String}             htmlStr
+	//  * @return         {void}
+	//  * @deprecated in favour of String::createRowFromHtml()
+
+	// this.loadFromHtml = function (htmlStr){
+	// 	var parser = new DOMParser(),
+	// 		doc = parser.parseFromString('<table>' + htmlStr + '</table>', "text/html"),
+	// 		node = doc.getElementsByTagName('tr')[0],
+	// 		attrs = node.attributes,
+	// 		nodeStyle = node.getAttribute('style'),
+	// 		attrObj = {},
+	// 		len = attrs.length,
+	// 		i, attr;
+	// 		//console.log(doc, node);
+	// 	for (i = 0; i < len; i++){
+	// 		attr = attrs[i];
+	// 		if (attr.name !== 'style'){
+	// 			attrObj[attr.name] = attr.value;
+	// 		}
+	// 	}
+	// 	this.setStyle(nodeStyle);
+	// 	this.setAttr(attrObj);
+	// };
 
 	/**
 	 * This is an alias for {{#crossLink "Row/getPhantomCellProp:method"}}getPhantomCellProp('style'){{/crossLink}}.
@@ -260,7 +260,6 @@ function Row() {
 				return this.getFirst().getFirst().getStyles();
 			}
 			if (prop === 'attr'){
-				console.log(this.getFirst().getFirst());
 				return this.getFirst().getFirst().getProperties();
 			}
 		}

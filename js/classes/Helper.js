@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, DOMParser */
+/*global CKEDITOR, DOMParser, Properties */
 
 /**
  * Set of useful functions
@@ -282,18 +282,18 @@ var Helper = {
      * @return  {Object}
      * @deprecated              This method is incorporated in "load" methods of Attributes and Style classes.
      */
-    'flatten': function(obj){
-        var attr, value, output = {};
-        for (attr in obj){
-            if (obj.hasOwnProperty(attr)){
-                value = obj[attr];
-                if (typeof value === 'object'){
-                    output[value.name] = value.value;
-                }
-            }
-        }
-        return output;
-    },
+    // 'flatten': function(obj){
+    //     var attr, value, output = {};
+    //     for (attr in obj){
+    //         if (obj.hasOwnProperty(attr)){
+    //             value = obj[attr];
+    //             if (typeof value === 'object'){
+    //                 output[value.name] = value.value;
+    //             }
+    //         }
+    //     }
+    //     return output;
+    // },
 
     /**
      * Sandwiches the midlle string with the left and the right ones. If the middle one is empty, empty string is returned.

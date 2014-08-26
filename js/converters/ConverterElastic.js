@@ -104,7 +104,6 @@ function ConverterElastic(){
 			node.setAttribute(widthMarker, width.toString());
 		}
 		catch (e){
-			console.log(e.toString());
 			console.log('Error when dividing ' + width.toString() + ' and ' + parentWidthObj.toString());
 		}
 	};
@@ -147,7 +146,6 @@ function ConverterElastic(){
 		}
 		catch (e){
 			console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
-			console.log(e);
 		}
 	};
 
@@ -200,7 +198,6 @@ function ConverterElastic(){
 				node.setAttribute(marker, propValue.toString());
 			}
 			catch (e){
-				console.log(e.toString());
 				console.log('Error when dividing ' + propValue.toString() + ' and ' + parentSizeObj.toString());
 			}
 

@@ -93,28 +93,6 @@ function Tag(tName) {
 	 */
 	var content = new Content();
 
-
-	/**
-	* {{#crossLink "Tag/attributes:property"}}Attributes{{/crossLink}} setter.
-	* @method          setAttributes
-	* @param           {String|Object}      attr
-	* @return          {void}
-	* @since           0.0.1
-	* @deprecated      Use setProperties
-	*/
-	this.setAttributes = function(attr){
-		console.log('----------', 'setAttributes method is deprecated. Use setProperties instead!');
-		/// original code
-		// if (attr instanceof Attributes){
-		// 	attributes = attr;
-		// } else {
-		// 	attributes = new Attributes(attr);
-		// }
-		// new version. Added juts for compatibility with previous version.
-		this.setProperties(attr);
-	};
-
-
 	/**
 	 * Sets {{#crossLink "Tag/_properties:property"}}properties{{/crossLink}} of the tag. If the argument is an instance
 	 * of {{#crossLink "Properties"}}Properties{{/crossLink}}, its clone is assigned to private variable

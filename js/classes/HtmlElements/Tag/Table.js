@@ -297,25 +297,6 @@ function Table() {
 	};
 
 	/**
-	 * {{#crossLink "FramedTable/phantomRowAttributes:property"}}phantomRowAttributes{{/crossLink}} setter.
-	 * @method         setPhantomRowAttributes
-	 * @param          {Properties}         attr
-	 * @return         {void}
-	 * @deprecated     Use setPhantomRowProperties instead
-	 */
-	this.setPhantomRowAttributes = function(attr){
-		console.warn('Use setPhantomRowProperties instead');
-		if (attr !== undefined){
-			this.initPhantoms();
-			if (attr instanceof Properties){
-				phantomRow.setProperties(attr);
-			} else {
-				phantomRow.setProperties(new Properties(attr));
-			}
-		}
-	};
-
-	/**
 	 * Sets {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} of
 	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
 	 * @method         setPhantomRowProperties
@@ -353,27 +334,6 @@ function Table() {
 		}
 
 	};
-
-	/**
-	 * {{#crossLink "FramedTable/phantomTableAttributes:property"}}phantomTableAttributes{{/crossLink}} setter.
-	 * @method         setPhantomTableAttributes
-	 * @param          {Properties}         prop
-	 * @return         {void}
-	 * @deprecated     Use setPhantomTableProperties instead
-	 */
-	this.setPhantomTableAttributes = function(prop){
-		console.log('Table::setPhantomTableAttributes method is deprecated. Use setPhantomTableProperties instead.');
-		if (prop !== undefined){
-			this.initPhantoms();
-			phantomTable.setProperties(prop);
-			// if (prop instanceof Properties){
-			// 	phantomTable.setProperties(prop);
-			// } else {
-			// 	phantomTable.setProperties(new Properties(prop));
-			// }
-		}
-	};
-
 
 	/**
 	 * Sets private variable {{#crossLink "Tag/_property:property"}}_property{{/crossLink}} of
@@ -686,24 +646,13 @@ function Table() {
 		return null;
 	};
 
-	/**
-	 * insertColumnAt was renamed into Table::insertColAt(). So, this method is added for back-compatibility .
-	 * @method        insertColumnAt
-	 * @param         {pos}      pos
-	 * @param         {cell}     cell
-	 * @return        {void}
-	 * @deprecated    Use Table::insertColAt() directly.
-	 */
-	this.insertColumnAt = function(pos, cell){
-		console.log('Table::insertColumnAt() was called. Try to eliminate this call.');
-		this.insertColAt(pos, cell);
-	};
 
 	/**
-	 * Knocks out given column from the table. The operation is delegated to the `Row::knockOutCell()`
-	 * @method knockOutCol
-	 * @param  {integer} 	colNum        the number of the column to be knocked out. Numeration starts with 0.
-	 * @return {void}
+	 * Knocks out given column from the table. The operation is delegated to
+	 * {{#crossLink "Row/knockOutCell:method"}}Row::knockOutCell{{/crossLink}} method.
+	 * @method         knockOutCol
+	 * @param          {integer} 	   colNum        the number of the column to be knocked out. Numeration starts with 0.
+	 * @return         {void}
 	 */
 	this.knockOutCol = function(colNum){
 		var rowsNum = this.rowNum(),
@@ -713,19 +662,6 @@ function Table() {
 			tbody[i].knockOutCell(colNum);
 		}
 		this.setBody(tbody);
-	};
-
-	/**
-	 * dropColumn was renamed into Table::knockOutCol(). So, this method is added for back-compatibility .
-	 * @method  dropColumn
-	 * @param  {pos}      pos
-	 * @param  {cell}     cell
-	 * @return {void}
-	 * @deprecated  Use Table::knockOutCol() directly.
-	 */
-	this.dropColumn = function(pos, cell){
-		console.log('Table::dropColumn() was called. Try to eliminate this call by using Table::knockOutCol() directly.');
-		this.knockOutCol(pos, cell);
 	};
 
 
@@ -1180,7 +1116,7 @@ function Table() {
 		firstRow = this.getFirstRow();
 		if (firstRow){
 			this.setPhantomRowStyles(firstRow.getStyles());
-			this.setPhantomRowAttributes(firstRow.getProperties());
+			this.setPhantomRowProperties(firstRow.getProperties());
 			cellInside = firstRow.getFirst();
 			if (cellInside){
 				this.setPhantomCellStyles(cellInside.getStyles());

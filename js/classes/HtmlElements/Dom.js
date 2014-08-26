@@ -16,32 +16,32 @@
  */
 
 function Dom(){
-	/**
-	 * Returns value of style property `prop` of node `n`. It looks up the chain of parents until finds
-	 * first occurence of key `prop`. If the key is not present in any of ancestors, nothing is returned.
-	 * @method          _lookUpInParents
-	 * @param          {DOM.Node}           n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             prop      name of the property to look for
-	 * @return         {String|void}
-	 * @private
-	 * @deprecated     in favour of {{#crossLink "Dom/getInheritedStyleProp:method"}}getInheritedStyleProp{{/crossLink}}
-	 * @since          0.0.4
-	 */
-	var _lookUpInParents = function(n, prop){
-	    console.log('inside _lookUpInParents');
-	    var currentNode = n,
-	        stl;
-	    while (currentNode){
-	        console.log('current Node: ', currentNode);
-	        if (typeof currentNode.getAttribute === 'function'){
-	            stl = new Properties(currentNode.getAttribute('style'));
-	            if (stl.hasProperty(prop)){
-	                return stl.getProperty(prop);
-	            }
-	        }
-	        currentNode = currentNode.parentNode;
-	    }
-	};
+	// *
+	//  * Returns value of style property `prop` of node `n`. It looks up the chain of parents until finds
+	//  * first occurence of key `prop`. If the key is not present in any of ancestors, nothing is returned.
+	//  * @method          _lookUpInParents
+	//  * @param          {DOM.Node}           n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	//  * @param          {String}             prop      name of the property to look for
+	//  * @return         {String|void}
+	//  * @private
+	//  * @deprecated     in favour of {{#crossLink "Dom/getInheritedStyleProp:method"}}getInheritedStyleProp{{/crossLink}}
+	//  * @since          0.0.4
+
+	// var _lookUpInParents = function(n, prop){
+	//     console.log('inside _lookUpInParents');
+	//     var currentNode = n,
+	//         stl;
+	//     while (currentNode){
+	//         console.log('current Node: ', currentNode);
+	//         if (typeof currentNode.getAttribute === 'function'){
+	//             stl = new Properties(currentNode.getAttribute('style'));
+	//             if (stl.hasProperty(prop)){
+	//                 return stl.getProperty(prop);
+	//             }
+	//         }
+	//         currentNode = currentNode.parentNode;
+	//     }
+	// };
 
 	/**
 	 * Toggles inline style property `prop` of node `n`. When it turns out that the property should
@@ -62,7 +62,7 @@ function Dom(){
 	    if (!(typeof n === 'object' && n.nodeType)){
 	        return;
 	    }
-	    console.log('from parents: ', _lookUpInParents(n, prop));
+	    // console.log('from parents: ', _lookUpInParents(n, prop));
 	    stl = new Properties(n.getAttribute(attrName));
 	    stl.setMode(1);
 	    stl.toggleProperty(prop, val, altVal);
