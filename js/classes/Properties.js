@@ -72,7 +72,7 @@ function Properties(input) {
 	var _mode = 0;
 
 	/**
-	 * {{#crossLink "Property/_mode:property"}}_mode{{/crossLink}} setter. If argument
+	 * {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} setter. If argument
 	 * is different from 0 and 1, it is ignored.
 	 * @method         setMode
 	 * @param          {Integer}            m

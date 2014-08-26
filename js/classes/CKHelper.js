@@ -1,4 +1,4 @@
-/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Attributes, Styles, List, ListItem, Tag, Row,
+/*global CKEDITOR, NEWSLETTER, Helper, Cell, Table, Properties, List, ListItem, Tag, Row,
 Selection, FACTORY, Node, Properties */
 /*jslint plusplus: true, white: true */
 
@@ -42,12 +42,10 @@ var CKHelper = {
 	dropInlineStyleAttr: function(element, propName){
 		// unhovering table
 		var attr = element.attr('style'),
-	 	style = new Styles(attr),
-	 	styleStr;
+	 		style = new Properties(attr);
 		style.dropProperty(propName);
-		// might have format style="..." or just "...", so one needs to select "..."
-		styleStr = style.toBareString();
-		element.attr('style', styleStr);
+		style.setMode(1);  // choosing inline-style-like representation
+		element.attr('style', style.toString());
 	},
 
 
@@ -104,18 +102,18 @@ var CKHelper = {
    * @method  isEditor
    * @param   {any}   obj
    */
-  isEditor: function(obj){
-    return (obj instanceof CKEDITOR.editor);
-  },
+	isEditor: function(obj){
+		return (obj instanceof CKEDITOR.editor);
+	},
 
    /**
    * Whether the argument is a CKEDITOR.dom.selection instance.
    * @method  isSelection
    * @param   {any}   obj
    */
-  isSelection: function(obj){
-    return (obj instanceof CKEDITOR.dom.selection);
-  },
+	isSelection: function(obj){
+		return (obj instanceof CKEDITOR.dom.selection);
+	},
 
 
 	/**
@@ -204,7 +202,7 @@ var CKHelper = {
 		newTableProfile = Helper.crack(tableProfile, cellIndex);
 		cellToInsert = new Cell('cella');
 		cellToInsertAttr = new Properties(cellObjAttr);
-		cellToInsertStyles = new Styles(cellObjStyles);
+		cellToInsertStyles = new Properties(cellObjStyles);
 
 		if (pos === 'before'){
 			offset = 0;
