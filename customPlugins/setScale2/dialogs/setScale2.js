@@ -49,10 +49,7 @@ CKEDITOR.dialog.add( 'setScale2', function(editor) {
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			var width = parseInt(this.getValueOf('tab-general', 'width'), 10);
-			console.log('setting maxWidth to ' + width);
-			NEWSLETTER.maxWidth = width;
-			console.log('new value of maxWidth ' + NEWSLETTER.maxWidth);
-
+			NEWSLETTER.setWidth(width);
 		}
 	};
 });

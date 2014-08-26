@@ -31,6 +31,26 @@ NEWSLETTER.width = function(){
 };
 
 /**
+ * Sets maximum width of element available inside editor window.
+ *
+ * This value is to be set to an element when it is failed to find its parent.
+ * If w is a string, its value is imposed as default width. If it is a number,
+ * default unit measure is appended to that number.
+ *
+ * @param   {Number|String}       w
+ * @return  {void}
+ *
+ */
+NEWSLETTER.setWidth = function(w){
+	if (typeof w === 'string'){
+		NEWSLETTER.defaultWidth = w;
+	}
+	if (typeof w === 'number'){
+		NEWSLETTER.defaultWidth = w.toString() + NEWSLETTER.defaultUnitMeasure;
+	}
+}
+
+/**
  * Default font size, to be set to elements whose width can not be established.
  * @property    {String}     defaultFontSize
  * @type        {String}

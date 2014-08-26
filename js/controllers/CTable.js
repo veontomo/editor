@@ -90,6 +90,7 @@ var CTable = {
 		}
 		// calculating widths
 		var defaultWidth = new Unit(NEWSLETTER.defaultWidth);
+		console.log('NEWSLETTER.defaultWidth = ', NEWSLETTER.defaultWidth);
 		try {
 			tableWidth = Math.min(this.parentWidth(editor).value, defaultWidth.getValue()); // integer, the width in px
 		} catch (e){
