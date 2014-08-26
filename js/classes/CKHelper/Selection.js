@@ -13,6 +13,7 @@ function Selection(ed) {
     if (!(this instanceof Selection)) {
         return new Selection(ed);
     }
+
     if (ed !== undefined && !(ed instanceof CKEDITOR.editor)){
         throw new Error('The first argument must be a CKEDITOR.editor instance!');
     }
@@ -473,7 +474,5 @@ function Selection(ed) {
             }
         });
     };
-
-
 
 }

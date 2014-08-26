@@ -1,14 +1,18 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, xit, expect, spyOn, beforeEach, CKEDITOR, Selection */
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, Selection */
 
-describe('Selection-related functionality', function(){
+describe('Selection-related functionality (pending tests)', function(){
+    // it seems that when activating these suits makes the page with test
+    // output freeze for some seconds
+
     var sel, editor, selected;
     beforeEach(function(){
         editor = new CKEDITOR.editor();
         selected = new CKEDITOR.dom.selection(CKEDITOR.document);
     });
 
-    describe('Selection::constructor()', function(){
+
+    xdescribe('Selection::constructor()', function(){
         it('creates selection instance object if keyword "new" is missing', function(){
             expect(Selection(editor) instanceof Selection).toBe(true);
         });
@@ -22,7 +26,7 @@ describe('Selection-related functionality', function(){
         it('instantiates "editor" property', function(){
             sel = new Selection(editor);
             expect(sel.getEditor()).toBe(editor);
-            });
+        });
 
         it('creates instance with undefined properties', function(){
             sel = new Selection();
@@ -32,7 +36,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('editor setter/getter', function(){
+    xdescribe('editor setter/getter', function(){
         it('throws error if not CKEDITOR.editor instance is given to the setter', function(){
             expect(function(){
                 sel = new Selection();
@@ -48,7 +52,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('selection setter/getter', function(){
+    xdescribe('selection setter/getter', function(){
         it('throws error if not CKEDITOR.dom.selection instance is given to the setter', function(){
             expect(function(){
                 sel = new Selection();
@@ -63,7 +67,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('ranges getter', function(){
+    xdescribe('ranges getter', function(){
         it('sets the editor', function(){
             sel = new Selection();
             sel.setSelected(selected);
@@ -71,7 +75,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('Getting first element of the selection', function(){
+    xdescribe('Getting first element of the selection', function(){
         it('gives undefined if nothing is selected', function(){
             sel = new Selection(editor);
             expect(sel.getStartElement()).not.toBeDefined();
@@ -85,12 +89,9 @@ describe('Selection-related functionality', function(){
             editor.insertElement(el3);
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
-            pending();
+            // pending();
         });
     });
-
-
-
 });
 
 
