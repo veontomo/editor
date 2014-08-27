@@ -55,3 +55,6 @@ CKEDITOR.editorConfig = function(config){
 	// styles are included by means CKEDITOR.addCss(...) inside js/start.js
 	// config.contentsCss = 'css/editorContent.css';
 };
+
+CKEDITOR.addCss(NEWSLETTER.cssBase);
+CKEDITOR.addCss(NEWSLETTER.cssEditor);
