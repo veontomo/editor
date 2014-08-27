@@ -1,10 +1,10 @@
 /*jslint plusplus: true, white: true */
-/*global Properties, FACTORY, Unit, Node, NEWSLETTER, ConverterFluid, ConverterGeneral */
+/*global Properties, FACTORY, Unit, Node, NEWSLETTER, ConverterElastic, ConverterGeneral */
 
 /**
  * Methods of this class converts into fluid format.
  * @module 	    HtmlElements
- * @class  		ConverterFluid
+ * @class  		ConverterElastic
  * @since       0.0.5
  * @author      A.Shcherbakov
  */
@@ -210,9 +210,9 @@ function ConverterElastic(){
 	};
 
 	/**
-	 * Sets workers {{#crossLink "ConverterFluid/_fontFluid:method"}}_fontFluid{{/crossLink}},
-	 * {{#crossLink "ConverterFluid/_widthFluid:method"}}_widthFluid{{/crossLink}},
-	 * {{#crossLink "ConverterFluid/_paddingFluid:method"}}_paddingFluid{{/crossLink}}.
+	 * Sets workers {{#crossLink "ConverterElastic/_fontFluid:method"}}_fontFluid{{/crossLink}},
+	 * {{#crossLink "ConverterElastic/_widthFluid:method"}}_widthFluid{{/crossLink}},
+	 * {{#crossLink "ConverterElastic/_paddingFluid:method"}}_paddingFluid{{/crossLink}}.
 	 * @method   constructor
 	 * @return {void}
 	 */
