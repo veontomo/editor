@@ -43,7 +43,7 @@ var NEWSLETTER = (function(){
 		Object.defineProperty(_output, 'cssEditor', {
 			value:    'tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}\
 				td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}\
-				a:hover {background-color: rgba(0, 234, 236, 0.5);}',
+				a:hover {background-color: rgba(95, 110, 118, 0.2);}',
 			writable: false
 		});
 
