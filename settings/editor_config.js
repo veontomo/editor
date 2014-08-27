@@ -52,9 +52,19 @@ CKEDITOR.editorConfig = function(config){
 	config.magicline_color = '#ababab';
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 
-	// styles are included by means CKEDITOR.addCss(...) inside js/start.js
+	//
+	// Styles are activated below by means of CKEDITOR.addCss(...).
+	//
+	// One could do as in the line below as well:
 	// config.contentsCss = 'css/editorContent.css';
+	// but the problem is that in this case it is difficult to
+	// pick up the styles in order to apply them when saving newsletter.
 };
 
+/// observe the order of loading: first cssBase and then cssEditor.
+/// Both of them are to be applied to the editor content, while
+/// cssBase is to be applied to saved newsletters as well.
+/// So if cssEditor and cssBase have css attributes in common, those in
+/// cssEditor  takes precedence over those in cssBase.
 CKEDITOR.addCss(NEWSLETTER.cssBase);
 CKEDITOR.addCss(NEWSLETTER.cssEditor);
