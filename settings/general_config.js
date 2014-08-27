@@ -2,7 +2,8 @@
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper,
 		Node, Image, CKEDITOR, ConverterFixed, ConverterElastic */
 /**
- * Application configuration object.
+ * Object containing configuration settings.
+ *
  * @module    Config
  * @class     NEWSLETTER
  * @type      {Object}
