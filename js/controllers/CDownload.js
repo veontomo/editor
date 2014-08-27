@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, location, Document, NEWSLETTER */
+/*global CKEDITOR, location, Document, NEWSLETTER, Helper */
 
 /**
  * Download Controller.
@@ -25,11 +25,12 @@ var CDownload = {
 		var fileName = context.getValueOf('tab-general', 'filename'),
 			mode = context.getValueOf('tab-general', 'mode'),
 			editorContent = editor.document.getBody().$,
-			fileContent, doc;
+			fileContent, doc, bodyCss;
 
+		bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
 		doc = new Document(editorContent);
-		// doc.setMapper(NEWSLETTER.formatMapper);
-		doc.clean();
+		doc.setWrapCss(bodyCss);
+		doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
 		doc.convertTo(mode);
 		fileContent = doc.docHtml();
 

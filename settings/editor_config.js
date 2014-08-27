@@ -57,8 +57,8 @@ CKEDITOR.editorConfig = function(config){
 	//
 	// One could do as in the line below as well:
 	// config.contentsCss = 'css/editorContent.css';
-	// but the problem is that in this case it is difficult to
-	// pick up the styles in order to apply them when saving newsletter.
+	// but the problem is that in this case it is difficult to pick up the
+	// styles in DRY manner in order to apply them when saving newsletter.
 };
 
 /// observe the order of loading: first cssBase and then cssEditor.

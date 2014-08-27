@@ -29,6 +29,19 @@ function Document(node){
 
 
 	/**
+	 * (Optional) Styles to be applied to overall content of the newsletter before saving it.
+	 *
+	 * If set, it is supposed to be an instance of {{#crossLink "Properties"}}Properties{{/crossLink}}
+	 * class with {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} to be set to correspond
+	 * to inline styles.
+	 * @property       {Properties}    _wrapCss
+	 * @private
+	 * @since          0.0.6
+	 */
+	var _wrapCss;
+
+
+	/**
 	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsability is to convert
 	 * current instance into different formats.
 	 * @property       {Converter}          _converter
@@ -109,7 +122,7 @@ function Document(node){
 	};
 
 	/**
-	 * Removes specified attributes and properties from
+	 * Removes attributes present in array `flies` of regular expressions from
 	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
 	 * It first creates a "shallow" (without children) copy of the argument and applies
 	 * {{#crossLink "Document/cleanCurrent:method"}}cleanCurrent{{/crossLink}} method
@@ -118,19 +131,20 @@ function Document(node){
 	 * and append the result to the shallow copy.
 	 *
 	 * @method         clean
+	 * @param          {Array}      flies        array of regular expressions
 	 * @return         {void}
 	 */
-	this.clean = function(){
+	this.clean = function(flies){
 		var n = this.getContent(),
 			out = n.cloneNode(false);
-		this.cleanRoot(out);
+		this.cleanRoot(out, flies);
 		var children = n.childNodes,
 			len = children.length,
 			i, cleanChild, d;
 		// parsing each child one by one
 		for (i = 0; i < len; i++){
 			d = new Document(children.item(i));
-			d.clean();
+			d.clean(flies);
 			cleanChild = d.getContent();
 			out.appendChild(cleanChild);
 		}
@@ -138,21 +152,59 @@ function Document(node){
 	};
 
 	/**
-	 * Removes class and id attributes from the current node without affecting child nodes.
+	 * Removes attributes present in array `flies` from the current node without affecting child nodes.
 	 * If the node is a not an element node, then nothing is performed upon it.
 	 * @method         cleanRoot
-	 * @param          {DOM.Node}             node
+	 * @param          {DOM.Node}               node
+ 	 * @param          {Array}      flies       array of regular expressions
 	 * @return         {void}
 	 */
-	this.cleanRoot = function(node){
-		var attrs = ['class', 'id', 'data-marker'];
-		if (node.nodeType === Node.ELEMENT_NODE){
-			attrs.forEach(function(attr){
-				if (node.hasAttribute(attr)){
-					node.removeAttribute(attr);
-				}
-			});
+	this.cleanRoot = function(node, flies){
+		if (flies && node.nodeType === Node.ELEMENT_NODE){
+			var nodeAttrs = node.attributes,  // NamedNodeMap of node attributes
+				len = nodeAttrs.length,
+				attrNames = [],   // array of node attributes (names of the attributes)
+				i;
+			// preparing plain array of node attributes
+			for (i = 0; i < len; i++){
+				attrNames.push(nodeAttrs[i].name);
+			}
+			if (attrNames){
+				flies.forEach(function(fly){
+					attrNames.forEach(function(attr){
+						if (attr.match(fly)){
+							node.removeAttribute(attr);
+						}
+					});
+				});
+			}
 		}
+	};
+
+
+	/**
+	 * {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}} setter.
+	 *
+	 * If necessary, the argument is transformed into a
+	 * {{#crossLink "Properties"}}Propreties{{/crossLink}} instance,
+	 * and then assigned to {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}}.
+	 * @method         setWrapCss
+	 * @param          {Any}        css
+	 * @since          0.0.6
+	 */
+	this.setWrapCss = function(css){
+		_wrapCss = (css instanceof Properties) ? css : new Properties(css);
+		_wrapCss.setMode(1);   /// 1 corresponds to inline styles
+	};
+
+	/**
+	 * {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}} getter.
+	 * @method         getWrapCss
+	 * @return         {Properties}
+	 * @since          0.0.6
+	 */
+	this.getWrapCss = function(){
+		return _wrapCss;
 	};
 
 	/**
@@ -163,15 +215,17 @@ function Document(node){
 	 * @return         {String}            content of html document
 	 */
 	this.docHtml = function(){
-		var	editorCss = CKEDITOR.getCss() || '',
-			bodyCss = Helper.cssOfSelector('body', editorCss);
-		if (bodyCss){
-			bodyCss = ' style="' + bodyCss + '"';
+		var wrapCss = this.getWrapCss(),
+			bodyCssStr = wrapCss ? wrapCss.toString() : '';
+		// var	editorCss = CKEDITOR.getCss() || '',
+		// 	bodyCss = Helper.cssOfSelector('body', editorCss);
+		if (bodyCssStr){
+			bodyCssStr = ' style="' + bodyCssStr + '"';
 		}
 		var bodyContent = this.getContent();
 		bodyContent = bodyContent ? bodyContent.innerHTML : '';
 		var header = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n";
-		var body = "<center>\n<div" + bodyCss + ">\n" + bodyContent +  "\n</div>\n</center>\n";
+		var body = "<center>\n<div" + bodyCssStr + ">\n" + bodyContent +  "\n</div>\n</center>\n";
 		var footer = "</body>\n</html>";
 		return header + body + footer;
 	};
