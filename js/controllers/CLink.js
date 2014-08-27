@@ -29,7 +29,6 @@ var CLink = {
 		    link, obj,
 		    factory = NEWSLETTER.factory;
 
-
 		// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
 		if (isEnabled){
 		    link = new Link();
@@ -90,9 +89,17 @@ var CLink = {
 		    href = link.getAttribute('href');
 		}
 		// if the selection is nothing but a link, then pick up its title
+		// and find out whether the link is underlined or not
 		if (isEnabled && !selection.isEmpty()){
-		    var title = selection.nodes[0][0].getAttribute('title');
+			var link = selection.nodes[0][0];
+			var linkModel = new Link();
+			// linkModel.flushProperties();   // get rid of possible default link properties
+			linkModel.load(link.$);
+			var title = linkModel.getProperty('title');
+			var isUnderlined = linkModel.isUnderlined();
+		    // var title = selection.nodes[0][0].getAttribute('title');
 		    context.setValueOf('tab-general', 'optionalTitle', title);
+	    	context.setValueOf('tab-general', 'underlined', isUnderlined);
 		}
 
 		if (!isEnabled){
@@ -100,5 +107,6 @@ var CLink = {
 		}
 		context.setValueOf('tab-general', 'text', text);
 		context.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+
 	}
 };

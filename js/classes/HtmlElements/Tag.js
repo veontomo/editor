@@ -635,6 +635,18 @@ function Tag(tName) {
 		content.flush();
 	};
 
+
+	/**
+	 * Sets {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} to a new
+	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance.
+	 * @method         flushProperties
+	 * @return         {void}
+	 */
+	this.flushProperties = function(){
+		_properties = new Properties();
+	};
+
+
 	/**
 	 * Trims the content. Calls method {{#crossLink "Content/trim:method"}}Content::trim(){{/crossLink}} on the
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} property.

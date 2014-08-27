@@ -3,6 +3,7 @@
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
+        alt = true,
         selection;          // global variable to pass info about selection
     return {
         title: editor.lang.link.info,
@@ -71,7 +72,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 type: 'checkbox',
                 id: 'underlined',
                 label: editor.lang.basicstyles.underline,
-                "default": true,
+                "default": alt,
             }, {
                 type: 'checkbox',
                 id: 'target',

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Tag, LinkAttributes, LinkStyles, Content */
+/*global Tag, LinkProperties, Content */
 
 /**
 * This class is represent an html link tag "a".
@@ -207,7 +207,6 @@ function Link(href) {
 	 * @return         {Link}
 	 */
 	this.updateLink = function(link){
-		// console.log('updating link ' + this.toHtml());
 		if (link instanceof Link){
 			var result = new Link(),
 				src = this.getHref();
@@ -217,12 +216,19 @@ function Link(href) {
 			result.appendStyle(link.getStyles());
 			result.appendProperties(link.getProperties());
 			result.setHref(src);
-			// console.log('returning ', result.toHtml());
 			return result;
-		} else {
-			// console.log('argument is not a link, so there is nothing to return');
 		}
+	};
 
+	/**
+	 * Returns `true` if the link's inline style {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} contain
+	 * `text-decoration` key which is set to `underline`. Otherwise, `false` is returned.
+	 * @method         isUnderlined
+	 * @return         {Boolean}
+	 * @since          0.0.6
+	 */
+	this.isUnderlined = function(){
+		return this.getStyleProperty('text-decoration') === 'underline';
 	};
 
 }
