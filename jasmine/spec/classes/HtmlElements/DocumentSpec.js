@@ -36,33 +36,43 @@ describe('Document-related functionality', function(){
 
 	describe('Cleaning document tags from technicalities', function(){
 		it('removes "class" attribute inside tags', function(){
-			d.clean();
+			d.clean(['class']);
 			var doc2 = d.getContent();
 			expect(doc2.hasAttribute('class')).toBe(false);
 		});
 
 		it('removes "id" attribute inside tags', function(){
-			d.clean();
+			d.clean([new RegExp(/\bid\b/)]);
 			var doc2 = d.getContent();
 			expect(doc2.hasAttribute('id')).toBe(false);
 		});
 
+		it('removes "id" attribute and does not remove "width" attribute', function(){
+			d.clean([new RegExp(/\bid/)]);
+			var doc2 = d.getContent();
+			var p = doc2.firstChild;
+			expect(p.tagName.toLowerCase()).toBe('p');
+			expect(p.hasAttribute('id')).toBe(false);
+			expect(p.getAttribute('width')).toBe('300px');
+		});
+
+
 		it('removes "class" attribute from nested tags', function(){
-			d.clean();
+			d.clean([new RegExp(/\bclass\b/)]);
 			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('class')).toBe(false);
 		});
 
 		it('removes "id" attribute from nested tags', function(){
-			d.clean();
+			d.clean([new RegExp(/\bid/)]);
 			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('id')).toBe(false);
 		});
 
 		it('leaves "style" attribute in the nested tags', function(){
-			d.clean();
+			d.clean([new RegExp(/\bid\b/), new RegExp(/\bclass\b/)]);
 			var doc2 = d.getContent();
 			var img = doc2.firstChild.childNodes.item(1);
 			expect(img.hasAttribute('style')).toBe(true);
