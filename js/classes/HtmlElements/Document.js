@@ -165,17 +165,19 @@ function Document(node){
 				len = nodeAttrs.length,
 				attrNames = [],   // array of node attributes (names of the attributes)
 				i;
-			// preparing plain array of node attributes
+			// populating plain array of node attributes
 			for (i = 0; i < len; i++){
 				attrNames.push(nodeAttrs[i].name);
 			}
 			if (attrNames){
-				flies.forEach(function(fly){
-					attrNames.forEach(function(attr){
-						if (attr.match(fly)){
-							node.removeAttribute(attr);
-						}
+				attrNames.forEach(function(attr){
+					// whether an attribute matches at least one regular expression
+					var doesMatch = flies.some(function(fly){
+						return attr.match(fly);
 					});
+					if (doesMatch){
+						node.removeAttribute(attr);
+					}
 				});
 			}
 		}

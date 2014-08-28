@@ -11,8 +11,19 @@
  * @author    A.Shcherbakov
  */
 var NEWSLETTER = (function(){
+
+	/**
+	 * Singlet instance.
+	 * @property   {Object}     _instance
+	 * @private
+	 */
 	var _instance;
 
+	/**
+	 * Intializes the singlet instance.
+	 * @method     _init
+	 * @private
+	 */
 	var _init = function(){
 
 		// an object that will be returned after filling in with required properties
@@ -27,7 +38,7 @@ var NEWSLETTER = (function(){
 		 * @final
 		 */
 		Object.defineProperty(_output, 'cssBase', {
-			value:    'body {background-color: #ffffff; color: #000001; line-height: normal; text-align: center; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; font-weight: normal; padding: 0; margin: 0;}\
+			value:    'body {background-color: #ffffff; color: #000001; line-height: normal; text-align: center; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; font-weight: normal;}\
 				a {color: blue; font-weight: normal}',
 			writable: false
 		});
@@ -41,7 +52,7 @@ var NEWSLETTER = (function(){
 		 * @final
 		 */
 		Object.defineProperty(_output, 'cssEditor', {
-			value: 'body{padding: 1em}\
+			value: 'body{padding: 1em; margin: 0;}\
 				tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}\
 				td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}\
 				a:hover {background-color: rgba(95, 110, 118, 0.2);}',
