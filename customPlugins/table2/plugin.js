@@ -6,6 +6,7 @@ CKEDITOR.plugins.add('table2', {
 	icons: 'table2',
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
+
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
@@ -165,6 +166,57 @@ CKEDITOR.plugins.add('table2', {
 		}
 	}
 });
+
+var _pluginName = 'table2';
+var _translations = {
+	it: {
+		separator:     'Inserire una linea tra le righe',
+		frame:         'Bordo attorno alla tabella',
+		intVertBord:   'Includere interni bordi verticali',
+		intHorBord:    'Includere interni bordi orizzonatali',
+		leftVerBord:   'Includere solo il bordo verticale sinistro',
+		rightVertBord: 'Includere solo il bordo verticale destro',
+		topHorBord:    'Includere solo il bordo orizzontale alto',
+		bottomHorBord: 'Includere solo il bordo orizzontale basso',
+	},
+	en: {
+		separator:     'Insert a line between the rows',
+		frame:         'Frame around the table',
+		intVertBord:   'Insert only internal vertical borders',
+		intHorBord:    'Insert only internal horizontal borders',
+		leftVerBord:   'Insert the most left horizontal border',
+		rightVertBord: 'Insert the most right horizontal border',
+		topHorBord:    'Insert upper horizontal border',
+		bottomHorBord: 'Insert lowest horizontal border'
+	},
+	ru: {
+		separator:     'Вернуть Крым',
+		frame:         'Убрать Хутина',
+		intVertBord:   'Зарядить Пудака в Царь-Пушку',
+		intHorBord:    'Дать Димону игрушку',
+		leftVerBord:   'Зарядить Пудака в Царь-Пушку',
+		rightVertBord: 'Слить Хутину силикон',
+		topHorBord:    'Зарядить Пудаку',
+		bottomHorBord: 'Зарядить Путлера'
+	},
+	ua: {
+		separator:     'Додати риску поміж рядків',
+		frame:         'Додати рамку до таблиці',
+		intVertBord:   'Провести внутрішні вертикальні ліниї між клітинами',
+		intHorBord:    'Провести внутрішні горизонтальні ліниї між клітинами',
+		leftVerBord:   'Провести ліву вертикальну лінию',
+		rightVertBord: 'Провести праву вертикальну лінию',
+		topHorBord:    'Провести верхню вертикальну лінию',
+		bottomHorBord: 'Провести нижню вертикальну лінию'
+	}
+
+};
+
+var _lang;
+for (_lang in _translations){
+	CKEDITOR.plugins.setLang(_pluginName, _lang, _translations[_lang]);
+	console.log(_lang, _translations[_lang]);
+}
 
 
 CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {

@@ -776,4 +776,3 @@ function Tag(tName) {
 		}
 	};
 }
-

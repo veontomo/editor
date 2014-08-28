@@ -51,7 +51,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		};
 
 
-
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
@@ -111,7 +110,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}, {
 				// whether the line separator between table rows should be included
 				type: 'checkbox',
-				label: 'Inserire separatore tra le righe',
+				label: editor.lang.table2.separator,
 				id: 'trSeparator',
 				'inputStyle': inputStyle,
 				'default': false
@@ -124,7 +123,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: 'Bordo globale',
+					html: editor.lang.table2.frame,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -175,7 +174,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('left.gif', 'left border', 15, 15)
+							html: CTable.iconTag('left.gif', editor.lang.table2.leftVertBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -185,7 +184,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('middleVer.gif', 'middle vertical border', 15, 15)
+							html: CTable.iconTag('middleVer.gif', editor.lang.table2.intVertBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -195,7 +194,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('right.gif', 'right border', 15, 15)
+							html: CTable.iconTag('right.gif', editor.lang.table2.rightVertBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -205,7 +204,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('upper.gif', 'upper border', 15, 15)
+							html: CTable.iconTag('upper.gif', editor.lang.table2.topVertBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -215,7 +214,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('middleHor.gif', 'middle horizontal border', 15, 15)
+							html: CTable.iconTag('middleHor.gif', editor.lang.table2.intHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -225,7 +224,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('lower.gif', 'lower border', 15, 15)
+							html: CTable.iconTag('lower.gif', editor.lang.table2.bottomHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
