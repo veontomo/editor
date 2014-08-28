@@ -30,36 +30,6 @@ var NEWSLETTER = (function(){
 		var _output = {};
 
 		/**
-		 * Base styles that are applied when saving the editor content.
-		 * It is a css-like formatted string, i.e. `h1 {color: red; position: absolute;}`
-		 *
-		 * @property    {String}       cssBase
-		 * @since       0.0.6
-		 * @final
-		 */
-		Object.defineProperty(_output, 'cssBase', {
-			value:    'body {background-color: #ffffff; color: #000001; line-height: normal; text-align: center; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; font-weight: normal;}\
-				a {color: blue; font-weight: normal}',
-			writable: false
-		});
-
-		/**
-		 * Styles that are applied to the content of the editor only and not to a saved content.
-		 * It is a css-like formatted string, i.e. `h1 {color: red; position: absolute;}`
-		 *
-		 * @property    {String}       cssEditor
-		 * @since       0.0.6
-		 * @final
-		 */
-		Object.defineProperty(_output, 'cssEditor', {
-			value: 'body{padding: 1em; margin: 0;}\
-				tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}\
-				td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}\
-				a:hover {background-color: rgba(95, 110, 118, 0.2);}',
-			writable: false
-		});
-
-		/**
 		 * Default width, to be set to elements whose width can not be established.
 		 * @property    {String}     defaultWidth
 		 * @type        {String}
@@ -207,6 +177,36 @@ var NEWSLETTER = (function(){
 		 */
 		Object.defineProperty(_output, 'formatMapper', {
 			value:    _formatMapper,
+			writable: false
+		});
+
+		/**
+		 * Base styles that are applied when saving the editor content.
+		 * It is a css-like formatted string, i.e. `h1 {color: red; position: absolute;}`
+		 *
+		 * @property    {String}       cssBase
+		 * @since       0.0.6
+		 * @final
+		 */
+		Object.defineProperty(_output, 'cssBase', {
+			value:    'body {background-color: #ffffff; color: #000001; line-height: normal; text-align: center; font-size: 13px; font-family: Arial, sans-serif; font-style: normal; font-weight: normal; width: ' + _output.width() + ';}\
+				a {color: blue; font-weight: normal}',
+			writable: false
+		});
+
+		/**
+		 * Styles that are applied to the content of the editor only and not to a saved content.
+		 * It is a css-like formatted string, i.e. `h1 {color: red; position: absolute;}`
+		 *
+		 * @property    {String}       cssEditor
+		 * @since       0.0.6
+		 * @final
+		 */
+		Object.defineProperty(_output, 'cssEditor', {
+			value: 'body{padding: 1em; margin: 0;}\
+				tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}\
+				td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}\
+				a:hover {background-color: rgba(95, 110, 118, 0.2);}',
 			writable: false
 		});
 

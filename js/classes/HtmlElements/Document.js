@@ -219,8 +219,6 @@ function Document(node){
 	this.docHtml = function(){
 		var wrapCss = this.getWrapCss(),
 			bodyCssStr = wrapCss ? wrapCss.toString() : '';
-		// var	editorCss = CKEDITOR.getCss() || '',
-		// 	bodyCss = Helper.cssOfSelector('body', editorCss);
 		if (bodyCssStr){
 			bodyCssStr = ' style="' + bodyCssStr + '"';
 		}
