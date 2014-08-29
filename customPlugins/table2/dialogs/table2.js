@@ -48,6 +48,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				element.append(colWidthInput);
 				title.setHtml('Fattori con i quali le colonne contribuiscono<br>nella larghezza della tabella:');
 			}
+		},
+		setColor = function(){
+			var dialog = this.getDialog();
+			dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
+			// console.log(dialog, dialog._.currentTabId);
 		};
 
 
@@ -107,13 +112,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}, {
 				type: 'html',
 				html: '<div id="columnWidthTable"></div>',
-			}, {
-				// whether the line separator between table rows should be included
-				type: 'checkbox',
-				label: editor.lang.table2.separator,
-				id: 'trSeparator',
-				'inputStyle': inputStyle,
-				'default': false
 			}]
 		}, {
 			id: 'borderTab',
@@ -138,11 +136,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
-						onClick: function(){
-							// console.log();
-							// editor.ui.get('table2Dialog').getContentElement('borderTab', 'globalBorderColor').setValue('aaaaaaa');
-							// editor.ui.get('table2Dialog').setValueOf('borderTab', 'globalBorderColor', Math.random());
-						}
+						onClick: setColor
 					}]
 				}]
 			}, {
@@ -162,7 +156,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'phantomBorderColor',
-						'default': '#000001'
+						'default': '#000001',
+						onClick: setColor
 					}]
 
 				}]
@@ -251,6 +246,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
+							onClick: setColor
 
 						}]
 					}]
@@ -264,6 +260,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: editor.lang.table.cell.bgColor,
 				id: 'backgroundColor',
+				'default': '#000001',
+				onClick: setColor
 
 			}]
 		}, {

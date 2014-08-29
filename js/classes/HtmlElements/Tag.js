@@ -688,12 +688,9 @@ function Tag(tName) {
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];
-				console.log('considering attribute ' + attr + ', with value ' + current);
 				if (current && typeof current.clone === 'function'){
-					console.log('clone() is found');
 					output[attr] = current.clone();
 				} else {
-					console.log('no clone() is found');
 					output[attr] = current;
 				}
 			}
@@ -792,5 +789,5 @@ function Tag(tName) {
 		if (content && typeof fun === 'function'){
 			content.applyToAll(fun);
 		}
-	}
+	};
 }

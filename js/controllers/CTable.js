@@ -59,17 +59,15 @@ var CTable = {
 	 * @param          {Object}             editor            editor instance
 	 * @return         {DOM.Element}
 	 */
-	template: function(context, editor){
+	template: function(dialog, editor){
 		var INPUTCOLWIDTHNAME = 'widthCol';
-		var dialog = context,
 			// user input
-			rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
+		var rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
 			cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
 			borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
 			frameWidth = parseInt(dialog.getValueOf('info', 'frameWidth'), 10),
 			vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
 			hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
-			withSeparator = dialog.getValueOf('info', 'trSeparator'),
 			leftVerBord = dialog.getValueOf('borderTab', 'leftVerBord'),
 			rightVerBord = dialog.getValueOf('borderTab', 'rightVerBord'),
 			intVerBord = dialog.getValueOf('borderTab', 'intVerBord'),
@@ -81,10 +79,10 @@ var CTable = {
 			// variables to be used in what follows
 			phantomCellAttr, phantomTableAttr, phantomRowAttr,
 			parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
-			i, table, tableWidth, cellWidths, rowWidth,
+			i, r, c, table, tableWidth, cellWidths, rowWidth,
 			spaceTop, spaceBottom, parentWidth,
-			inputField, cellWeights, row, rowCopy, cell,
-			cellWidth, allCellsWidth, isFramed,
+			inputField, cellWeights, row, cell,
+			cellWidth, allCellsWidth, isFramed, borderCellInfo,
 			allWidths = [];
 		console.log(leftVerBord, rightVerBord, intVerBord, topHorBord, bottomHorBord, intHorBord);
 
@@ -194,61 +192,67 @@ var CTable = {
 		// allCellsWidth = row.getProperty('width') - row.getStyleProperty('padding');     // sum of all cell widths
 		allCellsWidth = rowWidth - row.getStyleProperty('padding');                        // sum of all cell widths
 		cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                      // array of column widths
+		borderCellInfo = '1px solid ' + cellBorderColor;
 
 		// creating cells to be inserted into the row
-		for (i = 0; i < cols; i++) {
-			// It is better to recreate objects for every cell
-			// in order to avoid influence of previously imposed values
-			cell = new Cell('cell' + i);
-			// imposing cell styles and attributes
-			// mark the cell
-			cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
-			// adjust width of the first and the last cell
-			cellWidth = cellWidths[i]  - (i === cols - 1 || i === 0 ? hSpace : 0);
-			cell.setWidth(cellWidth);
-			allWidths.push(cellWidth);
-			cell.dropStyleProperty('padding');
-			cell.setStyleProperty('padding-left',  (i === 0) ? hSpace : 0);        // add space to the left for the first cell
-			cell.setStyleProperty('padding-right', (i === cols - 1) ? hSpace : 0); // add space to the right for the last cell
-			cell.setStyleProperty('padding-top',  spaceTop);
-			cell.setStyleProperty('padding-bottom', spaceBottom);
-			cell.setStyleProperty('margin', 0);
+		for (r = 0; r < rows; r++){
+			row = new Row();
+			for (c = 0; c < cols; c++) {
+				// It is better to recreate objects for every cell
+				// in order to avoid influence of previously imposed values
+				cell = new Cell('cell' + c);
+				// imposing cell styles and attributes
+				// mark the cell
+				cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
+				// adjust width of the first and the last cell
+				cellWidth = cellWidths[c]  - (c === cols - 1 || c === 0 ? hSpace : 0);
+				cell.setWidth(cellWidth);
+				allWidths.push(cellWidth);
+				cell.dropStyleProperty('padding');
+				cell.setStyleProperty('padding-left',  (c === 0) ? hSpace : 0);        // add space to the left for the first cell
+				cell.setStyleProperty('padding-right', (c === cols - 1) ? hSpace : 0); // add space to the right for the last cell
+				cell.setStyleProperty('padding-top',  spaceTop);
+				cell.setStyleProperty('padding-bottom', spaceBottom);
+				cell.setStyleProperty('margin', 0);
 
-			// setting the most left border
-			if (i === 0 && leftVerBord){
-				cell.setStyleProperty('border-left', '1px solid ' + cellBorderColor);
+				// setting the most left border
+				if (c === 0 && leftVerBord){
+					cell.setStyleProperty('border-left', borderCellInfo);
+				}
+
+				// setting the most right border
+				if (c === cols - 1 && rightVerBord){
+					cell.setStyleProperty('border-right', borderCellInfo);
+				}
+
+				// setting intermidiate borders (right border is chosen for all cells except last one)
+				if (intVerBord && cols > 1 && c !== cols - 1){
+					cell.setStyleProperty('border-right', borderCellInfo);
+				}
+
+				row.appendCell(cell);
+
 			}
-
-			// setting the most right border
-			if (i === cols - 1 && rightVerBord){
-				cell.setStyleProperty('border-right', '1px solid ' + cellBorderColor);
-			}
-
-			// setting intermidiate borders (right border is chosen for all cells except last one)
-			if (intVerBord && cols > 1 && i !== cols - 1){
-				cell.setStyleProperty('border-right', '1px solid ' + cellBorderColor);
-			}
-
-			if (withSeparator){
-				cell.setStyleProperty('border-bottom', '1px solid #cccccc');
-			}
-			row.appendCell(cell);
-		}
-
-		rowCopy = row.clone();
-
-		for (i = 0; i < rows; i++){
-			// clone the row created above
-			rowCopy = row.clone();
-			if (i === 0 && topHorBord){
-				console.log('top line is to be added the border');
-				rowCopy.applyToAll(function(el){
-					el.setStyleProperty('border-top', '1px solid red');
+			if (r === 0 && topHorBord){
+				row.applyToAll(function(el){
+					el.setStyleProperty('border-top', borderCellInfo);
 				});
-			} else {
-				console.log('NO top line is to be added the border');
 			}
-			table.appendRow(rowCopy);
+			if (r === rows - 1 && bottomHorBord){
+				row.applyToAll(function(el){
+					el.setStyleProperty('border-bottom', borderCellInfo);
+				});
+			}
+
+			if (rows > 1 && r !== rows - 1 && intHorBord){
+				row.applyToAll(function(el){
+					el.setStyleProperty('border-bottom', borderCellInfo);
+				});
+			}
+
+
+
+			table.appendRow(row);
 		}
 
 		var isAllPositive = allWidths.some(function(el){
