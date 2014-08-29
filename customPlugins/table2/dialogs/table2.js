@@ -166,7 +166,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: 'Bordo attorno a celle',
+					html: editor.lang.table2.cellBorders,
 				}, {
 					type: 'hbox',
 					widths: ['10%', '10%', '10%', '10%', '10%', '10%', '20%'],
@@ -174,41 +174,41 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('left.gif', editor.lang.table2.leftVertBord, 15, 15)
+							html: CTable.iconTag('left.gif', editor.lang.table2.leftVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'left border'
+							title: editor.lang.table2.leftVerBord
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('middleVer.gif', editor.lang.table2.intVertBord, 15, 15)
+							html: CTable.iconTag('middleVer.gif', editor.lang.table2.intVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'middle vertical border'
+							title: editor.lang.table2.intVerBord
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('right.gif', editor.lang.table2.rightVertBord, 15, 15)
+							html: CTable.iconTag('right.gif', editor.lang.table2.rightVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'right border'
+							title: editor.lang.table2.rightVerBord
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('upper.gif', editor.lang.table2.topVertBord, 15, 15)
+							html: CTable.iconTag('upper.gif', editor.lang.table2.topHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'upper border'
+							title: editor.lang.table2.topHorBord
 						}]
 					}, {
 						type: 'vbox',
@@ -218,7 +218,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'middle horizontal border'
+							title: editor.lang.table2.intHorBord
 						}]
 					}, {
 						type: 'vbox',
@@ -228,7 +228,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: 'lower border'
+							title: editor.lang.table2.bottomHorBord
 						}]
 					}, {
 						type: 'vbox',
@@ -238,7 +238,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'text',
 							label: '',
-							title: 'inserisci colore',
+							title: editor.lang.table2.chooseColor,
 							'default': '#000001',
 
 						}]
@@ -247,7 +247,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}]
 		}, {
 			id: 'backgroundTab',
-			label: 'Sfondo',   // it is better to make it I18n
+			label: editor.lang.table2.background,
 			elements: [
 			{
 				type: 'text',
@@ -257,20 +257,19 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}]
 		}, {
 			id: 'spacesTab',
-			label: 'Spazi', // it is better to make it I18n
+			label: editor.lang.table2.spacesTitle,
 			elements: [
 			{
 				type: 'hbox',
 				widths: ['50%', '50%'],
 				children: [{
 					type: 'html',
-					html: 'Spaziatura',
-					title: 'inserisci valore in pixel'
+					html: editor.lang.table2.spacesDescr,
 				}, {
 					type: 'text',
-					id: 'spaces',
+					id: editor.lang.table2.spacesDescr,
 					"default": '0',
-					title: 'inserisci valore in pixel'
+					title: editor.lang.table2.valueInPx
 				}]
 			}]
 		}

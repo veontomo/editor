@@ -172,44 +172,37 @@ var _translations = {
 	it: {
 		separator:     'Inserire una linea tra le righe',
 		frame:         'Bordo attorno alla tabella',
-		intVertBord:   'Includere interni bordi verticali',
+		intVerBord:    'Includere interni bordi verticali',
 		intHorBord:    'Includere interni bordi orizzonatali',
 		leftVerBord:   'Includere solo il bordo verticale sinistro',
-		rightVertBord: 'Includere solo il bordo verticale destro',
+		rightVerBord:  'Includere solo il bordo verticale destro',
 		topHorBord:    'Includere solo il bordo orizzontale alto',
 		bottomHorBord: 'Includere solo il bordo orizzontale basso',
+		chooseColor:   'Scegliere colore',
+		borders:       'Bordi',
+		cellBorders:   'Bordi attorno a celle',
+		background:    'Sfondo',
+		spacesTitle:   'Spaziatura',
+		spacesDescr:   'Margini in pixel',
+		valueInPx:     'Inserisci valore in pixel',
 	},
 	en: {
 		separator:     'Insert a line between the rows',
 		frame:         'Frame around the table',
-		intVertBord:   'Insert only internal vertical borders',
+		intVerBord:    'Insert only internal vertical borders',
 		intHorBord:    'Insert only internal horizontal borders',
 		leftVerBord:   'Insert the most left horizontal border',
-		rightVertBord: 'Insert the most right horizontal border',
+		rightVerBord:  'Insert the most right horizontal border',
 		topHorBord:    'Insert upper horizontal border',
-		bottomHorBord: 'Insert lowest horizontal border'
-	},
-	ru: {
-		separator:     'Вернуть Крым',
-		frame:         'Убрать Хутина',
-		intVertBord:   'Зарядить Пудака в Царь-Пушку',
-		intHorBord:    'Дать Димону игрушку',
-		leftVerBord:   'Зарядить Пудака в Царь-Пушку',
-		rightVertBord: 'Слить Хутину силикон',
-		topHorBord:    'Зарядить Пудаку',
-		bottomHorBord: 'Зарядить Путлера'
-	},
-	ua: {
-		separator:     'Додати риску поміж рядків',
-		frame:         'Додати рамку до таблиці',
-		intVertBord:   'Провести внутрішні вертикальні ліниї між клітинами',
-		intHorBord:    'Провести внутрішні горизонтальні ліниї між клітинами',
-		leftVerBord:   'Провести ліву вертикальну лінию',
-		rightVertBord: 'Провести праву вертикальну лінию',
-		topHorBord:    'Провести верхню вертикальну лінию',
-		bottomHorBord: 'Провести нижню вертикальну лінию'
+		bottomHorBord: 'Insert lowest horizontal border',
+		chooseColor:   'Choose color',
+		borders:       'Borders',
+		cellBorders:   'Cell frames',
+		background:    'Background',
+		spacesTitle:   'Margins',
+		spacesDescr:   'Margins in pixels',
+		valueInPx:     'Insert value in pixel',
 	}
-
 };
 
 var _lang;
