@@ -167,8 +167,8 @@ CKEDITOR.plugins.add('table2', {
 	}
 });
 
-var _pluginName = 'table2';
-var _translations = {
+var pluginName = 'table2';
+var translations = {
 	it: {
 		separator:     'Inserire una linea tra le righe',
 		frame:         'Bordo attorno alla tabella',
@@ -185,6 +185,7 @@ var _translations = {
 		spacesTitle:   'Spaziatura',
 		spacesDescr:   'Margini in pixel',
 		valueInPx:     'Inserisci valore in pixel',
+		rowBorders:    'Bordo attorno alle righe'
 	},
 	en: {
 		separator:     'Insert a line between the rows',
@@ -202,13 +203,13 @@ var _translations = {
 		spacesTitle:   'Margins',
 		spacesDescr:   'Margins in pixels',
 		valueInPx:     'Insert value in pixel',
+		rowBorders:    'Border around the rows'
 	}
 };
 
-var _lang;
-for (_lang in _translations){
-	CKEDITOR.plugins.setLang(_pluginName, _lang, _translations[_lang]);
-	console.log(_lang, _translations[_lang]);
+var lang;
+for (lang in translations){
+	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
 }
 
 

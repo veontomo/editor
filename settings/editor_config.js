@@ -8,7 +8,7 @@
 
 CKEDITOR.editorConfig = function(config){
 	// language
-	config.language = 'it';
+	config.language = 'en';
 	config.defaultLanguage = config.language;
 	// size
 	config.width = '850px';

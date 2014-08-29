@@ -54,7 +54,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
-		minWidth: 300,
+		minWidth: 500,
 		minHeight: 300,
 
 		// Dialog window contents definition.
@@ -85,7 +85,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				'inputStyle': inputStyle
 			}, {
 				type: 'text',
-				label: 'Bordo attorno alle righe (px)',
+				label: editor.lang.table2.rowBorders,
 				id: 'frameWidth',
 				'default': '0',
 				'inputStyle': inputStyle
@@ -117,7 +117,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			}]
 		}, {
 			id: 'borderTab',
-			label: 'Bordi', // it is better to make it I18n
+			label: editor.lang.table2.borders,
 			elements: [
 			{
 				type: 'vbox',
@@ -138,7 +138,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
-						"onclick": 'colorPicker(click)' // does not work
+						onClick: function(){
+							// console.log();
+							// editor.ui.get('table2Dialog').getContentElement('borderTab', 'globalBorderColor').setValue('aaaaaaa');
+							// editor.ui.get('table2Dialog').setValueOf('borderTab', 'globalBorderColor', Math.random());
+						}
 					}]
 				}]
 			}, {
@@ -178,7 +182,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.leftVerBord
+							title: editor.lang.table2.leftVerBord,
+							id: 'leftVerBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -188,7 +193,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.intVerBord
+							title: editor.lang.table2.intVerBord,
+							id: 'intVerBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -198,7 +204,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.rightVerBord
+							title: editor.lang.table2.rightVerBord,
+							id: 'rightVerBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -208,7 +215,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.topHorBord
+							title: editor.lang.table2.topHorBord,
+							id: 'topHorBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -218,7 +226,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.intHorBord
+							title: editor.lang.table2.intHorBord,
+							id: 'intHorBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -228,7 +237,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.bottomHorBord
+							title: editor.lang.table2.bottomHorBord,
+							id: 'bottomHorBord'
 						}]
 					}, {
 						type: 'vbox',
@@ -239,6 +249,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: '',
 							title: editor.lang.table2.chooseColor,
+							id: 'cellBorderColor',
 							'default': '#000001',
 
 						}]

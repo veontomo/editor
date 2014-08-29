@@ -69,16 +69,24 @@ var CTable = {
 			frameWidth = parseInt(dialog.getValueOf('info', 'frameWidth'), 10),
 			vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
 			hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
-			withSeparator = dialog.getValueOf('info',  'trSeparator'),
+			withSeparator = dialog.getValueOf('info', 'trSeparator'),
+			leftVerBord = dialog.getValueOf('borderTab', 'leftVerBord'),
+			rightVerBord = dialog.getValueOf('borderTab', 'rightVerBord'),
+			intVerBord = dialog.getValueOf('borderTab', 'intVerBord'),
+			topHorBord = dialog.getValueOf('borderTab', 'topHorBord'),
+			bottomHorBord = dialog.getValueOf('borderTab', 'bottomHorBord'),
+			intHorBord = dialog.getValueOf('borderTab', 'intHorBord'),
+			cellBorderColor = dialog.getValueOf('borderTab', 'cellBorderColor'),
 
 			// variables to be used in what follows
 			phantomCellAttr, phantomTableAttr, phantomRowAttr,
 			parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
 			i, table, tableWidth, cellWidths, rowWidth,
 			spaceTop, spaceBottom, parentWidth,
-			inputField, cellWeights, row, cell,
+			inputField, cellWeights, row, rowCopy, cell,
 			cellWidth, allCellsWidth, isFramed,
 			allWidths = [];
+		console.log(leftVerBord, rightVerBord, intVerBord, topHorBord, bottomHorBord, intHorBord);
 
 
 		// read inserted values
@@ -206,15 +214,41 @@ var CTable = {
 			cell.setStyleProperty('padding-bottom', spaceBottom);
 			cell.setStyleProperty('margin', 0);
 
+			// setting the most left border
+			if (i === 0 && leftVerBord){
+				cell.setStyleProperty('border-left', '1px solid ' + cellBorderColor);
+			}
+
+			// setting the most right border
+			if (i === cols - 1 && rightVerBord){
+				cell.setStyleProperty('border-right', '1px solid ' + cellBorderColor);
+			}
+
+			// setting intermidiate borders (right border is chosen for all cells except last one)
+			if (intVerBord && cols > 1 && i !== cols - 1){
+				cell.setStyleProperty('border-right', '1px solid ' + cellBorderColor);
+			}
+
 			if (withSeparator){
 				cell.setStyleProperty('border-bottom', '1px solid #cccccc');
 			}
 			row.appendCell(cell);
 		}
 
-		// clone the row created above
+		rowCopy = row.clone();
+
 		for (i = 0; i < rows; i++){
-			table.appendRow(row);
+			// clone the row created above
+			rowCopy = row.clone();
+			if (i === 0 && topHorBord){
+				console.log('top line is to be added the border');
+				rowCopy.applyToAll(function(el){
+					el.setStyleProperty('border-top', '1px solid red');
+				});
+			} else {
+				console.log('NO top line is to be added the border');
+			}
+			table.appendRow(rowCopy);
 		}
 
 		var isAllPositive = allWidths.some(function(el){

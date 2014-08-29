@@ -499,7 +499,7 @@ function Content(str) {
 	 * Filters out array {{#crossLink "Content/elements:property"}}elements{{/crossLink}} in such a way
 	 * that only those elements for which `fun` returns `true` remain.
 	 * @method         filterOut
-	 * @param          {function}           fun    function to be applied to each element
+	 * @param          {function}           fun       function to be applied to each element
 	 * @return         {void}
 	 */
 	this.filterOut = function(fun){
@@ -508,4 +508,19 @@ function Content(str) {
 		});
 		elements = filtered;
 	};
+
+
+	/**
+	 * Applies function `fun` to each element of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}.
+	 * @method         applyToAll
+	 * @param          {Function}           fun            function to be applied to each element of content
+	 * @since          0.0.6
+	 */
+	this.applyToAll = function(fun){
+		if (elements && typeof fun === 'function'){
+			elements.forEach(function(elem){
+				fun(elem);
+			});
+		}
+	}
 }

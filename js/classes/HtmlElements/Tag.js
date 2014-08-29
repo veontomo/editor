@@ -688,9 +688,12 @@ function Tag(tName) {
 		for (attr in this){
 			if (this.hasOwnProperty(attr)){
 				current = this[attr];
+				console.log('considering attribute ' + attr + ', with value ' + current);
 				if (current && typeof current.clone === 'function'){
+					console.log('clone() is found');
 					output[attr] = current.clone();
 				} else {
+					console.log('no clone() is found');
 					output[attr] = current;
 				}
 			}
@@ -775,4 +778,19 @@ function Tag(tName) {
 			this.dropProperty('title');
 		}
 	};
+
+	/**
+	 * Applies function `fun` to each element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 *
+	 * It is an alias for {{#crossLink "Content/applyToAll:method"}}Content::applyToAll(){{/crossLink}} method.
+	 *
+	 * @method         applyToAll
+	 * @param          {Function}      fun         function to be applied to each element of content
+	 * @since          0.0.6
+	 */
+	this.applyToAll = function(fun){
+		if (content && typeof fun === 'function'){
+			content.applyToAll(fun);
+		}
+	}
 }
