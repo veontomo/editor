@@ -183,9 +183,13 @@ var translations = {
 		cellBorders:   'Bordi attorno a celle',
 		background:    'Sfondo',
 		spacesTitle:   'Spaziatura',
-		spacesDescr:   'Margini in pixel',
+		spacesDescr:   'Spazi attorno alla tabella, righe e celle',
 		valueInPx:     'Inserisci valore in pixel',
-		rowBorders:    'Bordo attorno alle righe'
+		rowBorders:    'Bordo attorno alle righe',
+		globalSpaces:  'Spazi attorno alla tabella',
+		rowSpaceTitle: 'Spazi tra le righe',
+		cellSpace:     'Spazio tra testo e bordo di cella'
+
 	},
 	en: {
 		separator:     'Insert a line between the rows',
@@ -201,9 +205,12 @@ var translations = {
 		cellBorders:   'Cell frames',
 		background:    'Background',
 		spacesTitle:   'Margins',
-		spacesDescr:   'Margins in pixels',
+		spacesDescr:   'Spaces around the table, cells and rows',
 		valueInPx:     'Insert value in pixel',
-		rowBorders:    'Border around the rows'
+		rowBorders:    'Border around the rows',
+		globalSpaces:  'Spaces around the table',
+		rowSpaceTitle: 'Space between rows',
+		cellSpace:     'Space between text and cell frame'
 	}
 };
 

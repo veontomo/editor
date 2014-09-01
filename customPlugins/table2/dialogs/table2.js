@@ -3,6 +3,8 @@
  */
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
+	var inputColorStyle = 'width: 6em;';   // input field style for choosing color
+	var inputWidthStyle = 'width: 3em;';   // input field style for choosing width
 
 	/**
 	 * Drops inline attribute named attrName from DOM element
@@ -52,7 +54,22 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		setColor = function(){
 			var dialog = this.getDialog();
 			dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
-			// console.log(dialog, dialog._.currentTabId);
+			// console.log(this.getInputElement());
+			// var elem = dialog.getContentElement(dialog._.currentTabId, this.id).getElement();
+			// var picker = new Picker(elem.$);
+    	    // picker.on_done = function(colour) {
+    	    // 	dialog.setValueOf(dialog._.currentTabId, this.id, colour.hex().toString());
+    	    // 	// elem.setValue(colour.hex().toString());
+    	    //     console.log(colour.hex().toString());
+    	    //     // console.log(colour.hex());
+    	    // };
+	        // elem.$.onclick = function() {
+	            // picker.show();
+    	    // };
+
+
+
+			// dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
 		};
 
 
@@ -128,22 +145,24 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					children: [{
 						type: 'text',
 						label: editor.lang.common.width,
-						title: 'larghezza in pixel',
+						title: editor.lang.table2.valueInPx,
 						id: 'globalBorder',
 						"default": '0',
+						inputStyle: inputWidthStyle
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
-						'default': '#000001',
-						onClick: setColor
+						'default': '#000001x',
+						onClick: setColor,
+						inputStyle: inputColorStyle
 					}]
 				}]
 			}, {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: 'Bordo attorno a ogni riga',
+					html: editor.lang.table2.rowBorders,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -152,12 +171,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.common.width,
 						id: 'phantomBorder',
 						"default": '0',
+						inputStyle: inputWidthStyle
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'phantomBorderColor',
 						'default': '#000001',
-						onClick: setColor
+						onClick: setColor,
+						inputStyle: inputColorStyle
 					}]
 
 				}]
@@ -168,7 +189,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					html: editor.lang.table2.cellBorders,
 				}, {
 					type: 'hbox',
-					widths: ['10%', '10%', '10%', '10%', '10%', '10%', '20%'],
+					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
 					children: [{
 						type: 'vbox',
 						children: [{
@@ -246,7 +267,22 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
-							onClick: setColor
+							onClick: setColor,
+							inputStyle: inputColorStyle
+
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							html: editor.lang.common.width,
+						}, {
+							type: 'text',
+							label: '',
+							title: editor.lang.common.width,
+							id: 'cellBorderWidth',
+							'default': '0',
+							inputStyle: inputWidthStyle
 
 						}]
 					}]
@@ -261,7 +297,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				label: editor.lang.table.cell.bgColor,
 				id: 'backgroundColor',
 				'default': '#000001',
-				onClick: setColor
+				onClick: setColor,
+				inputStyle: inputColorStyle
 
 			}]
 		}, {
@@ -269,16 +306,41 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			label: editor.lang.table2.spacesTitle,
 			elements: [
 			{
-				type: 'hbox',
-				widths: ['50%', '50%'],
+				type: 'vbox',
 				children: [{
 					type: 'html',
 					html: editor.lang.table2.spacesDescr,
 				}, {
-					type: 'text',
-					id: editor.lang.table2.spacesDescr,
-					"default": '0',
-					title: editor.lang.table2.valueInPx
+					type: 'hbox',
+					widths: ['50%', '50%'],
+					children: [{
+						type: 'vbox',
+						children: [{
+							type: 'text',
+							label: editor.lang.table2.globalSpaces,
+							title: editor.lang.table2.valueInPx,
+							'default': '0',
+							id: 'spaceTableGlobal',
+							inputStyle: inputWidthStyle
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'text',
+							label: editor.lang.table2.rowSpaceTitle,
+							title: editor.lang.table2.valueInPx,
+							'default': '0',
+							id: 'spaceBtwRows',
+							inputStyle: inputWidthStyle
+						}, {
+							type: 'text',
+							label: editor.lang.table2.cellSpace,
+							title: editor.lang.table2.valueInPx,
+							'default': '0',
+							id: 'spaceCell',
+							inputStyle: inputWidthStyle
+						}]
+					}]
 				}]
 			}]
 		}
@@ -293,3 +355,12 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		}
 	};
 });
+
+
+
+// {
+// 					type: 'text',
+// 					id: editor.lang.table2.spacesDescr,
+// 					"default": '0',
+// 					title: editor.lang.table2.valueInPx
+// 				}
