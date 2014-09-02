@@ -54,34 +54,34 @@ function Unit(value, measure) {
      * </li></oi>
      *
      * @method    constructor
-     * @param     {Any}          value
+     * @param     {Any}                  value
      * @param     {String|Null}          measure
      */
-    (function(){
-        if (value instanceof Unit) {
-            _measure = value.getMeasure();
-            _value = value.getValue();
+    (function(v, m){
+        if (v instanceof Unit) {
+            _measure = v.getMeasure();
+            _value = v.getValue();
             return;
         }
-        if (!value){
+        if (!v){
             _value = 0;
         }
-        if ((typeof measure !== 'string') && (measure !== undefined)) {
+        if ((typeof m !== 'string') && (m !== undefined)) {
             throw new Error('The unit of measurement must be a string!');
         }
-        if (measure && measure.trim() !== ''){
-            _measure = measure.trim();
+        if (m && m.trim() !== ''){
+            _measure = m.trim();
         }
-        switch (typeof value) {
+        switch (typeof v) {
         case 'number':
-            _value = value;
+            _value = v;
             break;
         case 'string':
-            parsedValue = value === '' ? 0 : parseFloat(value);
+            parsedValue = v === '' ? 0 : parseFloat(v);
             if (isNaN(parsedValue)) {
                 throw new Error("Can not convert into a Unit object!");
             }
-            parsedMeasure = value.replace(parsedValue.toString(), '').trim();
+            parsedMeasure = v.replace(parsedValue.toString(), '').trim();
             _value = parsedValue;
             if(_measure === undefined && parsedMeasure !== ''){
                 _measure = parsedMeasure;
@@ -200,21 +200,21 @@ function Unit(value, measure) {
         if (!(unit instanceof Unit)){
             return this.add(new Unit(unit));
         }
-        if (!this.isLikeAs(unit)) {
-            if (this.isZero()){
-                if (unit.isZero()){
-                    return new Unit(0);
-                }
-                return new Unit(unit.getValue(), unit.getMeasure());
-            } else {
-                if (unit.isZero()){
-                    return new Unit(this.getValue(), this.getMeasure());
-                }
-            }
-            throw new Error("These Unit instances can not be summed up!");
+        if (this.isLikeAs(unit)) {
+            return new Unit(this.getValue() + unit.getValue(), this.getMeasure());
         }
-        unit = new Unit(unit);
-        return new Unit(this.getValue() + unit.getValue(), this.getMeasure());
+        if (this.isZero()){
+            if (unit.isZero()){
+                return new Unit(0);
+            }
+            return new Unit(unit.getValue(), unit.getMeasure());
+        }
+        if (unit.isZero()){
+            return new Unit(this.getValue(), this.getMeasure());
+        }
+        throw new Error("These Unit instances can not be summed up!");
+
+
 
     };
 
@@ -290,7 +290,7 @@ function Unit(value, measure) {
      *
      * The following cases are distinguished (in order of processing):
      * <ol><li>
-     * If the argument is a non-zero number, then {{#crossLink "Unit/value:property"}}value{{/crossLink}}
+     * If the argument is a non-zero number, then {{#crossLink "Unit/_value:property"}}_value{{/crossLink}}
      * of the target is divided by this number. If it is zero, an error is thrown.
      * </li><li>
      * If the argument is an instance of {{#crossLink "Unit"}}Unit{{/crossLink}}:

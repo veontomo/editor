@@ -26,28 +26,28 @@ var CTable = {
 	 */
 	parentWidth: function (editor) {
 		var startElem = editor.getSelection().getStartElement(),
-			rawWidth = new Unit(startElem.getComputedStyle('width')),
-			borderWidthL = new Unit(startElem.getComputedStyle('border-width-left')),
-			borderWidthR = new Unit(startElem.getComputedStyle('border-width-right')),
-			paddingL = new Unit(startElem.getComputedStyle('padding-left')),
-			paddingR = new Unit(startElem.getComputedStyle('padding-right')),
+			rawWidth = new Unit(startElem.getComputedStyle('width') || NEWSLETTER.width()),
+			borderWidthL = new Unit(startElem.getComputedStyle('border-width-left') || 0),
+			borderWidthR = new Unit(startElem.getComputedStyle('border-width-right') || 0),
+			paddingL = new Unit(startElem.getComputedStyle('padding-left') || 0),
+			paddingR = new Unit(startElem.getComputedStyle('padding-right') || 0),
 			output;
-		if (borderWidthL.value === 0) {
-			borderWidthL.measure = rawWidth.measure;
-		}
-		if (borderWidthR.value === 0) {
-			borderWidthR.measure = rawWidth.measure;
-		}
-		if (paddingL.value === 0) {
-			paddingL.measure = rawWidth.measure;
-		}
-		if (paddingR.value === 0) {
-			paddingR.measure = rawWidth.measure;
-		}
+		// if (borderWidthL.value === 0) {
+		// 	borderWidthL.measure = rawWidth.measure;
+		// }
+		// if (borderWidthR.value === 0) {
+		// 	borderWidthR.measure = rawWidth.measure;
+		// }
+		// if (paddingL.value === 0) {
+		// 	paddingL.measure = rawWidth.measure;
+		// }
+		// if (paddingR.value === 0) {
+		// 	paddingR.measure = rawWidth.measure;
+		// }
 		console.log(rawWidth.toString(), borderWidthL.toString(),  borderWidthR.toString(), paddingL.toString(), paddingR.toString());
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
-		// console.log('parentWidth returns ', output);
+		console.log('parentWidth returns ', output.toString());
 		return output;
 	},
 
@@ -81,8 +81,9 @@ var CTable = {
 			spaceBtwRows: parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10),
 			spaceCell: parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10),
 			cellWeights: [],
+			width: CTable.parentWidth(editor)
 		};
-
+		console.log('template: width', CTable.parentWidth(editor).toString());
 		//  dialog element containing input fields for column widths
 		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			columnFields = columnWidthElem.childNodes,

@@ -202,7 +202,7 @@ var NEWSLETTER = (function(){
 		 * @final
 		 */
 		Object.defineProperty(_output, 'cssEditor', {
-			value: 'body{padding: 1em; margin: 0;}\
+			value: 'body{padding: 0em; margin: 1em;}\
 				tr:hover {box-shadow: 0.05em 0.0em 0.5em 0.05em #758E9D;}\
 				td:hover {box-shadow: 0.05em 0.05em 0.2em 0.05em #5F6E76;}\
 				a:hover {background-color: rgba(95, 110, 118, 0.2);}\

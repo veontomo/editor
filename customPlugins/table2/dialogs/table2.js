@@ -376,7 +376,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		],
 
 		onOk: function () {
-			console.log(CTable.parentWidth(editor));
 			var tableNode = CTable.template(this, editor);
 			var tableElem = CKEDITOR.document.createElement(tableNode);
 			editor.insertElement(tableElem);
