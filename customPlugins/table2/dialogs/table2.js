@@ -11,9 +11,21 @@
 
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
-	var inputStyle = 'min-width: 3em; width: 5em;text-align: center;';
-	var inputColorStyle = 'width: 6em;';   // input field style for choosing color
-	var inputWidthStyle = 'width: 3em;';   // input field style for choosing width
+	/**
+	 * Style for text input fields for numbers.
+	 * @property {String} _inputNumberStyle
+	 * @type     {String}
+	 * @private
+	 */
+	var _inputNumberStyle = 'min-width: 3em; width: 5em; max-width: 7em; text-align: center;';
+
+	/**
+	 * Style for text input fields for choosing colors.
+	 * @property {String} _inputColorStyle
+	 * @type     {String}
+	 * @private
+	 */
+	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
 
 	/**
 	 * Draws text input fields to insert weight factors for the column widths.
@@ -27,12 +39,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	 *
 	 * @method         drawColumns
 	 * @return         {void}
+	 * @since          0.0.4
+	 * @private
 	 */
 	var	drawColumns = function () {
 			// adds input fields to set the widths of the table columns
 			var columnWidths = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
 				title = this.getDialog().getContentElement('info', 'columnWidthTableTitle').getElement().$,
-				inputFieldStyle = 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
+			 _inputFieldStyle = 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
 				children, i, colNumCurrent, colNumDesired, inputField;
 			children = columnWidths.childNodes;
 			colNumCurrent = children.length;                                                // actual number of input fields
@@ -45,7 +59,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			} else {
 				for (i = 0; i < colNumDesired - colNumCurrent; i++){
 					inputField = document.createElement('input');
-					inputField.setAttribute('style', inputFieldStyle);
+					inputField.setAttribute('style', _inputFieldStyle);
 					inputField.setAttribute('class', 'cke_dialog_ui_input_text');
 					columnWidths.appendChild(inputField);
 				}
@@ -57,6 +71,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		 * @todo    to be implemented
 		 * @method  setColor
 		 * @since   0.0.6
+		 * @private
 		 */
 		setColor = function(){
 			var dialog = this.getDialog();
@@ -78,10 +93,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 			// dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
 		};
-// editor.plugins.colordialog;
-console.log(editor.getCommand('colordialog'));
-// console.log(editor.getContentElement("picker","selectedColor"));
-// console.log(editor.plugins.colordialog);
+
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
@@ -97,15 +109,15 @@ console.log(editor.getCommand('colordialog'));
 				type: 'text',
 				label: editor.lang.table.rows,
 				id: 'tblRows',
-				'default': '2',
-				'inputStyle': inputStyle,
+				'default': 2,
+				inputStyle: _inputNumberStyle,
 			},
 			{
 				type: "text",
 				label: editor.lang.table.columns,
 				id: 'tblCols',
-				'default': '1',
-				'inputStyle': inputStyle,
+				'default': 1,
+				inputStyle: _inputNumberStyle,
 				onChange: drawColumns
 			},
 			// {
@@ -139,12 +151,10 @@ console.log(editor.getCommand('colordialog'));
 			{
 				type: 'html',
 				id:   'columnWidthTableTitle',
-				// html: '<div id="columnWidthTableTitle"></div>'
 				html: ''
 			}, {
 				type: 'html',
 				id:   'columnWidthTable',
-				// html: '<div id="columnWidthTable"></div>',
 				html: ''
 			}]
 		}, {
@@ -165,14 +175,14 @@ console.log(editor.getCommand('colordialog'));
 						title: editor.lang.table2.valueInPx,
 						id: 'globalBorderWidth',
 						'default': '0',
-						inputStyle: inputWidthStyle
+						inputStyle: _inputNumberStyle
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
 						onClick: setColor,
-						inputStyle: inputColorStyle
+						inputStyle: _inputColorStyle
 					}]
 				}]
 			}, {
@@ -188,14 +198,14 @@ console.log(editor.getCommand('colordialog'));
 						label: editor.lang.common.width,
 						id: 'rowBorderWidth',
 						'default': '0',
-						inputStyle: inputWidthStyle
+						inputStyle: _inputNumberStyle
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'rowBorderColor',
 						'default': '#000001',
 						onClick: setColor,
-						inputStyle: inputColorStyle
+						inputStyle: _inputColorStyle
 					}]
 
 				}]
@@ -285,7 +295,7 @@ console.log(editor.getCommand('colordialog'));
 							id: 'cellBorderColor',
 							'default': '#000001',
 							onClick: setColor,
-							inputStyle: inputColorStyle
+							inputStyle: _inputColorStyle
 
 						}]
 					}, {
@@ -299,7 +309,7 @@ console.log(editor.getCommand('colordialog'));
 							title: editor.lang.common.width,
 							id: 'cellBorderWidth',
 							'default': '0',
-							inputStyle: inputWidthStyle
+							inputStyle: _inputNumberStyle
 
 						}]
 					}]
@@ -315,7 +325,7 @@ console.log(editor.getCommand('colordialog'));
 				id: 'backgroundColor',
 				'default': '#000001',
 				onClick: setColor,
-				inputStyle: inputColorStyle
+				inputStyle: _inputColorStyle
 
 			}]
 		}, {
@@ -338,7 +348,7 @@ console.log(editor.getCommand('colordialog'));
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceTableGlobal',
-							inputStyle: inputWidthStyle
+							inputStyle: _inputNumberStyle
 						}]
 					}, {
 						type: 'vbox',
@@ -348,14 +358,14 @@ console.log(editor.getCommand('colordialog'));
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceBtwRows',
-							inputStyle: inputWidthStyle
+							inputStyle: _inputNumberStyle
 						}, {
 							type: 'text',
 							label: editor.lang.table2.cellSpace,
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceCell',
-							inputStyle: inputWidthStyle
+							inputStyle: _inputNumberStyle
 						}]
 					}]
 				}]
@@ -366,18 +376,10 @@ console.log(editor.getCommand('colordialog'));
 		],
 
 		onOk: function () {
+			console.log(CTable.parentWidth(editor));
 			var tableNode = CTable.template(this, editor);
 			var tableElem = CKEDITOR.document.createElement(tableNode);
 			editor.insertElement(tableElem);
 		}
 	};
 });
-
-
-
-// {
-// 					type: 'text',
-// 					id: editor.lang.table2.spacesDescr,
-// 					'default': '0',
-// 					title: editor.lang.table2.valueInPx
-// 				}

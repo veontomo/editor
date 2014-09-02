@@ -144,7 +144,7 @@ function Unit(value, measure) {
     };
 
     /**
-     * Compares the target with the argument. Returns `true`, if the argument can be coverted into Unit instance
+     * Compares the target with the argument. Returns `true`, if the argument can be converted into Unit instance
      * with {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} attribute being equal to the target's one.
      * Otherwise, returns `false`.
      * @method         isLikeAs
@@ -163,13 +163,54 @@ function Unit(value, measure) {
     };
 
     /**
-     * Sums up the target and the argument. If they have different units of measurement, an error is thrown.
+     * Returns `true` if the instance is equal to zero, otherwise returns `false`.
+     *
+     * An instance is said to be equal to zero if its {{#crossLink "Unit/_value:property"}}_value{{/crossLink}}
+     * is equal to zero.
+     * @return {Boolean}
+     */
+    this.isZero = function(){
+        return this.getValue() === 0;
+    };
+
+    /**
+     * Sums up the target and the argument.
+     *
+     * If they have different units of measurement, an error is thrown unless at least of the operands
+     * is different from zero.
+     *
+     * Examples:<br>
+     * 1cm + 2cm -> 3cm <br>
+     * 1cm + 2px -> error <br>
+     * 4 + 7 -> 11 <br>
+     * 0px + 2cm -> 2cm <br>
+     * 1px + 0cm -> 1px <br>
+     * 0 + 2cm -> 2cm <br>
+     * 1px + 0 -> 1px <br>
+     * 0px + 0cm -> 0<br>
+     * 0 + 0cm -> 0<br>
+     * 0px + 0 -> 0<br>
+     * 0 + 0 -> 0<br>
+     *
      * @method  add
      * @param   {Unit}   unit
      * @return  {Unit}   the sum of the target and the argument.
      */
     this.add = function (unit) {
+        if (!(unit instanceof Unit)){
+            return this.add(new Unit(unit));
+        }
         if (!this.isLikeAs(unit)) {
+            if (this.isZero()){
+                if (unit.isZero()){
+                    return new Unit(0);
+                }
+                return new Unit(unit.getValue(), unit.getMeasure());
+            } else {
+                if (unit.isZero()){
+                    return new Unit(this.getValue(), this.getMeasure());
+                }
+            }
             throw new Error("These Unit instances can not be summed up!");
         }
         unit = new Unit(unit);

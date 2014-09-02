@@ -1144,7 +1144,15 @@ function Table() {
 	 * @since          0.0.6
 	 */
 	this.configure = function(descr){
-		return new Table();
+		console.log('setting table according to ', descr);
+
+		// setting phantom properties
+		if (descr.rowBorderWidth > 0){
+
+		}
+		return;
+
+
 		var INPUTCOLWIDTHNAME = 'widthCol';
 			// user input
 		var rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),

@@ -21,7 +21,7 @@ var CTable = {
 	 * without unit of measurement.  In this case one has to set the unit of measurement
 	 * equal to the element width.
 	 * @method     parentWidth
-	 * @return     {Number}             available width for the children as Unit object
+	 * @return     {Unit}             available width for the children as Unit object
 	 *                                  (with properties "value" and "measure")
 	 */
 	parentWidth: function (editor) {
@@ -44,6 +44,7 @@ var CTable = {
 		if (paddingR.value === 0) {
 			paddingR.measure = rawWidth.measure;
 		}
+		console.log(rawWidth.toString(), borderWidthL.toString(),  borderWidthR.toString(), paddingL.toString(), paddingR.toString());
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
 		// console.log('parentWidth returns ', output);
@@ -93,7 +94,6 @@ var CTable = {
 				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
 			}
 		}
-		console.log(tableInfo);
 		table = new Table();
 		table.configure(tableInfo);
 		return table.toNode();

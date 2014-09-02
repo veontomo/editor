@@ -121,26 +121,98 @@ describe('Unit-related functionality', function () {
     });
 
     describe('Unit::add(): adds two Unit objects', function(){
-        it('calls to Unit()::isLikeAs() before summing', function(){
-            spyOn(u, 'isLikeAs').and.returnValue('anything');
-            u.add(stub);
-            expect(u.isLikeAs).toHaveBeenCalledWith(stub);
-        });
-        it('throws an error if Unit::isLikeAs() gives false', function(){
-            spyOn(u, 'isLikeAs').and.returnValue(false);
+        it('throws an error when calculating 1px + 4cm', function(){
             expect(function(){
-                return u.add('anything');
+                var u1 = new Unit(1, 'px'),
+                    u2 = new Unit(4, 'cm');
+                return u1.add(u2);
             }).toThrow(new Error('These Unit instances can not be summed up!'));
-            expect(u.isLikeAs).toHaveBeenCalledWith('anything');
         });
-        it('gives the correct sum, if isLikeAs() returns true', function(){
+
+        it('calculates 1px + 0sec to be 1px', function(){
+            var u1 = new Unit(1, 'px'),
+                u2 = new Unit(0, 'sec'),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(1);
+            expect(u3.getMeasure()).toBe('px');
+        });
+
+        it('calculates 4 + 7 to be 11', function(){
+            var u1 = new Unit(4),
+                u2 = new Unit(7),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(11);
+            expect(u3.getMeasure()).not.toBeDefined();
+        });
+
+
+        it('calculates 1px + 0 to be 1px', function(){
+            var u1 = new Unit(1, 'px'),
+                u2 = new Unit(0),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(1);
+            expect(u3.getMeasure()).toBe('px');
+        });
+
+
+        it('calculates 0px + 5cm to be 5cm', function(){
+            var u1 = new Unit(0, 'px'),
+                u2 = new Unit(5, 'cm'),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(5);
+            expect(u3.getMeasure()).toBe('cm');
+        });
+
+        it('calculates 0 + 5cm to be 5cm', function(){
+            var u1 = new Unit(0),
+                u2 = new Unit(5, 'cm'),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(5);
+            expect(u3.getMeasure()).toBe('cm');
+        });
+
+        it('calculates 0 + 0 to be 0', function(){
+            var u1 = new Unit(0),
+                u2 = new Unit(0),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(0);
+            expect(u3.getMeasure()).not.toBeDefined();
+        });
+
+
+        it('calculates 0cm + 0 to be 0', function(){
+            var u1 = new Unit(0, 'cm'),
+                u2 = new Unit(0),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(0);
+            expect(u3.getMeasure()).not.toBeDefined();
+        });
+
+        it('calculates 0 + 0px to be 0', function(){
+            var u1 = new Unit(0),
+                u2 = new Unit(0, 'px'),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(0);
+            expect(u3.getMeasure()).not.toBeDefined();
+        });
+
+        it('calculates 0cm + 0px to be 0', function(){
+            var u1 = new Unit(0, 'cm'),
+                u2 = new Unit(0, 'px'),
+                u3 = u1.add(u2);
+            expect(u3.getValue()).toBe(0);
+            expect(u3.getMeasure()).not.toBeDefined();
+        });
+
+
+
+
+        it('sums up 23cm and 10cm', function(){
             u = new Unit(23, 'cm');
             var u2 = new Unit(10, 'cm');
-            spyOn(u, 'isLikeAs').and.returnValue(true);
             var sum = u.add(u2);
             expect(sum.getValue()).toBe(33);
             expect(sum.getMeasure()).toBe('cm');
-            expect(u.isLikeAs).toHaveBeenCalledWith(u2);
         });
     });
 
