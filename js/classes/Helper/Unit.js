@@ -221,13 +221,13 @@ function Unit(value, measure) {
 
     /**
      * Subtracts the argument from the target. The argument is converted to a Unit object,
-     * then its sign is changed and the method Unit::add() is called.
+     * then its sign is changed and the method {{#crossLink "Unit/add:method"}}add(){{/crossLink}} is called.
      * @method   sub
-     * @param   {Unit}   obj         it will be first converted to a Unit instance.
+     * @param   {Any}   obj         it will be first converted to a Unit instance.
      * @return  {Unit}   the difference between target and the argument.
      */
     this.sub = function (obj) {
-        var unit = new Unit(obj),
+        var unit = (obj instanceof Unit) ? obj : new Unit(obj),
             negative = new Unit(-unit.getValue(), unit.getMeasure());
         return this.add(negative);
     };

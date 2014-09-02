@@ -1146,53 +1146,80 @@ function Table() {
 	this.configure = function(descr){
 		console.log('setting table according to ', descr);
 		console.log('width: ', descr.width.toString());
+		var tWidth = descr.width,
+			bWidth = descr.tableBorderWidth,
+			c, r, row, cell;
+
+		if (bWidth.getValue() > 0){
+			this.setWidth(tWidth.sub(bWidth).toString());
+			this.setBorder({
+				style: 'solid',
+				color: descr.tableBorderColor,
+				width: bWidth.toString()
+			});
+		}
+		this.setProperty(NEWSLETTER['marker-name'], this.getName());
+		// creating rows
+		for (r = 0; r < descr.rows; r++){
+			row = new Row();
+			row.setProperty(NEWSLETTER['marker-name'], row.getName());
+			// creating cells
+			for (c = 0; c < descr.cols; c++){
+				cell = new Cell();
+				cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
+				row.appendCell(cell);
+			}
+			this.appendRow(row);
+		}
+		return;
+
 
 		// setting phantom properties
 		if (descr.rowBorderWidth > 0){
-				phantomRowAttr    = new RowProperties();
-				phantomCellAttr   = new CellProperties();
-				phantomTableAttr  = new TableProperties();
+			phantomRowAttr    = new RowProperties();
+			phantomCellAttr   = new CellProperties();
+			phantomTableAttr  = new TableProperties();
 
-				// calculating widths of the phantom elements
-				// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-				phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
+			// calculating widths of the phantom elements
+			// NB: if the parent table has no border, then its 'border-width' attribute is not set!
+			phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
 
-			 	phantomRowAttr.setWidth(phantomRowWidth);
-				allWidths.push(phantomRowWidth);
-				phantomRowAttr.setStyleProperty('padding', 0);
-				phantomRowAttr.setStyleProperty('margin', 0);
-				// mark the phantom row
-				phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-				phantomCellWidth = phantomRowAttr.getStyleProperty('width') - 2 * phantomRowAttr.getStyleProperty('padding') - 2 * frameWidth;
-				phantomCellAttr.setWidth(phantomCellWidth);
-				allWidths.push(phantomCellWidth);
+		 	phantomRowAttr.setWidth(phantomRowWidth);
+			allWidths.push(phantomRowWidth);
+			phantomRowAttr.setStyleProperty('padding', 0);
+			phantomRowAttr.setStyleProperty('margin', 0);
+			// mark the phantom row
+			phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
+			phantomCellWidth = phantomRowAttr.getStyleProperty('width') - 2 * phantomRowAttr.getStyleProperty('padding') - 2 * frameWidth;
+			phantomCellAttr.setWidth(phantomCellWidth);
+			allWidths.push(phantomCellWidth);
 
-				// if remains zero, then in MS Outlook the cell content overlaps the border
-				// and latter becomes invisible
-				phantomCellAttr.setStyleProperty('padding-left', frameWidth);
-				phantomCellAttr.setStyleProperty('padding-right', frameWidth);
-				phantomCellAttr.setStyleProperty('padding-top', spaceTop);
-				phantomCellAttr.setStyleProperty('padding-bottom', spaceBottom);
-				phantomCellAttr.setStyleProperty('margin', 0);
+			// if remains zero, then in MS Outlook the cell content overlaps the border
+			// and latter becomes invisible
+			phantomCellAttr.setStyleProperty('padding-left', frameWidth);
+			phantomCellAttr.setStyleProperty('padding-right', frameWidth);
+			phantomCellAttr.setStyleProperty('padding-top', spaceTop);
+			phantomCellAttr.setStyleProperty('padding-bottom', spaceBottom);
+			phantomCellAttr.setStyleProperty('margin', 0);
 
-				phantomTableWidth = phantomCellAttr.getStyleProperty('width') - phantomCellAttr.getStyleProperty('padding-left') - phantomCellAttr.getStyleProperty('padding-right');
-				phantomTableAttr.setWidth(phantomTableWidth);
+			phantomTableWidth = phantomCellAttr.getStyleProperty('width') - phantomCellAttr.getStyleProperty('padding-left') - phantomCellAttr.getStyleProperty('padding-right');
+			phantomTableAttr.setWidth(phantomTableWidth);
 
-				allWidths.push(phantomTableWidth);
+			allWidths.push(phantomTableWidth);
 
-				phantomTableAttr.setStyleProperty('border-style', 'solid');
-				phantomTableAttr.setStyleProperty('border-color', '#000001');
-				phantomTableAttr.setStyleProperty('border-width', frameWidth);
-				phantomTableAttr.setProperty('border', frameWidth);
+			phantomTableAttr.setStyleProperty('border-style', 'solid');
+			phantomTableAttr.setStyleProperty('border-color', '#000001');
+			phantomTableAttr.setStyleProperty('border-width', frameWidth);
+			phantomTableAttr.setProperty('border', frameWidth);
 
-				table.setPhantomTableProperties(phantomTableAttr);
-				table.setPhantomRowProperties(phantomRowAttr);
-				table.setPhantomCellProperties(phantomCellAttr);
+			table.setPhantomTableProperties(phantomTableAttr);
+			table.setPhantomRowProperties(phantomRowAttr);
+			table.setPhantomCellProperties(phantomCellAttr);
 
-				// defining a parent style. The properties of the the nested elements
-				// will be calculated based on this style.
-				parentElemStyle = phantomTableAttr.getStyles();
-				parentWidth = phantomTableWidth;
+			// defining a parent style. The properties of the the nested elements
+			// will be calculated based on this style.
+			parentElemStyle = phantomTableAttr.getStyles();
+			parentWidth = phantomTableWidth;
 
 		}
 		return;

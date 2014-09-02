@@ -32,18 +32,6 @@ var CTable = {
 			paddingL = new Unit(startElem.getComputedStyle('padding-left') || 0),
 			paddingR = new Unit(startElem.getComputedStyle('padding-right') || 0),
 			output;
-		// if (borderWidthL.value === 0) {
-		// 	borderWidthL.measure = rawWidth.measure;
-		// }
-		// if (borderWidthR.value === 0) {
-		// 	borderWidthR.measure = rawWidth.measure;
-		// }
-		// if (paddingL.value === 0) {
-		// 	paddingL.measure = rawWidth.measure;
-		// }
-		// if (paddingR.value === 0) {
-		// 	paddingR.measure = rawWidth.measure;
-		// }
 		console.log(rawWidth.toString(), borderWidthL.toString(),  borderWidthR.toString(), paddingL.toString(), paddingR.toString());
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
@@ -61,13 +49,14 @@ var CTable = {
 	 * @return         {DOM.Element}
 	 */
 	template: function(dialog, editor){
+		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:             parseInt(dialog.getValueOf('info', 'tblRows'), 10),
 			cols:             parseInt(dialog.getValueOf('info', 'tblCols'), 10),
-			tableBorderWidth: parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10),
+			tableBorderWidth: new Unit(parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10), defaultUnit),
 			tableBorderColor: dialog.getValueOf('borderTab', 'globalBorderColor'),
-			rowBorderWidth:   parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10),
-			rowBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
+			phantomBorderWidth:   new Unit(parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10), defaultUnit),
+			phantomBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
 			cellBorders: {
 				leftVert:  dialog.getValueOf('borderTab', 'leftVerBord'),
 				rightVer:  dialog.getValueOf('borderTab', 'rightVerBord'),
@@ -76,15 +65,13 @@ var CTable = {
 				bottomHor: dialog.getValueOf('borderTab', 'bottomHorBord'),
 				intHor:    dialog.getValueOf('borderTab', 'intHorBord'),
 			},
-			cellBorderWidth: parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10),
+			cellBorderWidth: new Unit( parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10), defaultUnit),
 			cellBorderColor: dialog.getValueOf('borderTab', 'cellBorderColor'),
-			spaceBtwRows: parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10),
-			spaceCell: parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10),
+			spaceBtwRows:    new Unit( parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10), defaultUnit),
+			spaceCell:       new Unit( parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
 			cellWeights: [],
 			width: CTable.parentWidth(editor)
 		};
-		console.log('template: width', CTable.parentWidth(editor).toString());
-		//  dialog element containing input fields for column widths
 		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			columnFields = columnWidthElem.childNodes,
 			table, i, inputField;

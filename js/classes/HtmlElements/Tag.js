@@ -93,6 +93,42 @@ function Tag(tName) {
 	 */
 	var content = new Content();
 
+
+
+	/**
+	 * Marker name.
+	 *
+	 * This string stores the name of attribute which is used to mark the instance using
+	 * the method {{#crossLink "Tag/mark:method"}}mark(){{/crossLink}}.
+	 * @property       {String}      _marker
+	 * @type           {String}
+	 * @default        null
+	 * @private
+	 * @since          0.0.6
+	 */
+	var _marker = null;
+
+	/**
+	 * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} getter.
+	 *
+	 * @return {String}
+	 * @since  0.0.6
+	 */
+	this.getMarker = function(){
+		return _marker;
+	};
+
+	/**
+	 * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} setter.
+	 * @param          {String}        str
+	 * @since          0.0.6
+	 */
+	this.setMarker = function(str){
+		if (typeof str === 'string' && str !== ''){
+			_marker = str;
+		}
+	};
+
 	/**
 	 * Sets {{#crossLink "Tag/_properties:property"}}properties{{/crossLink}} of the tag. If the argument is an instance
 	 * of {{#crossLink "Properties"}}Properties{{/crossLink}}, its clone is assigned to private variable
@@ -788,6 +824,43 @@ function Tag(tName) {
 	this.applyToAll = function(fun){
 		if (content && typeof fun === 'function'){
 			content.applyToAll(fun);
+		}
+	};
+
+	/**
+	 * Marks the target.
+	 *
+	 * Assign value of variable {{#crossLink "Tag/className:property"}}classname{{/crossLink}} to attribute `marker`
+	 * and adds this key-value pair into {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}. It sets
+	 * as well {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} to be `marker` in order to be able to
+	 * apply eventually {{#crossLink "Tag/unmark:method"}}unmark{{/crossLink}} method.
+	 *
+	 * @method         mark
+	 * @param          {String}        marker
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.mark = function(marker){
+		this.setMarker(marker);
+		this.setProperty(marker, this.getName());
+	};
+
+
+	/**
+	 * Unmarks the target.
+	 *
+	 * Removes key {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} from
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} and clears
+	 * variable {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}}.
+	 * @method         unmark
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.unmark = function(){
+		var markerName = this.getMarker();
+		if (markerName){
+			this.dropProperty(markerName);
+			_marker = null;
 		}
 	};
 }
