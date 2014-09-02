@@ -60,210 +60,44 @@ var CTable = {
 	 * @return         {DOM.Element}
 	 */
 	template: function(dialog, editor){
-		var INPUTCOLWIDTHNAME = 'widthCol';
-			// user input
-		var rows = parseInt(dialog.getValueOf('info', 'tblRows'), 10),
-			cols = parseInt(dialog.getValueOf('info', 'tblCols'), 10),
-			borderWidth = parseInt(dialog.getValueOf('info', 'borderWidth'), 10),
-			frameWidth = parseInt(dialog.getValueOf('info', 'frameWidth'), 10),
-			vSpace = parseInt(dialog.getValueOf('info', 'vSpace'), 10),
-			hSpace = parseInt(dialog.getValueOf('info', 'hSpace'), 10),
-			leftVerBord = dialog.getValueOf('borderTab', 'leftVerBord'),
-			rightVerBord = dialog.getValueOf('borderTab', 'rightVerBord'),
-			intVerBord = dialog.getValueOf('borderTab', 'intVerBord'),
-			topHorBord = dialog.getValueOf('borderTab', 'topHorBord'),
-			bottomHorBord = dialog.getValueOf('borderTab', 'bottomHorBord'),
-			intHorBord = dialog.getValueOf('borderTab', 'intHorBord'),
-			cellBorderColor = dialog.getValueOf('borderTab', 'cellBorderColor'),
+		var tableInfo = {
+			rows:             parseInt(dialog.getValueOf('info', 'tblRows'), 10),
+			cols:             parseInt(dialog.getValueOf('info', 'tblCols'), 10),
+			tableBorderWidth: parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10),
+			tableBorderColor: dialog.getValueOf('borderTab', 'globalBorderColor'),
+			rowBorderWidth:   parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10),
+			rowBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
+			cellBorders: {
+				leftVert:  dialog.getValueOf('borderTab', 'leftVerBord'),
+				rightVer:  dialog.getValueOf('borderTab', 'rightVerBord'),
+				intVer:    dialog.getValueOf('borderTab', 'intVerBord'),
+				topHor:    dialog.getValueOf('borderTab', 'topHorBord'),
+				bottomHor: dialog.getValueOf('borderTab', 'bottomHorBord'),
+				intHor:    dialog.getValueOf('borderTab', 'intHorBord'),
+			},
+			cellBorderWidth: parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10),
+			cellBorderColor: dialog.getValueOf('borderTab', 'cellBorderColor'),
+			spaceBtwRows: parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10),
+			spaceCell: parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10),
+			cellWeights: [],
+		};
 
-			// variables to be used in what follows
-			phantomCellAttr, phantomTableAttr, phantomRowAttr,
-			parentElemStyle, phantomRowWidth, phantomCellWidth, phantomTableWidth,
-			i, r, c, table, tableWidth, cellWidths, rowWidth,
-			spaceTop, spaceBottom, parentWidth,
-			inputField, cellWeights, row, cell,
-			cellWidth, allCellsWidth, isFramed, borderCellInfo,
-			allWidths = [];
-		console.log(leftVerBord, rightVerBord, intVerBord, topHorBord, bottomHorBord, intHorBord);
-
-
-		// read inserted values
-		cellWeights = [];
-		for (i = 0; i < cols; i++) {
-			// in fact, this check is needed only when the user does not change the default number of the table rows
-			inputField = CKEDITOR.document.getById(INPUTCOLWIDTHNAME + i);
-			cellWeights[i] = (inputField === null) ? 0 : parseFloat((inputField.getValue()));
+		//  dialog element containing input fields for column widths
+		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
+			columnFields = columnWidthElem.childNodes,
+			table, i, inputField;
+		// weight factors of the columns
+		if (columnFields){
+			for (i = 0; i < tableInfo.cols; i++) {
+				inputField = columnFields[i];
+				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
+			}
 		}
-		// calculating widths
-		var defaultWidth = new Unit(NEWSLETTER.defaultWidth);
-		console.log('NEWSLETTER.defaultWidth = ', NEWSLETTER.defaultWidth);
-		try {
-			tableWidth = Math.min(this.parentWidth(editor).value, defaultWidth.getValue()); // integer, the width in px
-		} catch (e){
-			tableWidth = defaultWidth.getValue(); // integer, the width in px
-		}
-		spaceTop = parseInt(vSpace / 2, 10); 			// top white space for each row (cast to integer)
-		spaceBottom = vSpace - spaceTop; 				// bottom white space for each row
-		isFramed = frameWidth > 0;
+		console.log(tableInfo);
 		table = new Table();
-
-		// impose styles and attribute values
-
-		table.setStyleProperty('margin', 0);
-		table.setStyleProperty('padding', 0);
-		table.setWidth(tableWidth);
-		table.setProperty(NEWSLETTER['marker-name'], table.getName());
-
-		// binding the styles and attributes and the table object
-		if (borderWidth > 0){
-			table.setBorder({
-				'width': borderWidth,
-				'color': '#000001',
-				'style': 'solid'
-			});
-		}
-		allWidths.push(tableWidth);
-
-		// creating table row
-		row  = new Row();
-
-		// By default, table style is a parent style for the nested rows.
-		// The properties of the the nested elements will be calculated based on this style.
-		parentElemStyle = table.getStyles();
-		parentWidth = tableWidth;
-		if (isFramed){
-			// creating phantom styles and attributes
-			phantomRowAttr    = new RowProperties();
-			phantomCellAttr   = new CellProperties();
-			phantomTableAttr  = new TableProperties();
-
-			// calculating widths of the phantom elements
-			// NB: if the parent table has no border, then its 'border-width' attribute is not set!
-			phantomRowWidth = parentElemStyle.getProperty('width') - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-
-		 	phantomRowAttr.setWidth(phantomRowWidth);
-			allWidths.push(phantomRowWidth);
-			phantomRowAttr.setStyleProperty('padding', 0);
-			phantomRowAttr.setStyleProperty('margin', 0);
-			// mark the phantom row
-			phantomRowAttr.setProperty(NEWSLETTER['marker-name'], row.getName());
-			phantomCellWidth = phantomRowAttr.getStyleProperty('width') - 2 * phantomRowAttr.getStyleProperty('padding') - 2 * frameWidth;
-			phantomCellAttr.setWidth(phantomCellWidth);
-			allWidths.push(phantomCellWidth);
-
-			// if remains zero, then in MS Outlook the cell content overlaps the border
-			// and latter becomes invisible
-			phantomCellAttr.setStyleProperty('padding-left', frameWidth);
-			phantomCellAttr.setStyleProperty('padding-right', frameWidth);
-			phantomCellAttr.setStyleProperty('padding-top', spaceTop);
-			phantomCellAttr.setStyleProperty('padding-bottom', spaceBottom);
-			phantomCellAttr.setStyleProperty('margin', 0);
-
-			phantomTableWidth = phantomCellAttr.getStyleProperty('width') - phantomCellAttr.getStyleProperty('padding-left') - phantomCellAttr.getStyleProperty('padding-right');
-			phantomTableAttr.setWidth(phantomTableWidth);
-
-			allWidths.push(phantomTableWidth);
-
-			phantomTableAttr.setStyleProperty('border-style', 'solid');
-			phantomTableAttr.setStyleProperty('border-color', '#000001');
-			phantomTableAttr.setStyleProperty('border-width', frameWidth);
-			phantomTableAttr.setProperty('border', frameWidth);
-
-			table.setPhantomTableProperties(phantomTableAttr);
-			table.setPhantomRowProperties(phantomRowAttr);
-			table.setPhantomCellProperties(phantomCellAttr);
-
-			// defining a parent style. The properties of the the nested elements
-			// will be calculated based on this style.
-			parentElemStyle = phantomTableAttr.getStyles();
-			parentWidth = phantomTableWidth;
-		} else {
-			// if the table is not framed, mark the row
-			row.setProperty(NEWSLETTER['marker-name'], row.getName());
-		}
-
-		// impose row styles and attributes
-		rowWidth = parentWidth - 2 * parentElemStyle.getProperty('padding') - 2 * parentElemStyle.getBorderInfo().width;
-		row.setWidth(rowWidth);
-		row.setStyleProperty('padding', 0);
-
-
-		// fill in the row with the cells
-		// allCellsWidth = row.getProperty('width') - row.getStyleProperty('padding');     // sum of all cell widths
-		allCellsWidth = rowWidth - row.getStyleProperty('padding');                        // sum of all cell widths
-		cellWidths = Helper.columnWidths(allCellsWidth, cellWeights);                      // array of column widths
-		borderCellInfo = '1px solid ' + cellBorderColor;
-
-		// creating cells to be inserted into the row
-		for (r = 0; r < rows; r++){
-			row = new Row();
-			for (c = 0; c < cols; c++) {
-				// It is better to recreate objects for every cell
-				// in order to avoid influence of previously imposed values
-				cell = new Cell('cell' + c);
-				// imposing cell styles and attributes
-				// mark the cell
-				cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
-				// adjust width of the first and the last cell
-				cellWidth = cellWidths[c]  - (c === cols - 1 || c === 0 ? hSpace : 0);
-				cell.setWidth(cellWidth);
-				allWidths.push(cellWidth);
-				cell.dropStyleProperty('padding');
-				cell.setStyleProperty('padding-left',  (c === 0) ? hSpace : 0);        // add space to the left for the first cell
-				cell.setStyleProperty('padding-right', (c === cols - 1) ? hSpace : 0); // add space to the right for the last cell
-				cell.setStyleProperty('padding-top',  spaceTop);
-				cell.setStyleProperty('padding-bottom', spaceBottom);
-				cell.setStyleProperty('margin', 0);
-
-				// setting the most left border
-				if (c === 0 && leftVerBord){
-					cell.setStyleProperty('border-left', borderCellInfo);
-				}
-
-				// setting the most right border
-				if (c === cols - 1 && rightVerBord){
-					cell.setStyleProperty('border-right', borderCellInfo);
-				}
-
-				// setting intermidiate borders (right border is chosen for all cells except last one)
-				if (intVerBord && cols > 1 && c !== cols - 1){
-					cell.setStyleProperty('border-right', borderCellInfo);
-				}
-
-				row.appendCell(cell);
-
-			}
-			if (r === 0 && topHorBord){
-				row.applyToAll(function(el){
-					el.setStyleProperty('border-top', borderCellInfo);
-				});
-			}
-			if (r === rows - 1 && bottomHorBord){
-				row.applyToAll(function(el){
-					el.setStyleProperty('border-bottom', borderCellInfo);
-				});
-			}
-
-			if (rows > 1 && r !== rows - 1 && intHorBord){
-				row.applyToAll(function(el){
-					el.setStyleProperty('border-bottom', borderCellInfo);
-				});
-			}
-
-
-
-			table.appendRow(row);
-		}
-
-		var isAllPositive = allWidths.some(function(el){
-			return el < 0;
-		});
-		// if at least one of the values becomes negative, flash alert message
-		if (isAllPositive){
-			alert("Rilevato un numero negativo:\n" + allWidths.join(' ') + "\nLa tabella non sarà inserita." );
-			return null;
-		}
+		table.configure(tableInfo);
 		return table.toNode();
+
 	},
 
 	/**
