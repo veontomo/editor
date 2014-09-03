@@ -757,33 +757,23 @@ function Table() {
 	 * @return         {void}
 	 */
 	this.setBorder = function(borderInfo){
-			var newProp = this.getProperties();
-			newProp.setBorder(borderInfo);
-			this.setProperties(newProp);
+		var newProp = this.getProperties();
+		newProp.setBorder(borderInfo);
+		this.setProperties(newProp);
 	};
 
 	/**
-	 * Removes the border of the table. It updates the properties 'attr' and 'style' of the instance:
-	 * 1. in 'style' property, deletes the properties: 'border-width', 'border-color' and sets up 'border-style' to 'none'
-	 * 2. in 'attr' property, deletes 'border' property.
+	 * Removes the border of the table.
+	 *
+	 * It updates {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by applying to it
+	 * {{#crossLink "Properties/removeBorder:property"}}removeBorder{{/crossLink}} method.
 	 * @method  removeBorder
 	 * @return {void}
 	 */
 	this.removeBorder = function(){
-		var stl = this.getStyles();
-		if (stl){
-			if (stl.hasProperty('border-width')) {
-				this.dropStyleProperty('border-width');
-			}
-			if (stl.hasProperty('border-color')) {
-				this.dropStyleProperty('border-color');
-			}
-		}
-		this.setStyleProperty('border-style', 'none');
-
-		if (this.getProperties().hasProperty('border')) {
-			this.dropProperty('border');
-		}
+		var newProp = this.getProperties();
+		newProp.removeBorder();
+		this.setProperties(newProp);
 	};
 
 	/**

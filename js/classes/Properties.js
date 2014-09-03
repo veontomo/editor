@@ -769,11 +769,11 @@ function Properties(input) {
     };
 
     /**
-     * Set the border of the table.
+     * Set border-related attributes.
      *
      * It sets key `border` of {{#crossLink "Properties/core:property"}}core{{/crossLink}}
-     *  as well as keys `border-width`, `border-color` and `border-style` of `style` key of
-     *  {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+     * as well as keys `border-width`, `border-color` and `border-style` of `style` key of
+     * {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
      *
      * Argument `borderInfo` is supposed to have the following keys:
      * <ul><li>
@@ -805,6 +805,32 @@ function Properties(input) {
     	this.setStyleProperty('border-style', bs);
     	this.setProperty('border', bw);
     };
+
+    /**
+     * Drops border-related attributes.
+     *
+     * Removes attributes `border-width`, `border-color` and sets `border-style` to `none` in `style` key of
+     * {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+     *
+     * Removes as well `border` attribute from {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+     * @method         removeBorder
+     * @since          0.0.6
+     * @return         {void}
+     */
+    this.removeBorder = function(){
+		if (this.hasStyleProperty('border-width')) {
+			this.dropStyleProperty('border-width');
+		}
+		if (this.hasStyleProperty('border-color')) {
+			this.dropStyleProperty('border-color');
+		}
+    	this.setStyleProperty('border-style', 'none');
+
+    	if (this.hasProperty('border')) {
+    		this.dropProperty('border');
+    	}
+    };
+
 
 
 }
