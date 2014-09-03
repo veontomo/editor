@@ -90,6 +90,11 @@
 	<!-- external plugins -->
 	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<script type="text/javascript" src="externalPlugins/picker.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.css"/>
+	<script src="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.js"></script>
+
+	</head>
 	<title><?= $title ?></title>
 <?php
 require 'php/fileContent.php';

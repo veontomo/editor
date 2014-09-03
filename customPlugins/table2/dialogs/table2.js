@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles, TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable
- */
+/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles,
+TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker */
 
  /**
   * Table dialog.
@@ -26,6 +26,44 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	 * @private
 	 */
 	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
+
+
+
+	/**
+	 * Color picker.
+	 *
+	 * @property {dhtmlXColorPicker} _colorPicker
+	 * @private
+	 * @since  0.0.6
+	 */
+	var _colorPicker = new dhtmlXColorPicker();
+
+	/**
+	 * {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}} initializer.
+	 *
+ 	 * `z-index` of the color picker is assigned a value that is not less than `z-index` of
+	 * the table dialog window. Without this assignment, the color picker dialog window is located
+	 * beneath the layer of the table dialog window and hence remains unreachable.
+	 *
+	 * There might be a better way to find dynamically what z-index it should be assigned.
+	 * For the moment, the table dialog window turns out to have z-index 10010 (found by
+	 * analyzing its html code).
+	 * @method  colorPeackerInit
+	 * @return {void}
+	 * @since  0.0.6
+	 */
+	(function(){
+		_colorPicker.attachEvent('onShow', function(){
+			// console.log(this);
+			var elem = this.base;
+			elem.childNodes[0].style.zIndex = '10010';
+		});
+	})();
+
+	// elem.childNodes[0].setAttribute('style', 'z-index: 20000');
+	// console.log(_colorPicker, elem, elem.firstChild.getAttribute('style'));
+
+
 
 	/**
 	 * Draws text input fields to insert weight factors for the column widths.
@@ -75,7 +113,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		 */
 		setColor = function(){
 			var dialog = this.getDialog();
-			dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
+			console.log('appending to ', this.domId);
+			// _colorPicker.linkTo(this.domId);
+			// _colorPicker.linkTo('aaaa');
+			// dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
 			// console.log(this.getInputElement());
 			// var elem = dialog.getContentElement(dialog._.currentTabId, this.id).getElement();
 			// var picker = new Picker(elem.$);
@@ -119,6 +160,11 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: drawColumns
+			},
+			{
+				type: 'html',
+				html: '<div id="qazwsx" style="z-index: 10020">color</div>',
+				// onClick: testFun
 			},
 			// {
 			// 	type: 'text',
@@ -181,6 +227,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
+						customcolors: true,
 						onClick: setColor,
 						inputStyle: _inputColorStyle
 					}]
@@ -374,6 +421,25 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
 		],
+
+		onLoad: function(){
+
+			// ui elements to which append color picker
+			var colorInputFields = {
+				'borderTab': ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
+				'backgroundTab': ['globalTableBgColor'],
+			};
+			var tab, ids, len, i, id;
+			for (tab in colorInputFields){
+				ids = colorInputFields[tab];
+				len = ids.length;
+				for (i = 0; i < len; i++){
+					id = this.getContentElement(tab, ids[i]).getElement().$.getAttribute('id');
+					_colorPicker.linkTo(id);
+				}
+			}
+
+		},
 
 		onOk: function () {
 			var tableNode = CTable.template(this, editor);

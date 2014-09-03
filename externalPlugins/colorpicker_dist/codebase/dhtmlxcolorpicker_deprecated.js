@@ -1,0 +1,9 @@
+/*
+Product Name: dhtmlxColorPicker 
+Version: 4.0.3 
+Edition: Standard 
+License: content of this file is covered by GPL. Usage outside GPL terms is prohibited. To obtain Commercial or Enterprise license contact sales@dhtmlx.com
+Copyright UAB Dinamenta http://www.dhtmlx.com
+*/
+
+window.dhtmlXColorPickerInput=function(){return dhtmlXColorPicker.apply(window,arguments)};dhtmlXColorPicker.prototype.init=function(){};dhtmlXColorPicker.prototype.setOnSelectHandler=function(a){if(typeof a=="function"){this.attachEvent("onSelect",a)}};dhtmlXColorPicker.prototype.setOnCancelHandler=function(a){if(typeof a=="function"){this.attachEvent("onCancel",a)}};dhtmlXColorPicker.prototype._mergeLangModules=function(){if(typeof dhtmlxColorPickerLangModules!="object"){return}for(var a in dhtmlxColorPickerLangModules){this.i18n[a]=dhtmlxColorPickerLangModules[a]}};window.dhtmlxColorPickerLangModules=dhtmlXColorPicker.prototype.i18n;dhtmlXColorPicker.prototype.close=function(){this.hide()};dhtmlXColorPicker.prototype.setImagePath=function(a){};
