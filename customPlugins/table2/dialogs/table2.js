@@ -322,8 +322,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			{
 				type: 'text',
 				label: editor.lang.table.cell.bgColor,
-				id: 'backgroundColor',
-				'default': '#000001',
+				id: 'globalTableBgColor',
+				'default': '#FFFFFF',
 				onClick: setColor,
 				inputStyle: _inputColorStyle
 
