@@ -747,29 +747,19 @@ function Table() {
 	};
 
 	/**
-	 * Set the border of the table. It sets key `border` of {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}
-	 *  as well as keys `border-width`, `border-color` and `border-style` of `style` key of
-	 *  {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
+	 * Set the border of the table.
+	 *
+	 * It gets a copy of current {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}, applies
+	 * {{#crossLink "Properties/setBorder:method"}}Properties.setBorder(){{/crossLink}} method to it and
+	 * sets instance's properties to the resulted properties.
 	 * @method         setBorder
-	 * @param          {Object}     borderInfo        Object containing 'width', 'color' and 'style' for the border to set.
+	 * @param          {Object}     borderInfo
 	 * @return         {void}
 	 */
 	this.setBorder = function(borderInfo){
-		var bw, bc, bs,
-			defaultWidth = 1,
-			defaultColor = '#000001',
-			defaultStyle = 'solid';
-		if (borderInfo === undefined){
-			borderInfo = {'width': defaultWidth, 'color': defaultColor, 'style': defaultStyle};
-		}
-		bw = borderInfo.width || defaultWidth;
-		bc = borderInfo.color || defaultColor;
-		bs = borderInfo.style || defaultStyle;
-
-		this.setStyleProperty('border-width', bw);
-		this.setStyleProperty('border-color', bc);
-		this.setStyleProperty('border-style', bs);
-		this.setProperty('border', bw);
+			var newProp = this.getProperties();
+			newProp.setBorder(borderInfo);
+			this.setProperties(newProp);
 	};
 
 	/**
@@ -1158,6 +1148,20 @@ function Table() {
 				color: descr.tableBorderColor,
 				width: bWidth.toString()
 			});
+		}
+		if (descr.phantomBorderWidth.getValue() > 0){
+			var phantomRowProp    = new RowProperties(),
+				phantomCellProp   = new CellProperties(),
+				phantomTableProp  = new TableProperties();
+			phantomRowProp.setWidth(currentWidth.toString());
+			phantomCellProp.setWidth(currentWidth.toString());
+			phantomTableProp.setWidth(currentWidth.toString());
+			phantomTableProp.setBorder({
+				style: 'solid',
+				color: descr.phantomBorderColor,
+				width: descr.phantomBorderWidth.toString()
+			});
+
 		}
 		this.setWidth(currentWidth.toString());
 		this.setStyleProperty('padding', descr.spaceTableGlobal.toString());

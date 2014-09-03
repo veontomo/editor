@@ -111,8 +111,9 @@ function Tag(tName) {
 	/**
 	 * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} getter.
 	 *
-	 * @return {String}
-	 * @since  0.0.6
+	 * @method         getMarker
+	 * @return         {String}
+	 * @since          0.0.6
 	 */
 	this.getMarker = function(){
 		return _marker;
@@ -120,6 +121,7 @@ function Tag(tName) {
 
 	/**
 	 * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} setter.
+	 * @method         setMarker
 	 * @param          {String}        str
 	 * @since          0.0.6
 	 */

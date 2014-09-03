@@ -167,7 +167,9 @@ function Unit(value, measure) {
      *
      * An instance is said to be equal to zero if its {{#crossLink "Unit/_value:property"}}_value{{/crossLink}}
      * is equal to zero.
-     * @return {Boolean}
+     * @method         isZero
+     * @return         {Boolean}
+     * @since          0.0.6
      */
     this.isZero = function(){
         return this.getValue() === 0;

@@ -66,7 +66,7 @@ var CTable = {
 			},
 			cellBorderWidth:  new Unit(parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10), defaultUnit),
 			cellBorderColor:  dialog.getValueOf('borderTab', 'cellBorderColor'),
-			spaceTableGlobal: new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceTableGlobal'), 10) || 0, defaultUnit),
+			spaceTableGlobal: new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceTableGlobal'), 10), defaultUnit),
 			spaceBtwRows:     new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10), defaultUnit),
 			spaceCell:        new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
 			cellWeights: [],

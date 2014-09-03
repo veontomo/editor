@@ -768,7 +768,43 @@ function Properties(input) {
     	}
     };
 
+    /**
+     * Set the border of the table.
+     *
+     * It sets key `border` of {{#crossLink "Properties/core:property"}}core{{/crossLink}}
+     *  as well as keys `border-width`, `border-color` and `border-style` of `style` key of
+     *  {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+     *
+     * Argument `borderInfo` is supposed to have the following keys:
+     * <ul><li>
+     * `width` - to set width of the border. If not provided, default value 1 is used.
+     * </li><li>
+     * `color` - to set border color. If not set, default value '#000001' is used.
+     * </li><li>
+     * `style` - to set border style (solid, dashed etc). If not set, default value 'solid' is used.
+     * </li></ul>
+     * @method         setBorder
+     * @param          {Object}     borderInfo        json object containing 'width', 'color' and 'style' of the border.
+     * @return         {void}
+     * @since          0.0.6
+     */
+    this.setBorder = function(borderInfo){
+    	var bw, bc, bs,
+    		defaultWidth = 1,
+    		defaultColor = '#000001',
+    		defaultStyle = 'solid';
+    	if (borderInfo === undefined){
+    		borderInfo = {'width': defaultWidth, 'color': defaultColor, 'style': defaultStyle};
+    	}
+    	bw = borderInfo.width || defaultWidth;
+    	bc = borderInfo.color || defaultColor;
+    	bs = borderInfo.style || defaultStyle;
 
+    	this.setStyleProperty('border-width', bw);
+    	this.setStyleProperty('border-color', bc);
+    	this.setStyleProperty('border-style', bs);
+    	this.setProperty('border', bw);
+    };
 
 
 }
