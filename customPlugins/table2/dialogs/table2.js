@@ -56,7 +56,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		_colorPicker.attachEvent('onShow', function(){
 			// console.log(this);
 			var elem = this.base;
-			elem.childNodes[0].style.zIndex = '10010';
+			elem.childNodes[0].style.zIndex = '10011';
 		});
 	})();
 
@@ -422,6 +422,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 		],
 
+		/**
+		 * [onLoad description]
+		 * @return {[type]} [description]
+		 */
 		onLoad: function(){
 
 			// ui elements to which append color picker
@@ -434,7 +438,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				ids = colorInputFields[tab];
 				len = ids.length;
 				for (i = 0; i < len; i++){
-					id = this.getContentElement(tab, ids[i]).getElement().$.getAttribute('id');
+					id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+					console.log('id: ' + id);
 					_colorPicker.linkTo(id);
 				}
 			}
