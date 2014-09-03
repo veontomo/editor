@@ -32,10 +32,9 @@ var CTable = {
 			paddingL = new Unit(startElem.getComputedStyle('padding-left') || 0),
 			paddingR = new Unit(startElem.getComputedStyle('padding-right') || 0),
 			output;
-		console.log(rawWidth.toString(), borderWidthL.toString(),  borderWidthR.toString(), paddingL.toString(), paddingR.toString());
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
-		console.log('parentWidth returns ', output.toString());
+		// console.log('parentWidth returns ', output.toString());
 		return output;
 	},
 
@@ -51,10 +50,10 @@ var CTable = {
 	template: function(dialog, editor){
 		var defaultUnit = 'px';
 		var tableInfo = {
-			rows:             parseInt(dialog.getValueOf('info', 'tblRows'), 10),
-			cols:             parseInt(dialog.getValueOf('info', 'tblCols'), 10),
-			tableBorderWidth: new Unit(parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10), defaultUnit),
-			tableBorderColor: dialog.getValueOf('borderTab', 'globalBorderColor'),
+			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
+			cols:                 parseInt(dialog.getValueOf('info', 'tblCols'), 10),
+			tableBorderWidth:     new Unit(parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10), defaultUnit),
+			tableBorderColor:     dialog.getValueOf('borderTab', 'globalBorderColor'),
 			phantomBorderWidth:   new Unit(parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10), defaultUnit),
 			phantomBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
 			cellBorders: {
@@ -65,10 +64,11 @@ var CTable = {
 				bottomHor: dialog.getValueOf('borderTab', 'bottomHorBord'),
 				intHor:    dialog.getValueOf('borderTab', 'intHorBord'),
 			},
-			cellBorderWidth: new Unit( parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10), defaultUnit),
-			cellBorderColor: dialog.getValueOf('borderTab', 'cellBorderColor'),
-			spaceBtwRows:    new Unit( parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10), defaultUnit),
-			spaceCell:       new Unit( parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
+			cellBorderWidth:  new Unit(parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10), defaultUnit),
+			cellBorderColor:  dialog.getValueOf('borderTab', 'cellBorderColor'),
+			spaceTableGlobal: new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceTableGlobal'), 10) || 0, defaultUnit),
+			spaceBtwRows:     new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10), defaultUnit),
+			spaceCell:        new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
 			cellWeights: [],
 			width: CTable.parentWidth(editor)
 		};

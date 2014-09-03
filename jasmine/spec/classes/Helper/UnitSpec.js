@@ -204,9 +204,6 @@ describe('Unit-related functionality', function () {
             expect(u3.getMeasure()).not.toBeDefined();
         });
 
-
-
-
         it('sums up 23cm and 10cm', function(){
             u = new Unit(23, 'cm');
             var u2 = new Unit(10, 'cm');
@@ -222,6 +219,50 @@ describe('Unit-related functionality', function () {
             u.sub(stub);
             expect(u.add).toHaveBeenCalled();
         });
+    });
+
+
+    describe('Multiplies Unit instance', function(){
+        it('throws an error if no argument is given', function(){
+            expect(function(){
+                return u.times();
+            }).toThrow(new Error('Argument is missing!'));
+        });
+
+        it('throws an error if no argument is a string', function(){
+            expect(function(){
+                return u.times('some string');
+            }).toThrow(new Error('Argument must be a number!'));
+        });
+
+        it('calculates 8px * 0 to be 0px', function(){
+            u = new Unit(8, 'px');
+            var u2 = u.times(0);
+            expect(u2.getValue()).toBe(0);
+            expect(u2.getMeasure()).toBe('px');
+        });
+
+        it('calculates 5.2 * 0 to be 0', function(){
+            u = new Unit(5.2);
+            var u2 = u.times(0);
+            expect(u2.getValue()).toBe(0);
+            expect(u2.getMeasure()).not.toBeDefined();
+        });
+
+        it('calculates 5px * 3.4 to be 17px', function(){
+            u = new Unit(5, 'px');
+            var u2 = u.times(3.4);
+            expect(u2.getValue()).toBe(17);
+            expect(u2.getMeasure()).toBe('px');
+        });
+
+        it('calculates 0cm * 5 to be 0cm', function(){
+            u = new Unit(0, 'cm');
+            var u2 = u.times(5);
+            expect(u2.getValue()).toBe(0);
+            expect(u2.getMeasure()).toBe('cm');
+        });
+
     });
 
     describe('Has unit of measurement or not?', function(){

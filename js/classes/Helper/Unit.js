@@ -174,24 +174,24 @@ function Unit(value, measure) {
     };
 
     /**
-     * Sums up the target and the argument.
+     * Sums up the target and `unit`.
      *
      * If they have different units of measurement, an error is thrown unless at least of the operands
      * is different from zero.
      *
-     * Examples:<br>
-     * 1cm + 2cm -> 3cm <br>
-     * 1cm + 2px -> error <br>
-     * 4 + 7 -> 11 <br>
-     * 0px + 2cm -> 2cm <br>
-     * 1px + 0cm -> 1px <br>
-     * 0 + 2cm -> 2cm <br>
-     * 1px + 0 -> 1px <br>
-     * 0px + 0cm -> 0<br>
-     * 0 + 0cm -> 0<br>
-     * 0px + 0 -> 0<br>
-     * 0 + 0 -> 0<br>
-     *
+     * Examples:<ol>
+     * <li>1cm + 2cm  =  3cm </li>
+     * <li>1cm + 2px  =  error </li>
+     * <li>4 + 7  =  11 </li>
+     * <li>0px + 2cm  =  2cm </li>
+     * <li>1px + 0cm  =  1px </li>
+     * <li>0 + 2cm  =  2cm </li>
+     * <li>1px + 0  =  1px </li>
+     * <li>0px + 0cm  =  0</li>
+     * <li>0 + 0cm  =  0</li>
+     * <li>0px + 0  =  0</li>
+     * <li>0 + 0  =  0</li>
+     * </ol>
      * @method  add
      * @param   {Unit}   unit
      * @return  {Unit}   the sum of the target and the argument.
@@ -213,9 +213,6 @@ function Unit(value, measure) {
             return new Unit(this.getValue(), this.getMeasure());
         }
         throw new Error("These Unit instances can not be summed up!");
-
-
-
     };
 
 
@@ -223,7 +220,7 @@ function Unit(value, measure) {
      * Subtracts the argument from the target. The argument is converted to a Unit object,
      * then its sign is changed and the method {{#crossLink "Unit/add:method"}}add(){{/crossLink}} is called.
      * @method   sub
-     * @param   {Any}   obj         it will be first converted to a Unit instance.
+     * @param   {Any}    obj         it will be first converted to a Unit instance.
      * @return  {Unit}   the difference between target and the argument.
      */
     this.sub = function (obj) {
@@ -231,6 +228,24 @@ function Unit(value, measure) {
             negative = new Unit(-unit.getValue(), unit.getMeasure());
         return this.add(negative);
     };
+
+    /**
+     * Multiplies target by `n`.
+     *
+     * Returns new instance of {{#crossLink "Unit"}}Unit{{/crossLink}}.
+     * @method         times
+     * @param          {Number}        n
+     * @return         {Unit}
+     */
+    this.times = function(n){
+        if (n === undefined){
+            throw new Error('Argument is missing!');
+        }
+        if (typeof n !== 'number'){
+            throw new Error('Argument must be a number!');
+        }
+        return new Unit(n*this.getValue(), this.getMeasure());
+    }
 
 
     /**

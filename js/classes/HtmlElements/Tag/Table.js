@@ -1148,25 +1148,33 @@ function Table() {
 		console.log('width: ', descr.width.toString());
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
-			c, r, row, cell;
-
+			currentWidth,
+			c, r, row, cell, cellWidths;
+		currentWidth = tWidth.sub(descr.spaceTableGlobal.times(2));
 		if (bWidth.getValue() > 0){
-			this.setWidth(tWidth.sub(bWidth).toString());
+			currentWidth = tWidth.sub(bWidth);
 			this.setBorder({
 				style: 'solid',
 				color: descr.tableBorderColor,
 				width: bWidth.toString()
 			});
 		}
-		this.setProperty(NEWSLETTER['marker-name'], this.getName());
+		this.setWidth(currentWidth.toString());
+		this.setStyleProperty('padding', descr.spaceTableGlobal.toString());
+		cellWidths = Helper.columnWidths(currentWidth.getValue(), descr.cellWeights);
+
+		this.mark(NEWSLETTER['marker-name']);
 		// creating rows
 		for (r = 0; r < descr.rows; r++){
 			row = new Row();
-			row.setProperty(NEWSLETTER['marker-name'], row.getName());
+			row.setWidth(currentWidth.toString());
+			row.mark(NEWSLETTER['marker-name']);
 			// creating cells
 			for (c = 0; c < descr.cols; c++){
 				cell = new Cell();
-				cell.setProperty(NEWSLETTER['marker-name'], cell.getName());
+				cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
+				cell.mark(NEWSLETTER['marker-name']);
+				cell.setWidth(cellWidths[c]);
 				row.appendCell(cell);
 			}
 			this.appendRow(row);
