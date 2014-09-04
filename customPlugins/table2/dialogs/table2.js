@@ -331,7 +331,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.bottomHorBord,
 							id: 'bottomHorBord',
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth']
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',

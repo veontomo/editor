@@ -1128,9 +1128,14 @@ function Table() {
 		// console.log('width: ', descr.width.toString());
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
+			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth,
-			c, r, row, cell, cellWidths;
+			c, r, row, cell, cellWidths,
+			spaceHigh, spaceLow;
+		spaceHigh = spaceBtwRows.times(0.5);
+		spaceLow = spaceBtwRows.sub(spaceHigh);
 		currentWidth = tWidth.sub(descr.spaceTableGlobal.times(2));
+
 		// setting overall border of the table
 		if (bWidth.getValue() > 0){
 			currentWidth = tWidth.sub(bWidth);
@@ -1180,6 +1185,8 @@ function Table() {
 			row = new Row();
 			row.setWidth(currentWidth.toString());
 			row.mark(NEWSLETTER['marker-name']);
+			row.setStyleProperty('margin-top', spaceHigh.toString());
+			row.setStyleProperty('margin-bottom', spaceLow.toString());
 			// creating cells
 			for (c = 0; c < descr.cols; c++){
 				cell = new Cell();

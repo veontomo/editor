@@ -424,4 +424,15 @@ function Unit(value, measure) {
             }
         }
     };
+
+    /**
+     * Returns a new Unit instance with {{#crossLink "Unit/_value:property"}}_unit{{/crossLink}}
+     * being "floored".
+     * @method         floor
+     * @return         {Unit}
+     * @since          0.0.6
+     */
+    this.floor = function(){
+        return new Unit(Math.floor(this.getValue()), this.getMeasure());
+    }
 }
