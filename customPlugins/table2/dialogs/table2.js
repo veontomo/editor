@@ -10,7 +10,6 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
   */
 
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
-
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -30,7 +29,10 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 
 
 	/**
-	 * Color picker.
+	 * Color picker (JavaScript ColorPicker).
+	 *
+	 * dhtmlxColorPicker is open source GPL v2 and Free License [JavaScript component](http://dhtmlx.com/docs/products/dhtmlxColorPicker/)
+	 * for easy color selection.
 	 *
 	 * @property {dhtmlXColorPicker} _colorPicker
 	 * @private
@@ -41,9 +43,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 	/**
 	 * {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}} initializer.
 	 *
- 	 * `z-index` of the color picker is assigned a value that is not less than `z-index` of
-	 * the table dialog window. Without this assignment, the color picker dialog window is located
-	 * beneath the layer of the table dialog window and hence remains unreachable.
+ 	 * `z-index` of the color picker is assigned a value that is greater than `z-index` of
+	 * the table dialog window. Without this assignment, the color picker dialog window is
+	 * located below the layer of the table dialog window and hence remains unreachable.
 	 *
 	 * There might be a better way to find dynamically what z-index it should be assigned.
 	 * For the moment, the table dialog window turns out to have z-index 10010 (found by
@@ -59,9 +61,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			elem.childNodes[0].style.zIndex = '10011';
 		});
 	})();
-
-	// elem.childNodes[0].setAttribute('style', 'z-index: 20000');
-	// console.log(_colorPicker, elem, elem.firstChild.getAttribute('style'));
 
 
 
@@ -89,6 +88,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 			children = columnWidths.childNodes;
 			colNumCurrent = children.length;                                                // actual number of input fields
 			colNumDesired = parseInt(this.getDialog().getValueOf('info', 'tblCols'), 10);   // desirable number of input fields
+			if (isNaN(colNumDesired)){
+				return;
+			}
 			title.innerHTML =  colNumDesired > 0  ? editor.lang.table2.columnWeight : editor.lang.table2.valueInPx;
 			if (colNumDesired < colNumCurrent){
 				for (i = colNumCurrent - 1; i > colNumDesired - 1; i--) {
@@ -102,38 +104,58 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					columnWidths.appendChild(inputField);
 				}
 			}
-		},
-
-		/**
-		 * Calls color picker function.
-		 * @todo    to be implemented
-		 * @method  setColor
-		 * @since   0.0.6
-		 * @private
-		 */
-		setColor = function(){
-			var dialog = this.getDialog();
-			console.log('appending to ', this.domId);
-			// _colorPicker.linkTo(this.domId);
-			// _colorPicker.linkTo('aaaa');
-			// dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
-			// console.log(this.getInputElement());
-			// var elem = dialog.getContentElement(dialog._.currentTabId, this.id).getElement();
-			// var picker = new Picker(elem.$);
-    	    // picker.on_done = function(colour) {
-    	    // 	dialog.setValueOf(dialog._.currentTabId, this.id, colour.hex().toString());
-    	    // 	// elem.setValue(colour.hex().toString());
-    	    //     console.log(colour.hex().toString());
-    	    //     // console.log(colour.hex());
-    	    // };
-	        // elem.$.onclick = function() {
-	            // picker.show();
-    	    // };
-
-
-
-			// dialog.setValueOf(dialog._.currentTabId, this.id, 'TO DO: implement color picking ' + (new Date()).getSeconds());
 		};
+
+	/**
+	 * It takes the content of input field that invoked this function and converts
+	 * it into a number. If the convertion fails, 1 is used. The result of the conversion
+	 * is then substituted into the input field.
+	 * @method         asNumber
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	var asNumber = function(){
+		var input = this.getValue(),
+			num = parseInt(input, 10),
+			result = input !== undefined && num.toString() === input;
+		if (!result){
+			this.setValue(isNaN(num) ? '1' : num.toString());
+		}
+	};
+
+	/**
+	 * Binds element that invoked this method with specific text input field: if the elements invokes this function,
+	 * the value of target text input field gets modified.
+	 *
+	 * If the element invokes this function and target text input field value is not positive,
+	 * then this field recieves value 1.
+	 *
+	 * Invoking element must have `target` key to be set to a three-element array
+	 * <code>[tabId, elementId, defaultValue]</code>
+	 * where `tabId` and `elemId` chracterize location of the target element and `defaultValue`
+	 * is value that is suggested for the target.
+	 *
+	 * @method         suggestValue
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	var suggestValue = function(){
+		if (!this.getValue()){
+			return;
+		}
+		var target = this.target;
+		if (!target){
+			return;
+		}
+		var elem = this.getDialog().getContentElement(target[0], target[1]);
+		if (!elem){
+			return;
+		}
+		var value = parseInt(elem.getValue(), 10);
+		if (!(value > 0)){
+			elem.setValue(target[2]);
+		}
+	};
 
 	return {
 		// Basic properties of the dialog window: title, minimum size.
@@ -152,49 +174,15 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				id: 'tblRows',
 				'default': 2,
 				inputStyle: _inputNumberStyle,
-			},
-			{
+				onChange: asNumber
+			}, {
 				type: "text",
 				label: editor.lang.table.columns,
 				id: 'tblCols',
 				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: drawColumns
-			},
-			{
-				type: 'html',
-				html: '<div id="qazwsx" style="z-index: 10020">color</div>',
-				// onClick: testFun
-			},
-			// {
-			// 	type: 'text',
-			// 	id: 'borderWidth',
-			// 	label: editor.lang.table.border + ' (px)',
-			// 	'default': '0',
-			// 	'inputStyle': inputStyle
-			// },
-			// {
-			// 	type: 'text',
-			// 	label: editor.lang.table2.rowBorders,
-			// 	id: 'rowBorder',
-			// 	'default': '0',
-			// 	'inputStyle': inputStyle
-			// },
-			// {
-			// 	type: 'text',
-			// 	label: editor.lang.image.vSpace + ' (px)',
-			// 	'default': '1',
-			// 	id: 'vSpace',
-			// 	'inputStyle': inputStyle
-			// },
-			// {
-			// 	type: 'text',
-			// 	label: editor.lang.image.hSpace + ' (px)',
-			// 	'default': '1',
-			// 	id: 'hSpace',
-			// 	'inputStyle': inputStyle
-			// },
-			{
+			}, {
 				type: 'html',
 				id:   'columnWidthTableTitle',
 				html: ''
@@ -221,14 +209,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						title: editor.lang.table2.valueInPx,
 						id: 'globalBorderWidth',
 						'default': '0',
-						inputStyle: _inputNumberStyle
+						inputStyle: _inputNumberStyle,
+						onChange: asNumber
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'globalBorderColor',
 						'default': '#000001',
 						customcolors: true,
-						onClick: setColor,
 						inputStyle: _inputColorStyle
 					}]
 				}]
@@ -245,14 +233,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.common.width,
 						id: 'rowBorderWidth',
 						'default': '0',
-						inputStyle: _inputNumberStyle
+						inputStyle: _inputNumberStyle,
+						onChange: asNumber
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
 						id: 'rowBorderColor',
 						'default': '#000001',
-						onClick: setColor,
-						inputStyle: _inputColorStyle
+						// onClick: setColor,
+						inputStyle: _inputColorStyle,
+						onChange: suggestValue,
+						target: ['borderTab', 'rowBorderWidth', '1']
 					}]
 
 				}]
@@ -273,7 +264,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.leftVerBord,
-							id: 'leftVerBord'
+							id: 'leftVerBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -284,7 +277,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.intVerBord,
-							id: 'intVerBord'
+							id: 'intVerBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -295,7 +290,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.rightVerBord,
-							id: 'rightVerBord'
+							id: 'rightVerBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -306,7 +303,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.topHorBord,
-							id: 'topHorBord'
+							id: 'topHorBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -317,7 +316,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.intHorBord,
-							id: 'intHorBord'
+							id: 'intHorBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -328,7 +329,9 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'checkbox',
 							label: '',
 							title: editor.lang.table2.bottomHorBord,
-							id: 'bottomHorBord'
+							id: 'bottomHorBord',
+							onChange: suggestValue,
+							target: ['borderTab', 'cellBorderWidth']
 						}]
 					}, {
 						type: 'vbox',
@@ -341,7 +344,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
-							onClick: setColor,
+							// onClick: setColor,
 							inputStyle: _inputColorStyle
 
 						}]
@@ -356,7 +359,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.common.width,
 							id: 'cellBorderWidth',
 							'default': '0',
-							inputStyle: _inputNumberStyle
+							inputStyle: _inputNumberStyle,
+							onChange: asNumber
 
 						}]
 					}]
@@ -371,7 +375,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				label: editor.lang.table.cell.bgColor,
 				id: 'globalTableBgColor',
 				'default': '#FFFFFF',
-				onClick: setColor,
+				// onClick: setColor,
 				inputStyle: _inputColorStyle
 
 			}]
@@ -395,7 +399,8 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceTableGlobal',
-							inputStyle: _inputNumberStyle
+							inputStyle: _inputNumberStyle,
+							onChange: asNumber
 						}]
 					}, {
 						type: 'vbox',
@@ -405,14 +410,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceBtwRows',
-							inputStyle: _inputNumberStyle
+							inputStyle: _inputNumberStyle,
+							onChange: asNumber
 						}, {
 							type: 'text',
 							label: editor.lang.table2.cellSpace,
 							title: editor.lang.table2.valueInPx,
 							'default': '0',
 							id: 'spaceCell',
-							inputStyle: _inputNumberStyle
+							inputStyle: _inputNumberStyle,
+							onChange: asNumber
+
 						}]
 					}]
 				}]
@@ -423,14 +431,16 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		],
 
 		/**
-		 * [onLoad description]
-		 * @return {[type]} [description]
+		 * Binding {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
+		 * to color-related input text fields.
+		 *
+		 * @return     {void}
 		 */
 		onLoad: function(){
-
-			// ui elements to which append color picker
+			// ui text input elements to which append color picker
+			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
-				'borderTab': ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
+				'borderTab':     ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
 				'backgroundTab': ['globalTableBgColor'],
 			};
 			var tab, ids, len, i, id;
@@ -439,7 +449,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				len = ids.length;
 				for (i = 0; i < len; i++){
 					id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
-					console.log('id: ' + id);
 					_colorPicker.linkTo(id);
 				}
 			}

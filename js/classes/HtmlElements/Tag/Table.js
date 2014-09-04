@@ -1124,7 +1124,7 @@ function Table() {
 	 * @since          0.0.6
 	 */
 	this.configure = function(descr){
-		// console.log('setting table according to ', descr);
+		console.log('setting table according to ', descr);
 		// console.log('width: ', descr.width.toString());
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
