@@ -1193,10 +1193,13 @@ function Table() {
 
 
 		cellWidths = Helper.columnWidths(currentWidth.getValue(), descr.cellWeights);
+		console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
+
 
 		this.mark(NEWSLETTER['marker-name']);
 		// creating rows
-		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
+		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor,
+			cellWidth;
 		for (r = 0; r < descr.rows; r++){
 			row = new Row();
 			row.setWidth(currentWidth.getValue());
@@ -1206,12 +1209,17 @@ function Table() {
 				cell = new Cell();
 				cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
 				cell.mark(NEWSLETTER['marker-name']);
-				cell.setWidth(cellWidths[c]);
+
+				cellWidth = new Unit(cellWidths[c], NEWSLETTER.unitMeasure());
+
 				cell.setStyleProperty('padding', descr.spaceCell);
+				cellWidth = cellWidth.sub(descr.spaceCell.times(2));
+
 				// top border of the first row
 				if (r === 0 && descr.cellBorders.topHor){
 					cell.setStyleProperty('border-top', cellBorderInfo);
 				}
+
 				// bottom border of the last row
 				if (r === descr.rows - 1 && descr.cellBorders.bottomHor){
 					cell.setStyleProperty('border-bottom', cellBorderInfo);
@@ -1223,15 +1231,20 @@ function Table() {
 				// most left border
 				if (c === 0 && descr.cellBorders.leftVer){
 					cell.setStyleProperty('border-left', cellBorderInfo);
+					cellWidth = cellWidth.sub(descr.cellBorderWidth);
 				}
 				// most right border
 				if (c === descr.cols - 1 && descr.cellBorders.rightVer){
 					cell.setStyleProperty('border-right', cellBorderInfo);
+					cellWidth = cellWidth.sub(descr.cellBorderWidth);
 				}
 				// vertical border between columns: left border of each but first column
 				if (descr.cols > 1 && c > 0 && descr.cellBorders.intVer){
 					cell.setStyleProperty('border-left', cellBorderInfo);
+					cellWidth = cellWidth.sub(descr.cellBorderWidth);
 				}
+
+				cell.setWidth(cellWidth.getValue());
 				row.appendCell(cell);
 			}
 			this.appendRow(row);

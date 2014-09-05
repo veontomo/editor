@@ -143,12 +143,35 @@ var Helper = {
      * composition of roundUp and splitWeighted
      * @method   columnWidths
      * @param    {Number}    overall            table width
-     * @param    {Array}     pieces             array of nambers
+     * @param    {Array}     pieces             array of numbers
      * @return   {Array}     array of integers
      */
 
     'columnWidths': function(overall, pieces){
         return this.roundUp(this.splitWeighted(overall, pieces));
+    },
+
+    /**
+     * Modification of {{#crossLink "Helper/columnWidths:method"}}columnWidths{{/crossLink}} method:
+     * returns splitting of number `overall` in integers according to weights `pieces`, but the last
+     * array element absorbs eventual neglected fractions of the previous elements such that the sum
+     * of all elements is equactly equal to `overall`.
+     *
+     * @param    {Number}    overall            table width
+     * @param    {Array}     pieces             array of numbers
+     * @return   {Array}     array of integers
+     */
+    'columnWidths2': function(overall, pieces){
+        var res = this.columnWidths(overall, pieces),
+            sum = res.reduce(function(a, b) {
+                return a + b;
+            }),
+            defect = overall - sum,
+            len = pieces.length;
+        if (defect !== 0 && len > 0){
+            res[len - 1] += defect;
+        }
+        return res;
     },
 
     /**
