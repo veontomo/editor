@@ -426,7 +426,7 @@ function Unit(value, measure) {
     };
 
     /**
-     * Returns a new Unit instance with {{#crossLink "Unit/_value:property"}}_unit{{/crossLink}}
+     * Returns a new Unit instance with {{#crossLink "Unit/_value:property"}}_value{{/crossLink}}
      * being "floored".
      * @method         floor
      * @return         {Unit}

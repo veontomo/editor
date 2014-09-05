@@ -179,7 +179,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: "text",
 				label: editor.lang.table.columns,
 				id: 'tblCols',
-				'default': 1,
+				'default': 3,
 				inputStyle: _inputNumberStyle,
 				onChange: drawColumns
 			}, {
@@ -208,7 +208,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.common.width,
 						title: editor.lang.table2.valueInPx,
 						id: 'globalBorderWidth',
-						'default': '0',
+						'default': '2',
 						inputStyle: _inputNumberStyle,
 						onChange: asNumber
 					}, {
@@ -232,7 +232,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'text',
 						label: editor.lang.common.width,
 						id: 'rowBorderWidth',
-						'default': '0',
+						'default': '3',
 						inputStyle: _inputNumberStyle,
 						onChange: asNumber
 					}, {
@@ -265,6 +265,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.leftVerBord,
 							id: 'leftVerBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -278,6 +279,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.intVerBord,
 							id: 'intVerBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -291,6 +293,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.rightVerBord,
 							id: 'rightVerBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -304,6 +307,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.topHorBord,
 							id: 'topHorBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -317,6 +321,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.intHorBord,
 							id: 'intHorBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -330,6 +335,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.bottomHorBord,
 							id: 'bottomHorBord',
+							default: true,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -358,7 +364,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.common.width,
 							id: 'cellBorderWidth',
-							'default': '0',
+							'default': '2',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 
@@ -397,7 +403,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.globalSpaces,
 							title: editor.lang.table2.valueInPx,
-							'default': '0',
+							'default': '3',
 							id: 'spaceTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -408,7 +414,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.rowSpaceTitle,
 							title: editor.lang.table2.valueInPx,
-							'default': '0',
+							'default': '7',
 							id: 'spaceBtwRows',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -416,7 +422,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.cellSpace,
 							title: editor.lang.table2.valueInPx,
-							'default': '0',
+							'default': '5',
 							id: 'spaceCell',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -433,7 +439,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 		/**
 		 * Binding {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
 		 * to color-related input text fields.
-		 *
+		 * @method     onLoad
 		 * @return     {void}
 		 */
 		onLoad: function(){

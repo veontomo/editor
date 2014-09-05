@@ -40,7 +40,7 @@ function ConverterFixed(){
 		if (!width.hasMeasure()){
 			width.setMeasure(NEWSLETTER.unitMeasure());
 		}
-		prop.setWidth(width.toString());
+		prop.setWidth(width.getValue());
 		prop.setStyleProperty('max-width', width.toString());
 		prop.setStyleProperty('min-width', width.toString());
 		prop.decorateElement(node);
