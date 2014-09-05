@@ -1192,8 +1192,8 @@ function Table() {
 		}
 
 
-		cellWidths = Helper.columnWidths(currentWidth.getValue(), descr.cellWeights);
-		console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
+		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
+		// console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
 
 
 		this.mark(NEWSLETTER['marker-name']);
