@@ -88,7 +88,7 @@
 	<script type="text/javascript" src="settings/general_config.js"></script>
 
 	<!-- external plugins -->
-	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 	<script type="text/javascript" src="externalPlugins/picker.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.css"/>
@@ -119,6 +119,11 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
     <div class="panel">
 		<a href="coverage.php" target="blank"><img src="images/coverage.png" width="100px" /></a>
     </div>
+        <div class="panel">
+    		<a href="notes.php" target="blank">Notes</a>
+        </div>
+
+
 
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
@@ -129,8 +134,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-
-
 		</textarea>
 	</div>
 	<?php
@@ -138,7 +141,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		if (file_exists($fileName)){
 			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
-
 	?>
 	<div>Current version: 0.0.6 (as by August 27, 2014)</div>
 </body>

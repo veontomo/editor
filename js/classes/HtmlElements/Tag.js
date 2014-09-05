@@ -865,4 +865,18 @@ function Tag(tName) {
 			_marker = null;
 		}
 	};
+
+
+	/**
+	 * Shrinks instance width by `d`. Alias for {{#crossLink "Properties/shrinkBy:method"}}Properties::shrinkBy{{/crossLink}} method.
+	 *
+	 * @method         shrinkBy
+	 * @param          {Any}           d
+	 * @return         {void}
+	 * @since          0.0.6
+	 *
+	 */
+	this.shrinkBy = function(d){
+		_properties.shrinkBy(d);
+	}
 }

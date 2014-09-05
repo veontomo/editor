@@ -510,6 +510,7 @@ describe('Unit-related functionality', function () {
             expect(res.hasMeasure()).toBe(false);
 
         });
+
     });
 
 });

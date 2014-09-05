@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Property, window */
+/*global Property, window, Unit */
 
 /**
  * A general Property class. If the argument is an object, then its properties are copied
@@ -828,6 +828,43 @@ function Properties(input) {
 
     	if (this.hasProperty('border')) {
     		this.dropProperty('border');
+    	}
+    };
+
+    /**
+     * Shrinks width attribute by `d`.
+     *
+     * If width attribute exists and
+     * <ul><li>
+     * `d` is a number, then absolute value of width attribute gets descreased by `d`.
+     * </li><li>
+     * `d` is a string, then width key gets descreased by `d` both values have the same measure. Otherwise,
+     * an error is thrown.
+     * </li></ul>
+     * @method         shrinkBy
+     * @param          {String|Number}    d
+     * @return         {void}
+     * @uses           {Unit}             Unit class to perform calculations on values with unit of measurement.
+     */
+    this.shrinkBy = function(d){
+    	if (d === undefined || !this.hasProperty('width')){
+    		return;
+    	}
+    	var w = new Unit(this.getWidth());
+    	if (typeof d === 'number'){
+    		var val = w.getValue() - d;
+    		this.setWidth(val);
+    		return;
+    	}
+    	if (typeof d === 'string'){
+    		var dU = new Unit(d),
+    			 wF;
+    		try {
+    			wF = w.sub(dU);
+    		} catch(e){
+    			throw new Error('Can not shrink: units of measurement do not coincide.');
+    		}
+    		this.setWidth(wF.getValue());
     	}
     };
 

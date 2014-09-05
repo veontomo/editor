@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<title>Note sul newsletter</title>
@@ -12,9 +14,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 }
 ?>
 <script type="text/javascript">
-var img = new Image();
-img.src = 'http://www.google.com/intl/en_ALL/images/logo.gif';
-alert(img.width + ' x ' + img.height);
+// var img = new Image();
+// img.src = 'http://www.google.com/intl/en_ALL/images/logo.gif';
+// alert(img.width + ' x ' + img.height);
 </script>
 </head>
 <body>
@@ -39,19 +41,12 @@ alert(img.width + ' x ' + img.height);
 				Definiamo una costante <code>LARGHEZZA</code> per usarla come larghezza massima degli elementi nella newsletter.
 			</li>
 			<li>
-				Per qualsiasi elemento vale questo formula per lo spazio disponibile:
+				Per qualsiasi elemento <script type="math/tex; mode=inline">E</script> vale questa formula per lo spazio disponibile:
 				<script type="math/tex; mode=display">
 					E_{width} = P_{width} - 2\, P_{border-width} - 2\, P_{padding} - 2\, E_{margin},
 				</script>
 				dove
-				<script type="math/tex; mode=inline">
-					E
-				</script>
-				&egrave; un elemento e
-				<script type="math/tex; mode=inline">
-					P
-				</script>
-				&egrave; il suo parent.
+				<script type="math/tex; mode=inline">P</script>	&egrave; il parent di <script type="math/tex; mode=inline">E</script>.
 			</li>
 			<li>
 				Valore predefinito per il bordo &egrave; <code>border-style: none;</code>. Per impostare un bordo, si deve specificare attributi <code>border-width</code> e <code>border-color</code>.

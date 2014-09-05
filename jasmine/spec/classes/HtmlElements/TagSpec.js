@@ -1012,6 +1012,49 @@ describe('Tag-related functionality', function() {
                 expect(tag.getProperty('title')).not.toBeDefined();
             });
         });
+    });
+
+    describe('Shrinking the width of element', function(){
+        it('leaves the target unchanged if argument is missing', function(){
+            tag.setWidth(87.6);
+            tag.shrinkBy();
+            expect(tag.getWidth()).toBe(87.6);
+        });
+
+        it('shrinks if target and argument have the same unit of measurements', function(){
+            tag.setWidth('24.1em');
+            tag.shrinkBy('8em');
+            expect(tag.getProperty('width')).toBe(16.1);
+
+        });
+
+        it('throws an error if target and argument have different unit of measurements', function(){
+            tag.setWidth('24.1cm');
+            expect(function(){
+                return tag.shrinkBy('12px');
+            }).toThrow(new Error('Can not shrink: unit of measurements do not coincide.'));
+        });
+
+        it('shrinks if target is dimensionless and argument has no dimension', function(){
+            tag.setWidth(24.1);
+            tag.shrinkBy(4);
+            expect(tag.getProperty('width')).toBe(20.1);
+        });
+
+        it('shrinks if target and argument are both dimensionless', function(){
+            tag.setWidth(87.6);
+            tag.shrinkBy(4);
+            expect(tag.getProperty('width')).toBe(83.6);
+        });
+
+        it('does not set target "width" attribute if it is originally not set', function(){
+            tag.dropProperty('width');
+            expect(tag.hasProperty('width')).toBe(false);
+            tag.shrinkBy(3);
+            expect(tag.hasProperty('width')).toBe(false);
+        });
+
+
 
 
 

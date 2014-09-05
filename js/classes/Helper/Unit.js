@@ -144,6 +144,17 @@ function Unit(value, measure) {
     };
 
     /**
+     * Returns a new Unit instance whose {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} and
+     * {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} are equal to the target ones.
+     * @since          0.0.6
+     * @method         clone
+     * @return         {Unit}          target clone
+     */
+    this.clone = function(){
+        return new Unit(this.getValue(), this.getMeasure());
+    };
+
+    /**
      * Compares the target with the argument. Returns `true`, if the argument can be converted into Unit instance
      * with {{#crossLink "Unit/_measure:property"}}_measure{{/crossLink}} attribute being equal to the target's one.
      * Otherwise, returns `false`.
@@ -247,7 +258,7 @@ function Unit(value, measure) {
             throw new Error('Argument must be a number!');
         }
         return new Unit(n*this.getValue(), this.getMeasure());
-    }
+    };
 
 
     /**
@@ -434,5 +445,5 @@ function Unit(value, measure) {
      */
     this.floor = function(){
         return new Unit(Math.floor(this.getValue()), this.getMeasure());
-    }
+    };
 }

@@ -7,9 +7,7 @@
 *
 * Table might be a plain one or a framed one. Table is called framed if each of its rows contains only one cell,
 * and each of these cells contains another table. These three elements - row, cell and table - are called phantom ones.
-* Only {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
-* {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} of the phantom elements are of interest
-*
+* Only {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} of the phantom elements are of interest.
 *
 * Below it is depicted a framed table. Dotted lines correspond to the phantom elements, solid - to "normal" ones.
 * <span style="color: black">Black color corresponds to table</span>,
@@ -1129,16 +1127,18 @@ function Table() {
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
-			currentWidth,
+			currentWidth = tWidth.clone(),
 			c, r, row, cell, cellWidths,
-			spaceHigh, spaceLow;
-		spaceHigh = spaceBtwRows.frac(2, 0);
-		spaceLow = spaceBtwRows.sub(spaceHigh);
-		currentWidth = tWidth.sub(descr.spaceTableGlobal.times(2));
+			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0);
+
+		if (descr.spaceTableGlobal.getValue() > 0){
+			this.setStyleProperty('margin', descr.spaceTableGlobal.toString());
+			currentWidth = currentWidth.sub(descr.spaceTableGlobal.times(2));
+		}
 
 		// setting overall border of the table
 		if (bWidth.getValue() > 0){
-			currentWidth = tWidth.sub(bWidth);
+			currentWidth = currentWidth.sub(bWidth.times(2));
 			this.setBorder({
 				style: 'solid',
 				color: descr.tableBorderColor,
@@ -1146,35 +1146,49 @@ function Table() {
 			});
 		}
 
-		if (descr.spaceTableGlobal.getValue() > 0){
-			this.setStyleProperty('padding', descr.spaceTableGlobal.toString());
-			currentWidth = currentWidth.sub(descr.spaceTableGlobal.times(2));
-		}
+		// padding is always zero
+		this.setStyleProperty('padding', 0);
+		// available width for the table after taking into account margin, padding and border widths
 		this.setWidth(currentWidth.getValue());
-		this.setStyleProperty('border-spacing', spaceHigh.toString() + ' ' + spaceLow.toString())
+
+		// setting vertical spaces between rows
+		this.setStyleProperty('border-spacing', '0px ' + spaceBtwRowsHalf.toString());
 
 		// setting background color
 		if (descr.globalTableBgColor){
 			this.setStyleProperty('background-color', descr.globalTableBgColor);
 		}
+
 		// setting properties of the phantom elements
 		if (descr.phantomBorderWidth.getValue() > 0){
 			var phantomRowProp    = new RowProperties(),
 				phantomCellProp   = new CellProperties(),
 				phantomTableProp  = new TableProperties();
+
+
+			phantomRowProp.setStyleProperty('padding', 0);
+			phantomRowProp.setStyleProperty('margin', 0);
+			phantomCellProp.setStyleProperty('padding', 0);
+			phantomCellProp.setStyleProperty('margin', 0);
+
+			// setting width of the phantom row and phantom cell
 			phantomRowProp.setWidth(currentWidth.getValue());
 			phantomCellProp.setWidth(currentWidth.getValue());
-			phantomTableProp.setWidth(currentWidth.getValue());
+
+
 			phantomTableProp.setBorder({
 				style: 'solid',
 				color: descr.phantomBorderColor,
 				width: descr.phantomBorderWidth.getValue()
 			});
 
+			// updating current width after imposing border width of the phantom table
+			currentWidth = currentWidth.sub(descr.phantomBorderWidth.times(2));
+			phantomTableProp.setWidth(currentWidth.getValue());
+
 			this.setPhantomRowProperties(phantomRowProp);
 			this.setPhantomCellProperties(phantomCellProp);
 			this.setPhantomTableProperties(phantomTableProp);
-			currentWidth = currentWidth.sub(descr.phantomBorderWidth);
 		}
 
 
