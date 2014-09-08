@@ -1,10 +1,55 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY, CLink */
+/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY, CLink, dhtmlXColorPicker */
 
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
         alt = true,
+        _title = 'padding-bottom: 0.5em; padding-top: 1em',
         selection;          // global variable to pass info about selection
+
+    /**
+     * Style for text input fields for choosing colors.
+     * @property {String} _inputColorStyle
+     * @type     {String}
+     * @private
+     */
+    var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
+
+        /**
+         * Color picker (JavaScript ColorPicker).
+         *
+         * dhtmlxColorPicker is open source GPL v2 and Free License [JavaScript component](http://dhtmlx.com/docs/products/dhtmlxColorPicker/)
+         * for easy color selection.
+         *
+         * @property {dhtmlXColorPicker} _colorPicker
+         * @private
+         * @since  0.0.6
+         */
+        var _colorPicker = new dhtmlXColorPicker();
+
+        /**
+         * {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}} initializer.
+         *
+         * `z-index` of the color picker is assigned a value that is greater than `z-index` of
+         * the table dialog window. Without this assignment, the color picker dialog window is
+         * located below the layer of the table dialog window and hence remains unreachable.
+         *
+         * There might be a better way to find dynamically what z-index it should be assigned.
+         * For the moment, the table dialog window turns out to have z-index 10010 (found by
+         * analyzing its html code).
+         * @method  colorPeackerInit
+         * @return {void}
+         * @since  0.0.6
+         */
+        (function(){
+            _colorPicker.attachEvent('onShow', function(){
+                // console.log(this);
+                var elem = this.base;
+                elem.childNodes[0].style.zIndex = '10011';
+            });
+        })();
+
+
     return {
         title: editor.lang.link.info,
         minWidth: 400,
@@ -43,7 +88,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 widths: ['10%', '90%'],
                 children: [{
                     type: 'html',
-                    html: 'Testo',
+                    html: editor.lang.link2.text,
                     style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;'
                 }, {
                     type: 'text',
@@ -57,7 +102,7 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 widths: ['10%', '90%'],
                 children: [{
                     type: 'html',
-                    html: 'Titolo',
+                    html: editor.lang.link2.title,
                     style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;'
                 }, {
                     type: 'text',
@@ -67,19 +112,52 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
                 }]
             }, {
                 type: 'html',
-                html: editor.lang.link.styles + '<br>'
+                html: '<div style="' + _title + '">' + editor.lang.link2.styleTitle + '</div>',
             }, {
                 type: 'checkbox',
                 id: 'underlined',
-                label: editor.lang.basicstyles.underline,
+                label: editor.lang.link2.underline,
                 "default": alt,
             }, {
                 type: 'checkbox',
                 id: 'target',
-                label: editor.lang.common.targetNew,
+                label: editor.lang.link2.targetNew,
                 "default": true,
-            }]
+            }, {
+                type: 'text',
+                label: editor.lang.link2.colordialog,
+                id: 'linkColor',
+                'default': '#0000FF',
+                customcolors: true,
+                inputStyle: _inputColorStyle
+                }]
         }],
+
+
+        /**
+         * Binding {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
+         * to color-related input text fields.
+         * @method     onLoad
+         * @return     {void}
+         */
+        onLoad: function(){
+            // ui text input elements to which append color picker
+            // format: tabId: [pageId1, pageId2, ...]
+            var colorInputFields = {
+                'tab-general':  ['linkColor']
+            };
+            var tab, ids, len, i, id;
+            for (tab in colorInputFields){
+                ids = colorInputFields[tab];
+                len = ids.length;
+                for (i = 0; i < len; i++){
+                    id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+                    _colorPicker.linkTo(id);
+                }
+            }
+
+        },
+
 
         onShow: function() {
             selection = new Selection(editor);

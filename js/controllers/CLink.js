@@ -26,6 +26,7 @@ var CLink = {
 		    url = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf('tab-general', 'href_input_field'))),
 		    target = context.getValueOf('tab-general', 'target') ? '_blank' : '_self',
 		    optionalTitle = context.getValueOf('tab-general', 'optionalTitle'),
+		    color = context.getValueOf('tab-general', 'linkColor'),
 		    link, obj,
 		    factory = NEWSLETTER.factory;
 
@@ -36,6 +37,7 @@ var CLink = {
 		    link.underline(isUnderlined);
 		    link.setProperty('target', target);
 		    link.setTitle(optionalTitle);
+		    link.setStyleProperty('color', color);
 		    link.setContent(new Content(context.getValueOf('tab-general', 'text')));
 		    if (selection.isEmpty()){
 		        editor.insertHtml(link.toHtml());
@@ -53,6 +55,7 @@ var CLink = {
 		            link.underline(isUnderlined);
 		            link.setProperty('target', target);
 		            link.setTitle(optionalTitle);
+		            link.setStyleProperty('color', color);
 		            obj = factory.mimic(el.$);
 		            if (obj &&  !obj.isEmpty()){
 		                // CKeditor remembers this attr and replaces proper url by this one.
@@ -91,7 +94,7 @@ var CLink = {
 		// if the selection is nothing but a link, then pick up its title
 		// and find out whether the link is underlined or not
 		if (isEnabled && !selection.isEmpty()){
-			var link = selection.nodes[0][0];
+			link = selection.nodes[0][0];
 			var linkModel = new Link();
 			// linkModel.flushProperties();   // get rid of possible default link properties
 			linkModel.load(link.$);
@@ -100,6 +103,9 @@ var CLink = {
 		    // var title = selection.nodes[0][0].getAttribute('title');
 		    context.setValueOf('tab-general', 'optionalTitle', title);
 	    	context.setValueOf('tab-general', 'underlined', isUnderlined);
+	    	if (linkModel.hasStyleProperty('color')){
+	    		context.setValueOf('tab-general', 'linkColor', linkModel.getStyleProperty('color'));
+	    	}
 		}
 
 		if (!isEnabled){

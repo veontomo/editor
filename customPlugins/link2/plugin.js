@@ -67,3 +67,28 @@ CKEDITOR.plugins.add('link2', {
 
 	}
 });
+
+var pluginName = 'link2';
+var translations = {
+	it: {
+		targetNew:     'Aprire il collegamento in una nuova scheda',
+		underline:     'Sottolineare il collegamento',
+		styleTitle:    'Stile del collegamento',
+		colordialog:   'Colore di collegamento',
+		title:         'Titolo',
+		text:          'Testo'
+	},
+	en: {
+		targetNew:     'Open the link in new tab',
+		underline:     'Underline the link',
+		styleTitle:    'Link style',
+		colordialog:   'Link color',
+		title:         'Title',
+		text:          'Text'
+	}
+};
+
+var lang;
+for (lang in translations){
+	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
+}
