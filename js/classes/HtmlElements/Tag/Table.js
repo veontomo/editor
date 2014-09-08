@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Properties, Cell, Helper, TableProperties, Properties, Row, Tag, Content, RowProperties, CellProperties, NEWSLETTER */
+/*global Properties, Cell, Helper, TableProperties, Properties, Row, Tag, Content, RowProperties, CellProperties, NEWSLETTER, Unit */
 
 /**
 * Represents table.
@@ -1136,6 +1136,12 @@ function Table() {
 			currentWidth = currentWidth.sub(descr.spaceTableGlobal.times(2));
 		}
 
+		var globalPadding = descr.paddingTableGlobal;
+		this.setStyleProperty('padding', globalPadding.toString());
+		// this.setProperty('cellpadding', globalPadding.getValue());
+		this.setProperty('cellspacing', globalPadding.getValue());
+		currentWidth = currentWidth.sub(globalPadding.times(2));
+
 		// setting overall border of the table
 		if (bWidth.getValue() > 0){
 			currentWidth = currentWidth.sub(bWidth.times(2));
@@ -1147,7 +1153,7 @@ function Table() {
 		}
 
 		// padding is always zero
-		this.setStyleProperty('padding', 0);
+		// this.setStyleProperty('padding', 0);
 		// available width for the table after taking into account margin, padding and border widths
 		this.setWidth(currentWidth.getValue());
 
@@ -1165,7 +1171,6 @@ function Table() {
 				phantomCellProp   = new CellProperties(),
 				phantomTableProp  = new TableProperties();
 
-
 			phantomRowProp.setStyleProperty('padding', 0);
 			phantomRowProp.setStyleProperty('margin', 0);
 			phantomCellProp.setStyleProperty('padding', 0);
@@ -1174,7 +1179,6 @@ function Table() {
 			// setting width of the phantom row and phantom cell
 			phantomRowProp.setWidth(currentWidth.getValue());
 			phantomCellProp.setWidth(currentWidth.getValue());
-
 
 			phantomTableProp.setBorder({
 				style: 'solid',
@@ -1194,7 +1198,6 @@ function Table() {
 
 		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
 		// console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
-
 
 		this.mark(NEWSLETTER['marker-name']);
 		// creating rows

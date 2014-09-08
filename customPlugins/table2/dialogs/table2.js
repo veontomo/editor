@@ -407,6 +407,14 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							id: 'spaceTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
+						}, {
+							type: 'text',
+							label: editor.lang.table2.globalPadding,
+							title: editor.lang.table2.valueInPx,
+							'default': '6',
+							id: 'paddingTableGlobal',
+							inputStyle: _inputNumberStyle,
+							onChange: asNumber
 						}]
 					}, {
 						type: 'vbox',

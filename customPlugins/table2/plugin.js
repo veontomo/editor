@@ -190,7 +190,8 @@ var translations = {
 		rowSpaceTitle: 'Spazi tra le righe',
 		cellSpace:     'Spazio tra testo e bordo di cella',
 		columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
-		structure:      'Struttura'
+		structure:     'Struttura',
+		globalPadding: 'Spazio tra cornice e contenuto'
 
 	},
 	en: {
@@ -214,7 +215,8 @@ var translations = {
 		rowSpaceTitle: 'Space between rows',
 		cellSpace:     'Space between text and cell frame',
 		columnWeight:  'Column weight factors',
-		structure:      'Structure'
+		structure:     'Structure',
+		globalPadding: 'Space between table border and content'
 	}
 };
 
