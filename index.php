@@ -137,10 +137,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			1 2 3 à ù è a b &
 		</textarea>
 	</div>
-	<div>
-		<h2>Editor content</h2>
-		<div id="dublicate">...</div>
-	</div>
 	<?php
 		$fileName = '.git/index';
 		if (file_exists($fileName)){

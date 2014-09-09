@@ -4,11 +4,22 @@ $(document).ready(function () {
 	var editor = CKEDITOR.replace('editor', {
 		customConfig: '../settings/editor_config.js'
 	});
+
 	editor.on('instanceReady', function () {
 		// disabling default plugins by removing them from the context menu
 		var menuItemsToRemove = ['table', 'tabledelete', 'link', 'unlink', 'bar'];
 		menuItemsToRemove.forEach(function (item) {
 			editor.removeMenuItem(item);
+		});
+
+		var editable = editor.editable();
+		var editorElem = document.getElementsByClassName('editor')[0];
+		var elem = document.createElement('div');
+		elem.style.color = 'red';
+		var insertedElement = editorElem.parentNode.insertBefore(elem, editorElem.nextSibling);
+		editable.attachListener(editable, 'mousedown', function() {
+			insertedElement.innerHTML = editable.getHtml();
+			console.log(editable.getHtml());
 		});
 	});
 
