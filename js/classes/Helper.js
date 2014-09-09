@@ -232,13 +232,17 @@ var Helper = {
     /**
      * Replaces special characters present in the input string by their unicodes. It is supposed to replace symbols like à, ò, è, é
      * and not a, b, c etc. For the moment it replaces any characters which unicode is outside the range [32, 125].
+     *
+     * This function seems useless for the moment, because after execution of this method, symbol "à" gets changed into "&#224;", but
+     * the editor automatically changes the newly appeared "&" into "&amp;" so that "à" becomes "&amp;#224;".
+     *
      * @method specialChar
      * @param  {string}     str
      * @return {string}
      */
     'specialChar': function(str){
         var typeStr = typeof str,
-            len, i, code, output = '';
+            len, i, code, symb, output = '';
         if (typeStr === 'function' || typeStr === 'object'){
             return null;
         }
@@ -248,14 +252,12 @@ var Helper = {
         len = str.length;
         for (i = 0; i < len; i++){
             code = str.charCodeAt(i);
-            if(code > 31 && code < 126){
-                output += str[i];
-            } else {
-                output += '&#' + code + ';';
-            }
+            symb = (code > 31 && code < 126) ? str[i] : '&#' + code + ';';
+            output += symb;
         }
         return output;
     },
+
 
     /**
      * Splits array element at position "pos" in two parts in such a way that the trace of the original array

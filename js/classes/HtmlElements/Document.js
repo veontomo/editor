@@ -152,6 +152,47 @@ function Document(node){
 	};
 
 	/**
+	 * Escapes "tricky" symbols by their html code representations.
+	 *
+	 * After execution of this method, special symbols inside text nodes of
+	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
+	 * get substituted by their html representations.
+	 *
+	 * @method         escape
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.escape = function(){
+		console.log('Content at the beginning: ', this.getContent());
+		var cntn = this.getContent(),
+			output;
+		if (cntn.nodeType === Node.TEXT_NODE){
+			console.log('node is a text one');
+			var value = cntn.nodeValue;
+			if (value){
+				console.log('its value is ' + value);
+				output = document.createTextNode(Helper.specialChar(value));
+				// console.log('its new value is ' + output.nodeValue);
+			}
+		} else {
+			console.log('node is NOT a text one');
+			var children = cntn.childNodes,
+				len = children.length,
+				i, childDoc;
+			console.log('node has ' + len + ' children');
+			output = document.createElement(cntn.tagName);
+			for (i = 0; i < len; i++){
+				console.log(i);
+				childDoc = new Document(children[i]);
+				childDoc.escape();
+				output.appendChild(childDoc.getContent());
+			}
+		}
+		this.setContent(output);
+		console.log('Content at the end: ', this.getContent());
+	};
+
+	/**
 	 * Removes attributes present in array `flies` from the current node without affecting child nodes.
 	 * If the node is a not an element node, then nothing is performed upon it.
 	 * @method         cleanRoot

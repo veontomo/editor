@@ -28,11 +28,16 @@ var CDownload = {
 			fileContent, doc, bodyCss;
 
 		bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
+		// sanitized = Helper.specialChar(editorContent);
 		doc = new Document(editorContent);
 		doc.setWrapCss(bodyCss);
 		doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
+		// console.log('before escape: ' + doc.getContent().innerHTML);
+		// doc.escape();
+		// console.log('after escape: ' + doc.getContent().innerHTML);
 		doc.convertTo(mode);
 		fileContent = doc.docHtml();
+		// console.log(fileContent);
 
 		$.post('php/saveDraft.php',
 			{'data': fileContent, 'filename': fileName},

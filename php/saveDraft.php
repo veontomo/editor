@@ -16,11 +16,35 @@ if(isset($_POST['data'])){
 		unlink($fullPath);
 	}
 	// write the content into a fresh file
-	if(file_put_contents($fullPath, $content)){
+	if(file_put_contents($fullPath, sanitizeContent($content))){
 		echo basename($fileName);
 	};
-
 }
 
-
-?>
+/**
+ * Escapes special characters from $content.
+ *
+ * @param  String    $content
+ * @return String
+ */
+function sanitizeContent($content){
+	$replacement = ['à' => '&agrave;',
+		'è' => '&egrave;',
+		'è' => '&Egrave;',
+		'ì' => '&igrave;',
+		'ù' => '&ugrave;',
+		'ò' => '&ograve;',
+		'À' => '&Agrave;',
+		'È' => '&Egrave;',
+		'Ì' => '&Igrave;',
+		'Ò' => '&Ograve;',
+		'Ù' => '&Ugrave;',
+		'é' => '&eacute;',
+		'É' => '&Eacute;',
+	];
+	$result = $content;
+	foreach ($replacement as $key => $value){
+		$result = str_replace($key, $value, $result);
+	}
+	return $result;
+}

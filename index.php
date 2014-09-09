@@ -134,13 +134,19 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			1 2 3 à ù è a b &
 		</textarea>
+	</div>
+	<div>
+		<h2>Editor content</h2>
+		<div id="dublicate">...</div>
 	</div>
 	<?php
 		$fileName = '.git/index';
 		if (file_exists($fileName)){
 			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
+
 	?>
 	<div>Current version: 0.0.6 (as by August 27, 2014)</div>
 </body>
