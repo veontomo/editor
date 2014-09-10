@@ -807,6 +807,33 @@ function Properties(input) {
     };
 
     /**
+     * Returns object containing information about border.
+     *
+     * Format of the returned object:
+     * <code> {style: ... [, width: ...[, color: ...]]}</code>
+     * If `style` key is set to `none`, then `width` and `color` might be not set. If `width` is not
+     * set or equal to zero, then `color` might be not set.
+     *
+     * @method  getBorder
+     * @return  {Object}
+     * @since   0.0.6
+     */
+    this.getBorder = function(){
+    	var result = {},
+    		bs = 'border-style',
+    		bw = 'border-width',
+    		bc = 'border-color';
+    	result.style = this.hasStyleProperty(bs) ? this.getStyleProperty(bs) : 'none';
+    	if (result.style !== 'none'){
+    		result.width = this.hasStyleProperty(bw) ? this.getStyleProperty(bw) : 0;
+    		if (result.width !== 0 && this.hasStyleProperty(bc)){
+    			result.color = this.getStyleProperty(bc);
+    		}
+    	}
+    	return result;
+    };
+
+    /**
      * Drops border-related attributes.
      *
      * Removes attributes `border-width`, `border-color` and sets `border-style` to `none` in `style` key of

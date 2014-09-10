@@ -126,6 +126,14 @@ CKEDITOR.plugins.add('table2', {
 				group: 'table2Group'
 			});
 
+			editor.addMenuItem('table2ModifyTable', {
+				label: editor.lang.table2.modifyTable,
+				icon: this.path + 'icons/table2.png',
+				command: 'table2InsertColumnAfter',
+				group: 'table2Group'
+			});
+
+
 			editor.contextMenu.addListener(function (element) {
 				var rowMarker = (new Row()).getName(), // the label by which the rows are marked
 					markerName  = NEWSLETTER['marker-name'],
@@ -152,7 +160,8 @@ CKEDITOR.plugins.add('table2', {
 					menuObj = {
 						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
 						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF,
-						table2InsertColumnAfter: CKEDITOR.TRISTATE_OFF
+						table2InsertColumnAfter: CKEDITOR.TRISTATE_OFF,
+						table2ModifyTable: CKEDITOR.TRISTATE_OFF
 					};
 					elemObj = NEWSLETTER.factory.mimic(el.$);
 					// if the table has more than one column, than add possibility to drop columns and to resize them.
@@ -191,7 +200,8 @@ var translations = {
 		cellSpace:     'Spazio tra testo e bordo di cella',
 		columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
 		structure:     'Struttura',
-		globalPadding: 'Spazio tra cornice e contenuto'
+		globalPadding: 'Spazio tra cornice e contenuto',
+		modifyTable:   'Modificare tabella'
 
 	},
 	en: {
@@ -216,7 +226,8 @@ var translations = {
 		cellSpace:     'Space between text and cell frame',
 		columnWeight:  'Column weight factors',
 		structure:     'Structure',
-		globalPadding: 'Space between table border and content'
+		globalPadding: 'Space between table border and content',
+		modifyTable:   'Modify table'
 	}
 };
 

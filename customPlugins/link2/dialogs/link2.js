@@ -135,7 +135,9 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
         /**
-         * Binding {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
+         * The function to execute when the dialog is displayed for the first time.
+         *
+         * Binds {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
          * to color-related input text fields.
          * @method     onLoad
          * @return     {void}
@@ -158,7 +160,13 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
         },
 
-
+        /**
+         * The function to execute when the dialog is loaded (executed every time the dialog is opened).
+         *
+         * Fills in link plugin dialog with selected (if any) link properties.
+         * @method    onShow
+         * @return    {void}
+         */
         onShow: function() {
             selection = new Selection(editor);
             selection.absorbLink();

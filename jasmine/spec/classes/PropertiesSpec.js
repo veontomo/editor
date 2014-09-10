@@ -873,9 +873,22 @@ describe('Properties-related functionality', function(){
             expect(props.getStyles().propNum()).toBe(2);
             expect(props.getStyleProperty('screen')).toBe('wide');
         });
+    });
 
-
-
+    describe('Setting/getting border info', function(){
+        it ('gets border information with "style: none" if no border is set', function(){
+            var border = props.getBorder();
+            expect(Object.keys(border).length).toBe(1);
+            expect(border.style).toBe('none');
+        });
+        it ('gets full border information', function(){
+            props.setBorder({width: 21, style: 'fancy', color: '#123456'});
+            var border = props.getBorder();
+            expect(Object.keys(border).length).toBe(3);
+            expect(border.style).toBe('fancy');
+            expect(border.width).toBe(21);
+            expect(border.color).toBe('#123456');
+        });
 
     });
 });

@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles,
-TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker */
+TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker, Selection */
 
  /**
   * Table dialog.
@@ -10,6 +10,7 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
   */
 
 CKEDITOR.dialog.add('table2Dialog', function (editor) {
+
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -179,7 +180,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: "text",
 				label: editor.lang.table.columns,
 				id: 'tblCols',
-				'default': 3,
+				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: drawColumns
 			}, {
@@ -208,7 +209,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.common.width,
 						title: editor.lang.table2.valueInPx,
 						id: 'globalBorderWidth',
-						'default': '2',
+						'default': '0',
 						inputStyle: _inputNumberStyle,
 						onChange: asNumber
 					}, {
@@ -232,7 +233,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						type: 'text',
 						label: editor.lang.common.width,
 						id: 'rowBorderWidth',
-						'default': '3',
+						'default': '0',
 						inputStyle: _inputNumberStyle,
 						onChange: asNumber
 					}, {
@@ -240,7 +241,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 						label: editor.lang.colordialog.title,
 						id: 'rowBorderColor',
 						'default': '#000001',
-						// onClick: setColor,
 						inputStyle: _inputColorStyle,
 						onChange: suggestValue,
 						target: ['borderTab', 'rowBorderWidth', '1']
@@ -265,7 +265,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.leftVerBord,
 							id: 'leftVerBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -279,7 +279,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.intVerBord,
 							id: 'intVerBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -293,7 +293,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.rightVerBord,
 							id: 'rightVerBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -307,7 +307,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.topHorBord,
 							id: 'topHorBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -321,7 +321,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.intHorBord,
 							id: 'intHorBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -335,7 +335,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.table2.bottomHorBord,
 							id: 'bottomHorBord',
-							default: true,
+							default: false,
 							onChange: suggestValue,
 							target: ['borderTab', 'cellBorderWidth', '1']
 						}]
@@ -350,7 +350,6 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							title: editor.lang.table2.chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
-							// onClick: setColor,
 							inputStyle: _inputColorStyle
 
 						}]
@@ -364,7 +363,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							label: '',
 							title: editor.lang.common.width,
 							id: 'cellBorderWidth',
-							'default': '2',
+							'default': '0',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 
@@ -380,8 +379,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 				type: 'text',
 				label: editor.lang.table.cell.bgColor,
 				id: 'globalTableBgColor',
-				'default': '#FFFFFF',
-				// onClick: setColor,
+				'default': '#ffffff',
 				inputStyle: _inputColorStyle
 
 			}]
@@ -411,7 +409,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.globalPadding,
 							title: editor.lang.table2.valueInPx,
-							'default': '6',
+							'default': '4',
 							id: 'paddingTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -422,7 +420,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.rowSpaceTitle,
 							title: editor.lang.table2.valueInPx,
-							'default': '7',
+							'default': '3',
 							id: 'spaceBtwRows',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -430,7 +428,7 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 							type: 'text',
 							label: editor.lang.table2.cellSpace,
 							title: editor.lang.table2.valueInPx,
-							'default': '5',
+							'default': '2',
 							id: 'spaceCell',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -466,7 +464,17 @@ CKEDITOR.dialog.add('table2Dialog', function (editor) {
 					_colorPicker.linkTo(id);
 				}
 			}
+		},
 
+		/**
+		 * The function to execute when the dialog is loaded (executed every time the dialog is opened).
+		 *
+		 * Fills in table plugin dialog with selected (if any) table properties.
+		 * @method    onShow
+		 * @return    {void}
+		 */
+		onShow: function() {
+		    CTable.fillInDialog(this, editor);
 		},
 
 		onOk: function () {

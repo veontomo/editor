@@ -134,7 +134,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			1 2 3 à ù è a b &
 		</textarea>
 	</div>
 	<?php

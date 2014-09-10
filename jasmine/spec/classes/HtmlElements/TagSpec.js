@@ -1032,7 +1032,7 @@ describe('Tag-related functionality', function() {
             tag.setWidth('24.1cm');
             expect(function(){
                 return tag.shrinkBy('12px');
-            }).toThrow(new Error('Can not shrink: unit of measurements do not coincide.'));
+            }).toThrow(new Error('Can not shrink: units of measurement do not coincide.'));
         });
 
         it('shrinks if target is dimensionless and argument has no dimension', function(){

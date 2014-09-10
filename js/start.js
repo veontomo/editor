@@ -12,14 +12,14 @@ $(document).ready(function () {
 			editor.removeMenuItem(item);
 		});
 
-		var editable = editor.editable();
-		var editorElem = document.getElementsByClassName('editor')[0];
-		var elem = document.createElement('div');
-		elem.style.color = 'red';
-		var insertedElement = editorElem.parentNode.insertBefore(elem, editorElem.nextSibling);
+
+		// adding block that duplicates the content of the editor window.
+		var editable = editor.editable(),
+			editorElem = document.getElementsByClassName('editor')[0],
+			elem = document.createElement('span'),
+			insertedElement = editorElem.parentNode.insertBefore(elem, editorElem.nextSibling);
 		editable.attachListener(editable, 'mousedown', function() {
 			insertedElement.innerHTML = editable.getHtml();
-			console.log(editable.getHtml());
 		});
 	});
 

@@ -112,6 +112,38 @@ var CTable = {
 			widthText = width ? (' width="' + width + '"') : '';
 			return '<img src="' + path + '"' + titleText + heightText + widthText + '/>';
 		}
+	},
+
+	/**
+	 * Populates the field of the table plugin dialog.
+	 * @method        fillInDialog
+	 * @param         {Object}              context           context of the dialog menu
+	 * @param         {Object}              editor            editor instance
+	 * @return        {void}
+	 */
+	fillInDialog: function(context, editor){
+		console.log('I should fill in the dialog');
+		var elem = editor.getSelection().getStartElement();
+		var tableElem = CKHelper.findAscendant(elem, function(el){
+			return el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === (new Table()).getName();
+		});
+		if (!tableElem){
+			return;
+		}
+		var factory = NEWSLETTER.factory;
+		var table = factory.mimic(tableElem.$),
+			borderInfo = table.getBorder();
+		context.setValueOf('info', 'tblRows', table.rowNum());
+		context.getContentElement('info', 'tblRows').disable();
+		context.setValueOf('info', 'tblCols', table.colNum());
+		context.getContentElement('info', 'tblCols').disable();
+
+		if (){
+
+		}
+		if (table.hasStyleProperty('background-color')){
+			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
+		}
 
 	}
 };

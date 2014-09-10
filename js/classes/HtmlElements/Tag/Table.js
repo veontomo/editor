@@ -761,6 +761,18 @@ function Table() {
 	};
 
 	/**
+	 * Returns object with information about border properties (style, width, color).
+	 *
+	 * It is an alias of {{#crossLink "Properties/getBorder:method"}}Properties.getBorder(){{/crossLink}}.
+	 * @method         getBorder
+	 * @return         {Object}
+	 * @since          0.0.6
+	 */
+	this.getBorder = function(){
+		return this.getProperties().getBorder();
+	};
+
+	/**
 	 * Removes the border of the table.
 	 *
 	 * It updates {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by applying to it
