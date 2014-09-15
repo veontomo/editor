@@ -129,7 +129,7 @@ CKEDITOR.plugins.add('table2', {
 			editor.addMenuItem('table2ModifyTable', {
 				label: editor.lang.table2.modifyTable,
 				icon: this.path + 'icons/table2.png',
-				command: 'table2InsertColumnAfter',
+				command: 'table2Dialog',
 				group: 'table2Group'
 			});
 

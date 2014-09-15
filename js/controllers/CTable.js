@@ -138,9 +138,6 @@ var CTable = {
 		context.setValueOf('info', 'tblCols', table.colNum());
 		context.getContentElement('info', 'tblCols').disable();
 
-		if (){
-
-		}
 		if (table.hasStyleProperty('background-color')){
 			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}

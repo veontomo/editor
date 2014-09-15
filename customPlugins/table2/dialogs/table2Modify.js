@@ -3,14 +3,13 @@
 TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker, Selection */
 
  /**
-  * Table dialog.
+  * Dialog to modify table.
   *
   * @module  Dialogs
-  * @class   table2Dialog
+  * @class   table2ModifyDialog
   */
 
-function insertTable(editor) {
-
+var ModifyDialog = function (editor) {
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -158,7 +157,7 @@ function insertTable(editor) {
 		}
 	};
 
-	var dialogWindow = {
+	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
 		minWidth: 500,
@@ -474,6 +473,7 @@ function insertTable(editor) {
 		 * @return    {void}
 		 */
 		onShow: function() {
+			// console.log(this);
 		    CTable.fillInDialog(this, editor);
 		},
 
@@ -483,7 +483,6 @@ function insertTable(editor) {
 			editor.insertElement(tableElem);
 		}
 	};
-	return dialogWindow;
-}
+};
 
-CKEDITOR.dialog.add('table2Dialog', insertTable);
+CKEDITOR.dialog.add('table2ModifyDialog', ModifyDialog);
