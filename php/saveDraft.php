@@ -28,7 +28,8 @@ if(isset($_POST['data'])){
  * @return String
  */
 function sanitizeContent($content){
-	$replacement = ['à' => '&agrave;',
+	$replacement = [
+		'à' => '&agrave;',
 		'è' => '&egrave;',
 		'ì' => '&igrave;',
 		'ù' => '&ugrave;',

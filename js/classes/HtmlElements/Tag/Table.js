@@ -1277,6 +1277,24 @@ function Table() {
 		}
 	};
 
+	/**
+	 * Updates `tableNode` with new chracteristics given by `tableInfo` object.
+	 *
+	 * It takes `tableNode`, constructs {{#crossLink "Table"}}Table{{/crossLink}} instance of it,
+	 * adjusts its properties according to `tableInfo` and returns it.
+	 *
+	 * @param          {Table}         tableNode
+	 * @param          {Object}        dialogData
+	 * @return         {Table}         a Table instance with updated properties
+	 */
+	this.update = function(tableInfo){
+		console.log(tableInfo);
+		var tableClone = this.clone();
+		if(tableInfo.cellBorderColor){
+			tableClone.setStyleProperty('background-color', tableInfo.globalTableBgColor);
+		}
+		return tableClone;
+	};
 
 
 }

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Table, TableProperties, Properties, Row, RowProperties, Cell, CellProperties, Helper */
+/*global Unit, CKEDITOR, NEWSLETTER, Table, Properties, CKHelper, Helper */
 
 /**
  * Table Controller.
@@ -38,16 +38,7 @@ var CTable = {
 		return output;
 	},
 
-
-	/**
-	 * Returns html string for the table with properties specified by the user
-	 * in the dialog menu.
-	 * @method         template
-	 * @param          {Object}             context           context by means the variables are passed from view to the controller
-	 * @param          {Object}             editor            editor instance
-	 * @return         {DOM.Element}
-	 */
-	template: function(dialog, editor){
+	getDialogData: function(dialog, editor){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
@@ -77,7 +68,7 @@ var CTable = {
 		};
 		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			columnFields = columnWidthElem.childNodes,
-			table, i, inputField;
+			i, inputField;
 		// weight factors of the columns
 		if (columnFields){
 			for (i = 0; i < tableInfo.cols; i++) {
@@ -85,7 +76,22 @@ var CTable = {
 				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
 			}
 		}
-		table = new Table();
+		return tableInfo;
+
+	},
+
+
+	/**
+	 * Returns html string for the table with properties specified by the user
+	 * in the dialog menu.
+	 * @method         create
+	 * @param          {Object}             context           context by means the variables are passed from view to the controller
+	 * @param          {Object}             editor            editor instance
+	 * @return         {DOM.Element}
+	 */
+	create: function(dialog, editor){
+		var tableInfo = this.getDialogData(dialog, editor);
+		var table = new Table();
 		table.configure(tableInfo);
 		return table.toNode();
 
@@ -123,10 +129,7 @@ var CTable = {
 	 */
 	fillInDialog: function(context, editor){
 		console.log('I should fill in the dialog');
-		var elem = editor.getSelection().getStartElement();
-		var tableElem = CKHelper.findAscendant(elem, function(el){
-			return el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === (new Table()).getName();
-		});
+		var tableElem = this.findParentTable(editor);
 		if (!tableElem){
 			return;
 		}
@@ -142,5 +145,43 @@ var CTable = {
 			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}
 
+	},
+
+	/**
+	 * Returns the nearest (for current cursor position) parent table. If no table is found among ancestors, `null`
+	 * is returned.
+	 *
+	 * Sought element has tag `table` and attribute NEWSLETTER['marker-name'] equal to {{#crossLink "Table"}}Table{{/crossLink}}
+	 * {{#crossLink "Tag/getName:method"}}getName(){{/crossLink}} method.
+	 *
+	 * @method         findParentTable
+	 * @param          {CKEDITOR}      editor
+	 * @return         {CKEDITOR.dom.element|null}
+	 */
+	findParentTable: function(editor){
+		var elem = editor.getSelection().getStartElement();
+		if (elem){
+			var tableElem = CKHelper.findAscendant(elem, function(el){
+				return el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === (new Table()).getName();
+			});
+			return tableElem;
+		}
+	},
+
+	/**
+	 * Updates parameters of `tableNode` with new ones provided by `editor` dialog.
+	 *
+	 * @param          {Object}             context           context by means the variables are passed from view to the controller
+	 * @param          {Object}             editor            editor instance
+	 * @param          {DOM.Element}        tableNode         node corresponding to a table which parameters are to be updated
+	 * @return         {DOM.Element}
+	 */
+	update: function(dialog, editor, tableNode){
+		var table = new Table(),
+			dialogData = this.getDialogData(dialog, editor),
+			factory = NEWSLETTER.factory,
+			currentTable = factory.mimic(tableNode);
+		table = currentTable.update(dialogData);
+		return table.toNode();
 	}
 };

@@ -490,9 +490,24 @@ function manageTable(editor, isNew) {
 		},
 
 		onOk: function () {
-			var tableNode = CTable.template(this, editor);
-			var tableElem = CKEDITOR.document.createElement(tableNode);
-			editor.insertElement(tableElem);
+			var tableNode, tableElem;
+			// in case of insertion of a new table
+			if (isNew){
+				tableNode = CTable.create(this, editor);
+				tableElem = CKEDITOR.document.createElement(tableNode);
+				editor.insertElement(tableElem);
+				return;
+			}
+			// in case of updating current table
+			var currentTable = CTable.findParentTable(editor);
+			if (!currentTable){
+				console.log('parent table is NOT found');
+				return;
+			}
+			console.log('parent table is found', currentTable);
+			tableNode = CTable.update(this, editor, currentTable.$);
+			tableElem = CKEDITOR.document.createElement(tableNode);
+			tableElem.replace(currentTable);
 		}
 	};
 	return dialogWindow;
