@@ -1,6 +1,13 @@
 /*jslint plusplus: true, white: true */
 /*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY, CLink, dhtmlXColorPicker */
 
+/**
+  * link dialog.
+  *
+  * @module  Dialogs
+  * @class   LinkDialog
+  */
+
 CKEDITOR.dialog.add("linkSimplified", function(editor) {
     var warningFieldId = 'linkWarning',
         alt = true,

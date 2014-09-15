@@ -2,14 +2,26 @@
 /*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles,
 TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker, Selection */
 
- /**
+/**
   * Table dialog.
   *
   * @module  Dialogs
-  * @class   table2Dialog
+  * @class   TableDialog
   */
 
-function insertTable(editor) {
+
+/**
+ * Returns table insertion/updating dialog.
+ *
+ * In case of update, the dialog fields are filled-in with the table attribute value.
+ * @method        manageTable
+ * @param         {CKEDITOR}      editor   instance of CKEDITOR
+ * @param         {Boolean}       isNew    whether the method should insert new table or update exisiting one
+ * @return        {Object}        dialog definition
+ * @since         0.0.6
+ */
+function manageTable(editor, isNew) {
+	console.log('isNew ? ' + isNew);
 
 	/**
 	 * Style for text input fields for numbers.
@@ -27,8 +39,6 @@ function insertTable(editor) {
 	 */
 	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
 
-
-
 	/**
 	 * Color picker (JavaScript ColorPicker).
 	 *
@@ -42,7 +52,7 @@ function insertTable(editor) {
 	var _colorPicker = new dhtmlXColorPicker();
 
 	/**
-	 * {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}} initializer.
+	 * {{#crossLink "TableDialog/_colorPicker:property"}}_colorPicker{{/crossLink}} initializer.
 	 *
  	 * `z-index` of the color picker is assigned a value that is greater than `z-index` of
 	 * the table dialog window. Without this assignment, the color picker dialog window is
@@ -443,7 +453,7 @@ function insertTable(editor) {
 		],
 
 		/**
-		 * Binding {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
+		 * Binding {{#crossLink "TableDialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
 		 * to color-related input text fields.
 		 * @method     onLoad
 		 * @return     {void}
@@ -474,7 +484,9 @@ function insertTable(editor) {
 		 * @return    {void}
 		 */
 		onShow: function() {
-		    CTable.fillInDialog(this, editor);
+		    if (!isNew){
+		    	CTable.fillInDialog(this, editor);
+		    }
 		},
 
 		onOk: function () {
@@ -486,4 +498,37 @@ function insertTable(editor) {
 	return dialogWindow;
 }
 
-CKEDITOR.dialog.add('table2Dialog', insertTable);
+
+/**
+ * Wrapper to call method {{#crossLink "TableDialog/manageTable:method"}}manageTable{{/crossLink}} method with
+ * the second argument set to `false`.
+ *
+ * @method        updateTable
+ * @param         {CKEDITOR}      editor   instance of CKEDITOR
+ * @param         {Boolean}       isNew    whether the method should insert new table or modify exisiting one
+ * @return        {Object}        dialog definition
+ * @since         0.0.6
+ */
+function updateTable(editor){
+	return manageTable(editor, false);
+}
+
+
+/**
+ * Wrapper to call method {{#crossLink "TableDialog/manageTable:method"}}manageTable{{/crossLink}} method with
+ * the second argument set to `true`.
+ *
+ * @method        createTable
+ * @param         {CKEDITOR}      editor   instance of CKEDITOR
+ * @param         {Boolean}       isNew    whether the method should insert new table or modify exisiting one
+ * @return        {Object}        dialog definition
+ * @since         0.0.6
+ */
+
+function createTable(editor){
+	return manageTable(editor, true);
+}
+
+
+CKEDITOR.dialog.add('table2Dialog', createTable);
+CKEDITOR.dialog.add('table2ModifyTableDialog', updateTable);

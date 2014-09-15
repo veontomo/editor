@@ -157,6 +157,7 @@ var Helper = {
      * array element absorbs eventual neglected fractions of the previous elements such that the sum
      * of all elements is equactly equal to `overall`.
      *
+     * @method   columnWidth2
      * @param    {Number}    overall            table width
      * @param    {Array}     pieces             array of numbers
      * @return   {Array}     array of integers

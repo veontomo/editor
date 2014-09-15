@@ -11,6 +11,7 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
 		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
+		editor.addCommand('table2ModifyTable', new CKEDITOR.dialogCommand('table2ModifyTableDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
 				CKHelper.insertColumn(ed, 'before');
@@ -129,7 +130,7 @@ CKEDITOR.plugins.add('table2', {
 			editor.addMenuItem('table2ModifyTable', {
 				label: editor.lang.table2.modifyTable,
 				icon: this.path + 'icons/table2.png',
-				command: 'table2Dialog',
+				command: 'table2ModifyTable',
 				group: 'table2Group'
 			});
 

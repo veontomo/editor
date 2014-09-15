@@ -30,7 +30,6 @@ if(isset($_POST['data'])){
 function sanitizeContent($content){
 	$replacement = ['à' => '&agrave;',
 		'è' => '&egrave;',
-		'è' => '&Egrave;',
 		'ì' => '&igrave;',
 		'ù' => '&ugrave;',
 		'ò' => '&ograve;',
@@ -41,6 +40,7 @@ function sanitizeContent($content){
 		'Ù' => '&Ugrave;',
 		'é' => '&eacute;',
 		'É' => '&Eacute;',
+		'\'' => '&#39;'
 	];
 	$result = $content;
 	foreach ($replacement as $key => $value){
