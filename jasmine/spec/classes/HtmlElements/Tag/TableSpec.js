@@ -1,14 +1,16 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, xit, expect, spyOn, beforeEach, afterEach, Table, Row, Cell, Properties,
-Content, TableProperties, RowProperties, TableCellStyles, TableAttributes, Properties, jasmine, Tag */
+Content, TableProperties, RowProperties, CellProperties, TableAttributes, Properties, jasmine, Tag */
 
 describe('Table-related functionality:', function(){
     var table, tableAttr, tableStyle, row1, row2, row3, row4, row5,
-        bogusTableAttr, bogusTableStyle, bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle;
+        bogusTableAttr,
+        bogusTableStyle,
+        bogusRowAttr, bogusRowStyle, bogusCellAttr, bogusCellStyle;
     beforeEach(function(){
         table = new Table();
         tableAttr = new TableProperties();
-        // tableStyle = new TableProperties();
+        tableStyle = new TableProperties();
         row1 = new Row();
         row2 = new Row();
         row3 = new Row();
@@ -1660,6 +1662,99 @@ describe('Table-related functionality:', function(){
             expect(table.getCaption().length()).toBe(1);
             expect(table.getCaption().getFirst().toHtml()).toBe('table caption');
         });
+
+
+    });
+
+    describe('Inserting rows and columns into table', function(){
+        it('throws an error if no arguments are given', function(){
+            expect(function(){
+                return table.makeShape();
+            }).toThrow(new Error('Number of rows and columns are missing.'));
+        });
+
+        it('throws an error if second argument is missing', function(){
+            expect(function(){
+                return table.makeShape(3);
+            }).toThrow(new Error('Number of cells is missing.'));
+        });
+
+        it('throws an error if first argument is negative', function(){
+            expect(function(){
+                return table.makeShape(-4, 3);
+            }).toThrow(new Error('Number of rows must be positive integer.'));
+        });
+
+        it('throws an error if first argument is zero', function(){
+            expect(function(){
+                return table.makeShape(0, 3);
+            }).toThrow(new Error('Number of rows must be positive integer.'));
+        });
+
+        it('throws an error if first argument is not integer', function(){
+            expect(function(){
+                return table.makeShape(9.4, 7);
+            }).toThrow(new Error('Number of rows must be positive integer.'));
+        });
+
+        it('throws an error if second argument is negative', function(){
+            expect(function(){
+                return table.makeShape(2, -3);
+            }).toThrow(new Error('Number of cells must be positive integer.'));
+        });
+
+        it('throws an error if second argument is not integer', function(){
+            expect(function(){
+                return table.makeShape(9, 4.3);
+            }).toThrow(new Error('Number of cells must be positive integer.'));
+        });
+
+        it('throws an error if second argument is not integer', function(){
+            expect(function(){
+                return table.makeShape(9, 4.3);
+            }).toThrow(new Error('Number of cells must be positive integer.'));
+        });
+
+        it('throws an error if second argument is zero', function(){
+            expect(function(){
+                return table.makeShape(4, 0);
+            }).toThrow(new Error('Number of cells must be positive integer.'));
+        });
+
+        it('inserts 1 row and 1 column', function(){
+            table.makeShape(1, 1);
+            expect(table.rowNum()).toBe(1);
+            expect(table.colNum()).toBe(1);
+        });
+
+        it('inserts 4 row1 and 1 column', function(){
+            table.makeShape(4, 1);
+            expect(table.rowNum()).toBe(4);
+            expect(table.colNum()).toBe(1);
+        });
+
+        it('inserts 1 row and 5 column', function(){
+            table.makeShape(1, 5);
+            expect(table.rowNum()).toBe(1);
+            expect(table.colNum()).toBe(5);
+        });
+
+        it('inserts 5 row and 6 column', function(){
+            table.makeShape(5, 6);
+            expect(table.rowNum()).toBe(5);
+            expect(table.colNum()).toBe(6);
+        });
+
+        it('inserts square table with 4 row and 4 column', function(){
+            table.makeShape(4, 4);
+            expect(table.rowNum()).toBe(4);
+            expect(table.colNum()).toBe(4);
+        });
+
+
+
+
+
 
 
     });

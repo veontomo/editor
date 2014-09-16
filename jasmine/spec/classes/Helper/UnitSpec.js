@@ -89,7 +89,7 @@ describe('Unit-related functionality', function () {
     describe('Unit::isLikeAs(): whether two Unit objects have the same unit of measurements', function(){
         it('gives false if argument can not be converted into a Unit object', function(){
             u = new Unit(1, 'cm');
-            expect(u.isLikeAs("strign")).toBe(false);
+            expect(u.isLikeAs("just a string")).toBe(false);
         });
 
         it('gives true when comparing with itself', function(){

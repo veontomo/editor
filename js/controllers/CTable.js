@@ -144,6 +144,7 @@ var CTable = {
 		if (table.hasStyleProperty('background-color')){
 			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}
+		console.log('... Done.');
 
 	},
 
@@ -170,7 +171,7 @@ var CTable = {
 
 	/**
 	 * Updates parameters of `tableNode` with new ones provided by `editor` dialog.
-	 *
+	 * @method         update
 	 * @param          {Object}             context           context by means the variables are passed from view to the controller
 	 * @param          {Object}             editor            editor instance
 	 * @param          {DOM.Element}        tableNode         node corresponding to a table which parameters are to be updated

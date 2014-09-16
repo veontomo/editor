@@ -291,6 +291,33 @@ function Row() {
 		return this.getPhantomTableProp('attr');
 	};
 
+	/**
+	 * Inserts `c` empty cells into the row.
+	 *
+	 * Previous row content gets lost.
+	 *
+	 * @method         makeShape
+	 * @param          {Integer}       c   number of cells
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.makeShape = function(c){
+		if (c === undefined){
+			throw new Error('Number of cells is missing.');
+		}
+		if (!Number.isInteger(c) || c <= 0){
+			throw new Error('Number of cells must be positive integer.');
+		}
+		this.flushContent();
+		var i, cell;
+		for (i = 0; i < c; i++){
+			cell = new Cell();
+			this.appendCell(cell);
+		}
+
+
+	};
+
 
 }
 Row.prototype = Object.create(Tag.prototype);
