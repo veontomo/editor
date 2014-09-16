@@ -883,13 +883,13 @@ function Tag(tName) {
 
 	/**
 	 * Sets style key `name` of all children of the current instance to be equal to `value`.
-	 * @method         setChildrenStyleProperty
+	 * @method         setStylePropertyToAll
 	 * @param          {String}        key            style key
 	 * @param          {String|Number} value          style value
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.setChildrenStyleProperty = function(key, value){
+	this.setStylePropertyToAll = function(key, value){
 		var cntn = new Content(),
 			len = this.length(),
 			i, elem;

@@ -1207,7 +1207,7 @@ function Table() {
 			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth = tWidth.clone(),
 			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0),
-			cellWidths;
+			cellWidths, i;
 
 
 		if (descr.spaceTableGlobal.getValue() > 0){
@@ -1283,11 +1283,16 @@ function Table() {
 		this.setProfile(cellWidths);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
 		if (descr.cellBorders.topHor){
-			this.setStylePropertyToChildrenOf(0, 'border-top', cellBorderInfo);
-			this.setFirstRowCellTopBorder(cellBorderInfo);
+			this.setStylePropertyOfAllCellsOfRow(0, 'border-top', cellBorderInfo);
 		}
-		if (descr.cellBorders.bottomHor){
-			this.setLastRowCellBottomBorder(cellBorderInfo);
+		if (descr.cellBorders.bottomHor && descr.rows > 0){
+			this.setStylePropertyOfAllCellsOfRow(descr.rows - 1, 'border-bottom', cellBorderInfo);
+		}
+		// horizontal border between rows: top border of each but first rows
+		if (descr.cellBorders.intHor){
+			for (i = 1; i < descr.rows; i++){
+				this.setStylePropertyOfAllCellsOfRow(i, 'border-top', cellBorderInfo);
+			}
 		}
 
 
@@ -1359,51 +1364,31 @@ function Table() {
 	};
 
 	/**
-	 * Sets top border of the cells situated in the upper row.
-	 * @method         setFirstRowCellTopBorder
-	 * @param          {String}        borderInfo     border description (e.g., "1px solid red")
+	 * Sets style property `key` of all children of row with number `pos` to be equal to `value`.
+	 * @method         setStylePropertyOfAllCellsOfRow
+	 * @param          {Integer}       pos       row number
+	 * @param          {String}        key       name of style property to set (e.g., "width", "padding" etc)
+	 * @param          {String}        value     border description (e.g., "1px solid red")
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.setFirstRowCellTopBorder = function(borderInfo){
-		var rowNum = this.rowNum(),
-			cntn = new Content(),
+	this.setStylePropertyOfAllCellsOfRow = function(pos, key, value){
+		var body = this.getBody(),
+			newBody = [],
+			rowNum = body.length,
 			row, r;
-		if (rowNum > 0){
-			row = this.getRow(0);
-			cntn.appendElem(row);
-			row.setCellTopBorder(borderInfo);
-			for (r = 1; r < rowNum; r++){
-				cntn.appendElem(this.getRow(r));
+		for (r = 0; r < rowNum; r++){
+			console.log('row no. ' + r + ' out of ' + rowNum  + ', pos = ' + pos);
+			row = body[r];
+			if (r === pos){
+				console.log('selected row!');
+				row.setStylePropertyToAll(key, value);
 			}
+			newBody.push(row);
 		}
-		this.setContent(cntn);
+		this.setBody(newBody);
 	};
 
-	/**
-	 * Sets style property `name` for all cells of  elements
-	 * @method 	       setStylePropertyToCellsOf
-	 * @param          {Integer} pos
-	 * @param          {String}  name  [description]
-	 * @param          {String|Integer} value [description]
-	 */
-	this.setStylePropertyToCellsOf = function(pos, name, value){
-		var rowNum = this.rowNum(),
-			cntn = new Content(),
-			row, i;
-		if (rowNum > 0){
-			row = this.getRow(0);
-			cntn.appendElem(row);
-			row.setChildrenStyleProperty(name, value);
-			for (i = 0; i < rowNum; i++){
-				cntn.appendElem(this.getRow(i));
-			}
-		}
-		this.setContent(cntn);
-
-
-
-	};
 
 	/**
 	 * Updates `tableNode` with new chracteristics given by `tableInfo` object.
