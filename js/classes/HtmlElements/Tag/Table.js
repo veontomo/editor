@@ -1165,147 +1165,34 @@ function Table() {
 	 * @since          0.0.6
 	 */
 	this.configure = function(descr){
-		// console.log('setting table according to ', descr);
-		// // console.log('width: ', descr.width.toString());
-		// var tWidth = descr.width,
-		// 	bWidth = descr.tableBorderWidth,
-		// 	spaceBtwRows = descr.spaceBtwRows,
-		// 	currentWidth = tWidth.clone(),
-		// 	c, r, row, cell, cellWidths,
-		// 	spaceBtwRowsHalf = spaceBtwRows.frac(2, 0);
-
-		// if (descr.spaceTableGlobal.getValue() > 0){
-		// 	this.setStyleProperty('margin', descr.spaceTableGlobal.toString());
-		// 	currentWidth = currentWidth.sub(descr.spaceTableGlobal.times(2));
-		// }
-
-		// var globalPadding = descr.paddingTableGlobal;
-		// this.setStyleProperty('padding', globalPadding.toString());
-		// // this.setProperty('cellpadding', globalPadding.getValue());
-		// this.setProperty('cellspacing', globalPadding.getValue());
-		// currentWidth = currentWidth.sub(globalPadding.times(2));
-
-		// // setting overall border of the table
-		// if (bWidth.getValue() > 0){
-		// 	currentWidth = currentWidth.sub(bWidth.times(2));
-		// 	this.setBorder({
-		// 		style: 'solid',
-		// 		color: descr.tableBorderColor,
-		// 		width: bWidth.getValue()
-		// 	});
-		// }
-
-		// // padding is always zero
-		// // this.setStyleProperty('padding', 0);
-		// // available width for the table after taking into account margin, padding and border widths
-		// this.setWidth(currentWidth.getValue());
-
-		// // setting vertical spaces between rows
-		// this.setStyleProperty('border-spacing', '0px ' + spaceBtwRowsHalf.toString());
-
-		// // setting background color
-		// if (descr.globalTableBgColor){
-		// 	this.setStyleProperty('background-color', descr.globalTableBgColor);
-		// }
-
-		// // setting properties of the phantom elements
-		// if (descr.phantomBorderWidth.getValue() > 0){
-		// 	var phantomRowProp    = new RowProperties(),
-		// 		phantomCellProp   = new CellProperties(),
-		// 		phantomTableProp  = new TableProperties();
-
-		// 	phantomRowProp.setStyleProperty('padding', 0);
-		// 	phantomRowProp.setStyleProperty('margin', 0);
-		// 	phantomCellProp.setStyleProperty('padding', 0);
-		// 	phantomCellProp.setStyleProperty('margin', 0);
-
-		// 	// setting width of the phantom row and phantom cell
-		// 	phantomRowProp.setWidth(currentWidth.getValue());
-		// 	phantomCellProp.setWidth(currentWidth.getValue());
-
-		// 	phantomTableProp.setBorder({
-		// 		style: 'solid',
-		// 		color: descr.phantomBorderColor,
-		// 		width: descr.phantomBorderWidth.getValue()
-		// 	});
-
-		// 	// updating current width after imposing border width of the phantom table
-		// 	currentWidth = currentWidth.sub(descr.phantomBorderWidth.times(2));
-		// 	phantomTableProp.setWidth(currentWidth.getValue());
-
-		// 	this.setPhantomRowProperties(phantomRowProp);
-		// 	this.setPhantomCellProperties(phantomCellProp);
-		// 	this.setPhantomTableProperties(phantomTableProp);
-		// }
-
-
-		// cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
-		// // console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
-
 		this.mark(NEWSLETTER['marker-name']);
-		// creating rows
-		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor,
-			cellWidth;
-		for (r = 0; r < descr.rows; r++){
-			row = new Row();
-			row.setWidth(currentWidth.getValue());
-			row.mark(NEWSLETTER['marker-name']);
-			// creating cells
-			for (c = 0; c < descr.cols; c++){
-				cell = new Cell();
-				cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
-				cell.mark(NEWSLETTER['marker-name']);
+		this.makeShape(descr.rows, descr.cols);
+		this.markRows(NEWSLETTER['marker-name']);
+		// this.markCells(NEWSLETTER['marker-name']);
+		this.configureProperties(descr);
 
-				cellWidth = new Unit(cellWidths[c], NEWSLETTER.unitMeasure());
+	};
 
-				cell.setStyleProperty('padding', descr.spaceCell);
-				cellWidth = cellWidth.sub(descr.spaceCell.times(2));
-
-				// top border of the first row
-				if (r === 0 && descr.cellBorders.topHor){
-					cell.setStyleProperty('border-top', cellBorderInfo);
-				}
-
-				// bottom border of the last row
-				if (r === descr.rows - 1 && descr.cellBorders.bottomHor){
-					cell.setStyleProperty('border-bottom', cellBorderInfo);
-				}
-				// horizontal border between rows: top border of each but first rows
-				if (descr.rows > 1 && r > 0 && descr.cellBorders.intHor){
-					cell.setStyleProperty('border-top', cellBorderInfo);
-				}
-				// most left border
-				if (c === 0 && descr.cellBorders.leftVer){
-					cell.setStyleProperty('border-left', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
-				// most right border
-				if (c === descr.cols - 1 && descr.cellBorders.rightVer){
-					cell.setStyleProperty('border-right', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
-				// vertical border between columns: left border of each but first column
-				if (descr.cols > 1 && c > 0 && descr.cellBorders.intVer){
-					cell.setStyleProperty('border-left', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
-
-				cell.setWidth(cellWidth.getValue());
-				row.appendCell(cell);
+	/**
+	 * Marks all table rows.
+	 * @method         markRows
+	 * @param          {String}       marker
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.markRows = function(marker){
+		var r = this.rowNum(),
+			i, elem,
+			c = new Content();
+		for (i = 0; i < r; i++){
+			elem = this.getElem(i);
+			if (elem && typeof elem.mark === 'function'){
+				elem.mark(marker);
+				c.appendElem(elem);
 			}
-			this.appendRow(row);
+
 		}
-
-
-
-		var isAllPositive = cellWidths.some(function(el){
-			return el < 0;
-		});
-		// if at least one of the values becomes negative, flash alert message
-		if (isAllPositive){
-			alert("Rilevato un numero negativo:\n" + cellWidths.join(' ') + "\nLa tabella non sarà inserita." );
-			return null;
-		}
+		this.setContent(c);
 	};
 
 	/**
@@ -1320,7 +1207,7 @@ function Table() {
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth = tWidth.clone(),
-			c, r, row, cell, cellWidths,
+			// c, r, row, cell, cellWidths,
 			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0);
 
 		if (descr.spaceTableGlobal.getValue() > 0){
@@ -1388,73 +1275,73 @@ function Table() {
 		}
 
 
-		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
+		// cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
 		// console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
 
-		this.mark(NEWSLETTER['marker-name']);
+		// this.mark(NEWSLETTER['marker-name']);
 		// creating rows
-		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor,
-			cellWidth;
-		for (r = 0; r < descr.rows; r++){
-			row = new Row();
-			row.setWidth(currentWidth.getValue());
-			row.mark(NEWSLETTER['marker-name']);
-			// creating cells
-			for (c = 0; c < descr.cols; c++){
-				cell = new Cell();
-				cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
-				cell.mark(NEWSLETTER['marker-name']);
+		// var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor,
+		// 	cellWidth;
+		// for (r = 0; r < descr.rows; r++){
+		// 	row = new Row();
+		// 	row.setWidth(currentWidth.getValue());
+		// 	row.mark(NEWSLETTER['marker-name']);
+		// 	// creating cells
+		// 	for (c = 0; c < descr.cols; c++){
+		// 		cell = new Cell();
+		// 		cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
+		// 		cell.mark(NEWSLETTER['marker-name']);
 
-				cellWidth = new Unit(cellWidths[c], NEWSLETTER.unitMeasure());
+		// 		cellWidth = new Unit(cellWidths[c], NEWSLETTER.unitMeasure());
 
-				cell.setStyleProperty('padding', descr.spaceCell);
-				cellWidth = cellWidth.sub(descr.spaceCell.times(2));
+		// 		cell.setStyleProperty('padding', descr.spaceCell);
+		// 		cellWidth = cellWidth.sub(descr.spaceCell.times(2));
 
-				// top border of the first row
-				if (r === 0 && descr.cellBorders.topHor){
-					cell.setStyleProperty('border-top', cellBorderInfo);
-				}
+		// 		// top border of the first row
+		// 		if (r === 0 && descr.cellBorders.topHor){
+		// 			cell.setStyleProperty('border-top', cellBorderInfo);
+		// 		}
 
-				// bottom border of the last row
-				if (r === descr.rows - 1 && descr.cellBorders.bottomHor){
-					cell.setStyleProperty('border-bottom', cellBorderInfo);
-				}
-				// horizontal border between rows: top border of each but first rows
-				if (descr.rows > 1 && r > 0 && descr.cellBorders.intHor){
-					cell.setStyleProperty('border-top', cellBorderInfo);
-				}
-				// most left border
-				if (c === 0 && descr.cellBorders.leftVer){
-					cell.setStyleProperty('border-left', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
-				// most right border
-				if (c === descr.cols - 1 && descr.cellBorders.rightVer){
-					cell.setStyleProperty('border-right', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
-				// vertical border between columns: left border of each but first column
-				if (descr.cols > 1 && c > 0 && descr.cellBorders.intVer){
-					cell.setStyleProperty('border-left', cellBorderInfo);
-					cellWidth = cellWidth.sub(descr.cellBorderWidth);
-				}
+		// 		// bottom border of the last row
+		// 		if (r === descr.rows - 1 && descr.cellBorders.bottomHor){
+		// 			cell.setStyleProperty('border-bottom', cellBorderInfo);
+		// 		}
+		// 		// horizontal border between rows: top border of each but first rows
+		// 		if (descr.rows > 1 && r > 0 && descr.cellBorders.intHor){
+		// 			cell.setStyleProperty('border-top', cellBorderInfo);
+		// 		}
+		// 		// most left border
+		// 		if (c === 0 && descr.cellBorders.leftVer){
+		// 			cell.setStyleProperty('border-left', cellBorderInfo);
+		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		// 		}
+		// 		// most right border
+		// 		if (c === descr.cols - 1 && descr.cellBorders.rightVer){
+		// 			cell.setStyleProperty('border-right', cellBorderInfo);
+		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		// 		}
+		// 		// vertical border between columns: left border of each but first column
+		// 		if (descr.cols > 1 && c > 0 && descr.cellBorders.intVer){
+		// 			cell.setStyleProperty('border-left', cellBorderInfo);
+		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		// 		}
 
-				cell.setWidth(cellWidth.getValue());
-				row.appendCell(cell);
-			}
-			this.appendRow(row);
-		}
+		// 		cell.setWidth(cellWidth.getValue());
+		// 		row.appendCell(cell);
+		// 	}
+		// 	this.appendRow(row);
+		// }
 
 
 
-		var isAllPositive = cellWidths.some(function(el){
-			return el < 0;
-		});
-		// if at least one of the values becomes negative, flash alert message
-		if (isAllPositive){
-			alert("Rilevato un numero negativo:\n" + cellWidths.join(' ') + "\nLa tabella non sarà inserita." );
-			return null;
-		}
+		// var isAllPositive = cellWidths.some(function(el){
+		// 	return el < 0;
+		// });
+		// // if at least one of the values becomes negative, flash alert message
+		// if (isAllPositive){
+		// 	alert("Rilevato un numero negativo:\n" + cellWidths.join(' ') + "\nLa tabella non sarà inserita." );
+		// 	return null;
+		// }
 
 	};
 
@@ -1471,9 +1358,7 @@ function Table() {
 	this.update = function(tableInfo){
 		console.log(tableInfo);
 		var tableClone = this.clone();
-		if (tableInfo.cellBorderColor){
-			tableClone.setStyleProperty('background-color', tableInfo.globalTableBgColor);
-		}
+		tableClone.configureProperties(tableInfo);
 		return tableClone;
 	};
 
