@@ -879,4 +879,25 @@ function Tag(tName) {
 	this.shrinkBy = function(d){
 		_properties.shrinkBy(d);
 	}
+
+
+	/**
+	 * Sets style key `name` of all children of the current instance to be equal to `value`.
+	 * @method         setChildrenStyleProperty
+	 * @param          {String}        key            style key
+	 * @param          {String|Number} value          style value
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.setChildrenStyleProperty = function(key, value){
+		var cntn = new Content(),
+			len = this.length(),
+			i, elem;
+		for (i = 0; i < len; i++){
+			elem = this.getElem(i);
+			elem.setStyleProperty(key, value);
+			cntn.appendElem(elem);
+		}
+		this.setContent(cntn);
+	};
 }

@@ -314,8 +314,24 @@ function Row() {
 			cell = new Cell();
 			this.appendCell(cell);
 		}
+	};
 
-
+	/**
+	 * Sets top border for each cell.
+	 * @method         setCellTopBorder
+	 * @param          {String}        borderInfo       border description (e.g., "1px solid red")
+	 * @since          0.0.6
+	 */
+	this.setCellTopBorder = function(borderInfo){
+		var cntn = new Content(),
+			cellNum = this.cellNum(),
+			c, cell;
+		for (c = 0; c < cellNum; c++){
+			cell = this.getElem(c);
+			cell.setStyleProperty('border-top', borderInfo);
+			cntn.appendElem(cell);
+		}
+		this.setContent(cntn);
 	};
 
 

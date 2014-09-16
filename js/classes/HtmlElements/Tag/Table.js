@@ -1190,7 +1190,6 @@ function Table() {
 				elem.mark(marker);
 				c.appendElem(elem);
 			}
-
 		}
 		this.setContent(c);
 	};
@@ -1207,8 +1206,9 @@ function Table() {
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth = tWidth.clone(),
-			// c, r, row, cell, cellWidths,
-			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0);
+			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0),
+			cellWidths;
+
 
 		if (descr.spaceTableGlobal.getValue() > 0){
 			this.setStyleProperty('margin', descr.spaceTableGlobal.toString());
@@ -1274,9 +1274,22 @@ function Table() {
 			this.setPhantomTableProperties(phantomTableProp);
 		}
 
+		// table.setRowWidths(currentWidth.getValue());
 
-		// cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
+
+
+		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
 		// console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
+		this.setProfile(cellWidths);
+		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
+		if (descr.cellBorders.topHor){
+			this.setStylePropertyToChildrenOf(0, 'border-top', cellBorderInfo);
+			this.setFirstRowCellTopBorder(cellBorderInfo);
+		}
+		if (descr.cellBorders.bottomHor){
+			this.setLastRowCellBottomBorder(cellBorderInfo);
+		}
+
 
 		// this.mark(NEWSLETTER['marker-name']);
 		// creating rows
@@ -1342,6 +1355,53 @@ function Table() {
 		// 	alert("Rilevato un numero negativo:\n" + cellWidths.join(' ') + "\nLa tabella non sarà inserita." );
 		// 	return null;
 		// }
+
+	};
+
+	/**
+	 * Sets top border of the cells situated in the upper row.
+	 * @method         setFirstRowCellTopBorder
+	 * @param          {String}        borderInfo     border description (e.g., "1px solid red")
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.setFirstRowCellTopBorder = function(borderInfo){
+		var rowNum = this.rowNum(),
+			cntn = new Content(),
+			row, r;
+		if (rowNum > 0){
+			row = this.getRow(0);
+			cntn.appendElem(row);
+			row.setCellTopBorder(borderInfo);
+			for (r = 1; r < rowNum; r++){
+				cntn.appendElem(this.getRow(r));
+			}
+		}
+		this.setContent(cntn);
+	};
+
+	/**
+	 * Sets style property `name` for all cells of  elements
+	 * @method 	       setStylePropertyToCellsOf
+	 * @param          {Integer} pos
+	 * @param          {String}  name  [description]
+	 * @param          {String|Integer} value [description]
+	 */
+	this.setStylePropertyToCellsOf = function(pos, name, value){
+		var rowNum = this.rowNum(),
+			cntn = new Content(),
+			row, i;
+		if (rowNum > 0){
+			row = this.getRow(0);
+			cntn.appendElem(row);
+			row.setChildrenStyleProperty(name, value);
+			for (i = 0; i < rowNum; i++){
+				cntn.appendElem(this.getRow(i));
+			}
+		}
+		this.setContent(cntn);
+
+
 
 	};
 

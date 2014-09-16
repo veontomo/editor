@@ -1054,9 +1054,48 @@ describe('Tag-related functionality', function() {
             expect(tag.hasProperty('width')).toBe(false);
         });
 
+    });
 
+    describe('Imposing styles to all children', function(){
+        var tag2;
+        beforeEach(function(){
+            tag = new Tag();
+            tag2 = new Tag();
+        });
 
+        it('does not append no elements if initially there are no children', function(){
+            expect(tag.length()).toBe(0);
+            tag.setChildrenStyleProperty('class', 'hidden');
+            expect(tag.length()).toBe(0);
+        });
 
+        it('does not append no elements if initially there is one child', function(){
+            tag2 = new Tag();
+            tag.appendElem(tag2);
+            expect(tag.length()).toBe(1);
+            tag.setChildrenStyleProperty('class', 'hidden');
+            expect(tag.length()).toBe(1);
+        });
+
+        it('sets style of unique child element', function(){
+            tag2 = new Tag();
+            tag.appendElem(tag2);
+            tag.setChildrenStyleProperty('class', 'hidden');
+            expect(tag.getFirst().getStyleProperty('class')).toBe('hidden');
+        });
+
+        it('sets style of three child elements', function(){
+            tag2 = new Tag();
+            var tag3 = new Tag(),
+                tag4 = new Tag();
+            tag.appendElem(tag2);
+            tag.appendElem(tag3);
+            tag.appendElem(tag4);
+            tag.setChildrenStyleProperty('class', 'hidden');
+            expect(tag.getElem(0).getStyleProperty('class')).toBe('hidden');
+            expect(tag.getElem(1).getStyleProperty('class')).toBe('hidden');
+            expect(tag.getElem(2).getStyleProperty('class')).toBe('hidden');
+        });
 
     });
 
