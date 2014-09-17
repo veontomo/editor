@@ -48,7 +48,7 @@ var CTable = {
 			phantomBorderWidth:   new Unit(parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10), defaultUnit),
 			phantomBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
 			cellBorders: {
-				leftVert:  dialog.getValueOf('borderTab', 'leftVerBord'),
+				leftVer:   dialog.getValueOf('borderTab', 'leftVerBord'),
 				rightVer:  dialog.getValueOf('borderTab', 'rightVerBord'),
 				intVer:    dialog.getValueOf('borderTab', 'intVerBord'),
 				topHor:    dialog.getValueOf('borderTab', 'topHorBord'),

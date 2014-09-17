@@ -1274,13 +1274,8 @@ function Table() {
 			this.setPhantomTableProperties(phantomTableProp);
 		}
 
-		// table.setRowWidths(currentWidth.getValue());
-
-
 
 		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
-		// console.log(cellWidths, Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights), currentWidth.getValue());
-		this.setProfile(cellWidths);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
 		if (descr.cellBorders.topHor){
 			this.setStylePropertyOfBlock('border-top', cellBorderInfo, [0]);
@@ -1300,23 +1295,31 @@ function Table() {
 		// left border of most left cells
 		if (descr.cellBorders.leftVer){
 			this.setStylePropertyOfBlock('border-left', cellBorderInfo, null, [0]);
-			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
+			// adjusting left cell width for further setting by means of "setProfile"
+			cellWidths[0] -= descr.cellBorderWidth.getValue();
+
 		}
 		// most right border
 		if (descr.cellBorders.rightVer){
 			this.setStylePropertyOfBlock('border-right', cellBorderInfo, null, [descr.cols - 1]);
-			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
+			// adjusting right cell width for further setting by means of "setProfile"
+			cellWidths[cellWidths.length - 1] -= descr.cellBorderWidth.getValue();
 		}
+
 		// vertical border between columns: left border of each but first column
 		if (descr.cellBorders.intVer){
-			// creating array [1, 2, 3, ..., col - 1]
+			// creating array [1, 2, 3, ..., col - 1] of cell indexes to which border is to be applied
+			// hence the width of these cells is to be adjusted.
 			var colNums = [];
 			for (i = 1; i < descr.cols; i++){
 				colNums.push(i);
+				// adjusting cell width for further setting by means of "setProfile"
+				cellWidths[i] -= descr.cellBorderWidth.getValue();
 			}
 			this.setStylePropertyOfBlock('border-left', cellBorderInfo, null, colNums);
-			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
 		}
+		this.setStylePropertyOfBlock('padding', descr.spaceCell.toString(), null, null);
+		this.setProfile(cellWidths);
 
 	};
 
