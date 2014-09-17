@@ -1342,7 +1342,6 @@ function Table() {
 		if (!Array.isArray(rowArr) && rowArr !== null && rowArr !== undefined){
 			throw new Error('Row range must be an array!');
 		}
-
 		var body = this.getBody(),
 			newBody = [],
 			rowNum = body.length,
@@ -1351,12 +1350,49 @@ function Table() {
 		for (r = 0; r < rowNum; r++){
 			row = body[r];
 			if (setForAll || rowArr.indexOf(r) !== -1){
-				row.setStylePropertyToRange(key, value, cellArr);
+				row.setStylePropertyOfRange(key, value, cellArr);
 			}
 			newBody.push(row);
 		}
 		this.setBody(newBody);
 	};
+
+	/**
+	 * Returns value of style property `key` of rows which indexes are in array `rowArr` and cell
+	 * indexes are in array `cellArr` if all objects have the same value of the above property.
+	 * Otherwise, `null` is returned.
+	 *
+	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
+	 * @param          {Array|null}    rowArr    array of row indexes (or null for all rows)
+	 * @param          {Array|null}    cellArr   array of column indexes (or null for all rows)
+	 * @return         {String|null}
+	 */
+	this.getStylePropertyOfBlock = function(key, rowArr, cellArr){
+		if (!Array.isArray(rowArr) && rowArr !== null && rowArr !== undefined){
+			throw new Error('Row range must be an array!');
+		}
+		var body = this.getBody(),
+			rowNum = body.length,
+			row, r,
+			value, currentValue,
+			checkForAll = (rowArr === null || rowArr === undefined); // in case the range is not specified, apply for all rows
+		for (r = 0; r < rowNum; r++){
+			if (checkForAll || rowArr.indexOf(r) !== -1){
+				row = body[r];
+				currentValue = row.getStylePropertyOfRange(key, cellArr);
+				if (value === undefined){
+					// initialize value
+					value = currentValue;
+				} else {
+					// exit, if already initialized value is different from current value
+					if (value !== currentValue){
+						return;
+					}
+				}
+			}
+		}
+		return value;
+	}
 
 	/**
 	 * Updates `tableNode` with new chracteristics given by `tableInfo` object.
@@ -1369,11 +1405,11 @@ function Table() {
 	 * @return         {Table}         a Table instance with updated properties
 	 */
 	this.update = function(tableInfo){
-		console.log(tableInfo);
 		var tableClone = this.clone();
 		tableClone.configureProperties(tableInfo);
 		return tableClone;
 	};
+
 
 
 }

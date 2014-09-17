@@ -904,9 +904,9 @@ function Tag(tName) {
 	/**
 	 * Sets style key `name` of children which indexes are in array `range` to be equal to `value`.
 	 *
-	 * Example: <code>tag.setStylePropertyToRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
+	 * Example: <code>tag.setStylePropertyOfRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
 	 * property `margin` to be `10px` for children which indexes are 1, 4, 6, or 7.
-	 * @method         setStylePropertyToRange
+	 * @method         setStylePropertyOfRange
 	 * @param          {String}        key            style key
 	 * @param          {String|Number} value          style value
 	 * @param          {Array|Null}    range          array of children indexes to which apply modifications
@@ -914,7 +914,7 @@ function Tag(tName) {
 	 * @throws         {Error}  If range is niether an array nor null
 	 * @since          0.0.6
 	 */
-	this.setStylePropertyToRange = function(key, value, range){
+	this.setStylePropertyOfRange = function(key, value, range){
 		if (!Array.isArray(range) && range !== null && range !== undefined){
 			throw new Error('Range must be an array!');
 		}
@@ -930,6 +930,17 @@ function Tag(tName) {
 			cntn.appendElem(elem);
 		}
 		this.setContent(cntn);
+	};
 
+	/**
+	 * Returns value of style property `key` of children which indexes are in array `range` if all of them have
+	 * the same value of the property. Otherwise, `null` is returned.
+	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
+	 * @param          {Array|null}    range     array of indexes of the children to take into consideration
+	 * @return         {String|null}
+	 */
+	this.getStylePropertyOfRange = function(key, range){
+		/// !!! stub
+		return;
 	};
 }

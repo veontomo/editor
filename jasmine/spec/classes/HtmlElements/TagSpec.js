@@ -1110,21 +1110,21 @@ describe('Tag-related functionality', function() {
         it('does not throw any error if the range is an array', function(){
             expect(tag.length()).toBe(0);
             expect(function(){
-                return tag.setStylePropertyToRange('class', 'hidden', [1, 2, 3]);
+                return tag.setStylePropertyOfRange('class', 'hidden', [1, 2, 3]);
             }).not.toThrow(new Error('Range must be an array!'));
         });
 
         it('does not throw any error if the range is a null', function(){
             expect(tag.length()).toBe(0);
             expect(function(){
-                return tag.setStylePropertyToRange('class', 'hidden', null);
+                return tag.setStylePropertyOfRange('class', 'hidden', null);
             }).not.toThrow(new Error('Range must be an array!'));
         });
 
         it('does not throw any error if the range is undefined', function(){
             expect(tag.length()).toBe(0);
             expect(function(){
-                return tag.setStylePropertyToRange('class', 'hidden');
+                return tag.setStylePropertyOfRange('class', 'hidden');
             }).not.toThrow(new Error('Range must be an array!'));
         });
 
@@ -1133,7 +1133,7 @@ describe('Tag-related functionality', function() {
             tag.appendElem(tag3);
             tag.appendElem(tag4);
             tag.appendElem(tag5);
-            tag.setStylePropertyToRange('display', 'visible', [2, 0]);
+            tag.setStylePropertyOfRange('display', 'visible', [2, 0]);
             expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(1).hasStyleProperty('display')).toBe(false);
             expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
@@ -1144,7 +1144,7 @@ describe('Tag-related functionality', function() {
             tag.appendElem(tag2);
             tag.appendElem(tag3);
             tag.appendElem(tag4);
-            tag.setStylePropertyToRange('display', 'visible', null);
+            tag.setStylePropertyOfRange('display', 'visible', null);
             expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(1).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
@@ -1155,7 +1155,7 @@ describe('Tag-related functionality', function() {
             tag.appendElem(tag3);
             tag.appendElem(tag4);
             tag.appendElem(tag5);
-            tag.setStylePropertyToRange('display', 'visible');
+            tag.setStylePropertyOfRange('display', 'visible');
             expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(1).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');

@@ -181,7 +181,7 @@ function manageTable(editor, isNew) {
 				type: 'text',
 				label: editor.lang.table.rows,
 				id: 'tblRows',
-				'default': 2,
+				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: asNumber
 			}, {
@@ -409,7 +409,7 @@ function manageTable(editor, isNew) {
 							type: 'text',
 							label: editor.lang.table2.globalSpaces,
 							title: editor.lang.table2.valueInPx,
-							'default': '3',
+							'default': '0',
 							id: 'spaceTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -417,7 +417,7 @@ function manageTable(editor, isNew) {
 							type: 'text',
 							label: editor.lang.table2.globalPadding,
 							title: editor.lang.table2.valueInPx,
-							'default': '4',
+							'default': '0',
 							id: 'paddingTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -428,7 +428,7 @@ function manageTable(editor, isNew) {
 							type: 'text',
 							label: editor.lang.table2.rowSpaceTitle,
 							title: editor.lang.table2.valueInPx,
-							'default': '3',
+							'default': '0',
 							id: 'spaceBtwRows',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -436,7 +436,7 @@ function manageTable(editor, isNew) {
 							type: 'text',
 							label: editor.lang.table2.cellSpace,
 							title: editor.lang.table2.valueInPx,
-							'default': '2',
+							'default': '0',
 							id: 'spaceCell',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
@@ -502,7 +502,6 @@ function manageTable(editor, isNew) {
 				console.log('parent table is NOT found');
 				return;
 			}
-			console.log('parent table is found', currentTable);
 			tableNode = CTable.update(this, editor, currentTable.$);
 			tableElem = CKEDITOR.document.createElement(tableNode);
 			tableElem.replace(currentTable);

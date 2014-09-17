@@ -22,7 +22,7 @@ var CTable = {
 	 * equal to the element width.
 	 * @method     parentWidth
 	 * @return     {Unit}             available width for the children as Unit object
-	 *                                  (with properties "value" and "measure")
+	 *                                (with properties "value" and "measure")
 	 */
 	parentWidth: function (editor) {
 		var startElem = editor.getSelection().getStartElement(),
@@ -34,7 +34,6 @@ var CTable = {
 			output;
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
-		// console.log('parentWidth returns ', output.toString());
 		return output;
 	},
 
@@ -94,7 +93,6 @@ var CTable = {
 		var table = new Table();
 		table.configure(tableInfo);
 		return table.toNode();
-
 	},
 
 	/**
@@ -128,14 +126,31 @@ var CTable = {
 	 * @return        {void}
 	 */
 	fillInDialog: function(context, editor){
-		console.log('I should fill in the dialog');
 		var tableElem = this.findParentTable(editor);
 		if (!tableElem){
 			return;
 		}
-		var factory = NEWSLETTER.factory;
-		var table = factory.mimic(tableElem.$),
-			borderInfo = table.getBorder();
+		var factory = NEWSLETTER.factory,
+			table = factory.mimic(tableElem.$),
+			borderInfo = table.getBorder(),
+			spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0),
+			paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0),
+			spaceBtwRows = table.getStyleProperty('border-spacing'),  // its format is either "5px" or "5px 7px"
+			spaceCell;
+
+		if (spaceBtwRows){
+			// picking up the last value ("2px") from strings like "1px 2px" or "2px"
+			// and transforming it into a Unit object
+			spaceBtwRows = new Unit(spaceBtwRows.split(' ').pop() || 0);
+		}
+		try {
+			// table body is an array of Row instances
+			spaceCell = table.getBody()[0].getFirst().getStyleProperty('padding');
+		} catch (e){
+			spaceCell = 0;
+		}
+		spaceCell = new Unit(spaceCell);  // converting spaceCell into Unit instance
+
 		context.setValueOf('info', 'tblRows', table.rowNum());
 		context.getContentElement('info', 'tblRows').disable();
 		context.setValueOf('info', 'tblCols', table.colNum());
@@ -144,9 +159,17 @@ var CTable = {
 		if (table.hasStyleProperty('background-color')){
 			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}
-		console.log('... Done.');
-
+		if (borderInfo.style !== 'none'){
+			var tableBorderWidth = new Unit(borderInfo.width);
+			context.setValueOf('borderTab', 'globalBorderWidth', tableBorderWidth.getValue() || 0);
+			context.setValueOf('borderTab', 'globalBorderColor', borderInfo.color || '#000001');
+		}
+		context.setValueOf('spacesTab', 'spaceTableGlobal', spaceTableGlobal.getValue());
+		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue());
+		context.setValueOf('spacesTab', 'spaceBtwRows', spaceBtwRows.times(2).getValue()); // NB: see multiplication by 2
+		context.setValueOf('spacesTab', 'spaceCell', spaceCell.getValue());
 	},
+
 
 	/**
 	 * Returns the nearest (for current cursor position) parent table. If no table is found among ancestors, `null`
