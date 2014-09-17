@@ -1283,16 +1283,19 @@ function Table() {
 		this.setProfile(cellWidths);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
 		if (descr.cellBorders.topHor){
-			this.setStylePropertyOfAllCellsOfRow(0, 'border-top', cellBorderInfo);
+			this.setStylePropertyOfAllCellsOfRow([0], 'border-top', cellBorderInfo);
 		}
 		if (descr.cellBorders.bottomHor && descr.rows > 0){
-			this.setStylePropertyOfAllCellsOfRow(descr.rows - 1, 'border-bottom', cellBorderInfo);
+			this.setStylePropertyOfAllCellsOfRow([descr.rows - 1], 'border-bottom', cellBorderInfo);
 		}
 		// horizontal border between rows: top border of each but first rows
 		if (descr.cellBorders.intHor){
+			// creating array [1, 2, 3, ..., row-1]
+			var positions = [];
 			for (i = 1; i < descr.rows; i++){
-				this.setStylePropertyOfAllCellsOfRow(i, 'border-top', cellBorderInfo);
+				positions.push(i);
 			}
+			this.setStylePropertyOfAllCellsOfRow(positions, 'border-top', cellBorderInfo);
 		}
 
 
@@ -1364,24 +1367,23 @@ function Table() {
 	};
 
 	/**
-	 * Sets style property `key` of all children of row with number `pos` to be equal to `value`.
+	 * Sets style property `key` of all children of rows with numbers that are in array `positions`
+	 * to be equal to `value`.
 	 * @method         setStylePropertyOfAllCellsOfRow
-	 * @param          {Integer}       pos       row number
+	 * @param          {Array}         positions array of integers indicating row numbers
 	 * @param          {String}        key       name of style property to set (e.g., "width", "padding" etc)
 	 * @param          {String}        value     border description (e.g., "1px solid red")
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.setStylePropertyOfAllCellsOfRow = function(pos, key, value){
+	this.setStylePropertyOfAllCellsOfRow = function(positions, key, value){
 		var body = this.getBody(),
 			newBody = [],
 			rowNum = body.length,
 			row, r;
 		for (r = 0; r < rowNum; r++){
-			console.log('row no. ' + r + ' out of ' + rowNum  + ', pos = ' + pos);
 			row = body[r];
-			if (r === pos){
-				console.log('selected row!');
+			if (positions.indexOf(r) !== -1){
 				row.setStylePropertyToAll(key, value);
 			}
 			newBody.push(row);
