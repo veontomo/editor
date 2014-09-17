@@ -1283,86 +1283,40 @@ function Table() {
 		this.setProfile(cellWidths);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
 		if (descr.cellBorders.topHor){
-			this.setStylePropertyOfAllCellsOfRow([0], 'border-top', cellBorderInfo);
+			this.setStylePropertyOfBlock('border-top', cellBorderInfo, [0]);
 		}
 		if (descr.cellBorders.bottomHor && descr.rows > 0){
-			this.setStylePropertyOfAllCellsOfRow([descr.rows - 1], 'border-bottom', cellBorderInfo);
+			this.setStylePropertyOfBlock('border-top', cellBorderInfo, [descr.rows - 1]);
 		}
 		// horizontal border between rows: top border of each but first rows
 		if (descr.cellBorders.intHor){
-			// creating array [1, 2, 3, ..., row-1]
-			var positions = [];
+			// creating array [1, 2, 3, ..., row - 1]
+			var rowNums = [];
 			for (i = 1; i < descr.rows; i++){
-				positions.push(i);
+				rowNums.push(i);
 			}
-			this.setStylePropertyOfAllCellsOfRow(positions, 'border-top', cellBorderInfo);
+			this.setStylePropertyOfBlock('border-top', cellBorderInfo, rowNums);
 		}
-
-
-		// this.mark(NEWSLETTER['marker-name']);
-		// creating rows
-		// var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor,
-		// 	cellWidth;
-		// for (r = 0; r < descr.rows; r++){
-		// 	row = new Row();
-		// 	row.setWidth(currentWidth.getValue());
-		// 	row.mark(NEWSLETTER['marker-name']);
-		// 	// creating cells
-		// 	for (c = 0; c < descr.cols; c++){
-		// 		cell = new Cell();
-		// 		cell.appendElem('riga #' + (r + 1) + ', cella #' + (c + 1));
-		// 		cell.mark(NEWSLETTER['marker-name']);
-
-		// 		cellWidth = new Unit(cellWidths[c], NEWSLETTER.unitMeasure());
-
-		// 		cell.setStyleProperty('padding', descr.spaceCell);
-		// 		cellWidth = cellWidth.sub(descr.spaceCell.times(2));
-
-		// 		// top border of the first row
-		// 		if (r === 0 && descr.cellBorders.topHor){
-		// 			cell.setStyleProperty('border-top', cellBorderInfo);
-		// 		}
-
-		// 		// bottom border of the last row
-		// 		if (r === descr.rows - 1 && descr.cellBorders.bottomHor){
-		// 			cell.setStyleProperty('border-bottom', cellBorderInfo);
-		// 		}
-		// 		// horizontal border between rows: top border of each but first rows
-		// 		if (descr.rows > 1 && r > 0 && descr.cellBorders.intHor){
-		// 			cell.setStyleProperty('border-top', cellBorderInfo);
-		// 		}
-		// 		// most left border
-		// 		if (c === 0 && descr.cellBorders.leftVer){
-		// 			cell.setStyleProperty('border-left', cellBorderInfo);
-		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
-		// 		}
-		// 		// most right border
-		// 		if (c === descr.cols - 1 && descr.cellBorders.rightVer){
-		// 			cell.setStyleProperty('border-right', cellBorderInfo);
-		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
-		// 		}
-		// 		// vertical border between columns: left border of each but first column
-		// 		if (descr.cols > 1 && c > 0 && descr.cellBorders.intVer){
-		// 			cell.setStyleProperty('border-left', cellBorderInfo);
-		// 			cellWidth = cellWidth.sub(descr.cellBorderWidth);
-		// 		}
-
-		// 		cell.setWidth(cellWidth.getValue());
-		// 		row.appendCell(cell);
-		// 	}
-		// 	this.appendRow(row);
-		// }
-
-
-
-		// var isAllPositive = cellWidths.some(function(el){
-		// 	return el < 0;
-		// });
-		// // if at least one of the values becomes negative, flash alert message
-		// if (isAllPositive){
-		// 	alert("Rilevato un numero negativo:\n" + cellWidths.join(' ') + "\nLa tabella non sarà inserita." );
-		// 	return null;
-		// }
+		// left border of most left cells
+		if (descr.cellBorders.leftVer){
+			this.setStylePropertyOfBlock('border-left', cellBorderInfo, null, [0]);
+			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		}
+		// most right border
+		if (descr.cellBorders.rightVer){
+			this.setStylePropertyOfBlock('border-right', cellBorderInfo, null, [descr.cols - 1]);
+			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		}
+		// vertical border between columns: left border of each but first column
+		if (descr.cellBorders.intVer){
+			// creating array [1, 2, 3, ..., col - 1]
+			var colNums = [];
+			for (i = 1; i < descr.cols; i++){
+				colNums.push(i);
+			}
+			this.setStylePropertyOfBlock('border-left', cellBorderInfo, null, colNums);
+			// cellWidth = cellWidth.sub(descr.cellBorderWidth);
+		}
 
 	};
 
@@ -1382,22 +1336,24 @@ function Table() {
 	 * @since          0.0.6
 	 */
 	this.setStylePropertyOfBlock = function(key, value, rowArr, cellArr){
+		if (!Array.isArray(rowArr) && rowArr !== null && rowArr !== undefined){
+			throw new Error('Row range must be an array!');
+		}
+
 		var body = this.getBody(),
 			newBody = [],
 			rowNum = body.length,
-			row, r;
+			row, r,
+			setForAll = (rowArr === null || rowArr === undefined); // in case the range is not specified, apply for all rows
 		for (r = 0; r < rowNum; r++){
 			row = body[r];
-			if (positions.indexOf(r) !== -1){
+			if (setForAll || rowArr.indexOf(r) !== -1){
 				row.setStylePropertyToRange(key, value, cellArr);
 			}
 			newBody.push(row);
 		}
 		this.setBody(newBody);
 	};
-
-	this.setStyleP
-
 
 	/**
 	 * Updates `tableNode` with new chracteristics given by `tableInfo` object.

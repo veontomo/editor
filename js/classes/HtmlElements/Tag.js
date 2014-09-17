@@ -912,6 +912,7 @@ function Tag(tName) {
 	 * @param          {Array|Null}    range          array of children indexes to which apply modifications
 	 *                                                or `null` if modifications are to be applied to all children
 	 * @throws         {Error}  If range is niether an array nor null
+	 * @since          0.0.6
 	 */
 	this.setStylePropertyToRange = function(key, value, range){
 		if (!Array.isArray(range) && range !== null && range !== undefined){
@@ -920,7 +921,7 @@ function Tag(tName) {
 		var cntn = new Content(),
 			len = this.length(),
 			i, elem,
-			setForAll = (range === null || range === undefined);
+			setForAll = (range === null || range === undefined); // in case the range is not specified, apply for all children
 		for (i = 0; i < len; i++){
 			elem = this.getElem(i);
 			if (setForAll || range.indexOf(i) !== -1){

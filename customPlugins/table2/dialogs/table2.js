@@ -21,8 +21,6 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
  * @since         0.0.6
  */
 function manageTable(editor, isNew) {
-	console.log('isNew ? ' + isNew);
-
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle

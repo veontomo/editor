@@ -1161,7 +1161,6 @@ describe('Tag-related functionality', function() {
             expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
             expect(tag.getElem(3).getStyleProperty('display')).toBe('visible');
         });
-
     });
 
 
