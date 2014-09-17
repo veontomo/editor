@@ -1063,13 +1063,13 @@ describe('Tag-related functionality', function() {
             tag2 = new Tag();
         });
 
-        it('does not append no elements if initially there are no children', function(){
+        it('does not append any element if initially there are no children', function(){
             expect(tag.length()).toBe(0);
             tag.setStylePropertyToAll('class', 'hidden');
             expect(tag.length()).toBe(0);
         });
 
-        it('does not append no elements if initially there is one child', function(){
+        it('does not append any element if initially there is one child', function(){
             tag2 = new Tag();
             tag.appendElem(tag2);
             expect(tag.length()).toBe(1);
@@ -1096,7 +1096,73 @@ describe('Tag-related functionality', function() {
             expect(tag.getElem(1).getStyleProperty('class')).toBe('hidden');
             expect(tag.getElem(2).getStyleProperty('class')).toBe('hidden');
         });
+    });
+
+    describe('Imposing styles to a range of children', function(){
+        var tag2, tag3, tag4, tag5;
+        beforeEach(function(){
+            tag2 = new Tag('div');
+            tag3 = new Tag('span');
+            tag4 = new Tag('img');
+            tag5 = new Tag('h1');
+        });
+
+        it('does not throw any error if the range is an array', function(){
+            expect(tag.length()).toBe(0);
+            expect(function(){
+                return tag.setStylePropertyToRange('class', 'hidden', [1, 2, 3]);
+            }).not.toThrow(new Error('Range must be an array!'));
+        });
+
+        it('does not throw any error if the range is a null', function(){
+            expect(tag.length()).toBe(0);
+            expect(function(){
+                return tag.setStylePropertyToRange('class', 'hidden', null);
+            }).not.toThrow(new Error('Range must be an array!'));
+        });
+
+        it('does not throw any error if the range is undefined', function(){
+            expect(tag.length()).toBe(0);
+            expect(function(){
+                return tag.setStylePropertyToRange('class', 'hidden');
+            }).not.toThrow(new Error('Range must be an array!'));
+        });
+
+        it('sets inline styles to elements 0 and 2 if the range is [0, 2]', function(){
+            tag.appendElem(tag2);
+            tag.appendElem(tag3);
+            tag.appendElem(tag4);
+            tag.appendElem(tag5);
+            tag.setStylePropertyToRange('display', 'visible', [2, 0]);
+            expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(1).hasStyleProperty('display')).toBe(false);
+            expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(3).hasStyleProperty('display')).toBe(false);
+        });
+
+        it('sets inline styles to all elements if range is null', function(){
+            tag.appendElem(tag2);
+            tag.appendElem(tag3);
+            tag.appendElem(tag4);
+            tag.setStylePropertyToRange('display', 'visible', null);
+            expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(1).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
+        });
+
+        it('sets inline styles to all elements if the range is not defined', function(){
+            tag.appendElem(tag2);
+            tag.appendElem(tag3);
+            tag.appendElem(tag4);
+            tag.appendElem(tag5);
+            tag.setStylePropertyToRange('display', 'visible');
+            expect(tag.getElem(0).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(1).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(2).getStyleProperty('display')).toBe('visible');
+            expect(tag.getElem(3).getStyleProperty('display')).toBe('visible');
+        });
 
     });
+
 
 });

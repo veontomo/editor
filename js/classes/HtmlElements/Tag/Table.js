@@ -1367,16 +1367,21 @@ function Table() {
 	};
 
 	/**
-	 * Sets style property `key` of all children of rows with numbers that are in array `positions`
-	 * to be equal to `value`.
-	 * @method         setStylePropertyOfAllCellsOfRow
-	 * @param          {Array}         positions array of integers indicating row numbers
+	 * Sets style property `key` of children with numbers that are in array `cellArr` of rows
+	 * with numbers that are in array `rowArr` to be equal to `value`.
+	 *
+	 * Example, <code>table.setStylePropertyOfBlock('padding', '1em', [1, 3, 5], [2, 8, 12])</code>
+	 * imposes inline style `padding` to be `1em` to cells with numbers 2, 8, 12 of rows with numbers 1, 3, and 5.
+	 *
+	 * @method         setStylePropertyOfBlock
+	 * @param          {Array|Null}    rowArr    array of integers indicating row numbers
+	 * @param          {Array|Null}    cellArr   array of integers indicating cell numbers
 	 * @param          {String}        key       name of style property to set (e.g., "width", "padding" etc)
 	 * @param          {String}        value     border description (e.g., "1px solid red")
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.setStylePropertyOfAllCellsOfRow = function(positions, key, value){
+	this.setStylePropertyOfBlock = function(key, value, rowArr, cellArr){
 		var body = this.getBody(),
 			newBody = [],
 			rowNum = body.length,
@@ -1384,12 +1389,14 @@ function Table() {
 		for (r = 0; r < rowNum; r++){
 			row = body[r];
 			if (positions.indexOf(r) !== -1){
-				row.setStylePropertyToAll(key, value);
+				row.setStylePropertyToRange(key, value, cellArr);
 			}
 			newBody.push(row);
 		}
 		this.setBody(newBody);
 	};
+
+	this.setStyleP
 
 
 	/**

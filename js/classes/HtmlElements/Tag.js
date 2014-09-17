@@ -374,7 +374,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns `true` if {{#crossLink "Tag/styles:property"}}styles{{/crossLink}}
+	 * Returns `true` if {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}
 	 * contains attribute `key` and `false` otherwise.
 	 * @method         hasStyleProperty
 	 * @param          {String}             key
@@ -382,7 +382,7 @@ function Tag(tName) {
 	 */
 	this.hasStyleProperty = function(key){
 		var stl = this.getStyles();
-		return (stl && stl.hasProperty(key));
+		return (stl !== undefined && stl !== null && stl.hasProperty(key));
 	};
 
 	/**
@@ -878,7 +878,7 @@ function Tag(tName) {
 	 */
 	this.shrinkBy = function(d){
 		_properties.shrinkBy(d);
-	}
+	};
 
 
 	/**
@@ -899,5 +899,36 @@ function Tag(tName) {
 			cntn.appendElem(elem);
 		}
 		this.setContent(cntn);
+	};
+
+	/**
+	 * Sets style key `name` of children which indexes are in array `range` to be equal to `value`.
+	 *
+	 * Example: <code>tag.setStylePropertyToRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
+	 * property `margin` to be `10px` for children which indexes are 1, 4, 6, or 7.
+	 * @method         setStylePropertyToRange
+	 * @param          {String}        key            style key
+	 * @param          {String|Number} value          style value
+	 * @param          {Array|Null}    range          array of children indexes to which apply modifications
+	 *                                                or `null` if modifications are to be applied to all children
+	 * @throws         {Error}  If range is niether an array nor null
+	 */
+	this.setStylePropertyToRange = function(key, value, range){
+		if (!Array.isArray(range) && range !== null && range !== undefined){
+			throw new Error('Range must be an array!');
+		}
+		var cntn = new Content(),
+			len = this.length(),
+			i, elem,
+			setForAll = (range === null || range === undefined);
+		for (i = 0; i < len; i++){
+			elem = this.getElem(i);
+			if (setForAll || range.indexOf(i) !== -1){
+				elem.setStyleProperty(key, value);
+			}
+			cntn.appendElem(elem);
+		}
+		this.setContent(cntn);
+
 	};
 }
