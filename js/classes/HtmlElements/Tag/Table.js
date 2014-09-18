@@ -1362,6 +1362,7 @@ function Table() {
 	 * indexes are in array `cellArr` if all objects have the same value of the above property.
 	 * Otherwise, `null` is returned.
 	 *
+	 * @method         getStylePropertyOfBlock
 	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
 	 * @param          {Array|null}    rowArr    array of row indexes (or null for all rows)
 	 * @param          {Array|null}    cellArr   array of column indexes (or null for all rows)

@@ -427,8 +427,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Retrieves value of `width` attribute of {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} property.
-	 * If it does not exist, value of `width` key of {{#crossLink "Tag/_core:property"}}_core{{/crossLink}} is returned.
+	 * Retrieves value of `width` attribute of {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
 	 * @method         getWidth
 	 * @return         {mixed}
 	 * @since          0.0.4
@@ -935,12 +934,45 @@ function Tag(tName) {
 	/**
 	 * Returns value of style property `key` of children which indexes are in array `range` if all of them have
 	 * the same value of the property. Otherwise, `null` is returned.
+	 * @method         getStylePropertyOfRange
 	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
 	 * @param          {Array|null}    range     array of indexes of the children to take into consideration
 	 * @return         {String|null}
 	 */
 	this.getStylePropertyOfRange = function(key, range){
-		/// !!! stub
-		return;
+		if (!Array.isArray(range) && range !== null && range !== undefined){
+			throw new Error('Range must be an array!');
+		}
+		if (Array.isArray(range) && range.length === 0){
+			return null;
+		}
+		if (range === null || range === undefined){
+			// making a call to the method itself but with "range" being specified
+			range = [];
+			var len = this.length(),
+				i;
+			for (i = 0; i < len; i++){
+				range.push(i);
+			}
+			return this.getStylePropertyOfRange(key, range);
+		}
+		var result, currentValue;
+		range.forEach(function(index){
+			try {
+				currentValue = this.getElem(index).getStyleProperty(key);
+			} catch (e){
+				// console.log('Error when retrieving style property ' + key + ' of element n. ' + index);
+				// console.log(e.name, e.message);
+				currentValue = null;
+			}
+
+			if (result === undefined){
+				result = currentValue;
+			} else if (result !== currentValue){
+				return null;
+			}
+		}.bind(this));
+
+		return result;
 	};
 }

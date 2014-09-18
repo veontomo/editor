@@ -1163,5 +1163,67 @@ describe('Tag-related functionality', function() {
         });
     });
 
+    describe('Getting common style properties of multiple elements', function(){
+        var tag2 = new Tag(),
+            tag3 = new Tag(),
+            tag4 = new Tag(),
+            tag5 = new Tag(),
+            tag6 = new Tag(),
+            tag7 = new Tag();
+
+        beforeEach(function(){
+            tag2.setStyleProperty('padding', '10px');
+            tag3.setStyleProperty('padding', '20px');
+            tag4.setStyleProperty('width',   '10px');
+            tag5.setStyleProperty('padding', '10px');
+            tag6.setStyleProperty('padding', '10px');
+            tag7.setStyleProperty('padding', '30px');
+            tag.appendElem(tag2);
+            tag.appendElem(tag3);
+            tag.appendElem(tag4);
+            tag.appendElem(tag5);
+            tag.appendElem(tag6);
+            tag.appendElem(tag7);
+        });
+
+        it('throws an error if the range is given as a string, object, function or number', function(){
+            var invalids = ['', 'a string', {}, {key: 3}, function(){}, function(x){return x;}, 0, 1, 2.3];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    return tag.getStylePropertyOfRange('margin', invalid);
+                }).toThrow(new Error('Range must be an array!'));
+            });
+        });
+
+        it('does not throw any error if the range is null', function(){
+            expect(function(){
+                return tag.getStylePropertyOfRange('margin', null);
+            }).not.toThrow(new Error('Range must be an array!'));
+        });
+
+        it('does not throw any error if the range is not defined', function(){
+            expect(function(){
+                return tag.getStylePropertyOfRange('padding');
+            }).not.toThrow(new Error('Range must be an array!'));
+        });
+
+        it('returns null if the range is an empty array', function(){
+            expect(tag.getStylePropertyOfRange('padding', [])).toBe(null);
+        });
+
+        it('returns the property value if the range contains just one number', function(){
+            expect(tag.getStylePropertyOfRange('padding', [1])).toBe('20px');
+        });
+
+        it('returns the property value if the range corresponds to elements having the same value of the property', function(){
+            expect(tag.getStylePropertyOfRange('padding', [0, 3, 4])).toBe('10px');
+        });
+
+        it('returns null if the range corresponds to elements with different values of the property', function(){
+            expect(tag.getStylePropertyOfRange('padding', [4, 5])).toBe('10px');
+        });
+
+    });
+
 
 });
