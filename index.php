@@ -134,6 +134,36 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
+			<table cellpadding="0" cellspacing="0" data-marker="Table" style="border-style: none; padding: 0px; margin: 0px; width: 500px; border-spacing: 0px 0px; font-size: 13px; text-align: justify; font-family: Arial, sans-serif; background-color: #ffffff;" width="500">
+				<tbody>
+					<tr style="border-style: none; width: 0px; padding: 0px; margin: 0px;">
+						<td style="border-style: none; width: 67px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="67">&nbsp;</td>
+						<td style="border-style: none; width: 282px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="282">&nbsp;</td>
+						<td style="border-style: none; width: 139px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="139">&nbsp;</td>
+					</tr>
+					<tr style="border-style: none; width: 0px; padding: 0px; margin: 0px;">
+						<td style="border-style: none; width: 67px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="67">&nbsp;</td>
+						<td style="border-style: none; width: 282px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="282">&nbsp;</td>
+						<td style="border-style: none; width: 139px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="139">&nbsp;</td>
+					</tr>
+					<tr style="border-style: none; width: 0px; padding: 0px; margin: 0px;">
+						<td style="border-style: none; width: 67px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="67">&nbsp;</td>
+						<td style="border-style: none; width: 282px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="282">&nbsp;</td>
+						<td style="border-style: none; width: 139px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="139">&nbsp;</td>
+					</tr>
+					<tr style="border-style: none; width: 0px; padding: 0px; margin: 0px;">
+						<td style="border-style: none; width: 67px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="67">&nbsp;</td>
+						<td style="border-style: none; width: 282px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="282">&nbsp;</td>
+						<td style="border-style: none; width: 139px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="139">&nbsp;</td>
+					</tr>
+					<tr style="border-style: none; width: 0px; padding: 0px; margin: 0px;">
+						<td style="border-style: none; width: 67px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="67">&nbsp;</td>
+						<td style="border-style: none; width: 282px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="282">&nbsp;</td>
+						<td style="border-style: none; width: 139px; padding: 0px; margin: 0px; vertical-align: top; color: #000001; text-align: justify; border-left: 4px solid #a35f00;" width="139">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+
 		</textarea>
 	</div>
 	<?php

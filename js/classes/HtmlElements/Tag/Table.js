@@ -556,7 +556,7 @@ function Table() {
 	};
 
 	/**
-	 * Gives a two-dimensional array [[w_11, w_12, ..., w_1n], ..., [w_m1, w_m2, ..., w_m3]]
+	 * Gives a two-dimensional array [[w_11, w_12, ...., w_1n], ...., [w_m1, w_m2, ...., w_m3]]
 	 * where w_ij is width of the cell located in the row i and column j.
 	 * @method  getMatrix
 	 * @return {Array}
@@ -1285,7 +1285,7 @@ function Table() {
 		}
 		// horizontal border between rows: top border of each but first rows
 		if (descr.cellBorders.intHor){
-			// creating array [1, 2, 3, ..., row - 1]
+			// creating array [1, 2, 3, ...., row - 1]
 			var rowNums = [];
 			for (i = 1; i < descr.rows; i++){
 				rowNums.push(i);
@@ -1308,7 +1308,7 @@ function Table() {
 
 		// vertical border between columns: left border of each but first column
 		if (descr.cellBorders.intVer){
-			// creating array [1, 2, 3, ..., col - 1] of cell indexes to which border is to be applied
+			// creating array [1, 2, 3, ...., col - 1] of cell indexes to which border is to be applied
 			// hence the width of these cells is to be adjusted.
 			var colNums = [];
 			for (i = 1; i < descr.cols; i++){
@@ -1422,6 +1422,7 @@ function Table() {
 	/**
 	 * Returns {{#crossLink "Table/getStylePropertyOfBlock:method"}}getStylePropertyOfBlock(){{/crossLink}} output
 	 * formatted as {{#crossLink "Properties/getBorder:property"}}border info object{{/crossLink}}.
+	 * @method         getStylePropertyOfRangeAsBorderInfo
 	 * @param          {String}        key
 	 * @param          {Array|null}    rowArr
 	 * @param          {Array|null}    cellArr
@@ -1447,6 +1448,80 @@ function Table() {
 			}
 		}
 		return borderInfo;
+	};
+
+	/**
+	 * Creates an array of `len` increasing numbers starting with `start`:
+	 * `start`, `start + 1`, ...
+	 * @method         _range
+	 * @param          {Number}        start
+	 * @param          {Number}        len
+	 * @return         {Array}
+	 * @private
+	 * @since          0.0.6
+	 */
+	var _range = function(start, len){
+		var i = 0,
+			output = [];
+		for (i = 0; i < len; i++){
+			output[i] = start + i;
+		}
+		return output;
+
+	};
+
+	/**
+	 * Returns an object that parametrizes borders around the cells. The object has the following format:
+	 * <br>
+	 * <code>
+	 * {leftVer: ..., rightVer: ..., intVer: ..., topHor: ..., bottomHor: ..., intHor: ..., [width: ..., color: ...]}
+	 * </code>
+	 * <br>
+	 * where
+	 * <ul><li>
+	 * `leftVer`, `rightVer`, `intVer`, `topHor`, `bottomHor`, `intHor` are boolean-valued keys
+	 * standing for left/right/intermediate horizontal/vertical cell borders,
+	 * </li><li>
+	 * `width` - (optional) integer, present if at least one of the above boolean values is true.
+	 * </li><li>
+	 * `color` - (optional) string, present along with "width" key.
+	 * </li></ul>
+	 * @method         getCellBorders
+	 * @return         {Object}
+	 * @since          0.0.6
+	 */
+	this.getCellBorders = function(){
+		var output = {},
+			width,
+			allButFirstRow =  _range(1, this.rowNum() - 1),
+			allButFirstCol =  _range(1, this.colNum() - 1),
+			// set of keys necessary to get info about cell borders
+			keys = {
+				'topHor':    ['border-top', [0]],
+				'bottomHor': ['border-bottom', [-1]],
+				'intHor':    ['border-top', allButFirstRow],
+				'leftVer':   ['border-left',  null, [0]],
+				'rightVer':  ['border-right', null, [-1]],
+				'intVer':    ['border-left',  null, allButFirstCol]
+			},
+			foo, borderInfo, key;
+
+		for (key in keys){
+			if (keys.hasOwnProperty(key)){
+				foo = keys[key];
+				borderInfo = this.getStylePropertyOfRangeAsBorderInfo(foo[0], foo[1], foo[2]);
+				output[key] = borderInfo.style !== 'none';
+				// if "width" is not initialized and the border is present,
+				// set "width" and "color"
+				if (width === undefined && output[key]){
+					width = parseInt(borderInfo.width, 10);
+					output.width = width;
+					output.color = borderInfo.color;
+				}
+
+			}
+		}
+		return output;
 	};
 
 }
