@@ -961,8 +961,7 @@ function Tag(tName) {
 			try {
 				currentValue = this.getElem(index).getStyleProperty(key);
 			} catch (e){
-				// console.log('Error when retrieving style property ' + key + ' of element n. ' + index);
-				// console.log(e.name, e.message);
+				console.log('Error (' + e.message + ') when retrieving style property ' + key + ' of element n. ' + index);
 				currentValue = null;
 			}
 

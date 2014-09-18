@@ -1411,7 +1411,35 @@ function Table() {
 		return tableClone;
 	};
 
-
+	/**
+	 * Returns {{#crossLink "Table/getStylePropertyOfBlock:method"}}getStylePropertyOfBlock(){{/crossLink}} output
+	 * formatted as {{#crossLink "Properties/getBorder:property"}}border info object{{/crossLink}}.
+	 * @param          {String}        key     [description]
+	 * @param          {Array|null}    rowArr  [description]
+	 * @param          {Array|null}    cellArr [description]
+	 * @return         {Object}
+	 */
+	this.getStylePropertyOfRangeAsBorderInfo = function(key, rowArr, cellArr){
+		var value = this.getStylePropertyOfBlock(key, rowArr, cellArr),
+			borderInfo = {style: 'none'};
+		if (value){
+			value = value.trim();
+			var re = new RegExp(/\s+/g);
+			var arr = value.split(re);
+			if (arr.length >= 3){
+				var width = arr.shift(),
+					style = arr.shift();
+				if (parseInt(width, 10) === 0){
+					borderInfo.style = 'none';
+				} else {
+					borderInfo.style = style;
+					borderInfo.width = width;
+					borderInfo.color = arr.join(' ');
+				}
+			}
+		}
+		return borderInfo;
+	}
 
 }
 Table.prototype = Object.create(Tag.prototype);

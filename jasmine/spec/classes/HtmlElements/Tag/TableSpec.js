@@ -1750,7 +1750,82 @@ describe('Table-related functionality:', function(){
             expect(table.rowNum()).toBe(4);
             expect(table.colNum()).toBe(4);
         });
+    });
 
+    describe('Formats output as border info object', function(){
+        it('calls for getStylePropertyOfBlock method', function(){
+           spyOn(table, 'getStylePropertyOfBlock');
+           table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+           expect(table.getStylePropertyOfBlock).toHaveBeenCalledWith('name', 'rowRange', 'colRange');
+        });
+
+        it('returns empty object if underlying method returns null', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue(null);
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(1);
+        });
+
+        it('returns a 3-key object if underlying method returns "1px solid red"', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue("1px solid red");
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('solid');
+            expect(obj.width).toBe('1px');
+            expect(obj.color).toBe('red');
+        });
+
+        it('returns single-key object if underlying method returns "none"', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue('none');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(1);
+            expect(obj.style).toBe('none');
+        });
+
+        it('returns a 3-key object if underlying method returns color as rgb value', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue('5em dashed rgb(1,3,4)');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('dashed');
+            expect(obj.width).toBe('5em');
+            expect(obj.color).toBe('rgb(1,3,4)');
+        });
+
+        it('returns a 3-key object if underlying method returns the color as rgb value with extra spaces', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue('5em dashed rgb(1, 3,   4)');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('dashed');
+            expect(obj.width).toBe('5em');
+            expect(obj.color).toBe('rgb(1, 3, 4)');
+        });
+
+
+        it('returns a 3-key object if underlying method returns color as hex value', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue('5.43em dotted #AABBCC');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('dotted');
+            expect(obj.width).toBe('5.43em');
+            expect(obj.color).toBe('#AABBCC');
+        });
+
+        it('returns a 3-key object if underlying method outputs has multiple spaces', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue('5em    dashed   blue');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('dashed');
+            expect(obj.width).toBe('5em');
+            expect(obj.color).toBe('blue');
+        });
+
+        it('returns a 3-key object if underlying method outputs has trailing spaces', function(){
+            spyOn(table, 'getStylePropertyOfBlock').and.returnValue(' 7.3%   dashed   blue ');
+            var obj = table.getStylePropertyOfRangeAsBorderInfo('name', 'rowRange', 'colRange');
+            expect(Object.keys(obj).length).toBe(3);
+            expect(obj.style).toBe('dashed');
+            expect(obj.width).toBe('7.3%');
+            expect(obj.color).toBe('blue');
+        });
 
 
 

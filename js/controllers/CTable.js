@@ -135,8 +135,13 @@ var CTable = {
 			borderInfo = table.getBorder(),
 			spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0),
 			paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0),
-			spaceBtwRows = table.getStyleProperty('border-spacing'),  // its format is either "5px" or "5px 7px"
+			spaceBtwRows = table.getStyleProperty('border-spacing'),       // its format is either "5px" or "5px 7px"
+			topHorBord = table.getStylePropertyOfBlock('border-top', [0]), // getting "border-top" of all cells of the first row
 			spaceCell;
+
+		if (topHorBord && topHorBord.trim()){
+			var topHor
+		}
 
 		if (spaceBtwRows){
 			// picking up the last value ("2px") from strings like "1px 2px" or "2px"
