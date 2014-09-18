@@ -1281,7 +1281,7 @@ function Table() {
 			this.setStylePropertyOfBlock('border-top', cellBorderInfo, [0]);
 		}
 		if (descr.cellBorders.bottomHor && descr.rows > 0){
-			this.setStylePropertyOfBlock('border-top', cellBorderInfo, [descr.rows - 1]);
+			this.setStylePropertyOfBlock('border-bottom', cellBorderInfo, [descr.rows - 1]);
 		}
 		// horizontal border between rows: top border of each but first rows
 		if (descr.cellBorders.intHor){
@@ -1362,11 +1362,14 @@ function Table() {
 	 * indexes are in array `cellArr` if all objects have the same value of the above property.
 	 * Otherwise, `null` is returned.
 	 *
+	 * `rowArr` array admits negative values (with usual meaning: enumeration starts from the end).
+	 *
 	 * @method         getStylePropertyOfBlock
 	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
 	 * @param          {Array|null}    rowArr    array of row indexes (or null for all rows)
 	 * @param          {Array|null}    cellArr   array of column indexes (or null for all rows)
 	 * @return         {String|null}
+	 * @since          0.0.6
 	 */
 	this.getStylePropertyOfBlock = function(key, rowArr, cellArr){
 		if (!Array.isArray(rowArr) && rowArr !== null && rowArr !== undefined){
@@ -1377,6 +1380,11 @@ function Table() {
 			row, r,
 			value, currentValue,
 			checkForAll = (rowArr === null || rowArr === undefined); // in case the range is not specified, apply for all rows
+		// if one needs to consider elements one by one from rowArr,
+		// replace negative elements (if any) by corresponding positive ones
+		if (!checkForAll){
+			rowArr = rowArr.map(function(i){return i < 0 ? rowNum + i : i;});
+		}
 		for (r = 0; r < rowNum; r++){
 			if (checkForAll || rowArr.indexOf(r) !== -1){
 				row = body[r];
@@ -1393,7 +1401,7 @@ function Table() {
 			}
 		}
 		return value;
-	}
+	};
 
 	/**
 	 * Updates `tableNode` with new chracteristics given by `tableInfo` object.
@@ -1414,9 +1422,9 @@ function Table() {
 	/**
 	 * Returns {{#crossLink "Table/getStylePropertyOfBlock:method"}}getStylePropertyOfBlock(){{/crossLink}} output
 	 * formatted as {{#crossLink "Properties/getBorder:property"}}border info object{{/crossLink}}.
-	 * @param          {String}        key     [description]
-	 * @param          {Array|null}    rowArr  [description]
-	 * @param          {Array|null}    cellArr [description]
+	 * @param          {String}        key
+	 * @param          {Array|null}    rowArr
+	 * @param          {Array|null}    cellArr
 	 * @return         {Object}
 	 */
 	this.getStylePropertyOfRangeAsBorderInfo = function(key, rowArr, cellArr){
@@ -1439,7 +1447,7 @@ function Table() {
 			}
 		}
 		return borderInfo;
-	}
+	};
 
 }
 Table.prototype = Object.create(Tag.prototype);

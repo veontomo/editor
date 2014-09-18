@@ -1211,13 +1211,23 @@ describe('Tag-related functionality', function() {
             expect(tag.getStylePropertyOfRange('padding', [])).toBe(null);
         });
 
-        it('returns the property value if the range contains just one number', function(){
+        it('returns the property value if the range contains just one non-negative number', function(){
             expect(tag.getStylePropertyOfRange('padding', [1])).toBe('20px');
         });
+
+        it('returns the property value if the range contains just one negative number', function(){
+            expect(tag.getStylePropertyOfRange('padding', [-1])).toBe('30px');
+        });
+
 
         it('returns the property value if the range corresponds to elements having the same value of the property', function(){
             expect(tag.getStylePropertyOfRange('padding', [0, 3, 4])).toBe('10px');
         });
+
+        it('returns the property value if the range corresponds to elements having the same value of the property (II)', function(){
+            expect(tag.getStylePropertyOfRange('padding', [0, -2, 3])).toBe('10px');
+        });
+
 
         it('returns null if the range corresponds to elements with different values of the property', function(){
             expect(tag.getStylePropertyOfRange('padding', [4, 5])).toBe('10px');

@@ -934,10 +934,13 @@ function Tag(tName) {
 	/**
 	 * Returns value of style property `key` of children which indexes are in array `range` if all of them have
 	 * the same value of the property. Otherwise, `null` is returned.
+	 *
+	 * `range` array admits negative numbers (with usual meaning: enumeration starts from the end).
 	 * @method         getStylePropertyOfRange
 	 * @param          {String}        key       name of style property (e.g., "width", "top-border")
 	 * @param          {Array|null}    range     array of indexes of the children to take into consideration
 	 * @return         {String|null}
+	 * @since          0.0.6
 	 */
 	this.getStylePropertyOfRange = function(key, range){
 		if (!Array.isArray(range) && range !== null && range !== undefined){
@@ -946,17 +949,21 @@ function Tag(tName) {
 		if (Array.isArray(range) && range.length === 0){
 			return null;
 		}
+		var len = this.length();
 		if (range === null || range === undefined){
 			// making a call to the method itself but with "range" being specified
 			range = [];
-			var len = this.length(),
-				i;
+			var i;
 			for (i = 0; i < len; i++){
 				range.push(i);
 			}
 			return this.getStylePropertyOfRange(key, range);
 		}
 		var result, currentValue;
+
+		// if one needs to consider elements one by one, replace negative elements in "range" (if any)
+		// by corresponding positive ones
+		range = range.map(function(i){return i < 0 ? len + i : i;});
 		range.forEach(function(index){
 			try {
 				currentValue = this.getElem(index).getStyleProperty(key);

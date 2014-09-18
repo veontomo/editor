@@ -126,7 +126,8 @@ var CTable = {
 	 * @return        {void}
 	 */
 	fillInDialog: function(context, editor){
-		var tableElem = this.findParentTable(editor);
+		var tableElem = this.findParentTable(editor),
+			cellBorderWidth;
 		if (!tableElem){
 			return;
 		}
@@ -135,13 +136,38 @@ var CTable = {
 			borderInfo = table.getBorder(),
 			spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0),
 			paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0),
-			spaceBtwRows = table.getStyleProperty('border-spacing'),       // its format is either "5px" or "5px 7px"
-			topHorBord = table.getStylePropertyOfBlock('border-top', [0]), // getting "border-top" of all cells of the first row
+			// its format is either "5px" or "5px 7px"
+			spaceBtwRows = table.getStyleProperty('border-spacing'),
+			// border-top object of all cells of the first row
+			topHorBord = table.getStylePropertyOfRangeAsBorderInfo('border-top', [0]),
+			// border-top object of all cells of the last row
+			bottomHorBord = table.getStylePropertyOfRangeAsBorderInfo('border-bottom', [-1]),
+			// border-top object of all cells of the all but last row
+			allButFirstRow =  new Array(table.rowNum() - 1).join('1').split('').map(function(a, b){return b + 1;}),
+			intHorBord = table.getStylePropertyOfRangeAsBorderInfo('border-top', allButFirstRow),
 			spaceCell;
 
-		if (topHorBord && topHorBord.trim()){
-			var topHor
+		console.log(topHorBord, bottomHorBord, intHorBord);
+		// setting cell borders
+		if (topHorBord.style !== 'none'){
+			cellBorderWidth = new Unit(topHorBord.width || 0);
+			context.setValueOf('borderTab', 'topHorBord', true);
+			context.setValueOf('borderTab', 'cellBorderWidth', cellBorderWidth.getValue());
+			context.setValueOf('borderTab', 'cellBorderColor', topHorBord.color);
 		}
+		if (bottomHorBord.style !== 'none'){
+			cellBorderWidth = cellBorderWidth || (new Unit(bottomHorBord.width || 0));
+			context.setValueOf('borderTab', 'bottomHorBord', true);
+			context.setValueOf('borderTab', 'cellBorderWidth', cellBorderWidth.getValue());
+			context.setValueOf('borderTab', 'cellBorderColor', bottomHorBord.color);
+		}
+		if (intHorBord.style !== 'none'){
+			cellBorderWidth = cellBorderWidth || (new Unit(intHorBord.width || 0));
+			context.setValueOf('borderTab', 'intHorBord', true);
+			context.setValueOf('borderTab', 'cellBorderWidth', cellBorderWidth.getValue());
+			context.setValueOf('borderTab', 'cellBorderColor', intHorBord.color);
+		}
+
 
 		if (spaceBtwRows){
 			// picking up the last value ("2px") from strings like "1px 2px" or "2px"
