@@ -1332,7 +1332,7 @@ describe('Table-related functionality:', function(){
 
 
     describe('Table::desintangle(): converts table from fragmented into a framed', function(){
-        xit('sets bogus cell attributes, if the table is fragmented', function(){
+        it('sets bogus cell attributes, if the table is fragmented', function(){
             var obj = {};
             spyOn(table, 'getPhantomCellAttributes').and.returnValue(obj);
             spyOn(table, 'getPhantomCellStyles');
