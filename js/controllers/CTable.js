@@ -132,13 +132,16 @@ var CTable = {
 		}
 		var factory = NEWSLETTER.factory,
 			table = factory.mimic(tableElem.$),
-			borderInfo = table.getBorder(),
-			spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0),
-			paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0),
-			// its format is either "5px" or "5px 7px"
-			spaceBtwRows = table.getStyleProperty('border-spacing'),
-			cellBorders = table.getCellBorders(),
-			spaceCell;
+			borderInfo, spaceTableGlobal, paddingTableGlobal, spaceBtwRows, cellBorders, spaceCell,
+			phantomTableBorder, phantomTableProp;
+		table.disentangle();
+		borderInfo = table.getBorder();
+		phantomTableBorder = table.getPhantomTableBorder();
+		spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0);
+		paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0);
+		// its format is either "5px" or "5px 7px"
+		spaceBtwRows = table.getStyleProperty('border-spacing');
+		cellBorders = table.getCellBorders();
 
 		// filling in fields for cell borders
 		context.setValueOf('borderTab', 'topHorBord', cellBorders.topHor);
@@ -149,6 +152,13 @@ var CTable = {
 		context.setValueOf('borderTab', 'intVerBord', cellBorders.intVer);
 		context.setValueOf('borderTab', 'cellBorderColor', cellBorders.color);
 		context.setValueOf('borderTab', 'cellBorderWidth', cellBorders.width);
+
+		context.setValueOf('borderTab', 'cellBorderWidth', cellBorders.width);
+
+		if (phantomTableBorder.style !== 'none'){
+			context.setValueOf('borderTab', 'rowBorderWidth', phantomTableBorder.width);
+			context.setValueOf('borderTab', 'rowBorderColor', phantomTableBorder.color);
+		}
 
 		if (spaceBtwRows){
 			// picking up the last value ("2px") from strings like "1px 2px" or "2px"
@@ -217,6 +227,7 @@ var CTable = {
 			dialogData = this.getDialogData(dialog, editor),
 			factory = NEWSLETTER.factory,
 			currentTable = factory.mimic(tableNode);
+		currentTable.disentangle();
 		table = currentTable.update(dialogData);
 		return table.toNode();
 	}

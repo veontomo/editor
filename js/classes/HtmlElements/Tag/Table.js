@@ -600,6 +600,7 @@ function Table() {
 			throw new Error('Wrong argument type: array expected.');
 		}
 		if (profile.length !== cols){
+			console.log(profile.length, cols);
 			throw new Error('Wrong input array length!');
 		}
 		var tbody = this.getBody();
@@ -1144,9 +1145,19 @@ function Table() {
 				if (tableInside){
 					this.setPhantomTableProperties(tableInside.getProperties());
 					for (i = 0; i < rowNum; i++){
-						rows.push(body[i].getFirst().getFirst().getFirst());
+						try {
+							rows.push(body[i].getFirst().getFirst().getFirstRow());
+						} catch (e){
+							console.log('Error (' + e.name + ') when retrieving nested rows ' + e.message);
+						}
 					}
-					this.setBody(rows);
+					try {
+						this.setBody(rows);
+					} catch (e){
+						// console.log(rows[0].toHtml());
+						console.log('Error (' + e.name + ') when setting table body '  + e.message);
+					}
+
 				}
 			}
 		}
@@ -1553,6 +1564,24 @@ function Table() {
 		}
 		return output;
 	};
+
+	/**
+	 * Returns {{#crossLink "Properties/getBorder:method"}}border-like{{/crossLink}} object characterizing
+	 * {{#crossLink "Table/phantomTable:property"}}phantom table{{/crossLink}} (if it exists) border.
+	 * If {{#crossLink "Table/phantomTable:property"}}phantom table{{/crossLink}} does not exist,
+	 * an object <code>{style: none}</code> is returned.
+	 * @method  getPhantomTableBorder
+	 * @return {Object}
+	 * @since  0.0.6
+	 */
+	this.getPhantomTableBorder = function(){
+		var output = {style: 'none'},
+			phTblProp = this.getPhantomTableProperties();
+		if (phTblProp){
+			output = phTblProp.getBorder();
+		}
+		return output;
+	}
 
 }
 Table.prototype = Object.create(Tag.prototype);
