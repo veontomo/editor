@@ -1332,145 +1332,300 @@ describe('Table-related functionality:', function(){
 
 
     describe('Table::desintangle(): converts table from fragmented into a framed', function(){
-        it('sets bogus cell attributes, if the table is fragmented', function(){
-            var obj = {};
-            spyOn(table, 'getPhantomCellAttributes').and.returnValue(obj);
-            spyOn(table, 'getPhantomCellStyles');
-            spyOn(table, 'getPhantomRowAttributes');
-            spyOn(table, 'getPhantomRowStyles');
-            spyOn(table, 'getPhantomTableAttributes');
-            spyOn(table, 'getPhantomTableStyles');
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusCellAttr).toBe(null);
-            table.disentangle();
-            expect(table.bogusCellAttr).toBe(obj);
+        var rowPh1, rowPh2, rowPh3, cellPh1, cellPh2, cellPh3, tablePh1, tablePh2, tablePh3,
+            cell11, cell12, cell21, cell22, cell31, cell32,
+            rowPhProp, cellPhProp, tablePhProp;
+
+        beforeEach(function(){
+            table = new Table();
+            rowPhProp   = new Properties();
+            rowPhProp.setProperty('width', '31em');
+            cellPhProp  = new Properties();
+            cellPhProp.setProperty('width', '30em');
+            tablePhProp = new Properties();
+            tablePhProp.setProperty('border', '2px solid red');
+
+            rowPh1 = new Row();
+            rowPhProp   = new Properties();
+            rowPhProp.setProperty('width', '31em');
+            rowPh1.setProperties(rowPhProp);
+
+            rowPh2 = new Row();
+            rowPhProp   = new Properties();
+            rowPhProp.setProperty('width', '31em');
+            rowPh2.setProperties(rowPhProp);
+
+            rowPh3 = new Row();
+            rowPhProp   = new Properties();
+            rowPhProp.setProperty('width', '31em');
+            rowPh3.setProperties(rowPhProp);
+
+            cellPh1 = new Cell();
+            cellPhProp  = new Properties();
+            cellPhProp.setProperty('width', '30em');
+            cellPh1.setProperties(cellPhProp);
+
+            cellPh2 = new Cell();
+            cellPhProp  = new Properties();
+            cellPhProp.setProperty('width', '30em');
+            cellPh2.setProperties(cellPhProp);
+
+            cellPh3 = new Cell();
+            cellPhProp  = new Properties();
+            cellPhProp.setProperty('width', '30em');
+            cellPh3.setProperties(cellPhProp);
+
+            tablePh1 = new Table();
+            tablePhProp = new Properties();
+            tablePhProp.setProperty('border', '2px solid red');
+            tablePh1.setProperties(tablePhProp);
+
+            tablePh2 = new Table();            tablePhProp = new Properties();
+            tablePhProp.setProperty('border', '2px solid red');
+            tablePh2.setProperties(tablePhProp);
+
+            tablePh3 = new Table();
+            tablePhProp = new Properties();
+            tablePhProp.setProperty('border', '2px solid red');
+            tablePh3.setProperties(tablePhProp);
+
+            row1 = new Row();
+            row2 = new Row();
+            row3 = new Row();
+            cell11 = new Cell(); cell12 = new Cell();
+            cell21 = new Cell(); cell22 = new Cell();
+            cell31 = new Cell(); cell32 = new Cell();
+
+            cell11.setContent('cell 1 1');
+            cell12.setContent('cell 1 2');
+            cell21.setContent('cell 2 1');
+            cell22.setContent('cell 2 2');
+            cell31.setContent('cell 3 1');
+            cell32.setContent('cell 3 2');
+
+            row1.appendElem(cell11);
+            row1.appendElem(cell12);
+            tablePh1.appendElem(row1);
+            cellPh1.appendElem(tablePh1);
+            rowPh1.appendElem(cellPh1);
+
+            row2.appendElem(cell21);
+            row2.appendElem(cell22);
+            tablePh2.appendElem(row2);
+            cellPh2.appendElem(tablePh2);
+            rowPh2.appendElem(cellPh2);
+
+            row3.appendElem(cell31);
+            row3.appendElem(cell32);
+            tablePh3.appendElem(row3);
+            cellPh3.appendElem(tablePh3);
+            rowPh3.appendElem(cellPh3);
+
+            table.setBody([rowPh1, rowPh2, rowPh3]);
         });
 
-        xit('sets bogus row attributes, if the table is fragmented (pending test)', function(){
-            var obj = {};
-            spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr').and.returnValue(obj);
-            spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle');
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusRowAttr).toBe(null);
+        it('makes fragmented table non-fragmented after disentangling', function(){
+            expect(table.isFragmented()).toBe(true);
             table.disentangle();
-            expect(table.bogusRowAttr).toBe(obj);
+            expect(table.isFragmented()).toBe(false);
         });
 
-        xit('sets bogus table attributes, if the table is fragmented (pending test)', function(){
-            var obj = {};
-            spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr').and.returnValue(obj);
-            spyOn(table, 'getBogusTableStyle');
-
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusTableAttr).toBe(null);
+        it('sets phantom table properties', function(){
             table.disentangle();
-            expect(table.bogusTableAttr).toBe(obj);
+            var phantomTableProp = table.getPhantomTableProperties();
+            expect(phantomTableProp.getProperty('border')).toBe('2px solid red');
         });
 
-        xit('sets bogus cell style, if the table is fragmented (pending test)', function(){
-            var obj = {};
-            spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle').and.returnValue(obj);
-            spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle');
-
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusCellStyle).toBe(null);
+        it('sets phantom table properties', function(){
             table.disentangle();
-            expect(table.bogusCellStyle).toBe(obj);
+            var phantomRowProp = table.getPhantomRowProperties();
+            expect(phantomRowProp.getProperty('width')).toBe('31em');
         });
 
-        xit('sets bogus row style, if the table is fragmented (pending test)', function(){
-            var obj = {};
-            spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle').and.returnValue(obj);
-            spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle');
-
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusRowStyle).toBe(null);
+        it('sets phantom table properties', function(){
             table.disentangle();
-            expect(table.bogusRowStyle).toBe(obj);
+            var phantomCellProp = table.getPhantomCellProperties();
+            expect(phantomCellProp.getProperty('width')).toBe('30em');
         });
 
-        xit('sets bogus table style, if the table is fragmented (pending test)', function(){
-            var obj = {};
-            spyOn(table, 'getBogusCellAttr');
-            spyOn(table, 'getBogusCellStyle');
-            spyOn(table, 'getBogusRowAttr');
-            spyOn(table, 'getBogusRowStyle');
-            spyOn(table, 'getBogusTableAttr');
-            spyOn(table, 'getBogusTableStyle').and.returnValue(obj);
-
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            expect(table.bogusTableStyle).toBe(null);
+        it('preserves the number of rows', function(){
             table.disentangle();
-            expect(table.bogusTableStyle).toBe(obj);
+            var body = table.getBody();
+            expect(body.length).toBe(3);
         });
 
-        xit('rearrange the table if it is fragmented (pending test)', function(){
-            var c1 = new Cell(), // bogusRowAttr = {},
-                c2 = new Cell(), // bogusRowStyle = {},
-                c3 = new Cell(), // bogusCellAttr = {},
-                t1 = new Table(),// bogusCellStyle = {},
-                t2 = new Table(),// bogusTableAttr = {},
-                t3 = new Table(),// bogusTableStyle = {};
-                // rowStyle = jasmine.createSpy('rowStyle'),
-                // rowAttr  = jasmine.createSpy('rowAttr'),
-                // cellStyle = jasmine.createSpy('cellStyle'),
-                // cellAttr  = jasmine.createSpy('cellAttr'),
-                // tableStyle = jasmine.createSpy('tableStyle'),
-                // tableAttr  = jasmine.createSpy('tableAttr'),
-                innerRow1 = {},
-                innerRow2 = {},
-                innerRow3 = {};
 
-            spyOn(table, 'isFragmented').and.returnValue(true);
-            spyOn(table, 'getBogusRowAttr').and.returnValue(bogusRowAttr);
-            spyOn(table, 'getBogusRowStyle').and.returnValue(bogusRowStyle);
-            spyOn(table, 'getBogusCellAttr').and.returnValue(bogusCellAttr);
-            spyOn(table, 'getBogusCellStyle').and.returnValue(bogusCellStyle);
-            spyOn(table, 'getBogusTableAttr').and.returnValue(bogusTableAttr);
-            spyOn(table, 'getBogusTableStyle').and.returnValue(bogusTableStyle);
-
-            spyOn(row1, 'getFirst').and.returnValue(c1);
-            spyOn(row2, 'getFirst').and.returnValue(c2);
-            spyOn(row3, 'getFirst').and.returnValue(c3);
-            spyOn(c1, 'getFirst').and.returnValue(t1);
-            spyOn(c2, 'getFirst').and.returnValue(t2);
-            spyOn(c3, 'getFirst').and.returnValue(t3);
-
-            spyOn(t1, 'getFirst').and.returnValue(innerRow1);
-            spyOn(t2, 'getFirst').and.returnValue(innerRow2);
-            spyOn(t3, 'getFirst').and.returnValue(innerRow3);
-
-            table.setElements([row1, row2, row3]);
-
+        it('preserves the structure of the rows', function(){
             table.disentangle();
-            expect(table.bogusRowAttr).toBe(bogusRowAttr);
-            expect(table.bogusRowStyle).toBe(bogusRowStyle);
-            expect(table.bogusCellAttr).toBe(bogusCellAttr);
-            expect(table.bogusCellStyle).toBe(bogusCellStyle);
-            expect(table.bogusTableAttr).toBe(bogusTableAttr);
-            expect(table.bogusTableStyle).toBe(bogusTableStyle);
-            // expect(table.getElem(0)).toBe(innerRow1);
-            // expect(table.getElem(1)).toBe(innerRow2);
-            // expect(table.getElem(2)).toBe(innerRow3);
+            var body = table.getBody();
 
+            expect(body[0].cellNum()).toBe(2);
+            expect(body[0].getElem(0) instanceof Cell).toBe(true);
+            expect(body[0].getElem(1) instanceof Cell).toBe(true);
 
+            expect(body[1].cellNum()).toBe(2);
+            expect(body[1].getElem(0) instanceof Cell).toBe(true);
+            expect(body[1].getElem(1) instanceof Cell).toBe(true);
+
+            expect(body[2].cellNum()).toBe(2);
+            expect(body[2].getElem(0) instanceof Cell).toBe(true);
+            expect(body[2].getElem(1) instanceof Cell).toBe(true);
         });
+
+        it('preserves the content of the cells', function(){
+            table.disentangle();
+            var body = table.getBody();
+            expect(body[0].getElem(0).getContent().toHtml()).toBe('cell 1 1');
+            expect(body[0].getElem(1).getContent().toHtml()).toBe('cell 1 2');
+            expect(body[1].getElem(0).getContent().toHtml()).toBe('cell 2 1');
+            expect(body[1].getElem(1).getContent().toHtml()).toBe('cell 2 2');
+            expect(body[2].getElem(0).getContent().toHtml()).toBe('cell 3 1');
+            expect(body[2].getElem(1).getContent().toHtml()).toBe('cell 3 2');
+        });
+
+
+
+
+
+        // xit('sets bogus cell attributes, if the table is fragmented', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getPhantomCellAttributes').and.returnValue(obj);
+        //     spyOn(table, 'getPhantomCellStyles');
+        //     spyOn(table, 'getPhantomRowAttributes');
+        //     spyOn(table, 'getPhantomRowStyles');
+        //     spyOn(table, 'getPhantomTableAttributes');
+        //     spyOn(table, 'getPhantomTableStyles');
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.get).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusCellAttr).toBe(obj);
+        // });
+
+        // xit('sets bogus row attributes, if the table is fragmented (pending test)', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getBogusCellAttr');
+        //     spyOn(table, 'getBogusCellStyle');
+        //     spyOn(table, 'getBogusRowAttr').and.returnValue(obj);
+        //     spyOn(table, 'getBogusRowStyle');
+        //     spyOn(table, 'getBogusTableAttr');
+        //     spyOn(table, 'getBogusTableStyle');
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.bogusRowAttr).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusRowAttr).toBe(obj);
+        // });
+
+        // xit('sets bogus table attributes, if the table is fragmented (pending test)', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getBogusCellAttr');
+        //     spyOn(table, 'getBogusCellStyle');
+        //     spyOn(table, 'getBogusRowAttr');
+        //     spyOn(table, 'getBogusRowStyle');
+        //     spyOn(table, 'getBogusTableAttr').and.returnValue(obj);
+        //     spyOn(table, 'getBogusTableStyle');
+
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.bogusTableAttr).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusTableAttr).toBe(obj);
+        // });
+
+        // xit('sets bogus cell style, if the table is fragmented (pending test)', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getBogusCellAttr');
+        //     spyOn(table, 'getBogusCellStyle').and.returnValue(obj);
+        //     spyOn(table, 'getBogusRowAttr');
+        //     spyOn(table, 'getBogusRowStyle');
+        //     spyOn(table, 'getBogusTableAttr');
+        //     spyOn(table, 'getBogusTableStyle');
+
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.bogusCellStyle).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusCellStyle).toBe(obj);
+        // });
+
+        // xit('sets bogus row style, if the table is fragmented (pending test)', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getBogusCellAttr');
+        //     spyOn(table, 'getBogusCellStyle');
+        //     spyOn(table, 'getBogusRowAttr');
+        //     spyOn(table, 'getBogusRowStyle').and.returnValue(obj);
+        //     spyOn(table, 'getBogusTableAttr');
+        //     spyOn(table, 'getBogusTableStyle');
+
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.bogusRowStyle).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusRowStyle).toBe(obj);
+        // });
+
+        // xit('sets bogus table style, if the table is fragmented (pending test)', function(){
+        //     var obj = {};
+        //     spyOn(table, 'getBogusCellAttr');
+        //     spyOn(table, 'getBogusCellStyle');
+        //     spyOn(table, 'getBogusRowAttr');
+        //     spyOn(table, 'getBogusRowStyle');
+        //     spyOn(table, 'getBogusTableAttr');
+        //     spyOn(table, 'getBogusTableStyle').and.returnValue(obj);
+
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     expect(table.bogusTableStyle).toBe(null);
+        //     table.disentangle();
+        //     expect(table.bogusTableStyle).toBe(obj);
+        // });
+
+        // xit('rearrange the table if it is fragmented (pending test)', function(){
+        //     var c1 = new Cell(), // bogusRowAttr = {},
+        //         c2 = new Cell(), // bogusRowStyle = {},
+        //         c3 = new Cell(), // bogusCellAttr = {},
+        //         t1 = new Table(),// bogusCellStyle = {},
+        //         t2 = new Table(),// bogusTableAttr = {},
+        //         t3 = new Table(),// bogusTableStyle = {};
+        //         // rowStyle = jasmine.createSpy('rowStyle'),
+        //         // rowAttr  = jasmine.createSpy('rowAttr'),
+        //         // cellStyle = jasmine.createSpy('cellStyle'),
+        //         // cellAttr  = jasmine.createSpy('cellAttr'),
+        //         // tableStyle = jasmine.createSpy('tableStyle'),
+        //         // tableAttr  = jasmine.createSpy('tableAttr'),
+        //         innerRow1 = {},
+        //         innerRow2 = {},
+        //         innerRow3 = {};
+
+        //     spyOn(table, 'isFragmented').and.returnValue(true);
+        //     spyOn(table, 'getBogusRowAttr').and.returnValue(bogusRowAttr);
+        //     spyOn(table, 'getBogusRowStyle').and.returnValue(bogusRowStyle);
+        //     spyOn(table, 'getBogusCellAttr').and.returnValue(bogusCellAttr);
+        //     spyOn(table, 'getBogusCellStyle').and.returnValue(bogusCellStyle);
+        //     spyOn(table, 'getBogusTableAttr').and.returnValue(bogusTableAttr);
+        //     spyOn(table, 'getBogusTableStyle').and.returnValue(bogusTableStyle);
+
+        //     spyOn(row1, 'getFirst').and.returnValue(c1);
+        //     spyOn(row2, 'getFirst').and.returnValue(c2);
+        //     spyOn(row3, 'getFirst').and.returnValue(c3);
+        //     spyOn(c1, 'getFirst').and.returnValue(t1);
+        //     spyOn(c2, 'getFirst').and.returnValue(t2);
+        //     spyOn(c3, 'getFirst').and.returnValue(t3);
+
+        //     spyOn(t1, 'getFirst').and.returnValue(innerRow1);
+        //     spyOn(t2, 'getFirst').and.returnValue(innerRow2);
+        //     spyOn(t3, 'getFirst').and.returnValue(innerRow3);
+
+        //     table.setElements([row1, row2, row3]);
+
+        //     table.disentangle();
+        //     expect(table.bogusRowAttr).toBe(bogusRowAttr);
+        //     expect(table.bogusRowStyle).toBe(bogusRowStyle);
+        //     expect(table.bogusCellAttr).toBe(bogusCellAttr);
+        //     expect(table.bogusCellStyle).toBe(bogusCellStyle);
+        //     expect(table.bogusTableAttr).toBe(bogusTableAttr);
+        //     expect(table.bogusTableStyle).toBe(bogusTableStyle);
+        //     // expect(table.getElem(0)).toBe(innerRow1);
+        //     // expect(table.getElem(1)).toBe(innerRow2);
+        //     // expect(table.getElem(2)).toBe(innerRow3);
+
+
+        // });
     });
 
     describe('Loading element into table', function(){

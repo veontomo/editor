@@ -24,8 +24,8 @@ function Cell(arg) {
 	 * </li><li>
 	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Cell"
 	 * </li><li>
-	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
-	 * {{#crossLink "TableCellStyles"}}TableCellStyles{{/crossLink}}
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} to be
+	 * {{#crossLink "CellProperties"}}TableCellStyles{{/crossLink}}
 	 * </li><li>
 	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} accepts current class argument.
 	 * </li></ol>

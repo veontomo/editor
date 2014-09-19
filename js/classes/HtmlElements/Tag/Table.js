@@ -1093,36 +1093,66 @@ function Table() {
 	 * @method   desintangle
 	 * @return   {void}
 	 */
+	// this.disentangle = function(){
+	// 	if (!this.isFragmented()){
+	// 		console.log('The table is NOT fragmented!');
+	// 		return null;
+	// 	}
+	// 	console.log('before: ' + this.toHtml());
+	// 	var rows = [],
+	// 		rowNum = this.rowNum(),
+	// 		i,
+	// 		firstRow,
+	// 		cellInside,
+	// 		tableInside;
+	// 	firstRow = this.getFirstRow();
+	// 	if (firstRow){
+	// 		this.setPhantomRowStyles(firstRow.getStyles());
+	// 		this.setPhantomRowProperties(firstRow.getProperties());
+	// 		cellInside = firstRow.getFirst();
+	// 		if (cellInside){
+	// 			this.setPhantomCellStyles(cellInside.getStyles());
+	// 			this.setPhantomCellAttributes(cellInside.getProperties());
+	// 			tableInside = cellInside.getFirst();
+	// 			if (tableInside){
+	// 				this.setPhantomTableStyles(tableInside.getStyles());
+	// 				this.setPhantomTableAttributes(tableInside.getProperties());
+	// 				for (i = 0; i < rowNum; i++){
+	// 					rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+	// 				}
+	// 				this.setBody(rows);
+	// 			}
+	// 		}
+	// 	}
+	// 	console.log('after: ' + this.toHtml());
+	// };
 	this.disentangle = function(){
 		if (!this.isFragmented()){
 			return null;
 		}
 		var rows = [],
 			rowNum = this.rowNum(),
-			i,
-			firstRow,
-			cellInside,
-			tableInside;
+			i, firstRow, cellInside, tableInside, body;
+		body = this.getBody();
 		firstRow = this.getFirstRow();
 		if (firstRow){
-			this.setPhantomRowStyles(firstRow.getStyles());
 			this.setPhantomRowProperties(firstRow.getProperties());
 			cellInside = firstRow.getFirst();
 			if (cellInside){
-				this.setPhantomCellStyles(cellInside.getStyles());
-				this.setPhantomCellAttributes(cellInside.getProperties());
+				this.setPhantomCellProperties(cellInside.getProperties());
 				tableInside = cellInside.getFirst();
-				if(tableInside){
-					this.setPhantomTableStyles(tableInside.getStyles());
-					this.setPhantomTableAttributes(tableInside.getProperties());
+				if (tableInside){
+					this.setPhantomTableProperties(tableInside.getProperties());
 					for (i = 0; i < rowNum; i++){
-						rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
+						rows.push(body[i].getFirst().getFirst().getFirst());
 					}
 					this.setBody(rows);
 				}
 			}
 		}
 	};
+
+
 
 	/**
 	 * Inserts `r` {{#crossLink "Row"}}rows{{/crossLink}} with `c` {{#crossLink "Cell"}}cells{{/crossLink}} each.

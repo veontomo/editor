@@ -194,8 +194,7 @@ function Tag(tName) {
 	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}
 	* is set to this value. Otherwise, the argument is passed to the constructor of new instance of
 	* {{#crossLink "Content"}}Content{{/crossLink}} and the result is assigned to
-	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}
-	* with provided and the ar
+	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
 	* @method          setContent
 	* @param           {any}                cntn
 	* @return          {void}

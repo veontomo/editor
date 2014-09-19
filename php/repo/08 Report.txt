@@ -1,5 +1,5 @@
 ------------------------------------------------------------
-' vs &x39;  - 15/09/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+test editor - 19/09/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
 Email Iniziali : 1
 Email Senza Doppioni : 1
@@ -7,8 +7,8 @@ Email Senza Doppioni : 1
 Effettuato Controllo Diventa su lista Email in Spedizione!
 Email Senza BlackList : 1
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 15/09/2014 / 12:28:56
-Data/Ora Fine Spedizione : 15/09/2014 / 12:29:00
+Data/Ora Inizio Spedizione : 19/09/2014 / 10:56:23
+Data/Ora Fine Spedizione : 19/09/2014 / 10:56:26
 
 Spediti : 1
 
