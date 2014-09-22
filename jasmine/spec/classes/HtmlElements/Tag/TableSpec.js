@@ -1380,7 +1380,8 @@ describe('Table-related functionality:', function(){
             tablePhProp.setProperty('border', '2px solid red');
             tablePh1.setProperties(tablePhProp);
 
-            tablePh2 = new Table();            tablePhProp = new Properties();
+            tablePh2 = new Table();
+            tablePhProp = new Properties();
             tablePhProp.setProperty('border', '2px solid red');
             tablePh2.setProperties(tablePhProp);
 
@@ -1405,19 +1406,19 @@ describe('Table-related functionality:', function(){
 
             row1.appendElem(cell11);
             row1.appendElem(cell12);
-            tablePh1.appendElem(row1);
+            tablePh1.setBody(row1);
             cellPh1.appendElem(tablePh1);
             rowPh1.appendElem(cellPh1);
 
             row2.appendElem(cell21);
             row2.appendElem(cell22);
-            tablePh2.appendElem(row2);
+            tablePh2.setBody(row2);
             cellPh2.appendElem(tablePh2);
             rowPh2.appendElem(cellPh2);
 
             row3.appendElem(cell31);
             row3.appendElem(cell32);
-            tablePh3.appendElem(row3);
+            tablePh3.setBody(row3);
             cellPh3.appendElem(tablePh3);
             rowPh3.appendElem(cellPh3);
 

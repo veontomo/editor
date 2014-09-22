@@ -28,8 +28,8 @@ function ConverterPlainText(){
 		b: {'font-weight': 'bold'},
 		strong: {'font-weight': 'bold'},
 		i: {'font-style': 'italics'}
-	};
-
+	}
+;
 	/**
 	 * Modifies width-related properties in `node`. This function is to be added to
 	 * {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}}.

@@ -1089,46 +1089,11 @@ function Table() {
 	 * If the table is fragmented, then sets up the phantom properties and rearrange content property.
 	 * If not, the table remains as it is.
 	 *
-	 * NB: refactor it!!!!
-	 *
-	 * NB: note that disentanglement only of table body occurs. If table header contains fragmented table,
-	 * it remains untouched.
+	 * NB: note that disentanglement occurs of a table body only. If the table header contains a
+	 * fragmented table, it remains untouched.
 	 * @method   desintangle
 	 * @return   {void}
 	 */
-	// this.disentangle = function(){
-	// 	if (!this.isFragmented()){
-	// 		console.log('The table is NOT fragmented!');
-	// 		return null;
-	// 	}
-	// 	console.log('before: ' + this.toHtml());
-	// 	var rows = [],
-	// 		rowNum = this.rowNum(),
-	// 		i,
-	// 		firstRow,
-	// 		cellInside,
-	// 		tableInside;
-	// 	firstRow = this.getFirstRow();
-	// 	if (firstRow){
-	// 		this.setPhantomRowStyles(firstRow.getStyles());
-	// 		this.setPhantomRowProperties(firstRow.getProperties());
-	// 		cellInside = firstRow.getFirst();
-	// 		if (cellInside){
-	// 			this.setPhantomCellStyles(cellInside.getStyles());
-	// 			this.setPhantomCellAttributes(cellInside.getProperties());
-	// 			tableInside = cellInside.getFirst();
-	// 			if (tableInside){
-	// 				this.setPhantomTableStyles(tableInside.getStyles());
-	// 				this.setPhantomTableAttributes(tableInside.getProperties());
-	// 				for (i = 0; i < rowNum; i++){
-	// 					rows.push(this.getRow(i).getFirst().getFirst().getFirstRow());
-	// 				}
-	// 				this.setBody(rows);
-	// 			}
-	// 		}
-	// 	}
-	// 	console.log('after: ' + this.toHtml());
-	// };
 	this.disentangle = function(){
 		if (!this.isFragmented()){
 			return null;
@@ -1156,7 +1121,6 @@ function Table() {
 					try {
 						this.setBody(rows);
 					} catch (e){
-						// console.log(rows[0].toHtml());
 						console.log('Error (' + e.name + ') when setting table body '  + e.message);
 					}
 
