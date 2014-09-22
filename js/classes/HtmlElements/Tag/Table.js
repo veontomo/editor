@@ -357,7 +357,9 @@ function Table() {
 	 * @return         {Properties|Null}
 	 */
 	this.getPhantomTableProperties = function(){
+		this.initPhantoms();
 		return phantomTable.getProperties();
+
 	};
 
 
@@ -1457,6 +1459,7 @@ function Table() {
 	this.update = function(tableInfo){
 		var tableClone = this.clone();
 		tableClone.configureProperties(tableInfo);
+		console.log('table info: ', tableInfo.width.toString());
 		return tableClone;
 	};
 
@@ -1581,7 +1584,7 @@ function Table() {
 			output = phTblProp.getBorder();
 		}
 		return output;
-	}
+	};
 
 }
 Table.prototype = Object.create(Tag.prototype);

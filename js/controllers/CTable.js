@@ -37,6 +37,37 @@ var CTable = {
 		return output;
 	},
 
+	/**
+	 * Returns parameters that determine the table internal characteristics. External chracteristic (for the moment,
+	 * only "width") is added somewhere else.
+	 *
+	 * The returning object include the following keys:
+	 * <dl>
+	 * <dt>rows</dt><dd>number of table rows</dd>
+	 * <dt>cols</dt><dd>number of table columns</dd>
+	 * <dt>tableBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table border width</dd>
+	 * <dt>tableBorderColor</dt><dd>string for table border color</dd>
+	 * <dt>phantomBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for width around table rows</dd>
+     * <dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
+     * <dt>cellBorders</dt><dd>boolean variables for borders around table cells:
+     * 		<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,
+     *   	<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>
+     * </dd>
+     * <dt>cellBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for border width around table cells</dd>
+     * <dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
+     * <dt>globalTableBgColor</dt><dd>string for table background color</dd>
+     * <dt>spaceTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
+     * <dt>paddingTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
+     * <dt>spaceBtwRows</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
+     * (horizontal is set to 0 px)</dd>
+     * <dt>spaceCell</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table cells padding </dd>
+	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
+	 * to the total table width</dd>
+	 * </dl>
+	 * @method  getDialogData
+	 * @param   {Object}        dialog
+	 * @return  {Object}
+	 */
 	getDialogData: function(dialog, editor){
 		var defaultUnit = 'px';
 		var tableInfo = {
@@ -63,7 +94,7 @@ var CTable = {
 			spaceCell:          new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
 
 			cellWeights: [],
-			width: CTable.parentWidth(editor)
+			// width: CTable.parentWidth(editor)
 		};
 		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			columnFields = columnWidthElem.childNodes,
@@ -90,6 +121,8 @@ var CTable = {
 	 */
 	create: function(dialog, editor){
 		var tableInfo = this.getDialogData(dialog, editor);
+		// adding width of the parent element into tableInfo
+		tableInfo.width = CTable.parentWidth(editor);
 		var table = new Table();
 		table.configure(tableInfo);
 		return table.toNode();
@@ -133,7 +166,7 @@ var CTable = {
 		var factory = NEWSLETTER.factory,
 			table = factory.mimic(tableElem.$),
 			borderInfo, spaceTableGlobal, paddingTableGlobal, spaceBtwRows, cellBorders, spaceCell,
-			phantomTableBorder, phantomTableProp;
+			phantomTableBorder;
 		table.disentangle();
 		borderInfo = table.getBorder();
 		phantomTableBorder = table.getPhantomTableBorder();
@@ -224,11 +257,15 @@ var CTable = {
 	 */
 	update: function(dialog, editor, tableNode){
 		var table = new Table(),
-			dialogData = this.getDialogData(dialog, editor),
+			tableInfo = this.getDialogData(dialog, editor),
 			factory = NEWSLETTER.factory,
-			currentTable = factory.mimic(tableNode);
+			currentTable = factory.mimic(tableNode),
+			width = currentTable.getWidth() || NEWSLETTER.width();
 		currentTable.disentangle();
-		table = currentTable.update(dialogData);
+
+		// adding table width into tableInfo
+		tableInfo.width = new Unit(width);
+		table = currentTable.update(tableInfo);
 		return table.toNode();
 	}
 };
