@@ -123,8 +123,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
     		<a href="notes.php" target="blank">Notes</a>
         </div>
 
-
-
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">

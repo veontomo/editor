@@ -16,9 +16,9 @@ function ConverterGeneral(){
 	}
 
 	/**
-	 * Array of functions to be applied to each node. Each element is supposed to modify the argument it acts on.
-	 * @property    {Array}               _workers
-	 * @type        {Array}
+	 * Array of functions to be applied to each node. Each array element is supposed to modify the argument it acts on.
+	 * @property       {Array}         _workers
+	 * @type           {Array}
 	 * @private
 	 */
 	var _workers = [];
@@ -27,7 +27,7 @@ function ConverterGeneral(){
 	 * {{#crossLink "ConverterGeneral/_worker:property"}}_worker{{/crossLink}} setter.
 	 * Each element of the input array must be a function. Non functions are skipped.
 	 * @method         setWorker
-	 * @param          {Array}              funs                array of functions
+	 * @param          {Array}         funs                array of functions
 	 * @return         {void}
 	 */
 	this.setWorkers = function(funs){
