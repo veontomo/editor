@@ -3,10 +3,14 @@
 
 /**
  * Methods of this class convert into fixed format.
+ *
+ * Extends {{#crossLink "ConverterGeneral"}}ConverterGeneral{{/crossLink}}.
  * @module 	    HtmlElements
  * @class  		ConverterFixed
  * @since       0.0.5
  * @author      A.Shcherbakov
+ * @constructor
+ * @extends     ConverterGeneral
  */
 
 function ConverterFixed(){
@@ -74,7 +78,7 @@ function ConverterFixed(){
 	/**
 	 * Appends workers
 	 * @method    constructor
-	 * @return {void}
+	 * @return    {void}
 	 */
 	this.setWorkers([_widthFixed, _listMargin]);
 }

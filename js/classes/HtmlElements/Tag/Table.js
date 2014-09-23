@@ -602,7 +602,6 @@ function Table() {
 			throw new Error('Wrong argument type: array expected.');
 		}
 		if (profile.length !== cols){
-			console.log(profile.length, cols);
 			throw new Error('Wrong input array length!');
 		}
 		var tbody = this.getBody();

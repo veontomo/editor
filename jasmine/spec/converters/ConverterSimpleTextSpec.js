@@ -1,10 +1,10 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, beforeEach, spyOn, Properties, ConverterPlainText, NEWSLETTER */
+/*global describe, it, expect, beforeEach, spyOn, ConverterSimpleText */
 
 describe ('Converter to plain text format', function(){
 	var c;
     beforeEach(function(){
-    	c = new ConverterPlainText();
+    	c = new ConverterSimpleText();
     });
 
     describe("Elaborates single node document", function () {
@@ -21,6 +21,7 @@ describe ('Converter to plain text format', function(){
             var link2 = c.convert(link);
             expect(link2.nodeValue).toBe('this is a link');
         });
+
 
     });
 

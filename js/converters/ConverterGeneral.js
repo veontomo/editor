@@ -2,7 +2,7 @@
 /*global Mapper, Node*/
 
 /**
- * Parent class for converters into specific formats.
+ * Base class for converters into specific formats.
  * @module 	    HtmlElements
  * @class  		ConverterGeneral
  * @since       0.0.5
@@ -90,8 +90,10 @@ function ConverterGeneral(){
 
 
 	/**
-	 * Converts `n` into fixed format. For proper functioning, it is better to provide a parent
-	 * node, because some calculations require knoweledge of parent properties. If parent element is not
+	 * Applies {{#crossLink "ConverterGeneral/process:method"}}process{{/crossLink}} method to a clone of node `n`.
+	 *
+	 * For a proper functioning, it is better to provide a parent node, because some calculations require
+	 * knoweledge of parent node properties. If parent element is not
 	 * provided, default values are used.
 	 * @method         convert
 	 * @param          {DOM.Node}           n
@@ -99,7 +101,6 @@ function ConverterGeneral(){
 	 * @return         {DOM.Node}
 	 */
 	this.convert = function(n, par){
-		// console.log('convert input: ', n, par);
 		var result = n.cloneNode(true),
 			parent;
 		if (par !== undefined && typeof par.cloneNode === 'function'){
@@ -111,7 +112,7 @@ function ConverterGeneral(){
 
 
 	/**
-	 * Applies each function from {{#crossLink "Converter/_workers:property"}}_worker{{/crossLink}}
+	 * Applies each function from {{#crossLink "ConverterGeneral/_workers:property"}}_worker{{/crossLink}}
 	 * to node `n` and then to each children. For proper functioning, it is better to provide a parent
 	 * node, because some calculations require knoweledge of parent properties. If parent element is not
 	 * provided, default values are used.

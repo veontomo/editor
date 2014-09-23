@@ -1,16 +1,16 @@
 ------------------------------------------------------------
-test editor - 19/09/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+template2014-09-23-09-34-44 - 23/09/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
-Email Iniziali : 1
-Email Senza Doppioni : 1
+Email Iniziali : 9
+Email Senza Doppioni : 9
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
-Email Senza BlackList : 1
+Email Senza BlackList : 9
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 19/09/2014 / 10:56:23
-Data/Ora Fine Spedizione : 19/09/2014 / 10:56:26
+Data/Ora Inizio Spedizione : 23/09/2014 / 09:55:50
+Data/Ora Fine Spedizione : 23/09/2014 / 09:56:20
 
-Spediti : 1
+Spediti : 9
 
 Configurazione : 
   Manda un'Email per ogni Indirizzo

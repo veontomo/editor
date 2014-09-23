@@ -2,11 +2,14 @@
 /*global Properties, FACTORY, Unit, Node, NEWSLETTER, ConverterElastic, ConverterGeneral */
 
 /**
- * Methods of this class converts into fluid format.
+ * Methods of this class converts into elastic format.
+ *
+ * Extends {{#crossLink "ConverterGeneral"}}ConverterGeneral{{/crossLink}} class.
  * @module 	    HtmlElements
  * @class  		ConverterElastic
  * @since       0.0.5
  * @author      A.Shcherbakov
+ * @extends     {ConverterGeneral}
  */
 
 function ConverterElastic(){
