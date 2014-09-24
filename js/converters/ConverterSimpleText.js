@@ -42,6 +42,19 @@ function ConverterSimpleText(){
 
 
 	/**
+	 * [_workers description]
+	 * @param  {[type]} n [description]
+	 * @return {[type]}   [description]
+	 */
+
+	/**
+	 * Array of workers.
+	 * @type {Array}
+	 */
+	var _workers = [];
+
+
+	/**
 	 * Converts `n` into fixed format. For proper functioning, it is better to provide a parent
 	 * node, because some calculations require knoweledge of parent properties. If parent element is not
 	 * provided, default values are used.
@@ -57,12 +70,7 @@ function ConverterSimpleText(){
 			return newNode;
 		}
 		// if newNode is an Element node, try to append children from original node n
-		var result = n.cloneNode(true),
-			parent;
-		if (par !== undefined && typeof par.cloneNode === 'function'){
-			parent = par.cloneNode(false);
-		}
-		// this.process(result, parent);
+		var result = n.cloneNode(true);
 		return result;
 	};
 
@@ -91,6 +99,18 @@ function ConverterSimpleText(){
 		}
 		console.log('_convertLink is over');
 	};
+
+	/**
+	 * Maps node `n` into another object.
+	 * @param  {DOM.Node} n [description]
+	 * @return {DOM.Node|null}   [description]
+	 */
+	this.process = function(n){
+		/// !!! stub
+		return n;
+	};
+
+
 
 
 }
