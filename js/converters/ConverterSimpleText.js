@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global ConverterGeneral, NEWSLETTER, Node, Unit */
+/*global ConverterGeneral, NEWSLETTER, Worker, Node */
 
 /**
  * Methods of this class convert a node into a simple text format.
@@ -26,11 +26,11 @@ function ConverterSimpleText(){
 	 * @since          0.0.6
 	 * @type           {Object}
 	 */
-	var _tagsToRivisit = {
-		b: {'font-weight': 'bold'},
-		strong: {'font-weight': 'bold'},
-		i: {'font-style': 'italics'}
-	};
+	// var _tagsToRivisit = {
+	// 	b: {'font-weight': 'bold'},
+	// 	strong: {'font-weight': 'bold'},
+	// 	i: {'font-style': 'italics'}
+	// };
 
 	/**
 	 * Allowed tags.
@@ -38,30 +38,35 @@ function ConverterSimpleText(){
 	 * Despite the fact the content is plain text
 	 * @type {Array}
 	 */
-	var _tagsAllowed = ['b', 'em', 'strong', 'i'];
-
-
-	/**
-	 * [_workers description]
-	 * @param  {[type]} n [description]
-	 * @return {[type]}   [description]
-	 */
+	// var _tagsAllowed = ['b', 'em', 'strong', 'i'];
 
 	/**
 	 * Array of workers.
+	 * @property {Array} _workers         array of Worker instances
 	 * @type {Array}
 	 */
 	var _workers = [];
 
 
 	/**
-	 * Converts `n` into fixed format. For proper functioning, it is better to provide a parent
-	 * node, because some calculations require knoweledge of parent properties. If parent element is not
-	 * provided, default values are used.
+	 * {{#crossLink "ConverterSimpleText/_workers:property"}}_workers{{/crossLink}} getter.
+	 * @method        getWorkers
+	 * @return        {Array}          array of Worker instances
+	 */
+	this.getWorkers = function(){
+		return _workers;
+	};
+
+
+	/**
+	 * Converts node `n` applying {{#crossLink "ConverterSimpleText/precess:method"}}process{{/crossLink}}
+	 * method on it.
+	 * If the resulting node admits appending child nodes, then convert child nodes (if any) of `n` and append them
+	 * to the resulting node.
+	 *
 	 * @method         convert
 	 * @param          {DOM.Node}           n
-	 * @param          {DOM.Node}           par       parent of n (optional)
-	 * @return         {DOM.Node}
+	 * @return         {Any}
 	 */
 	this.convert = function(n){
 		var newNode = this.process(n);
@@ -70,45 +75,66 @@ function ConverterSimpleText(){
 			return newNode;
 		}
 		// if newNode is an Element node, try to append children from original node n
-		var result = n.cloneNode(true);
-		return result;
+		var oldChildren = n.childNodes,
+			len = oldChildren.length,
+			i, newChild;
+		for (i = 0; i < len; i++){
+			newChild = this.convert(oldChildren[i]);
+			if (newChild){
+				newNode.appendChild(newChild);
+			}
+		}
+		return newNode;
 	};
 
 
+
 	/**
-	 * Modifies width-related properties in `node`. This function is to be added to
-	 * {{#crossLink "ConvertFluid/_workers:property"}}_workers{{/crossLink}}.
+	 * Applies each element from {{#crossLink "ConverterSimpleText/_workers:property"}}_workers{{/crossLink}}
+	 * array on `n`.
+	 * Returns the result of consequitive application of those elements on `n`.
 	 *
-	 * It adds keys `max-width` and `min-width` into style properties as well.
-	 * @method         _widthFixed
-	 * @param          {DOM.Element}        node
-	 * @return         {void}
-	 * @private
-	 */
-	var _convertLink = function(node){
-		console.log('inside _convertLink');
-		if (node.nodeType !== Node.ELEMENT_NODE){
-			console.log('node is not an element');
-			return undefined;
-		}
-		console.log('node is an element');
-		if (node.tagName.toLowerCase() === 'a'){
-			console.log('it is a link');
-			console.log('node value is: ' + node.innerHTML);
-			node = document.createTextNode(node.innerHTML);
-		}
-		console.log('_convertLink is over');
-	};
-
-	/**
-	 * Maps node `n` into another object.
 	 * @param  {DOM.Node} n [description]
 	 * @return {DOM.Node|null}   [description]
 	 */
 	this.process = function(n){
-		/// !!! stub
-		return n;
+		var workers = this.getWorkers(),
+			len = workers.length,
+			i,
+			nCopy = n;
+		for (i = 0; i < len; i++){
+			nCopy = workers[i].elaborate(nCopy);
+		}
+		return nCopy;
 	};
+
+
+	/**
+	 * Workers
+	 */
+	var linkTrigger = function(n){
+			return n && n.nodeType === Node.ELEMENT_NODE && n.tagName.toLowerCase() === 'a';
+		},
+		linkAction = function(n){
+			return document.createTextNode(n.innerHTML);
+		},
+		linkWorker = new Worker(linkTrigger, linkAction);
+
+	var imageTrigger = function(n){
+			return n && n.nodeType === Node.ELEMENT_NODE && n.tagName.toLowerCase() === 'img';
+		},
+		imageAction = function(n){
+			return document.createTextNode(n.getAttribute('alt') || n.getAttribute('title'));
+		},
+		imageWorker = new Worker(imageTrigger, imageAction);
+
+
+
+
+	_workers.push(linkWorker);
+	_workers.push(imageWorker);
+
+
 
 
 
