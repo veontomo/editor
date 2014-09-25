@@ -168,6 +168,7 @@ var CTable = {
 			borderInfo, spaceTableGlobal, paddingTableGlobal, spaceBtwRows, cellBorders, spaceCell,
 			phantomTableBorder;
 		table.disentangle();
+		console.log(table.getProfile());
 		borderInfo = table.getBorder();
 		phantomTableBorder = table.getPhantomTableBorder();
 		spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0);
