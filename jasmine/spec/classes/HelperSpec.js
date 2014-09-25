@@ -34,11 +34,7 @@ describe('Test helper functions', function(){
         it('Returns "Tata6" in called on "tata6"', function(){
             expect(Helper.firstLetterUpperCase('tata6')).toBe('Tata6');
         });
-
-
     });
-
-
 
     describe("table2 helper functions", function () {
         it("transforms each element of the input array into a non-negative number", function () {
@@ -407,6 +403,131 @@ describe('Test helper functions', function(){
 
         it('delimiters concatenated strings by semicolon', function(){
             expect(Helper.cssOfSelector('div', css3)).toBe('width: 100px; color: #00AABB; min-width: 20em; padding: 1px;');
+        });
+
+    });
+
+
+    describe('Getting gcd of numbers', function(){
+        describe('Finding gcd of two numbers', function(){
+            it('returns 1 if both arguments are float', function(){
+                expect(Helper.gcd(43.3, 32.6)).toBe(1);
+            });
+
+            it('returns 1 if the second argument is non-zero integer, while the first is float', function(){
+                expect(Helper.gcd(43.3, 6)).toBe(1);
+            });
+
+            it('returns 1 if the first argument is non-zero integer, while the second is float', function(){
+                expect(Helper.gcd(32, 9.8)).toBe(1);
+            });
+
+            it('returns the first argument if it is non-zero integer, while the second is zero', function(){
+                expect(Helper.gcd(4, 0)).toBe(4);
+            });
+
+            it('returns the second argument if it is non-zero integer, while the first is zero', function(){
+                expect(Helper.gcd(0, 5)).toBe(5);
+            });
+
+            it('returns 1 if both arguments are zero', function(){
+                expect(Helper.gcd(0, 0)).toBe(1);
+            });
+
+            it('returns 5 for 10 and 15', function(){
+               expect(Helper.gcd(10, 15)).toBe(5);
+            });
+
+            it('returns 719 for  719 and 3*719', function(){
+                /// 719 - is a prime number
+               expect(Helper.gcd(719, 719*3)).toBe(719);
+            });
+
+            it('returns 12 for 12 and 60', function(){
+               expect(Helper.gcd(12, 60)).toBe(12);
+            });
+
+            it('returns 12 for 60 and 12', function(){
+               expect(Helper.gcd(12, 60)).toBe(12);
+            });
+
+            it('returns 6 for 12 and 18', function(){
+               expect(Helper.gcd(12, 18)).toBe(6);
+            });
+
+            it('returns 1 for 1 and 18', function(){
+               expect(Helper.gcd(1, 18)).toBe(1);
+            });
+
+            it('returns 1 for 10 and 11', function(){
+               expect(Helper.gcd(10, 11)).toBe(1);
+            });
+
+            it('returns 4 for -12 and 16', function(){
+               expect(Helper.gcd(-12, 16)).toBe(4);
+            });
+        });
+
+        describe('Finding gcd of many numebrs', function(){
+            it ('throws an error if the argument is not an array', function(){
+                var invalids = [0, 8.3, 'string', '', {}, {1: 3}, function(){return;}];
+                invalids.forEach(function(invalid){
+                    expect(function(){
+                        return Helper.gcdList(invalid);
+                    }).toThrow(new Error('Array is expected.'));
+                });
+            });
+
+            it('returns 100 for [200, 300, 400, 500]', function(){
+                expect(Helper.gcdList([200, 300, 400, 500])).toBe(100);
+            });
+
+            it('returns 200 for 2[00, 400, 0, 600]', function(){
+                expect(Helper.gcdList([200, 400, 0, 600])).toBe(200);
+            });
+
+            it('returns 1 for [23.2]', function(){
+                expect(Helper.gcdList([23.2])).toBe(1);
+            });
+
+            it('returns 1 for [0]', function(){
+                expect(Helper.gcdList([0])).toBe(1);
+            });
+
+            it('returns 1 for [87]', function(){
+                expect(Helper.gcdList([87])).toBe(87);
+            });
+
+
+            it('returns 1 for [200, 201]', function(){
+                expect(Helper.gcdList([200, 201])).toBe(1);
+            });
+
+            it('returns 2 for [6, -4, 8]', function(){
+                expect(Helper.gcdList([6, -4, 8])).toBe(2);
+            });
+        });
+
+        describe('Dividing array by gcd', function(){
+            var result;
+            it('returns [1] for single non-zero element array', function(){
+                result = Helper.divideByGcd([2]);
+                expect(result.length).toBe(1);
+                expect(result[0]).toBe(1);
+            });
+            it('returns [0] for single zero element array', function(){
+                result = Helper.divideByGcd([0]);
+                expect(result.length).toBe(1);
+                expect(result[0]).toBe(0);
+            });
+            it('returns [2, 3, 4] for array [6, 9, 12]', function(){
+                result = Helper.divideByGcd([6, 9, 12]);
+                expect(result.length).toBe(3);
+                expect(result[0]).toBe(2);
+                expect(result[1]).toBe(3);
+                expect(result[2]).toBe(4);
+            });
+
         });
 
     });

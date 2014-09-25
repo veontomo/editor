@@ -441,6 +441,108 @@ var Helper = {
             }
         });
         return result.toString();
+    },
+
+    /**
+     * Implementation of Euclid's algorithm for greatest common divisor of numbers `m` and `n`.
+     * <ul><li>
+     * If among input numbers there is a float number, then 1 is returned.
+     * </li><li>
+     * If among input numbers there is one zero and one non-zero integer, then that integer is returned.
+     * </li><li>
+     * If among input numbers there is one zero and one non-zero float, then 1 is returned.
+     * </li><li>
+     * If both input numbers are zero, then 1 is returned.
+     * </li></ul>
+     * @method         gcd
+     * @param          {Integer}         m
+     * @param          {Integer}         n
+     * @return         {Integer}
+     * @since          0.0.6
+     */
+    gcd: function(m, n){
+        if (typeof n !== 'number' || typeof m !== 'number'){
+            throw new Error('Arguments must be numbers!');
+        }
+        if (!Number.isInteger(m) || !Number.isInteger(n)){
+            return 1;
+        }
+        if (m === 0){
+            return n === 0 ? 1 : n;
+        }
+        if (n === 0){
+            return m;
+        }
+        // initialize with possibly in-correct values
+        var max = Math.abs(m),
+            min = Math.abs(n);
+        // switch min and max if they were assigned wrong values
+        if (min > max){
+            var tmp = min;
+            min = max;
+            max = tmp;
+        }
+        return this.gcd(min, max % min);
+    },
+
+    /**
+     * Returns gcd of all input array element.
+     * <ul><li>
+     * If `numbers` is an empty array, nothing is returned.
+     * </li><li>
+     * If `numbers` contains just one element, then either that element (if it is non-zero integer) or 1
+     * (in all other cases) is returned.
+     * </li><li>
+     * If `numbers` contains exactly two elements, then output of
+     * {{#crossLink "Helper/gcd:method"}}gcd{{/crossLink}} is returned.
+     * </li><li>
+     * If `numbers` contains more than two elements, then the last two elements are replaced by their
+     * {{#crossLink "Helper/gcd:method"}}gcd{{/crossLink}} and a new recursive call of
+     * {{#crossLink "Helper/gcdList:method"}}gcdList{{/crossLink}} with shorter input array is performed.
+     * </li></ul>
+     * @method         gcdList
+     * @param          {Array}         numbers
+     * @return         {Integer}
+     * @since          0.0.6
+     */
+    gcdList: function(numbers){
+        if (!Array.isArray(numbers)){
+            throw new Error('Array is expected.');
+        }
+
+        // replace negative elements by their absolute values
+        var absValues = numbers.map(function(n){return n < 0 ? -n : n;});
+        var len = absValues.length;
+        if (len === 1){
+            return Number.isInteger(absValues[0]) && absValues[0] > 0 ? absValues[0] : 1;
+        }
+        if (len === 2){
+            return Helper.gcd(absValues[0], absValues[1]);
+        }
+        if  (len > 2){
+            var last1 = absValues.pop(),
+                last2 = absValues.pop();
+            absValues.push(Helper.gcd(last1, last2));
+            return Helper.gcdList(absValues);
+        }
+    },
+
+
+    /**
+     * Divides each element of the input array by its gcd.
+     * @method         divideByGcd
+     * @param          {Array}         numbers    array of numbers
+     * @return         {Array}         array of numbers
+     */
+    divideByGcd: function(numbers){
+        var gcd;
+        try {
+            gcd = Helper.gcdList(numbers);
+        } catch(e){
+            console.log('There was an error ' + e.message + ' when finding gcd for ', numbers);
+            return;
+        }
+        return gcd === 0 ? numbers : numbers.map(function(n){return n / gcd;});
     }
 };
 

@@ -83,12 +83,12 @@ function manageTable(editor, isNew) {
 	 * If inserted number of the columns is smaller than the number of the text input fields
 	 * to insert column weight factors, then extra text input fields are removed.
 	 *
-	 * @method         drawColumns
+	 * @method         drawInputCells
 	 * @return         {void}
 	 * @since          0.0.4
 	 * @private
 	 */
-	var	drawColumns = function () {
+	var	drawInputCells = function () {
 			// adds input fields to set the widths of the table columns
 			var columnWidths = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
 				title = this.getDialog().getContentElement('info', 'columnWidthTableTitle').getElement().$,
@@ -114,6 +114,26 @@ function manageTable(editor, isNew) {
 				}
 			}
 		};
+
+	/**
+	 * Removes (if any) input field resposible for column widths.
+	 * @param          {CKEDITOR.dialog}    dialog
+	 * @method         dropInputCells
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	var  dropInputCells = function(dialog){
+		var columnWidths = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
+			title = dialog.getContentElement('info', 'columnWidthTableTitle').getElement().$,
+			children, i, len;
+		children = columnWidths.childNodes;
+		len = children.length;
+		// removing the children backwards (since "children" is a live list)
+		for (i = len - 1; i >= 0; i--) {
+			columnWidths.removeChild(children[i]);
+		}
+		title.innerHTML = '';
+	};
 
 	/**
 	 * It takes the content of input field that invoked this function and converts
@@ -190,7 +210,7 @@ function manageTable(editor, isNew) {
 				id: 'tblCols',
 				'default': 1,
 				inputStyle: _inputNumberStyle,
-				onChange: drawColumns
+				onChange: drawInputCells
 			}, {
 				type: 'html',
 				id:   'columnWidthTableTitle',
@@ -482,6 +502,7 @@ function manageTable(editor, isNew) {
 		 * @return    {void}
 		 */
 		onShow: function() {
+			dropInputCells(this);
 		    if (!isNew){
 		    	CTable.fillInDialog(this, editor);
 		    }
