@@ -1279,7 +1279,7 @@ function Table() {
 			this.setPhantomCellProperties(phantomCellProp);
 			this.setPhantomTableProperties(phantomTableProp);
 		}
-
+		this.setAllRowWidths(currentWidth.getValue());
 
 		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
@@ -1358,6 +1358,32 @@ function Table() {
 			if (setForAll || rowArr.indexOf(r) !== -1){
 				row.setStylePropertyOfRange(key, value, cellArr);
 			}
+			newBody.push(row);
+		}
+		this.setBody(newBody);
+	};
+
+	/**
+	 * Sets width of all rows of the table.
+	 *
+	 * It calls {{#crossLink "Tag/setWidth:method"}}setWidth{{/crossLink}} method on each row.
+	 * @method         setAllRowWidths
+	 * @param          {String|Number}   w        width value
+	 * @return         {void }
+	 * @since          0.0.6
+	 */
+	this.setAllRowWidths = function(w){
+		// interrupt if the argument is neither string nor number
+		if (typeof w !== 'string' && typeof w !== 'number'){
+			throw new Error('Width must be a string or a number!');
+		}
+		var body = this.getBody(),
+			newBody = [],
+			rowNum = body.length,
+			row, r;
+		for (r = 0; r < rowNum; r++){
+			row = body[r];
+			row.setWidth(w);
 			newBody.push(row);
 		}
 		this.setBody(newBody);
