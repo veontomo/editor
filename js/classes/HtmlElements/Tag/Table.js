@@ -1141,10 +1141,12 @@ function Table() {
 	 * @method         makeShape
 	 * @param          {Integer}        r       number of rows
 	 * @param          {Integer}        c       number of columns
+	 * @param          {Function}       fun     [optional]  function to mark the rows. It will be given
+	 *                                          two arguments: current row and cell numbers.
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.makeShape = function(r, c){
+	this.makeShape = function(r, c, fun){
 		if (r === undefined){
 			throw new Error('Number of rows and columns are missing.');
 		}
@@ -1152,11 +1154,21 @@ function Table() {
 		if (!Number.isInteger(r) || r <= 0){
 			throw new Error('Number of rows must be positive integer.');
 		}
-		var i, row;
+		var i, row,
+			needToMark = typeof fun === 'function',
+			markCell;
 		this.flushContent();
 		for (i = 0; i < r; i++){
 			row = new Row();
-			row.makeShape(c);
+			if (needToMark){
+				markCell = function(j){
+					return fun(i, j);
+				};
+				row.makeShape(c, markCell);
+			} else {
+				row.makeShape(c);
+			}
+
 			this.appendRow(row);
 		}
 	};
@@ -1167,12 +1179,17 @@ function Table() {
 	 *
 	 * @method         configure
 	 * @param          {Object}        descr           json object chracterizing parameters of the table instance
+	 * @param          {Function}      fun             [optional] function
 	 * @return         {Table}
 	 * @since          0.0.6
 	 */
-	this.configure = function(descr){
+	this.configure = function(descr, fun){
 		this.mark(NEWSLETTER['marker-name']);
-		this.makeShape(descr.rows, descr.cols);
+		if (typeof fun === 'function'){
+			this.makeShape(descr.rows, descr.cols, fun);
+		} else {
+			this.makeShape(descr.rows, descr.cols);
+		}
 		this.markRows(NEWSLETTER['marker-name']);
 		// this.markCells(NEWSLETTER['marker-name']);
 		this.configureProperties(descr);

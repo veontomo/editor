@@ -498,11 +498,11 @@ function manageTable(editor, isNew) {
 		 */
 		onShow: function() {
 		    if (!isNew){
-		    	var table = CTable.getTable(this, editor),
+		    	var table = CTable.getTable(editor),
 		    		parentElem = this.getContentElement('info', 'columnWidthTable').getElement().$,
 		    		n = table instanceof Table ? table.colNum() : 0;
 		    	CTable.addColWeightFields(parentElem, n);
-		    	CTable.fillInDialog(this, editor, table);
+		    	CTable.fillInDialog(this, table);
 		    }
 		},
 

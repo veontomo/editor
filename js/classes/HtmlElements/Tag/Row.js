@@ -292,26 +292,32 @@ function Row() {
 	};
 
 	/**
-	 * Inserts `c` empty cells into the row.
+	 * Inserts `c` cells into the row. If `fun` is a function, it recieves as an argument
+	 * the number of cell and its output is then inserted into cell content.
 	 *
 	 * Previous row content gets lost.
 	 *
 	 * @method         makeShape
-	 * @param          {Integer}       c   number of cells
+	 * @param          {Integer}       c     number of cells
+	 * @param          {Function}      fun   [optional] function whose output is to be set as cell content
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.makeShape = function(c){
+	this.makeShape = function(c, fun){
 		if (c === undefined){
 			throw new Error('Number of cells is missing.');
 		}
 		if (!Number.isInteger(c) || c <= 0){
 			throw new Error('Number of cells must be positive integer.');
 		}
+		var needToMark = typeof fun === 'function';
 		this.flushContent();
 		var i, cell;
 		for (i = 0; i < c; i++){
 			cell = new Cell();
+			if (needToMark){
+				cell.setContent(fun(i));
+			}
 			this.appendCell(cell);
 		}
 	};

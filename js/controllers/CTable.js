@@ -68,7 +68,7 @@ var CTable = {
 	 * @param   {Object}        dialog
 	 * @return  {Object}
 	 */
-	getDialogData: function(dialog, editor){
+	getDialogData: function(dialog){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
@@ -121,11 +121,12 @@ var CTable = {
 	 * @return         {DOM.Element}
 	 */
 	create: function(dialog, editor){
-		var tableInfo = this.getDialogData(dialog, editor);
+		var tableInfo = this.getDialogData(dialog),
+			rowMarker = function(i, j){return (i + 1).toString() + ' : ' + (j + 1).toString();};
 		// adding width of the parent element into tableInfo
 		tableInfo.width = CTable.parentWidth(editor);
 		var table = new Table();
-		table.configure(tableInfo);
+		table.configure(tableInfo, rowMarker);
 		return table.toNode();
 	},
 
@@ -156,11 +157,10 @@ var CTable = {
 	 * Returns instance of {{#crossLink "Table"}}Table{{/crossLink}} corresponding to a DOM.Element
 	 * inside which the cursor is situated. If no table is found, nothing is returned.
 	 * @method        getTable
-	 * @param         {Object}              context           context of the dialog menu
 	 * @param         {Object}              editor            editor instance
 	 * @return        {Table}
 	 */
-	getTable: function(context, editor){
+	getTable: function(editor){
 		var tableElem = this.findParentTable(editor);
 		if (tableElem){
 			var factory = NEWSLETTER.factory,
@@ -183,7 +183,7 @@ var CTable = {
 			// exit if either elem is not valid node or n is not positive integer
 			return;
 		}
-		var inputField;
+		var inputField, i;
 		for (i = 0; i < n; i++){
 			inputField = document.createElement('input');
 			inputField.setAttribute('style', 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em');
@@ -196,11 +196,10 @@ var CTable = {
 	 * Populates the field of the table plugin dialog.
 	 * @method        fillInDialog
 	 * @param         {Object}              context           context of the dialog menu
-	 * @param         {Object}              editor            editor instance
 	 * @param         {Table}               table             table whose attributes are to be loaded into the dialog window.
 	 * @return        {void}
 	 */
-	fillInDialog: function(context, editor, table){
+	fillInDialog: function(context, table){
 		if (!(table instanceof Table)){
 			// no table, no pre-fill
 			return;
@@ -208,7 +207,7 @@ var CTable = {
 		var profile,
 			borderInfo, spaceTableGlobal, paddingTableGlobal,
 			spaceBtwRows, cellBorders, spaceCell, phantomTableBorder,
-			profileLen, cellWidthsParent, columns, columnsLen, i;
+			profileLen, inputCellParent, columns, columnNum, i;
 
 		profile = table.getProfile();
 		inputCellParent = context.getContentElement('info', 'columnWidthTable').getElement().$;
@@ -315,7 +314,7 @@ var CTable = {
 	 */
 	update: function(dialog, editor, tableNode){
 		var table = new Table(),
-			tableInfo = this.getDialogData(dialog, editor),
+			tableInfo = this.getDialogData(dialog),
 			factory = NEWSLETTER.factory,
 			currentTable = factory.mimic(tableNode),
 			width = currentTable.getWidth() || NEWSLETTER.width();
