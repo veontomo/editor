@@ -106,6 +106,7 @@ var CTable = {
 				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
 			}
 		}
+		console.log('dialog data: ', tableInfo.cellWeights);
 		return tableInfo;
 
 	},
@@ -165,10 +166,28 @@ var CTable = {
 		}
 		var factory = NEWSLETTER.factory,
 			table = factory.mimic(tableElem.$),
-			borderInfo, spaceTableGlobal, paddingTableGlobal, spaceBtwRows, cellBorders, spaceCell,
-			phantomTableBorder;
+			profile,
+			borderInfo, spaceTableGlobal, paddingTableGlobal,
+			spaceBtwRows, cellBorders, spaceCell, phantomTableBorder,
+			profileLen, inputCellParent, i, inputField;
+
 		table.disentangle();
-		console.log(Helper.divideByGcd(table.getProfile()));
+		profile = table.getProfile();
+		inputCellParent = context.getContentElement('info', 'columnWidthTable').getElement().$;
+		// getting table profile with cancelled common factors
+		if (profile){
+			profile = Helper.divideByGcd(profile);
+		}
+		// filling in input fields corresponding to column widths
+		profileLen = profile.length;
+		for (i = 0; i < profileLen; i++){
+			inputField = document.createElement('input');
+			inputField.value = profile[i];
+			inputField.setAttribute('style', 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em');
+			inputField.setAttribute('class', 'cke_dialog_ui_input_text');
+			inputCellParent.appendChild(inputField);
+		}
+
 		borderInfo = table.getBorder();
 		phantomTableBorder = table.getPhantomTableBorder();
 		spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0);

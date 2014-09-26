@@ -122,13 +122,15 @@ function manageTable(editor, isNew) {
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	var  dropInputCells = function(dialog){
+	var dropInputCells = function(dialog){
+		console.log('removing input cells');
 		var columnWidths = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			title = dialog.getContentElement('info', 'columnWidthTableTitle').getElement().$,
 			children, i, len;
 		children = columnWidths.childNodes;
 		len = children.length;
 		// removing the children backwards (since "children" is a live list)
+		console.log(len + ' cells to drop');
 		for (i = len - 1; i >= 0; i--) {
 			columnWidths.removeChild(children[i]);
 		}
@@ -502,7 +504,6 @@ function manageTable(editor, isNew) {
 		 * @return    {void}
 		 */
 		onShow: function() {
-			dropInputCells(this);
 		    if (!isNew){
 		    	CTable.fillInDialog(this, editor);
 		    }
@@ -515,17 +516,18 @@ function manageTable(editor, isNew) {
 				tableNode = CTable.create(this, editor);
 				tableElem = CKEDITOR.document.createElement(tableNode);
 				editor.insertElement(tableElem);
-				return;
+			} else {
+				// in case of updating current table
+				var currentTable = CTable.findParentTable(editor);
+				if (!currentTable){
+					console.log('parent table is NOT found');
+					return;
+				}
+				tableNode = CTable.update(this, editor, currentTable.$);
+				tableElem = CKEDITOR.document.createElement(tableNode);
+				tableElem.replace(currentTable);
 			}
-			// in case of updating current table
-			var currentTable = CTable.findParentTable(editor);
-			if (!currentTable){
-				console.log('parent table is NOT found');
-				return;
-			}
-			tableNode = CTable.update(this, editor, currentTable.$);
-			tableElem = CKEDITOR.document.createElement(tableNode);
-			tableElem.replace(currentTable);
+			dropInputCells(this);
 		}
 	};
 	return dialogWindow;

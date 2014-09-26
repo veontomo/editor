@@ -529,6 +529,8 @@ var Helper = {
 
 
     /**
+     * Cancelling common factors of each array element.
+     *
      * Divides each element of the input array by its gcd.
      * @method         divideByGcd
      * @param          {Array}         numbers    array of numbers
