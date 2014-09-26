@@ -155,7 +155,7 @@ var CTable = {
 	/**
 	 * Returns instance of {{#crossLink "Table"}}Table{{/crossLink}} corresponding to a DOM.Element
 	 * inside which the cursor is situated. If no table is found, nothing is returned.
-	 *
+	 * @method        getTable
 	 * @param         {Object}              context           context of the dialog menu
 	 * @param         {Object}              editor            editor instance
 	 * @return        {Table}

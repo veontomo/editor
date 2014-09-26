@@ -69,7 +69,7 @@ function manageTable(editor, isNew) {
 			var elem = this.base;
 			elem.childNodes[0].style.zIndex = '10011';
 		});
-	})();
+	}());
 
 
 
@@ -90,11 +90,11 @@ function manageTable(editor, isNew) {
 	 */
 	var	drawInputCells = function () {
 			// adds input fields to set the widths of the table columns
-			var columnWidths = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
+			var colWeightElem = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
 				title = this.getDialog().getContentElement('info', 'columnWidthTableTitle').getElement().$,
 				children, i, colNumCurrent, colNumDesired;
 
-			children = columnWidths.childNodes;
+			children = colWeightElem.childNodes;
 			colNumCurrent = children.length;                                                // actual number of input fields
 			colNumDesired = parseInt(this.getDialog().getValueOf('info', 'tblCols'), 10);   // desirable number of input fields
 			if (isNaN(colNumDesired)){
@@ -103,10 +103,10 @@ function manageTable(editor, isNew) {
 			title.innerHTML =  colNumDesired > 0  ? editor.lang.table2.columnWeight : editor.lang.table2.valueInPx;
 			if (colNumDesired < colNumCurrent){
 				for (i = colNumCurrent - 1; i > colNumDesired - 1; i--) {
-					columnWidths.removeChild(children[i]);
+					colWeightElem.removeChild(children[i]);
 				}
 			} else {
-				CTable.addColWeightFields(columnWidths, colNumDesired - colNumCurrent);
+				CTable.addColWeightFields(colWeightElem, colNumDesired - colNumCurrent);
 			}
 		};
 

@@ -18,27 +18,6 @@ function ConverterSimpleText(){
 	}
 	// ConverterGeneral.call(this);
 
-	/**
-	 * Objects that defines a mapping from html tags that are allowed inside the content into
-	 * a "revisited" tag.
-	 * @property       {Object} _tagsToRivisit
-	 * @private
-	 * @since          0.0.6
-	 * @type           {Object}
-	 */
-	// var _tagsToRivisit = {
-	// 	b: {'font-weight': 'bold'},
-	// 	strong: {'font-weight': 'bold'},
-	// 	i: {'font-style': 'italics'}
-	// };
-
-	/**
-	 * Allowed tags.
-	 *
-	 * Despite the fact the content is plain text
-	 * @type {Array}
-	 */
-	// var _tagsAllowed = ['b', 'em', 'strong', 'i'];
 
 	/**
 	 * Array of workers.
@@ -93,9 +72,9 @@ function ConverterSimpleText(){
 	 * Applies each element from {{#crossLink "ConverterSimpleText/_workers:property"}}_workers{{/crossLink}}
 	 * array on `n`.
 	 * Returns the result of consequitive application of those elements on `n`.
-	 *
-	 * @param  {DOM.Node} n [description]
-	 * @return {DOM.Node|null}   [description]
+	 * @method         process
+	 * @param          {DOM.Node}      n
+	 * @return         {DOM.Node|null}
 	 */
 	this.process = function(n){
 		var workers = this.getWorkers(),
@@ -110,7 +89,9 @@ function ConverterSimpleText(){
 
 
 	/**
-	 * Workers
+	 * Workers.
+	 * @property {Function} linkTrigger
+	 *
 	 */
 	var linkTrigger = function(n){
 			return n && n.nodeType === Node.ELEMENT_NODE && n.tagName.toLowerCase() === 'a';
