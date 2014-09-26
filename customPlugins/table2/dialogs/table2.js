@@ -92,8 +92,8 @@ function manageTable(editor, isNew) {
 			// adds input fields to set the widths of the table columns
 			var columnWidths = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
 				title = this.getDialog().getContentElement('info', 'columnWidthTableTitle').getElement().$,
-			 _inputFieldStyle = 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
-				children, i, colNumCurrent, colNumDesired, inputField;
+				children, i, colNumCurrent, colNumDesired;
+
 			children = columnWidths.childNodes;
 			colNumCurrent = children.length;                                                // actual number of input fields
 			colNumDesired = parseInt(this.getDialog().getValueOf('info', 'tblCols'), 10);   // desirable number of input fields
@@ -106,12 +106,7 @@ function manageTable(editor, isNew) {
 					columnWidths.removeChild(children[i]);
 				}
 			} else {
-				for (i = 0; i < colNumDesired - colNumCurrent; i++){
-					inputField = document.createElement('input');
-					inputField.setAttribute('style', _inputFieldStyle);
-					inputField.setAttribute('class', 'cke_dialog_ui_input_text');
-					columnWidths.appendChild(inputField);
-				}
+				CTable.addColWeightFields(columnWidths, colNumDesired - colNumCurrent);
 			}
 		};
 
@@ -468,8 +463,6 @@ function manageTable(editor, isNew) {
 				}]
 			}]
 		}
-
-
 		],
 
 		/**
@@ -505,7 +498,11 @@ function manageTable(editor, isNew) {
 		 */
 		onShow: function() {
 		    if (!isNew){
-		    	CTable.fillInDialog(this, editor);
+		    	var table = CTable.getTable(this, editor),
+		    		parentElem = this.getContentElement('info', 'columnWidthTable').getElement().$,
+		    		n = table instanceof Table ? table.colNum() : 0;
+		    	CTable.addColWeightFields(parentElem, n);
+		    	CTable.fillInDialog(this, editor, table);
 		    }
 		},
 

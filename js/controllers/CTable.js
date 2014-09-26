@@ -153,39 +153,77 @@ var CTable = {
 	},
 
 	/**
+	 * Returns instance of {{#crossLink "Table"}}Table{{/crossLink}} corresponding to a DOM.Element
+	 * inside which the cursor is situated. If no table is found, nothing is returned.
+	 *
+	 * @param         {Object}              context           context of the dialog menu
+	 * @param         {Object}              editor            editor instance
+	 * @return        {Table}
+	 */
+	getTable: function(context, editor){
+		var tableElem = this.findParentTable(editor);
+		if (tableElem){
+			var factory = NEWSLETTER.factory,
+				table = factory.mimic(tableElem.$);
+			if (table){
+				table.disentangle();
+				return table;
+			}
+		}
+	},
+
+	/**
+	 * Appends `n` input fields to `elem` element in order to insert column width weigths.
+	 * @method         addColWeightFields
+	 * @param          {DOM.Element}   elem       element to which append input fields
+	 * @param          {Integer}       num        number of input fields to append
+	 */
+	addColWeightFields: function(elem, n){
+		if (!elem || !elem.nodeType || !Number.isInteger(n) || n < 0){
+			// exit if either elem is not valid node or n is not positive integer
+			return;
+		}
+		var inputField;
+		for (i = 0; i < n; i++){
+			inputField = document.createElement('input');
+			inputField.setAttribute('style', 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em');
+			inputField.setAttribute('class', 'cke_dialog_ui_input_text'); // imitate the editor style for input fields
+			elem.appendChild(inputField);
+		}
+	},
+
+	/**
 	 * Populates the field of the table plugin dialog.
 	 * @method        fillInDialog
 	 * @param         {Object}              context           context of the dialog menu
 	 * @param         {Object}              editor            editor instance
+	 * @param         {Table}               table             table whose attributes are to be loaded into the dialog window.
 	 * @return        {void}
 	 */
-	fillInDialog: function(context, editor){
-		var tableElem = this.findParentTable(editor);
-		if (!tableElem){
+	fillInDialog: function(context, editor, table){
+		if (!(table instanceof Table)){
+			// no table, no pre-fill
 			return;
 		}
-		var factory = NEWSLETTER.factory,
-			table = factory.mimic(tableElem.$),
-			profile,
+		var profile,
 			borderInfo, spaceTableGlobal, paddingTableGlobal,
 			spaceBtwRows, cellBorders, spaceCell, phantomTableBorder,
-			profileLen, inputCellParent, i, inputField;
+			profileLen, cellWidthsParent, columns, columnsLen, i;
 
-		table.disentangle();
 		profile = table.getProfile();
 		inputCellParent = context.getContentElement('info', 'columnWidthTable').getElement().$;
+		columns = inputCellParent.childNodes;
+		columnNum = columns.length;
 		// getting table profile with cancelled common factors
 		if (profile){
 			profile = Helper.divideByGcd(profile);
 		}
 		// filling in input fields corresponding to column widths
 		profileLen = profile.length;
-		for (i = 0; i < profileLen; i++){
-			inputField = document.createElement('input');
-			inputField.value = profile[i];
-			inputField.setAttribute('style', 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em');
-			inputField.setAttribute('class', 'cke_dialog_ui_input_text');
-			inputCellParent.appendChild(inputField);
+		if (profileLen === columnNum){
+			for (i = 0; i < profileLen; i++){
+				columns[i].value = profile[i];
+			}
 		}
 
 		borderInfo = table.getBorder();
