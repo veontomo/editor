@@ -106,7 +106,6 @@ var CTable = {
 				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
 			}
 		}
-		console.log('dialog data: ', tableInfo.cellWeights);
 		return tableInfo;
 
 	},
@@ -193,6 +192,28 @@ var CTable = {
 	},
 
 	/**
+	 * Fills in input text element parametrized by `tabId` and `elemId` by `colorValue` and
+	 * imposes "background-color" style attribute to `colorValue`.
+	 * @method         setColorField
+	 * @param          {Object}        context           context of the dialog menu
+	 * @param          {String}        tabId
+	 * @param          {String}        fieldId
+	 * @param          {String}        colorValue
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	setColorField: function(context, tabId, elemId, colorValue){
+		if (!colorValue){
+			return;
+		}
+		var elem = context.getContentElement(tabId, elemId);
+		if (elem){
+			elem.setValue(colorValue);
+			elem.getInputElement().setStyle('background-color', colorValue);
+		}
+	},
+
+	/**
 	 * Populates the field of the table plugin dialog.
 	 * @method        fillInDialog
 	 * @param         {Object}              context           context of the dialog menu
@@ -240,14 +261,12 @@ var CTable = {
 		context.setValueOf('borderTab', 'leftVerBord', cellBorders.leftVer);
 		context.setValueOf('borderTab', 'rightVerBord', cellBorders.rightVer);
 		context.setValueOf('borderTab', 'intVerBord', cellBorders.intVer);
-		context.setValueOf('borderTab', 'cellBorderColor', cellBorders.color);
-		context.setValueOf('borderTab', 'cellBorderWidth', cellBorders.width);
-
+		this.setColorField(context, 'borderTab', 'cellBorderColor', cellBorders.color);
 		context.setValueOf('borderTab', 'cellBorderWidth', cellBorders.width);
 
 		if (phantomTableBorder.style !== 'none'){
 			context.setValueOf('borderTab', 'rowBorderWidth', phantomTableBorder.width);
-			context.setValueOf('borderTab', 'rowBorderColor', phantomTableBorder.color);
+			this.setColorField(context, 'borderTab', 'rowBorderColor', phantomTableBorder.color);
 		}
 
 		if (spaceBtwRows){
@@ -269,17 +288,17 @@ var CTable = {
 		context.getContentElement('info', 'tblCols').disable();
 
 		if (table.hasStyleProperty('background-color')){
-			context.setValueOf('backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
+			this.setColorField(context, 'backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}
 		if (borderInfo.style !== 'none'){
 			var tableBorderWidth = new Unit(borderInfo.width);
 			context.setValueOf('borderTab', 'globalBorderWidth', tableBorderWidth.getValue() || 0);
-			context.setValueOf('borderTab', 'globalBorderColor', borderInfo.color || '#000001');
+			this.setColorField(context, 'borderTab', 'globalBorderColor', borderInfo.color || '#000001');
 		}
-		context.setValueOf('spacesTab', 'spaceTableGlobal', spaceTableGlobal.getValue());
-		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue());
-		context.setValueOf('spacesTab', 'spaceBtwRows', spaceBtwRows.times(2).getValue()); // NB: see multiplication by 2
-		context.setValueOf('spacesTab', 'spaceCell', spaceCell.getValue());
+		context.setValueOf('spacesTab', 'spaceTableGlobal', spaceTableGlobal.getValue().toString());
+		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue().toString());
+		context.setValueOf('spacesTab', 'spaceBtwRows', spaceBtwRows.times(2).getValue().toString()); // NB: see multiplication by 2
+		context.setValueOf('spacesTab', 'spaceCell', spaceCell.getValue().toString());
 	},
 
 

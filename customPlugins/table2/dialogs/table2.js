@@ -118,14 +118,12 @@ function manageTable(editor, isNew) {
 	 * @since          0.0.6
 	 */
 	var dropInputCells = function(dialog){
-		console.log('removing input cells');
 		var columnWidths = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
 			title = dialog.getContentElement('info', 'columnWidthTableTitle').getElement().$,
 			children, i, len;
 		children = columnWidths.childNodes;
 		len = children.length;
 		// removing the children backwards (since "children" is a live list)
-		console.log(len + ' cells to drop');
 		for (i = len - 1; i >= 0; i--) {
 			columnWidths.removeChild(children[i]);
 		}

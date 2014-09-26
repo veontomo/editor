@@ -1465,7 +1465,6 @@ function Table() {
 	this.update = function(tableInfo){
 		var tableClone = this.clone();
 		tableClone.configureProperties(tableInfo);
-		console.log('table info: ', tableInfo.width.toString());
 		return tableClone;
 	};
 
