@@ -21,6 +21,27 @@ $(document).ready(function () {
 		editable.attachListener(editable, 'mousedown', function() {
 			insertedElement.innerHTML = editable.getHtml();
 		});
+
+		// very raw way to access plugin icons in the toolbar
+		// start
+		var buttonOn = 'cke_button_on';
+		var button = document.getElementsByClassName('cke_button__bold2_icon')[0];
+		editor.on('change', function() {
+			var _class = button.className;
+			if (_class){
+				if (_class.indexOf(buttonOn) !== -1){
+					_class = _class.replace(buttonOn, '');
+				} else {
+					_class += ' ' + buttonOn;
+				}
+				button.className = _class.trim();
+			}
+		});
+		// end
+
+
+
+
 	});
 
 // 	var css = 'body {\
