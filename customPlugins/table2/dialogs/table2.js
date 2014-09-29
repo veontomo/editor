@@ -470,6 +470,7 @@ function manageTable(editor, isNew) {
 		 * @return     {void}
 		 */
 		onLoad: function(){
+			console.log(CKEDITOR.config.disallowedContent);
 			// ui text input elements to which append color picker
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {

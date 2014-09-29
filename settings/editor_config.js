@@ -46,13 +46,19 @@ CKEDITOR.editorConfig = function(config){
 	});
 
 
-	config.allowedContent = true;
+	config.allowedContent = false;
+
+	// Setting allowed elements and their attributes, styles and classes.
+	// format: elements [attributes]{styles}(classes)
+	// the line below allows all attributes and styles for tags p, table etc.
+	config.allowedContent = 'p table tbody tr td span div h1 h2 h3 h4 h5 h6 img a ol ul li[*]{*}';
+	// the line below prohibits tags b, strong, em, i
+	config.disallowedContent = 'b strong em i';
 
 	config.extraPlugins = customPluginNames.join(','); // comma-separated string of custom plugin names
 	config.magicline_color = '#ababab';
 	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
 
-	//
 	// Styles are activated below by means of CKEDITOR.addCss(...).
 	//
 	// One could do as in the line below as well:
