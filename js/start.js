@@ -38,9 +38,10 @@ $(document).ready(function () {
 			}
 		});
 		// end
-
-
-
+		//
+		editor.on('keypress', function(e){
+			console.log(e);
+		});
 
 	});
 

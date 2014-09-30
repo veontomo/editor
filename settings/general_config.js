@@ -47,6 +47,17 @@ var NEWSLETTER = (function(){
 		};
 
 		/**
+		 * Fonts to be added to those already present in the editor.
+		 *
+		 * Object keys are to be displayed in the toolbar combo box, while thier
+		 * values are to be used for 'font-family' attribute.
+		 * @property {Object} additionalFonts
+		 * @type     {Object}
+		 * @default  {'Calibri': 'Calibri, sans-serif'}
+		 */
+		_output.additionalFonts = {'Calibri': 'Calibri, sans-serif'};
+
+		/**
 		 * Sets maximum width of element available inside editor window.
 		 *
 		 * This value is to be set to an element when it is failed to find its parent.
@@ -209,6 +220,9 @@ var NEWSLETTER = (function(){
 				a {color: ; font-weight: normal}',
 			writable: false
 		});
+
+
+
 
 		return _output;
 	};

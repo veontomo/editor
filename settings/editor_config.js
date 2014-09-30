@@ -2,10 +2,12 @@
 /*global CKEDITOR, List, ListItem, NEWSLETTER*/
 
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * Configuration of CKEDITOR.
+ * @module  Config
+ * @class  CKEDITOR
+ *
+ * @since  0.0.1
  */
-
 CKEDITOR.editorConfig = function(config){
 	// language
 	config.language = 'it';
@@ -74,3 +76,40 @@ CKEDITOR.editorConfig = function(config){
 /// cssEditor  takes precedence over those in cssBase.
 CKEDITOR.addCss(NEWSLETTER.cssBase);
 CKEDITOR.addCss(NEWSLETTER.cssEditor);
+
+/**
+ * Loads fonts given in
+ * {{#crossLink "NEWSLETTER/additionalFonts:property"}}NEWSLETTER.additionalFonts{{/crossLink}}
+ * into the configuration.
+ *
+ * Converts a key-value object into a string of the format
+ * <code>"first string to display/first string to use; second string to display/second string to use; ..."</code>
+ * as required by [API](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-font_names):
+ * <blockquote>The list of fonts names to be displayed in the Font combo in the toolbar.
+ * Entries are separated by semi-colons (';'), while it's possible to have more than
+ * one font for each entry, in the HTML way (separated by comma).
+ * A display name may be optionally defined by prefixing the entries with the name
+ * and the slash character. For example, 'Arial/Arial, Helvetica, sans-serif' will
+ * be displayed as 'Arial' in the list, but will be outputted as 'Arial, Helvetica, sans-serif'.
+ * </blockquote>
+ * @method  constructor
+  */
+var fonts = NEWSLETTER.additionalFonts;
+if (fonts){
+	var font,
+		separ1 = '/',
+		separ2 = ';',
+		fontArr = [];  // accumulator for properly formatted strings
+	for (font in fonts){
+		if (fonts.hasOwnProperty(font)){
+			fontArr.push(font + separ1 + fonts[font]);
+		}
+	}
+	// gluing the accumulating array and assigning resulting string
+	if (CKEDITOR.config.font_names) {
+		CKEDITOR.config.font_names += separ2 + fontArr.join(separ2);
+	} else {
+		CKEDITOR.config.font_names = fontArr.join(separ2);
+	}
+	console.log(CKEDITOR.config.font_names);
+}
