@@ -154,5 +154,4 @@ if (fonts){
 	} else {
 		CKEDITOR.config.font_names = fontArr.join(separ2);
 	}
-	console.log(CKEDITOR.config.font_names);
 }

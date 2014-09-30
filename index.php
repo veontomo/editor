@@ -87,7 +87,7 @@
 	<script type="text/javascript" src="settings/general_config.js"></script>
 
 	<!-- event handlers -->
-	<script type="text/javascript" src="js/eventHandlers/EHtoolbarHighlight.js"></script>
+	<script type="text/javascript" src="js/eventHandlers/EHToolbar.js"></script>
 
 	<!-- external plugins -->
 	<script type="text/javascript" src="externalPlugins/picker.min.js"></script>
