@@ -77,18 +77,19 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Mapper.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
-
 	<!-- Controllers -->
 	<script type="text/javascript" src="js/controllers/CTable.js"></script>
 	<script type="text/javascript" src="js/controllers/CLink.js"></script>
 	<script type="text/javascript" src="js/controllers/CDownload.js"></script>
 	<script type="text/javascript" src="js/controllers/CImage.js"></script>
 
-
+	<!-- configuration file -->
 	<script type="text/javascript" src="settings/general_config.js"></script>
 
-	<!-- external plugins -->
+	<!-- event handlers -->
+	<script type="text/javascript" src="js/eventHandlers/EHtoolbarHighlight.js"></script>
 
+	<!-- external plugins -->
 	<script type="text/javascript" src="externalPlugins/picker.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.css"/>
