@@ -29,7 +29,7 @@
  	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<!-- // <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>

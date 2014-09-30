@@ -22,18 +22,46 @@ CKEDITOR.editorConfig = function(config){
 	 * Default language (in case {{#crossLink "CKEDITOR/language:property"}}language{{/crossLink}})
 	 * is not found).
 	 *
-	 * @property       {String}        language
+	 * @property       {String}        defaultLanguage
 	 * @type           {String}
-	 * @default        it
+	 * @default        en
 	 */
-	config.defaultLanguage = config.language;
-	// size
+	config.defaultLanguage = 'en';
+
+	/**
+	 * Editor window width.
+	 *
+	 * @property       {String}        width
+	 * @type           {String}
+	 * @default        "850px"
+	 */
 	config.width = '850px';
+
+	/**
+	 * Editor window height.
+	 *
+	 * @property       {String}        height
+	 * @type           {String}
+	 * @default        "650px"
+	 */
 	config.height = '650px';
 
-	// when pressing "ENTER", <br> is inserted, not <p>
+	/**
+	 * Enter mode: when pressing "ENTER", &lt;br&gt; is inserted, not &lt;p&gt;.
+	 *
+	 * @property       {Number}        enterMode
+	 * @type           {Number}
+	 * @default        CKEDITOR.ENTER_BR
+	 */
 	config.enterMode = CKEDITOR.ENTER_BR;
 
+	/**
+	 * Whether objects in the editor window can be resized or not.
+	 *
+	 * @property       {Boolean}        disableObjectResizing
+	 * @type           {Boolean}
+	 * @default        true
+	 */
 	config.disableObjectResizing = true;
 
 	config.toolbarGroups = [
