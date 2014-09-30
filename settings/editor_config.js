@@ -9,8 +9,23 @@
  * @since  0.0.1
  */
 CKEDITOR.editorConfig = function(config){
-	// language
+	/**
+	 * Language in which toolbar phrases are displayed.
+	 *
+	 * @property       {String}        language
+	 * @type           {String}
+	 * @default        it
+	 */
 	config.language = 'it';
+
+	/**
+	 * Default language (in case {{#crossLink "CKEDITOR/language:property"}}language{{/crossLink}})
+	 * is not found).
+	 *
+	 * @property       {String}        language
+	 * @type           {String}
+	 * @default        it
+	 */
 	config.defaultLanguage = config.language;
 	// size
 	config.width = '850px';
