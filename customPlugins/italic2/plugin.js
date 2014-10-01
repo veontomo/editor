@@ -10,6 +10,14 @@ CKEDITOR.plugins.add('italic2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
+		editor.on('contentDom', function() {
+			var editable = editor.editable();
+		    editable.attachListener(editor.document, 'mousedown', function() {
+		    	console.log('empty listener inside italic plugin');
+		    	// EHToolbar.highlight(editor);
+		    });
+		});
+
 		// Define an editor command that opens our dialog.
 		editor.addCommand('italic2', {
 			exec: function(editor){

@@ -1,10 +1,14 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Dom */
+/*global describe, it, expect, spyOn, beforeEach, Dom, Node */
 
 describe('Dom-specific functionality', function(){
+    var dom;
+    beforeEach(function(){
+        dom = new Dom();
+    });
+
     describe('Getting common parent', function(){
-        var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11,
-            dom;
+        var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
 //                    n00                                m00
 //         ____________|_________                    _____|____
 //         |                     |                   |         |
@@ -69,8 +73,7 @@ describe('Dom-specific functionality', function(){
     });
 
     describe('Finds proxy node', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31,
-            dom;
+        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 //                    e00
 //         ____________|_________
 //         |                     |
@@ -83,7 +86,6 @@ describe('Dom-specific functionality', function(){
 //     e30     t31
 
         beforeEach(function(){
-            dom = new Dom();
             e00 = document.createElement('div00');
             e10 = document.createElement('div10');
             e11 = document.createElement('div11');
@@ -128,8 +130,7 @@ describe('Dom-specific functionality', function(){
     });
 
     describe('Finds mentor node', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31,
-            dom;
+        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 
 //                             e00 (block: wide)
 //         ____________________________|_________
@@ -143,7 +144,6 @@ describe('Dom-specific functionality', function(){
 //     e30 (block: wide)    t31
 
         beforeEach(function(){
-            dom = new Dom();
             var stl1 = 'class: media; block: wide;',
                 stl2 = 'size: biggest; block: narrow;';
             e00 = document.createElement('div00');
@@ -194,8 +194,7 @@ describe('Dom-specific functionality', function(){
 
 
     describe('Finds style in the ascendants', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31,
-            dom;
+        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 
 //                             e00 (block: wide)
 //         ____________________________|_________
@@ -272,8 +271,7 @@ describe('Dom-specific functionality', function(){
 
 
     describe('Toggles element style properties', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31,
-            dom;
+        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
 //                                     e00
 //          ____________________________|________
@@ -287,7 +285,6 @@ describe('Dom-specific functionality', function(){
 //     e30    t31
 
         beforeEach(function(){
-            dom = new Dom();
             e00 = document.createElement('div00');
             e10 = document.createElement('div10');
             e11 = document.createElement('div11');
@@ -361,8 +358,7 @@ describe('Dom-specific functionality', function(){
 
 
     describe('Creates an element node from a text one with a "toggled" style property', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31,
-            dom;
+        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
 //                                     e00
 //          ____________________________|________
@@ -455,8 +451,7 @@ describe('Dom-specific functionality', function(){
 
     describe('Gets complement nodes', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
-            e41, e50, e51, e60, e61, e62, e63,
-            dom;
+            e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
 //                        ____________________________|________
 //                       |                                     |
@@ -577,8 +572,7 @@ describe('Dom-specific functionality', function(){
 
     describe('Nailing style property', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
-            e41, e50, e51, e60, e61, e62, e63,
-            dom;
+            e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
 //                        ____________________________|________
 //                       |                                     |
@@ -716,14 +710,13 @@ describe('Dom-specific functionality', function(){
     });
 
     describe('Managing inline style property of nodes', function(){
-    var e0, e1, t2, e3, e4, dom;
+    var e0, e1, t2, e3, e4;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
 //            ___________|_______
 //           |           |       |
 //          e1          t2     e3 (width: big; border: 2)
 //
         beforeEach(function(){
-            dom = new Dom();
             e0 = document.createElement('div0');
             e1 = document.createElement('div1');
             t2 = document.createTextNode('text node');
@@ -865,6 +858,36 @@ describe('Dom-specific functionality', function(){
 
 
         });
+    });
+
+    describe('Switching class attributes', function(){
+        it('creates class attribute if no class attribute is present', function(){
+            var el = document.createElement('div');
+            dom.switchClassProperty(el, 'new_class', 'old_class');
+            expect(el.getAttribute('class')).toBe('new_class');
+        });
+
+        it('switches class attribute if the element has only that class attribute', function(){
+            var el = document.createElement('div');
+            el.setAttribute('class', 'old_class');
+            dom.switchClassProperty(el, 'new_class', 'old_class');
+            expect(el.getAttribute('class')).toBe('new_class');
+        });
+
+        it('appends class attribute if the element has other class attributes and no secondary-switch', function(){
+            var el = document.createElement('div');
+            el.setAttribute('class', 'some_other_class another-one');
+            dom.switchClassProperty(el, 'new_class', 'old_class');
+            expect(el.getAttribute('class')).toBe('some_other_class another-one new_class');
+        });
+
+        it('replaces the secondary-switch class attribute if the element has other attributes', function(){
+            var el = document.createElement('div');
+            el.setAttribute('class', 'some_other_class old_class another-one');
+            dom.switchClassProperty(el, 'new_class', 'old_class');
+            expect(el.getAttribute('class')).toBe('some_other_class new_class another-one');
+        });
+
     });
 
 });

@@ -16,33 +16,6 @@
  */
 
 function Dom(){
-	// *
-	//  * Returns value of style property `prop` of node `n`. It looks up the chain of parents until finds
-	//  * first occurence of key `prop`. If the key is not present in any of ancestors, nothing is returned.
-	//  * @method          _lookUpInParents
-	//  * @param          {DOM.Node}           n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	//  * @param          {String}             prop      name of the property to look for
-	//  * @return         {String|void}
-	//  * @private
-	//  * @deprecated     in favour of {{#crossLink "Dom/getInheritedStyleProp:method"}}getInheritedStyleProp{{/crossLink}}
-	//  * @since          0.0.4
-
-	// var _lookUpInParents = function(n, prop){
-	//     console.log('inside _lookUpInParents');
-	//     var currentNode = n,
-	//         stl;
-	//     while (currentNode){
-	//         console.log('current Node: ', currentNode);
-	//         if (typeof currentNode.getAttribute === 'function'){
-	//             stl = new Properties(currentNode.getAttribute('style'));
-	//             if (stl.hasProperty(prop)){
-	//                 return stl.getProperty(prop);
-	//             }
-	//         }
-	//         currentNode = currentNode.parentNode;
-	//     }
-	// };
-
 	/**
 	 * Toggles inline style property `prop` of node `n`. When it turns out that the property should
 	 * be set, it is set to value `val`.
@@ -536,6 +509,41 @@ function Dom(){
 			}
 		}
 		return result;
+	};
+
+	/**
+	 * Replaces `propSecondary` string by `propPrimary` one in the class attribute of `elem`.
+	 * If `propSecondary` does not exist, then `propPrimary` is just appended to class
+	 * attributes. If class attribute does not exist, then it is created with value `propName`.
+	 *
+	 * @param          {DOM.Element}   elem
+	 * @param          {String}        propPrimary
+	 * @param          {String}        propSecondary
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.switchClassProperty = function(elem, propPrimary, propSecondary){
+		var attrName = 'class';
+		var classValue = elem.getAttribute(attrName);
+		if (!classValue){
+			elem.setAttribute(attrName, propPrimary);
+			return;
+		}
+		console.log('attributes at the beginning: ' + classValue);
+		var attrValues = classValue.split(' ');
+		// console.log('before', attrValues);
+		var index = attrValues.indexOf(propSecondary);
+		if (index !== -1){
+			// console.log('setting element no.' + index + ' to be ' + propPrimary);
+			attrValues[index] = propPrimary;
+		} else {
+			// console.log('pushing ' + propPrimary);
+			attrValues.push(propPrimary);
+		}
+		// console.log('after', attrValues);
+		classValue = attrValues.join(' ');
+		elem.setAttribute(attrName, classValue);
+		console.log('attributes at the end: ' + elem.getAttribute(attrName));
 	};
 
 }
