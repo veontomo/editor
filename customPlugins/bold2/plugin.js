@@ -32,12 +32,32 @@ CKEDITOR.plugins.add('bold2', {
 			toolbar: 'basicstyles2, 1',
 		});
 
+		// attaching events for highlighting plugin button in case the cursor
+		// is situated inside the element that is bold
 		editor.on('contentDom', function() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				buttonId = editor.ui.get(pluginName)._.id;
+			// first type of events: moving the cursor by mouse
 		    editable.attachListener(editor.document, 'mousedown', function() {
-		    	console.log('listener inside bold plugin');
-		    	EHToolbar.highlight(editor, 'font-weight', 'normal', editor.ui.get(pluginName)._.id);
+		    	EHToolbar.highlight(editor, 'font-weight', 'bold', buttonId);
+		    	// should event propagate?
+		    	return true;
 		    });
+		    // second type of events: pressing left, right, up or down arrow
+		    editable.attachListener(editor.document, 'keydown', function(event) {
+		        try {
+		        	var key = event.data.$.key;
+		        	// calling the event only if right, left, up or down arrow is pressed
+		        	if (key === 'Left' || key === 'Right' || key === 'Down' || key === 'Up'){
+		        		EHToolbar.highlight(editor, 'font-weight', 'bold',  buttonId);
+		        	}
+	     		} catch (e){
+	     			console.log('Error (' + e.name + ') when listening to key press: ' + e.message);
+	     		}
+	     		// should event propagate?
+	     		return true;
+		    });
+
 		});
 
 

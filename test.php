@@ -10,7 +10,7 @@
 	$nMax = 25;
 	$tryMax = 10;
 for ($n = 0; $n < $nMax; $n++){
-	// echo "$n: ";
+	echo "$n: ";
 	$fractions = [];
 	for ($try = 0; $try < $tryMax; $try++){
 		$t1 = microtime(true);
@@ -42,8 +42,8 @@ for ($n = 0; $n < $nMax; $n++){
 		$fractions[] = $delta2/$delta1;
 	}
 	$frac = intval(1000*array_sum($fractions)/$tryMax)/1000;
-	// echo "Average coefficient: " . (array_sum($fractions)/$tryMax) . "\n";
-	echo "($n, $frac), ";
+	echo "Average coefficient: " . (array_sum($fractions)/$tryMax) . "\n";
+	// echo "($n, $frac), ";
 
 }
 

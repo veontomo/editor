@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Selection*/
+/*global Selection, Dom*/
 
 /**
  * Object for managing toolbar events.
@@ -35,12 +35,17 @@ var EHToolbar = {
 			// no start element, no highlighting
 			return;
 		}
-		console.log('button: ', button.getAttribute('class'));
-		detectedPropValue = dom.getInheritedStyleProp(startElem.$, propName);
+		// console.log('button: ', button.getAttribute('class'));
+		startElem = startElem.$;
+		detectedPropValue = dom.getInheritedStyleProp(propName, startElem);
+		// console.log('detected value of ' + propName + ' is ' + detectedPropValue);
+		// console.log('required value: ' + propValue);
 		if (detectedPropValue === propValue){
-
+			// console.log('switch on bold');
+			dom.switchClassProperty(button, 'cke_button_on', 'cke_button_off');
 		} else {
-
+			// console.log('switch off bold');
+			dom.switchClassProperty(button, 'cke_button_off', 'cke_button_on');
 		}
 	}
 };

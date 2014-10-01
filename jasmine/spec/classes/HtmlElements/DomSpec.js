@@ -881,12 +881,21 @@ describe('Dom-specific functionality', function(){
             expect(el.getAttribute('class')).toBe('some_other_class another-one new_class');
         });
 
+        it('leaves class attribute unchanged if it is already set to primary-switch', function(){
+            var el = document.createElement('div');
+            el.setAttribute('class', 'class1');
+            dom.switchClassProperty(el, 'class1', 'class2');
+            expect(el.getAttribute('class')).toBe('class1');
+        });
+
         it('replaces the secondary-switch class attribute if the element has other attributes', function(){
             var el = document.createElement('div');
             el.setAttribute('class', 'some_other_class old_class another-one');
             dom.switchClassProperty(el, 'new_class', 'old_class');
             expect(el.getAttribute('class')).toBe('some_other_class new_class another-one');
         });
+
+
 
     });
 

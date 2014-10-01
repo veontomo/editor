@@ -529,21 +529,17 @@ function Dom(){
 			elem.setAttribute(attrName, propPrimary);
 			return;
 		}
-		console.log('attributes at the beginning: ' + classValue);
 		var attrValues = classValue.split(' ');
-		// console.log('before', attrValues);
 		var index = attrValues.indexOf(propSecondary);
 		if (index !== -1){
-			// console.log('setting element no.' + index + ' to be ' + propPrimary);
+			// replace secondary-switch attribute
 			attrValues[index] = propPrimary;
-		} else {
-			// console.log('pushing ' + propPrimary);
+		} else if (attrValues.indexOf(propPrimary) === -1) {
+			// insert secondary-switch attribute only if it is not already present
 			attrValues.push(propPrimary);
 		}
-		// console.log('after', attrValues);
 		classValue = attrValues.join(' ');
 		elem.setAttribute(attrName, classValue);
-		console.log('attributes at the end: ' + elem.getAttribute(attrName));
 	};
 
 }
