@@ -39,7 +39,7 @@ CKEDITOR.plugins.add('bold2', {
 		// attaching events for highlighting plugin button in case the cursor
 		// is situated inside the element that is bold
 		editor.on('contentDom', function() {
-			EHToolbar.registerEvent(editor,  property, pluginName);
+			EHToolbar.registerEvent(editor, property, pluginName);
 		});
 
 
