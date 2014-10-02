@@ -130,7 +130,7 @@ function Link(href) {
 	this.wrap = function(obj){
 		/// strange thing: even though the target is a Link and the output is to be a Link,
 		/// if I create object to return by means of this.clone(), somehow Content elements get
-		/// overrides when I use them in apply. For this reason, "new Link()" is used to create
+		/// overridden when I use them in apply. For this reason, "new Link()" is used to create
 		/// the object which will be returned.
 		var output = new Link(),
 			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
