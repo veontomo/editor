@@ -515,7 +515,7 @@ function Dom(){
 	 * Replaces `propSecondary` string by `propPrimary` one in the class attribute of `elem`.
 	 * If `propSecondary` does not exist, then `propPrimary` is just appended to class
 	 * attributes. If class attribute does not exist, then it is created with value `propName`.
-	 *
+	 * @method         switchClassProperty
 	 * @param          {DOM.Element}   elem
 	 * @param          {String}        propPrimary
 	 * @param          {String}        propSecondary
