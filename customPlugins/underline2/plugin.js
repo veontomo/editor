@@ -13,14 +13,15 @@ CKEDITOR.plugins.add('underline2', {
 		var pluginName = 'underline2',
 			property = {
 				name: 'text-decoration',
-				value: 'underline'
+				value: 'underline',
+				altValue: 'none'
 			};
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand('underline2', {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				selection.switchDeepestChildStyle(property.name, property.value, 'none');
+				selection.switchDeepestChildStyle(property);
 			}
 		});
 

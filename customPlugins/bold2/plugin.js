@@ -10,11 +10,11 @@ CKEDITOR.plugins.add('bold2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-
 		var pluginName = 'bold2',
 			property = {
 				name: 'font-weight',
-				value: 'bold'
+				value: 'bold',
+				altValue: 'normal'
 			};
 
 		// Define an editor command that opens our dialog.
@@ -22,7 +22,7 @@ CKEDITOR.plugins.add('bold2', {
 			exec: function(editor){
 				var	selection = new Selection(editor);
 				// console.log(selection);
-				selection.switchDeepestChildStyle(property.name, property.value, 'normal');
+				selection.switchDeepestChildStyle(property);
 			}
 		});
 

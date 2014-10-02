@@ -13,13 +13,14 @@ CKEDITOR.plugins.add('italic2', {
 		var pluginName = 'italic2',
 			property = {
 				name: 'font-style',
-				value: 'italic'
+				value: 'italic',
+				altValue: 'normal'
 			};
 		// Define an editor command that opens our dialog.
 		editor.addCommand(pluginName, {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				selection.switchDeepestChildStyle('font-style', 'italic', 'normal');
+				selection.switchDeepestChildStyle(property);
 			}
 		});
 
@@ -36,7 +37,7 @@ CKEDITOR.plugins.add('italic2', {
 		// attaching events for highlighting plugin button in case the cursor
 		// is situated inside the element that is italic
 		editor.on('contentDom', function() {
-			EHToolbar.registerEvent(editor,  property, pluginName);
+			EHToolbar.registerEvent(editor, property, pluginName);
 		});
 
 

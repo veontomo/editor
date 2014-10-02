@@ -457,19 +457,39 @@ function Selection(ed) {
     /**
      * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
      * Remember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).
+     *
+     * Update: added possibility for `prop` to be an object (in this case the rest argument are ignored)
+     * with the following keys: <ol><li>
+     * `name` - name of the style property
+     * </li><li>
+     * `value` - on-value of the above property
+     * </li><li>
+     * `altVal` - off-value of the above property
+     * </li></ol>
+     *
      * @method         switchDeepestChildStyle
-     * @param          String               prop        name of the property to be imposed
-     * @param          String               val         on-value of the above property
-     * @param          String               altVal      off-value of the property
+     * @param          {String|Object}        prop        name of the property to be imposed
+     * @param          {String}               val         on-value of the above property
+     * @param          {String}               altVal      off-value of the property
      * @since          0.0.4
-     * @return         void
+     * @return         {void}
      */
     this.switchDeepestChildStyle = function(prop, val, altVal){
+        var propName, value, altValue;
+        if (typeof prop === 'object'){
+            propName = prop.name;
+            value = prop.value;
+            altValue = prop.altValue;
+        } else {
+            propName = prop;
+            value = val;
+            altValue = altVal;
+        }
         this.nodes.forEach(function(line){
             var dom = new Dom();
             if (line){
                 line.forEach(function(node){
-                    dom.nailStyleProperty(node.$, prop, val, altVal);
+                    dom.nailStyleProperty(node.$, propName, value, altValue);
                 });
             }
         });

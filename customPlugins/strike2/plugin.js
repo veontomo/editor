@@ -14,12 +14,13 @@ CKEDITOR.plugins.add('strike2', {
 		var pluginName = 'strike2',
 			property = {
 				name: 'text-decoration',
-				value: 'line-through'
+				value: 'line-through',
+				altValue: 'none'
 			};
 		editor.addCommand(pluginName, {
 			exec: function(editor){
 				var	selection = new Selection(editor);
-				selection.switchDeepestChildStyle(property.name, property.value, 'none');
+				selection.switchDeepestChildStyle(property);
 			}
 		});
 
