@@ -21,10 +21,16 @@ CKEDITOR.plugins.add('mail2', {
 			toolbar: 'document'
 		});
 
-
-
 		// Register our dialog file. this.path is the plugin folder path.
-		CKEDITOR.dialog.add('mailDialog', this.path + 'dialogs/mail2.js');
+		// CKEDITOR.dialog.add('mailDialog', this.path + 'dialogs/mail2.js');
+		var path = this.path.split('/'), a;
+		// repeat until a non-empty element is popped
+		do {
+			a = path.pop();
+		}
+		while (!a && path.length > 0);
+		path = path.join('/') + '/linkMail/linkMailDialog.js';
+		CKEDITOR.dialog.add('mailDialog', path);
 
 
 	}

@@ -21,6 +21,7 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
  * @since         0.0.6
  */
 function manageTable(editor, isNew) {
+	console.log("editor in manageTable: ", editor);
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -555,7 +556,6 @@ function updateTable(editor){
  * @return        {Object}        dialog definition
  * @since         0.0.6
  */
-
 function createTable(editor){
 	return manageTable(editor, true);
 }

@@ -8,9 +8,8 @@ CKEDITOR.plugins.add('link2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-
 		// Define an editor command that opens our dialog.
-		editor.addCommand('link2', new CKEDITOR.dialogCommand('linkSimplified'));
+		editor.addCommand('link2', new CKEDITOR.dialogCommand('linkDialog'));
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('link2', {
 			// The text part of the button (if available) and tooptip.
@@ -35,10 +34,15 @@ CKEDITOR.plugins.add('link2', {
 			}
 		});
 
-
-
 		// Register our dialog file. this.path is the plugin folder path.
-		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/link2.js');
+		var path = this.path.split('/'), a;
+		// repeat until a non-empty element is popped
+		do {
+			a = path.pop();
+		}
+		while (!a && path.length > 0);
+		path = path.join('/') + '/linkMail/linkMailDialog.js';
+		CKEDITOR.dialog.add('linkDialog', path);
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('link2Group');
@@ -73,18 +77,20 @@ var translations = {
 	it: {
 		targetNew:     'Aprire in una nuova scheda',
 		underline:     'Sottolineare',
-		styleTitle:    'Stile del collegamento',
+		styleTitle:    'Stile',
 		colordialog:   'Colore',
 		title:         'Titolo',
-		text:          'Testo'
+		text:          'Testo',
+		email:         'E-mail'
 	},
 	en: {
 		targetNew:     'Open in new tab',
 		underline:     'Underline',
-		styleTitle:    'Link style',
-		colordialog:   'Link color',
+		styleTitle:    'Style',
+		colordialog:   'Color',
 		title:         'Title',
-		text:          'Text'
+		text:          'Text',
+		email:         'E-mail'
 	}
 };
 
