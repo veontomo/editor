@@ -10,11 +10,11 @@ CKEDITOR.plugins.add('mail2', {
 	init: function(editor) {
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand('mail2', new CKEDITOR.dialogCommand('linkSimplified'));
+		editor.addCommand('mail2', new CKEDITOR.dialogCommand('mailDialog'));
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('mail2', {
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang.link.title,
+			label: editor.lang.link.emailAddress,
 			// The command to execute on click.
 			command: 'mail2',
 			// The button placement in the toolbar (toolbar group name).
@@ -24,32 +24,8 @@ CKEDITOR.plugins.add('mail2', {
 
 
 		// Register our dialog file. this.path is the plugin folder path.
-		CKEDITOR.dialog.add('linkSimplified', this.path + 'dialogs/mail2.js');
+		CKEDITOR.dialog.add('mailDialog', this.path + 'dialogs/mail2.js');
 
-		if (editor.contextMenu) {
-			editor.addMenuGroup('link2Group');
-
-			editor.addMenuItem('link2Item', {
-				label: editor.lang.link.menu,
-				icon: this.path + 'icons/mail2.png',
-				command: 'mail2',
-				group: 'link2Group'
-			});
-			editor.addMenuItem('link2ItemUnlink', {
-				label: editor.lang.link.unlink,
-				icon: this.path + 'icons/unlink2.png',
-				command: 'link2unlink',
-				group: 'link2Group'
-			});
-			editor.contextMenu.addListener(function(element) {
-				if (element.getAscendant('a', true)) {
-					return {
-						link2Item: CKEDITOR.TRISTATE_OFF,
-						link2ItemUnlink: CKEDITOR.TRISTATE_OFF
-					};
-				}
-			});
-		}
 
 	}
 });
@@ -62,7 +38,8 @@ var translations = {
 		styleTitle:    'Stile del collegamento',
 		colordialog:   'Colore di collegamento',
 		title:         'Titolo',
-		text:          'Testo'
+		text:          'Testo',
+		email:         'E-mail'
 	},
 	en: {
 		targetNew:     'Open the link in new tab',
@@ -70,7 +47,8 @@ var translations = {
 		styleTitle:    'Link style',
 		colordialog:   'Link color',
 		title:         'Title',
-		text:          'Text'
+		text:          'Text',
+		email:         'E-mail'
 	}
 };
 

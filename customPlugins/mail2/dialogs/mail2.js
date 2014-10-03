@@ -8,7 +8,7 @@
   * @class   LinkDialog
   */
 
-CKEDITOR.dialog.add("linkSimplified", function(editor) {
+CKEDITOR.dialog.add("mailDialog", function(editor) {
     var warningFieldId = 'linkWarning',
         alt = true,
         _title = 'padding-bottom: 0.5em; padding-top: 1em',
@@ -58,20 +58,20 @@ CKEDITOR.dialog.add("linkSimplified", function(editor) {
 
 
     return {
-        title: editor.lang.link.info,
+        title: editor.lang.link.emailAddress,
         minWidth: 400,
         minHeight: 300,
         height: '20em',
         contents: [{
             id: 'tab-general',
             label: 'labelTab1',
-            title: 'title tab 1',
+            title: editor.lang.link.emailAddress,
             elements: [{
                 type: 'hbox',
                 widths: ['10%', '90%'],
                 children: [{
                     type: 'html',
-                    html: 'http://',
+                    html: editor.lang.mail2.email,
                     style: 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em;',
                 }, {
                     type: 'text',
