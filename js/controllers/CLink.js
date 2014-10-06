@@ -18,28 +18,35 @@ var CLink = {
 	 * @param         {Object}              editor            editor instance
 	 * @param         {Selection}           selection         instance of Selection class
 	 *                                                        Contains objects that user selects in the editor window.
+	 * @param         {String}              scheme            stands for `mail` or `link`
 	 * @return        {void}                                  inserts link into the editor
 	 */
-	convertToLinks: function(context, editor, selection){
+	convertToLinks: function(context, editor, selection, scheme){
 		var tabName = 'linkInfoTab';
-		var isUnderlined = context.getValueOf(tabName, 'underlined'),
-		    isEnabled = context.getContentElement(tabName, 'text').isEnabled(),
-		    url = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf(tabName, 'href'))),
-		    target = context.getValueOf(tabName, 'target') ? '_blank' : '_self',
-		    title = context.getValueOf(tabName, 'title'),
-		    color = context.getValueOf(tabName, 'color'),
-		    link, obj,
+		var //isUnderlined = context.getValueOf(tabName, 'underlined'),
+		    // isEnabled = context.getContentElement(tabName, 'text').isEnabled(),
+		    href = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf(tabName, 'href'))),
+		    // target = context.getValueOf(tabName, 'target') ? '_blank' : '_self',
+		    // title = context.getValueOf(tabName, 'title'),
+		    // color = context.getValueOf(tabName, 'color'),
+		    link, obj, info,
 		    factory = NEWSLETTER.factory;
 
+		info = this.getDialogData(context);
+		if (scheme === 'link'){
+			href = 'http://' + encodeURI(Helper.dropProtocol(info.href));
+		} else {
+			href = 'mailto:' + encodeURI(Helper.dropProtocol(info.href));
+		}
 		// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
-		if (isEnabled){
+		if (info.status){
 		    link = new Link();
-		    link.setHref(url);
-		    link.underline(isUnderlined);
-		    link.setProperty('target', target);
-		    link.setTitle(title);
-		    link.setStyleProperty('color', color);
-		    link.setContent(new Content(context.getValueOf(tabName, 'text')));
+		    link.setHref(href);
+		    link.underline(info.underlined);
+		    link.setProperty('target', info.target ? '_blank' : '_self');
+		    link.setTitle(info.title);
+		    link.setStyleProperty('color', info.color);
+		    link.setContent(new Content(info.text));
 		    if (selection.isEmpty()){
 		        editor.insertHtml(link.toHtml());
 		    } else {
@@ -52,18 +59,18 @@ var CLink = {
 		        arr.forEach(function(el){
 		            var newNode, objLink;
 		            link = new Link();
-		            link.setHref(url);
-		            link.underline(isUnderlined);
-		            link.setProperty('target', target);
-		            link.setTitle(title);
-		            link.setStyleProperty('color', color);
+		            link.setHref(href);
+		            link.underline(info.underlined);
+		            link.setProperty('target', info.target ? '_blank' : '_self');
+		            link.setTitle(info.title);
+		            link.setStyleProperty('color', info.color);
 		            obj = factory.mimic(el.$);
 		            if (obj &&  !obj.isEmpty()){
 		                // CKeditor remembers this attr and replaces proper url by this one.
 		                // So, if the current object is a Link instance, let us update
 		                // value of "data-cke-saved-href"
 		                if (obj &&  (obj instanceof Link) && (typeof obj.setProperty === 'function')){
-		                    obj.setProperty('data-cke-saved-href', url);
+		                    obj.setProperty('data-cke-saved-href', href);
 		                }
 		                objLink = link.apply(obj);
 		                newNode = objLink.toNode();
@@ -78,11 +85,10 @@ var CLink = {
 	 * Populates the field of the link insertion dialog.
 	 * @method        fillInDialog
 	 * @param         {Object}              context           context of the dialog menu
-	 * @param         {Object}              editor            editor instance
 	 * @param         {Selection}           selection         instance of Selection class
 	 * @return        {void}
 	 */
-	fillInDialog: function(context, editor, selection){
+	fillInDialog: function(context, selection){
 		var text = selection.toText(),
 		    href = '',
 		    isEnabled = selection.isEditable(),
@@ -124,7 +130,8 @@ var CLink = {
 	 * <dl>
 	 * <dt>href</dt><dd>(string) url or email (depending on a scheme)</dd>
 	 * <dt>text</dt><dd>(string) hyperlink text</dd>
-	 * <dt>title</dt><dd>(string) popup text. It is an optional field.</dd>
+	 * <dt>status</dt><dd>(boolean) whether text field is enabled</dd>
+	 * <dt>title</dt><dd>(string, optional) popup text</dd>
      * <dt>underlined</dt><dd>(boolean) whether the link is underlined or not</dd>
      * <dt>target</dt><dd>(boolean) whether the link should be open in a new window</dd>
      * <dt>color</dt><dd>(string) color of the hyperlink text</dd>
@@ -138,6 +145,7 @@ var CLink = {
 		var info = {
 			href:       dialog.getValueOf(tabName, 'href'),
 			text:       dialog.getValueOf(tabName, 'text'),
+			status:     dialog.getContentElement(tabName, 'text').isEnabled(),
 			title:      dialog.getValueOf(tabName, 'title'),
 			underlined: dialog.getValueOf(tabName, 'underlined'),
 			target:     dialog.getValueOf(tabName, 'target'),
@@ -156,6 +164,6 @@ var CLink = {
 	 * @return {String}
 	 */
 	revisitScheme: function(scheme){
-
+		return Link.revisitScheme(scheme);
 	}
 };

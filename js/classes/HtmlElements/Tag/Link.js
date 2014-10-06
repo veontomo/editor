@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Tag, LinkProperties, Content */
+/*global Tag, LinkProperties, Content, Regexp */
 
 /**
 * This class is represent an html link tag "a".
@@ -117,21 +117,20 @@ function Link(href) {
 	 */
 	this.setScheme = function(scheme){
 		if (this.getScheme()){
-			_resetScheme();
+			// resetting the old scheme
+			var oldScheme = this.getScheme(),
+				oldPrefix = this.getAllowedSchemes()[oldScheme],
+				oldHref = this.getHref();
+			if (oldHref){
+				var re = new Regexp('^' + oldPrefix);
+				var newHref = oldHref.replace(re, '');
+				this.setHref(newHref);
+			}
+
 		}
 		_scheme = this.isValidScheme(scheme) ? scheme : this.getAllowedSchemes[0];
 	};
 
-	var _resetScheme = function(){
-		var oldScheme = this.getScheme(),
-			oldPrefix = this.getAllowedSchemes()[oldScheme],
-			oldHref = this.getHref();
-		if (oldHref){
-			var re = new Regexp('^' + oldPrefix);
-			var newHref = oldHref.replace(re, '');
-			this.setHref(newHref);
-		}
-	};
 
 	/**
 	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property.
@@ -320,19 +319,24 @@ function Link(href) {
 	};
 
 
-	/**
-	 * Revisit scheme: if value of `scheme` is among array {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}}
-	 * then `scheme` is returned. Otherwise, the first element of array
-	 * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} is returned.
-	 * @method         revisitScheme
-	 * @param          {String}        scheme
-	 * @return         {String}
-	 * @since          0.0.6
-	 */
 	this.revisitScheme = function(scheme){
 		return this.isValidScheme(scheme) ? scheme : this.getAllowedSchemes()[0];
-	}
+	};
 
 
 }
 Link.prototype = Object.create(Tag.prototype);
+
+/**
+ * Revisit scheme: if value of `scheme` is among array {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}}
+ * then `scheme` is returned. Otherwise, the first element of array
+ * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} is returned.
+ * @method         revisitScheme
+ * @param          {String}            scheme
+ * @return         {String}
+ * @since          0.0.6
+ * @static
+ */
+ Link.prototype.revisitScheme = function(scheme){
+		return this.isValidScheme(scheme) ? scheme : this.getAllowedSchemes()[0];
+};

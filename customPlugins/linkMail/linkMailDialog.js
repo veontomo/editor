@@ -199,7 +199,7 @@ function linkMailDialog(editor, scheme) {
         onShow: function() {
             selection = new Selection(editor);
             selection.absorbLink();
-            CLink.fillInDialog(this, editor, selection);
+            CLink.fillInDialog(this, selection);
         },
 
         onCancel: function(){
@@ -207,11 +207,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            console.log(CLink.getDialogData(this, editor));
-            if (scheme === 'link'){
-                CLink.convertToLinks(this, editor, selection);
-            }
-
+            CLink.convertToLinks(this, editor, selection, scheme);
         }
     };
 }
