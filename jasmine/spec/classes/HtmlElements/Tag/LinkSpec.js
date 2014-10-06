@@ -300,4 +300,59 @@ describe('Link-related functionality:', function() {
         });
     });
 
+    describe('Parsing uri', function(){
+        it('returns empty object if input is missing', function(){
+            expect(Object.keys(Link.parseUri('')).length).toBe(0);
+        });
+
+        it('returns empty object if input is an empty string', function(){
+            expect(Object.keys(Link.parseUri('')).length).toBe(0);
+        });
+
+        it('returns object with key "protocol", if input is pure protocol name', function(){
+            var obj = Link.parseUri('http://');
+            expect(obj.protocol).toBe('http');
+        });
+
+        it('parses http://abc.com', function(){
+            var res = Link.parseUri('http://abc.com');
+            expect(res.protocol).toBe('http');
+            expect(res.href).toBe('abc.com');
+        });
+
+        it('parses uri without protocol names', function(){
+            var res = Link.parseUri('abc.com');
+            expect(res.protocol).toBe('http');
+            expect(res.href).toBe('abc.com');
+        });
+
+        it('parses https://abc.com', function(){
+            var res = Link.parseUri('https://abc.com');
+            expect(res.protocol).toBe('https');
+            expect(res.href).toBe('abc.com');
+        });
+
+        it('drops final slashes', function(){
+            var res = Link.parseUri('https://abc.com/');
+            expect(res.protocol).toBe('https');
+            expect(res.href).toBe('abc.com');
+        });
+
+
+        it('parses mailto:admin@google.com', function(){
+            var res = Link.parseUri('mailto:admin@google.com');
+            expect(res.protocol).toBe('mailto');
+            expect(res.href).toBe('admin@google.com');
+        });
+
+        it('parses links with parameters', function(){
+            var res = Link.parseUri('http://google.com/i?r=1');
+            expect(res.protocol).toBe('http');
+            expect(res.href).toBe('google.com/i?r=1');
+        });
+
+
+
+    });
+
 });

@@ -234,3 +234,22 @@ function Link(href) {
 
 }
 Link.prototype = Object.create(Tag.prototype);
+
+
+Link.parseUri = function(href){
+	if (typeof href !== 'string' || href === ''){
+		return {};
+	}
+	var items = href.match(/^((\w+):(\/\/)?)?(.+?)(\/?)$/),
+		res = {};
+	console.log(items);
+	if (!items){
+		return res;
+	}
+	res.protocol = items[2] || 'http';
+	if (items[4]){
+		res.href = items[4];
+	}
+
+	return res;
+};
