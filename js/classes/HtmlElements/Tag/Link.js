@@ -16,6 +16,32 @@ function Link(href) {
 	Tag.call(this);
 
 	/**
+	 * Allowed schemes.
+	 *
+	 * Key-value object whose key is a scheme name and value is a string to be appended to the content of href attribute.
+	 * @property       {Object}        _allowedSchemes
+	 * @type           {Object}
+	 * @since          0.0.6
+	 * @private
+	 */
+	var _allowedSchemes = {
+		'mail': 'mailto',
+		'link': ''
+	};
+
+	/**
+	 * Scheme.
+	 *
+	 * URI scheme to be used in `href` attribute. If set to `mail`, then "mailto:" string is
+	 * to be appended to the content of href attribute.
+	 *
+	 * @property {String} _scheme
+	 * @private
+	 * @since    0.0.6
+	 */
+	var _scheme;
+
+	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
 	 * <ol><li>
 	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "a"
@@ -56,6 +82,56 @@ function Link(href) {
 		this.setHref(encodeURI(href));
 	}
 
+
+	/**
+	 * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} getter.
+	 * @method         getAllowedSchemes
+	 * @since          0.0.6
+	 * @return         {Object}
+	 */
+	this.getAllowedSchemes = function(){
+		return _allowedSchemes;
+	};
+
+	/**
+	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} getter.
+	 * @method         getScheme
+	 * @return         {String}
+	 * @since          0.0.6
+	 */
+	this.getScheme = function(){
+		return _scheme;
+	};
+
+	/**
+	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} setter.
+	 *
+	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} is set to `scheme`
+	 * if {{#crossLink "Link/isValidScheme:method"}}isValidScheme{{/crossLink}} returns `true`.
+	 * Otherwise, it is set to the first element of
+	 * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} array.
+	 * @method         setScheme
+	 * @param          {String}    scheme
+	 * @return         {String}
+	 * @since          0.0.6
+	 */
+	this.setScheme = function(scheme){
+		if (this.getScheme()){
+			_resetScheme();
+		}
+		_scheme = this.isValidScheme(scheme) ? scheme : this.getAllowedSchemes[0];
+	};
+
+	var _resetScheme = function(){
+		var oldScheme = this.getScheme(),
+			oldPrefix = this.getAllowedSchemes()[oldScheme],
+			oldHref = this.getHref();
+		if (oldHref){
+			var re = new Regexp('^' + oldPrefix);
+			var newHref = oldHref.replace(re, '');
+			this.setHref(newHref);
+		}
+	};
 
 	/**
 	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property.
@@ -230,6 +306,33 @@ function Link(href) {
 	this.isUnderlined = function(){
 		return this.getStyleProperty('text-decoration') === 'underline';
 	};
+
+	/**
+	 * Returns `true` if `scheme` is among
+	 * {{#crossLink "Link/_allowedSchemes:property"}}allowed scheme{{/crossLink}} keys.
+	 * @method         isValidScheme
+	 * @param          {String}        scheme
+	 * @return         {Boolean}
+	 * @since          0.0.6
+	 */
+	this.isValidScheme = function(scheme){
+		return this.getAllowedSchemes().hasOwnProperty(scheme);
+	};
+
+
+	/**
+	 * Revisit scheme: if value of `scheme` is among array {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}}
+	 * then `scheme` is returned. Otherwise, the first element of array
+	 * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} is returned.
+	 * @method         revisitScheme
+	 * @param          {String}        scheme
+	 * @return         {String}
+	 * @since          0.0.6
+	 */
+	this.revisitScheme = function(scheme){
+		return this.isValidScheme(scheme) ? scheme : this.getAllowedSchemes()[0];
+	}
+
 
 }
 Link.prototype = Object.create(Tag.prototype);

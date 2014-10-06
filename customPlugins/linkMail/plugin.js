@@ -1,11 +1,11 @@
 /*jslint plusplus: true, white: true */
 /*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
-// Register the plugin within the editor.
+
+
+// Fictitious menu dialog that embraces "link" and "mail" menu dialogs.
+// It is introduced in order to have all translations in one place.
+
 CKEDITOR.plugins.add('linkMail', {
-
-	// Register the icons.
-	icons: '',
-
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {}
 });
@@ -13,22 +13,36 @@ CKEDITOR.plugins.add('linkMail', {
 var pluginName = 'linkMail';
 var translations = {
 	it: {
-		targetNew:     'Aprire in una nuova scheda',
-		underline:     'Sottolineare',
+		targetNew:     'Apri in una nuova scheda',
+		underline:     'Sottolineato',
 		styleTitle:    'Stile',
 		colordialog:   'Colore',
 		title:         'Titolo',
 		text:          'Testo',
-		email:         'E-mail'
+		mail:          'E-mail',
+		link:          'Url',
+		mailTitle:     'Dati indirizzo email',
+		linkTitle:     'Dati collegamento',
+		mailTextTitle: 'testo che contiene l\'email',
+		linkTextTitle: 'il testo di collegamento',
+		titleTitle:    'testo che appare quando il cursore va sopra',
+
 	},
 	en: {
 		targetNew:     'Open in new tab',
-		underline:     'Underline',
+		underline:     'Underlined',
 		styleTitle:    'Style',
 		colordialog:   'Color',
 		title:         'Title',
 		text:          'Text',
-		email:         'E-mail'
+		mail:          'E-mail',
+		link:          'Url',
+		mailTitle:     'Email address data',
+		linkTitle:     'Link information',
+		mailTextTitle: 'text containing e-mail link',
+		linkTextTitle: 'text of the link',
+		titleTitle:    'popup text'
+
 	}
 };
 

@@ -36,29 +36,29 @@ CKEDITOR.plugins.add('mail2', {
 	}
 });
 
-var pluginName = 'mail2';
-var translations = {
-	it: {
-		targetNew:     'Aprire il collegamento in una nuova scheda',
-		underline:     'Sottolineare il collegamento',
-		styleTitle:    'Stile del collegamento',
-		colordialog:   'Colore di collegamento',
-		title:         'Titolo',
-		text:          'Testo',
-		email:         'E-mail'
-	},
-	en: {
-		targetNew:     'Open the link in new tab',
-		underline:     'Underline the link',
-		styleTitle:    'Link style',
-		colordialog:   'Link color',
-		title:         'Title',
-		text:          'Text',
-		email:         'E-mail'
-	}
-};
+// var pluginName = 'mail2';
+// var translations = {
+// 	it: {
+// 		targetNew:     'Aprire il collegamento in una nuova scheda',
+// 		underline:     'Sottolineare il collegamento',
+// 		styleTitle:    'Stile del collegamento',
+// 		colordialog:   'Colore di collegamento',
+// 		title:         'Titolo',
+// 		text:          'Testo',
+// 		email:         'E-mail'
+// 	},
+// 	en: {
+// 		targetNew:     'Open the link in new tab',
+// 		underline:     'Underline the link',
+// 		styleTitle:    'Link style',
+// 		colordialog:   'Link color',
+// 		title:         'Title',
+// 		text:          'Text',
+// 		email:         'E-mail'
+// 	}
+// };
 
-var lang;
-for (lang in translations){
-	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
-}
+// var lang;
+// for (lang in translations){
+// 	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
+// }

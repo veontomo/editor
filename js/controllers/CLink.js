@@ -21,12 +21,13 @@ var CLink = {
 	 * @return        {void}                                  inserts link into the editor
 	 */
 	convertToLinks: function(context, editor, selection){
-		var isUnderlined = context.getValueOf('tab-general', 'underlined'),
-		    isEnabled = context.getContentElement('tab-general', 'text').isEnabled(),
-		    url = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf('tab-general', 'href_input_field'))),
-		    target = context.getValueOf('tab-general', 'target') ? '_blank' : '_self',
-		    optionalTitle = context.getValueOf('tab-general', 'optionalTitle'),
-		    color = context.getValueOf('tab-general', 'linkColor'),
+		var tabName = 'linkInfoTab';
+		var isUnderlined = context.getValueOf(tabName, 'underlined'),
+		    isEnabled = context.getContentElement(tabName, 'text').isEnabled(),
+		    url = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf(tabName, 'href'))),
+		    target = context.getValueOf(tabName, 'target') ? '_blank' : '_self',
+		    title = context.getValueOf(tabName, 'title'),
+		    color = context.getValueOf(tabName, 'color'),
 		    link, obj,
 		    factory = NEWSLETTER.factory;
 
@@ -36,9 +37,9 @@ var CLink = {
 		    link.setHref(url);
 		    link.underline(isUnderlined);
 		    link.setProperty('target', target);
-		    link.setTitle(optionalTitle);
+		    link.setTitle(title);
 		    link.setStyleProperty('color', color);
-		    link.setContent(new Content(context.getValueOf('tab-general', 'text')));
+		    link.setContent(new Content(context.getValueOf(tabName, 'text')));
 		    if (selection.isEmpty()){
 		        editor.insertHtml(link.toHtml());
 		    } else {
@@ -54,7 +55,7 @@ var CLink = {
 		            link.setHref(url);
 		            link.underline(isUnderlined);
 		            link.setProperty('target', target);
-		            link.setTitle(optionalTitle);
+		            link.setTitle(title);
 		            link.setStyleProperty('color', color);
 		            obj = factory.mimic(el.$);
 		            if (obj &&  !obj.isEmpty()){
@@ -85,7 +86,8 @@ var CLink = {
 		var text = selection.toText(),
 		    href = '',
 		    isEnabled = selection.isEditable(),
-		    link;
+		    link,
+		    tabName = 'linkInfoTab';
 
 		if (selection.startsInsideLink()){
 		    link = selection.getStartElement().getAscendant('a', true);
@@ -101,18 +103,59 @@ var CLink = {
 			var title = linkModel.getProperty('title');
 			var isUnderlined = linkModel.isUnderlined();
 		    // var title = selection.nodes[0][0].getAttribute('title');
-		    context.setValueOf('tab-general', 'optionalTitle', title);
-	    	context.setValueOf('tab-general', 'underlined', isUnderlined);
+		    context.setValueOf(tabName, 'title', title);
+	    	context.setValueOf(tabName, 'underlined', isUnderlined);
 	    	if (linkModel.hasStyleProperty('color')){
-	    		context.setValueOf('tab-general', 'linkColor', linkModel.getStyleProperty('color'));
+	    		context.setValueOf(tabName, 'color', linkModel.getStyleProperty('color'));
 	    	}
 		}
 
 		if (!isEnabled){
-		    context.getContentElement('tab-general', 'text').disable();
+		    context.getContentElement(tabName, 'text').disable();
 		}
-		context.setValueOf('tab-general', 'text', text);
-		context.setValueOf('tab-general', 'href_input_field', Helper.dropProtocol(href));
+		context.setValueOf(tabName, 'text', text);
+		context.setValueOf(tabName, 'href', Helper.dropProtocol(href));
+	},
+
+	/**
+	 * Collects parameters from link dialog menu.
+	 *
+	 * The returning object include the following keys:
+	 * <dl>
+	 * <dt>href</dt><dd>(string) url or email (depending on a scheme)</dd>
+	 * <dt>text</dt><dd>(string) hyperlink text</dd>
+	 * <dt>title</dt><dd>(string) popup text. It is an optional field.</dd>
+     * <dt>underlined</dt><dd>(boolean) whether the link is underlined or not</dd>
+     * <dt>target</dt><dd>(boolean) whether the link should be open in a new window</dd>
+     * <dt>color</dt><dd>(string) color of the hyperlink text</dd>
+	 * </dl>
+	 * @method  getDialogData
+	 * @param   {Object}        dialog
+	 * @return  {Object}
+	 */
+	getDialogData: function(dialog){
+		var tabName = 'linkInfoTab';
+		var info = {
+			href:       dialog.getValueOf(tabName, 'href'),
+			text:       dialog.getValueOf(tabName, 'text'),
+			title:      dialog.getValueOf(tabName, 'title'),
+			underlined: dialog.getValueOf(tabName, 'underlined'),
+			target:     dialog.getValueOf(tabName, 'target'),
+			color:      dialog.getValueOf(tabName, 'color')
+		};
+		return info;
+	},
+
+	/**
+	 * "Revise" `scheme`.
+	 *
+	 * Alias of {{#crossLink "Link/revisitScheme:method"}}Link::revisitScheme{{/crossLink}}.
+
+	 * @method  revisitScheme
+	 * @param  {String} scheme
+	 * @return {String}
+	 */
+	revisitScheme: function(scheme){
 
 	}
 };
