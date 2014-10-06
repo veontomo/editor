@@ -22,14 +22,7 @@ var CLink = {
 	 * @return        {void}                                  inserts link into the editor
 	 */
 	convertToLinks: function(context, editor, selection, scheme){
-		var tabName = 'linkInfoTab';
-		var //isUnderlined = context.getValueOf(tabName, 'underlined'),
-		    // isEnabled = context.getContentElement(tabName, 'text').isEnabled(),
-		    href = 'http://' + encodeURI(Helper.dropProtocol(context.getValueOf(tabName, 'href'))),
-		    // target = context.getValueOf(tabName, 'target') ? '_blank' : '_self',
-		    // title = context.getValueOf(tabName, 'title'),
-		    // color = context.getValueOf(tabName, 'color'),
-		    link, obj, info,
+		var href, link, obj, info,
 		    factory = NEWSLETTER.factory;
 
 		info = this.getDialogData(context);
@@ -154,16 +147,4 @@ var CLink = {
 		return info;
 	},
 
-	/**
-	 * "Revise" `scheme`.
-	 *
-	 * Alias of {{#crossLink "Link/revisitScheme:method"}}Link::revisitScheme{{/crossLink}}.
-
-	 * @method  revisitScheme
-	 * @param  {String} scheme
-	 * @return {String}
-	 */
-	revisitScheme: function(scheme){
-		return Link.revisitScheme(scheme);
-	}
 };
