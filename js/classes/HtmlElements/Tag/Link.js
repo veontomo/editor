@@ -236,6 +236,21 @@ function Link(href) {
 Link.prototype = Object.create(Tag.prototype);
 
 
+/**
+ * Splits `href` into "protocol" part and the rest.
+ *
+ * Returns an object with keys <ol><li>
+ * `protocol` containing only alphanumeric symbols
+ * </li><li>
+ * `href` containing the rest of the input string without finishing slash, starting semicolon and slashes.
+ * </li></ol>
+ * @method        parseUri
+ * @param         {String}         href
+ * @return        {Object}
+ * @since         0.0.6
+ * @static
+ *
+ */
 Link.parseUri = function(href){
 	if (typeof href !== 'string' || href === ''){
 		return {};
