@@ -8,11 +8,12 @@
 * @class   LinkDialog
 */
 function linkMailDialog(editor, scheme) {
+
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
-     * @property {CLink} _controller
+     * @property  {CLink}     _controller
+     * @type      {CLink}
      * @private
-     * @type {CLink}
      */
     var _controller = new CLink();
 
@@ -20,8 +21,6 @@ function linkMailDialog(editor, scheme) {
         alt = true,
         _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;',
         selection;          // global variable to pass info about selection
-
-    // scheme = CLink.revisitScheme(scheme);
 
     /**
      * Style for text input fields for choosing colors.

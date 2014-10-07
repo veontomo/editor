@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Table, Properties, CKHelper, Helper */
+/*global Unit, CKEDITOR, NEWSLETTER, Table, Properties, CKHelper, Helper, Controller */
 
 /**
  * Table Controller.
@@ -9,7 +9,13 @@
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
-var CTable = {
+function CTable(){
+	"use strict";
+	if (!(this instanceof CTable)) {
+		return new CTable();
+	}
+	Controller.call(this);
+
 	/**
 	 * Returns the width of the parent element available for its children.
 	 * <pre>
@@ -24,7 +30,7 @@ var CTable = {
 	 * @return     {Unit}             available width for the children as Unit object
 	 *                                (with properties "value" and "measure")
 	 */
-	parentWidth: function (editor) {
+	this.parentWidth = function (editor) {
 		var startElem = editor.getSelection().getStartElement(),
 			rawWidth = new Unit(startElem.getComputedStyle('width') || NEWSLETTER.width()),
 			borderWidthL = new Unit(startElem.getComputedStyle('border-width-left') || 0),
@@ -35,7 +41,7 @@ var CTable = {
 		output = rawWidth.sub(borderWidthL).sub(borderWidthR).sub(paddingL).sub(paddingR);
 		output.value = Math.round(output.value);
 		return output;
-	},
+	};
 
 	/**
 	 * Returns parameters that determine the table internal characteristics. External chracteristic (for the moment,
@@ -68,7 +74,7 @@ var CTable = {
 	 * @param   {Object}        dialog
 	 * @return  {Object}
 	 */
-	getDialogData: function(dialog){
+	this.getDialogData = function(dialog){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
@@ -108,7 +114,7 @@ var CTable = {
 		}
 		return tableInfo;
 
-	},
+	};
 
 
 	/**
@@ -119,15 +125,15 @@ var CTable = {
 	 * @param          {Object}             editor            editor instance
 	 * @return         {DOM.Element}
 	 */
-	create: function(dialog, editor){
+	this.create = function(dialog, editor){
 		var tableInfo = this.getDialogData(dialog),
 			rowMarker = function(i, j){return (i + 1).toString() + ' : ' + (j + 1).toString();};
 		// adding width of the parent element into tableInfo
-		tableInfo.width = CTable.parentWidth(editor);
+		tableInfo.width = this.parentWidth(editor);
 		var table = new Table();
 		table.configure(tableInfo, rowMarker);
 		return table.toNode();
-	},
+	};
 
 	/**
 	 * Returns html tag to insert icon.
@@ -139,7 +145,7 @@ var CTable = {
 	 * @param          {Number|Null}        height    icon height in px
 	 * @return         {String}
 	 */
-	iconTag: function(fileName, title, width, height){
+	this.iconTag = function(fileName, title, width, height){
 		if (typeof fileName === 'string' && fileName.trim()){
 			var titleText = '',
 				heightText = '',
@@ -150,7 +156,7 @@ var CTable = {
 			widthText = width ? (' width="' + width + '"') : '';
 			return '<img src="' + path + '"' + titleText + heightText + widthText + '/>';
 		}
-	},
+	};
 
 	/**
 	 * Returns instance of {{#crossLink "Table"}}Table{{/crossLink}} corresponding to a DOM.Element
@@ -159,7 +165,7 @@ var CTable = {
 	 * @param         {Object}              editor            editor instance
 	 * @return        {Table}
 	 */
-	getTable: function(editor){
+	this.getTable = function(editor){
 		var tableElem = this.findParentTable(editor);
 		if (tableElem){
 			var factory = NEWSLETTER.factory,
@@ -169,7 +175,7 @@ var CTable = {
 				return table;
 			}
 		}
-	},
+	};
 
 	/**
 	 * Appends `n` input fields to `elem` element in order to insert column width weigths.
@@ -177,7 +183,7 @@ var CTable = {
 	 * @param          {DOM.Element}   elem       element to which append input fields
 	 * @param          {Integer}       num        number of input fields to append
 	 */
-	addColWeightFields: function(elem, n){
+	this.addColWeightFields = function(elem, n){
 		if (!elem || !elem.nodeType || !Number.isInteger(n) || n < 0){
 			// exit if either elem is not valid node or n is not positive integer
 			return;
@@ -189,7 +195,7 @@ var CTable = {
 			inputField.setAttribute('class', 'cke_dialog_ui_input_text'); // imitate the editor style for input fields
 			elem.appendChild(inputField);
 		}
-	},
+	};
 
 	/**
 	 * Fills in input text element parametrized by `tabId` and `elemId` by `colorValue` and
@@ -202,7 +208,7 @@ var CTable = {
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	setColorField: function(context, tabId, elemId, colorValue){
+	this.setColorField = function(context, tabId, elemId, colorValue){
 		if (!colorValue){
 			return;
 		}
@@ -211,7 +217,7 @@ var CTable = {
 			elem.setValue(colorValue);
 			elem.getInputElement().setStyle('background-color', colorValue);
 		}
-	},
+	};
 
 	/**
 	 * Populates the field of the table plugin dialog.
@@ -220,7 +226,7 @@ var CTable = {
 	 * @param         {Table}               table             table whose attributes are to be loaded into the dialog window.
 	 * @return        {void}
 	 */
-	fillInDialog: function(context, table){
+	this.fillInDialog = function(context, table){
 		if (!(table instanceof Table)){
 			// no table, no pre-fill
 			return;
@@ -299,7 +305,7 @@ var CTable = {
 		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue().toString());
 		context.setValueOf('spacesTab', 'spaceBtwRows', spaceBtwRows.times(2).getValue().toString()); // NB: see multiplication by 2
 		context.setValueOf('spacesTab', 'spaceCell', spaceCell.getValue().toString());
-	},
+	};
 
 
 	/**
@@ -313,7 +319,7 @@ var CTable = {
 	 * @param          {CKEDITOR}      editor
 	 * @return         {CKEDITOR.dom.element|null}
 	 */
-	findParentTable: function(editor){
+	this.findParentTable = function(editor){
 		var elem = editor.getSelection().getStartElement();
 		if (elem){
 			var tableElem = CKHelper.findAscendant(elem, function(el){
@@ -321,7 +327,7 @@ var CTable = {
 			});
 			return tableElem;
 		}
-	},
+	};
 
 	/**
 	 * Updates parameters of `tableNode` with new ones provided by `editor` dialog.
@@ -331,7 +337,7 @@ var CTable = {
 	 * @param          {DOM.Element}        tableNode         node corresponding to a table which parameters are to be updated
 	 * @return         {DOM.Element}
 	 */
-	update: function(dialog, editor, tableNode){
+	this.update = function(dialog, editor, tableNode){
 		var table = new Table(),
 			tableInfo = this.getDialogData(dialog),
 			factory = NEWSLETTER.factory,
@@ -343,5 +349,7 @@ var CTable = {
 		tableInfo.width = new Unit(width);
 		table = currentTable.update(tableInfo);
 		return table.toNode();
-	}
-};
+	};
+}
+
+CTable.prototype = Object.create(Controller.prototype);

@@ -21,7 +21,15 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
  * @since         0.0.6
  */
 function manageTable(editor, isNew) {
-	console.log("editor in manageTable: ", editor);
+
+	/**
+	 * Instance of {{#crossLink "_controller.}}_controller.{/crossLink}}
+	 * @property {_controller. _controller
+	 * @type     {_controller.
+	 * @private
+	 */
+	 var _controller = new CTable();
+
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -107,7 +115,7 @@ function manageTable(editor, isNew) {
 					colWeightElem.removeChild(children[i]);
 				}
 			} else {
-				CTable.addColWeightFields(colWeightElem, colNumDesired - colNumCurrent);
+				_controller.addColWeightFields(colWeightElem, colNumDesired - colNumCurrent);
 			}
 		};
 
@@ -283,7 +291,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('left.gif', editor.lang.table2.leftVerBord, 15, 15)
+							html: _controller.iconTag('left.gif', editor.lang.table2.leftVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -297,7 +305,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('middleVer.gif', editor.lang.table2.intVerBord, 15, 15)
+							html: _controller.iconTag('middleVer.gif', editor.lang.table2.intVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -311,7 +319,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('right.gif', editor.lang.table2.rightVerBord, 15, 15)
+							html: _controller.iconTag('right.gif', editor.lang.table2.rightVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -325,7 +333,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('upper.gif', editor.lang.table2.topHorBord, 15, 15)
+							html: _controller.iconTag('upper.gif', editor.lang.table2.topHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -339,7 +347,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('middleHor.gif', editor.lang.table2.intHorBord, 15, 15)
+							html: _controller.iconTag('middleHor.gif', editor.lang.table2.intHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -353,7 +361,7 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: CTable.iconTag('lower.gif', editor.lang.table2.bottomHorBord, 15, 15)
+							html: _controller.iconTag('lower.gif', editor.lang.table2.bottomHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -498,11 +506,11 @@ function manageTable(editor, isNew) {
 		 */
 		onShow: function() {
 		    if (!isNew){
-		    	var table = CTable.getTable(editor),
+		    	var table = _controller.getTable(editor),
 		    		parentElem = this.getContentElement('info', 'columnWidthTable').getElement().$,
 		    		n = table instanceof Table ? table.colNum() : 0;
-		    	CTable.addColWeightFields(parentElem, n);
-		    	CTable.fillInDialog(this, table);
+		    	_controller.addColWeightFields(parentElem, n);
+		    	_controller.fillInDialog(this, table);
 		    }
 		},
 
@@ -510,17 +518,17 @@ function manageTable(editor, isNew) {
 			var tableNode, tableElem;
 			// in case of insertion of a new table
 			if (isNew){
-				tableNode = CTable.create(this, editor);
+				tableNode = _controller.create(this, editor);
 				tableElem = CKEDITOR.document.createElement(tableNode);
 				editor.insertElement(tableElem);
 			} else {
 				// in case of updating current table
-				var currentTable = CTable.findParentTable(editor);
+				var currentTable = _controller.findParentTable(editor);
 				if (!currentTable){
 					console.log('parent table is NOT found');
 					return;
 				}
-				tableNode = CTable.update(this, editor, currentTable.$);
+				tableNode = _controller.update(this, editor, currentTable.$);
 				tableElem = CKEDITOR.document.createElement(tableNode);
 				tableElem.replace(currentTable);
 			}
