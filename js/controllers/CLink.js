@@ -10,7 +10,6 @@
  * @author    A.Shcherbakov
  */
 var CLink = {
-
 	/**
 	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
 	 * @method        convertToLinks

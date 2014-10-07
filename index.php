@@ -76,6 +76,7 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 
 	<!-- Controllers -->
+	<script type="text/javascript" src="js/controllers/Controller.js"></script>
 	<script type="text/javascript" src="js/controllers/CTable.js"></script>
 	<script type="text/javascript" src="js/controllers/CLink.js"></script>
 	<script type="text/javascript" src="js/controllers/CDownload.js"></script>
@@ -140,6 +141,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
 	?>
-	<div>Current version: 0.0.6 (as by August 27, 2014)</div>
+	<div>Current version: 0.0.7 (as by October 7, 2014)</div>
 </body>
 </html>

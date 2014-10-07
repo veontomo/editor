@@ -338,7 +338,6 @@ describe('Link-related functionality:', function() {
             expect(res.href).toBe('abc.com');
         });
 
-
         it('parses mailto:admin@google.com', function(){
             var res = Link.parseUri('mailto:admin@google.com');
             expect(res.protocol).toBe('mailto');
@@ -350,8 +349,6 @@ describe('Link-related functionality:', function() {
             expect(res.protocol).toBe('http');
             expect(res.href).toBe('google.com/i?r=1');
         });
-
-
 
     });
 
