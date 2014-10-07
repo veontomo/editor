@@ -8,6 +8,14 @@
 * @class   LinkDialog
 */
 function linkMailDialog(editor, scheme) {
+    /**
+     * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+     * @property {CLink} _controller
+     * @private
+     * @type {CLink}
+     */
+    var _controller = new CLink();
+
     var warningFieldId = 'linkWarning',
         alt = true,
         _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;',
@@ -199,7 +207,7 @@ function linkMailDialog(editor, scheme) {
         onShow: function() {
             selection = new Selection(editor);
             selection.absorbLink();
-            CLink.fillInDialog(this, selection);
+            _controller.fillInDialog(this, selection);
         },
 
         onCancel: function(){
@@ -207,7 +215,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            CLink.convertToLinks(this, editor, selection, scheme);
+            _controller.convertToLinks(this, editor, selection, scheme);
         }
     };
 }

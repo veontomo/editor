@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Properties, LinkProperties, Helper, Selection, FACTORY, Content, Link */
+/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER */
 
 /**
  * Link Controller.
@@ -9,7 +9,13 @@
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
-var CLink = {
+function CLink() {
+ 	"use strict";
+ 	if (!(this instanceof CLink)) {
+ 		return new CLink();
+ 	}
+ 	Controller.call(this);
+
 	/**
 	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
 	 * @method        convertToLinks
@@ -20,7 +26,7 @@ var CLink = {
 	 * @param         {String}              scheme            stands for `mail` or `link`
 	 * @return        {void}                                  inserts link into the editor
 	 */
-	convertToLinks: function(context, editor, selection, scheme){
+	this.convertToLinks = function(context, editor, selection, scheme){
 		var href, link, obj, info,
 		    factory = NEWSLETTER.factory;
 
@@ -71,7 +77,7 @@ var CLink = {
 		        });
 		    });
 		}
-	},
+	};
 
 	/**
 	 * Populates the field of the link insertion dialog.
@@ -80,7 +86,7 @@ var CLink = {
 	 * @param         {Selection}           selection         instance of Selection class
 	 * @return        {void}
 	 */
-	fillInDialog: function(context, selection){
+	this.fillInDialog = function(context, selection){
 		var text = selection.toText(),
 		    href = '',
 		    isEnabled = selection.isEditable(),
@@ -113,7 +119,7 @@ var CLink = {
 		}
 		context.setValueOf(tabName, 'text', text);
 		context.setValueOf(tabName, 'href', Helper.dropProtocol(href));
-	},
+	};
 
 	/**
 	 * Collects parameters from link dialog menu.
@@ -132,7 +138,11 @@ var CLink = {
 	 * @param   {Object}        dialog
 	 * @return  {Object}
 	 */
-	getDialogData: function(dialog){
+	this.getDialogData = function(dialog){
+		console.log(dialog);
+		dialog.foreach(function(el){
+			console.log(el.type);
+		});
 		var tabName = 'linkInfoTab';
 		var info = {
 			href:       dialog.getValueOf(tabName, 'href'),
@@ -144,6 +154,5 @@ var CLink = {
 			color:      dialog.getValueOf(tabName, 'color')
 		};
 		return info;
-	},
-
-};
+	};
+}

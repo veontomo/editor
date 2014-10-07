@@ -18,7 +18,7 @@ function Controller(){
 	 */
 	this.getDialogData = function(dialog){
 		/// !!! stub
-	}
+	};
 
 
 	/**
@@ -27,6 +27,7 @@ function Controller(){
 	 * @param         {Object}              data              data to be inserted
 	 * @return        {void}
 	 */
-	fillInDialog: function(data){
-	},
+	this.fillInDialog = function(data){
+	};
+	console.log('Controller is called');
 };
