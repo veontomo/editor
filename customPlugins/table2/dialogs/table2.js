@@ -99,13 +99,13 @@ function manageTable(editor, isNew) {
 	 */
 	var	drawInputCells = function () {
 			// adds input fields to set the widths of the table columns
-			var colWeightElem = this.getDialog().getContentElement('info', 'columnWidthTable').getElement().$,
-				title = this.getDialog().getContentElement('info', 'columnWidthTableTitle').getElement().$,
+			var colWeightElem = this.getDialog().getContentElement('structure', 'columnWidthTable').getElement().$,
+				title = this.getDialog().getContentElement('structure', 'columnWidthTableTitle').getElement().$,
 				children, i, colNumCurrent, colNumDesired;
 
 			children = colWeightElem.childNodes;
 			colNumCurrent = children.length;                                                // actual number of input fields
-			colNumDesired = parseInt(this.getDialog().getValueOf('info', 'tblCols'), 10);   // desirable number of input fields
+			colNumDesired = parseInt(this.getDialog().getValueOf('structure', 'tblCols'), 10);   // desirable number of input fields
 			if (isNaN(colNumDesired)){
 				return;
 			}
@@ -127,8 +127,8 @@ function manageTable(editor, isNew) {
 	 * @since          0.0.6
 	 */
 	var dropInputCells = function(dialog){
-		var columnWidths = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
-			title = dialog.getContentElement('info', 'columnWidthTableTitle').getElement().$,
+		var columnWidths = dialog.getContentElement('structure', 'columnWidthTable').getElement().$,
+			title = dialog.getContentElement('structure', 'columnWidthTableTitle').getElement().$,
 			children, i, len;
 		children = columnWidths.childNodes;
 		len = children.length;
@@ -198,20 +198,20 @@ function manageTable(editor, isNew) {
 
 		// Dialog window contents definition.
 		contents: [{
-			id: 'info',
+			id: 'structure',
 			label: editor.lang.table2.structure,
 			elements: [
 			{
 				type: 'text',
 				label: editor.lang.table.rows,
-				id: 'tblRows',
+				id: 'rows',
 				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: asNumber
 			}, {
-				type: "text",
+				type: 'text',
 				label: editor.lang.table.columns,
-				id: 'tblCols',
+				id: 'cols',
 				'default': 1,
 				inputStyle: _inputNumberStyle,
 				onChange: drawInputCells
@@ -225,7 +225,7 @@ function manageTable(editor, isNew) {
 				html: ''
 			}]
 		}, {
-			id: 'borderTab',
+			id: 'borders',
 			label: editor.lang.table2.borders,
 			elements: [
 			{
@@ -275,7 +275,7 @@ function manageTable(editor, isNew) {
 						'default': '#000001',
 						inputStyle: _inputColorStyle,
 						onChange: suggestValue,
-						target: ['borderTab', 'rowBorderWidth', '1']
+						target: ['borders', 'rowBorderWidth', '1']
 					}]
 
 				}]
@@ -299,7 +299,7 @@ function manageTable(editor, isNew) {
 							id: 'leftVerBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -313,7 +313,7 @@ function manageTable(editor, isNew) {
 							id: 'intVerBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -327,7 +327,7 @@ function manageTable(editor, isNew) {
 							id: 'rightVerBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -341,7 +341,7 @@ function manageTable(editor, isNew) {
 							id: 'topHorBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -355,7 +355,7 @@ function manageTable(editor, isNew) {
 							id: 'intHorBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -369,7 +369,7 @@ function manageTable(editor, isNew) {
 							id: 'bottomHorBord',
 							default: false,
 							onChange: suggestValue,
-							target: ['borderTab', 'cellBorderWidth', '1']
+							target: ['borders', 'cellBorderWidth', '1']
 						}]
 					}, {
 						type: 'vbox',
@@ -404,7 +404,7 @@ function manageTable(editor, isNew) {
 				}]
 			}]
 		}, {
-			id: 'backgroundTab',
+			id: 'background',
 			label: editor.lang.table2.background,
 			elements: [
 			{
@@ -416,7 +416,7 @@ function manageTable(editor, isNew) {
 
 			}]
 		}, {
-			id: 'spacesTab',
+			id: 'spaces',
 			label: editor.lang.table2.spacesTitle,
 			elements: [
 			{
@@ -483,8 +483,8 @@ function manageTable(editor, isNew) {
 			// ui text input elements to which append color picker
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
-				'borderTab':     ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
-				'backgroundTab': ['globalTableBgColor'],
+				'borders':     ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
+				'background': ['globalTableBgColor'],
 			};
 			var tab, ids, len, i, id;
 			for (tab in colorInputFields){
@@ -507,7 +507,7 @@ function manageTable(editor, isNew) {
 		onShow: function() {
 		    if (!isNew){
 		    	var table = _controller.getTable(editor),
-		    		parentElem = this.getContentElement('info', 'columnWidthTable').getElement().$,
+		    		parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
 		    		n = table instanceof Table ? table.colNum() : 0;
 		    	_controller.addColWeightFields(parentElem, n);
 		    	_controller.fillInDialog(this, table);

@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Table, Properties, CKHelper, Helper, Controller */
+/*global Unit, CKEDITOR, NEWSLETTER, Table, CKHelper, Helper, Controller */
 
 /**
  * Table Controller.
@@ -74,7 +74,7 @@ function CTable(){
 	 * @param   {Object}        dialog
 	 * @return  {Object}
 	 */
-	this.getDialogData = function(dialog){
+	this.getDialogData111 = function(dialog){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
@@ -126,11 +126,12 @@ function CTable(){
 	 * @return         {DOM.Element}
 	 */
 	this.create = function(dialog, editor){
-		var tableInfo = this.getDialogData(dialog),
+		var tableInfo = this.getDialogData(dialog, ['text', 'checkbox']),
 			rowMarker = function(i, j){return (i + 1).toString() + ' : ' + (j + 1).toString();};
 		// adding width of the parent element into tableInfo
 		tableInfo.width = this.parentWidth(editor);
 		var table = new Table();
+		console.log(tableInfo);
 		table.configure(tableInfo, rowMarker);
 		return table.toNode();
 	};
