@@ -43,11 +43,38 @@ function CTable(){
 		return output;
 	};
 
+
 	/**
-	 * Returns parameters that determine the table internal characteristics. External chracteristic (for the moment,
-	 * only "width") is added somewhere else.
+	 * Returns html string for the table with properties specified by the user
+	 * in the dialog menu.
+	 * @method         create
+	 * @param          {Object}             context           context by means the variables are passed from view to the controller
+	 * @param          {Object}             editor            editor instance
+	 * @return         {DOM.Element}
+	 */
+	this.create = function(dialog, editor){
+		var tableInfo = this.getDialogData(dialog, ['text', 'checkbox']),
+			rowMarker = function(i, j){return (i + 1).toString() + ' : ' + (j + 1).toString();};
+		// adding width of the parent element into tableInfo
+		tableInfo.width = this.parentWidth(editor);
+		var table = new Table();
+		try {
+			table.configure(this.adapter(tableInfo), rowMarker);
+			console.log(table.summary());
+		} catch(e){
+			console.log(e);
+		}
+
+
+		return table.toNode();
+	};
+
+	/**
+	 * Adapter.
 	 *
-	 * The returning object include the following keys:
+	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
+	 * {{#crossLink "Controller/adapter:method"}}adapter{{/crossLink}}.
+ 	 * The returning object include the following keys:
 	 * <dl>
 	 * <dt>rows</dt><dd>number of table rows</dd>
 	 * <dt>cols</dt><dd>number of table columns</dd>
@@ -70,70 +97,52 @@ function CTable(){
 	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
 	 * to the total table width</dd>
 	 * </dl>
-	 * @method  getDialogData
-	 * @param   {Object}        dialog
-	 * @return  {Object}
+
+	 * @param          {Object}        obj
+	 * @return         {Object}
 	 */
-	this.getDialogData111 = function(dialog){
+	this.adapter = function(obj){
 		var defaultUnit = 'px';
 		var tableInfo = {
-			rows:                 parseInt(dialog.getValueOf('info', 'tblRows'), 10),
-			cols:                 parseInt(dialog.getValueOf('info', 'tblCols'), 10),
-			tableBorderWidth:     new Unit(parseInt(dialog.getValueOf('borderTab', 'globalBorderWidth'), 10), defaultUnit),
-			tableBorderColor:     dialog.getValueOf('borderTab', 'globalBorderColor'),
-			phantomBorderWidth:   new Unit(parseInt(dialog.getValueOf('borderTab', 'rowBorderWidth'), 10), defaultUnit),
-			phantomBorderColor:   dialog.getValueOf('borderTab', 'rowBorderColor'),
+			rows:                 parseInt(obj.structure.rows, 10),
+			cols:                 parseInt(obj.structure.cols, 10),
+			tableBorderWidth:     new Unit(parseInt(obj.borders.globalBorderWidth, 10), defaultUnit),
+			tableBorderColor:     obj.borders.globalBorderColor,
+			phantomBorderWidth:   new Unit(parseInt(obj.borders.rowBorderWidth, 10), defaultUnit),
+			phantomBorderColor:   obj.borders.rowBorderColor,
 			cellBorders: {
-				leftVer:   dialog.getValueOf('borderTab', 'leftVerBord'),
-				rightVer:  dialog.getValueOf('borderTab', 'rightVerBord'),
-				intVer:    dialog.getValueOf('borderTab', 'intVerBord'),
-				topHor:    dialog.getValueOf('borderTab', 'topHorBord'),
-				bottomHor: dialog.getValueOf('borderTab', 'bottomHorBord'),
-				intHor:    dialog.getValueOf('borderTab', 'intHorBord'),
+				leftVer:   obj.borders.leftVerBord,
+				rightVer:  obj.borders.rightVerBord,
+				intVer:    obj.borders.intVerBord,
+				topHor:    obj.borders.topHorBord,
+				bottomHor: obj.borders.bottomHorBord,
+				intHor:    obj.borders.intHorBord,
 			},
-			cellBorderWidth:    new Unit(parseInt(dialog.getValueOf('borderTab', 'cellBorderWidth'), 10), defaultUnit),
-			cellBorderColor:    dialog.getValueOf('borderTab', 'cellBorderColor'),
-			globalTableBgColor: dialog.getValueOf('backgroundTab', 'globalTableBgColor'),
-			spaceTableGlobal:   new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceTableGlobal'), 10), defaultUnit),
-			paddingTableGlobal: new Unit(parseInt(dialog.getValueOf('spacesTab', 'paddingTableGlobal'), 10), defaultUnit),
-			spaceBtwRows:       new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceBtwRows'), 10), defaultUnit),
-			spaceCell:          new Unit(parseInt(dialog.getValueOf('spacesTab', 'spaceCell'), 10), defaultUnit),
-
-			cellWeights: [],
-			// width: CTable.parentWidth(editor)
+			cellBorderWidth:    new Unit(parseInt(obj.borders.cellBorderWidth, 10), defaultUnit),
+			cellBorderColor:    obj.borders.cellBorderColor,
+			globalTableBgColor: obj.background.globalTableBgColor,
+			spaceTableGlobal:   new Unit(parseInt(obj.spaces.spaceTableGlobal, 10), defaultUnit),
+			paddingTableGlobal: new Unit(parseInt(obj.spaces.paddingTableGlobal, 10), defaultUnit),
+			spaceBtwRows:       new Unit(parseInt(obj.spaces.spaceBtwRows, 10), defaultUnit),
+			spaceCell:          new Unit(parseInt(obj.spaces.spaceCell, 10), defaultUnit),
+			width:              obj.width,
 		};
-		var columnWidthElem = dialog.getContentElement('info', 'columnWidthTable').getElement().$,
-			columnFields = columnWidthElem.childNodes,
-			i, inputField;
-		// weight factors of the columns
-		if (columnFields){
-			for (i = 0; i < tableInfo.cols; i++) {
-				inputField = columnFields[i];
-				tableInfo.cellWeights.push(inputField ? parseFloat(inputField.value) : 0);
+		// adding key cellWeights for
+		var cellWeights = [];
+		if (obj.colWeights){
+			var colId;
+			for (colId in obj.colWeights){
+				if (obj.colWeights.hasOwnProperty(colId)){
+					cellWeights.push(parseFloat(obj.colWeights[colId]));
+				}
 			}
+		} else {
+			// creating array of 1's whose number is equal to number of table columns
+			cellWeights = (new Array(tableInfo.cols + 1)).join(1).split('').map(function(el){return parseFloat(el);});
 		}
+		tableInfo.cellWeights = cellWeights;
 		return tableInfo;
 
-	};
-
-
-	/**
-	 * Returns html string for the table with properties specified by the user
-	 * in the dialog menu.
-	 * @method         create
-	 * @param          {Object}             context           context by means the variables are passed from view to the controller
-	 * @param          {Object}             editor            editor instance
-	 * @return         {DOM.Element}
-	 */
-	this.create = function(dialog, editor){
-		var tableInfo = this.getDialogData(dialog, ['text', 'checkbox']),
-			rowMarker = function(i, j){return (i + 1).toString() + ' : ' + (j + 1).toString();};
-		// adding width of the parent element into tableInfo
-		tableInfo.width = this.parentWidth(editor);
-		var table = new Table();
-		console.log(tableInfo);
-		table.configure(tableInfo, rowMarker);
-		return table.toNode();
 	};
 
 	/**
@@ -227,7 +236,7 @@ function CTable(){
 	 * @param         {Table}               table             table whose attributes are to be loaded into the dialog window.
 	 * @return        {void}
 	 */
-	this.fillInDialog = function(context, table){
+	this.fillInDialog_old = function(context, table){
 		if (!(table instanceof Table)){
 			// no table, no pre-fill
 			return;
@@ -238,7 +247,7 @@ function CTable(){
 			profileLen, inputCellParent, columns, columnNum, i;
 
 		profile = table.getProfile();
-		inputCellParent = context.getContentElement('info', 'columnWidthTable').getElement().$;
+		inputCellParent = context.getContentElement('structure', 'columnWidthTable').getElement().$;
 		columns = inputCellParent.childNodes;
 		columnNum = columns.length;
 		// getting table profile with cancelled common factors
@@ -262,18 +271,18 @@ function CTable(){
 		cellBorders = table.getCellBorders();
 
 		// filling in fields for cell borders
-		context.setValueOf('borderTab', 'topHorBord', cellBorders.topHor);
-		context.setValueOf('borderTab', 'bottomHorBord', cellBorders.bottomHor);
-		context.setValueOf('borderTab', 'intHorBord', cellBorders.intHor);
-		context.setValueOf('borderTab', 'leftVerBord', cellBorders.leftVer);
-		context.setValueOf('borderTab', 'rightVerBord', cellBorders.rightVer);
-		context.setValueOf('borderTab', 'intVerBord', cellBorders.intVer);
-		this.setColorField(context, 'borderTab', 'cellBorderColor', cellBorders.color);
-		context.setValueOf('borderTab', 'cellBorderWidth', cellBorders.width);
+		context.setValueOf('borders', 'topHorBord', cellBorders.topHor);
+		context.setValueOf('borders', 'bottomHorBord', cellBorders.bottomHor);
+		context.setValueOf('borders', 'intHorBord', cellBorders.intHor);
+		context.setValueOf('borders', 'leftVerBord', cellBorders.leftVer);
+		context.setValueOf('borders', 'rightVerBord', cellBorders.rightVer);
+		context.setValueOf('borders', 'intVerBord', cellBorders.intVer);
+		this.setColorField(context, 'borders', 'cellBorderColor', cellBorders.color);
+		context.setValueOf('borders', 'cellBorderWidth', cellBorders.width);
 
 		if (phantomTableBorder.style !== 'none'){
-			context.setValueOf('borderTab', 'rowBorderWidth', phantomTableBorder.width);
-			this.setColorField(context, 'borderTab', 'rowBorderColor', phantomTableBorder.color);
+			context.setValueOf('borders', 'rowBorderWidth', phantomTableBorder.width);
+			this.setColorField(context, 'borders', 'rowBorderColor', phantomTableBorder.color);
 		}
 
 		if (spaceBtwRows){
@@ -289,18 +298,18 @@ function CTable(){
 		}
 		spaceCell = new Unit(spaceCell);  // converting spaceCell into Unit instance
 
-		context.setValueOf('info', 'tblRows', table.rowNum());
-		context.getContentElement('info', 'tblRows').disable();
-		context.setValueOf('info', 'tblCols', table.colNum());
-		context.getContentElement('info', 'tblCols').disable();
+		context.setValueOf('structure', 'tblRows', table.rowNum());
+		context.getContentElement('structure', 'tblRows').disable();
+		context.setValueOf('structure', 'tblCols', table.colNum());
+		context.getContentElement('structure', 'tblCols').disable();
 
 		if (table.hasStyleProperty('background-color')){
 			this.setColorField(context, 'backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
 		}
 		if (borderInfo.style !== 'none'){
 			var tableBorderWidth = new Unit(borderInfo.width);
-			context.setValueOf('borderTab', 'globalBorderWidth', tableBorderWidth.getValue() || 0);
-			this.setColorField(context, 'borderTab', 'globalBorderColor', borderInfo.color || '#000001');
+			context.setValueOf('borders', 'globalBorderWidth', tableBorderWidth.getValue() || 0);
+			this.setColorField(context, 'borders', 'globalBorderColor', borderInfo.color || '#000001');
 		}
 		context.setValueOf('spacesTab', 'spaceTableGlobal', spaceTableGlobal.getValue().toString());
 		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue().toString());

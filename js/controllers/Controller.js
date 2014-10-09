@@ -31,7 +31,7 @@ function Controller(){
 	this.getDialogData = function(dialog, types){
 		var data = {},
 			pages = dialog._.contents,
-			page, pageId,
+			pageId,
 			elems, elemId, pageContent,
 			considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
 		for (pageId in pages){
@@ -58,18 +58,29 @@ function Controller(){
 	 * @param         {Object}              data              data to be inserted
 	 * @return        {void}
 	 */
-	this.fillInDialog = function(data){
+	this.fillInDialog = function(dialog, data){
+		var pageId, page, elemId;
+		for (pageId in data){
+			if (data.hasOwnProperty(pageId)){
+				page = data[pageId];
+				for (elemId in page){
+					if (page.hasOwnProperty(elemId)){
+						dialog.setValueOf(pageId, elemId, page[elemId]);
+					}
+				}
+			}
+		}
 	};
 
 
 	/**
 	 * Adapter.
 	 *
-	 * Converts between what dialog menu outputs and what is required to configure a {{#crossLink "Tag"}}Tag{{/crossLink}}
+	 * Converts from what dialog menu outputs to what is required to configure a {{#crossLink "Tag"}}Tag{{/crossLink}}
 	 * instance properly.
-	 * It is initially supposed that this adatper just rearranges input data and rename keys if necessary.
 	 *
-	 * Current implementation is merely trivial tranformation: `obj` -> `obj`.
+	 * Current implementation is merely trivial tranformation: `obj` -> `obj`. It is supposed that in case of necessity,
+	 * this method is to be overriden by inherited classes.
 	 *
 	 * @method         adapter
 	 * @param          {Object}        obj
@@ -78,5 +89,22 @@ function Controller(){
 	 */
 	this.adapter = function(obj){
 		return obj;
-	}
+	};
+
+	/**
+	 * Inverse adapter.
+	 *
+ 	 * Converts from what is required to configure a {{#crossLink "Tag"}}Tag{{/crossLink}}
+	 * instance properly to what dialog menu requires.
+	 *
+	 * It is supposed that in case of necessity,  this method is to be overriden by inherited classes.
+	 *
+	 * @method  adapterInverse
+	 * @param          {Object}        obj
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.adapterInverse = function(obj){
+		return obj;
+	};
 }

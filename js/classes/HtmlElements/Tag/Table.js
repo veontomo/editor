@@ -1177,6 +1177,34 @@ function Table() {
 	/**
 	 * Creates an {{#crossLink "Table"}}Table{{/crossLink}} instance with parameters specified in the table creation dialog.
 	 *
+	 * `descr` is an object with the following keys:<dl>
+	 *
+     * <dt>rows</dt><dd> (Integer) number of rows</dd>
+     * <dt>cols</dt><dd> (Integer) number of columns</dd>
+     * <dt>tableBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table border width (including unit of measurement)</dd>
+     * <dt>tableBorderColor</dt><dd>(String) table border color</dd>
+     * <dt>phantomBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) width of border around each row
+     * (including unit of measurement)</dd>
+     * <dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>
+     * <dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>
+     * 		<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>
+     *  	<dt>rightVer</dt><dd>(Boolean) whether the most right vertical border of the last cell of each row is present</dd>
+     *  	<dt>intVer</dt><dd>(Boolean) whether the inner vertical borders are present</dd>
+     *  	<dt>topHor</dt><dd>(Boolean) whether the top horizontal border of each cell of the first row is present</dd>
+     *  	<dt>bottomHor</dt><dd>(Boolean) whether the bottom horizontal border of each cell of the last row is present</dd>
+     *  	<dt>intHor</dt><dd>(Boolean) whether inner horizontal borders are present</dd>
+     * </dl></dd>
+     * <dt>cellBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) width of the border(s) mentioned in key `cellBorders`</dd>
+     * <dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>
+     * <dt>globalTableBgColor</dt><dd>(String) table background color</dd>
+     * <dt>spaceTableGlobal</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table margin</dd>
+     * <dt>paddingTableGlobal</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table padding </dd>
+     * <dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',
+     * 5px - horizontally, 6px - vertically    </dd>
+     * <dt>spaceCell</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}})  `padding` of each cell</dd>
+     * <dt>width</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table width</dd>
+	 * </dl>
+	 *
 	 * @method         configure
 	 * @param          {Object}        descr           json object chracterizing parameters of the table instance
 	 * @param          {Function}      fun             [optional] function
@@ -1193,7 +1221,6 @@ function Table() {
 		this.markRows(NEWSLETTER['marker-name']);
 		// this.markCells(NEWSLETTER['marker-name']);
 		this.configureProperties(descr);
-
 	};
 
 	/**
@@ -1297,7 +1324,6 @@ function Table() {
 			this.setPhantomTableProperties(phantomTableProp);
 		}
 		this.setAllRowWidths(currentWidth.getValue());
-
 		cellWidths = Helper.columnWidths2(currentWidth.getValue(), descr.cellWeights);
 		var cellBorderInfo = descr.cellBorderWidth.toString() + ' solid ' + descr.cellBorderColor;
 		if (descr.cellBorders.topHor){
@@ -1343,6 +1369,57 @@ function Table() {
 		}
 		this.setStylePropertyOfBlock('padding', descr.spaceCell.toString(), null, null);
 		this.setProfile(cellWidths);
+	};
+
+	/**
+	 * Table summary: json object of table properties that parametrise the table.
+	 *
+	 * Returns an object that is to be used to fill in the dialog menu.
+	 * @method         summary
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.summary = function(){
+		/// !!! not finished
+		// var defaultUnit = 'px';
+		var tableInfo = {
+			rows:                 this.rowNum(),
+			cols:                 this.colNum(),
+			tableBorderWidth:     this.getBorder().width || 0,
+			tableBorderColor:     this.getBorder().color || '#000001',
+			phantomBorderWidth:   this.getPhantomTableProperties().getBorder().width || 0,
+			phantomBorderColor:   this.getPhantomTableProperties().getBorder().color || '#000001',
+			cellBorders: {
+				leftVer:   this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).style !== 'none',
+				rightVer:  this.getStylePropertyOfRangeAsBorderInfo('border-right', null, [-1]).style !== 'none',
+				intVer:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [1]).style !== 'none',
+				topHor:    this.getStylePropertyOfRangeAsBorderInfo('border-top', [0], null).style !== 'none',
+				bottomHor: this.getStylePropertyOfRangeAsBorderInfo('border-bottom', null, [-1]).style !== 'none',
+				intHor:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [1]).style !== 'none',
+			},
+			// zero apprx for cell border width. Use info about all table cells and not only the first row cells!
+			cellBorderWidth:    new Unit(this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).width, defaultUnit),
+			cellBorderColor:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).color || '#00000F',
+			globalTableBgColor: this.getStyleProperty('background-color') || '#00000F',
+			spaceTableGlobal:   new Unit(this.getStyleProperty('margin'), defaultUnit),
+			// paddingTableGlobal: new Unit(parseInt(obj.spaces.paddingTableGlobal, 10), defaultUnit),
+			// spaceBtwRows:       new Unit(parseInt(obj.spaces.spaceBtwRows, 10), defaultUnit),
+			// spaceCell:          new Unit(parseInt(obj.spaces.spaceCell, 10), defaultUnit),
+			width:              (new Unit(this.getWidth())).getValue(),
+		};
+		// var cellWeights = [];
+		// if (obj.colWeights){
+		// 	var colId;
+		// 	for (colId in obj.colWeights){
+		// 		if (obj.colWeights.hasOwnProperty(colId)){
+		// 			cellWeights.push(parseFloat(obj.colWeights[colId]));
+		// 		}
+		// 	}
+		// }
+		// if (cellWeights.length > 0){
+		// 	tableInfo.cellWeights = cellWeights;
+		// }
+		return tableInfo;
 
 	};
 
@@ -1470,7 +1547,7 @@ function Table() {
 
 	/**
 	 * Returns {{#crossLink "Table/getStylePropertyOfBlock:method"}}getStylePropertyOfBlock(){{/crossLink}} output
-	 * formatted as {{#crossLink "Properties/getBorder:property"}}border info object{{/crossLink}}.
+	 * formatted as {{#crossLink "Properties/getBorder:method"}}border info object{{/crossLink}}.
 	 * @method         getStylePropertyOfRangeAsBorderInfo
 	 * @param          {String}        key
 	 * @param          {Array|null}    rowArr

@@ -97,27 +97,41 @@ function manageTable(editor, isNew) {
 	 * @since          0.0.4
 	 * @private
 	 */
-	var	drawInputCells = function () {
-			// adds input fields to set the widths of the table columns
-			var colWeightElem = this.getDialog().getContentElement('structure', 'columnWidthTable').getElement().$,
-				title = this.getDialog().getContentElement('structure', 'columnWidthTableTitle').getElement().$,
-				children, i, colNumCurrent, colNumDesired;
-
-			children = colWeightElem.childNodes;
-			colNumCurrent = children.length;                                                // actual number of input fields
-			colNumDesired = parseInt(this.getDialog().getValueOf('structure', 'tblCols'), 10);   // desirable number of input fields
-			if (isNaN(colNumDesired)){
-				return;
+	var	drawInputCells = function (el) {
+		var children = [],
+			len, i, colWeigthTab, colWeigthTabId = 'colWeights';
+		// 1. hide previous version of the page (if any)
+		// 2. prepare a new version of the page
+		// 3. reveal the new version of the page
+		this.getDialog().hidePage(colWeigthTabId);
+		try {
+			// creating array of input text fields
+			len = parseInt(el.data.value, 10);
+			for (i = 0; i < len; i++){
+				children.push({
+					type: 'text',
+					id: 'col' + i,
+					inputStyle: 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
+				});
 			}
-			title.innerHTML =  colNumDesired > 0  ? editor.lang.table2.columnWeight : editor.lang.table2.valueInPx;
-			if (colNumDesired < colNumCurrent){
-				for (i = colNumCurrent - 1; i > colNumDesired - 1; i--) {
-					colWeightElem.removeChild(children[i]);
-				}
-			} else {
-				_controller.addColWeightFields(colWeightElem, colNumDesired - colNumCurrent);
-			}
-		};
+			colWeigthTab = {
+				id: colWeigthTabId,
+				label: editor.lang.table2.colWeightInfo,
+				elements: [{
+					type: 'html',
+					html: editor.lang.table2.columnWeight
+				}, {
+					type: 'hbox',
+					children: children
+				}]
+			};
+			this.getDialog().addPage(colWeigthTab);
+			// revealing the page
+			this.getDialog().showPage(colWeigthTabId);
+		} catch (e){
+			console.log('Error of type ' + e.name + ' occurred when retrieveing number of columns.');
+		}
+	};
 
 	/**
 	 * Removes (if any) input field resposible for column widths.
@@ -484,7 +498,7 @@ function manageTable(editor, isNew) {
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
 				'borders':     ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
-				'background': ['globalTableBgColor'],
+				'background':  ['globalTableBgColor'],
 			};
 			var tab, ids, len, i, id;
 			for (tab in colorInputFields){
@@ -509,7 +523,7 @@ function manageTable(editor, isNew) {
 		    	var table = _controller.getTable(editor),
 		    		parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
 		    		n = table instanceof Table ? table.colNum() : 0;
-		    	_controller.addColWeightFields(parentElem, n);
+		    	// _controller.addColWeightFields(parentElem, n);
 		    	_controller.fillInDialog(this, table);
 		    }
 		},

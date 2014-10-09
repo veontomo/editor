@@ -1,16 +1,16 @@
 ------------------------------------------------------------
-Agenti link underline - 30/09/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+Cento Euro per Te  - 09/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
-Email Iniziali : 1
-Email Senza Doppioni : 1
+Email Iniziali : 4
+Email Senza Doppioni : 4
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
-Email Senza BlackList : 1
+Email Senza BlackList : 4
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 30/09/2014 / 09:40:58
-Data/Ora Fine Spedizione : 30/09/2014 / 09:41:01
+Data/Ora Inizio Spedizione : 09/10/2014 / 15:18:59
+Data/Ora Fine Spedizione : 09/10/2014 / 15:19:15
 
-Spediti : 1
+Spediti : 4
 
 Configurazione : 
   Manda un'Email per ogni Indirizzo
@@ -20,5 +20,5 @@ Configurazione :
   Controlla la BlackList
   Controlla lista Diventa
   EMAIL: a.shcherbakov@ritoll.it (a.shcherbakov@ritoll.it)
-  SMTP : mailbus.fastweb.it
+  SMTP : smtp.fastweb.it
 

@@ -202,8 +202,8 @@ var translations = {
 		columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
 		structure:     'Struttura',
 		globalPadding: 'Spazio tra cornice e contenuto',
-		modifyTable:   'Modificare tabella'
-
+		modifyTable:   'Modificare tabella',
+		colWeightInfo: 'Colonne'
 	},
 	en: {
 		separator:     'Insert a line between the rows',
@@ -228,7 +228,8 @@ var translations = {
 		columnWeight:  'Column weight factors',
 		structure:     'Structure',
 		globalPadding: 'Space between table border and content',
-		modifyTable:   'Modify table'
+		modifyTable:   'Modify table',
+		colWeightInfo: 'Columns'
 	}
 };
 
