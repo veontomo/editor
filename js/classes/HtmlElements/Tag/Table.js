@@ -1175,52 +1175,27 @@ function Table() {
 
 
 	/**
-	 * Creates an {{#crossLink "Table"}}Table{{/crossLink}} instance with parameters specified in the table creation dialog.
-	 *
-	 * `descr` is an object with the following keys:<dl>
-	 *
-     * <dt>rows</dt><dd> (Integer) number of rows</dd>
-     * <dt>cols</dt><dd> (Integer) number of columns</dd>
-     * <dt>tableBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table border width (including unit of measurement)</dd>
-     * <dt>tableBorderColor</dt><dd>(String) table border color</dd>
-     * <dt>phantomBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) width of border around each row
-     * (including unit of measurement)</dd>
-     * <dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>
-     * <dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>
-     * 		<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>
-     *  	<dt>rightVer</dt><dd>(Boolean) whether the most right vertical border of the last cell of each row is present</dd>
-     *  	<dt>intVer</dt><dd>(Boolean) whether the inner vertical borders are present</dd>
-     *  	<dt>topHor</dt><dd>(Boolean) whether the top horizontal border of each cell of the first row is present</dd>
-     *  	<dt>bottomHor</dt><dd>(Boolean) whether the bottom horizontal border of each cell of the last row is present</dd>
-     *  	<dt>intHor</dt><dd>(Boolean) whether inner horizontal borders are present</dd>
-     * </dl></dd>
-     * <dt>cellBorderWidth</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) width of the border(s) mentioned in key `cellBorders`</dd>
-     * <dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>
-     * <dt>globalTableBgColor</dt><dd>(String) table background color</dd>
-     * <dt>spaceTableGlobal</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table margin</dd>
-     * <dt>paddingTableGlobal</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table padding </dd>
-     * <dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',
-     * 5px - horizontally, 6px - vertically    </dd>
-     * <dt>spaceCell</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}})  `padding` of each cell</dd>
-     * <dt>width</dt><dd>({{#crossLink "Unit"}}Unit{{/crossLink}}) table width</dd>
-	 * </dl>
-	 *
+	 * Configures current {{#crossLink "Table"}}Table{{/crossLink}} instance
+	 * using information provided by `template` object.
+	 * `template` object is of format described in {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
 	 * @method         configure
-	 * @param          {Object}        descr           json object chracterizing parameters of the table instance
-	 * @param          {Function}      fun             [optional] function
+	 * @param          {Object}        template           json object chracterizing parameters of the table instance
+	 * @param          {Function}      fun             [optional] function to be passed to
+	 *                                                 {{#crossLink "Table/makeShape:property"}}makeShape{{/crossLink}}
+	 *                                                 method.
 	 * @return         {Table}
 	 * @since          0.0.6
 	 */
-	this.configure = function(descr, fun){
+	this.configure = function(template, fun){
 		this.mark(NEWSLETTER['marker-name']);
 		if (typeof fun === 'function'){
-			this.makeShape(descr.rows, descr.cols, fun);
+			this.makeShape(template.rows, template.cols, fun);
 		} else {
-			this.makeShape(descr.rows, descr.cols);
+			this.makeShape(template.rows, template.cols);
 		}
 		this.markRows(NEWSLETTER['marker-name']);
 		// this.markCells(NEWSLETTER['marker-name']);
-		this.configureProperties(descr);
+		this.configureProperties(template);
 	};
 
 	/**
@@ -1252,13 +1227,13 @@ function Table() {
 	 * @return         {void}
 	 */
 	this.configureProperties = function(descr){
+		console.log('configuring properties: ', descr);
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth = tWidth.clone(),
 			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0),
 			cellWidths, i;
-
 
 		if (descr.spaceTableGlobal.getValue() > 0){
 			this.setStyleProperty('margin', descr.spaceTableGlobal.toString());
@@ -1296,6 +1271,7 @@ function Table() {
 
 		// setting properties of the phantom elements
 		if (descr.phantomBorderWidth.getValue() > 0){
+			console.log('PHANTOM!!!');
 			var phantomRowProp    = new RowProperties(),
 				phantomCellProp   = new CellProperties(),
 				phantomTableProp  = new TableProperties();
@@ -1369,56 +1345,74 @@ function Table() {
 		}
 		this.setStylePropertyOfBlock('padding', descr.spaceCell.toString(), null, null);
 		this.setProfile(cellWidths);
+		// console.log('table html after configuring properties: ', this.toHtml());
 	};
 
 	/**
-	 * Table summary: json object of table properties that parametrise the table.
+	 * Table template: json object of table properties that parametrise the table.
 	 *
-	 * Returns an object that is to be used to fill in the dialog menu.
-	 * @method         summary
+	 * Returns an object of the following format .
+	 * `descr` is an object with the following keys:<dl>
+	 * <dt>rows</dt><dd> (Integer) number of rows</dd>
+	 * <dt>cols</dt><dd> (Integer) number of columns</dd>
+	 * <dt>tableBorderWidth</dt><dd>(String|Number) table border width (might include unit of measurement)</dd>
+	 * <dt>tableBorderColor</dt><dd>(String) table border color</dd>
+	 * <dt>phantomBorderWidth</dt><dd>(String|Number) width of border around each row
+	 * (might includr unit of measurement)</dd>
+	 * <dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>
+	 * <dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>
+	 * 		<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>
+	 *  	<dt>rightVer</dt><dd>(Boolean) whether the most right vertical border of the last cell of each row is present</dd>
+	 *  	<dt>intVer</dt><dd>(Boolean) whether the inner vertical borders are present</dd>
+	 *  	<dt>topHor</dt><dd>(Boolean) whether the top horizontal border of each cell of the first row is present</dd>
+	 *  	<dt>bottomHor</dt><dd>(Boolean) whether the bottom horizontal border of each cell of the last row is present</dd>
+	 *  	<dt>intHor</dt><dd>(Boolean) whether inner horizontal borders are present</dd>
+	 * </dl></dd>
+	 * <dt>cellBorderWidth</dt><dd>(String|Unit) width of the border(s) mentioned in key `cellBorders`</dd>
+	 * <dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>
+	 * <dt>globalTableBgColor</dt><dd>(String) table background color</dd>
+	 * <dt>spaceTableGlobal</dt><dd>(String|Unit) table margin</dd>
+	 * <dt>paddingTableGlobal</dt><dd>(String|Unit) table padding </dd>
+	 * <dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',
+	 * 5px - horizontally, 6px - vertically    </dd>
+	 * <dt>spaceCell</dt><dd>(String|Unit)  `padding` of each cell</dd>
+	 * <dt>width</dt><dd>(String|Unit) table width</dd>
+	 * </dl>
+	 * @method         template
 	 * @return         {Object}
 	 * @since          0.0.7
 	 */
-	this.summary = function(){
-		/// !!! not finished
-		// var defaultUnit = 'px';
+	this.template = function(){
+		console.log(this.toHtml(), this.rowNum(), this.colNum());
+		var cellBorders = this.getCellBorders(),
+			tableBorderInfo = this.getBorder() || {};
 		var tableInfo = {
 			rows:                 this.rowNum(),
 			cols:                 this.colNum(),
-			tableBorderWidth:     this.getBorder().width || 0,
-			tableBorderColor:     this.getBorder().color || '#000001',
-			phantomBorderWidth:   this.getPhantomTableProperties().getBorder().width || 0,
-			phantomBorderColor:   this.getPhantomTableProperties().getBorder().color || '#000001',
+			tableBorderWidth:     tableBorderInfo.width,
+			tableBorderColor:     tableBorderInfo.color,
+			phantomBorderWidth:   this.getPhantomTableProperties().getBorder().width,
+			phantomBorderColor:   this.getPhantomTableProperties().getBorder().color,
 			cellBorders: {
-				leftVer:   this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).style !== 'none',
-				rightVer:  this.getStylePropertyOfRangeAsBorderInfo('border-right', null, [-1]).style !== 'none',
-				intVer:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [1]).style !== 'none',
-				topHor:    this.getStylePropertyOfRangeAsBorderInfo('border-top', [0], null).style !== 'none',
-				bottomHor: this.getStylePropertyOfRangeAsBorderInfo('border-bottom', null, [-1]).style !== 'none',
-				intHor:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [1]).style !== 'none',
+				leftVer:   cellBorders.leftVer,
+				rightVer:  cellBorders.rightVer,
+				intVer:    cellBorders.intVer,
+				topHor:    cellBorders.topHor,
+				bottomHor: cellBorders.bottomHor,
+				intHor:    cellBorders.intHor,
 			},
 			// zero apprx for cell border width. Use info about all table cells and not only the first row cells!
-			cellBorderWidth:    new Unit(this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).width, defaultUnit),
-			cellBorderColor:    this.getStylePropertyOfRangeAsBorderInfo('border-left', null, [0]).color || '#00000F',
-			globalTableBgColor: this.getStyleProperty('background-color') || '#00000F',
-			spaceTableGlobal:   new Unit(this.getStyleProperty('margin'), defaultUnit),
-			// paddingTableGlobal: new Unit(parseInt(obj.spaces.paddingTableGlobal, 10), defaultUnit),
-			// spaceBtwRows:       new Unit(parseInt(obj.spaces.spaceBtwRows, 10), defaultUnit),
-			// spaceCell:          new Unit(parseInt(obj.spaces.spaceCell, 10), defaultUnit),
-			width:              (new Unit(this.getWidth())).getValue(),
+			cellBorderWidth:    cellBorders.width,
+			cellBorderColor:    cellBorders.color,
+			globalTableBgColor: this.getStyleProperty('background-color'),
+			spaceTableGlobal:   this.getStyleProperty('margin'),
+			paddingTableGlobal: this.getStyleProperty('padding'),
+			spaceBtwRows:       this.getStyleProperty('border-spacing').split(' ').pop(),
+			spaceCell:          this.getStylePropertyOfBlock('padding', null, null),
+			width:              this.getWidth(),
+			cellWeights:        this.getProfile()
 		};
-		// var cellWeights = [];
-		// if (obj.colWeights){
-		// 	var colId;
-		// 	for (colId in obj.colWeights){
-		// 		if (obj.colWeights.hasOwnProperty(colId)){
-		// 			cellWeights.push(parseFloat(obj.colWeights[colId]));
-		// 		}
-		// 	}
-		// }
-		// if (cellWeights.length > 0){
-		// 	tableInfo.cellWeights = cellWeights;
-		// }
+		console.log('table returns this template: ', tableInfo);
 		return tableInfo;
 
 	};
@@ -1540,6 +1534,7 @@ function Table() {
 	 * @return         {Table}         a Table instance with updated properties
 	 */
 	this.update = function(tableInfo){
+		console.log('updating with ', tableInfo);
 		var tableClone = this.clone();
 		tableClone.configureProperties(tableInfo);
 		return tableClone;

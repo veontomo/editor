@@ -35,37 +35,52 @@ function Controller(){
 			elems, elemId, pageContent,
 			considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
 		for (pageId in pages){
-			if (pages.hasOwnProperty(pageId)){
+			if (pageId && pages.hasOwnProperty(pageId)){
 				elems = pages[pageId];
 				pageContent = {};
 				for (elemId in elems){
-					if (elems.hasOwnProperty(elemId)){
+					if (elemId && elems.hasOwnProperty(elemId)){
 						if (considerAll || types.indexOf(elems[elemId].type) !== -1){
-							pageContent[elemId] = dialog.getValueOf(pageId, elemId);
+							var value = dialog.getValueOf(pageId, elemId);
+							if (value !== undefined){
+								pageContent[elemId] = dialog.getValueOf(pageId, elemId);
+							}
+
 						}
 					}
 				}
 				data[pageId] = pageContent;
 			}
 		}
+		console.log('dailog data: ', data);
 		return data;
 	};
 
 
 	/**
-	 * Populates the field of the dialog menu.
+	 * Populates the field of the dialog menu. `data` must be of a format described in
+	 * {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}} method.
+	 * If a key has undefined value, then it is not takedn into consideration.
 	 * @method        fillInDialog
-	 * @param         {Object}              data              data to be inserted
+	 * @param         {Object}              data              data to be inserted,
+	 *                                                        {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}}
 	 * @return        {void}
 	 */
 	this.fillInDialog = function(dialog, data){
-		var pageId, page, elemId;
+		var pageId, page, elemId, value;
 		for (pageId in data){
 			if (data.hasOwnProperty(pageId)){
 				page = data[pageId];
 				for (elemId in page){
 					if (page.hasOwnProperty(elemId)){
-						dialog.setValueOf(pageId, elemId, page[elemId]);
+						value = page[elemId];
+						if (value !== undefined){
+							try {
+								dialog.setValueOf(pageId, elemId, value);
+							} catch (e){
+								console.log('Error (' + e.name + ') in filling in the dialog menu: ' + e.message);
+							}
+						}
 					}
 				}
 			}

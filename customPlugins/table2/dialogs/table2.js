@@ -524,7 +524,7 @@ function manageTable(editor, isNew) {
 		    		parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
 		    		n = table instanceof Table ? table.colNum() : 0;
 		    	// _controller.addColWeightFields(parentElem, n);
-		    	_controller.fillInDialog(this, table);
+		    	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
 		    }
 		},
 

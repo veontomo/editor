@@ -59,21 +59,19 @@ function CTable(){
 		tableInfo.width = this.parentWidth(editor);
 		var table = new Table();
 		try {
-			table.configure(this.adapter(tableInfo), rowMarker);
-			console.log(table.summary());
+			table.configure(this.dialogToTemplate(tableInfo), rowMarker);
 		} catch(e){
 			console.log(e);
 		}
-
-
 		return table.toNode();
 	};
 
 	/**
-	 * Adapter.
+	 * Converts information collected from the table dialog menu into format defined by
+	 * {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
 	 *
 	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
-	 * {{#crossLink "Controller/adapter:method"}}adapter{{/crossLink}}.
+	 * {{#crossLink "Controller/toTemplate:method"}}toTemplate{{/crossLink}}.
  	 * The returning object include the following keys:
 	 * <dl>
 	 * <dt>rows</dt><dd>number of table rows</dd>
@@ -97,11 +95,11 @@ function CTable(){
 	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
 	 * to the total table width</dd>
 	 * </dl>
-
+	 * @method         dialogToTemplate
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 */
-	this.adapter = function(obj){
+	this.dialogToTemplate = function(obj){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(obj.structure.rows, 10),
@@ -130,6 +128,7 @@ function CTable(){
 		// adding key cellWeights for
 		var cellWeights = [];
 		if (obj.colWeights){
+			console.log('there is a key colWeights: ', obj.colWeights);
 			var colId;
 			for (colId in obj.colWeights){
 				if (obj.colWeights.hasOwnProperty(colId)){
@@ -138,11 +137,70 @@ function CTable(){
 			}
 		} else {
 			// creating array of 1's whose number is equal to number of table columns
-			cellWeights = (new Array(tableInfo.cols + 1)).join(1).split('').map(function(el){return parseFloat(el);});
+			var arrTmp = new Array(tableInfo.cols + 1); // dumb array of specified length
+			cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
 		}
 		tableInfo.cellWeights = cellWeights;
+		console.log('CTable::dialogToTemplate(): ', tableInfo);
 		return tableInfo;
+	};
 
+	/**
+	 * Converts output of table {{#crossLink "Table/template:method"}}template{{/crossLink}} method
+	 * into an object accepted by table dialog menu, that is into a format described by
+	 * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
+	 * @method         templateToDialog
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.templateToDialog = function(template){
+		console.log('template: ', template);
+		var dialogData = {
+			structure: {
+				rows: template.rows,
+				cols: template.cols
+			},
+			background: {
+				globalTableBgColor: template.globalTableBgColor
+			},
+			borders: {
+				cellBorderColor: template.cellBorderColor,
+				globalBorderColor: template.tableBorderColor,
+				rowBorderColor: template.rowBorderColor,
+				rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
+				cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),
+				globalBorderWidth: (new Unit(template.tableBorderWidth || 0)).getValueAsString(),
+				bottomHorBord: template.cellBorders.bottomHor,
+				intHorBord: template.cellBorders.intHor,
+				intVerBord: template.cellBorders.intVer,
+				leftVerBord: template.cellBorders.leftVer,
+				rightVerBord: template.cellBorders.rightVer,
+				topHorBord: template.cellBorders.topHor
+			},
+			spaces: {
+				paddingTableGlobal: (new Unit(template.paddingTableGlobal || 0)).getValueAsString(),
+				spaceBtwRows:       (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
+				spaceCell:          (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
+				spaceTableGlobal:   (new Unit(template.spaceTableGlobal || 0)).getValueAsString()
+			},
+		};
+		// filling in column weight fields: corresponding text input fields are called
+		// "col0", "col1" etc.
+		var weigths = template.cellWeights;
+		try {
+			var tmp = Helper.divideByGcd(weigths);
+			weigths = tmp;
+		} catch (e){
+			console.log('Error (' + e.name + ') when cancelling common factors of column widths: ' + e.message);
+		}
+		if (Array.isArray(weigths)){
+			dialogData.colWeights = {};
+			weigths.forEach(function(val, ind){
+				dialogData.colWeights['col' + ind.toString()] = val.toString();
+			});
+		}
+		return dialogData;
 	};
 
 	/**
@@ -229,94 +287,6 @@ function CTable(){
 		}
 	};
 
-	/**
-	 * Populates the field of the table plugin dialog.
-	 * @method        fillInDialog
-	 * @param         {Object}              context           context of the dialog menu
-	 * @param         {Table}               table             table whose attributes are to be loaded into the dialog window.
-	 * @return        {void}
-	 */
-	this.fillInDialog_old = function(context, table){
-		if (!(table instanceof Table)){
-			// no table, no pre-fill
-			return;
-		}
-		var profile,
-			borderInfo, spaceTableGlobal, paddingTableGlobal,
-			spaceBtwRows, cellBorders, spaceCell, phantomTableBorder,
-			profileLen, inputCellParent, columns, columnNum, i;
-
-		profile = table.getProfile();
-		inputCellParent = context.getContentElement('structure', 'columnWidthTable').getElement().$;
-		columns = inputCellParent.childNodes;
-		columnNum = columns.length;
-		// getting table profile with cancelled common factors
-		if (profile){
-			profile = Helper.divideByGcd(profile);
-		}
-		// filling in input fields corresponding to column widths
-		profileLen = profile.length;
-		if (profileLen === columnNum){
-			for (i = 0; i < profileLen; i++){
-				columns[i].value = profile[i];
-			}
-		}
-
-		borderInfo = table.getBorder();
-		phantomTableBorder = table.getPhantomTableBorder();
-		spaceTableGlobal = new Unit(table.getStyleProperty('margin') || 0);
-		paddingTableGlobal = new Unit(table.getStyleProperty('padding') || 0);
-		// its format is either "5px" or "5px 7px"
-		spaceBtwRows = table.getStyleProperty('border-spacing');
-		cellBorders = table.getCellBorders();
-
-		// filling in fields for cell borders
-		context.setValueOf('borders', 'topHorBord', cellBorders.topHor);
-		context.setValueOf('borders', 'bottomHorBord', cellBorders.bottomHor);
-		context.setValueOf('borders', 'intHorBord', cellBorders.intHor);
-		context.setValueOf('borders', 'leftVerBord', cellBorders.leftVer);
-		context.setValueOf('borders', 'rightVerBord', cellBorders.rightVer);
-		context.setValueOf('borders', 'intVerBord', cellBorders.intVer);
-		this.setColorField(context, 'borders', 'cellBorderColor', cellBorders.color);
-		context.setValueOf('borders', 'cellBorderWidth', cellBorders.width);
-
-		if (phantomTableBorder.style !== 'none'){
-			context.setValueOf('borders', 'rowBorderWidth', phantomTableBorder.width);
-			this.setColorField(context, 'borders', 'rowBorderColor', phantomTableBorder.color);
-		}
-
-		if (spaceBtwRows){
-			// picking up the last value ("2px") from strings like "1px 2px" or "2px"
-			// and transforming it into a Unit object
-			spaceBtwRows = new Unit(spaceBtwRows.split(' ').pop() || 0);
-		}
-		try {
-			// table body is an array of Row instances
-			spaceCell = table.getBody()[0].getFirst().getStyleProperty('padding');
-		} catch (e){
-			spaceCell = 0;
-		}
-		spaceCell = new Unit(spaceCell);  // converting spaceCell into Unit instance
-
-		context.setValueOf('structure', 'tblRows', table.rowNum());
-		context.getContentElement('structure', 'tblRows').disable();
-		context.setValueOf('structure', 'tblCols', table.colNum());
-		context.getContentElement('structure', 'tblCols').disable();
-
-		if (table.hasStyleProperty('background-color')){
-			this.setColorField(context, 'backgroundTab', 'globalTableBgColor', table.getStyleProperty('background-color'));
-		}
-		if (borderInfo.style !== 'none'){
-			var tableBorderWidth = new Unit(borderInfo.width);
-			context.setValueOf('borders', 'globalBorderWidth', tableBorderWidth.getValue() || 0);
-			this.setColorField(context, 'borders', 'globalBorderColor', borderInfo.color || '#000001');
-		}
-		context.setValueOf('spacesTab', 'spaceTableGlobal', spaceTableGlobal.getValue().toString());
-		context.setValueOf('spacesTab', 'paddingTableGlobal', paddingTableGlobal.getValue().toString());
-		context.setValueOf('spacesTab', 'spaceBtwRows', spaceBtwRows.times(2).getValue().toString()); // NB: see multiplication by 2
-		context.setValueOf('spacesTab', 'spaceCell', spaceCell.getValue().toString());
-	};
-
 
 	/**
 	 * Returns the nearest (for current cursor position) parent table. If no table is found among ancestors, `null`
@@ -357,7 +327,7 @@ function CTable(){
 
 		// adding table width into tableInfo
 		tableInfo.width = new Unit(width);
-		table = currentTable.update(tableInfo);
+		table = currentTable.update(this.dialogToTemplate(tableInfo));
 		return table.toNode();
 	};
 }

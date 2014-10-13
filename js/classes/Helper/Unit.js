@@ -104,6 +104,18 @@ function Unit(value, measure) {
     };
 
     /**
+     * Returns {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} as a string. If the
+     * value is not defined, an empty string is returned.
+     * @method         getValueAsString
+     * @return         {String}
+     * @since          0.0.7
+     */
+    this.getValueAsString = function(){
+        var value = this.getValue();
+        return (value !== undefined ? value.toString() : '');
+    };
+
+    /**
      * {{#crossLink "Unit/_value:property"}}_value{{/crossLink}} setter.
      * @method         setValue
      * @param          {Number}             val
