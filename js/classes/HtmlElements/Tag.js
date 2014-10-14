@@ -980,4 +980,18 @@ function Tag(tName) {
 
 		return result;
 	};
+
+
+	/**
+	 * Returns json object that uniquely parametrizes the instance.
+	 *
+	 * To be overridden by inhertited classes.
+	 * @method template
+	 * @return {Object}
+	 * @since  0.0.7
+	 */
+	this.template = function(){
+		console.log('This method is abstract and must be overriden by inhertited class. Since it gets called, it means that \
+			something goes wrong.');
+	};
 }

@@ -194,7 +194,7 @@ function Controller(){
 	 * @return         {Object}
 	 * @since          0.0.7
 	 */
-	this.adapterInverse = function(obj){
+	this.templateToDialog = function(obj){
 		return obj;
 	};
 }
