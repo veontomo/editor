@@ -271,7 +271,7 @@ function manageTable(editor, isNew) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.table2.rowBorders,
+					html:  editor.lang.table2.rowBorders,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -525,6 +525,7 @@ function manageTable(editor, isNew) {
 		    		n = table instanceof Table ? table.colNum() : 0;
 		    	// _controller.addColWeightFields(parentElem, n);
 		    	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
+		    	_controller.disableFields(this, {'structure': ['rows', 'cols']});
 		    }
 		},
 

@@ -181,7 +181,7 @@ function CTable(){
 			spaces: {
 				paddingTableGlobal: (new Unit(template.paddingTableGlobal || 0)).getValueAsString(),
 				spaceBtwRows:       (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
-				spaceCell:          (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
+				spaceCell:          (new Unit(template.spaceCell || 0)).getValueAsString(),
 				spaceTableGlobal:   (new Unit(template.spaceTableGlobal || 0)).getValueAsString()
 			},
 		};
