@@ -164,32 +164,26 @@ function Controller(){
 
 
 	/**
-	 * Adapter.
+	 * Converts object of dialog menu format to an object of {{#crossLink "Tag/template:method"}}Tag{{/crossLink}}
+	 * format.
+	 * Eventually, the emplementation should be corrected by inherited class.
 	 *
-	 * Converts from what dialog menu outputs to what is required to configure a {{#crossLink "Tag"}}Tag{{/crossLink}}
-	 * instance properly.
-	 *
-	 * Current implementation is merely trivial tranformation: `obj` -> `obj`. It is supposed that in case of necessity,
-	 * this method is to be overriden by inherited classes.
-	 *
-	 * @method         adapter
+	 * @method         dialogToTemplate
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 * @since          0.0.7
 	 */
-	this.adapter = function(obj){
+	this.dialogToTemplate = function(obj){
 		return obj;
 	};
 
 	/**
-	 * Inverse adapter.
+ 	 * Converts object of {{#crossLink "Tag/template:method"}}Tag{{/crossLink}} format to object
+ 	 * of dialog menu format.
+ 	 *
+ 	 * Eventually, the emplementation should be corrected by inherited class.
 	 *
- 	 * Converts from what is required to configure a {{#crossLink "Tag"}}Tag{{/crossLink}}
-	 * instance properly to what dialog menu requires.
-	 *
-	 * It is supposed that in case of necessity,  this method is to be overriden by inherited classes.
-	 *
-	 * @method  adapterInverse
+	 * @method         templateToDialog
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 * @since          0.0.7

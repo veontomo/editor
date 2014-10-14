@@ -19,7 +19,7 @@ CKEDITOR.editorConfig = function(config){
 	config.language = 'it';
 
 	/**
-	 * Default language (in case {{#crossLink "CKEDITOR/language:property"}}language{{/crossLink}})
+	 * Default language (in case {{#crossLink "CKEDITOR/language:property"}}language{{/crossLink}}
 	 * is not found).
 	 *
 	 * @property       {String}        defaultLanguage
@@ -63,6 +63,25 @@ CKEDITOR.editorConfig = function(config){
 	 * @default        true
 	 */
 	config.disableObjectResizing = true;
+
+
+	/**
+	 * Activate browser spellchecker.
+	 * @property       disableNativeSpellChecker
+	 * @type           {Boolean}
+	 * @since          0.0.7
+	 * @default        false
+	 */
+	config.disableNativeSpellChecker = false;
+
+	/**
+	 * Allows appearance of the browser context menu (triggers upon ctrl + right mouse button click).
+	 * @property       browserContextMenuOnCtrl
+	 * @type           {Boolean}
+	 * @since          0.0.7
+	 * @default        false
+	 */
+	config.browserContextMenuOnCtrl = true;
 
 	config.toolbarGroups = [
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] }, // mode -> it is responsible for "source"

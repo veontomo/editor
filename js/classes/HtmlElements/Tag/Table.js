@@ -1349,7 +1349,8 @@ function Table() {
 	};
 
 	/**
-	 * Table template: json object of table properties that parametrise the table.
+	 * Table template: json object of table properties that parametrise the table. As required, overrides
+	 * base class method {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}}.
 	 *
 	 * Returns an object of the following format .
 	 * `descr` is an object with the following keys:<dl>
