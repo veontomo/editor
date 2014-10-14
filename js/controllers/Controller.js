@@ -34,7 +34,6 @@ function Controller(){
 			pageId,
 			elems, elemId, pageContent,
 			considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
-			console.log(pages);
 		for (pageId in pages){
 			if (pages.hasOwnProperty(pageId)){
 				elems = pages[pageId];
@@ -53,7 +52,6 @@ function Controller(){
 				data[pageId] = pageContent;
 			}
 		}
-		console.log('dailog data: ', data);
 		return data;
 	};
 

@@ -128,7 +128,6 @@ function CTable(){
 		// adding key cellWeights for
 		var cellWeights = [];
 		if (obj.colWeights){
-			console.log('there is a key colWeights: ', obj.colWeights);
 			var colId;
 			for (colId in obj.colWeights){
 				if (obj.colWeights.hasOwnProperty(colId)){
@@ -141,7 +140,6 @@ function CTable(){
 			cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
 		}
 		tableInfo.cellWeights = cellWeights;
-		console.log('CTable::dialogToTemplate(): ', tableInfo);
 		return tableInfo;
 	};
 
@@ -155,7 +153,6 @@ function CTable(){
 	 * @since          0.0.7
 	 */
 	this.templateToDialog = function(template){
-		console.log('template: ', template);
 		var dialogData = {
 			structure: {
 				rows: template.rows,

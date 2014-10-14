@@ -1042,7 +1042,6 @@ function Table() {
 			firstRow = this.getFirst(),
 			firstRowProp, i, currentRowProp;
 		firstRowProp = firstRow.getPhantomCellProp(propName);
-		console.log('Table::getPhantomCellProp : firstRowProp(', propName, ') = ', firstRowProp);
 		if (rowNum === 1){
 			return firstRowProp;
 		}
@@ -1227,7 +1226,6 @@ function Table() {
 	 * @return         {void}
 	 */
 	this.configureProperties = function(descr){
-		console.log('configuring properties: ', descr);
 		var tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
@@ -1271,7 +1269,6 @@ function Table() {
 
 		// setting properties of the phantom elements
 		if (descr.phantomBorderWidth.getValue() > 0){
-			console.log('PHANTOM!!!');
 			var phantomRowProp    = new RowProperties(),
 				phantomCellProp   = new CellProperties(),
 				phantomTableProp  = new TableProperties();
@@ -1384,7 +1381,6 @@ function Table() {
 	 * @since          0.0.7
 	 */
 	this.template = function(){
-		console.log(this.toHtml(), this.rowNum(), this.colNum());
 		var cellBorders = this.getCellBorders(),
 			tableBorderInfo = this.getBorder() || {};
 		var tableInfo = {
@@ -1413,7 +1409,6 @@ function Table() {
 			width:              this.getWidth(),
 			cellWeights:        this.getProfile()
 		};
-		console.log('table returns this template: ', tableInfo);
 		return tableInfo;
 
 	};
@@ -1535,7 +1530,6 @@ function Table() {
 	 * @return         {Table}         a Table instance with updated properties
 	 */
 	this.update = function(tableInfo){
-		console.log('updating with ', tableInfo);
 		var tableClone = this.clone();
 		tableClone.configureProperties(tableInfo);
 		return tableClone;

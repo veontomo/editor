@@ -141,16 +141,18 @@ function manageTable(editor, isNew) {
 	 * @since          0.0.6
 	 */
 	var dropInputCells = function(dialog){
-		var columnWidths = dialog.getContentElement('structure', 'columnWidthTable').getElement().$,
-			title = dialog.getContentElement('structure', 'columnWidthTableTitle').getElement().$,
-			children, i, len;
-		children = columnWidths.childNodes;
-		len = children.length;
+		// var columnWidths = dialog.getContentElement('structure', 'columnWidthTable').getElement().$,
+			// title = dialog.getContentElement('structure', 'columnWidthTableTitle').getElement().$,
+		// 	children, i, len;
+		// children = columnWidths.childNodes;
+		// len = children.length;
+		var colWeigthTabId = 'colWeights';
+		dialog.hidePage(colWeigthTabId);
 		// removing the children backwards (since "children" is a live list)
-		for (i = len - 1; i >= 0; i--) {
-			columnWidths.removeChild(children[i]);
-		}
-		title.innerHTML = '';
+		// for (i = len - 1; i >= 0; i--) {
+		// 	columnWidths.removeChild(children[i]);
+		// }
+		// title.innerHTML = '';
 	};
 
 	/**
@@ -493,7 +495,6 @@ function manageTable(editor, isNew) {
 		 * @return     {void}
 		 */
 		onLoad: function(){
-			console.log(CKEDITOR.config.disallowedContent);
 			// ui text input elements to which append color picker
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
@@ -502,11 +503,13 @@ function manageTable(editor, isNew) {
 			};
 			var tab, ids, len, i, id;
 			for (tab in colorInputFields){
-				ids = colorInputFields[tab];
-				len = ids.length;
-				for (i = 0; i < len; i++){
-					id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
-					_colorPicker.linkTo(id);
+				if (colorInputFields.hasOwnProperty(tab)){
+					ids = colorInputFields[tab];
+					len = ids.length;
+					for (i = 0; i < len; i++){
+						id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+						_colorPicker.linkTo(id);
+					}
 				}
 			}
 		},
@@ -520,9 +523,9 @@ function manageTable(editor, isNew) {
 		 */
 		onShow: function() {
 		    if (!isNew){
-		    	var table = _controller.getTable(editor),
-		    		parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
-		    		n = table instanceof Table ? table.colNum() : 0;
+		    	var table = _controller.getTable(editor);
+		    		// parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
+		    		// n = table instanceof Table ? table.colNum() : 0;
 		    	// _controller.addColWeightFields(parentElem, n);
 		    	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
 		    	_controller.disableFields(this, {'structure': ['rows', 'cols']});
