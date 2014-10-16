@@ -27,7 +27,7 @@ class FileManagement{
 	 * Name of directory where all files are to be saved. Finishes with directory separator.
 	 * @var string
 	 */
-	private static $_repoDir = 'repo' . DIRECTORY_SEPARATOR;
+	private static $_repoDir;
 
 
 	/**
@@ -52,6 +52,15 @@ class FileManagement{
 
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct(){
+		self::$_repoDir = 'repo' . DIRECTORY_SEPARATOR;
+		$this->fileName = self::$_defaultFileName;
+	}
+
+
+	/**
 	 * Setter for $_fileName. All suspiciuos symbols (anything different from latin letters, digits, dash and
 	 * underline) are to be removed from $name in such a way that after all $_fileName must be a name of a
 	 * file inside $_repoDir folder.
@@ -62,7 +71,7 @@ class FileManagement{
 			$fileInfo = pathinfo($name);
 			$fileName = $fileInfo['filename'];
 			$fileNameSan = preg_replace('/[^a-zA-z0-9-_]+/', '', $fileName); // removing non-allowed characters
-			$fileExt = in_array($fileName['extension'], self::$_allowedExt) $fileName['extension'] : self::$_allowedExt[0];
+			$fileExt = in_array($fileName['extension'], self::$_allowedExt) ? $fileName['extension'] : self::$_allowedExt[0];
 			self::$_fileName = $fileNameSan . '.' . $fileExt;
 		} catch (Exception $e){
 			self::$_fileName = self::$_defaultFileName;
