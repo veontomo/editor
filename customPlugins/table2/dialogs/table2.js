@@ -23,9 +23,9 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
 function manageTable(editor, isNew) {
 
 	/**
-	 * Instance of {{#crossLink "_controller.}}_controller.{/crossLink}}
-	 * @property {_controller. _controller
-	 * @type     {_controller.
+	 * Instance of {{#crossLink "Controller"}}Controller.{{/crossLink}}
+	 * @property       _controller
+	 * @type           CTable
 	 * @private
 	 */
 	 var _controller = new CTable();

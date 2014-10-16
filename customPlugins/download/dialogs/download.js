@@ -3,6 +3,15 @@
 /*global CKEDITOR, CDownload*/
 
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
+
+	/**
+	 * Instance of {{#crossLink "Controller"}}Controller.{{/crossLink}}
+	 * @property       _controller
+	 * @type           CDownload
+	 * @private
+	 */
+	var _controller = new CDownload();
+
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: 'Scaricare il file',
@@ -21,7 +30,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 					type: 'text',
 					id: 'filename',
 					label: editor.lang.common.name,
-					"default": CDownload.appendTimeStamp()
+					"default": _controller.appendTimeStamp()
 				}, {
 					// type: 'checkbox',
 					// id: 'mode',
@@ -37,11 +46,11 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 		],
 
 		onShow: function(){
-			this.setValueOf('tab-general', 'filename', CDownload.appendTimeStamp('template'));
+			this.setValueOf('tab-general', 'filename', _controller.appendTimeStamp('template'));
 		},
 
 		onOk: function() {
-			CDownload.download(this, editor);
+			_controller.download(this, editor);
 		}
 	};
 });
