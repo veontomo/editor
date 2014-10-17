@@ -71,10 +71,19 @@ class FileManagement{
 			$fileInfo = pathinfo($name);
 			$fileName = $fileInfo['filename'];
 			$fileNameSan = preg_replace('/[^a-zA-z0-9-_]+/', '', $fileName); // removing non-allowed characters
-			$fileExt = in_array($fileName['extension'], self::$_allowedExt) ? $fileName['extension'] : self::$_allowedExt[0];
-			self::$_fileName = $fileNameSan . '.' . $fileExt;
+			if ($fileNameSan == ''){
+				$this->_fileName = self::$_defaultFileName;
+				return;
+			}
+
+			$ext = 'extension';
+			$fileExt = array_key_exists($ext, $fileInfo) &&
+				in_array($fileInfo[$ext], self::$_allowedExt) ? $fileInfo[$ext] : self::$_allowedExt[0];
+
+			$this->_fileName = $fileNameSan . '.' . $fileExt;
 		} catch (Exception $e){
-			self::$_fileName = self::$_defaultFileName;
+			$this->_fileName = self::$_defaultFileName;
+			self::_addToLog($e->getMessage());
 		}
 	}
 
@@ -83,7 +92,7 @@ class FileManagement{
 	 * @return string
 	 */
 	public function getFileName(){
-		return self::$_fileName;
+		return $this->_fileName;
 	}
 
 	/**

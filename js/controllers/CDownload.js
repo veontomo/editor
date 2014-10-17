@@ -59,66 +59,50 @@ function CDownload (){
 		// console.log(fileContent);
 
 		// by means of jQuery
-		// $.post('php/saveDraft.php',
-		// 	{'data': fileContent, 'filename': fileName},
-		// 		function(filename){
-		// 			// console.log('redirection is blocked');
-		// 			$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
-		// 	}
-		// );
+		$.post('php/saveDraft.php',
+			{'data': fileContent, 'filename': fileName},
+				function(filename){
+					// console.log('redirection is blocked');
+					$(location).attr('href', 'php/downloadFile.php?filename=' + filename);
+			}
+		);
 
 		// native javascript
-		var httpRequest;
-		if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-		  httpRequest = new XMLHttpRequest();
-		} else if (window.ActiveXObject) { // IE
-		  try {
-		    httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		  }
-		  catch (e1) {
-		    try {
-		      httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-		    }
-		    catch (e2) {
-		    	console.log('Failed when creating XMLHTTP object!');
-		    	return false;
-		    }
-		  }
-		}
-		httpRequest.onreadystatechange = function(){
-			console.log('redirection is blocked');
-			if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-					console.log(httpRequest.responseText);
-				}
-			// window.location.replace( 'php/downloadFile.php?filename=' + fileName);
-		};
-
-		var content = {'data': fileContent, 'filename': fileName},
-			contentToSend = _keyName + '=' + JSON.stringify(content);
-
-		httpRequest.open('POST', _scriptPath);
-		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		httpRequest.setRequestHeader("Content-length", contentToSend.length);
-		httpRequest.setRequestHeader("Connection", "close");
-
-		httpRequest.send(contentToSend);
-
-
-		// var url = "get_data.php";
-		// var params = "lorem=ipsum&name=binny";
-		// http.open("POST", url, true);
-
-		// //Send the proper header information along with the request
-		// http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		// http.setRequestHeader("Content-length", params.length);
-		// http.setRequestHeader("Connection", "close");
-
-		// http.onreadystatechange = function() {//Call a function when the state changes.
-		// 	if(http.readyState == 4 && http.status == 200) {
-		// 		alert(http.responseText);
-		// 	}
+		// var httpRequest;
+		// if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+		//   httpRequest = new XMLHttpRequest();
+		// } else if (window.ActiveXObject) { // IE
+		//   try {
+		//     httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		//   }
+		//   catch (e1) {
+		//     try {
+		//       httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		//     }
+		//     catch (e2) {
+		//     	console.log('Failed when creating XMLHTTP object!');
+		//     	return false;
+		//     }
+		//   }
 		// }
-		// http.send(params);
+		// httpRequest.onreadystatechange = function(){
+		// 	console.log('redirection is blocked');
+		// 	if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+		// 			console.log(httpRequest.responseText);
+		// 		}
+		// 	// window.location.replace( 'php/downloadFile.php?filename=' + fileName);
+		// };
+
+		// var content = {'data': fileContent, 'filename': fileName},
+		// 	contentToSend = _keyName + '=' + JSON.stringify(content);
+
+		// httpRequest.open('POST', _scriptPath);
+		// httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		// httpRequest.setRequestHeader("Content-length", contentToSend.length);
+		// httpRequest.setRequestHeader("Connection", "close");
+
+		// httpRequest.send(contentToSend);
+
 	};
 
 	/**

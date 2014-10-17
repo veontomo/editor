@@ -1,15 +1,15 @@
 <?php
-require_once 'FileManagement.php';
+// require_once 'FileManagement.php';
 
-$worker = new FileManagement();
-$content = $worker->getContent($_POST, 'content');
-$info = $worker->decipher($content);
-$worker->setFileName($info['filename']);
-$worker->save($info['data']);
-$file = fopen('error_log.log', 'a');
-fwrite($file, "\r\nContent " . $content . "\r\n");
-fclose($file);
-exit();
+// $worker = new FileManagement();
+// $content = $worker->getContent($_POST, 'content');
+// $info = $worker->decipher($content);
+// $worker->setFileName($info['filename']);
+// $worker->save($info['data']);
+// $file = fopen('error_log.log', 'a');
+// fwrite($file, "\r\nContent " . $content . "\r\n");
+// fclose($file);
+// exit();
 
 
 /**
@@ -17,18 +17,18 @@ exit();
 * In case the file already exists, overrides it.
 * @return string 	name of the file under which a draft copy was saved in the 'repo' folder
 */
-$file = fopen('error_log.log', 'a');
-try {
-	fwrite($file, "\r\nPOST " . print_r($_POST, true) . "\r\n");
-	$data = json_decode($_POST['content']);
-	fwrite($file, 'json_decode: ' . print_r($data, true));
+// $file = fopen('error_log.log', 'a');
+// try {
+// 	fwrite($file, "\r\nPOST " . print_r($_POST, true) . "\r\n");
+// 	$data = json_decode($_POST['content']);
+// 	fwrite($file, 'json_decode: ' . print_r($data, true));
 
-} catch(Exception $e){
-	fwrite($file, $e->getMessage());
-}
+// } catch(Exception $e){
+// 	fwrite($file, $e->getMessage());
+// }
 
 if (isset($_POST['data'])){
-	fwrite($file, 'OK');
+	// fwrite($file, 'OK');
 
 	$fileNameSanitized =  preg_replace("/(\.){2,}[,;\\ \/]*/", "\1", htmlspecialchars($_POST['filename']));
 
@@ -44,7 +44,7 @@ if (isset($_POST['data'])){
 		echo basename($fileName);
 	};
 }
-fclose($file);
+// fclose($file);
 
 
 /**
@@ -60,6 +60,7 @@ function sanitizeContent($content){
 		'ì' => '&igrave;',
 		'ù' => '&ugrave;',
 		'ò' => '&ograve;',
+		'ó' => '&oacute;',
 		'À' => '&Agrave;',
 		'È' => '&Egrave;',
 		'Ì' => '&Igrave;',
@@ -67,6 +68,7 @@ function sanitizeContent($content){
 		'Ù' => '&Ugrave;',
 		'é' => '&eacute;',
 		'É' => '&Eacute;',
+		'Ó' => '&Oacute;',
 		'\'' => '&#39;'
 	];
 	$result = $content;
