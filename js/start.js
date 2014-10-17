@@ -16,8 +16,12 @@ window.onload = function(){
 		menuItemsToRemove.forEach(function (item) {
 			editor.removeMenuItem(item);
 		});
+		// adding event that prevents from accidental refresh by pressing F5.
+		// Ctrl + r is not captured
 		var editable = editor.editable();
 	    editable.attachListener(editor.document, 'keydown', function(e) {
+	    	// console.log(e.data.$.ctrlKey, e.data.$.key);
+	    	// e.data.$.ctrlKey && e.data.$.key === 'r'
 	    	if (e.data.$.key === 'F5'){
 	    		var res = confirm('Are you sure to reload the page? All data will be lost if you select "OK"!');
 	    		if(!res){
@@ -26,12 +30,5 @@ window.onload = function(){
 	    	}
 	    });
 	});
-
-	// console.log(CKEDITOR.editable());
-	// CKEDITOR.editable().attachListener(CKEDITOR.editable().getDocument(), 'mousedown', function() {
-	// 	alert('I am here');
-	// 	return true;
-	// });
-
 
 };
