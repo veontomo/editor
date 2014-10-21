@@ -1,16 +1,16 @@
 ------------------------------------------------------------
-saremo presenti a Verona a Fleet Manager Academy - 15/10/2014 - a.shcherbakov@ritoll.it(Forum Agenti)
+15.30 - 21/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
-Email Iniziali : 8
-Email Senza Doppioni : 8
+Email Iniziali : 5
+Email Senza Doppioni : 5
   ** La Lista DIVENTA non esiste!! **
 Effettuato Controllo Diventa su lista Email in Spedizione!
-Email Senza BlackList : 8
+Email Senza BlackList : 5
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 15/10/2014 / 10:49:52
-Data/Ora Fine Spedizione : 15/10/2014 / 10:50:20
+Data/Ora Inizio Spedizione : 21/10/2014 / 15:31:05
+Data/Ora Fine Spedizione : 21/10/2014 / 15:31:26
 
-Spediti : 8
+Spediti : 5
 
 Configurazione : 
   Manda un'Email per ogni Indirizzo
@@ -19,6 +19,6 @@ Configurazione :
   Controlla i Doppioni
   Controlla la BlackList
   Controlla lista Diventa
-  EMAIL: a.shcherbakov@ritoll.it (Forum Agenti)
+  EMAIL: a.shcherbakov@ritoll.it (a.shcherbakov@ritoll.it)
   SMTP : mailbus.fastweb.it
 
