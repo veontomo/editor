@@ -49,7 +49,7 @@ CKEDITOR.dialog.add( 'saveDialog', function(editor) {
 		},
 
 		onOk: function() {
-			_controller.downloadContent(this, editor);
+			_controller.downloadRaw(this, editor);
 		}
 	};
 });

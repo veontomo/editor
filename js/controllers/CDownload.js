@@ -56,20 +56,41 @@ function CDownload (){
 	 * @return         {void}
 	 */
 	this.downloadAsHtml = function(context, editor){
-		var fileName = context.getValueOf('tab-general', 'filename'),
-			mode = context.getValueOf('tab-general', 'mode'),
-			editorContent = editor.document.getBody().$,
-			fileContent, doc, bodyCss;
+		try {
+			var fileName = context.getValueOf('tab-general', 'filename'),
+				mode = context.getValueOf('tab-general', 'mode'),
+				editorContent = editor.document.getBody().$,
+				fileContent, doc, bodyCss;
 
-		bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
-		// sanitized = Helper.specialChar(editorContent);
-		doc = new Document(editorContent);
-		doc.setWrapCss(bodyCss);
-		doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
-		doc.convertTo(mode);
-		fileContent = doc.docHtml();
-		// console.log(fileContent);
-		this.downloadFile(fileContent, fileName);
+			bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
+			// sanitized = Helper.specialChar(editorContent);
+			doc = new Document(editorContent);
+			doc.setWrapCss(bodyCss);
+			doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
+			doc.convertTo(mode);
+			fileContent = doc.docHtml();
+			// console.log(fileContent);
+			this.downloadFile(fileContent, fileName);
+		} catch (e){
+			this.showMessage(e.name + ': ' + e.message);
+		}
+	};
+
+	/**
+	 * Downloads content of the editor window as it is.
+	 * @param   {CKEDITOR.dialog}       dialog 	  See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
+	 * @param   {CKEDITOR.editor}       editor    [editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance
+	 * @return  {void}
+	 * @since   0.0.7
+	 */
+	this.downloadRaw = function(dialog, editor){
+		try {
+			var content = editor.getSnapshot(),
+				filename = dialog.getValueOf('basic', 'filename');
+			this.downloadFile(content, filename);
+		} catch (e){
+			this.showMessage(e.name + ': ' + e.message);
+		}
 	};
 
 	/**
@@ -92,25 +113,6 @@ function CDownload (){
 		return templateName;
 	};
 
-	/**
-	 * Downloads content of the editor window as it is.
-	 * @param   {CKEDITOR.dialog}       dialog 	  See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
-	 * @param   {CKEDITOR.editor}       editor    [editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance
-	 * @return  {void}
-	 * @since   0.0.7
-	 */
-	this.downloadContent = function(dialog, editor){
-		try {
-			var content = editor.getSnapshot(),
-				filename = dialog.getValueOf('basic', 'filename');
-			this.downloadFile(content, filename);
-		} catch (e){
-			this.showMessage(e.name + ': ' + e.message);
-		}
-
-		console.log(editor.getSnapshot());
-		console.log(this.getDialogData(dialog));
-	};
 
 	/**
 	 * Launches a window for downloading file with content `data` and suggested name `filename`.
