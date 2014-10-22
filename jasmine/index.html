@@ -10,12 +10,12 @@
   <script type="text/javascript" src="lib/jasmine-1.3.0/jasmine-html.js"></script>
  -->
 
- <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.2/jasmine_favicon.png">
- <link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.2/jasmine.css">
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.2/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.2/jasmine.css">
 
- <script type="text/javascript" src="lib/jasmine-2.0.2/jasmine.js"></script>
- <script type="text/javascript" src="lib/jasmine-2.0.2/jasmine-html.js"></script>
- <script type="text/javascript" src="lib/jasmine-2.0.2/boot.js"></script>
+  <script type="text/javascript" src="lib/jasmine-2.0.2/jasmine.js"></script>
+  <script type="text/javascript" src="lib/jasmine-2.0.2/jasmine-html.js"></script>
+  <script type="text/javascript" src="lib/jasmine-2.0.2/boot.js"></script>
 
 
   <!-- CKEditor files needed for selection.js and SelectionSpec.js -->
@@ -45,6 +45,10 @@
   <script type="text/javascript" src="../js/classes/HtmlElements/Tag/UList.js"></script>
   <script type="text/javascript" src="../js/classes/HtmlElements/Tag/Link.js"></script>
 
+  <!-- controllers -->
+  <script type="text/javascript" src="../js/controllers/Controller.js"></script>
+  <script type="text/javascript" src="../js/controllers/CDownload.js"></script>
+
   <!-- worker -->
   <script type="text/javascript" src="../js/converters/Worker.js"></script>
 
@@ -69,47 +73,51 @@
 
   <!-- include spec files here... -->
 
-<script type="text/javascript" src="spec/classes/HelperSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Helper/UnitSpec.js"></script>
-<script type="text/javascript" src="spec/classes/PropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/ImagePropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/LinkPropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/CellPropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/ListPropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/ListItemPropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/RowPropertiesSpec.js"></script>
-<script type="text/javascript" src="spec/classes/Properties/TablePropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HelperSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Helper/UnitSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/PropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/ImagePropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/LinkPropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/CellPropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/ListPropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/ListItemPropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/RowPropertiesSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/Properties/TablePropertiesSpec.js"></script>
 
-<script type="text/javascript" src="spec/classes/HtmlElements/ContentSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/TagSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/TableSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/CellSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/ImageSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/RowSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/ListSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/ListItemSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/OListSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/UListSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/Tag/LinkSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/ContentSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/TagSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/TableSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/CellSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/ImageSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/RowSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/ListSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/ListItemSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/OListSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/UListSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/Tag/LinkSpec.js"></script>
 
-<script type="text/javascript" src="spec/classes/HtmlElements/DomSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/DocumentSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/DomSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/DocumentSpec.js"></script>
 
-<script type="text/javascript" src="spec/classes/HtmlElements/MapperSpec.js"></script>
-<script type="text/javascript" src="spec/classes/HtmlElements/FactorySpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/MapperSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/FactorySpec.js"></script>
 
-<script type="text/javascript" src="spec/classes/HtmlElements/PlainTextSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/HtmlElements/PlainTextSpec.js"></script>
 
-<script type="text/javascript" src="spec/classes/CKHelperSpec.js"></script>
-<script type="text/javascript" src="spec/classes/CKHelper/SelectionSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/CKHelperSpec.js"></script>
+  <script type="text/javascript" src="spec/classes/CKHelper/SelectionSpec.js"></script>
 
-<!-- worker -->
-<script type="text/javascript" src="spec/converters/WorkerSpec.js"></script>
+  <!-- controllers -->
+  <script type="text/javascript" src="spec/controllers/CDownloadSpec.js"></script>
 
-<!-- converters -->
-<script type="text/javascript" src="spec/converters/ConverterFixedSpec.js"></script>
-<script type="text/javascript" src="spec/converters/ConverterElasticSpec.js"></script>
-<script type="text/javascript" src="spec/converters/ConverterSimpleTextSpec.js"></script>
+
+  <!-- worker -->
+  <script type="text/javascript" src="spec/converters/WorkerSpec.js"></script>
+
+  <!-- converters -->
+  <script type="text/javascript" src="spec/converters/ConverterFixedSpec.js"></script>
+  <script type="text/javascript" src="spec/converters/ConverterElasticSpec.js"></script>
+  <script type="text/javascript" src="spec/converters/ConverterSimpleTextSpec.js"></script>
 
   <script type="text/javascript">
     (function() {

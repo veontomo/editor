@@ -32,7 +32,7 @@ function Controller(){
 		var data = {},
 			pages = dialog._.contents,
 			pageId,
-			elems, elemId, pageContent,
+			elems, elemId, pageContent, value,
 			considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
 		for (pageId in pages){
 			if (pages.hasOwnProperty(pageId)){
@@ -41,7 +41,7 @@ function Controller(){
 				for (elemId in elems){
 					if (elems.hasOwnProperty(elemId)){
 						if (considerAll || types.indexOf(elems[elemId].type) !== -1){
-							var value = dialog.getValueOf(pageId, elemId);
+							value = dialog.getValueOf(pageId, elemId);
 							if (value !== undefined){
 								pageContent[elemId] = dialog.getValueOf(pageId, elemId);
 							}
@@ -189,4 +189,17 @@ function Controller(){
 	this.templateToDialog = function(obj){
 		return obj;
 	};
+
+	/**
+	 * Shows error message. Uses javascript method `alert` to display the message.
+	 * If `msg` is not a string, default message is displayed.
+	 * @method    showMessage
+	 * @param     {String}       msg            text of the message
+	 * @return    {void}
+	 * @since     0.0.7
+	 */
+	this.showMessage = function(msg){
+		alert(typeof msg === 'string' ? msg : 'Error occurred!');
+	};
+
 }

@@ -5,7 +5,7 @@
 CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 
 	/**
-	 * Instance of {{#crossLink "Controller"}}Controller.{{/crossLink}}
+	 * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}
 	 * @property       _controller
 	 * @type           CDownload
 	 * @private
@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
 		},
 
 		onOk: function() {
-			_controller.download(this, editor);
+			_controller.downloadAsHtml(this, editor);
 		}
 	};
 });
