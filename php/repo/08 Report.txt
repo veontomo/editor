@@ -1,5 +1,5 @@
 ------------------------------------------------------------
-15.30 - 21/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+all span - 21/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
 Email Iniziali : 5
 Email Senza Doppioni : 5
@@ -7,8 +7,8 @@ Email Senza Doppioni : 5
 Effettuato Controllo Diventa su lista Email in Spedizione!
 Email Senza BlackList : 5
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 21/10/2014 / 15:31:05
-Data/Ora Fine Spedizione : 21/10/2014 / 15:31:26
+Data/Ora Inizio Spedizione : 21/10/2014 / 16:12:26
+Data/Ora Fine Spedizione : 21/10/2014 / 16:12:46
 
 Spediti : 5
 
