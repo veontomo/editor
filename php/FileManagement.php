@@ -83,7 +83,7 @@ class FileManagement{
 			$this->_fileName = $fileNameSan . '.' . $fileExt;
 		} catch (Exception $e){
 			$this->_fileName = self::$_defaultFileName;
-			self::_addToLog($e->getMessage());
+			self::addToLog($e->getMessage());
 		}
 	}
 
@@ -128,7 +128,7 @@ class FileManagement{
 	 * @property string $msg
 	 * @return void
 	 */
-	private static function _addToLog($msg){
+	public function addToLog($msg){
 		try {
 			$content = is_string($msg) ? $msg : 'a non-string is passed to the log saver';
 			$record = date('Y/m/d H:i:s ', time()) . substr($content, 0, self::$_errorMaxLength) . PHP_EOL;
@@ -150,11 +150,11 @@ class FileManagement{
 	 */
 	public function getContent($hash, $needle){
 		if (!is_array($hash) || !is_string($needle)){
-			$this->_addToLog('An array with string-valued key is expected');
+			$this->addToLog('An array with string-valued key is expected');
 			return;
 		}
 		if (!array_key_exists($needle, $hash)){
-			$this->_addToLog("key $needle is not found");
+			$this->addToLog("key $needle is not found");
 			return;
 		}
 		return $hash[$needle];
@@ -175,7 +175,7 @@ class FileManagement{
 		if (array_key_exists('data', $result) && array_key_exists('filename', $result)){
 			return $result;
 		}
-		self::$_addToLog('Failed to find key "data" and/or "filename"');
+		self::$addToLog('Failed to find key "data" and/or "filename"');
 	}
 
 
@@ -197,7 +197,7 @@ class FileManagement{
 			file_put_contents($fullPath, $this->sanitizeContent($content));
 			return true;
 		} catch (Exception $e){
-			self::$_addToLog($e->getMessage());
+			self::$addToLog($e->getMessage());
 			return false;
 		}
 	}
