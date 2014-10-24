@@ -10,6 +10,13 @@
 // fwrite($file, "\r\nContent " . $content . "\r\n");
 // fclose($file);
 // exit();
+//
+//
+// $worker = new FileManagement();
+// $worker->setContent('ciao ciao');
+// $worker->setFileName('abc');
+// $worker->save();
+// $worker->download();
 
 
 /**
@@ -69,7 +76,9 @@ function sanitizeContent($content){
 		'é' => '&eacute;',
 		'É' => '&Eacute;',
 		'Ó' => '&Oacute;',
-		'\'' => '&#39;'
+		'\'' => '&#39;',
+		'€' => '&euro;'
+
 	];
 	$result = $content;
 	foreach ($replacement as $key => $value){

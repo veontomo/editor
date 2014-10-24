@@ -1,5 +1,5 @@
 ------------------------------------------------------------
-all span - 21/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
+austria blue link - 23/10/2014 - a.shcherbakov@ritoll.it(a.shcherbakov@ritoll.it)
 ------------------------------------------------------------
 Email Iniziali : 5
 Email Senza Doppioni : 5
@@ -7,8 +7,8 @@ Email Senza Doppioni : 5
 Effettuato Controllo Diventa su lista Email in Spedizione!
 Email Senza BlackList : 5
   Crea Lista di Check con Codice Versione : OK
-Data/Ora Inizio Spedizione : 21/10/2014 / 16:12:26
-Data/Ora Fine Spedizione : 21/10/2014 / 16:12:46
+Data/Ora Inizio Spedizione : 23/10/2014 / 14:10:13
+Data/Ora Fine Spedizione : 23/10/2014 / 14:10:30
 
 Spediti : 5
 

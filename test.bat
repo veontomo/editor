@@ -1,7 +1,8 @@
-@ECHO OFF
+::@ECHO OFF
+SET phpunit=vendor\phpunit\phpunit\phpunit
 IF "%1" == "cov" GOTO COV
 GOTO TEST
 :COV
-php test\php\phpunit.phar --coverage-html ./report test\php\FileManagementTest.php
+php %phpunit% --coverage-html ./report test\php\FileManagementTest.php
 :TEST
-php test\\php\\phpunit.phar --bootstrap php\\FileManagement.php test\\php\\FileManagementTest.php
+php %phpunit% --bootstrap php\\FileManagement.php test\\php\\FileManagementTest.php

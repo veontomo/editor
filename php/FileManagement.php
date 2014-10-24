@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A class to deal with saving/reading file and sanitizing its content.
  * @version 0.0.1
@@ -27,8 +26,7 @@ class FileManagement{
 	 * Name of directory where all files are to be saved. Finishes with directory separator.
 	 * @var string
 	 */
-	private static $_repoDir;
-
+	private static $_repoDir = 'php/repo/';
 
 	/**
 	 * Name under which the file is to be saved.
@@ -45,6 +43,12 @@ class FileManagement{
 
 
 	/**
+	 * A string used to identify requester.
+	 * @var string
+	 */
+	private $_id;
+
+	/**
 	 * Array of allowed extensions with which the file can be saved.
 	 * @var array
 	 */
@@ -55,36 +59,69 @@ class FileManagement{
 	 * Constructor.
 	 */
 	public function __construct(){
-		self::$_repoDir = 'repo' . DIRECTORY_SEPARATOR;
-		$this->fileName = self::$_defaultFileName;
+		$this->_fileName = $this->getDefaultFileName();
+		$this->initializeId();
+	}
+
+	/**
+	 * $_defaultFileName  getter
+	 * @return string
+	 */
+	public function getDefaultFileName(){
+		return self::$_defaultFileName;
 	}
 
 
 	/**
-	 * Setter for $_fileName. All suspiciuos symbols (anything different from latin letters, digits, dash and
-	 * underline) are to be removed from $name in such a way that after all $_fileName must be a name of a
-	 * file inside $_repoDir folder.
+	 * $_id getter.
+	 * @return string
+	 */
+	public function getId(){
+		return $this->_id;
+	}
+
+	/**
+	 * $_id initializer. It is initialized based on session id.
+	 */
+	public function initializeId(){
+		if (!isset($this->_id)){
+			$this->_id = uniqid();
+		}
+	}
+
+	/**
+	 * Creates a folder (if not exists) where a temporary file should be saved.
+	 * @return void
+	 */
+	public function initializeWorkDir(){
+		try {
+			$dirname = $this->getRepoDir() . $this->getId();
+			$split = preg_split('/\|\\/', $dirname);
+			$len = count($split);
+			if (!file_exists($dirname)){
+				mkdir($dirname);
+			}
+		} catch (Exception $e){
+			$this->addToLog($e->getMessage());
+		}
+	}
+
+	/**
+	 * Creates directories indicated in $path. Takes into consideration of possible types of
+	 * directory separators ('\' or '/').
+	 * @param  string    $path     complete path. Examples: 'dir1', 'dir1/dir2/', 'dir1\dir2\dir3'
+	 * @return void
+	 */
+	public function createNestedDirs($path){
+
+	}
+
+	/**
+	 * Setter for $_fileName. Before setting the value, a validator is applied.
 	 * @param string    $name
 	 */
-	public function setFileName($name){
-		try {
-			$fileInfo = pathinfo($name);
-			$fileName = $fileInfo['filename'];
-			$fileNameSan = preg_replace('/[^a-zA-z0-9-_]+/', '', $fileName); // removing non-allowed characters
-			if ($fileNameSan == ''){
-				$this->_fileName = self::$_defaultFileName;
-				return;
-			}
-
-			$ext = 'extension';
-			$fileExt = array_key_exists($ext, $fileInfo) &&
-				in_array($fileInfo[$ext], self::$_allowedExt) ? $fileInfo[$ext] : self::$_allowedExt[0];
-
-			$this->_fileName = $fileNameSan . '.' . $fileExt;
-		} catch (Exception $e){
-			$this->_fileName = self::$_defaultFileName;
-			self::addToLog($e->getMessage());
-		}
+	public function setFileName($name = ''){
+		$this->_fileName = $this->generateFileName($name);
 	}
 
 	/**
@@ -93,6 +130,56 @@ class FileManagement{
 	 */
 	public function getFileName(){
 		return $this->_fileName;
+	}
+
+
+	/**
+	 * $_repoDir getter
+	 * @return string
+	 */
+	public function getRepoDir(){
+		return self::$_repoDir;
+	}
+
+
+	/**
+	 * Removes all symbols different from a-z, A-Z, 0-9, dash, dot, underscore from $str.
+	 * If after removal, there are trailing dots, they are to be removed.
+	 * @param  string   $str
+	 * @return string
+	 */
+	public function dropIllegalSymbols($str=''){
+		if (!is_string($str)){
+			$str = '';
+		}
+		return trim(preg_replace('/[^a-zA-z0-9-_\.]+/', '', $str), '.');
+		// $fnKey = 'filename';
+		// $extKey = 'extension';
+
+		// $fileInfo = pathinfo($str);
+		// $fileName = '';
+		// if (array_key_exists($fnKey, $fileInfo)){
+		// 	$fileName = preg_replace('/[^a-zA-z0-9-_]+/', '', $fileInfo[$fnKey]); // removing non-allowed characters
+		// }
+		// if ($fileName == ''){
+		// 	return $this->generateFileName();
+		// }
+
+		// $fileExt = array_key_exists($extKey, $fileInfo) &&
+		// 	in_array($fileInfo[$extKey], self::$_allowedExt) ? $fileInfo[$extKey] : self::$_allowedExt[0];
+
+		// return $fileName . '.' . $fileExt;
+
+	}
+
+	/**
+	 * Generates a string to be used as a name of a file.
+	 * @param  string   $seed     a suggestion for the file name
+	 * @return string
+	 */
+	public function generateFileName($seed){
+		$fileName = $this->dropIllegalSymbols($seed);
+		return $fileName == '' ? self::$_defaultFileName : $fileName;
 	}
 
 	/**
@@ -161,21 +248,33 @@ class FileManagement{
 	}
 
 	/**
-	 * Decipher string $content which is a json-encoded object. Returns associative array with string-valued
-	 * key "data" that contains data to be saved into a file whose name is given by key "filename".
+	 * Decipher string $data which is a json-encoded object. Returns an associative array
+	 * whose keys are given by optional parameter $keys. In case $key is not set,
+	 * then the resulting array will contains all keys found in $data.
 	 *
-	 * @param    string     $content    a json-encoded object
+	 * @param    string              $data       a json-encoded object
+	 * @param    array|string|null   $keys       an array of strings or a string corresponding to keys to be extracted from $data.
 	 * @return   array|void
 	 */
-	public function decifer($content){
-		if (!is_string($content)){
-			return;
+	public function decipher($data, $keys = null){
+		if (is_string($keys)){
+			$keys = [$keys];
 		}
-		$result = json_decode($content);
-		if (array_key_exists('data', $result) && array_key_exists('filename', $result)){
-			return $result;
+		// return empty array if $keys is different from null or non-empty array
+		if (!(is_null($keys) || (is_array($keys) && count($keys) > 0))){
+			return [];
 		}
-		self::$addToLog('Failed to find key "data" and/or "filename"');
+		$decode = json_decode($data, true);
+		if (is_null($keys)){
+			return $decode;
+		}
+		$result = [];
+		foreach ($keys as $key) {
+			if (array_key_exists($key, $decode)){
+				$result[$key] = $decode[$key];
+			}
+		}
+		return $result;
 	}
 
 
@@ -186,9 +285,10 @@ class FileManagement{
 	 * @param  string  $content
 	 * @return boolean
 	 */
-	public function save($content){
+	public function saveContent($content){
 		try {
-			$fullPath = self::$_repoDir.$this->getFileName();
+			$fullPath = $this->getRepoDir() . $this->getId();
+			$this->initializeWorkDir();
 			// remove old file (if any)
 			if(file_exists($fullPath)){
 				unlink($fullPath);
@@ -197,7 +297,7 @@ class FileManagement{
 			file_put_contents($fullPath, $this->sanitizeContent($content));
 			return true;
 		} catch (Exception $e){
-			self::$addToLog($e->getMessage());
+			$this->addToLog($e->getMessage());
 			return false;
 		}
 	}
