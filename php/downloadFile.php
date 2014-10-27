@@ -1,4 +1,13 @@
 <?php
+require_once 'FileManagement.php';
+
+$worker = new FileManagement();
+$worker->initializeId();
+$worker->setFileName($worker->getContent($_GET, 'filename'));
+$worker->sendFileContentForSaving();
+exit();
+
+
 /**
 * Gets a string as a file name and and prepares it for download from the "repo" directory.
 *

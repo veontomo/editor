@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2067063977"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1375658924"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2067063977" class="accordion-body collapse in">
+            <div id="namespace-1375658924" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -190,11 +190,13 @@ to a validation).</p>
                             <section class="span4">
                                                                     <a href="../classes/FileManagement.html#method___construct" class="">__construct()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_getDefaultFileName" class="">getDefaultFileName()</a><br />
+                                                                    <a href="../classes/FileManagement.html#method_getLogFilename" class="">getLogFilename()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_getId" class="">getId()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_initializeId" class="">initializeId()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_initializeWorkDir" class="">initializeWorkDir()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_setFileName" class="">setFileName()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_getFileName" class="">getFileName()</a><br />
+                                                                    <a href="../classes/FileManagement.html#method_getFullFileName" class="">getFullFileName()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_getRepoDir" class="">getRepoDir()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_dropIllegalSymbols" class="">dropIllegalSymbols()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_validateFileName" class="">validateFileName()</a><br />
@@ -205,6 +207,7 @@ to a validation).</p>
                                                                     <a href="../classes/FileManagement.html#method_setFileContent" class="">setFileContent()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_getFileContent" class="">getFileContent()</a><br />
                                                                     <a href="../classes/FileManagement.html#method_save" class="">save()</a><br />
+                                                                    <a href="../classes/FileManagement.html#method_sendFileContentForSaving" class="">sendFileContentForSaving()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -512,6 +515,7 @@ turns out illegal.</em></p>
                 <ul>
 <li>Sets <a href="#property__fileName">$_fileName</a> to the default value.</li>
 <li>Sets <a href="#property__repoDir">$_repoDir</a> to be a folder named "repository" one level upper w.r.t. the current file.</li>
+<li>Sets <a href="#property___logFileName">$_logFileName</a> to be log file name.</li>
 <li>Initializes <a href="#property__id">$_id</a> for the current user/request.</li>
 </ul>
 
@@ -540,6 +544,34 @@ turns out illegal.</em></p>
                 <pre class="signature" style="margin-right: 54px;">getDefaultFileName() : string</pre>
                 <p><em>$_defaultFileName getter.</em></p>
                 <p><a href="#property__defaultFileName">$_defaultFileName</a> getter.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLogFilename" name="method_getLogFilename" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLogFilename()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLogFilename() : string</pre>
+                <p><em>log file name getter.</em></p>
+                <p>Returns <a href="#property__getFileName">$_logFileName</a></p>
 
                 
                 
@@ -703,6 +735,34 @@ turns out illegal.</em></p>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
+            <a id="method_getFullFileName" name="method_getFullFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFullFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFullFileName() : string</pre>
+                <p><em>Returns full path name of the content file.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
             <a id="method_getRepoDir" name="method_getRepoDir" class="anchor"></a>
             <article class="method">
                 <h3 class="public ">getRepoDir()</h3>
@@ -771,7 +831,7 @@ turns out illegal.</em></p>
             <article class="method">
                 <h3 class="public ">validateFileName()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">validateFileName(string  <span class="argument">$seed</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">validateFileName(string  <span class="argument">$seed = &#039;&#039;</span>) : string</pre>
                 <p><em>Generates a string to be used as a name of a file.</em></p>
                 
 
@@ -1035,6 +1095,32 @@ then the resulting array will contains all keys found in $data.</em></p>
         </aside>
     </div>
 
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_sendFileContentForSaving" name="method_sendFileContentForSaving" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">sendFileContentForSaving()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">sendFileContentForSaving() : void</pre>
+                <p><em>Launches a dialog window that permits the client to save the content file.</em></p>
+                <p>The full file name is given by <a href="#method_getFullFileName">$getFullFileName</a> method.</p>
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
                                                                     </div>
     </section>
 
@@ -1084,7 +1170,7 @@ then the resulting array will contains all keys found in $data.</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on October 27th, 2014 at 12:02.
+                    on October 27th, 2014 at 15:17.
                 </section>
             </section>
         </section>

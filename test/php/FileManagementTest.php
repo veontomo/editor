@@ -470,8 +470,67 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    }
 
 
+   public function testGetRepoDir()
+   {
+        $base = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+        $this->assertEquals($this->worker->getRepoDir(), $base . 'repository' . DIRECTORY_SEPARATOR);
+   }
 
 
+   public function testAddToLogFileDoesNotExist()
+   {
+        // preparing file name
+        $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
+        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker->method('getLogFileName')->willReturn($fileName);
+
+        $worker->addToLog('just added log text from test env');
+        $this->assertTrue(strpos(file_get_contents($fileName), 'just added log text from test env') !== false);
+
+        // clean up
+        unlink($fileName);
+   }
+
+
+   public function testAddToLogFileExists()
+   {
+        // preparing log file and filling it in
+        $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
+        file_put_contents($fileName, "dumb content of the log file\r\n");
+        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker->method('getLogFileName')->willReturn($fileName);
+        $worker->addToLog('just added log text from test env qazwsx');
+
+        $this->assertTrue(strpos(file_get_contents($fileName), 'just added log text from test env qazwsx') !== false);
+
+        // clean up
+        unlink($fileName);
+   }
+
+   public function testAddToLogArray()
+   {
+        // preparing log file and filling it in
+        $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
+        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker->method('getLogFileName')->willReturn($fileName);
+        $worker->addToLog([1, 2, 3]);
+
+        $this->assertTrue(strpos(file_get_contents($fileName), 'a non-string is passed to the log saver') !== false);
+
+        // clean up
+        unlink($fileName);
+   }
+
+   public function testGetFullFileName()
+   {
+        $worker = $this->getMock('FileManagement', ['getFileName', 'getRepoDir', 'getId']);
+        $worker->method('getFileName')->willReturn('log-file');
+        $worker->method('getRepoDir')->willReturn('repository-of-the-app/');
+        $worker->method('getId')->willReturn('id-of-this-resource');
+
+        $this->assertEquals($worker->getFullFileName(), 'repository-of-the-app/id-of-this-resource' . DIRECTORY_SEPARATOR . 'log-file');
+
+   }
 
 
 

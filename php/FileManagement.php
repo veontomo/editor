@@ -25,7 +25,7 @@ class FileManagement{
 	 * @var      string
 	 * @since    0.0.1
 	 */
-	private static $_logFileName = 'error-messages.log';
+	private static $_logFileName;
 
 
 	/**
@@ -79,11 +79,13 @@ class FileManagement{
 	 *
 	 * * Sets [$_fileName](#property__fileName) to the default value.
 	 * * Sets [$_repoDir](#property__repoDir) to be a folder named "repository" one level upper w.r.t. the current file.
+	 * * Sets [$_logFileName](#property___logFileName) to be log file name.
 	 * * Initializes [$_id](#property__id) for the current user/request.
 	 */
 	public function __construct(){
 		$this->_fileName = $this->getDefaultFileName();
 		self::$_repoDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'repository' . DIRECTORY_SEPARATOR;
+		self::$_logFileName = self::$_repoDir . 'error-messages.log';
 		$this->initializeId();
 	}
 
@@ -95,6 +97,17 @@ class FileManagement{
 	 */
 	public function getDefaultFileName(){
 		return self::$_defaultFileName;
+	}
+
+
+	/**
+	 * log file name getter.
+	 *
+	 * Returns [$_logFileName](#property__getFileName)
+	 * @return string
+	 */
+	public function getLogFilename(){
+		return self::$_getFileName;
 	}
 
 
@@ -115,7 +128,18 @@ class FileManagement{
 	 */
 	public function initializeId(){
 		if (!isset($this->_id)){
-			$this->_id = uniqid();
+			if (php_sapi_name() === 'cli'){
+				$this->_id = uniqid();
+			} else {
+				$isNewer = version_compare(phpversion(), '5.4.0', '>=');
+				if ($isNewer &&  (session_status() === PHP_SESSION_NONE) || (!$isNewer && (session_id() === ''))) {
+					session_start();
+					$this->_id = session_id();
+					session_destroy();
+		       } else {
+	       			$this->_id = session_id();
+		       }
+			}
 		}
 	}
 
@@ -156,6 +180,13 @@ class FileManagement{
 		return $this->_fileName;
 	}
 
+	/**
+	 * Returns full path name of the content file.
+	 * @return string
+	 */
+	public function getFullFileName(){
+		return $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $this->getFileName();
+	}
 
 	/**
 	 * $_repoDir getter
@@ -231,7 +262,7 @@ class FileManagement{
 		try {
 			$content = is_string($msg) ? $msg : 'a non-string is passed to the log saver';
 			$record = date('Y/m/d H:i:s ', time()) . substr($content, 0, self::$_errorMaxLength) . PHP_EOL;
-			$handler = fopen(self::$_logFileName, 'a');
+			$handler = fopen($this->getLogFileName(), 'a');
 			fwrite($handler, $record);
 			fclose($handler);
 		} catch (Exception $e){
@@ -330,5 +361,22 @@ class FileManagement{
 		}
 	}
 
+
+	/**
+	 * Launches a dialog window that permits the client to save the content file.
+	 *
+	 * The full file name is given by [$getFullFileName](#method_getFullFileName) method.
+	 * @return void
+	 */
+	public function sendFileContentForSaving(){
+		$fn = $this->getFullFileName();
+	    if (file_exists($fn)) {
+	        // the order of the below line is VERY important!!!
+	        header("Content-Type: application/octet-stream");
+	        header("Content-Transfer-Encoding: Binary");
+	        header("Content-disposition: attachment; filename=\"$fn\"");
+	        readfile($fn);
+		}
+	}
 
 }
