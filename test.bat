@@ -1,4 +1,4 @@
-::@ECHO OFF
+@ECHO OFF
 SET phpunit=vendor\phpunit\phpunit\phpunit
 IF "%1" == "cov" GOTO COV
 GOTO TEST

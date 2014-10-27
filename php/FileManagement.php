@@ -35,6 +35,12 @@ class FileManagement{
 	private $_fileName;
 
 	/**
+	 * String that is supposed to be saved in a file.
+	 * @var string
+	 */
+	private $_content;
+
+	/**
 	 * Default file name. $_fileName setter will use this name if required file name
 	 * turns out illegal.
 	 * @var string
@@ -91,14 +97,19 @@ class FileManagement{
 
 	/**
 	 * Creates a folder (if not exists) where a temporary file should be saved.
+	 * For issues of security, the directories are created only inside $_repoDir folder.
 	 * @return void
 	 */
 	public function initializeWorkDir(){
 		try {
-			$dirname = $this->getRepoDir() . $this->getId();
-			$split = preg_split('/\|\\/', $dirname);
-			$len = count($split);
-			if (!file_exists($dirname)){
+			$dirname = $this->getRepoDir();
+			if (!is_dir($dirname)){
+				$this->addToLog('creating ' . $dirname);
+				mkdir($dirname);
+			}
+			$dirname .= $this->getId();
+			if (!is_dir($dirname)){
+				$this->addToLog('creating ' . $dirname);
 				mkdir($dirname);
 			}
 		} catch (Exception $e){
@@ -106,22 +117,13 @@ class FileManagement{
 		}
 	}
 
-	/**
-	 * Creates directories indicated in $path. Takes into consideration of possible types of
-	 * directory separators ('\' or '/').
-	 * @param  string    $path     complete path. Examples: 'dir1', 'dir1/dir2/', 'dir1\dir2\dir3'
-	 * @return void
-	 */
-	public function createNestedDirs($path){
-
-	}
 
 	/**
 	 * Setter for $_fileName. Before setting the value, a validator is applied.
 	 * @param string    $name
 	 */
 	public function setFileName($name = ''){
-		$this->_fileName = $this->generateFileName($name);
+		$this->_fileName = $this->validateFileName($name);
 	}
 
 	/**
@@ -153,23 +155,6 @@ class FileManagement{
 			$str = '';
 		}
 		return trim(preg_replace('/[^a-zA-z0-9-_\.]+/', '', $str), '.');
-		// $fnKey = 'filename';
-		// $extKey = 'extension';
-
-		// $fileInfo = pathinfo($str);
-		// $fileName = '';
-		// if (array_key_exists($fnKey, $fileInfo)){
-		// 	$fileName = preg_replace('/[^a-zA-z0-9-_]+/', '', $fileInfo[$fnKey]); // removing non-allowed characters
-		// }
-		// if ($fileName == ''){
-		// 	return $this->generateFileName();
-		// }
-
-		// $fileExt = array_key_exists($extKey, $fileInfo) &&
-		// 	in_array($fileInfo[$extKey], self::$_allowedExt) ? $fileInfo[$extKey] : self::$_allowedExt[0];
-
-		// return $fileName . '.' . $fileExt;
-
 	}
 
 	/**
@@ -177,17 +162,20 @@ class FileManagement{
 	 * @param  string   $seed     a suggestion for the file name
 	 * @return string
 	 */
-	public function generateFileName($seed){
+	public function validateFileName($seed){
 		$fileName = $this->dropIllegalSymbols($seed);
-		return $fileName == '' ? self::$_defaultFileName : $fileName;
+		$fileNameInfo = pathinfo($fileName);
+		if (!array_key_exists('filename', $fileNameInfo)){
+			return $this->getDefaultFileName();
+		}
+		$ext = array_key_exists('extension', $fileNameInfo) ? '.' . $fileNameInfo['extension'] : '';
+		return $fileNameInfo['filename'] . $ext;
 	}
 
 	/**
-	 * Escapes special characters from $content.
-	 * @param  String    $content
-	 * @return String
+	 * Escapes special characters from $_content.
 	 */
-	public function sanitizeContent($content){
+	public function sanitize(){
 		$replacement = [
 			'à' => '&agrave;',
 			'è' => '&egrave;',
@@ -201,13 +189,15 @@ class FileManagement{
 			'Ù' => '&Ugrave;',
 			'é' => '&eacute;',
 			'É' => '&Eacute;',
-			'\'' => '&#39;'
+			'\'' => '&#039;',
+			'€' => '&euro;'
 		];
-		$result = $content;
+		$content = $this->getFileContent();
+		// $newContent = htmlentities($content, ENT_QUOTES | ENT_HTML401, 'UTF-8');
 		foreach ($replacement as $key => $value){
-			$result = str_replace($key, $value, $result);
+			$content = str_replace($key, $value, $content);
 		}
-		return $result;
+		$this->setFileContent($content);
 	}
 
 	/**
@@ -277,24 +267,40 @@ class FileManagement{
 		return $result;
 	}
 
+	/**
+	 * $_content setter. Must be a string.
+	 * @param string $cntn
+	 */
+	public function setFileContent($cntn){
+		if (is_string($cntn)){
+			$this->_content = $cntn;
+		}
+	}
 
 	/**
-	 * Saves $content with name stored in $_fileName inside $_repoDir folder.
+	 * $_content getter.
+	 * @return string
+	 */
+	public function getFileContent(){
+		return $this->_content;
+	}
+
+	/**
+	 * Saves $_content with name stored in $_fileName inside $_repoDir folder.
 	 *
 	 * Returns true in case of success, false otherwise.
-	 * @param  string  $content
 	 * @return boolean
 	 */
-	public function saveContent($content){
+	public function save(){
 		try {
-			$fullPath = $this->getRepoDir() . $this->getId();
+			$fullPath = $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $this->getFileName();
 			$this->initializeWorkDir();
 			// remove old file (if any)
 			if(file_exists($fullPath)){
 				unlink($fullPath);
 			}
 			// write the content into a fresh file
-			file_put_contents($fullPath, $this->sanitizeContent($content));
+			file_put_contents($fullPath, $this->getFileContent());
 			return true;
 		} catch (Exception $e){
 			$this->addToLog($e->getMessage());

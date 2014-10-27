@@ -1,8 +1,5 @@
 <?php
 require_once (dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . 'FileManagement.php');
-// namespace org\bovigo\vfs\example;
-// use org\bovigo\vfs\vfsStream,
-//     org\bovigo\vfs\vfsStreamDirectory;
 
 class FileManagementTest extends PHPUnit_Framework_TestCase
 {
@@ -10,6 +7,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function setUp(){
         $this->worker = new FileManagement();
+
     }
 
     public function testDropIllegalSymbolsNull()
@@ -82,26 +80,46 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testSanitizeContentRegular()
     {
-    	$this->assertEquals($this->worker->sanitizeContent('abcd'), 'abcd');
+    	$this->worker->setFileContent('abcd');
+    	$this->worker->sanitize();
+    	$this->assertEquals($this->worker->getFileContent(), 'abcd');
     }
 
     public function testSanitizeContentWithApostrophe()
     {
-    	$cntn = $this->worker->sanitizeContent('I\'m fine');
-    	$this->assertEquals($cntn, 'I&#39;m fine');
+    	$this->worker->setFileContent('I\'m fine');
+    	$this->worker->sanitize();
+    	$this->assertEquals($this->worker->getFileContent(), 'I&#039;m fine');
     }
 
     public function testSanitizeContentWithAccentsLowerCase()
     {
-    	$cntn = $this->worker->sanitizeContent('andrò città così è perché');
-    	$this->assertEquals($cntn, 'andr&ograve; citt&agrave; cos&igrave; &egrave; perch&eacute;');
+    	$this->worker->setFileContent('andrò città così è perché');
+    	$this->worker->sanitize();
+    	$this->assertEquals($this->worker->getFileContent(), 'andr&ograve; citt&agrave; cos&igrave; &egrave; perch&eacute;');
     }
 
     public function testSanitizeContentWithAccentsUpperCase()
     {
-    	$cntn = $this->worker->sanitizeContent('ANDRÒ CITTÀ COSÌ È PERCHÉ');
-    	$this->assertEquals($cntn, 'ANDR&Ograve; CITT&Agrave; COS&Igrave; &Egrave; PERCH&Eacute;');
+    	$this->worker->setFileContent('ANDRÒ CITTÀ COSÌ È PERCHÉ');
+    	$this->worker->sanitize();
+    	$this->assertEquals($this->worker->getFileContent(), 'ANDR&Ograve; CITT&Agrave; COS&Igrave; &Egrave; PERCH&Eacute;');
     }
+
+    public function testSanitizeContentEuroSign()
+    {
+        $this->worker->setFileContent('price: 10€');
+        $this->worker->sanitize();
+        $this->assertEquals($this->worker->getFileContent(), 'price: 10&euro;');
+    }
+
+    public function testSanitizeContentHtmlTag()
+    {
+        $this->worker->setFileContent('<div style="margin: 10px; padding: 20em;"> a o e à ò è é</div>');
+        $this->worker->sanitize();
+        $this->assertEquals($this->worker->getFileContent(), '<div style="margin: 10px; padding: 20em;"> a o e &agrave; &ograve; &egrave; &eacute;</div>');
+    }
+
 
     public function testGetContentNotAHash()
     {
@@ -254,92 +272,88 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * Creating temporary directories in order to preform tests
-     * @return void
-     */
-    private function _createTmpDir(){
-        mkdir('testDirTmp');
-        mkdir('testDirTmp' . DIRECTORY_SEPARATOR . 'repoTmp');
+
+
+    public function testInitializeWorkDirIfNoRepoExists()
+    {
+         $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
+         $this->assertFalse(is_dir($dir));
+         $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
+         $worker->method('getRepoDir')->willReturn($dir);
+         $worker->method('getId')->willReturn('dirXYZ');
+         $worker->initializeWorkDir();
+         $this->assertTrue(is_dir($dir . DIRECTORY_SEPARATOR . 'dirXYZ'));
+         rmdir($dir . DIRECTORY_SEPARATOR . 'dirXYZ');
+         rmdir($dir);
     }
 
-    /**
-     * Clean up: removing temporary directories
-     * @return void
-     */
-    private function _deleteTmpDir(){
-        rmdir('testDirTmp' . DIRECTORY_SEPARATOR . 'repoTmp');
-        rmdir('testDirTmp' );
-    }
 
-    // creates a folder for user files if that folder does not exist
-    public function testInitializeWorkDirIfNotExists()
-    {
-        $ds = DIRECTORY_SEPARATOR;
+   public function testInitializeWorkDirIfRepoExists()
+   {
+        $dir =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
+        mkdir($dir);
+        $this->assertTrue(is_dir($dir));
         $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
-        $worker->method('getRepoDir')
-            ->willReturn('testDirTmp ' . $ds . 'repoTmp' . $ds);
-        $worker->method('getId')
-            ->willReturn('currentClientFolder');
-
-        $this->_createTmpDir();
-
-
+        $worker->method('getRepoDir')->willReturn($dir);
+        $worker->method('getId')->willReturn('dirXYZ');
         $worker->initializeWorkDir();
-        $this->assertTrue(file_exists('testDirTmp' . $ds . 'repoTmp' . $ds . 'currentClientFolder'));
-
-        rmdir('testDirTmp' . $ds . 'repoTmp' . $ds . 'currentClientFolder');
-        $this->_deleteTmpDir();
+        $this->assertTrue(is_dir($dir . DIRECTORY_SEPARATOR . 'dirXYZ'));
+        rmdir($dir . DIRECTORY_SEPARATOR . 'dirXYZ');
+        rmdir($dir);
    }
 
-    // "creates" a folder for user files if it already exists
-    public function testInitializeWorkDirIfExists()
-    {
-        $ds = DIRECTORY_SEPARATOR;
+   public function testInitializeWorkDirIfRepoAndWorkDirsExist()
+   {
+        $dir =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
         $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
-        $worker->method('getRepoDir')
-            ->willReturn('testDirTmp ' . $ds . 'repoTmp' . $ds);
-        $worker->method('getId')
-            ->willReturn('currentClientFolder');
-
-        $this->_createTmpDir();
-        // creating a directory that later is asked to be re-created
-        mkdir('testDirTmp' . $ds . 'repoTmp' . $ds . 'currentClientFolder');
-
-
+        $worker->method('getRepoDir')->willReturn($dir);
+        $worker->method('getId')->willReturn('dirXYZ');
+        mkdir($dir);
+        mkdir($dir . DIRECTORY_SEPARATOR . 'dirXYZ');
+        $this->assertTrue(is_dir($dir . DIRECTORY_SEPARATOR . 'dirXYZ'));
         $worker->initializeWorkDir();
-        $this->assertTrue(file_exists('testDirTmp' . $ds . 'repoTmp' . $ds . 'currentClientFolder'));
+        $this->assertTrue(is_dir($dir . DIRECTORY_SEPARATOR . 'dirXYZ'));
+        rmdir($dir . DIRECTORY_SEPARATOR . 'dirXYZ');
+        rmdir($dir);
+   }
 
-        rmdir('testDirTmp' . $ds . 'repoTmp' . $ds . 'currentClientFolder');
-        $this->_deleteTmpDir();
+   public function testSaveNonEmpty()
+   {
+        // preparing
+        $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
+        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker->method('getRepoDir')->willReturn($repo);
+        $worker->method('getId')->willReturn('dirXYZ');
+        $worker->method('getFileName')->willReturn('file.1');
+        $worker->method('getFileContent')->willReturn('file content');
+        // main part
+        $this->assertTrue($worker->save());
+        $this->assertEquals(file_get_contents($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1'), 'file content');
+        // clean up
+        unlink($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1');
+        rmdir($repo . 'dirXYZ');
+        rmdir($repo);
+   }
+
+   public function testSaveEmpty()
+   {
+        // preparing
+        $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
+        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker->method('getRepoDir')->willReturn($repo);
+        $worker->method('getId')->willReturn('dirXYZ');
+        $worker->method('getFileContent')->willReturn(null);
+        $worker->method('getFileName')->willReturn('file.1');
+        // main part
+        $this->assertTrue($worker->save());
+        $this->assertEquals(file_get_contents($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1'), '');
+        // clean up
+        unlink($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1');
+        rmdir($repo . 'dirXYZ');
+        rmdir($repo);
 
    }
 
-
-   // public function testCreateNestedDirsSingleWord()
-   // {
-   //     $dir = 'dirNotExists';
-   //     if (is_dir($dir)){
-   //         throw new Exception("Directory exists!", 1);
-   //     }
-   //     $this->worker->createNestedDirs($dir);
-   //     $this->asertTrue(is_dir($dir));
-
-   //     rmdir($dir);
-   // }
-
-
-    // public function testCreateNestedDirsSingleWord()
-    // {
-    //     $dir = 'dirNotExists';
-    //     if (is_dir($dir)){
-    //         throw new Exception("Directory exists!", 1);
-    //     }
-    //     $this->worker->createNestedDirs($dir);
-    //     $this->asertTrue(is_dir($dir));
-
-    //     rmdir($dir);
-    // }
 
 
 
