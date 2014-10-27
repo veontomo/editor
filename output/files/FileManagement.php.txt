@@ -109,9 +109,7 @@ class FileManagement{
 	}
 
 	/**
-	 * Initialize identifier for user/request.
-	 *
-	 * It initializes [$_id](#property__id) in such a way that it is different for different users (or requests).
+	 * [$_id](#property__id) initializer. It is initialized based on session id.
 	 */
 	public function initializeId(){
 		if (!isset($this->_id)){
@@ -128,10 +126,12 @@ class FileManagement{
 		try {
 			$dirname = $this->getRepoDir();
 			if (!is_dir($dirname)){
+				$this->addToLog('creating ' . $dirname);
 				mkdir($dirname);
 			}
 			$dirname .= $this->getId();
 			if (!is_dir($dirname)){
+				$this->addToLog('creating ' . $dirname);
 				mkdir($dirname);
 			}
 		} catch (Exception $e){

@@ -1,8 +1,10 @@
 <?php
-// require_once 'FileManagement.php';
+require_once 'FileManagement.php';
 
-// $worker = new FileManagement();
-// $content = $worker->getContent($_POST, 'content');
+$worker = new FileManagement();
+$worker->setContent($_POST, 'data');
+$worker->setFileName($_POST, 'filename');
+$worker->save();
 // $info = $worker->decipher($content);
 // $worker->setFileName($info['filename']);
 // $worker->save($info['data']);
