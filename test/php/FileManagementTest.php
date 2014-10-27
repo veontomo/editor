@@ -1,7 +1,9 @@
 <?php
+namespace editor\file;
 require_once (dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . 'FileManagement.php');
 
-class FileManagementTest extends PHPUnit_Framework_TestCase
+
+class FileManagementTest extends \PHPUnit_Framework_TestCase
 {
     protected $worker;
 
@@ -122,7 +124,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testSetFileNameIfNull()
     {
-        $worker = $this->getMock('FileManagement', ['validateFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['validateFileName']);
         $worker->method('validateFileName')->willReturn('valid_file_name.ext');
         $worker->setFileName();
         $this->assertEquals($worker->getFileName(), 'valid_file_name.ext');
@@ -130,7 +132,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testSetFileNameIfEmpty()
     {
-        $worker = $this->getMock('FileManagement', ['validateFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['validateFileName']);
         $worker->method('validateFileName')->willReturn('default_file_name.ext');
         $worker->setFileName('whatever');
         $this->assertEquals($worker->getFileName(), 'default_file_name.ext');
@@ -138,14 +140,14 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testValidateFileNameIfNull()
     {
-        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getDefaultFileName']);
         $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
         $this->assertEquals($worker->validateFileName(), 'default_file_name.ext');
     }
 
     public function testValidateFileNameIfEmpty()
     {
-        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getDefaultFileName']);
         $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
         $this->assertEquals($worker->validateFileName(''), 'default_file_name.ext');
     }
@@ -167,7 +169,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testValidateFileNameIfJustMultiDots()
     {
-        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getDefaultFileName']);
         $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
         $this->assertEquals($worker->validateFileName('.......'), 'default_file_name.ext');
     }
@@ -196,7 +198,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testGetContentNotAHash()
     {
-        $worker = $this->getMock('FileManagement', ['addToLog']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['addToLog']);
         $worker->expects($this->once())
             ->method('addToLog')
             ->with($this->equalTo('An array with string-valued key is expected'));
@@ -207,7 +209,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
     public function testGetContentEmptyHash()
     {
-        $worker = $this->getMock('FileManagement', ['addToLog']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['addToLog']);
         $worker->expects($this->once())
             ->method('addToLog')
             ->with($this->equalTo('key abc is not found'));
@@ -351,7 +353,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
     {
          $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
          $this->assertFalse(is_dir($dir));
-         $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
+         $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId']);
          $worker->method('getRepoDir')->willReturn($dir);
          $worker->method('getId')->willReturn('dirXYZ');
          $worker->initializeWorkDir();
@@ -366,7 +368,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
         $dir =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
         mkdir($dir);
         $this->assertTrue(is_dir($dir));
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId']);
         $worker->method('getRepoDir')->willReturn($dir);
         $worker->method('getId')->willReturn('dirXYZ');
         $worker->initializeWorkDir();
@@ -378,7 +380,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    public function testInitializeWorkDirIfRepoAndWorkDirsExist()
    {
         $dir =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests' . uniqid() . DIRECTORY_SEPARATOR;
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId']);
         $worker->method('getRepoDir')->willReturn($dir);
         $worker->method('getId')->willReturn('dirXYZ');
         mkdir($dir);
@@ -394,7 +396,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing
         $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
         $worker->method('getRepoDir')->willReturn($repo);
         $worker->method('getId')->willReturn('dirXYZ');
         $worker->method('getFileName')->willReturn('file.1');
@@ -412,7 +414,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing
         $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
         $worker->method('getRepoDir')->willReturn($repo);
         $worker->method('getId')->willReturn('dirXYZ');
         $worker->method('getFileContent')->willReturn(null);
@@ -430,7 +432,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing
         $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
         $worker->method('getRepoDir')->willReturn($repo);
         $worker->method('getId')->willReturn('dirXYZ');
         $worker->method('getFileContent')->willReturn('new content');
@@ -455,7 +457,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing
         $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
-        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent', 'addToLog']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent', 'addToLog']);
         $worker->method('getRepoDir')->willReturn($repo);
         $worker->method('getId')->willReturn('dirXYZ');
         $worker->method('getFileContent')->willReturn(null);
@@ -481,7 +483,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing file name
         $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
-        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getLogFileName']);
         $worker->method('getLogFileName')->willReturn($fileName);
 
         $worker->addToLog('just added log text from test env');
@@ -497,7 +499,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
         // preparing log file and filling it in
         $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
         file_put_contents($fileName, "dumb content of the log file\r\n");
-        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getLogFileName']);
         $worker->method('getLogFileName')->willReturn($fileName);
         $worker->addToLog('just added log text from test env qazwsx');
 
@@ -511,7 +513,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
    {
         // preparing log file and filling it in
         $fileName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'tempLogFile' . uniqid() . '.log';
-        $worker = $this->getMock('FileManagement', ['getLogFileName']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getLogFileName']);
         $worker->method('getLogFileName')->willReturn($fileName);
         $worker->addToLog([1, 2, 3]);
 
@@ -523,7 +525,7 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
 
    public function testGetFullFileName()
    {
-        $worker = $this->getMock('FileManagement', ['getFileName', 'getRepoDir', 'getId']);
+        $worker = $this->getMock('\editor\file\FileManagement', ['getFileName', 'getRepoDir', 'getId']);
         $worker->method('getFileName')->willReturn('log-file');
         $worker->method('getRepoDir')->willReturn('repository-of-the-app/');
         $worker->method('getId')->willReturn('id-of-this-resource');

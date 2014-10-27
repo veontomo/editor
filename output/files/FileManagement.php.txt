@@ -1,4 +1,5 @@
 <?php
+namespace editor\file;
 
 /**
  * This file contains description of FileManagement class.
@@ -107,7 +108,7 @@ class FileManagement{
 	 * @return string
 	 */
 	public function getLogFilename(){
-		return self::$_getFileName;
+		return self::$_logFileName;
 	}
 
 

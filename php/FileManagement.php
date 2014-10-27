@@ -1,4 +1,5 @@
 <?php
+namespace editor\file;
 
 /**
  * This file contains description of FileManagement class.
@@ -107,7 +108,7 @@ class FileManagement{
 	 * @return string
 	 */
 	public function getLogFilename(){
-		return self::$_getFileName;
+		return self::$_logFileName;
 	}
 
 
@@ -158,7 +159,7 @@ class FileManagement{
 			if (!is_dir($dirname)){
 				mkdir($dirname);
 			}
-		} catch (Exception $e){
+		} catch (\Exception $e){
 			$this->addToLog($e->getMessage());
 		}
 	}
@@ -265,7 +266,7 @@ class FileManagement{
 			$handler = fopen($this->getLogFileName(), 'a');
 			fwrite($handler, $record);
 			fclose($handler);
-		} catch (Exception $e){
+		} catch (\Exception $e){
 			// there is no possibility to leave track of the error
 		}
 	}
@@ -355,7 +356,7 @@ class FileManagement{
 			// write the content into a fresh file
 			file_put_contents($fullPath, $this->getFileContent());
 			return true;
-		} catch (Exception $e){
+		} catch (\Exception $e){
 			$this->addToLog($e->getMessage());
 			return false;
 		}
