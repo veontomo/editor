@@ -1,8 +1,14 @@
 <?php
-// require_once 'FileManagement.php';
+require_once 'FileManagement.php';
 
-// $worker = new FileManagement();
-// $content = $worker->getContent($_POST, 'content');
+$origin = $_GET;
+$worker = new FileManagement();
+
+echo $worker->getContent($origin, 'data');
+$worker->setFileContent($worker->getContent($origin, 'data'));
+echo $worker->getContent($origin, 'filename') ;
+$worker->setFileName($worker->getContent($origin, 'filename'));
+$worker->save();
 // $info = $worker->decipher($content);
 // $worker->setFileName($info['filename']);
 // $worker->save($info['data']);

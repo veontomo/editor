@@ -109,7 +109,9 @@ class FileManagement{
 	}
 
 	/**
-	 * [$_id](#property__id) initializer. It is initialized based on session id.
+	 * Initialize identifier for user/request.
+	 *
+	 * It initializes [$_id](#property__id) in such a way that it is different for different users (or requests).
 	 */
 	public function initializeId(){
 		if (!isset($this->_id)){
@@ -126,12 +128,10 @@ class FileManagement{
 		try {
 			$dirname = $this->getRepoDir();
 			if (!is_dir($dirname)){
-				$this->addToLog('creating ' . $dirname);
 				mkdir($dirname);
 			}
 			$dirname .= $this->getId();
 			if (!is_dir($dirname)){
-				$this->addToLog('creating ' . $dirname);
 				mkdir($dirname);
 			}
 		} catch (Exception $e){
@@ -181,7 +181,7 @@ class FileManagement{
 
 	/**
 	 * Generates a string to be used as a name of a file.
-	 * @param  string   $seed     a suggestion for the file name
+	 * @param  string $seed a suggestion for the file name
 	 * @return string
 	 */
 	public function validateFileName($seed){
@@ -318,7 +318,8 @@ class FileManagement{
 			$fullPath = $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $this->getFileName();
 			$this->initializeWorkDir();
 			// remove old file (if any)
-			if(file_exists($fullPath)){
+			if (file_exists($fullPath)){
+				$this->addToLog('file ' . $fullPath . ' exists. Trying to remove it.');
 				unlink($fullPath);
 			}
 			// write the content into a fresh file

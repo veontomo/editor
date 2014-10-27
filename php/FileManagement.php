@@ -181,13 +181,13 @@ class FileManagement{
 
 	/**
 	 * Generates a string to be used as a name of a file.
-	 * @param  string   $seed     a suggestion for the file name
+	 * @param  string $seed a suggestion for the file name
 	 * @return string
 	 */
-	public function validateFileName($seed){
+	public function validateFileName($seed = ''){
 		$fileName = $this->dropIllegalSymbols($seed);
 		$fileNameInfo = pathinfo($fileName);
-		if (!array_key_exists('filename', $fileNameInfo)){
+		if (!array_key_exists('filename', $fileNameInfo) || strlen($fileNameInfo['filename']) == 0){
 			return $this->getDefaultFileName();
 		}
 		$ext = array_key_exists('extension', $fileNameInfo) ? '.' . $fileNameInfo['extension'] : '';
@@ -318,7 +318,7 @@ class FileManagement{
 			$fullPath = $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $this->getFileName();
 			$this->initializeWorkDir();
 			// remove old file (if any)
-			if(file_exists($fullPath)){
+			if (file_exists($fullPath)){
 				unlink($fullPath);
 			}
 			// write the content into a fresh file

@@ -120,6 +120,79 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->worker->getFileContent(), '<div style="margin: 10px; padding: 20em;"> a o e &agrave; &ograve; &egrave; &eacute;</div>');
     }
 
+    public function testSetFileNameIfNull()
+    {
+        $worker = $this->getMock('FileManagement', ['validateFileName']);
+        $worker->method('validateFileName')->willReturn('valid_file_name.ext');
+        $worker->setFileName();
+        $this->assertEquals($worker->getFileName(), 'valid_file_name.ext');
+    }
+
+    public function testSetFileNameIfEmpty()
+    {
+        $worker = $this->getMock('FileManagement', ['validateFileName']);
+        $worker->method('validateFileName')->willReturn('default_file_name.ext');
+        $worker->setFileName('whatever');
+        $this->assertEquals($worker->getFileName(), 'default_file_name.ext');
+    }
+
+    public function testValidateFileNameIfNull()
+    {
+        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
+        $this->assertEquals($worker->validateFileName(), 'default_file_name.ext');
+    }
+
+    public function testValidateFileNameIfEmpty()
+    {
+        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
+        $this->assertEquals($worker->validateFileName(''), 'default_file_name.ext');
+    }
+
+    public function testValidateFileNameJustExtension()
+    {
+        $this->assertEquals($this->worker->validateFileName('.exe'), 'exe');
+    }
+
+    public function testValidateFileNameIfJustName()
+    {
+        $this->assertEquals($this->worker->validateFileName('name'), 'name');
+    }
+
+    public function testValidateFileNameIfNameAndExt()
+    {
+        $this->assertEquals($this->worker->validateFileName('name.abc'), 'name.abc');
+    }
+
+    public function testValidateFileNameIfJustMultiDots()
+    {
+        $worker = $this->getMock('FileManagement', ['getDefaultFileName']);
+        $worker->method('getDefaultFileName')->willReturn('default_file_name.ext');
+        $this->assertEquals($worker->validateFileName('.......'), 'default_file_name.ext');
+    }
+
+    public function testValidateFileNameIfSlashes()
+    {
+        $this->assertEquals($this->worker->validateFileName('/../abc'), 'abc');
+    }
+
+    public function testValidateFileNameIfLeadingDots()
+    {
+        $this->assertEquals($this->worker->validateFileName('..aaa'), 'aaa');
+    }
+
+    public function testValidateFileNameIfTrailingDots()
+    {
+        $this->assertEquals($this->worker->validateFileName('aa....'), 'aa');
+    }
+
+
+
+
+
+
+
 
     public function testGetContentNotAHash()
     {
@@ -351,8 +424,54 @@ class FileManagementTest extends PHPUnit_Framework_TestCase
         unlink($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1');
         rmdir($repo . 'dirXYZ');
         rmdir($repo);
-
    }
+
+   public function testSaveIfAlreadyExists()
+   {
+        // preparing
+        $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
+        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent']);
+        $worker->method('getRepoDir')->willReturn($repo);
+        $worker->method('getId')->willReturn('dirXYZ');
+        $worker->method('getFileContent')->willReturn('new content');
+        $worker->method('getFileName')->willReturn('file.1');
+
+        // creating file that must be overridden
+        mkdir($repo);
+        mkdir($repo . DIRECTORY_SEPARATOR . 'dirXYZ');
+        file_put_contents($repo . DIRECTORY_SEPARATOR . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1', 'initial file content');
+
+
+        // main part
+        $this->assertTrue($worker->save());
+        $this->assertEquals(file_get_contents($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1'), 'new content');
+        // clean up
+        unlink($repo . 'dirXYZ' . DIRECTORY_SEPARATOR . 'file.1');
+        rmdir($repo . 'dirXYZ');
+        rmdir($repo);
+   }
+
+   public function testSaveSimulateException()
+   {
+        // preparing
+        $repo =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dirToMakeTests2' . uniqid() . DIRECTORY_SEPARATOR;
+        $worker = $this->getMock('FileManagement', ['getRepoDir', 'getId' ,'getFileName', 'getFileContent', 'addToLog']);
+        $worker->method('getRepoDir')->willReturn($repo);
+        $worker->method('getId')->willReturn('dirXYZ');
+        $worker->method('getFileContent')->willReturn(null);
+        $worker->method('getFileName')->willReturn(null);
+        $worker->expects($this->once())->method('addToLog');
+        // main part
+        $this->assertFalse($worker->save());
+
+        // clean up
+        rmdir($repo . 'dirXYZ');
+        rmdir($repo);
+   }
+
+
+
+
 
 
 

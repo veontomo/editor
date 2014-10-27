@@ -1,9 +1,13 @@
 <?php
 require_once 'FileManagement.php';
 
+$origin = $_GET;
 $worker = new FileManagement();
-$worker->setContent($_POST, 'data');
-$worker->setFileName($_POST, 'filename');
+
+echo $worker->getContent($origin, 'data');
+$worker->setFileContent($worker->getContent($origin, 'data'));
+echo $worker->getContent($origin, 'filename') ;
+$worker->setFileName($worker->getContent($origin, 'filename'));
 $worker->save();
 // $info = $worker->decipher($content);
 // $worker->setFileName($info['filename']);
