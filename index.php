@@ -9,19 +9,22 @@
 		}
 		echo '<style>#marker{
 			position: relative;
-			top: 3em;
-			left: -2em;
-			width: 10em;
+			top: 0em;
+			left: 0em;
+			// width: 10em;
 			color: red;
-			font-size: 1.3em;
-			padding-left: 2em;
-			-webkit-transform: rotate(-45deg);
+			font-size: 5em;
+			padding-left: 4em;
+			margin-bottom: 0.1em;
+			// z-index: -1;
+			-webkit-transform: rotate(0deg);
 			-webkit-transform-origin: 0% 0%;
-			-o-transform: rotate(-45deg);
+			-o-transform: rotate(0deg);
 			-o-transform-origin:0% 0%;
-			transform: rotate(-45deg);
+			transform: rotate(0deg);
 			transform-origin: 0% 0%;
 			color: #D22415;
+			// opacity: 0.3;
 			background-color: #3D7899}</style>';
 
 	?>
@@ -107,20 +110,23 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 ?>
 </head>
 <body>
-    <div class="panel">
-    	<?php
-    		if ($developMode){
-    			echo '<div id="marker">Test Mode</div>';
-    		}
-    	?>
+	<?php
+		if ($developMode){
+			echo '<div id="marker">Test Mode</div>';
+		}
+	?>
 
-	    <a href="statistics/jsDoc/"><img src="images/yui-logo.png" width="100px"/>API</a>
+    <div class="panel">
+	    <a href="statistics/jsDoc/" target="_blank"><img src="images/yui-logo.png" height="40"/>JS</a>
     </div>
     <div class="panel">
-      <a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>
+      <a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" />PHP</a>
     </div>
     <div class="panel">
-		<a href="coverage.php" target="blank"><img src="images/coverage.png" width="100px" /></a>
+      <a href="jasmine/" target="_blank"><img src="images/TDD.png"height="40"/></a>
+    </div>
+    <div class="panel">
+		<a href="coverage.php" target="blank"><img src="images/coverage.png" height="40"/></a>
     </div>
         <div class="panel">
     		<a href="notes.php" target="blank">Notes</a>
