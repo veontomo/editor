@@ -179,20 +179,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">./Properties/LinkProperties.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">14.29% <small>(2 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">14.29% <small>(2 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./Properties\</a> &#187; LinkProperties.js</div>
@@ -266,19 +266,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">393</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">392</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,11 +278,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">392</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -301,12 +288,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">392</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">392</span>
+<span class="cline-any cline-yes">1176</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">392</span>
+<span class="cline-any cline-yes">392</span>
+<span class="cline-any cline-yes">392</span>
+<span class="cline-any cline-yes">392</span>
+<span class="cline-any cline-yes">392</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span></td><td class="text"><pre class="prettyprint lang-js">/*jslint plusplus: true, white: true */
@@ -319,12 +319,12 @@
  * @extends            Properties
  * @since              0.0.5
  */
-<span class="fstat-no" title="function not covered" >function LinkProperties(obj) {</span>
+function LinkProperties(obj) {
     'use strict';
-<span class="cstat-no" title="statement not covered" >    if (!(this instanceof LinkProperties)) {</span>
-<span class="cstat-no" title="statement not covered" >        return new LinkProperties(obj);</span>
+    if (!(this instanceof LinkProperties)) {
+        return new LinkProperties(obj);
     }
-<span class="cstat-no" title="statement not covered" >    Properties.call(this, obj);</span>
+    Properties.call(this, obj);
 &nbsp;
     /**
      * Re-set private properties defined in parent class {{#crossLink "Properties"}}Properties{{/crossLink}}:
@@ -333,7 +333,7 @@
      * &lt;/li&gt;&lt;/ol&gt;
      * @method         constructor
      */
-<span class="cstat-no" title="statement not covered" >    this.setName('LinkProperties');</span>
+    this.setName('LinkProperties');
 &nbsp;
 &nbsp;
     /**
@@ -343,10 +343,10 @@
      * @private
      * @type           {Object}
      */
-<span class="cstat-no" title="statement not covered" >    var linkCore = {'href': '', 'target': '_blank', 'title': ''};</span>
+    var linkCore = {'href': '', 'target': '_blank', 'title': ''};
     // Sets the above keys in the parent object core
-<span class="cstat-no" title="statement not covered" >    Object.keys(linkCore).forEach(<span class="fstat-no" title="function not covered" >function(key){</span></span>
-<span class="cstat-no" title="statement not covered" >        this.setProperty(key, linkCore[key]);</span>
+    Object.keys(linkCore).forEach(function(key){
+        this.setProperty(key, linkCore[key]);
     }.bind(this));
 &nbsp;
 &nbsp;
@@ -357,11 +357,11 @@
      * @type           {Object}
      * @private
      */
-<span class="cstat-no" title="statement not covered" >    var linkStyleCore = {'text-decoration': 'underline', 'font-weight': 'normal', 'padding': 0, 'margin': 0};</span>
-<span class="cstat-no" title="statement not covered" >    this.initializeStyle();</span>
-<span class="cstat-no" title="statement not covered" >    var stl = this.getStyles();</span>
-<span class="cstat-no" title="statement not covered" >    stl.suggestProperty(linkStyleCore);</span>
-<span class="cstat-no" title="statement not covered" >    this.setStyles(stl);</span>
+    var linkStyleCore = {'text-decoration': 'underline', 'font-weight': 'normal', 'padding': 0, 'margin': 0};
+    this.initializeStyle();
+    var stl = this.getStyles();
+    stl.suggestProperty(linkStyleCore);
+    this.setStyles(stl);
 &nbsp;
 }
 LinkProperties.prototype = Object.create(Properties.prototype);</pre></td></tr>
@@ -369,7 +369,7 @@ LinkProperties.prototype = Object.create(Properties.prototype);</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 10:17:30 GMT+0100 (ora solare Europa occidentale)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 12:41:35 GMT+0100 (ora solare Europa occidentale)</div>
 </div>
 
 <script src="../prettify.js"></script>

@@ -179,20 +179,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">./Properties/ListProperties.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">18.18% <small>(2 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(11 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">18.18% <small>(2 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(11 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./Properties\</a> &#187; ListProperties.js</div>
@@ -251,19 +251,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">108</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">107</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -272,11 +263,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">107</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">107</span>
+<span class="cline-any cline-yes">107</span>
+<span class="cline-any cline-yes">107</span>
+<span class="cline-any cline-yes">107</span>
+<span class="cline-any cline-yes">107</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*jslint plusplus: true, white: true */
@@ -289,12 +289,12 @@
  * @constructor
  * @extends       Properties
  */
-<span class="fstat-no" title="function not covered" >function ListProperties(obj) {</span>
+function ListProperties(obj) {
     'use strict';
-<span class="cstat-no" title="statement not covered" >    if (!(this instanceof ListProperties)) {</span>
-<span class="cstat-no" title="statement not covered" >        return new ListProperties(obj);</span>
+    if (!(this instanceof ListProperties)) {
+        return new ListProperties(obj);
     }
-<span class="cstat-no" title="statement not covered" >    Properties.call(this, obj);</span>
+    Properties.call(this, obj);
 &nbsp;
     /**
     * Re-set private properties defined in parent class {{#crossLink "Styles"}}Styles{{/crossLink}}:
@@ -303,7 +303,7 @@
     * &lt;/li&gt;&lt;/ol&gt;
     * @method         constructor
     */
-<span class="cstat-no" title="statement not covered" >    this.setName('ListProperties');</span>
+    this.setName('ListProperties');
 &nbsp;
     /**
      * Object with key-value pairs for link style. To be set, if corresponding key is not set.
@@ -312,11 +312,11 @@
      * @type           {Object}
      * @private
      */
-<span class="cstat-no" title="statement not covered" >    var linkStyleCore = {'padding': 0, 'margin-left': 40, 'margin-right': 0, 'margin-top': 0, 'margin-bottom': 0};</span>
-<span class="cstat-no" title="statement not covered" >    this.initializeStyle();</span>
-<span class="cstat-no" title="statement not covered" >    var stl = this.getStyles();</span>
-<span class="cstat-no" title="statement not covered" >    stl.suggestProperty(linkStyleCore);</span>
-<span class="cstat-no" title="statement not covered" >    this.setStyles(stl);</span>
+    var linkStyleCore = {'padding': 0, 'margin-left': 40, 'margin-right': 0, 'margin-top': 0, 'margin-bottom': 0};
+    this.initializeStyle();
+    var stl = this.getStyles();
+    stl.suggestProperty(linkStyleCore);
+    this.setStyles(stl);
 }
 ListProperties.prototype = Object.create(Properties.prototype);
 &nbsp;</pre></td></tr>
@@ -324,7 +324,7 @@ ListProperties.prototype = Object.create(Properties.prototype);
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 10:17:30 GMT+0100 (ora solare Europa occidentale)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 12:41:35 GMT+0100 (ora solare Europa occidentale)</div>
 </div>
 
 <script src="../prettify.js"></script>

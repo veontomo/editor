@@ -1,0 +1,9 @@
+Editor:
+ ☐ do not sanitize & -> &amp; in href attribute of tag "a"
+
+ ☐ get rid of saving temporary file on server. Propose it for direct downloading by means of echo "text"; instead of readfile('path/to/file');
+
+ ☐ make sure that link tag do not override styles of elements, because for example, e-mail client di Libero adds its own default styles to links so that that override "more external"  styles. For example: in case of <span style="..."><a ...>...</a></span>, the styles of the span might easily be overridden by link styles imposed by e-mail clients. So, the correct nestign is <a ...><span style="...">...</span></a>.
+
+ ☐ Wrong mode bug: 1. insert text, 2. select a part of the text, 3. transform it into a link, 4. select the link dragging mouse from one end to the other (not by double click!), 5. make the selection bold, 6. check the resulting html source in order to see something like:
+   <a href="http://ddd" style="text-decoration=&quot;underline&quot; padding=&quot;0px&quot; margin=&quot;0px&quot; color=&quot;#0000FF&quot;" target="_blank"></a>

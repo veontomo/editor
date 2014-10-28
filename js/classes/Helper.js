@@ -464,7 +464,7 @@ var Helper = {
         if (typeof n !== 'number' || typeof m !== 'number'){
             throw new Error('Arguments must be numbers!');
         }
-        if (!Number.isInteger(m) || !Number.isInteger(n)){
+        if (!this.isInteger(m) || !this.isInteger(n)){
             return 1;
         }
         if (m === 0){
@@ -483,6 +483,16 @@ var Helper = {
             max = tmp;
         }
         return this.gcd(min, max % min);
+    },
+
+    /**
+     * Checks whether the argument is an integer number.
+     * @method         isInteger
+     * @param          {Any}           m
+     * @return         {Boolean}       `true` if the argument is a decimal integer, `false` otherwise.
+     */
+    isInteger: function(m){
+        return m === parseInt(m, 10);
     },
 
     /**
@@ -514,7 +524,7 @@ var Helper = {
         var absValues = numbers.map(function(n){return n < 0 ? -n : n;});
         var len = absValues.length;
         if (len === 1){
-            return Number.isInteger(absValues[0]) && absValues[0] > 0 ? absValues[0] : 1;
+            return this.isInteger(absValues[0]) && absValues[0] > 0 ? absValues[0] : 1;
         }
         if (len === 2){
             return Helper.gcd(absValues[0], absValues[1]);

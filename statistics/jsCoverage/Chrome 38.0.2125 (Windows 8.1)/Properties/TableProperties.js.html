@@ -179,20 +179,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">./Properties/TableProperties.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">14.29% <small>(2 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">14.29% <small>(2 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./Properties\</a> &#187; TableProperties.js</div>
@@ -267,19 +267,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1433</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1432</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,11 +279,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1432</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -302,13 +289,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-yes">2864</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-yes">1432</span>
+<span class="cline-any cline-yes">1432</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span></td><td class="text"><pre class="prettyprint lang-js">/*jslint plusplus: true, white: true */
@@ -321,12 +321,12 @@
  * @extends     Properties
  * @since       0.0.5
  */
-<span class="fstat-no" title="function not covered" >function TableProperties(obj) {</span>
+function TableProperties(obj) {
     'use strict';
-<span class="cstat-no" title="statement not covered" >    if (!(this instanceof TableProperties)) {</span>
-<span class="cstat-no" title="statement not covered" >        return new TableProperties(obj);</span>
+    if (!(this instanceof TableProperties)) {
+        return new TableProperties(obj);
     }
-<span class="cstat-no" title="statement not covered" >    Properties.call(this, obj);</span>
+    Properties.call(this, obj);
 &nbsp;
     /**
      * Re-set private properties defined in parent class {{#crossLink "Properties"}}Properties{{/crossLink}}:
@@ -335,7 +335,7 @@
      * &lt;/li&gt;&lt;/ol&gt;
      * @method         constructor
      */
-<span class="cstat-no" title="statement not covered" >    this.setName('TableProperties');</span>
+    this.setName('TableProperties');
 &nbsp;
 &nbsp;
     /**
@@ -345,10 +345,10 @@
      * @private
      * @type           {Object}
      */
-<span class="cstat-no" title="statement not covered" >    var tableCore = {'cellpadding': 0, 'cellspacing': 0};</span>
+    var tableCore = {'cellpadding': 0, 'cellspacing': 0};
     // Sets the above keys in the parent object core
-<span class="cstat-no" title="statement not covered" >    Object.keys(tableCore).forEach(<span class="fstat-no" title="function not covered" >function(key){</span></span>
-<span class="cstat-no" title="statement not covered" >        this.setProperty(key, tableCore[key]);</span>
+    Object.keys(tableCore).forEach(function(key){
+        this.setProperty(key, tableCore[key]);
     }.bind(this));
 &nbsp;
 &nbsp;
@@ -360,11 +360,11 @@
      * @type     {Object}
      * @private
      */
-<span class="cstat-no" title="statement not covered" >    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'};</span>
-<span class="cstat-no" title="statement not covered" >    this.initializeStyle();</span>
-<span class="cstat-no" title="statement not covered" >    var stl = this.getStyles();</span>
-<span class="cstat-no" title="statement not covered" >    stl.suggestProperty(tableStyleCore);</span>
-<span class="cstat-no" title="statement not covered" >    this.setStyles(stl);</span>
+    var tableStyleCore = {'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'};
+    this.initializeStyle();
+    var stl = this.getStyles();
+    stl.suggestProperty(tableStyleCore);
+    this.setStyles(stl);
 &nbsp;
 }
 TableProperties.prototype = Object.create(Properties.prototype);</pre></td></tr>
@@ -372,7 +372,7 @@ TableProperties.prototype = Object.create(Properties.prototype);</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 10:17:30 GMT+0100 (ora solare Europa occidentale)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 12:41:35 GMT+0100 (ora solare Europa occidentale)</div>
 </div>
 
 <script src="../prettify.js"></script>

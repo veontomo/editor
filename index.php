@@ -37,7 +37,7 @@
 	<script type="text/javascript" src="js/start.js"></script>
 
 	<script type="text/javascript" src="js/classes/Helper.js"></script>
-	<script type="text/javascript" src="js/classes/Helper/unit.js"></script>
+	<script type="text/javascript" src="js/classes/Helper/Unit.js"></script>
 	<script type="text/javascript" src="js/classes/Properties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/ImageProperties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/LinkProperties.js"></script>

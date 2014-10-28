@@ -41,18 +41,17 @@ var path = require('path'),
     // 'CKHelper.js',
     // 'CKHelper/Selection.js',
     // 'Helper/String.js',
+
     'Helper.js',
     'Helper/Unit.js',
     'Properties.js',
-
-    'Properties/TableProperties.js',
-    'Properties/LinkProperties.js',
-    'Properties/RowProperties.js',
-    'Properties/CellProperties.js',
     'Properties/ImageProperties.js',
+    'Properties/LinkProperties.js',
+    'Properties/CellProperties.js',
     'Properties/ListProperties.js',
     'Properties/ListItemProperties.js',
-
+    'Properties/RowProperties.js',
+    'Properties/TableProperties.js',
     'HtmlElements/Content.js',
     'HtmlElements/Tag.js',
     'HtmlElements/Tag/Table.js',
@@ -64,18 +63,15 @@ var path = require('path'),
     'HtmlElements/Tag/OList.js',
     'HtmlElements/Tag/UList.js',
     'HtmlElements/Tag/Link.js',
-
-
-    'HtmlElements/Dom.js',
-    'HtmlElements/Mapper.js',
-    'HtmlElements/Factory.js',
-
     'HtmlElements/PlainText.js',
-
+    'HtmlElements/Document.js',
+    'HtmlElements/Dom.js',
     'CKHelper.js',
     'CKHelper/Selection.js',
-
+    'HtmlElements/Mapper.js',
+    'HtmlElements/Factory.js',
   ],
+
   left = '../../jasmine/spec/classes/', // string that should be prepended to each element of "fileSources"
                                 // array in order to find corresponding specification file
   right = 'Spec',               // string that should be appended to file name of each element of the
@@ -93,7 +89,7 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: allFiles,
     // browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    browsers:  ['Firefox'],
+    browsers:  ['IE'],
     reporters: ['progress', 'coverage', 'spec'],
     preprocessors: { '**/*.js': 'coverage' },
     coverageReporter: {
