@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\classes\HtmlElements\Tag.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.6</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
+            
+                <li><a href="../classes/CKEDITOR.html">CKEDITOR</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Controller.html">Controller</a></li>
+            
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
+                <li><a href="../classes/ConverterElastic.html">ConverterElastic</a></li>
+            
+                <li><a href="../classes/ConverterFixed.html">ConverterFixed</a></li>
+            
+                <li><a href="../classes/ConverterGeneral.html">ConverterGeneral</a></li>
+            
+                <li><a href="../classes/ConverterSimpleText.html">ConverterSimpleText</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
+            
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
+                <li><a href="../classes/EHToolbar.html">EHToolbar</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkDialog.html">LinkDialog</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
+            
+                <li><a href="../classes/Mapper.html">Mapper</a></li>
+            
+                <li><a href="../classes/NEWSLETTER.html">NEWSLETTER</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
+                <li><a href="../classes/Save.html">Save</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/table2ModifyDialog.html">table2ModifyDialog</a></li>
+            
+                <li><a href="../classes/TableDialog.html">TableDialog</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+                <li><a href="../classes/Worker.html">Worker</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Config.html">Config</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
+            
+                <li><a href="../modules/Converter.html">Converter</a></li>
+            
+                <li><a href="../modules/Dialogs.html">Dialogs</a></li>
+            
+                <li><a href="../modules/EventHandler.html">EventHandler</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Plugins.html">Plugins</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\classes\HtmlElements\Tag.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint white: false */
+/*jslint plusplus: true, white: true */
+/*global DOMParser, Node, Attributes, Content, Styles, window, Helper, Properties */
+
+/**
+ * This class is used to represent a general html tag.
+ * @module 	    HtmlElements
+ * @class  		Tag
+ * @constructor
+ * @param      {String}        tName           html tag corresponding to the class.
+ * @since       0.0.3
+ * @author      A.Shcherbakov
+ *
+ */
+function Tag(tName) {
+	&quot;use strict&quot;;
+	if (!(this instanceof Tag)) {
+		return new Tag();
+	}
+
+	/**
+	 * Html tag corresponding to this class.
+	 * @property       {String}             tag
+	 * @default        null
+	 * @private
+	 * @since          0.0.1
+	 */
+	var tag = tName || null;
+
+	/**
+	 * Name of the current class.  This property is introduced for compatibility with IE: i.e.
+	 * in FF, &#x60;this.constructor&#x60; has &#x60;tag&#x60; property that returns &quot;Tag&quot;, while in IE, there
+	 * is no &#x60;tag&#x60; property.
+	 * Every class that inherits from this one, should override this property.
+	 * @property       {String}    className
+	 * @type           {String}
+	 * @default        &quot;Tag&quot;
+	 * @private
+	 * @readOnly
+	 * @since          0.0.2
+	 */
+	var className = &#x27;Tag&#x27;;
+
+	/**
+	 * {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}} getter.
+	 * @method         getTag
+	 * @return         {String}
+	 * @since          0.0.1
+	 */
+	this.getTag = function(){
+		return tag;
+	};
+
+
+	/**
+	 * {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}} setter. If the argument is
+	 * a string or a number, then if necessary, converts it into a string and performs
+	 * assignment. If the argument is of any other type, no assignment occures.
+	 * @method          setTag
+	 * @param           {String|Number}     name
+	 * @return          {String}
+	 * @since           0.0.1
+	 * @return          {void}
+	 */
+	this.setTag = function(name){
+		if (name !== undefined){
+			var nameType = typeof name;
+			if (nameType === &#x27;string&#x27;){
+				tag = name;
+			} else if (nameType === &#x27;number&#x27;){
+				tag = name.toString();
+			}
+		}
+	};
+
+	/**
+	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
+	 * @private
+	 * @property       {Properties}         _properties
+	 * @type           {Properties}
+	 * @default 	   Properties()
+	 * @since          0.0.5
+	 */
+	var _properties = new Properties();
+
+	/**
+	 * Content of the tag.
+	 * @property       {Content}            content
+	 * @type           {Content}
+	 * @default        Content()
+	 * @private
+	 * @since          0.0.4
+	 */
+	var content = new Content();
+
+
+
+	/**
+	 * Marker name.
+	 *
+	 * This string stores the name of attribute which is used to mark the instance using
+	 * the method {{#crossLink &quot;Tag/mark:method&quot;}}mark(){{/crossLink}}.
+	 * @property       {String}      _marker
+	 * @type           {String}
+	 * @default        null
+	 * @private
+	 * @since          0.0.6
+	 */
+	var _marker = null;
+
+	/**
+	 * {{#crossLink &quot;Tag/_marker:property&quot;}}_marker{{/crossLink}} getter.
+	 *
+	 * @method         getMarker
+	 * @return         {String}
+	 * @since          0.0.6
+	 */
+	this.getMarker = function(){
+		return _marker;
+	};
+
+	/**
+	 * {{#crossLink &quot;Tag/_marker:property&quot;}}_marker{{/crossLink}} setter.
+	 * @method         setMarker
+	 * @param          {String}        str
+	 * @since          0.0.6
+	 */
+	this.setMarker = function(str){
+		if (typeof str === &#x27;string&#x27; &amp;&amp; str !== &#x27;&#x27;){
+			_marker = str;
+		}
+	};
+
+	/**
+	 * Sets {{#crossLink &quot;Tag/_properties:property&quot;}}properties{{/crossLink}} of the tag. If the argument is an instance
+	 * of {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}}, its clone is assigned to private variable
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}, otherwise the argument is passed to the
+	 * {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} constructor and newly created instance is assigned to
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method         setProperties
+	 * @since          0.0.5
+	 * @param          {Any}                prop
+	 * @return         {void}
+	 */
+	this.setProperties = function(prop){
+		if (prop instanceof Properties){
+			_properties = prop.clone();
+		} else {
+			_properties = new Properties(prop);
+		}
+	};
+
+	/**
+	 * Returns clone of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method        getProperties
+	 * @since         0.0.5
+	 * @return        {Properties}
+	 */
+	this.getProperties = function(){
+		var clone = _properties.clone();
+		return clone;
+	};
+
+	/**
+	* Sets &#x60;style&#x60; property inside {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}. It is an alias
+	* for {{#crossLink &quot;Properties/setStyles:method&quot;}}setStyles(){{/crossLink}} method.
+	*
+	* @method          setStyles
+	* @param           {any}                stl
+	* @return          {void}
+	* @since           0.0.4
+	*/
+	this.setStyles = function(stl){
+		_properties.setStyles(stl);
+	};
+
+
+	/**
+	* Gets &#x60;style&#x60; key of private variable {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	* It is an alias for {{#crossLink &quot;Properties/getStyles:method&quot;}}Properties::getStyles{{/crossLink}} method.
+	* @method          getStyles
+	* @return          {Properties}
+	* @since           0.0.4
+	*/
+	this.getStyles = function(){
+		return _properties.getStyles();
+
+	};
+
+
+	/**
+	* Smart {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} setter. If the argument is a
+	* {{#crossLink &quot;Content&quot;}}Content{{/crossLink}} instance, then
+	* {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}
+	* is set to this value. Otherwise, the argument is passed to the constructor of new instance of
+	* {{#crossLink &quot;Content&quot;}}Content{{/crossLink}} and the result is assigned to
+	* {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}.
+	* @method          setContent
+	* @param           {any}                cntn
+	* @return          {void}
+	* @since           0.0.1
+	*/
+	this.setContent = function(cntn){
+		if (cntn instanceof Content){
+			content = cntn;
+		} else {
+			content = new Content(cntn);
+		}
+
+	};
+
+	/**
+	* Returns copy of {{#crossLink &quot;Tag/content:property&quot;}}Content{{/crossLink}}.
+	* @method          getContent
+	* @return          {Content}
+	* @since           0.0.4
+	*/
+	this.getContent = function(){
+		return content.clone();
+	};
+
+	/**
+	 * {{#crossLink &quot;Tag/className:property&quot;}}Class name{{/crossLink}} getter.
+	 * @method         getName
+	 * @return         {String}
+	 */
+	this.getName = function(){
+		return className;
+	};
+
+	/**
+	 * {{#crossLink &quot;Tag/className:property&quot;}}Class name{{/crossLink}} setter. Use it with caution. This
+	 * method is intended to be used in classes that inherite from this one in order to set the name attribute.
+	 * (If only were there a late binding ...)
+	 * @method         setName
+	 * @param          {String} name
+	 * @return         {void}
+	 */
+	this.setName = function(name){
+		if (typeof name === &#x27;string&#x27;){
+			className = name;
+		}
+	};
+
+
+
+	/**
+	 * Appends style to the instance. Alias for {{#crossLink &quot;Styles/appendStyle:method&quot;}}Styles::appendStyle{{/crossLink}}.
+	 * @method         appendStyle
+	 * @param          {Styles|Obj}          newStyle   style to be appended
+	 * @return         {void}
+	 * @since          0.0.1
+	 */
+	this.appendStyle = function(newStyle){
+		_properties.appendStyle(newStyle);
+		// this.initializeStyle();
+		// this.getStyles().appendStyle(newStyle);
+	};
+
+	/**
+	 * Appends style to the instance. Alias for
+	 * {{#crossLink &quot;Attributes/appendAttributes:method&quot;}}Attributes::appendAttributes{{/crossLink}}.
+	 * @method         appendAttributes
+	 * @param          {Obj}                attr   attributes to be appended
+	 * @return         {void}
+	 * @since          0.0.1
+	 * @deprecated     Use appendProperties instead
+	 */
+	this.appendAttributes = function(attr){
+		console.log(&#x27;This method is deprecated. Redirected to appendProperties()&#x27;);
+		// attributes.appendProperty(attr);
+		_properties.appendProperties(attr);
+	};
+
+
+	/**
+	 * Appends properties to {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the instance. Alias for
+	 * {{#crossLink &quot;Properties/appendProperty:method&quot;}}appendProperty(){{/crossLink}} method.
+	 * @method         appendProperties
+	 * @param          {Obj}                prop   properties to be appended
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.appendProperties = function(prop){
+		_properties.appendProperty(prop);
+	};
+
+
+	/**
+	 * Appends style &#x60;stl&#x60; to element at position &#x60;pos.&#x60; It is an alias for the method
+	 * {{#crossLink &quot;Content/appendStyleToElemAt:method&quot;}}appendStyleToElemAt{{/crossLink}}.
+	 * @method  appendStyleToElemAt
+	 * @param  {any}   pos
+	 * @param  {any}      stl
+	 * @return {void}
+	 * @since  0.0.1
+	 */
+	this.appendStyleToElemAt = function(pos, stl){
+		content.appendStyleToElemAt(pos, stl);
+	};
+
+
+	/**
+	 * Retrieves requested property from {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         getStyleProperty
+	 * @param          {String} 	        prop 	property name to be retrieved from the styles
+	 * @return         {Any}
+	 * @since          0.0.4
+	 */
+	this.getStyleProperty = function(prop) {
+		var stl = this.getStyles();
+		if (stl){
+			return stl.getProperty(prop);
+		}
+	};
+
+
+	/**
+	 * Imposes requested property value in {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         setStyleProperty
+	 * @param          {String} 	        key 	   property name to be set
+	 * @param          {String} 	        value 	   property value
+	 * @return         {Any}
+	 * @since          0.0.4
+	 */
+	this.setStyleProperty = function(key, value) {
+		return _properties.setStyleProperty(key, value);
+	};
+
+
+	/**
+	 * Retrieves value of &#x60;prop&#x60; from {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the current object.
+	 * @method         getProperty
+	 * @param          {String} 	        prop 	property name to be retrieved from the attributes
+	 * @return         {Any}
+	 * @since          0.0.5
+	 */
+	this.getProperty = function(prop) {
+		return this.getProperties().getProperty(prop);
+
+	};
+
+
+	/**
+	 * Sets the value of &#x60;key&#x60; of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * to &#x60;value&#x60;. Alias for {{#crossLink &quot;Properties/setProperty:property&quot;}}setProperty{{/crossLink}}
+	 * @method         setProperty
+	 * @param          {String} 	        key 	   property name to be set
+	 * @param          {String} 	        value 	   property value
+	 * @return         {void}
+	 * @since          0.0.5
+	 */
+	this.setProperty = function(key, value) {
+		_properties.setProperty(key, value);
+	};
+
+
+	/**
+	 * Returns &#x60;true&#x60; if {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * contains &#x60;key&#x60; and &#x60;false&#x60; otherwise. Alias for
+	 * {{#crossLink &quot;Properties/hasProperty:method&quot;}}hasProperty{{/crossLink}}
+	 * @method         hasProperty
+	 * @param          {String}             key
+	 * @return         {Boolean}
+	 */
+	this.hasProperty = function(key){
+		var prop = this.getProperties();
+		return (prop &amp;&amp; prop.hasProperty(key));
+	};
+
+	/**
+	 * Returns &#x60;true&#x60; if {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * contains attribute &#x60;key&#x60; and &#x60;false&#x60; otherwise.
+	 * @method         hasStyleProperty
+	 * @param          {String}             key
+	 * @return         {Boolean}
+	 */
+	this.hasStyleProperty = function(key){
+		var stl = this.getStyles();
+		return (stl !== undefined &amp;&amp; stl !== null &amp;&amp; stl.hasProperty(key));
+	};
+
+	/**
+	 * Drops &#x60;key&#x60; from {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}
+	 * of the current object and returns a value of the key.
+	 * @method         dropProperty
+	 * @param          {String} 	        key 	property name to be retrieved from the attributes
+	 * @return         {Any}                        value of the key in the attributes
+	 * @since          0.0.5
+	 */
+	this.dropProperty = function(key) {
+		if (this.hasProperty(key)){
+			return _properties.dropProperty(key);
+		}
+	};
+
+	/**
+	 * Drops requested property from {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}}
+	 * property of the current object.
+	 * @method         dropStyleProperty
+	 * @param          {String} 	        key 	property name to be retrieved from the styles
+	 * @return         {Any}                        value of the key in the styles
+	 * @since          0.0.4
+	 */
+	this.dropStyleProperty = function(key) {
+		if (this.hasStyleProperty(key)){
+			return this.getStyles().dropProperty(key);
+		}
+	};
+
+	/**
+	 * Calls {{#crossLink &quot;Properties/setWidth:method&quot;}}setWidth(){{/crossLink}} methods to set the widths.
+	 * @method         setWidth
+	 * @param          {String|Number} 	    w
+	 * @return         {void}
+	 * @since          0.0.1
+	 */
+	this.setWidth = function(w){
+		if (w !== undefined){
+			_properties.setWidth(w);
+		}
+	};
+
+	/**
+	 * Retrieves value of &#x60;width&#x60; attribute of {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
+	 * @method         getWidth
+	 * @return         {mixed}
+	 * @since          0.0.4
+	 */
+	this.getWidth = function(){
+		var props = this.getProperties();
+		if (props){
+			return props.getWidth();
+		}
+	};
+
+	/**
+	 * Returns absolute value of &#x60;width&#x60; attribute of {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}}
+	 * property without unit of measurement. If &#x60;width&#x60; is not defined or defined but its absolute value
+	 * can not be found, then &#x60;undefined&#x60; is returned.
+	 * @method         getWidthValue
+	 * @return         {Number|Null}        width without unit of measurement
+	 */
+	this.getWidthValue = function(){
+		var w = this.getWidth();
+		if (w !== undefined){
+			var result = parseFloat(w);
+			if (!isNaN(result)){
+				return result;
+			}
+		}
+	};
+
+
+	/**
+	 * Returns copy of {{#crossLink &quot;Content/elements&quot;}}elements{{/crossLink}} of
+	 * {{#crossLink &quot;Tag/content&quot;}}content{{/crossLink}}.
+	 * @method         getElements
+	 * @return         {Array}
+	 */
+	this.getElements = function(){
+		var cntn = this.getContent();
+		if (cntn){
+			return cntn.getElements();
+		}
+
+	};
+
+	/**
+	 * Imposes {{#crossLink &quot;Content/elements:property&quot;}}elements{{/crossLink}} of
+	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. If the argument
+	 * is not array, not assignment occures.
+	 * @method         setElements
+	 * @param          {Array}              arr
+	 */
+	this.setElements = function(arr){
+		if (Array.isArray(arr)){
+			content.setElements(arr);
+		}
+	};
+
+	/**
+	 * Gets the element stored in {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}. Delegates its
+	 * functionality to class {{#crossLink &quot;Content&quot;}}Content{{/crossLink}}.
+	 * @method getElem
+	 * @param  {Number}    pos
+	 * @return {any}
+	 * @since  0.0.1
+	 */
+	this.getElem = function(pos){
+		return this.getContent().getElem(pos);
+	};
+
+	/**
+	 * Returns copy of the first element of {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}.
+	 * Alias for {{#crossLink &quot;Content/getFirst:method&quot;}}Content::getFirst{{/crossLink}}.
+	 * @method         getFirst
+	 * @return         {any}
+	 * @since          0.0.1
+	 */
+	this.getFirst = function(){
+		return this.getContent().getFirst();
+	};
+
+	/**
+	 * Returns copy of the first element of {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}.
+	 * Alias for {{#crossLink &quot;Content/getLast:method&quot;}}Content::getlast{{/crossLink}}.
+	 * @method  getLast
+	 * @return {any}
+	 * @since  0.0.1
+	 */
+	this.getLast = function(){
+		return this.getContent().getLast();
+	};
+
+	/**
+	 * Inserts an element into given position. Delegates its functionality to the class
+	 * {{#crossLink &quot;Content&quot;}}Content{{/crossLink}}.
+	 * @method  insertElemAt
+	 * @param  {Number} pos
+	 * @param  {any}    elem
+	 * @return {void}
+	 * @since  0.0.1
+	 */
+	this.insertElemAt = function(pos, elem){
+		content.insertElemAt(pos, elem);
+	};
+
+	/**
+	 * Appends the element to the content of the list item. Delegates its functionality to
+	 * {{#crossLink &quot;Content/appendElem:method&quot;}}appendElem{{/crossLink}}.
+	 * @method appendElem
+	 * @param  {any}     elem
+	 * @return {void}
+	 * @since  0.0.1
+	 */
+	this.appendElem = function(elem){
+		content.appendElem(elem);
+	};
+
+	/**
+	 * Returns the number of elements inside its content. Delegates to Content::length().
+	 * @method          length
+	 * @return          {Number}
+	 * @since           0.0.1
+	 */
+	this.length = function(){
+		return this.getContent().length();
+	};
+
+	/**
+	 * Deletes element from &quot;content&quot; property. Delegates its functionalality to
+	 * {{#crossLink &quot;Content/dropElemAt:method}}dropElemAt{{/crossLink}}.
+	 * @method         dropElemAt
+	 * @param          {Any}                pos     intented to be an integer, but no check is performed
+	 * @return         {Any}
+	 * @since          0.0.1
+	 */
+	this.dropElemAt = function(pos){
+		return content.dropElemAt(pos);
+	};
+
+	/**
+	 * Deletes first element from &quot;content&quot; property. Delegates its functionalality to
+	 * {{#crossLink &quot;Content/dropFirst:method&quot;}}Content::dropFirst(){{/crossLink}}.
+	 * @method         dropFirst
+	 * @return         {void}
+	 * @since          0.0.1
+	 */
+	this.dropFirst = function(){
+		content.dropFirst();
+	};
+
+	/**
+	 * Deletes last element from &quot;content&quot; property. Delegates its functionalality to
+	 * {{#crossLink &quot;Content/dropLast:method&quot;}}Content::dropLast(){{/crossLink}}.
+	 * @method         dropLast
+	 * @return         {void}
+	 * @since          0.0.1
+	 */
+	this.dropLast = function(){
+		content.dropLast();
+	};
+
+
+	/**
+	 * If {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}} is a non-empty string, then it is
+	 * returned a string with which html representaion of current instance starts,
+	 * i.e.: &#x60;&lt;div class=&quot;media&quot; style=&quot;color: red; width: 73%&quot;&gt;&#x60;.
+	 * @method         openingTag
+	 * @return         {String|Null}
+	 */
+	this.openingTag = function(){
+		var t = this.getTag(),
+			prop;
+		if (typeof t === &#x27;string&#x27; &amp;&amp; t.length &gt; 0){
+			prop =  this.getProperties();
+			prop = (prop &amp;&amp; typeof prop.toString === &#x27;function&#x27;) ? prop.toString() : &#x27;&#x27;;
+			if (prop.length &gt; 0){
+				prop = &#x27; &#x27; + prop;
+			}
+			return &#x27;&lt;&#x27; + t + prop + &#x27;&gt;&#x27;;
+		}
+	};
+
+	/**
+	 * Returns html closing tag, i.e. &#x60;&lt;/span&gt;&#x60;.
+	 * @method         closingTag
+	 * @return         {String}
+	 */
+	this.closingTag = function(){
+		var t = this.getTag();
+		if (typeof t === &#x27;string&#x27; &amp;&amp; t.length &gt; 0){
+			return &#x27;&lt;/&#x27; + t + &#x27;&gt;&#x27;;
+		}
+	};
+
+	/**
+	 * Gives html representation of the instance.
+	 * If {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}} is not a non-empty string, just html comment is generated.
+	 * @method         toHtml
+	 * @return         {String}
+	 * @since          0.0.1
+	 */
+	this.toHtml = function(){
+		var tagStr = this.getTag(),
+			openStr = this.openingTag(),
+			closeStr = this.closingTag(),
+			constStr = this.getContent().toHtml(),
+			html;
+		if (typeof tagStr === &#x27;string&#x27; &amp;&amp; tagStr.length &gt; 0){
+			html = openStr + constStr + closeStr;
+		} else {
+			html = &#x27;&lt;!-- tag name is missing --&gt;&#x27;;
+		}
+		return html;
+	};
+
+	/**
+	 * Generates plain text representation of the tag content. Calls {{#crossLink &quot;Content/toText:method&quot;}}Content::toText(){{/crossLink}}.
+	 * @method         toText
+	 * @return         {String}
+	 * @since          0.0.1
+	 */
+	this.toText = function(){
+		return this.getContent().toText();
+	};
+
+	/**
+	 * Returns true, if the tag is empty. Returns false otherwise.&lt;br /&gt;
+	 * The tag is considered empty if &#x60;isEmpty()&#x60; method for its {{#crossLink &quot;Tag/attributes:property&quot;}}attributes{{/crossLink}}
+	 * and {{#crossLink &quot;Tag/styles:property&quot;}}styles{{/crossLink}} and {{#crossLink &quot;Content&quot;}}content{{/crossLink}} returns true.
+	 * @method         isEmpty
+	 * @return         {Boolean}
+	 * @since          0.0.1
+	 */
+	this.isEmpty = function(){
+		return this.getProperties().isEmpty() &amp;&amp; this.getContent().isEmpty();
+	};
+
+	/**
+	 * Empties {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}.
+	 * @method         flushContent
+	 * @return         {void}
+	 */
+	this.flushContent = function(){
+		content.flush();
+	};
+
+
+	/**
+	 * Sets {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} to a new
+	 * {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance.
+	 * @method         flushProperties
+	 * @return         {void}
+	 */
+	this.flushProperties = function(){
+		_properties = new Properties();
+	};
+
+
+	/**
+	 * Trims the content. Calls method {{#crossLink &quot;Content/trim:method&quot;}}Content::trim(){{/crossLink}} on the
+	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} property.
+	 * @method  trim
+	 * @return  {void}
+	 */
+	this.trim = function(){
+		content.trim();
+		// return this;
+	};
+
+	/**
+	 * Appends element to the content. It is alias for the
+	 * {{#crossLink &quot;Content/appendElem:method&quot;}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
+	 * @method appendElemIfNotEmpty
+	 * @param  {any}      arg
+	 * @return {void}
+	 */
+	this.appendElemIfNotEmpty = function(arg){
+		content.appendElemIfNotEmpty(arg);
+	};
+
+
+	/**
+	 * Creates a clone of the target. If the target has a &#x60;className&#x60; attribute corresponding to
+	 * exisiting class, then that class instance is to be returned. Otherwise a {{#crossLink &quot;Tag&quot;}}Tag{{/crossLink}}
+	 * instance is returned. The method parses all attributes of the target and if the attribute
+	 * responds to a &quot;clone&quot; method, then calls this method and assigns its result to the corresponding
+	 * clone attribute. Otherwise, assign target attribute value to the clone attribute (there might be
+	 * a potential problem with what is passed by reference and not by values, i.e. array). But among
+	 * {{#crossLink &quot;Tag&quot;}}Tag{{/crossLink}} properties there are no array-valued ones.
+	 * @method    clone
+	 * @return    {Object}
+	 */
+	this.clone = function(){
+		var Constr = window[this.getName()],
+			output, attr, current;
+		output = (typeof Constr === &#x27;function&#x27;) ?  new Constr() : new Tag();
+		for (attr in this){
+			if (this.hasOwnProperty(attr)){
+				current = this[attr];
+				if (current &amp;&amp; typeof current.clone === &#x27;function&#x27;){
+					output[attr] = current.clone();
+				} else {
+					output[attr] = current;
+				}
+			}
+		}
+		return output;
+	};
+
+	/**
+	 * Populates the following properties of the target object
+	 * &lt;ol&gt;&lt;li&gt;
+	 * {{#crossLink &quot;Tag/tag:property&quot;}}tag{{/crossLink}}
+	 * &lt;/li&gt;&lt;li&gt;
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} by calling
+	 * {{#crossLink &quot;Properties/load:method&quot;}}load(){{/crossLink}} method.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}} by calling
+	 * {{#crossLink &quot;Content/load:method&quot;}}Content::load(){{/crossLink}} method.
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * from the argument which must be an instance of
+	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns &#x60;true&#x60; if
+	 * the argument is of required type and the above mentioned  &#x60;load&#x60; methods return &#x60;true&#x60;. Otherwise,
+	 * &#x60;false&#x60; is returned.&lt;br /&gt;
+	 * NB: DOM.Element.attributes has the form &#x60;{1: {tag: &quot;width&quot;, value:&quot;100&quot;, ...}, 2: {tag: &quot;color&quot;, value:&quot;black&quot;, ...}, ...}&#x60;
+	 * @method     load
+	 * @param      {Element}            elem           origin from which the element properties are to be loaded
+	 * @return     {Boolean}
+	 */
+	this.load = function(elem){
+		var propNew,
+			propSucc = false,
+			contentSucc = false,
+			childrenArr = [],
+			children, currentChild, attr, i, len;
+		if (elem &amp;&amp; (elem.nodeType === Node.ELEMENT_NODE)){
+			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
+			len = children.length;
+			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
+			attr  = elem.attributes;
+			if (attr){
+				propNew = this.getProperties();
+				propSucc = propNew.load(attr);
+				this.setProperties(propNew);
+			}
+			for (i = 0; i &lt; len; i++){
+				currentChild = children.item(i);
+				childrenArr.push(currentChild);
+			}
+			contentSucc = content.load(childrenArr);
+		}
+		return propSucc &amp;&amp; contentSucc;
+	};
+
+	/**
+	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.
+	 * Calls methods {{#crossLink &quot;Attributes/decorateElement:method&quot;}}Attributes::decorateElement(){{/crossLink}} to apply attributes,
+	 * {{#crossLink &quot;Style/decorateElement:method&quot;}}Style::decorateElement(){{/crossLink}} to apply styles and
+	 * {{#crossLink &quot;Content/stickTo:method&quot;}}Content::stickTo(){{/crossLink}} to append elements from the
+	 * {{#crossLink &quot;Tag/content:property&quot;}}Tag::content{{/crossLink}}.
+	 * @method  toNode
+	 * @return  {DOM.Element}
+	 */
+	this.toNode = function(){
+		var el = document.createElement(this.getTag());
+		this.getProperties().decorateElement(el);
+		this.getContent().stickTo(el);
+		return el;
+	};
+
+
+	/**
+	 * Erases current value of atttribute &quot;title&quot; and sets it to &#x60;str&#x60; if &#x60;str&#x60; is a non-empty string.
+	 *
+	 * @method         setTitle
+	 * @param          {String}             str
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.setTitle = function(str){
+		if (typeof str === &#x27;string&#x27; &amp;&amp; str.length &gt; 0){
+			this.setProperty(&#x27;title&#x27;, str);
+		} else {
+			this.dropProperty(&#x27;title&#x27;);
+		}
+	};
+
+	/**
+	 * Applies function &#x60;fun&#x60; to each element of {{#crossLink &quot;Tag/content:property&quot;}}content{{/crossLink}}.
+	 *
+	 * It is an alias for {{#crossLink &quot;Content/applyToAll:method&quot;}}Content::applyToAll(){{/crossLink}} method.
+	 *
+	 * @method         applyToAll
+	 * @param          {Function}      fun         function to be applied to each element of content
+	 * @since          0.0.6
+	 */
+	this.applyToAll = function(fun){
+		if (content &amp;&amp; typeof fun === &#x27;function&#x27;){
+			content.applyToAll(fun);
+		}
+	};
+
+	/**
+	 * Marks the target.
+	 *
+	 * Assign value of variable {{#crossLink &quot;Tag/className:property&quot;}}classname{{/crossLink}} to attribute &#x60;marker&#x60;
+	 * and adds this key-value pair into {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}. It sets
+	 * as well {{#crossLink &quot;Tag/_marker:property&quot;}}_marker{{/crossLink}} to be &#x60;marker&#x60; in order to be able to
+	 * apply eventually {{#crossLink &quot;Tag/unmark:method&quot;}}unmark{{/crossLink}} method.
+	 *
+	 * @method         mark
+	 * @param          {String}        marker
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.mark = function(marker){
+		this.setMarker(marker);
+		this.setProperty(marker, this.getName());
+	};
+
+
+	/**
+	 * Unmarks the target.
+	 *
+	 * Removes key {{#crossLink &quot;Tag/_marker:property&quot;}}_marker{{/crossLink}} from
+	 * {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}} and clears
+	 * variable {{#crossLink &quot;Tag/_marker:property&quot;}}_marker{{/crossLink}}.
+	 * @method         unmark
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.unmark = function(){
+		var markerName = this.getMarker();
+		if (markerName){
+			this.dropProperty(markerName);
+			_marker = null;
+		}
+	};
+
+
+	/**
+	 * Shrinks instance width by &#x60;d&#x60;. Alias for {{#crossLink &quot;Properties/shrinkBy:method&quot;}}Properties::shrinkBy{{/crossLink}} method.
+	 *
+	 * @method         shrinkBy
+	 * @param          {Any}           d
+	 * @return         {void}
+	 * @since          0.0.6
+	 *
+	 */
+	this.shrinkBy = function(d){
+		_properties.shrinkBy(d);
+	};
+
+
+	/**
+	 * Sets style key &#x60;name&#x60; of all children of the current instance to be equal to &#x60;value&#x60;.
+	 * @method         setStylePropertyToAll
+	 * @param          {String}        key            style key
+	 * @param          {String|Number} value          style value
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.setStylePropertyToAll = function(key, value){
+		var cntn = new Content(),
+			len = this.length(),
+			i, elem;
+		for (i = 0; i &lt; len; i++){
+			elem = this.getElem(i);
+			elem.setStyleProperty(key, value);
+			cntn.appendElem(elem);
+		}
+		this.setContent(cntn);
+	};
+
+	/**
+	 * Sets style key &#x60;name&#x60; of children which indexes are in array &#x60;range&#x60; to be equal to &#x60;value&#x60;.
+	 *
+	 * Example: &lt;code&gt;tag.setStylePropertyOfRange(&#x27;margin&#x27;, &#x27;10px&#x27;, [1, 4, 6, 7])&lt;/code&gt; sets inline style
+	 * property &#x60;margin&#x60; to be &#x60;10px&#x60; for children which indexes are 1, 4, 6, or 7.
+	 * @method         setStylePropertyOfRange
+	 * @param          {String}        key            style key
+	 * @param          {String|Number} value          style value
+	 * @param          {Array|Null}    range          array of children indexes to which apply modifications
+	 *                                                or &#x60;null&#x60; if modifications are to be applied to all children
+	 * @throws         {Error}  If range is niether an array nor null
+	 * @since          0.0.6
+	 */
+	this.setStylePropertyOfRange = function(key, value, range){
+		if (!Array.isArray(range) &amp;&amp; range !== null &amp;&amp; range !== undefined){
+			throw new Error(&#x27;Range must be an array!&#x27;);
+		}
+		var cntn = new Content(),
+			len = this.length(),
+			i, elem,
+			setForAll = (range === null || range === undefined); // in case the range is not specified, apply for all children
+		for (i = 0; i &lt; len; i++){
+			elem = this.getElem(i);
+			if (setForAll || range.indexOf(i) !== -1){
+				elem.setStyleProperty(key, value);
+			}
+			cntn.appendElem(elem);
+		}
+		this.setContent(cntn);
+	};
+
+	/**
+	 * Returns value of style property &#x60;key&#x60; of children which indexes are in array &#x60;range&#x60; if all of them have
+	 * the same value of the property. Otherwise, &#x60;null&#x60; is returned.
+	 *
+	 * &#x60;range&#x60; array admits negative numbers (with usual meaning: enumeration starts from the end).
+	 * @method         getStylePropertyOfRange
+	 * @param          {String}        key       name of style property (e.g., &quot;width&quot;, &quot;top-border&quot;)
+	 * @param          {Array|null}    range     array of indexes of the children to take into consideration
+	 * @return         {String|null}
+	 * @since          0.0.6
+	 */
+	this.getStylePropertyOfRange = function(key, range){
+		if (!Array.isArray(range) &amp;&amp; range !== null &amp;&amp; range !== undefined){
+			throw new Error(&#x27;Range must be an array!&#x27;);
+		}
+		if (Array.isArray(range) &amp;&amp; range.length === 0){
+			return null;
+		}
+		var len = this.length();
+		if (range === null || range === undefined){
+			// making a call to the method itself but with &quot;range&quot; being specified
+			range = [];
+			var i;
+			for (i = 0; i &lt; len; i++){
+				range.push(i);
+			}
+			return this.getStylePropertyOfRange(key, range);
+		}
+		var result, currentValue;
+
+		// if one needs to consider elements one by one, replace negative elements in &quot;range&quot; (if any)
+		// by corresponding positive ones
+		range = range.map(function(i){return i &lt; 0 ? len + i : i;});
+		range.forEach(function(index){
+			try {
+				currentValue = this.getElem(index).getStyleProperty(key);
+			} catch (e){
+				console.log(&#x27;Error (&#x27; + e.message + &#x27;) when retrieving style property &#x27; + key + &#x27; of element n. &#x27; + index);
+				currentValue = null;
+			}
+
+			if (result === undefined){
+				result = currentValue;
+			} else if (result !== currentValue){
+				return null;
+			}
+		}.bind(this));
+
+		return result;
+	};
+
+
+	/**
+	 * Returns json object that uniquely parametrizes the instance.
+	 *
+	 * To be overridden by inhertited classes.
+	 * @method template
+	 * @return {Object}
+	 * @since  0.0.7
+	 */
+	this.template = function(){
+		console.log(&#x27;This method is abstract and must be overriden by inhertited class. Since it gets called, it means that \
+			something goes wrong.&#x27;);
+	};
+}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

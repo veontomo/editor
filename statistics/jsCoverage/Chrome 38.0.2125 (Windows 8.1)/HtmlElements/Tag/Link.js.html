@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ./HtmlElements/Tag/Link.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+            xtext-decoration: line-through;
+        }
+        .missing-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("http://yui.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">./HtmlElements/Tag/Link.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">3.8% <small>(3 / 79)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 40)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">3.8% <small>(3 / 79)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./HtmlElements/Tag\</a> &#187; Link.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*jslint plusplus: true, white: true */
+/*global Tag, LinkProperties, Content, Regexp */
+&nbsp;
+/**
+* This class is represent an html link tag "a".
+ * @module        HtmlElements
+ * @class         Link
+ * @constructor
+ * @extends       Tag
+*/
+<span class="fstat-no" title="function not covered" >function Link(href) {</span>
+	"use strict";
+<span class="cstat-no" title="statement not covered" >	if (!(this instanceof Link)) {</span>
+<span class="cstat-no" title="statement not covered" >		return new Link(href);</span>
+	}
+<span class="cstat-no" title="statement not covered" >	Tag.call(this);</span>
+&nbsp;
+&nbsp;
+	/**
+	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "a"
+	 * &lt;/li&gt;&lt;li&gt;
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Link"
+	 * &lt;/li&gt;&lt;li&gt;
+	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} to be
+	 * {{#crossLink "LinkProperties"}}LinkProperties{{/crossLink}}
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * @method         constructor
+	 */
+<span class="cstat-no" title="statement not covered" >	this.setTag('a');</span>
+<span class="cstat-no" title="statement not covered" >	this.setName('Link');</span>
+<span class="cstat-no" title="statement not covered" >	this.setProperties(new LinkProperties());</span>
+&nbsp;
+&nbsp;
+	/**
+	 * Returns value of "href" key inside {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
+	 * @method    getHref
+	 * @return    {String}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.getHref =  <span class="fstat-no" title="function not covered" >function(){</span></span>
+<span class="cstat-no" title="statement not covered" >		return this.getProperty('href');</span>
+	};
+&nbsp;
+	/**
+	 * Href setter. Calles parent method  {{#crossLink "Tag/setProperty:method"}}setProperty{{/crossLink}}('href', ...).
+	 * @method   setHref
+	 * @param    {String}         url
+	 * @return   {void}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.setHref =  <span class="fstat-no" title="function not covered" >function(url){</span></span>
+<span class="cstat-no" title="statement not covered" >		this.setProperty('href', url);</span>
+	};
+&nbsp;
+	// set url if it is given
+<span class="cstat-no" title="statement not covered" >	if(href &amp;&amp; (typeof href === 'string')){</span>
+<span class="cstat-no" title="statement not covered" >		this.setHref(encodeURI(href));</span>
+	}
+&nbsp;
+	/**
+	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property.
+	 * If the argument is missing or equal to `true`, "underline" is imposed.
+	 * If the argument is false, then "none" is imposed.
+	 * If the argument is a string,  `text-property` will be assigned to be equal to that string.
+	 * If nothing of the above holds, `text-property` remains unchanged.
+	 * @method    underline
+	 * @param     {String|Null|Boolean}  val
+	 * @return    {void}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.underline = <span class="fstat-no" title="function not covered" >function(val){</span></span>
+<span class="cstat-no" title="statement not covered" >		if (val === true || val === undefined){</span>
+<span class="cstat-no" title="statement not covered" >			this.setStyleProperty('text-decoration', 'underline');</span>
+		} else <span class="cstat-no" title="statement not covered" >if (val === false) {</span>
+<span class="cstat-no" title="statement not covered" >			this.setStyleProperty('text-decoration', 'none');</span>
+		} else <span class="cstat-no" title="statement not covered" >if (typeof val === 'string'){</span>
+<span class="cstat-no" title="statement not covered" >			this.setStyleProperty('text-decoration', val);</span>
+		}
+	};
+&nbsp;
+	/**
+	 * Sets `text-attribute` of the {{#crossLink "Link/style:property"}}`style`{{/crossLink}} property to be `none`.
+	 * @method    dropUnderline
+	 * @return    {void}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.dropUnderline = <span class="fstat-no" title="function not covered" >function(){</span></span>
+<span class="cstat-no" title="statement not covered" >		this.setStyleProperty('text-decoration', 'none');</span>
+	};
+&nbsp;
+	/**
+	 * Apply target properties on the argument `obj`. The following cases are distinguished:
+	 * &lt;ul&gt;&lt;li&gt;
+	 * the argument is an instance of {{#crossLink "Link"}}Link{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/updateLink:method"}}updateLink{{/crossLink}} method.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * the argument is an instance of {{#crossLink "Content"}}Content{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/applyContent:method"}}applyContent{{/crossLink}} method.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * the argument is an instance of {{#crossLink "Tag"}}Tag{{/crossLink}}. In this case, returns output of
+	 * {{#crossLink "Link/applyTag:method"}}applyTag{{/crossLink}} method.
+	 * &lt;/li&gt;&lt;/ul&gt;
+	 * If non of the above holds, result of {{#crossLink "Link/wrap:method"}}wrap{{/crossLink}} method is returned.
+	 * @method         apply
+	 * @param          {Any}                obj
+	 * @return         {Any}                type of output depends on input argument
+	 */
+<span class="cstat-no" title="statement not covered" >	this.apply = <span class="fstat-no" title="function not covered" >function(obj){</span></span>
+<span class="cstat-no" title="statement not covered" >		if (obj instanceof Link){</span>
+			// console.log(obj, ' is a Link');
+<span class="cstat-no" title="statement not covered" >			return this.updateLink(obj);</span>
+		}
+<span class="cstat-no" title="statement not covered" >		if (obj instanceof Content){</span>
+			// console.log(obj, ' is a Content');
+<span class="cstat-no" title="statement not covered" >			return this.applyContent(obj);</span>
+		}
+<span class="cstat-no" title="statement not covered" >		if (obj instanceof Tag){</span>
+			// console.log(obj, ' is a Tag');
+<span class="cstat-no" title="statement not covered" >			return this.applyTag(obj);</span>
+		}
+		// console.log(obj, ' is default');
+<span class="cstat-no" title="statement not covered" >		return this.wrap(obj);</span>
+	};
+&nbsp;
+	/**
+	 * Returns a copy of the target in which {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * contains the only element which is `obj`.
+	 * @method         wrap
+	 * @param          {Any}                obj
+	 * @return         {Link}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.wrap = <span class="fstat-no" title="function not covered" >function(obj){</span></span>
+		/// strange thing: even though the target is a Link and the output is to be a Link,
+		/// if I create object to return by means of this.clone(), somehow Content elements get
+		/// overridden when I use them in apply. For this reason, "new Link()" is used to create
+		/// the object which will be returned.
+<span class="cstat-no" title="statement not covered" >		var output = new Link(),</span>
+			item = (typeof obj.clone === 'function') ? obj.clone() : obj;
+<span class="cstat-no" title="statement not covered" >		output.setProperties(this.getProperties().clone());</span>
+<span class="cstat-no" title="statement not covered" >		output.setStyles(this.getStyles().clone());</span>
+<span class="cstat-no" title="statement not covered" >		output.setElements([item]);</span>
+<span class="cstat-no" title="statement not covered" >		return output;</span>
+&nbsp;
+	};
+&nbsp;
+	/**
+	 * Converts the argument in link. Argument `tagObj` must be a {{#crossLink "Tag"}}Tag{{/crossLink}} instance.
+	 * If its {{#crossLink "Tag/content"}}content{{/crossLink}} is
+	 * &lt;ol&gt;&lt;li&gt;
+	 * non empty, then it is returned a copy of the argument in which {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * is replaced by output of {{#crossLink "Link/applyContent:method"}}applyContent{{/crossLink}} method.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * empty, then a {{#crossLink "Link"}}Link{{/crossLink}} instance is returned. This instance has
+	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} of the target and its
+	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} contains `tagObj` as the only element.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * @method         applyTag
+	 * @param          {Tag}                tagObj
+	 * @return         {Tag|Link}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.applyTag = <span class="fstat-no" title="function not covered" >function(tagObj){</span></span>
+<span class="cstat-no" title="statement not covered" >		if (tagObj instanceof Tag){</span>
+<span class="cstat-no" title="statement not covered" >			var result, cntn, cntnLinkified;</span>
+<span class="cstat-no" title="statement not covered" >			if (!(tagObj.getContent().isEmpty())){</span>
+<span class="cstat-no" title="statement not covered" >				result = tagObj.clone();</span>
+<span class="cstat-no" title="statement not covered" >				cntn = result.getContent();</span>
+<span class="cstat-no" title="statement not covered" >				cntnLinkified = this.applyContent(cntn);</span>
+<span class="cstat-no" title="statement not covered" >				result.setContent(cntnLinkified);</span>
+			} else {
+<span class="cstat-no" title="statement not covered" >				result = this.wrap(tagObj);</span>
+			}
+<span class="cstat-no" title="statement not covered" >			return result;</span>
+		}
+	};
+&nbsp;
+	/**
+	 * Modifies a Content instance in such a way that {{#crossLink "Link/apply:method"}}apply{{/crossLink}}
+	 * is applied on all elements of the argumet.
+	 * @method         applyContent
+	 * @param          {Content}            cntn
+	 * @return         {Content}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.applyContent = <span class="fstat-no" title="function not covered" >function(cntn){</span></span>
+<span class="cstat-no" title="statement not covered" >		if (cntn instanceof Content){</span>
+<span class="cstat-no" title="statement not covered" >			var result = new Content(),</span>
+				cntnElems = cntn.getElements(),
+				len = cntnElems.length,
+				i, current, linked, newLink;
+<span class="cstat-no" title="statement not covered" >			for (i = 0; i &lt; len; i++){</span>
+<span class="cstat-no" title="statement not covered" >				current = cntnElems[i];</span>
+<span class="cstat-no" title="statement not covered" >				newLink = this.clone();</span>
+<span class="cstat-no" title="statement not covered" >				linked = newLink.apply(current);</span>
+<span class="cstat-no" title="statement not covered" >				result.appendElem(linked);</span>
+			}
+<span class="cstat-no" title="statement not covered" >			return result;</span>
+		}
+&nbsp;
+	};
+&nbsp;
+	/**
+	 * Returns a new Link instance with `href` as in the target, {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	 * as in the argument, {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}} and
+	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values
+	 * from the target
+	 * @method         updateLink
+	 * @param          {Link}               link
+	 * @return         {Link}
+	 */
+<span class="cstat-no" title="statement not covered" >	this.updateLink = <span class="fstat-no" title="function not covered" >function(link){</span></span>
+<span class="cstat-no" title="statement not covered" >		if (link instanceof Link){</span>
+<span class="cstat-no" title="statement not covered" >			var result = new Link(),</span>
+				src = this.getHref();
+<span class="cstat-no" title="statement not covered" >			result.setElements(link.getElements());</span>
+<span class="cstat-no" title="statement not covered" >			result.setProperties(this.getProperties());</span>
+<span class="cstat-no" title="statement not covered" >			result.setStyles(this.getStyles());</span>
+<span class="cstat-no" title="statement not covered" >			result.appendStyle(link.getStyles());</span>
+<span class="cstat-no" title="statement not covered" >			result.appendProperties(link.getProperties());</span>
+<span class="cstat-no" title="statement not covered" >			result.setHref(src);</span>
+<span class="cstat-no" title="statement not covered" >			return result;</span>
+		}
+	};
+&nbsp;
+	/**
+	 * Returns `true` if the link's inline style {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} contain
+	 * `text-decoration` key which is set to `underline`. Otherwise, `false` is returned.
+	 * @method         isUnderlined
+	 * @return         {Boolean}
+	 * @since          0.0.6
+	 */
+<span class="cstat-no" title="statement not covered" >	this.isUnderlined = <span class="fstat-no" title="function not covered" >function(){</span></span>
+<span class="cstat-no" title="statement not covered" >		return this.getStyleProperty('text-decoration') === 'underline';</span>
+	};
+&nbsp;
+&nbsp;
+}
+Link.prototype = Object.create(Tag.prototype);
+&nbsp;
+&nbsp;
+/**
+ * Splits `href` into "protocol" part and the rest.
+ *
+ * Returns an object with keys &lt;ol&gt;&lt;li&gt;
+ * `protocol` containing only alphanumeric symbols
+ * &lt;/li&gt;&lt;li&gt;
+ * `href` containing the rest of the input string without finishing slash, starting semicolon and slashes.
+ * &lt;/li&gt;&lt;/ol&gt;
+ * @method        parseUri
+ * @param         {String}         href
+ * @return        {Object}
+ * @since         0.0.6
+ * @static
+ *
+ */
+Link.parseUri = <span class="fstat-no" title="function not covered" >function(href){</span>
+<span class="cstat-no" title="statement not covered" >	if (typeof href !== 'string' || href === ''){</span>
+<span class="cstat-no" title="statement not covered" >		return {};</span>
+	}
+<span class="cstat-no" title="statement not covered" >	var items = href.match(/^((\w+):(\/\/)?)?(.+?)(\/?)$/),</span>
+		res = {};
+<span class="cstat-no" title="statement not covered" >	console.log(items);</span>
+<span class="cstat-no" title="statement not covered" >	if (!items){</span>
+<span class="cstat-no" title="statement not covered" >		return res;</span>
+	}
+<span class="cstat-no" title="statement not covered" >	res.protocol = items[2] || 'http';</span>
+<span class="cstat-no" title="statement not covered" >	if (items[4]){</span>
+<span class="cstat-no" title="statement not covered" >		res.href = items[4];</span>
+	}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	return res;</span>
+};</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 28 2014 10:17:30 GMT+0100 (ora solare Europa occidentale)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

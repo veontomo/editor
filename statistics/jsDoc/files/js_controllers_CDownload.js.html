@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\controllers\CDownload.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.6</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
+            
+                <li><a href="../classes/CKEDITOR.html">CKEDITOR</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Controller.html">Controller</a></li>
+            
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
+                <li><a href="../classes/ConverterElastic.html">ConverterElastic</a></li>
+            
+                <li><a href="../classes/ConverterFixed.html">ConverterFixed</a></li>
+            
+                <li><a href="../classes/ConverterGeneral.html">ConverterGeneral</a></li>
+            
+                <li><a href="../classes/ConverterSimpleText.html">ConverterSimpleText</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
+            
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
+                <li><a href="../classes/EHToolbar.html">EHToolbar</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkDialog.html">LinkDialog</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
+            
+                <li><a href="../classes/Mapper.html">Mapper</a></li>
+            
+                <li><a href="../classes/NEWSLETTER.html">NEWSLETTER</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
+                <li><a href="../classes/Save.html">Save</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/table2ModifyDialog.html">table2ModifyDialog</a></li>
+            
+                <li><a href="../classes/TableDialog.html">TableDialog</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+                <li><a href="../classes/Worker.html">Worker</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Config.html">Config</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
+            
+                <li><a href="../modules/Converter.html">Converter</a></li>
+            
+                <li><a href="../modules/Dialogs.html">Dialogs</a></li>
+            
+                <li><a href="../modules/EventHandler.html">EventHandler</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Plugins.html">Plugins</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\controllers\CDownload.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR, location, Document, NEWSLETTER, Helper, XMLHttpRequest, ActiveXObject, window, Controller */
+
+/**
+ * Download Controller.
+ * @module    Controllers
+ * @class     CDownload
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
+function CDownload (){
+	&quot;use strict&quot;;
+	if (!(this instanceof CDownload)) {
+		return new CDownload();
+	}
+	Controller.call(this);
+
+	/**
+	 * Path to a script that saves content. Path is relative with repsect to the &#x60;index.php&#x60; of the application.
+	 * @property       _saveScriptPath
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _saveScriptPath = &#x27;php/saveDraft.php&#x27;;
+
+	/**
+	 * Path to a script that downloads file. Path is relative with repsect to the &#x60;index.php&#x60; of the application.
+	 * @property       _downloadScriptPath
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _downloadScriptPath = &#x27;php/downloadFile.php&#x27;;
+
+	/**
+	 * Name of the parameter with which the content is transferred by help of ajax request
+	 * to a script that saves the content and hence the script can access recieved content
+	 * by using this key name in  $_POST hash.
+	 * @property       _keyName
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _keyName = &#x27;content&#x27;;
+
+	/**
+	 * Prepares the content of the editor for downloading in html format and launches the window
+	 * for downloading.
+	 *
+	 * It sends ajax post request to the script &#x60;php/saveDraft.php&#x60; using JQuery library.
+	 * @method         downloadAsHtml
+	 * @param          {Object}            context
+	 * @param          {Object}            editor
+	 * @return         {void}
+	 */
+	this.downloadAsHtml = function(context, editor){
+		try {
+			var fileName = context.getValueOf(&#x27;tab-general&#x27;, &#x27;filename&#x27;),
+				mode = context.getValueOf(&#x27;tab-general&#x27;, &#x27;mode&#x27;),
+				editorContent = editor.document.getBody().$,
+				fileContent, doc, bodyCss;
+
+			bodyCss = Helper.cssOfSelector(&#x27;body&#x27;, NEWSLETTER.cssBase);
+			// sanitized = Helper.specialChar(editorContent);
+			doc = new Document(editorContent);
+			doc.setWrapCss(bodyCss);
+			doc.clean([/\bclass/, /\bid/, NEWSLETTER[&#x27;marker-name&#x27;], /\bdata-.*/]);
+			doc.convertTo(mode);
+			fileContent = doc.docHtml();
+			// console.log(fileContent);
+			this.downloadFile(fileContent, fileName);
+		} catch (e){
+			this.showMessage(e.name + &#x27;: &#x27; + e.message);
+		}
+	};
+
+	/**
+	 * Downloads content of the editor window as it is.
+	 * @param   {CKEDITOR.dialog}       dialog 	  See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
+	 * @param   {CKEDITOR.editor}       editor    [editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance
+	 * @return  {void}
+	 * @since   0.0.7
+	 */
+	this.downloadRaw = function(dialog, editor){
+		try {
+			var content = editor.getSnapshot(),
+				filename = dialog.getValueOf(&#x27;basic&#x27;, &#x27;filename&#x27;);
+			this.downloadFile(content, filename);
+		} catch (e){
+			this.showMessage(e.name + &#x27;: &#x27; + e.message);
+		}
+	};
+
+	/**
+	 * Appends time stamp string to the argument.
+	 * @method         appendTimeStamp
+	 * @param          {String|Null}        seed       the time stamp is to be appended to this string
+	 * @return         {String}
+	 */
+	this.appendTimeStamp = function(seed){
+		seed = (typeof seed === &#x27;string&#x27;) ? seed : &#x27;&#x27;;
+		var timeNow = new Date(),
+			templateName = seed + [
+				timeNow.getFullYear(),
+				(&#x27;0&#x27; + (timeNow.getMonth() + 1)).slice(-2),     // padding with zeros in case the string is one-symbol length
+				(&#x27;0&#x27; + timeNow.getDate()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getHours()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getMinutes()).slice(-2),
+				(&#x27;0&#x27; + timeNow.getSeconds()).slice(-2)
+			].join(&#x27;-&#x27;) + &#x27;.html&#x27;;
+		return templateName;
+	};
+
+
+	/**
+	 * Launches a window for downloading file with content &#x60;data&#x60; and suggested name &#x60;filename&#x60;.
+	 * If &#x60;filename&#x60; is not given or is not valid, the file name will be generated.
+	 *
+	 * For the moment, the method use jQuery library. It is desirable to rewrite
+	 * the method such that native javascript methods are used.
+	 * (The commented code at the end contains some hints.)
+	 *
+	 * @param  {String} data
+	 * @param  {String} filename
+	 * @return {void}
+	 */
+	this.downloadFile = function(data, filename){
+		if (typeof data !== &#x27;string&#x27;){
+			this.showMessage(&#x27;Can not download non-string content!&#x27;);
+			return;
+		}
+		// by means of jQuery. It is better to pass to native javascript functions
+		$.post(_saveScriptPath,
+			{&#x27;data&#x27;: data, &#x27;filename&#x27;: filename},
+				function(fn){
+					// console.log(&#x27;downloading is blocked: filename&#x27; + fn);
+					$(location).attr(&#x27;href&#x27;,  _downloadScriptPath + &#x27;?filename=&#x27; + fn);
+			}
+		);
+
+		// native javascript
+		// var httpRequest;
+		// if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+		//   httpRequest = new XMLHttpRequest();
+		// } else if (window.ActiveXObject) { // IE
+		//   try {
+		//     httpRequest = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);
+		//   }
+		//   catch (e1) {
+		//     try {
+		//       httpRequest = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+		//     }
+		//     catch (e2) {
+		//     	console.log(&#x27;Failed when creating XMLHTTP object!&#x27;);
+		//     	return false;
+		//     }
+		//   }
+		// }
+		// httpRequest.onreadystatechange = function(){
+		// 	console.log(&#x27;redirection is blocked&#x27;);
+		// 	if (httpRequest.readyState === 4 &amp;&amp; httpRequest.status === 200) {
+		// 			console.log(httpRequest.responseText);
+		// 		}
+		// 	// window.location.replace( &#x27;php/downloadFile.php?filename=&#x27; + fileName);
+		// };
+
+		// var content = {&#x27;data&#x27;: fileContent, &#x27;filename&#x27;: fileName},
+		// 	contentToSend = _keyName + &#x27;=&#x27; + JSON.stringify(content);
+
+		// httpRequest.open(&#x27;POST&#x27;, _scriptPath);
+		// httpRequest.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+		// httpRequest.setRequestHeader(&quot;Content-length&quot;, contentToSend.length);
+		// httpRequest.setRequestHeader(&quot;Connection&quot;, &quot;close&quot;);
+
+		// httpRequest.send(contentToSend);
+
+
+	};
+
+
+}
+CDownload.prototype = Object.create(Controller.prototype);
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

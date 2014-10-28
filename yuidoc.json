@@ -3,7 +3,7 @@
     "description": "Javascript classes",
     "version": "0.0.6",
     "options": {
-        "outdir": "apidocs",
+        "outdir": "statistics/jsDoc",
         "paths": ["js", "settings", "customPlugins"]
     },
     "logo": "images/logo.png"

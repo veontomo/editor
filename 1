@@ -1,0 +1,736 @@
+
+> coverage-jasmine-istanbul-karma@0.0.1 test c:\Users\Andrea\Documents\projects\editor
+> karma start test/conf.js --verbose
+
+[ 'Helper.js',
+  'Properties.js',
+  '..\\..\\jasmine\\spec\\classes\\HelperSpec.js',
+  '..\\..\\jasmine\\spec\\classes\\PropertiesSpec.js',
+  '..\\..\\ckeditor\\ckeditor.js' ]
+[32mINFO [karma]: [39mKarma v0.10.10 server started at http://localhost:9876/
+[32mINFO [launcher]: [39mStarting browser Firefox
+[32mINFO [Firefox 33.0.0 (Windows 8.1)]: [39mConnected on socket d9Ncd4T7892bzk9PLjUg
+Firefox 33.0.0 (Windows 8.1): Executed 1 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+
+  Test helper functions
+    file extension
+      [32m✓ [39mgives the file extension
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 2 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+    Helper::firstLetterUpperCase(): converts first letter to upper case
+      [32m✓ [39mReturns empty string for empty input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 3 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns a space if the input is a space
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 4 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "D" in called on "d"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 5 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "K" in called on "K"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 6 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "9" in called on "9"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 7 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "Abcd" in called on "abcd"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 8 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "LKM" in called on "KLM"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 9 of 202[32m SUCCESS[39m (0 secs / 0.005 secs)
+      [32m✓ [39mReturns "Tata6" in called on "tata6"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 10 of 202[32m SUCCESS[39m (0 secs / 0.006 secs)
+    table2 helper functions
+      [32m✓ [39mtransforms each element of the input array into a non-negative number
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 11 of 202[32m SUCCESS[39m (0 secs / 0.007 secs)
+      [32m✓ [39mcalculates the trace of the array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 12 of 202[32m SUCCESS[39m (0 secs / 0.008 secs)
+      [32m✓ [39mnormalizes the array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 13 of 202[32m SUCCESS[39m (0 secs / 0.008 secs)
+      [32m✓ [39msplits the number in terms with specified weights
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 14 of 202[32m SUCCESS[39m (0 secs / 0.008 secs)
+      [32m✓ [39mrounds each elements of the array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 15 of 202[32m SUCCESS[39m (0 secs / 0.009 secs)
+    it transforms the first letter of the string into upper case, the rest - in lower
+      [32m✓ [39mdoes its work
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 16 of 202[32m SUCCESS[39m (0 secs / 0.009 secs)
+    drop protocol
+      [32m✓ [39mdrops protocol
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 17 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+    Validation the calculated width
+      [32m✓ [39mmakes the width to be valid
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 18 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+    Escaping special characters
+      [32m✓ [39mreturns input, if zero is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 19 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns input, if a positive integer number is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 20 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns input, if a negative integer number is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 21 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns input, if a positive float number is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 22 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns input, if a positive float number is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 23 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns null, if a function is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 24 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mreturns null, if an object is given as input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 25 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mdoes not change "safe" characters
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 26 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mdoes not change "safe" characters
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 27 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mescapes single character à
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 28 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mleaves & untouched
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 29 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mescapes special characters
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 30 of 202[32m SUCCESS[39m (0 secs / 0.011 secs)
+      [32m✓ [39mescapes only special characters in mixed strings
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 31 of 202[32m SUCCESS[39m (0 secs / 0.012 secs)
+    cracking array element:
+      [32m✓ [39mcracks the only element in two integers
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 32 of 202[32m SUCCESS[39m (0 secs / 0.013 secs)
+      [32m✓ [39mcracks the very first element in two integer parts
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 33 of 202[32m SUCCESS[39m (0 secs / 0.013 secs)
+      [32m✓ [39mcracks the second element in two integer parts
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 34 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+    concatDropSpaces
+      [32m✓ [39mreturns empty string for empty array and non-defined glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 35 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns empty string for empty array and non-empty glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 36 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mdefault glue is a space
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 37 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns array element for one-element array and non-defined glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 38 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns array element for one-element array and non-empty glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 39 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns string for three-element array of strings and empty glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 40 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns string for three-element array of strings and default glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 41 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns string for three-element array of strings and non-empty glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 42 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns string for [1, "abcd"]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 43 of 202[32m SUCCESS[39m (0 secs / 0.014 secs)
+      [32m✓ [39mreturns string for [1, "abcd"] and non-empty glue
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 44 of 202[32m SUCCESS[39m (0 secs / 0.015 secs)
+    generates unique id for the string
+      [32m✓ [39mif the target string is a plain text
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 45 of 202[32m SUCCESS[39m (0 secs / 0.016 secs)
+      [32m✓ [39mif the target string is a valid html text
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 46 of 202[32m SUCCESS[39m (0 secs / 0.016 secs)
+      [32m✓ [39mif the target string is not well formed html text
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 47 of 202[32m SUCCESS[39m (0 secs / 0.017 secs)
+    Helper::pushBeforeLast(): inserts element before last element of the array
+      [32m✓ [39mdoes not modify empty array if there is nothing to insert
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 48 of 202[32m SUCCESS[39m (0 secs / 0.017 secs)
+      [32m✓ [39mdoes not modify 2-element array if there is nothing to insert
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 49 of 202[32m SUCCESS[39m (0 secs / 0.017 secs)
+      [32m✓ [39minserts an object if the target array is empty
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 50 of 202[32m SUCCESS[39m (0 secs / 0.017 secs)
+      [32m✓ [39minserts an object if the target array has one element
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 51 of 202[32m SUCCESS[39m (0 secs / 0.018 secs)
+      [32m✓ [39minserts an object if the target array has three elements
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 52 of 202[32m SUCCESS[39m (0 secs / 0.018 secs)
+    Helper::isSemanticallyValid(): whether the argument is a semantically valid html
+      [32m✓ [39mreturns true for empty string
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 53 of 202[32m SUCCESS[39m (0 secs / 0.018 secs)
+      [32m✓ [39mreturns true for a string
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 54 of 202[32m SUCCESS[39m (0 secs / 0.019 secs)
+      [32m✓ [39mreturns false for <div>abc</p>
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 55 of 202[32m SUCCESS[39m (0 secs / 0.019 secs)
+      [32m✓ [39mreturns true for <div>abc</div>
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 56 of 202[32m SUCCESS[39m (0 secs / 0.019 secs)
+      [32m✓ [39mreturns true for nested tags <div>abc<p>123</p></div>
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 57 of 202[32m SUCCESS[39m (0 secs / 0.019 secs)
+      [32m✓ [39mreturns false for stand alone table cells
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 58 of 202[32m SUCCESS[39m (0 secs / 0.02 secs)
+      [32m✓ [39mreturns false for stand alone table rows
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 59 of 202[32m SUCCESS[39m (0 secs / 0.021 secs)
+      [32m✓ [39mreturns false for incomplete table
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 60 of 202[32m SUCCESS[39m (0 secs / 0.021 secs)
+      [32m✓ [39mreturns true for complete table
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 61 of 202[32m SUCCESS[39m (0 secs / 0.022 secs)
+      [32m✓ [39mreturns true for lists
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 62 of 202[32m SUCCESS[39m (0 secs / 0.022 secs)
+    Getting tag styles
+      [32m✓ [39mreturns empty string if selector is not found
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 63 of 202[32m SUCCESS[39m (0 secs / 0.024 secs)
+      [32m✓ [39mconcatenates strings if selector is found two times
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 64 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+      [32m✓ [39mdelimiters concatenated strings by semicolon
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 65 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+    Getting gcd of numbers
+      Finding gcd of two numbers
+        [32m✓ [39mreturns 1 if both arguments are float
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 66 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns 1 if the second argument is non-zero integer, while the first is float
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 67 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns 1 if the first argument is non-zero integer, while the second is float
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 68 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns the first argument if it is non-zero integer, while the second is zero
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 69 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns the second argument if it is non-zero integer, while the first is zero
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 70 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns 1 if both arguments are zero
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 71 of 202[32m SUCCESS[39m (0 secs / 0.025 secs)
+        [32m✓ [39mreturns 5 for 10 and 15
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 72 of 202[32m SUCCESS[39m (0 secs / 0.026 secs)
+        [32m✓ [39mreturns 719 for  719 and 3*719
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 73 of 202[32m SUCCESS[39m (0 secs / 0.026 secs)
+        [32m✓ [39mreturns 12 for 12 and 60
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 74 of 202[32m SUCCESS[39m (0 secs / 0.026 secs)
+        [32m✓ [39mreturns 12 for 60 and 12
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 75 of 202[32m SUCCESS[39m (0 secs / 0.027 secs)
+        [32m✓ [39mreturns 6 for 12 and 18
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 76 of 202[32m SUCCESS[39m (0 secs / 0.027 secs)
+        [32m✓ [39mreturns 1 for 1 and 18
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 77 of 202[32m SUCCESS[39m (0 secs / 0.027 secs)
+        [32m✓ [39mreturns 1 for 10 and 11
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 78 of 202[32m SUCCESS[39m (0 secs / 0.027 secs)
+        [32m✓ [39mreturns 4 for -12 and 16
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 79 of 202[32m SUCCESS[39m (0 secs / 0.028 secs)
+      Finding gcd of many numebrs
+        [32m✓ [39mthrows an error if the argument is not an array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 80 of 202[32m SUCCESS[39m (0 secs / 0.028 secs)
+        [32m✓ [39mreturns 100 for [200, 300, 400, 500]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 81 of 202[32m SUCCESS[39m (0 secs / 0.029 secs)
+        [32m✓ [39mreturns 200 for 2[00, 400, 0, 600]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 82 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns 1 for [23.2]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 83 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns 1 for [0]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 84 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns 1 for [87]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 85 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns 1 for [200, 201]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 86 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns 2 for [6, -4, 8]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 87 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+      Dividing array by gcd
+        [32m✓ [39mreturns [1] for single non-zero element array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 88 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns [0] for single zero element array
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 89 of 202[32m SUCCESS[39m (0 secs / 0.03 secs)
+        [32m✓ [39mreturns [2, 3, 4] for array [6, 9, 12]
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 90 of 202[32m SUCCESS[39m (0 secs / 0.031 secs)
+
+  Properties-related functionality
+    setProperty(): property setter
+      [32m✓ [39mreturns false, if no argument is given
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 91 of 202[32m SUCCESS[39m (0 secs / 0.031 secs)
+      [32m✓ [39mreturns false if only one argument is given
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality setProperty(): property setter returns true if both key and value types are among allowed ones FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 21)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:21:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 92 of 202[31m (1 FAILED)[39m (0 secs / 0.032 secs)
+      [31m✗ [39m[31mreturns true if both key and value types are among allowed ones[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 21)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:21:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality setProperty(): property setter returns false if key type is not among allowed, but value is among allowed FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 27)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:27:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 93 of 202[31m (2 FAILED)[39m (0 secs / 0.033 secs)
+      [31m✗ [39m[31mreturns false if key type is not among allowed, but value is among allowed[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 27)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:27:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality setProperty(): property setter returns false if key type is among allowed, but value is not among allowed FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 33)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:33:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 94 of 202[31m (3 FAILED)[39m (0 secs / 0.033 secs)
+      [31m✗ [39m[31mreturns false if key type is among allowed, but value is not among allowed[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 33)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:33:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality setProperty(): property setter returns false if both key and value types are not among allowed FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 39)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:39:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 95 of 202[31m (4 FAILED)[39m (0 secs / 0.033 secs)
+      [31m✗ [39m[31mreturns false if both key and value types are not among allowed[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 39)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:39:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 96 of 202[31m (4 FAILED)[39m (0 secs / 0.034 secs)
+    Setting mode
+      [32m✓ [39msets mode to 0 if the argument is 0
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 97 of 202[31m (4 FAILED)[39m (0 secs / 0.034 secs)
+      [32m✓ [39msets mode to 1 if the argument is 1
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 98 of 202[31m (4 FAILED)[39m (0 secs / 0.036 secs)
+      [32m✓ [39mthrows an error if the argument is not 0 or 1
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces empty string for empty property if mode is 0 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 78)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:78:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 99 of 202[31m (5 FAILED)[39m (0 secs / 0.036 secs)
+    Produces string representation
+      [31m✗ [39m[31mproduces empty string for empty property if mode is 0[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 78)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:78:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces empty string for empty property if mode is 1 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 82)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:82:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 100 of 202[31m (6 FAILED)[39m (0 secs / 0.037 secs)
+      [31m✗ [39m[31mproduces empty string for empty property if mode is 1[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 82)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:82:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces inline-like representation if mode is 1 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 87)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:87:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 101 of 202[31m (7 FAILED)[39m (0 secs / 0.037 secs)
+      [31m✗ [39m[31mproduces inline-like representation if mode is 1[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 87)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:87:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces attribute-like representation if mode is 0 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 92)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:92:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 102 of 202[31m (8 FAILED)[39m (0 secs / 0.037 secs)
+      [31m✗ [39m[31mproduces attribute-like representation if mode is 0[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 92)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:92:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces inline-like representation if mode is 0 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 97)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:97:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 103 of 202[31m (9 FAILED)[39m (0 secs / 0.037 secs)
+      [31m✗ [39m[31mproduces inline-like representation if mode is 0[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 97)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:97:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation produces inline-like representation if mode is 1 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 103)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:103:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 104 of 202[31m (10 FAILED)[39m (0 secs / 0.037 secs)
+      [31m✗ [39m[31mproduces inline-like representation if mode is 1[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 103)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:103:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Produces string representation ignores attribute if its toString() method returns empty string FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 109)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:109:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 105 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [31m✗ [39m[31mignores attribute if its toString() method returns empty string[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 109)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:109:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 106 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+    getProperty(): property getter
+      [32m✓ [39mreturns "undefined" if the property is not set
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 107 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [32m✓ [39mreturns a string if the property is a string
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 108 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [32m✓ [39mreturns a number if the property is a number
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 109 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [32m✓ [39mreturns attribute value from the Properties core and not from Properties itself
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 110 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+    Properties::constructor(): creates Properties instance from argument
+      [32m✓ [39madds keyword "new" if it is missing when an object is created
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 111 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [32m✓ [39msets "className" property to be equal to "Properties"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 112 of 202[31m (11 FAILED)[39m (0 secs / 0.038 secs)
+      [32m✓ [39mpopulates properties from a string input
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 113 of 202[31m (11 FAILED)[39m (0 secs / 0.039 secs)
+      [32m✓ [39mpopulates properties from an object without methods inside
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 114 of 202[31m (11 FAILED)[39m (0 secs / 0.039 secs)
+      [32m✓ [39mpopulates properties from an object with a method inside
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 115 of 202[31m (11 FAILED)[39m (0 secs / 0.04 secs)
+    Gives possibility to see the core
+      [32m✓ [39mreturns core content
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 116 of 202[31m (11 FAILED)[39m (0 secs / 0.04 secs)
+      [32m✓ [39mreturns a copy of the core content, not reference to it
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Whether the property is empty calls "getCore" method FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 209)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:209:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 117 of 202[31m (12 FAILED)[39m (0 secs / 0.041 secs)
+    Whether the property is empty
+      [31m✗ [39m[31mcalls "getCore" method[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 209)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:209:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Whether the property is empty returns true if "getCore" returns empty object FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 214)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:214:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 118 of 202[31m (13 FAILED)[39m (0 secs / 0.041 secs)
+      [31m✗ [39m[31mreturns true if "getCore" returns empty object[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 214)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:214:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Whether the property is empty returns false if "getCore" returns single-record string-valued object FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 218)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:218:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 119 of 202[31m (14 FAILED)[39m (0 secs / 0.041 secs)
+      [31m✗ [39m[31mreturns false if "getCore" returns single-record string-valued object[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 218)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:218:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Whether the property is empty returns false if "getCore" returns single-record number-valued object FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 222)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:222:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 120 of 202[31m (15 FAILED)[39m (0 secs / 0.041 secs)
+      [31m✗ [39m[31mreturns false if "getCore" returns single-record number-valued object[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 222)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:222:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Whether the property is empty returns false if "getCore" returns two-record object FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 226)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:226:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 121 of 202[31m (16 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mreturns false if "getCore" returns two-record object[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 226)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:226:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined calls setProperty() method if a property is missing in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 234)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:234:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 122 of 202[31m (17 FAILED)[39m (0 secs / 0.042 secs)
+    Properties::suggestProperty(): sets property if it is not defined
+      [31m✗ [39m[31mcalls setProperty() method if a property is missing in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 234)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:234:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined does not call setProperty() method if a property is present in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 243)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:243:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 123 of 202[31m (18 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mdoes not call setProperty() method if a property is present in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 243)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:243:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined calls setProperty() method only with keys not present in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 253)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:253:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 124 of 202[31m (19 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mcalls setProperty() method only with keys not present in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 253)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:253:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined calls setProperty() method if a property is missing in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 267)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:267:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 125 of 202[31m (20 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mcalls setProperty() method if a property is missing in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 267)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:267:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined does not call setProperty() method if a property is present in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 276)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:276:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 126 of 202[31m (21 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mdoes not call setProperty() method if a property is present in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 276)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:276:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::suggestProperty(): sets property if it is not defined calls setProperty() method only with keys not present in the core FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 286)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:286:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 127 of 202[31m (22 FAILED)[39m (0 secs / 0.042 secs)
+      [31m✗ [39m[31mcalls setProperty() method only with keys not present in the core[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 286)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:286:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 128 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+    Property::hasOwnProperty(): whether the property is present in the core
+      [32m✓ [39mreturns true, if requested property is present in the core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 129 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+      [32m✓ [39mreturns false, if the core is empty
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 130 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+      [32m✓ [39mreturns false, if the core is not empty but does not contain requested property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 131 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+    Properties::dropProperty(): drops the property
+      [32m✓ [39mdrops the property if it is present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 132 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+      [32m✓ [39mleaves the property undefined if it was not defined
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 133 of 202[31m (22 FAILED)[39m (0 secs / 0.043 secs)
+    Properties::appendProperty(): appends property
+      [32m✓ [39mappends Object to an empty property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 134 of 202[31m (22 FAILED)[39m (0 secs / 0.044 secs)
+      [32m✓ [39mmerges two Properties instances
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 135 of 202[31m (22 FAILED)[39m (0 secs / 0.044 secs)
+      [32m✓ [39mappends a string to an empty property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 136 of 202[31m (22 FAILED)[39m (0 secs / 0.044 secs)
+      [32m✓ [39mappends Object to a non-empty property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 137 of 202[31m (22 FAILED)[39m (0 secs / 0.045 secs)
+      [32m✓ [39mappends a string to an empty property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 138 of 202[31m (22 FAILED)[39m (0 secs / 0.045 secs)
+      [32m✓ [39moverrides the property value
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 139 of 202[31m (22 FAILED)[39m (0 secs / 0.045 secs)
+    Property::propNum(): gets the number of records in core
+      [32m✓ [39mgives zero for empty Properties instance
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 140 of 202[31m (22 FAILED)[39m (0 secs / 0.045 secs)
+      [32m✓ [39mgives one for Properties instance with one string-valued record in core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 141 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives one for Properties instance with one number-valued record in core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 142 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives two for Properties instance with two records in core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 143 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+    Property::isTheSameAs(): compares Properties instances
+      [32m✓ [39mgives false if the the argument is not a Property instance
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 144 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives true when comparing an empty method with itself
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 145 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives true when comparing a non-empty method with itself
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 146 of 202[31m (22 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives true, if both instances have empty cores
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Property::isTheSameAs(): compares Properties instances gives false, if the instances have lengths 0 and 1 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 431)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:431:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 147 of 202[31m (23 FAILED)[39m (0 secs / 0.046 secs)
+      [31m✗ [39m[31mgives false, if the instances have lengths 0 and 1[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 431)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:431:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Property::isTheSameAs(): compares Properties instances gives false, if the instances have lengths 2 and 4 FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 438)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:438:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 148 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [31m✗ [39m[31mgives false, if the instances have lengths 2 and 4[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 438)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:438:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 149 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives false, if the instances both have length 1 but have different core content
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 150 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives true, if the instances both have length 1 but have identical core content
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 151 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mgives false, if the instances both have length 2 but have different core content with overlapping keys
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 152 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+    Properties::dropAllProperties(): flushes all recored in the core
+      [32m✓ [39mdeletes properties in empty core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 153 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mdeletes properties in one-record empty core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 154 of 202[31m (24 FAILED)[39m (0 secs / 0.046 secs)
+      [32m✓ [39mdeletes properties in three-record empty core
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 155 of 202[31m (24 FAILED)[39m (0 secs / 0.047 secs)
+    Properties::clone(): gives the property clone
+      [32m✓ [39mcreates a Properties instance
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 156 of 202[31m (24 FAILED)[39m (0 secs / 0.047 secs)
+      [32m✓ [39mcreates an instance of a class that inherits from Properties and has "getName" method
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 157 of 202[31m (24 FAILED)[39m (0 secs / 0.048 secs)
+      [32m✓ [39mcreates a Properties instance of if the target inherits from Properties and has improper "className" attribute
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 158 of 202[31m (24 FAILED)[39m (0 secs / 0.048 secs)
+      [32m✓ [39mcopies attributes of the target
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 159 of 202[31m (24 FAILED)[39m (0 secs / 0.048 secs)
+      [32m✓ [39mdoes not change target string-valued attribute if its counterpart is changed in the clone
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 160 of 202[31m (24 FAILED)[39m (0 secs / 0.048 secs)
+      [32m✓ [39mdoes not change string-valued attribute in the clone if its counterpart is changed in the target
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 161 of 202[31m (24 FAILED)[39m (0 secs / 0.049 secs)
+      [32m✓ [39mcopies methods of the target
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 162 of 202[31m (24 FAILED)[39m (0 secs / 0.049 secs)
+      [32m✓ [39mdoes not change method of the target if its clone counterpart is changed
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 163 of 202[31m (24 FAILED)[39m (0 secs / 0.05 secs)
+      [32m✓ [39mdoes not change method of the clone if its counterpart in the target is changed
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 164 of 202[31m (24 FAILED)[39m (0 secs / 0.05 secs)
+      [32m✓ [39mcalls "clone" method if an attribute has that method
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::clone(): gives the property clone assignes value of "clone" method if an attribute has that method FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 567)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:567:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 165 of 202[31m (25 FAILED)[39m (0 secs / 0.05 secs)
+      [31m✗ [39m[31massignes value of "clone" method if an attribute has that method[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 567)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:567:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 166 of 202[31m (25 FAILED)[39m (0 secs / 0.05 secs)
+      [32m✓ [39muses "getCore" to clone properties
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Properties::clone(): gives the property clone fills the core with "getCore" of the target FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 579)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:579:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 167 of 202[31m (26 FAILED)[39m (0 secs / 0.051 secs)
+      [31m✗ [39m[31mfills the core with "getCore" of the target[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 579)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:579:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Controls whether the property has been set returns false if the key is not present FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 588)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:588:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 168 of 202[31m (27 FAILED)[39m (0 secs / 0.051 secs)
+    Controls whether the property has been set
+      [31m✗ [39m[31mreturns false if the key is not present[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 588)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:588:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Controls whether the property has been set returns true if the key is present and optional parameter is not provided FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 593)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:593:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 169 of 202[31m (28 FAILED)[39m (0 secs / 0.051 secs)
+      [31m✗ [39m[31mreturns true if the key is present and optional parameter is not provided[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 593)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:593:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Controls whether the property has been set returns true if the key is present and its value is not among values to ignore FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 598)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:598:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 170 of 202[31m (29 FAILED)[39m (0 secs / 0.051 secs)
+      [31m✗ [39m[31mreturns true if the key is present and its value is not among values to ignore[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 598)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:598:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Controls whether the property has been set returns false if the key is present and its value is among values to ignore FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 604)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:604:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 171 of 202[31m (30 FAILED)[39m (0 secs / 0.051 secs)
+      [31m✗ [39m[31mreturns false if the key is present and its value is among values to ignore[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 604)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:604:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Controls whether the property has been set returns true if the key is present and the second parameter is given as a string FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 610)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:610:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 172 of 202[31m (31 FAILED)[39m (0 secs / 0.051 secs)
+      [31m✗ [39m[31mreturns true if the key is present and the second parameter is given as a string[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 610)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:610:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Toggles the property sets the property if it is not set and the second argument is not given FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 619)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:619:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 173 of 202[31m (32 FAILED)[39m (0 secs / 0.051 secs)
+    Toggles the property
+      [31m✗ [39m[31msets the property if it is not set and the second argument is not given[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 619)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:619:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Toggles the property sets the property if it is not set and the second argument is provided  FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 625)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:625:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 174 of 202[31m (33 FAILED)[39m (0 secs / 0.052 secs)
+      [31m✗ [39m[31msets the property if it is not set and the second argument is provided [39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 625)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:625:13
+	
+
+[1A[2K[31mFirefox 33.0.0 (Windows 8.1) Properties-related functionality Toggles the property sets the property to be equal to the second argument if the key has been set FAILED[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 632)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:632:13
+	
+Firefox 33.0.0 (Windows 8.1): Executed 175 of 202[31m (34 FAILED)[39m (0 secs / 0.052 secs)
+      [31m✗ [39m[31msets the property to be equal to the second argument if the key has been set[39m
+	TypeError: spyOn(...).and is undefined in c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js (line 632)
+	@c:/Users/Andrea/Documents/projects/editor/jasmine/spec/classes/PropertiesSpec.js:632:13
+	
+
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 176 of 202[31m (34 FAILED)[39m (0 secs / 0.053 secs)
+      [32m✓ [39mdrops the property if it is set and the second argument is not given
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 177 of 202[31m (34 FAILED)[39m (0 secs / 0.053 secs)
+    Loads attributes from the argument
+      [32m✓ [39mdoes not change existing properties if argument is empty
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 178 of 202[31m (34 FAILED)[39m (0 secs / 0.054 secs)
+      [32m✓ [39madds properties if argument has only "new" ones 
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 179 of 202[31m (34 FAILED)[39m (0 secs / 0.055 secs)
+      [32m✓ [39moverrides properties if argument has the same properties
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 180 of 202[31m (34 FAILED)[39m (0 secs / 0.056 secs)
+      [32m✓ [39moverrides properties if argument has some properties in common
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 181 of 202[31m (34 FAILED)[39m (0 secs / 0.057 secs)
+      [32m✓ [39mloads "style" key, if arguments contains styles
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 182 of 202[31m (34 FAILED)[39m (0 secs / 0.057 secs)
+      [32m✓ [39mloads "style" key as an instance of Property
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 183 of 202[31m (34 FAILED)[39m (0 secs / 0.058 secs)
+      [32m✓ [39mcreates Properties instance with all properties inside style
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 184 of 202[31m (34 FAILED)[39m (0 secs / 0.058 secs)
+      [32m✓ [39moverrides style properties
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 185 of 202[31m (34 FAILED)[39m (0 secs / 0.058 secs)
+      [32m✓ [39moverrides style properties
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 186 of 202[31m (34 FAILED)[39m (0 secs / 0.059 secs)
+    Detects "style" key
+      [32m✓ [39mreturns true, if key "style" is present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 187 of 202[31m (34 FAILED)[39m (0 secs / 0.059 secs)
+      [32m✓ [39mreturns false, if key "style" is not present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 188 of 202[31m (34 FAILED)[39m (0 secs / 0.059 secs)
+    style setter/getter
+      [32m✓ [39mreturns undefined if "style" is not present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 189 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+      [32m✓ [39mreturns an instance of Properties if "style" is present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 190 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+      [32m✓ [39msets "style"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 191 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+    Set widths
+      [32m✓ [39msets key "width"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 192 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+      [32m✓ [39moverrides key "width"
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 193 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+      [32m✓ [39msets width inside "style" key if "style" is not present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 194 of 202[31m (34 FAILED)[39m (0 secs / 0.06 secs)
+      [32m✓ [39moverrides width inside "style" key if "style" is present
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 195 of 202[31m (34 FAILED)[39m (0 secs / 0.061 secs)
+      [32m✓ [39msets width if argument is given as a string
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 196 of 202[31m (34 FAILED)[39m (0 secs / 0.061 secs)
+    Loading properties from node attributes
+      [32m✓ [39mloads nothing if node has no attributes
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 197 of 202[31m (34 FAILED)[39m (0 secs / 0.062 secs)
+      [32m✓ [39mloads single numeric attribute if the node has only that attribute
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 198 of 202[31m (34 FAILED)[39m (0 secs / 0.062 secs)
+      [32m✓ [39mloads single string attribute if the node has only that attribute
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 199 of 202[31m (34 FAILED)[39m (0 secs / 0.063 secs)
+      [32m✓ [39mloads four attributes
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 200 of 202[31m (34 FAILED)[39m (0 secs / 0.063 secs)
+      [32m✓ [39mloads styles as object
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 201 of 202[31m (34 FAILED)[39m (0 secs / 0.064 secs)
+    Setting/getting border info
+      [32m✓ [39mgets border information with "style: none" if no border is set
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 202 of 202[31m (34 FAILED)[39m (0 secs / 0.064 secs)
+      [32m✓ [39mgets full border information
+[1A[2KFirefox 33.0.0 (Windows 8.1): Executed 202 of 202[31m (34 FAILED)[39m (0.297 secs / 0.064 secs)
+
+Firefox 33.0.0 (Windows 8.1): Executed 202 of 202[31m (34 FAILED)[39m (0.297 secs / 0.064 secs)
+

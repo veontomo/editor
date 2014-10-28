@@ -135,7 +135,7 @@ function CDownload (){
 		$.post(_saveScriptPath,
 			{'data': data, 'filename': filename},
 				function(fn){
-					// console.log('redirection is blocked');
+					// console.log('downloading is blocked: filename' + fn);
 					$(location).attr('href',  _downloadScriptPath + '?filename=' + fn);
 			}
 		);

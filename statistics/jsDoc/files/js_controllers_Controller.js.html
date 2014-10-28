@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\controllers\Controller.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.6</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
+            
+                <li><a href="../classes/CKEDITOR.html">CKEDITOR</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Controller.html">Controller</a></li>
+            
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
+                <li><a href="../classes/ConverterElastic.html">ConverterElastic</a></li>
+            
+                <li><a href="../classes/ConverterFixed.html">ConverterFixed</a></li>
+            
+                <li><a href="../classes/ConverterGeneral.html">ConverterGeneral</a></li>
+            
+                <li><a href="../classes/ConverterSimpleText.html">ConverterSimpleText</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
+            
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
+                <li><a href="../classes/EHToolbar.html">EHToolbar</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkDialog.html">LinkDialog</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
+            
+                <li><a href="../classes/Mapper.html">Mapper</a></li>
+            
+                <li><a href="../classes/NEWSLETTER.html">NEWSLETTER</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
+                <li><a href="../classes/Save.html">Save</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/table2ModifyDialog.html">table2ModifyDialog</a></li>
+            
+                <li><a href="../classes/TableDialog.html">TableDialog</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+                <li><a href="../classes/Worker.html">Worker</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Config.html">Config</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
+            
+                <li><a href="../modules/Converter.html">Converter</a></li>
+            
+                <li><a href="../modules/Dialogs.html">Dialogs</a></li>
+            
+                <li><a href="../modules/EventHandler.html">EventHandler</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Plugins.html">Plugins</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\controllers\Controller.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global Unit, CKEDITOR, NEWSLETTER, Properties, LinkProperties, Helper, Selection, FACTORY, Content, Link */
+
+/**
+ * Base controller class.
+ * @module    Controllers
+ * @class     Controller
+ * @type      {Object}
+ * @since     0.0.7
+ * @author    A.Shcherbakov
+ */
+function Controller(){
+
+	/**
+	 * Collects parameters from the dialog menu and returns json like object with that data.
+	 * If optional parameter &#x60;types&#x60; is provided, then only dialog fields of types present
+	 * in array &#x60;types&#x60; are to be taken in consideration.
+	 *
+	 * Returns json object whose keys are page ids of the dialog menu and values are json objects
+	 * whose keys are ids of the elements present on that page and values are those read from  the
+	 * dialog menu.
+	 *
+	 * Example: &lt;pre&gt;{infoTab: {author: &#x27;A.Einstein&#x27;, title: &#x27;On electrodynamics of moving electron&#x27;},
+	 * publisher: {code: TDR19, license: 1031}}&lt;/pre&gt;
+	 *
+	 * @method         getDialogData
+	 * @param          {CKEDITOR.dialog}  dialog 		See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
+	 * @param          {Array}            types         array of strings standing for dialog field types.
+	 * @return         {Object}
+	 */
+	this.getDialogData = function(dialog, types){
+		var data = {},
+			pages = dialog._.contents,
+			pageId,
+			elems, elemId, pageContent, value,
+			considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
+		for (pageId in pages){
+			if (pages.hasOwnProperty(pageId)){
+				elems = pages[pageId];
+				pageContent = {};
+				for (elemId in elems){
+					if (elems.hasOwnProperty(elemId)){
+						if (considerAll || types.indexOf(elems[elemId].type) !== -1){
+							value = dialog.getValueOf(pageId, elemId);
+							if (value !== undefined){
+								pageContent[elemId] = dialog.getValueOf(pageId, elemId);
+							}
+
+						}
+					}
+				}
+				data[pageId] = pageContent;
+			}
+		}
+		return data;
+	};
+
+
+	/**
+	 * Populates the field of the dialog menu. &#x60;data&#x60; must be of a format described in
+	 * {{#crossLink &quot;Controller/getDialogData:method&quot;}}getDialog{{/crossLink}} method.
+	 * If a key has undefined value, then it is not takedn into consideration.
+	 * @method        fillInDialog
+	 * @param         {Object}              data              data to be inserted,
+	 *                                                        {{#crossLink &quot;Controller/getDialogData:method&quot;}}getDialog{{/crossLink}}
+	 * @return        {void}
+	 */
+	this.fillInDialog = function(dialog, data){
+		var pageId, page, elemId, value;
+		for (pageId in data){
+			if (data.hasOwnProperty(pageId)){
+				page = data[pageId];
+				for (elemId in page){
+					if (page.hasOwnProperty(elemId)){
+						value = page[elemId];
+						if (value !== undefined){
+							try {
+								dialog.setValueOf(pageId, elemId, value);
+							} catch (e){
+								console.log(&#x27;Error (&#x27; + e.name + &#x27;) in filling in the dialog menu: &#x27; + e.message);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+
+
+	/**
+	 * Disables single element with id &#x60;elemId&#x60; on page with id &#x60;pageId&#x60; in &#x60;dialog&#x60;.
+	 * @method         _disableField
+	 * @param          {CKEDITOR.dialog}    dialog
+	 * @param          {String}             pageId
+	 * @param          {String}             elemId     id of the element to disable
+	 * @return         {void}
+	 * @since          0.0.7
+	 * @private
+	 */
+	var _disableField = function(dialog, pageId, elemId){
+		try {
+			dialog.getContentElement(pageId, elemId).disable();
+		} catch (e){
+			console.log(&#x27;Error (&#x27; + e.name + &#x27;) when disabling element (&#x27; + pageId + &#x27;, &#x27; + elemId +&#x27;)&#x27; + e.message);
+		}
+	};
+
+
+
+	/**
+	 * Disables element(s) with id &#x60;elemId&#x60; on page with id &#x60;pageId&#x60; in &#x60;dialog&#x60;.
+	 *
+	 * If &#x60;elemId&#x60; is an array, then
+	 * {{#crossLink &quot;Controller/_disableField:method&quot;}}_disableField{{/crossLink}} uses
+	 * each array element to disable single elements.
+	 * @method         _disableFields
+	 * @param          {CKEDITOR.dialog}    dialog
+	 * @param          {String}             pageId
+	 * @param          {String|Array}       elemIds     element id or array of element ids
+	 * @return         {void}
+	 * @since          0.0.7
+	 * @private
+	 */
+	var _disableManyFields = function(dialog, pageId, elemIds){
+		if (Array.isArray(elemIds)){
+			elemIds.forEach(function(elemId){
+				_disableField(dialog, pageId, elemId);
+			});
+		} else {
+			_disableField(dialog, pageId, elemIds);
+		}
+	};
+
+
+	/**
+	 * Disables input fields described by &#x60;data&#x60; in &#x60;dialog&#x60;.
+	 *
+	 * &#x60;data&#x60; is a json key-value object which keys are page ids and values are array of element ids that
+	 * should be disabled. There two possible formats of &#x60;data&#x60;:
+	 *
+	 * &lt;pre&gt; {pageId: [fieldId1, fieldId2, ...], ...} &lt;/pre&gt;
+	 * &lt;pre&gt; {pageId: fieldId, ...} &lt;/pre&gt;
+	 *
+	 * @method         disableFields
+	 * @param          {CKEDITOR.dialog}    dialog
+	 * @param          {Object}             data
+	 * @return         {void}
+	 * @since          0.0.7
+	 */
+	this.disableFields = function(dialog, data){
+		if (typeof data !== &#x27;object&#x27;){
+			return;
+		}
+		var pageId;
+		for (pageId in data){
+			if (data.hasOwnProperty(pageId)){
+				_disableManyFields(dialog, pageId, data[pageId]);
+			}
+		}
+	};
+
+
+
+	/**
+	 * Converts object of dialog menu format to an object of {{#crossLink &quot;Tag/template:method&quot;}}Tag{{/crossLink}}
+	 * format.
+	 * Eventually, the emplementation should be corrected by inherited class.
+	 *
+	 * @method         dialogToTemplate
+	 * @param          {Object}        obj
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.dialogToTemplate = function(obj){
+		return obj;
+	};
+
+	/**
+ 	 * Converts object of {{#crossLink &quot;Tag/template:method&quot;}}Tag{{/crossLink}} format to object
+ 	 * of dialog menu format.
+ 	 *
+ 	 * Eventually, the emplementation should be corrected by inherited class.
+	 *
+	 * @method         templateToDialog
+	 * @param          {Object}        obj
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.templateToDialog = function(obj){
+		return obj;
+	};
+
+	/**
+	 * Shows error message. Uses javascript method &#x60;alert&#x60; to display the message.
+	 * If &#x60;msg&#x60; is not a string, default message is displayed.
+	 * @method    showMessage
+	 * @param     {String}       msg            text of the message
+	 * @return    {void}
+	 * @since     0.0.7
+	 */
+	this.showMessage = function(msg){
+		alert(typeof msg === &#x27;string&#x27; ? msg : &#x27;Error occurred!&#x27;);
+	};
+
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

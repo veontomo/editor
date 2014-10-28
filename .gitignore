@@ -11,3 +11,4 @@ apidocs/*
 .pydevproject
 .externalToolBuilders/*
 .settings/*
+repository/

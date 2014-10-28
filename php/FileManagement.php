@@ -370,13 +370,16 @@ class FileManagement{
 	 * @return void
 	 */
 	public function sendFileContentForSaving(){
-		$fn = $this->getFullFileName();
-	    if (file_exists($fn)) {
+		$fullPath = $this->getFullFileName();
+		$fileName = $this->getFileName();
+	    if (file_exists($fullPath)) {
 	        // the order of the below line is VERY important!!!
 	        header("Content-Type: application/octet-stream");
 	        header("Content-Transfer-Encoding: Binary");
-	        header("Content-disposition: attachment; filename=\"$fn\"");
-	        readfile($fn);
+	        header("Content-disposition: attachment; filename=$fileName");
+	        readfile($fullPath);
+		} else {
+			$this->addToLog("file $fullPath not found");
 		}
 	}
 

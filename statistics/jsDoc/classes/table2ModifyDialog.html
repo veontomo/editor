@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>table2ModifyDialog - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.6</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
+            
+                <li><a href="../classes/CKEDITOR.html">CKEDITOR</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Controller.html">Controller</a></li>
+            
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
+                <li><a href="../classes/ConverterElastic.html">ConverterElastic</a></li>
+            
+                <li><a href="../classes/ConverterFixed.html">ConverterFixed</a></li>
+            
+                <li><a href="../classes/ConverterGeneral.html">ConverterGeneral</a></li>
+            
+                <li><a href="../classes/ConverterSimpleText.html">ConverterSimpleText</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
+            
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
+                <li><a href="../classes/EHToolbar.html">EHToolbar</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkDialog.html">LinkDialog</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
+            
+                <li><a href="../classes/Mapper.html">Mapper</a></li>
+            
+                <li><a href="../classes/NEWSLETTER.html">NEWSLETTER</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
+                <li><a href="../classes/Save.html">Save</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/table2ModifyDialog.html">table2ModifyDialog</a></li>
+            
+                <li><a href="../classes/TableDialog.html">TableDialog</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+                <li><a href="../classes/Worker.html">Worker</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Config.html">Config</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
+            
+                <li><a href="../modules/Converter.html">Converter</a></li>
+            
+                <li><a href="../modules/Dialogs.html">Dialogs</a></li>
+            
+                <li><a href="../modules/EventHandler.html">EventHandler</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Plugins.html">Plugins</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>table2ModifyDialog Class</h1>
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l5"><code>customPlugins\table2\dialogs\table2Modify.js:5</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/Dialogs.html">Dialogs</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>Dialog to modify table.</p>
+
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_asNumber">asNumber</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_colorPeackerInit">colorPeackerInit</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_drawColumns">drawColumns</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onLoad">onLoad</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_onShow">onShow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_suggestValue">suggestValue</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property private">
+                                <a href="#property__colorPicker">_colorPicker</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__inputColorStyle">_inputColorStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__inputNumberStyle">_inputNumberStyle</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_asNumber" class="method item">
+    <h3 class="name"><code>asNumber</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l109"><code>customPlugins\table2\dialogs\table2Modify.js:109</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.6</p>
+        
+    </div>
+
+    <div class="description">
+        <p>It takes the content of input field that invoked this function and converts
+it into a number. If the convertion fails, 1 is used. The result of the conversion
+is then substituted into the input field.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_colorPeackerInit" class="method item">
+    <h3 class="name"><code>colorPeackerInit</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l43"><code>customPlugins\table2\dialogs\table2Modify.js:43</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.6</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Table2Dialog/_colorPicker:property initializer.</p>
+<p><code>z-index</code> of the color picker is assigned a value that is greater than <code>z-index</code> of
+the table dialog window. Without this assignment, the color picker dialog window is
+located below the layer of the table dialog window and hence remains unreachable.</p>
+<p>There might be a better way to find dynamically what z-index it should be assigned.
+For the moment, the table dialog window turns out to have z-index 10010 (found by
+analyzing its html code).</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_drawColumns" class="method item private">
+    <h3 class="name"><code>drawColumns</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l67"><code>customPlugins\table2\dialogs\table2Modify.js:67</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.4</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Draws text input fields to insert weight factors for the column widths.</p>
+<p>The number of text input field is taken from a text input field responsable for the
+number of table columns. Once that text input field is modified, this function is fired.
+If inserted number of columns is bigger than the number of the text input fields
+to insert column weight factors, then missing text input fields are appended.
+If inserted number of the columns is smaller than the number of the text input fields
+to insert column weight factors, then extra text input fields are removed.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_onLoad" class="method item">
+    <h3 class="name"><code>onLoad</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l444"><code>customPlugins\table2\dialogs\table2Modify.js:444</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Binding Table2Dialog/_colorPicker:property
+to color-related input text fields.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_onShow" class="method item">
+    <h3 class="name"><code>onShow</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l468"><code>customPlugins\table2\dialogs\table2Modify.js:468</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The function to execute when the dialog is loaded (executed every time the dialog is opened).</p>
+<p>Fills in table plugin dialog with selected (if any) table properties.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_suggestValue" class="method item">
+    <h3 class="name"><code>suggestValue</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l126"><code>customPlugins\table2\dialogs\table2Modify.js:126</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.6</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Binds element that invoked this method with specific text input field: if the elements invokes this function,
+the value of target text input field gets modified.</p>
+<p>If the element invokes this function and target text input field value is not positive,
+then this field recieves value 1.</p>
+<p>Invoking element must have <code>target</code> key to be set to a three-element array
+<code>[tabId, elementId, defaultValue]</code>
+where <code>tabId</code> and <code>elemId</code> chracterize location of the target element and <code>defaultValue</code>
+is value that is suggested for the target.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__colorPicker" class="property item private">
+    <h3 class="name"><code>_colorPicker</code></h3>
+    <span class="type">DhtmlXColorPicker</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l31"><code>customPlugins\table2\dialogs\table2Modify.js:31</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 0.0.6</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Color picker (JavaScript ColorPicker).</p>
+<p>dhtmlxColorPicker is open source GPL v2 and Free License <a href="http://dhtmlx.com/docs/products/dhtmlxColorPicker/">JavaScript component</a>
+for easy color selection.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__inputColorStyle" class="property item private">
+    <h3 class="name"><code>_inputColorStyle</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l21"><code>customPlugins\table2\dialogs\table2Modify.js:21</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style for text input fields for choosing colors.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__inputNumberStyle" class="property item private">
+    <h3 class="name"><code>_inputNumberStyle</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/customPlugins_table2_dialogs_table2Modify.js.html#l13"><code>customPlugins\table2\dialogs\table2Modify.js:13</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Style for text input fields for numbers.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

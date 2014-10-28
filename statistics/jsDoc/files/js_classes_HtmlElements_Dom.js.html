@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\classes\HtmlElements\Dom.js - Newsletter API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..\images\logo.png" title="Newsletter API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.6</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CDownload.html">CDownload</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/CellProperties.html">CellProperties</a></li>
+            
+                <li><a href="../classes/CImage.html">CImage</a></li>
+            
+                <li><a href="../classes/CKEDITOR.html">CKEDITOR</a></li>
+            
+                <li><a href="../classes/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../classes/CLink.html">CLink</a></li>
+            
+                <li><a href="../classes/Content.html">Content</a></li>
+            
+                <li><a href="../classes/Controller.html">Controller</a></li>
+            
+                <li><a href="../classes/Converter.html">Converter</a></li>
+            
+                <li><a href="../classes/ConverterElastic.html">ConverterElastic</a></li>
+            
+                <li><a href="../classes/ConverterFixed.html">ConverterFixed</a></li>
+            
+                <li><a href="../classes/ConverterGeneral.html">ConverterGeneral</a></li>
+            
+                <li><a href="../classes/ConverterSimpleText.html">ConverterSimpleText</a></li>
+            
+                <li><a href="../classes/CTable.html">CTable</a></li>
+            
+                <li><a href="../classes/Document.html">Document</a></li>
+            
+                <li><a href="../classes/Dom.html">Dom</a></li>
+            
+                <li><a href="../classes/EHToolbar.html">EHToolbar</a></li>
+            
+                <li><a href="../classes/Factory.html">Factory</a></li>
+            
+                <li><a href="../classes/Helper.html">Helper</a></li>
+            
+                <li><a href="../classes/Image.html">Image</a></li>
+            
+                <li><a href="../classes/ImageProperties.html">ImageProperties</a></li>
+            
+                <li><a href="../classes/Link.html">Link</a></li>
+            
+                <li><a href="../classes/LinkDialog.html">LinkDialog</a></li>
+            
+                <li><a href="../classes/LinkProperties.html">LinkProperties</a></li>
+            
+                <li><a href="../classes/List.html">List</a></li>
+            
+                <li><a href="../classes/ListItem.html">ListItem</a></li>
+            
+                <li><a href="../classes/ListItemProperties.html">ListItemProperties</a></li>
+            
+                <li><a href="../classes/ListProperties.html">ListProperties</a></li>
+            
+                <li><a href="../classes/Mapper.html">Mapper</a></li>
+            
+                <li><a href="../classes/NEWSLETTER.html">NEWSLETTER</a></li>
+            
+                <li><a href="../classes/OList.html">OList</a></li>
+            
+                <li><a href="../classes/PlainText.html">PlainText</a></li>
+            
+                <li><a href="../classes/Properties.html">Properties</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/RowProperties.html">RowProperties</a></li>
+            
+                <li><a href="../classes/Save.html">Save</a></li>
+            
+                <li><a href="../classes/Selection.html">Selection</a></li>
+            
+                <li><a href="../classes/Table.html">Table</a></li>
+            
+                <li><a href="../classes/table2ModifyDialog.html">table2ModifyDialog</a></li>
+            
+                <li><a href="../classes/TableDialog.html">TableDialog</a></li>
+            
+                <li><a href="../classes/TableProperties.html">TableProperties</a></li>
+            
+                <li><a href="../classes/Tag.html">Tag</a></li>
+            
+                <li><a href="../classes/UList.html">UList</a></li>
+            
+                <li><a href="../classes/Unit.html">Unit</a></li>
+            
+                <li><a href="../classes/Worker.html">Worker</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CKHelper.html">CKHelper</a></li>
+            
+                <li><a href="../modules/Config.html">Config</a></li>
+            
+                <li><a href="../modules/Controllers.html">Controllers</a></li>
+            
+                <li><a href="../modules/Converter.html">Converter</a></li>
+            
+                <li><a href="../modules/Dialogs.html">Dialogs</a></li>
+            
+                <li><a href="../modules/EventHandler.html">EventHandler</a></li>
+            
+                <li><a href="../modules/Helper.html">Helper</a></li>
+            
+                <li><a href="../modules/HtmlElements.html">HtmlElements</a></li>
+            
+                <li><a href="../modules/Plugins.html">Plugins</a></li>
+            
+                <li><a href="../modules/Properties.html">Properties</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\classes\HtmlElements\Dom.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*jslint plusplus: true, white: true */
+/*global Node, Dom, Properties, Tag, Helper */
+
+/**
+ * This class deals with the elements of the editor document. Its functionality is similar
+ * to those of {{#crossLink &quot;Document&quot;}}Document{{/crossLink}}.
+ *
+ * The difference between them: {{#crossLink &quot;Document&quot;}}Document{{/crossLink}} is a singleton,
+ * while {{#crossLink &quot;Dom&quot;}}Dom{{/crossLink}} is a function that accepts creation of multiple
+ * instances.
+ * @module 	    HtmlElements
+ * @class  		Dom
+ * @constructor
+ * @since       0.0.4
+ * @author      A.Shcherbakov
+ */
+
+function Dom(){
+	/**
+	 * Toggles inline style property &#x60;prop&#x60; of node &#x60;n&#x60;. When it turns out that the property should
+	 * be set, it is set to value &#x60;val&#x60;.
+	 *
+	 * @method          _toggleNodeStyle
+	 * @private
+	 * @param          {DOM.Node}           n          instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @param          {String}             prop       style property name to be toggled
+	 * @param          {String}             val        on-value of the the style property
+	 * @param          {String|Null}        altVal     off-value of the style property
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	var _toggleNodeStyle = function(n, prop, val, altVal){
+	    var attrName = &#x27;style&#x27;,
+	        stl, stlStr;
+	    if (!(typeof n === &#x27;object&#x27; &amp;&amp; n.nodeType)){
+	        return;
+	    }
+	    // console.log(&#x27;from parents: &#x27;, _lookUpInParents(n, prop));
+	    stl = new Properties(n.getAttribute(attrName));
+	    stl.setMode(1);
+	    stl.toggleProperty(prop, val, altVal);
+	    stlStr = stl.toString();
+	    if (stlStr){
+	        n.setAttribute(attrName, stlStr);
+	    } else {
+	        n.removeAttribute(attrName);
+	    }
+	};
+
+
+	/**
+	 * Returns **proxy** node of &#x60;n&#x60;:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * if &#x60;n&#x60; is a text element without siblings, then proxy of &#x60;n&#x60; is its parent node,
+	 * &lt;/li&gt;&lt;li&gt;
+	 * if &#x60;n&#x60; is a text element with siblings or is a node element, then proxy of &#x60;n&#x60; is &#x60;n&#x60; itself.
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * @method         _proxy
+	 * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|Null}
+	 */
+	this.proxy = function(n){
+	    if (n === undefined || n.nodeType === undefined){
+	        return null;
+	    }
+	    if (n.nodeType === Node.ELEMENT_NODE){
+	        return n;
+	    }
+	    return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
+	};
+
+	/**
+	 * Looks for a value of style property &#x60;key&#x60; of nearest ascendant of &#x60;node&#x60; in the scope of node &#x60;scope&#x60;.
+	 * If the property is found, its value is returned, otherwise,  &#x60;undefined&#x60; is returned.
+	 *
+	 * Limit node &#x60;scope&#x60; is supposed to contain &#x60;node&#x60;. Otherwise, the search for the property
+	 * is performed up to the &quot;highest&quot; parent of &#x60;node&#x60;.
+	 *
+	 * NB: ** optimize algorithm in such a way that DOM is parsed only once even when &#x60;scope&#x60; is set wrong. **
+	 * @method         getInheritedStyleProp
+	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {DOM.Node}           scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key       name of property to find among inline style of ascendants
+	 * @return         {String|Number|Null}
+	 * @since          0.0.4
+	 */
+	this.getInheritedStyleProp = function(key, node, scope){
+		if (node === undefined){
+			throw new Error(&quot;Starting node must be defined!&quot;);
+		}
+		var root, parent, stl,
+			currentNode = node;
+		root = scope;
+		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		if (root === undefined || !root.contains(node)){
+			root = node;
+			parent = root.parentNode;
+			while (parent){
+				root = parent;
+				parent = root.parentNode;
+			}
+		}
+		while (root.contains(currentNode)){
+			// a node might have no &quot;getAttribute&quot; method (as text node does)
+			if (typeof currentNode.getAttribute === &#x27;function&#x27;){
+				stl = new Properties(currentNode.getAttribute(&#x27;style&#x27;));
+				stl.setMode(1);
+				if (stl.hasProperty(key)){
+					return stl.getProperty(key);
+				}
+			}
+			currentNode = currentNode.parentNode;
+		}
+	};
+
+
+	/**
+	 * Modifies inline style properties of a {{#crossLink &quot;Selection/_proxy:method&quot;}}proxy{{/crossLink}}
+	 * node of deepest children of node &#x60;n&#x60; in the following way:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * if style property &#x60;prop&#x60; of the deepest child is equal to &#x60;val&#x60;, then inline
+	 * style property of its &quot;proxy&quot; node is set to be &#x60;altVal&#x60;.
+	 * &lt;/li&gt;&lt;li&gt;
+	 * if style property &#x60;prop&#x60; of the deepest child is not equal to &#x60;val&#x60;, then inline
+	 * style property of its &quot;proxy&quot; node is set to be &#x60;val&#x60;.
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * @private
+	 * @method         _deferToggleStyle
+	 * @param          {Node}               n                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             prop               name of style property (i.e., &quot;width&quot; or &quot;text-decoration&quot;)
+	 * @param          {String}             val                value of style property (i.e., &quot;10px&quot; or &quot;underline&quot;)
+	 * @return         {void}
+	 * @since          0.0.4
+	 * @todo           Try to make this method shorter
+	 */
+	// var _deferToggleStyle = function(n, prop, val, altVal){
+	//     var childNodes = n.childNodes,
+	//         childNum = childNodes.length,
+	//         child, span, parent, counter;
+	//     switch (childNum){
+	//          // node has no children
+	//         case 0:
+	//             if (n.nodeType === Node.ELEMENT_NODE){
+	//                 _toggleNodeStyle(n, prop, val, altVal);
+	//                 break;
+	//             }
+	//             if (n.nodeType === Node.TEXT_NODE){
+	//                 console.log(&#x27;from parents: &#x27;, _lookUpInParents(n, prop));
+	//                 span = new Tag();
+	//                 span.setTag(&#x27;span&#x27;);
+	//                 span.setStyleProperty(prop, val);
+	//                 span.setContent(n.nodeValue);
+	//                 parent = n.parentNode;
+	//                 if (parent){
+	//                     parent.replaceChild(span.toNode(), n);
+	//                 }
+	//                 break;
+	//             }
+	//             break;
+	//         // node has only one child
+	//         case 1:
+	//             child = n.firstChild;
+	//             if (child.nodeType === Node.TEXT_NODE){
+	//                  _toggleNodeStyle(n, prop, val, altVal);
+	//             } else {
+	//                 _deferToggleStyle(child, prop, val, altVal);
+	//             }
+	//             break;
+	//         // node has many children
+	//         default:
+	//             console.log(&quot;children no. : &quot;, childNum, childNodes);
+	//             for (counter = 0; counter &lt; childNum; counter++){
+	//                 _deferToggleStyle(childNodes[counter], prop, val, altVal);
+	//             }
+	//     }
+	// };
+
+
+
+
+	/**
+	 * Gives common ancestor of nodes n1 and n2. If it does not exist, &#x60;null&#x60; is returned.
+	 * @method         _commonAncestor
+	 * @private
+	 * @param          {DOM.Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|Null}
+	 * @since          0.0.4
+	 */
+	var _commonAncestor = function(n1, n2){
+	    // console.log(n1, n2);
+	    if (n1 === undefined || n2 === undefined){
+	        // console.log(&#x27;return undefined&#x27;);
+	        return;
+	    }
+	    if (n1.contains(n2)){
+	        // console.log(&#x27;return first argument&#x27;, n1);
+	        return n1;
+	    }
+	    if (n2.contains(n1)){
+	        // console.log(&#x27;return second argument&#x27;, n2);
+	        return n2;
+	    }
+	    var parent = n1.parentNode;
+	    while (parent &amp;&amp; !(parent.contains(n2))){
+	        // console.log(&#x27;inside while loop: &#x27;, parent);
+	        parent = parent.parentNode;
+	    }
+	    // console.log(&#x27;return parent&#x27;, parent);
+	    return parent;
+	};
+
+	/**
+	 * Gives common ancestor of nodes n1 and n2. If it does not exist, &#x60;null&#x60; is returned.
+	 * @method         commonAncestor
+	 * @param          {DOM.Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|Null}
+	 */
+	this.commonAncestor = function(n1, n2){
+	    return _commonAncestor(n1, n2);
+	};
+
+	/**
+	 * Returns common ancestor of all array elements. If an element is not a
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
+	 * @method         commonAncestorSoft
+	 * @return         {DOM.Node|Null}      common ancestor of the arguments
+	 */
+	this.commonAncestorSoft = function(elems){
+	    if (!Array.isArray(elems)){
+	        return null;
+	    }
+	    var arg = elems.filter(function(el){
+	        return el &amp;&amp; el.nodeType !== undefined;
+	    });
+	    if (arg.length === 0){
+	        return null;
+	    }
+	    var el = arg.shift(),
+	        elTmp;
+	    while (arg.length &gt; 0){
+	        elTmp = arg.shift();
+	        el = _commonAncestor(el, elTmp);
+	    }
+	    return el;
+	};
+
+	// /**
+	//  * Normalize parent of elements of the array.
+	//  * @method  normalizeParentOf
+	//  * @param  {Array}     elems
+	//  * @return {void}
+	//  */
+	// this.normalizeParentOf = function(elems){
+	//     var el = this.commonAncestorSoft(elems);
+	//     if (el){
+	//         el.normalize();
+	//     }
+	// };
+
+
+	/**
+	 * Returns the nearest node from which &#x60;node&#x60; inherits inline style property &#x60;key&#x60;. If no such node exists, returns &#x60;undefined&#x60;.
+	 * @method         getMentor
+	 * @param          {String}             key               name of inline style property
+	 * @param          {DOM.Node}           node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {DOM.Node|undefined}                   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 */
+	this.getMentor = function(key, node){
+		var currentNode = node,
+			stl;
+		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		while (currentNode){
+			// whether the current node has attributes
+			if (typeof currentNode.getAttribute === &#x27;function&#x27;){
+				stl = new Properties(currentNode.getAttribute(&#x27;style&#x27;));
+				if (stl.hasProperty(key)){
+					return currentNode;
+				}
+			}
+			currentNode = currentNode.parentNode;
+		}
+	};
+
+	/**
+	 * Nails inline style property &#x60;key&#x60; of &#x60;node&#x60;:  applies style property on &quot;innocent&quot; nodes
+	 * and toggles node inline property &#x60;key&#x60; between &#x60;primary&#x60; and &#x60;secondary&#x60;.
+	 *
+	 * If &#x60;node&#x60; has a mentor node, then:
+	 * &lt;ol&gt;&lt;li&gt;
+	 * assign value of inline style property &#x60;key&#x60; of the mentor to each
+	 * {{#crossLink &quot;Dom/complementNodes:method&quot;}}complement node{{/crossLink}} to the path &#x60;mentor - ... - node&#x60;,
+	 * &lt;/li&gt;&lt;li&gt;
+	 * eliminate inline style property &#x60;key&#x60; from the mentor,
+	 * &lt;/li&gt;&lt;li&gt;
+	 * call {{#crossLink &quot;Dom/setStyleProperty:method&quot;}}setStyleProperty{{/crossLink}} method that takes care of
+	 * setting inline style property of &#x60;node&#x60; to required value.
+	 * &lt;/li&gt;&lt;/ol&gt;
+	 * If &#x60;node&#x60; has no mentor node, then set its inline style property &#x60;key&#x60; to be equal to &#x60;secondary&#x60;
+	 * @method         nailStyleProperty
+	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key              name of inline style property
+	 * @param          {String|Number}      primary          primary value of inline style property
+	 * @param          {String|Number}      secondary        secondary value of inline style property
+	 * @return         {void}
+	 */
+	this.nailStyleProperty = function(node, key, primary, secondary){
+		var mentor = this.getMentor(key, node);
+		// changing target node if there is no mentor
+		if (mentor === undefined){
+			this.setStyleProperty(node, key, primary);
+			return;
+		}
+		// from now on, mentor exists.
+		// It might coincide with the node (in this case, array of complement nodes is empty).
+		var complNodes = this.complementNodes(mentor, node),
+			len = complNodes.length,
+			mentorStyle = this.getStyleProperty(mentor, key),
+			i;
+		// apply mentor&#x27;s style property on complement nodes
+		for (i = 0; i &lt; len; i++){
+			this.setStyleProperty(complNodes[i], key, mentorStyle);
+		}
+		// drop the property from the mentor
+		this.dropStyleProperty(mentor, key);
+		// impose secondary value of the style property on the target node
+		this.setStyleProperty(node, key, mentorStyle === primary ? secondary : primary);
+	};
+
+
+	/**
+	 * Returns reference to a node with inline style property &#x60;key&#x60; being set to &#x60;value&#x60;.
+	 * If &#x60;node&#x60; is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+	 * then reference it itself is returned. Otherwise, it is returned a new
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains
+	 * a clone of &#x60;node&#x60; and which replaces &#x60;node&#x60;.
+	 * @method         setStyleProperty
+	 * @param          {DOM.Node}           node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key      name of inline style property to set
+	 * @param          {String|Number}      value    value of the inline style property
+	 * @return         {DOM.Node}                    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 */
+	this.setStyleProperty = function(node, key, value){
+		if (!node || !key || !value){
+			throw new Error(&#x27;Node, key and value must be given!&#x27;);
+		}
+		var attrName = &#x27;style&#x27;,
+			isElem = node.nodeType === Node.ELEMENT_NODE,
+			node2 = isElem ? node : document.createElement(&#x27;span&#x27;),
+			style = new Properties(node2.getAttribute(attrName));
+		style.setMode(1);
+		style.setProperty(key, value);
+		node2.setAttribute(attrName, style.toString());
+		// arrange the node if it was created as a span
+		if (!isElem){
+			node2.appendChild(node.cloneNode(false));
+			node.parentNode.replaceChild(node2, node);
+		}
+		return node2;
+	};
+
+	/**
+	 * Gets inline style property with name &#x60;key&#x60; of &#x60;node&#x60;. Returns &#x60;undefined&#x60; if &#x60;node&#x60;
+	 * does not have inline style property &#x60;key&#x60;.
+	 * @method         getStyleProperty
+	 * @param          {DOM.Node}           node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key           name of inline style property of &#x60;node&#x60;
+	 * @return         {String|Number}
+	 */
+	this.getStyleProperty = function(node, key){
+		if (node &amp;&amp; key &amp;&amp; typeof node.getAttribute === &#x27;function&#x27;){
+			var stl = new Properties(node.getAttribute(&#x27;style&#x27;));
+			if (stl.hasProperty(key)){
+				return stl.getProperty(key);
+			}
+		}
+	};
+
+
+	/**
+	 * Drops inline style property &#x60;key&#x60; from &#x60;node&#x60; and removes inline style attribute if
+	 * it becomes empty.
+	 * Returns &#x60;true&#x60; if the initially contains inline style property &#x60;key&#x60; and &#x60;false&#x60; otherwise.
+	 *
+	 * @method         dropStyleProperty
+	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}             key       name of inline style attribute to drop
+	 * @return         {Boolean}                      &#x60;true&#x60; if successefully deleted the requested property
+	 *                                                 and &#x60;false&#x60; otherwise
+	 */
+	this.dropStyleProperty = function(node, key){
+		if (!node || !key || typeof node.getAttribute !== &#x27;function&#x27;){
+			return false;
+		}
+		var attrName = &#x27;style&#x27;;
+		var stl = new Properties(node.getAttribute(attrName));
+		if (!stl.hasProperty(key)){
+			return false;
+		}
+		stl.dropProperty(key);
+		if (stl.isEmpty()){
+			node.removeAttribute(attrName);
+		} else {
+			node.setAttribute(attrName, stl.toString());
+		}
+		return true;
+	};
+
+
+	/**
+	 * Toggles style property &#x60;key&#x60; of element &#x60;elem&#x60; from &#x60;primary&#x60; to &#x60;secondary&#x60;.
+	 * If the element has style property &#x60;key&#x60; equal to &#x60;primary&#x60;, then it is imposed to &#x60;secondary&#x60;.
+	 * Otherwise, it is imposed to &#x60;primary&#x60;.
+	 *
+	 * An element is considered to have style property imposed if either the element itself, or any of
+	 * its parents has that value imposed.
+	 *
+	 * If not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first
+	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
+	 * since text nodes have no attributes.
+	 * @method         toggleElementStyle
+	 * @param          {DOM.Element}        elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * @param          {String}             key        name of style property to change
+	 * @param          {String|Number}      primary    primary value of the above style property
+	 * @param          {String|Number}      secondary  secondary value of the style property
+	 * @return         {void}
+	 * @since          0.0.4
+	 */
+	this.toggleElementStyle = function(elem, key, primary, secondary){
+		if (elem &amp;&amp; elem.nodeType === Node.ELEMENT_NODE){
+			var attrName = &#x27;style&#x27;,
+				stl = new Properties(elem.getAttribute(attrName)),
+				styleValue = this.getInheritedStyleProp(key, elem);
+			stl.setMode(1);
+			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
+			elem.setAttribute(attrName, stl.toString());
+		}
+	};
+
+	/**
+	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style
+	 * property &#x60;key&#x60; equal to &#x60;secondary&#x60; if value of &#x60;key&#x60; attribute in &quot;style&quot; property  is equal to &#x60;primary&#x60;. Otherwise,
+	 * &#x60;key&#x60; value will be imposed to &#x60;primary&#x60;.
+	 *
+	 * Created instance is a &quot;span&quot; html tag.
+	 * @method         createToggledElemFromText
+	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
+	 *                                                      instance whose &quot;toggle&quot; copy is to be created
+	 * @param          {String}             key             name of style property (i.e., &quot;text-decoration&quot;, &quot;font-style&quot;)
+	 * @param          {String|Number}      primary         primary value of the style property
+	 * @param          {String|Number}      secondary       secondary value
+	 * @return         {DOM.Node}
+	 * @since          0.0.4
+	 */
+	this.createToggledElemFromText = function(textNode, key, primary, secondary){
+		if (textNode &amp;&amp; textNode.nodeType === Node.TEXT_NODE){
+			var output = document.createElement(&#x27;span&#x27;),
+				textNodeCopy = document.createTextNode(textNode.nodeValue),
+				styleValue = this.getInheritedStyleProp(key, textNode),
+				styleToggled = styleValue === primary ? secondary : primary;
+			output.setAttribute(&#x27;style&#x27;, key + &#x27;: &#x27; + styleToggled + &#x27;;&#x27;);
+			output.appendChild(textNodeCopy);
+			return output;
+		}
+	};
+
+
+	/**
+	 * Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * that are descendants of &#x60;startNode-...-endNode&#x60; path but do not belong to that path.
+	 * If path from &#x60;startNode&#x60; to &#x60;endNode&#x60; does not exist, an error is thrown.
+	 * &lt;dl&gt;
+	 * &lt;dt&gt; Path A - ... - B&lt;/dt&gt;
+	 * &lt;dd&gt; An ordered collection of nodes n&lt;sub&gt;i&lt;/sub&gt; from which one needs to pass through in order
+	 * to arrive to node B starting from node A passing always from a node to its child.
+	 * &lt;/dd&gt;
+	 * &lt;dt&gt; Descendant of a path A - ... - B&lt;/dt&gt;
+	 * &lt;dd&gt;
+	 * 	A node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.
+	 * &lt;/dd&gt;
+	 * &lt;/dl&gt;
+	 * @method         complementNodes
+	 * @param          {DOM.Node}           startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance from which to start the path
+	 * @param          {DOM.Node}           endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instance at which to finish the path
+	 * @return         {Array}                                 one-dimensional array of
+	 *                                                         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                         instances or empty array
+	 */
+	this.complementNodes = function(startNode, endNode){
+		if (!startNode.contains(endNode)){
+			throw new Error(&quot;Start node must contain the end one!&quot;);
+		}
+		if (startNode.isEqualNode(endNode)){
+			return [];
+		}
+		var children = startNode.childNodes,
+			len = children.length,
+			i, child,
+			result = [];
+		for (i = 0; i &lt; len; i++){
+			child = children[i];
+			if (!child.contains(endNode)){
+				result.push(child);
+			} else {
+				result = result.concat(this.complementNodes(child, endNode));
+			}
+		}
+		return result;
+	};
+
+	/**
+	 * Replaces &#x60;propSecondary&#x60; string by &#x60;propPrimary&#x60; one in the class attribute of &#x60;elem&#x60;.
+	 * If &#x60;propSecondary&#x60; does not exist, then &#x60;propPrimary&#x60; is just appended to class
+	 * attributes. If class attribute does not exist, then it is created with value &#x60;propName&#x60;.
+	 * @method         switchClassProperty
+	 * @param          {DOM.Element}   elem
+	 * @param          {String}        propPrimary
+	 * @param          {String}        propSecondary
+	 * @return         {void}
+	 * @since          0.0.6
+	 */
+	this.switchClassProperty = function(elem, propPrimary, propSecondary){
+		var attrName = &#x27;class&#x27;;
+		var classValue = elem.getAttribute(attrName);
+		if (!classValue){
+			elem.setAttribute(attrName, propPrimary);
+			return;
+		}
+		var attrValues = classValue.split(&#x27; &#x27;);
+		var index = attrValues.indexOf(propSecondary);
+		if (index !== -1){
+			// replace secondary-switch attribute
+			attrValues[index] = propPrimary;
+		} else if (attrValues.indexOf(propPrimary) === -1) {
+			// insert secondary-switch attribute only if it is not already present
+			attrValues.push(propPrimary);
+		}
+		classValue = attrValues.join(&#x27; &#x27;);
+		elem.setAttribute(attrName, classValue);
+	};
+
+}
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
