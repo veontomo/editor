@@ -247,10 +247,10 @@ class FileManagement{
 			'€' => '&euro;'
 		];
 		$content = $this->getFileContent();
-		// $newContent = htmlentities($content, ENT_QUOTES | ENT_HTML401, 'UTF-8');
-		foreach ($replacement as $key => $value){
-			$content = str_replace($key, $value, $content);
-		}
+		$content = htmlentities($content, ENT_QUOTES | ENT_HTML401, 'UTF-8');
+		// foreach ($replacement as $key => $value){
+		// 	$content = str_replace($key, $value, $content);
+		// }
 		$this->setFileContent($content);
 	}
 

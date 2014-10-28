@@ -7,3 +7,9 @@ Editor:
 
  ☐ Wrong mode bug: 1. insert text, 2. select a part of the text, 3. transform it into a link, 4. select the link dragging mouse from one end to the other (not by double click!), 5. make the selection bold, 6. check the resulting html source in order to see something like:
    <a href="http://ddd" style="text-decoration=&quot;underline&quot; padding=&quot;0px&quot; margin=&quot;0px&quot; color=&quot;#0000FF&quot;" target="_blank"></a>
+
+
+ ☐ Sanitize strange symbols on the client side: do it by means of javascript file.
+
+
+ ☐ Get rid of jQuery in ./CDownload.js:135:9 controller

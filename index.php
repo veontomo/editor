@@ -114,7 +114,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
     		}
     	?>
 
-	    <a href="apidocs/"><img src="images/yui-logo.png" width="100px"/>API</a>
+	    <a href="statistics/jsDoc/"><img src="images/yui-logo.png" width="100px"/>API</a>
     </div>
     <div class="panel">
       <a href="jasmine/"><img src="images/TDD.png" width="100px" /></a>

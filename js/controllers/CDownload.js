@@ -175,9 +175,9 @@ function CDownload (){
 		// httpRequest.setRequestHeader("Connection", "close");
 
 		// httpRequest.send(contentToSend);
-
-
 	};
+
+	this.file
 
 
 }

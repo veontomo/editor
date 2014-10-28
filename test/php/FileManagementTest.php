@@ -115,12 +115,28 @@ class FileManagementTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->worker->getFileContent(), 'price: 10&euro;');
     }
 
+    public function testSanitizeContentAmpersand()
+    {
+        $this->worker->setFileContent('D & G');
+        $this->worker->sanitize();
+        $this->assertEquals($this->worker->getFileContent(), 'D &amp; G');
+    }
+
+
     public function testSanitizeContentHtmlTag()
     {
         $this->worker->setFileContent('<div style="margin: 10px; padding: 20em;"> a o e à ò è é</div>');
         $this->worker->sanitize();
         $this->assertEquals($this->worker->getFileContent(), '<div style="margin: 10px; padding: 20em;"> a o e &agrave; &ograve; &egrave; &eacute;</div>');
     }
+
+    public function testSanitizeContentLinkWithAmpersand()
+    {
+        $this->worker->setFileContent('<a href="http://www.test.com/?p=1&t=4">link</div>');
+        $this->worker->sanitize();
+        $this->assertEquals($this->worker->getFileContent(), '<a href="http://www.test.com/?p=1&t=4">link</div>');
+    }
+
 
     public function testSetFileNameIfNull()
     {

@@ -7,6 +7,10 @@ describe ('Download controller functionality', function(){
     	c = new CDownload();
     });
 
+    describe('Sanitize the content', function(){
+    	it('sanitizes ampersand');
+    });
+
 });
 
 
