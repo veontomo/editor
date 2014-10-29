@@ -546,22 +546,40 @@ function Dom(){
 	 * Returns a Properties instance that accumulates the highest specificity attributes and styles of
 	 * node `n` within the scope `s` (included).
 	 *
-	 * The method parses DOM ascending from the node `n` til `s` (included) and accumulates only those
+	 * The method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those
 	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
 	 * only its first occurence gets into consideration.
 	 *
-	 * If node `n` is not a descendant of node `s`, then it is returned
-	 * a {{#crossLink "Properties"}}Properties{{/crossLink}} instance with no attributes or styles.
+	 * If node `s` is not set, then parsing is performed up to the "highest" root.
+	 * If node `s` is set, but node `n` is not its descendant, then a
+	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance corresponding to node `n`
+	 * is returned.
 	 * @method  	   getInheritedProperties
 	 * @param          {DOM.Element}   n
-	 * @param          {DOM.Element}   s
+	 * @param          {DOM.Element}   s   Optional
 	 * @return         {Properties}
 	 * @since          0.0.7
 	 */
-	this.getInheritedProperties = function(node, scope){
-		/// !!! stub
-		return new Properties();
-	}
+	this.getInheritedProperties = function(n, s){
+		var p = new Properties();
+		if (!n){
+			return p;
+		}
+		p.loadNodeProperties(n);
+		var naturalLimit = s === undefined;
+		if (!(naturalLimit || s.contains(n))){
+			return p;
+		}
+		var currentNode = n.parentNode,
+			currentProp;
+		while (currentNode && (naturalLimit || s.contains(currentNode))){
+			currentProp = new Properties();
+			currentProp.loadNodeProperties(currentNode);
+			p.suggestProperty(currentProp);
+			currentNode = currentNode.parentNode;
+		}
+		return p;
+	};
 
 }
 

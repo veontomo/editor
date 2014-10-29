@@ -894,9 +894,147 @@ describe('Dom-specific functionality', function(){
             dom.switchClassProperty(el, 'new_class', 'old_class');
             expect(el.getAttribute('class')).toBe('some_other_class new_class another-one');
         });
+    });
+
+    describe('Getting inherited properties', function(){
+        var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
+//                    n00                                m00
+//         ____________|_________                    _____|____
+//         |                     |                   |         |
+//        n10                   n11                 m10       m11
+//   ______|______               |
+//   |     |      |              |
+//  n20   n21    n22            n23
+//      ___|____
+//      |       |
+//     n30     n31
+//
+        beforeEach(function(){
+            dom = new Dom();
+            n00 = document.createElement('div00');
+            n10 = document.createElement('div10');
+            n11 = document.createElement('div11');
+            n20 = document.createElement('div20');
+            n21 = document.createElement('div21');
+            n22 = document.createElement('div22');
+            n23 = document.createElement('div23');
+            n30 = document.createElement('div30');
+            n31 = document.createElement('div31');
+            m00 = document.createElement('div');
+            m10 = document.createElement('div');
+            m11 = document.createElement('div');
+            n00.appendChild(n10);
+            n00.appendChild(n11);
+            n10.appendChild(n20);
+            n10.appendChild(n21);
+            n10.appendChild(n22);
+            n21.appendChild(n30);
+            n21.appendChild(n31);
+            n11.appendChild(n23);
+            m00.appendChild(m10);
+            m00.appendChild(m11);
+        });
+
+        it('returns a Properties instance if the scope is not set', function(){
+            var prop = dom.getInheritedProperties(n11);
+            expect(prop instanceof Properties).toBe(true);
+        });
+
+        it('returns a Properties instance if the node is  within the scope', function(){
+            var prop = dom.getInheritedProperties(n11, n00);
+            expect(prop instanceof Properties).toBe(true);
+        });
+
+        it('returns a Properties instance if the node is not within the scope', function(){
+            var prop = dom.getInheritedProperties(n11, n10);
+            expect(prop instanceof Properties).toBe(true);
+        });
+
+
+        it('returns current node properties if the scope is not set', function(){
+            n30.setAttribute('class', 'media');
+            var prop = dom.getInheritedProperties(n30);
+            expect(prop.propNum()).toBe(1);
+            expect(prop.getProperty('class')).toBe('media');;
+        });
+
+        it('returns current node properties if the node is not scope node descendant', function(){
+            n21.setAttribute('data-user', 'content');
+            var prop = dom.getInheritedProperties(n21, n11);
+            expect(prop.propNum()).toBe(1);
+            expect(prop.getProperty('data-user')).toBe('content');
+
+        });
+
+        it('returns properties if the node is within scope', function(){
+            n30.setAttribute('style', 'padding: 23em;margin: 5px;');
+            n21.setAttribute('href', 'a link');
+            n10.setAttribute('src', 'image.jpg');
+            n00.setAttribute('color', 'red');
+            var prop = dom.getInheritedProperties(n30, n00);
+            console.log(prop.toString());
+            expect(prop.propNum()).toBe(4);        // 'style', 'href', 'src' and 'color'
+            expect(prop.getProperty('color')).toBe('red');
+            expect(prop.getProperty('src')).toBe('image.jpg');
+            expect(prop.getProperty('href')).toBe('a link');
+            expect(prop.getStyleProperty('padding')).toBe('23em');
+            expect(prop.getStyleProperty('margin')).toBe('5px');
+        });
+
+        it('considers nodes up to the root if the scope is not set', function(){
+            n30.setAttribute('style', 'padding: 23em;margin: 5px;');
+            n21.setAttribute('href', 'a link');
+            n10.setAttribute('src', 'image.jpg');
+            n00.setAttribute('color', 'red');
+            var prop = dom.getInheritedProperties(n30);
+            console.log(prop.toString());
+            expect(prop.propNum()).toBe(4);        // 'style', 'href', 'src' and 'color'
+            expect(prop.getProperty('color')).toBe('red');
+            expect(prop.getProperty('src')).toBe('image.jpg');
+            expect(prop.getProperty('href')).toBe('a link');
+            expect(prop.getStyleProperty('padding')).toBe('23em');
+            expect(prop.getStyleProperty('margin')).toBe('5px');
+        });
+
+
+        it('assignes the first occurence of attributes', function(){
+            n21.setAttribute('font-size', '12px');
+            n10.setAttribute('font-size', '2em;');
+            var prop = dom.getInheritedProperties(n30, n00);
+            expect(prop.propNum()).toBe(1);
+            expect(prop.getProperty('font-size')).toBe('12px');
+        });
+
+        it('assignes the first occurence of styles', function(){
+            n21.setAttribute('style', 'font-weight: bold');
+            n10.setAttribute('style', 'font-weight: normal');
+            var prop = dom.getInheritedProperties(n30, n00);
+            expect(prop.propNum()).toBe(1);
+            expect(prop.getStyleProperty('font-weight')).toBe('bold');
+        });
+
+        it('assignes the first occurence of multiple styles', function(){
+            n21.setAttribute('style', 'color: red; width: 20em');
+            n21.setAttribute('text-align', 'center');
+            n21.setAttribute('src', 'local');
+            n10.setAttribute('style', 'width: 100px; font-weight: normal');
+            n10.setAttribute('title', 'tag title');
+            n10.setAttribute('src', 'external');
+
+            var prop = dom.getInheritedProperties(n30, n00);
+            expect(prop.propNum()).toBe(4);
+            expect(prop.getProperty('text-align')).toBe('center');
+            expect(prop.getProperty('src')).toBe('local');
+            expect(prop.getProperty('title')).toBe('tag title');
+            expect(prop.getStyleProperty('width')).toBe('20em');
+            expect(prop.getStyleProperty('color')).toBe('red');
+            expect(prop.getStyleProperty('font-weight')).toBe('normal');
+        });
+
 
 
 
     });
+
 
 });

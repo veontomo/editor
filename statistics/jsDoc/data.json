@@ -5811,7 +5811,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 545,
-            "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` til `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `n` is not a descendant of node `s`, then it is returned\na {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance with no attributes or styles.",
+            "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `n` is not a descendant of node `s`, then it is returned\na {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance with no attributes or styles.",
             "itemtype": "method",
             "name": "getInheritedProperties",
             "params": [

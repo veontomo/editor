@@ -746,7 +746,7 @@ function Dom(){
 	 * Returns a Properties instance that accumulates the highest specificity attributes and styles of
 	 * node &#x60;n&#x60; within the scope &#x60;s&#x60; (included).
 	 *
-	 * The method parses DOM ascending from the node &#x60;n&#x60; til &#x60;s&#x60; (included) and accumulates only those
+	 * The method parses DOM ascending from the node &#x60;n&#x60; up to node &#x60;s&#x60; (included) and accumulates only those
 	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
 	 * only its first occurence gets into consideration.
 	 *
@@ -759,9 +759,20 @@ function Dom(){
 	 * @since          0.0.7
 	 */
 	this.getInheritedProperties = function(node, scope){
-		/// !!! stub
-		return new Properties();
-	}
+		return this._accumulateProperties(node, scope, new Properties());
+	};
+
+	this._accumulateProperties = function(n, s, accumProperties){
+		if (!(n &amp;&amp; s &amp;&amp; s.contains(n))){
+			return accumProperties;
+		}
+		var p = new Properties();
+		p.loadNodeProperties(n);
+		return this._accumulateProperties(n.parentNode, s, accumProperties.suggestProperty(p));
+	}.bind(this);
+
+
+
 
 }
 

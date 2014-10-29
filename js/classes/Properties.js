@@ -375,6 +375,35 @@ function Properties(input) {
 	};
 
 	/**
+	 * Appends properties of `p` to the current Properties instance
+	 * @method _suggestProperty
+	 * @private
+	 * @param          {Properties}    p
+	 * @return         {void}
+	 * @since           0.0.7
+	 */
+	var _suggestProperty = function(p){
+		if (!(p instanceof Properties)){
+			return;
+		}
+		var pCore = p.getCore(),
+			key, value, objProp;
+		for (key in pCore){
+			if (pCore.hasOwnProperty(key)){
+				value = pCore[key];
+				if (!this.hasProperty(key)){
+					this.setProperty(key, pCore[key]);
+				} else {
+					objProp = this.getProperty(key);
+					if (value instanceof Properties && objProp instanceof Properties){
+						objProp.suggestProperty(value);
+					}
+				}
+			}
+		}
+	}.bind(this);
+
+	/**
 	 * Splits the argument in key-value pieces as it is performed in
 	 * {{#crossLink "Properties/appendPropertyAsStringOrObj:method"}}appendPropertyAsStringOrObj(){{/crossLink}}.
 	 * If the `key` is not present in the {{#crossLink "Properties/core:property"}}core{{/crossLink}}, it is initialized
@@ -387,6 +416,9 @@ function Properties(input) {
 		var objType = typeof obj,
 			attr, key, value,
 			that = this;
+		if (obj instanceof Properties){
+			_suggestProperty(obj);
+		}
 		if (objType === 'string'){
 			attr = obj.split(';');
 			attr.forEach(function(pair){
@@ -894,7 +926,6 @@ function Properties(input) {
     		this.setWidth(wF.getValue());
     	}
     };
-
 
 
 }

@@ -1682,7 +1682,7 @@ Returns <code>true</code> if the initially contains inline style property <code>
     <div class="description">
         <p>Returns a Properties instance that accumulates the highest specificity attributes and styles of
 node <code>n</code> within the scope <code>s</code> (included).</p>
-<p>The method parses DOM ascending from the node <code>n</code> til <code>s</code> (included) and accumulates only those
+<p>The method parses DOM ascending from the node <code>n</code> up to node <code>s</code> (included) and accumulates only those
 styles/attributes that have not been set so far: that is if an attribute encouters more than once,
 only its first occurence gets into consideration.</p>
 <p>If node <code>n</code> is not a descendant of node <code>s</code>, then it is returned
