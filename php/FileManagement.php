@@ -383,4 +383,18 @@ class FileManagement{
 		}
 	}
 
+	// /**
+	//  * First attempt just to see whether downloading without saving works.
+	//  * @return void
+	//  */
+	// public function sendTest(){
+	// 	header("Cache-Control: public");
+	// 	header("Content-Description: File Transfer");
+	// 	header("Content-Length: 20000;");
+	// 	header("Content-Disposition: attachment; filename=name");
+	// 	header("Content-Type: application/octet-stream;");
+	// 	header("Content-Transfer-Encoding: binary");
+	// 	echo 'content';
+	// }
+
 }

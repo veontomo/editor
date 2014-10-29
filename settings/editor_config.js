@@ -121,7 +121,7 @@ CKEDITOR.editorConfig = function(config){
 
 	config.extraPlugins = customPluginNames.join(','); // comma-separated string of custom plugin names
 	config.magicline_color = '#ababab';
-	config.removePlugins = 'tabletools,table,link,save,newpage,templates,bold,image';
+	config.removePlugins = 'tabletools,table,link,newpage,templates,bold,image';
 
 	// Styles are activated below by means of CKEDITOR.addCss(...).
 	//

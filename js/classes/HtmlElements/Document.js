@@ -2,8 +2,13 @@
 /*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER, Converter, Mapper */
 
 /**
- * This class is to deal with documents: parsing, converting, saving.
- * @module 	    HtmlElements
+ * This class is to deal with documents: parsing, converting, saving. Its functionality is similar
+ * to those of {{#crossLink "Dom"}}Dom{{/crossLink}}.
+ *
+ * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
+ * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a function that accepts creation of multiple
+ * instances.
+ * @module 	    Document
  * @class  		Document
  * @param       {DOM.Node}          node          the content of the document
  * @since       0.0.5

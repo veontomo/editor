@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TableProperties - Newsletter API</title>
+    <title>Document - Newsletter API</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -194,270 +194,60 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>TableProperties Class</h1>
-<div class="box meta">
+                        <h1>Document Module</h1>
+<div class="box clearfix meta">
     
 
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/js_classes_Properties_TableProperties.js.html#l3"><code>js\classes\Properties\TableProperties.js:3</code></a>
+            Defined in: <a href="../files/js_classes_HtmlElements_Dom.js.html#l4"><code>js\classes\HtmlElements\Dom.js:4</code></a>
         </div>
     
 
     
-        
-            Module: <a href="../modules/Properties.html">Properties</a>
-        
-    
-
+        <p>Available since 0.0.5</p>
     
 </div>
 
 
 
 <div class="box intro">
-    <p>Represents image properties.</p>
+    <p>This class is to deal with documents: parsing, converting, saving. Its functionality is similar
+to those of <a href="../classes/Dom.html" class="crosslink">Dom</a>.</p>
+<p>The difference between them: <a href="../classes/Document.html" class="crosslink">Document</a> is a singleton,
+while <a href="../classes/Dom.html" class="crosslink">Dom</a> is a function that accepts creation of multiple
+instances.</p>
 
 </div>
 
 
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
 
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
+            <ul class="module-classes">
             
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_constructor">constructor</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
+                <li class="module-class">
+                    <a href="../classes/Document.html">
+                        Document
+                    </a>
+                </li>
             
-
+                <li class="module-class">
+                    <a href="../classes/Dom.html">
+                        Dom
+                    </a>
+                </li>
             
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property private">
-                                <a href="#property_tableCore">tableCore</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_tableStyleCore">tableStyleCore</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_constructor" class="method item">
-    <h3 class="name"><code>constructor</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties_TableProperties.js.html#l18"><code>js\classes\Properties\TableProperties.js:18</code></a>
-        
-        </p>
-
-
-        
-
+            </ul>
         
     </div>
 
-    <div class="description">
-        <p>Re-set private properties defined in parent class <a href="../classes/Properties.html" class="crosslink">Properties</a>:</p>
-<ol><li>
-<a href="../classes/Properties.html#property_className" class="crosslink">className</a> to be "TableProperties"
-</li></ol>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_tableCore" class="property item private">
-    <h3 class="name"><code>tableCore</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties_TableProperties.js.html#l28"><code>js\classes\Properties\TableProperties.js:28</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Default key-value pairs for image attributes.</p>
-<pre>{'cellpadding': 0, 'cellspacing': 0}</pre>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_tableStyleCore" class="property item private">
-    <h3 class="name"><code>tableStyleCore</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_classes_Properties_TableProperties.js.html#l42"><code>js\classes\Properties\TableProperties.js:42</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Object with key-value pairs for image style. To be set, if corresponding key is not set.</p>
-<pre>{'border-style': 'none', 'padding': 0, 'margin': 0, 'width': 0, 'max-width': 0,  'min-width': 0,
-'border-spacing': '0px 0px', 'font-size': 13, 'text-align': 'justify', 'font-family': 'Arial, sans-serif'}</pre>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
+    <div class="yui3-u-1-2">
         
     </div>
 </div>

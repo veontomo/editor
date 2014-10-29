@@ -8,7 +8,7 @@
  * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
  * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a function that accepts creation of multiple
  * instances.
- * @module 	    HtmlElements
+ * @module 	    Document
  * @class  		Dom
  * @constructor
  * @since       0.0.4
@@ -541,6 +541,27 @@ function Dom(){
 		classValue = attrValues.join(' ');
 		elem.setAttribute(attrName, classValue);
 	};
+
+	/**
+	 * Returns a Properties instance that accumulates the highest specificity attributes and styles of
+	 * node `n` within the scope `s` (included).
+	 *
+	 * The method parses DOM ascending from the node `n` til `s` (included) and accumulates only those
+	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
+	 * only its first occurence gets into consideration.
+	 *
+	 * If node `n` is not a descendant of node `s`, then it is returned
+	 * a {{#crossLink "Properties"}}Properties{{/crossLink}} instance with no attributes or styles.
+	 * @method  	   getInheritedProperties
+	 * @param          {DOM.Element}   n
+	 * @param          {DOM.Element}   s
+	 * @return         {Properties}
+	 * @since          0.0.7
+	 */
+	this.getInheritedProperties = function(node, scope){
+		/// !!! stub
+		return new Properties();
+	}
 
 }
 

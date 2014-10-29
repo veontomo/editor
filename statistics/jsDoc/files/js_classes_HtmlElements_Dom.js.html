@@ -147,6 +147,8 @@
             
                 <li><a href="../modules/Dialogs.html">Dialogs</a></li>
             
+                <li><a href="../modules/Document.html">Document</a></li>
+            
                 <li><a href="../modules/EventHandler.html">EventHandler</a></li>
             
                 <li><a href="../modules/Helper.html">Helper</a></li>
@@ -206,7 +208,7 @@
  * The difference between them: {{#crossLink &quot;Document&quot;}}Document{{/crossLink}} is a singleton,
  * while {{#crossLink &quot;Dom&quot;}}Dom{{/crossLink}} is a function that accepts creation of multiple
  * instances.
- * @module 	    HtmlElements
+ * @module 	    Document
  * @class  		Dom
  * @constructor
  * @since       0.0.4
@@ -739,6 +741,27 @@ function Dom(){
 		classValue = attrValues.join(&#x27; &#x27;);
 		elem.setAttribute(attrName, classValue);
 	};
+
+	/**
+	 * Returns a Properties instance that accumulates the highest specificity attributes and styles of
+	 * node &#x60;n&#x60; within the scope &#x60;s&#x60; (included).
+	 *
+	 * The method parses DOM ascending from the node &#x60;n&#x60; til &#x60;s&#x60; (included) and accumulates only those
+	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
+	 * only its first occurence gets into consideration.
+	 *
+	 * If node &#x60;n&#x60; is not a descendant of node &#x60;s&#x60;, then it is returned
+	 * a {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance with no attributes or styles.
+	 * @method  	   getInheritedProperties
+	 * @param          {DOM.Element}   n
+	 * @param          {DOM.Element}   s
+	 * @return         {Properties}
+	 * @since          0.0.7
+	 */
+	this.getInheritedProperties = function(node, scope){
+		/// !!! stub
+		return new Properties();
+	}
 
 }
 

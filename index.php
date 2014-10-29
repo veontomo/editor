@@ -117,20 +117,26 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	?>
 
     <div class="panel">
-	    <a href="statistics/jsDoc/" target="_blank"><img src="images/yui-logo.png" height="40"/>JS</a>
+	    <a href="statistics/jsDoc/" target="_blank"><img src="images/yui-logo.png" height="40" title="javascript code docs"/>JS</a>
     </div>
     <div class="panel">
-      <a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" />PHP</a>
+      <a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" title="php code docs"/>PHP</a>
     </div>
     <div class="panel">
-      <a href="jasmine/" target="_blank"><img src="images/TDD.png"height="40"/></a>
+      <a href="jasmine/" target="_blank"><img src="images/TDD.png"height="40" title="Jasmine functional tests"/></a>
     </div>
     <div class="panel">
-		<a href="coverage.php" target="blank"><img src="images/coverage.png" height="40"/></a>
+		<a href="coverage.php" target="_blank"><img src="images/coverage.png" height="40" title="javascript code coverage"/></a>
     </div>
-        <div class="panel">
-    		<a href="notes.php" target="blank">Notes</a>
-        </div>
+    <div class="panel">
+		<a href="statistics/phpCoverage/" target="_blank"><img src="images/phpCoverage.png" height="40" title="php code coverage"/></a>
+    </div>
+
+    <div class="panel">
+		<a href="notes.php" target="blank">Notes</a>
+    </div>
+
+
 
 	<form method="post" action='#' method="post" enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">

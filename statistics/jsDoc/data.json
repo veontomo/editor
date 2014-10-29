@@ -172,7 +172,9 @@
         },
         "js\\classes\\HtmlElements\\Document.js": {
             "name": "js\\classes\\HtmlElements\\Document.js",
-            "modules": {},
+            "modules": {
+                "Document": 1
+            },
             "classes": {
                 "Document": 1
             },
@@ -551,8 +553,6 @@
                 "Table": 1,
                 "UList": 1,
                 "Content": 1,
-                "Document": 1,
-                "Dom": 1,
                 "Factory": 1,
                 "Mapper": 1,
                 "PlainText": 1,
@@ -579,11 +579,35 @@
             ],
             "extends": "Tag",
             "since": "0.0.2",
+            "author": "A.Shcherbakov"
+        },
+        "Document": {
+            "name": "Document",
+            "submodules": {},
+            "classes": {
+                "Document": 1,
+                "Dom": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 4,
+            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances.",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "the content of the document",
+                    "type": "DOM.Node"
+                }
+            ],
+            "since": "0.0.5",
             "author": "A.Shcherbakov",
             "uses": [
                 "Unit              class to deal with numbers with unit of measurements",
                 "Properties        class to deal with Properties of document nodes"
-            ]
+            ],
+            "is_constructor": 1
         },
         "Properties": {
             "name": "Properties",
@@ -936,11 +960,11 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "HtmlElements",
+            "module": "Document",
             "namespace": "",
             "file": "js\\classes\\HtmlElements\\Document.js",
             "line": 4,
-            "description": "This class is to deal with documents: parsing, converting, saving."
+            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances."
         },
         "Dom": {
             "name": "Dom",
@@ -950,7 +974,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "HtmlElements",
+            "module": "Document",
             "namespace": "",
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 4,
@@ -5072,7 +5096,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 21,
+            "line": 26,
             "description": "Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing\nthe content of the class instance.",
             "access": "private",
             "tagname": "",
@@ -5080,11 +5104,11 @@
             "name": "_content",
             "type": "{DOM.Node}",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 31,
+            "line": 36,
             "description": "(Optional) Styles to be applied to overall content of the newsletter before saving it.\n\nIf set, it is supposed to be an instance of {{#crossLink \"Properties\"}}Properties{{/crossLink}}\nclass with {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} to be set to correspond\nto inline styles.",
             "itemtype": "property",
             "name": "_wrapCss",
@@ -5093,11 +5117,11 @@
             "tagname": "",
             "since": "0.0.6",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 44,
+            "line": 49,
             "description": "Instance of {{#crossLink \"Converter\"}}Converter{{/crossLink}}. Its responsability is to convert\ncurrent instance into different formats.",
             "itemtype": "property",
             "name": "_converter",
@@ -5106,11 +5130,11 @@
             "access": "private",
             "tagname": "",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 53,
+            "line": 58,
             "description": "Constructor.\n\nSets {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} to be equal to `node`\nif it is an instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)\n(in fact, it is enough that `node` has `typeNode` property).",
             "itemtype": "method",
             "name": "constructor",
@@ -5122,11 +5146,11 @@
                 }
             ],
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 66,
+            "line": 71,
             "description": "{{#crossLink \"Document/_converter:property\"}}_converter{{/crossLink}} setter. Supposed to be an\ninstance of {{#crossLink \"Converter\"}}Converter{{/crossLink}} though no validation control is\nperformed.",
             "itemtype": "method",
             "name": "setConverter",
@@ -5142,11 +5166,11 @@
                 "type": "Void"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 78,
+            "line": 83,
             "description": "{{#crossLink \"Document/_converter:property\"}}_converter{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getConverter",
@@ -5155,11 +5179,11 @@
                 "type": "Any"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 88,
+            "line": 93,
             "description": "Sets {{#crossLink \"Converter/_mapper:property\"}}_mapper{{/crossLink}} of\n{{#crossLink \"Document/_converter:property\"}}_converter{{/crossLink}}.\nAlias for {{#crossLink \"Converter/setMapper:method\"}}setMapper{{/crossLink}} method.",
             "itemtype": "method",
             "name": "setMapper",
@@ -5171,11 +5195,11 @@
                 }
             ],
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 100,
+            "line": 105,
             "description": "Returns \"deep\" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}. If it is not set, nothing\nis returned",
             "itemtype": "method",
             "name": "getContent",
@@ -5184,11 +5208,11 @@
                 "type": "DOM.Node"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 113,
+            "line": 118,
             "description": "{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} setter.",
             "itemtype": "method",
             "name": "setContent",
@@ -5200,11 +5224,11 @@
                 }
             ],
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 124,
+            "line": 129,
             "description": "Removes attributes present in array `flies` of regular expressions from\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}\nIt first creates a \"shallow\" (without children) copy of the argument and applies\n{{#crossLink \"Document/cleanCurrent:method\"}}cleanCurrent{{/crossLink}} method\nto remove attributes from the argument. Then, consider each child of the argument\nand applies {{#crossLink \"Document/clean:method\"}}clean{{/crossLink}} method to them\nand append the result to the shallow copy.",
             "itemtype": "method",
             "name": "clean",
@@ -5220,11 +5244,11 @@
                 "type": "Void"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 154,
+            "line": 159,
             "description": "Escapes \"tricky\" symbols by their html code representations.\n\nAfter execution of this method, special symbols inside text nodes of\n{{#crossLink \"Document/_content:property\"}}_content{{/crossLink}}\nget substituted by their html representations.",
             "itemtype": "method",
             "name": "escape",
@@ -5234,11 +5258,11 @@
             },
             "since": "0.0.6",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 195,
+            "line": 200,
             "description": "Removes attributes present in array `flies` from the current node without affecting child nodes.\nIf the node is a not an element node, then nothing is performed upon it.",
             "itemtype": "method",
             "name": "cleanRoot",
@@ -5259,11 +5283,11 @@
                 "type": "Void"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 228,
+            "line": 233,
             "description": "{{#crossLink \"Document/_wrapCss:property\"}}_wrapCss{{/crossLink}} setter.\n\nIf necessary, the argument is transformed into a\n{{#crossLink \"Properties\"}}Propreties{{/crossLink}} instance,\nand then assigned to {{#crossLink \"Document/_wrapCss:property\"}}_wrapCss{{/crossLink}}.",
             "itemtype": "method",
             "name": "setWrapCss",
@@ -5276,11 +5300,11 @@
             ],
             "since": "0.0.6",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 243,
+            "line": 248,
             "description": "{{#crossLink \"Document/_wrapCss:property\"}}_wrapCss{{/crossLink}} getter.",
             "itemtype": "method",
             "name": "getWrapCss",
@@ -5290,11 +5314,11 @@
             },
             "since": "0.0.6",
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 253,
+            "line": 258,
             "description": "Creates a valid html document whose body is given by string `content`.\n\n**NB**: it uses css of the editor content body.",
             "itemtype": "method",
             "name": "docHtml",
@@ -5303,11 +5327,11 @@
                 "type": "String"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Document.js",
-            "line": 274,
+            "line": 279,
             "description": "Converts {{#crossLink \"Document/_content:property\"}}_content{{/crossLink}} into prescribed format.",
             "itemtype": "method",
             "name": "convertTo",
@@ -5323,7 +5347,7 @@
                 "type": "Void"
             },
             "class": "Document",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5361,7 +5385,7 @@
             },
             "since": "0.0.4",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5381,7 +5405,7 @@
                 "type": "DOM.Node|Null"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5412,7 +5436,7 @@
             },
             "since": "0.0.4",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5448,7 +5472,7 @@
                 "Try to make this method shorter"
             ],
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5476,7 +5500,7 @@
             },
             "since": "0.0.4",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5501,7 +5525,7 @@
                 "type": "DOM.Node|Null"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5514,7 +5538,7 @@
                 "type": "DOM.Node|Null"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5539,7 +5563,7 @@
                 "type": "DOM.Node|undefined"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5574,7 +5598,7 @@
                 "type": "Void"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5604,7 +5628,7 @@
                 "type": "DOM.Node"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5629,7 +5653,7 @@
                 "type": "String|Number"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5654,7 +5678,7 @@
                 "type": "Boolean"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5690,7 +5714,7 @@
             },
             "since": "0.0.4",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5726,7 +5750,7 @@
             },
             "since": "0.0.4",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5751,7 +5775,7 @@
                 "type": "Array"
             },
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
@@ -5782,7 +5806,33 @@
             },
             "since": "0.0.6",
             "class": "Dom",
-            "module": "HtmlElements"
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 545,
+            "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` til `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `n` is not a descendant of node `s`, then it is returned\na {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance with no attributes or styles.",
+            "itemtype": "method",
+            "name": "getInheritedProperties",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "DOM.Element"
+                },
+                {
+                    "name": "s",
+                    "description": "",
+                    "type": "DOM.Element"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Properties"
+            },
+            "since": "0.0.7",
+            "class": "Dom",
+            "module": "Document"
         },
         {
             "file": "js\\classes\\HtmlElements\\Factory.js",
@@ -8521,6 +8571,26 @@
         {
             "file": "js\\classes\\Helper.js",
             "line": 488,
+            "description": "Checks whether the argument is an integer number.",
+            "itemtype": "method",
+            "name": "isInteger",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "`true` if the argument is a decimal integer, `false` otherwise.",
+                "type": "Boolean"
+            },
+            "class": "Helper",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper.js",
+            "line": 498,
             "description": "Returns gcd of all input array element.\n<ul><li>\nIf `numbers` is an empty array, nothing is returned.\n</li><li>\nIf `numbers` contains just one element, then either that element (if it is non-zero integer) or 1\n(in all other cases) is returned.\n</li><li>\nIf `numbers` contains exactly two elements, then output of\n{{#crossLink \"Helper/gcd:method\"}}gcd{{/crossLink}} is returned.\n</li><li>\nIf `numbers` contains more than two elements, then the last two elements are replaced by their\n{{#crossLink \"Helper/gcd:method\"}}gcd{{/crossLink}} and a new recursive call of\n{{#crossLink \"Helper/gcdList:method\"}}gcdList{{/crossLink}} with shorter input array is performed.\n</li></ul>",
             "itemtype": "method",
             "name": "gcdList",
@@ -8541,7 +8611,7 @@
         },
         {
             "file": "js\\classes\\Helper.js",
-            "line": 531,
+            "line": 541,
             "description": "Cancelling common factors of each array element.\n\nDivides each element of the input array by its gcd.",
             "itemtype": "method",
             "name": "divideByGcd",

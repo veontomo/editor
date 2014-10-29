@@ -6,11 +6,11 @@
 
 $ext = array('html', 'htm', 'php');
 $sep = DIRECTORY_SEPARATOR;
-$base = dirname(__FILE__).$sep.'test'.$sep.'coverage'.$sep;
+$base = dirname(__FILE__).$sep.'statistics'.$sep.'jsCoverage'.$sep;
 // echo $base
 $keys = array_keys($_GET);
 $offset = count($keys) > 0 ? array_pop($keys) . $sep : '';
-$path = urldecode($base . $offset);
+$path = $base . $offset;
 if (is_dir($path)){
 	$dirCont = scandir($path);
 	// print_r($dirCont);
@@ -18,7 +18,7 @@ if (is_dir($path)){
 		if (in_array(pathinfo($file, PATHINFO_EXTENSION), $ext)){
 			echo $file . ' is allowed<br/>';
 		} else if (is_dir($path.$file)){
-			echo "<a href=\"?".urlencode($file)."\">$path$file </a><br/>";
+			echo "<a href=\"?".$offset.$file."\">$path$file </a><br/>";
 		}
 
 	}

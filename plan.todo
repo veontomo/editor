@@ -1,9 +1,12 @@
 Editor:
  ✘ do not sanitize & -> &amp; in href attribute of tag "a".  @cancelled (14-10-29 08:42)
-   Comment: according to RFC, the ampersand sign must be escaped even in tag attributes.
+   Comment:
+     according to RFC, the ampersand sign must be escaped even in tag attributes.
 
- ☐ get rid of saving temporary file on server. Propose it for direct downloading by means of
+ ✘ get rid of saving temporary file on server. Propose it for direct downloading by means of @cancelled (14-10-29 10:44)
    echo "text"; instead of readfile('path/to/file');
+   It seems to be impossible:
+     a php script that launches a "Save As" dialog seems to not work when it is called asynchronously
 
  ☐ make sure that link tag do not override styles of elements, because for example, e-mail client di Libero adds its own default styles to links so that that override "more external"  styles. For example: in case of <span style="..."><a ...>...</a></span>, the styles of the span might easily be overridden by link styles imposed by e-mail clients. So, the correct nestign is <a ...><span style="...">...</span></a>.
 
@@ -15,3 +18,10 @@ Editor:
 
 
  ☐ Get rid of jQuery in ./CDownload.js:135:9 controller
+
+
+Refactor toLink method of Link class:
+  ☐ for the selected text, find all properties that it inherits
+  ☐ wrap the selected text by link tag and impose properties of the link tag to be equal to the inherited ones.
+
+

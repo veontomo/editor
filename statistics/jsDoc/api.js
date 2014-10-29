@@ -54,6 +54,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Controllers",
         "Converter",
         "Dialogs",
+        "Document",
         "EventHandler",
         "Helper",
         "HtmlElements",
@@ -85,6 +86,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "Dialogs",
             "name": "Dialogs",
             "description": "Table dialog."
+        },
+        {
+            "displayName": "Document",
+            "name": "Document",
+            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances."
         },
         {
             "displayName": "EventHandler",
