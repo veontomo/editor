@@ -254,6 +254,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_dialogToTemplate">dialogToTemplate</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_fillInDialog">fillInDialog</a>
 
                                 
@@ -262,6 +269,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_getDialogData">getDialogData</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_templateToDialog">templateToDialog</a>
 
                                 
                                 
@@ -304,12 +318,6 @@
             
                 <li class="arg">
                     
-                        <code>selection</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>scheme</code>
                     
                 </li>
@@ -347,7 +355,7 @@
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l19"><code>js\controllers\CLink.js:19</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l21"><code>js\controllers\CLink.js:21</code></a>
         
         </p>
 
@@ -402,23 +410,6 @@
             
                 <li class="param">
                     
-                        <code class="param-name">selection</code>
-                        <span class="type"><a href="../classes/Selection.html" class="crosslink">Selection</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>instance of Selection class
-                                                       Contains objects that user selects in the editor window.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
                         <code class="param-name">scheme</code>
                         <span class="type">String</span>
                     
@@ -448,6 +439,135 @@
                     
                     <p>inserts link into the editor</p>
 
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_dialogToTemplate" class="method item">
+    <h3 class="name"><code>dialogToTemplate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>obj</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CLink.js.html#l132"><code>js\controllers\CLink.js:132</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts information collected from the link dialog menu into format defined by
+Link/template:method method.</p>
+<p>Overrides <a href="../classes/Controller.html" class="crosslink">base class</a> definition of
+<a href="../classes/Controller.html#method_dialogToTemplate" class="crosslink">dialogToTemplate</a>.
+The returning object include the following keys:</p>
+<dl>
+<dt>rows</dt><dd>number of table rows</dd>
+<dt>cols</dt><dd>number of table columns</dd>
+<dt>tableBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for table border width</dd>
+<dt>tableBorderColor</dt><dd>string for table border color</dd>
+<dt>phantomBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for width around table rows</dd>
+<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
+<dt>cellBorders</dt><dd>boolean variables for borders around table cells:
+        <code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,
+      <code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>
+</dd>
+<dt>cellBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for border width around table cells</dd>
+<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
+<dt>globalTableBgColor</dt><dd>string for table background color</dd>
+<dt>spaceTableGlobal</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for the table margin</dd>
+<dt>paddingTableGlobal</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for the table padding</dd>
+<dt>spaceBtwRows</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance to set vertical spacing between rows
+(horizontal is set to 0 px)</dd>
+<dt>spaceCell</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for table cells padding </dd>
+<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
+to the total table width</dd>
+</dl>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">obj</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
                 
             </div>
         </div>
@@ -509,7 +629,7 @@
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l82"><code>js\controllers\CLink.js:82</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l89"><code>js\controllers\CLink.js:89</code></a>
         
         </p>
 
@@ -630,7 +750,7 @@
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l124"><code>js\controllers\CLink.js:124</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l267"><code>js\controllers\CLink.js:267</code></a>
         
         </p>
 
@@ -663,6 +783,114 @@
                 <li class="param">
                     
                         <code class="param-name">dialog</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_templateToDialog" class="method item">
+    <h3 class="name"><code>templateToDialog</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>template</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CLink.js.html#l209"><code>js\controllers\CLink.js:209</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.7</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Converts output of table <a href="../classes/Table.html#method_template" class="crosslink">template</a> method
+into an object accepted by table dialog menu, that is into a format described by
+<a href="../classes/Controller.html#method_getDialogData" class="crosslink">getDialogData</a>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">template</code>
                         <span class="type">Object</span>
                     
 

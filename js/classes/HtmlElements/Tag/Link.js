@@ -32,6 +32,60 @@ function Link(href) {
 	this.setName('Link');
 	this.setProperties(new LinkProperties());
 
+	/**
+	 * Scheme corresponding to link.
+	 * @property       {String}        _scheme
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _scheme;
+
+	/**
+	 * Allowed schemes.
+	 * @property {String} _allowedSchemes
+	 * @type   {Array}
+	 * @since  0.0.7
+	 * @private
+	 */
+	var _allowedSchemes = ['link', 'mail'];
+
+
+	/**
+	 * {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}} getter.
+	 * @method getAllowedSchemes
+	 * @since  0.0.7
+	 * @return {Array}
+	 */
+	this.getAllowedSchemes = function(){
+		return _allowedSchemes;
+	};
+
+	/**
+	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} setter.
+	 *
+	 * If `s` is not among {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}},
+	 * a {{#crossLink "Link/_defaultScheme:property"}}default scheme{{/crossLink}} is used.
+	 * @method         setScheme
+	 * @param          {String}        s
+	 * @return         {void}
+	 * @since          0.0.7
+	 */
+	this.setScheme = function(s){
+		_scheme = this.getAllowedSchemes().indexOf(s) !== -1 ? s : this.getDefaultScheme();
+	};
+
+	/**
+	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} getter.
+	 * @return    {String}
+	 */
+	this.getScheme = function(){
+		return _scheme;
+	};
+
+	this.getDefaultScheme = function(){
+		return 'link';
+	};
 
 	/**
 	 * Returns value of "href" key inside {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
@@ -257,7 +311,6 @@ Link.parseUri = function(href){
 	}
 	var items = href.match(/^((\w+):(\/\/)?)?(.+?)(\/?)$/),
 		res = {};
-	console.log(items);
 	if (!items){
 		return res;
 	}
@@ -265,6 +318,5 @@ Link.parseUri = function(href){
 	if (items[4]){
 		res.href = items[4];
 	}
-
 	return res;
 };

@@ -21,7 +21,19 @@ Editor:
 
 
 Refactor toLink method of Link class:
+  ☐ make Clink controller slim. For the moment it is fat.
   ☐ for the selected text, find all properties that it inherits
+    ☐ removes from these properties irrelevant attributes, like "id", "cellpadding" etc.
+      Think over: probably it is better to use method DOM.getInheritedStyleProp() to find specific properties like
+      "font-size", "color" etc.
   ☐ wrap the selected text by link tag and impose properties of the link tag to be equal to the inherited ones.
+
+
+Table:
+  ☐ find out why options "add row after" and "add row before" have disappeared from the context menu.
+  ☐ "insert column before/after" does not work either: TypeError: cell is null .\CKHelper.js:192
+
+
+
 
 

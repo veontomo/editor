@@ -1685,8 +1685,10 @@ node <code>n</code> within the scope <code>s</code> (included).</p>
 <p>The method parses DOM ascending from the node <code>n</code> up to node <code>s</code> (included) and accumulates only those
 styles/attributes that have not been set so far: that is if an attribute encouters more than once,
 only its first occurence gets into consideration.</p>
-<p>If node <code>n</code> is not a descendant of node <code>s</code>, then it is returned
-a <a href="../classes/Properties.html" class="crosslink">Properties</a> instance with no attributes or styles.</p>
+<p>If node <code>s</code> is not set, then parsing is performed up to the "highest" root.
+If node <code>s</code> is set, but node <code>n</code> is not its descendant, then a
+<a href="../classes/Properties.html" class="crosslink">Properties</a> instance corresponding to node <code>n</code>
+is returned.</p>
 
     </div>
 
@@ -1720,7 +1722,8 @@ a <a href="../classes/Properties.html" class="crosslink">Properties</a> instance
                     
 
                     <div class="param-description">
-                         
+                        <p>Optional</p>
+
                     </div>
 
                     

@@ -71,7 +71,7 @@ function CTable(){
 	 * {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
 	 *
 	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
-	 * {{#crossLink "Controller/toTemplate:method"}}toTemplate{{/crossLink}}.
+	 * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
  	 * The returning object include the following keys:
 	 * <dl>
 	 * <dt>rows</dt><dd>number of table rows</dd>

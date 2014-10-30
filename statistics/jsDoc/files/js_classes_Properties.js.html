@@ -575,6 +575,35 @@ function Properties(input) {
 	};
 
 	/**
+	 * Appends properties of &#x60;p&#x60; to the current Properties instance
+	 * @method _suggestProperty
+	 * @private
+	 * @param          {Properties}    p
+	 * @return         {void}
+	 * @since           0.0.7
+	 */
+	var _suggestProperty = function(p){
+		if (!(p instanceof Properties)){
+			return;
+		}
+		var pCore = p.getCore(),
+			key, value, objProp;
+		for (key in pCore){
+			if (pCore.hasOwnProperty(key)){
+				value = pCore[key];
+				if (!this.hasProperty(key)){
+					this.setProperty(key, pCore[key]);
+				} else {
+					objProp = this.getProperty(key);
+					if (value instanceof Properties &amp;&amp; objProp instanceof Properties){
+						objProp.suggestProperty(value);
+					}
+				}
+			}
+		}
+	}.bind(this);
+
+	/**
 	 * Splits the argument in key-value pieces as it is performed in
 	 * {{#crossLink &quot;Properties/appendPropertyAsStringOrObj:method&quot;}}appendPropertyAsStringOrObj(){{/crossLink}}.
 	 * If the &#x60;key&#x60; is not present in the {{#crossLink &quot;Properties/core:property&quot;}}core{{/crossLink}}, it is initialized
@@ -587,6 +616,9 @@ function Properties(input) {
 		var objType = typeof obj,
 			attr, key, value,
 			that = this;
+		if (obj instanceof Properties){
+			_suggestProperty(obj);
+		}
 		if (objType === &#x27;string&#x27;){
 			attr = obj.split(&#x27;;&#x27;);
 			attr.forEach(function(pair){
@@ -1094,6 +1126,7 @@ function Properties(input) {
     		this.setWidth(wF.getValue());
     	}
     };
+
 
 }
     </pre>

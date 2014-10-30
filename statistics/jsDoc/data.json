@@ -5811,7 +5811,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 545,
-            "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `n` is not a descendant of node `s`, then it is returned\na {{#crossLink \"Properties\"}}Properties{{/crossLink}} instance with no attributes or styles.",
+            "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `s` is not set, then parsing is performed up to the \"highest\" root.\nIf node `s` is set, but node `n` is not its descendant, then a\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance corresponding to node `n`\nis returned.",
             "itemtype": "method",
             "name": "getInheritedProperties",
             "params": [
@@ -5822,7 +5822,7 @@
                 },
                 {
                     "name": "s",
-                    "description": "",
+                    "description": "Optional",
                     "type": "DOM.Element"
                 }
             ],
@@ -9033,6 +9033,29 @@
         {
             "file": "js\\classes\\Properties.js",
             "line": 377,
+            "description": "Appends properties of `p` to the current Properties instance",
+            "itemtype": "method",
+            "name": "_suggestProperty",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "p",
+                    "description": "",
+                    "type": "Properties"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.7",
+            "class": "Properties",
+            "module": "Properties"
+        },
+        {
+            "file": "js\\classes\\Properties.js",
+            "line": 406,
             "description": "Splits the argument in key-value pieces as it is performed in\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.\nIf the `key` is not present in the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, it is initialized\nwith `value`. Otherwise, it is ignored.",
             "itemtype": "method",
             "name": "suggestProperty",
@@ -9052,7 +9075,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 414,
+            "line": 446,
             "description": "Returns `true` if requested property is the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} key,\n`false` otherwise.",
             "itemtype": "method",
             "name": "hasProperty",
@@ -9072,7 +9095,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 425,
+            "line": 457,
             "description": "Gets the number of records in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "propNum",
@@ -9085,7 +9108,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 434,
+            "line": 466,
             "description": "Returns a copy of the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "getCore",
@@ -9098,7 +9121,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 450,
+            "line": 482,
             "description": "Compares {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} of the target and the argument.\nReturns `true` if they are equal, `false` otherwise.",
             "itemtype": "method",
             "name": "isTheSameAs",
@@ -9118,7 +9141,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 474,
+            "line": 506,
             "description": "Clones the target. Parses all attributes of the target. If the attribute responds to \"clone\"\nmethod, then assign the result of this method to the corresponding clone attribute. Otherwise,\nassign the attribute value to the clone attribute (potentially problematic for what is passed\nby reference and not by value, like arrays).\n{{#crossLink \"Properties/core:property\"}}Core{{/crossLink}} is a private variable, so in the\nclone it is populated by means of {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}}\nand {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "clone",
@@ -9131,7 +9154,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 508,
+            "line": 540,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -9144,7 +9167,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 519,
+            "line": 551,
             "description": "String representation of the instance. If {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a number and {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is 1,\nthen 'px' is appended (**resolve this explicit dependency on unit of measurement!**)\n</li><li>\ncorresponding value is a string\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
             "name": "toString",
@@ -9158,7 +9181,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 582,
+            "line": 614,
             "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nReturns `true` if loading succeeds and `false` otherwise.\n\nTo do: for the moment, thw method always returns `true`.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
             "itemtype": "method",
             "name": "load",
@@ -9178,7 +9201,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 615,
+            "line": 647,
             "description": "Returns `true` if the instance has key `style`, `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty('style'){{/crossLink}} method.",
             "itemtype": "method",
             "name": "hasStyles",
@@ -9191,7 +9214,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 625,
+            "line": 657,
             "description": "Returns value of `style` key. Alias for {{#crossLink \"Properties/getProperty:method\"}}getProperty('styles'){{/crossLink}}.",
             "itemtype": "method",
             "name": "getStyles",
@@ -9205,7 +9228,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 636,
+            "line": 668,
             "description": "Returns `true` if instance contains `style` key inside which there is a key `propName`.\nOtherwise, `false` is returned.",
             "itemtype": "method",
             "name": "hasStyleProperty",
@@ -9226,7 +9249,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 649,
+            "line": 681,
             "description": "Sets the `key` to be equal to `value` inside object {{#crossLink \"Properties\"}}Properties{{/crossLink}}\ninstance corresponding to `style` key of the current objects which is, naturally,\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance as well.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -9248,7 +9271,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 666,
+            "line": 698,
             "description": "Returns the value of key `propName` inside `style` key (if it exists) of the current object.\nIf it does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -9269,7 +9292,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 682,
+            "line": 714,
             "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
             "itemtype": "method",
             "name": "getBorderInfo",
@@ -9283,7 +9306,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 701,
+            "line": 733,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance. It",
             "itemtype": "method",
             "name": "decorateElement",
@@ -9303,7 +9326,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 720,
+            "line": 752,
             "description": "Sets key `width` inside {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}\nas well as key `width` inside `style` of {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}.",
             "itemtype": "method",
             "name": "setWidth",
@@ -9320,7 +9343,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 736,
+            "line": 768,
             "description": "Returns value of key `width` of the instance: first looks up key `width` inside\nstyles and if it is not present there, looks it up among attributes.",
             "itemtype": "method",
             "name": "getWidth",
@@ -9334,7 +9357,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 753,
+            "line": 785,
             "description": "Loads properties from the node attributes into the current instance. Each property value is\nattempted to be converted into a number and if this operation succeeds, that number is inserted\nas key value.\n\nIn fact, it uses {{#crossLink \"Properties/load:method\"}}load{{/crossLink}} method which is\ncalled with node `n` attributes in case they are present.",
             "itemtype": "method",
             "name": "loadNodeProperties",
@@ -9354,7 +9377,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 771,
+            "line": 803,
             "description": "Set border-related attributes.\n\nIt sets key `border` of {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}\nas well as keys `border-width`, `border-color` and `border-style` of `style` key of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\n\nArgument `borderInfo` is supposed to have the following keys:\n<ul><li>\n`width` - to set width of the border. If not provided, default value 1 is used.\n</li><li>\n`color` - to set border color. If not set, default value '#000001' is used.\n</li><li>\n`style` - to set border style (solid, dashed etc). If not set, default value 'solid' is used.\n</li></ul>",
             "itemtype": "method",
             "name": "setBorder",
@@ -9375,7 +9398,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 809,
+            "line": 841,
             "description": "Returns object containing information about border.\n\nFormat of the returned object:\n<code> {style: ... [, width: ...[, color: ...]]}</code>\nIf `style` key is set to `none`, then `width` and `color` might be not set. If `width` is not\nset or equal to zero, then `color` might be not set.",
             "itemtype": "method",
             "name": "getBorder",
@@ -9389,7 +9412,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 836,
+            "line": 868,
             "description": "Drops border-related attributes.\n\nRemoves attributes `border-width`, `border-color` and sets `border-style` to `none` in `style` key of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\n\nRemoves as well `border` attribute from {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -9403,7 +9426,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 861,
+            "line": 893,
             "description": "Shrinks width attribute by `d`.\n\nIf width attribute exists and\n<ul><li>\n`d` is a number, then absolute value of width attribute gets descreased by `d`.\n</li><li>\n`d` is a string, then width key gets descreased by `d` both values have the same measure. Otherwise,\nan error is thrown.\n</li></ul>",
             "itemtype": "method",
             "name": "shrinkBy",
@@ -9632,7 +9655,7 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 19,
+            "line": 21,
             "description": "Reads the content of the link insertion dialog, generates links and inserts them into the editor.",
             "itemtype": "method",
             "name": "convertToLinks",
@@ -9646,11 +9669,6 @@
                     "name": "editor",
                     "description": "editor instance",
                     "type": "Object"
-                },
-                {
-                    "name": "selection",
-                    "description": "instance of Selection class\n                                                       Contains objects that user selects in the editor window.",
-                    "type": "Selection"
                 },
                 {
                     "name": "scheme",
@@ -9667,7 +9685,7 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 82,
+            "line": 89,
             "description": "Populates the field of the link insertion dialog.",
             "itemtype": "method",
             "name": "fillInDialog",
@@ -9692,7 +9710,48 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 124,
+            "line": 132,
+            "description": "Converts information collected from the link dialog menu into format defined by\n{{#crossLink \"Link/template:method\"}}Link::template{{/crossLink}} method.\n\nOverrides {{#crossLink \"Controller\"}}base class{{/crossLink}} definition of\n{{#crossLink \"Controller/dialogToTemplate:method\"}}dialogToTemplate{{/crossLink}}.\nThe returning object include the following keys:\n<dl>\n<dt>rows</dt><dd>number of table rows</dd>\n<dt>cols</dt><dd>number of table columns</dd>\n<dt>tableBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table border width</dd>\n<dt>tableBorderColor</dt><dd>string for table border color</dd>\n<dt>phantomBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for width around table rows</dd>\n<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>\n<dt>cellBorders</dt><dd>boolean variables for borders around table cells:\n\t\t<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,\n  \t<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>\n</dd>\n<dt>cellBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for border width around table cells</dd>\n<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>\n<dt>globalTableBgColor</dt><dd>string for table background color</dd>\n<dt>spaceTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table margin</dd>\n<dt>paddingTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table padding</dd>\n<dt>spaceBtwRows</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance to set vertical spacing between rows\n(horizontal is set to 0 px)</dd>\n<dt>spaceCell</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table cells padding </dd>\n<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute\nto the total table width</dd>\n</dl>",
+            "itemtype": "method",
+            "name": "dialogToTemplate",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 209,
+            "description": "Converts output of table {{#crossLink \"Table/template:method\"}}template{{/crossLink}} method\ninto an object accepted by table dialog menu, that is into a format described by\n{{#crossLink \"Controller/getDialogData:method\"}}getDialogData{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "templateToDialog",
+            "params": [
+                {
+                    "name": "template",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "since": "0.0.7",
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 267,
             "description": "Collects parameters from link dialog menu.\n\nThe returning object include the following keys:\n<dl>\n<dt>href</dt><dd>(string) url or email (depending on a scheme)</dd>\n<dt>text</dt><dd>(string) hyperlink text</dd>\n<dt>status</dt><dd>(boolean) whether text field is enabled</dd>\n<dt>title</dt><dd>(string, optional) popup text</dd>\n<dt>underlined</dt><dd>(boolean) whether the link is underlined or not</dd>\n<dt>target</dt><dd>(boolean) whether the link should be open in a new window</dd>\n<dt>color</dt><dd>(string) color of the hyperlink text</dd>\n</dl>",
             "itemtype": "method",
             "name": "getDialogData",
@@ -9751,7 +9810,7 @@
         {
             "file": "js\\controllers\\CTable.js",
             "line": 69,
-            "description": "Converts information collected from the table dialog menu into format defined by\n{{#crossLink \"Table/template:method\"}}Table::template{{/crossLink}} method.\n\nOverrides {{#crossLink \"Controller\"}}base class{{/crossLink}} definition of\n{{#crossLink \"Controller/toTemplate:method\"}}toTemplate{{/crossLink}}.\nThe returning object include the following keys:\n<dl>\n<dt>rows</dt><dd>number of table rows</dd>\n<dt>cols</dt><dd>number of table columns</dd>\n<dt>tableBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table border width</dd>\n<dt>tableBorderColor</dt><dd>string for table border color</dd>\n<dt>phantomBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for width around table rows</dd>\n<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>\n<dt>cellBorders</dt><dd>boolean variables for borders around table cells:\n\t\t<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,\n  \t<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>\n</dd>\n<dt>cellBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for border width around table cells</dd>\n<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>\n<dt>globalTableBgColor</dt><dd>string for table background color</dd>\n<dt>spaceTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table margin</dd>\n<dt>paddingTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table padding</dd>\n<dt>spaceBtwRows</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance to set vertical spacing between rows\n(horizontal is set to 0 px)</dd>\n<dt>spaceCell</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table cells padding </dd>\n<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute\nto the total table width</dd>\n</dl>",
+            "description": "Converts information collected from the table dialog menu into format defined by\n{{#crossLink \"Table/template:method\"}}Table::template{{/crossLink}} method.\n\nOverrides {{#crossLink \"Controller\"}}base class{{/crossLink}} definition of\n{{#crossLink \"Controller/dialogToTemplate:method\"}}dialogToTemplate{{/crossLink}}.\nThe returning object include the following keys:\n<dl>\n<dt>rows</dt><dd>number of table rows</dd>\n<dt>cols</dt><dd>number of table columns</dd>\n<dt>tableBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table border width</dd>\n<dt>tableBorderColor</dt><dd>string for table border color</dd>\n<dt>phantomBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for width around table rows</dd>\n<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>\n<dt>cellBorders</dt><dd>boolean variables for borders around table cells:\n\t\t<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,\n  \t<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>\n</dd>\n<dt>cellBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for border width around table cells</dd>\n<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>\n<dt>globalTableBgColor</dt><dd>string for table background color</dd>\n<dt>spaceTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table margin</dd>\n<dt>paddingTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table padding</dd>\n<dt>spaceBtwRows</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance to set vertical spacing between rows\n(horizontal is set to 0 px)</dd>\n<dt>spaceCell</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table cells padding </dd>\n<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute\nto the total table width</dd>\n</dl>",
             "itemtype": "method",
             "name": "dialogToTemplate",
             "params": [

@@ -750,29 +750,36 @@ function Dom(){
 	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
 	 * only its first occurence gets into consideration.
 	 *
-	 * If node &#x60;n&#x60; is not a descendant of node &#x60;s&#x60;, then it is returned
-	 * a {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance with no attributes or styles.
+	 * If node &#x60;s&#x60; is not set, then parsing is performed up to the &quot;highest&quot; root.
+	 * If node &#x60;s&#x60; is set, but node &#x60;n&#x60; is not its descendant, then a
+	 * {{#crossLink &quot;Properties&quot;}}Properties{{/crossLink}} instance corresponding to node &#x60;n&#x60;
+	 * is returned.
 	 * @method  	   getInheritedProperties
 	 * @param          {DOM.Element}   n
-	 * @param          {DOM.Element}   s
+	 * @param          {DOM.Element}   s   Optional
 	 * @return         {Properties}
 	 * @since          0.0.7
 	 */
-	this.getInheritedProperties = function(node, scope){
-		return this._accumulateProperties(node, scope, new Properties());
-	};
-
-	this._accumulateProperties = function(n, s, accumProperties){
-		if (!(n &amp;&amp; s &amp;&amp; s.contains(n))){
-			return accumProperties;
-		}
+	this.getInheritedProperties = function(n, s){
 		var p = new Properties();
+		if (!n){
+			return p;
+		}
 		p.loadNodeProperties(n);
-		return this._accumulateProperties(n.parentNode, s, accumProperties.suggestProperty(p));
-	}.bind(this);
-
-
-
+		var naturalLimit = s === undefined;
+		if (!(naturalLimit || s.contains(n))){
+			return p;
+		}
+		var currentNode = n.parentNode,
+			currentProp;
+		while (currentNode &amp;&amp; (naturalLimit || s.contains(currentNode))){
+			currentProp = new Properties();
+			currentProp.loadNodeProperties(currentNode);
+			p.suggestProperty(currentProp);
+			currentNode = currentNode.parentNode;
+		}
+		return p;
+	};
 
 }
 

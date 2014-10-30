@@ -349,6 +349,33 @@ describe('Link-related functionality:', function() {
             expect(res.protocol).toBe('http');
             expect(res.href).toBe('google.com/i?r=1');
         });
+    });
+
+    describe('Scheme management', function(){
+        it('has "link" as default scheme', function(){
+            expect(link.getDefaultScheme()).toBe('link');
+        });
+
+        it('retrieves array of allowed schemes', function(){
+            expect(Array.isArray(link.getAllowedSchemes())).toBe(true);
+            expect(link.getAllowedSchemes().indexOf('link') !== -1).toBe(true);
+            expect(link.getAllowedSchemes().indexOf('mail') !== -1).toBe(true);
+        });
+
+        it('sets scheme name if it is among allowed schemes', function(){
+            spyOn(link, 'getAllowedSchemes').and.returnValue(['a', 'b', 'c']);
+            link.setScheme('b');
+            expect(link.getScheme()).toBe('b');
+        });
+
+        it('sets scheme name to the default one if trying to set it to not allowed one', function(){
+            spyOn(link, 'getAllowedSchemes').and.returnValue(['a', 'b', 'c']);
+            spyOn(link, 'getDefaultScheme').and.returnValue('default');
+            link.setScheme('not allowed');
+            expect(link.getScheme()).toBe('default');
+        });
+
+
 
     });
 
