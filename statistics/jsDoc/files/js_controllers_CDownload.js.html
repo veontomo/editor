@@ -278,6 +278,7 @@ function CDownload (){
 
 	/**
 	 * Downloads content of the editor window as it is.
+	 * @method  downloadRaw
 	 * @param   {CKEDITOR.dialog}       dialog 	  See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
 	 * @param   {CKEDITOR.editor}       editor    [editor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance
 	 * @return  {void}
@@ -321,7 +322,7 @@ function CDownload (){
 	 * For the moment, the method use jQuery library. It is desirable to rewrite
 	 * the method such that native javascript methods are used.
 	 * (The commented code at the end contains some hints.)
-	 *
+	 * @method  downloadFile
 	 * @param  {String} data
 	 * @param  {String} filename
 	 * @return {void}

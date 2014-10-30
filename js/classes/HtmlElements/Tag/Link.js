@@ -77,12 +77,22 @@ function Link(href) {
 
 	/**
 	 * {{#crossLink "Link/_scheme:property"}}_scheme{{/crossLink}} getter.
-	 * @return    {String}
+	 * @method         getScheme
+	 * @since          0.0.7
+	 * @return         {String}
 	 */
 	this.getScheme = function(){
 		return _scheme;
 	};
 
+	/**
+	 * Returns dafault scheme.
+	 *
+	 * To be consistent, the returned value must be one of the allowed values.
+	 * @method         getDefaultScheme
+	 * @since          0.0.7
+	 * @return         {String}
+	 */
 	this.getDefaultScheme = function(){
 		return 'link';
 	};

@@ -232,6 +232,70 @@ function Link(href) {
 	this.setName(&#x27;Link&#x27;);
 	this.setProperties(new LinkProperties());
 
+	/**
+	 * Scheme corresponding to link.
+	 * @property       {String}        _scheme
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _scheme;
+
+	/**
+	 * Allowed schemes.
+	 * @property {String} _allowedSchemes
+	 * @type   {Array}
+	 * @since  0.0.7
+	 * @private
+	 */
+	var _allowedSchemes = [&#x27;link&#x27;, &#x27;mail&#x27;];
+
+
+	/**
+	 * {{#crossLink &quot;Link/_allowedSchemes:property&quot;}}_allowedSchemes{{/crossLink}} getter.
+	 * @method getAllowedSchemes
+	 * @since  0.0.7
+	 * @return {Array}
+	 */
+	this.getAllowedSchemes = function(){
+		return _allowedSchemes;
+	};
+
+	/**
+	 * {{#crossLink &quot;Link/_scheme:property&quot;}}_scheme{{/crossLink}} setter.
+	 *
+	 * If &#x60;s&#x60; is not among {{#crossLink &quot;Link/_allowedSchemes:property&quot;}}_allowedSchemes{{/crossLink}},
+	 * a {{#crossLink &quot;Link/_defaultScheme:property&quot;}}default scheme{{/crossLink}} is used.
+	 * @method         setScheme
+	 * @param          {String}        s
+	 * @return         {void}
+	 * @since          0.0.7
+	 */
+	this.setScheme = function(s){
+		_scheme = this.getAllowedSchemes().indexOf(s) !== -1 ? s : this.getDefaultScheme();
+	};
+
+	/**
+	 * {{#crossLink &quot;Link/_scheme:property&quot;}}_scheme{{/crossLink}} getter.
+	 * @method         getScheme
+	 * @since          0.0.7
+	 * @return         {String}
+	 */
+	this.getScheme = function(){
+		return _scheme;
+	};
+
+	/**
+	 * Returns dafault scheme.
+	 *
+	 * To be consistent, the returned value must be one of the allowed values.
+	 * @method         getDefaultScheme
+	 * @since          0.0.7
+	 * @return         {String}
+	 */
+	this.getDefaultScheme = function(){
+		return &#x27;link&#x27;;
+	};
 
 	/**
 	 * Returns value of &quot;href&quot; key inside {{#crossLink &quot;Tag/_properties:property&quot;}}_properties{{/crossLink}}.
@@ -457,7 +521,6 @@ Link.parseUri = function(href){
 	}
 	var items = href.match(/^((\w+):(\/\/)?)?(.+?)(\/?)$/),
 		res = {};
-	console.log(items);
 	if (!items){
 		return res;
 	}
@@ -465,7 +528,6 @@ Link.parseUri = function(href){
 	if (items[4]){
 		res.href = items[4];
 	}
-
 	return res;
 };
     </pre>

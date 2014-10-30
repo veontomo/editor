@@ -2701,7 +2701,96 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 36,
+            "line": 35,
+            "description": "Scheme corresponding to link.",
+            "itemtype": "property",
+            "name": "_scheme",
+            "type": "{String}",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.7",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 44,
+            "description": "Allowed schemes.",
+            "itemtype": "property",
+            "name": "_allowedSchemes",
+            "type": "{Array}",
+            "since": "0.0.7",
+            "access": "private",
+            "tagname": "",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 54,
+            "description": "{{#crossLink \"Link/_allowedSchemes:property\"}}_allowedSchemes{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getAllowedSchemes",
+            "since": "0.0.7",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 64,
+            "description": "{{#crossLink \"Link/_scheme:property\"}}_scheme{{/crossLink}} setter.\n\nIf `s` is not among {{#crossLink \"Link/_allowedSchemes:property\"}}_allowedSchemes{{/crossLink}},\na {{#crossLink \"Link/_defaultScheme:property\"}}default scheme{{/crossLink}} is used.",
+            "itemtype": "method",
+            "name": "setScheme",
+            "params": [
+                {
+                    "name": "s",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.7",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 78,
+            "description": "{{#crossLink \"Link/_scheme:property\"}}_scheme{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getScheme",
+            "since": "0.0.7",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 88,
+            "description": "Returns dafault scheme.\n\nTo be consistent, the returned value must be one of the allowed values.",
+            "itemtype": "method",
+            "name": "getDefaultScheme",
+            "since": "0.0.7",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 100,
             "description": "Returns value of \"href\" key inside {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}}.",
             "itemtype": "method",
             "name": "getHref",
@@ -2714,7 +2803,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 45,
+            "line": 109,
             "description": "Href setter. Calles parent method  {{#crossLink \"Tag/setProperty:method\"}}setProperty{{/crossLink}}('href', ...).",
             "itemtype": "method",
             "name": "setHref",
@@ -2734,7 +2823,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 60,
+            "line": 124,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property.\nIf the argument is missing or equal to `true`, \"underline\" is imposed.\nIf the argument is false, then \"none\" is imposed.\nIf the argument is a string,  `text-property` will be assigned to be equal to that string.\nIf nothing of the above holds, `text-property` remains unchanged.",
             "itemtype": "method",
             "name": "underline",
@@ -2754,7 +2843,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 80,
+            "line": 144,
             "description": "Sets `text-attribute` of the {{#crossLink \"Link/style:property\"}}`style`{{/crossLink}} property to be `none`.",
             "itemtype": "method",
             "name": "dropUnderline",
@@ -2767,7 +2856,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 89,
+            "line": 153,
             "description": "Apply target properties on the argument `obj`. The following cases are distinguished:\n<ul><li>\nthe argument is an instance of {{#crossLink \"Link\"}}Link{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/updateLink:method\"}}updateLink{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Content\"}}Content{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nthe argument is an instance of {{#crossLink \"Tag\"}}Tag{{/crossLink}}. In this case, returns output of\n{{#crossLink \"Link/applyTag:method\"}}applyTag{{/crossLink}} method.\n</li></ul>\nIf non of the above holds, result of {{#crossLink \"Link/wrap:method\"}}wrap{{/crossLink}} method is returned.",
             "itemtype": "method",
             "name": "apply",
@@ -2787,7 +2876,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 123,
+            "line": 187,
             "description": "Returns a copy of the target in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\ncontains the only element which is `obj`.",
             "itemtype": "method",
             "name": "wrap",
@@ -2807,7 +2896,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 144,
+            "line": 208,
             "description": "Converts the argument in link. Argument `tagObj` must be a {{#crossLink \"Tag\"}}Tag{{/crossLink}} instance.\nIf its {{#crossLink \"Tag/content\"}}content{{/crossLink}} is\n<ol><li>\nnon empty, then it is returned a copy of the argument in which {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nis replaced by output of {{#crossLink \"Link/applyContent:method\"}}applyContent{{/crossLink}} method.\n</li><li>\nempty, then a {{#crossLink \"Link\"}}Link{{/crossLink}} instance is returned. This instance has\n{{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} of the target and its\n{{#crossLink \"Tag/content:property\"}}content{{/crossLink}} contains `tagObj` as the only element.\n</li><li>\n</li></ol>",
             "itemtype": "method",
             "name": "applyTag",
@@ -2827,7 +2916,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 176,
+            "line": 240,
             "description": "Modifies a Content instance in such a way that {{#crossLink \"Link/apply:method\"}}apply{{/crossLink}}\nis applied on all elements of the argumet.",
             "itemtype": "method",
             "name": "applyContent",
@@ -2847,7 +2936,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 200,
+            "line": 264,
             "description": "Returns a new Link instance with `href` as in the target, {{#crossLink \"Tag/content:property\"}}content{{/crossLink}}\nas in the argument, {{#crossLink \"Tag/attributes:property\"}}attributes{{/crossLink}} and\n{{#crossLink \"Tag/styles:property\"}}styles{{/crossLink}} are as in the argument but augmented by corresponding values\nfrom the target",
             "itemtype": "method",
             "name": "updateLink",
@@ -2867,7 +2956,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 223,
+            "line": 287,
             "description": "Returns `true` if the link's inline style {{#crossLink \"Tag/_properties:property\"}}_properties{{/crossLink}} contain\n`text-decoration` key which is set to `underline`. Otherwise, `false` is returned.",
             "itemtype": "method",
             "name": "isUnderlined",
@@ -2881,7 +2970,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 239,
+            "line": 303,
             "description": "Splits `href` into \"protocol\" part and the rest.\n\nReturns an object with keys <ol><li>\n`protocol` containing only alphanumeric symbols\n</li><li>\n`href` containing the rest of the input string without finishing slash, starting semicolon and slashes.\n</li></ol>",
             "itemtype": "method",
             "name": "parseUri",
@@ -9515,6 +9604,8 @@
             "file": "js\\controllers\\CDownload.js",
             "line": 79,
             "description": "Downloads content of the editor window as it is.",
+            "itemtype": "method",
+            "name": "downloadRaw",
             "params": [
                 {
                     "name": "dialog",
@@ -9537,7 +9628,7 @@
         },
         {
             "file": "js\\controllers\\CDownload.js",
-            "line": 96,
+            "line": 97,
             "description": "Appends time stamp string to the argument.",
             "itemtype": "method",
             "name": "appendTimeStamp",
@@ -9557,8 +9648,10 @@
         },
         {
             "file": "js\\controllers\\CDownload.js",
-            "line": 117,
+            "line": 118,
             "description": "Launches a window for downloading file with content `data` and suggested name `filename`.\nIf `filename` is not given or is not valid, the file name will be generated.\n\nFor the moment, the method use jQuery library. It is desirable to rewrite\nthe method such that native javascript methods are used.\n(The commented code at the end contains some hints.)",
+            "itemtype": "method",
+            "name": "downloadFile",
             "params": [
                 {
                     "name": "data",
@@ -11216,14 +11309,5 @@
             "module": "Config"
         }
     ],
-    "warnings": [
-        {
-            "message": "Missing item type\nDownloads content of the editor window as it is.",
-            "line": " js\\controllers\\CDownload.js:79"
-        },
-        {
-            "message": "Missing item type\nLaunches a window for downloading file with content `data` and suggested name `filename`.\nIf `filename` is not given or is not valid, the file name will be generated.\n\nFor the moment, the method use jQuery library. It is desirable to rewrite\nthe method such that native javascript methods are used.\n(The commented code at the end contains some hints.)",
-            "line": " js\\controllers\\CDownload.js:117"
-        }
-    ]
+    "warnings": []
 }
