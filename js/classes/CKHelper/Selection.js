@@ -495,4 +495,32 @@ function Selection(ed) {
         });
     };
 
+
+    /**
+     * Returns first ancestor of {{#crossLink "Selection/nodes:property"}}nodes{{/crossLink}} for which `criteria` evaluates to
+     * `true`.
+     *
+     * To function `criteria` there will be given one by one elements from {{#crossLink "Selection/nodes:property"}}nodes{{/crossLink}}
+     * @method  findAcsendant
+     * @param  {Function} criteria [description]
+     * @return {CKEDITOR.dom.element}  [CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
+     */
+    this.findAscendant = function(criteria){
+        if (this.isEmpty()){
+            return;
+        }
+        var lenExt = this.nodes.length,
+            lenInt, i, j, block, el;
+        for (i = 0; i < lenExt; i++){
+            block = this.nodes[i];
+            lenInt = block.length;
+            for (j = 0; j < lenInt; j++){
+                el = block[j];
+                if (criteria(el)){
+                    return el;
+                }
+            }
+        }
+    };
+
 }

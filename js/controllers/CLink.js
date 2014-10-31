@@ -183,7 +183,7 @@ function CLink() {
 			status:        template.isCompound ,
 			isNewWindow:   template.target ==='_blank' ,
 			title:         template.title,
-		}
+		};
 		return dialogData;
 	};
 
@@ -224,9 +224,6 @@ function CLink() {
 	};
 
 
-
-
-
 	/**
 	 * Collects parameters from link dialog menu.
 	 *
@@ -252,7 +249,7 @@ function CLink() {
 	};
 
 	/**
-	 * Fills in `dialog` window with information that is taken from `selection`.
+	 * Fills in `dialog` window based on information  `selection`.
 	 * @method         fillInDialogWithSelection
 	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
 	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
@@ -260,7 +257,21 @@ function CLink() {
 	 * @return         {void}
 	 */
 	this.fillInDialogWithSelection = function(dialog, editor, selection){
-
-	}
+		var link;
+		var linkElem, criteria;
+		criteria = function(el){
+			return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
+		};
+		linkElem = selection.findAscendant(criteria);
+		console.log(linkElem.$);
+		if (linkElem){
+			var f = NEWSLETTER.factory;
+			link = f.mimic(linkElem.$);
+		} else {
+			link = new Link();
+		}
+		console.log(link.template());
+		this.fillInDialog(dialog, link.template());
+	};
 }
 CLink.prototype = Object.create(Controller.prototype);

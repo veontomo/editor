@@ -100,15 +100,15 @@
 	<link rel="stylesheet" type="text/css" href="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.css"/>
 	<script src="externalPlugins/colorpicker_dist/codebase/dhtmlxcolorpicker.js"></script>
 
-	</head>
 	<title><?= $title ?></title>
+</head>
+
 <?php
 require 'php/fileContent.php';
 if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']) && ($_FILES['fileInput']['error'] === 0)){
 	$fileContent = fileContent(file_get_contents($_FILES['fileInput']['tmp_name']));
 }
 ?>
-</head>
 <body>
 	<?php
 		if ($developMode){
@@ -123,7 +123,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
       <a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" title="php code docs"/>PHP</a>
     </div>
     <div class="panel">
-      <a href="jasmine/" target="_blank"><img src="images/TDD.png"height="40" title="Jasmine functional tests"/></a>
+      <a href="jasmine/" target="_blank"><img src="images/TDD.png" height="40" title="Jasmine functional tests"/></a>
     </div>
     <div class="panel">
 		<a href="coverage.php" target="_blank"><img src="images/coverage.png" height="40" title="javascript code coverage"/></a>
@@ -138,7 +138,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 
 
 
-	<form method="post" action='#' method="post" enctype="multipart/form-data">
+	<form method="post" action='#' enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
 	</form>
@@ -147,7 +147,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-
+			<a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" title="php code docs"/>PHP</a>
 		</textarea>
 	</div>
 	<?php
