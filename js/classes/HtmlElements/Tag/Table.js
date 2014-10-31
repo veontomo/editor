@@ -1349,14 +1349,13 @@ function Table() {
 	 * Table template: json object of table properties that parametrise the table. As required, overrides
 	 * base class method {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}}.
 	 *
-	 * Returns an object of the following format .
-	 * `descr` is an object with the following keys:<dl>
+	 * Returns an object with the following kyes:<dl>
 	 * <dt>rows</dt><dd> (Integer) number of rows</dd>
 	 * <dt>cols</dt><dd> (Integer) number of columns</dd>
 	 * <dt>tableBorderWidth</dt><dd>(String|Number) table border width (might include unit of measurement)</dd>
 	 * <dt>tableBorderColor</dt><dd>(String) table border color</dd>
 	 * <dt>phantomBorderWidth</dt><dd>(String|Number) width of border around each row
-	 * (might includr unit of measurement)</dd>
+	 * (might include unit of measurement)</dd>
 	 * <dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>
 	 * <dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>
 	 * 		<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>

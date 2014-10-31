@@ -352,12 +352,12 @@ function linkMailDialog(editor, scheme) {
                 html:  editor.lang[_pluginName].styleTitle,
             }, {
                 type: &#x27;checkbox&#x27;,
-                id: &#x27;underlined&#x27;,
+                id: &#x27;isUnderlined&#x27;,
                 label: editor.lang[_pluginName].underline,
                 &quot;default&quot;: alt,
             }, {
                 type: &#x27;checkbox&#x27;,
-                id: &#x27;target&#x27;,
+                id: &#x27;isNewWindow&#x27;,
                 label: editor.lang[_pluginName].targetNew,
                 &quot;default&quot;: true,
             }, {
@@ -405,8 +405,8 @@ function linkMailDialog(editor, scheme) {
          */
         onShow: function() {
             selection = new Selection(editor);
-            selection.absorbLink();
-            _controller.fillInDialog(this, selection);
+            // selection.absorbLink();
+            _controller.fillInDialogWithSelection(this, editor, selection);
         },
 
         onCancel: function(){

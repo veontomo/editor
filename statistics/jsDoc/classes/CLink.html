@@ -268,7 +268,28 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_fillInDialogWithSelection">fillInDialogWithSelection</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_findParentLink">findParentLink</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_getDialogData">getDialogData</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_getLink">getLink</a>
 
                                 
                                 
@@ -355,7 +376,7 @@
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l21"><code>js\controllers\CLink.js:21</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l19"><code>js\controllers\CLink.js:19</code></a>
         
         </p>
 
@@ -494,7 +515,7 @@
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l132"><code>js\controllers\CLink.js:132</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l130"><code>js\controllers\CLink.js:130</code></a>
         
         </p>
 
@@ -506,32 +527,21 @@
 
     <div class="description">
         <p>Converts information collected from the link dialog menu into format defined by
-Link/template:method method.</p>
+<a href="../classes/Link.html#method_template" class="crosslink">Link::template</a> method.</p>
 <p>Overrides <a href="../classes/Controller.html" class="crosslink">base class</a> definition of
 <a href="../classes/Controller.html#method_dialogToTemplate" class="crosslink">dialogToTemplate</a>.
-The returning object include the following keys:</p>
-<dl>
-<dt>rows</dt><dd>number of table rows</dd>
-<dt>cols</dt><dd>number of table columns</dd>
-<dt>tableBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for table border width</dd>
-<dt>tableBorderColor</dt><dd>string for table border color</dd>
-<dt>phantomBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for width around table rows</dd>
-<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
-<dt>cellBorders</dt><dd>boolean variables for borders around table cells:
-        <code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,
-      <code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>
-</dd>
-<dt>cellBorderWidth</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for border width around table cells</dd>
-<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
-<dt>globalTableBgColor</dt><dd>string for table background color</dd>
-<dt>spaceTableGlobal</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for the table margin</dd>
-<dt>paddingTableGlobal</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for the table padding</dd>
-<dt>spaceBtwRows</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance to set vertical spacing between rows
-(horizontal is set to 0 px)</dd>
-<dt>spaceCell</dt><dd><a href="../classes/Unit.html" class="crosslink">Unit</a> instance for table cells padding </dd>
-<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
-to the total table width</dd>
-</dl>
+The returning object include the following keys:
+Returns an object with the following keys:<dl></p>
+<p><dt>href</dt><dd> (String) value of the link "href" attribute</dd></p>
+<p><dt>scheme</dt><dd> (String) scheme (mail or link)</dd></p>
+<p><dt>color</dt><dd>(String) link color</dd></p>
+<p><dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd></p>
+<p><dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd></p>
+<p><dt>target</dt><dd> (String) in what window the link is supposed to be open</dd></p>
+<p><dt>text</dt><dd> (String) string representation of the link content</dd></p>
+<p><dt>title</dt><dd> (String) title attribute</dd>
+</dl></p>
+
     </div>
 
     
@@ -629,7 +639,7 @@ to the total table width</dd>
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l89"><code>js\controllers\CLink.js:89</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l87"><code>js\controllers\CLink.js:87</code></a>
         
         </p>
 
@@ -704,6 +714,261 @@ to the total table width</dd>
 </div>
 
                 
+                    <div id="method_fillInDialogWithSelection" class="method item">
+    <h3 class="name"><code>fillInDialogWithSelection</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>dialog</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>editor</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>selection</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CLink.js.html#l254"><code>js\controllers\CLink.js:254</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Fills in <code>dialog</code> window with information that is taken from <code>selection</code>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">dialog</code>
+                        <span class="type">CKEDITOR.dialog</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog">CKEDITOR.dialog</a></p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">editor</code>
+                        <span class="type"><a href="../classes/CKEDITOR.html" class="crosslink">CKEDITOR</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="http://docs.ckeditor.com/#!/api/CKEDITOR">CKEDITOR</a></p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">selection</code>
+                        <span class="type"><a href="../classes/Selection.html" class="crosslink">Selection</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p><a href="../classes/Selection.html" class="crosslink">Selection</a></p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Void</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_findParentLink" class="method item">
+    <h3 class="name"><code>findParentLink</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>editor</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">DOM.Node</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CLink.js.html#l208"><code>js\controllers\CLink.js:208</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, <code>null</code>
+is returned.</p>
+<p>Sought element has tag <code>a</code>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">editor</code>
+                        <span class="type"><a href="../classes/CKEDITOR.html" class="crosslink">CKEDITOR</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">DOM.Node</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getDialogData" class="method item">
     <h3 class="name"><code>getDialogData</code></h3>
 
@@ -750,7 +1015,7 @@ to the total table width</dd>
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l267"><code>js\controllers\CLink.js:267</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l230"><code>js\controllers\CLink.js:230</code></a>
         
         </p>
 
@@ -817,6 +1082,112 @@ to the total table width</dd>
 </div>
 
                 
+                    <div id="method_getLink" class="method item">
+    <h3 class="name"><code>getLink</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>editor</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Link.html" class="crosslink">Link</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_CLink.js.html#l190"><code>js\controllers\CLink.js:190</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns instance of <a href="../classes/Link.html" class="crosslink">Link</a> corresponding to a DOM.Element
+inside which the cursor is situated. If no link is found, nothing is returned.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">editor</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>editor instance</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Link.html" class="crosslink">Link</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_templateToDialog" class="method item">
     <h3 class="name"><code>templateToDialog</code></h3>
 
@@ -863,7 +1234,7 @@ to the total table width</dd>
             
         
         
-        <a href="../files/js_controllers_CLink.js.html#l209"><code>js\controllers\CLink.js:209</code></a>
+        <a href="../files/js_controllers_CLink.js.html#l165"><code>js\controllers\CLink.js:165</code></a>
         
         </p>
 
@@ -876,8 +1247,8 @@ to the total table width</dd>
     </div>
 
     <div class="description">
-        <p>Converts output of table <a href="../classes/Table.html#method_template" class="crosslink">template</a> method
-into an object accepted by table dialog menu, that is into a format described by
+        <p>Converts output of link <a href="../classes/Link.html#method_template" class="crosslink">template</a> method
+into an object accepted by link dialog menu, that is into a format described by
 <a href="../classes/Controller.html#method_getDialogData" class="crosslink">getDialogData</a>.</p>
 
     </div>

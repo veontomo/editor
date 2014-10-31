@@ -546,9 +546,10 @@ function manageTable(editor, isNew) {
 					console.log('parent table is NOT found');
 					return;
 				}
-				tableNode = _controller.update(this, editor, currentTable.$);
-				tableElem = CKEDITOR.document.createElement(tableNode);
-				tableElem.replace(currentTable);
+				tableNode = _controller.update(this, editor, currentTable);
+				currentTable.parentNode.replaceChild(tableNode, currentTable);
+				// tableElem = CKEDITOR.document.createElement(tableNode);
+				// tableElem.replace(currentTable);
 			}
 			dropInputCells(this);
 		}

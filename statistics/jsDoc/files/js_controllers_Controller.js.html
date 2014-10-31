@@ -286,6 +286,35 @@ function Controller(){
 		}
 	};
 
+	/**
+	 * Returns innermost ascendant of node &#x60;n&#x60; for which &#x60;criteria&#x60; returns &#x60;true&#x60;.
+	 *
+	 * If nothing is found, then the output is &#x60;undefined&#x60;.
+	 *
+	 *  &#x60;criteria&#x60; is a boolean-valued function which is called with ascendants of &#x60;node&#x60; until it returns
+	 *  &#x60;true&#x60;.
+	 * @method         findAscendant
+	 * @param          {DOM.Node}      n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Function}      criteria    boolean-valued single argument function
+	 * @return         {DOM.Node}
+	 */
+	this.findAscendant = function(n, criteria){
+		var currentNode = n;
+		while (currentNode){
+			try {
+				console.log(currentNode);
+				if (criteria(currentNode)){
+					return currentNode;
+				}
+
+				currentNode = currentNode.parentNode;
+			} catch (e){
+				console.log(&#x27;Error (&#x27; + e.name + &#x27;) in finding ancestor: &#x27; + e.message, currentNode);
+				return;
+			}
+		}
+	};
+
 
 	/**
 	 * Disables single element with id &#x60;elemId&#x60; on page with id &#x60;pageId&#x60; in &#x60;dialog&#x60;.

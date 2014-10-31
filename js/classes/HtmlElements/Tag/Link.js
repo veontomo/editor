@@ -113,12 +113,12 @@ function Link(href) {
 	 * @return   {void}
 	 */
 	this.setHref =  function(url){
-		this.setProperty('href', url);
+		this.setProperty('href', encodeURI(url));
 	};
 
 	// set url if it is given
 	if(href && (typeof href === 'string')){
-		this.setHref(encodeURI(href));
+		this.setHref(href);
 	}
 
 	/**
@@ -294,6 +294,39 @@ function Link(href) {
 	this.isUnderlined = function(){
 		return this.getStyleProperty('text-decoration') === 'underline';
 	};
+
+	/**
+	 * Link template: json object of table properties that parametrise the table. As required, overrides
+	 * base class method {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}}.
+	 *
+	 * Returns an object with the following keys:<dl>
+	 * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
+	 * <dt>scheme</dt><dd> (String) scheme (mail or link)</dd>
+	 * <dt>color</dt><dd>(String) link color</dd>
+	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
+	 * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
+	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
+	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
+	 * <dt>title</dt><dd> (String) title attribute</dd>
+	 * </dl>
+	 * @method         template
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.template = function(){
+		var linkInfo = {
+			href:          this.getHref(),
+			scheme:        this.getScheme(),
+			color:         this.getStyleProperty('color'),
+			isUnderlined:  this.isUnderlined(),
+			isCompound:    this.length() > 1,
+			target:        this.getProperty('target'),
+			text:          this.getContent().toText(),
+			title:         this.getProperty('title')
+		};
+		return linkInfo;
+	};
+
 
 
 }

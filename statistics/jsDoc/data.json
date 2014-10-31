@@ -1727,7 +1727,7 @@
         },
         {
             "file": "customPlugins\\table2\\dialogs\\table2.js",
-            "line": 560,
+            "line": 561,
             "description": "Wrapper to call method {{#crossLink \"TableDialog/manageTable:method\"}}manageTable{{/crossLink}} method with\nthe second argument set to `false`.",
             "itemtype": "method",
             "name": "updateTable",
@@ -1753,7 +1753,7 @@
         },
         {
             "file": "customPlugins\\table2\\dialogs\\table2.js",
-            "line": 575,
+            "line": 576,
             "description": "Wrapper to call method {{#crossLink \"TableDialog/manageTable:method\"}}manageTable{{/crossLink}} method with\nthe second argument set to `true`.",
             "itemtype": "method",
             "name": "createTable",
@@ -2970,7 +2970,21 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
-            "line": 303,
+            "line": 298,
+            "description": "Link template: json object of table properties that parametrise the table. As required, overrides\nbase class method {{#crossLink \"Tag/template:method\"}}Tag::template{{/crossLink}}.\n\nReturns an object with the following keys:<dl>\n<dt>href</dt><dd> (String) value of the link \"href\" attribute</dd>\n<dt>scheme</dt><dd> (String) scheme (mail or link)</dd>\n<dt>color</dt><dd>(String) link color</dd>\n<dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>\n<dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>\n<dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>\n<dt>text</dt><dd> (String) string representation of the link content</dd>\n<dt>title</dt><dd> (String) title attribute</dd>\n</dl>",
+            "itemtype": "method",
+            "name": "template",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "since": "0.0.7",
+            "class": "Link",
+            "module": "HtmlElements"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Tag\\Link.js",
+            "line": 336,
             "description": "Splits `href` into \"protocol\" part and the rest.\n\nReturns an object with keys <ol><li>\n`protocol` containing only alphanumeric symbols\n</li><li>\n`href` containing the rest of the input string without finishing slash, starting semicolon and slashes.\n</li></ol>",
             "itemtype": "method",
             "name": "parseUri",
@@ -4471,7 +4485,7 @@
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
             "line": 1348,
-            "description": "Table template: json object of table properties that parametrise the table. As required, overrides\nbase class method {{#crossLink \"Tag/template:method\"}}Tag::template{{/crossLink}}.\n\nReturns an object of the following format .\n`descr` is an object with the following keys:<dl>\n<dt>rows</dt><dd> (Integer) number of rows</dd>\n<dt>cols</dt><dd> (Integer) number of columns</dd>\n<dt>tableBorderWidth</dt><dd>(String|Number) table border width (might include unit of measurement)</dd>\n<dt>tableBorderColor</dt><dd>(String) table border color</dd>\n<dt>phantomBorderWidth</dt><dd>(String|Number) width of border around each row\n(might includr unit of measurement)</dd>\n<dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>\n<dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>\n\t\t<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>\n \t<dt>rightVer</dt><dd>(Boolean) whether the most right vertical border of the last cell of each row is present</dd>\n \t<dt>intVer</dt><dd>(Boolean) whether the inner vertical borders are present</dd>\n \t<dt>topHor</dt><dd>(Boolean) whether the top horizontal border of each cell of the first row is present</dd>\n \t<dt>bottomHor</dt><dd>(Boolean) whether the bottom horizontal border of each cell of the last row is present</dd>\n \t<dt>intHor</dt><dd>(Boolean) whether inner horizontal borders are present</dd>\n</dl></dd>\n<dt>cellBorderWidth</dt><dd>(String|Unit) width of the border(s) mentioned in key `cellBorders`</dd>\n<dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>\n<dt>globalTableBgColor</dt><dd>(String) table background color</dd>\n<dt>spaceTableGlobal</dt><dd>(String|Unit) table margin</dd>\n<dt>paddingTableGlobal</dt><dd>(String|Unit) table padding </dd>\n<dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',\n5px - horizontally, 6px - vertically    </dd>\n<dt>spaceCell</dt><dd>(String|Unit)  `padding` of each cell</dd>\n<dt>width</dt><dd>(String|Unit) table width</dd>\n</dl>",
+            "description": "Table template: json object of table properties that parametrise the table. As required, overrides\nbase class method {{#crossLink \"Tag/template:method\"}}Tag::template{{/crossLink}}.\n\nReturns an object with the following kyes:<dl>\n<dt>rows</dt><dd> (Integer) number of rows</dd>\n<dt>cols</dt><dd> (Integer) number of columns</dd>\n<dt>tableBorderWidth</dt><dd>(String|Number) table border width (might include unit of measurement)</dd>\n<dt>tableBorderColor</dt><dd>(String) table border color</dd>\n<dt>phantomBorderWidth</dt><dd>(String|Number) width of border around each row\n(might include unit of measurement)</dd>\n<dt>phantomBorderColor</dt><dd> (String) color of border around each row</dd>\n<dt>cellBorders<dt><dd>(Object) object with the following keys:<dl>\n\t\t<dt>leftVer</dt><dd>(Boolean) whether the most left vertical border of the first cell of each row is present</dd>\n \t<dt>rightVer</dt><dd>(Boolean) whether the most right vertical border of the last cell of each row is present</dd>\n \t<dt>intVer</dt><dd>(Boolean) whether the inner vertical borders are present</dd>\n \t<dt>topHor</dt><dd>(Boolean) whether the top horizontal border of each cell of the first row is present</dd>\n \t<dt>bottomHor</dt><dd>(Boolean) whether the bottom horizontal border of each cell of the last row is present</dd>\n \t<dt>intHor</dt><dd>(Boolean) whether inner horizontal borders are present</dd>\n</dl></dd>\n<dt>cellBorderWidth</dt><dd>(String|Unit) width of the border(s) mentioned in key `cellBorders`</dd>\n<dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>\n<dt>globalTableBgColor</dt><dd>(String) table background color</dd>\n<dt>spaceTableGlobal</dt><dd>(String|Unit) table margin</dd>\n<dt>paddingTableGlobal</dt><dd>(String|Unit) table padding </dd>\n<dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',\n5px - horizontally, 6px - vertically    </dd>\n<dt>spaceCell</dt><dd>(String|Unit)  `padding` of each cell</dd>\n<dt>width</dt><dd>(String|Unit) table width</dd>\n</dl>",
             "itemtype": "method",
             "name": "template",
             "return": {
@@ -4484,7 +4498,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1416,
+            "line": 1415,
             "description": "Sets style property `key` of children with numbers that are in array `cellArr` of rows\nwith numbers that are in array `rowArr` to be equal to `value`.\n\nExample, <code>table.setStylePropertyOfBlock('padding', '1em', [1, 3, 5], [2, 8, 12])</code>\nimposes inline style `padding` to be `1em` to cells with numbers 2, 8, 12 of rows with numbers 1, 3, and 5.",
             "itemtype": "method",
             "name": "setStylePropertyOfBlock",
@@ -4520,7 +4534,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1450,
+            "line": 1449,
             "description": "Sets width of all rows of the table.\n\nIt calls {{#crossLink \"Tag/setWidth:method\"}}setWidth{{/crossLink}} method on each row.",
             "itemtype": "method",
             "name": "setAllRowWidths",
@@ -4541,7 +4555,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1476,
+            "line": 1475,
             "description": "Returns value of style property `key` of rows which indexes are in array `rowArr` and cell\nindexes are in array `cellArr` if all objects have the same value of the above property.\nOtherwise, `null` is returned.\n\n`rowArr` array admits negative values (with usual meaning: enumeration starts from the end).",
             "itemtype": "method",
             "name": "getStylePropertyOfBlock",
@@ -4572,7 +4586,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1522,
+            "line": 1521,
             "description": "Updates `tableNode` with new chracteristics given by `tableInfo` object.\n\nIt takes `tableNode`, constructs {{#crossLink \"Table\"}}Table{{/crossLink}} instance of it,\nadjusts its properties according to `tableInfo` and returns it.",
             "itemtype": "method",
             "name": "update",
@@ -4597,7 +4611,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1538,
+            "line": 1537,
             "description": "Returns {{#crossLink \"Table/getStylePropertyOfBlock:method\"}}getStylePropertyOfBlock(){{/crossLink}} output\nformatted as {{#crossLink \"Properties/getBorder:method\"}}border info object{{/crossLink}}.",
             "itemtype": "method",
             "name": "getStylePropertyOfRangeAsBorderInfo",
@@ -4627,7 +4641,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1569,
+            "line": 1568,
             "description": "Creates an array of `len` increasing numbers starting with `start`:\n`start`, `start + 1`, ...",
             "itemtype": "method",
             "name": "_range",
@@ -4655,7 +4669,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1589,
+            "line": 1588,
             "description": "Returns an object that parametrizes borders around the cells. The object has the following format:\n<br>\n<code>\n{leftVer: ..., rightVer: ..., intVer: ..., topHor: ..., bottomHor: ..., intHor: ..., [width: ..., color: ...]}\n</code>\n<br>\nwhere\n<ul><li>\n`leftVer`, `rightVer`, `intVer`, `topHor`, `bottomHor`, `intHor` are boolean-valued keys\nstanding for left/right/intermediate horizontal/vertical cell borders,\n</li><li>\n`width` - (optional) integer, present if at least one of the above boolean values is true.\n</li><li>\n`color` - (optional) string, present along with \"width\" key.\n</li></ul>",
             "itemtype": "method",
             "name": "getCellBorders",
@@ -4669,7 +4683,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Tag\\Table.js",
-            "line": 1643,
+            "line": 1642,
             "description": "Returns {{#crossLink \"Properties/getBorder:method\"}}border-like{{/crossLink}} object characterizing\n{{#crossLink \"Table/phantomTable:property\"}}phantom table{{/crossLink}} (if it exists) border.\nIf {{#crossLink \"Table/phantomTable:property\"}}phantom table{{/crossLink}} does not exist,\nan object <code>{style: none}</code> is returned.",
             "itemtype": "method",
             "name": "getPhantomTableBorder",
@@ -9748,7 +9762,7 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 21,
+            "line": 19,
             "description": "Reads the content of the link insertion dialog, generates links and inserts them into the editor.",
             "itemtype": "method",
             "name": "convertToLinks",
@@ -9778,7 +9792,7 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 89,
+            "line": 87,
             "description": "Populates the field of the link insertion dialog.",
             "itemtype": "method",
             "name": "fillInDialog",
@@ -9803,8 +9817,8 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 132,
-            "description": "Converts information collected from the link dialog menu into format defined by\n{{#crossLink \"Link/template:method\"}}Link::template{{/crossLink}} method.\n\nOverrides {{#crossLink \"Controller\"}}base class{{/crossLink}} definition of\n{{#crossLink \"Controller/dialogToTemplate:method\"}}dialogToTemplate{{/crossLink}}.\nThe returning object include the following keys:\n<dl>\n<dt>rows</dt><dd>number of table rows</dd>\n<dt>cols</dt><dd>number of table columns</dd>\n<dt>tableBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table border width</dd>\n<dt>tableBorderColor</dt><dd>string for table border color</dd>\n<dt>phantomBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for width around table rows</dd>\n<dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>\n<dt>cellBorders</dt><dd>boolean variables for borders around table cells:\n\t\t<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,\n  \t<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>\n</dd>\n<dt>cellBorderWidth</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for border width around table cells</dd>\n<dt>cellBorderColor</dt><dd>string for border color around table cells</dd>\n<dt>globalTableBgColor</dt><dd>string for table background color</dd>\n<dt>spaceTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table margin</dd>\n<dt>paddingTableGlobal</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for the table padding</dd>\n<dt>spaceBtwRows</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance to set vertical spacing between rows\n(horizontal is set to 0 px)</dd>\n<dt>spaceCell</dt><dd>{{#crossLink \"Unit\"}}Unit{{/crossLink}} instance for table cells padding </dd>\n<dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute\nto the total table width</dd>\n</dl>",
+            "line": 130,
+            "description": "Converts information collected from the link dialog menu into format defined by\n{{#crossLink \"Link/template:method\"}}Link::template{{/crossLink}} method.\n\nOverrides {{#crossLink \"Controller\"}}base class{{/crossLink}} definition of\n{{#crossLink \"Controller/dialogToTemplate:method\"}}dialogToTemplate{{/crossLink}}.\nThe returning object include the following keys:\nReturns an object with the following keys:<dl>\n<dt>href</dt><dd> (String) value of the link \"href\" attribute</dd>\n<dt>scheme</dt><dd> (String) scheme (mail or link)</dd>\n<dt>color</dt><dd>(String) link color</dd>\n<dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>\n<dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>\n<dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>\n<dt>text</dt><dd> (String) string representation of the link content</dd>\n<dt>title</dt><dd> (String) title attribute</dd>\n</dl>",
             "itemtype": "method",
             "name": "dialogToTemplate",
             "params": [
@@ -9823,8 +9837,8 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 209,
-            "description": "Converts output of table {{#crossLink \"Table/template:method\"}}template{{/crossLink}} method\ninto an object accepted by table dialog menu, that is into a format described by\n{{#crossLink \"Controller/getDialogData:method\"}}getDialogData{{/crossLink}}.",
+            "line": 165,
+            "description": "Converts output of link {{#crossLink \"Link/template:method\"}}template{{/crossLink}} method\ninto an object accepted by link dialog menu, that is into a format described by\n{{#crossLink \"Controller/getDialogData:method\"}}getDialogData{{/crossLink}}.",
             "itemtype": "method",
             "name": "templateToDialog",
             "params": [
@@ -9844,7 +9858,47 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 267,
+            "line": 190,
+            "description": "Returns instance of {{#crossLink \"Link\"}}Link{{/crossLink}} corresponding to a DOM.Element\ninside which the cursor is situated. If no link is found, nothing is returned.",
+            "itemtype": "method",
+            "name": "getLink",
+            "params": [
+                {
+                    "name": "editor",
+                    "description": "editor instance",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Link"
+            },
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 208,
+            "description": "Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, `null`\nis returned.\n\nSought element has tag `a`.",
+            "itemtype": "method",
+            "name": "findParentLink",
+            "params": [
+                {
+                    "name": "editor",
+                    "description": "",
+                    "type": "CKEDITOR"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 230,
             "description": "Collects parameters from link dialog menu.\n\nThe returning object include the following keys:\n<dl>\n<dt>href</dt><dd>(string) url or email (depending on a scheme)</dd>\n<dt>text</dt><dd>(string) hyperlink text</dd>\n<dt>status</dt><dd>(boolean) whether text field is enabled</dd>\n<dt>title</dt><dd>(string, optional) popup text</dd>\n<dt>underlined</dt><dd>(boolean) whether the link is underlined or not</dd>\n<dt>target</dt><dd>(boolean) whether the link should be open in a new window</dd>\n<dt>color</dt><dd>(string) color of the hyperlink text</dd>\n</dl>",
             "itemtype": "method",
             "name": "getDialogData",
@@ -9858,6 +9912,36 @@
             "return": {
                 "description": "",
                 "type": "Object"
+            },
+            "class": "CLink",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\CLink.js",
+            "line": 254,
+            "description": "Fills in `dialog` window with information that is taken from `selection`.",
+            "itemtype": "method",
+            "name": "fillInDialogWithSelection",
+            "params": [
+                {
+                    "name": "dialog",
+                    "description": "[CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)",
+                    "type": "CKEDITOR.dialog"
+                },
+                {
+                    "name": "editor",
+                    "description": "[CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)",
+                    "type": "CKEDITOR"
+                },
+                {
+                    "name": "selection",
+                    "description": "{{#crossLink \"Selection\"}}Selection{{/crossLink}}",
+                    "type": "Selection"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
             },
             "class": "CLink",
             "module": "Controllers"
@@ -10068,7 +10152,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "CKEDITOR.dom.element|null"
+                "type": "Dom.Element"
             },
             "class": "CTable",
             "module": "Controllers"
@@ -10150,7 +10234,32 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 90,
+            "line": 89,
+            "description": "Returns innermost ascendant of node `n` for which `criteria` returns `true`.\n\nIf nothing is found, then the output is `undefined`.\n\n `criteria` is a boolean-valued function which is called with ascendants of `node` until it returns\n `true`.",
+            "itemtype": "method",
+            "name": "findAscendant",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
+                    "type": "DOM.Node"
+                },
+                {
+                    "name": "criteria",
+                    "description": "boolean-valued single argument function",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DOM.Node"
+            },
+            "class": "Controller",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\Controller.js",
+            "line": 119,
             "description": "Disables single element with id `elemId` on page with id `pageId` in `dialog`.",
             "itemtype": "method",
             "name": "_disableField",
@@ -10183,7 +10292,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 110,
+            "line": 139,
             "description": "Disables element(s) with id `elemId` on page with id `pageId` in `dialog`.\n\nIf `elemId` is an array, then\n{{#crossLink \"Controller/_disableField:method\"}}_disableField{{/crossLink}} uses\neach array element to disable single elements.",
             "itemtype": "method",
             "name": "_disableFields",
@@ -10216,7 +10325,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 135,
+            "line": 164,
             "description": "Disables input fields described by `data` in `dialog`.\n\n`data` is a json key-value object which keys are page ids and values are array of element ids that\nshould be disabled. There two possible formats of `data`:\n\n<pre> {pageId: [fieldId1, fieldId2, ...], ...} </pre>\n<pre> {pageId: fieldId, ...} </pre>",
             "itemtype": "method",
             "name": "disableFields",
@@ -10242,7 +10351,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 164,
+            "line": 193,
             "description": "Converts object of dialog menu format to an object of {{#crossLink \"Tag/template:method\"}}Tag{{/crossLink}}\nformat.\nEventually, the emplementation should be corrected by inherited class.",
             "itemtype": "method",
             "name": "dialogToTemplate",
@@ -10263,7 +10372,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 178,
+            "line": 207,
             "description": "Converts object of {{#crossLink \"Tag/template:method\"}}Tag{{/crossLink}} format to object\nof dialog menu format.\n\nEventually, the emplementation should be corrected by inherited class.",
             "itemtype": "method",
             "name": "templateToDialog",
@@ -10284,7 +10393,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 193,
+            "line": 222,
             "description": "Shows error message. Uses javascript method `alert` to display the message.\nIf `msg` is not a string, default message is displayed.",
             "itemtype": "method",
             "name": "showMessage",

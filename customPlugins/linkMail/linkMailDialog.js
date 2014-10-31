@@ -152,12 +152,12 @@ function linkMailDialog(editor, scheme) {
                 html:  editor.lang[_pluginName].styleTitle,
             }, {
                 type: 'checkbox',
-                id: 'underlined',
+                id: 'isUnderlined',
                 label: editor.lang[_pluginName].underline,
                 "default": alt,
             }, {
                 type: 'checkbox',
-                id: 'target',
+                id: 'isNewWindow',
                 label: editor.lang[_pluginName].targetNew,
                 "default": true,
             }, {
@@ -205,8 +205,8 @@ function linkMailDialog(editor, scheme) {
          */
         onShow: function() {
             selection = new Selection(editor);
-            selection.absorbLink();
-            _controller.fillInDialog(this, selection);
+            // selection.absorbLink();
+            _controller.fillInDialogWithSelection(this, editor, selection);
         },
 
         onCancel: function(){

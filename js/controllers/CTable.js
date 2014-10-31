@@ -234,7 +234,7 @@ function CTable(){
 		var tableElem = this.findParentTable(editor);
 		if (tableElem){
 			var factory = NEWSLETTER.factory,
-				table = factory.mimic(tableElem.$);
+				table = factory.mimic(tableElem);
 			if (table){
 				table.disentangle();
 				return table;
@@ -294,15 +294,15 @@ function CTable(){
 	 *
 	 * @method         findParentTable
 	 * @param          {CKEDITOR}      editor
-	 * @return         {CKEDITOR.dom.element|null}
+	 * @return         {Dom.Element}
 	 */
 	this.findParentTable = function(editor){
-		var elem = editor.getSelection().getStartElement();
+		var elem = editor.getSelection().getStartElement(),
+			criteria = function(el){
+				return el.tagName.toLowerCase() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === (new Table()).getName();
+			};
 		if (elem){
-			var tableElem = CKHelper.findAscendant(elem, function(el){
-				return el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === (new Table()).getName();
-			});
-			return tableElem;
+			return this.findAscendant(elem.$, criteria);
 		}
 	};
 

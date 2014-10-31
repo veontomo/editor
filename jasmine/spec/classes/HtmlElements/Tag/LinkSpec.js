@@ -374,7 +374,27 @@ describe('Link-related functionality:', function() {
             link.setScheme('not allowed');
             expect(link.getScheme()).toBe('default');
         });
+    });
 
+    describe('Link template', function(){
+        it('returns an object',function(){
+            expect(typeof link.template()).toBe('object');
+        });
+        it('has keys href, scheme, color, isUnderlined, isCompound, target, text, title', function(){
+            var keys = ['href', 'scheme', 'color', 'isUnderlined', 'isCompound', 'target', 'text', 'title'],
+                key,
+                template = link.template();
+            for (key in keys){
+                if (keys.hasOwnProperty(key)){
+                    expect(template.hasOwnProperty(keys[key])).toBe(true);
+                }
+            }
+        });
+
+        it('sets "href" key from getHref() value',function(){
+            spyOn(link, 'getHref').and.returnValue('a link');
+            expect(link.template().href).toBe('a link');
+        });
 
 
     });

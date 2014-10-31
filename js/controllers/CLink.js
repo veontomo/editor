@@ -16,8 +16,6 @@ function CLink() {
  	}
  	Controller.call(this);
 
-
-
 	/**
 	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
 	 * @method        convertToLinks
@@ -33,12 +31,12 @@ function CLink() {
 		linkInfo = this.getDialogData(context);
 		console.log(linkInfo);
 		if (scheme === 'link'){
-			href = 'http://' + encodeURI(Helper.dropProtocol(linkInfo.href));
+			href = 'http://' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
 		} else {
-			href = 'mailto:' + encodeURI(Helper.dropProtocol(linkInfo.href));
+			href = 'mailto:' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
 		}
 		// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
-		if (linkInfo.status){
+		if (linkInfo.linkInfoTab.status){
 		    link = new Link();
 		    link.setHref(href);
 		    link.underline(linkInfo.underlined);
@@ -93,7 +91,7 @@ function CLink() {
 	 * @param         {Selection}           selection         instance of Selection class
 	 * @return        {void}
 	 */
-	this.fillInDialog = function(context, selection){
+	this.fillInDialog_old = function(context, selection){
 		var text = selection.toText(),
 		    href = '',
 		    isEnabled = selection.isEditable(),
@@ -136,79 +134,37 @@ function CLink() {
 	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
 	 * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
  	 * The returning object include the following keys:
-	 * <dl>
-	 * <dt>rows</dt><dd>number of table rows</dd>
-	 * <dt>cols</dt><dd>number of table columns</dd>
-	 * <dt>tableBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table border width</dd>
-	 * <dt>tableBorderColor</dt><dd>string for table border color</dd>
-	 * <dt>phantomBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for width around table rows</dd>
-     * <dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
-     * <dt>cellBorders</dt><dd>boolean variables for borders around table cells:
-     * 		<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,
-     *   	<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>
-     * </dd>
-     * <dt>cellBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for border width around table cells</dd>
-     * <dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
-     * <dt>globalTableBgColor</dt><dd>string for table background color</dd>
-     * <dt>spaceTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
-     * <dt>paddingTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
-     * <dt>spaceBtwRows</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
-     * (horizontal is set to 0 px)</dd>
-     * <dt>spaceCell</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table cells padding </dd>
-	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
-	 * to the total table width</dd>
+	 * Returns an object with the following keys:<dl>
+	 * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
+	 * <dt>scheme</dt><dd> (String) scheme (mail or link)</dd>
+	 * <dt>color</dt><dd>(String) link color</dd>
+	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
+	 * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
+	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
+	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
+	 * <dt>title</dt><dd> (String) title attribute</dd>
 	 * </dl>
 	 * @method         dialogToTemplate
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 */
 	this.dialogToTemplate = function(obj){
-		var defaultUnit = 'px';
-		var tableInfo = {
-			rows:                 parseInt(obj.structure.rows, 10),
-			cols:                 parseInt(obj.structure.cols, 10),
-			tableBorderWidth:     new Unit(parseInt(obj.borders.globalBorderWidth, 10), defaultUnit),
-			tableBorderColor:     obj.borders.globalBorderColor,
-			phantomBorderWidth:   new Unit(parseInt(obj.borders.rowBorderWidth, 10), defaultUnit),
-			phantomBorderColor:   obj.borders.rowBorderColor,
-			cellBorders: {
-				leftVer:   obj.borders.leftVerBord,
-				rightVer:  obj.borders.rightVerBord,
-				intVer:    obj.borders.intVerBord,
-				topHor:    obj.borders.topHorBord,
-				bottomHor: obj.borders.bottomHorBord,
-				intHor:    obj.borders.intHorBord,
-			},
-			cellBorderWidth:    new Unit(parseInt(obj.borders.cellBorderWidth, 10), defaultUnit),
-			cellBorderColor:    obj.borders.cellBorderColor,
-			globalTableBgColor: obj.background.globalTableBgColor,
-			spaceTableGlobal:   new Unit(parseInt(obj.spaces.spaceTableGlobal, 10), defaultUnit),
-			paddingTableGlobal: new Unit(parseInt(obj.spaces.paddingTableGlobal, 10), defaultUnit),
-			spaceBtwRows:       new Unit(parseInt(obj.spaces.spaceBtwRows, 10), defaultUnit),
-			spaceCell:          new Unit(parseInt(obj.spaces.spaceCell, 10), defaultUnit),
-			width:              obj.width,
-		};
-		// adding key cellWeights for
-		var cellWeights = [];
-		if (obj.colWeights){
-			var colId;
-			for (colId in obj.colWeights){
-				if (obj.colWeights.hasOwnProperty(colId)){
-					cellWeights.push(parseFloat(obj.colWeights[colId]));
-				}
-			}
-		} else {
-			// creating array of 1's whose number is equal to number of table columns
-			var arrTmp = new Array(tableInfo.cols + 1); // dumb array of specified length
-			cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
-		}
-		tableInfo.cellWeights = cellWeights;
-		return tableInfo;
+		var tabName = 'linkInfoTab',
+			template = {
+				href:          obj[tabName].href,
+				scheme:        obj[tabName].scheme,
+				color:         obj[tabName].color,
+				isUnderlined:  obj[tabName].isUnderlined,
+				isCompound:    obj[tabName].status,
+				target:        obj[tabName].isNewWindow ? '_blank' : '_self',
+				title:         obj[tabName].title
+			};
+		return template;
 	};
 
 	/**
-	 * Converts output of table {{#crossLink "Table/template:method"}}template{{/crossLink}} method
-	 * into an object accepted by table dialog menu, that is into a format described by
+	 * Converts output of link {{#crossLink "Link/template:method"}}template{{/crossLink}} method
+	 * into an object accepted by link dialog menu, that is into a format described by
 	 * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
 	 * @method         templateToDialog
 	 * @param          {Object}        template
@@ -216,52 +172,59 @@ function CLink() {
 	 * @since          0.0.7
 	 */
 	this.templateToDialog = function(template){
-		var dialogData = {
-			structure: {
-				rows: template.rows,
-				cols: template.cols
-			},
-			background: {
-				globalTableBgColor: template.globalTableBgColor
-			},
-			borders: {
-				cellBorderColor: template.cellBorderColor,
-				globalBorderColor: template.tableBorderColor,
-				rowBorderColor: template.rowBorderColor,
-				rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
-				cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),
-				globalBorderWidth: (new Unit(template.tableBorderWidth || 0)).getValueAsString(),
-				bottomHorBord: template.cellBorders.bottomHor,
-				intHorBord: template.cellBorders.intHor,
-				intVerBord: template.cellBorders.intVer,
-				leftVerBord: template.cellBorders.leftVer,
-				rightVerBord: template.cellBorders.rightVer,
-				topHorBord: template.cellBorders.topHor
-			},
-			spaces: {
-				paddingTableGlobal: (new Unit(template.paddingTableGlobal || 0)).getValueAsString(),
-				spaceBtwRows:       (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
-				spaceCell:          (new Unit(template.spaceCell || 0)).getValueAsString(),
-				spaceTableGlobal:   (new Unit(template.spaceTableGlobal || 0)).getValueAsString()
-			},
-		};
-		// filling in column weight fields: corresponding text input fields are called
-		// "col0", "col1" etc.
-		var weigths = template.cellWeights;
-		try {
-			var tmp = Helper.divideByGcd(weigths);
-			weigths = tmp;
-		} catch (e){
-			console.log('Error (' + e.name + ') when cancelling common factors of column widths: ' + e.message);
-		}
-		if (Array.isArray(weigths)){
-			dialogData.colWeights = {};
-			weigths.forEach(function(val, ind){
-				dialogData.colWeights['col' + ind.toString()] = val.toString();
-			});
+		var dialogData,
+			tabName = 'linkInfoTab';
+		dialogData = {};
+		dialogData[tabName] = {
+			href:          template.href,
+			scheme:        template.scheme,
+			color:         template.color,
+			isUnderlined:  template.isUnderlined,
+			status:        template.isCompound ,
+			isNewWindow:   template.target ==='_blank' ,
+			title:         template.title,
 		}
 		return dialogData;
 	};
+
+	/**
+	 * Returns instance of {{#crossLink "Link"}}Link{{/crossLink}} corresponding to a DOM.Element
+	 * inside which the cursor is situated. If no link is found, nothing is returned.
+	 * @method        getLink
+	 * @param         {Object}              editor            editor instance
+	 * @return        {Link}
+	 */
+	this.getLink = function(editor){
+		var linkElem = this.findParentLink(editor);
+		console.log('linkElem: ', linkElem);
+		if (linkElem){
+			var factory = NEWSLETTER.factory,
+				link = factory.mimic(linkElem);
+			return link;
+		}
+	};
+
+
+	/**
+	 * Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, `null`
+	 * is returned.
+	 *
+	 * Sought element has tag `a`.
+	 *
+	 * @method         findParentLink
+	 * @param          {CKEDITOR}      editor
+	 * @return         {DOM.Node}
+	 */
+	this.findParentLink = function(editor){
+		var elem = editor.getSelection().getStartElement(),
+			criteria = function(el){return el.tagName.toLowerCase() === 'a';};
+		if (elem){
+			return this.findAscendant(elem.$, criteria);
+		}
+	};
+
+
+
 
 
 	/**
@@ -281,17 +244,23 @@ function CLink() {
 	 * @param   {Object}        dialog
 	 * @return  {Object}
 	 */
-	// this.getDialogData = function(dialog){
-	// 	var tabName = 'linkInfoTab';
-	// 	var linkInfo = {
-	// 		href:       dialog.getValueOf(tabName, 'href'),
-	// 		text:       dialog.getValueOf(tabName, 'text'),
-	// 		status:     dialog.getContentElement(tabName, 'text').isEnabled(),
-	// 		title:      dialog.getValueOf(tabName, 'title'),
-	// 		underlined: dialog.getValueOf(tabName, 'underlined'),
-	// 		target:     dialog.getValueOf(tabName, 'target'),
-	// 		color:      dialog.getValueOf(tabName, 'color')
-	// 	};
-	// 	return linkInfo;
-	// };
+	this.getDialogData = function(dialog){
+		var c = new Controller();
+		var dialogData = c.getDialogData(dialog);
+		dialogData.linkInfoTab.status = true;
+		return dialogData;
+	};
+
+	/**
+	 * Fills in `dialog` window with information that is taken from `selection`.
+	 * @method         fillInDialogWithSelection
+	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
+	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
+	 * @param          {Selection}           selection        {{#crossLink "Selection"}}Selection{{/crossLink}}
+	 * @return         {void}
+	 */
+	this.fillInDialogWithSelection = function(dialog, editor, selection){
+
+	}
 }
+CLink.prototype = Object.create(Controller.prototype);

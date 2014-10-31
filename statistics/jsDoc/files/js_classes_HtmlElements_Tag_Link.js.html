@@ -313,12 +313,12 @@ function Link(href) {
 	 * @return   {void}
 	 */
 	this.setHref =  function(url){
-		this.setProperty(&#x27;href&#x27;, url);
+		this.setProperty(&#x27;href&#x27;, encodeURI(url));
 	};
 
 	// set url if it is given
 	if(href &amp;&amp; (typeof href === &#x27;string&#x27;)){
-		this.setHref(encodeURI(href));
+		this.setHref(href);
 	}
 
 	/**
@@ -494,6 +494,39 @@ function Link(href) {
 	this.isUnderlined = function(){
 		return this.getStyleProperty(&#x27;text-decoration&#x27;) === &#x27;underline&#x27;;
 	};
+
+	/**
+	 * Link template: json object of table properties that parametrise the table. As required, overrides
+	 * base class method {{#crossLink &quot;Tag/template:method&quot;}}Tag::template{{/crossLink}}.
+	 *
+	 * Returns an object with the following keys:&lt;dl&gt;
+	 * &lt;dt&gt;href&lt;/dt&gt;&lt;dd&gt; (String) value of the link &quot;href&quot; attribute&lt;/dd&gt;
+	 * &lt;dt&gt;scheme&lt;/dt&gt;&lt;dd&gt; (String) scheme (mail or link)&lt;/dd&gt;
+	 * &lt;dt&gt;color&lt;/dt&gt;&lt;dd&gt;(String) link color&lt;/dd&gt;
+	 * &lt;dt&gt;isUnderlined&lt;/dt&gt;&lt;dd&gt;(Boolean) whether the link is underlined&lt;/dd&gt;
+	 * &lt;dt&gt;isCompound&lt;/dt&gt;&lt;dd&gt;(Boolean) whether the link content contains more that one element&lt;/dd&gt;
+	 * &lt;dt&gt;target&lt;/dt&gt;&lt;dd&gt; (String) in what window the link is supposed to be open&lt;/dd&gt;
+	 * &lt;dt&gt;text&lt;/dt&gt;&lt;dd&gt; (String) string representation of the link content&lt;/dd&gt;
+	 * &lt;dt&gt;title&lt;/dt&gt;&lt;dd&gt; (String) title attribute&lt;/dd&gt;
+	 * &lt;/dl&gt;
+	 * @method         template
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.template = function(){
+		var linkInfo = {
+			href:          this.getHref(),
+			scheme:        this.getScheme(),
+			color:         this.getStyleProperty(&#x27;color&#x27;),
+			isUnderlined:  this.isUnderlined(),
+			isCompound:    this.length() &gt; 1,
+			target:        this.getProperty(&#x27;target&#x27;),
+			text:          this.getContent().toText(),
+			title:         this.getProperty(&#x27;title&#x27;)
+		};
+		return linkInfo;
+	};
+
 
 
 }
