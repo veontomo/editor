@@ -5474,7 +5474,36 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 19,
+            "line": 20,
+            "description": "[CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance",
+            "itemtype": "property",
+            "name": "_editor",
+            "type": "CKEDITOR",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.7",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 28,
+            "description": "{{#crossLink \"/_editor:property\"}}_editor{{/crossLink}} setter. {{#crossLink \"Dom/_editor:property\"}}_editor{{/crossLink}}",
+            "itemtype": "method",
+            "name": "setEditor",
+            "params": [
+                {
+                    "name": "ed",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 37,
             "description": "Toggles inline style property `prop` of node `n`. When it turns out that the property should\nbe set, it is set to value `val`.",
             "itemtype": "method",
             "name": "_toggleNodeStyle",
@@ -5512,7 +5541,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 51,
+            "line": 69,
             "description": "Returns **proxy** node of `n`:\n<ol><li>\nif `n` is a text element without siblings, then proxy of `n` is its parent node,\n</li><li>\nif `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.\n</li></ol>",
             "itemtype": "method",
             "name": "_proxy",
@@ -5532,7 +5561,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 72,
+            "line": 90,
             "description": "Looks for a value of style property `key` of nearest ascendant of `node` in the scope of node `scope`.\nIf the property is found, its value is returned, otherwise,  `undefined` is returned.\n\nLimit node `scope` is supposed to contain `node`. Otherwise, the search for the property\nis performed up to the \"highest\" parent of `node`.\n\nNB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **",
             "itemtype": "method",
             "name": "getInheritedStyleProp",
@@ -5563,7 +5592,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 117,
+            "line": 135,
             "description": "Modifies inline style properties of a {{#crossLink \"Selection/_proxy:method\"}}proxy{{/crossLink}}\nnode of deepest children of node `n` in the following way:\n<ol><li>\nif style property `prop` of the deepest child is equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `altVal`.\n</li><li>\nif style property `prop` of the deepest child is not equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `val`.\n</li></ol>",
             "access": "private",
             "tagname": "",
@@ -5599,7 +5628,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 181,
+            "line": 199,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "_commonAncestor",
@@ -5627,7 +5656,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 213,
+            "line": 231,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -5652,7 +5681,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 224,
+            "line": 242,
             "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
             "itemtype": "method",
             "name": "commonAncestorSoft",
@@ -5665,7 +5694,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 263,
+            "line": 281,
             "description": "Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.",
             "itemtype": "method",
             "name": "getMentor",
@@ -5690,7 +5719,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 286,
+            "line": 304,
             "description": "Nails inline style property `key` of `node`:  applies style property on \"innocent\" nodes\nand toggles node inline property `key` between `primary` and `secondary`.\n\nIf `node` has a mentor node, then:\n<ol><li>\nassign value of inline style property `key` of the mentor to each\n{{#crossLink \"Dom/complementNodes:method\"}}complement node{{/crossLink}} to the path `mentor - ... - node`,\n</li><li>\neliminate inline style property `key` from the mentor,\n</li><li>\ncall {{#crossLink \"Dom/setStyleProperty:method\"}}setStyleProperty{{/crossLink}} method that takes care of\nsetting inline style property of `node` to required value.\n</li></ol>\nIf `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`",
             "itemtype": "method",
             "name": "nailStyleProperty",
@@ -5725,7 +5754,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 332,
+            "line": 350,
             "description": "Returns reference to a node with inline style property `key` being set to `value`.\nIf `node` is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,\nthen reference it itself is returned. Otherwise, it is returned a new\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains\na clone of `node` and which replaces `node`.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -5755,7 +5784,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 363,
+            "line": 381,
             "description": "Gets inline style property with name `key` of `node`. Returns `undefined` if `node`\ndoes not have inline style property `key`.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -5780,7 +5809,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 381,
+            "line": 399,
             "description": "Drops inline style property `key` from `node` and removes inline style attribute if\nit becomes empty.\nReturns `true` if the initially contains inline style property `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "dropStyleProperty",
@@ -5805,7 +5834,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 411,
+            "line": 429,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -5841,7 +5870,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 441,
+            "line": 459,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -5877,7 +5906,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 469,
+            "line": 487,
             "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",
@@ -5902,7 +5931,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 514,
+            "line": 532,
             "description": "Replaces `propSecondary` string by `propPrimary` one in the class attribute of `elem`.\nIf `propSecondary` does not exist, then `propPrimary` is just appended to class\nattributes. If class attribute does not exist, then it is created with value `propName`.",
             "itemtype": "method",
             "name": "switchClassProperty",
@@ -5933,7 +5962,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 545,
+            "line": 563,
             "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `s` is not set, then parsing is performed up to the \"highest\" root.\nIf node `s` is set, but node `n` is not its descendant, then a\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance corresponding to node `n`\nis returned.",
             "itemtype": "method",
             "name": "getInheritedProperties",
@@ -5954,6 +5983,319 @@
                 "type": "Properties"
             },
             "since": "0.0.7",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 603,
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 613,
+            "description": "Editor instance containing the selection.",
+            "itemtype": "property",
+            "name": "editor",
+            "type": "CKEDITOR.editor",
+            "access": "private",
+            "tagname": "",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 620,
+            "description": "Selected elements.",
+            "itemtype": "property",
+            "name": "selected",
+            "type": "CKEDITOR.dom.selection",
+            "access": "private",
+            "tagname": "",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 630,
+            "description": "Array of [range instances](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) corresponding to the selection.",
+            "itemtype": "property",
+            "name": "ranges",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 640,
+            "description": "{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getRanges",
+            "return": {
+                "description": "array of CKEDITOR.dom.range instances",
+                "type": "Array"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 649,
+            "description": "{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} setter. Sets as well\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "setSelected",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 663,
+            "description": "{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getSelected",
+            "return": {
+                "description": "",
+                "type": "CKEDITOR.dom.selection"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 674,
+            "description": "{{#crossLink \"Selection/editor:property\"}}editor{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getEditor",
+            "return": {
+                "description": "",
+                "type": "CKEDITOR.editor"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 683,
+            "description": "{{#crossLink \"Selection/editor:property\"}}editor{{/crossLink}} setter. Sets as well\n{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} and\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}}.",
+            "itemtype": "method",
+            "name": "setEditor",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "CKEDITOR.editor"
+                }
+            ],
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 699,
+            "description": "If selection is empty, returns empty array. Otherwise returns two dimensional array of the form\n<pre>\n[[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].\n</pre>\nEach inner array corresponds to the elements inside the\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}} property of the selection.\nSince DOM is an ***ordered*** collection of the nodes, the the above mentioned array is\njust a collection of simply-connected sets of nodes corresponding to the selection.\n\nNB1: _Simply-connected_ set is a set such that there exists a path inside the set\nconnecting two arbitrary elements of the set.\n\nNB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that\nthe concept of \"neighbour\" exists).",
+            "itemtype": "method",
+            "name": "selectedNodes",
+            "params": [
+                {
+                    "name": "sel",
+                    "description": "",
+                    "type": "Selection"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "two dimensional array of\n                                      [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                      or empty array",
+                "type": "Array"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 832,
+            "description": "Two-dimensional array of nodes in selection.\n\nThis property was created in order to assure that private method\n{{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} gets called\njust once because it seemingly modifies DOM in such\na way that if one calles it multiple times, a wrong array offset is requested, hence, an\nerror is generated.",
+            "itemtype": "property",
+            "name": "nodes",
+            "type": "{Array}      array of [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)",
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 845,
+            "description": "Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.",
+            "itemtype": "method",
+            "name": "toText",
+            "params": [
+                {
+                    "name": "blockSeparator",
+                    "description": "string to be used as a separator between arrays",
+                    "type": "String"
+                },
+                {
+                    "name": "elemSeparator",
+                    "description": "string to be used as a separator between elements in array",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 870,
+            "description": "Returns the start element of selection if it exists.",
+            "itemtype": "method",
+            "name": "getStartElement",
+            "return": {
+                "description": "",
+                "type": "CKEDITOR.dom.element"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 882,
+            "description": "Returns `true` if {{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} is empty,\n`false` otherwise.\n\n{{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} output is considered empty\nif it is either empty array `[]` or an array containing empty array: `[[]]`.",
+            "itemtype": "method",
+            "name": "isEmpty",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 899,
+            "description": "Returns `true` if selected text starts inside a link, `false` otherwise.\nIn case when the selection is empty, cursor position is considered as beginning\nof empty selection.",
+            "itemtype": "method",
+            "name": "startsInsideLink",
+            "return": {
+                "description": "whether the selection starts inside a link",
+                "type": "Boolean"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 916,
+            "description": "Returns `true` if selection content is editable, `false` otherwise.\n\nSelection is editable if:\n<ol>\n<li>it is empty</li>\n<li>it contains a single element that has type `text`</li>\n<li>it contains a single element that is a link which child nodes are of type `text`</li>\n</ol>",
+            "itemtype": "method",
+            "name": "isEditable",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 969,
+            "description": "Removes duplicate DOM nodes form input array. Each element of the array must be an instance of\n[CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject).",
+            "itemtype": "method",
+            "name": "dropDuplicates",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "$arr",
+                    "description": "one-dimensional array of\n                                             [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                             objects",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "array of distinct\n                                             [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                             elements",
+                "type": "Array"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 1012,
+            "description": "Replaces each element in {{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} by\na link in which this element is located. In case the element is not located inside any link, then it\nis leaved without changes. The output array mimics the structure of\n{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} array: it should be a two-dimensional array\nwithout duplicates.",
+            "itemtype": "method",
+            "name": "absorbLink",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 1049,
+            "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).\n\nUpdate: added possibility for `prop` to be an object (in this case the rest argument are ignored)\nwith the following keys: <ol><li>\n`name` - name of the style property\n</li><li>\n`value` - on-value of the above property\n</li><li>\n`altVal` - off-value of the above property\n</li></ol>",
+            "itemtype": "method",
+            "name": "switchDeepestChildStyle",
+            "params": [
+                {
+                    "name": "prop",
+                    "description": "name of the property to be imposed",
+                    "type": "String|Object"
+                },
+                {
+                    "name": "val",
+                    "description": "on-value of the above property",
+                    "type": "String"
+                },
+                {
+                    "name": "altVal",
+                    "description": "off-value of the property",
+                    "type": "String"
+                }
+            ],
+            "since": "0.0.4",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 1091,
+            "description": "Returns first ancestor of {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}} for which `criteria` evaluates to\n`true`.\n\nTo function `criteria` there will be given one by one elements from {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}}",
+            "itemtype": "method",
+            "name": "findAcsendant",
+            "params": [
+                {
+                    "name": "criteria",
+                    "description": "[description]",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "[CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)",
+                "type": "CKEDITOR.dom.element"
+            },
+            "class": "Dom",
+            "module": "Document"
+        },
+        {
+            "file": "js\\classes\\HtmlElements\\Dom.js",
+            "line": 1117,
             "class": "Dom",
             "module": "Document"
         },
@@ -11467,6 +11809,14 @@
         }
     ],
     "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " js\\classes\\HtmlElements\\Dom.js:603"
+        },
+        {
+            "message": "Missing item type",
+            "line": " js\\classes\\HtmlElements\\Dom.js:1117"
+        },
         {
             "message": "Missing item type\nVariable to deal with elements selected in the editor. It is supposed to be an instance of\n{{#crossLink \"Selection\"}}Selection{{/crossLink}} class.",
             "line": " js\\controllers\\Controller.js:14"

@@ -7,6 +7,26 @@ describe('Dom-specific functionality', function(){
         dom = new Dom();
     });
 
+
+    describe('Content', function(){
+        it('is set to Node', function(){
+            var el = document.createElement('span');
+            dom.setContent(el);
+            expect(dom.getContent()).toBe(el);
+        });
+
+        it('is not set if argument is a string, array, number, non-Node object or function', function(){
+            var invalids = ['a string', '', [], [1, 2, 3], 0, -3, 2.45, {}, {foo: 'bar'}, function(a){return a;}];
+            invalids.forEach(function(invalid){
+                var d = new Dom();
+                expect(d.getContent()).toBe(undefined);
+                dom.setContent(invalid);
+                expect(d.getContent()).toBe(undefined);
+            });
+        });
+
+    });
+
     describe('Getting common parent', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
 //                    n00                                m00
