@@ -12,6 +12,37 @@
 function Controller(){
 
 	/**
+	 * Variable to deal with elements selected in the editor. It is supposed to be an instance of
+	 * {{#crossLink "Selection"}}Selection{{/crossLink}} class.
+	 * @type           {Object}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _selection;
+
+	/**
+	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} getter.
+	 * @method         getSelection
+	 * @return         {Object}
+	 * @since          0.0.7
+	 */
+	this.getSelection = function(){
+		return _selection;
+	};
+
+	/**
+	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} setter.
+	 * @method         setSelection
+	 * @property       {Object}        sel      {{#crossLink "Selection"}}Selection{{/crossLink}} instance
+	 * @return         {void}
+	 * @since          0.0.7
+	 */
+	this.setSelection = function(sel){
+		_selection = sel;
+	};
+
+
+	/**
 	 * Collects parameters from the dialog menu and returns json like object with that data.
 	 * If optional parameter `types` is provided, then only dialog fields of types present
 	 * in array `types` are to be taken in consideration.
@@ -86,34 +117,6 @@ function Controller(){
 		}
 	};
 
-	/**
-	 * Returns innermost ascendant of node `n` for which `criteria` returns `true`.
-	 *
-	 * If nothing is found, then the output is `undefined`.
-	 *
-	 *  `criteria` is a boolean-valued function which is called with ascendants of `node` until it returns
-	 *  `true`.
-	 * @method         findAscendant
-	 * @param          {DOM.Node}      n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {Function}      criteria    boolean-valued single argument function
-	 * @return         {DOM.Node}
-	 */
-	this.findAscendant = function(n, criteria){
-		var currentNode = n;
-		while (currentNode){
-			try {
-				console.log(currentNode);
-				if (criteria(currentNode)){
-					return currentNode;
-				}
-
-				currentNode = currentNode.parentNode;
-			} catch (e){
-				console.log('Error (' + e.name + ') in finding ancestor: ' + e.message, currentNode);
-				return;
-			}
-		}
-	};
 
 
 	/**
@@ -230,5 +233,14 @@ function Controller(){
 	this.showMessage = function(msg){
 		alert(typeof msg === 'string' ? msg : 'Error occurred!');
 	};
+
+	/**
+	 * Returns a first node satifying given `criteria`. The look up is performed among
+	 * @param  {[type]} criteria [description]
+	 * @return {[type]}          [description]
+	 */
+	this.detectAscendant = function(criteria){
+
+	}
 
 }

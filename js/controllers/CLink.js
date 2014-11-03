@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER */
+/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER, Selection */
 
 /**
  * Link Controller.
@@ -249,20 +249,29 @@ function CLink() {
 	};
 
 	/**
-	 * Fills in `dialog` window based on information  `selection`.
-	 * @method         fillInDialogWithSelection
+	 * Fills in `dialog` window based on current selection.
+	 * @method         fillInDialogWithSmart
 	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
 	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
-	 * @param          {Selection}           selection        {{#crossLink "Selection"}}Selection{{/crossLink}}
 	 * @return         {void}
 	 */
-	this.fillInDialogWithSelection = function(dialog, editor, selection){
-		var link;
-		var linkElem, criteria;
+	this.fillInDialogWithSmart = function(dialog, editor){
+		var link, linkElem, criteria,
+			selection = new Selection(editor),
+			start;
+		// this.setSelection(selection);
 		criteria = function(el){
 			return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
 		};
-		linkElem = selection.findAscendant(criteria);
+		if (selection.isEmpty()){
+			start = selection.getStartElement();
+			if (start){
+				linkElem = selection.findAscendant
+			}
+
+		}
+
+		linkElem = this.detectAscendant(criteria);
 		console.log(linkElem.$);
 		if (linkElem){
 			var f = NEWSLETTER.factory;

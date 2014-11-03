@@ -41,6 +41,7 @@ CKEDITOR.plugins.add('info2', {
 
 				}
 				console.log(accum);
+				console.log(editor.getSelection().getStartElement());
 			}
 		});
 

@@ -12,3 +12,4 @@ apidocs/*
 .externalToolBuilders/*
 .settings/*
 repository/
+tests/_output/*

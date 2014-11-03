@@ -147,7 +147,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<?php if(isset($fileContent)){
 				echo $fileContent;
 			}?>
-			<a href="statistics/phpDoc" target="_blank"><img src="images/phpdoc-logo.png" height="40" title="php code docs"/>PHP</a>
 		</textarea>
 	</div>
 	<?php

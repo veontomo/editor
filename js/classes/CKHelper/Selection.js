@@ -505,7 +505,7 @@ function Selection(ed) {
      * @param  {Function} criteria [description]
      * @return {CKEDITOR.dom.element}  [CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
      */
-    this.findAscendant = function(criteria){
+    this.findAscendantOfBlock = function(criteria){
         if (this.isEmpty()){
             return;
         }
