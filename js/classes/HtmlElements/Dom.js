@@ -6,7 +6,7 @@
  * to those of {{#crossLink "Document"}}Document{{/crossLink}}.
  *
  * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
- * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a function that accepts creation of multiple
+ * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a class that accepts creation of multiple
  * instances.
  * @module 	    Document
  * @class  		Dom

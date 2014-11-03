@@ -405,8 +405,7 @@ function linkMailDialog(editor, scheme) {
          */
         onShow: function() {
             selection = new Selection(editor);
-            // selection.absorbLink();
-            _controller.fillInDialogWithSelection(this, editor, selection);
+            _controller.fillInDialogWithSmart(this, editor);
         },
 
         onCancel: function(){
@@ -414,7 +413,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            _controller.convertToLinks(this, editor, scheme);
+            _controller.convertToLinks(this, editor, selection, scheme);
         }
     };
 }

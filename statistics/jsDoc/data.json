@@ -593,7 +593,7 @@
             "tag": "module",
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 4,
-            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances.",
+            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a class that accepts creation of multiple\ninstances.",
             "params": [
                 {
                     "name": "node",
@@ -964,7 +964,7 @@
             "namespace": "",
             "file": "js\\classes\\HtmlElements\\Document.js",
             "line": 4,
-            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances."
+            "description": "This class is to deal with documents: parsing, converting, saving. Its functionality is similar\nto those of {{#crossLink \"Dom\"}}Dom{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a class that accepts creation of multiple\ninstances."
         },
         "Dom": {
             "name": "Dom",
@@ -978,7 +978,7 @@
             "namespace": "",
             "file": "js\\classes\\HtmlElements\\Dom.js",
             "line": 4,
-            "description": "This class deals with the elements of the editor document. Its functionality is similar\nto those of {{#crossLink \"Document\"}}Document{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a function that accepts creation of multiple\ninstances."
+            "description": "This class deals with the elements of the editor document. Its functionality is similar\nto those of {{#crossLink \"Document\"}}Document{{/crossLink}}.\n\nThe difference between them: {{#crossLink \"Document\"}}Document{{/crossLink}} is a singleton,\nwhile {{#crossLink \"Dom\"}}Dom{{/crossLink}} is a class that accepts creation of multiple\ninstances."
         },
         "Factory": {
             "name": "Factory",
@@ -2175,6 +2175,26 @@
             "return": {
                 "description": "",
                 "type": "Void"
+            },
+            "class": "Selection",
+            "module": "CKHelper"
+        },
+        {
+            "file": "js\\classes\\CKHelper\\Selection.js",
+            "line": 499,
+            "description": "Returns first ancestor of {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}} for which `criteria` evaluates to\n`true`.\n\nTo function `criteria` there will be given one by one elements from {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}}",
+            "itemtype": "method",
+            "name": "findAcsendant",
+            "params": [
+                {
+                    "name": "criteria",
+                    "description": "[description]",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "[CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)",
+                "type": "CKEDITOR.dom.element"
             },
             "class": "Selection",
             "module": "CKHelper"
@@ -9898,7 +9918,7 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 230,
+            "line": 227,
             "description": "Collects parameters from link dialog menu.\n\nThe returning object include the following keys:\n<dl>\n<dt>href</dt><dd>(string) url or email (depending on a scheme)</dd>\n<dt>text</dt><dd>(string) hyperlink text</dd>\n<dt>status</dt><dd>(boolean) whether text field is enabled</dd>\n<dt>title</dt><dd>(string, optional) popup text</dd>\n<dt>underlined</dt><dd>(boolean) whether the link is underlined or not</dd>\n<dt>target</dt><dd>(boolean) whether the link should be open in a new window</dd>\n<dt>color</dt><dd>(string) color of the hyperlink text</dd>\n</dl>",
             "itemtype": "method",
             "name": "getDialogData",
@@ -9918,10 +9938,10 @@
         },
         {
             "file": "js\\controllers\\CLink.js",
-            "line": 254,
-            "description": "Fills in `dialog` window with information that is taken from `selection`.",
+            "line": 251,
+            "description": "Fills in `dialog` window based on current selection.",
             "itemtype": "method",
-            "name": "fillInDialogWithSelection",
+            "name": "fillInDialogWithSmart",
             "params": [
                 {
                     "name": "dialog",
@@ -9932,11 +9952,6 @@
                     "name": "editor",
                     "description": "[CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)",
                     "type": "CKEDITOR"
-                },
-                {
-                    "name": "selection",
-                    "description": "{{#crossLink \"Selection\"}}Selection{{/crossLink}}",
-                    "type": "Selection"
                 }
             ],
             "return": {
@@ -10190,6 +10205,46 @@
         {
             "file": "js\\controllers\\Controller.js",
             "line": 14,
+            "description": "Variable to deal with elements selected in the editor. It is supposed to be an instance of\n{{#crossLink \"Selection\"}}Selection{{/crossLink}} class.",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "since": "0.0.7",
+            "class": "Controller",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\Controller.js",
+            "line": 23,
+            "description": "{{#crossLink \"Controller/_selection:property\"}}_selection{{/crossLink}} getter.",
+            "itemtype": "method",
+            "name": "getSelection",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "since": "0.0.7",
+            "class": "Controller",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\Controller.js",
+            "line": 33,
+            "description": "{{#crossLink \"Controller/_selection:property\"}}_selection{{/crossLink}} setter.",
+            "itemtype": "property",
+            "name": "sel      {{#crossLink \"Selection\"}}Selection{{/crossLink}} instance",
+            "type": "Object",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "since": "0.0.7",
+            "class": "Controller",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\Controller.js",
+            "line": 45,
             "description": "Collects parameters from the dialog menu and returns json like object with that data.\nIf optional parameter `types` is provided, then only dialog fields of types present\nin array `types` are to be taken in consideration.\n\nReturns json object whose keys are page ids of the dialog menu and values are json objects\nwhose keys are ids of the elements present on that page and values are those read from  the\ndialog menu.\n\nExample: <pre>{infoTab: {author: 'A.Einstein', title: 'On electrodynamics of moving electron'},\npublisher: {code: TDR19, license: 1031}}</pre>",
             "itemtype": "method",
             "name": "getDialogData",
@@ -10214,7 +10269,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 59,
+            "line": 90,
             "description": "Populates the field of the dialog menu. `data` must be of a format described in\n{{#crossLink \"Controller/getDialogData:method\"}}getDialog{{/crossLink}} method.\nIf a key has undefined value, then it is not takedn into consideration.",
             "itemtype": "method",
             "name": "fillInDialog",
@@ -10234,32 +10289,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 89,
-            "description": "Returns innermost ascendant of node `n` for which `criteria` returns `true`.\n\nIf nothing is found, then the output is `undefined`.\n\n `criteria` is a boolean-valued function which is called with ascendants of `node` until it returns\n `true`.",
-            "itemtype": "method",
-            "name": "findAscendant",
-            "params": [
-                {
-                    "name": "n",
-                    "description": "[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance",
-                    "type": "DOM.Node"
-                },
-                {
-                    "name": "criteria",
-                    "description": "boolean-valued single argument function",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "DOM.Node"
-            },
-            "class": "Controller",
-            "module": "Controllers"
-        },
-        {
-            "file": "js\\controllers\\Controller.js",
-            "line": 119,
+            "line": 122,
             "description": "Disables single element with id `elemId` on page with id `pageId` in `dialog`.",
             "itemtype": "method",
             "name": "_disableField",
@@ -10292,7 +10322,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 139,
+            "line": 142,
             "description": "Disables element(s) with id `elemId` on page with id `pageId` in `dialog`.\n\nIf `elemId` is an array, then\n{{#crossLink \"Controller/_disableField:method\"}}_disableField{{/crossLink}} uses\neach array element to disable single elements.",
             "itemtype": "method",
             "name": "_disableFields",
@@ -10325,7 +10355,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 164,
+            "line": 167,
             "description": "Disables input fields described by `data` in `dialog`.\n\n`data` is a json key-value object which keys are page ids and values are array of element ids that\nshould be disabled. There two possible formats of `data`:\n\n<pre> {pageId: [fieldId1, fieldId2, ...], ...} </pre>\n<pre> {pageId: fieldId, ...} </pre>",
             "itemtype": "method",
             "name": "disableFields",
@@ -10351,7 +10381,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 193,
+            "line": 196,
             "description": "Converts object of dialog menu format to an object of {{#crossLink \"Tag/template:method\"}}Tag{{/crossLink}}\nformat.\nEventually, the emplementation should be corrected by inherited class.",
             "itemtype": "method",
             "name": "dialogToTemplate",
@@ -10372,7 +10402,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 207,
+            "line": 210,
             "description": "Converts object of {{#crossLink \"Tag/template:method\"}}Tag{{/crossLink}} format to object\nof dialog menu format.\n\nEventually, the emplementation should be corrected by inherited class.",
             "itemtype": "method",
             "name": "templateToDialog",
@@ -10393,7 +10423,7 @@
         },
         {
             "file": "js\\controllers\\Controller.js",
-            "line": 222,
+            "line": 225,
             "description": "Shows error message. Uses javascript method `alert` to display the message.\nIf `msg` is not a string, default message is displayed.",
             "itemtype": "method",
             "name": "showMessage",
@@ -10409,6 +10439,24 @@
                 "type": "Void"
             },
             "since": "0.0.7",
+            "class": "Controller",
+            "module": "Controllers"
+        },
+        {
+            "file": "js\\controllers\\Controller.js",
+            "line": 237,
+            "description": "Returns a first node satifying given `criteria`. The look up is performed among",
+            "params": [
+                {
+                    "name": "criteria",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
             "class": "Controller",
             "module": "Controllers"
         },
@@ -11418,5 +11466,14 @@
             "module": "Config"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type\nVariable to deal with elements selected in the editor. It is supposed to be an instance of\n{{#crossLink \"Selection\"}}Selection{{/crossLink}} class.",
+            "line": " js\\controllers\\Controller.js:14"
+        },
+        {
+            "message": "Missing item type\nReturns a first node satifying given `criteria`. The look up is performed among",
+            "line": " js\\controllers\\Controller.js:237"
+        }
+    ]
 }

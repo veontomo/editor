@@ -232,6 +232,8 @@
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
         
         
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
         
         
     </ul>
@@ -282,14 +284,14 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_findAscendant">findAscendant</a>
+                                <a href="#method_getDialogData">getDialogData</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_getDialogData">getDialogData</a>
+                                <a href="#method_getSelection">getSelection</a>
 
                                 
                                 
@@ -313,6 +315,21 @@
                 </div>
             
 
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_sel      {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}} instance">sel      {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}} instance</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
             
 
             
@@ -385,7 +402,7 @@
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l119"><code>js\controllers\Controller.js:119</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l122"><code>js\controllers\Controller.js:122</code></a>
         
         </p>
 
@@ -536,7 +553,7 @@
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l139"><code>js\controllers\Controller.js:139</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l142"><code>js\controllers\Controller.js:142</code></a>
         
         </p>
 
@@ -676,7 +693,7 @@ each array element to disable single elements.</p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l193"><code>js\controllers\Controller.js:193</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l196"><code>js\controllers\Controller.js:196</code></a>
         
         </p>
 
@@ -790,7 +807,7 @@ Eventually, the emplementation should be corrected by inherited class.</p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l164"><code>js\controllers\Controller.js:164</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l167"><code>js\controllers\Controller.js:167</code></a>
         
         </p>
 
@@ -914,7 +931,7 @@ should be disabled. There two possible formats of <code>data</code>:</p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l59"><code>js\controllers\Controller.js:59</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l90"><code>js\controllers\Controller.js:90</code></a>
         
         </p>
 
@@ -966,136 +983,6 @@ If a key has undefined value, then it is not takedn into consideration.</p>
                 
                     
                         <span class="type">Void</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_findAscendant" class="method item">
-    <h3 class="name"><code>findAscendant</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>n</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>criteria</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">DOM.Node</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/js_controllers_Controller.js.html#l89"><code>js\controllers\Controller.js:89</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns innermost ascendant of node <code>n</code> for which <code>criteria</code> returns <code>true</code>.</p>
-<p>If nothing is found, then the output is <code>undefined</code>.</p>
-<p> <code>criteria</code> is a boolean-valued function which is called with ascendants of <code>node</code> until it returns
- <code>true</code>.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">n</code>
-                        <span class="type">DOM.Node</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> instance</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">criteria</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>boolean-valued single argument function</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">DOM.Node</span>:
                     
                 
             </div>
@@ -1158,7 +1045,7 @@ If a key has undefined value, then it is not takedn into consideration.</p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l14"><code>js\controllers\Controller.js:14</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l45"><code>js\controllers\Controller.js:45</code></a>
         
         </p>
 
@@ -1240,6 +1127,79 @@ publisher: {code: TDR19, license: 1031}}</pre></p>
 </div>
 
                 
+                    <div id="method_getSelection" class="method item">
+    <h3 class="name"><code>getSelection</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_Controller.js.html#l23"><code>js\controllers\Controller.js:23</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 0.0.7</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Controller/_selection:property getter.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_showMessage" class="method item">
     <h3 class="name"><code>showMessage</code></h3>
 
@@ -1286,7 +1246,7 @@ publisher: {code: TDR19, license: 1031}}</pre></p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l222"><code>js\controllers\Controller.js:222</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l225"><code>js\controllers\Controller.js:225</code></a>
         
         </p>
 
@@ -1394,7 +1354,7 @@ If <code>msg</code> is not a string, default message is displayed.</p>
             
         
         
-        <a href="../files/js_controllers_Controller.js.html#l207"><code>js\controllers\Controller.js:207</code></a>
+        <a href="../files/js_controllers_Controller.js.html#l210"><code>js\controllers\Controller.js:210</code></a>
         
         </p>
 
@@ -1459,6 +1419,59 @@ of dialog menu format.</p>
             </div>
         
 
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_sel      {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}} instance" class="property item">
+    <h3 class="name"><code>sel      {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}} instance</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/js_controllers_Controller.js.html#l33"><code>js\controllers\Controller.js:33</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 0.0.7</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Controller/_selection:property setter.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

@@ -199,7 +199,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER */
+/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER, Selection */
 
 /**
  * Link Controller.
@@ -383,7 +383,7 @@ function CLink() {
 			status:        template.isCompound ,
 			isNewWindow:   template.target ===&#x27;_blank&#x27; ,
 			title:         template.title,
-		}
+		};
 		return dialogData;
 	};
 
@@ -424,9 +424,6 @@ function CLink() {
 	};
 
 
-
-
-
 	/**
 	 * Collects parameters from link dialog menu.
 	 *
@@ -452,16 +449,39 @@ function CLink() {
 	};
 
 	/**
-	 * Fills in &#x60;dialog&#x60; window with information that is taken from &#x60;selection&#x60;.
-	 * @method         fillInDialogWithSelection
+	 * Fills in &#x60;dialog&#x60; window based on current selection.
+	 * @method         fillInDialogWithSmart
 	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
 	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
-	 * @param          {Selection}           selection        {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}}
 	 * @return         {void}
 	 */
-	this.fillInDialogWithSelection = function(dialog, editor, selection){
+	this.fillInDialogWithSmart = function(dialog, editor){
+		var link, linkElem, criteria,
+			selection = new Selection(editor),
+			start;
+		// this.setSelection(selection);
+		criteria = function(el){
+			return el &amp;&amp; el.type === CKEDITOR.NODE_ELEMENT &amp;&amp; el.getName() === &#x27;a&#x27;;
+		};
+		if (selection.isEmpty()){
+			start = selection.getStartElement();
+			if (start){
+				linkElem = selection.findAscendant
+			}
 
-	}
+		}
+
+		linkElem = this.detectAscendant(criteria);
+		console.log(linkElem.$);
+		if (linkElem){
+			var f = NEWSLETTER.factory;
+			link = f.mimic(linkElem.$);
+		} else {
+			link = new Link();
+		}
+		console.log(link.template());
+		this.fillInDialog(dialog, link.template());
+	};
 }
 CLink.prototype = Object.create(Controller.prototype);
     </pre>

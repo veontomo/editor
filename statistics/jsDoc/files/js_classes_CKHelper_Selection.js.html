@@ -695,6 +695,34 @@ function Selection(ed) {
         });
     };
 
+
+    /**
+     * Returns first ancestor of {{#crossLink &quot;Selection/nodes:property&quot;}}nodes{{/crossLink}} for which &#x60;criteria&#x60; evaluates to
+     * &#x60;true&#x60;.
+     *
+     * To function &#x60;criteria&#x60; there will be given one by one elements from {{#crossLink &quot;Selection/nodes:property&quot;}}nodes{{/crossLink}}
+     * @method  findAcsendant
+     * @param  {Function} criteria [description]
+     * @return {CKEDITOR.dom.element}  [CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
+     */
+    this.findAscendantOfBlock = function(criteria){
+        if (this.isEmpty()){
+            return;
+        }
+        var lenExt = this.nodes.length,
+            lenInt, i, j, block, el;
+        for (i = 0; i &lt; lenExt; i++){
+            block = this.nodes[i];
+            lenInt = block.length;
+            for (j = 0; j &lt; lenInt; j++){
+                el = block[j];
+                if (criteria(el)){
+                    return el;
+                }
+            }
+        }
+    };
+
 }
     </pre>
 </div>
