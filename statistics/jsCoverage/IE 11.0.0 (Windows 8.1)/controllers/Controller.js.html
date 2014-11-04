@@ -183,16 +183,16 @@
     <h1>Code coverage report for <span class="entity">./controllers/Controller.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">23.44% <small>(15 / 64)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">27.27% <small>(15 / 55)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Functions: <span class="metric">23.08% <small>(3 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">23.44% <small>(15 / 64)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">27.27% <small>(15 / 55)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./controllers\</a> &#187; Controller.js</div>
@@ -444,26 +444,7 @@
 243
 244
 245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+246</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -597,34 +578,6 @@
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -725,6 +678,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*jslint plusplus: true, white: true */
@@ -846,34 +808,6 @@ function Controller(){
 		}
 	};
 &nbsp;
-	/**
-	 * Returns innermost ascendant of node `n` for which `criteria` returns `true`.
-	 *
-	 * If nothing is found, then the output is `undefined`.
-	 *
-	 *  `criteria` is a boolean-valued function which is called with ascendants of `node` until it returns
-	 *  `true`.
-	 * @method         findAscendant
-	 * @param          {DOM.Node}      n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {Function}      criteria    boolean-valued single argument function
-	 * @return         {DOM.Node}
-	 */
-	this.findAscendant = <span class="fstat-no" title="function not covered" >function(n, criteria){</span>
-<span class="cstat-no" title="statement not covered" >		var currentNode = n;</span>
-<span class="cstat-no" title="statement not covered" >		while (currentNode){</span>
-<span class="cstat-no" title="statement not covered" >			try {</span>
-<span class="cstat-no" title="statement not covered" >				console.log(currentNode);</span>
-<span class="cstat-no" title="statement not covered" >				if (criteria(currentNode)){</span>
-<span class="cstat-no" title="statement not covered" >					return currentNode;</span>
-				}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >				currentNode = currentNode.parentNode;</span>
-			} catch (e){
-<span class="cstat-no" title="statement not covered" >				console.log('Error (' + e.name + ') in finding ancestor: ' + e.message, currentNode);</span>
-<span class="cstat-no" title="statement not covered" >				return;</span>
-			}
-		}
-	};
 &nbsp;
 &nbsp;
 	/**
@@ -991,12 +925,21 @@ function Controller(){
 <span class="cstat-no" title="statement not covered" >		alert(typeof msg === 'string' ? msg : 'Error occurred!');</span>
 	};
 &nbsp;
+	/**
+	 * Returns a first node satifying given `criteria`. The look up is performed among
+	 * @param  {[type]} criteria [description]
+	 * @return {[type]}          [description]
+	 */
+	this.detectAscendant = <span class="fstat-no" title="function not covered" >function(criteria){</span>
+&nbsp;
+	}
+&nbsp;
 }</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 03 2014 15:00:15 GMT+0100 (ora solare Europa occidentale)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 04 2014 09:33:03 GMT+0100 (ora solare Europa occidentale)</div>
 </div>
 
 <script src="../prettify.js"></script>

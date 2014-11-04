@@ -182,8 +182,15 @@ function Properties(input) {
 
 	/**
 	 * Retrieves the value of the requested property from
-	 * {{#crossLink "Properties/core:property"}}core{{/crossLink}}
-	 * If it does not exist, `undefined` is returned.
+	 * {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
+	 * If property `key` does not exist, but its pattern is `base-position`, where `position` is one of
+	 * `left`, `right`, `top` or `bottom` and `base` key exists, then is it returned a value based on the
+	 * format of the `base` property:
+	 * <dl><dt>"X"</dt><dd>`base-top`, `base-right`, `base-bottom`, `base-left` are equal to `X`</dd>
+	 * <dt>"X Y"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = X, `base-left` = `Y`</dd>
+	 * <dt>"X Y Z"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = Z, `base-left` = `X`</dd>
+	 * <dt>"X Y Z W"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = X, `base-left` = `W`</dd>
+	 * </dl>
 	 * @method  getProperty
 	 * @return  {Any}
 	 */
@@ -191,6 +198,38 @@ function Properties(input) {
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
+		if (typeof key !== 'string'){
+			return;
+		}
+		// pattern
+		var re = /(\w+)-(left|right|top|bottom)/,
+			res = key.match(re),
+			base, position, value, output;
+		if (res){
+			base = res[1];
+			position = res[2];
+			if (!core.hasOwnProperty(base)){
+				return;
+			}
+			value = core[base].trim();
+			value = value.split(/\s+/);
+			switch (value.length){
+				case 1:
+					output = value[0];
+					break;
+				case 2:
+					output = (position === 'top' || position === 'bottom') ? value[0] : value[1];
+					break;
+				case 3:
+					output = (position === 'left' || position === 'right') ? value[1] : (position === 'top' ? value[0] : value[2]);
+					break;
+				default:
+					output = position === 'top' ? value[0] : (position === 'right' ? value[1] : (position === 'bottom' ? value[2] : value[3]));
+			}
+			return output;
+
+		}
+
 	};
 
 	/**

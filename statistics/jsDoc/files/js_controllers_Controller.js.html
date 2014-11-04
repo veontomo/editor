@@ -214,7 +214,7 @@ function Controller(){
 	/**
 	 * Variable to deal with elements selected in the editor. It is supposed to be an instance of
 	 * {{#crossLink &quot;Selection&quot;}}Selection{{/crossLink}} class.
-	 * @type           {Object}
+	 * @property      {Object}    _selection
 	 * @private
 	 * @since          0.0.7
 	 */
@@ -436,6 +436,7 @@ function Controller(){
 
 	/**
 	 * Returns a first node satifying given &#x60;criteria&#x60;. The look up is performed among
+	 * @method  detectAscendant
 	 * @param  {[type]} criteria [description]
 	 * @return {[type]}          [description]
 	 */

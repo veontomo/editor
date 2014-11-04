@@ -2462,7 +2462,7 @@
         {
             "file": "js\\classes\\Helper\\Unit.js",
             "line": 299,
-            "description": "Returns the result of division of `n` by `m` with `p` digits after point.",
+            "description": "Returns the result of division of `n` by `m` with `p` digits after point.\n\nNotice `bind(this)` at the end. It is added to be able to call\n{{#crossLink \"Unit/isInteger:method\"}}isInteger{{/crossLink}} method from this private one.",
             "itemtype": "method",
             "name": "_fracWithPresicion",
             "params": [
@@ -2494,7 +2494,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 328,
+            "line": 331,
             "description": "Returns the result of division of the target by the argument.\n\nThe following cases are distinguished (in order of processing):\n<ol><li>\nIf the argument is a non-zero number, then {{#crossLink \"Unit/_value:property\"}}_value{{/crossLink}}\nof the target is divided by this number. If it is zero, an error is thrown.\n</li><li>\nIf the argument is an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}}:\n<ul><li>\nif the denominator is dimensionless or has the same dimensionality as the numerator,\nthen division is performed normally\n</li><li>\nif the numerator and  denominator have different dimesions, then an error is thrown.\n</li></ul>\n</li></ol>\nIf the argument is not an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} class, then\nthe method is called again with argument being converted into Unit instance.",
             "itemtype": "method",
             "name": "frac",
@@ -2519,7 +2519,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 377,
+            "line": 380,
             "description": "Returns `true` if the target's unit of measurement is a non-empty string. Otherwise,\nreturns `false`.",
             "itemtype": "method",
             "name": "hasMeasure",
@@ -2533,7 +2533,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 389,
+            "line": 392,
             "description": "Returns an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} that represents\nthe target in percentage form if it is a dimensionless number.\nIf instead it has a dimension, an error is thrown.\n\nSome additional code is added in order to suppres possible artificial digits\npertinent to javascript. For example, in javascript 0.164 * 100 is equal to\nsomething like 16.40000...02.",
             "itemtype": "method",
             "name": "toPercent",
@@ -2547,7 +2547,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 418,
+            "line": 421,
             "description": "Returns an instance of {{#crossLink \"Unit\"}}Unit{{/crossLink}} that represents\nthe target in percentage form if it is a dimensionless number.\nIf instead it has a dimension, an error is thrown.",
             "itemtype": "method",
             "name": "fromPercent",
@@ -2561,7 +2561,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 433,
+            "line": 436,
             "description": "If the instance has no {{#crossLink \"Unit/_measure:property\"}}_measure{{/crossLink}}, then\ncalls method {{#crossLink \"Unit/setMeasure:method\"}}setMeasure{{/crossLink}} to impose it\nto value `m`.",
             "itemtype": "method",
             "name": "suggestMeasure",
@@ -2581,7 +2581,7 @@
         },
         {
             "file": "js\\classes\\Helper\\Unit.js",
-            "line": 451,
+            "line": 454,
             "description": "Returns a new Unit instance with {{#crossLink \"Unit/_value:property\"}}_value{{/crossLink}}\nbeing \"floored\".",
             "itemtype": "method",
             "name": "floor",
@@ -2590,6 +2590,27 @@
                 "type": "Unit"
             },
             "since": "0.0.6",
+            "class": "Unit",
+            "module": "Helper"
+        },
+        {
+            "file": "js\\classes\\Helper\\Unit.js",
+            "line": 465,
+            "description": "Whether the argument is an integer decimal number.",
+            "itemtype": "method",
+            "name": "isInteger",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "since": "0.0.8",
             "class": "Unit",
             "module": "Helper"
         },
@@ -5474,36 +5495,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 20,
-            "description": "[CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance",
-            "itemtype": "property",
-            "name": "_editor",
-            "type": "CKEDITOR",
-            "access": "private",
-            "tagname": "",
-            "since": "0.0.7",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 28,
-            "description": "{{#crossLink \"/_editor:property\"}}_editor{{/crossLink}} setter. {{#crossLink \"Dom/_editor:property\"}}_editor{{/crossLink}}",
-            "itemtype": "method",
-            "name": "setEditor",
-            "params": [
-                {
-                    "name": "ed",
-                    "description": "[description]",
-                    "type": "[type]"
-                }
-            ],
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 37,
+            "line": 21,
             "description": "Toggles inline style property `prop` of node `n`. When it turns out that the property should\nbe set, it is set to value `val`.",
             "itemtype": "method",
             "name": "_toggleNodeStyle",
@@ -5541,7 +5533,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 69,
+            "line": 53,
             "description": "Returns **proxy** node of `n`:\n<ol><li>\nif `n` is a text element without siblings, then proxy of `n` is its parent node,\n</li><li>\nif `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.\n</li></ol>",
             "itemtype": "method",
             "name": "_proxy",
@@ -5561,7 +5553,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 90,
+            "line": 74,
             "description": "Looks for a value of style property `key` of nearest ascendant of `node` in the scope of node `scope`.\nIf the property is found, its value is returned, otherwise,  `undefined` is returned.\n\nLimit node `scope` is supposed to contain `node`. Otherwise, the search for the property\nis performed up to the \"highest\" parent of `node`.\n\nNB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **",
             "itemtype": "method",
             "name": "getInheritedStyleProp",
@@ -5592,7 +5584,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 135,
+            "line": 149,
             "description": "Modifies inline style properties of a {{#crossLink \"Selection/_proxy:method\"}}proxy{{/crossLink}}\nnode of deepest children of node `n` in the following way:\n<ol><li>\nif style property `prop` of the deepest child is equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `altVal`.\n</li><li>\nif style property `prop` of the deepest child is not equal to `val`, then inline\nstyle property of its \"proxy\" node is set to be `val`.\n</li></ol>",
             "access": "private",
             "tagname": "",
@@ -5628,7 +5620,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 199,
+            "line": 213,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "_commonAncestor",
@@ -5656,7 +5648,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 231,
+            "line": 245,
             "description": "Gives common ancestor of nodes n1 and n2. If it does not exist, `null` is returned.",
             "itemtype": "method",
             "name": "commonAncestor",
@@ -5681,7 +5673,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 242,
+            "line": 256,
             "description": "Returns common ancestor of all array elements. If an element is not a\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.",
             "itemtype": "method",
             "name": "commonAncestorSoft",
@@ -5694,7 +5686,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 281,
+            "line": 295,
             "description": "Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.",
             "itemtype": "method",
             "name": "getMentor",
@@ -5719,7 +5711,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 304,
+            "line": 318,
             "description": "Nails inline style property `key` of `node`:  applies style property on \"innocent\" nodes\nand toggles node inline property `key` between `primary` and `secondary`.\n\nIf `node` has a mentor node, then:\n<ol><li>\nassign value of inline style property `key` of the mentor to each\n{{#crossLink \"Dom/complementNodes:method\"}}complement node{{/crossLink}} to the path `mentor - ... - node`,\n</li><li>\neliminate inline style property `key` from the mentor,\n</li><li>\ncall {{#crossLink \"Dom/setStyleProperty:method\"}}setStyleProperty{{/crossLink}} method that takes care of\nsetting inline style property of `node` to required value.\n</li></ol>\nIf `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`",
             "itemtype": "method",
             "name": "nailStyleProperty",
@@ -5754,7 +5746,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 350,
+            "line": 364,
             "description": "Returns reference to a node with inline style property `key` being set to `value`.\nIf `node` is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,\nthen reference it itself is returned. Otherwise, it is returned a new\n[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains\na clone of `node` and which replaces `node`.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -5784,7 +5776,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 381,
+            "line": 395,
             "description": "Gets inline style property with name `key` of `node`. Returns `undefined` if `node`\ndoes not have inline style property `key`.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -5809,7 +5801,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 399,
+            "line": 413,
             "description": "Drops inline style property `key` from `node` and removes inline style attribute if\nit becomes empty.\nReturns `true` if the initially contains inline style property `key` and `false` otherwise.",
             "itemtype": "method",
             "name": "dropStyleProperty",
@@ -5834,7 +5826,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 429,
+            "line": 441,
             "description": "Toggles style property `key` of element `elem` from `primary` to `secondary`.\nIf the element has style property `key` equal to `primary`, then it is imposed to `secondary`.\nOtherwise, it is imposed to `primary`.\n\nAn element is considered to have style property imposed if either the element itself, or any of\nits parents has that value imposed.\n\nIf not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first\nargument, then the method performs nothing. Note, that for text nodes this method is not applicable,\nsince text nodes have no attributes.",
             "itemtype": "method",
             "name": "toggleElementStyle",
@@ -5870,7 +5862,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 459,
+            "line": 471,
             "description": "Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style\nproperty `key` equal to `secondary` if value of `key` attribute in \"style\" property  is equal to `primary`. Otherwise,\n`key` value will be imposed to `primary`.\n\nCreated instance is a \"span\" html tag.",
             "itemtype": "method",
             "name": "createToggledElemFromText",
@@ -5906,7 +5898,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 487,
+            "line": 499,
             "description": "Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances\nthat are descendants of `startNode-...-endNode` path but do not belong to that path.\nIf path from `startNode` to `endNode` does not exist, an error is thrown.\n<dl>\n<dt> Path A - ... - B</dt>\n<dd> An ordered collection of nodes n<sub>i</sub> from which one needs to pass through in order\nto arrive to node B starting from node A passing always from a node to its child.\n</dd>\n<dt> Descendant of a path A - ... - B</dt>\n<dd>\n\tA node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.\n</dd>\n</dl>",
             "itemtype": "method",
             "name": "complementNodes",
@@ -5931,7 +5923,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 532,
+            "line": 544,
             "description": "Replaces `propSecondary` string by `propPrimary` one in the class attribute of `elem`.\nIf `propSecondary` does not exist, then `propPrimary` is just appended to class\nattributes. If class attribute does not exist, then it is created with value `propName`.",
             "itemtype": "method",
             "name": "switchClassProperty",
@@ -5962,7 +5954,7 @@
         },
         {
             "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 563,
+            "line": 575,
             "description": "Returns a Properties instance that accumulates the highest specificity attributes and styles of\nnode `n` within the scope `s` (included).\n\nThe method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those\nstyles/attributes that have not been set so far: that is if an attribute encouters more than once,\nonly its first occurence gets into consideration.\n\nIf node `s` is not set, then parsing is performed up to the \"highest\" root.\nIf node `s` is set, but node `n` is not its descendant, then a\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance corresponding to node `n`\nis returned.",
             "itemtype": "method",
             "name": "getInheritedProperties",
@@ -5983,319 +5975,6 @@
                 "type": "Properties"
             },
             "since": "0.0.7",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 603,
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 613,
-            "description": "Editor instance containing the selection.",
-            "itemtype": "property",
-            "name": "editor",
-            "type": "CKEDITOR.editor",
-            "access": "private",
-            "tagname": "",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 620,
-            "description": "Selected elements.",
-            "itemtype": "property",
-            "name": "selected",
-            "type": "CKEDITOR.dom.selection",
-            "access": "private",
-            "tagname": "",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 630,
-            "description": "Array of [range instances](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) corresponding to the selection.",
-            "itemtype": "property",
-            "name": "ranges",
-            "type": "Array",
-            "access": "private",
-            "tagname": "",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 640,
-            "description": "{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}} getter.",
-            "itemtype": "method",
-            "name": "getRanges",
-            "return": {
-                "description": "array of CKEDITOR.dom.range instances",
-                "type": "Array"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 649,
-            "description": "{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} setter. Sets as well\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}}.",
-            "itemtype": "method",
-            "name": "setSelected",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 663,
-            "description": "{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} getter.",
-            "itemtype": "method",
-            "name": "getSelected",
-            "return": {
-                "description": "",
-                "type": "CKEDITOR.dom.selection"
-            },
-            "access": "private",
-            "tagname": "",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 674,
-            "description": "{{#crossLink \"Selection/editor:property\"}}editor{{/crossLink}} getter.",
-            "itemtype": "method",
-            "name": "getEditor",
-            "return": {
-                "description": "",
-                "type": "CKEDITOR.editor"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 683,
-            "description": "{{#crossLink \"Selection/editor:property\"}}editor{{/crossLink}} setter. Sets as well\n{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} and\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}}.",
-            "itemtype": "method",
-            "name": "setEditor",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "",
-                    "type": "CKEDITOR.editor"
-                }
-            ],
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 699,
-            "description": "If selection is empty, returns empty array. Otherwise returns two dimensional array of the form\n<pre>\n[[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].\n</pre>\nEach inner array corresponds to the elements inside the\n{{#crossLink \"Selection/ranges:property\"}}ranges{{/crossLink}} property of the selection.\nSince DOM is an ***ordered*** collection of the nodes, the the above mentioned array is\njust a collection of simply-connected sets of nodes corresponding to the selection.\n\nNB1: _Simply-connected_ set is a set such that there exists a path inside the set\nconnecting two arbitrary elements of the set.\n\nNB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that\nthe concept of \"neighbour\" exists).",
-            "itemtype": "method",
-            "name": "selectedNodes",
-            "params": [
-                {
-                    "name": "sel",
-                    "description": "",
-                    "type": "Selection"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "return": {
-                "description": "two dimensional array of\n                                      [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                      or empty array",
-                "type": "Array"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 832,
-            "description": "Two-dimensional array of nodes in selection.\n\nThis property was created in order to assure that private method\n{{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} gets called\njust once because it seemingly modifies DOM in such\na way that if one calles it multiple times, a wrong array offset is requested, hence, an\nerror is generated.",
-            "itemtype": "property",
-            "name": "nodes",
-            "type": "{Array}      array of [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)",
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 845,
-            "description": "Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.",
-            "itemtype": "method",
-            "name": "toText",
-            "params": [
-                {
-                    "name": "blockSeparator",
-                    "description": "string to be used as a separator between arrays",
-                    "type": "String"
-                },
-                {
-                    "name": "elemSeparator",
-                    "description": "string to be used as a separator between elements in array",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 870,
-            "description": "Returns the start element of selection if it exists.",
-            "itemtype": "method",
-            "name": "getStartElement",
-            "return": {
-                "description": "",
-                "type": "CKEDITOR.dom.element"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 882,
-            "description": "Returns `true` if {{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} is empty,\n`false` otherwise.\n\n{{#crossLink \"Selection/selectedNodes:method\"}}selectedNodes{{/crossLink}} output is considered empty\nif it is either empty array `[]` or an array containing empty array: `[[]]`.",
-            "itemtype": "method",
-            "name": "isEmpty",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 899,
-            "description": "Returns `true` if selected text starts inside a link, `false` otherwise.\nIn case when the selection is empty, cursor position is considered as beginning\nof empty selection.",
-            "itemtype": "method",
-            "name": "startsInsideLink",
-            "return": {
-                "description": "whether the selection starts inside a link",
-                "type": "Boolean"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 916,
-            "description": "Returns `true` if selection content is editable, `false` otherwise.\n\nSelection is editable if:\n<ol>\n<li>it is empty</li>\n<li>it contains a single element that has type `text`</li>\n<li>it contains a single element that is a link which child nodes are of type `text`</li>\n</ol>",
-            "itemtype": "method",
-            "name": "isEditable",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 969,
-            "description": "Removes duplicate DOM nodes form input array. Each element of the array must be an instance of\n[CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject).",
-            "itemtype": "method",
-            "name": "dropDuplicates",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "$arr",
-                    "description": "one-dimensional array of\n                                             [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                             objects",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "array of distinct\n                                             [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)\n                                             elements",
-                "type": "Array"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 1012,
-            "description": "Replaces each element in {{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} by\na link in which this element is located. In case the element is not located inside any link, then it\nis leaved without changes. The output array mimics the structure of\n{{#crossLink \"Selection/selected:property\"}}selected{{/crossLink}} array: it should be a two-dimensional array\nwithout duplicates.",
-            "itemtype": "method",
-            "name": "absorbLink",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 1049,
-            "description": "Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.\nRemember that the selection is in general a two-dimensional array (or one-dimensional if the selection is empty).\n\nUpdate: added possibility for `prop` to be an object (in this case the rest argument are ignored)\nwith the following keys: <ol><li>\n`name` - name of the style property\n</li><li>\n`value` - on-value of the above property\n</li><li>\n`altVal` - off-value of the above property\n</li></ol>",
-            "itemtype": "method",
-            "name": "switchDeepestChildStyle",
-            "params": [
-                {
-                    "name": "prop",
-                    "description": "name of the property to be imposed",
-                    "type": "String|Object"
-                },
-                {
-                    "name": "val",
-                    "description": "on-value of the above property",
-                    "type": "String"
-                },
-                {
-                    "name": "altVal",
-                    "description": "off-value of the property",
-                    "type": "String"
-                }
-            ],
-            "since": "0.0.4",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 1091,
-            "description": "Returns first ancestor of {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}} for which `criteria` evaluates to\n`true`.\n\nTo function `criteria` there will be given one by one elements from {{#crossLink \"Selection/nodes:property\"}}nodes{{/crossLink}}",
-            "itemtype": "method",
-            "name": "findAcsendant",
-            "params": [
-                {
-                    "name": "criteria",
-                    "description": "[description]",
-                    "type": "Function"
-                }
-            ],
-            "return": {
-                "description": "[CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)",
-                "type": "CKEDITOR.dom.element"
-            },
-            "class": "Dom",
-            "module": "Document"
-        },
-        {
-            "file": "js\\classes\\HtmlElements\\Dom.js",
-            "line": 1117,
             "class": "Dom",
             "module": "Document"
         },
@@ -9299,7 +8978,7 @@
         {
             "file": "js\\classes\\Properties.js",
             "line": 183,
-            "description": "Retrieves the value of the requested property from\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}\nIf it does not exist, `undefined` is returned.",
+            "description": "Retrieves the value of the requested property from\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nIf property `key` does not exist, but its pattern is `base-position`, where `position` is one of\n`left`, `right`, `top` or `bottom` and `base` key exists, then is it returned a value based on the\nformat of the `base` property:\n<dl><dt>\"X\"</dt><dd>`base-top`, `base-right`, `base-bottom`, `base-left` are equal to `X`</dd>\n<dt>\"X Y\"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = X, `base-left` = `Y`</dd>\n<dt>\"X Y Z\"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = Z, `base-left` = `X`</dd>\n<dt>\"X Y Z W\"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = X, `base-left` = `W`</dd>\n</dl>",
             "itemtype": "method",
             "name": "getProperty",
             "return": {
@@ -9311,7 +8990,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 196,
+            "line": 204,
             "description": "If the key is present in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, drops it and\nreturns the key value.",
             "itemtype": "method",
             "name": "dropProperty",
@@ -9331,7 +9010,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 211,
+            "line": 219,
             "description": "Replaces {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} with empty object {}.",
             "itemtype": "method",
             "name": "dropAllProperties",
@@ -9344,7 +9023,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 220,
+            "line": 228,
             "description": "If `key` is present in `style` object of {{#crossLink \"Properties/styles:property\"}}core{{/crossLink}}, drops it and\nreturns the key value.",
             "itemtype": "method",
             "name": "dropStyleProperty",
@@ -9365,7 +9044,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 238,
+            "line": 246,
             "description": "Fills in the core with key-value pairs from the argument if any. If the argument\nis a string, splits it according to the pattern \"key: value;\". If the argument is\nan object, then it gets its key-value pairs. Obtained blocks are then sent one\nby one to {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}}\nmethod.",
             "itemtype": "method",
             "name": "appendPropertyAsStringOrObj",
@@ -9387,7 +9066,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 283,
+            "line": 291,
             "description": "Adds properties into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}. It passes its argument to a\nprivate method\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.",
             "itemtype": "method",
             "name": "appendProperty",
@@ -9407,7 +9086,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 295,
+            "line": 303,
             "description": "Appends properties to `style` key. If the key does not exist, creates it.",
             "itemtype": "method",
             "name": "appendStyle",
@@ -9428,7 +9107,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 307,
+            "line": 315,
             "description": "Initializes `style` key: if it does not exist, set it to\na new instance of {{#crossLink \"Properties\"}}Properties{{/crossLink}} with\n{{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} set to 1.",
             "itemtype": "method",
             "name": "initializeStyle",
@@ -9442,7 +9121,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 325,
+            "line": 333,
             "description": "Switches property `propName` between `val` and `altVal` in the following way:\n<ol><li>\nif the instance has property `propName` equal to `val`, then the method imposes\nits value to be `altVal` (if `altVal` is not defined, then the key `propName` gets dropped).\n</li><li>\nif the instance contains property `propName` equal to `altVal`, then the method sets\nits value to be `val`.\n</li><li>\nif the instance does not have property `propName`, then the method imposes it to be `val`.\n</li></ol>",
             "itemtype": "method",
             "name": "toggleProperty",
@@ -9472,7 +9151,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 356,
+            "line": 364,
             "description": "Returns `true` if the instance has property `key` set and the value of this property is not\nin `ignoreValues` array. Otherwise, `false` is returned.",
             "itemtype": "method",
             "name": "hasSet",
@@ -9497,7 +9176,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 377,
+            "line": 385,
             "description": "Appends properties of `p` to the current Properties instance",
             "itemtype": "method",
             "name": "_suggestProperty",
@@ -9520,7 +9199,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 406,
+            "line": 414,
             "description": "Splits the argument in key-value pieces as it is performed in\n{{#crossLink \"Properties/appendPropertyAsStringOrObj:method\"}}appendPropertyAsStringOrObj(){{/crossLink}}.\nIf the `key` is not present in the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}, it is initialized\nwith `value`. Otherwise, it is ignored.",
             "itemtype": "method",
             "name": "suggestProperty",
@@ -9540,7 +9219,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 446,
+            "line": 454,
             "description": "Returns `true` if requested property is the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} key,\n`false` otherwise.",
             "itemtype": "method",
             "name": "hasProperty",
@@ -9560,7 +9239,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 457,
+            "line": 465,
             "description": "Gets the number of records in {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "propNum",
@@ -9573,7 +9252,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 466,
+            "line": 474,
             "description": "Returns a copy of the {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "getCore",
@@ -9586,7 +9265,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 482,
+            "line": 490,
             "description": "Compares {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} of the target and the argument.\nReturns `true` if they are equal, `false` otherwise.",
             "itemtype": "method",
             "name": "isTheSameAs",
@@ -9606,7 +9285,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 506,
+            "line": 514,
             "description": "Clones the target. Parses all attributes of the target. If the attribute responds to \"clone\"\nmethod, then assign the result of this method to the corresponding clone attribute. Otherwise,\nassign the attribute value to the clone attribute (potentially problematic for what is passed\nby reference and not by value, like arrays).\n{{#crossLink \"Properties/core:property\"}}Core{{/crossLink}} is a private variable, so in the\nclone it is populated by means of {{#crossLink \"Properties/getProperty:method\"}}getProperty(){{/crossLink}}\nand {{#crossLink \"Properties/setProperty:method\"}}setProperty(){{/crossLink}} method.",
             "itemtype": "method",
             "name": "clone",
@@ -9619,7 +9298,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 540,
+            "line": 548,
             "description": "Returns `true` if {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} has no keys,\notherwise - `false`.",
             "itemtype": "method",
             "name": "isEmpty",
@@ -9632,7 +9311,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 551,
+            "line": 559,
             "description": "String representation of the instance. If {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 0,\nthe representation of the following type is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width=\"20\" title=\"read me!\"</div>\nIf {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is set to 1, the representation of the following\ntype is produced:\n<div style=\"font-family: Courier; font-weight: bold;padding: 1em;\">width: 50px; color: red</div>\nIt parses all {{#crossLink \"Properties/core:property\"}}core{{/crossLink}} keys and if\n<ol><li>\ncorresponding value responds to a `toString()` method\n</li><li>\ncorresponding value is a number and {{#crossLink \"Properties/_mode:property\"}}_mode{{/crossLink}} is 1,\nthen 'px' is appended (**resolve this explicit dependency on unit of measurement!**)\n</li><li>\ncorresponding value is a string\n</li>\n</ol>\nthen uses it for further substitution. Otherwise, the value is ignored.\n\nFurther, if the corresponding string representation of the value turns out to be empty or undefined,\nthe whole key-value pair is ignored.",
             "itemtype": "method",
             "name": "toString",
@@ -9646,7 +9325,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 614,
+            "line": 622,
             "description": "Loads attributes from the argument into {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\nReturns `true` if loading succeeds and `false` otherwise.\n\nTo do: for the moment, thw method always returns `true`.\n\nThe argument is supposed to be of a type\n[NamedNodeMap](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1780488922).\nNevertheless, it is sufficient that `attr` be a collection of objects with `name` and `value` properties.",
             "itemtype": "method",
             "name": "load",
@@ -9666,7 +9345,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 647,
+            "line": 655,
             "description": "Returns `true` if the instance has key `style`, `false` otherwise. Alias for\n{{#crossLink \"Properties/hasProperty:method\"}}hasProperty('style'){{/crossLink}} method.",
             "itemtype": "method",
             "name": "hasStyles",
@@ -9679,7 +9358,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 657,
+            "line": 665,
             "description": "Returns value of `style` key. Alias for {{#crossLink \"Properties/getProperty:method\"}}getProperty('styles'){{/crossLink}}.",
             "itemtype": "method",
             "name": "getStyles",
@@ -9693,7 +9372,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 668,
+            "line": 676,
             "description": "Returns `true` if instance contains `style` key inside which there is a key `propName`.\nOtherwise, `false` is returned.",
             "itemtype": "method",
             "name": "hasStyleProperty",
@@ -9714,7 +9393,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 681,
+            "line": 689,
             "description": "Sets the `key` to be equal to `value` inside object {{#crossLink \"Properties\"}}Properties{{/crossLink}}\ninstance corresponding to `style` key of the current objects which is, naturally,\n{{#crossLink \"Properties\"}}Properties{{/crossLink}} instance as well.",
             "itemtype": "method",
             "name": "setStyleProperty",
@@ -9736,7 +9415,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 698,
+            "line": 706,
             "description": "Returns the value of key `propName` inside `style` key (if it exists) of the current object.\nIf it does not exist, nothing is returned.",
             "itemtype": "method",
             "name": "getStyleProperty",
@@ -9757,7 +9436,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 714,
+            "line": 722,
             "description": "Returns object {width: ..., color: ..., style: ...} describing border. If the Style has no Properties\n'border-style', then 'none' will be used. If the Style has no 'border-width', then zero will be used.\nIf the Style has no Properties 'border-color', then it will not be set.",
             "itemtype": "method",
             "name": "getBorderInfo",
@@ -9771,7 +9450,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 733,
+            "line": 741,
             "description": "Applies the attributes on the argument. The argument is supposed to be an instance of\n[DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element). In fact,\nit is used only [setAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute)\nmethod of that instance. It",
             "itemtype": "method",
             "name": "decorateElement",
@@ -9791,7 +9470,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 752,
+            "line": 760,
             "description": "Sets key `width` inside {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}\nas well as key `width` inside `style` of {{#crossLink \"Poroperties/_core:property\"}}_core{{/crossLink}}.",
             "itemtype": "method",
             "name": "setWidth",
@@ -9808,7 +9487,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 768,
+            "line": 776,
             "description": "Returns value of key `width` of the instance: first looks up key `width` inside\nstyles and if it is not present there, looks it up among attributes.",
             "itemtype": "method",
             "name": "getWidth",
@@ -9822,7 +9501,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 785,
+            "line": 793,
             "description": "Loads properties from the node attributes into the current instance. Each property value is\nattempted to be converted into a number and if this operation succeeds, that number is inserted\nas key value.\n\nIn fact, it uses {{#crossLink \"Properties/load:method\"}}load{{/crossLink}} method which is\ncalled with node `n` attributes in case they are present.",
             "itemtype": "method",
             "name": "loadNodeProperties",
@@ -9842,7 +9521,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 803,
+            "line": 811,
             "description": "Set border-related attributes.\n\nIt sets key `border` of {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}\nas well as keys `border-width`, `border-color` and `border-style` of `style` key of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\n\nArgument `borderInfo` is supposed to have the following keys:\n<ul><li>\n`width` - to set width of the border. If not provided, default value 1 is used.\n</li><li>\n`color` - to set border color. If not set, default value '#000001' is used.\n</li><li>\n`style` - to set border style (solid, dashed etc). If not set, default value 'solid' is used.\n</li></ul>",
             "itemtype": "method",
             "name": "setBorder",
@@ -9863,7 +9542,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 841,
+            "line": 849,
             "description": "Returns object containing information about border.\n\nFormat of the returned object:\n<code> {style: ... [, width: ...[, color: ...]]}</code>\nIf `style` key is set to `none`, then `width` and `color` might be not set. If `width` is not\nset or equal to zero, then `color` might be not set.",
             "itemtype": "method",
             "name": "getBorder",
@@ -9877,7 +9556,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 868,
+            "line": 876,
             "description": "Drops border-related attributes.\n\nRemoves attributes `border-width`, `border-color` and sets `border-style` to `none` in `style` key of\n{{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.\n\nRemoves as well `border` attribute from {{#crossLink \"Properties/core:property\"}}core{{/crossLink}}.",
             "itemtype": "method",
             "name": "removeBorder",
@@ -9891,7 +9570,7 @@
         },
         {
             "file": "js\\classes\\Properties.js",
-            "line": 893,
+            "line": 901,
             "description": "Shrinks width attribute by `d`.\n\nIf width attribute exists and\n<ul><li>\n`d` is a number, then absolute value of width attribute gets descreased by `d`.\n</li><li>\n`d` is a string, then width key gets descreased by `d` both values have the same measure. Otherwise,\nan error is thrown.\n</li></ul>",
             "itemtype": "method",
             "name": "shrinkBy",
@@ -10548,7 +10227,9 @@
             "file": "js\\controllers\\Controller.js",
             "line": 14,
             "description": "Variable to deal with elements selected in the editor. It is supposed to be an instance of\n{{#crossLink \"Selection\"}}Selection{{/crossLink}} class.",
-            "type": "{Object}",
+            "itemtype": "property",
+            "name": "_selection",
+            "type": "Object",
             "access": "private",
             "tagname": "",
             "since": "0.0.7",
@@ -10788,6 +10469,8 @@
             "file": "js\\controllers\\Controller.js",
             "line": 237,
             "description": "Returns a first node satifying given `criteria`. The look up is performed among",
+            "itemtype": "method",
+            "name": "detectAscendant",
             "params": [
                 {
                     "name": "criteria",
@@ -11808,22 +11491,5 @@
             "module": "Config"
         }
     ],
-    "warnings": [
-        {
-            "message": "Missing item type",
-            "line": " js\\classes\\HtmlElements\\Dom.js:603"
-        },
-        {
-            "message": "Missing item type",
-            "line": " js\\classes\\HtmlElements\\Dom.js:1117"
-        },
-        {
-            "message": "Missing item type\nVariable to deal with elements selected in the editor. It is supposed to be an instance of\n{{#crossLink \"Selection\"}}Selection{{/crossLink}} class.",
-            "line": " js\\controllers\\Controller.js:14"
-        },
-        {
-            "message": "Missing item type\nReturns a first node satifying given `criteria`. The look up is performed among",
-            "line": " js\\controllers\\Controller.js:237"
-        }
-    ]
+    "warnings": []
 }

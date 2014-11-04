@@ -382,8 +382,15 @@ function Properties(input) {
 
 	/**
 	 * Retrieves the value of the requested property from
-	 * {{#crossLink &quot;Properties/core:property&quot;}}core{{/crossLink}}
-	 * If it does not exist, &#x60;undefined&#x60; is returned.
+	 * {{#crossLink &quot;Properties/core:property&quot;}}core{{/crossLink}}.
+	 * If property &#x60;key&#x60; does not exist, but its pattern is &#x60;base-position&#x60;, where &#x60;position&#x60; is one of
+	 * &#x60;left&#x60;, &#x60;right&#x60;, &#x60;top&#x60; or &#x60;bottom&#x60; and &#x60;base&#x60; key exists, then is it returned a value based on the
+	 * format of the &#x60;base&#x60; property:
+	 * &lt;dl&gt;&lt;dt&gt;&quot;X&quot;&lt;/dt&gt;&lt;dd&gt;&#x60;base-top&#x60;, &#x60;base-right&#x60;, &#x60;base-bottom&#x60;, &#x60;base-left&#x60; are equal to &#x60;X&#x60;&lt;/dd&gt;
+	 * &lt;dt&gt;&quot;X Y&quot;&lt;/dt&gt;&lt;dd&gt;&#x60;base-top&#x60; = X, &#x60;base-right&#x60; = Y, &#x60;base-bottom&#x60; = X, &#x60;base-left&#x60; = &#x60;Y&#x60;&lt;/dd&gt;
+	 * &lt;dt&gt;&quot;X Y Z&quot;&lt;/dt&gt;&lt;dd&gt;&#x60;base-top&#x60; = X, &#x60;base-right&#x60; = Y, &#x60;base-bottom&#x60; = Z, &#x60;base-left&#x60; = &#x60;X&#x60;&lt;/dd&gt;
+	 * &lt;dt&gt;&quot;X Y Z W&quot;&lt;/dt&gt;&lt;dd&gt;&#x60;base-top&#x60; = X, &#x60;base-right&#x60; = Y, &#x60;base-bottom&#x60; = X, &#x60;base-left&#x60; = &#x60;W&#x60;&lt;/dd&gt;
+	 * &lt;/dl&gt;
 	 * @method  getProperty
 	 * @return  {Any}
 	 */
@@ -391,6 +398,7 @@ function Properties(input) {
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
+
 	};
 
 	/**

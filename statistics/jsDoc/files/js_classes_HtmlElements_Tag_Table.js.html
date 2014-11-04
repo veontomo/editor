@@ -1350,7 +1350,7 @@ function Table() {
 			throw new Error(&#x27;Number of rows and columns are missing.&#x27;);
 		}
 		// proceed only if both r and c are positive integer.
-		if (!Number.isInteger(r) || r &lt;= 0){
+		if (parseInt(r, 10) !== r || r &lt;= 0){
 			throw new Error(&#x27;Number of rows must be positive integer.&#x27;);
 		}
 		var i, row,

@@ -111,8 +111,8 @@ function Unit(value, measure) {
      * @since          0.0.7
      */
     this.getValueAsString = function(){
-        var value = this.getValue();
-        return (value !== undefined ? value.toString() : '');
+        var v = this.getValue();
+        return (v !== undefined ? v.toString() : '');
     };
 
     /**
@@ -298,6 +298,9 @@ function Unit(value, measure) {
 
     /**
      * Returns the result of division of `n` by `m` with `p` digits after point.
+     *
+     * Notice `bind(this)` at the end. It is added to be able to call
+     * {{#crossLink "Unit/isInteger:method"}}isInteger{{/crossLink}} method from this private one.
      * @method         _fracWithPresicion
      * @param          {Number}              n
      * @param          {Number}              m        Non-zero number
@@ -314,13 +317,13 @@ function Unit(value, measure) {
         if (p === undefined){
             return frac;
         }
-        if (!Number.isInteger(p) || p < 0){
+        if (!this.isInteger(p) || p < 0){
             throw new Error('Precision must be non-negative integer.');
         }
         var base = Math.pow(10, p),
             res = parseInt(frac*base, 10)/base;
         return res;
-    };
+    }.bind(this);
 
 
 
@@ -404,7 +407,7 @@ function Unit(value, measure) {
         }
         var newVal,
             currVal = this.getValue();
-        if (Number.isInteger(currVal)) {
+        if (this.isInteger(currVal)) {
             newVal = currVal * 100;
         } else {
             var str = currVal.toString() + '00';
@@ -457,5 +460,16 @@ function Unit(value, measure) {
      */
     this.floor = function(){
         return new Unit(Math.floor(this.getValue()), this.getMeasure());
+    };
+
+    /**
+     * Whether the argument is an integer decimal number.
+     * @method         isInteger
+     * @param          {Any}           n
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.isInteger = function(n){
+        return  (parseInt(n, 10) === n);
     };
 }

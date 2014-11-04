@@ -42,6 +42,144 @@ describe('Properties-related functionality', function(){
         });
     });
 
+    describe('Smart getter', function(){
+        it('returns property if it is set directly', function(){
+            props.setProperty('border', '20px');
+            expect(props.getProperty('border')).toBe('20px');
+        });
+        describe('finds left/right/top/bottom properties', function(){
+            describe('if base property is set as a single length', function(){
+                beforeEach(function(){
+                    props.setProperty('border', '20px');
+                });
+                it('returns "20px" for "border-left"', function(){
+                    expect(props.getProperty('border-left')).toBe('20px');
+                });
+                it('returns "20px" for "border-right"', function(){
+                    expect(props.getProperty('border-right')).toBe('20px');
+                });
+                it('returns "20px" for "border-top"', function(){
+                    expect(props.getProperty('border-top')).toBe('20px');
+                });
+                it('returns "20px" for "border-bottom"', function(){
+                    expect(props.getProperty('border-bottom')).toBe('20px');
+                });
+            });
+            describe('if base property is set as two lengths (like "20px 10em")', function(){
+                beforeEach(function(){
+                    props.setProperty('padding', '20px 10em');
+                });
+                it('returns "left" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-left', '6pt');
+                    expect(props.getProperty('padding-left')).toBe('6pt');
+                });
+                it('returns "right" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-right', '7pt');
+                    expect(props.getProperty('padding-right')).toBe('7pt');
+                });
+                it('returns "top" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-top', '6pt');
+                    expect(props.getProperty('padding-top')).toBe('6pt');
+                });
+                it('returns "bottom" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-bottom', '2pt');
+                    expect(props.getProperty('padding-bottom')).toBe('2pt');
+                });
+
+                it('returns first length for "top" property', function(){
+                    expect(props.getProperty('padding-top')).toBe('20px');
+                });
+                it('returns first length for "bottom" property', function(){
+                    expect(props.getProperty('padding-bottom')).toBe('20px');
+                });
+                it('returns second length for "left" property', function(){
+                    expect(props.getProperty('padding-left')).toBe('10em');
+                });
+                it('returns second length for "right" property', function(){
+                    expect(props.getProperty('padding-right')).toBe('10em');
+                });
+            });
+
+            describe('if base property is set as three lengths (like "1pt 20px 10em")', function(){
+                beforeEach(function(){
+                    props.setProperty('padding', '1pt 20px 10em');
+                });
+                it('returns "left" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-left', '6pt');
+                    expect(props.getProperty('padding-left')).toBe('6pt');
+                });
+                it('returns "right" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-right', '7pt');
+                    expect(props.getProperty('padding-right')).toBe('7pt');
+                });
+                it('returns "top" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-top', '6pt');
+                    expect(props.getProperty('padding-top')).toBe('6pt');
+                });
+                it('returns "bottom" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-bottom', '2pt');
+                    expect(props.getProperty('padding-bottom')).toBe('2pt');
+                });
+
+                it('returns first length for "top" property', function(){
+                    expect(props.getProperty('padding-top')).toBe('1pt');
+                });
+                it('returns second length for "right" property', function(){
+                    expect(props.getProperty('padding-right')).toBe('20px');
+                });
+
+                it('returns third length for "bottom" property', function(){
+                    expect(props.getProperty('padding-bottom')).toBe('10em');
+                });
+                it('returns second length for "left" property', function(){
+                    expect(props.getProperty('padding-left')).toBe('20px');
+                });
+            });
+
+            describe('if base property is set as four lengths (like "1pt 2px 3em 4%")', function(){
+                beforeEach(function(){
+                    props.setProperty('padding', '1pt 2px 3em 4%');
+                });
+                it('returns "left" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-left', '6pt');
+                    expect(props.getProperty('padding-left')).toBe('6pt');
+                });
+                it('returns "right" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-right', '7pt');
+                    expect(props.getProperty('padding-right')).toBe('7pt');
+                });
+                it('returns "top" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-top', '6pt');
+                    expect(props.getProperty('padding-top')).toBe('6pt');
+                });
+                it('returns "bottom" property if it is and ignores the base property', function(){
+                    props.setProperty('padding-bottom', '2pt');
+                    expect(props.getProperty('padding-bottom')).toBe('2pt');
+                });
+
+                it('returns first length for "top" property', function(){
+                    expect(props.getProperty('padding-top')).toBe('1pt');
+                });
+                it('returns second length for "right" property', function(){
+                    expect(props.getProperty('padding-right')).toBe('2px');
+                });
+
+                it('returns third length for "bottom" property', function(){
+                    expect(props.getProperty('padding-bottom')).toBe('3em');
+                });
+                it('returns fourth length for "left" property', function(){
+                    expect(props.getProperty('padding-left')).toBe('4%');
+                });
+            });
+
+
+
+
+        });
+
+
+    });
+
     describe('Setting mode', function(){
         it ('sets mode to 0 if the argument is 0', function(){
             props.setMode(0);
@@ -656,7 +794,7 @@ describe('Properties-related functionality', function(){
             node1.setAttribute('border', '9');
 
             node2.setAttribute('id', 'wrapper');
-            node2.setAttribute('style', 'font-size: 4em; color: #001234; padding: auto;');
+            node2.setAttribute('style', 'padding: 12px; font-size: 4em; color: #001234;');
             node2.setAttribute('data-marker', 'line');
 
             attr0 = node0.attributes;
@@ -728,8 +866,10 @@ describe('Properties-related functionality', function(){
             props.load(attr2);
             var stl = props.getProperty('style');
             expect(stl.getProperty('font-size')).toBe('4em');
-            expect(stl.getProperty('color')).toBe('#001234');
-            expect(stl.getProperty('padding')).toBe('auto');
+            // IE transforms hex into rgb
+            var color = stl.getProperty('color');
+            expect(color === 'rgb(0, 18, 52)' || color === '#001234').toBe(true);
+            expect(stl.getProperty('padding')).toBe('12px');
         });
 
         it('overrides style properties', function(){
@@ -745,8 +885,10 @@ describe('Properties-related functionality', function(){
 
             expect(stl.propNum()).toBe(3);
             expect(stl.getProperty('font-size')).toBe('4em');
-            expect(stl.getProperty('color')).toBe('#001234');
-            expect(stl.getProperty('padding')).toBe('auto');
+            // IE transforms hex into rgb
+            var color = stl.getProperty('color');
+            expect(color === 'rgb(0, 18, 52)' || color === '#001234').toBe(true);
+            expect(stl.getProperty('padding')).toBe('12px');
         });
 
         it('overrides style properties', function(){
@@ -760,8 +902,10 @@ describe('Properties-related functionality', function(){
             var stl = props.getStyles();
             expect(stl.propNum()).toBe(3);
             expect(stl.getProperty('font-size')).toBe('4em');
-            expect(stl.getProperty('color')).toBe('#001234');
-            expect(stl.getProperty('padding')).toBe('auto');
+            // IE transforms hex into rgb
+            var color = stl.getProperty('color');
+            expect(color === 'rgb(0, 18, 52)' || color === '#001234').toBe(true);
+            expect(stl.getProperty('padding')).toBe('12px');
         });
 
     });

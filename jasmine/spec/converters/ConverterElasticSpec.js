@@ -37,10 +37,10 @@ describe ('Converter to elastic format', function(){
     	});
 
     	it('does not change width style if its unit of measurement is niether px nor empty', function(){
-    		n.setAttribute('style', 'width: 12parsec');
+    		n.setAttribute('style', 'width: 12pt');
     		var n2 = c.convert(n);
     		var style = new Properties(n2.getAttribute('style'));
-    		expect(style.getProperty('width')).toBe('12parsec');
+    		expect(style.getProperty('width')).toBe('12pt');
     	});
 
     	it('converts font size defined as style', function(){

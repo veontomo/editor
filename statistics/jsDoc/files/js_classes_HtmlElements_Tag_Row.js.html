@@ -507,7 +507,7 @@ function Row() {
 		if (c === undefined){
 			throw new Error(&#x27;Number of cells is missing.&#x27;);
 		}
-		if (!Number.isInteger(c) || c &lt;= 0){
+		if (parseInt(c, 10) !== c || c &lt;= 0){
 			throw new Error(&#x27;Number of cells must be positive integer.&#x27;);
 		}
 		var needToMark = typeof fun === &#x27;function&#x27;;

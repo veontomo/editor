@@ -651,7 +651,7 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l377"><code>js\classes\Properties.js:377</code></a>
+        <a href="../files/js_classes_Properties.js.html#l385"><code>js\classes\Properties.js:385</code></a>
         
         </p>
 
@@ -757,7 +757,7 @@ the pattern &quot;key: value;&quot; to populate object properties.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l283"><code>js\classes\Properties.js:283</code></a>
+        <a href="../files/js_classes_Properties.js.html#l291"><code>js\classes\Properties.js:291</code></a>
         
         </p>
 
@@ -865,7 +865,7 @@ private method
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l238"><code>js\classes\Properties.js:238</code></a>
+        <a href="../files/js_classes_Properties.js.html#l246"><code>js\classes\Properties.js:246</code></a>
         
         </p>
 
@@ -973,7 +973,7 @@ method.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l295"><code>js\classes\Properties.js:295</code></a>
+        <a href="../files/js_classes_Properties.js.html#l303"><code>js\classes\Properties.js:303</code></a>
         
         </p>
 
@@ -1069,7 +1069,7 @@ method.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l506"><code>js\classes\Properties.js:506</code></a>
+        <a href="../files/js_classes_Properties.js.html#l514"><code>js\classes\Properties.js:514</code></a>
         
         </p>
 
@@ -1156,7 +1156,7 @@ and <a href="../classes/Properties.html#method_setProperty" class="crosslink">se
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l733"><code>js\classes\Properties.js:733</code></a>
+        <a href="../files/js_classes_Properties.js.html#l741"><code>js\classes\Properties.js:741</code></a>
         
         </p>
 
@@ -1253,7 +1253,7 @@ method of that instance. It</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l211"><code>js\classes\Properties.js:211</code></a>
+        <a href="../files/js_classes_Properties.js.html#l219"><code>js\classes\Properties.js:219</code></a>
         
         </p>
 
@@ -1334,7 +1334,7 @@ method of that instance. It</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l196"><code>js\classes\Properties.js:196</code></a>
+        <a href="../files/js_classes_Properties.js.html#l204"><code>js\classes\Properties.js:204</code></a>
         
         </p>
 
@@ -1439,7 +1439,7 @@ returns the key value.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l220"><code>js\classes\Properties.js:220</code></a>
+        <a href="../files/js_classes_Properties.js.html#l228"><code>js\classes\Properties.js:228</code></a>
         
         </p>
 
@@ -1686,7 +1686,7 @@ returns the key value.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l841"><code>js\classes\Properties.js:841</code></a>
+        <a href="../files/js_classes_Properties.js.html#l849"><code>js\classes\Properties.js:849</code></a>
         
         </p>
 
@@ -1763,7 +1763,7 @@ set or equal to zero, then <code>color</code> might be not set.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l714"><code>js\classes\Properties.js:714</code></a>
+        <a href="../files/js_classes_Properties.js.html#l722"><code>js\classes\Properties.js:722</code></a>
         
         </p>
 
@@ -1840,7 +1840,7 @@ If the Style has no Properties &#39;border-color&#39;, then it will not be set.<
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l466"><code>js\classes\Properties.js:466</code></a>
+        <a href="../files/js_classes_Properties.js.html#l474"><code>js\classes\Properties.js:474</code></a>
         
         </p>
 
@@ -2067,9 +2067,15 @@ If the Style has no Properties &#39;border-color&#39;, then it will not be set.<
 
     <div class="description">
         <p>Retrieves the value of the requested property from
-<a href="../classes/Properties.html#property_core" class="crosslink">core</a>
-If it does not exist, <code>undefined</code> is returned.</p>
-
+<a href="../classes/Properties.html#property_core" class="crosslink">core</a>.
+If property <code>key</code> does not exist, but its pattern is <code>base-position</code>, where <code>position</code> is one of
+<code>left</code>, <code>right</code>, <code>top</code> or <code>bottom</code> and <code>base</code> key exists, then is it returned a value based on the
+format of the <code>base</code> property:</p>
+<dl><dt>"X"</dt><dd><code>base-top</code>, <code>base-right</code>, <code>base-bottom</code>, <code>base-left</code> are equal to <code>X</code></dd>
+<dt>"X Y"</dt><dd><code>base-top</code> = X, <code>base-right</code> = Y, <code>base-bottom</code> = X, <code>base-left</code> = <code>Y</code></dd>
+<dt>"X Y Z"</dt><dd><code>base-top</code> = X, <code>base-right</code> = Y, <code>base-bottom</code> = Z, <code>base-left</code> = <code>X</code></dd>
+<dt>"X Y Z W"</dt><dd><code>base-top</code> = X, <code>base-right</code> = Y, <code>base-bottom</code> = X, <code>base-left</code> = <code>W</code></dd>
+</dl>
     </div>
 
     
@@ -2138,7 +2144,7 @@ If it does not exist, <code>undefined</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l698"><code>js\classes\Properties.js:698</code></a>
+        <a href="../files/js_classes_Properties.js.html#l706"><code>js\classes\Properties.js:706</code></a>
         
         </p>
 
@@ -2235,7 +2241,7 @@ If it does not exist, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l657"><code>js\classes\Properties.js:657</code></a>
+        <a href="../files/js_classes_Properties.js.html#l665"><code>js\classes\Properties.js:665</code></a>
         
         </p>
 
@@ -2308,7 +2314,7 @@ If it does not exist, nothing is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l768"><code>js\classes\Properties.js:768</code></a>
+        <a href="../files/js_classes_Properties.js.html#l776"><code>js\classes\Properties.js:776</code></a>
         
         </p>
 
@@ -2394,7 +2400,7 @@ styles and if it is not present there, looks it up among attributes.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l446"><code>js\classes\Properties.js:446</code></a>
+        <a href="../files/js_classes_Properties.js.html#l454"><code>js\classes\Properties.js:454</code></a>
         
         </p>
 
@@ -2505,7 +2511,7 @@ styles and if it is not present there, looks it up among attributes.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l356"><code>js\classes\Properties.js:356</code></a>
+        <a href="../files/js_classes_Properties.js.html#l364"><code>js\classes\Properties.js:364</code></a>
         
         </p>
 
@@ -2629,7 +2635,7 @@ in <code>ignoreValues</code> array. Otherwise, <code>false</code> is returned.</
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l668"><code>js\classes\Properties.js:668</code></a>
+        <a href="../files/js_classes_Properties.js.html#l676"><code>js\classes\Properties.js:676</code></a>
         
         </p>
 
@@ -2726,7 +2732,7 @@ Otherwise, <code>false</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l647"><code>js\classes\Properties.js:647</code></a>
+        <a href="../files/js_classes_Properties.js.html#l655"><code>js\classes\Properties.js:655</code></a>
         
         </p>
 
@@ -2798,7 +2804,7 @@ Otherwise, <code>false</code> is returned.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l307"><code>js\classes\Properties.js:307</code></a>
+        <a href="../files/js_classes_Properties.js.html#l315"><code>js\classes\Properties.js:315</code></a>
         
         </p>
 
@@ -2873,7 +2879,7 @@ a new instance of <a href="../classes/Properties.html" class="crosslink">Propert
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l540"><code>js\classes\Properties.js:540</code></a>
+        <a href="../files/js_classes_Properties.js.html#l548"><code>js\classes\Properties.js:548</code></a>
         
         </p>
 
@@ -2955,7 +2961,7 @@ otherwise - <code>false</code>.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l482"><code>js\classes\Properties.js:482</code></a>
+        <a href="../files/js_classes_Properties.js.html#l490"><code>js\classes\Properties.js:490</code></a>
         
         </p>
 
@@ -3060,7 +3066,7 @@ Returns <code>true</code> if they are equal, <code>false</code> otherwise.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l614"><code>js\classes\Properties.js:614</code></a>
+        <a href="../files/js_classes_Properties.js.html#l622"><code>js\classes\Properties.js:622</code></a>
         
         </p>
 
@@ -3172,7 +3178,7 @@ Nevertheless, it is sufficient that <code>attr</code> be a collection of objects
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l785"><code>js\classes\Properties.js:785</code></a>
+        <a href="../files/js_classes_Properties.js.html#l793"><code>js\classes\Properties.js:793</code></a>
         
         </p>
 
@@ -3270,7 +3276,7 @@ called with node <code>n</code> attributes in case they are present.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l457"><code>js\classes\Properties.js:457</code></a>
+        <a href="../files/js_classes_Properties.js.html#l465"><code>js\classes\Properties.js:465</code></a>
         
         </p>
 
@@ -3341,7 +3347,7 @@ called with node <code>n</code> attributes in case they are present.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l868"><code>js\classes\Properties.js:868</code></a>
+        <a href="../files/js_classes_Properties.js.html#l876"><code>js\classes\Properties.js:876</code></a>
         
         </p>
 
@@ -3427,7 +3433,7 @@ called with node <code>n</code> attributes in case they are present.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l803"><code>js\classes\Properties.js:803</code></a>
+        <a href="../files/js_classes_Properties.js.html#l811"><code>js\classes\Properties.js:811</code></a>
         
         </p>
 
@@ -3887,7 +3893,7 @@ and <code>true</code> is returned. Otherwise, <code>false</code> is returned. If
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l681"><code>js\classes\Properties.js:681</code></a>
+        <a href="../files/js_classes_Properties.js.html#l689"><code>js\classes\Properties.js:689</code></a>
         
         </p>
 
@@ -4101,7 +4107,7 @@ and then performs assignment.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l752"><code>js\classes\Properties.js:752</code></a>
+        <a href="../files/js_classes_Properties.js.html#l760"><code>js\classes\Properties.js:760</code></a>
         
         </p>
 
@@ -4196,7 +4202,7 @@ as well as key <code>width</code> inside <code>style</code> of Poroperties/_core
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l893"><code>js\classes\Properties.js:893</code></a>
+        <a href="../files/js_classes_Properties.js.html#l901"><code>js\classes\Properties.js:901</code></a>
         
         </p>
 
@@ -4306,7 +4312,7 @@ an error is thrown.
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l406"><code>js\classes\Properties.js:406</code></a>
+        <a href="../files/js_classes_Properties.js.html#l414"><code>js\classes\Properties.js:414</code></a>
         
         </p>
 
@@ -4425,7 +4431,7 @@ with <code>value</code>. Otherwise, it is ignored.</p>
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l325"><code>js\classes\Properties.js:325</code></a>
+        <a href="../files/js_classes_Properties.js.html#l333"><code>js\classes\Properties.js:333</code></a>
         
         </p>
 
@@ -4561,7 +4567,7 @@ if the instance does not have property <code>propName</code>, then the method im
             
         
         
-        <a href="../files/js_classes_Properties.js.html#l551"><code>js\classes\Properties.js:551</code></a>
+        <a href="../files/js_classes_Properties.js.html#l559"><code>js\classes\Properties.js:559</code></a>
         
         </p>
 

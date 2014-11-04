@@ -8,7 +8,7 @@ describe('Dom-specific functionality', function(){
     });
 
 
-    describe('Content', function(){
+    xdescribe('Content', function(){
         it('is set to Node', function(){
             var el = document.createElement('span');
             dom.setContent(el);
@@ -229,8 +229,8 @@ describe('Dom-specific functionality', function(){
 
         beforeEach(function(){
             dom = new Dom();
-            var stl1 = 'class: media; block: wide;',
-                stl2 = 'size: biggest; block: narrow;';
+            var stl1 = 'class: media; padding: 5em;',
+                stl2 = 'size: biggest; padding: 31px;';
             e00 = document.createElement('div00');
             e10 = document.createElement('div10');
             e11 = document.createElement('div11');
@@ -259,31 +259,31 @@ describe('Dom-specific functionality', function(){
         });
 
         it('returns the value of the attribute if the element has this property and limit node is set', function(){
-            expect(dom.getInheritedStyleProp('block', e30, e00)).toBe('wide');
+            expect(dom.getInheritedStyleProp('padding', e30, e00)).toBe('5em');
         });
 
         it('returns the value of the attribute if the element has this property and limit node is not set', function(){
-            expect(dom.getInheritedStyleProp('block', e30)).toBe('wide');
+            expect(dom.getInheritedStyleProp('padding', e30)).toBe('5em');
         });
 
         it('returns the node style property if the limit node is equal to the node', function(){
-            expect(dom.getInheritedStyleProp('block', e11, e11)).toBe('narrow');
+            expect(dom.getInheritedStyleProp('padding', e11, e11)).toBe('31px');
         });
 
         it('returns null if the node has no style property if the limit node is equal to the node', function(){
-            expect(dom.getInheritedStyleProp('block', e23, e23)).not.toBeDefined();
+            expect(dom.getInheritedStyleProp('padding', e23, e23)).not.toBeDefined();
         });
 
         it('returns parent node style property which when the parent is the limit node', function(){
-            expect(dom.getInheritedStyleProp('block', t31, e21)).toBe('narrow');
+            expect(dom.getInheritedStyleProp('padding', t31, e21)).toBe('31px');
         });
 
         it('returns parent node style property if the limit node is not set', function(){
-            expect(dom.getInheritedStyleProp('block', t31)).toBe('narrow');
+            expect(dom.getInheritedStyleProp('padding', t31)).toBe('31px');
         });
 
         it('returns style property of one of the parents if the limit node is not a parent of the start node', function(){
-            expect(dom.getInheritedStyleProp('block', t22, e11)).toBe('wide');
+            expect(dom.getInheritedStyleProp('padding', t22, e11)).toBe('5em');
         });
 
 
@@ -328,49 +328,49 @@ describe('Dom-specific functionality', function(){
             e21.appendChild(t31);
             e11.appendChild(e25);
             e11.appendChild(e26);
-            e10.setAttribute('style', 'font: bold;');
-            e26.setAttribute('style', 'font: normal;');
+            e10.setAttribute('style', 'font-weight: bold;');
+            e26.setAttribute('style', 'font-weight: normal;');
             e11.setAttribute('style', 'block: narrow;');
-            e21.setAttribute('style', 'width: large;');
+            e21.setAttribute('style', 'width: 100em;');
         });
 
         it('sets "width" to alternative value if the element has it set to primary value', function(){
-            dom.toggleElementStyle(e21, 'width', 'large', 'superlarge');
+            dom.toggleElementStyle(e21, 'width', '100em', '300em');
             var stl = e21.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'superlarge';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '300em';
             })).toBe(true);
         });
 
         it('sets "width" to primary value if the element has it different from primary value', function(){
-            dom.toggleElementStyle(e21, 'width', 'extreme', 'narrow');
+            dom.toggleElementStyle(e21, 'width', '50px', '200px');
             var stl = e21.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'extreme';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '50px';
             })).toBe(true);
         });
 
         it('sets "font" to alternative value if the element inherites "font" to  primary value"', function(){
-            dom.toggleElementStyle(e30, 'font', 'bold', 'large');
+            dom.toggleElementStyle(e30, 'font-weight', 'bold', 'normal');
             var stl = e30.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'large';
+                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
             })).toBe(true);
         });
 
          it('sets "font" to primary value if the element inherites "font" to not a primary value', function(){
-            dom.toggleElementStyle(e30, 'font', 'normal', 'large');
+            dom.toggleElementStyle(e30, 'font-weight', 'normal', 'anything');
             var stl = e30.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'normal';
+                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
             })).toBe(true);
         });
     });
@@ -416,54 +416,54 @@ describe('Dom-specific functionality', function(){
             e21.appendChild(t31);
             e11.appendChild(e25);
             e11.appendChild(e26);
-            e10.setAttribute('style', 'font: bold;');
-            e26.setAttribute('style', 'font: normal;');
+            e10.setAttribute('style', 'font-weight: bold;');
+            e26.setAttribute('style', 'font-weight: normal;');
             e11.setAttribute('style', 'block: narrow;');
-            e21.setAttribute('style', 'width: large;');
+            e21.setAttribute('style', 'width: 20px;');
         });
 
         it('creates an element node with "width" set to secondary value if the text node inherited "width" is equal to primary value', function(){
-            var n = dom.createToggledElemFromText(t31, 'width', 'large', 'superlarge'),
+            var n = dom.createToggledElemFromText(t31, 'width', '20px', '600px'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'superlarge';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '600px';
             })).toBe(true);
         });
 
         it('creates an element node with "width" set to primary value if text node inherited "width" is different from primary value', function(){
-            var n = dom.createToggledElemFromText(t31, 'width', 'extreme', 'narrow'),
+            var n = dom.createToggledElemFromText(t31, 'width', '300em', '20em'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === 'extreme';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '300em';
             })).toBe(true);
         });
 
-        it('creates an element node with "font" set to alternative value if the text node inherited "font" is equal to primary value', function(){
-            var n = dom.createToggledElemFromText(t22, 'font', 'bold', 'large');
+        it('creates an element node with "font-weight" set to alternative value if the text node inherited "font-weight" is equal to primary value', function(){
+            var n = dom.createToggledElemFromText(t22, 'font-weight', 'bold', '600');
             var stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'large';
+                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === '600';
             })).toBe(true);
         });
 
-        it('creates an element node with "font" set to primary value if the text element inherited "font" is different from primary value', function(){
-            var n = dom.createToggledElemFromText(t22, 'font', 'normal', 'large'),
+        it('creates an element node with "font-weight" set to primary value if the text element inherited "font-weight" is different from primary value', function(){
+            var n = dom.createToggledElemFromText(t22, 'font-weight', 'normal', 'large'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font' && tmp[1].trim() === 'normal';
+                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
             })).toBe(true);
         });
 
         it('creates an element whose text representation is the original text node', function(){
-            var n = dom.createToggledElemFromText(t22, 'font', 'normal', 'large');
+            var n = dom.createToggledElemFromText(t22, 'font-weight', 'normal', 'large');
             expect(n.childNodes.length).toBe(1);
             expect(n.firstChild.nodeValue).toBe(t22.nodeValue);
         });
@@ -743,9 +743,9 @@ describe('Dom-specific functionality', function(){
             e3 = document.createElement('div3');
             e4 = document.createElement('div4');
 
-            e0.setAttribute('style', 'font: nice; color: red');
-            e3.setAttribute('style', 'width: big; border: 2');
-            e4.setAttribute('style', 'size: 5');
+            e0.setAttribute('style', 'font-size: 20px; padding: 20em');
+            e3.setAttribute('style', 'width: 200px; border: 2');
+            e4.setAttribute('style', 'padding: 5em');
 
             e0.appendChild(e1);
             e0.appendChild(t2);
@@ -766,7 +766,7 @@ describe('Dom-specific functionality', function(){
             });
 
             it('returns property value if the node has that property', function(){
-                expect(dom.getStyleProperty(e0, 'color')).toBe('red');
+                expect(dom.getStyleProperty(e0, 'padding')).toBe('20em');
             });
         });
 
@@ -788,20 +788,20 @@ describe('Dom-specific functionality', function(){
             });
 
             it('removes the required inline style property if the argument has that property', function(){
-                expect(e0.getAttribute('style').indexOf('color')).not.toBe(-1);
-                dom.dropStyleProperty(e0, 'color');
-                expect(e0.getAttribute('style').indexOf('color')).toBe(-1);
+                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
+                dom.dropStyleProperty(e0, 'font-size');
+                expect(e0.getAttribute('style').indexOf('font-size')).toBe(-1);
             });
 
             it('does not remove other inline style properties', function(){
-                expect(e0.getAttribute('style').indexOf('font')).not.toBe(-1);
-                dom.dropStyleProperty(e0, 'color');
-                expect(e0.getAttribute('style').indexOf('font')).not.toBe(-1);
+                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
+                dom.dropStyleProperty(e0, 'padding');
+                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
             });
 
             it('removes \"style\" attribute if after deleting requested key it remains empty', function(){
-                expect(e4.getAttribute('style').indexOf('size')).not.toBe(-1);
-                dom.dropStyleProperty(e4, 'size');
+                expect(e4.getAttribute('style').indexOf('padding')).not.toBe(-1);
+                dom.dropStyleProperty(e4, 'padding');
                 expect(e4.getAttribute('style')).toBe(null);
             });
         });
@@ -992,7 +992,6 @@ describe('Dom-specific functionality', function(){
             n10.setAttribute('src', 'image.jpg');
             n00.setAttribute('color', 'red');
             var prop = dom.getInheritedProperties(n30, n00);
-            console.log(prop.toString());
             expect(prop.propNum()).toBe(4);        // 'style', 'href', 'src' and 'color'
             expect(prop.getProperty('color')).toBe('red');
             expect(prop.getProperty('src')).toBe('image.jpg');
@@ -1007,7 +1006,6 @@ describe('Dom-specific functionality', function(){
             n10.setAttribute('src', 'image.jpg');
             n00.setAttribute('color', 'red');
             var prop = dom.getInheritedProperties(n30);
-            console.log(prop.toString());
             expect(prop.propNum()).toBe(4);        // 'style', 'href', 'src' and 'color'
             expect(prop.getProperty('color')).toBe('red');
             expect(prop.getProperty('src')).toBe('image.jpg');

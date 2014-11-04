@@ -311,8 +311,8 @@ function Unit(value, measure) {
      * @since          0.0.7
      */
     this.getValueAsString = function(){
-        var value = this.getValue();
-        return (value !== undefined ? value.toString() : &#x27;&#x27;);
+        var v = this.getValue();
+        return (v !== undefined ? v.toString() : &#x27;&#x27;);
     };
 
     /**
@@ -498,6 +498,9 @@ function Unit(value, measure) {
 
     /**
      * Returns the result of division of &#x60;n&#x60; by &#x60;m&#x60; with &#x60;p&#x60; digits after point.
+     *
+     * Notice &#x60;bind(this)&#x60; at the end. It is added to be able to call
+     * {{#crossLink &quot;Unit/isInteger:method&quot;}}isInteger{{/crossLink}} method from this private one.
      * @method         _fracWithPresicion
      * @param          {Number}              n
      * @param          {Number}              m        Non-zero number
@@ -514,13 +517,13 @@ function Unit(value, measure) {
         if (p === undefined){
             return frac;
         }
-        if (!Number.isInteger(p) || p &lt; 0){
+        if (!this.isInteger(p) || p &lt; 0){
             throw new Error(&#x27;Precision must be non-negative integer.&#x27;);
         }
         var base = Math.pow(10, p),
             res = parseInt(frac*base, 10)/base;
         return res;
-    };
+    }.bind(this);
 
 
 
@@ -604,7 +607,7 @@ function Unit(value, measure) {
         }
         var newVal,
             currVal = this.getValue();
-        if (Number.isInteger(currVal)) {
+        if (this.isInteger(currVal)) {
             newVal = currVal * 100;
         } else {
             var str = currVal.toString() + &#x27;00&#x27;;
@@ -657,6 +660,17 @@ function Unit(value, measure) {
      */
     this.floor = function(){
         return new Unit(Math.floor(this.getValue()), this.getMeasure());
+    };
+
+    /**
+     * Whether the argument is an integer decimal number.
+     * @method         isInteger
+     * @param          {Any}           n
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.isInteger = function(n){
+        return  (parseInt(n, 10) === n);
     };
 }
 
