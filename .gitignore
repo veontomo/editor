@@ -13,3 +13,4 @@ apidocs/*
 .settings/*
 repository/
 tests/_output/*
+statistics/*

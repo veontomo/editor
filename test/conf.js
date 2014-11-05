@@ -5,43 +5,12 @@ var path = require('path'),
   os = require('os'),
   // if the operation system is Windows
   isWin = os.platform().toLowerCase().indexOf('win') !== -1,
+  settingsFiles = [
+        '../ckeditor/ckeditor.js',
+        '../settings/general_config.js'
+  ],
   // array with file paths to class definitions
   fileSources = [
-    // 'Helper.js',
-    // 'Helper/Unit.js',
-
-    // 'Properties.js',
-    // 'Properties/CellProperties.js',
-    // 'Properties/ImageProperties.js',
-    // 'Properties/LinkProperties.js',
-    // 'Properties/ListItemProperties.js',
-    // 'Properties/ListProperties.js',
-    // 'Properties/RowProperties.js',
-    // 'Properties/TableProperties.js',
-
-    // 'HtmlElements/Content.js',
-    // 'HtmlElements/Document.js',
-    // 'HtmlElements/Dom.js',
-    // 'HtmlElements/Factory.js',
-    // 'HtmlElements/Mapper.js',
-    // 'HtmlElements/PlainText.js',
-    // 'HtmlElements/Tag.js',
-
-
-    // 'HtmlElements/Tag/Cell.js',
-    // 'HtmlElements/Tag/Image.js',
-    // 'HtmlElements/Tag/Link.js',
-    // 'HtmlElements/Tag/List.js',
-    // 'HtmlElements/Tag/ListItem.js',
-    // 'HtmlElements/Tag/OList.js',
-    // 'HtmlElements/Tag/Row.js',
-    // 'HtmlElements/Tag/Table.js',
-    // 'HtmlElements/Tag/UList.js',
-
-    // 'CKHelper.js',
-    // 'CKHelper/Selection.js',
-    // 'Helper/String.js',
-
     'classes/Helper.js',
     'classes/Helper/Unit.js',
     'classes/Properties.js',
@@ -71,6 +40,10 @@ var path = require('path'),
     'classes/HtmlElements/Mapper.js',
     'classes/HtmlElements/Factory.js',
     'controllers/Controller.js',
+    'converters/Converter.js',
+    'converters/ConverterGeneral.js',
+    'converters/ConverterFixed.js',
+    'converters/ConverterElastic.js',
   ],
 
   left = '../jasmine/spec/', // string that should be prepended to each element of "fileSources"
@@ -80,9 +53,9 @@ var path = require('path'),
   fileSpec = fileSources.map(function(loc){
     return left + loc.replace(/\.js\b/, right + '.js');
   }),
-  allFiles = fileSources.concat(fileSpec).concat('../ckeditor/ckeditor.js').map(function(str){return str.replace(/\//g, path.sep);});
+  allFiles = fileSources.concat(fileSpec).concat(settingsFiles).map(function(str){return str.replace(/\//g, path.sep);});
 
-console.log(allFiles);
+  console.log(allFiles);
 
 module.exports = function (config) {
   config.set({
@@ -91,7 +64,7 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: allFiles,
     // browsers: isWin ? ['Firefox', 'Chrome', 'IE'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    browsers:  ['IE'],
+    browsers:  ['Firefox'],
     reporters: ['progress', 'coverage', 'spec'],
     preprocessors: { '**/*.js': 'coverage' },
     coverageReporter: {

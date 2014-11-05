@@ -215,7 +215,9 @@ describe('Unit-related functionality', function () {
 
     describe('Unit::sub(): subtracts two Unit objects', function(){
         it('calls Unit::add() method', function(){
+            // u.add = jasmine.createSpy('the result');
             spyOn(u, 'add').and.returnValue('the result');
+            // console.log(typeof u.add);
             u.sub(stub);
             expect(u.add).toHaveBeenCalled();
         });
