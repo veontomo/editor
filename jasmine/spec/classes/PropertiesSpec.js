@@ -171,13 +171,179 @@ describe('Properties-related functionality', function(){
                     expect(props.getProperty('padding-left')).toBe('4%');
                 });
             });
+        });
+        it('returns nothing if niether requested nor base properties are set', function(){
+            expect(props.getProperty('margin')).not.toBeDefined();
+            expect(props.getProperty('margin-left')).not.toBeDefined();
+        });
+    });
 
-
+    describe('Method getPropertyBySide,', function(){
+        describe('when the property is not defined', function(){
+            beforeEach(function(){
+                spyOn(props, 'getProperty');
+            });
+            it('returns nothing for "top"', function(){
+                expect(props.getPropertyBySide('whatever', 'top')).not.toBeDefined();
+            });
+            it('returns nothing for "right"', function(){
+                expect(props.getPropertyBySide('whatever', 'right')).not.toBeDefined();
+            });
+            it('returns nothing for "bottom"', function(){
+                expect(props.getPropertyBySide('whatever', 'bottom')).not.toBeDefined();
+            });
+            it('returns nothing for "left"', function(){
+                expect(props.getPropertyBySide('whatever', 'left')).not.toBeDefined();
+            });
+            it('returns nothing if the side is wrong', function(){
+                expect(props.getPropertyBySide('whatever', 'upperleft')).not.toBeDefined();
+            });
+        });
+        describe('when the property contains single word', function(){
+            beforeEach(function(){
+                spyOn(props, 'getProperty').and.returnValue('10px');
+            });
+            it('returns it for "top"', function(){
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('10px');
+            });
+            it('returns it for "right"', function(){
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('10px');
+            });
+            it('returns it for "bottom"', function(){
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('10px');
+            });
+            it('returns it for "left"', function(){
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('10px');
+            });
+            it('returns nothing if the side is wrong', function(){
+                expect(props.getPropertyBySide('whatever', 'upperleft')).not.toBeDefined();
+            });
+        });
+        describe('when the property contains single word with trailing spaces', function(){
+            it('at the beginning, drops them for "top"', function(){
+                spyOn(props, 'getProperty').and.returnValue('  10px');
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('10px');
+            });
+            it('at the beginning, drops them for "right"', function(){
+                spyOn(props, 'getProperty').and.returnValue('  10px');
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('10px');
+            });
+            it('at the beginning, drops them for "bottom"', function(){
+                spyOn(props, 'getProperty').and.returnValue('  10px');
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('10px');
+            });
+            it('at the beginning, drops them for "left"', function(){
+                spyOn(props, 'getProperty').and.returnValue('  10px');
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('10px');
+            });
+            it('returns nothing if the side is wrong', function(){
+                spyOn(props, 'getProperty').and.returnValue('  10px');
+                expect(props.getPropertyBySide('whatever', 'upperleft')).not.toBeDefined();
+            });
+            it('at the end, drops them for "top"', function(){
+                spyOn(props, 'getProperty').and.returnValue('7%    ');
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('7%');
+            });
+            it('at the end, drops them for "right"', function(){
+                spyOn(props, 'getProperty').and.returnValue('7%    ');
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('7%');
+            });
+            it('at the end, drops them for "bottom"', function(){
+                spyOn(props, 'getProperty').and.returnValue('7%    ');
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('7%');
+            });
+            it('at the end, drops them for "left"', function(){
+                spyOn(props, 'getProperty').and.returnValue('7%    ');
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('7%');
+            });
+            it('returns nothing if the side is wrong', function(){
+                spyOn(props, 'getProperty').and.returnValue('7%    ');
+                expect(props.getPropertyBySide('whatever', 'upperleft')).not.toBeDefined();
+            });
+            it('at both ends, drops them for "top"', function(){
+                spyOn(props, 'getProperty').and.returnValue(' 19pt  ');
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('19pt');
+            });
+            it('at both ends, drops them for "right"', function(){
+                spyOn(props, 'getProperty').and.returnValue(' 19pt  ');
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('19pt');
+            });
+            it('at both ends, drops them for "bottom"', function(){
+                spyOn(props, 'getProperty').and.returnValue(' 19pt  ');
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('19pt');
+            });
+            it('at both ends, drops them for "left"', function(){
+                spyOn(props, 'getProperty').and.returnValue(' 19pt  ');
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('19pt');
+            });
+            it('returns nothing if the side is wrong', function(){
+                spyOn(props, 'getProperty').and.returnValue(' 19pt  ');
+                expect(props.getPropertyBySide('whatever', 'upperleft')).not.toBeDefined();
+            });
 
 
         });
 
-
+        describe('when the property contains two words', function(){
+            beforeEach(function(){
+                spyOn(props, 'getProperty').and.returnValue('1em 5px');
+            });
+            it('returns first word for "top"', function(){
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('1em');
+            });
+            it('returns second word for "right"', function(){
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('5px');
+            });
+            it('returns first word for "bottom"', function(){
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('1em');
+            });
+            it('returns second word for "left"', function(){
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('5px');
+            });
+            it('returns nothing if the side is wrong', function(){
+                expect(props.getPropertyBySide('whatever', 'upper')).not.toBeDefined();
+            });
+        });
+        describe('when the property contains three words', function(){
+            beforeEach(function(){
+                spyOn(props, 'getProperty').and.returnValue('1em 5px X');
+            });
+            it('returns first word for "top"', function(){
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('1em');
+            });
+            it('returns second word for "right"', function(){
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('5px');
+            });
+            it('returns third word for "bottom"', function(){
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('X');
+            });
+            it('returns second word for "left"', function(){
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('5px');
+            });
+            it('returns nothing if the side is wrong', function(){
+                expect(props.getPropertyBySide('whatever', 'upper')).not.toBeDefined();
+            });
+        });
+        describe('when the property contains four words', function(){
+            beforeEach(function(){
+                spyOn(props, 'getProperty').and.returnValue('1em 5px X 0pt');
+            });
+            it('returns first word for "top"', function(){
+                expect(props.getPropertyBySide('whatever', 'top')).toBe('1em');
+            });
+            it('returns second word for "right"', function(){
+                expect(props.getPropertyBySide('whatever', 'right')).toBe('5px');
+            });
+            it('returns third word for "bottom"', function(){
+                expect(props.getPropertyBySide('whatever', 'bottom')).toBe('X');
+            });
+            it('returns forth word for "left"', function(){
+                expect(props.getPropertyBySide('whatever', 'left')).toBe('0pt');
+            });
+            it('returns nothing if the side is wrong', function(){
+                expect(props.getPropertyBySide('whatever', 'upper')).not.toBeDefined();
+            });
+        });
     });
 
     describe('Setting mode', function(){

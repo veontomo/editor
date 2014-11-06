@@ -178,12 +178,32 @@ function Properties(input) {
 		return _allowedCoreValueTypes;
 	};
 
+	/**
+	 * Splits string in two parts by a delimiter.
+	 *
+	 * Splits `str` in two parts by finding last occurence of delimiter. Returns
+	 * an array whose first element is what comes before the last occurence of the
+	 * delimiter and the second one is what comes after.
 
+	 * If delimiter is not present, nothing is returned.
+	 * @method         _splitBy
+	 * @param          {String}        key
+	 * @param          {String|Null}   delim    [optional] delimiter. By default it is set to '-'.
+	 * @return         {Array}
+	 */
+	var _splitBy = function(str, delim){
+		delim = delim || '-';
+		var re = new RegExp("^(.*)-(.*$)"),
+			res = str.match(re);
+		if (res){
+			return [res[1], res[2]];
+		}
+	};
 
 	/**
 	 * Retrieves the value of the requested property from
 	 * {{#crossLink "Properties/core:property"}}core{{/crossLink}}.
-	 * If property `key` does not exist, but its pattern is `base-position`, where `position` is one of
+	 * If property `key` does not exist, but its pattern is `base-side`, where `side` is one of
 	 * `left`, `right`, `top` or `bottom` and `base` key exists, then is it returned a value based on the
 	 * format of the `base` property:
 	 * <dl><dt>"X"</dt><dd>`base-top`, `base-right`, `base-bottom`, `base-left` are equal to `X`</dd>
@@ -191,45 +211,84 @@ function Properties(input) {
 	 * <dt>"X Y Z"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = Z, `base-left` = `X`</dd>
 	 * <dt>"X Y Z W"</dt><dd>`base-top` = X, `base-right` = Y, `base-bottom` = X, `base-left` = `W`</dd>
 	 * </dl>
-	 * @method  getProperty
-	 * @return  {Any}
+	 * @method         getProperty
+	 * @param          {String|Number}        key      name of the property
+	 * @return         {Any}
 	 */
 	this.getProperty = function(key){
+		if (!(typeof key === 'string' || typeof key === 'number')){
+			return;
+		}
 		if (core.hasOwnProperty(key)){
 			return core[key];
 		}
-		if (typeof key !== 'string'){
+		var arr = _splitBy(key, '-');
+		if (arr){
+			return this.getPropertyBySide(arr[0], arr[1]);
+		}
+	};
+
+	/**
+	 * Array of possible side names.
+	 *
+	 * The order of elements matters for
+	 * {{#crossLink "Properties/getPropertyBySide:method"}}getPropertyBySide{{/crossLink}}.
+	 * @property       {Array}         _allowedSides
+	 * @since          0.0.8
+	 * @private
+	 */
+	var _allowedSides = ["top", "right", "bottom", "left"];
+
+	/**
+	 * {{#crossLink "Properties/_allowedSides:property"}}_allowedSides{{/crossLink}} getter.
+	 * @method         _allowedSides
+	 * @return         {Array}
+	 * @since          0.0.8
+	 */
+	this.getAllowedSides = function(){
+		return _allowedSides;
+	};
+
+	/**
+	 * Returns value of property `p` corresponding to `side`.
+	 *
+	 * Returned valued depends on words (and their number) in value of property `p`
+	 * and value of parameter `side`:
+	 *
+	 * If value of `p` matches:<dl>
+ 	 * <dt>"X"</dt>      <dd>then `top`, `right`, `bottom`, `left` all correspond to `X`</dd>
+	 * <dt>"X Y"</dt>    <dd>then `top`, `right`, `bottom`, `left` correspond respectively to X, Y, X, Y</dd>
+	 * <dt>"X Y Z"</dt>  <dd>then `top`, `right`, `bottom`, `left` correspond respectively to X, Y, Z, Y</dd>
+	 * <dt>"X Y Z W"</dt><dd>then `top`, `right`, `bottom`, `left` correspond respectively to X, Y, X, W</dd>
+	 * </dl>
+	 *
+	 * If property `p` is not set or `side` is not of allowed value, nothing is returned.
+	 * @method         getPropertyBySide
+	 * @param          {String}                            p
+	 * @param          {"top"|"bottom"|"left"|"right"}     side
+	 * @return         {String}
+	 * @since          0.0.8
+	 */
+	this.getPropertyBySide = function(p, side){
+		var ind = this.getAllowedSides().indexOf(side);
+		if (ind === -1){
 			return;
 		}
-		// pattern
-		var re = /(\w+)-(left|right|top|bottom)/,
-			res = key.match(re),
-			base, position, value, output;
-		if (res){
-			base = res[1];
-			position = res[2];
-			if (!core.hasOwnProperty(base)){
-				return;
-			}
-			value = core[base].trim();
-			value = value.split(/\s+/);
-			switch (value.length){
-				case 1:
-					output = value[0];
-					break;
-				case 2:
-					output = (position === 'top' || position === 'bottom') ? value[0] : value[1];
-					break;
-				case 3:
-					output = (position === 'left' || position === 'right') ? value[1] : (position === 'top' ? value[0] : value[2]);
-					break;
-				default:
-					output = position === 'top' ? value[0] : (position === 'right' ? value[1] : (position === 'bottom' ? value[2] : value[3]));
-			}
-			return output;
-
+		var prop = this.getProperty(p);
+		if (!(prop && (typeof prop === 'string' || typeof prop === 'number'))){
+			return;
 		}
-
+		prop = prop.toString().trim().split(/\s+/);
+		switch (prop.length){
+			case 1:
+				return prop[0];
+			case 2:
+				return prop[ind % 2];
+			case 3:
+				return prop[ind < 3 ? ind : 1];
+			case 4:
+				return prop[ind];
+		}
 	};
 
 	/**
@@ -490,7 +549,8 @@ function Properties(input) {
 	 * @return   {Boolean}
 	 */
 	this.hasProperty = function(key){
-		return this.getCore()[key] !== undefined;
+		var coreCopy = this.getCore();
+		return coreCopy && typeof coreCopy.hasOwnProperty === 'function' && coreCopy.hasOwnProperty(key);
 	};
 
 	/**

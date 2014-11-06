@@ -45,7 +45,7 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    describe('Sets image origin', function(){
+    xdescribe('Sets image origin', function(){
         it('sets "src" attribute if url points to a valid image', function(){
             img = new Image();
             img.setOrigin(validLink);
@@ -80,7 +80,7 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    describe('Automatically derives image width', function(){
+    xdescribe('Automatically derives image width', function(){
         it('gets zero width if src is not set', function(){
             expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getWidth()).toBe(0);
@@ -91,7 +91,7 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    describe('Automatically derive image height', function(){
+    xdescribe('Automatically derive image height', function(){
         it('gets zero height if src is not set', function(){
             expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getHeight()).toBe(0);
