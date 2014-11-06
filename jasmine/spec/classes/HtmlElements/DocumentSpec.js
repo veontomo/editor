@@ -202,6 +202,15 @@ describe('Document-related functionality', function(){
 			expect(d.findAscendant(n31, function(n){return n === n10;}, n00)).toBe(n10);
 		});
 
+		it('returns nothing if criteria function always throws exceptions', function(){
+			expect(d.findAscendant(n31, function(){throw new Error('an error!');}, n00)).not.toBeDefined();
+		});
+
+
+		it('returns correct node even if criteria function throws exception on previous calls', function(){
+			expect(d.findAscendant(n31, function(n){if (n === n10){return true;} else {throw new Error('an error!');}}, n00)).toBe(n10);
+		});
+
 
 
 	});

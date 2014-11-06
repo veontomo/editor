@@ -318,10 +318,15 @@ function Document(node){
 		}
 		var currentNode = n;
 		while (currentNode && (!isScoped || scope.contains(currentNode))){
-			if (criteria(currentNode)){
-				return currentNode;
+			try {
+				if (criteria(currentNode)){
+					return currentNode;
+				}
+			} catch(e){
+				console.log('Error (' + e.name + ') when applying criteria to a node: ' + e.message);
+			} finally {
+				currentNode = currentNode.parentNode;
 			}
-			currentNode = currentNode.parentNode;
 		}
 	};
 
