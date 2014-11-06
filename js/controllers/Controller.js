@@ -234,14 +234,4 @@ function Controller(){
 		alert(typeof msg === 'string' ? msg : 'Error occurred!');
 	};
 
-	/**
-	 * Returns a first node satifying given `criteria`. The look up is performed among
-	 * @method  detectAscendant
-	 * @param  {[type]} criteria [description]
-	 * @return {[type]}          [description]
-	 */
-	this.detectAscendant = function(criteria){
-
-	}
-
 }

@@ -250,15 +250,16 @@ function CLink() {
 
 	/**
 	 * Fills in `dialog` window based on current selection.
-	 * @method         fillInDialogWithSmart
+	 * @method         fillInDialogSmart
 	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
 	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
 	 * @return         {void}
 	 */
-	this.fillInDialogWithSmart = function(dialog, editor){
+	this.fillInDialogSmart = function(dialog, editor){
 		var link, linkElem, criteria,
 			selection = new Selection(editor),
-			start;
+			start,
+			doc = new Document();
 		// this.setSelection(selection);
 		criteria = function(el){
 			return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';

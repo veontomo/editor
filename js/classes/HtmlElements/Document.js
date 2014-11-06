@@ -5,7 +5,7 @@
  * This class is to deal with documents: parsing, converting, saving. Its functionality is similar
  * to those of {{#crossLink "Dom"}}Dom{{/crossLink}}.
  *
- * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
+ * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton (** really??? **),
  * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a class that accepts creation of multiple
  * instances.
  * @module 	    Document
@@ -290,6 +290,38 @@ function Document(node){
 				this.setContent(newContent);
 			}
 
+		}
+	};
+
+
+	/**
+	 * Considers ascendants of node `n` which are descendants of optional node `scope` and chooses that node
+	 * for which `criteria` returns `true`.
+	 *
+	 * If `scope` is not set, then the search is performed up to the highest root.
+	 *
+	 * If `scope` is set, but `n` is not its desendant, then an error is thrown.
+	 * @method         findAscendant
+	 * @param          {DOM.Node}      n          node from which the search is started
+	 * @param          {Function}      criteria
+	 * @param          {DOM.Node}      scope      [optional] node with which the search is finished
+	 * @return         {DOM.Node}
+	 * @since          0.0.8
+	 */
+	this.findAscendant = function(n, criteria, scope){
+		var isScoped = scope !== undefined;
+		if (scope && (typeof scope.contains === 'function') && !scope.contains(n)){
+			throw new Error('Wrong scope!');
+		}
+		if (typeof criteria !== 'function'){
+			throw new Error('Criteria must be a function!');
+		}
+		var currentNode = n;
+		while (currentNode && (!isScoped || scope.contains(currentNode))){
+			if (criteria(currentNode)){
+				return currentNode;
+			}
+			currentNode = currentNode.parentNode;
 		}
 	};
 

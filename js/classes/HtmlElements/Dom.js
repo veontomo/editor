@@ -5,7 +5,7 @@
  * This class deals with the elements of the editor document. Its functionality is similar
  * to those of {{#crossLink "Document"}}Document{{/crossLink}}.
  *
- * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton,
+ * The difference between them: {{#crossLink "Document"}}Document{{/crossLink}} is a singleton (** really??? **),
  * while {{#crossLink "Dom"}}Dom{{/crossLink}} is a class that accepts creation of multiple
  * instances.
  * @module 	    Document

@@ -140,4 +140,70 @@ describe('Document-related functionality', function(){
 
 	});
 
+	describe('Method findAscendant', function(){
+        var n00, n10, n11, n20, n21, n22, n23, n30, n31;
+		//                    n00
+		//         ____________|_________
+		//         |                     |
+		//        n10                   n11
+		//   ______|______               |
+		//   |     |      |              |
+		//  n20   n21    n22            n23
+		//      ___|____
+		//      |       |
+		//     n30     n31
+		//
+        beforeEach(function(){
+            n00 = document.createElement('div00');
+            n10 = document.createElement('div10');
+            n11 = document.createElement('div11');
+            n20 = document.createElement('div20');
+            n21 = document.createElement('div21');
+            n22 = document.createElement('div22');
+            n23 = document.createElement('div23');
+            n30 = document.createElement('div30');
+            n31 = document.createElement('div31');
+            n00.appendChild(n10);
+            n00.appendChild(n11);
+            n10.appendChild(n20);
+            n10.appendChild(n21);
+            n10.appendChild(n22);
+            n21.appendChild(n30);
+            n21.appendChild(n31);
+            n11.appendChild(n23);
+            d = new Document(n00);
+        });
+		it('throws an error if the scope is set but it does not contain the start node', function(){
+			expect(function(){
+				d.findAscendant(n30, function(){}, n22);
+			}).toThrow(new Error('Wrong scope!'));
+		});
+		it('throws an error if the criteria is either string, array, number, object, null or undefined', function(){
+			var invalids = ['', 'hi', [], [0, 1], 0, -12.3, 234, null];
+			invalids.forEach(function(el){
+				expect(function(){
+					d.findAscendant(n30, el, n10);
+				}).toThrow(new Error('Criteria must be a function!'));
+			});
+		});
+		it('returns nothing if the criteria never returns true', function(){
+			expect(d.findAscendant(n30, function(){return false;}, n10)).not.toBeDefined();
+		});
+
+		it('returns start node if it turns the criteria into true', function(){
+			expect(d.findAscendant(n31, function(n){return n === n31;}, n10)).toBe(n31);
+		});
+
+		it('returns scope node if the criteria becomes true only for it', function(){
+			expect(d.findAscendant(n31, function(n){return n === n00;}, n00)).toBe(n00);
+		});
+
+		it('returns intermediate node for which the criteria becomes true', function(){
+			expect(d.findAscendant(n31, function(n){return n === n10;}, n00)).toBe(n10);
+		});
+
+
+
+	});
+
 });
