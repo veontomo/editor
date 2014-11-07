@@ -114,8 +114,18 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.containsRange = function(range){
-        /// !!!
-        return true;
+        if (!this.isRange(range)){
+            throw Error('The argument must be a Range instance!');
+        }
+        var ranges = this.getRanges();
+        if (ranges){
+            ranges.forEach(function(r){
+                if (this.areEqual(r, range)){
+                    return true;
+                }
+            }.bind(this));
+        }
+        return false;
     };
 
     /**
@@ -130,6 +140,21 @@ function Selection(ed) {
         /// !!! stub
         return 0;
     };
+
+    /**
+     * Whether two ranges `r1` and `r2` are equal.
+     *
+     * Returns `true` if `r1` and `r2` have equal starting and ending points. Otherwise, returns `false`.
+     * @method         areEqual
+     * @param          {Range}         r1       instance of Range
+     * @param          {Range}         r2       instance of Range
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.areEqual = function(r1, r2){
+        ///!!! stub
+        return false;
+    }
 
     /**
      * Returns the next element from {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}

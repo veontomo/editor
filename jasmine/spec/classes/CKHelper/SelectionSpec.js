@@ -153,6 +153,7 @@ describe('Selection-related functionality', function(){
                 });
             });
         });
+
         describe('has method appendRange', function(){
             it('that does not call setRanges method if the argument is not a valid range', function(){
                 spyOn(sel, 'getRanges');
@@ -206,6 +207,83 @@ describe('Selection-related functionality', function(){
 
                 });
             });
+        });
+
+        describe('method containsRange', function(){
+            it('throws an error if isRange return false', function(){
+                spyOn(sel, 'isRange').and.returnValue(false);
+                expect(function(){
+                    sel.containsRange('whatever');
+                }).toThrow(new Error('The argument must be a Range instance!'));
+            });
+            it('returns false if _ranges is not set', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'getRanges');
+                expect(sel.containsRange('anything')).toBe(false);
+            });
+            it('returns false if _ranges is empty', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'getRanges').and.returnValue([]);
+                expect(sel.containsRange('range')).toBe(false);
+            });
+            it('calls "areEqual" to compare the ranges', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'areEqual').and.returnValue(false);
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                sel.containsRange('range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r1', 'range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r2', 'range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r3', 'range');
+            });
+            it('returns false if method "areEqual" always returns false', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'areEqual').and.returnValue(false);
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                expect(sel.containsRange(range)).toBe(false);
+            });
+
+            it('calls "areEqual" for first two elements if it returns "true" during the second execution', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'areEqual').and.callFake(function(x, y){return x === 'r2';}); // returns true only for the second range
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                sel.containsRange('range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r1', 'range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r2', 'range');
+                expect(sel.areEqual).not.toHaveBeenCalledWith('r3', 'range');
+
+            });
+
+
+            it('calls "areEqual" once if it returns "true" during  the first execution', function(){
+                spyOn(sel, 'areEqual').and.callFake(function(x){return x === 'r2';}); // returns true only for the second range
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                sel.containsRange(range);
+                expect(sel.areEqual).toHaveBeenCalledWith([['r1', range], ['r2', range]]);
+                expect(sel.areEqual).not.toHaveBeenCalledWith([['r3', range]]);
+            });
+
+            it('returns true if "areEqual" returns "true" during the first execution', function(){
+                spyOn(sel, 'areEqual').and.callFake(function(){return true;}); // always returns true
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                expect(sel.containsRange(range)).toBe(true);
+            });
+
+            it('calls "areEqual" twice if it returns "true" during  the second execution', function(){
+                spyOn(sel, 'areEqual').and.callFake(function(x){return x === 'r2';}); // returns true only for the second range
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                sel.containsRange(range);
+                expect(sel.areEqual).toHaveBeenCalledWith([['r1', range], ['r2', range]]);
+                expect(sel.areEqual).not.toHaveBeenCalledWith([['r3', range]]);
+            });
+
+            it('returns true if "areEqual" returns "true" during last (third) execution', function(){
+                spyOn(sel, 'areEqual').and.callFake(function(x){return x === 'r3';}); // returns true only for the third range
+                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
+                expect(sel.containsRange(range)).toBe(true);
+            });
+
+
+
         });
     });
 });
