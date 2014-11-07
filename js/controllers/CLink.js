@@ -259,29 +259,33 @@ function CLink() {
 		var link, linkElem, criteria,
 			selection = new Selection(editor),
 			start,
-			doc = new Document();
-		// this.setSelection(selection);
-		criteria = function(el){
-			return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
-		};
-		if (selection.isEmpty()){
-			start = selection.getStartElement();
-			if (start){
-				linkElem = selection.findAscendant
-			}
+			doc;
+		if (editor){
+			doc = new Document(editor.document.getBody().$);
+			console.log('CLink::fillInDialogSmart', editor.getSelection().getRanges());
 
 		}
+		// criteria = function(el){
+		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
+		// };
+		// if (selection.isEmpty()){
+		// 	start = selection.getStartElement();
+		// 	if (start){
+		// 		linkElem = selection.findAscendant();
+		// 	}
 
-		linkElem = this.detectAscendant(criteria);
-		console.log(linkElem.$);
-		if (linkElem){
-			var f = NEWSLETTER.factory;
-			link = f.mimic(linkElem.$);
-		} else {
-			link = new Link();
-		}
-		console.log(link.template());
-		this.fillInDialog(dialog, link.template());
+		// }
+
+		// linkElem = this.detectAscendant(criteria);
+		// console.log(linkElem.$);
+		// if (linkElem){
+		// 	var f = NEWSLETTER.factory;
+		// 	link = f.mimic(linkElem.$);
+		// } else {
+		// 	link = new Link();
+		// }
+		// console.log(link.template());
+		// this.fillInDialog(dialog, link.template());
 	};
 }
 CLink.prototype = Object.create(Controller.prototype);

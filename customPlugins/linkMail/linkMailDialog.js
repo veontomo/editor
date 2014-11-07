@@ -204,8 +204,24 @@ function linkMailDialog(editor, scheme) {
          * @return    {void}
          */
         onShow: function() {
-            selection = new Selection(editor);
+            // selection = new Selection(editor);
             _controller.fillInDialogSmart(this, editor);
+            // console.log(editor.getSelection().getNative());
+            // console.log('onShow', editor.getSelection().getRanges());
+            // var thisTmp = editor.getSelection();
+            // if ( thisTmp._.cache.nativeSel !== undefined ){
+            //     console.log(thisTmp._.cache.nativeSel);
+            // }
+
+            // if (thisTmp._.cache.nativeSel === (typeof window.getSelection !== 'function')){
+            //     console.log('TRUE');
+            //     console.log( thisTmp.document.$.selection );
+            // } else {
+            //     console.log('FALSE');
+            //     console.log( thisTmp.document.getWindow().$.getSelection() );
+            // }
+
+
         },
 
         onCancel: function(){

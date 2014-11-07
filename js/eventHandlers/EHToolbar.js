@@ -91,10 +91,16 @@ var EHToolbar = {
 			// exit, if missing
 			return;
 		}
-		startElem = startElem.getStartElement().$;
-		detectedPropValue = dom.getInheritedStyleProp(propName, startElem);
-		state = (detectedPropValue === propValue) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-		button.setState(state, 'cke_button');
+
+		if (startElem){
+			startElem = startElem.getStartElement();
+			if (startElem){
+				startElem = startElem.$;
+				detectedPropValue = dom.getInheritedStyleProp(propName, startElem);
+				state = (detectedPropValue === propValue) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+				button.setState(state, 'cke_button');
+			}
+		}
 	},
 
 	/**

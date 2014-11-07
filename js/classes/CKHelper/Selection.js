@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global DOMParser, CKHelper, CKEDITOR, Node, Styles, Dom */
+/*global DOMParser, CKHelper, CKEDITOR, Node, Dom, Range */
 
 /**
 * Represents selected elements in the editor window. The argument `ed` is a
@@ -36,27 +36,117 @@ function Selection(ed) {
     }
 
     /**
-    * Array of [range instances](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range) corresponding to the selection.
-    * @property {Array}   ranges
+    * Array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) corresponding to the selection.
+    *
+    * Each element of the above array corresponds to a contiguous set of elements in the DOM.
+    * @property        {Array}         _ranges
     * @private
     */
-    var ranges;
+    var _ranges;
     if (selected instanceof CKEDITOR.dom.selection){
-        ranges = selected.getRanges();
+        _ranges = selected.getRanges();
     }
 
     /**
-     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} getter.
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} getter.
      * @method         getRanges
-     * @return         {Array}          array of CKEDITOR.dom.range instances
+     * @return         {Array}          array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
      */
     this.getRanges = function(){
-        return ranges;
+        return _ranges;
     };
 
     /**
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} setter.
+     * @method         setRanges
+     * @param          {Array}      ranges
+     * @return         void
+     * @since          0.0.8
+     */
+    this.setRanges = function(ranges){
+        /// !!! stub
+    };
+
+
+    /**
+     * Appends a range to the selection.
+     *
+     * If the argument is a Range instance and it is not present in
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}) array,
+     * then it gets appended to it.
+     *
+     * @method         appendRange
+     * @param          {Range}         range
+     * @return         {void}
+     * @since          0.0.8
+     */
+    this.appendRange = function(range){
+        if (this.isRange(range) && !this.containsRange(range)){
+            var ranges = this.getRanges();
+            if (Array.isArray(ranges)){
+                ranges.push(range);
+            } else {
+                ranges = [range];
+            }
+            this.setRanges(ranges);
+        }
+    };
+
+    /**
+     * Whether the argument is a range.
+     *
+     * Returns `true` if the argument is a range, `false` otherwise.
+     *
+     * @method         isRange
+     * @param          {Any}           r
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.isRange = function(r){
+        return (r instanceof Range);
+    };
+
+    /**
+     * Whether the selection contains `range`.
+     * @method         containsRange
+     * @param          {Range}         range
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.containsRange = function(range){
+        /// !!!
+        return true;
+    };
+
+    /**
+     * The number of elements in
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}
+     * array.
+     * @method         _rangeNum
+     * @return         {Integer}
+     * @since          0.0.8
+     */
+    this.rangeNum = function(){
+        /// !!! stub
+        return 0;
+    };
+
+    /**
+     * Returns the next element from {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}
+     * if it exists. Otherwise, returns `null`.
+     * @method         nextRange
+     * @return         {Range|null}
+     * @since          0.0.8
+     */
+    this.nextRange = function(){
+        /// !!! stub
+        return undefined;
+    };
+
+
+    /**
      * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} setter. Sets as well
-     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}.
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}.
      * @method         setSelected
      * @return         {void}
      */
@@ -65,7 +155,7 @@ function Selection(ed) {
             throw new Error('The argument must be a CKEDITOR.dom.selection instance!');
         }
         selected = obj;
-        ranges = selected.getRanges();
+        _ranges = selected.getRanges();
     };
 
     /**
@@ -91,7 +181,7 @@ function Selection(ed) {
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well
      * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} and
-     * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}}.
+     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}.
      * @method        setEditor
      * @param         {CKEDITOR.editor}     obj
      */
@@ -101,7 +191,7 @@ function Selection(ed) {
         }
         editor = obj;
         selected = obj.getSelection();
-        ranges = (selected instanceof CKEDITOR.dom.selection) ? selected.getRanges() : null;
+        _ranges = (selected instanceof CKEDITOR.dom.selection) ? selected.getRanges() : null;
     };
 
     /**
@@ -110,7 +200,7 @@ function Selection(ed) {
     * [[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].
     * </pre>
     * Each inner array corresponds to the elements inside the
-    * {{#crossLink "Selection/ranges:property"}}ranges{{/crossLink}} property of the selection.
+    * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} property of the selection.
     * Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is
     * just a collection of simply-connected sets of nodes corresponding to the selection.
     *

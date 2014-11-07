@@ -126,6 +126,7 @@ function Document(node){
 		}
 	};
 
+
 	/**
 	 * Removes attributes present in array `flies` of regular expressions from
 	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
