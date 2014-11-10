@@ -409,6 +409,24 @@ describe('Selection-related functionality', function(){
             });
         });
 
+        describe('has iterator that', function(){
+            it('returns nothing, if "ranges" is empty', function(){
+                pending();
+            });
+            it('returns first range, if "ranges" contains the only element', function(){
+                pending();
+            });
+            it('returns nothing when executed twice, if "ranges" contains the only element', function(){
+                pending();
+            });
+            it('returns fourth element when executed 4 times', function(){
+                pending();
+            });
+            it('returns nothing when executed 6 times, if "ranges" contains only three elements', function(){
+                pending();
+            });
+        });
+
     });
 
 });
