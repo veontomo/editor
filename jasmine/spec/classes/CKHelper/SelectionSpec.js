@@ -85,13 +85,10 @@ describe('Selection-related functionality', function(){
     });
 
     describe('Range', function(){
-        var range;
+        var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
         beforeEach(function(){
             sel = new Selection();
             range = document.createRange();
-        });
-        xit('can select nodes', function(){
-            var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
             //                                     e00
             //          ____________________________|________
@@ -131,15 +128,6 @@ describe('Selection-related functionality', function(){
             e26.setAttribute('style', 'font-weight: normal;');
             e11.setAttribute('style', 'block: narrow;');
             e21.setAttribute('style', 'width: 20px;');
-
-            range = document.createRange();
-
-            range.setStart(e10, 2);
-            range.setEnd(t24, 5);
-
-            console.log(range.toString());
-            console.log(e00.innerHTML);
-            expect(true).toBe(false);
         });
 
         describe('has method isRange which', function(){
@@ -242,7 +230,7 @@ describe('Selection-related functionality', function(){
                 expect(sel.containsRange(range)).toBe(false);
             });
 
-             it('returns true if "areEqual" returns "true" during the first execution', function(){
+            it('returns true if "areEqual" returns "true" during the first execution', function(){
                 spyOn(sel, 'areEqual').and.callFake(function(){return true;}); // always returns true
                 spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
                 expect(sel.containsRange(range)).toBe(true);
@@ -263,11 +251,166 @@ describe('Selection-related functionality', function(){
                 spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
                 expect(sel.containsRange(range)).toBe(true);
             });
-
-
-
         });
+
+        describe('method areEqual', function(){
+            it('returns false if called with one argument that is not a Range instance', function(){
+                spyOn(sel, 'isRange').and.returnValue(false);
+                expect(sel.areEqual('anything')).toBe(false);
+                expect(sel.isRange).toHaveBeenCalledWith('anything');
+            });
+            it('returns false if called with one argument that is a Range instance', function(){
+                spyOn(sel, 'isRange').and.callFake(function(r){return r !== undefined;});
+                expect(sel.areEqual('anything')).toBe(false);
+                expect(sel.isRange).toHaveBeenCalledWith('anything');
+            });
+            it('returns false if both arguments are not Range instances', function(){
+                spyOn(sel, 'isRange').and.callFake(function(){return false;});
+                expect(sel.areEqual('not range', 'niether this')).toBe(false);
+            });
+            it('returns false if first arg is a Range instance, the second - not', function(){
+                spyOn(sel, 'isRange').and.callFake(function(r){return r === 'range';});
+                expect(sel.areEqual('range', 'not range')).toBe(false);
+                expect(sel.isRange).toHaveBeenCalledWith('range');
+                expect(sel.isRange).toHaveBeenCalledWith('not range');
+            });
+
+            it('returns true, if both ranges are identical', function(){
+                expect(sel.areEqual(range, range)).toBe(true);
+            });
+
+            it('returns true, if the ranges start and end in element nodes and have the same offsets', function(){
+                var range2 = document.createRange();
+                range.setStart(e21, 0);
+                range.setEnd(e23, 0);
+                range2.setStart(e21, 0);
+                range2.setEnd(e23, 0);
+                expect(sel.areEqual(range, range2)).toBe(true);
+            });
+
+            it('returns true, if the ranges start and end in the same text node and have the same offsets', function(){
+                var range2 = document.createRange();
+                range.setStart(t22, 2);
+                range.setEnd(t22, 5);
+                range2.setStart(t22, 2);
+                range2.setEnd(t22, 5);
+                expect(sel.areEqual(range, range2)).toBe(true);
+            });
+
+            it('returns false, if the ranges start and end in the same text node and have different offsets', function(){
+                var range2 = document.createRange();
+                range.setStart(t22, 1);
+                range.setEnd(t22, 4);
+                range2.setStart(t22, 3);
+                range2.setEnd(t22, 5);
+                expect(sel.areEqual(range, range2)).toBe(false);
+            });
+
+            it('returns false, if the ranges start and end in the same text node and have different offsets', function(){
+                var range2 = document.createRange();
+                range.setStart(t22, 1);
+                range.setEnd(t22, 4);
+                range2.setStart(t22, 3);
+                range2.setEnd(t22, 5);
+                expect(sel.areEqual(range, range2)).toBe(false);
+            });
+
+            it('returns false, if the ranges start and end in the same element node and have different offsets', function(){
+                var range2 = document.createRange();
+                range.setStart(e21, 1);
+                range.setEnd(e21, 2);
+                range2.setStart(e21, 0);
+                range2.setEnd(e21, 1);
+                expect(sel.areEqual(range, range2)).toBe(false);
+            });
+        });
+
+        describe('has method rangeCount that', function(){
+            it('returns 0, if the "ranges" is not set', function(){
+                spyOn(sel, 'getRanges');
+                expect(sel.rangeCount()).toBe(0);
+            });
+            it('returns 0, if the "ranges" is an empty array ([])', function(){
+                spyOn(sel, 'getRanges').and.returnValue([]);
+                expect(sel.rangeCount()).toBe(0);
+            });
+            it('returns 2, if the "ranges" is an array containing two elements ([..., ...])', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['1', '2']);
+                expect(sel.rangeCount()).toBe(2);
+            });
+
+            it('returns 3, if the "ranges" is an array containing three elements ([..., ..., ...])', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['1', 'second range', ['3']]);
+                expect(sel.rangeCount()).toBe(3);
+            });
+        });
+
+        describe('has method setRanges that', function(){
+            it('sets ranges to empty array if it is called without argument', function(){
+                sel.setRanges();
+                var res = sel.getRanges();
+                expect(Array.isArray(res)).toBe(true);
+                expect(res.length).toBe(0);
+            });
+            it('sets ranges to empty array if the argument is invalid', function(){
+                var invalids = [0, 5, -1, 2.1, -2.3, '', 'string', {}, {foo: 1}, function(){return;}];
+                invalids.forEach(function(invalid){
+                    sel = new Selection();
+                    sel.setRanges(invalid);
+                    var res = sel.getRanges();
+                    expect(Array.isArray(res)).toBe(true);
+                    expect(res.length).toBe(0);
+                });
+            });
+            it('sets ranges to empty array if the argument is an empty array', function(){
+                sel.setRanges([]);
+                var res = sel.getRanges();
+                expect(Array.isArray(res)).toBe(true);
+                expect(res.length).toBe(0);
+            });
+
+            it('calls append range method if all ranges are valid', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'appendRange');
+                sel.setRanges(['r1', 'r2', 'r3']);
+                expect(sel.appendRange).toHaveBeenCalledWith('r1');
+                expect(sel.appendRange).toHaveBeenCalledWith('r2');
+                expect(sel.appendRange).toHaveBeenCalledWith('r3');
+            });
+
+            it('does not call append range method on first argument if it is not a valid range', function(){
+                spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'r1';});
+                spyOn(sel, 'appendRange');
+                sel.setRanges(['r1', 'r2', 'r3']);
+                expect(sel.appendRange).not.toHaveBeenCalledWith('r1');
+                expect(sel.appendRange).toHaveBeenCalledWith('r2');
+                expect(sel.appendRange).toHaveBeenCalledWith('r3');
+            });
+
+            it('does not call append range method on a middle argument if it is not a valid range', function(){
+                spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'rMiddle';});
+                spyOn(sel, 'appendRange');
+                sel.setRanges(['r1', 'r2', 'rMiddle', 'rLast']);
+                expect(sel.appendRange).toHaveBeenCalledWith('r1');
+                expect(sel.appendRange).toHaveBeenCalledWith('r2');
+                expect(sel.appendRange).not.toHaveBeenCalledWith('rMiddle');
+                expect(sel.appendRange).toHaveBeenCalledWith('rLast');
+            });
+
+            it('does not call append range method on last argument if it is not a valid ranget', function(){
+                spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'rLast';});
+                spyOn(sel, 'appendRange');
+                sel.setRanges(['r1', 'r2', 'r3', 'rMiddle', 'rLast']);
+                expect(sel.appendRange).toHaveBeenCalledWith('r1');
+                expect(sel.appendRange).toHaveBeenCalledWith('r2');
+                expect(sel.appendRange).toHaveBeenCalledWith('r3');
+                expect(sel.appendRange).toHaveBeenCalledWith('rMiddle');
+                expect(sel.appendRange).not.toHaveBeenCalledWith('rLast');
+            });
+        });
+
     });
+
 });
 
 

@@ -96,7 +96,7 @@ module.exports = function (config) {
     browserDisconnectTimeout: 1000,
     browserNoActivityTimeout: 1000,
     preprocessors: {'**/*.js': 'coverage'},
-    colors: false,
+    colors: true,
     coverageReporter: {
       reporters: [
           {type: 'lcov', dir: statisticsDir}

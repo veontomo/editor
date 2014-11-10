@@ -64,7 +64,16 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.setRanges = function(ranges){
-        /// !!! stub
+        if (!Array.isArray(ranges)){
+            _ranges = [];
+            return;
+        }
+        _ranges = [];
+        ranges.forEach(function(r){
+            if (this.isRange(r)){
+                this.appendRange(r);
+            }
+        }.bind(this));
     };
 
 
@@ -122,12 +131,6 @@ function Selection(ed) {
             // compares given argument range with range stored in varaible "range"
             var comparator = function(x){return this.areEqual(x, range);}.bind(this);
             return ranges.some(comparator);
-
-            // ranges.forEach(function(r){
-            //     if (this.areEqual(r, range)){
-            //         return true;
-            //     }
-            // }.bind(this));
         }
         return false;
     };
@@ -136,13 +139,16 @@ function Selection(ed) {
      * The number of elements in
      * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}
      * array.
-     * @method         _rangeNum
+     * @method         rangeCount
      * @return         {Integer}
      * @since          0.0.8
      */
-    this.rangeNum = function(){
-        /// !!! stub
-        return 0;
+    this.rangeCount = function(){
+        var r = this.getRanges();
+        if (!r){
+            return 0;
+        }
+        return r.length;
     };
 
     /**
@@ -156,9 +162,15 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.areEqual = function(r1, r2){
-        ///!!! stub
-        return false;
-    }
+        if (!this.isRange(r1) || !this.isRange(r2)){
+            return false;
+        }
+        var r1Start = r1.startContainer,
+            r2Start = r2.startContainer,
+            r1End = r1.endContainer,
+            r2End = r2.endContainer;
+        return r1Start && r2Start && r1End && r2End && r1Start.isEqualNode(r2Start) && r1End.isEqualNode(r2End) && r1.startOffset === r2.startOffset && r1.endOffset === r2.endOffset;
+    };
 
     /**
      * Returns the next element from {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}
