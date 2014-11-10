@@ -91,7 +91,7 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: allFiles,
     browsers: isWin ? ['Chrome', 'IE', 'Firefox'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    // browsers: ['Chrome'],
+    // browsers: ['Firefox'],
     reporters: ['progress', 'coverage', 'spec'],
     browserDisconnectTimeout: 1000,
     browserNoActivityTimeout: 1000,

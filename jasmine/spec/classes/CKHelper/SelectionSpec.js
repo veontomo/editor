@@ -242,38 +242,20 @@ describe('Selection-related functionality', function(){
                 expect(sel.containsRange(range)).toBe(false);
             });
 
-            it('calls "areEqual" for first two elements if it returns "true" during the second execution', function(){
-                spyOn(sel, 'isRange').and.returnValue(true);
-                spyOn(sel, 'areEqual').and.callFake(function(x, y){return x === 'r2';}); // returns true only for the second range
-                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
-                sel.containsRange('range');
-                expect(sel.areEqual).toHaveBeenCalledWith('r1', 'range');
-                expect(sel.areEqual).toHaveBeenCalledWith('r2', 'range');
-                expect(sel.areEqual).not.toHaveBeenCalledWith('r3', 'range');
-
-            });
-
-
-            it('calls "areEqual" once if it returns "true" during  the first execution', function(){
-                spyOn(sel, 'areEqual').and.callFake(function(x){return x === 'r2';}); // returns true only for the second range
-                spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
-                sel.containsRange(range);
-                expect(sel.areEqual).toHaveBeenCalledWith([['r1', range], ['r2', range]]);
-                expect(sel.areEqual).not.toHaveBeenCalledWith([['r3', range]]);
-            });
-
-            it('returns true if "areEqual" returns "true" during the first execution', function(){
+             it('returns true if "areEqual" returns "true" during the first execution', function(){
                 spyOn(sel, 'areEqual').and.callFake(function(){return true;}); // always returns true
                 spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
                 expect(sel.containsRange(range)).toBe(true);
             });
 
-            it('calls "areEqual" twice if it returns "true" during  the second execution', function(){
-                spyOn(sel, 'areEqual').and.callFake(function(x){return x === 'r2';}); // returns true only for the second range
+            it('calls "areEqual" for first two elements if it returns "true" during the second execution', function(){
+                spyOn(sel, 'isRange').and.returnValue(true);
+                spyOn(sel, 'areEqual').and.callFake(function(x, y){return x === 'r2' || y === 'r2';}); // returns true only for the second range
                 spyOn(sel, 'getRanges').and.returnValue(['r1', 'r2', 'r3']);
-                sel.containsRange(range);
-                expect(sel.areEqual).toHaveBeenCalledWith([['r1', range], ['r2', range]]);
-                expect(sel.areEqual).not.toHaveBeenCalledWith([['r3', range]]);
+                sel.containsRange('range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r1', 'range');
+                expect(sel.areEqual).toHaveBeenCalledWith('r2', 'range');
+                expect(sel.areEqual).not.toHaveBeenCalledWith('r3', 'range');
             });
 
             it('returns true if "areEqual" returns "true" during last (third) execution', function(){

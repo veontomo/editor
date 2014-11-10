@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, beforeEach, spyOn, Worker */
 
-describe ('Worker functionality', function(){
+xdescribe ('Worker functionality', function(){
 	var w;
     beforeEach(function(){
     	w = new Worker();

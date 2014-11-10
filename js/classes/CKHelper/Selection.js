@@ -119,11 +119,15 @@ function Selection(ed) {
         }
         var ranges = this.getRanges();
         if (ranges){
-            ranges.forEach(function(r){
-                if (this.areEqual(r, range)){
-                    return true;
-                }
-            }.bind(this));
+            // compares given argument range with range stored in varaible "range"
+            var comparator = function(x){return this.areEqual(x, range);}.bind(this);
+            return ranges.some(comparator);
+
+            // ranges.forEach(function(r){
+            //     if (this.areEqual(r, range)){
+            //         return true;
+            //     }
+            // }.bind(this));
         }
         return false;
     };

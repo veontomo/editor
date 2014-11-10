@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, beforeEach, spyOn, ConverterSimpleText */
 
-describe ('Converter to plain text format', function(){
+xdescribe ('Converter to plain text format', function(){
 	var c;
     beforeEach(function(){
     	c = new ConverterSimpleText();

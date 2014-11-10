@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, beforeEach, spyOn, ConverterElastic, Properties, NEWSLETTER */
 
-describe ('Converter to elastic format', function(){
+xdescribe ('Converter to elastic format', function(){
 	var c, n;
     beforeEach(function(){
     	c = new ConverterElastic();
