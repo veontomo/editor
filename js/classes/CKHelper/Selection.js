@@ -48,6 +48,14 @@ function Selection(ed) {
     }
 
     /**
+     * Current range number (for iterations over the ranges)
+     * @property       {Integer}       _rangePointer
+     * @since          0.0.8
+     * @private
+     */
+    var _rangePointer;
+
+    /**
      * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} getter.
      * @method         getRanges
      * @return         {Array}          array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
@@ -174,14 +182,32 @@ function Selection(ed) {
 
     /**
      * Returns the next element from {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}
-     * if it exists. Otherwise, returns `null`.
+     * if it exists.
      * @method         nextRange
      * @return         {Range|null}
      * @since          0.0.8
      */
     this.nextRange = function(){
-        /// !!! stub
-        return undefined;
+        if (_rangePointer === undefined){
+            _rangePointer = 0;
+        }
+        if (_rangePointer < this.rangeCount()){
+            var r = this.getRanges()[_rangePointer];
+            _rangePointer++;
+            return r;
+        }
+    };
+
+    /**
+     * Restarts the range iterator.
+     * @method         startOver
+     * @return         {void}
+     * @since          0.0.8
+     */
+    this.startOver = function(){
+        if (_rangePointer !== undefined){
+            _rangePointer = 0;
+        }
     };
 
 

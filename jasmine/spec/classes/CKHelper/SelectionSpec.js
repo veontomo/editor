@@ -409,22 +409,82 @@ describe('Selection-related functionality', function(){
             });
         });
 
-        describe('has iterator that', function(){
-            it('returns nothing, if "ranges" is empty', function(){
-                pending();
+        describe('has nextRange method that', function(){
+            it('is undefined, if "ranges" is undefined', function(){
+                spyOn(sel, 'getRanges');
+                expect(sel.nextRange()).not.toBeDefined();
             });
-            it('returns first range, if "ranges" contains the only element', function(){
-                pending();
+            it('returns undefiend after the second call, if "ranges" is undefined', function(){
+                spyOn(sel, 'getRanges');
+                sel.nextRange();
+                expect(sel.nextRange()).not.toBeDefined();
             });
-            it('returns nothing when executed twice, if "ranges" contains the only element', function(){
-                pending();
+
+            it('is undefined, if "ranges" is an empty array', function(){
+                spyOn(sel, 'getRanges');
+                expect(sel.nextRange()).not.toBeDefined();
             });
-            it('returns fourth element when executed 4 times', function(){
-                pending();
+            it('returns first range, if "ranges" contains single  element', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1']);
+                spyOn(sel, 'rangeCount').and.returnValue(1);
+                expect(sel.nextRange()).toBe('range1');
             });
-            it('returns nothing when executed 6 times, if "ranges" contains only three elements', function(){
-                pending();
+            it('returns nothing when executed twice, if "ranges" contains single element', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1']);
+                spyOn(sel, 'rangeCount').and.returnValue(1);
+                sel.nextRange();
+                expect(sel.nextRange()).not.toBeDefined();
             });
+            it('returns four elements when executed 4 times and when "ranges" contains 5 elements', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1', 'range2', 'range3', 'range4', 'range5']);
+                spyOn(sel, 'rangeCount').and.returnValue(5);
+                expect(sel.nextRange()).toBe('range1');
+                expect(sel.nextRange()).toBe('range2');
+                expect(sel.nextRange()).toBe('range3');
+                expect(sel.nextRange()).toBe('range4');
+            });
+            it('returns undefined for last three calls when executed 6 times, if "ranges" contains only three elements', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1', 'range2', 'range3']);
+                spyOn(sel, 'rangeCount').and.returnValue(3);
+                expect(sel.nextRange()).toBeDefined();
+                expect(sel.nextRange()).toBeDefined();
+                expect(sel.nextRange()).toBeDefined();
+                expect(sel.nextRange()).not.toBeDefined();
+                expect(sel.nextRange()).not.toBeDefined();
+                expect(sel.nextRange()).not.toBeDefined();
+            });
+            it('starts over after resetting if ranges is not defined', function(){
+                spyOn(sel, 'getRanges');
+                sel.startOver();
+                expect(sel.nextRange()).not.toBeDefined();
+            });
+            it('starts over after two calls, if "ranges" contains three elements', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1', 'range2', 'range3']);
+                spyOn(sel, 'rangeCount').and.returnValue(3);
+                expect(sel.nextRange()).toBe('range1');
+                expect(sel.nextRange()).toBe('range2');
+                sel.startOver();
+                expect(sel.nextRange()).toBe('range1');
+                expect(sel.nextRange()).toBe('range2');
+                expect(sel.nextRange()).toBe('range3');
+            });
+            it('starts over, if "ranges" contains single element', function(){
+                spyOn(sel, 'getRanges').and.returnValue(['range1']);
+                spyOn(sel, 'rangeCount').and.returnValue(1);
+                expect(sel.nextRange()).toBe('range1');
+                expect(sel.nextRange()).not.toBeDefined();
+                sel.startOver();
+                expect(sel.nextRange()).toBe('range1');
+                expect(sel.nextRange()).not.toBeDefined();
+                expect(sel.nextRange()).not.toBeDefined();
+                sel.startOver();
+                sel.startOver();
+                expect(sel.nextRange()).toBe('range1');
+            });
+
+
+
+
         });
 
     });
