@@ -263,7 +263,6 @@ function CLink() {
 		if (editor){
 			doc = new Document(editor.document.getBody().$);
 			console.log('CLink::fillInDialogSmart', editor.getSelection().getRanges());
-
 		}
 		// criteria = function(el){
 		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';

@@ -81,7 +81,6 @@ var path = require('path'),
   ],
   statisticsDir = '../statistics/jsCoverage/'.replace(/\//g, path.sep);
 
-
 allFiles = allFiles.map(function(fn){ return fn.replace(/\//g, path.sep);});
 
 module.exports = function (config) {
@@ -90,8 +89,8 @@ module.exports = function (config) {
     autoWatch: true,
     frameworks: ['jasmine'],
     files: allFiles,
-    browsers: isWin ? ['Chrome', 'IE', 'Firefox'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    // browsers: ['Firefox'],
+    // browsers: isWin ? ['Chrome', 'IE', 'Firefox'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
+    browsers: ['Firefox'],
     reporters: ['progress', 'coverage', 'spec'],
     browserDisconnectTimeout: 1000,
     browserNoActivityTimeout: 1000,
@@ -99,7 +98,7 @@ module.exports = function (config) {
     colors: true,
     coverageReporter: {
       reporters: [
-          {type: 'lcov', dir: statisticsDir}
+          {type: 'html', dir: statisticsDir}
         ],
     },
     singleRun: false

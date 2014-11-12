@@ -40,10 +40,11 @@ CKEDITOR.plugins.add('info2', {
 					}
 
 				}
-				console.log(accum);
-				console.log(editor.getSelection().getStartElement());
-				console.log(window.getSelection());
-				console.log(document.getElementsByTagName("iframe")[0].contentWindow.document);
+				console.log(editor.getSelection().getRanges());
+				var sel = new Selection();
+				sel.setRanges(editor.getSelection().getRanges());
+				console.log(document.createRange());
+				console.log(sel.getRanges());
 			}
 		});
 

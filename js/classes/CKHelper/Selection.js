@@ -120,7 +120,9 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.isRange = function(r){
-        return (r instanceof Range);
+        var isValid = (r instanceof Range);
+        console.log(r, isValid ? ' is a range' : ' is NOT a range!');
+        return isValid;
     };
 
     /**
