@@ -43,6 +43,15 @@ function Controller(){
 
 
 	/**
+	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
+	 * @property       {EditorAdapter}      _adapter
+	 * @since          0.0.8
+	 * @private
+	 */
+	var _adapter;
+	// if (NEWSLETTER.adapter )
+
+	/**
 	 * Collects parameters from the dialog menu and returns json like object with that data.
 	 * If optional parameter `types` is provided, then only dialog fields of types present
 	 * in array `types` are to be taken in consideration.

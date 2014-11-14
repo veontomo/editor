@@ -221,8 +221,17 @@ var NEWSLETTER = (function(){
 			writable: false
 		});
 
-
-
+		/**
+		 * Adapter between the editor and native javascript objects
+		 *
+		 * @property    {CKEditorAdapter}       editorAdapter
+		 * @since       0.0.8
+		 * @final
+		 */
+		Object.defineProperty(_output, 'editorAdapter', {
+			value: new CKEitorAdapter(),
+			writable: false
+		});
 
 		return _output;
 	};

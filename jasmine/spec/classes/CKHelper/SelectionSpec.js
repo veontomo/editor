@@ -61,26 +61,53 @@ describe('Selection-related functionality', function(){
     });
 
     describe('Getting first element of the selection', function(){
+        var editor, editorRange, e00, e10, e11, e21, e23, e30;
+        beforeEach(function(){
+
+            //                                 e00 (div)
+            //         ____________________________|_________
+            //         |                                     |
+            //        e10  (p)                          e11 (span)
+            //   ______|______________________________       |
+            //   |     |             |    |   |      |       |
+            //  t20   e21 (div)     t22  e23 (img)  t24     t25
+            //      ___|_________________
+            //      |                    |
+            //     e30 (span)           t31
+
+            e00 = new CKEDITOR.dom.element('div');
+            e10 = new CKEDITOR.dom.element('p');
+            e11 = new CKEDITOR.dom.element('span');
+            e21 = new CKEDITOR.dom.element('div');
+            e23 = new CKEDITOR.dom.element('img');
+            e30 = new CKEDITOR.dom.element('span');
+            e00.append(e10);
+            e00.append(e11);
+            e10.appendText('text node 2.0');
+            e10.append(e21);
+            e10.appendText('text node 2.2');
+            e10.append(e23);
+            e10.appendText('text node 2.4');
+            e21.append(e30);
+            e21.appendText('text node 3.1');
+            e11.appendText('text node 2.5');
+
+            adapter = new CKEditorAdapter();
+            editor = new CKEDITOR.editor();
+            editor.editable(e00);
+            editorRange = editor.createRange();
+        });
+
         it('gives undefined if nothing is selected', function(){
             sel = new Selection(editor);
             expect(sel.getStartElement()).not.toBeDefined();
         });
         it('gives first element (pending test)', function(){
-            var el1 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid1">div 1</div>'),
-                el2 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid2">div 2</div>'),
-                el3 = CKEDITOR.dom.element.createFromHtml('<div id="uniqueid3">div 3</div>');
-            editor.insertElement(el1);
-            editor.insertElement(el2);
-            editor.insertElement(el3);
-
-            // editor.createRange().select();
-            // console.log(editor, editor.editable());
-            // editor.getSelection().selectElement(el1);
-            // var r = new CKEDITOR.dom.range(el1);
-            // r.selectNodeContents(el1);
+            editorRange.setStart(e10, 1);
+            editorRange.setEnd(e10, 3);
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
-            pending();
+            // pending();
         });
     });
 

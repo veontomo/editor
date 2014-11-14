@@ -121,7 +121,7 @@ function Selection(ed) {
      */
     this.isRange = function(r){
         var isValid = (r instanceof Range);
-        console.log(r, isValid ? ' is a range' : ' is NOT a range!');
+        // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
         return isValid;
     };
 
