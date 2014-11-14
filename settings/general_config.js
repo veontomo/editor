@@ -229,7 +229,7 @@ var NEWSLETTER = (function(){
 		 * @final
 		 */
 		Object.defineProperty(_output, 'editorAdapter', {
-			value: new CKEitorAdapter(),
+			value: new CKEditorAdapter(),
 			writable: false
 		});
 

@@ -88,6 +88,10 @@
 	<script type="text/javascript" src="js/controllers/CDownload.js"></script>
 	<script type="text/javascript" src="js/controllers/CImage.js"></script>
 
+	<!-- Adapters -->
+	<script type="text/javascript" src="js/adapters/EditorAdapter.js"></script>
+	<script type="text/javascript" src="js/adapters/CKEditor/CKEditorAdapter.js"></script>
+
 	<!-- configuration file -->
 	<script type="text/javascript" src="settings/general_config.js"></script>
 
