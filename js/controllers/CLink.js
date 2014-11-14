@@ -262,7 +262,9 @@ function CLink() {
 			doc;
 		if (editor){
 			doc = new Document(editor.document.getBody().$);
-			console.log('CLink::fillInDialogSmart', editor.getSelection().getRanges());
+			console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+			selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+			console.log(selection.getRanges());
 		}
 		// criteria = function(el){
 		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';

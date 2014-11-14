@@ -43,6 +43,8 @@ var path = require('path'),
     "classes/HtmlElements/PlainText.js",
     "classes/CKHelper.js",
     "classes/CKHelper/Selection.js",
+    "adapters/EditorAdapter.js",
+    "adapters/CKEditor/CKEditorAdapter.js",
     "../settings/general_config.js",
     "../jasmine/spec/classes/HelperSpec.js",
     "../jasmine/spec/classes/Helper/UnitSpec.js",
@@ -77,7 +79,9 @@ var path = require('path'),
     "../jasmine/spec/converters/WorkerSpec.js",
     "../jasmine/spec/converters/ConverterFixedSpec.js",
     "../jasmine/spec/converters/ConverterElasticSpec.js",
-    "../jasmine/spec/converters/ConverterSimpleTextSpec.js"
+    "../jasmine/spec/converters/ConverterSimpleTextSpec.js",
+    "../jasmine/spec/adapters/EditorAdapterSpec.js",
+    "../jasmine/spec/adapters/CKEditor/CKEditorAdapterSpec.js"
   ],
   statisticsDir = '../statistics/jsCoverage/'.replace(/\//g, path.sep);
 
@@ -101,6 +105,6 @@ module.exports = function (config) {
           {type: 'html', dir: statisticsDir}
         ],
     },
-    singleRun: false
+    singleRun: true
   });
 };

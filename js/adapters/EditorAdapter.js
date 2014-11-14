@@ -67,9 +67,27 @@ function EditorAdapter(){
 	 * @method         toNativeRange
 	 * @param          {Object}        r
 	 * @return         {Range}
+	 * @abstract
 	 */
 	this.toNativeRange = function(r){
+		/// !!! abstract method. Must be overridden by inheriting class.
 		_log('toNativeRange');
 	};
+
+	/**
+	 * Transforms array of editor-specific ranges into array of native javascript ranges.
+	 * @method toNativeRanges
+	 * @param  {Array} ranges  array of editor-specific ranges
+	 * @return {Array}         array of native javascript ranges
+	 */
+	this.toNativeRanges = function(ranges){
+		if (ranges === undefined || ranges === null){
+			return [];
+		}
+		if (!Array.isArray(ranges)){
+			ranges = [ranges];
+		}
+		return ranges.map(function(el){return this.toNativeRange(el);}.bind(this));
+	}
 
 }

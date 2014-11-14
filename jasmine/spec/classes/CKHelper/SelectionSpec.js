@@ -107,7 +107,8 @@ describe('Selection-related functionality', function(){
             editorRange.setEnd(e10, 3);
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
-            // pending();
+            pending();
+            console.log(NEWSLETTER.editorAdapter);
         });
     });
 
@@ -508,11 +509,33 @@ describe('Selection-related functionality', function(){
                 sel.startOver();
                 expect(sel.nextRange()).toBe('range1');
             });
+        });
+
+        describe('has method nodesOfRange that', function(){
+            it('returns an empty array if the argument is an empty range', function(){
+                pending();
+            });
+            it('returns an empty array if the argument is not a range', function(){
+                pending();
+            });
+            it('returns array of nodes if the range start and end are nodes', function(){
+                pending();
+            });
+            it('returns an array with a text node if the range starts and ends inside a text node', function(){
+                pending();
+            });
+            it('returns an array if the range starts inside a text node and ends inside an element node', function(){
+                pending();
+            });
+            it('returns an array if the range starts inside an element node and ends inside a text node', function(){
+                pending();
+            });
 
 
 
 
         });
+
 
     });
 

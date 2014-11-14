@@ -33,7 +33,7 @@ function Controller(){
 	/**
 	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} setter.
 	 * @method         setSelection
-	 * @property       {Object}        sel      {{#crossLink "Selection"}}Selection{{/crossLink}} instance
+	 * @param       {Object}        sel      {{#crossLink "Selection"}}Selection{{/crossLink}} instance
 	 * @return         {void}
 	 * @since          0.0.7
 	 */
@@ -44,12 +44,32 @@ function Controller(){
 
 	/**
 	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
-	 * @property       {EditorAdapter}      _adapter
+	 * @property       {EditorAdapter}      _editorAdapter
 	 * @since          0.0.8
 	 * @private
 	 */
-	var _adapter;
-	// if (NEWSLETTER.adapter )
+	var _editorAdapter;
+
+	/**
+	 * {{#crossLink "Controller/_editorAdapter:property"}}_editorAdapter{{/crossLink}} getter.
+	 * @method    getEditorAdapter
+	 * @since     0.0.8
+	 * @return    {EditorAdapter}
+	 */
+	this.getEditorAdapter = function(){
+		return _editorAdapter;
+	};
+
+	/**
+	 * {{#crossLink "Controller/_editorAdapter:property"}}_editorAdapter{{/crossLink}} setter.
+	 * @method   setEditorAdapter
+	 * @param    {EditorAdapter}    adapter       {{#crossLink "EditorAdapter"}}EditorAdapter{{/crossLink}} instance.
+	 *                                            If setting to something different, might generate errors.
+	 * @since    0.0.8
+	 */
+	this.setEditorAdapter = function(adapter){
+		_editorAdapter = adapter;
+	};
 
 	/**
 	 * Collects parameters from the dialog menu and returns json like object with that data.

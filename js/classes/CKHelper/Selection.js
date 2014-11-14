@@ -76,11 +76,8 @@ function Selection(ed) {
             _ranges = [];
             return;
         }
-        _ranges = [];
-        ranges.forEach(function(r){
-            if (this.isRange(r)){
-                this.appendRange(r);
-            }
+        _ranges = ranges.filter(function(r){
+            return this.isRange(r);
         }.bind(this));
     };
 
@@ -121,7 +118,7 @@ function Selection(ed) {
      */
     this.isRange = function(r){
         var isValid = (r instanceof Range);
-        // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
+        console.log(r, isValid ? ' is a range' : ' is NOT a range!');
         return isValid;
     };
 
@@ -246,6 +243,22 @@ function Selection(ed) {
     this.getEditor = function(){
         return editor;
     };
+
+    /**
+     * Converts range `r` into array of nodes which belong to the range.
+     *
+     * If `r` is not a valid [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance,
+     * then empty array is returned.
+     *
+     * @method         nodesOfRange
+     * @since          0.0.8
+     * @param          {Range}         r
+     * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+     */
+    this.nodesOfRange = function(r){
+        /// !!! stub
+        return [];
+    }
 
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well
