@@ -256,9 +256,40 @@ function Selection(ed) {
      * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.nodesOfRange = function(r){
-        /// !!! stub
+
         return [];
     }
+
+
+    /**
+     * Gives common ancestor of nodes `n1` and `n2`. If it does not exist, `null` is returned.
+     * @method         commonAncestor
+     * @param          {DOM.Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {DOM.Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {DOM.Node|Null}
+     * @since          0.0.8
+     */
+    this.commonAncestor = function(n1, n2){
+        if (n1 === undefined || n2 === undefined){
+            // console.log('return undefined');
+            return;
+        }
+        if (n1.contains(n2)){
+            // console.log('return first argument', n1);
+            return n1;
+        }
+        if (n2.contains(n1)){
+            // console.log('return second argument', n2);
+            return n2;
+        }
+        var parent = n1.parentNode;
+        while (parent && !(parent.contains(n2))){
+            // console.log('inside while loop: ', parent);
+            parent = parent.parentNode;
+        }
+        // console.log('return parent', parent);
+        return parent;
+    };
 
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well

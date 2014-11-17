@@ -1,18 +1,69 @@
 /*jslint plusplus: true, white: true */
 /*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, NEWSLETTER, Selection, CKEditorAdapter */
 
-describe('Selection-related functionality', function(){
+describe('Selection class has', function(){
     // it seems that when activating these suits makes the page with test
     // output freeze for some seconds
 
     var sel, editor, selected;
+    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, n00, n10, n11;
+
     beforeEach(function(){
         editor = new CKEDITOR.editor();
         selected = new CKEDITOR.dom.selection(CKEDITOR.document);
+        sel = new Selection();
+        range = document.createRange();
+
+        //                                     e00                                  n00
+        //          ____________________________|________                       _____|_____
+        //         |                                     |                     |           |
+        //        e10 (font: bold)                  e11 (block: narrow)       n10         n11
+        //    _____|_______________________________      |_________
+        //   |     |                      |    |   |     |         |
+        //  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
+        //      ___|___
+        //     |       |
+        //     e30    t31
+
+        e00 = document.createElement('div00');
+        e10 = document.createElement('div10');
+        e11 = document.createElement('div11');
+        t20 = document.createTextNode('text node 2.0');
+        e21 = document.createElement('div21');
+        t22 = document.createTextNode('text node 2.2');
+        e23 = document.createElement('div21');
+        t24 = document.createTextNode('text node 2.4');
+        e25 = document.createElement('div25');
+        e26 = document.createElement('div26');
+        e30 = document.createElement('div30');
+        t31 = document.createTextNode('text node 3.1');
+        e00.appendChild(e10);
+        e00.appendChild(e11);
+        e10.appendChild(t20);
+        e10.appendChild(e21);
+        e10.appendChild(t22);
+        e10.appendChild(e23);
+        e10.appendChild(t24);
+        e21.appendChild(e30);
+        e21.appendChild(t31);
+        e11.appendChild(e25);
+        e11.appendChild(e26);
+
+        e10.setAttribute('style', 'font-weight: bold;');
+        e26.setAttribute('style', 'font-weight: normal;');
+        e11.setAttribute('style', 'block: narrow;');
+        e21.setAttribute('style', 'width: 20px;');
+
+        n00 = document.createElement('div');
+        n10 = document.createElement('div');
+        n11 = document.createElement('div');
+        n00.appendChild(n10);
+        n00.appendChild(n11);
+
     });
 
 
-    describe('Selection::constructor()', function(){
+    describe('constructor that', function(){
         it('creates selection instance object if keyword "new" is missing', function(){
             expect(Selection(editor) instanceof Selection).toBe(true);
         });
@@ -36,7 +87,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('editor setter/getter', function(){
+    describe('an editor setter/getter that', function(){
         it('throws error if not CKEDITOR.editor instance is given to the setter', function(){
             expect(function(){
                 sel = new Selection();
@@ -52,7 +103,7 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('ranges getter', function(){
+    describe('a getter/setter for selection that', function(){
         it('sets the editor', function(){
             sel = new Selection();
             sel.setSelected(selected);
@@ -60,8 +111,9 @@ describe('Selection-related functionality', function(){
         });
     });
 
-    describe('Getting first element of the selection', function(){
-        var editorRange, e00, e10, e11, e21, e23, e30, adapter;
+    describe('method getStartElement that', function(){
+        var editorRange, adapter;
+        // var  e00, e10, e11, e21, e23, e30, adapter;
         beforeEach(function(){
 
             //                                 e00 (div)
@@ -75,9 +127,9 @@ describe('Selection-related functionality', function(){
             //      |                    |
             //     e30 (span)           t31
 
-            e00 = new CKEDITOR.dom.element('div');
-            e10 = new CKEDITOR.dom.element('p');
-            e11 = new CKEDITOR.dom.element('span');
+            e00 = new CKEDITOR.dom.element('div');          // re-defining elements in terms of CKEDITOR
+            e10 = new CKEDITOR.dom.element('p');            // methods. This should be got rid of in favour
+            e11 = new CKEDITOR.dom.element('span');         // of CKEditorAdapter methods.
             e21 = new CKEDITOR.dom.element('div');
             e23 = new CKEDITOR.dom.element('img');
             e30 = new CKEDITOR.dom.element('span');
@@ -108,56 +160,10 @@ describe('Selection-related functionality', function(){
             sel = new Selection(editor);
             expect(sel.getStartElement()).toBeDefined();
             pending();
-            console.log(NEWSLETTER.editorAdapter);
         });
     });
 
-    describe('Range', function(){
-        var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
-        beforeEach(function(){
-            sel = new Selection();
-            range = document.createRange();
-
-            //                                     e00
-            //          ____________________________|________
-            //         |                                     |
-            //        e10 (font: bold)                  e11 (block: narrow)
-            //    _____|_______________________________      |_________
-            //   |     |                      |    |   |     |         |
-            //  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
-            //      ___|___
-            //     |       |
-            //     e30    t31
-
-            e00 = document.createElement('div00');
-            e10 = document.createElement('div10');
-            e11 = document.createElement('div11');
-            t20 = document.createTextNode('text node 2.0');
-            e21 = document.createElement('div21');
-            t22 = document.createTextNode('text node 2.2');
-            e23 = document.createElement('div21');
-            t24 = document.createTextNode('text node 2.4');
-            e25 = document.createElement('div25');
-            e26 = document.createElement('div26');
-            e30 = document.createElement('div30');
-            t31 = document.createTextNode('text node 3.1');
-            e00.appendChild(e10);
-            e00.appendChild(e11);
-            e10.appendChild(t20);
-            e10.appendChild(e21);
-            e10.appendChild(t22);
-            e10.appendChild(e23);
-            e10.appendChild(t24);
-            e21.appendChild(e30);
-            e21.appendChild(t31);
-            e11.appendChild(e25);
-            e11.appendChild(e26);
-            e10.setAttribute('style', 'font-weight: bold;');
-            e26.setAttribute('style', 'font-weight: normal;');
-            e11.setAttribute('style', 'block: narrow;');
-            e21.setAttribute('style', 'width: 20px;');
-        });
-
+    describe('range related functionality that', function(){
         describe('has method isRange which', function(){
             it('returns true if argument is a Range instance', function(){
                 expect(sel.isRange(range)).toBe(true);
@@ -520,7 +526,7 @@ describe('Selection-related functionality', function(){
             });
         });
 
-        describe('has method nodesOfRange that', function(){
+        xdescribe('has method nodesOfRange that', function(){
             it('returns an empty array if the argument is not a range', function(){
                 var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
                 invalids.forEach(function(invalid){
@@ -595,14 +601,44 @@ describe('Selection-related functionality', function(){
                 expect(nodes[1].nodeType).toBe(Node.TEXT_NODE);
                 expect(nodes[1].textContent).toBe('xt node 3.1');
             });
+        });
+    });
 
-
-
-
+    describe('method commonAncestor that', function(){
+        it('returns the first argument if it is a parent of the second which is an element node', function(){
+            expect(sel.commonAncestor(e10, e23)).toBe(e10);
         });
 
+        it('returns the first argument if it is a parent of the second which is a text node', function(){
+            expect(sel.commonAncestor(e21, t31)).toBe(e21);
+        });
 
+        it('returns the second argument if it is a parent of the first which is an element node', function(){
+            expect(sel.commonAncestor(e25, e11)).toBe(e11);
+        });
+
+        it('returns the second argument if it is a parent of the first which is a text node', function(){
+            expect(sel.commonAncestor(t20, e10)).toBe(e10);
+        });
+
+        it('returns null if the nodes have no common parent', function(){
+            expect(sel.commonAncestor(e23, n11)).toBe(null);
+        });
+
+        it('returns the common parent if the arguments are element nodes and are siblings of each other', function(){
+            expect(sel.commonAncestor(e21, e23)).toBe(e10);
+        });
+
+        it('returns the common parent if the first argument is located deeper than the second', function(){
+            expect(sel.commonAncestor(e21, e11)).toBe(e00);
+        });
+
+        it('returns the common parent if the second argument is located deeper than the first', function(){
+            expect(sel.commonAncestor(e10, e25)).toBe(e00);
+        });
     });
+
+///////////////  end ////////////////////////////////////////
 
 });
 
