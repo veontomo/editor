@@ -28,10 +28,20 @@ Refactor toLink method of Link class:
       "font-size", "color" etc.
   ☐ wrap the selected text by link tag and impose properties of the link tag to be equal to the inherited ones.
 
+--- ✄ -----------------------
 
 Table:
   ☐ find out why options "add row after" and "add row before" have disappeared from the context menu.
   ☐ "insert column before/after" does not work either: TypeError: cell is null .\CKHelper.js:192
+
+--- ✄ -----------------------
+
+Selection:
+  ☐ Create Selection class method "nodesOfRange" that returns array of Nodes of the ranges
+
+Controller:
+  ☐ Create FillInDialogSmart based on current selection
+
 
 
 

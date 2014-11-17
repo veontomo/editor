@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, Selection */
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, NEWSLETTER, Selection, CKEditorAdapter */
 
 describe('Selection-related functionality', function(){
     // it seems that when activating these suits makes the page with test
@@ -61,7 +61,7 @@ describe('Selection-related functionality', function(){
     });
 
     describe('Getting first element of the selection', function(){
-        var editor, editorRange, e00, e10, e11, e21, e23, e30;
+        var editorRange, e00, e10, e11, e21, e23, e30, adapter;
         beforeEach(function(){
 
             //                                 e00 (div)
@@ -397,43 +397,52 @@ describe('Selection-related functionality', function(){
                 expect(res.length).toBe(0);
             });
 
-            it('calls append range method if all ranges are valid', function(){
+            it('appends ranges if they are all valid', function(){
                 spyOn(sel, 'isRange').and.returnValue(true);
                 spyOn(sel, 'appendRange');
                 sel.setRanges(['r1', 'r2', 'r3']);
-                expect(sel.appendRange).toHaveBeenCalledWith('r1');
-                expect(sel.appendRange).toHaveBeenCalledWith('r2');
-                expect(sel.appendRange).toHaveBeenCalledWith('r3');
+                var r = sel.getRanges();
+                expect(Array.isArray(r)).toBe(true);
+                expect(r.length).toBe(3);
+                expect(r[0]).toBe('r1');
+                expect(r[1]).toBe('r2');
+                expect(r[2]).toBe('r3');
             });
 
             it('does not call append range method on first argument if it is not a valid range', function(){
                 spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'r1';});
                 spyOn(sel, 'appendRange');
                 sel.setRanges(['r1', 'r2', 'r3']);
-                expect(sel.appendRange).not.toHaveBeenCalledWith('r1');
-                expect(sel.appendRange).toHaveBeenCalledWith('r2');
-                expect(sel.appendRange).toHaveBeenCalledWith('r3');
+                var r = sel.getRanges();
+                expect(Array.isArray(r)).toBe(true);
+                expect(r.length).toBe(2);
+                expect(r[0]).toBe('r2');
+                expect(r[1]).toBe('r3');
             });
 
             it('does not call append range method on a middle argument if it is not a valid range', function(){
                 spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'rMiddle';});
                 spyOn(sel, 'appendRange');
                 sel.setRanges(['r1', 'r2', 'rMiddle', 'rLast']);
-                expect(sel.appendRange).toHaveBeenCalledWith('r1');
-                expect(sel.appendRange).toHaveBeenCalledWith('r2');
-                expect(sel.appendRange).not.toHaveBeenCalledWith('rMiddle');
-                expect(sel.appendRange).toHaveBeenCalledWith('rLast');
+                var r = sel.getRanges();
+                expect(Array.isArray(r)).toBe(true);
+                expect(r.length).toBe(3);
+                expect(r[0]).toBe('r1');
+                expect(r[1]).toBe('r2');
+                expect(r[2]).toBe('rLast');
             });
 
-            it('does not call append range method on last argument if it is not a valid ranget', function(){
+            it('does not call append range method on last argument if it is not a valid range', function(){
                 spyOn(sel, 'isRange').and.callFake(function(r){return r !== 'rLast';});
                 spyOn(sel, 'appendRange');
                 sel.setRanges(['r1', 'r2', 'r3', 'rMiddle', 'rLast']);
-                expect(sel.appendRange).toHaveBeenCalledWith('r1');
-                expect(sel.appendRange).toHaveBeenCalledWith('r2');
-                expect(sel.appendRange).toHaveBeenCalledWith('r3');
-                expect(sel.appendRange).toHaveBeenCalledWith('rMiddle');
-                expect(sel.appendRange).not.toHaveBeenCalledWith('rLast');
+                var r = sel.getRanges();
+                expect(Array.isArray(r)).toBe(true);
+                expect(r.length).toBe(4);
+                expect(r[0]).toBe('r1');
+                expect(r[1]).toBe('r2');
+                expect(r[2]).toBe('r3');
+                expect(r[3]).toBe('rMiddle');
             });
         });
 
@@ -512,23 +521,79 @@ describe('Selection-related functionality', function(){
         });
 
         describe('has method nodesOfRange that', function(){
-            it('returns an empty array if the argument is an empty range', function(){
-                pending();
-            });
             it('returns an empty array if the argument is not a range', function(){
-                pending();
+                var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
+                invalids.forEach(function(invalid){
+                    var nodes = sel.nodesOfRange(invalid);
+                    expect(Array.isArray(nodes)).toBe(true);
+                    expect(nodes.length).toBe(0);
+                });
             });
-            it('returns array of nodes if the range start and end are nodes', function(){
-                pending();
+            it('returns an empty array if the argument is an empty range', function(){
+                range.collapse();
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(0);
             });
-            it('returns an array with a text node if the range starts and ends inside a text node', function(){
-                pending();
+            it('returns array with single element node if the range contains single element node', function(){
+                range.setStart(e10, 1);
+                range.setStart(e11, 2);
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0]).toBe(e21);
             });
-            it('returns an array if the range starts inside a text node and ends inside an element node', function(){
-                pending();
+
+            it('returns array with single text node if the range contains single text node', function(){
+                range.setStart(e10, 2);
+                range.setStart(e11, 3);
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes.length).toBe(t22);
             });
-            it('returns an array if the range starts inside an element node and ends inside a text node', function(){
-                pending();
+            it('returns an array with a text node if the range contains a fraction of a text node', function(){
+                range.setStart(t22, 4);
+                range.setStart(t22, 8);
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+            });
+            it('returns an array with several nodes if the range starts inside a text node', function(){
+                range.setStart(t20, 4);  // includes text node with content " node 2.0"
+                range.setStart(e10, 4);  // includes nodes e21, t22, e23
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(4);
+                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(nodes[1].textContent).toBe(' node 2.0');
+                expect(nodes[1]).toBe(e21);
+                expect(nodes[2]).toBe(t22);
+                expect(nodes[3]).toBe(e23);
+            });
+
+            it('returns an array with several nodes if the range finishes inside a text node', function(){
+                range.setStart(e21, 0);  // includes element node e30
+                range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(2);
+                expect(nodes[0]).toBe(e30);
+                expect(nodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(nodes[1].textContent).toBe('xt node 3.1');
+            });
+
+
+            it('returns an array with several nodes if the range starts and finishes inside a text node', function(){
+                range.setStart(e21, 0);  // includes element node e30
+                range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
+                var nodes = sel.nodesOfRange(range);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(2);
+                expect(nodes[0]).toBe(e30);
+                expect(nodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(nodes[1].textContent).toBe('xt node 3.1');
             });
 
 
