@@ -118,7 +118,7 @@ function Selection(ed) {
      */
     this.isRange = function(r){
         var isValid = (r instanceof Range);
-        console.log(r, isValid ? ' is a range' : ' is NOT a range!');
+        // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
         return isValid;
     };
 
@@ -256,9 +256,9 @@ function Selection(ed) {
      * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.nodesOfRange = function(r){
-
+        /// !!! stub
         return [];
-    }
+    };
 
 
     /**
@@ -296,6 +296,7 @@ function Selection(ed) {
      * Returns the root of `n`.
      *
      * A node is called to be a root of a node `n` if it contains node `n` and has no parent (that is the node highest ascendant).
+     * @method         rootOf
      * @param          {Node}          n
      * @return         {Node|Null}
      */
@@ -316,13 +317,51 @@ function Selection(ed) {
      * Returns array of integers corresponding to arc numbers that one should follow
      * in order to arrive from node `s` to node `n`. If node `s` is not set, then output of
      * {{#crossLink "Selection/rootOf:method"}}rootOf{{/crossLink}} is used.
+     * @since          0.0.8
+     * @method         pathTo
      * @param          {Node}          n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
      * @param          {Node|Null}     s     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-     * @return         {Array}
+     * @return         {Array|Null}
      */
     this.pathTo = function(n, s){
-        return [];
-    }
+        var path = [];
+        if (!s.contains(n)){
+            return;
+        }
+        var parent = n.parentNode,
+            node = n;
+        while (s.contains(parent)){
+            path.push(this.indexOf(n));
+            n = parent;
+            parent = n.parentNode;
+
+        }
+        return path;
+    }.bind(this);
+
+
+    /**
+     * Returns index of node `n`.
+     *
+     * An index of a node is a number of the node in ordered list of its parent children. If the node has no parent, its
+     * index is equal to zero.
+     * @method         indexOf
+     * @param          {Node}          n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Integer}
+     * @since          0.0.8
+     */
+    this.indexOf = function(n){
+        if (!(n instanceof Node)){
+            throw new Error('The argument must be a Node instance!');
+        }
+        var pos = 0,
+            current = n.previousSibling;
+        while (current){
+            pos++;
+            current = current.previousSibling;
+        }
+        return pos;
+    };
 
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well

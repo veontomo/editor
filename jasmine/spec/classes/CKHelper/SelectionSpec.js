@@ -655,6 +655,65 @@ describe('Selection class has', function(){
         });
     });
 
+    describe('a method to calculate path to an element that', function(){
+        it('returns empty array if the argument is the root element', function(){
+            var path = sel.pathTo(e00, e00);
+            expect(Array.isArray(path)).toBe(true);
+            expect(path.length).toBe(0);
+        });
+        it('returns nothing if the scope (2nd argument) does not contain the node (first argument)', function(){
+            expect(sel.pathTo(e23, e11)).not.toBeDefined();
+        });
+        it('returns [0] if the first argument is the first child of the second argument', function(){
+            var path = sel.pathTo(t20, e10);
+            expect(Array.isArray(path)).toBe(true);
+            expect(path.length).toBe(1);
+            expect(path[0]).toBe(0);
+        });
+        it('returns [1] if the first argument is the second child of the second argument', function(){
+            console.log('XXX');
+            var path = sel.pathTo(e21, e10);
+            expect(Array.isArray(path)).toBe(true);
+            expect(path.length).toBe(1);
+            expect(path[0]).toBe(1);
+        });
+        it('returns [4] if the first argument is the last child among 5 children of the second argument', function(){
+            var path = sel.pathTo(t24, e10);
+            expect(Array.isArray(path)).toBe(true);
+            expect(path.length).toBe(1);
+            expect(path[0]).toBe(4);
+        });
+        it('returns three element array if the first argument lays at "depth" 3', function(){
+            var path = sel.pathTo(e30, e00);
+            expect(Array.isArray(path)).toBe(true);
+            expect(path.length).toBe(3);
+            expect(path[0]).toBe(0);
+            expect(path[1]).toBe(1);
+            expect(path[2]).toBe(0);
+        });
+    });
+
+    describe('a method indexOf that', function(){
+        it('throws exception if argument either string, number, array, function or non-Node element', function(){
+            var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    sel.indexOf(invalid);
+                }).toThrow(new Error('The argument must be a Node instance!'));
+            });
+        });
+        it('returns 0 if the element is the first child of its parent', function(){
+            expect(sel.indexOf(e10)).toBe(0);
+        });
+        it('returns 1 for the second child', function(){
+            expect(sel.indexOf(e21)).toBe(1);
+        });
+        it('returns 4 for the last child (among four)', function(){
+            expect(sel.indexOf(t24)).toBe(4);
+        });
+
+    });
+
 
 });
 
