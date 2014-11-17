@@ -291,6 +291,39 @@ function Selection(ed) {
         return parent;
     };
 
+
+    /**
+     * Returns the root of `n`.
+     *
+     * A node is called to be a root of a node `n` if it contains node `n` and has no parent (that is the node highest ascendant).
+     * @param          {Node}          n
+     * @return         {Node|Null}
+     */
+    this.rootOf = function(n){
+        if (!(n && n.nodeType)){
+            return void 0;
+        }
+        var node = n,
+            parent = n.parentNode;
+        while (parent){
+            node = parent;
+            parent = parent.parentNode;
+        }
+        return node;
+    };
+
+    /**
+     * Returns array of integers corresponding to arc numbers that one should follow
+     * in order to arrive from node `s` to node `n`. If node `s` is not set, then output of
+     * {{#crossLink "Selection/rootOf:method"}}rootOf{{/crossLink}} is used.
+     * @param          {Node}          n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {Node|Null}     s     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}
+     */
+    this.pathTo = function(n, s){
+        return [];
+    }
+
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well
      * {{#crossLink "Selection/selected:property"}}selected{{/crossLink}} and

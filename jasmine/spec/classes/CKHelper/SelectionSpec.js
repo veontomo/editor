@@ -113,7 +113,6 @@ describe('Selection class has', function(){
 
     describe('method getStartElement that', function(){
         var editorRange, adapter;
-        // var  e00, e10, e11, e21, e23, e30, adapter;
         beforeEach(function(){
 
             //                                 e00 (div)
@@ -163,7 +162,7 @@ describe('Selection class has', function(){
         });
     });
 
-    describe('range related functionality that', function(){
+    describe('a range related functionality that', function(){
         describe('has method isRange which', function(){
             it('returns true if argument is a Range instance', function(){
                 expect(sel.isRange(range)).toBe(true);
@@ -604,7 +603,7 @@ describe('Selection class has', function(){
         });
     });
 
-    describe('method commonAncestor that', function(){
+    describe('a method commonAncestor that', function(){
         it('returns the first argument if it is a parent of the second which is an element node', function(){
             expect(sel.commonAncestor(e10, e23)).toBe(e10);
         });
@@ -638,7 +637,24 @@ describe('Selection class has', function(){
         });
     });
 
-///////////////  end ////////////////////////////////////////
+    describe('a method to find the root node that', function(){
+        it('returns nothing if the argument is an undefined, string, number, array, function or a non-Node object', function(){
+            var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.rootOf(invalid)).not.toBeDefined();
+            });
+        });
+        it('returns root node of a text node', function(){
+            expect(sel.rootOf(t22)).toBe(e00);
+        });
+        it('returns root node of an element node', function(){
+            expect(sel.rootOf(e25)).toBe(e00);
+        });
+        it('returns the argument if it is its own root', function(){
+            expect(sel.rootOf(e00)).toBe(e00);
+        });
+    });
+
 
 });
 
