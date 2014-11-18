@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, NEWSLETTER, Selection, CKEditorAdapter */
+/*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, CKEDITOR, NEWSLETTER, Selection, CKEditorAdapter, Node */
 
 describe('Selection class has', function(){
     // it seems that when activating these suits makes the page with test
@@ -604,6 +604,13 @@ describe('Selection class has', function(){
     });
 
     describe('a method commonAncestor that', function(){
+        it('returns nothing if it is called without arguments', function(){
+            expect(sel.commonAncestor()).not.toBeDefined();
+        });
+        it('returns nothing if it is called with one argument', function(){
+            expect(sel.commonAncestor(e10)).not.toBeDefined();
+        });
+
         it('returns the first argument if it is a parent of the second which is an element node', function(){
             expect(sel.commonAncestor(e10, e23)).toBe(e10);
         });
@@ -671,7 +678,6 @@ describe('Selection class has', function(){
             expect(path[0]).toBe(0);
         });
         it('returns [1] if the first argument is the second child of the second argument', function(){
-            console.log('XXX');
             var path = sel.pathTo(e21, e10);
             expect(Array.isArray(path)).toBe(true);
             expect(path.length).toBe(1);
@@ -691,6 +697,42 @@ describe('Selection class has', function(){
             expect(path[1]).toBe(1);
             expect(path[2]).toBe(0);
         });
+    });
+
+    describe('a method to get an element by path that', function(){
+        it('returns nothing if the path is not defined or given as a string, a number, a function or an object', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.getNodeByPath(invalid)).not.toBeDefined();
+            });
+        });
+        it('returns nothing if the reference is not given or given as a string, a number, an array, a function or a non-node object', function(){
+            var invalids = ['', 'a string', 0, 1, 4.32, -2, -5.96, [], [1, 2, 3], function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.getNodeByPath([], invalid)).not.toBeDefined();
+            });
+        });
+        it('returns the reference node if the path is an empty array', function(){
+            expect(sel.getNodeByPath([], e10)).toBe(e10);
+        });
+        it('returns the first child of the reference node if the path is [0]', function(){
+            expect(sel.getNodeByPath([0], e21)).toBe(e30);
+        });
+        it('returns the last child of the reference node', function(){
+            expect(sel.getNodeByPath([1], e11)).toBe(e26);
+        });
+        it('returns third-generation child', function(){
+            expect(sel.getNodeByPath([0, 1, 1], e00)).toBe(t31);
+        });
+        it('returns nothing if the path contains reference to a non-existent node', function(){
+            expect(sel.getNodeByPath([3, 2, 0], e10)).not.toBeDefined();
+        });
+        it('returns nothing if the path passes through a text node', function(){
+            expect(sel.getNodeByPath([2, 1], e10)).not.toBeDefined();
+        });
+
+
+
     });
 
     describe('a method indexOf that', function(){

@@ -339,6 +339,27 @@ function Selection(ed) {
         return path;
     }.bind(this);
 
+    /**
+     * Returns an element following `path` starting from element `ref`.
+     *
+     * If element is not found, nothing is returned.
+     * @method         getNodeByPath
+     * @param          {Array}         path         array of integers
+     * @param          {Node}          ref
+     * @return         {Node}
+     * @since          0.0.8
+     */
+    this.getNodeByPath = function(path, ref){
+        if (!Array.isArray(path) || ref === undefined || ref.nodeType === undefined){
+            return;
+        }
+        if (path.length === 0){
+            return ref;
+        }
+        var newRef = ref.childNodes[path.shift()];
+        return newRef ? this.getNodeByPath(path, newRef) : void 0;
+    };
+
 
     /**
      * Returns index of node `n`.
@@ -362,6 +383,77 @@ function Selection(ed) {
         }
         return pos;
     };
+
+
+    /**
+     * Returns an array containing `node` and elements that come after it
+     * the in DOM in the context of `root`. Therefore, all array elements
+     * belong to `root`. `root` itself is not included in the output except
+     * the case when it is equal to `node`. If `root` does not contain `node`,
+     * the output must be an empty array.
+     * Uses {{#crossLink "CKHelper/next-siblings:method"}}CKHelper['next-siblings']{{/crossLink}}
+     * to fill in array with the next siblings.
+     * @method                                            bunch-next-siblings
+     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
+     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
+     * @return {Array}                                                 nodes between `node` and `root` last child (inclusively)
+     */
+    this['bunch-next-siblings'] = function(node, root){
+        if (node.equals(root)){
+            return [node];
+        }
+        if (!root.contains(node)){
+            return [];
+        }
+        var output = [node],
+            elem = node,
+            parent = elem.getParent(),
+            fun = CKHelper['next-siblings'];
+        while (!root.equals(parent)){
+            output = output.concat(fun(elem));
+            elem = parent;
+            parent = parent.getParent();
+        }
+        output = output.concat(fun(elem));
+        return output;
+    };
+
+    /**
+     * Returns an array containing `node` and elements that come before it
+     * the in DOM in the context of `root`. Therefore, all array elements
+     * belong to `root`. `root` itself is not included in the output except
+     * the case when it is equal to `node`. If `root` does not contain `node`,
+     * the output must be an empty array.
+     * Uses {{#crossLink "CKHelper/prev-siblings:method"}}CKHelper['prev-siblings']{{/crossLink}}
+     * to fill in array with the next siblings.
+     * @method                                            bunch-prev-siblings
+     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
+     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
+     * @return {Array}                                                 nodes between `node` and `root` first child (inclusively)
+     */
+    this['bunch-prev-siblings'] = function(node, root){
+        if (node.equals(root)){
+            return [node];
+        }
+        if (!root.contains(node)){
+            return [];
+        }
+        var output = [node],
+            elem = node,
+            parent = elem.getParent(),
+            fun = CKHelper['prev-siblings'];
+        while (!root.equals(parent)){
+            output = output.concat(fun(elem));
+            elem = parent;
+            parent = parent.getParent();
+        }
+        output = output.concat(fun(elem));
+        return output;
+    };
+
+
+
+
 
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well
