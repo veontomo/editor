@@ -350,14 +350,16 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.getNodeByPath = function(path, ref){
-        if (!Array.isArray(path) || ref === undefined || ref.nodeType === undefined){
+        if (!(Array.isArray(path) && (ref instanceof Node))){
             return;
         }
         if (path.length === 0){
             return ref;
         }
         var newRef = ref.childNodes[path.shift()];
-        return newRef ? this.getNodeByPath(path, newRef) : void 0;
+        if (newRef){
+            return  this.getNodeByPath(path, newRef);
+        }
     };
 
 
