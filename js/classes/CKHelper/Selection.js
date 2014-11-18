@@ -270,10 +270,17 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.commonAncestor = function(n1, n2){
-        if (n1 === undefined || n2 === undefined){
+        if (!((n1 instanceof Node) && (n2 instanceof Node))){
             // console.log('return undefined');
             return;
         }
+        var p1 = this.pathTo(n1),
+            p2 = this.pathTo(n2);
+        var pCommon = [];
+
+
+        console.log(this.pathTo(n1));
+        console.log(this.pathTo(n2));
         if (n1.contains(n2)){
             // console.log('return first argument', n1);
             return n1;
@@ -291,6 +298,29 @@ function Selection(ed) {
         return parent;
     };
 
+    /**
+     * Returns the longest common "head" of arrays `a1` and `a2`.
+     *
+     * Compares elements of the arrays from the beginning and if the elements are equal, insert it into the resulting array.
+     * @method         commonHead
+     * @param          {Array}         a1
+     * @param          {Array}         a2
+     * @return         {Array}
+     */
+    this.commonHead = function(p1, p2){
+        var commonHeadAux = function(p1, p2, acc){
+            if (p1.length === 0 || p2.length === 0 || p1[0] !== p2[0]){
+                return acc;
+            }
+            acc.push(p1.shift());
+            p2.shift();
+            return commonHeadAux(p1, p2, acc);
+        };
+        if (Array.isArray(p1) && Array.isArray(p2)){
+            return commonHeadAux(p1, p2, []);
+        }
+    }
+
 
     /**
      * Returns the root of `n`.
@@ -301,8 +331,8 @@ function Selection(ed) {
      * @return         {Node|Null}
      */
     this.rootOf = function(n){
-        if (!(n && n.nodeType)){
-            return void 0;
+        if (!(n instanceof Node)){
+            return undefined;
         }
         var node = n,
             parent = n.parentNode;
@@ -324,6 +354,12 @@ function Selection(ed) {
      * @return         {Array|Null}
      */
     this.pathTo = function(n, s){
+        if (!(n instanceof Node)){
+            return;
+        }
+        if (s === undefined){
+            s = this.rootOf(n);
+        }
         var path = [];
         if (!s.contains(n)){
             return;
@@ -361,7 +397,6 @@ function Selection(ed) {
             return  this.getNodeByPath(path, newRef);
         }
     };
-
 
     /**
      * Returns index of node `n`.

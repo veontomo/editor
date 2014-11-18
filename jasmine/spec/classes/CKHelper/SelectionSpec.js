@@ -730,8 +730,70 @@ describe('Selection class has', function(){
         it('returns nothing if the path passes through a text node', function(){
             expect(sel.getNodeByPath([2, 1], e10)).not.toBeDefined();
         });
+    });
+
+    describe('a method to find common "head" part of two arrays that' , function(){
+        it('returns empty array if both arguments are empty arrays', function(){
+            var res = sel.commonHead([], []);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the first argument is an empty array and the second is not', function(){
+            var res = sel.commonHead([], [1, 2, 4]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the second argument is an empty array and the first is not', function(){
+            var res = sel.commonHead([1, 0, 0], []);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the arguments have no common head', function(){
+            var res = sel.commonHead([1, 0, 0], [0, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the arguments have no common head', function(){
+            var res = sel.commonHead([1, 0, 0], [0, 2, 3, 3, 1]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns the input array if the arguments are equal non-empty arrays', function(){
+            var res = sel.commonHead([1, 2, 3], [1, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res[0]).toBe(1);
+            expect(res[1]).toBe(2);
+            expect(res[2]).toBe(3);
+        });
+        it('returns the first argument if the second array is a concatenation of the first and another array', function(){
+            var res = sel.commonHead([0, 2], [0, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res[0]).toBe(0);
+            expect(res[1]).toBe(2);
+        });
+        it('returns the second argument if the first array is a concatenation of the second and another array', function(){
+            var res = sel.commonHead([7, 4, 1, 6], [7, 4, 1]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res[0]).toBe(7);
+            expect(res[1]).toBe(4);
+            expect(res[2]).toBe(1);
+        });
 
 
+
+
+
+
+
+        it('returns nothing if it is called without the second argument', function(){
+            var probes = ['', 'a string', 0, 1, 4.32, -2, -5.96, [], [1, 2, 3], function(){return;}, {}, {foo: 23}];
+            probes.forEach(function(probe){
+                expect(sel.commonHead(probe)).not.toBeDefined();
+            });
+        });
 
     });
 
