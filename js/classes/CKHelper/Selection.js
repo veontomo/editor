@@ -256,8 +256,31 @@ function Selection(ed) {
      * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.nodesOfRange = function(r){
-        /// !!! stub
-        return [];
+        if (!(r instanceof Range)){
+            return;
+        }
+        var startContainer = r.startContainer,
+            endContainer = r.endContainer,
+            commonParent = this.commonAncestor(startContainer, endContainer),
+            startPath = this.pathTo(startContainer, commonParent),
+            endPath = this.pathTo(endContainer, commonParent),
+            startChild = commonAncestor.childNodes[startPath[0]],
+            endChild = commonAncestor.childNodes[endPath[0]],
+            startAfterNodes,
+            endBeforeNodes,
+            output = [];
+
+        output.push(startContainer);
+        startAfterNodes = this.bunchNextSiblings(startContainer, startChild);
+        endBeforeNodes = this.bunchPrevSiblings(endContainer, endChild);
+        if (startAfterNodes){
+            output.concat(startAfterNodes);
+        }
+        if (endBeforeNodes){
+            output.concat(endBeforeNodes);
+        }
+        output.push(endContainer);
+        return output;
     };
 
 
@@ -413,29 +436,24 @@ function Selection(ed) {
         return pos;
     };
 
-
     /**
-     * Returns an array containing `node` and elements that come after it
-     * the in DOM in the context of `root`. Therefore, all array elements
-     * belong to `root`. `root` itself is not included in the output except
-     * the case when it is equal to `node`. If `root` does not contain `node`,
-     * the output must be an empty array.
-     * Uses {{#crossLink "CKHelper/next-siblings:method"}}CKHelper['next-siblings']{{/crossLink}}
-     * to fill in array with the next siblings.
-     * @method                                            bunch-next-siblings
-     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
-     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
-     * @return {Array}                                                 nodes between `node` and `root` last child (inclusively)
+     * Returns array of results of applying `operation` on each node when passing from `node` to `root`.
+     *
+     * @method         _bunchSibling
+     * @private
+     * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {Node}          root        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @param          {Function}      operation   this single argument function is to be applied on each ascendant of
+     *                                             `node` until `root` is reached.
+     * @return         {Array}
+     * @since          0.0.8
      */
-    this.bunchNextSiblings = function(node, root){
-        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
-            return;
-        }
+    var _bunchSiblings = function(node, root, operation){
         var output = [],
             elem = node,
             siblings;
         while (!root.isEqualNode(elem)){
-            siblings = this.nextSiblings(elem);
+            siblings = operation(elem);
             output = output.concat(siblings);
             elem = elem.parentNode;
         }
@@ -444,29 +462,40 @@ function Selection(ed) {
 
     /**
      * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
-     * come before given [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance `node`
-     * in the context of `root`.
+     * come after `node` in the context of `root`.
+     *
+     * Therefore, all output array elements belong to `root` while niether
+     * `root` nor `node` is included.
+     * @method         bunchNextSiblings
+     * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+     *                                             must be inside of `node`
+     * @param          {Node}         root         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}                     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+     */
+    this.bunchNextSiblings = function(node, root){
+        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
+            return;
+        }
+        return _bunchSiblings(node, root, this.nextSiblings);
+    };
+
+    /**
+     * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
+     * come before `node` in the context of `root`.
      *
      * Therefore, all output array elements belong to `root` while niether
      * `root` nor `node` is included.
      * @method         bunchPrevSiblings
-     * @param          {Node}         node         a node that must be inside of root node
-     * @param          {Node}         root         the returned array elements will be inside this node.
-     * @return         {Array}                     nodes between `node` and `root` first child
+     * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+     *                                             must be inside of `node`
+     * @param          {Node}         root         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}                     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.bunchPrevSiblings = function(node, root){
         if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
             return;
         }
-        var output = [],
-            elem = node,
-            siblings;
-        while (!root.isEqualNode(elem)){
-            siblings = this.prevSiblings(elem);
-            output = output.concat(siblings);
-            elem = elem.parentNode;
-        }
-        return output;
+        return _bunchSiblings(node, root, this.prevSiblings);
     };
 
     /**

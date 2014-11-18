@@ -527,7 +527,7 @@ describe('Selection class has', function(){
             });
         });
 
-        xdescribe('has method nodesOfRange that', function(){
+        describe('has method nodesOfRange that', function(){
             it('returns an empty array if the argument is not a range', function(){
                 var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
                 invalids.forEach(function(invalid){
