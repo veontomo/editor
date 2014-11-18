@@ -852,6 +852,111 @@ describe('Selection class has', function(){
         });
     });
 
+    describe('a method to find previous ascendants in given scope that', function(){
+        it('returns nothing if called without arguments', function(){
+            expect(sel.bunchPrevSiblings()).not.toBeDefined();
+        });
+        it('returns nothing if the first argument is invalid one and the second is a valid one', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.bunchPrevSiblings(invalid, e25)).not.toBeDefined();
+            });
+        });
+        it('returns nothing if the second argument is invalid one and the first is a valid one', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.bunchPrevSiblings(t20, invalid)).not.toBeDefined();
+            });
+        });
+        it('returns nothing if the input node does not belong to the scope node', function(){
+            expect(sel.bunchPrevSiblings(e21, e11)).not.toBeDefined();
+        });
+
+        it('returns an empty array if the input node is equal to the scope node', function(){
+            var res = sel.bunchPrevSiblings(e10, e10);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns an array with the node previous siblings if the scope node is the node\'s parent one', function(){
+            var res = sel.bunchPrevSiblings(e23, e10);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res.indexOf(t22) !== -1).toBe(true);
+            expect(res.indexOf(e21) !== -1).toBe(true);
+            expect(res.indexOf(t20) !== -1).toBe(true);
+        });
+        it('returns an empty array if the input node is a unique child of the scope node', function(){
+            var res = sel.bunchPrevSiblings(e32, e25);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns an empty array if the input node is a unique child of unique child of the scope node', function(){
+            var res = sel.bunchPrevSiblings(e32, e11);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns an array with single node if the branch of the input node has no previous siblings', function(){
+            var res = sel.bunchPrevSiblings(e32, e00);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(1);
+            expect(res[0]).toBe(e10);
+        });
+    });
+
+describe('a method to find next ascendants in given scope that', function(){
+    it('returns nothing if called without arguments', function(){
+        expect(sel.bunchNextSiblings()).not.toBeDefined();
+    });
+    it('returns nothing if the first argument is invalid one and the second is a valid one', function(){
+        var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+        invalids.forEach(function(invalid){
+            expect(sel.bunchNextSiblings(invalid, e25)).not.toBeDefined();
+        });
+    });
+    it('returns nothing if the second argument is invalid one and the first is a valid one', function(){
+        var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+        invalids.forEach(function(invalid){
+            expect(sel.bunchNextSiblings(e23, invalid)).not.toBeDefined();
+        });
+    });
+    it('returns nothing if the input node does not belong to the scope node', function(){
+        expect(sel.bunchNextSiblings(e30, e26)).not.toBeDefined();
+    });
+
+    it('returns an empty array if the input node is equal to the scope node', function(){
+        var res = sel.bunchNextSiblings(e10, e10);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(0);
+    });
+    it('returns an array with the node next siblings if the scope node is the node\'s parent one', function(){
+        var res = sel.bunchNextSiblings(t22, e10);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(2);
+        expect(res.indexOf(e23) !== -1).toBe(true);
+        expect(res.indexOf(t24) !== -1).toBe(true);
+    });
+    it('returns an empty array if the input node is a unique child of the scope node', function(){
+        var res = sel.bunchNextSiblings(e32, e25);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(0);
+    });
+    it('returns an array with single node if the input node has no next siblings in its branch', function(){
+        var res = sel.bunchNextSiblings(t24, e00);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(1);
+        expect(res[0]).toBe(e11);
+    });
+    it('returns an array with different-depth nodes', function(){
+        var res = sel.bunchNextSiblings(e30, e00);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(5);
+        expect(res.indexOf(t31) !== -1).toBe(true);
+        expect(res.indexOf(t22) !== -1).toBe(true);
+        expect(res.indexOf(e23) !== -1).toBe(true);
+        expect(res.indexOf(t24) !== -1).toBe(true);
+        expect(res.indexOf(e11) !== -1).toBe(true);
+    });
+});
 
     describe('a method indexOf that', function(){
         it('throws exception if argument either string, number, array, function or non-Node element', function(){

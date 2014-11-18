@@ -274,9 +274,6 @@ function Selection(ed) {
             // console.log('return undefined');
             return;
         }
-        var p1 = this.pathTo(n1),
-            p2 = this.pathTo(n2);
-        var pCommon = [];
         if (n1.contains(n2)){
             // console.log('return first argument', n1);
             return n1;
@@ -315,7 +312,7 @@ function Selection(ed) {
         if (Array.isArray(p1) && Array.isArray(p2)){
             return commonHeadAux(p1, p2, []);
         }
-    }
+    };
 
 
     /**
@@ -360,8 +357,7 @@ function Selection(ed) {
         if (!s.contains(n)){
             return;
         }
-        var parent = n.parentNode,
-            node = n;
+        var parent = n.parentNode;
         while (s.contains(parent)){
             path.push(this.indexOf(n));
             n = parent;
@@ -432,91 +428,45 @@ function Selection(ed) {
      * @return {Array}                                                 nodes between `node` and `root` last child (inclusively)
      */
     this.bunchNextSiblings = function(node, root){
-        if (node.equals(root)){
-            return [node];
+        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
+            return;
         }
-        if (!root.contains(node)){
-            return [];
-        }
-        var output = [node],
+        var output = [],
             elem = node,
-            parent = elem.getParent(),
-            fun = CKHelper['next-siblings'];
-        while (!root.equals(parent)){
-            output = output.concat(fun(elem));
-            elem = parent;
-            parent = parent.getParent();
+            siblings;
+        while (!root.isEqualNode(elem)){
+            siblings = this.nextSiblings(elem);
+            output = output.concat(siblings);
+            elem = elem.parentNode;
         }
-        output = output.concat(fun(elem));
         return output;
     };
 
     /**
-     * Returns an array containing `node` and elements that come before it
-     * the in DOM in the context of `root`. Therefore, all array elements
-     * belong to `root`. `root` itself is not included in the output except
-     * the case when it is equal to `node`. If `root` does not contain `node`,
-     * the output must be an empty array.
-     * Uses {{#crossLink "CKHelper/prev-siblings:method"}}CKHelper['prev-siblings']{{/crossLink}}
-     * to fill in array with the next siblings.
-     * @method                                            bunch-prev-siblings
-     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   node         a node that must be inside of root node
-     * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
-     * @return {Array}                                                 nodes between `node` and `root` first child (inclusively)
+     * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
+     * come before given [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance `node`
+     * in the context of `root`.
+     *
+     * Therefore, all output array elements belong to `root` while niether
+     * `root` nor `node` is included.
+     * @method         bunchPrevSiblings
+     * @param          {Node}         node         a node that must be inside of root node
+     * @param          {Node}         root         the returned array elements will be inside this node.
+     * @return         {Array}                     nodes between `node` and `root` first child
      */
     this.bunchPrevSiblings = function(node, root){
-        if (node.equals(root)){
-            return [node];
+        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
+            return;
         }
-        if (!root.contains(node)){
-            return [];
-        }
-        var output = [node],
+        var output = [],
             elem = node,
-            parent = elem.getParent(),
-            fun = CKHelper['prev-siblings'];
-        while (!root.equals(parent)){
-            output = output.concat(fun(elem));
-            elem = parent;
-            parent = parent.getParent();
+            siblings;
+        while (!root.isEqualNode(elem)){
+            siblings = this.prevSiblings(elem);
+            output = output.concat(siblings);
+            elem = elem.parentNode;
         }
-        output = output.concat(fun(elem));
         return output;
-    };
-
-    /**
-     * Returns an array of elements that are next siblings of the given one.
-     *
-     * The first next sibling becomes the first element of the array,
-     * the second next sibling becomes the second one and so on.
-     * @method         nextSiblings
-     * @param          {Node}          elem
-     * @return         {Array}         array of Node instances
-     * @since          0.0.8
-     */
-    this.nextSiblings = function(elem){
-        if (!(elem instanceof Node)){
-            return undefined;
-        }
-        return _trackWalk(elem, 'nextSibling');
-    };
-
-
-    /**
-     * Returns an array of Node instances that are siblings of the argument and that come before it.
-     *
-     * **Pay attention to the order:** the nearest previous sibling becomes the first element of the array,
-     * the second previous sibling becomes the second one and so on.
-     * @method         prevSiblings
-     * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-     * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
-     * @since          0.0.8
-     */
-    this.prevSiblings = function(elem){
-        if (!(elem instanceof Node)){
-            return undefined;
-        }
-        return _trackWalk(elem, 'previousSibling');
     };
 
     /**
@@ -542,6 +492,42 @@ function Selection(ed) {
             node = node[dir];
         }
         return accum;
+    };
+
+
+    /**
+     * Returns an array of elements that are next siblings of the given one.
+     *
+     * The first next sibling becomes the first element of the array,
+     * the second next sibling becomes the second one and so on.
+     * @method         nextSiblings
+     * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+     * @since          0.0.8
+     */
+    this.nextSiblings = function(elem){
+        if (!(elem instanceof Node)){
+            return undefined;
+        }
+        return _trackWalk(elem, 'nextSibling');
+    };
+
+
+    /**
+     * Returns an array of Node instances that are siblings of the argument and that come before it.
+     *
+     * **Pay attention to the order:** the nearest previous sibling becomes the first element of the array,
+     * the second previous sibling becomes the second one and so on.
+     * @method         prevSiblings
+     * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+     * @since          0.0.8
+     */
+    this.prevSiblings = function(elem){
+        if (!(elem instanceof Node)){
+            return undefined;
+        }
+        return _trackWalk(elem, 'previousSibling');
     };
 
     /**
