@@ -277,10 +277,6 @@ function Selection(ed) {
         var p1 = this.pathTo(n1),
             p2 = this.pathTo(n2);
         var pCommon = [];
-
-
-        console.log(this.pathTo(n1));
-        console.log(this.pathTo(n2));
         if (n1.contains(n2)){
             // console.log('return first argument', n1);
             return n1;
@@ -435,7 +431,7 @@ function Selection(ed) {
      * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
      * @return {Array}                                                 nodes between `node` and `root` last child (inclusively)
      */
-    this['bunch-next-siblings'] = function(node, root){
+    this.bunchNextSiblings = function(node, root){
         if (node.equals(root)){
             return [node];
         }
@@ -468,7 +464,7 @@ function Selection(ed) {
      * @param  {CKEDITOR.dom.element|CKEDITOR.dom.node}   root         the returned array elements will be inside this node.
      * @return {Array}                                                 nodes between `node` and `root` first child (inclusively)
      */
-    this['bunch-prev-siblings'] = function(node, root){
+    this.bunchPrevSiblings = function(node, root){
         if (node.equals(root)){
             return [node];
         }
@@ -488,9 +484,65 @@ function Selection(ed) {
         return output;
     };
 
+    /**
+     * Returns an array of elements that are next siblings of the given one.
+     *
+     * The first next sibling becomes the first element of the array,
+     * the second next sibling becomes the second one and so on.
+     * @method         nextSiblings
+     * @param          {Node}          elem
+     * @return         {Array}         array of Node instances
+     * @since          0.0.8
+     */
+    this.nextSiblings = function(elem){
+        if (!(elem instanceof Node)){
+            return undefined;
+        }
+        return _trackWalk(elem, 'nextSibling');
+    };
 
 
+    /**
+     * Returns an array of Node instances that are siblings of the argument and that come before it.
+     *
+     * **Pay attention to the order:** the nearest previous sibling becomes the first element of the array,
+     * the second previous sibling becomes the second one and so on.
+     * @method         prevSiblings
+     * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+     * @since          0.0.8
+     */
+    this.prevSiblings = function(elem){
+        if (!(elem instanceof Node)){
+            return undefined;
+        }
+        return _trackWalk(elem, 'previousSibling');
+    };
 
+    /**
+     * Returns array of elememts that are obtained by always following direction `dir`.
+     *
+     * Starting from node `n`, the method applies property `dir` to it, until non-Node instance is
+     * reached. Array of all intermediate elements are then returned.
+     *
+     * ** Attention to infinite loops! **
+     * @method         _trackWalk
+     * @private
+     * @param          {Any}           elem
+     * @param          {String}        prop       property name to be applied
+     * @return         {Array}
+     * @since          0.0.8
+     *
+     */
+    var _trackWalk = function(elem, dir){
+        var accum = [],
+            node = elem[dir];
+        while (node){
+            accum.push(node);
+            node = node[dir];
+        }
+        return accum;
+    };
 
     /**
      * {{#crossLink "Selection/editor:property"}}editor{{/crossLink}} setter. Sets as well

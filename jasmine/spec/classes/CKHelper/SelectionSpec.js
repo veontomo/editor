@@ -6,7 +6,7 @@ describe('Selection class has', function(){
     // output freeze for some seconds
 
     var sel, editor, selected;
-    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, n00, n10, n11;
+    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, e32, n00, n10, n11;
 
     beforeEach(function(){
         editor = new CKEDITOR.editor();
@@ -21,8 +21,8 @@ describe('Selection class has', function(){
         //    _____|_______________________________      |_________
         //   |     |                      |    |   |     |         |
         //  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
-        //      ___|___
-        //     |       |
+        //      ___|___                                  |
+        //     |       |                                e32
         //     e30    t31
 
         e00 = document.createElement('div00');
@@ -37,6 +37,7 @@ describe('Selection class has', function(){
         e26 = document.createElement('div26');
         e30 = document.createElement('div30');
         t31 = document.createTextNode('text node 3.1');
+        e32 = document.createElement('div');
         e00.appendChild(e10);
         e00.appendChild(e11);
         e10.appendChild(t20);
@@ -48,6 +49,7 @@ describe('Selection class has', function(){
         e21.appendChild(t31);
         e11.appendChild(e25);
         e11.appendChild(e26);
+        e25.appendChild(e32);
 
         e10.setAttribute('style', 'font-weight: bold;');
         e26.setAttribute('style', 'font-weight: normal;');
@@ -781,21 +783,75 @@ describe('Selection class has', function(){
             expect(res[1]).toBe(4);
             expect(res[2]).toBe(1);
         });
+    });
 
-
-
-
-
-
-
-        it('returns nothing if it is called without the second argument', function(){
-            var probes = ['', 'a string', 0, 1, 4.32, -2, -5.96, [], [1, 2, 3], function(){return;}, {}, {foo: 23}];
-            probes.forEach(function(probe){
-                expect(sel.commonHead(probe)).not.toBeDefined();
+    describe('a method to find previous siblings that', function(){
+        it('returns nothing if the argument is not defined or is a string, a number, a function or a non-Node object', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.prevSiblings(invalid)).not.toBeDefined();
             });
         });
 
+        it('returns empty array if the argument is a unique child', function(){
+            var res = sel.prevSiblings(e32);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the argument is a first but not unique child', function(){
+            var res = sel.prevSiblings(e10);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns array with one Node if the argument is a second child', function(){
+            var res = sel.prevSiblings(e26);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(1);
+            expect(res[0]).toBe(e25);
+        });
+        it('returns array with three Nodes if the argument is a fourth child', function(){
+            var res = sel.prevSiblings(e23);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res[0]).toBe(t22);
+            expect(res[1]).toBe(e21);
+            expect(res[2]).toBe(t20);
+        });
     });
+
+    describe('a method to find next siblings that', function(){
+        it('returns nothing if the argument is not defined or is a string, a number, a function or a non-Node object', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.nextSiblings(invalid)).not.toBeDefined();
+            });
+        });
+
+        it('returns empty array if the argument is a unique child', function(){
+            var res = sel.nextSiblings(e32);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the argument is a last but not unique child', function(){
+            var res = sel.nextSiblings(e26);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns array with one Node if the argument is a before-last child', function(){
+            var res = sel.nextSiblings(e23);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(1);
+            expect(res[0]).toBe(t24);
+        });
+        it('returns array with two Nodes if the argument is a second-from-the-end child', function(){
+            var res = sel.nextSiblings(t22);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res[0]).toBe(e23);
+            expect(res[1]).toBe(t24);
+        });
+    });
+
 
     describe('a method indexOf that', function(){
         it('throws exception if argument either string, number, array, function or non-Node element', function(){
