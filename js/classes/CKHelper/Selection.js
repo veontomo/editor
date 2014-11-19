@@ -259,16 +259,26 @@ function Selection(ed) {
         if (!(r instanceof Range)){
             return;
         }
+        console.log('Range: ', r);
+        if (r.collapsed){
+            console.log('Range is collapsed');
+            return [];
+        }
         var startContainer = r.startContainer,
             endContainer = r.endContainer,
             commonParent = this.commonAncestor(startContainer, endContainer),
             startPath = this.pathTo(startContainer, commonParent),
             endPath = this.pathTo(endContainer, commonParent),
-            startChild = commonAncestor.childNodes[startPath[0]],
-            endChild = commonAncestor.childNodes[endPath[0]],
+            startChild = commonParent.childNodes[startPath[0]],
+            endChild = commonParent.childNodes[endPath[0]],
             startAfterNodes,
             endBeforeNodes,
             output = [];
+        console.log('startPath: ', startPath);
+        console.log('endPath: ', endPath);
+        console.log('commonParent: ', commonParent);
+        console.log('startChild: ', startChild);
+        console.log('endChild: ', endChild);
 
         output.push(startContainer);
         startAfterNodes = this.bunchNextSiblings(startContainer, startChild);
@@ -279,9 +289,50 @@ function Selection(ed) {
         if (endBeforeNodes){
             output.concat(endBeforeNodes);
         }
-        output.push(endContainer);
+        if (!endContainer.isEqualNode(startContainer)){
+            output.push(endContainer);
+        }
+        console.log(output);
+
         return output;
     };
+
+    /**
+     * Returns the first node of given range.
+     *
+     * If the start container is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text),
+     * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
+     * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
+     * by replacing the node by two nodes: the first one is an out-of-range `r` part, the second - is an
+     * inside-range `r` part. The second node is to be returned.
+     *
+     * In all other cases, a node specified by range `r`
+     * [startOffset](https://developer.mozilla.org/en-US/docs/Web/API/Range.startOffset) is returned.
+
+     * @method         startNode
+     * @param          {Range}         r
+     * @return         {Node}
+     * @since          0.0.8
+     */
+    this.startNode = function(r){
+        /// !!! stub
+    };
+
+    /**
+     * [splitNode description]
+     * @method         splitTextNode
+     * @param          {Node}          n
+     * @param          {Integer}       pos
+     * @return         {void}
+     * @method         0.0.8
+     */
+    this.splitTextNode = function(n, pos){
+        if (n instanceof Text){
+            var len = n.textContent.length;
+            n.splitText(pos > len ? len : pos);
+        }
+    };
+
 
 
     /**

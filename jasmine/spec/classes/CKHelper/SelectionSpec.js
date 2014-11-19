@@ -527,16 +527,15 @@ describe('Selection class has', function(){
             });
         });
 
-        describe('has method nodesOfRange that', function(){
+        xdescribe('has method nodesOfRange that', function(){
             it('returns an empty array if the argument is not a range', function(){
                 var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
                 invalids.forEach(function(invalid){
                     var nodes = sel.nodesOfRange(invalid);
-                    expect(Array.isArray(nodes)).toBe(true);
-                    expect(nodes.length).toBe(0);
+                    expect(nodes).not.toBeDefined();
                 });
             });
-            it('returns an empty array if the argument is an empty range', function(){
+            it('returns an empty array if the argument is a collapsed range', function(){
                 range.collapse();
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
@@ -544,7 +543,7 @@ describe('Selection class has', function(){
             });
             it('returns array with single element node if the range contains single element node', function(){
                 range.setStart(e10, 1);
-                range.setStart(e11, 2);
+                range.setEnd(e10, 2);
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
@@ -903,60 +902,60 @@ describe('Selection class has', function(){
         });
     });
 
-describe('a method to find next ascendants in given scope that', function(){
-    it('returns nothing if called without arguments', function(){
-        expect(sel.bunchNextSiblings()).not.toBeDefined();
-    });
-    it('returns nothing if the first argument is invalid one and the second is a valid one', function(){
-        var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
-        invalids.forEach(function(invalid){
-            expect(sel.bunchNextSiblings(invalid, e25)).not.toBeDefined();
+    describe('a method to find next ascendants in given scope that', function(){
+        it('returns nothing if called without arguments', function(){
+            expect(sel.bunchNextSiblings()).not.toBeDefined();
         });
-    });
-    it('returns nothing if the second argument is invalid one and the first is a valid one', function(){
-        var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
-        invalids.forEach(function(invalid){
-            expect(sel.bunchNextSiblings(e23, invalid)).not.toBeDefined();
+        it('returns nothing if the first argument is invalid one and the second is a valid one', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.bunchNextSiblings(invalid, e25)).not.toBeDefined();
+            });
         });
-    });
-    it('returns nothing if the input node does not belong to the scope node', function(){
-        expect(sel.bunchNextSiblings(e30, e26)).not.toBeDefined();
-    });
+        it('returns nothing if the second argument is invalid one and the first is a valid one', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(sel.bunchNextSiblings(e23, invalid)).not.toBeDefined();
+            });
+        });
+        it('returns nothing if the input node does not belong to the scope node', function(){
+            expect(sel.bunchNextSiblings(e30, e26)).not.toBeDefined();
+        });
 
-    it('returns an empty array if the input node is equal to the scope node', function(){
-        var res = sel.bunchNextSiblings(e10, e10);
-        expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBe(0);
+        it('returns an empty array if the input node is equal to the scope node', function(){
+            var res = sel.bunchNextSiblings(e10, e10);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns an array with the node next siblings if the scope node is the node\'s parent one', function(){
+            var res = sel.bunchNextSiblings(t22, e10);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res.indexOf(e23) !== -1).toBe(true);
+            expect(res.indexOf(t24) !== -1).toBe(true);
+        });
+        it('returns an empty array if the input node is a unique child of the scope node', function(){
+            var res = sel.bunchNextSiblings(e32, e25);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns an array with single node if the input node has no next siblings in its branch', function(){
+            var res = sel.bunchNextSiblings(t24, e00);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(1);
+            expect(res[0]).toBe(e11);
+        });
+        it('returns an array with different-depth nodes', function(){
+            var res = sel.bunchNextSiblings(e30, e00);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(5);
+            expect(res.indexOf(t31) !== -1).toBe(true);
+            expect(res.indexOf(t22) !== -1).toBe(true);
+            expect(res.indexOf(e23) !== -1).toBe(true);
+            expect(res.indexOf(t24) !== -1).toBe(true);
+            expect(res.indexOf(e11) !== -1).toBe(true);
+        });
     });
-    it('returns an array with the node next siblings if the scope node is the node\'s parent one', function(){
-        var res = sel.bunchNextSiblings(t22, e10);
-        expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBe(2);
-        expect(res.indexOf(e23) !== -1).toBe(true);
-        expect(res.indexOf(t24) !== -1).toBe(true);
-    });
-    it('returns an empty array if the input node is a unique child of the scope node', function(){
-        var res = sel.bunchNextSiblings(e32, e25);
-        expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBe(0);
-    });
-    it('returns an array with single node if the input node has no next siblings in its branch', function(){
-        var res = sel.bunchNextSiblings(t24, e00);
-        expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBe(1);
-        expect(res[0]).toBe(e11);
-    });
-    it('returns an array with different-depth nodes', function(){
-        var res = sel.bunchNextSiblings(e30, e00);
-        expect(Array.isArray(res)).toBe(true);
-        expect(res.length).toBe(5);
-        expect(res.indexOf(t31) !== -1).toBe(true);
-        expect(res.indexOf(t22) !== -1).toBe(true);
-        expect(res.indexOf(e23) !== -1).toBe(true);
-        expect(res.indexOf(t24) !== -1).toBe(true);
-        expect(res.indexOf(e11) !== -1).toBe(true);
-    });
-});
 
     describe('a method indexOf that', function(){
         it('throws exception if argument either string, number, array, function or non-Node element', function(){
@@ -976,7 +975,157 @@ describe('a method to find next ascendants in given scope that', function(){
         it('returns 4 for the last child (among four)', function(){
             expect(sel.indexOf(t24)).toBe(4);
         });
+    });
 
+    describe('a method splitTextNode that', function(){
+        it('leaves the parent node unchanged if the argument is a Node instance', function(){
+            sel.splitTextNode(e21, 9);
+            expect(e21.childNodes.length).toBe(2);
+            expect(e21.childNodes[0]).toBe(e30);
+            expect(e21.childNodes[1]).toBe(t31);
+        });
+        describe('splits first text node in two text nodes', function(){
+            it('if the split index is zero', function(){
+                sel.splitTextNode(t20, 0);
+                expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[0].textContent).toBe('');
+                expect(e10.childNodes[1].textContent).toBe('text node 2.0');
+                expect(e10.childNodes[2]).toBe(e21);
+                expect(e10.childNodes[3]).toBe(t22);
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is greater than zero but less than the content length', function(){
+                sel.splitTextNode(t20, 6);
+                expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[0].textContent).toBe('text n');
+                expect(e10.childNodes[1].textContent).toBe('ode 2.0');
+                expect(e10.childNodes[2]).toBe(e21);
+                expect(e10.childNodes[3]).toBe(t22);
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is equal to the content length', function(){
+                sel.splitTextNode(t20, 13);
+                expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[0].textContent).toBe('text node 2.0');
+                expect(e10.childNodes[1].textContent).toBe('');
+                expect(e10.childNodes[2]).toBe(e21);
+                expect(e10.childNodes[3]).toBe(t22);
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is greater than the content length', function(){
+                sel.splitTextNode(t20, 50);
+                expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[0].textContent).toBe('text node 2.0');
+                expect(e10.childNodes[1].textContent).toBe('');
+                expect(e10.childNodes[2]).toBe(e21);
+                expect(e10.childNodes[3]).toBe(t22);
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+        });
+
+        describe('splits an inner text node in two text nodes', function(){
+            it('if the split index is zero', function(){
+                sel.splitTextNode(t22, 0);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[2].textContent).toBe('');
+                expect(e10.childNodes[3].textContent).toBe('text node 2.2');
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is greater than zero but less than the content length', function(){
+                sel.splitTextNode(t22, 4);
+                expect(e10.childNodes.length).toBe(6);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[2].textContent).toBe('text');
+                expect(e10.childNodes[3].textContent).toBe(' node 2.2');
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is equal to the content length', function(){
+                sel.splitTextNode(t22, 13);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[2].textContent).toBe('text node 2.2');
+                expect(e10.childNodes[3].textContent).toBe('');
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+            it('if the split index is greater than the content length', function(){
+                sel.splitTextNode(t22, 100);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[2].textContent).toBe('text node 2.2');
+                expect(e10.childNodes[3].textContent).toBe('');
+                expect(e10.childNodes[4]).toBe(e23);
+                expect(e10.childNodes[5]).toBe(t24);
+            });
+        });
+
+        describe('splits the last text node in two text nodes', function(){
+            it('if the split index is zero', function(){
+                sel.splitTextNode(t24, 0);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2]).toBe(t22);
+                expect(e10.childNodes[3]).toBe(e23);
+                expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[4].textContent).toBe('');
+                expect(e10.childNodes[5].textContent).toBe('text node 2.4');
+            });
+            it('if the split index is greater than zero but less than the content length', function(){
+                sel.splitTextNode(t24, 8);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2]).toBe(t22);
+                expect(e10.childNodes[3]).toBe(e23);
+                expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[4].textContent).toBe('text nod');
+                expect(e10.childNodes[5].textContent).toBe('e 2.4');
+            });
+            it('if the split index is equal to the content length', function(){
+                sel.splitTextNode(t24, 13);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2]).toBe(t22);
+                expect(e10.childNodes[3]).toBe(e23);
+                expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[4].textContent).toBe('text node 2.4');
+                expect(e10.childNodes[5].textContent).toBe('');
+            });
+            it('if the split index is greater than the content length', function(){
+                sel.splitTextNode(t24, 200);
+                expect(e10.childNodes[0]).toBe(t20);
+                expect(e10.childNodes[1]).toBe(e21);
+                expect(e10.childNodes[2]).toBe(t22);
+                expect(e10.childNodes[3]).toBe(e23);
+                expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[4].textContent).toBe('text node 2.4');
+                expect(e10.childNodes[5].textContent).toBe('');
+            });
+
+        });
     });
 
 

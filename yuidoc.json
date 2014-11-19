@@ -1,10 +1,10 @@
 {
     "name": "Newsletter API",
     "description": "Javascript classes",
-    "version": "0.0.6",
+    "version": "0.0.8",
     "options": {
         "outdir": "statistics/jsDoc",
         "paths": ["js", "settings", "customPlugins"]
     },
-    "logo": "images/logo.png"
+    "logo": "logo.png"
 }
