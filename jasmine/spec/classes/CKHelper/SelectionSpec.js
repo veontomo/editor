@@ -986,9 +986,9 @@ describe('Selection class has', function(){
         });
         describe('splits first text node in two text nodes', function(){
             it('if the split index is zero', function(){
-                sel.splitTextNode(t20, 0);
+                var t201 = sel.splitTextNode(t20, 0);
                 expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1]).toBe(t201);
                 expect(e10.childNodes[0].textContent).toBe('');
                 expect(e10.childNodes[1].textContent).toBe('text node 2.0');
                 expect(e10.childNodes[2]).toBe(e21);
@@ -997,9 +997,9 @@ describe('Selection class has', function(){
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is greater than zero but less than the content length', function(){
-                sel.splitTextNode(t20, 6);
+                var t201 = sel.splitTextNode(t20, 6);
                 expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1]).toBe(t201);
                 expect(e10.childNodes[0].textContent).toBe('text n');
                 expect(e10.childNodes[1].textContent).toBe('ode 2.0');
                 expect(e10.childNodes[2]).toBe(e21);
@@ -1008,9 +1008,9 @@ describe('Selection class has', function(){
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is equal to the content length', function(){
-                sel.splitTextNode(t20, 13);
+                var t201 = sel.splitTextNode(t20, 13);
                 expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1]).toBe(t201);
                 expect(e10.childNodes[0].textContent).toBe('text node 2.0');
                 expect(e10.childNodes[1].textContent).toBe('');
                 expect(e10.childNodes[2]).toBe(e21);
@@ -1019,9 +1019,9 @@ describe('Selection class has', function(){
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is greater than the content length', function(){
-                sel.splitTextNode(t20, 50);
+                var t201 = sel.splitTextNode(t20, 50);
                 expect(e10.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[1].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[1]).toBe(t201);
                 expect(e10.childNodes[0].textContent).toBe('text node 2.0');
                 expect(e10.childNodes[1].textContent).toBe('');
                 expect(e10.childNodes[2]).toBe(e21);
@@ -1033,45 +1033,45 @@ describe('Selection class has', function(){
 
         describe('splits an inner text node in two text nodes', function(){
             it('if the split index is zero', function(){
-                sel.splitTextNode(t22, 0);
+                var t221 = sel.splitTextNode(t22, 0);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3]).toBe(t221);
                 expect(e10.childNodes[2].textContent).toBe('');
                 expect(e10.childNodes[3].textContent).toBe('text node 2.2');
                 expect(e10.childNodes[4]).toBe(e23);
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is greater than zero but less than the content length', function(){
-                sel.splitTextNode(t22, 4);
+                var t221 = sel.splitTextNode(t22, 4);
                 expect(e10.childNodes.length).toBe(6);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3]).toBe(t221);
                 expect(e10.childNodes[2].textContent).toBe('text');
                 expect(e10.childNodes[3].textContent).toBe(' node 2.2');
                 expect(e10.childNodes[4]).toBe(e23);
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is equal to the content length', function(){
-                sel.splitTextNode(t22, 13);
+                var t221 = sel.splitTextNode(t22, 13);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3]).toBe(t221);
                 expect(e10.childNodes[2].textContent).toBe('text node 2.2');
                 expect(e10.childNodes[3].textContent).toBe('');
                 expect(e10.childNodes[4]).toBe(e23);
                 expect(e10.childNodes[5]).toBe(t24);
             });
             it('if the split index is greater than the content length', function(){
-                sel.splitTextNode(t22, 100);
+                var t221 = sel.splitTextNode(t22, 100);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[3].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[3]).toBe(t221);
                 expect(e10.childNodes[2].textContent).toBe('text node 2.2');
                 expect(e10.childNodes[3].textContent).toBe('');
                 expect(e10.childNodes[4]).toBe(e23);
@@ -1081,52 +1081,101 @@ describe('Selection class has', function(){
 
         describe('splits the last text node in two text nodes', function(){
             it('if the split index is zero', function(){
-                sel.splitTextNode(t24, 0);
+                var t241 = sel.splitTextNode(t24, 0);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2]).toBe(t22);
                 expect(e10.childNodes[3]).toBe(e23);
                 expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5]).toBe(t241);
                 expect(e10.childNodes[4].textContent).toBe('');
                 expect(e10.childNodes[5].textContent).toBe('text node 2.4');
             });
             it('if the split index is greater than zero but less than the content length', function(){
-                sel.splitTextNode(t24, 8);
+                var t241 = sel.splitTextNode(t24, 8);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2]).toBe(t22);
                 expect(e10.childNodes[3]).toBe(e23);
                 expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5]).toBe(t241);
                 expect(e10.childNodes[4].textContent).toBe('text nod');
                 expect(e10.childNodes[5].textContent).toBe('e 2.4');
             });
             it('if the split index is equal to the content length', function(){
-                sel.splitTextNode(t24, 13);
+                var t241 = sel.splitTextNode(t24, 13);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2]).toBe(t22);
                 expect(e10.childNodes[3]).toBe(e23);
                 expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5]).toBe(t241);
                 expect(e10.childNodes[4].textContent).toBe('text node 2.4');
                 expect(e10.childNodes[5].textContent).toBe('');
             });
             it('if the split index is greater than the content length', function(){
-                sel.splitTextNode(t24, 200);
+                var t241 = sel.splitTextNode(t24, 200);
                 expect(e10.childNodes[0]).toBe(t20);
                 expect(e10.childNodes[1]).toBe(e21);
                 expect(e10.childNodes[2]).toBe(t22);
                 expect(e10.childNodes[3]).toBe(e23);
                 expect(e10.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
-                expect(e10.childNodes[5].nodeType).toBe(Node.TEXT_NODE);
+                expect(e10.childNodes[5]).toBe(t241);
                 expect(e10.childNodes[4].textContent).toBe('text node 2.4');
                 expect(e10.childNodes[5].textContent).toBe('');
             });
 
         });
     });
+
+    describe('a method to pick up the first node in the range that', function(){
+        it('returns a node corresponding to the range start offset', function(){
+            range.setStart(e10, 1);
+            range.setEnd(e10, 3);
+            expect(sel.startNode(range)).toBe(e21);
+        });
+        it('returns a text that is located correctly in DOM', function(){
+            range.setStart(t20, 5);
+            range.setEnd(e00, 1);
+            var start = sel.startNode(range);
+            expect(e10.childNodes[1]).toBe(start);
+        });
+        it('returns a text that with correct content', function(){
+            range.setStart(t20, 2);
+            range.setEnd(e00, 2);
+            var start = sel.startNode(range);
+            expect(e10.childNodes[1].textContent).toBe('xt node 2.0');
+        });
+        it('returns nothing if the range is collapsed', function(){
+            range.collapse();
+            expect(sel.startNode(range)).not.toBeDefined();
+        });
+    });
+
+    describe('a method to pick up the last node in the range that', function(){
+        it('returns a node corresponding to the range start offset', function(){
+            range.setStart(e10, 1);
+            range.setEnd(e10, 3);
+            expect(sel.startNode(range)).toBe(t22);
+        });
+        it('returns a text that is located correctly in DOM', function(){
+            range.setStart(t20, 5);
+            range.setEnd(e00, 1);
+            var start = sel.startNode(range);
+            expect(e10.childNodes[1]).toBe(start);
+        });
+        it('returns a text that with correct content', function(){
+            range.setStart(t20, 2);
+            range.setEnd(e00, 2);
+            var start = sel.startNode(range);
+            expect(e10.childNodes[1].textContent).toBe('xt node 2.0');
+        });
+        it('returns nothing if the range is collapsed', function(){
+            range.collapse();
+            expect(sel.startNode(range)).not.toBeDefined();
+        });
+    });
+
 
 
 });

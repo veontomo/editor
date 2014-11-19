@@ -315,21 +315,28 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.startNode = function(r){
-        /// !!! stub
+        if (r.startContainer instanceof Element){
+            return r.startContainer.childNodes[r.startOffset];
+        }
+        if (r.startContainer instanceof Text){
+            var startOffset = r.startOffset;
+            return this.splitTextNode(r.startContainer, startOffset);
+        }
     };
 
     /**
-     * [splitNode description]
+     * Splits the text node in two text nodes: the first one contains first `pos` characters of the original node,
+     * the second (newly appeared in the DOM) - the rest. The newly created node is then returned.
      * @method         splitTextNode
-     * @param          {Node}          n
+     * @param          {Text}          n
      * @param          {Integer}       pos
-     * @return         {void}
+     * @return         {Text}
      * @method         0.0.8
      */
     this.splitTextNode = function(n, pos){
         if (n instanceof Text){
             var len = n.textContent.length;
-            n.splitText(pos > len ? len : pos);
+            return n.splitText(((pos !== undefined) && (pos < len)) ? pos : len);
         }
     };
 
