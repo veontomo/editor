@@ -55,6 +55,48 @@ function Selection(ed) {
      */
     var _rangePointer;
 
+
+    /**
+     * The first node of the range.
+     *
+     * It is necessary to remember the first node because DOM changes (some nodes might be splitted).
+     * @property {Node} _firstNodeOfRange
+     * @private
+     * @since 0.0.8
+     */
+    var _firstNodeOfRange;
+
+
+    /**
+     * The last node of the range.
+     *
+     * It is necessary to remember the last node because DOM changes (some nodes might be splitted).
+     * @property       {Node}          _firstNodeOfRange
+     * @private
+     * @since          0.0.8
+     */
+    var _lastNodeOfRange;
+
+    /**
+     * {{#crossLink "Selection/_firstNodeOfRange:property"}}_firstNodeOfRange{{/crossLink}} getter.
+     * @method         firstNodeOfRange
+     * @since          0.0.8
+     * @return         {Node}
+     */
+    this.firstNodeOfRange = function(){
+        return _firstNodeOfRange;
+    };
+
+    /**
+     * {{#crossLink "Selection/_lastNodeOfRange:property"}}_lastNodeOfRange{{/crossLink}} getter.
+     * @method         lastNodeOfRange
+     * @since          0.0.8
+     * @return         {Node}
+     */
+    this.firstNodeOfRange = function(){
+        return _firstNodeOfRange;
+    };
+
     /**
      * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} getter.
      * @method         getRanges
@@ -208,6 +250,8 @@ function Selection(ed) {
             _rangePointer = 0;
         }
     };
+
+
 
 
     /**
@@ -615,6 +659,76 @@ function Selection(ed) {
             return undefined;
         }
         return _trackWalk(elem, 'previousSibling');
+    };
+
+
+    /**
+     * Modifies DOM with respect to given range.
+     *
+     * If the range's start or end container is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text),
+     * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
+     * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
+     * by cutting the container according to the range offsets.
+     * @method         overlayRange
+     * @param          {Range}         r
+     * @return         {void}
+     * @since          0.0.8
+     */
+    this.overlayRange = function(r){
+        var _isText = function(n){
+            return (n instanceof Text);
+        };
+        if (!(r instanceof Range)){
+            throw new Error('The argument must be a Range instance!');
+        }
+        var sC = r.startContainer,
+            eC = r.endContainer,
+            sOff = r.startOffset,
+            eOff = r.endOffset;
+        if (sC.isEqualNode(eC) && _isText(sC)){
+            this.spliceText(sC, [sOff, eOff]);
+        } else {
+            if (_isText(sC)){
+                this.spliceText(sC, [sOff]);
+            }
+            if (_isText(eC)){
+                this.spliceText(eC, [eOff]);
+            }
+        }
+    };
+
+    /**
+     * Splices text node in pieces given by array `breakpoints`.
+     * @method         spliceText
+     * @param          {Text}          t           [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+     * @param          {Array}         breakpoints
+     * @return         {void}
+     */
+    this.spliceText = function(t, bP){
+        if (!(t instanceof Text)){
+            throw new Error('The first argument must be a Text node instance!');
+        }
+        if (!Array.isArray(bP)){
+            throw new Error('The second argument must be an array!');
+        }
+        var len = bP.length;
+        if (len === 0){
+            return;
+        }
+        var pointer = 0,
+            prevPointer = 0,
+            remnant = t,
+            offset;
+
+        while (pointer < len){
+            offset = bP[pointer] - prevPointer;
+            if (offset > 0 && offset < remnant.textContent.length){
+                remnant = remnant.splitText(offset);
+            }
+            prevPointer = bP[pointer];
+            pointer++;
+        }
+
     };
 
     /**

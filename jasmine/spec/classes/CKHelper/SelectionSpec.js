@@ -1124,35 +1124,257 @@ describe('Selection class has', function(){
                 expect(e10.childNodes[4].textContent).toBe('text node 2.4');
                 expect(e10.childNodes[5].textContent).toBe('');
             });
-
         });
     });
 
-    describe('a method to pick up the first node in the range that', function(){
-        it('returns a node corresponding to the range start offset', function(){
-            range.setStart(e10, 1);
-            range.setEnd(e10, 3);
-            expect(sel.startNode(range)).toBe(e21);
+    describe('a method overlayRange that', function(){
+        it('throws an error if its argument is a string, number, function, array or non-Range object', function(){
+            var invalids = ['', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(function(invalid){
+                    sel.overlayRange(invalid);
+                }).toThrow(new Error('The argument must be a Range instance!'));
+            });
         });
-        it('returns a text that is located correctly in DOM', function(){
-            range.setStart(t20, 5);
-            range.setEnd(e00, 1);
-            var start = sel.startNode(range);
-            expect(e10.childNodes[1]).toBe(start);
+        it('calls "spliceText" with two breakpoints if the range starts and ends in the same text node', function(){
+            range.setStart(t22, 2);
+            range.setEnd(t22, 6);
+            spyOn(sel, 'spliceText');
+            sel.overlayRange(range);
+            expect(sel.spliceText).toHaveBeenCalledWith(t22, [2, 6]);
         });
-        it('returns a text that with correct content', function(){
-            range.setStart(t20, 2);
-            range.setEnd(e00, 2);
-            var start = sel.startNode(range);
-            expect(e10.childNodes[1].textContent).toBe('xt node 2.0');
+
+        it('does not call "spliceText" if the range starts and ends in the same element node', function(){
+            range.setStart(e11, 0);
+            range.setEnd(e11, 2);
+            spyOn(sel, 'spliceText');
+            sel.overlayRange(range);
+            expect(sel.spliceText).not.toHaveBeenCalled();
         });
-        it('returns nothing if the range is collapsed', function(){
-            range.collapse();
-            expect(sel.startNode(range)).not.toBeDefined();
+        it('does not call "spliceText" if the range starts and ends in different element nodes', function(){
+            range.setStart(e10, 2);
+            range.setEnd(e25, 1);
+            spyOn(sel, 'spliceText');
+            sel.overlayRange(range);
+            expect(sel.spliceText).not.toHaveBeenCalled();
+        });
+        it('calls "spliceText" for end container if the range starts in the element node but ends in text node', function(){
+            range.setStart(e10, 2);
+            range.setEnd(t24, 4);
+            spyOn(sel, 'spliceText');
+            sel.overlayRange(range);
+            expect(sel.spliceText).toHaveBeenCalledWith(t24, [4]);
+        });
+        it('calls "spliceText" for start container if the range starts in the text node but ends in element node', function(){
+            range.setStart(t31, 6);
+            range.setEnd(e11, 1);
+            spyOn(sel, 'spliceText');
+            sel.overlayRange(range);
+            expect(sel.spliceText).toHaveBeenCalledWith(t31, [6]);
         });
     });
 
-    describe('a method to pick up the last node in the range that', function(){
+    describe('a method spliceText that', function(){
+        it('does not modify parent of the text node if the breakpoints array is empty', function(){
+            sel.spliceText(t20, []);
+            expect(e10.childNodes.length).toBe(5);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2]).toBe(t22);
+            expect(e10.childNodes[3]).toBe(e23);
+            expect(e10.childNodes[4]).toBe(t24);
+        });
+        it('does not modify parent of the text node if the breakpoints array is [0]', function(){
+            sel.spliceText(t20, [0]);
+            expect(e10.childNodes.length).toBe(5);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2]).toBe(t22);
+            expect(e10.childNodes[3]).toBe(e23);
+            expect(e10.childNodes[4]).toBe(t24);
+        });
+        it('does not modify parent of the text node if the breakpoints array is [0, 0, 0]', function(){
+            sel.spliceText(t24, [0]);
+            expect(e10.childNodes.length).toBe(5);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2]).toBe(t22);
+            expect(e10.childNodes[3]).toBe(e23);
+            expect(e10.childNodes[4]).toBe(t24);
+        });
+        it('does not modify parent of the text node if the unique breakpoint corresponds to the end of the text node', function(){
+            sel.spliceText(t22, [t22.textContent.length]);
+            expect(e10.childNodes.length).toBe(5);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2]).toBe(t22);
+            expect(e10.childNodes[3]).toBe(e23);
+            expect(e10.childNodes[4]).toBe(t24);
+        });
+        it('does not modify parent of the text node if the breakpoint lays beyond the end of the text node', function(){
+            sel.spliceText(t22, [t22.textContent.length + 10]);
+            expect(e10.childNodes.length).toBe(5);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2]).toBe(t22);
+            expect(e10.childNodes[3]).toBe(e23);
+            expect(e10.childNodes[4]).toBe(t24);
+        });
+        it('splits the text node in two parts if the breakpoint lays inside the node', function(){
+            sel.spliceText(t22, [7]);
+            expect(e10.childNodes.length).toBe(6);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2] instanceof Text).toBe(true);
+            expect(e10.childNodes[3] instanceof Text).toBe(true);
+            expect(e10.childNodes[2].textContent).toBe('text no');
+            expect(e10.childNodes[3].textContent).toBe('de 2.2');
+            expect(e10.childNodes[4]).toBe(e23);
+            expect(e10.childNodes[5]).toBe(t24);
+        });
+        it('splits the text node in four pieces if the breakpoint contains three increasing numbers', function(){
+            sel.spliceText(t22, [4, 7, 10]);
+            expect(e10.childNodes.length).toBe(8);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2] instanceof Text).toBe(true);
+            expect(e10.childNodes[3] instanceof Text).toBe(true);
+            expect(e10.childNodes[4] instanceof Text).toBe(true);
+            expect(e10.childNodes[5] instanceof Text).toBe(true);
+            expect(e10.childNodes[2].textContent).toBe('text');
+            expect(e10.childNodes[3].textContent).toBe(' no');
+            expect(e10.childNodes[4].textContent).toBe('de ');
+            expect(e10.childNodes[5].textContent).toBe('2.2');
+            expect(e10.childNodes[6]).toBe(e23);
+            expect(e10.childNodes[7]).toBe(t24);
+        });
+
+        it('splits the text node in three pieces if the breakpoint contains two coincident numbers', function(){
+            sel.spliceText(t22, [4, 4, 10]);
+            expect(e10.childNodes.length).toBe(7);
+            expect(e10.childNodes[0]).toBe(t20);
+            expect(e10.childNodes[1]).toBe(e21);
+            expect(e10.childNodes[2] instanceof Text).toBe(true);
+            expect(e10.childNodes[3] instanceof Text).toBe(true);
+            expect(e10.childNodes[4] instanceof Text).toBe(true);
+            expect(e10.childNodes[2].textContent).toBe('text');
+            expect(e10.childNodes[3].textContent).toBe(' node ');
+            expect(e10.childNodes[4].textContent).toBe('2.2');
+            expect(e10.childNodes[5]).toBe(e23);
+            expect(e10.childNodes[6]).toBe(t24);
+        });
+
+
+
+
+
+
+
+
+    });
+
+    xdescribe('a method to pick up the first node', function(){
+        describe('of range\'s start and end containers are the same element node and', function(){
+            it('if the node to return is a first-sibling element node', function(){
+                range.setStart(e11, 0);
+                range.setEnd(e11, 2);
+                expect(sel.startNode(range)).toBe(e25);
+            });
+            it('if the node to return is a first-sibling text node', function(){
+                range.setStart(e10, 0);
+                range.setEnd(e10, 3);
+                expect(sel.startNode(range)).toBe(t20);
+            });
+            it('if the node to return is a middle-sibling element node ', function(){
+                range.setStart(e10, 1);
+                range.setEnd(e10, 3);
+                expect(sel.startNode(range)).toBe(e21);
+            });
+            it('if the node to return is a middle-sibling text node', function(){
+                range.setStart(e10, 2);
+                range.setEnd(e10, 4);
+                expect(sel.startNode(range)).toBe(t22);
+            });
+            it('if the node to return is a last-sibling element node ', function(){
+                range.setStart(e11, 1);
+                range.setEnd(e11, 2);
+                expect(sel.startNode(range)).toBe(e26);
+            });
+            it('if the node to return is a last-sibling text node', function(){
+                range.setStart(e10, 3);
+                range.setEnd(e10, 4);
+                expect(sel.startNode(range)).toBe(t24);
+            });
+        });
+        describe('of range\'s start and end containers are the same text node and', function(){
+            it('does not modify DOM if the range covers completely the text node', function(){
+                range.setStart(t22, 0);
+                range.setEnd(t22, 13);
+                sel.startNode(range);
+                expect(e10.childNodes.length).toBe(5);
+            });
+            it('returns the text node if the range covers completely the text node', function(){
+                range.setStart(t22, 0);
+                range.setEnd(t22, 13);
+                expect(sel.startNode(range)).toBe(t22);
+            });
+            it('returns a newly created text node if the range starts at the beginning of the node and finishes in middle', function(){
+                range.setStart(t24, 0);
+                range.setEnd(t24, 5);
+                var n = sel.startNode(range);
+                expect(n).toBe(e10.childNodes[4]);
+            });
+            it('returns a newly created text node if the range starts in middle of the node and finishes at the end', function(){
+                range.setStart(t24, 3);
+                range.setEnd(t24, 13);
+                var n = sel.startNode(range);
+                expect(n).toBe(e10.childNodes[5]);
+            });
+            it('returns a newly created text node if the range starts and finishes in middle of the node', function(){
+                range.setStart(t24, 3);
+                range.setEnd(t24, 5);
+                var n = sel.startNode(range);
+                expect(n).toBe(e10.childNodes[5]);
+            });
+            it('adds 2 additional text nodes to the parent of the text node if the range starts and finishes in middle of the node', function(){
+                range.setStart(t24, 3);
+                range.setEnd(t24, 5);
+                var n = sel.startNode(range);
+                expect(e10.childNodes.length).toBe(7);
+            });
+
+
+
+
+            it('if the node to return is a first-sibling text node', function(){
+                range.setStart(e10, 0);
+                range.setEnd(e10, 3);
+                expect(sel.startNode(range)).toBe(t20);
+            });
+            it('if the node to return is a middle-sibling element node ', function(){
+                range.setStart(e10, 1);
+                range.setEnd(e10, 3);
+                expect(sel.startNode(range)).toBe(e21);
+            });
+            it('if the node to return is a middle-sibling text node', function(){
+                range.setStart(e10, 2);
+                range.setEnd(e10, 4);
+                expect(sel.startNode(range)).toBe(t22);
+            });
+            it('if the node to return is a last-sibling element node ', function(){
+                range.setStart(e11, 1);
+                range.setEnd(e11, 2);
+                expect(sel.startNode(range)).toBe(e26);
+            });
+            it('if the node to return is a last-sibling text node', function(){
+                range.setStart(e10, 3);
+                range.setEnd(e10, 4);
+                expect(sel.startNode(range)).toBe(t24);
+            });
+        });
+    });
+
+    xdescribe('a method to pick up the last node in the range that', function(){
         it('returns a node corresponding to the range start offset', function(){
             range.setStart(e10, 1);
             range.setEnd(e10, 3);
