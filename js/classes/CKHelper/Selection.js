@@ -472,20 +472,17 @@ function Selection(ed) {
         if (!(n instanceof Node) || !((s instanceof Node) || (s === undefined) )){
             return;
         }
-        var toTheTop = (s === undefined);
-        var path = [];
-        var parent = n;
-        while (parent){
-            if (!toTheTop && s.isEqualNode(parent)){
-                return path;
-            }
-            path.push(this.indexOf(parent));
-            parent = parent.parentNode;
-
+        var isScoped = (s !== undefined);
+        var path = [],
+            node = n;
+        while (node.parentNode && !node.isEqualNode(s)){
+            path.unshift(this.indexOf(node));
+            node = node.parentNode;
         }
-        if (toTheTop){
+        if (!isScoped || !s.parentNode || node.parentNode){
             return path;
-        };
+        }
+
     }.bind(this);
 
     /**

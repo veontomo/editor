@@ -672,10 +672,17 @@ describe('Selection class has', function(){
         it('returns nothing if the scope (2nd argument) does not contain the node (first argument)', function(){
             expect(sel.pathTo(e23, e11)).not.toBeDefined();
         });
+        it('returns path from the root if the second argument is not defined', function(){
+            var path = sel.pathTo(t31);
+            expect(Array.isArray(path)).toBe(true);
+            console.log(path);
+            expect(path.length).toBe(3);
+            expect(path[0]).toBe(0);
+            expect(path[1]).toBe(1);
+            expect(path[2]).toBe(1);
+        });
         it('returns [0] if the first argument is the first child of the second argument', function(){
-            console.log(t20, e10);
             var path = sel.pathTo(t20, e10);
-
             expect(Array.isArray(path)).toBe(true);
             expect(path.length).toBe(1);
             expect(path[0]).toBe(0);
@@ -693,12 +700,12 @@ describe('Selection class has', function(){
             expect(path[0]).toBe(4);
         });
         it('returns three element array if the first argument lays at "depth" 3', function(){
-            var path = sel.pathTo(e30, e00);
+            var path = sel.pathTo(t31, e00);
             expect(Array.isArray(path)).toBe(true);
             expect(path.length).toBe(3);
             expect(path[0]).toBe(0);
             expect(path[1]).toBe(1);
-            expect(path[2]).toBe(0);
+            expect(path[2]).toBe(1);
         });
     });
 
