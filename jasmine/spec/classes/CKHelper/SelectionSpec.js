@@ -675,7 +675,6 @@ describe('Selection class has', function(){
         it('returns path from the root if the second argument is not defined', function(){
             var path = sel.pathTo(t31);
             expect(Array.isArray(path)).toBe(true);
-            console.log(path);
             expect(path.length).toBe(3);
             expect(path[0]).toBe(0);
             expect(path[1]).toBe(1);
@@ -707,6 +706,61 @@ describe('Selection class has', function(){
             expect(path[1]).toBe(1);
             expect(path[2]).toBe(1);
         });
+    });
+
+    describe('a method contains that', function(){
+        it('throws an error if the second argument is invalid and the first is a Node instance', function(){
+            var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    sel.contains(t20, invalid);
+                }).toThrow(new Error('Both arguments must be Node instances!'));
+            });
+        });
+        it('throws an error if the first argument is invalid and the second is a Node instance', function(){
+            var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    sel.contains(invalid, e10);
+                }).toThrow(new Error('Both arguments must be Node instances!'));
+            });
+        });
+        it('returns true if the arguments are equal text nodes', function(){
+            expect(sel.contains(t24, t24)).toBe(true);
+        });
+        it('returns true if the arguments are equal element nodes', function(){
+            expect(sel.contains(e11, e11)).toBe(true);
+        });
+        it('returns true if the second argument is an element-node child of the first one', function(){
+            expect(sel.contains(e10, e23)).toBe(true);
+        });
+        it('returns true if the second argument is a text-node child of the first one', function(){
+            expect(sel.contains(e10, t24)).toBe(true);
+        });
+        it('returns true if the second argument is a text-node descendant of the first one', function(){
+            expect(sel.contains(e00, t31)).toBe(true);
+        });
+        it('returns true if the second argument is a element-node descendant of the first one', function(){
+            expect(sel.contains(e00, e32)).toBe(true);
+        });
+        it('returns false if the the arguments are siblings', function(){
+            expect(sel.contains(e21, t22)).toBe(false);
+        });
+        it('returns false if the second argument is not discendant of the first one', function(){
+            expect(sel.contains(t22, e25)).toBe(false);
+        });
+        it('returns false if the first argument is discendant of the second one', function(){
+            expect(sel.contains(e32, e11)).toBe(false);
+        });
+
+
+
+
+
+
+
+
+
     });
 
     describe('a method to get an element by path that', function(){

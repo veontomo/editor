@@ -460,8 +460,8 @@ function Selection(ed) {
 
     /**
      * Returns array of integers corresponding to arc numbers that one should follow
-     * in order to arrive from node `s` to node `n`. If node `s` is not set, then output of
-     * {{#crossLink "Selection/rootOf:method"}}rootOf{{/crossLink}} is used.
+     * in order to arrive from node `s` to node `n`. If node `s` is not set, then the path is
+     * given with respect to `s` highest parent.
      * @since          0.0.8
      * @method         pathTo
      * @param          {Node}          n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -475,6 +475,7 @@ function Selection(ed) {
         var isScoped = (s !== undefined);
         var path = [],
             node = n;
+
         while (node.parentNode && !node.isEqualNode(s)){
             path.unshift(this.indexOf(node));
             node = node.parentNode;
@@ -617,6 +618,31 @@ function Selection(ed) {
         }
         return accum;
     };
+
+    /**
+     * Returns `true` if node `asc` contains node `desc` among its descendants.
+     *
+     * This method is written for compatibility with IE that does not have method
+     * "contains" for Node instances.
+     * @method         contains
+     * @param          {Node}          asc
+     * @param          {Node}          desc
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.contains = function(asc, desc){
+        if (!((asc instanceof Node) && (desc instanceof Node))){
+            throw new Error('Both arguments must be Node instances!');
+        }
+        var node = desc;
+        while (node){
+            if (node.isEqualNode(asc)){
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
 
 
     /**
