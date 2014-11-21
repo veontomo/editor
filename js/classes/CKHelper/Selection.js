@@ -396,16 +396,16 @@ function Selection(ed) {
             // console.log('return undefined');
             return;
         }
-        if (n1.contains(n2)){
+        if (this.contains(n1, n2)){
             // console.log('return first argument', n1);
             return n1;
         }
-        if (n2.contains(n1)){
+        if (this.contains(n2, n1)){
             // console.log('return second argument', n2);
             return n2;
         }
         var parent = n1.parentNode;
-        while (parent && !(parent.contains(n2))){
+        while (parent && !(this.contains(parent, n2))){
             // console.log('inside while loop: ', parent);
             parent = parent.parentNode;
         }
@@ -476,7 +476,7 @@ function Selection(ed) {
         var path = [],
             node = n;
 
-        while (node.parentNode && !node.isEqualNode(s)){
+        while (node.parentNode && !(node === s)){
             path.unshift(this.indexOf(node));
             node = node.parentNode;
         }
@@ -569,7 +569,7 @@ function Selection(ed) {
      * @return         {Array}                     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.bunchNextSiblings = function(node, root){
-        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
+        if (!((node instanceof Node) && (root instanceof Node) && this.contains(root, node)) ){
             return;
         }
         return _bunchSiblings(node, root, this.nextSiblings);
@@ -588,7 +588,7 @@ function Selection(ed) {
      * @return         {Array}                     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
     this.bunchPrevSiblings = function(node, root){
-        if (!((node instanceof Node) && (root instanceof Node) && root.contains(node)) ){
+        if (!((node instanceof Node) && (root instanceof Node) && this.contains(root, node)) ){
             return;
         }
         return _bunchSiblings(node, root, this.prevSiblings);
@@ -636,13 +636,13 @@ function Selection(ed) {
         }
         var node = desc;
         while (node){
-            if (node.isEqualNode(asc)){
+            if (node === asc){ // node.isEqualNode(asc) --- not good, as it campares by value
                 return true;
             }
             node = node.parentNode;
         }
         return false;
-    }
+    };
 
 
     /**
@@ -682,6 +682,18 @@ function Selection(ed) {
 
 
     /**
+     * Returns `true` if the argument is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance.
+     * @method         isTextNode
+     * @param          {Any}           n
+     * @return         {Boolean}
+     * @since          0.0.8
+     */
+    this.isTextNode = function(n){
+        return ((n instanceof Node) && (n.nodeType === Node.TEXT_NODE));
+    };
+
+
+    /**
      * Modifies DOM with respect to given range.
      *
      * If the range's start or end container is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text),
@@ -694,9 +706,6 @@ function Selection(ed) {
      * @since          0.0.8
      */
     this.overlayRange = function(r){
-        var _isText = function(n){
-            return (n instanceof Text);
-        };
         if (!(r instanceof Range)){
             throw new Error('The argument must be a Range instance!');
         }
@@ -704,14 +713,14 @@ function Selection(ed) {
             eC = r.endContainer,
             sOff = r.startOffset,
             eOff = r.endOffset;
-        if (_isText(sC) ){
-            if (sC.isEqualNode(eC)){
+        if (this.isTextNode(sC) ){
+            if (sC === eC){
                 this.spliceText(sC, [sOff, eOff]);
             } else {
                 this.spliceText(sC, [sOff]);
             }
         } else {
-            if (_isText(eC)){
+            if (this.isTextNode(eC)){
                 this.spliceText(eC, [eOff]);
             }
         }

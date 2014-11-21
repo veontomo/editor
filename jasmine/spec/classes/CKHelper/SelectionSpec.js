@@ -629,6 +629,8 @@ describe('Selection class has', function(){
         });
 
         it('returns null if the nodes have no common parent', function(){
+
+            console.log(sel.commonAncestor(e23, n11));
             expect(sel.commonAncestor(e23, n11)).toBe(null);
         });
 
@@ -1190,6 +1192,33 @@ describe('Selection class has', function(){
         });
     });
 
+    describe('a method isTextNode', function(){
+        it('returns true if the argument is a text node with non-empty content', function(){
+            expect(sel.isTextNode(t20)).toBe(true);
+        });
+        it('returns true if the argument is a text node with empty content', function(){
+            expect(sel.isTextNode(document.createTextNode(''))).toBe(true);
+        });
+        it('returns false if the argument is a text node without children', function(){
+            expect(sel.isTextNode(e23)).toBe(false);
+        });
+        it('returns false if the argument is an element node with children', function(){
+            expect(sel.isTextNode(e10)).toBe(false);
+        });
+        it('returns false if the argument is a string', function(){
+            expect(sel.isTextNode('string')).toBe(false);
+        });
+        it('returns false if the argument is missing', function(){
+            expect(sel.isTextNode()).toBe(false);
+        });
+        it('returns false if the argument is a number', function(){
+            expect(sel.isTextNode(34.3)).toBe(false);
+        });
+        it('returns false if the argument is an object', function(){
+            expect(sel.isTextNode({1: 4})).toBe(false);
+        });
+    });
+
     describe('a method overlayRange that', function(){
         it('throws an error if its argument is a string, number, function, array or non-Range object', function(){
             var invalids = ['', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
@@ -1219,6 +1248,7 @@ describe('Selection class has', function(){
             range.setEnd(e25, 1);
             spyOn(sel, 'spliceText');
             sel.overlayRange(range);
+            // expect(1).toBe(0);
             expect(sel.spliceText).not.toHaveBeenCalled();
         });
         it('calls "spliceText" for end container if the range starts in the element node but ends in text node', function(){
