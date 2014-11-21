@@ -125,11 +125,8 @@ function Selection(ed) {
 
 
     /**
-     * Appends a range to the selection.
-     *
-     * If the argument is a Range instance and it is not present in
-     * {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}}) array,
-     * then it gets appended to it.
+     * Appends a range to the selection if the argument is a Range instance and is not
+     * already present in {{#crossLink "Selection/_ranges:property"}}_ranges{{/crossLink}} array.
      *
      * @method         appendRange
      * @param          {Range}         range
@@ -375,7 +372,7 @@ function Selection(ed) {
      * @param          {Text}          n
      * @param          {Integer}       pos
      * @return         {Text}
-     * @method         0.0.8
+     * @since          0.0.8
      */
     this.splitTextNode = function(n, pos){
         if (n instanceof Text){
@@ -472,24 +469,23 @@ function Selection(ed) {
      * @return         {Array|Null}
      */
     this.pathTo = function(n, s){
-        if (!(n instanceof Node)){
+        if (!(n instanceof Node) || !((s instanceof Node) || (s === undefined) )){
             return;
         }
-        if (s === undefined){
-            s = this.rootOf(n);
-        }
+        var toTheTop = (s === undefined);
         var path = [];
-        if (!s.contains(n)){
-            return;
-        }
-        var parent = n.parentNode;
-        while (s.contains(parent)){
-            path.push(this.indexOf(n));
-            n = parent;
-            parent = n.parentNode;
+        var parent = n;
+        while (parent){
+            if (!toTheTop && s.isEqualNode(parent)){
+                return path;
+            }
+            path.push(this.indexOf(parent));
+            parent = parent.parentNode;
 
         }
-        return path;
+        if (toTheTop){
+            return path;
+        };
     }.bind(this);
 
     /**
@@ -685,12 +681,13 @@ function Selection(ed) {
             eC = r.endContainer,
             sOff = r.startOffset,
             eOff = r.endOffset;
-        if (sC.isEqualNode(eC) && _isText(sC)){
-            this.spliceText(sC, [sOff, eOff]);
-        } else {
-            if (_isText(sC)){
+        if (_isText(sC) ){
+            if (sC.isEqualNode(eC)){
+                this.spliceText(sC, [sOff, eOff]);
+            } else {
                 this.spliceText(sC, [sOff]);
             }
+        } else {
             if (_isText(eC)){
                 this.spliceText(eC, [eOff]);
             }
@@ -698,10 +695,26 @@ function Selection(ed) {
     };
 
     /**
-     * Splices text node in pieces given by array `breakpoints`.
+     * <style>
+     * .cut {color: red; font-weight: bold}
+     * </style>
+     * Splices text node in non-empty pieces, the cut points are given by array `breakpoints`.
+     *
+     * For example, if the text content of the node is <code>"this is a string"</code> and the breakpoints
+     * array is <code>[3, 5, 6]</code>, then the cuts are done as follows:
+     * <code>"thi<span class="cut">|</span>s <span class="cut">|</span>i<span class="cut">|</span>s a string"</code>
+     * so that the original text node is splitted in four text nodes with the contents <code>"thi"</code>,
+     * <code>"s "</code>, <code>"i"</code> and <code>"s a string"</code>.
+     *
+     * Cuts that correspond to the same point in the text node are replaced by the same one, i.e.
+     * <code>[1, 3, 4, 4, 4, 7]</code> is equivalent to <code>[1, 3, 4, 7]</code>.
+     *
+     * The cuts that would result in producing empty text nodes, are ignored:
+     * <code>"<span class="cut">|</span>a stri<span class="cut">|</span>ng<span class="cut">|</span>"</code> is equivalent
+     * to <code>"a stri<span class="cut">|</span>ng"</code>.
      * @method         spliceText
-     * @param          {Text}          t           [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
-     * @param          {Array}         breakpoints
+     * @param          {Text}          t              [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+     * @param          {Array}         breakpoints    Array of integers in increasing order
      * @return         {void}
      */
     this.spliceText = function(t, bP){
@@ -728,7 +741,6 @@ function Selection(ed) {
             prevPointer = bP[pointer];
             pointer++;
         }
-
     };
 
     /**

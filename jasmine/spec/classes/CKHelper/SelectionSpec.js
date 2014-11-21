@@ -25,17 +25,17 @@ describe('Selection class has', function(){
         //     |       |                                e32
         //     e30    t31
 
-        e00 = document.createElement('div00');
-        e10 = document.createElement('div10');
-        e11 = document.createElement('div11');
+        e00 = document.createElement('div');
+        e10 = document.createElement('div');
+        e11 = document.createElement('div');
         t20 = document.createTextNode('text node 2.0');
-        e21 = document.createElement('div21');
+        e21 = document.createElement('div');
         t22 = document.createTextNode('text node 2.2');
-        e23 = document.createElement('div21');
+        e23 = document.createElement('div');
         t24 = document.createTextNode('text node 2.4');
-        e25 = document.createElement('div25');
-        e26 = document.createElement('div26');
-        e30 = document.createElement('div30');
+        e25 = document.createElement('div');
+        e26 = document.createElement('div');
+        e30 = document.createElement('div');
         t31 = document.createTextNode('text node 3.1');
         e32 = document.createElement('div');
         e00.appendChild(e10);
@@ -673,7 +673,9 @@ describe('Selection class has', function(){
             expect(sel.pathTo(e23, e11)).not.toBeDefined();
         });
         it('returns [0] if the first argument is the first child of the second argument', function(){
+            console.log(t20, e10);
             var path = sel.pathTo(t20, e10);
+
             expect(Array.isArray(path)).toBe(true);
             expect(path.length).toBe(1);
             expect(path[0]).toBe(0);
@@ -1263,14 +1265,6 @@ describe('Selection class has', function(){
             expect(e10.childNodes[5]).toBe(e23);
             expect(e10.childNodes[6]).toBe(t24);
         });
-
-
-
-
-
-
-
-
     });
 
     xdescribe('a method to pick up the first node', function(){
