@@ -527,7 +527,7 @@ describe('Selection class has', function(){
             });
         });
 
-        xdescribe('has method nodesOfRange that', function(){
+        describe('has method nodesOfRange that', function(){
             it('returns an empty array if the argument is not a range', function(){
                 var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
                 invalids.forEach(function(invalid){
@@ -547,12 +547,13 @@ describe('Selection class has', function(){
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
+                console.log(nodes[0]);
                 expect(nodes[0]).toBe(e21);
             });
 
             it('returns array with single text node if the range contains single text node', function(){
                 range.setStart(e10, 2);
-                range.setStart(e11, 3);
+                range.setEnd(e11, 3);
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
@@ -560,15 +561,16 @@ describe('Selection class has', function(){
             });
             it('returns an array with a text node if the range contains a fraction of a text node', function(){
                 range.setStart(t22, 4);
-                range.setStart(t22, 8);
+                range.setEnd(t22, 8);
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
                 expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(nodes[0].textContent).toBe(' nod');
             });
-            it('returns an array with several nodes if the range starts inside a text node', function(){
+            it('returns an array with several nodes if the range starts inside a text node and finishes inside an element node', function(){
                 range.setStart(t20, 4);  // includes text node with content " node 2.0"
-                range.setStart(e10, 4);  // includes nodes e21, t22, e23
+                range.setEnd(e10, 4);  // includes nodes e21, t22, e23
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(4);
@@ -579,27 +581,17 @@ describe('Selection class has', function(){
                 expect(nodes[3]).toBe(e23);
             });
 
-            it('returns an array with several nodes if the range finishes inside a text node', function(){
-                range.setStart(e21, 0);  // includes element node e30
+
+            it('returns an array with several nodes if the range starts and finishes inside different text nodes', function(){
+                range.setStart(t20, 3);  // includes element node e30
                 range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
                 var nodes = sel.nodesOfRange(range);
                 expect(Array.isArray(nodes)).toBe(true);
-                expect(nodes.length).toBe(2);
-                expect(nodes[0]).toBe(e30);
-                expect(nodes[1].nodeType).toBe(Node.TEXT_NODE);
-                expect(nodes[1].textContent).toBe('xt node 3.1');
-            });
-
-
-            it('returns an array with several nodes if the range starts and finishes inside a text node', function(){
-                range.setStart(e21, 0);  // includes element node e30
-                range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
-                var nodes = sel.nodesOfRange(range);
-                expect(Array.isArray(nodes)).toBe(true);
-                expect(nodes.length).toBe(2);
-                expect(nodes[0]).toBe(e30);
-                expect(nodes[1].nodeType).toBe(Node.TEXT_NODE);
-                expect(nodes[1].textContent).toBe('xt node 3.1');
+                expect(nodes.length).toBe(3);
+                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+                expect(nodes[0].textContent).toBe('t node 2.0');
+                expect(nodes[1]).toBe(e30);
+                expect(nodes[2].textContent).toBe('te');
             });
         });
     });
@@ -629,8 +621,6 @@ describe('Selection class has', function(){
         });
 
         it('returns null if the nodes have no common parent', function(){
-
-            console.log(sel.commonAncestor(e23, n11));
             expect(sel.commonAncestor(e23, n11)).toBe(null);
         });
 
@@ -754,15 +744,6 @@ describe('Selection class has', function(){
         it('returns false if the first argument is discendant of the second one', function(){
             expect(sel.contains(e32, e11)).toBe(false);
         });
-
-
-
-
-
-
-
-
-
     });
 
     describe('a method to get an element by path that', function(){
@@ -1235,6 +1216,17 @@ describe('Selection class has', function(){
             sel.overlayRange(range);
             expect(sel.spliceText).toHaveBeenCalledWith(t22, [2, 6]);
         });
+        it('returns single text node if the range starts and ends in the same text node', function(){
+            range.setStart(t22, 2);
+            range.setEnd(t22, 6);
+            var nodes = sel.overlayRange(range);
+            expect(Array.isArray(nodes)).toBe(true);
+            expect(nodes.length).toBe(1);
+            console.log(nodes);
+            expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+            expect(nodes[0].textContent).toBe('xt n');
+        });
+
 
         it('does not call "spliceText" if the range starts and ends in the same element node', function(){
             range.setStart(e11, 0);
@@ -1244,7 +1236,7 @@ describe('Selection class has', function(){
             expect(sel.spliceText).not.toHaveBeenCalled();
         });
         it('does not call "spliceText" if the range starts and ends in different element nodes', function(){
-            range.setStart(e10, 2);
+            range.setStart(e00, 0);
             range.setEnd(e25, 1);
             spyOn(sel, 'spliceText');
             sel.overlayRange(range);
@@ -1252,7 +1244,7 @@ describe('Selection class has', function(){
             expect(sel.spliceText).not.toHaveBeenCalled();
         });
         it('calls "spliceText" for end container if the range starts in the element node but ends in text node', function(){
-            range.setStart(e10, 2);
+            range.setStart(e21, 0);
             range.setEnd(t24, 4);
             spyOn(sel, 'spliceText');
             sel.overlayRange(range);
@@ -1264,6 +1256,15 @@ describe('Selection class has', function(){
             spyOn(sel, 'spliceText');
             sel.overlayRange(range);
             expect(sel.spliceText).toHaveBeenCalledWith(t31, [6]);
+        });
+        it('returns boundary nodes', function(){
+            range.setStart(t20, 3);
+            range.setEnd(t24, 1);
+            var nodes = sel.overlayRange(range);
+            expect(Array.isArray(nodes)).toBe(true);
+            expect(nodes.length).toBe(2);
+            expect(nodes[0].textContent).toBe('t node 2.0');
+            expect(nodes[1].textContent).toBe('t');
         });
     });
 

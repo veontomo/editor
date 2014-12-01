@@ -694,7 +694,8 @@ function Selection(ed) {
 
 
     /**
-     * Modifies DOM with respect to given range.
+     * Returns array of first and last selected nodes of the range.
+     * Modifies DOM in case if boundary containers are selected partially.
      *
      * If the range's start or end container is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text),
      * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
@@ -702,7 +703,7 @@ function Selection(ed) {
      * by cutting the container according to the range offsets.
      * @method         overlayRange
      * @param          {Range}         r
-     * @return         {void}
+     * @return         {Array}         array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
      * @since          0.0.8
      */
     this.overlayRange = function(r){
@@ -712,25 +713,37 @@ function Selection(ed) {
         var sC = r.startContainer,
             eC = r.endContainer,
             sOff = r.startOffset,
-            eOff = r.endOffset;
-        if (this.isTextNode(sC) ){
-            if (sC === eC){
+            eOff = r.endOffset,
+            isSameC = sC === eC,
+            boundaryNodes = [];
+        if (this.isTextNode(sC)){
+            if (isSameC){
                 this.spliceText(sC, [sOff, eOff]);
             } else {
                 this.spliceText(sC, [sOff]);
             }
-        } else {
-            if (this.isTextNode(eC)){
-                this.spliceText(eC, [eOff]);
-            }
+            boundaryNodes.push(sC.nextSibling);
         }
+        else {
+            boundaryNodes.push(sC.childNodes[sOff]);
+        }
+        if (this.isTextNode(eC)){
+            if (!isSameC){
+                this.spliceText(eC, [eOff]);
+                boundaryNodes.push(eC);
+            }
+        } else {
+            boundaryNodes.push(eC.childNodes[eOff - 1]);
+        }
+        return boundaryNodes;
     };
 
     /**
      * <style>
      * .cut {color: red; font-weight: bold}
      * </style>
-     * Splices text node in non-empty pieces, the cut points are given by array `breakpoints`.
+     * Splices text node in non-empty pieces and returns the array of nodes that
+     * are inserted in the DOM due to splicing. The cut points are given by array `breakpoints`.
      *
      * For example, if the text content of the node is <code>"this is a string"</code> and the breakpoints
      * array is <code>[3, 5, 6]</code>, then the cuts are done as follows:
@@ -747,7 +760,7 @@ function Selection(ed) {
      * @method         spliceText
      * @param          {Text}          t              [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
      * @param          {Array}         breakpoints    Array of integers in increasing order
-     * @return         {void}
+     * @return         {Array}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
      */
     this.spliceText = function(t, bP){
         if (!(t instanceof Text)){
