@@ -286,57 +286,117 @@ function Selection(ed) {
     };
 
     /**
-     * Converts range `r` into array of nodes which belong to the range.
+     * Returns nodes that lay between `n1` and `n2`.
      *
-     * If `r` is not a valid [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance,
-     * then empty array is returned.
+     * It is returned a minimal array of nodes that are situated between given nodes.
+     *
+     * If the argument is such that the start or end container is missing, then empty array is returned.
      *
      * @method         nodesOfRange
      * @since          0.0.8
-     * @param          {Range}         r
+     * @param          {Node}          n1     left limit (ignore nodes that come before this node)
+     * @param          {Node}          n2     right limit (ignore nodes that come after this node)
      * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
      */
-    this.nodesOfRange = function(r){
-        if (!(r instanceof Range)){
-            return;
-        }
-        console.log('Range: ', r);
-        if (r.collapsed){
-            console.log('Range is collapsed');
+    this.nodesOfRange = function(n1, n2){
+        if (!(n1 instanceof Node) || !(n2 instanceof Node)){
             return [];
         }
-        var startContainer = r.startContainer,
-            endContainer = r.endContainer,
-            commonParent = this.commonAncestor(startContainer, endContainer),
-            startPath = this.pathTo(startContainer, commonParent),
-            endPath = this.pathTo(endContainer, commonParent),
-            startChild = commonParent.childNodes[startPath[0]],
-            endChild = commonParent.childNodes[endPath[0]],
-            startAfterNodes,
-            endBeforeNodes,
-            output = [];
-        console.log('startPath: ', startPath);
-        console.log('endPath: ', endPath);
-        console.log('commonParent: ', commonParent);
-        console.log('startChild: ', startChild);
-        console.log('endChild: ', endChild);
-
-        output.push(startContainer);
-        startAfterNodes = this.bunchNextSiblings(startContainer, startChild);
-        endBeforeNodes = this.bunchPrevSiblings(endContainer, endChild);
-        if (startAfterNodes){
-            output.concat(startAfterNodes);
+        if (n1 === n2){
+            return [n1];
         }
-        if (endBeforeNodes){
-            output.concat(endBeforeNodes);
+        var comAns = this.commonAncestor(n1, n2);
+        if (!comAns){
+            return [];
         }
-        if (!endContainer.isEqualNode(startContainer)){
-            output.push(endContainer);
+        var pathStart = this.pathTo(n1, comAns),
+            pathEnd   = this.pathTo(n2, comAns);
+        if (!Array.isArray(pathStart) || !Array.isArray(pathEnd)){
+            return [];
         }
+        if (pathStart.length === 0){
+            return [n1];
+        }
+        if (pathEnd.length === 0){
+            return [n2];
+        }
+        var indStart = pathStart[0],
+            indEnd = pathEnd[0],
+            output = [n1];
+        var nodesNext = this.bunchNextSiblings(n1, comAns.childNodes[indStart]),
+            nodesPrev = this.bunchPrevSiblings(n2, comAns.childNodes[indEnd]);
+        if (Array.isArray(nodesNext) && nodesNext.length > 0) {
+            console.log('concatenating next-nodes: ', nodesNext);
+            output = output.concat(nodesNext);
+        } else {
+            console.log('No next-nodes: ', nodesNext);
+        }
+        var i;
+        for (i = indStart + 1; i < indEnd; i++){
+            output.push(comAns.childNodes[i]);
+        }
+        if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
+            console.log('concatenating previous-nodes: ', nodesPrev);
+            output = output.concat(nodesPrev);
+        } else {
+            console.log('No concatenating prev-nodes: ', nodesPrev);
+        }
+        output.push(n2);
         console.log(output);
-
         return output;
     };
+
+    /**
+     * Compares paths `p1` and `p2`.
+     *
+     * Returns
+     * <ul><li>
+     * `-1` if `p1` is less than `p2`
+     * </li><li>
+     * `0` if `p1` is equal `p2`
+     * </li><li>
+     * `-1` if `p1` is greater than `p2`
+     * </li></ul>
+     *
+     * Comparison is performed element-by-element. All coinciding elements situated at the beginning of
+     * each path are ignored and the remnants are compared.
+     * <ul><li>
+     * The path `p1` is said to be equal to the path `p2` if they both have empty remnants.
+     * </li><li>
+     * The path `p1` is said to be less than the path `p2` if one of the following holds:
+     * <ul><li>
+     * remnant of `p1` is empty and remnant of `p2` is not empty
+     * </li><li>
+     * first element of the remnant of `p1` is less than first element of remnant of `p2`.
+     * </li></ul>
+     * The path `p1` is said to be greater than the path `p2` if `p2` is less than `p1`.
+     * </li></ul>
+     *
+     * If `p1` and `p2` can not be compared, nothing is returned.
+     * @param          {Array}         p1        array of numbers
+     * @param          {Array}         p2        array of numbers
+     * @return         {-1|0|1|null}
+     */
+    this.compare = function(p1, p2){
+        var _compareAux = function(p1, p2){
+            if (p1.length > 0){
+                if (p2.length === 0){
+                    return 1;
+                }
+                var e1 = p1.shift(),
+                    e2 = p2.shift();
+                if (e1 > e2){return 1;}
+                if (e1 < e2){return -1;}
+                return _compareAux(p1, p2);
+            }
+            return p2.length === 0 ? 0 : -1;
+        }
+
+        if (Array.isArray(p1) && Array.isArray(p2)){
+            return _compareAux(p1, p2);
+        }
+    };
+
 
     /**
      * Returns the first node of given range.
@@ -701,12 +761,12 @@ function Selection(ed) {
      * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
      * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
      * by cutting the container according to the range offsets.
-     * @method         overlayRange
+     * @method         detachBoundaries
      * @param          {Range}         r
      * @return         {Array}         array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
      * @since          0.0.8
      */
-    this.overlayRange = function(r){
+    this.detachBoundaries = function(r){
         if (!(r instanceof Range)){
             throw new Error('The argument must be a Range instance!');
         }

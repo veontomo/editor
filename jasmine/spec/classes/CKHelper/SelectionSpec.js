@@ -528,72 +528,179 @@ describe('Selection class has', function(){
         });
 
         describe('has method nodesOfRange that', function(){
-            it('returns an empty array if the argument is not a range', function(){
-                var invalids = [undefined, null, 0, 8, 4.3, -21, -5.98, '', 'string', [], [1, 3], function(){return;}, {}, {foo: 11}];
-                invalids.forEach(function(invalid){
-                    var nodes = sel.nodesOfRange(invalid);
-                    expect(nodes).not.toBeDefined();
-                });
-            });
-            it('returns an empty array if the argument is a collapsed range', function(){
-                range.collapse();
-                var nodes = sel.nodesOfRange(range);
+            it('returns an empty array if it is called without arguments', function(){
+                var nodes = sel.nodesOfRange();
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(0);
             });
-            it('returns array with single element node if the range contains single element node', function(){
-                range.setStart(e10, 1);
-                range.setEnd(e10, 2);
-                var nodes = sel.nodesOfRange(range);
+
+            it('returns array with one of the arguments if they are the same element node', function(){
+                var nodes = sel.nodesOfRange(e21, e21);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
-                console.log(nodes[0]);
                 expect(nodes[0]).toBe(e21);
             });
+            it('returns array with one of the arguments if they are the same text node', function(){
+                var nodes = sel.nodesOfRange(t22, t22);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0]).toBe(t22);
+            });
 
-            it('returns array with single text node if the range contains single text node', function(){
-                range.setStart(e10, 2);
-                range.setEnd(e11, 3);
-                var nodes = sel.nodesOfRange(range);
+            it('returns array with input arguments if they are neighbouring siblings', function(){
+                var nodes = sel.nodesOfRange(t22, e23);
                 expect(Array.isArray(nodes)).toBe(true);
-                expect(nodes.length).toBe(1);
-                expect(nodes.length).toBe(t22);
+                expect(nodes.length).toBe(2);
+                expect(nodes[0]).toBe(t22);
+                expect(nodes[1]).toBe(e23);
             });
-            it('returns an array with a text node if the range contains a fraction of a text node', function(){
-                range.setStart(t22, 4);
-                range.setEnd(t22, 8);
-                var nodes = sel.nodesOfRange(range);
+
+            it('returns array with all siblings of node A if the arguments are the first and last nodes of A', function(){
+                var nodes = sel.nodesOfRange(t20, t24);
                 expect(Array.isArray(nodes)).toBe(true);
-                expect(nodes.length).toBe(1);
-                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(nodes[0].textContent).toBe(' nod');
-            });
-            it('returns an array with several nodes if the range starts inside a text node and finishes inside an element node', function(){
-                range.setStart(t20, 4);  // includes text node with content " node 2.0"
-                range.setEnd(e10, 4);  // includes nodes e21, t22, e23
-                var nodes = sel.nodesOfRange(range);
-                expect(Array.isArray(nodes)).toBe(true);
-                expect(nodes.length).toBe(4);
-                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(nodes[1].textContent).toBe(' node 2.0');
+                expect(nodes.length).toBe(5);
+                expect(nodes[0]).toBe(t20);
                 expect(nodes[1]).toBe(e21);
                 expect(nodes[2]).toBe(t22);
                 expect(nodes[3]).toBe(e23);
+                expect(nodes[4]).toBe(t24);
             });
 
-
-            it('returns an array with several nodes if the range starts and finishes inside different text nodes', function(){
-                range.setStart(t20, 3);  // includes element node e30
-                range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
-                var nodes = sel.nodesOfRange(range);
+            it('returns array with a fraction of siblings of a node if arguments have the same parent', function(){
+                var nodes = sel.nodesOfRange(e21, e23);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(3);
-                expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-                expect(nodes[0].textContent).toBe('t node 2.0');
-                expect(nodes[1]).toBe(e30);
-                expect(nodes[2].textContent).toBe('te');
+                expect(nodes[0]).toBe(e21);
+                expect(nodes[1]).toBe(t22);
+                expect(nodes[2]).toBe(e23);
             });
+
+            it('returns array with the second argument if it contains the first argument', function(){
+                var nodes = sel.nodesOfRange(e23, e10);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0]).toBe(e10);
+            });
+
+            it('returns array with the first argument if it contains the second argument', function(){
+                var nodes = sel.nodesOfRange(e11, e32);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0]).toBe(e11);
+            });
+
+
+
+            it('returns correct nodes if parent of the first argument is a neighbour sibling of the second argument', function(){
+                var nodes = sel.nodesOfRange(e23, e11);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(3);
+                expect(nodes[0]).toBe(e23);
+                expect(nodes[1]).toBe(t24);
+                expect(nodes[2]).toBe(e11);
+            });
+
+            it('returns correct nodes if parent of the second argument is a neighbour sibling of the first argument', function(){
+                var nodes = sel.nodesOfRange(t20, e30);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(2);
+                expect(nodes[0]).toBe(t20);
+                expect(nodes[1]).toBe(e30);
+            });
+
+            it('returns correct nodes if the arguments have the root node as a common ancestor', function(){
+                var nodes = sel.nodesOfRange(e21, e26);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(6);
+                expect(nodes[0]).toBe(e21);
+                expect(nodes[1]).toBe(t22);
+                expect(nodes[2]).toBe(e23);
+                expect(nodes[3]).toBe(t24);
+                expect(nodes[4]).toBe(e25);
+                expect(nodes[5]).toBe(e26);
+            });
+
+            it('returns empty array if the arguments have no common ancestor', function(){
+                spyOn(sel, 'commonAncestor');
+                var nodes = sel.nodesOfRange(e21, e10);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(0);
+                expect(sel.commonAncestor).toHaveBeenCalledWith(e21, e10);
+            });
+
+
+
+
+
+
+
+
+            // it('returns array with single text node if the range contains single text node', function(){
+            //     range.setStart(e10, 2);
+            //     range.setEnd(e11, 3);
+            //     var nodes = sel.nodesOfRange(range);
+            //     expect(Array.isArray(nodes)).toBe(true);
+            //     expect(nodes.length).toBe(1);
+            //     expect(nodes.length).toBe(t22);
+            // });
+            // it('returns an array with a text node if the range contains a fraction of a text node', function(){
+            //     range.setStart(t22, 4);
+            //     range.setEnd(t22, 8);
+            //     var nodes = sel.nodesOfRange(range);
+            //     expect(Array.isArray(nodes)).toBe(true);
+            //     expect(nodes.length).toBe(1);
+            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+            //     expect(nodes[0].textContent).toBe(' nod');
+            // });
+            // it('returns an array with several nodes if the range starts inside a text node and finishes inside an element node', function(){
+            //     range.setStart(t20, 4);  // includes text node with content " node 2.0"
+            //     range.setEnd(e10, 4);  // includes nodes e21, t22, e23
+            //     var nodes = sel.nodesOfRange(range);
+            //     expect(Array.isArray(nodes)).toBe(true);
+            //     expect(nodes.length).toBe(4);
+            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+            //     expect(nodes[1].textContent).toBe(' node 2.0');
+            //     expect(nodes[1]).toBe(e21);
+            //     expect(nodes[2]).toBe(t22);
+            //     expect(nodes[3]).toBe(e23);
+            // });
+
+
+            // it('returns an array with several nodes if the range starts and finishes inside different text nodes', function(){
+            //     range.setStart(t20, 3);  // includes element node e30
+            //     range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
+            //     var nodes = sel.nodesOfRange(range);
+            //     expect(Array.isArray(nodes)).toBe(true);
+            //     expect(nodes.length).toBe(3);
+            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
+            //     expect(nodes[0].textContent).toBe('t node 2.0');
+            //     expect(nodes[1]).toBe(e30);
+            //     expect(nodes[2].textContent).toBe('te');
+            // });
         });
+    });
+
+    describe('a method to compare paths that', function(){
+        it('returns 0 if both paths are empty arrays', function(){
+            expect(sel.compare([], [])).toBe(0);
+        });
+
+        it('returns 0 if both paths are equal non-empty arrays', function(){
+            expect(sel.compare([3, 2, 5, 2], [3, 2, 5, 2])).toBe(0);
+        });
+
+        it('returns -1 if first path is empty while the second is not', function(){
+            expect(sel.compare([], [3, 2, 5, 2])).toBe(-1);
+        });
+
+        it('returns -1 if both paths are not empty but first path is less than the second', function(){
+            expect(sel.compare([3, 0], [3, 2, 5, 2])).toBe(-1);
+        });
+
+        it('is an antisymmetric function', function(){
+            expect(sel.compare([3, 0], [3, 2, 5, 2])).toBe(- sel.compare([3, 2, 5, 2], [3, 0]));
+        });
+
     });
 
     describe('a method commonAncestor that', function(){
@@ -779,7 +886,7 @@ describe('Selection class has', function(){
         });
     });
 
-    describe('a method to find common "head" part of two arrays that' , function(){
+    xdescribe('a method to find common "head" part of two arrays that' , function(){
         it('returns empty array if both arguments are empty arrays', function(){
             var res = sel.commonHead([], []);
             expect(Array.isArray(res)).toBe(true);
@@ -1200,12 +1307,12 @@ describe('Selection class has', function(){
         });
     });
 
-    describe('a method overlayRange that', function(){
+    describe('a method detachBoundaries that', function(){
         it('throws an error if its argument is a string, number, function, array or non-Range object', function(){
             var invalids = ['', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
             invalids.forEach(function(invalid){
                 expect(function(invalid){
-                    sel.overlayRange(invalid);
+                    sel.detachBoundaries(invalid);
                 }).toThrow(new Error('The argument must be a Range instance!'));
             });
         });
@@ -1213,13 +1320,13 @@ describe('Selection class has', function(){
             range.setStart(t22, 2);
             range.setEnd(t22, 6);
             spyOn(sel, 'spliceText');
-            sel.overlayRange(range);
+            sel.detachBoundaries(range);
             expect(sel.spliceText).toHaveBeenCalledWith(t22, [2, 6]);
         });
         it('returns single text node if the range starts and ends in the same text node', function(){
             range.setStart(t22, 2);
             range.setEnd(t22, 6);
-            var nodes = sel.overlayRange(range);
+            var nodes = sel.detachBoundaries(range);
             expect(Array.isArray(nodes)).toBe(true);
             expect(nodes.length).toBe(1);
             console.log(nodes);
@@ -1232,14 +1339,14 @@ describe('Selection class has', function(){
             range.setStart(e11, 0);
             range.setEnd(e11, 2);
             spyOn(sel, 'spliceText');
-            sel.overlayRange(range);
+            sel.detachBoundaries(range);
             expect(sel.spliceText).not.toHaveBeenCalled();
         });
         it('does not call "spliceText" if the range starts and ends in different element nodes', function(){
             range.setStart(e00, 0);
             range.setEnd(e25, 1);
             spyOn(sel, 'spliceText');
-            sel.overlayRange(range);
+            sel.detachBoundaries(range);
             // expect(1).toBe(0);
             expect(sel.spliceText).not.toHaveBeenCalled();
         });
@@ -1247,20 +1354,20 @@ describe('Selection class has', function(){
             range.setStart(e21, 0);
             range.setEnd(t24, 4);
             spyOn(sel, 'spliceText');
-            sel.overlayRange(range);
+            sel.detachBoundaries(range);
             expect(sel.spliceText).toHaveBeenCalledWith(t24, [4]);
         });
         it('calls "spliceText" for start container if the range starts in the text node but ends in element node', function(){
             range.setStart(t31, 6);
             range.setEnd(e11, 1);
             spyOn(sel, 'spliceText');
-            sel.overlayRange(range);
+            sel.detachBoundaries(range);
             expect(sel.spliceText).toHaveBeenCalledWith(t31, [6]);
         });
         it('returns boundary nodes', function(){
             range.setStart(t20, 3);
             range.setEnd(t24, 1);
-            var nodes = sel.overlayRange(range);
+            var nodes = sel.detachBoundaries(range);
             expect(Array.isArray(nodes)).toBe(true);
             expect(nodes.length).toBe(2);
             expect(nodes[0].textContent).toBe('t node 2.0');

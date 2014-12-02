@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, Helper */
 
-describe('Test helper functions', function(){
+xdescribe('Test helper functions', function(){
     describe("file extension", function () {
         it("gives the file extension", function () {
             expect(Helper.fileExt('c:/folder/test.exe')).toEqual('exe');
