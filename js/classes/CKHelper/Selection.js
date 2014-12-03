@@ -326,23 +326,16 @@ function Selection(ed) {
         var nodesNext = this.bunchNextSiblings(n1, comAns.childNodes[indStart]),
             nodesPrev = this.bunchPrevSiblings(n2, comAns.childNodes[indEnd]);
         if (Array.isArray(nodesNext) && nodesNext.length > 0) {
-            console.log('concatenating next-nodes: ', nodesNext);
             output = output.concat(nodesNext);
-        } else {
-            console.log('No next-nodes: ', nodesNext);
         }
         var i;
         for (i = indStart + 1; i < indEnd; i++){
             output.push(comAns.childNodes[i]);
         }
         if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
-            console.log('concatenating previous-nodes: ', nodesPrev);
             output = output.concat(nodesPrev);
-        } else {
-            console.log('No concatenating prev-nodes: ', nodesPrev);
         }
         output.push(n2);
-        console.log(output);
         return output;
     };
 
@@ -371,29 +364,41 @@ function Selection(ed) {
      * </li></ul>
      * The path `p1` is said to be greater than the path `p2` if `p2` is less than `p1`.
      * </li></ul>
+     * One may provide a function `c` to compare elements of `p1` and `p2` that must obey the following signature:
+     * <pre>c: e1 &times; e2 &rarr; {-1, 0, +1}</pre>
+     * If arguments of function `c` are not comparable, the output of the whole method is not defined.
      *
      * If `p1` and `p2` can not be compared, nothing is returned.
+     * @method         compare
      * @param          {Array}         p1        array of numbers
      * @param          {Array}         p2        array of numbers
+     * @param          {Function}      c         [Optional] comparator
+     *
      * @return         {-1|0|1|null}
+     * @since          0.0.8
      */
-    this.compare = function(p1, p2){
-        var _compareAux = function(p1, p2){
+    this.compare = function(p1, p2, c){
+        var _compareAux = function(p1, p2, fun){
             if (p1.length > 0){
                 if (p2.length === 0){
                     return 1;
                 }
                 var e1 = p1.shift(),
-                    e2 = p2.shift();
-                if (e1 > e2){return 1;}
-                if (e1 < e2){return -1;}
-                return _compareAux(p1, p2);
+                    e2 = p2.shift(),
+                    comp = fun(e1, e2);
+                if (comp === 1 || comp === -1){return comp;}
+                if (comp === 0){
+                    return _compareAux(p1, p2, fun);
+                }
+                return;
             }
             return p2.length === 0 ? 0 : -1;
         }
-
         if (Array.isArray(p1) && Array.isArray(p2)){
-            return _compareAux(p1, p2);
+            if (typeof c !== 'function'){
+                c = function(x, y){ return x === y ? 0 : (x > y ? 1 : -1)}
+            }
+            return _compareAux(p1, p2, c);
         }
     };
 

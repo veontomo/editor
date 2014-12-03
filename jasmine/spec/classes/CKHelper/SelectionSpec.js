@@ -681,6 +681,9 @@ describe('Selection class has', function(){
     });
 
     describe('a method to compare paths that', function(){
+        it('returns undefined if the first argument is a string', function(){
+            expect(sel.compare('a string', [2, 6])).not.toBeDefined();
+        });
         it('returns 0 if both paths are empty arrays', function(){
             expect(sel.compare([], [])).toBe(0);
         });
@@ -693,12 +696,40 @@ describe('Selection class has', function(){
             expect(sel.compare([], [3, 2, 5, 2])).toBe(-1);
         });
 
+        it('returns 1 if first path is not empty while the second is empty', function(){
+            expect(sel.compare([3, 2, 5, 2], [])).toBe(1);
+        });
+
         it('returns -1 if both paths are not empty but first path is less than the second', function(){
             expect(sel.compare([3, 0], [3, 2, 5, 2])).toBe(-1);
         });
 
         it('is an antisymmetric function', function(){
             expect(sel.compare([3, 0], [3, 2, 5, 2])).toBe(- sel.compare([3, 2, 5, 2], [3, 0]));
+        });
+
+        it('returns nothing if the comparator fails to compare a pair of elements', function(){
+           expect(sel.compare([3, 0], [3, 2, 5, 2], function(x, y){return;})).not.toBeDefined();
+        });
+
+        it('returns 0 for equal length paths if the comparator always returns 0', function(){
+           expect(sel.compare([3, 2, 1], [4, 5, 6], function(x, y){return 0;})).toBe(0);
+        });
+
+        it('returns -1 if first path is "shorter" than the second and the comparator always returns 0', function(){
+           expect(sel.compare([3], [4, 5, 6], function(x, y){return 0;})).toBe(-1);
+        });
+
+        it('returns 1 if first path is "longer" than the second and the comparator always returns 0', function(){
+           expect(sel.compare([3, 5, 6], [6], function(x, y){return 0;})).toBe(1);
+        });
+
+        it('returns -1 if the comparator always returns -1', function(){
+           expect(sel.compare([3, 1], [4, 5, 6], function(x, y){return -1;})).toBe(-1);
+        });
+
+        it('returns 1 if the comparator always returns 1', function(){
+           expect(sel.compare([3, 2, 1], [4, 5], function(x, y){return 1;})).toBe(1);
         });
 
     });
@@ -886,7 +917,7 @@ describe('Selection class has', function(){
         });
     });
 
-    xdescribe('a method to find common "head" part of two arrays that' , function(){
+    describe('a method to find common "head" part of two arrays that' , function(){
         it('returns empty array if both arguments are empty arrays', function(){
             var res = sel.commonHead([], []);
             expect(Array.isArray(res)).toBe(true);
@@ -1329,7 +1360,6 @@ describe('Selection class has', function(){
             var nodes = sel.detachBoundaries(range);
             expect(Array.isArray(nodes)).toBe(true);
             expect(nodes.length).toBe(1);
-            console.log(nodes);
             expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
             expect(nodes[0].textContent).toBe('xt n');
         });
@@ -1494,12 +1524,12 @@ describe('Selection class has', function(){
                 expect(sel.startNode(range)).toBe(e26);
             });
             it('if the node to return is a last-sibling text node', function(){
-                range.setStart(e10, 3);
-                range.setEnd(e10, 4);
+                range.setStart(e10, 4);
+                range.setEnd(e10, 5);
                 expect(sel.startNode(range)).toBe(t24);
             });
         });
-        describe('of range\'s start and end containers are the same text node and', function(){
+        xdescribe('of range\'s start and end containers are the same text node and', function(){
             it('does not modify DOM if the range covers completely the text node', function(){
                 range.setStart(t22, 0);
                 range.setEnd(t22, 13);
