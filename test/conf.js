@@ -42,7 +42,6 @@ var path = require('path'),
     "classes/HtmlElements/Factory.js",
     "classes/HtmlElements/PlainText.js",
     "classes/CKHelper.js",
-    "classes/CKHelper/Selection.js",
     "adapters/EditorAdapter.js",
     "adapters/CKEditor/CKEditorAdapter.js",
     "../settings/general_config.js",
@@ -68,12 +67,12 @@ var path = require('path'),
     // "../jasmine/spec/classes/HtmlElements/Tag/UListSpec.js",
     // "../jasmine/spec/classes/HtmlElements/Tag/LinkSpec.js",
     // "../jasmine/spec/classes/HtmlElements/DomSpec.js",
-    // "../jasmine/spec/classes/HtmlElements/DocumentSpec.js",
+    "../jasmine/spec/classes/HtmlElements/DocumentSpec.js",
+    "../jasmine/spec/classes/HtmlElements/DocumentSelectionSpec.js",
     // "../jasmine/spec/classes/HtmlElements/MapperSpec.js",
     // "../jasmine/spec/classes/HtmlElements/FactorySpec.js",
     // "../jasmine/spec/classes/HtmlElements/PlainTextSpec.js",
     // "../jasmine/spec/classes/CKHelperSpec.js",
-    "../jasmine/spec/classes/CKHelper/SelectionSpec.js",
     // "../jasmine/spec/controllers/ControllerSpec.js",
     // "../jasmine/spec/controllers/CDownloadSpec.js",
     // "../jasmine/spec/converters/WorkerSpec.js",
@@ -105,6 +104,7 @@ module.exports = function (config) {
           {type: 'html', dir: statisticsDir}
         ],
     },
-    singleRun: true
+    singleRun: true,
+    // colors: false
   });
 };

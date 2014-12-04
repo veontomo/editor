@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global describe, xdescribe, it, xit, expect, spyOn, beforeEach, NEWSLETTER, Document, CKEditorAdapter, Node, Text */
-describe('Selection class has', function() {
+describe('Document class deals with selection in such a way that', function() {
     // it seems that when activating these suits makes the page with test
     // output freeze for some seconds
     var doc;
@@ -448,7 +448,6 @@ describe('Selection class has', function() {
                 expect(nodes[0]).toBe(t22);
             });
             it('returns array with input arguments if they are neighbouring siblings', function() {
-                // pending();
                 var nodes = doc.nodesOfRange(t22, e23);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(2);
@@ -456,7 +455,6 @@ describe('Selection class has', function() {
                 expect(nodes[1]).toBe(e23);
             });
             it('returns array with all siblings of node A if the arguments are the first and last nodes of A', function() {
-                // pending();
                 var nodes = doc.nodesOfRange(t20, t24);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(5);
@@ -467,7 +465,6 @@ describe('Selection class has', function() {
                 expect(nodes[4]).toBe(t24);
             });
             it('returns array with a fraction of siblings of a node if arguments have the same parent', function() {
-                // pending();
                 var nodes = doc.nodesOfRange(e21, e23);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(3);
@@ -475,8 +472,16 @@ describe('Selection class has', function() {
                 expect(nodes[1]).toBe(t22);
                 expect(nodes[2]).toBe(e23);
             });
+            it('returns array of nodes in order as they appear in DOM if the arguments are in inverse order', function() {
+                var nodes = doc.nodesOfRange(e23, e21);
+                expect(Array.isArray(nodes)).toBe(true);
+                expect(nodes.length).toBe(3);
+                expect(nodes[0]).toBe(e21);
+                expect(nodes[1]).toBe(t22);
+                expect(nodes[2]).toBe(e23);
+            });
+
             it('returns array with the second argument if it contains the first argument', function() {
-                // pending();
                 var nodes = doc.nodesOfRange(e23, e10);
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(1);
@@ -521,46 +526,6 @@ describe('Selection class has', function() {
                 expect(nodes.length).toBe(0);
                 expect(doc.commonAncestor).toHaveBeenCalledWith(e21, e10);
             });
-            // it('returns array with single text node if the range contains single text node', function(){
-            //     range.setStart(e10, 2);
-            //     range.setEnd(e11, 3);
-            //     var nodes = doc.nodesOfRange(range);
-            //     expect(Array.isArray(nodes)).toBe(true);
-            //     expect(nodes.length).toBe(1);
-            //     expect(nodes.length).toBe(t22);
-            // });
-            // it('returns an array with a text node if the range contains a fraction of a text node', function(){
-            //     range.setStart(t22, 4);
-            //     range.setEnd(t22, 8);
-            //     var nodes = doc.nodesOfRange(range);
-            //     expect(Array.isArray(nodes)).toBe(true);
-            //     expect(nodes.length).toBe(1);
-            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-            //     expect(nodes[0].textContent).toBe(' nod');
-            // });
-            // it('returns an array with several nodes if the range starts inside a text node and finishes inside an element node', function(){
-            //     range.setStart(t20, 4);  // includes text node with content " node 2.0"
-            //     range.setEnd(e10, 4);  // includes nodes e21, t22, e23
-            //     var nodes = doc.nodesOfRange(range);
-            //     expect(Array.isArray(nodes)).toBe(true);
-            //     expect(nodes.length).toBe(4);
-            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-            //     expect(nodes[1].textContent).toBe(' node 2.0');
-            //     expect(nodes[1]).toBe(e21);
-            //     expect(nodes[2]).toBe(t22);
-            //     expect(nodes[3]).toBe(e23);
-            // });
-            // it('returns an array with several nodes if the range starts and finishes inside different text nodes', function(){
-            //     range.setStart(t20, 3);  // includes element node e30
-            //     range.setStart(t31, 2);  // includes text node with content "xt node 3.1"
-            //     var nodes = doc.nodesOfRange(range);
-            //     expect(Array.isArray(nodes)).toBe(true);
-            //     expect(nodes.length).toBe(3);
-            //     expect(nodes[0].nodeType).toBe(Node.TEXT_NODE);
-            //     expect(nodes[0].textContent).toBe('t node 2.0');
-            //     expect(nodes[1]).toBe(e30);
-            //     expect(nodes[2].textContent).toBe('te');
-            // });
         });
     });
     describe('a method to compare paths that', function() {
@@ -614,6 +579,18 @@ describe('Selection class has', function() {
             expect(doc.compare([3, 2, 1], [4, 5], function() {
                 return 1;
             })).toBe(1);
+        });
+        it('does not modify the content of the input arrays', function(){
+            var p1 = [2, 3, 0],
+                p2 = [9, 7];
+            doc.compare(p1, p2);
+            expect(p1.length).toBe(3);
+            expect(p1[0]).toBe(2);
+            expect(p1[1]).toBe(3);
+            expect(p1[2]).toBe(0);
+            expect(p2.length).toBe(2);
+            expect(p2[0]).toBe(9);
+            expect(p2[1]).toBe(7);
         });
     });
     describe('a method commonAncestor that', function() {
@@ -775,88 +752,88 @@ describe('Selection class has', function() {
             expect(doc.contains(e32, e11)).toBe(false);
         });
     });
-    // describe('a method to get an element by path that', function(){
-    //     it('returns nothing if the path is not defined or given as a string, a number, a function or an object', function(){
-    //         var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
-    //         invalids.forEach(function(invalid){
-    //             expect(doc.getNodeByPath(invalid)).not.toBeDefined();
-    //         });
-    //     });
-    //     it('returns nothing if the reference is not given or given as a string, a number, an array, a function or a non-node object', function(){
-    //         var invalids = ['', 'a string', 0, 1, 4.32, -2, -5.96, [], [1, 2, 3], function(){return;}, {}, {foo: 23}];
-    //         invalids.forEach(function(invalid){
-    //             expect(doc.getNodeByPath([], invalid)).not.toBeDefined();
-    //         });
-    //     });
-    //     it('returns the reference node if the path is an empty array', function(){
-    //         expect(doc.getNodeByPath([], e10)).toBe(e10);
-    //     });
-    //     it('returns the first child of the reference node if the path is [0]', function(){
-    //         expect(doc.getNodeByPath([0], e21)).toBe(e30);
-    //     });
-    //     it('returns the last child of the reference node', function(){
-    //         expect(doc.getNodeByPath([1], e11)).toBe(e26);
-    //     });
-    //     it('returns third-generation child', function(){
-    //         expect(doc.getNodeByPath([0, 1, 1], e00)).toBe(t31);
-    //     });
-    //     it('returns nothing if the path contains reference to a non-existent node', function(){
-    //         expect(doc.getNodeByPath([3, 2, 0], e10)).not.toBeDefined();
-    //     });
-    //     it('returns nothing if the path passes through a text node', function(){
-    //         expect(doc.getNodeByPath([2, 1], e10)).not.toBeDefined();
-    //     });
-    // });
-    // describe('a method to find common "head" part of two arrays that' , function(){
-    //     it('returns empty array if both arguments are empty arrays', function(){
-    //         var res = doc.commonHead([], []);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(0);
-    //     });
-    //     it('returns empty array if the first argument is an empty array and the second is not', function(){
-    //         var res = doc.commonHead([], [1, 2, 4]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(0);
-    //     });
-    //     it('returns empty array if the second argument is an empty array and the first is not', function(){
-    //         var res = doc.commonHead([1, 0, 0], []);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(0);
-    //     });
-    //     it('returns empty array if the arguments have no common head', function(){
-    //         var res = doc.commonHead([1, 0, 0], [0, 2, 3]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(0);
-    //     });
-    //     it('returns empty array if the arguments have no common head', function(){
-    //         var res = doc.commonHead([1, 0, 0], [0, 2, 3, 3, 1]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(0);
-    //     });
-    //     it('returns the input array if the arguments are equal non-empty arrays', function(){
-    //         var res = doc.commonHead([1, 2, 3], [1, 2, 3]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(3);
-    //         expect(res[0]).toBe(1);
-    //         expect(res[1]).toBe(2);
-    //         expect(res[2]).toBe(3);
-    //     });
-    //     it('returns the first argument if the second array is a concatenation of the first and another array', function(){
-    //         var res = doc.commonHead([0, 2], [0, 2, 3]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(2);
-    //         expect(res[0]).toBe(0);
-    //         expect(res[1]).toBe(2);
-    //     });
-    //     it('returns the second argument if the first array is a concatenation of the second and another array', function(){
-    //         var res = doc.commonHead([7, 4, 1, 6], [7, 4, 1]);
-    //         expect(Array.isArray(res)).toBe(true);
-    //         expect(res.length).toBe(3);
-    //         expect(res[0]).toBe(7);
-    //         expect(res[1]).toBe(4);
-    //         expect(res[2]).toBe(1);
-    //     });
-    // });
+    describe('a method to get an element by path that', function(){
+        it('returns nothing if the path is not defined or given as a string, a number, a function or an object', function(){
+            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(doc.getNodeByPath(invalid)).not.toBeDefined();
+            });
+        });
+        it('returns nothing if the reference is not given or given as a string, a number, an array, a function or a non-node object', function(){
+            var invalids = ['', 'a string', 0, 1, 4.32, -2, -5.96, [], [1, 2, 3], function(){return;}, {}, {foo: 23}];
+            invalids.forEach(function(invalid){
+                expect(doc.getNodeByPath([], invalid)).not.toBeDefined();
+            });
+        });
+        it('returns the reference node if the path is an empty array', function(){
+            expect(doc.getNodeByPath([], e10)).toBe(e10);
+        });
+        it('returns the first child of the reference node if the path is [0]', function(){
+            expect(doc.getNodeByPath([0], e21)).toBe(e30);
+        });
+        it('returns the last child of the reference node', function(){
+            expect(doc.getNodeByPath([1], e11)).toBe(e26);
+        });
+        it('returns third-generation child', function(){
+            expect(doc.getNodeByPath([0, 1, 1], e00)).toBe(t31);
+        });
+        it('returns nothing if the path contains reference to a non-existent node', function(){
+            expect(doc.getNodeByPath([3, 2, 0], e10)).not.toBeDefined();
+        });
+        it('returns nothing if the path passes through a text node', function(){
+            expect(doc.getNodeByPath([2, 1], e10)).not.toBeDefined();
+        });
+    });
+    describe('a method to find common "head" part of two arrays that' , function(){
+        it('returns empty array if both arguments are empty arrays', function(){
+            var res = doc.commonHead([], []);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the first argument is an empty array and the second is not', function(){
+            var res = doc.commonHead([], [1, 2, 4]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the second argument is an empty array and the first is not', function(){
+            var res = doc.commonHead([1, 0, 0], []);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the arguments have no common head', function(){
+            var res = doc.commonHead([1, 0, 0], [0, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns empty array if the arguments have no common head', function(){
+            var res = doc.commonHead([1, 0, 0], [0, 2, 3, 3, 1]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(0);
+        });
+        it('returns the input array if the arguments are equal non-empty arrays', function(){
+            var res = doc.commonHead([1, 2, 3], [1, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res[0]).toBe(1);
+            expect(res[1]).toBe(2);
+            expect(res[2]).toBe(3);
+        });
+        it('returns the first argument if the second array is a concatenation of the first and another array', function(){
+            var res = doc.commonHead([0, 2], [0, 2, 3]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res[0]).toBe(0);
+            expect(res[1]).toBe(2);
+        });
+        it('returns the second argument if the first array is a concatenation of the second and another array', function(){
+            var res = doc.commonHead([7, 4, 1, 6], [7, 4, 1]);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(3);
+            expect(res[0]).toBe(7);
+            expect(res[1]).toBe(4);
+            expect(res[2]).toBe(1);
+        });
+    });
     describe('a method to find previous siblings that', function() {
         it('returns nothing if the argument is not defined or is a string, a number, a function or a non-Node object', function() {
             var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,

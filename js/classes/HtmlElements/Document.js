@@ -521,6 +521,7 @@ function Document(node){
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 */
 	this.nodesOfRange = function(n1, n2){
+		console.log('nodesOfRange');
 	    if (!(n1 instanceof Node) || !(n2 instanceof Node)){
 	        return [];
 	    }
@@ -532,24 +533,33 @@ function Document(node){
 	    // ("pathTo" is not able to detect this fact)
 	    var comAns = this.commonAncestor(n1, n2);
 	    if (!comAns){
+	    	console.log('common ancestor is NOT found');
 	        return [];
 	    }
-	    var pathStart = this.pathTo(n1, comAns),
-	        pathEnd   = this.pathTo(n2, comAns);
-	    if (!Array.isArray(pathStart) || !Array.isArray(pathEnd)){
+	    console.log('common ancestor is found: ', comAns);
+	    var path1 = this.pathTo(n1, comAns),
+	        path2 = this.pathTo(n2, comAns);
+	    if (!Array.isArray(path1) || !Array.isArray(path2)){
+	    	console.log('not both paths are arrays');
 	        return [];
 	    }
-	    if (pathStart.length === 0){
+	    console.log('both paths are arrays');
+	    if (path1.length === 0){
+	    	console.log('first path is empty');
 	        return [n1];
 	    }
-	    if (pathEnd.length === 0){
+	    if (path2.length === 0){
+	    	console.log('second path is empty');
 	        return [n2];
 	    }
-	    var indStart = pathStart[0],
-	        indEnd = pathEnd[0],
+	    var ind1 = path1[0],
+	        ind2 = path2[0],
 	        output = [],
-	        order = this.compare(pathStart, pathEnd),
+	        order = this.compare(path1, path2),
 	        left, right;
+	        console.log('order: ', order);
+	        console.log('path1: ', path1);
+	        console.log('path2: ', path2);
 	    if (order === 1){
 	        left = n2;
 	        right = n1;
@@ -563,13 +573,13 @@ function Document(node){
 	        return;
 	    }
 	    output.push(left);
-	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[indStart]),
-	        nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[indEnd]);
+	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[ind1]),
+	        nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[ind2]);
 	    if (Array.isArray(nodesNext) && nodesNext.length > 0) {
 	        output = output.concat(nodesNext);
 	    }
 	    var i;
-	    for (i = indStart + 1; i < indEnd; i++){
+	    for (i = ind1 + 1; i < ind2; i++){
 	        output.push(comAns.childNodes[i]);
 	    }
 	    if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
@@ -580,7 +590,7 @@ function Document(node){
 	};
 
 	/**
-	 * Compares paths `p1` and `p2`.
+	 * Compares paths `p1` and `p2`. The input arrays do not undergo any modification during the comparison.
 	 *
 	 * Returns
 	 * <ul><li>
@@ -618,29 +628,43 @@ function Document(node){
 	 * @since          0.0.8
 	 */
 	this.compare = function(p1, p2, c){
-	    var _compareAux = function(p1, p2, fun){
-	        if (p1.length > 0){
-	            if (p2.length === 0){
+		/**
+		 * Auxiliary function that compares `n-th` elements of `p1` and `p2` using comparator `fun`
+		 * @param  {Array}      p1       first array
+		 * @param  {Array}      p2       second array
+		 * @param  {Integer}    n        current position of elements to compare
+		 * @param  {Function}   fun      comparator
+		 * @return {-1|0|1|Null}
+		 */
+	    var _compareAux = function(p1, p2, n, fun){
+	        if (p1.length > n){
+	            if (p2.length === n){
 	                return 1;
 	            }
-	            var e1 = p1.shift(),
-	                e2 = p2.shift(),
+	            var e1 = p1[n],
+	                e2 = p2[n],
 	                comp = fun(e1, e2);
-	            if (comp === 1 || comp === -1){return comp;}
+	            if (comp === 1 || comp === -1){
+	            	return comp;
+	            }
 	            if (comp === 0){
-	                return _compareAux(p1, p2, fun);
+	                return _compareAux(p1, p2, n+1, fun);
 	            }
 	            return;
 	        }
-	        return p2.length === 0 ? 0 : -1;
+	        return p2.length === n ? 0 : -1;
 	    };
 	    if (Array.isArray(p1) && Array.isArray(p2)){
+	    	var comparator;
 	        if (typeof c !== 'function'){
-	            c = function(x, y){
+	        	console.log('imposing comparator');
+	            comparator = function(x, y){
 	                return (x === y ? 0 : (x > y ? 1 : -1));
 	            };
+	        } else {
+	        	comparator = c;
 	        }
-	        return _compareAux(p1, p2, c);
+	        return _compareAux(p1, p2, 0, comparator);
 	    }
 	};
 
@@ -776,6 +800,7 @@ function Document(node){
 	 * @return         {Array|Null}
 	 */
 	this.pathTo = function(n, s){
+		console.log('path to ', n, ' from ', s);
 	    if (!(n instanceof Node) || !((s instanceof Node) || (s === undefined) )){
 	        return;
 	    }
@@ -788,6 +813,7 @@ function Document(node){
 	        currentNode = currentNode.parentNode;
 	    }
 	    if (!isScoped || !s.parentNode || currentNode.parentNode){
+	    	console.log('return path:', path);
 	        return path;
 	    }
 
@@ -1150,7 +1176,6 @@ function Document(node){
 	    //             lastBlock = [];
 	    //             firstBlock = [];
 	    //             middleBlock = [];
-
 	    //             if (startContainer.equals(endContainer)){
 	    //                 // console.log('start = end');
 	    //                 if (startType === CKEDITOR.NODE_TEXT){
