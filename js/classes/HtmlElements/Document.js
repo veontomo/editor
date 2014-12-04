@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Node, Dom, Properties, Tag, Helper, CKEDITOR, FACTORY, Unit, NEWSLETTER, Converter, Mapper */
+/*global Node, Dom, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Mapper */
 
 /**
  * This class is to deal with documents: parsing, converting, saving. Its functionality is similar

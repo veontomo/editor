@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global DOMParser, CKHelper, CKEDITOR, Node, Dom, Range */
+/*global DOMParser, CKHelper, CKEDITOR, Node, Dom, Range, Text, Element */
 
 /**
 * Represents selected elements in the editor window. The argument `ed` is a
@@ -305,6 +305,9 @@ function Selection(ed) {
         if (n1 === n2){
             return [n1];
         }
+        // I decided to use pathTo() method in order to find common ancestor
+        // to avoid incorrect output in case n1 and n2 have no common ancestor
+        // ("pathTo" is not able to detect this fact)
         var comAns = this.commonAncestor(n1, n2);
         if (!comAns){
             return [];
@@ -322,9 +325,24 @@ function Selection(ed) {
         }
         var indStart = pathStart[0],
             indEnd = pathEnd[0],
-            output = [n1];
-        var nodesNext = this.bunchNextSiblings(n1, comAns.childNodes[indStart]),
-            nodesPrev = this.bunchPrevSiblings(n2, comAns.childNodes[indEnd]);
+            output = [],
+            order = this.compare(pathStart, pathEnd),
+            left, right;
+        if (order === 1){
+            left = n2;
+            right = n1;
+        } else if (order === -1){
+            left = n1;
+            right = n2;
+        } else {
+            if (order === 0){
+                return [n1];
+            }
+            return;
+        }
+        output.push(left);
+        var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[indStart]),
+            nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[indEnd]);
         if (Array.isArray(nodesNext) && nodesNext.length > 0) {
             output = output.concat(nodesNext);
         }
@@ -335,7 +353,7 @@ function Selection(ed) {
         if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
             output = output.concat(nodesPrev);
         }
-        output.push(n2);
+        output.push(right);
         return output;
     };
 
@@ -393,10 +411,12 @@ function Selection(ed) {
                 return;
             }
             return p2.length === 0 ? 0 : -1;
-        }
+        };
         if (Array.isArray(p1) && Array.isArray(p2)){
             if (typeof c !== 'function'){
-                c = function(x, y){ return x === y ? 0 : (x > y ? 1 : -1)}
+                c = function(x, y){
+                    return (x === y ? 0 : (x > y ? 1 : -1));
+                };
             }
             return _compareAux(p1, p2, c);
         }
