@@ -521,7 +521,6 @@ function Document(node){
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 */
 	this.nodesOfRange = function(n1, n2){
-		console.log('nodesOfRange');
 	    if (!(n1 instanceof Node) || !(n2 instanceof Node)){
 	        return [];
 	    }
@@ -533,39 +532,34 @@ function Document(node){
 	    // ("pathTo" is not able to detect this fact)
 	    var comAns = this.commonAncestor(n1, n2);
 	    if (!comAns){
-	    	console.log('common ancestor is NOT found');
 	        return [];
 	    }
-	    console.log('common ancestor is found: ', comAns);
 	    var path1 = this.pathTo(n1, comAns),
 	        path2 = this.pathTo(n2, comAns);
 	    if (!Array.isArray(path1) || !Array.isArray(path2)){
-	    	console.log('not both paths are arrays');
 	        return [];
 	    }
-	    console.log('both paths are arrays');
 	    if (path1.length === 0){
-	    	console.log('first path is empty');
 	        return [n1];
 	    }
 	    if (path2.length === 0){
-	    	console.log('second path is empty');
 	        return [n2];
 	    }
 	    var ind1 = path1[0],
 	        ind2 = path2[0],
 	        output = [],
 	        order = this.compare(path1, path2),
-	        left, right;
-	        console.log('order: ', order);
-	        console.log('path1: ', path1);
-	        console.log('path2: ', path2);
+	        left, right, indL, indR;
 	    if (order === 1){
 	        left = n2;
 	        right = n1;
+	        indL = ind2;
+	        indR = ind1;
 	    } else if (order === -1){
 	        left = n1;
 	        right = n2;
+	        indL = ind1;
+	        indR = ind2;
 	    } else {
 	        if (order === 0){
 	            return [n1];
@@ -573,13 +567,13 @@ function Document(node){
 	        return;
 	    }
 	    output.push(left);
-	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[ind1]),
-	        nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[ind2]);
+	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[indL]),
+	        nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[indR]);
 	    if (Array.isArray(nodesNext) && nodesNext.length > 0) {
 	        output = output.concat(nodesNext);
 	    }
 	    var i;
-	    for (i = ind1 + 1; i < ind2; i++){
+	    for (i = indL + 1; i < indR; i++){
 	        output.push(comAns.childNodes[i]);
 	    }
 	    if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
@@ -655,15 +649,7 @@ function Document(node){
 	        return p2.length === n ? 0 : -1;
 	    };
 	    if (Array.isArray(p1) && Array.isArray(p2)){
-	    	var comparator;
-	        if (typeof c !== 'function'){
-	        	console.log('imposing comparator');
-	            comparator = function(x, y){
-	                return (x === y ? 0 : (x > y ? 1 : -1));
-	            };
-	        } else {
-	        	comparator = c;
-	        }
+	    	var comparator = (typeof c === 'function') ? c :  function(x, y){ return (x === y ? 0 : (x > y ? 1 : -1));};
 	        return _compareAux(p1, p2, 0, comparator);
 	    }
 	};
@@ -754,16 +740,15 @@ function Document(node){
 	 * @return         {Array}
 	 */
 	this.commonHead = function(p1, p2){
-	    var commonHeadAux = function(p1, p2, acc){
-	        if (p1.length === 0 || p2.length === 0 || p1[0] !== p2[0]){
+	    var commonHeadAux = function(p1, p2, ind, acc){
+	        if (p1.length === ind || p2.length === ind || p1[ind] !== p2[ind]){
 	            return acc;
 	        }
-	        acc.push(p1.shift());
-	        p2.shift();
-	        return commonHeadAux(p1, p2, acc);
+	        acc.push(p1[ind]);
+	        return commonHeadAux(p1, p2, ind + 1, acc);
 	    };
 	    if (Array.isArray(p1) && Array.isArray(p2)){
-	        return commonHeadAux(p1, p2, []);
+	        return commonHeadAux(p1, p2, 0, []);
 	    }
 	};
 
@@ -1093,14 +1078,11 @@ function Document(node){
 	 * @method         spliceText
 	 * @param          {Text}          t              [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @param          {Array}         breakpoints    Array of integers in increasing order
-	 * @return         {Array}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
+	 * @return         {Array|Null}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
 	 */
 	this.spliceText = function(t, bP){
-	    if (!(t instanceof Text)){
-	        throw new Error('The first argument must be a Text node instance!');
-	    }
-	    if (!Array.isArray(bP)){
-	        throw new Error('The second argument must be an array!');
+	    if (!(t instanceof Text) || !Array.isArray(bP)){
+	        return;
 	    }
 	    var len = bP.length;
 	    if (len === 0){

@@ -650,11 +650,15 @@ describe('Document class deals with selection in such a way that', function() {
         });
     });
     describe('a method to calculate path to an element that', function() {
+        it('returns nothing if no argument is given', function(){
+            expect(doc.pathTo()).not.toBeDefined();
+        });
         it('returns empty array if the argument is the root element', function() {
             var path = doc.pathTo(e00, e00);
             expect(Array.isArray(path)).toBe(true);
             expect(path.length).toBe(0);
         });
+
         it('returns nothing if the scope (2nd argument) does not contain the node (first argument)', function() {
             expect(doc.pathTo(e23, e11)).not.toBeDefined();
         });
@@ -785,6 +789,19 @@ describe('Document class deals with selection in such a way that', function() {
         });
     });
     describe('a method to find common "head" part of two arrays that' , function(){
+        it('does not modify the content of the input arrays if they have common head', function(){
+            var p1 = [9, 3, 0],
+                p2 = [9, 7];
+            doc.commonHead(p1, p2);
+            expect(p1.length).toBe(3);
+            expect(p1[0]).toBe(9);
+            expect(p1[1]).toBe(3);
+            expect(p1[2]).toBe(0);
+            expect(p2.length).toBe(2);
+            expect(p2[0]).toBe(9);
+            expect(p2[1]).toBe(7);
+        });
+
         it('returns empty array if both arguments are empty arrays', function(){
             var res = doc.commonHead([], []);
             expect(Array.isArray(res)).toBe(true);
@@ -872,7 +889,7 @@ describe('Document class deals with selection in such a way that', function() {
             expect(res[2]).toBe(t20);
         });
     });
-    xdescribe('a method to find next siblings that', function() {
+    describe('a method to find next siblings that', function() {
         it('returns nothing if the argument is not defined or is a string, a number, a function or a non-Node object', function() {
             var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
                 function() {
@@ -1308,6 +1325,14 @@ describe('Document class deals with selection in such a way that', function() {
         });
     });
     describe('a method spliceText that', function() {
+        it('returns nothing if the first argument is not Text node', function(){
+            var invalids = ['', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function() {return;},
+                {}, {foo: 23}
+            ];
+            invalids.forEach(function(invalid) {
+                expect(doc.spliceText(invalid)).not.toBeDefined();
+            });
+        });
         it('does not modify parent of the text node if the breakpoints array is empty', function() {
             doc.spliceText(t20, []);
             expect(e10.childNodes.length).toBe(5);
