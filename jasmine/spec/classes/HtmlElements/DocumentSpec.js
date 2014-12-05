@@ -115,7 +115,7 @@ describe('Document class', function() {
             pending();
         });
     });
-    describe('has a method to find ascendant that', function() {
+    describe('has a method to find ancestor that', function() {
         var n00, n10, n11, n20, n21, n22, n23, n30, n31;
         //                    n00
         //         ____________|_________
@@ -150,7 +150,7 @@ describe('Document class', function() {
         });
         it('throws an error if the scope is set but it does not contain the start node', function() {
             expect(function() {
-                doc.findAscendant(n30, function() {}, n22);
+                doc.findAncestor(n30, function() {}, n22);
             }).toThrow(new Error('Wrong scope!'));
         });
         it('throws an error if the criteria is either string, array, number, object, null or undefined', function() {
@@ -159,37 +159,37 @@ describe('Document class', function() {
             ];
             invalids.forEach(function(el) {
                 expect(function() {
-                    doc.findAscendant(n30, el, n10);
+                    doc.findAncestor(n30, el, n10);
                 }).toThrow(new Error('Criteria must be a function!'));
             });
         });
         it('returns nothing if the criteria never returns true', function() {
-            expect(doc.findAscendant(n30, function() {
+            expect(doc.findAncestor(n30, function() {
                 return false;
             }, n10)).not.toBeDefined();
         });
         it('returns start node if it turns the criteria into true', function() {
-            expect(doc.findAscendant(n31, function(n) {
+            expect(doc.findAncestor(n31, function(n) {
                 return n === n31;
             }, n10)).toBe(n31);
         });
         it('returns scope node if the criteria becomes true only for it', function() {
-            expect(doc.findAscendant(n31, function(n) {
+            expect(doc.findAncestor(n31, function(n) {
                 return n === n00;
             }, n00)).toBe(n00);
         });
         it('returns intermediate node for which the criteria becomes true', function() {
-            expect(doc.findAscendant(n31, function(n) {
+            expect(doc.findAncestor(n31, function(n) {
                 return n === n10;
             }, n00)).toBe(n10);
         });
         it('returns nothing if criteria function always throws exceptions', function() {
-            expect(doc.findAscendant(n31, function() {
+            expect(doc.findAncestor(n31, function() {
                 throw new Error('an error!');
             }, n00)).not.toBeDefined();
         });
         it('returns correct node even if criteria function throws exception on previous calls', function() {
-            expect(doc.findAscendant(n31, function(n) {
+            expect(doc.findAncestor(n31, function(n) {
                 if (n === n10) {
                     return true;
                 }
