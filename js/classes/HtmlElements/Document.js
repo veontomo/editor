@@ -660,35 +660,6 @@ function Document(node){
 
 
 	/**
-	 * Returns the first node of given range.
-	 *
-	 * If the start container is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text),
-	 * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
-	 * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
-	 * by replacing the node by two nodes: the first one is an out-of-range `r` part, the second - is an
-	 * inside-range `r` part. The second node is to be returned.
-	 *
-	 * In all other cases, a node specified by range `r`
-	 * [startOffset](https://developer.mozilla.org/en-US/docs/Web/API/Range.startOffset) is returned.
-
-	 * @method         startNode
-	 * @param          {Range}         r
-	 * @return         {Node}
-	 * @since          0.0.8
-	 * @deprecated     Use {{#crossLink "Document/detachBoundaries:method"}}detachBoundaries{{/crossLink}} instead
-	 */
-	this.startNode = function(r){
-		console.info('deprecated', "use detachBoundaries for this functionality");
-	    if (r.startContainer instanceof Element){
-	        return r.startContainer.childNodes[r.startOffset];
-	    }
-	    if (r.startContainer instanceof Text){
-	        var startOffset = r.startOffset;
-	        return this.splitTextNode(r.startContainer, startOffset);
-	    }
-	};
-
-	/**
 	 * Splits the text node in two text nodes: the first one contains first `pos` characters of the original node,
 	 * the second (newly appeared in the DOM) - the rest. The newly created node is then returned.
 	 *
