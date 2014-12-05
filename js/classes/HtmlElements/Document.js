@@ -659,27 +659,6 @@ function Document(node){
 	};
 
 
-	/**
-	 * Splits the text node in two text nodes: the first one contains first `pos` characters of the original node,
-	 * the second (newly appeared in the DOM) - the rest. The newly created node is then returned.
-	 *
-	 * @method         splitTextNode
-	 * @param          {Text}          n
-	 * @param          {Integer}       pos
-	 * @return         {Text}
-	 * @since          0.0.8
-	 * @deprecated     It is used only by {{#crossLink "Document/startNode:method"}}startNode{{/crossLink}}
-	 *                 method which is deprecated as well.
-	 *                 There is another method with similar functionality:
-	 *                 {{#crossLink "Document/spliceText:method"}}spliceText{{/crossLink}}
-	 */
-	this.splitTextNode = function(n, pos){
-	    if (n instanceof Text){
-	        var len = n.textContent.length;
-	        return n.splitText(((pos !== undefined) && (pos < len)) ? pos : len);
-	    }
-	};
-
 
 
 	/**
