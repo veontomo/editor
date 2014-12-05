@@ -59,12 +59,12 @@ function Document(node){
 	 * Constructor.
 	 *
 	 * Sets {{#crossLink "Document/_content:property"}}_content{{/crossLink}} to be equal to `node`
-	 * if it is an instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * if it is an instance of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 * (in fact, it is enough that `node` has `typeNode` property).
 	 * @method         constructor
-	 * @param          {DOM.Node}           node
+	 * @param          {Node}           node
 	 */
-	if (node && node.nodeType !== undefined){
+	if (node instanceof Node){
 		_content = node;
 	}
 
@@ -105,9 +105,9 @@ function Document(node){
 	/**
 	 * Returns "deep" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
 	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}. If it is not set, nothing
-	 * is returned
+	 * is returned.
 	 * @method         getContent
-	 * @return         {DOM.Node}
+	 * @return         {Node}
 	 */
 	this.getContent = function(){
 		if (_content){
@@ -117,11 +117,14 @@ function Document(node){
 
 	/**
 	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}} setter.
+	 *
+	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, assignment is not performed.
 	 * @method         setContent
 	 * @param          {DOM.Node}           n
+	 * @return         {void}
 	 */
 	this.setContent = function(n){
-		if (n && n.nodeType){
+		if (n instanceof Node){
 			_content = n;
 		}
 	};
@@ -508,11 +511,16 @@ function Document(node){
 
 
 	/**
-	 * Returns nodes that lay between `n1` and `n2`.
+	 * Returns array without diplicates of nodes that lay between `n1` and `n2` inclusively.
 	 *
-	 * It is returned a minimal array of nodes that are situated between given nodes.
+	 * The order in which the nodes appear in the DOM does not matter: the output
+	 * array starts with the node that appears first in the DOM.
 	 *
-	 * If the argument is such that the start or end container is missing, then empty array is returned.
+	 * The output array is a minimal one: <ol><li>
+	 * any node laying between `n1` and `n2` is present in the array either "personally" or by means of its ancestor
+	 * </li><li>
+	 * all descendants of every node in the array lay between `n1` and `n2`
+	 * </li></ol>
 	 *
 	 * @method         nodesOfRange
 	 * @since          0.0.8
@@ -524,6 +532,7 @@ function Document(node){
 	    if (!(n1 instanceof Node) || !(n2 instanceof Node)){
 	        return [];
 	    }
+	    // avoid further calculations if n1 and n2 is in fact the same node
 	    if (n1 === n2){
 	        return [n1];
 	    }
@@ -534,11 +543,9 @@ function Document(node){
 	    if (!comAns){
 	        return [];
 	    }
+	    // from now on, the commomn ancestor exists
 	    var path1 = this.pathTo(n1, comAns),
 	        path2 = this.pathTo(n2, comAns);
-	    if (!Array.isArray(path1) || !Array.isArray(path2)){
-	        return [];
-	    }
 	    if (path1.length === 0){
 	        return [n1];
 	    }
@@ -550,21 +557,23 @@ function Document(node){
 	        output = [],
 	        order = this.compare(path1, path2),
 	        left, right, indL, indR;
+	    if (order !== 1 && order !== -1){
+	    	/// case when order is equal to 0 corresponds to n1 = n2 and
+	    	/// hence path1 = path2 = []. This case is elaborated above.
+	    	/// it remains anly a case when the nodes somehow are not comparable
+	    	/// (even it should never be the case since they supposed to have a common ancestor)
+	    	return;
+	    }
 	    if (order === 1){
 	        left = n2;
 	        right = n1;
 	        indL = ind2;
 	        indR = ind1;
-	    } else if (order === -1){
+	    } else {
 	        left = n1;
 	        right = n2;
 	        indL = ind1;
 	        indR = ind2;
-	    } else {
-	        if (order === 0){
-	            return [n1];
-	        }
-	        return;
 	    }
 	    output.push(left);
 	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[indL]),

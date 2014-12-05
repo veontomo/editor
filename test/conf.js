@@ -92,19 +92,18 @@ module.exports = function (config) {
     // autoWatch: true,
     frameworks: ['jasmine'],
     files: allFiles,
-    // browsers: isWin ? ['Chrome', 'IE', 'Firefox'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
-    browsers: ['Chrome'],
+    browsers: isWin ? ['Chrome', 'IE', 'Firefox'] : ['/usr/lib/chromium-browser/chromium-browser', 'Firefox'],
+    // browsers: ['Chrome'],
     reporters: ['progress', 'coverage', 'spec'],
     // browserDisconnectTimeout: 1000,
     // browserNoActivityTimeout: 1000,
     preprocessors: {'**/*.js': 'coverage'},
-    colors: true,
+    // colors: true,
     coverageReporter: {
       reporters: [
-          {type: 'html', dir: statisticsDir}
+          {type: 'html', dir: statisticsDir }
         ],
     },
     singleRun: true,
-    // colors: false
   });
 };

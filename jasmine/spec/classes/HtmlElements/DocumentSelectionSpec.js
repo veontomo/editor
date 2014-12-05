@@ -429,11 +429,15 @@ describe('Document class deals with selection in such a way that', function() {
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(0);
             });
-            it('returns empty array if pathTo() returns null', function() {
+            it('returns empty array if pathTo() returns nothing', function() {
                 spyOn(doc, 'pathTo');
                 var nodes = doc.nodesOfRange('any node', 'another node');
                 expect(Array.isArray(nodes)).toBe(true);
                 expect(nodes.length).toBe(0);
+            });
+            it('returns nothing if nodes can not be compared', function() {
+                spyOn(doc, 'compare');
+                expect(doc.nodesOfRange(e21, e23)).not.toBeDefined();
             });
             it('returns array with one of the arguments if they are the same element node', function() {
                 var nodes = doc.nodesOfRange(e21, e21);
