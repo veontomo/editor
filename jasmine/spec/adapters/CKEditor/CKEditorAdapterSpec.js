@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, CKEDITOR, CKEditorAdapter, Range */
 
-describe('CKEditor adapter', function(){
+describe('Class CKEditorAdapter', function(){
 	var editor, editorRange, adapter, e00, e10, e11, e21, e23, e30;
 	beforeEach(function(){
 
@@ -38,7 +38,7 @@ describe('CKEditor adapter', function(){
         editor.editable(e00);
         editorRange = editor.createRange();
 	});
-	describe('method toNativeRange', function(){
+	describe('has method toNativeRange that', function(){
 		it('returns undefined if its argument is a non-CKEditor range object', function(){
 			var invalids = [undefined, null, 0, 2, 3.2, -5, -32.6, '', 'a string', [], [0], [1, 2, 3], {},
 				function(){return 1;}, {'a': 1}, document.createElement('div')];

@@ -14,3 +14,4 @@ apidocs/*
 repository/
 tests/_output/*
 statistics/*
+js/coverage/*

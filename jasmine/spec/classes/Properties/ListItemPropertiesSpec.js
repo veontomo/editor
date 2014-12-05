@@ -1,14 +1,14 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Properties, ListItemProperties */
 
-describe('ListItemProperties-related functionality', function(){
+describe('Class ListItemProperties', function(){
     var prop;
     beforeEach(function(){
         prop = new ListItemProperties();
     });
 
-    describe('construction of ListItemProperties', function(){
-        it('is an instance of Properties', function(){
+    describe('has a constructor that', function(){
+        it('returns an object that is an instance of Properties class', function(){
             expect(prop instanceof Properties).toBe(true);
         });
 
@@ -23,12 +23,10 @@ describe('ListItemProperties-related functionality', function(){
         });
     });
 
-    describe('Sets link attribute key "style"', function(){
+    describe('has field "style" that', function(){
         it('is an instance of Properties', function(){
             expect(prop.getStyles() instanceof Properties).toBe(true);
         });
-
-        // {'padding': 0, 'margin': 0, 'font-size': 12, 'font-weight': 'normal', 'color': '#000001'}
 
         it('contains key "padding" set to 0', function(){
             expect(prop.hasStyleProperty('padding')).toBe(true);

@@ -741,7 +741,6 @@ function Document(node){
 	 * @return         {Array|Null}
 	 */
 	this.pathTo = function(n, s){
-		console.log('path to ', n, ' from ', s);
 	    if (!(n instanceof Node) || !((s instanceof Node) || (s === undefined) )){
 	        return;
 	    }
@@ -754,7 +753,6 @@ function Document(node){
 	        currentNode = currentNode.parentNode;
 	    }
 	    if (!isScoped || !s.parentNode || currentNode.parentNode){
-	    	console.log('return path:', path);
 	        return path;
 	    }
 
