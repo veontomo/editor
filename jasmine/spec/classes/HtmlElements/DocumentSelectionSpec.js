@@ -806,6 +806,18 @@ describe('Document class deals with selection in such a way that', function() {
             expect(p2[1]).toBe(7);
         });
 
+        it('returns nothing if the first argument is a string and the second is not set', function(){
+            expect(doc.commonHead('str')).not.toBeDefined();
+        });
+
+        it('returns nothing if the first argument is a string and the second is an empty array', function(){
+            expect(doc.commonHead('str', [])).not.toBeDefined();
+        });
+
+        it('returns nothing if the first argument is an array and the second is a string', function(){
+            expect(doc.commonHead([], 'a string')).not.toBeDefined();
+        });
+
         it('returns empty array if both arguments are empty arrays', function(){
             var res = doc.commonHead([], []);
             expect(Array.isArray(res)).toBe(true);
