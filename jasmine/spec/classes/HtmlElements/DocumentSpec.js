@@ -1662,43 +1662,43 @@ describe('Document class', function() {
 	                expect(doc.nextRange()).toBe('range1');
 	            });
 	        });
-	        describe('has method nodesOfRange that', function() {
+	        describe('has method nodesBetween that', function() {
 	            it('returns an empty array if it is called without arguments', function() {
-	                var nodes = doc.nodesOfRange();
+	                var nodes = doc.nodesBetween();
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(0);
 	            });
 	            it('returns empty array if pathTo() returns nothing', function() {
 	                spyOn(doc, 'pathTo');
-	                var nodes = doc.nodesOfRange('any node', 'another node');
+	                var nodes = doc.nodesBetween('any node', 'another node');
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(0);
 	            });
 	            it('returns nothing if nodes can not be compared', function() {
 	                spyOn(doc, 'compare');
-	                expect(doc.nodesOfRange(e21, e23)).not.toBeDefined();
+	                expect(doc.nodesBetween(e21, e23)).not.toBeDefined();
 	            });
 	            it('returns array with one of the arguments if they are the same element node', function() {
-	                var nodes = doc.nodesOfRange(e21, e21);
+	                var nodes = doc.nodesBetween(e21, e21);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(1);
 	                expect(nodes[0]).toBe(e21);
 	            });
 	            it('returns array with one of the arguments if they are the same text node', function() {
-	                var nodes = doc.nodesOfRange(t22, t22);
+	                var nodes = doc.nodesBetween(t22, t22);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(1);
 	                expect(nodes[0]).toBe(t22);
 	            });
 	            it('returns array with input arguments if they are neighbouring siblings', function() {
-	                var nodes = doc.nodesOfRange(t22, e23);
+	                var nodes = doc.nodesBetween(t22, e23);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(2);
 	                expect(nodes[0]).toBe(t22);
 	                expect(nodes[1]).toBe(e23);
 	            });
 	            it('returns array with all siblings of node A if the arguments are the first and last nodes of A', function() {
-	                var nodes = doc.nodesOfRange(t20, t24);
+	                var nodes = doc.nodesBetween(t20, t24);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(5);
 	                expect(nodes[0]).toBe(t20);
@@ -1708,7 +1708,7 @@ describe('Document class', function() {
 	                expect(nodes[4]).toBe(t24);
 	            });
 	            it('returns array with a fraction of siblings of a node if arguments have the same parent', function() {
-	                var nodes = doc.nodesOfRange(e21, e23);
+	                var nodes = doc.nodesBetween(e21, e23);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(3);
 	                expect(nodes[0]).toBe(e21);
@@ -1716,7 +1716,7 @@ describe('Document class', function() {
 	                expect(nodes[2]).toBe(e23);
 	            });
 	            it('returns array of nodes in order as they appear in DOM if the arguments are in inverse order', function() {
-	                var nodes = doc.nodesOfRange(e23, e21);
+	                var nodes = doc.nodesBetween(e23, e21);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(3);
 	                expect(nodes[0]).toBe(e21);
@@ -1725,19 +1725,19 @@ describe('Document class', function() {
 	            });
 
 	            it('returns array with the second argument if it contains the first argument', function() {
-	                var nodes = doc.nodesOfRange(e23, e10);
+	                var nodes = doc.nodesBetween(e23, e10);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(1);
 	                expect(nodes[0]).toBe(e10);
 	            });
 	            it('returns array with the first argument if it contains the second argument', function() {
-	                var nodes = doc.nodesOfRange(e11, e32);
+	                var nodes = doc.nodesBetween(e11, e32);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(1);
 	                expect(nodes[0]).toBe(e11);
 	            });
 	            it('returns correct nodes if parent of the first argument is a neighbour sibling of the second argument', function() {
-	                var nodes = doc.nodesOfRange(e23, e11);
+	                var nodes = doc.nodesBetween(e23, e11);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(3);
 	                expect(nodes[0]).toBe(e23);
@@ -1745,14 +1745,14 @@ describe('Document class', function() {
 	                expect(nodes[2]).toBe(e11);
 	            });
 	            it('returns correct nodes if parent of the second argument is a neighbour sibling of the first argument', function() {
-	                var nodes = doc.nodesOfRange(t20, e30);
+	                var nodes = doc.nodesBetween(t20, e30);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(2);
 	                expect(nodes[0]).toBe(t20);
 	                expect(nodes[1]).toBe(e30);
 	            });
 	            it('returns correct nodes if the arguments have the root node as a common ancestor', function() {
-	                var nodes = doc.nodesOfRange(e21, e26);
+	                var nodes = doc.nodesBetween(e21, e26);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(6);
 	                expect(nodes[0]).toBe(e21);
@@ -1764,7 +1764,7 @@ describe('Document class', function() {
 	            });
 	            it('returns empty array if the arguments have no common ancestor', function() {
 	                spyOn(doc, 'commonAncestor');
-	                var nodes = doc.nodesOfRange(e21, e10);
+	                var nodes = doc.nodesBetween(e21, e10);
 	                expect(Array.isArray(nodes)).toBe(true);
 	                expect(nodes.length).toBe(0);
 	                expect(doc.commonAncestor).toHaveBeenCalledWith(e21, e10);

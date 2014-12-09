@@ -517,13 +517,13 @@ function Document(node){
 	 * all descendants of every node in the array lay between `n1` and `n2`
 	 * </li></ol>
 	 *
-	 * @method         nodesOfRange
+	 * @method         nodesBetween
 	 * @since          0.0.8
 	 * @param          {Node}          n1     left limit (ignore nodes that come before this node)
 	 * @param          {Node}          n2     right limit (ignore nodes that come after this node)
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 */
-	this.nodesOfRange = function(n1, n2){
+	this.nodesBetween = function(n1, n2){
 	    if (!(n1 instanceof Node) || !(n2 instanceof Node)){
 	        return [];
 	    }
