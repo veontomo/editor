@@ -1199,8 +1199,7 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.nodeToText = function(n){
-		/// !!! stub
-		return '';
+		return (n instanceof Node) ? n.textContent : '';
 	};
 
 
@@ -1266,19 +1265,22 @@ function Document(node){
 	};
 
 	/**
-	 * Returns `true` if {{#crossLink "Document/selectedNodes:method"}}selectedNodes{{/crossLink}} is empty,
+	 * Returns `true` if {{#crossLink "Document/_selectedNodes:method"}}_selectedNodes{{/crossLink}} is empty,
 	 * `false` otherwise.
 	 *
-	 * {{#crossLink "Document/selectedNodes:method"}}selectedNodes{{/crossLink}} output is considered empty
-	 * if it is either empty array `[]` or an array containing empty array: `[[]]`.
-	 * @method         isEmpty
+	 * {{#crossLink "Document/_selectedNodes:method"}}_selectedNodes{{/crossLink}} is considered empty
+	 * if it is either `null`, an empty array `[]` or an array containing only empty arrays: `[[], [], []]`.
+	 * @method         isSelectionEmpty
 	 * @return         {Boolean}
 	 */
-	this.isEmpty = function(){
-	    var s = this.nodes;
-	    // console.log('selected nodes'  , s);
-	    //    empty array []  or containing empty array [[]]
-	    return s.length === 0 || (s.length === 1 && s[0].length === 0);
+	this.isSelectionEmpty = function(){
+	    var s = this.getSelectedNodes();
+	    if (s === null || s.length === 0){
+	    	return true;
+	    };
+	    return s.every(function(arr){
+	    	return arr.length === 0;
+	    });
 	};
 
 

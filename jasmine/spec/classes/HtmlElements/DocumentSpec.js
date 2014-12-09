@@ -238,6 +238,24 @@ describe('Document class', function() {
 			expect(doc.getContent().isEqualNode(n)).toBe(true);
 		});
 	});
+	describe('has a method to get string representation of a node that', function(){
+		it('returns empty string if the argument is not a Node instance', function(){
+			var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
+			    	function() {return;}, {}, {foo: 23}];
+			invalids.forEach(function(invalid){
+				expect(doc.nodeToText(invalid)).toBe('');
+			});
+		});
+		it('returns text content of the argument if it is a Text instance', function(){
+			var t = document.createTextNode('this is a text node');
+			expect(doc.nodeToText(t)).toBe('this is a text node');
+		});
+		it('returns inner html code of the argument if it is an Element instance', function(){
+			var e = document.createElement('span');
+			e.innerHTML = 'text inside span';
+			expect(doc.nodeToText(e)).toBe('text inside span');
+		});
+	});
 
     describe('Getting common parent', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
@@ -2732,12 +2750,39 @@ describe('Document class', function() {
 				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21], [e23]]);
 				expect(doc.selectedNodesToText('|', '-')).toBe('t20 node|e21 node-e23 node');
 			});
+		});
+		describe('has a method isSelectionEmpty that', function(){
+			it('returns true if the selectedNodes is null', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue(null);
+				expect(doc.isSelectionEmpty()).toBe(true);
+			});
+			it('returns true if the selectedNodes is an empty array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([]);
+				expect(doc.isSelectionEmpty()).toBe(true);
+			});
+			it('returns true if the selectedNodes contains single element that is an empty array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[]]);
+				expect(doc.isSelectionEmpty()).toBe(true);
+			});
+			it('returns true if the selectedNodes contains two elements that are empty arrays', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[], []]);
+				expect(doc.isSelectionEmpty()).toBe(true);
+			});
+			it('returns false if the selectedNodes contains single element that is a non-empty array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[e10]]);
+				expect(doc.isSelectionEmpty()).toBe(false);
+			});
+			it('returns false if the selectedNodes contains an empty and a non-empty arrays', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[], [e10, t20]]);
+				expect(doc.isSelectionEmpty()).toBe(false);
+			});
 
 
 
 
 
 		});
+
 	});
 
 });
