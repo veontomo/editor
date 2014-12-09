@@ -2583,12 +2583,22 @@ describe('Document class', function() {
 				expect(nodes1[0]).toBe(t31);
 				expect(nodes1[1]).toBe(e32);
 			});
-
-
-
-
+		});
+		describe('a method flushSelection that', function(){
+			it('imposes selected nodes to null if previously nothing was selected', function(){
+				expect(doc.getSelectedNodes()).toBe(null);
+				doc.flushSelection();
+				expect(doc.getSelectedNodes()).toBe(null);
+			});
+			it('imposes selected nodes to null if previously selection was not emoty', function(){
+				doc.setSelectedNodes([[e21, e23], [e32]])
+				expect(doc.getSelectedNodes()).not.toBe(null);
+				doc.flushSelection();
+				expect(doc.getSelectedNodes()).toBe(null);
+			});
 
 		});
+
 	});
 
 });

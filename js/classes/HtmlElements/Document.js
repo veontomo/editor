@@ -1131,6 +1131,27 @@ function Document(node){
 		}.bind(this));
 	};
 
+	/**
+	 * Clears {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
+	 *
+	 * Sets {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} to `null`.
+	 * @method  flushSelection
+	 * @return  {void}
+	 * @since   0.1.0
+	 */
+	this.flushSelection = function(){
+		_selectedNodes = null;
+	};
+
+	/**
+	 *
+	 * @param  {[type]} r [description]
+	 * @return {[type]}   [description]
+	 */
+	this.nodesOfRange = function(r){
+
+	};
+
 
 	/**
 	* If selection is empty, returns empty array. Otherwise returns two dimensional array of the form
