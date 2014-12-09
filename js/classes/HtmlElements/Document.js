@@ -1175,7 +1175,18 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.nodesOfSelection = function(ranges){
-		/// !!! stub
+		if (!(Array.isArray(ranges))){
+			return [];
+		}
+		var result = [];
+		ranges.forEach(function(range){
+			var nodes;
+			if (range instanceof Range){
+				nodes = this.nodesOfRange(range);
+				result.push(nodes);
+			}
+		}.bind(this));
+		return result;
 	};
 
 

@@ -2646,8 +2646,8 @@ describe('Document class', function() {
 				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 					function() {return;}, {}, {foo: 23}];
 				invalids.forEach(function(invalid) {
-					var nodes = doc.nodesOfRange(invalid);
-				    expect(nodes).toBeEmptyArray(true);
+					var nodes = doc.nodesOfSelection(invalid);
+				    expect(nodes).toBeEmptyArray();
 				});
 			});
 			it('returns single element array if the selection is determined by a single range', function(){
@@ -2679,9 +2679,27 @@ describe('Document class', function() {
 				expect(nodes0[0]).toBe(e10);
 
 				expect(nodes1.length).toBe(1);
-				expect(nodes1[0]).toBe(e25);
+				expect(nodes1[0]).toBe(e26);
+			});
+			it('ignores non-array type elements inside input argument', function(){
+				range.setStart(e00, 0);
+				range.setEnd(e00, 1);
+				var range2 = document.createRange();
+				range2.setStart(e11, 1);
+				range2.setEnd(e11, 2);
+				var nodes = doc.nodesOfSelection([range, 'a string', range2]);
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(2);
+				var nodes0 = nodes[0],
+					nodes1 = nodes[1];
+				expect(nodes0.length).toBe(1);
+				expect(nodes0[0]).toBe(e10);
+
+				expect(nodes1.length).toBe(1);
+				expect(nodes1[0]).toBe(e26);
 
 			});
+
 
 		});
 
