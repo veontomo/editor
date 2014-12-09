@@ -1057,6 +1057,80 @@ function Document(node){
 	    }
 	};
 
+	/**
+	 * Represents nodes that are selected.
+	 *
+	 * Two dimensional array of nodes. Each element is an array corresponding to a contigouos set
+	 * of nodes of a selection.
+	 * If nothing is selected, it is set to `null`.
+	 * @property       {Array|null}    _selectedNodes
+	 * @since          0.1.0
+	 * @default        null
+	 * @private
+	 */
+	var _selectedNodes = null;
+
+	/**
+	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} getter.
+	 * @method         getSelectedNodes
+	 * @return         {Array|null} [description]
+	 */
+	this.getSelectedNodes = function(){
+		return _selectedNodes;
+	};
+
+	/**
+	 * Appends array of nodes to {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
+	 *
+	 * If `nodes` is not array, nothing is performed. Any element of the input array that is not a
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, is ignored.
+	 * If all elements of the input array are not [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * instances, nothing is performed.
+	 *
+	 * @method         _appendToSelectedNodes
+	 * @param          {Array}         nodes     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @return         {void}
+	 * @private
+	 * @since          0.1.0
+	 */
+	var _appendToSelectedNodes = function(nodes){
+		if (!Array.isArray(nodes)){
+			return;
+		}
+		var filtered = [];
+		nodes.forEach(function(node){
+			if (node instanceof Node){
+				filtered.push(node);
+			}
+		});
+		if (filtered.length > 0){
+			var currentSelected = this.getSelectedNodes();
+			if (Array.isArray(_selectedNodes)){
+				_selectedNodes = _selectedNodes.concat([filtered]);
+			} else {
+				_selectedNodes = [filtered];
+			}
+
+		}
+	}.bind(this);
+
+	/**
+	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} setter.
+	 * The arguments is supposed to be a two dimensional array of nodes.
+	 * @method         setSelectedNodes
+	 * @param          {Array}         nodes     two dimensional array of nodes
+	 * @return         {void}
+	 */
+	this.setSelectedNodes = function(nodes){
+		if (!Array.isArray(nodes)){
+			return;
+		}
+		nodes.forEach(function(n){
+			// n is supposed to be an array  of nodes
+			_appendToSelectedNodes(n);
+		}.bind(this));
+	};
+
 
 	/**
 	* If selection is empty, returns empty array. Otherwise returns two dimensional array of the form

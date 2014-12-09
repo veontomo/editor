@@ -1240,7 +1240,7 @@ describe('Document class', function() {
 
     });
 
-	describe('Document class deals with selection in such a way that', function() {
+	describe('works with Selection that has', function() {
 	    // it seems that when activating these suits makes the page with test
 	    // output freeze for some seconds
 	    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, e32, n00, n10, n11;
@@ -2529,6 +2529,66 @@ describe('Document class', function() {
 	            expect(e10.childNodes[6]).toBe(t24);
 	        });
 	    });
+		describe('setter and getter methods for selected nodes that', function(){
+			it('getter returns null if the setter is given no input', function(){
+				doc.setSelectedNodes();
+				expect(doc.getSelectedNodes()).toBe(null);
+			});
+			it('getter returns null if the setter input is an empty array', function(){
+				doc.setSelectedNodes([]);
+				expect(doc.getSelectedNodes()).toBe(null);
+			});
+			it('getter returns null if the setter input is an array containing an empty array', function(){
+				doc.setSelectedNodes([[]]);
+				expect(doc.getSelectedNodes()).toBe(null);
+			});
+			it('getter returns array of nodes if the setter input is an array containing non-empty array of nodes', function(){
+				doc.setSelectedNodes([[e10, e11]]);
+				var arr = doc.getSelectedNodes();
+				expect(Array.isArray(arr)).toBe(true);
+				expect(arr.length).toBe(1);
+				var nodes = arr[0];
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(2);
+				expect(nodes[0]).toBe(e10);
+				expect(nodes[1]).toBe(e11);
+			});
+			it('getter returns array of nodes even if the setter innermost array contains non-Node instances ', function(){
+				doc.setSelectedNodes([[t20, e21, 'a string', e25]]);
+				var arr = doc.getSelectedNodes();
+				expect(Array.isArray(arr)).toBe(true);
+				expect(arr.length).toBe(1);
+				var nodes = arr[0];
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(3);
+				expect(nodes[0]).toBe(t20);
+				expect(nodes[1]).toBe(e21);
+				expect(nodes[2]).toBe(e25);
+			});
+			it('getter returns array of nodes even if the setter input array contains non-arrays', function(){
+				doc.setSelectedNodes([[t20, e21, e25], {foo: 1}, [t31, e32]]);
+				var arr = doc.getSelectedNodes();
+				expect(Array.isArray(arr)).toBe(true);
+				expect(arr.length).toBe(2);
+				var nodes0 = arr[0];
+				expect(Array.isArray(nodes0)).toBe(true);
+				expect(nodes0.length).toBe(3);
+				expect(nodes0[0]).toBe(t20);
+				expect(nodes0[1]).toBe(e21);
+				expect(nodes0[2]).toBe(e25);
+
+				var nodes1 = arr[1];
+				expect(Array.isArray(nodes1)).toBe(true);
+				expect(nodes1.length).toBe(2);
+				expect(nodes1[0]).toBe(t31);
+				expect(nodes1[1]).toBe(e32);
+			});
+
+
+
+
+
+		});
 	});
 
 });
