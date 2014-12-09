@@ -1191,176 +1191,63 @@ function Document(node){
 
 
 	/**
-	* If selection is empty, returns empty array. Otherwise returns two dimensional array of the form
-	* <pre>
-	* [[a<sub>00</sub>, a<sub>01</sub>, ...], [a<sub>10</sub>, a<sub>11</sub>, ...], ...].
-	* </pre>
-	* Each inner array corresponds to the elements inside the
-	* {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} property of the selection.
-	* Since DOM is an ***ordered*** collection of the nodes, the the above mentioned array is
-	* just a collection of simply-connected sets of nodes corresponding to the selection.
-	*
-	* NB1: _Simply-connected_ set is a set such that there exists a path inside the set
-	* connecting two arbitrary elements of the set.
-	*
-	* NB2: _Path_ consists of pieces connecting two neighbours (the set is ordered, so that
-	* the concept of "neighbour" exists).
-	* @method          selectedNodes
-	* @param           {Selection}          sel
-	* @private
-	* @return          {Array}              two dimensional array of
-	*                                       [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
-	*                                       or empty array
-	*/
-	var selectedNodes = function(sel){
+	 * Returns text representation of node `n`.
+	 *
+	 * @method         nodeToText
+	 * @param          {Node}          n
+	 * @return         {String}
+	 * @since          0.1.0
+	 */
+	this.nodeToText = function(n){
 		/// !!! stub
-	    // var startContainer, endContainer,
-	    //     startOffset, endOffset,
-	    //     rangesLocal = sel.getRanges(),
-	    //     range, startChild, endChild, nextChild,
-	    //     lastBlock = [],
-	    //     firstBlock = [],
-	    //     middleBlock = [],
-	    //     startElem, endElem,
-	    //     startType, endType,
-	    //     i, rangesLen, commonAnc,
-	    //     selNodes = [],      // container for all sel nodes
-	    //     rangeNodes;         // container for sel nodes in current range
-	    // if (rangesLocal){
-	    //     rangesLen = rangesLocal.length;
-	    //     for (i = 0; i < rangesLen; i++){
-	    //         // console.info('loop', i);
-	    //         rangeNodes = [];
-	    //         range = rangesLocal[i];
-	    //         if (!range.collapsed) {
-	    //             startContainer = range.startContainer;
-	    //             endContainer = range.endContainer;
-	    //             startType = startContainer.type;
-	    //             endType   = endContainer.type;
-	    //             startOffset = range.startOffset;
-	    //             endOffset = range.endOffset;
-	    //             startElem = null;
-	    //             endElem = null;
-	    //             lastBlock = [];
-	    //             firstBlock = [];
-	    //             middleBlock = [];
-	    //             if (startContainer.equals(endContainer)){
-	    //                 // console.log('start = end');
-	    //                 if (startType === CKEDITOR.NODE_TEXT){
-	    //                     startElem = startContainer.split(startOffset).split(endOffset - startOffset).getPrevious();
-	    //                     endElem = startElem;
-	    //                 } else if (startType === CKEDITOR.NODE_ELEMENT){
-	    //                     startElem = startContainer.getChild(startOffset);
-	    //                     // endElem = startContainer.getChild(endOffset) || startElem;
-	    //                     endElem = startElem;
-	    //                 }
-	    //             } else {
-	    //                 if (endType === CKEDITOR.NODE_TEXT){
-	    //                     endElem = endContainer.getLength() === endOffset ? endContainer : endContainer.split(endOffset).getPrevious();
-	    //                 } else if (endType === CKEDITOR.NODE_ELEMENT){
-	    //                     if (endOffset > 0){
-	    //                         endElem = endContainer.getChild(endOffset - 1);
-	    //                     } else {
-	    //                         endElem = endContainer.getParent();
-	    //                     }
-	    //                 }
-	    //                 if (startType === CKEDITOR.NODE_TEXT){
-	    //                     // Do not split the element if its length is equal to offset.
-	    //                     // In this case, take the next sibling of the element.
-	    //                     startElem = startContainer.getLength() === startOffset ? startContainer.getNext() : startContainer.split(startOffset);
-	    //                     // startElem =  startContainer.split(startOffset);
-	    //                 } else if (startType === CKEDITOR.NODE_ELEMENT){
-	    //                     startElem = startContainer.getChild(startOffset);
-	    //                 }
-
-	    //             }
-	    //             if (startElem === null || endElem === null){
-	    //                 // console.log('start elem or end elem is null: ', startElem, endElem);
-	    //                 break;
-	    //             }
-	    //             // console.log('start elem: ', startElem, ', end elem: ', endElem);
-	    //             if (CKHelper.containsOrEqual(startElem, endElem)){
-	    //                 rangeNodes = [startElem];
-	    //             } else if (CKHelper.containsOrEqual(endElem, startElem)) {
-	    //                 rangeNodes = [endElem];
-	    //             } else {
-	    //                 commonAnc = startElem.getCommonAncestor(endElem);
-	    //                 startChild = CKHelper.childWithNode(commonAnc, startElem);
-	    //                 endChild = CKHelper.childWithNode(commonAnc, endElem);
-
-	    //                 firstBlock = startElem.getParent().equals(commonAnc) ? [startElem] : CKHelper['bunch-next-siblings'](startElem, startChild);
-	    //                 // console.log('firstBlock: ', firstBlock);
-	    //                 rangeNodes = rangeNodes.concat(firstBlock);
-	    //                 // console.log('rangeNodes after adding first block: ', rangeNodes.length, ', ', rangeNodes);
-	    //                 nextChild = startChild.getNext();
-	    //                 while(nextChild && !nextChild.equals(endChild)){
-	    //                     // console.log('pushing nextChild: ', nextChild);
-	    //                     middleBlock.push(nextChild);
-	    //                     nextChild = nextChild.getNext();
-	    //                 }
-	    //                 // console.log('middleBlock: ', middleBlock);
-	    //                 rangeNodes = rangeNodes.concat(middleBlock);
-
-	    //                 lastBlock = endElem.getParent().equals(commonAnc) ? [endElem] : CKHelper['bunch-prev-siblings'](endElem, endChild);
-
-	    //                 // console.log('lastBlock: ', lastBlock);
-	    //                 rangeNodes = rangeNodes.concat(lastBlock.reverse());
-	    //                 // console.log('rangeNodes after adding end block: ', rangeNodes.length, ', ', rangeNodes);
-	    //             }
-
-	    //         }
-	    //         // console.log('rangeNodes that are to be pushed into selNodes: ', rangeNodes);
-	    //         selNodes.push(rangeNodes);
-	    //     }
-
-
-	    // }
-	    // // selNodes.forEach(function(elem, ind){
-	    // //     elem.forEach(function(elem2, ind2){
-	    // //         console.log(ind, ind2, elem2);
-	    // //     });
-	    // // });
-	    // return selNodes;
+		return '';
 	};
 
-	/**
-	 * Two-dimensional array of nodes in selection.
-	 *
-	 * This property was created in order to assure that private method
-	 * {{#crossLink "Document/selectedNodes:method"}}selectedNodes{{/crossLink}} gets called
-	 * just once because it seemingly modifies DOM in such
-	 * a way that if one calles it multiple times, a wrong array offset is requested, hence, an
-	 * error is generated.
-	 * @property       {Array}      nodes
-	 * @type           {Array}      array of [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
-	 */
-	this.nodes = selectedNodes(this);
 
 	/**
-	 * Returns text representation of the selected nodes. Remember that they are located inside a two-dimensional array.
+	 * Returns text representation of the selected nodes stored in
+	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
 	 *
-	 * @method    toText
+	 * Remember that {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}
+	 * is in general a two dimensional array.
+	 *
+	 * @method    selectedNodesToText
 	 * @param     {String}    blockSeparator          string to be used as a separator between arrays
 	 * @param     {String}    elemSeparator           string to be used as a separator between elements in array
 	 * @return    {String}
 	 */
-	this.toText = function(blockSeparator, elemSeparator){
-		console.log(blockSeparator, elemSeparator);
-		/// !!! stub
-	    // var total = [];
-	    // blockSeparator = blockSeparator || ' ';
-	    // elemSeparator = elemSeparator || ' ';
-	    // this.nodes.forEach(function(arr){
-	    //     var arrayNested = [];
-	    //     arr.forEach(function(el){
-	    //         if (el.type === CKEDITOR.NODE_TEXT || el.type === CKEDITOR.NODE_ELEMENT){
-	    //             arrayNested.push(el.getText());
-	    //         }
-	    //     });
-	    //     total.push(arrayNested.join(elemSeparator));
-	    // });
-	    // return total.join(blockSeparator);
-	    return '';
+	this.selectedNodesToText = function(elemSeparator, blockSeparator){
+		/**
+		 * Transforms array of nodes into a string.
+		 * @method       _rangeToText
+		 * @param        {Array}     nodesArr      array of node instances
+		 * @param        {String}    separ         separator to be used as a delimiter between string representations of the nodes
+		 * @return       {String}
+		 * @private
+		 */
+		var _rangeToText = function(nodesArr, separ){
+			if (!Array.isArray(nodesArr)){
+				return '';
+			}
+			var result = [];
+			nodesArr.forEach(function(n){
+				var txt = this.nodeToText(n);
+				result.push(txt);
+
+			}.bind(this));
+			return result.join(separ);
+		}.bind(this);
+
+		var result = [],
+			bS = blockSeparator || ' ',
+			eS = elemSeparator || ' ';
+		if (!Array.isArray(this.getSelectedNodes())){
+			return '';
+		}
+		this.getSelectedNodes().forEach(function(r){
+			result.push(_rangeToText(r, eS));
+		}.bind(this));
+		return result.join(bS);
 	};
 
 

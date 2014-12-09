@@ -2697,12 +2697,47 @@ describe('Document class', function() {
 
 				expect(nodes1.length).toBe(1);
 				expect(nodes1[0]).toBe(e26);
-
+			});
+		});
+		describe('a method selectedNodesToText that', function(){
+			beforeEach(function(){
+				spyOn(doc, 'nodeToText').and.callFake(function(n){
+					if (n === t20){return 't20 node';}
+					if (n === e21){return 'e21 node';}
+					if (n === e23){return 'e23 node';}
+					return 'unforeseen node';
+				});
+			});
+			it('returns empty string if getSelectedNodes returns null', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue(null);
+				expect(doc.selectedNodesToText()).toBe('');
+			});
+			it('returns empty string if getSelectedNodes returns an empty array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([]);
+				expect(doc.selectedNodesToText()).toBe('');
+			});
+			it('returns space-concatenated strings if getSelectedNodes returns a single element array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21, e23]]);
+				expect(doc.selectedNodesToText()).toBe('t20 node e21 node e23 node');
+			});
+			it('returns strings glued by means of the first argument if getSelectedNodes returns a single element array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21, e23]]);
+				expect(doc.selectedNodesToText('---')).toBe('t20 node---e21 node---e23 node');
+			});
+			it('uses default block and element separators if getSelectedNodes returns a two element array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21], [e23]]);
+				expect(doc.selectedNodesToText()).toBe('t20 node e21 node e23 node');
+			});
+			it('uses block and element separators if getSelectedNodes returns a two element array', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21], [e23]]);
+				expect(doc.selectedNodesToText('|', '-')).toBe('t20 node|e21 node-e23 node');
 			});
 
 
-		});
 
+
+
+		});
 	});
 
 });
