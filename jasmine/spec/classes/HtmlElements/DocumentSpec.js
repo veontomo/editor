@@ -1,5 +1,15 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node */
+var emptyArrayMatcher = {
+  toBeEmptyArray: function(util, customEqualityTesters) {
+    return {
+      compare: function(actual) {
+      	return {'pass': (Array.isArray(actual) && (actual.length === 0))};
+      }
+    };
+  }
+};
+
 describe('Document class', function() {
     var node, doc;
     beforeEach(function() {
@@ -27,6 +37,8 @@ describe('Document class', function() {
         node.appendChild(document.createTextNode('Some text'));
         ch1.appendChild(ch11);
         doc = new Document(node);
+
+        jasmine.addMatchers(emptyArrayMatcher);
     });
     describe('has a method to clean tags that', function() {
         it('removes "class" attribute inside tags', function() {
@@ -737,15 +749,12 @@ describe('Document class', function() {
 
         it('returns empty array if start node and end node coincide', function(){
             var res = doc.complementNodes(e21, e21);
-            expect(Array.isArray(res)).toBe(true);
-            expect(res.length).toBe(0);
+            expect(res).toBeEmptyArray();
         });
 
         it('returns empty array if end node is a unique child of the start node', function(){
             var res = doc.complementNodes(e34, e41);
-            expect(Array.isArray(res)).toBe(true);
-            expect(res.length).toBe(0);
-
+            expect(res).toBeEmptyArray();
         });
 
         it('throws an error if the start node is not a parent of the end node', function(){
@@ -1512,8 +1521,7 @@ describe('Document class', function() {
 	            it('sets ranges to empty array if it is called without argument', function() {
 	                doc.setRanges();
 	                var res = doc.getRanges();
-	                expect(Array.isArray(res)).toBe(true);
-	                expect(res.length).toBe(0);
+	                expect(res).toBeEmptyArray();
 	            });
 	            it('sets ranges to empty array if the argument is invalid', function() {
 	                // pending();
@@ -1528,17 +1536,15 @@ describe('Document class', function() {
 	                    doc = new Document();
 	                    doc.setRanges(invalid);
 	                    var res = doc.getRanges();
-	                    expect(Array.isArray(res)).toBe(true);
-	                    expect(res.length).toBe(0);
+	                    expect(res).toBeEmptyArray();
 	                });
 	            });
 	            it('sets ranges to empty array if the argument is an empty array', function() {
 	                // pending();
 	                doc.setRanges([]);
 	                var res = doc.getRanges();
-	                expect(Array.isArray(res)).toBe(true);
-	                expect(res.length).toBe(0);
-	            });
+	                expect(res).toBeEmptyArray();
+	               });
 	            it('appends ranges if they are all valid', function() {
 	                spyOn(doc, 'isRange').and.returnValue(true);
 	                spyOn(doc, 'appendRange');
@@ -1665,8 +1671,7 @@ describe('Document class', function() {
 	        describe('has method nodesBetween that', function() {
 	            it('returns an empty array if it is called without arguments', function() {
 	                var nodes = doc.nodesBetween();
-	                expect(Array.isArray(nodes)).toBe(true);
-	                expect(nodes.length).toBe(0);
+	                expect(nodes).toBeEmptyArray();
 	            });
 	            it('returns empty array if pathTo() returns nothing', function() {
 	                spyOn(doc, 'pathTo');
@@ -1765,8 +1770,7 @@ describe('Document class', function() {
 	            it('returns empty array if the arguments have no common ancestor', function() {
 	                spyOn(doc, 'commonAncestor');
 	                var nodes = doc.nodesBetween(e21, e10);
-	                expect(Array.isArray(nodes)).toBe(true);
-	                expect(nodes.length).toBe(0);
+	                expect(nodes).toBeEmptyArray();
 	                expect(doc.commonAncestor).toHaveBeenCalledWith(e21, e10);
 	            });
 	        });
@@ -2591,10 +2595,92 @@ describe('Document class', function() {
 				expect(doc.getSelectedNodes()).toBe(null);
 			});
 			it('imposes selected nodes to null if previously selection was not emoty', function(){
-				doc.setSelectedNodes([[e21, e23], [e32]])
+				doc.setSelectedNodes([[e21, e23], [e32]]);
 				expect(doc.getSelectedNodes()).not.toBe(null);
 				doc.flushSelection();
 				expect(doc.getSelectedNodes()).toBe(null);
+			});
+		});
+		describe('a method nodesOfRange that', function(){
+			it('throws an error if the argument is a string, a number, an array, a function or a non-Range instance', function(){
+				var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96,
+					function() {return;}, {}, {foo: 23}];
+				invalids.forEach(function(invalid) {
+				    expect(function(){
+				    	doc.nodesOfRange(invalid);
+				    }).toThrow(new Error('The argument must be a Range instance!'));
+				});
+			});
+			it('calls method detachBoundaries', function(){
+				spyOn(doc, 'detachBoundaries').and.returnValue([]);
+				doc.nodesOfRange(range);
+				expect(doc.detachBoundaries).toHaveBeenCalledWith(range);
+			});
+			it('calls method nodesBetween with arguments taken from detachBoundaries output if it returns two element array', function(){
+				spyOn(doc, 'detachBoundaries').and.returnValue([e21, e25]);
+				spyOn(doc, 'nodesBetween');
+				doc.nodesOfRange(range);
+				expect(doc.detachBoundaries).toHaveBeenCalledWith(range);
+				expect(doc.nodesBetween).toHaveBeenCalledWith(e21, e25);
+			});
+			it('returns an array with single node if detachBoundaries outputs just one node', function(){
+				spyOn(doc, 'detachBoundaries').and.returnValue([t22]);
+				spyOn(doc, 'nodesBetween');
+				var nodes = doc.nodesOfRange(range);
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(1);
+				expect(nodes[0]).toBe(t22);
+				expect(doc.detachBoundaries).toHaveBeenCalledWith(range);
+			});
+
+			it('returns output of method nodesBetween', function(){
+				spyOn(doc, 'detachBoundaries').and.returnValue([t20, e26]);
+				spyOn(doc, 'nodesBetween').and.returnValue('whatever');
+				expect(doc.nodesOfRange(range)).toBe('whatever');
+				expect(doc.detachBoundaries).toHaveBeenCalledWith(range);
+				expect(doc.nodesBetween).toHaveBeenCalledWith(t20, e26);
+			});
+		});
+		describe('a method nodesOfSelection that', function(){
+			it('returns an empty array if the input is undefined, a null, a string, a number, a function or an object', function(){
+				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
+					function() {return;}, {}, {foo: 23}];
+				invalids.forEach(function(invalid) {
+					var nodes = doc.nodesOfRange(invalid);
+				    expect(nodes).toBeEmptyArray(true);
+				});
+			});
+			it('returns single element array if the selection is determined by a single range', function(){
+				range.setStart(e10, 1);
+				range.setEnd(e11, 1);
+				var nodes = doc.nodesOfSelection([range]);
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(1);
+				var nodes0 = nodes[0];
+				expect(nodes0.length).toBe(5);
+				expect(nodes0[0]).toBe(e21);
+				expect(nodes0[1]).toBe(t22);
+				expect(nodes0[2]).toBe(e23);
+				expect(nodes0[3]).toBe(t24);
+				expect(nodes0[4]).toBe(e25);
+			});
+			it('returns array with two elements if the selection is determined by two ranges', function(){
+				range.setStart(e00, 0);
+				range.setEnd(e00, 1);
+				var range2 = document.createRange();
+				range2.setStart(e11, 1);
+				range2.setEnd(e11, 2);
+				var nodes = doc.nodesOfSelection([range, range2]);
+				expect(Array.isArray(nodes)).toBe(true);
+				expect(nodes.length).toBe(2);
+				var nodes0 = nodes[0],
+					nodes1 = nodes[1];
+				expect(nodes0.length).toBe(1);
+				expect(nodes0[0]).toBe(e10);
+
+				expect(nodes1.length).toBe(1);
+				expect(nodes1[0]).toBe(e25);
+
 			});
 
 		});

@@ -621,18 +621,19 @@ function Document(node){
 	 * @param          {Array}         p1        array of numbers
 	 * @param          {Array}         p2        array of numbers
 	 * @param          {Function}      c         [Optional] comparator
-	 *
 	 * @return         {-1|0|1|null}
 	 * @since          0.0.8
 	 */
 	this.compare = function(p1, p2, c){
 		/**
-		 * Auxiliary function that compares `n-th` elements of `p1` and `p2` using comparator `fun`
-		 * @param  {Array}      p1       first array
-		 * @param  {Array}      p2       second array
-		 * @param  {Integer}    n        current position of elements to compare
-		 * @param  {Function}   fun      comparator
-		 * @return {-1|0|1|Null}
+		 * Auxiliary function that compares `n-th` elements of `p1` and `p2` using comparator `fun`.
+		 * @method  _compareAux
+		 * @param   {Array}      p1       first array
+		 * @param   {Array}      p2       second array
+		 * @param   {Integer}    n        current position of elements to compare
+		 * @param   {Function}   fun      comparator
+		 * @return  {-1|0|1|Null}
+		 * @private
 		 */
 	    var _compareAux = function(p1, p2, n, fun){
 	        if (p1.length > n){
@@ -975,7 +976,7 @@ function Document(node){
 	 * by cutting the container according to the range offsets.
 	 * @method         detachBoundaries
 	 * @param          {Range}         r
-	 * @return         {Array}         array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @since          0.0.8
 	 */
 	this.detachBoundaries = function(r){
@@ -1144,12 +1145,37 @@ function Document(node){
 	};
 
 	/**
-	 *
-	 * @param  {[type]} r [description]
-	 * @return {[type]}   [description]
+	 * Returns array of nodes that belong to [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance `r`.
+	 * @method         nodesOfRange
+	 * @param          {Range}         r         [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @return         {Array}
+	 * @since          0.1.0
+	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
+		if (!(r instanceof Range)){
+			throw new Error('The argument must be a Range instance!');
+		}
+		var boundaries = this.detachBoundaries(r);
+		if (boundaries.length === 1){
+			return [boundaries[0]];
+		}
+		return this.nodesBetween(boundaries[0], boundaries[1]);
+	};
 
+	/**
+	 * Returns two dimensional array of nodes corresponding to the selection.
+	 *
+	 * The argument is an array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
+	 * The output is an array which elements are arrays of nodes corresponding to input ranges.
+	 *
+	 * @method         nodesOfSelection
+	 * @param          {Array}         ranges
+	 * @return         {Array}
+	 * @since          0.1.0
+	 */
+	this.nodesOfSelection = function(ranges){
+		/// !!! stub
 	};
 
 
