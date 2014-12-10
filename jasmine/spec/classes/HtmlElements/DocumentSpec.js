@@ -2776,12 +2776,8 @@ describe('Document class', function() {
 				spyOn(doc, 'getSelectedNodes').and.returnValue([[], [e10, t20]]);
 				expect(doc.isSelectionEmpty()).toBe(false);
 			});
-
-
-
-
-
 		});
+
 
 	});
 

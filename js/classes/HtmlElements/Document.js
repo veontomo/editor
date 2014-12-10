@@ -1480,22 +1480,24 @@ function Document(node){
 
 
 	/**
-	 * Returns first ancestor of {{#crossLink "Document/nodes:property"}}nodes{{/crossLink}} for which `criteria` evaluates to
+	 * Returns first ancestor of
+	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} for which `criteria` evaluates to
 	 * `true`.
 	 *
-	 * To function `criteria` there will be given one by one elements from {{#crossLink "Document/nodes:property"}}nodes{{/crossLink}}
-	 * @method  findAncestorOfBlock
-	 * @param   {Function} criteria [description]
-	 * @return  {CKEDITOR.dom.element}  [CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
+	 * Function `criteria` is given elements of {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}
+	 * until it returns `true`.
+	 * @method         findAncestorOfSelection
+	 * @param          {Function} criteria
+	 * @return         {Element|Null}         [Element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
 	 */
-	this.findAncestorOfBlock = function(criteria){
-	    if (this.isEmpty()){
+	this.findAncestorOfSelection = function(criteria){
+	    if (this.isSelectionEmpty()){
 	        return;
 	    }
-	    var lenExt = this.nodes.length,
+	    var lenExt = this.getSelectedNodes().length,
 	        lenInt, i, j, block, el;
 	    for (i = 0; i < lenExt; i++){
-	        block = this.nodes[i];
+	        block = this.getSelectedNodes()[i];
 	        lenInt = block.length;
 	        for (j = 0; j < lenInt; j++){
 	            el = block[j];
