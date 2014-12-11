@@ -61,7 +61,7 @@ function EditorAdapter(){
 	}.bind(this);
 
 	/**
-	 * Transforms editor Range instance `r` into native javascript
+	 * Transforms editor-specific range instance `r` into native javascript
 	 * [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) one.
 	 *
 	 * @method         toNativeRange
@@ -72,6 +72,20 @@ function EditorAdapter(){
 	this.toNativeRange = function(r){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		_log('toNativeRange');
+	};
+
+	/**
+	 * Retrieves array of editor-specific range instances.
+	 *
+	 * @method         getEditorRanges
+	 * @param          {Object}        e
+	 * @return         {Array}
+	 * @abstract
+	 * @since          0.1.0
+	 */
+	this.getEditorRanges = function(e){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		_log('getEditorRanges');
 	};
 
 	/**
