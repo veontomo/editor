@@ -257,16 +257,17 @@ function CLink() {
 	 */
 	this.fillInDialogSmart = function(dialog, editor){
 		var link, linkElem, criteria,
-			selection = new Selection(editor),
-			start,
-			doc,
+			doc, ranges, adapter, nodesOfSelection;
+		if (editor){
 			adapter = this.getEditorAdapter();
-		if (editor && adapter){
-			var nativeRanges = adapter.getNativeRanges(editor);
+			ranges = adapter.getNativeRanges(editor);
 			doc = new Document(editor.document.getBody().$);
-			console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-			selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-			console.log(selection.getRanges());
+			// doc.setRanges(ranges);
+			nodesOfSelection = doc.nodesOfSelection(ranges);
+			console.log(nodesOfSelection);
+			// console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+			// selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+			// console.log(selection.getRanges());
 		}
 		// criteria = function(el){
 		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';

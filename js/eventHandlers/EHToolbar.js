@@ -77,6 +77,8 @@ var EHToolbar = {
 	 */
 
 	highlight: function(ed, prop, elemId){
+		/// !!! stubbed since class Dom has been merged by Document.
+		return;
 		if (!ed || !prop || !elemId){
 			// exit, if something is missing
 			return;
