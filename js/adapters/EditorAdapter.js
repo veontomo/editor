@@ -75,19 +75,34 @@ function EditorAdapter(){
 	};
 
 	/**
-	 * Transforms array of editor-specific ranges into array of native javascript ranges.
-	 * @method toNativeRanges
-	 * @param  {Array} ranges  array of editor-specific ranges
-	 * @return {Array}         array of native javascript ranges
+	 * Returns array of native javascript [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
+	 * instances of the editor-specific ranges of editor `editor`.
+	 *
+	 * @method         getNativeRanges
+	 * @param          {CKEDITOR.editor}      editor
+	 * @return         {Array|Null}                array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 */
-	this.toNativeRanges = function(ranges){
-		if (ranges === undefined || ranges === null){
-			return [];
+	this.getNativeRanges = function(editor){
+		var editorRanges;
+		try {
+			editorRanges = this.getEditorRanges(editor);
+		} catch(e){
+			console.log('Error (' + e.name + ') detected when retrieving editor ranges: ' + e.message);
 		}
-		if (!Array.isArray(ranges)){
-			ranges = [ranges];
+		if (!Array.isArray(editorRanges)){
+			return;
 		}
-		return ranges.map(function(el){return this.toNativeRange(el);}.bind(this));
-	}
+		var ranges = [];
+		editorRanges.forEach(function(r){
+			try{
+				var nativeRange = this.toNativeRange(r);
+				ranges.push(nativeRange);
+			} catch(e){
+				console.log('Error (' + e.name + ') detected when converting editor-specific range into native one: ' + e.message);
+			}
+		}.bind(this));
+		return ranges;
+	};
+
 
 }

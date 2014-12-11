@@ -259,8 +259,10 @@ function CLink() {
 		var link, linkElem, criteria,
 			selection = new Selection(editor),
 			start,
-			doc;
-		if (editor){
+			doc,
+			adapter = this.getEditorAdapter();
+		if (editor && adapter){
+			var nativeRanges = adapter.getNativeRanges(editor);
 			doc = new Document(editor.document.getBody().$);
 			console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
 			selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
