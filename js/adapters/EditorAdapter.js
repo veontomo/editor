@@ -39,26 +39,29 @@ function EditorAdapter(){
 	 * @method         setName
 	 * @param          {String}        name
 	 * @return         {void}
+	 * @throws         {Error}         If `name` is not a string
 	 */
 	this.setName = function(name){
-		_className = name;
+		if (typeof name === 'string'){
+			_className = name;
+		} else {
+			throw new Error('The name must be a string!');
+		}
 	};
 
 	/**
-	 * Outputs messages in predefiend format.
+	 * Retrieves native javascript Node object representing editor content.
 	 *
-	 * Current implementation redirects string output into `console.log` stream.
-	 * @method        _log
-	 * @private
-	 * @param         {String}         origin        name of the method that issued the message
-	 * @return        {void}
+	 * @method         getEditorContent
+	 * @param          {Object}        r
+	 * @return         {Node}
+	 * @abstract
+	 * @since          0.1.0
 	 */
-	var _log = function(origin){
-		console.log('Methods of class ' + this.getName() +
-			' are not meant to be used directly. Method ' +
-			origin +
-			' was called directly.');
-	}.bind(this);
+	this.getEditorContent = function(){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "getEditorContent" of class must be overridden by inheriting class!');
+	};
 
 	/**
 	 * Transforms editor-specific range instance `r` into native javascript
@@ -71,7 +74,7 @@ function EditorAdapter(){
 	 */
 	this.toNativeRange = function(r){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		_log('toNativeRange');
+		throw new Error('Method "toNativeRange" of class must be overridden by inheriting class!');
 	};
 
 	/**
@@ -85,7 +88,7 @@ function EditorAdapter(){
 	 */
 	this.getEditorRanges = function(e){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		_log('getEditorRanges');
+		throw new Error('Method "getEditorRanges" of class must be overridden by inheriting class!');
 	};
 
 	/**
@@ -93,8 +96,8 @@ function EditorAdapter(){
 	 * instances of the editor-specific ranges of editor `editor`.
 	 *
 	 * @method         getNativeRanges
-	 * @param          {CKEDITOR.editor}      editor
-	 * @return         {Array|Null}                array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @param          {Object}      editor
+	 * @return         {Array|Null}           array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 */
 	this.getNativeRanges = function(editor){
 		var editorRanges;
@@ -104,7 +107,7 @@ function EditorAdapter(){
 			console.log('Error (' + e.name + ') detected when retrieving editor ranges: ' + e.message);
 		}
 		if (!Array.isArray(editorRanges)){
-			return;
+			return null;
 		}
 		var ranges = [];
 		editorRanges.forEach(function(r){

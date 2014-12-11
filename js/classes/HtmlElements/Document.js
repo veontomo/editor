@@ -1480,7 +1480,7 @@ function Document(node){
 
 
 	/**
-	 * Returns first ancestor of
+	 * Returns first ancestor of elements of
 	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} for which `criteria` evaluates to
 	 * `true`.
 	 *
@@ -1488,7 +1488,7 @@ function Document(node){
 	 * until it returns `true`.
 	 * @method         findAncestorOfSelection
 	 * @param          {Function} criteria
-	 * @return         {Element|Null}         [Element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
+	 * @return         {Element|Null}
 	 */
 	this.findAncestorOfSelection = function(criteria){
 	    if (this.isSelectionEmpty()){

@@ -129,7 +129,7 @@ function linkMailDialog(editor, scheme) {
                     id: 'text',
                     title: editor.lang[_pluginName][scheme + 'TextTitle'],
                     style: _textInputStyle,
-                    'default': 'descrizione del link'
+                    'default': 'descrizione del link',
                 }]
             },
             {

@@ -347,7 +347,7 @@ function Tag(tName) {
 
 	/**
 	 * Sets the value of `key` of {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}
-	 * to `value`. Alias for {{#crossLink "Properties/setProperty:property"}}setProperty{{/crossLink}}
+	 * to `value`. Alias for {{#crossLink "Properties/setProperty:method"}}Properties::setProperty{{/crossLink}}.
 	 * @method         setProperty
 	 * @param          {String} 	        key 	   property name to be set
 	 * @param          {String} 	        value 	   property value

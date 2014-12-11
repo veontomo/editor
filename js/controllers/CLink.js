@@ -257,18 +257,33 @@ function CLink() {
 	 */
 	this.fillInDialogSmart = function(dialog, editor){
 		var link, linkElem, criteria,
-			doc, ranges, adapter, nodesOfSelection;
-		if (editor){
-			adapter = this.getEditorAdapter();
-			ranges = adapter.getNativeRanges(editor);
-			doc = new Document(editor.document.getBody().$);
-			// doc.setRanges(ranges);
-			nodesOfSelection = doc.nodesOfSelection(ranges);
-			console.log(nodesOfSelection);
-			// console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-			// selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-			// console.log(selection.getRanges());
+			doc, ranges, adapter, editorContent, factory;
+		if (!editor){
+			return;
 		}
+		adapter = this.getEditorAdapter();
+		ranges = adapter.getNativeRanges(editor);
+		editorContent = adapter.getEditorContent(editor);
+
+		doc = new Document();
+		doc.setContent(editorContent);
+		doc.setSelectedNodes(doc.nodesOfSelection(ranges));
+
+		var isLink = function(n){
+			return (n instanceof Element) && (n.tagName === 'a');
+		};
+
+		linkElem = doc.findAncestorOfSelection(isLink);
+
+		factory = NEWSLETTER.factory;
+		link = linkElem ? factory.mimic(linkElem) : new Link();
+
+		console.log(link.getTag());
+
+		// console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+		// selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
+		// console.log(selection.getRanges());
+
 		// criteria = function(el){
 		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
 		// };
@@ -288,8 +303,9 @@ function CLink() {
 		// } else {
 		// 	link = new Link();
 		// }
-		// console.log(link.template());
-		// this.fillInDialog(dialog, link.template());
+		console.log(link.template());
+		console.log(this.templateToDialog(link.template()));
+		this.fillInDialog(dialog, this.templateToDialog(link.template()));
 	};
 }
 CLink.prototype = Object.create(Controller.prototype);

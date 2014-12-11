@@ -19,6 +19,21 @@ function CKEditorAdapter(){
 	EditorAdapter.call(this);
 
 	/**
+ 	 * Retrieves native javascript Node object representing editor body.
+	 *
+	 * @method         getEditorContent
+	 * @param          {Object}        r
+	 * @return         {Node|Null}
+	 * @abstract
+	 * @since          0.1.0
+	 */
+	this.getEditorContent = function(editor){
+		if (editor instanceof CKEDITOR.editor){
+			return editor.document.getBody().$;
+		}
+	};
+
+	/**
 	 * Returns editor-specific representation of the ranges.
 	 *
 	 * It is supposed to be an array of editor-specific range instances. If for some reason it turns out

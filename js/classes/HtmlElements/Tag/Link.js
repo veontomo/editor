@@ -43,12 +43,19 @@ function Link(href) {
 
 	/**
 	 * Allowed schemes.
-	 * @property {String} _allowedSchemes
-	 * @type   {Array}
-	 * @since  0.0.7
+	 * @property       {Array}      _allowedSchemes
+	 * @since          0.0.7
 	 * @private
 	 */
 	var _allowedSchemes = ['link', 'mail'];
+
+	/**
+	 * Number of the element inside {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}}
+	 * array to be used as a default scheme.
+	 * @property       {Integer}        _defaultScheme
+	 * @since          0.1.0
+	 */
+	var _defaultScheme = 0;
 
 
 	/**
@@ -86,7 +93,7 @@ function Link(href) {
 	};
 
 	/**
-	 * Returns dafault scheme.
+	 * {{#crossLink "Link/_defaultScheme:property"}}_defaultScheme{{/crossLink}} getter.
 	 *
 	 * To be consistent, the returned value must be one of the allowed values.
 	 * @method         getDefaultScheme
@@ -94,8 +101,28 @@ function Link(href) {
 	 * @return         {String}
 	 */
 	this.getDefaultScheme = function(){
-		return 'link';
+		return this.getAllowedSchemes(_defaultScheme);
 	};
+
+
+	/**
+	 * {{#crossLink "Link/_defaultScheme:property"}}_defaultScheme{{/crossLink}} setter.
+	 *
+	 * Value of `s` must be one of {{#crossLink "Link/_allowedSchemes:property"}}_allowedSchemes{{/crossLink}}.
+	 * Otherwise, the assignment does not occurs.
+	 * @method         setDefaultScheme
+	 * @param          {String}        s
+	 * @since          0.1.0
+	 * @return         {void}
+	 */
+	this.getDefaultScheme = function(s){
+		var ind = this.getAllowedSchemes().indexOf(s);
+		if (ind !== -1){
+			_defaultScheme = ind;
+		}
+
+	};
+
 
 	/**
 	 * Returns value of "href" key inside {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.

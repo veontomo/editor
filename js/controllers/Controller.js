@@ -119,7 +119,7 @@ function Controller(){
 	/**
 	 * Populates the field of the dialog menu. `data` must be of a format described in
 	 * {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}} method.
-	 * If a key has undefined value, then it is not takedn into consideration.
+	 * If a key has undefined value, then it is not taken into consideration.
 	 * @method        fillInDialog
 	 * @param         {Object}              data              data to be inserted,
 	 *                                                        {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}}
