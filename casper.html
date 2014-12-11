@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<!-- // <script src="script.js"></script> -->
+	<script src="basic_editor/ckeditor.js"></script>
+
+	<title>Casper</title>
+</head>
+<body>
+Test page for Casper
+<form>
+            <textarea name="editor" id="editor" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+            </textarea>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                CKEDITOR.replace( 'editor' );
+            </script>
+        </form>
+</body>
+</html>

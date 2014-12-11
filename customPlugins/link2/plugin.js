@@ -17,7 +17,7 @@ CKEDITOR.plugins.add('link2', {
 			// The command to execute on click.
 			command: 'link2',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'document'
+			toolbar: 'document',
 		});
 		editor.addCommand('link2unlink', {
 			exec: function(editor){

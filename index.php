@@ -67,7 +67,7 @@
 
 	 <!-- document-related models -->
 	<script type="text/javascript" src="js/classes/HtmlElements/Document.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Dom.js"></script>
+
 
 	<!-- converters -->
 	<script type="text/javascript" src="js/converters/Converter.js"></script>
