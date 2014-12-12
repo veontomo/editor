@@ -60,7 +60,7 @@ function EditorAdapter(){
 	 */
 	this.getEditorContent = function(){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		throw new Error('Method "getEditorContent" of class must be overridden by inheriting class!');
+		throw new Error('Method "getEditorContent" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 	/**
@@ -74,7 +74,7 @@ function EditorAdapter(){
 	 */
 	this.toNativeRange = function(r){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		throw new Error('Method "toNativeRange" of class must be overridden by inheriting class!');
+		throw new Error('Method "toNativeRange" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 	/**
@@ -88,7 +88,7 @@ function EditorAdapter(){
 	 */
 	this.getEditorRanges = function(e){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		throw new Error('Method "getEditorRanges" of class must be overridden by inheriting class!');
+		throw new Error('Method "getEditorRanges" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 	/**
@@ -120,6 +120,47 @@ function EditorAdapter(){
 		}.bind(this));
 		return ranges;
 	};
+
+	/**
+	 * Fills in dialog window `dialog` with `data`.
+	 * @method         fillInDialog
+	 * @param          {Object}        dialog
+	 * @param          {Object}        data
+	 * @return         {void}
+	 * @since          0.1.0
+	 * @abstract
+	 *
+	 */
+	this.fillInDialog = function(dialog, data){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "fillInDialog" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+
+	/**
+	 * Collects parameters from the dialog menu and returns json like object with that data.
+	 * If optional parameter `types` is provided, then only dialog fields of types present
+	 * in array `types` are to be taken in consideration.
+	 *
+	 * Returns json object whose keys are page ids of the dialog menu and values are json objects
+	 * whose keys are ids of the elements present on that page and values are those read from  the
+	 * dialog menu.
+	 *
+	 * Example: <pre>{infoTab: {author: 'A.Einstein', title: 'On electrodynamics of moving electron'},
+	 * publisher: {code: TDR19, license: 1031}}</pre>
+	 *
+	 * @method         getDialogData
+	 * @param          {Object}           dialog
+	 * @param          {Array}            types         array of strings standing for dialog field types.
+	 * @return         {Object}
+	 * @since 		   0.1.0
+	 * @abstract
+	 */
+	this.getDialogData = function(dialog, types){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "getDialogData" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
 
 
 }

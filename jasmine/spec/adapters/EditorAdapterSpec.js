@@ -24,21 +24,21 @@ describe('Editor adapter', function(){
 		it('throws an error if called directly and not from an inheriting class', function(){
 			expect(function(){
 				adapter.toNativeRange();
-			}).toThrow(new Error('Method "toNativeRange" of class must be overridden by inheriting class!'));
+			}).toThrow(new Error('Method "toNativeRange" of class EditorAdapter must be overridden by inheriting class!'));
 		});
 	});
 	describe('has abstract method "getEditorRanges" that', function(){
 		it('throws an error if called directly and not from an inheriting class', function(){
 			expect(function(){
 				adapter.getEditorRanges();
-			}).toThrow(new Error('Method "getEditorRanges" of class must be overridden by inheriting class!'));
+			}).toThrow(new Error('Method "getEditorRanges" of class EditorAdapter must be overridden by inheriting class!'));
 		});
 	});
 	describe('has abstract method "getEditorContent" that', function(){
 		it('throws an error if called directly and not from an inheriting class', function(){
 			expect(function(){
 				adapter.getEditorContent();
-			}).toThrow(new Error('Method "getEditorContent" of class must be overridden by inheriting class!'));
+			}).toThrow(new Error('Method "getEditorContent" of class EditorAdapter must be overridden by inheriting class!'));
 		});
 	});
 

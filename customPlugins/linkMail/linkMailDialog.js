@@ -205,7 +205,7 @@ function linkMailDialog(editor, scheme) {
          * @return    {void}
          */
         onShow: function() {
-            _controller.fillInDialogSmart(this, editor);
+            _controller.fillInDialog(this, editor);
         },
 
         onCancel: function(){

@@ -101,7 +101,7 @@ function Link(href) {
 	 * @return         {String}
 	 */
 	this.getDefaultScheme = function(){
-		return this.getAllowedSchemes(_defaultScheme);
+		return this.getAllowedSchemes()[_defaultScheme];
 	};
 
 
@@ -115,7 +115,7 @@ function Link(href) {
 	 * @since          0.1.0
 	 * @return         {void}
 	 */
-	this.getDefaultScheme = function(s){
+	this.setDefaultScheme = function(s){
 		var ind = this.getAllowedSchemes().indexOf(s);
 		if (ind !== -1){
 			_defaultScheme = ind;

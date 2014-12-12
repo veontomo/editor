@@ -84,108 +84,108 @@ function CLink() {
 		}
 	};
 
-	/**
-	 * Populates the field of the link insertion dialog.
-	 * @method        fillInDialog
-	 * @param         {Object}              context           context of the dialog menu
-	 * @param         {Selection}           selection         instance of Selection class
-	 * @return        {void}
-	 */
-	this.fillInDialog_old = function(context, selection){
-		var text = selection.toText(),
-		    href = '',
-		    isEnabled = selection.isEditable(),
-		    link,
-		    tabName = 'linkInfoTab';
+	// /**
+	//  * Populates the field of the link insertion dialog.
+	//  * @method        fillInDialog
+	//  * @param         {Object}              context           context of the dialog menu
+	//  * @param         {Selection}           selection         instance of Selection class
+	//  * @return        {void}
+	//  */
+	// this.fillInDialog_old = function(context, selection){
+	// 	var text = selection.toText(),
+	// 	    href = '',
+	// 	    isEnabled = selection.isEditable(),
+	// 	    link,
+	// 	    tabName = 'linkInfoTab';
 
-		if (selection.startsInsideLink()){
-		    link = selection.getStartElement().getAscendant('a', true);
-		    href = link.getAttribute('href');
-		}
-		// if the selection is nothing but a link, then pick up its title
-		// and find out whether the link is underlined or not
-		if (isEnabled && !selection.isEmpty()){
-			link = selection.nodes[0][0];
-			var linkModel = new Link();
-			// linkModel.flushProperties();   // get rid of possible default link properties
-			linkModel.load(link.$);
-			var title = linkModel.getProperty('title');
-			var isUnderlined = linkModel.isUnderlined();
-		    // var title = selection.nodes[0][0].getAttribute('title');
-		    context.setValueOf(tabName, 'title', title);
-	    	context.setValueOf(tabName, 'underlined', isUnderlined);
-	    	if (linkModel.hasStyleProperty('color')){
-	    		context.setValueOf(tabName, 'color', linkModel.getStyleProperty('color'));
-	    	}
-		}
+	// 	if (selection.startsInsideLink()){
+	// 	    link = selection.getStartElement().getAscendant('a', true);
+	// 	    href = link.getAttribute('href');
+	// 	}
+	// 	// if the selection is nothing but a link, then pick up its title
+	// 	// and find out whether the link is underlined or not
+	// 	if (isEnabled && !selection.isEmpty()){
+	// 		link = selection.nodes[0][0];
+	// 		var linkModel = new Link();
+	// 		// linkModel.flushProperties();   // get rid of possible default link properties
+	// 		linkModel.load(link.$);
+	// 		var title = linkModel.getProperty('title');
+	// 		var isUnderlined = linkModel.isUnderlined();
+	// 	    // var title = selection.nodes[0][0].getAttribute('title');
+	// 	    context.setValueOf(tabName, 'title', title);
+	//     	context.setValueOf(tabName, 'underlined', isUnderlined);
+	//     	if (linkModel.hasStyleProperty('color')){
+	//     		context.setValueOf(tabName, 'color', linkModel.getStyleProperty('color'));
+	//     	}
+	// 	}
 
-		if (!isEnabled){
-		    context.getContentElement(tabName, 'text').disable();
-		}
-		context.setValueOf(tabName, 'text', text);
-		context.setValueOf(tabName, 'href', Helper.dropProtocol(href));
-	};
+	// 	if (!isEnabled){
+	// 	    context.getContentElement(tabName, 'text').disable();
+	// 	}
+	// 	context.setValueOf(tabName, 'text', text);
+	// 	context.setValueOf(tabName, 'href', Helper.dropProtocol(href));
+	// };
 
 
-	/**
-	 * Converts information collected from the link dialog menu into format defined by
-	 * {{#crossLink "Link/template:method"}}Link::template{{/crossLink}} method.
-	 *
-	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
-	 * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
- 	 * The returning object include the following keys:
-	 * Returns an object with the following keys:<dl>
-	 * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
-	 * <dt>scheme</dt><dd> (String) scheme (mail or link)</dd>
-	 * <dt>color</dt><dd>(String) link color</dd>
-	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
-	 * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
-	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
-	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
-	 * <dt>title</dt><dd> (String) title attribute</dd>
-	 * </dl>
-	 * @method         dialogToTemplate
-	 * @param          {Object}        obj
-	 * @return         {Object}
-	 */
-	this.dialogToTemplate = function(obj){
-		var tabName = 'linkInfoTab',
-			template = {
-				href:          obj[tabName].href,
-				scheme:        obj[tabName].scheme,
-				color:         obj[tabName].color,
-				isUnderlined:  obj[tabName].isUnderlined,
-				isCompound:    obj[tabName].status,
-				target:        obj[tabName].isNewWindow ? '_blank' : '_self',
-				title:         obj[tabName].title
-			};
-		return template;
-	};
+	// /**
+	//  * Converts information collected from the link dialog menu into format defined by
+	//  * {{#crossLink "Link/template:method"}}Link::template{{/crossLink}} method.
+	//  *
+	//  * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
+	//  * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
+ // 	 * The returning object include the following keys:
+	//  * Returns an object with the following keys:<dl>
+	//  * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
+	//  * <dt>scheme</dt><dd> (String) scheme (mail or link)</dd>
+	//  * <dt>color</dt><dd>(String) link color</dd>
+	//  * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
+	//  * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
+	//  * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
+	//  * <dt>text</dt><dd> (String) string representation of the link content</dd>
+	//  * <dt>title</dt><dd> (String) title attribute</dd>
+	//  * </dl>
+	//  * @method         dialogToTemplate
+	//  * @param          {Object}        obj
+	//  * @return         {Object}
+	//  */
+	// this.dialogToTemplate = function(obj){
+	// 	var tabName = 'linkInfoTab',
+	// 		template = {
+	// 			href:          obj[tabName].href,
+	// 			scheme:        obj[tabName].scheme,
+	// 			color:         obj[tabName].color,
+	// 			isUnderlined:  obj[tabName].isUnderlined,
+	// 			isCompound:    obj[tabName].status,
+	// 			target:        obj[tabName].isNewWindow ? '_blank' : '_self',
+	// 			title:         obj[tabName].title
+	// 		};
+	// 	return template;
+	// };
 
-	/**
-	 * Converts output of link {{#crossLink "Link/template:method"}}template{{/crossLink}} method
-	 * into an object accepted by link dialog menu, that is into a format described by
-	 * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
-	 * @method         templateToDialog
-	 * @param          {Object}        template
-	 * @return         {Object}
-	 * @since          0.0.7
-	 */
-	this.templateToDialog = function(template){
-		var dialogData,
-			tabName = 'linkInfoTab';
-		dialogData = {};
-		dialogData[tabName] = {
-			href:          template.href,
-			scheme:        template.scheme,
-			color:         template.color,
-			isUnderlined:  template.isUnderlined,
-			status:        template.isCompound ,
-			isNewWindow:   template.target ==='_blank' ,
-			title:         template.title,
-		};
-		return dialogData;
-	};
+	// /**
+	//  * Converts output of link {{#crossLink "Link/template:method"}}template{{/crossLink}} method
+	//  * into an object accepted by link dialog menu, that is into a format described by
+	//  * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
+	//  * @method         templateToDialog
+	//  * @param          {Object}        template
+	//  * @return         {Object}
+	//  * @since          0.0.7
+	//  */
+	// this.templateToDialog = function(template){
+	// 	var dialogData,
+	// 		tabName = 'linkInfoTab';
+	// 	dialogData = {};
+	// 	dialogData[tabName] = {
+	// 		href:          template.href,
+	// 		scheme:        template.scheme,
+	// 		color:         template.color,
+	// 		isUnderlined:  template.isUnderlined,
+	// 		status:        template.isCompound ,
+	// 		isNewWindow:   template.target ==='_blank' ,
+	// 		title:         template.title,
+	// 	};
+	// 	return dialogData;
+	// };
 
 	/**
 	 * Returns instance of {{#crossLink "Link"}}Link{{/crossLink}} corresponding to a DOM.Element
@@ -249,13 +249,15 @@ function CLink() {
 	};
 
 	/**
-	 * Fills in `dialog` window based on current selection.
-	 * @method         fillInDialogSmart
-	 * @param          {CKEDITOR.dialog}     dialog           [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
-	 * @param          {CKEDITOR}            editor           [CKEDITOR](http://docs.ckeditor.com/#!/api/CKEDITOR)
+	 * Fills in `dialog` window based text selected inside `editor`.
+	 *
+	 * Information about selection is retrieved from variable `editor`.
+	 * @method         fillInDialog
+	 * @param          {Object}            dialog
+	 * @param          {Object}            editor
 	 * @return         {void}
 	 */
-	this.fillInDialogSmart = function(dialog, editor){
+	this.fillInDialog = function(dialog, editor){
 		var link, linkElem, criteria,
 			doc, ranges, adapter, editorContent, factory;
 		if (!editor){
@@ -273,39 +275,28 @@ function CLink() {
 			return (n instanceof Element) && (n.tagName === 'a');
 		};
 
+
 		linkElem = doc.findAncestorOfSelection(isLink);
-
 		factory = NEWSLETTER.factory;
-		link = linkElem ? factory.mimic(linkElem) : new Link();
-
-		console.log(link.getTag());
-
-		// console.log('CLink::fillInDialogSmart', this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-		// selection.setRanges(this.getEditorAdapter().toNativeRanges(editor.getSelection().getRanges()));
-		// console.log(selection.getRanges());
-
-		// criteria = function(el){
-		// 	return el && el.type === CKEDITOR.NODE_ELEMENT && el.getName() === 'a';
-		// };
-		// if (selection.isEmpty()){
-		// 	start = selection.getStartElement();
-		// 	if (start){
-		// 		linkElem = selection.findAscendant();
-		// 	}
-
-		// }
-
-		// linkElem = this.detectAscendant(criteria);
-		// console.log(linkElem.$);
-		// if (linkElem){
-		// 	var f = NEWSLETTER.factory;
-		// 	link = f.mimic(linkElem.$);
-		// } else {
-		// 	link = new Link();
-		// }
+		if (linkElem){
+			link = factory.mimic(linkElem);
+		} else {
+			link = new Link();
+			// console.log(doc.getSelectedNodes()[0]);
+			var tmp = factory.mimic(doc.getSelectedNodes()[0][0]);
+			console.log(tmp, tmp.toHtml());
+			console.log(link.template());
+			var cntn = new Content();
+			console.log(cntn.getElements());
+			cntn.setElements([tmp]);
+			console.log(cntn.getElements());
+			console.log(cntn.toText());
+			link.setContent(cntn);
+			link.setHref('kdkdkdk');
+			console.log(link.template());
+		}
 		console.log(link.template());
-		console.log(this.templateToDialog(link.template()));
-		this.fillInDialog(dialog, this.templateToDialog(link.template()));
+		adapter.fillInDialog(dialog, link.template(), 'link');
 	};
 }
 CLink.prototype = Object.create(Controller.prototype);

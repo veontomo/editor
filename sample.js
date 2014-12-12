@@ -44,9 +44,8 @@ casper.test.begin('Page contains the editor window', 3, function suite(test) {
     // });
 
     casper.then(function(){
-        this.fillSelectors('form', {
-                'textarea[name="editor"]':    'AAAAAAAAAAAAAA',
-            }, false);
+        this.mouseEvent('click', '#editor');
+        // this.fill('editor', 'AAAAAAAAAAA');
     });
 
 

@@ -85,13 +85,13 @@ function Tag(tName) {
 
 	/**
 	 * Content of the tag.
-	 * @property       {Content}            content
+	 * @property       {Content}            _content
 	 * @type           {Content}
 	 * @default        Content()
 	 * @private
 	 * @since          0.0.4
 	 */
-	var content = new Content();
+	var _content = new Content();
 
 
 
@@ -189,12 +189,12 @@ function Tag(tName) {
 
 
 	/**
-	* Smart {{#crossLink "Tag/content:property"}}content{{/crossLink}} setter. If the argument is a
+	* Smart {{#crossLink "Tag/_content:property"}}_content{{/crossLink}} setter. If the argument is a
 	* {{#crossLink "Content"}}Content{{/crossLink}} instance, then
-	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}
+	* {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}
 	* is set to this value. Otherwise, the argument is passed to the constructor of new instance of
 	* {{#crossLink "Content"}}Content{{/crossLink}} and the result is assigned to
-	* {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	* {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}.
 	* @method          setContent
 	* @param           {any}                cntn
 	* @return          {void}
@@ -202,21 +202,21 @@ function Tag(tName) {
 	*/
 	this.setContent = function(cntn){
 		if (cntn instanceof Content){
-			content = cntn;
+			_content = cntn;
 		} else {
-			content = new Content(cntn);
+			_content = new Content(cntn);
 		}
 
 	};
 
 	/**
-	* Returns copy of {{#crossLink "Tag/content:property"}}Content{{/crossLink}}.
+	* Returns copy of {{#crossLink "Tag/_content:property"}}Content{{/crossLink}}.
 	* @method          getContent
 	* @return          {Content}
 	* @since           0.0.4
 	*/
 	this.getContent = function(){
-		return content.clone();
+		return _content.clone();
 	};
 
 	/**
@@ -297,7 +297,7 @@ function Tag(tName) {
 	 * @since  0.0.1
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		content.appendStyleToElemAt(pos, stl);
+		_content.appendStyleToElemAt(pos, stl);
 	};
 
 
@@ -458,7 +458,7 @@ function Tag(tName) {
 
 	/**
 	 * Returns copy of {{#crossLink "Content/elements"}}elements{{/crossLink}} of
-	 * {{#crossLink "Tag/content"}}content{{/crossLink}}.
+	 * {{#crossLink "Tag/_content"}}_content{{/crossLink}}.
 	 * @method         getElements
 	 * @return         {Array}
 	 */
@@ -472,19 +472,19 @@ function Tag(tName) {
 
 	/**
 	 * Imposes {{#crossLink "Content/elements:property"}}elements{{/crossLink}} of
-	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}}. If the argument
+	 * {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}. If the argument
 	 * is not array, not assignment occures.
 	 * @method         setElements
 	 * @param          {Array}              arr
 	 */
 	this.setElements = function(arr){
 		if (Array.isArray(arr)){
-			content.setElements(arr);
+			_content.setElements(arr);
 		}
 	};
 
 	/**
-	 * Gets the element stored in {{#crossLink "Tag/content:property"}}content{{/crossLink}}. Delegates its
+	 * Gets the element stored in {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}. Delegates its
 	 * functionality to class {{#crossLink "Content"}}Content{{/crossLink}}.
 	 * @method getElem
 	 * @param  {Number}    pos
@@ -496,7 +496,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns copy of the first element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Returns copy of the first element of {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}.
 	 * Alias for {{#crossLink "Content/getFirst:method"}}Content::getFirst{{/crossLink}}.
 	 * @method         getFirst
 	 * @return         {any}
@@ -507,7 +507,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns copy of the first element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Returns copy of the first element of {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}.
 	 * Alias for {{#crossLink "Content/getLast:method"}}Content::getlast{{/crossLink}}.
 	 * @method  getLast
 	 * @return {any}
@@ -527,11 +527,11 @@ function Tag(tName) {
 	 * @since  0.0.1
 	 */
 	this.insertElemAt = function(pos, elem){
-		content.insertElemAt(pos, elem);
+		_content.insertElemAt(pos, elem);
 	};
 
 	/**
-	 * Appends the element to the content of the list item. Delegates its functionality to
+	 * Appends the element to the _content of the list item. Delegates its functionality to
 	 * {{#crossLink "Content/appendElem:method"}}appendElem{{/crossLink}}.
 	 * @method appendElem
 	 * @param  {any}     elem
@@ -539,11 +539,11 @@ function Tag(tName) {
 	 * @since  0.0.1
 	 */
 	this.appendElem = function(elem){
-		content.appendElem(elem);
+		_content.appendElem(elem);
 	};
 
 	/**
-	 * Returns the number of elements inside its content. Delegates to Content::length().
+	 * Returns the number of elements inside its _content. Delegates to Content::length().
 	 * @method          length
 	 * @return          {Number}
 	 * @since           0.0.1
@@ -553,7 +553,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Deletes element from "content" property. Delegates its functionalality to
+	 * Deletes element from "_content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropElemAt:method}}dropElemAt{{/crossLink}}.
 	 * @method         dropElemAt
 	 * @param          {Any}                pos     intented to be an integer, but no check is performed
@@ -561,29 +561,29 @@ function Tag(tName) {
 	 * @since          0.0.1
 	 */
 	this.dropElemAt = function(pos){
-		return content.dropElemAt(pos);
+		return _content.dropElemAt(pos);
 	};
 
 	/**
-	 * Deletes first element from "content" property. Delegates its functionalality to
+	 * Deletes first element from "_content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropFirst:method"}}Content::dropFirst(){{/crossLink}}.
 	 * @method         dropFirst
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
 	this.dropFirst = function(){
-		content.dropFirst();
+		_content.dropFirst();
 	};
 
 	/**
-	 * Deletes last element from "content" property. Delegates its functionalality to
+	 * Deletes last element from "_content" property. Delegates its functionalality to
 	 * {{#crossLink "Content/dropLast:method"}}Content::dropLast(){{/crossLink}}.
 	 * @method         dropLast
 	 * @return         {void}
 	 * @since          0.0.1
 	 */
 	this.dropLast = function(){
-		content.dropLast();
+		_content.dropLast();
 	};
 
 
@@ -641,7 +641,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Generates plain text representation of the tag content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
+	 * Generates plain text representation of the tag _content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
 	 * @method         toText
 	 * @return         {String}
 	 * @since          0.0.1
@@ -653,7 +653,7 @@ function Tag(tName) {
 	/**
 	 * Returns true, if the tag is empty. Returns false otherwise.<br />
 	 * The tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
-	 * and {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and {{#crossLink "Content"}}content{{/crossLink}} returns true.
+	 * and {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and {{#crossLink "Content"}}_content{{/crossLink}} returns true.
 	 * @method         isEmpty
 	 * @return         {Boolean}
 	 * @since          0.0.1
@@ -663,12 +663,12 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Empties {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Empties {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}.
 	 * @method         flushContent
 	 * @return         {void}
 	 */
 	this.flushContent = function(){
-		content.flush();
+		_content.flush();
 	};
 
 
@@ -684,25 +684,25 @@ function Tag(tName) {
 
 
 	/**
-	 * Trims the content. Calls method {{#crossLink "Content/trim:method"}}Content::trim(){{/crossLink}} on the
-	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} property.
+	 * Trims the _content. Calls method {{#crossLink "Content/trim:method"}}Content::trim(){{/crossLink}} on the
+	 * {{#crossLink "Tag/_content:property"}}_content{{/crossLink}} property.
 	 * @method  trim
 	 * @return  {void}
 	 */
 	this.trim = function(){
-		content.trim();
+		_content.trim();
 		// return this;
 	};
 
 	/**
-	 * Appends element to the content. It is alias for the
+	 * Appends element to the _content. It is alias for the
 	 * {{#crossLink "Content/appendElem:method"}}Content::appendElemIfNotEmpty(arg){{/crossLink}}
 	 * @method appendElemIfNotEmpty
 	 * @param  {any}      arg
 	 * @return {void}
 	 */
 	this.appendElemIfNotEmpty = function(arg){
-		content.appendElemIfNotEmpty(arg);
+		_content.appendElemIfNotEmpty(arg);
 	};
 
 
@@ -742,7 +742,7 @@ function Tag(tName) {
 	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by calling
 	 * {{#crossLink "Properties/load:method"}}load(){{/crossLink}} method.
 	 * </li><li>
-	 * {{#crossLink "Tag/content:property"}}content{{/crossLink}} by calling
+	 * {{#crossLink "Tag/_content:property"}}_content{{/crossLink}} by calling
 	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.
 	 * </li></ol>
 	 * from the argument which must be an instance of
@@ -774,7 +774,7 @@ function Tag(tName) {
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
-			contentSucc = content.load(childrenArr);
+			contentSucc = _content.load(childrenArr);
 		}
 		return propSucc && contentSucc;
 	};
@@ -784,7 +784,7 @@ function Tag(tName) {
 	 * Calls methods {{#crossLink "Attributes/decorateElement:method"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,
 	 * {{#crossLink "Style/decorateElement:method"}}Style::decorateElement(){{/crossLink}} to apply styles and
 	 * {{#crossLink "Content/stickTo:method"}}Content::stickTo(){{/crossLink}} to append elements from the
-	 * {{#crossLink "Tag/content:property"}}Tag::content{{/crossLink}}.
+	 * {{#crossLink "Tag/_content:property"}}Tag::_content{{/crossLink}}.
 	 * @method  toNode
 	 * @return  {DOM.Element}
 	 */
@@ -813,17 +813,17 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Applies function `fun` to each element of {{#crossLink "Tag/content:property"}}content{{/crossLink}}.
+	 * Applies function `fun` to each element of {{#crossLink "Tag/_content:property"}}_content{{/crossLink}}.
 	 *
 	 * It is an alias for {{#crossLink "Content/applyToAll:method"}}Content::applyToAll(){{/crossLink}} method.
 	 *
 	 * @method         applyToAll
-	 * @param          {Function}      fun         function to be applied to each element of content
+	 * @param          {Function}      fun         function to be applied to each element of _content
 	 * @since          0.0.6
 	 */
 	this.applyToAll = function(fun){
-		if (content && typeof fun === 'function'){
-			content.applyToAll(fun);
+		if (_content && typeof fun === 'function'){
+			_content.applyToAll(fun);
 		}
 	};
 
@@ -986,12 +986,12 @@ function Tag(tName) {
 	 * Returns json object that uniquely parametrizes the instance.
 	 *
 	 * To be overridden by inhertited classes.
-	 * @method template
-	 * @return {Object}
-	 * @since  0.0.7
+	 * @method         template
+	 * @return         {Object}
+	 * @since          0.0.7
+	 * @abstract
 	 */
 	this.template = function(){
-		console.log('This method is abstract and must be overriden by inhertited class. Since it gets called, it means that \
-			something goes wrong.');
+		throw new Error('Method "template" must be overridden by inheriting class!');
 	};
 }

@@ -176,5 +176,18 @@ function PlainText(text) {
 		return clone;
 	};
 
+	/**
+	 * Returns text representation.
+	 *
+	 * Without this method, when Content class applies "toText()" method on its children and of
+	 * them turns out to be a PlainText instance, then an empty string is paradoxically returned.
+	 * @method  toText
+	 * @return {String}
+	 * @since  0.1.0
+	 */
+	this.toText = function(){
+		return this.toHtml();
+	};
+
 
 }

@@ -8,7 +8,7 @@
  * @class  		Content
  * @constructor
  * @param 		{String} 	str 		an optional argument that will be inserted into
- *                                      {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+ *                                      {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
  */
 function Content(str) {
 	"use strict";
@@ -18,41 +18,41 @@ function Content(str) {
 
 	/**
 	 * The  name of the class.
-	 * @property        {String}            className
+	 * @property        {String}            _className
 	 * @type            {String}
 	 * @private
 	 */
-	var className = 'Content';
+	var _className = 'Content';
 
 
 	/**
 	 * Array in which Content items are stored.
-	 * @property       {Array}              elements
+	 * @property       {Array}              _elements
 	 * @private
 	 * @default        [str]
 	 */
-	var elements = str ? [str] : [];
+	var _elements = str ? [str] : [];
 
 	/**
-	 * {{#crossLink "Content/className:property"}}Class name{{/crossLink}} getter.
+	 * {{#crossLink "Content/_className:property"}}Class name{{/crossLink}} getter.
 	 * @method         getName
 	 * @return         {String}
 	 */
 	this.getName = function(){
-		return className;
+		return _className;
 	};
 
 
 	/**
-	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} getter. <br/>
-	 * *NB*: the method tries to return a copy of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} getter. <br/>
+	 * *NB*: the method tries to return a copy of {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
 	 * content.
 	 * @method         getElements
 	 * @return         {Array}
 	 */
 	this.getElements = function(){
 		var output = [];
-		elements.forEach(function(el){
+		_elements.forEach(function(el){
 			var copy = (typeof el.clone === 'function') ? el.clone() : el;
 			output.push(copy);
 		});
@@ -60,24 +60,24 @@ function Content(str) {
 	};
 
 	/**
-	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} setter.
+	 * {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} setter.
 	 * @method         setElements
 	 * @param          {Array}             items       array of items
 	 * @return         {void}
 	 */
 	this.setElements = function(items){
 		if (Array.isArray(items)){
-			elements = items;
+			_elements = items;
 		}
 	};
 
 	/**
-	 * The number of items in the "elements" property
+	 * The number of items in the "_elements" property
 	 * @method length
 	 * @return {Integer}
 	 */
 	this.length = function () {
-		return elements.length;
+		return _elements.length;
 	};
 
 	/**
@@ -87,7 +87,7 @@ function Content(str) {
 	 * @return         {mixed}
 	 */
 	this.getElem = function(pos){
-		var current = elements[pos];
+		var current = _elements[pos];
 		if (current !== undefined){
 			return (typeof current.clone === 'function') ?  current.clone() : current;
 		}
@@ -114,7 +114,7 @@ function Content(str) {
 	};
 
 	/**
-	 * Inserts element at position pos inside the array of elements. If the lenght of array "elements"
+	 * Inserts element at position pos inside the array of _elements. If the lenght of array "_elements"
 	 * is equal to N, than the allowed position index is inside the range [0, 1, ..., N]. If the given
 	 * position index is outside that range, an error is thrown. If the position index is equal to N
 	 * (that corresponds to appending the element), then Content::appendElem is called.
@@ -132,25 +132,25 @@ function Content(str) {
 		if (pos === len){
 			this.appendElem(elem);
 		} else {
-			elements.splice(pos, 0, elem);
+			_elements.splice(pos, 0, elem);
 		}
 		return null;
 	};
 
 	/**
-	 * Reset {{#crossLink "Content/elements:property"}}elements{{/crossLink}} array.
+	 * Reset {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} array.
 	 * @method  flush
 	 * @return  {void}
 	 */
 	this.flush = function(){
-		elements = [];
+		_elements = [];
 	};
 
 	/**
-	 * Appends argument to the array of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}.
+	 * Appends argument to the array of {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}.
 	 * If the argument is a {{#crossLink "Content"}}Content{{/crossLink}} instance, then its
-	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} are appended one by one to the
-	 * target instance {{#crossLink "Content/elements:property"}}elements{{/crossLink}} array.
+	 * {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} are appended one by one to the
+	 * target instance {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} array.
 	 * @method   appendElem
 	 * @param    {mixed}           elem
 	 * @return   {void}
@@ -162,7 +162,7 @@ function Content(str) {
 			if (elem instanceof Content){
 				this.absorb(elem);
 			} else {
-				elements.push(elem);
+				_elements.push(elem);
 			}
 		}
 		// console.info(rnd, 'Content: after appending elem ', this.toHtml());
@@ -170,8 +170,8 @@ function Content(str) {
 	};
 
 	/**
-	 * If the argument is an instance of Content, then its {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
-	 * are copied (if possible) and inserted into target {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * If the argument is an instance of Content, then its {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
+	 * are copied (if possible) and inserted into target {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
 	 * array.
 	 * @method         absorb
 	 * @param          {Content}            cntn
@@ -181,7 +181,7 @@ function Content(str) {
 		if (cntn instanceof Content){
 			var cntnElements = cntn.getElements();
 			cntnElements.forEach(function(el){
-				elements.push(el);
+				_elements.push(el);
 			});
 		}
 	};
@@ -194,9 +194,9 @@ function Content(str) {
 	 * @return {mixed}
 	 */
 	this.dropElemAt = function(pos){
-		var elem = elements[pos];
+		var elem = _elements[pos];
 		if (elem !== undefined){
-			elements.splice(pos, 1);
+			_elements.splice(pos, 1);
 			return elem;
 		}
 
@@ -213,7 +213,7 @@ function Content(str) {
 	};
 
 	/**
-	 * Drops the last element. If the number of current elements is greater than zero, then it is called
+	 * Drops the last element. If the number of current _elements is greater than zero, then it is called
 	 * {{#crossLink "Content/dropElemAt:method"}}Content/dropElemAt(pos){{/crossLink}} with pos being
 	 * the index of the last element.
 	 * @method  dropLast
@@ -227,7 +227,7 @@ function Content(str) {
 	};
 
 	/**
-	 * Transforms the object into html form. Object-type entries of the "elements" property,
+	 * Transforms the object into html form. Object-type entries of the "_elements" property,
 	 * should have `toHtml()` method in order the html string to be generated. If it has no
 	 * `toHtml()`, then html comment `<!--- ... -->` will be generated.
 	 * @method toHtml
@@ -255,7 +255,7 @@ function Content(str) {
 		return output;
 	};
 	/**
-	 * Text representation of the content. Object-type entries of the "elements" property,
+	 * Text representation of the content. Object-type entries of the "_elements" property,
 	 * should have `toText()` method in order the html string to be generated. If it has no
 	 * `toText()`, then this object will be ignored.
 	 * @method toText
@@ -375,12 +375,12 @@ function Content(str) {
 	};
 
 	/**
-	 * Loads elements into the {{#crossLink "Content/elements:property"}}element{{/crossLink}} property.
+	 * Loads _elements into the {{#crossLink "Content/_elements:property"}}element{{/crossLink}} property.
 	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
 	 * defined, then no loading is performed and `false` is returned. Otherwise, the method tries to load
 	 * and returns `true`.
 	 * @method         load
-	 * @param          {Array}              arr       array of Elements or Text instances
+	 * @param          {Array}              arr       array of _elements or Text instances
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
@@ -401,7 +401,7 @@ function Content(str) {
 	/**
 	 * Converts each element of this instance into a node and appends it to the argument.
 	 *
-	 * Takes each element of the array {{#crossLink "Content/elements:property"}}Content::elements{{/crossLink}},
+	 * Takes each element of the array {{#crossLink "Content/_elements:property"}}Content::_elements{{/crossLink}},
 	 * converts it into a node (if the element responds to `toNode()` method, the convertion will
 	 * be performed using this method, otherwise a text node will be constructed)
 	 * and then appends this node to the argument which is supposed to be an instance of
@@ -414,7 +414,7 @@ function Content(str) {
 	 */
 	this.stickTo = function(el){
 		if (typeof el.appendChild === 'function'){
-			elements.forEach(function(ch){
+			_elements.forEach(function(ch){
 				if (typeof ch.toNode === 'function'){
 					el.appendChild(ch.toNode());
 				} else {
@@ -425,15 +425,15 @@ function Content(str) {
 	};
 
 	/**
-	 * Clones the target. Tries to create a clone of each {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 * Clones the target. Tries to create a clone of each {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
 	 * item. In case the item is an object with no "clone" method, it is inserted into
-	 * {{#crossLink "Content/elements:property"}}elements{{/crossLink}} by reference.
+	 * {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} by reference.
 	 * @method         clone
 	 * @return         {Object}
 	 */
 	this.clone = function(){
 		var clone = new Content();
-		elements.forEach(function(el){
+		_elements.forEach(function(el){
 			var current = (typeof el.clone === 'function') ? el.clone() : el;
 			clone.appendElem(current);
 		});
@@ -448,7 +448,7 @@ function Content(str) {
 	 * @return         {void}
 	 */
 	this.appendStyleToElemAt = function(pos, stl){
-		var item = elements[pos];
+		var item = _elements[pos];
 		if (item !== undefined && typeof item.appendStyle === 'function'){
 			item.appendStyle(stl);
 		}
@@ -464,7 +464,7 @@ function Content(str) {
 	 */
 	this.findTagPos = function(name){
 		var output = [];
-		elements.forEach(function(obj, pos){
+		_elements.forEach(function(obj, pos){
 			if (obj && (typeof obj.getTag === 'function') && obj.getTag() === name){
 				output.push(pos);
 			}
@@ -473,12 +473,12 @@ function Content(str) {
 	};
 
 	/**
-	 * Returns first element from {{#crossLink "Content/elements:property"}}elements{{/crossLink}} whose getTag() returns `name`.
+	 * Returns first element from {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} whose getTag() returns `name`.
 	 * If nothing is found, nothing is returned.
 	 * @method         getFirstEntryOfTag
 	 * @param          {String}        name
 	 * @return         {Tag|Null}              first element from
-	 *                                         {{#crossLink "Content/elements:property"}}elements{{/crossLink}}
+	 *                                         {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}
 	 *                                         which "getTag" method returns `name`.
 	 * @since          0.0.5
 	 */
@@ -496,31 +496,31 @@ function Content(str) {
 	};
 
 	/**
-	 * Filters out array {{#crossLink "Content/elements:property"}}elements{{/crossLink}} in such a way
-	 * that only those elements for which `fun` returns `true` remain.
+	 * Filters out array {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} in such a way
+	 * that only those _elements for which `fun` returns `true` remain.
 	 * @method         filterOut
 	 * @param          {function}           fun       function to be applied to each element
 	 * @return         {void}
 	 */
 	this.filterOut = function(fun){
-		var filtered = elements.filter(function(elem){
+		var filtered = _elements.filter(function(elem){
 			return fun(elem);
 		});
-		elements = filtered;
+		_elements = filtered;
 	};
 
 
 	/**
-	 * Applies function `fun` to each element of {{#crossLink "Content/elements:property"}}elements{{/crossLink}}.
+	 * Applies function `fun` to each element of {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}.
 	 * @method         applyToAll
 	 * @param          {Function}           fun            function to be applied to each element of content
 	 * @since          0.0.6
 	 */
 	this.applyToAll = function(fun){
-		if (elements && typeof fun === 'function'){
-			elements.forEach(function(elem){
+		if (_elements && typeof fun === 'function'){
+			_elements.forEach(function(elem){
 				fun(elem);
 			});
 		}
-	}
+	};
 }
