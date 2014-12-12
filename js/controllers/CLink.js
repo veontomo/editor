@@ -282,20 +282,12 @@ function CLink() {
 			link = factory.mimic(linkElem);
 		} else {
 			link = new Link();
-			// console.log(doc.getSelectedNodes()[0]);
 			var tmp = factory.mimic(doc.getSelectedNodes()[0][0]);
-			console.log(tmp, tmp.toHtml());
-			console.log(link.template());
 			var cntn = new Content();
-			console.log(cntn.getElements());
 			cntn.setElements([tmp]);
-			console.log(cntn.getElements());
-			console.log(cntn.toText());
 			link.setContent(cntn);
 			link.setHref('kdkdkdk');
-			console.log(link.template());
 		}
-		console.log(link.template());
 		adapter.fillInDialog(dialog, link.template(), 'link');
 	};
 }
