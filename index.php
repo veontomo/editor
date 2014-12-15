@@ -147,13 +147,12 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<input type="submit" value="submit">
 	</form>
 	<div id="editor">
-		<!-- <textarea name="editor" id="editor"> -->
-			<?php if(isset($fileContent)){
-				echo $fileContent;
-			}?>
-		<!-- </textarea> -->
+		<?php if(isset($fileContent)){
+			echo $fileContent;
+		}?>
+		<a href="www.test.com">link</a>
 	</div>
-	<!-- <div contentEditable="true" class="editor">type here</div> -->
+	<div contentEditable="true" class="editor">type here</div>
 	<?php
 		$fileName = '.git/index';
 		if (file_exists($fileName)){

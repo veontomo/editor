@@ -355,7 +355,6 @@ function Link(href) {
 	};
 
 
-
 }
 Link.prototype = Object.create(Tag.prototype);
 

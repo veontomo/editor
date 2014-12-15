@@ -205,23 +205,23 @@ function CLink() {
 	};
 
 
-	/**
-	 * Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, `null`
-	 * is returned.
-	 *
-	 * Sought element has tag `a`.
-	 *
-	 * @method         findParentLink
-	 * @param          {CKEDITOR}      editor
-	 * @return         {DOM.Node}
-	 */
-	this.findParentLink = function(editor){
-		var elem = editor.getSelection().getStartElement(),
-			criteria = function(el){return el.tagName.toLowerCase() === 'a';};
-		if (elem){
-			return this.findAscendant(elem.$, criteria);
-		}
-	};
+	// *
+	//  * Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, `null`
+	//  * is returned.
+	//  *
+	//  * Sought element has tag `a`.
+	//  *
+	//  * @method         findParentLink
+	//  * @param          {CKEDITOR}      editor
+	//  * @return         {DOM.Node}
+
+	// this.findParentLink = function(editor){
+	// 	var elem = editor.getSelection().getStartElement(),
+	// 		criteria = function(el){return el.tagName.toLowerCase() === 'a';};
+	// 	if (elem){
+	// 		return this.findAscendant(elem.$, criteria);
+	// 	}
+	// };
 
 
 	/**
@@ -259,40 +259,27 @@ function CLink() {
 	 */
 	this.fillInDialog = function(dialog, editor){
 		var link, linkElem, criteria,
-			doc, ranges, adapter, editorContent, factory;
+			doc, ranges, adapter, editorContent, factory, isLink;
 		if (!editor){
 			return;
 		}
 		adapter = this.getEditorAdapter();
 		ranges = adapter.getNativeRanges(editor);
 		editorContent = adapter.getEditorContent(editor);
+		factory = NEWSLETTER.factory;
 
 		doc = new Document();
-		doc.setContent(editorContent);
-		doc.setSelectedNodes(doc.nodesOfSelection(ranges));
-
-		var linkFake = doc.selectionAsLink();
-
+		var selectedNodes = doc.nodesOfSelection(ranges);
+		doc.setSelectedNodes(selectedNodes);
+		isLink = function(e){ return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a'); };
+		linkElem = doc.findAncestorOfSelection(isLink);
+		if (linkElem){
+			link = factory.mimic(linkElem);
+		} else {
+			link = new Link();
+			link.setContent(doc.selectedNodesToText(' ', ' | '));
+		}
 		adapter.fillInDialog(dialog, link.template(), 'link');
-
-
-		// var isLink = function(n){
-		// 	return (n instanceof Element) && (n.tagName === 'a');
-		// };
-
-
-		// linkElem = doc.findAncestorOfSelection(isLink);
-		// factory = NEWSLETTER.factory;
-		// if (linkElem){
-		// 	link = factory.mimic(linkElem);
-		// } else {
-		// 	link = new Link();
-		// 	var tmp = factory.mimic(doc.getSelectedNodes()[0][0]);
-		// 	var cntn = new Content();
-		// 	cntn.setElements([tmp]);
-		// 	link.setContent(cntn);
-		// 	link.setHref('kdkdkdk');
-		// }
 
 	};
 }

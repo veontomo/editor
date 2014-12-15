@@ -213,7 +213,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            _controller.convertToLinks(this, editor, selection, scheme);
+            _controller.convertToLinks(this, editor);
         }
     };
 }

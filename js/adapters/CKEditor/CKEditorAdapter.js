@@ -141,7 +141,6 @@ function CKEditorAdapter(){
 				text:          template.text
 			}
 		};
-		console.log(output);
 		return output;
 	};
 

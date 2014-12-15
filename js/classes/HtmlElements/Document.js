@@ -1211,8 +1211,8 @@ function Document(node){
 	 * is in general a two dimensional array.
 	 *
 	 * @method    selectedNodesToText
-	 * @param     {String}    blockSeparator          string to be used as a separator between arrays
 	 * @param     {String}    elemSeparator           string to be used as a separator between elements in array
+	 * @param     {String}    blockSeparator          string to be used as a separator between arrays
 	 * @return    {String}
 	 */
 	this.selectedNodesToText = function(elemSeparator, blockSeparator){
@@ -1250,19 +1250,19 @@ function Document(node){
 	};
 
 
-	/**
-	 * Returns the start element of selection if it exists.
-	 * @method         getStartElement
-	 * @return         {CKEDITOR.dom.element}
-	 */
-	this.getStartElement = function(){
-		console.log('this is a stub method');
-		/// !!! stub
-	    // var sel = this.getSelected();
-	    // if (sel instanceof CKEDITOR.dom.selection){
-	    //     return sel.getStartElement();
-	    // }
-	};
+	// /**
+	//  * Returns the start element of selection if it exists.
+	//  * @method         getStartElement
+	//  * @return         {CKEDITOR.dom.element}
+	//  */
+	// this.getStartElement = function(){
+	// 	console.log('this is a stub method');
+	// 	/// !!! stub
+	//     // var sel = this.getSelected();
+	//     // if (sel instanceof CKEDITOR.dom.selection){
+	//     //     return sel.getStartElement();
+	//     // }
+	// };
 
 	/**
 	 * Returns `true` if {{#crossLink "Document/_selectedNodes:method"}}_selectedNodes{{/crossLink}} is empty,
@@ -1284,21 +1284,21 @@ function Document(node){
 	};
 
 
-	/**
-	 * Returns `true` if selected text starts inside a link, `false` otherwise.
-	 * In case when the selection is empty, cursor position is considered as beginning
-	 * of empty selection.
-	 * @method         startsInsideLink
-	 * @return         {Boolean}            whether the selection starts inside a link
-	 */
-	this.startsInsideLink = function(){
-	    var start = this.getStartElement(),
-	        parentLink = null;
-	    if (start !== undefined && start !== null && (typeof start.getAncestor === 'function')){
-	        parentLink = start.getAncestor('a', true);
-	    }
-	    return parentLink !== null;
-	};
+	// *
+	//  * Returns `true` if selected text starts inside a link, `false` otherwise.
+	//  * In case when the selection is empty, cursor position is considered as beginning
+	//  * of empty selection.
+	//  * @method         startsInsideLink
+	//  * @return         {Boolean}            whether the selection starts inside a link
+
+	// this.startsInsideLink = function(){
+	//     var start = this.getStartElement(),
+	//         parentLink = null;
+	//     if (start !== undefined && start !== null && (typeof start.getAncestor === 'function')){
+	//         parentLink = start.getAncestor('a', true);
+	//     }
+	//     return parentLink !== null;
+	// };
 
 
 	/**
@@ -1491,21 +1491,26 @@ function Document(node){
 	 * @return         {Element|Null}
 	 */
 	this.findAncestorOfSelection = function(criteria){
+		if (typeof criteria !== 'function'){
+			return;
+		}
 	    if (this.isSelectionEmpty()){
-	        return;
+	        return null;
 	    }
 	    var lenExt = this.getSelectedNodes().length,
-	        lenInt, i, j, block, el;
+	        lenInt, i, j, block, el, elAnsector;
 	    for (i = 0; i < lenExt; i++){
 	        block = this.getSelectedNodes()[i];
 	        lenInt = block.length;
 	        for (j = 0; j < lenInt; j++){
 	            el = block[j];
-	            if (criteria(el)){
-	                return el;
+	            elAnsector = this.findAncestor(el, criteria);
+	            if (elAnsector){
+	                return elAnsector;
 	            }
 	        }
 	    }
+	    return null;
 	};
 	//////////////// end of content of Selection class   ///////////
 
@@ -2094,5 +2099,6 @@ function Document(node){
 		}
 		return tag;
 	};
+
 }
 

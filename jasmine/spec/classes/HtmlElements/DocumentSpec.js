@@ -162,7 +162,7 @@ describe('Document class', function() {
         });
         it('throws an error if the scope is set but it does not contain the start node', function() {
             expect(function() {
-                doc.findAncestor(n30, function() {}, n22);
+                doc.findAncestor(n30, function(){return;}, n22);
             }).toThrow(new Error('Wrong scope!'));
         });
         it('throws an error if the criteria is either string, array, number, object, null or undefined', function() {
@@ -2612,7 +2612,7 @@ describe('Document class', function() {
 				doc.flushSelection();
 				expect(doc.getSelectedNodes()).toBe(null);
 			});
-			it('imposes selected nodes to null if previously selection was not emoty', function(){
+			it('imposes selected nodes to null if previously selection was not empty', function(){
 				doc.setSelectedNodes([[e21, e23], [e32]]);
 				expect(doc.getSelectedNodes()).not.toBe(null);
 				doc.flushSelection();
@@ -2777,6 +2777,55 @@ describe('Document class', function() {
 				expect(doc.isSelectionEmpty()).toBe(false);
 			});
 		});
+
+
+		describe('has a method findAncestorOfSelection that', function(){
+			it('returns undefined if the argument is not provided', function(){
+				expect(doc.findAncestorOfSelection()).toBe(undefined);
+			});
+			it('returns undefined if the argument is a null, a string, a number, an array or an object', function(){
+				var invalids = [null, '', 'hi', 0, -12.3, 234, [], [0, 1], {}, {1: 2}];
+				invalids.forEach(function(invalid) {
+				    expect(doc.findAncestorOfSelection(invalid)).toBe(undefined);
+				});
+			});
+			it('returns null if the selection is empty', function(){
+				spyOn(doc, 'isSelectionEmpty').and.returnValue(true);
+			    expect(doc.findAncestorOfSelection(function(){return true;})).toBe(null);
+			});
+			it('returns null if the criteria never becomes true', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
+				var criteria = function(){return false;};
+			    expect(doc.findAncestorOfSelection(criteria)).toBe(null);
+			});
+
+			it('returns a node from selectedNodes for which the criteria becomes true', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
+				var criteria = function(e){return e === e30;};
+			    expect(doc.findAncestorOfSelection(criteria)).toBe(e30);
+			});
+
+			it('returns a first node from selectedNodes for which the criteria becomes true', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
+				var criteria = function(e){return e === e30 || e === t20;};
+			    expect(doc.findAncestorOfSelection(criteria)).toBe(t20);
+			});
+
+			it('returns a first parent node of a node from selectedNodes for which the criteria becomes true', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[e30, t22], [t24, e32]]);
+				var criteria = function(e){return e === e11;};
+				var res = doc.findAncestorOfSelection(criteria);
+				console.log(res);
+			    expect(res).toBe(e11);
+			});
+
+			it('returns null if the criteria function always throws an error', function(){
+				spyOn(doc, 'getSelectedNodes').and.returnValue([[e30, t22], [t24, e32]]);
+				var criteria = function(){throw new Error('an error');};
+			    expect(doc.findAncestorOfSelection(criteria)).toBe(null);
+			});
+		});
+
 	});
 
 	describe('has a method castToTag that', function(){
@@ -2790,7 +2839,7 @@ describe('Document class', function() {
 			});
 		});
 		it('returns a class instance whose constructor is given by the argument', function(){
-			var FakedClass = function(){};
+			var FakedClass = function(){return;};
 			expect(doc.castTo(FakedClass) instanceof FakedClass).toBe(true);
 		});
 		it('returns nothing if the constructor throws an error', function(){
@@ -2798,37 +2847,36 @@ describe('Document class', function() {
 			expect(doc.castTo(FakedClass)).not.toBeDefined();
 		});
 		it('returns "bare" class instance if it the loader is not provided', function(){
-			var FakedClass = function(){};
+			var FakedClass = function(){return;};
 			expect(doc.castTo(FakedClass) instanceof FakedClass).toBe(true);
 		});
 
 		it('returns "bare" class instance if the loader does not exist', function(){
-			var FakedClass = function(){};
+			var FakedClass = function(){return;};
 			expect(doc.castTo(FakedClass, 'loader') instanceof FakedClass).toBe(true);
 		});
 
 		it('calls method "loadMultiple" of the constructed class instance', function(){
-			var FakedClass = function(){this.loader = function(data){this.a = data.a, this.b = data.b;};};
+			var FakedClass = function(){this.loader = function(data){this.a = data.a; this.b = data.b;};};
 			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
 			expect(result.a).toBe(1);
 			expect(result.b).toBe(2);
 		});
 
 		it('returns "bare" instance if the loader throws an exception', function(){
-			var FakedClass = function(){this.loader = function(data){throw new Error('error');};};
+			var FakedClass = function(){this.loader = function(){throw new Error('error');};};
 			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
 			expect(result instanceof FakedClass).toBe(true);
 		});
 
 		it('sends a message into a console.log stream if the loader throws an exception', function(){
-			var FakedClass = function(){this.loader = function(data){throw new Error('error');};};
+			var FakedClass = function(){this.loader = function(){throw new Error('error');};};
 			console.log = jasmine.createSpy('log');
-			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
+			doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
 			expect(console.log).toHaveBeenCalled();
 		});
-
-
-
 	});
+
+
 
 });
