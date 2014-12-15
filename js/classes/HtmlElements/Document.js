@@ -2063,15 +2063,18 @@ function Document(node){
 	//////////////// end of content of Dom class     ///////////
 
 	/**
-	 * Casts selected nodes into an instance of a class whose constructor is `C`.
-	 *
-	 *
-	 * @method         castSelectionTo
+	 * Creates an instance of class `C` and then calls its method given by string `loader`
+	 * with `data` being used as an argument of that method.
+
+	 * @method         castTo
 	 * @param          {Function}        C          class constructor
+	 * @param          {String}          loader     name of the method of the returned object to be called
+	 *                                              in order initialize object's properties
+	 * @param  		   {Any}             data       data to be provided as an argument to `loader` method
 	 * @return         {Object}
 	 * @since          0.1.0
 	 */
-	this.castSelectionTo = function(C){
+	this.castTo = function(C, loader, data){
 		if (typeof C !== 'function'){
 			return;
 		}
@@ -2082,11 +2085,14 @@ function Document(node){
 		} catch (e){
 			return;
 		}
+		if (typeof tag[loader] === 'function'){
+			try {
+				tag[loader](data);
+			} catch (e){
+				console.log(e.name + ' when applying loader ' + loader + ' with argument ' + data + ': ' + e.message);
+			}
+		}
 		return tag;
-
-
-
-
 	};
 }
 

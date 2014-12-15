@@ -2780,22 +2780,51 @@ describe('Document class', function() {
 	});
 
 	describe('has a method castToTag that', function(){
-		it('returns nothing if the argument is not provided', function(){
-			expect(doc.castSelectionTo()).not.toBeDefined();
+		it('returns nothing if the constructor is not provided', function(){
+			expect(doc.castTo()).not.toBeDefined();
 		});
-		it('returns nothing if the argument is a null, a string, a number, an array or an object', function(){
+		it('returns nothing if the costructor is a null, a string, a number, an array or an object', function(){
 			var invalids = [null, '', 'hi', 0, -12.3, 234, [], [0, 1], {}, {1: 2}];
 			invalids.forEach(function(invalid) {
-			    expect(doc.castSelectionTo(invalid)).not.toBeDefined();
+			    expect(doc.castTo(invalid)).not.toBeDefined();
 			});
 		});
 		it('returns a class instance whose constructor is given by the argument', function(){
-			var FakedClass = function(){this.a = 1;};
-			expect(doc.castSelectionTo(FakedClass) instanceof FakedClass).toBe(true);
+			var FakedClass = function(){};
+			expect(doc.castTo(FakedClass) instanceof FakedClass).toBe(true);
 		});
 		it('returns nothing if the constructor throws an error', function(){
 			var FakedClass = function(){throw new Error('an error');};
-			expect(doc.castSelectionTo(FakedClass)).not.toBeDefined();
+			expect(doc.castTo(FakedClass)).not.toBeDefined();
+		});
+		it('returns "bare" class instance if it the loader is not provided', function(){
+			var FakedClass = function(){};
+			expect(doc.castTo(FakedClass) instanceof FakedClass).toBe(true);
+		});
+
+		it('returns "bare" class instance if the loader does not exist', function(){
+			var FakedClass = function(){};
+			expect(doc.castTo(FakedClass, 'loader') instanceof FakedClass).toBe(true);
+		});
+
+		it('calls method "loadMultiple" of the constructed class instance', function(){
+			var FakedClass = function(){this.loader = function(data){this.a = data.a, this.b = data.b;};};
+			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
+			expect(result.a).toBe(1);
+			expect(result.b).toBe(2);
+		});
+
+		it('returns "bare" instance if the loader throws an exception', function(){
+			var FakedClass = function(){this.loader = function(data){throw new Error('error');};};
+			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
+			expect(result instanceof FakedClass).toBe(true);
+		});
+
+		it('sends a message into a console.log stream if the loader throws an exception', function(){
+			var FakedClass = function(){this.loader = function(data){throw new Error('error');};};
+			console.log = jasmine.createSpy('log');
+			var result = doc.castTo(FakedClass, 'loader', {a: 1, b: 2});
+			expect(console.log).toHaveBeenCalled();
 		});
 
 
