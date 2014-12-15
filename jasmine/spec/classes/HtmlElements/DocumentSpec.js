@@ -2777,6 +2777,27 @@ describe('Document class', function() {
 				expect(doc.isSelectionEmpty()).toBe(false);
 			});
 		});
+	});
+
+	describe('has a method castToTag that', function(){
+		it('returns nothing if the argument is not provided', function(){
+			expect(doc.castSelectionTo()).not.toBeDefined();
+		});
+		it('returns nothing if the argument is a null, a string, a number, an array or an object', function(){
+			var invalids = [null, '', 'hi', 0, -12.3, 234, [], [0, 1], {}, {1: 2}];
+			invalids.forEach(function(invalid) {
+			    expect(doc.castSelectionTo(invalid)).not.toBeDefined();
+			});
+		});
+		it('returns a class instance whose constructor is given by the argument', function(){
+			var FakedClass = function(){this.a = 1;};
+			expect(doc.castSelectionTo(FakedClass) instanceof FakedClass).toBe(true);
+		});
+		it('returns nothing if the constructor throws an error', function(){
+			var FakedClass = function(){throw new Error('an error');};
+			expect(doc.castSelectionTo(FakedClass)).not.toBeDefined();
+		});
+
 
 
 	});

@@ -271,24 +271,29 @@ function CLink() {
 		doc.setContent(editorContent);
 		doc.setSelectedNodes(doc.nodesOfSelection(ranges));
 
-		var isLink = function(n){
-			return (n instanceof Element) && (n.tagName === 'a');
-		};
+		var linkFake = doc.selectionAsLink();
 
-
-		linkElem = doc.findAncestorOfSelection(isLink);
-		factory = NEWSLETTER.factory;
-		if (linkElem){
-			link = factory.mimic(linkElem);
-		} else {
-			link = new Link();
-			var tmp = factory.mimic(doc.getSelectedNodes()[0][0]);
-			var cntn = new Content();
-			cntn.setElements([tmp]);
-			link.setContent(cntn);
-			link.setHref('kdkdkdk');
-		}
 		adapter.fillInDialog(dialog, link.template(), 'link');
+
+
+		// var isLink = function(n){
+		// 	return (n instanceof Element) && (n.tagName === 'a');
+		// };
+
+
+		// linkElem = doc.findAncestorOfSelection(isLink);
+		// factory = NEWSLETTER.factory;
+		// if (linkElem){
+		// 	link = factory.mimic(linkElem);
+		// } else {
+		// 	link = new Link();
+		// 	var tmp = factory.mimic(doc.getSelectedNodes()[0][0]);
+		// 	var cntn = new Content();
+		// 	cntn.setElements([tmp]);
+		// 	link.setContent(cntn);
+		// 	link.setHref('kdkdkdk');
+		// }
+
 	};
 }
 CLink.prototype = Object.create(Controller.prototype);

@@ -1105,7 +1105,7 @@ function Document(node){
 			}
 		});
 		if (filtered.length > 0){
-			var currentSelected = this.getSelectedNodes();
+			// var currentSelected = this.getSelectedNodes();
 			if (Array.isArray(_selectedNodes)){
 				_selectedNodes = _selectedNodes.concat([filtered]);
 			} else {
@@ -1277,7 +1277,7 @@ function Document(node){
 	    var s = this.getSelectedNodes();
 	    if (s === null || s.length === 0){
 	    	return true;
-	    };
+	    }
 	    return s.every(function(arr){
 	    	return arr.length === 0;
 	    });
@@ -2061,5 +2061,32 @@ function Document(node){
 	};
 
 	//////////////// end of content of Dom class     ///////////
+
+	/**
+	 * Casts selected nodes into an instance of a class whose constructor is `C`.
+	 *
+	 *
+	 * @method         castSelectionTo
+	 * @param          {Function}        C          class constructor
+	 * @return         {Object}
+	 * @since          0.1.0
+	 */
+	this.castSelectionTo = function(C){
+		if (typeof C !== 'function'){
+			return;
+		}
+		var tag,
+			sel = this.getSelectedNodes();
+		try {
+			tag = new C();
+		} catch (e){
+			return;
+		}
+		return tag;
+
+
+
+
+	};
 }
 
