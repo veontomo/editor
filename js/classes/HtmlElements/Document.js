@@ -87,6 +87,36 @@ function Document(node){
 	};
 
 	/**
+	 * Factory to construct {{#crossLink "Tag"}}Tag{{/crossLink}} instances and its descendants
+	 * @property {Object} _factory
+	 * @since  0.1.0
+	 * @private
+	 */
+	var _factory;
+
+	/**
+	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} getter.
+	 * @method         getFactory
+	 * @return         {Object|null}
+	 * @since          0.1.0
+	 */
+	this.getFactory = function(){
+		return _factory;
+	};
+
+	/**
+	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} setter.
+	 * @method         getFactory
+	 * @param          {Object}             f          Factory instance
+	 * @return         {Object|null}
+	 * @since          0.1.0
+	 */
+	this.getFactory = function(f){
+		_factory = f;
+	};
+
+
+	/**
 	 * Sets {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}} of
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}}.
 	 * Alias for {{#crossLink "Converter/setMapper:method"}}setMapper{{/crossLink}} method.
@@ -1073,10 +1103,10 @@ function Document(node){
 
 	/**
 	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} getter.
-	 * @method         getSelectedNodes
+	 * @method         getSelection
 	 * @return         {Array|null} [description]
 	 */
-	this.getSelectedNodes = function(){
+	this.getSelection = function(){
 		return _selectedNodes;
 	};
 
@@ -1105,7 +1135,7 @@ function Document(node){
 			}
 		});
 		if (filtered.length > 0){
-			// var currentSelected = this.getSelectedNodes();
+			// var currentSelected = this.getSelection();
 			if (Array.isArray(_selectedNodes)){
 				_selectedNodes = _selectedNodes.concat([filtered]);
 			} else {
@@ -1118,11 +1148,11 @@ function Document(node){
 	/**
 	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} setter.
 	 * The arguments is supposed to be a two dimensional array of nodes.
-	 * @method         setSelectedNodes
+	 * @method         setSelection
 	 * @param          {Array}         nodes     two dimensional array of nodes
 	 * @return         {void}
 	 */
-	this.setSelectedNodes = function(nodes){
+	this.setSelection = function(nodes){
 		if (!Array.isArray(nodes)){
 			return;
 		}
@@ -1164,19 +1194,24 @@ function Document(node){
 	};
 
 	/**
-	 * Returns two dimensional array of nodes corresponding to the selection.
+	 * Sets {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} as a
+	 * **two dimensional** array of nodes corresponding to the selection.
+	 *
+	 * The need to assign the selection to a variable is dictated by the fact that during this procedure,
+	 * the DOM might suffer modifications which a method
+	 * {{#crossLink "Document/detachBoundaries:method"}}detachBoundaries{{/crossLink}} eventually performs.
 	 *
 	 * The argument is an array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
 	 * The output is an array which elements are arrays of nodes corresponding to input ranges.
 	 *
-	 * @method         nodesOfSelection
+	 * @method         frozenSelection
 	 * @param          {Array}         ranges
-	 * @return         {Array}
+	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.nodesOfSelection = function(ranges){
+	this.frozenSelection = function(ranges){
 		if (!(Array.isArray(ranges))){
-			return [];
+			return;
 		}
 		var result = [];
 		ranges.forEach(function(range){
@@ -1186,7 +1221,27 @@ function Document(node){
 				result.push(nodes);
 			}
 		}.bind(this));
-		return result;
+		this.setSelection(result);
+	};
+
+
+	/**
+	 * Returns array with elements that belong to the selection.
+	 *
+	 *
+	 * If selection is not set, nothing is returned.
+	 *
+	 * Unlike to {{#crossLink "Document/selection:method"}}selection{{/crossLink}}, this method returns
+	 * one dimensional array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instances.
+	 * @method  getSelectionPlain
+	 * @since   0.1.0
+	 * @return  {Array}
+	 */
+	this.getSelectionPlain = function(){
+		var sel = this.getSelection();
+		if (sel){
+			return this.flatten(sel);
+		}
 	};
 
 
@@ -1240,10 +1295,10 @@ function Document(node){
 		var result = [],
 			bS = blockSeparator || ' ',
 			eS = elemSeparator || ' ';
-		if (!Array.isArray(this.getSelectedNodes())){
+		if (!Array.isArray(this.getSelection())){
 			return '';
 		}
-		this.getSelectedNodes().forEach(function(r){
+		this.getSelection().forEach(function(r){
 			result.push(_rangeToText(r, eS));
 		}.bind(this));
 		return result.join(bS);
@@ -1274,7 +1329,7 @@ function Document(node){
 	 * @return         {Boolean}
 	 */
 	this.isSelectionEmpty = function(){
-	    var s = this.getSelectedNodes();
+	    var s = this.getSelection();
 	    if (s === null || s.length === 0){
 	    	return true;
 	    }
@@ -1480,38 +1535,70 @@ function Document(node){
 
 
 	/**
-	 * Returns first ancestor of elements of
-	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} for which `criteria` evaluates to
-	 * `true`.
+	 * Applies `callback` to each element of array `block` until `callback` evaluates to anything
+	 * that casts to `true`. Namely that result of `callback` is returned.
 	 *
-	 * Function `criteria` is given elements of {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}
-	 * until it returns `true`.
-	 * @method         findAncestorOfSelection
-	 * @param          {Function} criteria
+	 * @method         findInBlock
+	 * @param          {Array}         block            array of anything
+	 * @param          {Function}      callback
 	 * @return         {Element|Null}
+	 * @since          0.1.0
 	 */
-	this.findAncestorOfSelection = function(criteria){
-		if (typeof criteria !== 'function'){
+	this.findInBlock = function(block, callback){
+		if (block === undefined || callback === undefined || !(Array.isArray(block)) || typeof callback !== 'function'){
 			return;
 		}
-	    if (this.isSelectionEmpty()){
-	        return null;
-	    }
-	    var lenExt = this.getSelectedNodes().length,
-	        lenInt, i, j, block, el, elAnsector;
-	    for (i = 0; i < lenExt; i++){
-	        block = this.getSelectedNodes()[i];
-	        lenInt = block.length;
-	        for (j = 0; j < lenInt; j++){
-	            el = block[j];
-	            elAnsector = this.findAncestor(el, criteria);
-	            if (elAnsector){
-	                return elAnsector;
-	            }
-	        }
+		var len = block.length,
+	    	i, result;
+	    for (i = 0; i < len; i++){
+	    	try {
+	    		result = callback(block[i]);
+		        if (result){
+	        	    return result;
+		        }
+	    	} catch (e){
+	    		console.log(e.name + ' when applying callback to the element number ' + i + ' out of ' + len + ': ' + e.message);
+	    	}
 	    }
 	    return null;
 	};
+
+
+	/**
+	 * Returns a "flatten" version of the array `arr`.
+	 *
+	 * @method         flatten
+	 * @param          {Array}         arr
+	 * @return         {Array}
+	 * @since          0.1.0
+	 */
+	this.flatten = function(arr){
+		if (!Array.isArray(arr)){
+			return null;
+		}
+		/**
+		 * Appends elements of array `toAppend` to `current`. If the element is of array type, then
+		 * the function is called recursively.
+		 * @method     flattenAux
+		 * @param      {Array}       current
+		 * @param      {Array}       toAppend
+		 * @return     {Array}
+		 * @private
+		 */
+		var flattenAux = function(current, toAppend){
+			toAppend.forEach(function(el){
+				if (Array.isArray(el)){
+					return flattenAux(current, el);
+				}
+				current.push(el);
+				return current;
+			}.bind(this));
+			return current;
+		};
+		return flattenAux([], arr);
+	};
+
+
 	//////////////// end of content of Selection class   ///////////
 
 	//////////////// start of content of Dom class   ///////////
@@ -2084,7 +2171,7 @@ function Document(node){
 			return;
 		}
 		var tag,
-			sel = this.getSelectedNodes();
+			sel = this.getSelection();
 		try {
 			tag = new C();
 		} catch (e){

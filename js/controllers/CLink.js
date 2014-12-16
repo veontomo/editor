@@ -16,73 +16,94 @@ function CLink() {
  	}
  	Controller.call(this);
 
-	/**
-	 * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
-	 * @method        convertToLinks
-	 * @param         {Object}              context           context of the dialog menu
-	 * @param         {Object}              editor            editor instance
-	 * @param         {String}              scheme            stands for `mail` or `link`
-	 * @return        {void}                                  inserts link into the editor
-	 */
-	this.convertToLinks = function(context, editor, scheme){
-		var href, link, obj, linkInfo,
-		    factory = NEWSLETTER.factory,
-		    selection = new Selection(editor);
-		linkInfo = this.getDialogData(context);
-		console.log(linkInfo);
-		if (scheme === 'link'){
-			href = 'http://' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
-		} else {
-			href = 'mailto:' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
-		}
-		// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
-		if (linkInfo.linkInfoTab.status){
-		    link = new Link();
-		    link.setHref(href);
-		    link.underline(linkInfo.underlined);
-		    link.setProperty('target', linkInfo.target ? '_blank' : '_self');
-		    link.setTitle(linkInfo.title);
-		    link.setStyleProperty('color', linkInfo.color);
-		    link.setContent(new Content(linkInfo.text));
-		    if (selection.isEmpty()){
-		        editor.insertHtml(link.toHtml());
-		    } else {
-		        obj = selection.nodes[0][0];
-		        obj.$.parentNode.replaceChild(link.toNode(), obj.$);
-		    }
-		} else {
-		    // parse all selected nodes
-		    selection.nodes.forEach(function(arr){
-		        arr.forEach(function(el){
-		            var newNode, objLink, elProps, linkProps,
-		            	dom = new Dom();
-		            elProps = dom.getInheritedProperties(el.$);
-		            link = new Link();
-		            elProps.suggestProperty(link.getProperties());
-		            console.log('inherited styles: ', elProps.toString());
-		            link.setProperties(elProps);
-		            link.setHref(href);
-		            link.underline(linkInfo.underlined);
-		            link.setProperty('target', linkInfo.target ? '_blank' : '_self');
-		            link.setTitle(linkInfo.title);
-		            // link.setStyleProperty('color', linkInfo.color);
-		            obj = factory.mimic(el.$);
-		            if (obj &&  !obj.isEmpty()){
-		                // CKeditor remembers this attr and replaces proper url by this one.
-		                // So, if the current object is a Link instance, let us update
-		                // value of "data-cke-saved-href"
-		                if (obj &&  (obj instanceof Link) && (typeof obj.setProperty === 'function')){
-		                    obj.setProperty('data-cke-saved-href', href);
-		                }
+	// /**
+	//  * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
+	//  * @method        convertToLinks
+	//  * @param         {Object}              context           context of the dialog menu
+	//  * @param         {Object}              editor            editor instance
+	//  * @param         {String}              scheme            stands for `mail` or `link`
+	//  * @return        {void}                                  inserts link into the editor
+	//  */
+	// this.convertToLinks = function(context, editor, scheme){
+	// 	var href, link, obj, linkInfo,
+	// 	    factory = NEWSLETTER.factory,
+	// 	    selection = new Selection(editor);
+	// 	linkInfo = this.getDialogData(context);
+	// 	console.log(linkInfo);
+	// 	if (scheme === 'link'){
+	// 		href = 'http://' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
+	// 	} else {
+	// 		href = 'mailto:' + encodeURI(Helper.dropProtocol(linkInfo.linkInfoTab.href));
+	// 	}
+	// 	// if insertion of text was enabled (i.e. if selection is empty or it is inside an editable link)
+	// 	if (linkInfo.linkInfoTab.status){
+	// 	    link = new Link();
+	// 	    link.setHref(href);
+	// 	    link.underline(linkInfo.underlined);
+	// 	    link.setProperty('target', linkInfo.target ? '_blank' : '_self');
+	// 	    link.setTitle(linkInfo.title);
+	// 	    link.setStyleProperty('color', linkInfo.color);
+	// 	    link.setContent(new Content(linkInfo.text));
+	// 	    if (selection.isEmpty()){
+	// 	        editor.insertHtml(link.toHtml());
+	// 	    } else {
+	// 	        obj = selection.nodes[0][0];
+	// 	        obj.$.parentNode.replaceChild(link.toNode(), obj.$);
+	// 	    }
+	// 	} else {
+	// 	    // parse all selected nodes
+	// 	    selection.nodes.forEach(function(arr){
+	// 	        arr.forEach(function(el){
+	// 	            var newNode, objLink, elProps, linkProps,
+	// 	            	dom = new Dom();
+	// 	            elProps = dom.getInheritedProperties(el.$);
+	// 	            link = new Link();
+	// 	            elProps.suggestProperty(link.getProperties());
+	// 	            console.log('inherited styles: ', elProps.toString());
+	// 	            link.setProperties(elProps);
+	// 	            link.setHref(href);
+	// 	            link.underline(linkInfo.underlined);
+	// 	            link.setProperty('target', linkInfo.target ? '_blank' : '_self');
+	// 	            link.setTitle(linkInfo.title);
+	// 	            // link.setStyleProperty('color', linkInfo.color);
+	// 	            obj = factory.mimic(el.$);
+	// 	            if (obj &&  !obj.isEmpty()){
+	// 	                // CKeditor remembers this attr and replaces proper url by this one.
+	// 	                // So, if the current object is a Link instance, let us update
+	// 	                // value of "data-cke-saved-href"
+	// 	                if (obj &&  (obj instanceof Link) && (typeof obj.setProperty === 'function')){
+	// 	                    obj.setProperty('data-cke-saved-href', href);
+	// 	                }
 
-		                objLink = link.apply(obj);
-		                newNode = objLink.toNode();
-		                el.$.parentNode.replaceChild(newNode, el.$);
-		            }
-		        });
-		    });
+	// 	                objLink = link.apply(obj);
+	// 	                newNode = objLink.toNode();
+	// 	                el.$.parentNode.replaceChild(newNode, el.$);
+	// 	            }
+	// 	        });
+	// 	    });
+	// 	}
+	// };
+	//
+
+	/**
+	 * Transforms selected nodes into links.
+	 * @method         onOk
+	 * @param          {Object}        dialog
+	 * @param          {Object}        editor
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.onOk = function(dialog, editor){
+		/// !!! to finish
+		var adapter = this.getEditorAdapter();
+		/// exit of no adapter is present
+		if (!adapter){
+			return;
 		}
+		var input = adapter.getDialogData(dialog, ['input', 'checkbox']);
+		console.log(input);
 	};
+
 
 	// /**
 	//  * Populates the field of the link insertion dialog.
@@ -266,13 +287,12 @@ function CLink() {
 		adapter = this.getEditorAdapter();
 		ranges = adapter.getNativeRanges(editor);
 		editorContent = adapter.getEditorContent(editor);
-		factory = NEWSLETTER.factory;
-
 		doc = new Document();
+		doc.setFactory(NEWSLETTER.factory);
 		var selectedNodes = doc.nodesOfSelection(ranges);
-		doc.setSelectedNodes(selectedNodes);
+		// doc.setSelectedNodes(selectedNodes);
 		isLink = function(e){ return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a'); };
-		linkElem = doc.findAncestorOfSelection(isLink);
+		linkElem = doc.findAncestorOf(selectedNodes, isLink);
 		if (linkElem){
 			link = factory.mimic(linkElem);
 		} else {

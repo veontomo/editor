@@ -2553,20 +2553,20 @@ describe('Document class', function() {
 	    });
 		describe('setter and getter methods for selected nodes that', function(){
 			it('getter returns null if the setter is given no input', function(){
-				doc.setSelectedNodes();
-				expect(doc.getSelectedNodes()).toBe(null);
+				doc.setSelection();
+				expect(doc.getSelection()).toBe(null);
 			});
 			it('getter returns null if the setter input is an empty array', function(){
-				doc.setSelectedNodes([]);
-				expect(doc.getSelectedNodes()).toBe(null);
+				doc.setSelection([]);
+				expect(doc.getSelection()).toBe(null);
 			});
 			it('getter returns null if the setter input is an array containing an empty array', function(){
-				doc.setSelectedNodes([[]]);
-				expect(doc.getSelectedNodes()).toBe(null);
+				doc.setSelection([[]]);
+				expect(doc.getSelection()).toBe(null);
 			});
 			it('getter returns array of nodes if the setter input is an array containing non-empty array of nodes', function(){
-				doc.setSelectedNodes([[e10, e11]]);
-				var arr = doc.getSelectedNodes();
+				doc.setSelection([[e10, e11]]);
+				var arr = doc.getSelection();
 				expect(Array.isArray(arr)).toBe(true);
 				expect(arr.length).toBe(1);
 				var nodes = arr[0];
@@ -2576,8 +2576,8 @@ describe('Document class', function() {
 				expect(nodes[1]).toBe(e11);
 			});
 			it('getter returns array of nodes even if the setter innermost array contains non-Node instances ', function(){
-				doc.setSelectedNodes([[t20, e21, 'a string', e25]]);
-				var arr = doc.getSelectedNodes();
+				doc.setSelection([[t20, e21, 'a string', e25]]);
+				var arr = doc.getSelection();
 				expect(Array.isArray(arr)).toBe(true);
 				expect(arr.length).toBe(1);
 				var nodes = arr[0];
@@ -2588,8 +2588,8 @@ describe('Document class', function() {
 				expect(nodes[2]).toBe(e25);
 			});
 			it('getter returns array of nodes even if the setter input array contains non-arrays', function(){
-				doc.setSelectedNodes([[t20, e21, e25], {foo: 1}, [t31, e32]]);
-				var arr = doc.getSelectedNodes();
+				doc.setSelection([[t20, e21, e25], {foo: 1}, [t31, e32]]);
+				var arr = doc.getSelection();
 				expect(Array.isArray(arr)).toBe(true);
 				expect(arr.length).toBe(2);
 				var nodes0 = arr[0];
@@ -2606,17 +2606,31 @@ describe('Document class', function() {
 				expect(nodes1[1]).toBe(e32);
 			});
 		});
+		describe('a method getSelectionPlain that', function(){
+			it('calls getSelection method', function(){
+				spyOn(doc, 'getSelection');
+				doc.getSelectionPlain();
+				expect(doc.getSelection).toHaveBeenCalled();
+			});
+			it('calls flatten method with output of method getSelection()', function(){
+				spyOn(doc, 'getSelection').and.returnValue([1, 2, 3]);
+				spyOn(doc, 'flatten');
+				doc.getSelectionPlain();
+				expect(doc.flatten).toHaveBeenCalledWith([1, 2, 3]);
+			});
+
+		});
 		describe('a method flushSelection that', function(){
 			it('imposes selected nodes to null if previously nothing was selected', function(){
-				expect(doc.getSelectedNodes()).toBe(null);
+				expect(doc.getSelection()).toBe(null);
 				doc.flushSelection();
-				expect(doc.getSelectedNodes()).toBe(null);
+				expect(doc.getSelection()).toBe(null);
 			});
 			it('imposes selected nodes to null if previously selection was not empty', function(){
-				doc.setSelectedNodes([[e21, e23], [e32]]);
-				expect(doc.getSelectedNodes()).not.toBe(null);
+				doc.setSelection([[e21, e23], [e32]]);
+				expect(doc.getSelection()).not.toBe(null);
 				doc.flushSelection();
-				expect(doc.getSelectedNodes()).toBe(null);
+				expect(doc.getSelection()).toBe(null);
 			});
 		});
 		describe('a method nodesOfRange that', function(){
@@ -2659,19 +2673,21 @@ describe('Document class', function() {
 				expect(doc.nodesBetween).toHaveBeenCalledWith(t20, e26);
 			});
 		});
-		describe('a method nodesOfSelection that', function(){
-			it('returns an empty array if the input is undefined, a null, a string, a number, a function or an object', function(){
+		describe('a method frozenSelection that', function(){
+			it('does not call setSelection if the input is undefined, a null, a string, a number, a function or an object', function(){
+				spyOn(doc, 'setSelection');
 				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 					function() {return;}, {}, {foo: 23}];
 				invalids.forEach(function(invalid) {
-					var nodes = doc.nodesOfSelection(invalid);
-				    expect(nodes).toBeEmptyArray();
+					doc.frozenSelection(invalid);
 				});
+				expect(doc.setSelection).not.toHaveBeenCalled();
 			});
-			it('returns single element array if the selection is determined by a single range', function(){
+			it('sets selection if the selection is determined by a single range', function(){
 				range.setStart(e10, 1);
 				range.setEnd(e11, 1);
-				var nodes = doc.nodesOfSelection([range]);
+				doc.frozenSelection([range]);
+				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(1);
 				var nodes0 = nodes[0];
@@ -2688,7 +2704,8 @@ describe('Document class', function() {
 				var range2 = document.createRange();
 				range2.setStart(e11, 1);
 				range2.setEnd(e11, 2);
-				var nodes = doc.nodesOfSelection([range, range2]);
+				doc.frozenSelection([range, range2]);
+				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(2);
 				var nodes0 = nodes[0],
@@ -2705,7 +2722,8 @@ describe('Document class', function() {
 				var range2 = document.createRange();
 				range2.setStart(e11, 1);
 				range2.setEnd(e11, 2);
-				var nodes = doc.nodesOfSelection([range, 'a string', range2]);
+				doc.frozenSelection([range, 'a string', range2]);
+				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(2);
 				var nodes0 = nodes[0],
@@ -2726,105 +2744,165 @@ describe('Document class', function() {
 					return 'unforeseen node';
 				});
 			});
-			it('returns empty string if getSelectedNodes returns null', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue(null);
+			it('returns empty string if getSelection returns null', function(){
+				spyOn(doc, 'getSelection').and.returnValue(null);
 				expect(doc.selectedNodesToText()).toBe('');
 			});
-			it('returns empty string if getSelectedNodes returns an empty array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([]);
+			it('returns empty string if getSelection returns an empty array', function(){
+				spyOn(doc, 'getSelection').and.returnValue([]);
 				expect(doc.selectedNodesToText()).toBe('');
 			});
-			it('returns space-concatenated strings if getSelectedNodes returns a single element array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21, e23]]);
+			it('returns space-concatenated strings if getSelection returns a single element array', function(){
+				spyOn(doc, 'getSelection').and.returnValue([[t20, e21, e23]]);
 				expect(doc.selectedNodesToText()).toBe('t20 node e21 node e23 node');
 			});
-			it('returns strings glued by means of the first argument if getSelectedNodes returns a single element array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21, e23]]);
+			it('returns strings glued by means of the first argument if getSelection returns a single element array', function(){
+				spyOn(doc, 'getSelection').and.returnValue([[t20, e21, e23]]);
 				expect(doc.selectedNodesToText('---')).toBe('t20 node---e21 node---e23 node');
 			});
-			it('uses default block and element separators if getSelectedNodes returns a two element array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21], [e23]]);
+			it('uses default block and element separators if getSelection returns a two element array', function(){
+				spyOn(doc, 'getSelection').and.returnValue([[t20, e21], [e23]]);
 				expect(doc.selectedNodesToText()).toBe('t20 node e21 node e23 node');
 			});
-			it('uses block and element separators if getSelectedNodes returns a two element array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e21], [e23]]);
+			it('uses block and element separators if getSelection returns a two element array', function(){
+				spyOn(doc, 'getSelection').and.returnValue([[t20, e21], [e23]]);
 				expect(doc.selectedNodesToText('|', '-')).toBe('t20 node|e21 node-e23 node');
 			});
 		});
 		describe('has a method isSelectionEmpty that', function(){
 			it('returns true if the selectedNodes is null', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue(null);
+				spyOn(doc, 'getSelection').and.returnValue(null);
 				expect(doc.isSelectionEmpty()).toBe(true);
 			});
 			it('returns true if the selectedNodes is an empty array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([]);
+				spyOn(doc, 'getSelection').and.returnValue([]);
 				expect(doc.isSelectionEmpty()).toBe(true);
 			});
 			it('returns true if the selectedNodes contains single element that is an empty array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[]]);
+				spyOn(doc, 'getSelection').and.returnValue([[]]);
 				expect(doc.isSelectionEmpty()).toBe(true);
 			});
 			it('returns true if the selectedNodes contains two elements that are empty arrays', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[], []]);
+				spyOn(doc, 'getSelection').and.returnValue([[], []]);
 				expect(doc.isSelectionEmpty()).toBe(true);
 			});
 			it('returns false if the selectedNodes contains single element that is a non-empty array', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[e10]]);
+				spyOn(doc, 'getSelection').and.returnValue([[e10]]);
 				expect(doc.isSelectionEmpty()).toBe(false);
 			});
 			it('returns false if the selectedNodes contains an empty and a non-empty arrays', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[], [e10, t20]]);
+				spyOn(doc, 'getSelection').and.returnValue([[], [e10, t20]]);
 				expect(doc.isSelectionEmpty()).toBe(false);
 			});
 		});
 
 
-		describe('has a method findAncestorOfSelection that', function(){
-			it('returns undefined if the argument is not provided', function(){
-				expect(doc.findAncestorOfSelection()).toBe(undefined);
+		describe('has a method findInBlock that', function(){
+			it('returns undefined if the arguments are not provided', function(){
+				expect(doc.findInBlock()).toBe(undefined);
 			});
-			it('returns undefined if the argument is a null, a string, a number, an array or an object', function(){
-				var invalids = [null, '', 'hi', 0, -12.3, 234, [], [0, 1], {}, {1: 2}];
+
+			it('returns undefined if the first argument is a null, a string, a number, an object', function(){
+				var invalids = [null, '', 'hi', 0, -12.3, 234, {}, {1: 2}];
+				var crit = function(){return;};
 				invalids.forEach(function(invalid) {
-				    expect(doc.findAncestorOfSelection(invalid)).toBe(undefined);
+				    expect(doc.findInBlock(invalid, crit)).toBe(undefined);
 				});
 			});
-			it('returns null if the selection is empty', function(){
-				spyOn(doc, 'isSelectionEmpty').and.returnValue(true);
-			    expect(doc.findAncestorOfSelection(function(){return true;})).toBe(null);
-			});
-			it('returns null if the criteria never becomes true', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
-				var criteria = function(){return false;};
-			    expect(doc.findAncestorOfSelection(criteria)).toBe(null);
+
+			it('returns undefined if the second argument is a null, a string, a number, an array or an object', function(){
+				var invalids = [null, '', 'hi', 0, -12.3, 234, [], [0, 1], {}, {1: 2}];
+				invalids.forEach(function(invalid) {
+				    expect(doc.findInBlock([], invalid)).toBe(undefined);
+				});
 			});
 
-			it('returns a node from selectedNodes for which the criteria becomes true', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
-				var criteria = function(e){return e === e30;};
-			    expect(doc.findAncestorOfSelection(criteria)).toBe(e30);
+			it('returns undefined if the block is empty', function(){
+			    expect(doc.findInBlock(function(){return true;})).toBe(undefined);
+			});
+			it('returns null if the callback always evaluates to false', function(){
+				// spyOn(doc, 'getSelection').and.returnValue([[t20, e30, t22], [t24, e32]]);
+				var callback = function(){return false;};
+			    expect(doc.findInBlock([t20, e30, t22, t24, e32], callback)).toBe(null);
 			});
 
-			it('returns a first node from selectedNodes for which the criteria becomes true', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[t20, e30, t22], [t24, e32]]);
-				var criteria = function(e){return e === e30 || e === t20;};
-			    expect(doc.findAncestorOfSelection(criteria)).toBe(t20);
+			it('returns a first non-false output of the callback', function(){
+				var callback = function(e){return e === e30 ? e30 : false;};
+			    expect(doc.findInBlock([t20, e30, t22, t24, e32], callback)).toBe(e30);
 			});
 
-			it('returns a first parent node of a node from selectedNodes for which the criteria becomes true', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[e30, t22], [t24, e32]]);
-				var criteria = function(e){return e === e11;};
-				var res = doc.findAncestorOfSelection(criteria);
-				console.log(res);
-			    expect(res).toBe(e11);
-			});
 
 			it('returns null if the criteria function always throws an error', function(){
-				spyOn(doc, 'getSelectedNodes').and.returnValue([[e30, t22], [t24, e32]]);
-				var criteria = function(){throw new Error('an error');};
-			    expect(doc.findAncestorOfSelection(criteria)).toBe(null);
+				var callback = function(){throw new Error('an error');};
+			    expect(doc.findInBlock([e30, t22, t24, e32], callback)).toBe(null);
 			});
 		});
+	});
+
+	describe('has a method flatten that', function(){
+		it('returns null if the input is a string, a number, a function and an object', function(){
+			var invalids = ['', 'hi', 0, -12.3, 234, {}, {1: 2}];
+			invalids.forEach(function(invalid) {
+			    expect(doc.flatten(invalid)).toBe(null);
+			});
+		});
+
+		it('returns the original array if it has no arrays inside', function(){
+			var arr = doc.flatten([5, 'a', 'b', 4]);
+			expect(Array.isArray(arr)).toBe(true);
+			expect(arr.length).toBe(4);
+			expect(arr[0]).toBe(5);
+			expect(arr[1]).toBe('a');
+			expect(arr[2]).toBe('b');
+			expect(arr[3]).toBe(4);
+		});
+
+
+		it('converts empty array into an empty one', function(){
+			expect(doc.flatten([])).toBeEmptyArray();
+		});
+
+		it('converts array with nested empty arrays into an empty one', function(){
+			expect(doc.flatten([[], [], []])).toBeEmptyArray();
+		});
+
+		it('ignores nested empty arrays', function(){
+			var arr = doc.flatten([5, 'a', [], 'b', []]);
+			expect(Array.isArray(arr)).toBe(true);
+			expect(arr.length).toBe(3);
+			expect(arr[0]).toBe(5);
+			expect(arr[1]).toBe('a');
+			expect(arr[2]).toBe('b');
+		});
+
+		it('ignores nested empty arrays', function(){
+			var arr = doc.flatten([5, 'a', [1, 'c', ['e']], 'b', ['x']]);
+			expect(Array.isArray(arr)).toBe(true);
+			expect(arr.length).toBe(7);
+			expect(arr[0]).toBe(5);
+			expect(arr[1]).toBe('a');
+			expect(arr[2]).toBe(1);
+			expect(arr[3]).toBe('c');
+			expect(arr[4]).toBe('e');
+			expect(arr[5]).toBe('b');
+			expect(arr[6]).toBe('x');
+		});
+
+		it('does not modify original array', function(){
+			var arr = [-5.3, 6, ['a', 'b'], 'c'];
+			doc.flatten(arr);
+			expect(Array.isArray(arr)).toBe(true);
+			expect(arr.length).toBe(4);
+			expect(arr[0]).toBe(-5.3);
+			expect(arr[1]).toBe(6);
+			expect(Array.isArray(arr[2])).toBe(true);
+			expect(arr[2].length).toBe(2);
+			expect(arr[2][0]).toBe('a');
+			expect(arr[2][1]).toBe('b');
+			expect(arr[3]).toBe('c');
+		});
+
+
 
 	});
 
