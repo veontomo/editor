@@ -106,12 +106,12 @@ function Document(node){
 
 	/**
 	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} setter.
-	 * @method         getFactory
-	 * @param          {Object}             f          Factory instance
-	 * @return         {Object|null}
+	 * @method         setFactory
+	 * @param          {Object}             f          an object to used as a factory
+	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.getFactory = function(f){
+	this.setFactory = function(f){
 		_factory = f;
 	};
 
@@ -1010,8 +1010,13 @@ function Document(node){
 	 * @since          0.0.8
 	 */
 	this.detachBoundaries = function(r){
+		console.log('detachBoundaries input: ', r);
 	    if (!(r instanceof Range)){
 	        throw new Error('The argument must be a Range instance!');
+	    }
+	    if (r.collapsed){
+	    	console.log('range is collapsed');
+	    	return [];
 	    }
 	    var sC = r.startContainer,
 	        eC = r.endContainer,
@@ -1066,6 +1071,7 @@ function Document(node){
 	 * @return         {Array|Null}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
 	 */
 	this.spliceText = function(t, bP){
+		console.log('spliceText input: ', t, bP);
 	    if (!(t instanceof Text) || !Array.isArray(bP)){
 	        return;
 	    }
@@ -1109,6 +1115,49 @@ function Document(node){
 	this.getSelection = function(){
 		return _selectedNodes;
 	};
+
+
+	/**
+	 * Cursor position.
+	 *
+	 * Information about the cursor position is stored inside a collapsed
+	 * [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
+	 */
+	var _cursorPosition;
+
+
+	/**
+	 * {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}} getter.
+	 * @method         getCursorPosition
+	 * @return         {Range}
+	 * @since          0.1.0
+	 */
+	this.getCursorPosition = function(){
+		return _cursorPosition;
+	};
+
+	/**
+	 * {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}} setter.
+	 *
+	 * Assigns {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}}
+	 * to be a collapsed [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * built from `r`.
+	 * @method         setCursorPosition
+	 * @param          {Range}              r         [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.setCursorPosition = function(r){
+		if (!(r instanceof Range)){
+			return;
+		}
+		var range = document.createRange();
+		range.setStart(r.startContainer, r.startOffset);
+		range.collapse(true); // collapsing to the start
+		_cursorPosition = range;
+	};
+
+
 
 	/**
 	 * Appends array of nodes to {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
@@ -1183,10 +1232,15 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
+		console.log('nodesOfRange input:', r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
 		var boundaries = this.detachBoundaries(r);
+		if (boundaries.length === 0){
+			console.log('boundaries array is empty');
+			return [];
+		}
 		if (boundaries.length === 1){
 			return [boundaries[0]];
 		}
@@ -1204,12 +1258,13 @@ function Document(node){
 	 * The argument is an array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
 	 * The output is an array which elements are arrays of nodes corresponding to input ranges.
 	 *
-	 * @method         frozenSelection
+	 * @method         freezeSelection
 	 * @param          {Array}         ranges
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.frozenSelection = function(ranges){
+	this.freezeSelection = function(ranges){
+		console.log(ranges);
 		if (!(Array.isArray(ranges))){
 			return;
 		}
@@ -1218,6 +1273,7 @@ function Document(node){
 			var nodes;
 			if (range instanceof Range){
 				nodes = this.nodesOfRange(range);
+				console.log('pushing ', nodes, ' into the result');
 				result.push(nodes);
 			}
 		}.bind(this));

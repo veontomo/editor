@@ -289,10 +289,12 @@ function CLink() {
 		editorContent = adapter.getEditorContent(editor);
 		doc = new Document();
 		doc.setFactory(NEWSLETTER.factory);
-		var selectedNodes = doc.nodesOfSelection(ranges);
+		doc.freezeSelection(ranges);
+		var selectedNodes = doc.getSelectionPlain();
 		// doc.setSelectedNodes(selectedNodes);
 		isLink = function(e){ return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a'); };
-		linkElem = doc.findAncestorOf(selectedNodes, isLink);
+		console.log(doc.getSelection());
+		linkElem = doc.findInBlock(selectedNodes, isLink);
 		if (linkElem){
 			link = factory.mimic(linkElem);
 		} else {

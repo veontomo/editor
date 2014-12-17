@@ -150,9 +150,9 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<?php if(isset($fileContent)){
 			echo $fileContent;
 		}?>
-		<a href="www.test.com">link</a>
+		<a href="www.test.com" title="this a title of the link">link</a>
 	</div>
-	<div contentEditable="true" class="editor">type here</div>
+	<!-- <div contentEditable="true" class="editor">type here</div> -->
 	<?php
 		$fileName = '.git/index';
 		if (file_exists($fileName)){

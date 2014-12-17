@@ -2673,20 +2673,38 @@ describe('Document class', function() {
 				expect(doc.nodesBetween).toHaveBeenCalledWith(t20, e26);
 			});
 		});
-		describe('a method frozenSelection that', function(){
+		describe('a method freezeSelection that', function(){
 			it('does not call setSelection if the input is undefined, a null, a string, a number, a function or an object', function(){
 				spyOn(doc, 'setSelection');
 				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 					function() {return;}, {}, {foo: 23}];
 				invalids.forEach(function(invalid) {
-					doc.frozenSelection(invalid);
+					doc.freezeSelection(invalid);
 				});
 				expect(doc.setSelection).not.toHaveBeenCalled();
 			});
+
+			it('does not set selection if the range is collapsed (=empty) and it is inside an element node', function(){
+				range.setStart(e10, 1);
+				range.setEnd(e10, 1);
+				doc.freezeSelection([range]);
+				var nodes = doc.getSelection();
+				expect(nodes).toBe(null);
+			});
+
+			it('does not set selection if the range is collapsed (=empty) and it is  inside a text node', function(){
+				range.setStart(t22, 5);
+				range.setEnd(t22, 5);
+				doc.freezeSelection([range]);
+				var nodes = doc.getSelection();
+				expect(nodes).toBe(null);
+			});
+
+
 			it('sets selection if the selection is determined by a single range', function(){
 				range.setStart(e10, 1);
 				range.setEnd(e11, 1);
-				doc.frozenSelection([range]);
+				doc.freezeSelection([range]);
 				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(1);
@@ -2704,7 +2722,7 @@ describe('Document class', function() {
 				var range2 = document.createRange();
 				range2.setStart(e11, 1);
 				range2.setEnd(e11, 2);
-				doc.frozenSelection([range, range2]);
+				doc.freezeSelection([range, range2]);
 				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(2);
@@ -2722,7 +2740,7 @@ describe('Document class', function() {
 				var range2 = document.createRange();
 				range2.setStart(e11, 1);
 				range2.setEnd(e11, 2);
-				doc.frozenSelection([range, 'a string', range2]);
+				doc.freezeSelection([range, 'a string', range2]);
 				var nodes = doc.getSelection();
 				expect(Array.isArray(nodes)).toBe(true);
 				expect(nodes.length).toBe(2);
@@ -2837,6 +2855,42 @@ describe('Document class', function() {
 			    expect(doc.findInBlock([e30, t22, t24, e32], callback)).toBe(null);
 			});
 		});
+		describe('tracks cursor position in such a way that', function(){
+			it('the getter returns undefined by default', function(){
+				expect(doc.getCursorPosition()).not.toBeDefined();
+			});
+			it('the getter returns undefined if the setter is given a non-Range instance ', function(){
+				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
+				    	function() {return;}, {}, {foo: 23}];
+				invalids.forEach(function(invalid){
+					doc.setCursorPosition(invalid);
+					expect(doc.getCursorPosition()).not.toBeDefined();
+				});
+			});
+			it('the getter returns collapsed Range instance if the setter is given a collapsed Range instance', function(){
+				var r = document.createRange();
+				r.setStart(e10, 1);
+				r.setEnd(e10, 1);
+				doc.setCursorPosition(r);
+				var pos = doc.getCursorPosition();
+				expect(pos instanceof Range).toBe(true);
+				expect(pos.collapsed).toBe(true);
+				expect(pos.startOffset).toBe(1);
+				expect(pos.startContainer).toBe(e10);
+			});
+			it('the getter returns collapsed Range instance if the setter is given a collapsed Range instance', function(){
+				var r = document.createRange();
+				r.setStart(t22, 2);
+				r.setEnd(e11, 1);
+				doc.setCursorPosition(r);
+				var pos = doc.getCursorPosition();
+				expect(pos instanceof Range).toBe(true);
+				expect(pos.collapsed).toBe(true);
+				expect(pos.startOffset).toBe(2);
+				expect(pos.startContainer).toBe(t22);
+			});
+		});
+
 	});
 
 	describe('has a method flatten that', function(){
@@ -2954,7 +3008,6 @@ describe('Document class', function() {
 			expect(console.log).toHaveBeenCalled();
 		});
 	});
-
 
 
 });
