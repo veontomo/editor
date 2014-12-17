@@ -1122,6 +1122,7 @@ function Document(node){
 	 *
 	 * Information about the cursor position is stored inside a collapsed
 	 * [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
+	 * @property       {Range}         _cursorPosition
 	 */
 	var _cursorPosition;
 
@@ -1256,7 +1257,6 @@ function Document(node){
 	 * {{#crossLink "Document/detachBoundaries:method"}}detachBoundaries{{/crossLink}} eventually performs.
 	 *
 	 * The argument is an array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
-	 * The output is an array which elements are arrays of nodes corresponding to input ranges.
 	 *
 	 * @method         freezeSelection
 	 * @param          {Array}         ranges
@@ -1264,7 +1264,6 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.freezeSelection = function(ranges){
-		console.log(ranges);
 		if (!(Array.isArray(ranges))){
 			return;
 		}
@@ -1278,6 +1277,9 @@ function Document(node){
 			}
 		}.bind(this));
 		this.setSelection(result);
+		if (ranges.length > 0){
+			this.setCursorPosition(ranges[0]);
+		}
 	};
 
 
@@ -1617,6 +1619,40 @@ function Document(node){
 	    	}
 	    }
 	    return null;
+	};
+
+	/**
+	 * Searches among nodes belonging to the selection.
+	 *
+	 * The method calls {{#crossLink "Document/findInBlock:method"}}findInBlock{{/crossLink}}(`selected nodes`, `callback`)
+	 * and if the `selected nodes` is empty, then a node, in which the cursor is located, is given to `callback`.
+	 *
+	 * Recall that `callback` is a single argument function whose output is returned if it casts to `true`.
+	 * @method         extendedSearch
+	 * @property       {Function}           callback
+	 * @return         {Any}
+	 * @since          0.1.0
+	 */
+	this.extendedSearch = function(callback){
+		var sel = this.getSelectionPlain();
+		var output;
+		if (sel){
+			output = this.findInBlock(sel, callback);
+		}
+		if (!output){
+			var cursorPos = this.getCursorPosition();
+			if (cursorPos){
+				try {
+					output = callback(cursorPos.startContainer);
+				} catch (e){
+					console.log(e.name + ' when applying callback to a node in which the cursor is located: ' + e.message);
+				}
+			}
+		}
+		if (output){
+			return output;
+		}
+
 	};
 
 

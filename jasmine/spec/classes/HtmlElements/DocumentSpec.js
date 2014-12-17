@@ -2890,6 +2890,57 @@ describe('Document class', function() {
 				expect(pos.startContainer).toBe(t22);
 			});
 		});
+		describe('a method extendedSearch that', function(){
+			it('returns nothing if nothing is selected and cursor position is unknown', function(){
+				var crit = jasmine.createSpy('spy callback');
+				doc.freezeSelection([]);
+				expect(doc.extendedSearch(crit)).not.toBeDefined();
+				expect(crit).not.toHaveBeenCalled();
+			});
+			it('calls callback on a node in which the cursor is located if the selection is empty', function(){
+				var r = document.createRange();
+				r.setStart(e21, 1);
+				r.setEnd(e21, 1);
+				var crit = jasmine.createSpy('spy callback');
+				doc.freezeSelection([r]);
+				doc.extendedSearch(crit);
+				expect(crit).toHaveBeenCalledWith(e21);
+			});
+			it('returns output of the callback if the selection is empty', function(){
+				var r = document.createRange();
+				r.setStart(e21, 1);
+				r.setEnd(e21, 1);
+				var foo = {};
+				var crit = jasmine.createSpy('spy callback').and.callFake(function(){return foo;});
+				doc.freezeSelection([r]);
+				expect(doc.extendedSearch(crit)).toBe(foo);
+			});
+			it('returns nothing if the callback throws an exception and if the selection is empty', function(){
+				var r = document.createRange();
+				r.setStart(e21, 1);
+				r.setEnd(e21, 1);
+				var crit = jasmine.createSpy('spy callback').and.callFake(function(){throw new Error('error');});
+				doc.freezeSelection([r]);
+				expect(doc.extendedSearch(crit)).not.toBeDefined();
+			});
+			it('calls callback on elements in the selection', function(){
+				var crit = jasmine.createSpy('spy callback');
+				spyOn(doc, 'getSelectionPlain').and.returnValue(['a', 'b', 'c']);
+				expect(doc.extendedSearch(crit)).not.toBeDefined();
+				expect(crit).toHaveBeenCalledWith('a');
+				expect(crit).toHaveBeenCalledWith('b');
+				expect(crit).toHaveBeenCalledWith('c');
+			});
+			it('returns first true-cast output of the callback on elements in the selection', function(){
+				var crit = jasmine.createSpy('spy callback').and.callFake(function(x){return x === 'b' ? 'B' : false;});
+				spyOn(doc, 'getSelectionPlain').and.returnValue(['a', 'b', 'c']);
+				expect(doc.extendedSearch(crit)).toBe('B');
+				expect(crit).toHaveBeenCalledWith('a');
+				expect(crit).toHaveBeenCalledWith('b');
+				expect(crit).not.toHaveBeenCalledWith('c');
+			});
+
+		});
 
 	});
 

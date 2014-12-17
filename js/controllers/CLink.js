@@ -285,21 +285,32 @@ function CLink() {
 			return;
 		}
 		adapter = this.getEditorAdapter();
-		ranges = adapter.getNativeRanges(editor);
+		ranges  = adapter.getNativeRanges(editor);
 		editorContent = adapter.getEditorContent(editor);
 		doc = new Document();
+
 		doc.setFactory(NEWSLETTER.factory);
 		doc.freezeSelection(ranges);
 		var selectedNodes = doc.getSelectionPlain();
-		// doc.setSelectedNodes(selectedNodes);
-		isLink = function(e){ return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a'); };
-		console.log(doc.getSelection());
-		linkElem = doc.findInBlock(selectedNodes, isLink);
+		isLink = function(e){
+			return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
+		};
+		// linkElem = doc.findInBlock(selectedNodes, isLink);
+		linkElem = doc.extendedSearch(isLink);
 		if (linkElem){
-			link = factory.mimic(linkElem);
+			link = doc.getFactory().mimic(linkElem);
 		} else {
-			link = new Link();
-			link.setContent(doc.selectedNodesToText(' ', ' | '));
+			var cursorPosition = doc.getCursorPosition();
+			if (cursorPosition){
+				var hostNode = cursorPosition.startContainer;
+				linkElem = doc.findAncestor(hostNode, isLink);
+			}
+			if (linkElem){
+				link = linkElem ? doc.getFactory().mimic(linkElem) : new Link();
+			} else {
+				link = new Link();
+				link.setContent(doc.selectedNodesToText(' ', ' | '));
+			}
 		}
 		adapter.fillInDialog(dialog, link.template(), 'link');
 
