@@ -1010,12 +1010,10 @@ function Document(node){
 	 * @since          0.0.8
 	 */
 	this.detachBoundaries = function(r){
-		console.log('detachBoundaries input: ', r);
 	    if (!(r instanceof Range)){
 	        throw new Error('The argument must be a Range instance!');
 	    }
 	    if (r.collapsed){
-	    	console.log('range is collapsed');
 	    	return [];
 	    }
 	    var sC = r.startContainer,
@@ -1071,7 +1069,6 @@ function Document(node){
 	 * @return         {Array|Null}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
 	 */
 	this.spliceText = function(t, bP){
-		console.log('spliceText input: ', t, bP);
 	    if (!(t instanceof Text) || !Array.isArray(bP)){
 	        return;
 	    }
@@ -1233,13 +1230,11 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
-		console.log('nodesOfRange input:', r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
 		var boundaries = this.detachBoundaries(r);
 		if (boundaries.length === 0){
-			console.log('boundaries array is empty');
 			return [];
 		}
 		if (boundaries.length === 1){
@@ -1272,7 +1267,6 @@ function Document(node){
 			var nodes;
 			if (range instanceof Range){
 				nodes = this.nodesOfRange(range);
-				console.log('pushing ', nodes, ' into the result');
 				result.push(nodes);
 			}
 		}.bind(this));
@@ -1645,14 +1639,12 @@ function Document(node){
 				try {
 					output = callback(cursorPos.startContainer);
 				} catch (e){
-					console.log(e.name + ' when applying callback to a node in which the cursor is located: ' + e.message);
 				}
 			}
 		}
 		if (output){
 			return output;
 		}
-
 	};
 
 

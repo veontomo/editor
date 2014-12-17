@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, Helper, Controller, Link, Content, NEWSLETTER, Selection */
+/*global Controller, Link, NEWSLETTER, Document, Element */
 
 /**
  * Link Controller.
@@ -279,38 +279,30 @@ function CLink() {
 	 * @return         {void}
 	 */
 	this.fillInDialog = function(dialog, editor){
-		var link, linkElem, criteria,
-			doc, ranges, adapter, editorContent, factory, isLink;
+		var link, linkElem,
+			doc, ranges, adapter;
 		if (!editor){
 			return;
 		}
 		adapter = this.getEditorAdapter();
 		ranges  = adapter.getNativeRanges(editor);
-		editorContent = adapter.getEditorContent(editor);
-		doc = new Document();
 
+		doc = new Document();
 		doc.setFactory(NEWSLETTER.factory);
 		doc.freezeSelection(ranges);
-		var selectedNodes = doc.getSelectionPlain();
-		isLink = function(e){
-			return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
+
+		var isLinkAncestor = function(n){
+			var isLink = function(e){
+				return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
+			};
+			return doc.findAncestor(n, isLink);
 		};
-		// linkElem = doc.findInBlock(selectedNodes, isLink);
-		linkElem = doc.extendedSearch(isLink);
+		linkElem = doc.extendedSearch(isLinkAncestor);
 		if (linkElem){
 			link = doc.getFactory().mimic(linkElem);
 		} else {
-			var cursorPosition = doc.getCursorPosition();
-			if (cursorPosition){
-				var hostNode = cursorPosition.startContainer;
-				linkElem = doc.findAncestor(hostNode, isLink);
-			}
-			if (linkElem){
-				link = linkElem ? doc.getFactory().mimic(linkElem) : new Link();
-			} else {
-				link = new Link();
-				link.setContent(doc.selectedNodesToText(' ', ' | '));
-			}
+			link = new Link();
+			link.setContent(doc.selectedNodesToText(' ', ' | '));
 		}
 		adapter.fillInDialog(dialog, link.template(), 'link');
 
