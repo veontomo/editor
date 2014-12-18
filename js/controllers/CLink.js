@@ -130,10 +130,10 @@ function CLink() {
 
 		/**
 		 * Search hyperlink among ancestor of Element `n`.
-		 * @method  isLinkAncestor
+		 * @method     isLinkAncestor
 		 * @private
-		 * @param  {Element}           n
-		 * @return {Element|Null}
+		 * @param      {Element}           n
+		 * @return     {Element|Null}
 		 */
 		var isLinkAncestor = function(n){
 			var isLink = function(e){

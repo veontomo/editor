@@ -1,25 +1,26 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, beforeEach, spyOn, */
 
-describe ('Base controller class', function(){
+describe ('Base controller class has', function(){
 	var c;
     beforeEach(function(){
     	c = new Controller();
     });
 
-    describe('Controller', function(){
-    	it('sets selection if the argument is not provided', function(){
+    describe('selection setter/getter methods such that', function(){
+    	it('the getter returns nothing if the setter was called with no argument', function(){
     		c.setSelection();
     		expect(c.getSelection()).toBe(undefined) ;
     	});
 
-    	it('sets selection to the given argument', function(){
+    	it('the getter returns what was given to the setter', function(){
     		var sel = {foo: 'dumb'};
     		c.setSelection(sel);
     		expect(c.getSelection()).toBe(sel) ;
     	});
-
     });
+
+    describe('');
 
 });
 

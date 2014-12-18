@@ -12,6 +12,40 @@
 function Controller(){
 
 	/**
+	 * The whole content of the editor window.
+	 * @property {Eleemnt|Null} _content
+	 * @since     0.1.0
+	 * @private
+	 */
+	var _content;
+
+	/**
+	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} setter.
+	 *
+	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
+	 * the setter does nothing.
+	 * @method         setContent
+	 * @param          {Node}          c      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.setContent = function(c){
+		/// !!! stub
+	};
+
+	/**
+	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} getter.
+	 *
+	 * @method         getContent
+	 * @return         {Node|Null}
+	 * @since          0.1.0
+	 */
+	this.getContent = function(){
+		/// !!! stub
+	};
+
+
+	/**
 	 * Array of elemnts belonging to the selection.
 	 * @property      {Array}    _selection
 	 * @private
