@@ -23,14 +23,14 @@ function Controller(){
 	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} setter.
 	 *
 	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
-	 * the setter does nothing.
+	 * the setter resets {{#crossLink "Controller/_content:property"}}_content{{/crossLink}}.
 	 * @method         setContent
 	 * @param          {Node}          c      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
 	this.setContent = function(c){
-		/// !!! stub
+		_content = (c instanceof Node) ? c : void 0;
 	};
 
 	/**
@@ -41,7 +41,7 @@ function Controller(){
 	 * @since          0.1.0
 	 */
 	this.getContent = function(){
-		/// !!! stub
+		return _content;
 	};
 
 
