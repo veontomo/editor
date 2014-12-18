@@ -12,9 +12,8 @@
 function Controller(){
 
 	/**
-	 * Variable to deal with elements selected in the editor. It is supposed to be an instance of
-	 * {{#crossLink "Selection"}}Selection{{/crossLink}} class.
-	 * @property      {Object}    _selection
+	 * Array of elemnts belonging to the selection.
+	 * @property      {Array}    _selection
 	 * @private
 	 * @since          0.0.7
 	 */
@@ -33,7 +32,7 @@ function Controller(){
 	/**
 	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} setter.
 	 * @method         setSelection
-	 * @param       {Object}        sel      {{#crossLink "Selection"}}Selection{{/crossLink}} instance
+	 * @param          {Array}        sel
 	 * @return         {void}
 	 * @since          0.0.7
 	 */

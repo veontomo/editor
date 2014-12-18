@@ -102,7 +102,57 @@ function CLink() {
 		}
 		var input = adapter.getDialogData(dialog, ['input', 'checkbox']);
 		console.log(input);
+		console.log(this.getSelection());
 	};
+
+
+	/**
+	 * Fills in `dialog` window based text selected inside `editor`.
+	 *
+	 * Information about selection is retrieved from variable `editor`.
+	 * @method         fillInDialog
+	 * @param          {Object}            dialog
+	 * @param          {Object}            editor
+	 * @return         {void}
+	 */
+	this.onShow = function(dialog, editor){
+		var link, linkElem, doc, ranges, adapter;
+		if (!editor){
+			return;
+		}
+		adapter = this.getEditorAdapter();
+		ranges  = adapter.getNativeRanges(editor);
+
+		doc = new Document();
+		doc.setFactory(NEWSLETTER.factory);
+		doc.freezeSelection(ranges);
+		this.setSelection(doc.getSelection());
+
+		/**
+		 * Search hyperlink among ancestor of Element `n`.
+		 * @method  isLinkAncestor
+		 * @private
+		 * @param  {Element}           n
+		 * @return {Element|Null}
+		 */
+		var isLinkAncestor = function(n){
+			var isLink = function(e){
+				return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
+			};
+			return doc.findAncestor(n, isLink);
+		};
+
+		linkElem = doc.extendedSearch(isLinkAncestor);
+		if (linkElem){
+			link = doc.getFactory().mimic(linkElem);
+		} else {
+			link = new Link();
+			link.setContent(doc.selectedNodesToText(' ', ' | '));
+		}
+		adapter.fillInDialog(dialog, link.template(), 'link');
+
+	};
+
 
 
 	// /**
@@ -269,43 +319,5 @@ function CLink() {
 		return dialogData;
 	};
 
-	/**
-	 * Fills in `dialog` window based text selected inside `editor`.
-	 *
-	 * Information about selection is retrieved from variable `editor`.
-	 * @method         fillInDialog
-	 * @param          {Object}            dialog
-	 * @param          {Object}            editor
-	 * @return         {void}
-	 */
-	this.fillInDialog = function(dialog, editor){
-		var link, linkElem,
-			doc, ranges, adapter;
-		if (!editor){
-			return;
-		}
-		adapter = this.getEditorAdapter();
-		ranges  = adapter.getNativeRanges(editor);
-
-		doc = new Document();
-		doc.setFactory(NEWSLETTER.factory);
-		doc.freezeSelection(ranges);
-
-		var isLinkAncestor = function(n){
-			var isLink = function(e){
-				return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
-			};
-			return doc.findAncestor(n, isLink);
-		};
-		linkElem = doc.extendedSearch(isLinkAncestor);
-		if (linkElem){
-			link = doc.getFactory().mimic(linkElem);
-		} else {
-			link = new Link();
-			link.setContent(doc.selectedNodesToText(' ', ' | '));
-		}
-		adapter.fillInDialog(dialog, link.template(), 'link');
-
-	};
 }
 CLink.prototype = Object.create(Controller.prototype);
