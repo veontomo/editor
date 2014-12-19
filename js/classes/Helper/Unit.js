@@ -79,7 +79,7 @@ function Unit(value, measure) {
         case 'string':
             parsedValue = v === '' ? 0 : parseFloat(v);
             if (isNaN(parsedValue)) {
-                throw new Error("Can not convert into a Unit object!");
+                throw new Error("Can not convert " + v + " into a Unit object!");
             }
             parsedMeasure = v.replace(parsedValue.toString(), '').trim();
             _value = parsedValue;

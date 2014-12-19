@@ -200,14 +200,14 @@ function Document(node){
 	this.escape = function(){
 		console.log('Content at the beginning: ', this.getContent());
 		var cntn = this.getContent(),
-			output;
+			linkElem;
 		if (cntn.nodeType === Node.TEXT_NODE){
 			console.log('node is a text one');
 			var value = cntn.nodeValue;
 			if (value){
 				console.log('its value is ' + value);
-				output = document.createTextNode(Helper.specialChar(value));
-				// console.log('its new value is ' + output.nodeValue);
+				linkElem = document.createTextNode(Helper.specialChar(value));
+				// console.log('its new value is ' + linkElem.nodeValue);
 			}
 		} else {
 			console.log('node is NOT a text one');
@@ -215,15 +215,15 @@ function Document(node){
 				len = children.length,
 				i, childDoc;
 			console.log('node has ' + len + ' children');
-			output = document.createElement(cntn.tagName);
+			linkElem = document.createElement(cntn.tagName);
 			for (i = 0; i < len; i++){
 				console.log(i);
 				childDoc = new Document(children[i]);
 				childDoc.escape();
-				output.appendChild(childDoc.getContent());
+				linkElem.appendChild(childDoc.getContent());
 			}
 		}
-		this.setContent(output);
+		this.setContent(linkElem);
 		console.log('Content at the end: ', this.getContent());
 	};
 
@@ -456,7 +456,7 @@ function Document(node){
 	 */
 	this.containsRange = function(range){
 	    if (!this.isRange(range)){
-	        throw Error('The argument must be a Range instance!');
+	        throw new Error('The argument must be a Range instance!');
 	    }
 	    var ranges = this.getRanges();
 	    if (ranges){
@@ -538,10 +538,10 @@ function Document(node){
 	/**
 	 * Returns array without diplicates of nodes that lay between `n1` and `n2` inclusively.
 	 *
-	 * The order in which the nodes appear in the DOM does not matter: the output
+	 * The order in which the nodes appear in the DOM does not matter: the linkElem
 	 * array starts with the node that appears first in the DOM.
 	 *
-	 * The output array is a minimal one: <ol><li>
+	 * The linkElem array is a minimal one: <ol><li>
 	 * any node laying between `n1` and `n2` is present in the array either "personally" or by means of its ancestor
 	 * </li><li>
 	 * all descendants of every node in the array lay between `n1` and `n2`
@@ -562,7 +562,7 @@ function Document(node){
 	        return [n1];
 	    }
 	    // I decided to use pathTo() method in order to find common ancestor
-	    // to avoid incorrect output in case n1 and n2 have no common ancestor
+	    // to avoid incorrect linkElem in case n1 and n2 have no common ancestor
 	    // ("pathTo" is not able to detect this fact)
 	    var comAns = this.commonAncestor(n1, n2);
 	    if (!comAns){
@@ -579,7 +579,7 @@ function Document(node){
 	    }
 	    var ind1 = path1[0],
 	        ind2 = path2[0],
-	        output = [],
+	        linkElem = [],
 	        order = this.compare(path1, path2),
 	        left, right, indL, indR;
 	    if (order !== 1 && order !== -1){
@@ -600,21 +600,21 @@ function Document(node){
 	        indL = ind1;
 	        indR = ind2;
 	    }
-	    output.push(left);
+	    linkElem.push(left);
 	    var nodesNext = this.bunchNextSiblings(left, comAns.childNodes[indL]),
 	        nodesPrev = this.bunchPrevSiblings(right, comAns.childNodes[indR]);
 	    if (Array.isArray(nodesNext) && nodesNext.length > 0) {
-	        output = output.concat(nodesNext);
+	        linkElem = linkElem.concat(nodesNext);
 	    }
 	    var i;
 	    for (i = indL + 1; i < indR; i++){
-	        output.push(comAns.childNodes[i]);
+	        linkElem.push(comAns.childNodes[i]);
 	    }
 	    if (Array.isArray(nodesPrev) && nodesPrev.length > 0) {
-	        output = output.concat(nodesPrev);
+	        linkElem = linkElem.concat(nodesPrev);
 	    }
-	    output.push(right);
-	    return output;
+	    linkElem.push(right);
+	    return linkElem;
 	};
 
 	/**
@@ -644,7 +644,7 @@ function Document(node){
 	 * </li></ul>
 	 * One may provide a function `c` to compare elements of `p1` and `p2` that must obey the following signature:
 	 * <pre>c: e1 &times; e2 &rarr; {-1, 0, +1}</pre>
-	 * If arguments of function `c` are not comparable, the output of the whole method is not defined.
+	 * If arguments of function `c` are not comparable, the linkElem of the whole method is not defined.
 	 *
 	 * If `p1` and `p2` can not be compared, nothing is returned.
 	 * @method         compare
@@ -848,22 +848,22 @@ function Document(node){
 	 * @since          0.0.8
 	 */
 	var _bunchSiblings = function(node, root, operation){
-	    var output = [],
+	    var linkElem = [],
 	        elem = node,
 	        siblings;
 	    while (!root.isEqualNode(elem)){
 	        siblings = operation(elem);
-	        output = output.concat(siblings);
+	        linkElem = linkElem.concat(siblings);
 	        elem = elem.parentNode;
 	    }
-	    return output;
+	    return linkElem;
 	};
 
 	/**
 	 * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
 	 * come after `node` in the context of `root`.
 	 *
-	 * Therefore, all output array elements belong to `root` while niether
+	 * Therefore, all linkElem array elements belong to `root` while niether
 	 * `root` nor `node` is included.
 	 * @method         bunchNextSiblings
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
@@ -882,7 +882,7 @@ function Document(node){
 	 * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
 	 * come before `node` in the context of `root`.
 	 *
-	 * Therefore, all output array elements belong to `root` while niether
+	 * Therefore, all linkElem array elements belong to `root` while niether
 	 * `root` nor `node` is included.
 	 * @method         bunchPrevSiblings
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
@@ -1481,34 +1481,34 @@ function Document(node){
 	    }
 	    if (len > 1){
 	        var first = arr[0],
-	            output = [],
-	            outputLen = 0,
+	            linkElem = [],
+	            linkElemLen = 0,
 	            i, j,
 	            isPresent;
-	        output.push(first);
-	        outputLen++;
+	        linkElem.push(first);
+	        linkElemLen++;
 
 	        for (i = 1; i < len; i++){
 	            isPresent = false;
-	            for (j = 0; j < outputLen; j++){
-	                if (output[j].equals(arr[i])){
+	            for (j = 0; j < linkElemLen; j++){
+	                if (linkElem[j].equals(arr[i])){
 	                    isPresent = true;
 	                    break;
 	                }
 	            }
 	            if (!isPresent){
-	                output.push(arr[i]);
-	                outputLen++;
+	                linkElem.push(arr[i]);
+	                linkElemLen++;
 	            }
 	        }
-	        return output;
+	        return linkElem;
 	    }
 	};
 
 	/**
 	 * Replaces each element in {{#crossLink "Document/selected:property"}}selected{{/crossLink}} by
 	 * a link in which this element is located. In case the element is not located inside any link, then it
-	 * is leaved without changes. The output array mimics the structure of
+	 * is leaved without changes. The linkElem array mimics the structure of
 	 * {{#crossLink "Document/selected:property"}}selected{{/crossLink}} array: it should be a two-dimensional array
 	 * without duplicates.
 	 * @method         absorbLink
@@ -1516,14 +1516,14 @@ function Document(node){
 	 */
 	this.absorbLink = function(){
 	    var input = this.nodes,
-	        output = [],
+	        linkElem = [],
 	        temp, link;
 	    if (this.isEmpty()){
 	        // if the selection is empty and the cursor is inside a link,
 	        // insert this link into nodes
 	        link = this.getStartElement().getAncestor('a', true);
 	        if (link){
-	            output.push([link]);   // resulting array must be 2-dimensional with a single element
+	            linkElem.push([link]);   // resulting array must be 2-dimensional with a single element
 	        }
 	    } else {
 	        // parse elements in the selectionif it is not empty
@@ -1534,12 +1534,12 @@ function Document(node){
 	                    link = elem.getAncestor('a', true);
 	                    temp.push(link || elem) ;
 	                });
-	                output.push(dropDuplicates(temp));
+	                linkElem.push(dropDuplicates(temp));
 	            }
 	        });
 
 	    }
-	    this.nodes = output;
+	    this.nodes = linkElem;
 	};
 
 	/**
@@ -1621,7 +1621,7 @@ function Document(node){
 	 * The method calls {{#crossLink "Document/findInBlock:method"}}findInBlock{{/crossLink}}(`selected nodes`, `callback`)
 	 * and if the `selected nodes` is empty, then a node, in which the cursor is located, is given to `callback`.
 	 *
-	 * Recall that `callback` is a single argument function whose output is returned if it casts to `true`.
+	 * Recall that `callback` is a single argument function whose linkElem is returned if it casts to `true`.
 	 * @method         extendedSearch
 	 * @property       {Function}           callback
 	 * @return         {Any}
@@ -1629,21 +1629,22 @@ function Document(node){
 	 */
 	this.extendedSearch = function(callback){
 		var sel = this.getSelectionPlain();
-		var output;
+		var linkElem;
 		if (sel){
-			output = this.findInBlock(sel, callback);
+			linkElem = this.findInBlock(sel, callback);
 		}
-		if (!output){
+		if (!linkElem){
 			var cursorPos = this.getCursorPosition();
 			if (cursorPos){
 				try {
-					output = callback(cursorPos.startContainer);
+					linkElem = callback(cursorPos.startContainer);
 				} catch (e){
+					console.log(e.name + ' when applying callback to ', cursorPos.startContainer, ': ' + e.message);
 				}
 			}
 		}
-		if (output){
-			return output;
+		if (linkElem){
+			return linkElem;
 		}
 	};
 
@@ -2110,13 +2111,13 @@ function Document(node){
 	 */
 	this.createToggledElemFromText = function(textNode, key, primary, secondary){
 		if (textNode && textNode.nodeType === Node.TEXT_NODE){
-			var output = document.createElement('span'),
+			var linkElem = document.createElement('span'),
 				textNodeCopy = document.createTextNode(textNode.nodeValue),
 				styleValue = this.getInheritedStyleProp(key, textNode),
 				styleToggled = styleValue === primary ? secondary : primary;
-			output.setAttribute('style', key + ': ' + styleToggled + ';');
-			output.appendChild(textNodeCopy);
-			return output;
+			linkElem.setAttribute('style', key + ': ' + styleToggled + ';');
+			linkElem.appendChild(textNodeCopy);
+			return linkElem;
 		}
 	};
 
@@ -2269,6 +2270,64 @@ function Document(node){
 			}
 		}
 		return tag;
+	};
+
+	/**
+	 * Finds a tag specified by string `name` inside {{#crossLink "Document/_content:property"}}_content{{/crossLink}} based on the
+	 * selection defined by {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} array.
+	 *
+	 *
+	 * First of all, the serach is performed among ancestors of nodes belonging to the selection and among ancestors of
+	 * the node that contains the cursor position.
+	 *
+	 * **NB: for the moment being (19/12/2104), the method search only for a hyperlinks. Avoid this hardcoded dependancy.**
+	 * @method         detectTag
+	 * @param          {String}     name        tag name
+	 * @since          0.1.0
+	 * @return         {Tag}       instance of {{#crossLink "Tag"}}Tag{{/crossLink}}  or one of Tag subclasses
+	 */
+	this.detectTag = function(name){
+		if (typeof name !== 'string'){
+			return;
+		}
+		/**
+		 * Whether the argument is a hyperlink
+		 * @method isLink
+		 * @param  {Any}     e
+		 * @return {Boolean}
+		 * @private
+		 */
+		var isLink = function(e){
+			return (e instanceof Element) && (name.localeCompare(e.tagName, 'en', {sensitivity: 'base'}) === 0);
+		}.bind(this);
+
+		/**
+		 * Finds a hyperlink among ancestors of element `e`
+		 * @method callback
+		 * @param  {Node}   e [description]
+		 * @return {Element}
+		 * @private
+		 */
+		var callback = function(e){
+			return this.findAncestor(e, isLink);
+		}.bind(this);
+
+		var selection = this.getSelectionPlain(),
+			candidateNodes = Array.isArray(selection) ?  selection : [],
+			link = new Link(), // avoid this hardcoding
+			linkElem,
+			cursorPos = this.getCursorPosition();
+		if (cursorPos){
+			candidateNodes.push(cursorPos.startContainer);
+		}
+
+		linkElem = this.findInBlock(candidateNodes, callback);
+		if (linkElem){
+			link.load(linkElem);
+		} else {
+			link.setContent(this.selectedNodesToText(' ', ' | '));
+		}
+		return link;
 	};
 
 }

@@ -1,11 +1,11 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content, Selection, NEWSLETTER, FACTORY, CLink */
+/*global CKEDITOR, CKHelper, Document, NEWSLETTER, CLink */
 
 /**
 * Unified dialog for link and e-mail insertion.
 *
 * @module  Dialogs
-* @class   LinkDialog
+* @class   LinkMailDialog
 */
 function linkMailDialog(editor, scheme) {
 
@@ -18,10 +18,23 @@ function linkMailDialog(editor, scheme) {
     var _controller = new CLink();
     _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
+    /**
+     * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
+     * @method  anonymous
+     * @return  {void}
+     * @since   0.1.0
+     * @private
+     */
+    (function(){
+        var worker = new Document();
+        worker.setFactory(NEWSLETTER.factory);
+        _controller.setWorker(worker);
+    }());
+
+
     var warningFieldId = 'linkWarning',
         alt = true,
-        _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;',
-        selection;          // global variable to pass info about selection
+        _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;';
 
     /**
      * Style for text input fields for choosing colors.
@@ -81,7 +94,7 @@ function linkMailDialog(editor, scheme) {
             var elem = this.base;
             elem.childNodes[0].style.zIndex = '10011';
         });
-    })();
+    }());
 
     var _pluginName = 'linkMail';
     return {
@@ -188,11 +201,13 @@ function linkMailDialog(editor, scheme) {
             };
             var tab, ids, len, i, id;
             for (tab in colorInputFields){
-                ids = colorInputFields[tab];
-                len = ids.length;
-                for (i = 0; i < len; i++){
-                    id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
-                    _colorPicker.linkTo(id);
+                if (colorInputFields.hasOwnProperty(tab)){
+                    ids = colorInputFields[tab];
+                    len = ids.length;
+                    for (i = 0; i < len; i++){
+                        id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+                        _colorPicker.linkTo(id);
+                    }
                 }
             }
         },

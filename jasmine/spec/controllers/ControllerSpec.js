@@ -50,11 +50,25 @@ describe ('Base controller class has', function(){
                 c.setContent(invalid);
                 expect(c.getContent()).not.toBeDefined();
             });
-
-
         });
-
     });
+
+    describe('has a worker setter/getter such that', function(){
+        it('the getter returns an argument that has been given to the setter', function(){
+            var foo = {};
+            c.setWorker(foo);
+            expect(c.getWorker()).toBe(foo);
+        });
+    });
+
+    describe('has an editor adapter setter/getter such that', function(){
+        it('the getter returns an argument that has been given to the setter', function(){
+            var foo = {};
+            c.setEditorAdapter(foo);
+            expect(c.getEditorAdapter()).toBe(foo);
+        });
+    });
+
 
 });
 

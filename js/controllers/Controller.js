@@ -46,8 +46,41 @@ function Controller(){
 
 
 	/**
+	 * A worker that performes operations on the editor content.
+	 * @property       {Object}        _worker
+	 * @private
+	 * @since          0.1.0
+	 */
+	var _worker;
+
+	/**
+	 * {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}} setter.
+	 *
+	 * Note that no check concerning the validity of `w` is performed.
+	 * @method         setWorker
+	 * @param          {Object}        w       an object able to perform different operations on the editor content
+	 * @since          0.1.0
+	 * @return         {void}
+	 */
+	this.setWorker = function(w){
+		_worker = w;
+	};
+
+
+	/**
+	 * {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}} setter.
+	 * @method         getWorker
+	 * @return         {Object}
+	 * @since          0.1.0
+	 */
+	this.getWorker = function(){
+		return _worker;
+	};
+
+
+	/**
 	 * Array of elemnts belonging to the selection.
-	 * @property      {Array}    _selection
+	 * @property      {Array}          _selection
 	 * @private
 	 * @since          0.0.7
 	 */

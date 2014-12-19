@@ -53,14 +53,28 @@ function EditorAdapter(){
 	 * Retrieves native javascript Node object representing editor content.
 	 *
 	 * @method         getEditorContent
-	 * @param          {Object}        r
+	 * @param          {Object}        e             editor instance
 	 * @return         {Node}
 	 * @abstract
 	 * @since          0.1.0
 	 */
-	this.getEditorContent = function(){
+	this.getEditorContent = function(e){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "getEditorContent" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Sets the content of the editor body.
+	 *
+	 * @method         setEditorContent
+	 * @param          {Object}        e      editor instance
+	 * @param          {Node}          c      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @abstract
+	 * @since          0.1.0
+	 */
+	this.setEditorContent = function(e, c){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "setEditorContent" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 	/**
@@ -126,12 +140,13 @@ function EditorAdapter(){
 	 * @method         fillInDialog
 	 * @param          {Object}        dialog
 	 * @param          {Object}        data
+	 * @param          {Any}           marker      [optional] additional info
 	 * @return         {void}
 	 * @since          0.1.0
 	 * @abstract
 	 *
 	 */
-	this.fillInDialog = function(dialog, data){
+	this.fillInDialog = function(dialog, data, marker){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "fillInDialog" of class EditorAdapter must be overridden by inheriting class!');
 	};
@@ -159,6 +174,40 @@ function EditorAdapter(){
 	this.getDialogData = function(dialog, types){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "getDialogData" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Inserts node `child` as a child of a node `parent` at position `index`.
+	 *
+	 * If case of success, the inserted node has number `index` among children of node `parent`.
+	 *
+	 * Returns the newly inserted node.
+	 *
+	 * @param        {Node}            parent      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param        {Node}            child       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param        {Integer}         index
+	 * @return       {Node}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @since        0.1.0
+	 * @abstract
+	 */
+	this.insertAt = function(parent, child, index){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "insertAt" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Removes node `n` from the DOM along with all its descendants.
+	 *
+	 * Returns the removed node.
+	 * @method         removeNode
+	 * @param          {Node}        n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node}
+	 * @since          0.1.0
+	 * @abstract
+	 */
+	this.removeNode = function(n){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "removeNode" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 

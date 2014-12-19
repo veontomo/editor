@@ -22,7 +22,7 @@ function CKEditorAdapter(){
  	 * Retrieves native javascript Node object representing editor body.
 	 *
 	 * @method         getEditorContent
-	 * @param          {Object}        r
+	 * @param          {Object}        editor
 	 * @return         {Node|Null}
 	 * @abstract
 	 * @since          0.1.0
@@ -30,6 +30,25 @@ function CKEditorAdapter(){
 	this.getEditorContent = function(editor){
 		if (editor instanceof CKEDITOR.editor){
 			return editor.document.getBody().$;
+		}
+	};
+
+	/**
+	 * Sets the content of the editor body.
+	 *
+	 * @method         setEditorContent
+	 * @param          {Editor}      editor
+	 * @param          {Node}        content       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @abstract
+	 * @since          0.1.0
+	 */
+	this.setEditorContent = function(editor, content){
+		if ((editor instanceof CKEDITOR.editor) && (content instanceof Node)){
+			try {
+				editor.setData(content.outerHTML);
+			} catch (e){
+				console.log(e.name + ' occured when setting up the editor content: ' + e.message);
+			}
 		}
 	};
 
@@ -239,6 +258,40 @@ function CKEditorAdapter(){
 		return template;
 	};
 
+
+	/**
+	 * Inserts node `child` as a child of a node `parent` at position `index`.
+	 *
+	 * If case of success, the inserted node has number `index` among children of node `parent`.
+	 *
+	 * Returns the newly inserted node.
+	 *
+	 * @param        {Node}            parent      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param        {Node}            child       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param        {Integer}         index
+	 * @return       {Node}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @since        0.1.0
+	 * @abstract
+	 */
+	this.insertAt = function(parent, child, index){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "insertAt" of class CKEditorAdapter has yet to be implemented!');
+	};
+
+	/**
+	 * Removes node `n` from the DOM along with all its descendants.
+	 *
+	 * Returns the removed node.
+	 * @method         removeNode
+	 * @param          {Node}        n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node}
+	 * @since          0.1.0
+	 * @abstract
+	 */
+	this.removeNode = function(n){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "removeNode"  of class CKEditorAdapter has yet to be implemented!');
+	};
 
 
 }

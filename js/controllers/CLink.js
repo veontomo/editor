@@ -94,15 +94,21 @@ function CLink() {
 	 * @since          0.1.0
 	 */
 	this.onOk = function(dialog, editor){
+		console.log(editor.getData());
 		/// !!! to finish
 		var adapter = this.getEditorAdapter();
 		/// exit of no adapter is present
 		if (!adapter){
 			return;
 		}
-		var input = adapter.getDialogData(dialog, ['input', 'checkbox']);
-		console.log(input);
-		console.log(this.getSelection());
+		var dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']),
+			template = adapter.dialogToTemplate(dialogData),
+			selectedNodes = this.getSelection(),
+			content = adapter.getEditorContent(editor),
+			newContent = document.createElement('div'); //this.convertToLinks(content, selectedNodes, template);
+		var a = document.createTextNode('text node');
+		newContent.appendChild(a);
+		adapter.setEditorContent(editor, newContent);
 	};
 
 
@@ -116,40 +122,58 @@ function CLink() {
 	 * @return         {void}
 	 */
 	this.onShow = function(dialog, editor){
-		var link, linkElem, doc, ranges, adapter;
+		var link, doc, ranges, adapter, content;
 		if (!editor){
 			return;
 		}
 		adapter = this.getEditorAdapter();
-		ranges  = adapter.getNativeRanges(editor);
-
-		doc = new Document();
-		doc.setFactory(NEWSLETTER.factory);
-		doc.freezeSelection(ranges);
-		this.setSelection(doc.getSelection());
-
-		/**
-		 * Search hyperlink among ancestor of Element `n`.
-		 * @method     isLinkAncestor
-		 * @private
-		 * @param      {Element}           n
-		 * @return     {Element|Null}
-		 */
-		var isLinkAncestor = function(n){
-			var isLink = function(e){
-				return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
-			};
-			return doc.findAncestor(n, isLink);
-		};
-
-		linkElem = doc.extendedSearch(isLinkAncestor);
-		if (linkElem){
-			link = doc.getFactory().mimic(linkElem);
-		} else {
-			link = new Link();
-			link.setContent(doc.selectedNodesToText(' ', ' | '));
+		if (!adapter){
+			return;
 		}
-		adapter.fillInDialog(dialog, link.template(), 'link');
+		ranges  = adapter.getNativeRanges(editor);
+		content = adapter.getEditorContent(editor);
+		// this.setContent(adapter.getEditorContent(editor));
+		try {
+			doc = this.getWorker();
+			doc.setContent(content);
+			doc.freezeSelection(ranges);
+			// doc.setRanges(ranges);
+			link = doc.detectTag('a');
+			if (link){
+				adapter.fillInDialog(dialog, link.template(), 'link');
+			}
+		} catch (e){
+			console.log(e.name + ' occured when detecting a link in the editor content: ' + e.message);
+		}
+
+
+		// doc.freezeSelection(ranges);
+
+
+		// this.setSelection(doc.getSelection());
+
+		// /**
+		//  * Search hyperlink among ancestor of Element `n`.
+		//  * @method     isLinkAncestor
+		//  * @private
+		//  * @param      {Element}           n
+		//  * @return     {Element|Null}
+		//  */
+		// var isLinkAncestor = function(n){
+		// 	var isLink = function(e){
+		// 		return (e instanceof Element) && e.tagName && (e.tagName.toLowerCase() === 'a');
+		// 	};
+		// 	return doc.findAncestor(n, isLink);
+		// };
+
+		// linkElem = doc.extendedSearch(isLinkAncestor);
+		// if (linkElem){
+		// 	link = doc.getFactory().mimic(linkElem);
+		// } else {
+		// 	link = new Link();
+		// 	link.setContent(doc.selectedNodesToText(' ', ' | '));
+		// }
+		// adapter.fillInDialog(dialog, link.template(), 'link');
 
 	};
 

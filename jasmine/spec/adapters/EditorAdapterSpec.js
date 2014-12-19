@@ -78,7 +78,7 @@ describe('Editor adapter', function(){
 
 		it('returns an array with outputs of "toNativeRange" method except when it throws an exception', function(){
 			spyOn(adapter, 'toNativeRange').and.callFake(function(r){
-				if (r == 'r2'){
+				if (r === 'r2'){
 					throw new Error('error');
 				}
 				return r + '_';
@@ -98,7 +98,7 @@ describe('Editor adapter', function(){
 		it('returns an array with "toNativeRange" method being applied on the input parameter', function(){
 			var foo = {};
 			spyOn(adapter, 'getEditorRanges').and.returnValue(['anything']);
-			spyOn(adapter, 'toNativeRange').and.callFake(function(r){return foo;});
+			spyOn(adapter, 'toNativeRange').and.callFake(function(){return foo;});
 			var result = adapter.getNativeRanges();
 			expect(adapter.toNativeRange).toHaveBeenCalledWith('anything');
 			expect(Array.isArray(result)).toBe(true);
@@ -107,5 +107,22 @@ describe('Editor adapter', function(){
 		});
 
 	});
+
+	describe('has a method insertAt that', function(){
+		it('throws an error if called directly and not from an inheriting class', function(){
+			expect(function(){
+				adapter.insertAt();
+			}).toThrow(new Error('Method "insertAt" of class EditorAdapter must be overridden by inheriting class!'));
+		});
+	});
+
+	describe('has a method removeNode that', function(){
+		it('throws an error if called directly and not from an inheriting class', function(){
+			expect(function(){
+				adapter.removeNode();
+			}).toThrow(new Error('Method "removeNode" of class EditorAdapter must be overridden by inheriting class!'));
+		});
+	});
+
 });
 
