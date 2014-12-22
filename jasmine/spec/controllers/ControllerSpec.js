@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, beforeEach, spyOn, */
+/*global describe, it, expect, beforeEach, spyOn, Controller */
 
 describe ('Base controller class has', function(){
 	var c;
@@ -66,6 +66,14 @@ describe ('Base controller class has', function(){
             var foo = {};
             c.setEditorAdapter(foo);
             expect(c.getEditorAdapter()).toBe(foo);
+        });
+    });
+
+    describe('has abstract method "onShow" that', function(){
+        it('throws an error if called directly and not from an inheriting class', function(){
+            expect(function(){
+                c.onShow();
+            }).toThrow(new Error('Method "onShow" of class Controller must be overridden by inheriting class!'));
         });
     });
 
