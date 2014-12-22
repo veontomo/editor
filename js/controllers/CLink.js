@@ -116,7 +116,7 @@ function CLink() {
 	 * Fills in `dialog` window based text selected inside `editor`.
 	 *
 	 * Information about selection is retrieved from variable `editor`.
-	 * @method         fillInDialog
+	 * @method         onShow
 	 * @param          {Object}            dialog
 	 * @param          {Object}            editor
 	 * @return         {void}

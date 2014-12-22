@@ -329,4 +329,22 @@ function Controller(){
 		alert(typeof msg === 'string' ? msg : 'Error occurred!');
 	};
 
+	/**
+	 * Fills in `dialog` window based text selected inside `editor`.
+	 *
+	 * Information about selection is retrieved from variable `editor`.
+	 *
+	 * The method is an bastract one and must be overridden by an inheriting class.
+	 *
+	 * @method         onShow
+	 * @param          {Object}            dialog
+	 * @param          {Object}            editor
+	 * @return         {void}
+	 * @abstract
+	 */
+	this.onShow = function(dialog, editor){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "onShow" of class Controller must be overridden by inheriting class!');
+	};
+
 }
