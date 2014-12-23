@@ -10,9 +10,12 @@ var emptyArrayMatcher = {
   }
 };
 
+
 describe('Document class', function() {
     var node, doc;
+
     beforeEach(function() {
+        jasmine.addMatchers(emptyArrayMatcher);
         node = document.createElement('div');
         node.setAttribute('class', 'media');
         node.setAttribute('id', 'bodyId');
@@ -38,7 +41,7 @@ describe('Document class', function() {
         ch1.appendChild(ch11);
         doc = new Document(node);
 
-        jasmine.addMatchers(emptyArrayMatcher);
+
     });
     describe('has a method to clean tags that', function() {
         it('removes "class" attribute inside tags', function() {

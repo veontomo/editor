@@ -228,7 +228,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            _controller.onOk(this, editor);
+            _controller.elaborateAsLink(this, editor);
         }
     };
 }

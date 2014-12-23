@@ -330,7 +330,7 @@ function Controller(){
 	};
 
 	/**
-	 * Fills in `dialog` window based text selected inside `editor`.
+	 * Fills in `dialog` window based on text selected inside `editor`.
 	 *
 	 * Information about selection is retrieved from variable `editor`.
 	 *

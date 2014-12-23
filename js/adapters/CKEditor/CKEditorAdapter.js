@@ -47,7 +47,7 @@ function CKEditorAdapter(){
 			try {
 				editor.setData(content.outerHTML);
 			} catch (e){
-				console.log(e.name + ' occured when setting up the editor content: ' + e.message);
+				console.log(e.name + ' occurred when setting up the editor content: ' + e.message);
 			}
 		}
 	};

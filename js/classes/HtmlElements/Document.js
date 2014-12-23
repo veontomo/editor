@@ -2314,8 +2314,8 @@ function Document(node){
 
 		var selection = this.getSelectionPlain(),
 			candidateNodes = Array.isArray(selection) ?  selection : [],
-			link = new Link(), // avoid this hardcoding
 			linkElem,
+			link,
 			cursorPos = this.getCursorPosition();
 		if (cursorPos){
 			candidateNodes.push(cursorPos.startContainer);
@@ -2323,11 +2323,37 @@ function Document(node){
 
 		linkElem = this.findInBlock(candidateNodes, callback);
 		if (linkElem){
+			link = new Link(); // avoid this hardcoding
 			link.load(linkElem);
+			return link;
 		} else {
-			link.setContent(this.selectedNodesToText(' ', ' | '));
+			if (!this.isSelectionEmpty()){
+				link = new Link(); // avoid this hardcoding
+				link.setContent(this.selectedNodesToText(' ', ' | '));
+				return link;
+			}
 		}
-		return link;
+	};
+
+	/**
+	 * Converts selected nodes into hyperlinks.
+	 *
+	 * Returns a new [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * corresponding to `scope` in which selected nodes (given by array `selection`) are
+	 * transformed into hyperlinks described by `template`.
+	 * In case when the selection is empty, cursor position is used in order the insert
+	 * the hyperlink into `scope`.
+	 * @method         convertToLinks
+	 * @since          0.1.0
+	 * @param          {Node}            scope           a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Array}           selection
+	 * @param          {Range}           position        collapsed range
+	 * @param          {Object}          template
+	 * @return         {Element}
+	 */
+	this.convertToLinks = function(scope, selection, position, template){
+		return scope.cloneNode(true);
+		/// !!! stub
 	};
 
 }
