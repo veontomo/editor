@@ -354,6 +354,17 @@ function Link(href) {
 		return linkInfo;
 	};
 
+	/**
+	 * Sets parameters from template `tmpl`.
+	 * @method         loadFromTemplate
+	 * @param          {Object}         tmpl
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.loadFromTemplate = function(tmpl){
+		/// !!! stub
+	};
+
 
 }
 Link.prototype = Object.create(Tag.prototype);

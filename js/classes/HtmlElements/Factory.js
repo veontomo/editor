@@ -54,9 +54,9 @@ function Factory(map){
 	};
 
 	/**
-	 * Creates a class instance corresponding to the argument. The decision is to be taken
-	 * based on the {{#crossLink "Mapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
-	 * of {{#crossLink "Factory/_mapping:method"}}_mapping{{/crossLink}} property.
+	 * Creates a class instance corresponding to the argument. The decision is taken
+	 * based on method {{#crossLink "Mapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
+	 * of {{#crossLink "Factory/_mapping:property"}}_mapping{{/crossLink}} property.
 	 * @method         stub
 	 * @param          {Any}                obj
 	 * @return         {Object|Null}

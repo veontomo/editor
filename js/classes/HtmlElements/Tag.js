@@ -992,6 +992,24 @@ function Tag(tName) {
 	 * @abstract
 	 */
 	this.template = function(){
+		/// this is an abstract method and must be overridden by an inheriting class
 		throw new Error('Method "template" must be overridden by inheriting class!');
 	};
+
+	/**
+	 * Sets parameters from template `tmpl`.
+	 *
+	 * To be overridden by inhertited classes.
+	 * @method         loadFormTemplate
+	 * @param          {Object}     tmpl
+	 * @return         {void}
+	 * @since          0.1.0
+	 * @abstract
+	 */
+	this.loadFormTemplate = function(tmpl){
+		/// this is an abstract method and must be overridden by an inheriting class
+		throw new Error('Method "loadFormTemplate" must be overridden by inheriting class!');
+	};
+
 }
+

@@ -12,35 +12,41 @@ var emptyArrayMatcher = {
 
 
 describe('Document class', function() {
-    var node, doc;
+    var node, doc, ch1, ch11, ch2, text1, text2, text3;
 
     beforeEach(function() {
         jasmine.addMatchers(emptyArrayMatcher);
         node = document.createElement('div');
+        ch1 = document.createElement('p');
+        text1 = document.createTextNode('Text inside a paragraph.');
+        ch11 = document.createElement('img');
+        ch2 = document.createElement('a');
+        text2 = document.createTextNode('This is a link.')
+        text3 = document.createTextNode('Some text');
+
+        node.appendChild(ch1);
+        node.appendChild(ch2);
+        node.appendChild(text3);
+        ch1.appendChild(text1);
+        ch1.appendChild(ch11);
+        ch2.appendChild(text2);
+
         node.setAttribute('class', 'media');
         node.setAttribute('id', 'bodyId');
-        var ch1 = document.createElement('p');
+
         ch1.setAttribute('style', 'width: 100%; color: red;');
         ch1.setAttribute('marker', 'p');
         ch1.setAttribute('width', '300px');
-        ch1.appendChild(document.createTextNode('Text inside a paragraph.'));
-        var ch11 = document.createElement('img');
+
         ch11.setAttribute('style', 'width: 100%; color: red;');
         ch11.setAttribute('width', '200px');
         ch11.setAttribute('alt', 'no image available');
         ch11.setAttribute('id', 'imageId');
         ch11.setAttribute('class', 'big bottom');
-        var ch2 = document.createElement('a');
         ch2.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
         ch2.setAttribute('href', 'http://www.test.com');
         ch2.setAttribute('title', 'link to test');
-        ch2.appendChild(document.createTextNode('This is a link.'));
-        node.appendChild(ch1);
-        node.appendChild(ch2);
-        node.appendChild(document.createTextNode('Some text'));
-        ch1.appendChild(ch11);
         doc = new Document(node);
-
 
     });
     describe('has a method to clean tags that', function() {
@@ -63,10 +69,12 @@ describe('Document class', function() {
             expect(p.getAttribute('width')).toBe('300px');
         });
         it('removes "class" attribute from nested tags', function() {
+            console.log(node.outerHTML);
             doc.clean([new RegExp(/\bclass\b/)]);
             var doc2 = doc.getContent();
             var img = doc2.firstChild.childNodes.item(1);
             expect(img.hasAttribute('class')).toBe(false);
+
         });
         it('removes "id" attribute from nested tags', function() {
             doc.clean([new RegExp(/\bid/)]);
@@ -3062,6 +3070,36 @@ describe('Document class', function() {
 			expect(console.log).toHaveBeenCalled();
 		});
 	});
+    describe('has a method detectTag that', function(){
+        beforeEach(function(){
+            /// add spy for factory
+        });
+        it('returns nothing if it is called without argument', function(){
+            expect(doc.detectTag()).not.toBeDefined();
+
+        });
+        it('returns nothing if selection and cursor postion are not defined', function(){
+            spyOn(doc, 'getCursorPosition');
+            spyOn(doc, 'getSelection');
+            expect(doc.detectTag('div')).not.toBeDefined();
+        });
+        it('returns an ancestor of the node where the cursor is postioned', function(){
+            var range = document.createRange();
+            range.setStart(node, 1);
+            range.collapse(true);
+            spyOn(doc, 'getCursorPosition').and.returnValue(range);
+            spyOn(doc, 'getSelection');
+            expect(doc.detectTag('div')).toBe(node);
+        });
+
+        it('returns nothing if selection contains just one node and the cursor postion is not defined', function(){
+            spyOn(doc, 'getCursorPosition').and.returnValue([[]]);
+            spyOn(doc, 'getSelection');
+            expect(doc.detectTag()).not.toBeDefined();
+        });
+
+
+    });
 
 
 });

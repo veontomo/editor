@@ -2280,7 +2280,6 @@ function Document(node){
 	 * First of all, the serach is performed among ancestors of nodes belonging to the selection and among ancestors of
 	 * the node that contains the cursor position.
 	 *
-	 * **NB: for the moment being (19/12/2104), the method search only for a hyperlinks. Avoid this hardcoded dependancy.**
 	 * @method         detectTag
 	 * @param          {String}     name        tag name
 	 * @since          0.1.0
@@ -2322,16 +2321,15 @@ function Document(node){
 		}
 
 		linkElem = this.findInBlock(candidateNodes, callback);
+		var factory = this.getFactory(),
+			link = factory.stub(document.createElement(name));
 		if (linkElem){
-			link = new Link(); // avoid this hardcoding
 			link.load(linkElem);
 			return link;
-		} else {
-			if (!this.isSelectionEmpty()){
-				link = new Link(); // avoid this hardcoding
-				link.setContent(this.selectedNodesToText(' ', ' | '));
-				return link;
-			}
+		}
+		if (!this.isSelectionEmpty()){
+			link.setContent(this.selectedNodesToText(' ', ' | '));
+			return link;
 		}
 	};
 
@@ -2352,8 +2350,39 @@ function Document(node){
 	 * @return         {Element}
 	 */
 	this.convertToLinks = function(scope, selection, position, template){
-		return scope.cloneNode(true);
+		if (!((scope instanceof Node) && (typeof template === 'object'))){
+			return;
+		}
+		/// if the selection is empty, use the cursor position
+		if (!Array.isArray(selection) || selection.length === 0){
+			if (!(position instanceof Range)){
+				return scope.cloneNode(true);
+			}
+			try {
+				var factory = this.getFactory(),
+					link = factory.stub(document.createElement('a'));
+				link.loadFromTemplate(template);
+				return this.insertNodeAt(scope, position, link.toNode());
+			} catch (e){
+				console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
+			}
+		}
+
+	};
+
+	/**
+	 * Returns a copy of `scope` in which node `n` is inserted at position `pos`.
+	 * @method         insertNodeAt
+	 * @param          {Element}       scope        [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                              instance in which `n` is to be inserted
+	 * @param          {Range}         position     position where `n` is to be inserted
+	 * @param          {Node}          n
+	 * @return         {Element}                    modified copy of `scope`
+	 * @since          0.1.0
+	 */
+	this.insertNodeAt = function(scope, pos, n){
 		/// !!! stub
+
 	};
 
 }
