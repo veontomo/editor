@@ -96,7 +96,7 @@ function CLink() {
      * @return         {void}
      */
     this.onShow = function(dialog, editor) {
-        var link, doc, ranges, adapter, content;
+        var linkTag, link, doc, ranges, adapter, content;
         if (!editor) {
             return;
         }
@@ -111,9 +111,10 @@ function CLink() {
             doc = this.getWorker();
             doc.setContent(content);
             doc.freezeSelection(ranges);
-            // doc.setRanges(ranges);
-            link = doc.detectTag('a');
-            if (link) {
+            linkTag = doc.detectTag('a');
+            link = new Link();
+            link.load(linkTag);
+            if (linkTag) {
                 adapter.fillInDialog(dialog, link.template(), 'link');
             }
         } catch (e) {
@@ -174,23 +175,23 @@ function CLink() {
      * @since          0.1.0
      */
     this.elaborateAsLink = function(dialog, editor) {
-        var adapter, dialogData, template, selectedNodes,
-        	content, doc, newContent;
-        try {
-        	adapter = this.getEditorAdapter();
-    		dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
-    	    template = adapter.dialogToTemplate(dialogData);
-    	    doc = this.getWorker();
-		    selectedNodes = doc.getSelectionPlain();
-    	    content = doc.getContent(editor);
-    	    cursorPostion = doc.getCursorPosition();
-            newContent = doc.convertToLinks(content, selectedNodes, cursorPosition, template);
-            if (newContent) {
-                adapter.setEditorContent(editor, newContent);
-            }
-        } catch (e) {
-            console.log(e.name + ' occurred when converting into a link: ' + e.message);
-        }
+      //   var adapter, dialogData, template, selectedNodes,
+      //   	content, doc, newContent;
+      //   try {
+      //   	adapter = this.getEditorAdapter();
+    		// dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
+    	 //    template = adapter.dialogToTemplate(dialogData);
+    	 //    doc = this.getWorker();
+		    // selectedNodes = doc.getSelectionPlain();
+    	 //    content = doc.getContent(editor);
+    	 //    cursorPostion = doc.getCursorPosition();
+      //       newContent = doc.convertToLinks(content, selectedNodes, cursorPosition, template);
+      //       if (newContent) {
+      //           adapter.setEditorContent(editor, newContent);
+      //       }
+      //   } catch (e) {
+      //       console.log(e.name + ' occurred when converting into a link: ' + e.message);
+      //   }
 
     };
 
