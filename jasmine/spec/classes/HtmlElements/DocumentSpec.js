@@ -10,12 +10,24 @@ var emptyArrayMatcher = {
   }
 };
 
+var nullOrUndefinedMatcher = {
+  toBeNullOrUndefined: function(util, customEqualityTesters) {
+    return {
+      compare: function(actual) {
+        return {'pass': (actual === undefined || actual === null), 'message': 'actual value is ' + actual};
+      }
+    };
+  }
+};
+
+
 
 describe('Document class', function() {
     var node, doc, ch1, ch11, ch2, text1, text2, text3;
 
     beforeEach(function() {
         jasmine.addMatchers(emptyArrayMatcher);
+        jasmine.addMatchers(nullOrUndefinedMatcher);
         node = document.createElement('div');
         ch1 = document.createElement('p');
         text1 = document.createTextNode('Text inside a paragraph.');
@@ -3071,18 +3083,16 @@ describe('Document class', function() {
 		});
 	});
     describe('has a method detectTag that', function(){
-        beforeEach(function(){
-            /// add spy for factory
-        });
         it('returns nothing if it is called without argument', function(){
-            expect(doc.detectTag()).not.toBeDefined();
+            expect(doc.detectTag()).toBeNullOrUndefined();
 
         });
         it('returns nothing if selection and cursor postion are not defined', function(){
             spyOn(doc, 'getCursorPosition');
             spyOn(doc, 'getSelection');
-            expect(doc.detectTag('div')).not.toBeDefined();
+            expect(doc.detectTag('div')).toBeNullOrUndefined();
         });
+
         it('returns an ancestor of the node where the cursor is postioned', function(){
             var range = document.createRange();
             range.setStart(node, 1);
@@ -3092,11 +3102,20 @@ describe('Document class', function() {
             expect(doc.detectTag('div')).toBe(node);
         });
 
-        it('returns nothing if selection contains just one node and the cursor postion is not defined', function(){
-            spyOn(doc, 'getCursorPosition').and.returnValue([[]]);
-            spyOn(doc, 'getSelection');
-            expect(doc.detectTag()).not.toBeDefined();
+        it('returns an ancestor of the selected nodes', function(){
+            spyOn(doc, 'getCursorPosition');
+            spyOn(doc, 'getSelection').and.returnValue([ch11, text2]);
+            expect(doc.detectTag('p')).toBe(ch1);
         });
+
+        it('returns nothing if the tag name corresponds to no ancestor', function(){
+            spyOn(doc, 'getCursorPosition');
+            spyOn(doc, 'getSelection').and.returnValue([ch11, text2]);
+            expect(doc.detectTag('h1')).toBeNullOrUndefined();
+        });
+
+
+
 
 
     });

@@ -90,4 +90,20 @@ function Factory(map){
 		return stub;
 	};
 
+	/**
+	 * Creates an instance of {{#crossLink "Tag"}}Tag{{/crossLink}} class (or of its sublass) whose tag name is
+	 * equal to `tagName` variable.
+	 * @method         createByTagName
+	 * @param          {String}     tagName
+	 * @return         {Tag}                 instance of {{#crossLink "Tag"}}Tag{{/crossLink}} class or of its sublass
+	 * @since          0.1.0
+	 */
+	this.createByTagName = function(tagName){
+		if (typeof tagName !== 'string'){
+			return;
+		}
+		var foo = document.createElement(tagName);
+		return this.stub(foo);
+	};
+
 }

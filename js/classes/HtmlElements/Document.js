@@ -1382,7 +1382,7 @@ function Document(node){
 	 */
 	this.isSelectionEmpty = function(){
 	    var s = this.getSelection();
-	    if (s === null || s.length === 0){
+	    if (!s || s.length === 0){
 	    	return true;
 	    }
 	    return s.every(function(arr){
@@ -2274,16 +2274,17 @@ function Document(node){
 
 	/**
 	 * Finds a tag specified by string `name` inside {{#crossLink "Document/_content:property"}}_content{{/crossLink}} based on the
-	 * selection defined by {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} array.
+	 * selected nodes and cursor position.
 	 *
-	 *
-	 * First of all, the serach is performed among ancestors of nodes belonging to the selection and among ancestors of
+	 * The search is performed among ancestors of nodes belonging to the selection and among ancestors of
 	 * the node that contains the cursor position.
+	 *
+	 * The selection is retrieved by means of {{#crossLink "Document/getSelection:method"}}getSelection{{/crossLink}} method.
 	 *
 	 * @method         detectTag
 	 * @param          {String}     name        tag name
 	 * @since          0.1.0
-	 * @return         {Tag}       instance of {{#crossLink "Tag"}}Tag{{/crossLink}}  or one of Tag subclasses
+	 * @return         {Element|Null}       instance of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 */
 	this.detectTag = function(name){
 		if (typeof name !== 'string'){
@@ -2313,24 +2314,12 @@ function Document(node){
 
 		var selection = this.getSelectionPlain(),
 			candidateNodes = Array.isArray(selection) ?  selection : [],
-			linkElem,
-			link,
+			tag,
 			cursorPos = this.getCursorPosition();
 		if (cursorPos){
 			candidateNodes.push(cursorPos.startContainer);
 		}
-
-		linkElem = this.findInBlock(candidateNodes, callback);
-		var factory = this.getFactory(),
-			link = factory.stub(document.createElement(name));
-		if (linkElem){
-			link.load(linkElem);
-			return link;
-		}
-		if (!this.isSelectionEmpty()){
-			link.setContent(this.selectedNodesToText(' ', ' | '));
-			return link;
-		}
+		return this.findInBlock(candidateNodes, callback);
 	};
 
 	/**
@@ -2386,4 +2375,3 @@ function Document(node){
 	};
 
 }
-
