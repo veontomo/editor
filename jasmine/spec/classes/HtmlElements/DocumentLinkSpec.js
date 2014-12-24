@@ -12,7 +12,7 @@ var instanceOfMatcher = {
 };
 
 
-xdescribe('Document class has a method convertToLink method that', function() {
+describe('Document class has a method convertToLink method that', function() {
     var span1, a1, text1, div1, span2, p1, a2, text2, a3, ol1, li1, li2, text3,
         aTemplate, doc;
     beforeEach(function() {

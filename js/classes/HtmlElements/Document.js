@@ -2348,8 +2348,7 @@ function Document(node){
 				return scope.cloneNode(true);
 			}
 			try {
-				var factory = this.getFactory(),
-					link = factory.stub(document.createElement('a'));
+				var link = new Link();
 				link.loadFromTemplate(template);
 				return this.insertNodeAt(scope, position, link.toNode());
 			} catch (e){
@@ -2370,7 +2369,15 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.insertNodeAt = function(scope, pos, n){
-		/// !!! stub
+		/// !!! to finish
+		var nodeParent = pos.startContainer;
+		var path = this.pathTo(nodeParent, scope);  // remembering path to an element where the node is
+													// to be inserted (because after cloning, the range
+													// refers to original nodes that are not present anymore
+													// in the clone)
+
+		var clone = scope.cloneNode(true);
+		return clone;
 
 	};
 
