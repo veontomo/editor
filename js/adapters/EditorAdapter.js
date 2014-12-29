@@ -183,6 +183,7 @@ function EditorAdapter(){
 	 *
 	 * Returns the newly inserted node.
 	 *
+	 * @method       insertAt
 	 * @param        {Node}            parent      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param        {Node}            child       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param        {Integer}         index

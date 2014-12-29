@@ -2351,8 +2351,7 @@ function Document(node){
 				var link = new Link();
 				link.loadFromTemplate(template);
 				var path = this.pathTo(position.startContainer, scope);
-				path.push(position.startOffset);
-				return this.insertNodeAt(scope, path, link.toNode());
+				return this.insertNodeAt(scope, path, position.startOffset, link.toNode());
 			} catch (e){
 				console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
 				return scope;
@@ -2362,41 +2361,60 @@ function Document(node){
 	};
 
 	/**
-	 * Returns a copy of `scope` in which node `n` is inserted at position `pos`.
+	 * Returns a copy of `root` in which node `n` is inserted according to position `pos`.
 	 *
-	 * Throws an error if `path` is not an array.
+	 * Array `pos` must contain at least one element. Without its last element, array `pos`
+	 * must point to an existing element in the DOM: starting from `root` and following
+	 * branch numbers given by the  (in the sense of )
+	 *
+	 * Throws an error in the following cases
+	 * <ol><li>
+	 * `pathToHost` is not an array
+	 * </li><li>
+	 * `path` is an empty array
+	 * </li><li>
+	 * `scope` or `n` is not an Element instance
+	 * </li><li>
+	 * `pathToHost` does not correspond to an exisitng point in DOM
+	 * </li></ol>
 	 *
 	 * @method         insertNodeAt
-	 * @param          {Element}       scope        [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * @param          {Element}       root         [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                              instance in which `n` is to be inserted
-	 * @param          {Array}         path         path to the position in which `n` is to be inserted
+	 * @param          {Array}         pathToNode   path to node which becomes parent of `n`
+	 * @param          {Integer}       index        number under which node `n` should be available after insertion
 	 * @param          {Node}          n
-	 * @return         {Element}                    modified copy of `scope`
+	 * @return         {Element}                    modified copy of `root`
 	 * @since          0.1.0
-	 * @throws         {Error}                      If `path` is not an array
+	 * @throws         {Error}                      If `pathToHost` is not an array
 	 */
-	this.insertNodeAt = function(scope, path, n){
-		// if (scope instanceof Element){
-		// 	throw new Error('First argument must be an Element instance!');
-		// }
-
-		if (!Array.isArray(path) || path.length === 0){
-			throw new Error('Second argument must be a non empty array!');
+	this.insertNodeAt = function(root, pathToHost, index, n){
+		if (!(root instanceof Element)){
+			throw new Error('First argument must be an Element instance!');
 		}
-		var clone = scope.cloneNode(true),
-			hostingNodePath = path.slice(0, -1), // path to the element that becomes parent of node n
-			index = path[path.length - 1],
-			hostNode = this.getNodeByPath(hostingNodePath, clone);
-		if (hostNode instanceof Element){
-			var children = hostNode.childNodes;
-			if (index > children.length){
-				throw new Error('Specified position does not exist!');
+		if (!Array.isArray(pathToHost)){
+			throw new Error('Second argument must be an array!');
+		}
+		if (!(n instanceof Node)){
+			throw new Error('Fourth argument must be a Node instance!');
+		}
+		var clone = root.cloneNode(true),
+			hostNode = this.getNodeByPath(pathToHost, clone);
+		if (!(hostNode instanceof Element)){
+			throw new Error('Target element is not found!');
+		}
+		var children = hostNode.childNodes;
+		if (index > children.length){
+			throw new Error('Index is too big!');
+		}
+		if (index === children.length){
+			hostNode.appendChild(n);
+		} else {
+			var sibling = children[index];
+			if (!sibling){
+				throw new Error('Wrong index to insert node at!');
 			}
-			if (index === children.length){
-				hostNode.appendChild(n);
-			} else {
-				hostNode.insertBefore(n, children[index]);
-			}
+			hostNode.insertBefore(n, sibling);
 		}
 		return clone;
 	};

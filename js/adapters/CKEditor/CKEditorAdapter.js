@@ -265,7 +265,7 @@ function CKEditorAdapter(){
 	 * If case of success, the inserted node has number `index` among children of node `parent`.
 	 *
 	 * Returns the newly inserted node.
-	 *
+	 * @method       insertAt
 	 * @param        {Node}            parent      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param        {Node}            child       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param        {Integer}         index

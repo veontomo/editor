@@ -3126,37 +3126,48 @@ describe('Class "Document"', function() {
         it('throws an error if its first argument is not an Element instance', function() {
             var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
                 {}, {'foo': 1}, text1];
-            invalids.forEach(function(invalids){
+            invalids.forEach(function(invalid){
                 expect(function(){
-                    doc.insertNodeAt(invalids);
+                    doc.insertNodeAt(invalid, [1], 0, node);
                 }).toThrow();
             });
         });
 
-        it('throws an error if its second argument is different from non-empty array', function() {
-            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], {}, {'foo': 1}];
-            invalids.forEach(function(invalids){
+        it('throws an error if its second argument is not array', function() {
+            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, {}, {'foo': 1}];
+            invalids.forEach(function(invalid){
                 expect(function(){
-                    doc.insertNodeAt(node, invalids);
+                    doc.insertNodeAt(node, invalid, 1, ch2);
                 }).toThrow();
             });
         });
 
-        it('throws an error if its third argument is not a Node instance', function() {
+        it('throws an error if its third argument is not integer', function() {
+            var invalids = [null, undefined, '', 'non-empty string', 4.123, -4.8, {}, {'foo': 1}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    doc.insertNodeAt(node, [], invalid, ch2);
+                }).toThrow();
+            });
+        });
+
+
+        it('throws an error if its fourth argument is not a Node instance', function() {
             var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
                 {}, {'foo': 1}];
-            invalids.forEach(function(invalids){
+            invalids.forEach(function(invalid){
                 expect(function(){
-                    doc.insertNodeAt(ch1, [1], invalids);
-                }).toThrow();
+                    doc.insertNodeAt(node, [1], 0, invalid);
+                }).toThrow(new Error('Fourth argument must be a Node instance!'));
             });
         });
 
-        describe('when inserting an Element instance as a first child,', function(){
+
+        describe('when inserting an Element instance as a first child of the root,', function(){
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
-                res = doc.insertNodeAt(ch1, [0], h1);
+                res = doc.insertNodeAt(ch1, [], 0, h1);
             });
 
             it('it returns a new Element instance', function(){
@@ -3181,11 +3192,12 @@ describe('Class "Document"', function() {
                 expect(res.childNodes[2]  === ch11).toBe(false);
             });
         });
-        describe('when inserting an Element instance as a last child', function(){
+
+        describe('when inserting an Element instance as a last child of the root', function(){
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
-                res = doc.insertNodeAt(ch2, [1], h1);
+                res = doc.insertNodeAt(ch2, [], 1, h1);
             });
 
             it('it returns a new Element instance', function(){
@@ -3206,14 +3218,13 @@ describe('Class "Document"', function() {
             it('it returns Element with correct last child', function(){
                 expect(res.childNodes[1] === h1).toBe(true);
             });
-
         });
 
         describe('when inserting a deeply nested Element instance', function(){
             var el, res;
             beforeEach(function(){
                 el = document.createElement('h1');
-                res = doc.insertNodeAt(node, [0, 1], el);
+                res = doc.insertNodeAt(node, [0], 1, el);
             });
 
             it('it returns a new Element instance', function(){
@@ -3238,9 +3249,24 @@ describe('Class "Document"', function() {
                 expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
                 expect(res.childNodes[2].isEqualNode(text3)).toBe(true);
             });
-
         });
 
+        describe('handles situations with non-correct path', function(){
+            var el;
+            beforeEach(function(){
+                el = document.createElement('h1');
+            });
+            it('throws an error if the DOM has no path specified', function(){
+                expect(function(){
+                    doc.insertNodeAt(node, [1, 1, 0, 1], 0, el);
+                }).toThrow();
+            });
+            it('throws an error if the path is correct, but the index is too big', function(){
+                expect(function(){
+                    doc.insertNodeAt(node, [0], 5, el);
+                }).toThrow();
+            });
+        });
 
     });
 
