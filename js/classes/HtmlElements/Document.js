@@ -2350,9 +2350,12 @@ function Document(node){
 			try {
 				var link = new Link();
 				link.loadFromTemplate(template);
-				return this.insertNodeAt(scope, position, link.toNode());
+				var path = this.pathTo(position.startContainer, scope);
+				path.push(position.startOffset);
+				return this.insertNodeAt(scope, path, link.toNode());
 			} catch (e){
 				console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
+				return scope;
 			}
 		}
 
@@ -2360,25 +2363,42 @@ function Document(node){
 
 	/**
 	 * Returns a copy of `scope` in which node `n` is inserted at position `pos`.
+	 *
+	 * Throws an error if `path` is not an array.
+	 *
 	 * @method         insertNodeAt
 	 * @param          {Element}       scope        [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                              instance in which `n` is to be inserted
-	 * @param          {Range}         position     position where `n` is to be inserted
+	 * @param          {Array}         path         path to the position in which `n` is to be inserted
 	 * @param          {Node}          n
 	 * @return         {Element}                    modified copy of `scope`
 	 * @since          0.1.0
+	 * @throws         {Error}                      If `path` is not an array
 	 */
-	this.insertNodeAt = function(scope, pos, n){
-		/// !!! to finish
-		var nodeParent = pos.startContainer;
-		var path = this.pathTo(nodeParent, scope);  // remembering path to an element where the node is
-													// to be inserted (because after cloning, the range
-													// refers to original nodes that are not present anymore
-													// in the clone)
+	this.insertNodeAt = function(scope, path, n){
+		// if (scope instanceof Element){
+		// 	throw new Error('First argument must be an Element instance!');
+		// }
 
-		var clone = scope.cloneNode(true);
+		if (!Array.isArray(path) || path.length === 0){
+			throw new Error('Second argument must be a non empty array!');
+		}
+		var clone = scope.cloneNode(true),
+			hostingNodePath = path.slice(0, -1), // path to the element that becomes parent of node n
+			index = path[path.length - 1],
+			hostNode = this.getNodeByPath(hostingNodePath, clone);
+		if (hostNode instanceof Element){
+			var children = hostNode.childNodes;
+			if (index > children.length){
+				throw new Error('Specified position does not exist!');
+			}
+			if (index === children.length){
+				hostNode.appendChild(n);
+			} else {
+				hostNode.insertBefore(n, children[index]);
+			}
+		}
 		return clone;
-
 	};
 
 }

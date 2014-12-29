@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node */
+/*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range */
 var emptyArrayMatcher = {
   toBeEmptyArray: function(util, customEqualityTesters) {
     return {
@@ -22,7 +22,7 @@ var nullOrUndefinedMatcher = {
 
 
 
-describe('Document class', function() {
+describe('Class "Document"', function() {
     var node, doc, ch1, ch11, ch2, text1, text2, text3;
 
     beforeEach(function() {
@@ -33,7 +33,7 @@ describe('Document class', function() {
         text1 = document.createTextNode('Text inside a paragraph.');
         ch11 = document.createElement('img');
         ch2 = document.createElement('a');
-        text2 = document.createTextNode('This is a link.')
+        text2 = document.createTextNode('This is a link.');
         text3 = document.createTextNode('Some text');
 
         node.appendChild(ch1);
@@ -112,19 +112,19 @@ describe('Document class', function() {
             node = document.createElement('div');
             node.setAttribute('class', 'media');
             node.setAttribute('id', 'bodyId');
-            var ch1 = document.createElement('p');
+            ch1 = document.createElement('p');
             ch1.setAttribute('style', 'width: 300px; color: red;');
             ch1.setAttribute('marker', 'p');
             ch1.setAttribute('width', '300px');
             ch1.appendChild(document.createTextNode('Text inside a paragraph.'));
-            var ch11 = document.createElement('img');
+            ch11 = document.createElement('img');
             ch11.setAttribute('style', 'width: 100%; color: red;');
             ch11.setAttribute('width', '200px');
             ch11.setAttribute('src', 'http://www.image.com/test.jpg');
             ch11.setAttribute('alt', 'no image available');
             ch11.setAttribute('id', 'imageId');
             ch11.setAttribute('class', 'big bottom');
-            var ch2 = document.createElement('a');
+            ch2 = document.createElement('a');
             ch2.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
             ch2.setAttribute('href', 'http://www.test.com');
             ch2.setAttribute('title', 'link to test');
@@ -3082,6 +3082,7 @@ describe('Document class', function() {
 			expect(console.log).toHaveBeenCalled();
 		});
 	});
+
     describe('has a method detectTag that', function(){
         it('returns nothing if it is called without argument', function(){
             expect(doc.detectTag()).toBeNullOrUndefined();
@@ -3113,12 +3114,136 @@ describe('Document class', function() {
             spyOn(doc, 'getSelection').and.returnValue([ch11, text2]);
             expect(doc.detectTag('h1')).toBeNullOrUndefined();
         });
+    });
+
+    describe('has method "insertNodeAt" method that', function(){
+        it('throws an error when called without arguments', function() {
+            expect(function(){
+                doc.insertNodeAt();
+            }).toThrow();
+        });
+
+        it('throws an error if its first argument is not an Element instance', function() {
+            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
+                {}, {'foo': 1}, text1];
+            invalids.forEach(function(invalids){
+                expect(function(){
+                    doc.insertNodeAt(invalids);
+                }).toThrow();
+            });
+        });
+
+        it('throws an error if its second argument is different from non-empty array', function() {
+            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], {}, {'foo': 1}];
+            invalids.forEach(function(invalids){
+                expect(function(){
+                    doc.insertNodeAt(node, invalids);
+                }).toThrow();
+            });
+        });
+
+        it('throws an error if its third argument is not a Node instance', function() {
+            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
+                {}, {'foo': 1}];
+            invalids.forEach(function(invalids){
+                expect(function(){
+                    doc.insertNodeAt(ch1, [1], invalids);
+                }).toThrow();
+            });
+        });
+
+        describe('when inserting an Element instance as a first child,', function(){
+            var h1, res;
+            beforeEach(function(){
+                h1 = document.createElement('h1');
+                res = doc.insertNodeAt(ch1, [0], h1);
+            });
+
+            it('it returns a new Element instance', function(){
+                expect(res === ch1).toBe(false);
+                expect(res instanceof Element).toBe(true);
+            });
 
 
+            it('it returns Element with correct number of child nodes', function(){
+                expect(res.childNodes.length).toBe(3);
+            });
 
+            it('it returns Element with correct first child', function(){
+                expect(res.childNodes[0]).toBe(h1);
+            });
+
+            it('it returns Element with correct other children', function(){
+                expect(res.childNodes[1].isEqualNode(text1)).toBe(true);
+                expect(res.childNodes[1] === text1).toBe(false);
+
+                expect(res.childNodes[2].isEqualNode(ch11)).toBe(true);
+                expect(res.childNodes[2]  === ch11).toBe(false);
+            });
+        });
+        describe('when inserting an Element instance as a last child', function(){
+            var h1, res;
+            beforeEach(function(){
+                h1 = document.createElement('h1');
+                res = doc.insertNodeAt(ch2, [1], h1);
+            });
+
+            it('it returns a new Element instance', function(){
+                expect(res === ch2).toBe(false);
+                expect(res instanceof Element).toBe(true);
+            });
+
+
+            it('it returns Element with correct number of child nodes', function(){
+                expect(res.childNodes.length).toBe(2);
+            });
+
+            it('it returns Element with correct first child', function(){
+                expect(res.childNodes[0].isEqualNode(text2)).toBe(true);
+                expect(res.childNodes[0] === text2).toBe(false);
+            });
+
+            it('it returns Element with correct last child', function(){
+                expect(res.childNodes[1] === h1).toBe(true);
+            });
+
+        });
+
+        describe('when inserting a deeply nested Element instance', function(){
+            var el, res;
+            beforeEach(function(){
+                el = document.createElement('h1');
+                res = doc.insertNodeAt(node, [0, 1], el);
+            });
+
+            it('it returns a new Element instance', function(){
+                expect(res === node).toBe(false);
+                expect(res instanceof Element).toBe(true);
+            });
+
+
+            it('it returns Element with correct number of child nodes', function(){
+                expect(res.childNodes.length).toBe(3);
+            });
+
+            it('it returns Element with correct first child', function(){
+                var ch1Modified = res.childNodes[0];
+                expect(ch1Modified.childNodes.length).toBe(3);
+                expect(ch1Modified.childNodes[0].isEqualNode(text1)).toBe(true);
+                expect(ch1Modified.childNodes[1] === el).toBe(true);
+                expect(ch1Modified.childNodes[2].isEqualNode(ch11)).toBe(true);
+            });
+
+            it('it returns Element with correct other children', function(){
+                expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
+                expect(res.childNodes[2].isEqualNode(text3)).toBe(true);
+            });
+
+        });
 
 
     });
+
 
 
 });
