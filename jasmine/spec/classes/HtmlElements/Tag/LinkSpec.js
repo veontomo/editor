@@ -469,6 +469,20 @@ describe('Class "Link"', function() {
             });
         });
 
+        describe('sets content to according to "text" attribute', function(){
+            it('if it is not set', function(){
+                link.flushContent();
+                link.loadFromTemplate({text: 'link text'});
+                expect(link.toText()).toBe('link text');
+            });
+            it('if it is set', function(){
+                link.appendElem(new Tag());
+                link.loadFromTemplate({text: 'new link text'});
+                expect(link.toText()).toBe('new link text');
+            });
+        });
+
+
         describe('sets "text-decoration" attribute', function(){
             it('if the template has it equal to "true" and it is not set before', function(){
                 link.dropProperty('text-decoration');

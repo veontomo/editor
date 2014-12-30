@@ -1283,7 +1283,7 @@ function Document(node){
 	 *
 	 * If selection is not set, nothing is returned.
 	 *
-	 * Unlike to {{#crossLink "Document/selection:method"}}selection{{/crossLink}}, this method returns
+	 * Unlike to {{#crossLink "Document/getSelection:method"}}getSelection{{/crossLink}}, this method returns
 	 * one dimensional array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instances.
 	 * @method  getSelectionPlain
 	 * @since   0.1.0
@@ -1372,7 +1372,7 @@ function Document(node){
 	// };
 
 	/**
-	 * Returns `true` if {{#crossLink "Document/_selectedNodes:method"}}_selectedNodes{{/crossLink}} is empty,
+	 * Returns `true` if {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} is empty,
 	 * `false` otherwise.
 	 *
 	 * {{#crossLink "Document/_selectedNodes:method"}}_selectedNodes{{/crossLink}} is considered empty
@@ -1506,7 +1506,7 @@ function Document(node){
 	};
 
 	/**
-	 * Replaces each element in {{#crossLink "Document/selected:property"}}selected{{/crossLink}} by
+	 * Replaces each element in {{#crossLink "Document/_selection:property"}}_selection{{/crossLink}} by
 	 * a link in which this element is located. In case the element is not located inside any link, then it
 	 * is leaved without changes. The linkElem array mimics the structure of
 	 * {{#crossLink "Document/selected:property"}}selected{{/crossLink}} array: it should be a two-dimensional array
@@ -1726,7 +1726,7 @@ function Document(node){
 	 * </li><li>
 	 * if `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.
 	 * </li></ol>
-	 * @method         _proxy
+	 * @method         proxy
 	 * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {DOM.Node|Null}
 	 */
@@ -1816,7 +1816,7 @@ function Document(node){
 
 
 	/**
-	 * Modifies inline style properties of a {{#crossLink "Selection/_proxy:method"}}proxy{{/crossLink}}
+	 * Modifies inline style properties of a {{#crossLink "Document/_proxy:method"}}proxy{{/crossLink}}
 	 * node of deepest children of node `n` in the following way:
 	 * <ol><li>
 	 * if style property `prop` of the deepest child is equal to `val`, then inline
@@ -2342,7 +2342,7 @@ function Document(node){
 		if (!((scope instanceof Node) && (typeof template === 'object'))){
 			return;
 		}
-		/// if the selection is empty, use the cursor position
+
 		if (!Array.isArray(selection) || selection.length === 0){
 			if (!(position instanceof Range)){
 				return scope.cloneNode(true);
@@ -2355,9 +2355,11 @@ function Document(node){
 				return this.insertNodeAt(scope, path, position.startOffset, link.toNode());
 			} catch (e){
 				console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
-				return scope;
+				return scope.cloneNode(true);
 			}
 		}
+		/// once here, it means that there is a selection
+
 
 	};
 

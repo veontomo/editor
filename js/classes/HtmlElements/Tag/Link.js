@@ -384,6 +384,9 @@ function Link(href) {
 					case 'target':
 						this.setProperty(key, tmpl[key]);
 						break;
+					case 'text':
+						this.setContent(tmpl[key]);
+						break;
 				}
 			}
 		}

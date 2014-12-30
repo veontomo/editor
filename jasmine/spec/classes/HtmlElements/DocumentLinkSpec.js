@@ -84,7 +84,7 @@ describe('Class "Document"', function() {
         console.log(span1.outerHTML);
     });
 
-    xdescribe('has a method convertToLink method that', function(){
+    describe('has a method convertToLink method that', function(){
         it('returns nothing if called without arguments', function() {
             expect(doc.convertToLinks()).not.toBeDefined();
         });
@@ -100,6 +100,7 @@ describe('Class "Document"', function() {
             cursorPos.setStart(span1, 1);
             cursorPos.collapse(true);
             var result = doc.convertToLinks(span1, [], cursorPos, aTemplate.template());
+            console.log(result.outerHTML);
             expect(result).isInstanceOf(Element);
             expect(result.childNodes.length).toBe(4);
             expect(result.childNodes[0].isEqualNode(a1)).toBe(true);
@@ -112,9 +113,10 @@ describe('Class "Document"', function() {
             expect(newElem.getAttribute('title')).toBe('link title');
             expect(newElem.childNodes.length).toBe(1);
             expect(newElem.childNodes[0]).isInstanceOf(Text);
-            expect(newElem.childNodes[0].value).toBe('template text');
+            expect(newElem.childNodes[0].nodeValue).toBe('template text');
 
             expect(result.childNodes[3].isEqualNode(span2)).toBe(true);
+
         });
 
 
@@ -127,7 +129,7 @@ describe('Class "Document"', function() {
             expect(result.getAttribute('target')).toBe('_self');
             expect(result.childNodes.length).toBe(1);
             expect(result.childNodes[0] instanceof Text).toBe(true);
-            expect(result.childNodes[0].value).toBe('a text of the link');
+            expect(result.childNodes[0].nodeValue).toBe('a text of the link');
         });
 
         it('modifies the link if all its text content is selected', function(){
