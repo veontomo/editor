@@ -2350,6 +2350,7 @@ function Document(node){
 			try {
 				var link = new Link();
 				link.loadFromTemplate(template);
+				console.log(template, link.toHtml());
 				var path = this.pathTo(position.startContainer, scope);
 				return this.insertNodeAt(scope, path, position.startOffset, link.toNode());
 			} catch (e){

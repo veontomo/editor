@@ -102,16 +102,19 @@ describe('Class "Document"', function() {
             var result = doc.convertToLinks(span1, [], cursorPos, aTemplate.template());
             expect(result).isInstanceOf(Element);
             expect(result.childNodes.length).toBe(4);
-            expect(result.childNodes[0]).toBe(a1);
-            expect(result.childNodes[2]).toBe(div1);
+            expect(result.childNodes[0].isEqualNode(a1)).toBe(true);
+            expect(result.childNodes[2].isEqualNode(div1)).toBe(true);
+
             var newElem = result.childNodes[1];
-            expect(newElem.tagName).toBe('a');
+            expect(newElem.tagName.toLowerCase()).toBe('a');
             expect(newElem.getAttribute('href')).toBe('www.job.com');
             expect(newElem.getAttribute('target')).toBe('self');
             expect(newElem.getAttribute('title')).toBe('link title');
             expect(newElem.childNodes.length).toBe(1);
             expect(newElem.childNodes[0]).isInstanceOf(Text);
             expect(newElem.childNodes[0].value).toBe('template text');
+
+            expect(result.childNodes[3].isEqualNode(span2)).toBe(true);
         });
 
 

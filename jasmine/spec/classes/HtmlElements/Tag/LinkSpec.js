@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Tag, Link, LinkProperties, Content, Table, Cell, Factory, PlainText */
 
-describe('Link-related functionality:', function() {
+describe('Class "Link"', function() {
     var link, prop;
     beforeEach(function() {
         prop = new LinkProperties();
@@ -11,13 +11,13 @@ describe('Link-related functionality:', function() {
         delete link.dumbAttribute;
     });
 
-    describe('Link::className: class name', function(){
+    describe('has method className that', function(){
         it('gives the name of the class', function(){
             expect(link.getName()).toBe('Link');
         });
     });
 
-    describe('Link::constuctor() inherits from Tag', function(){
+    describe('inherits from Tag in such a way that it', function(){
         it('is an instance of Tag() as well ', function(){
             expect(link instanceof Link).toBe(true);
         });
@@ -53,53 +53,53 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Link properties are an instance of LinkProperties', function(){
-        it('has properties which ar a LinkProperties instance', function(){
+    describe('has properties attribute', function(){
+        it('that is a LinkProperties instance', function(){
             expect(link.getProperties() instanceof LinkProperties).toBe(true);
         });
     });
 
-    describe('Link has tag equal to "a"', function(){
-        it('A Link object name is set to "a"', function(){
+    describe('has attribute "tag"', function(){
+        it('that is set to "a"', function(){
             expect(link.getTag()).toBe('a');
         });
     });
 
-    describe('href getter and getter', function(){
-        it('calls Properties method to get value of "href" key', function(){
+    describe('has getter and getter for the attribute "href" such that', function(){
+        it('the getter calls Properties method to get value of "href" key', function(){
             spyOn(prop, 'getProperty').and.returnValue('www.test.com');
             link.setProperties(prop);
             expect(link.getHref()).toBe('www.test.com');
             expect(prop.getProperty).toHaveBeenCalledWith('href');
         });
 
-        it('sets value of "href" key', function(){
+        it('the gsetter sets the value of "href" key', function(){
             link.setHref('impose.url');
             expect(link.getHref()).toBe('impose.url');
         });
     });
 
-    describe('Link::underline(): underline the link', function(){
-        it('imposes the text-decoration to be "underline", called without argument', function(){
+    describe('has method "underline" that', function(){
+        it('imposes the text-decoration to be "underline", if called without argument', function(){
             link.dropStyleProperty('text-decoration');
             link.underline();
             expect(link.getStyleProperty('text-decoration')).toBe('underline');
         });
-        it('imposes the text-decoration to be "underline", if the argument is true', function(){
+        it('imposes the text-decoration to be "underline", if the argument is "true"', function(){
             link.underline(true);
             expect(link.getStyleProperty('text-decoration')).toBe('underline');
         });
-        it('imposes the text-decoration if the argument is a string', function(){
+        it('imposes the text-decoration, if the argument is a string', function(){
             link.underline('whatever');
             expect(link.getStyleProperty('text-decoration')).toBe('whatever');
         });
 
-        it('imposes the text-decoration to "none" if the argument is false', function(){
+        it('imposes the text-decoration to "none", if the argument is "false"', function(){
             link.underline(false);
             expect(link.getStyleProperty('text-decoration')).toBe('none');
         });
 
-        it('does not set text-decoration if the argument is a number, function, object or array', function(){
+        it('clears text-decoration if the argument is a number, function, object or array', function(){
             link.dropStyleProperty('text-decoration');
             link.underline(102);
             expect(link.getStyleProperty('text-decoration')).not.toBeDefined();
@@ -149,7 +149,7 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Apply target properties on the the argument', function(){
+    describe('has method "apply" that', function(){
         var arg, result, i;
         beforeEach(function(){
             link = new Link();
@@ -286,21 +286,21 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Link::dropUnderline() removes the underlining of the link', function(){
-        it('no underline if the link was originally underlined', function(){
+    describe('has method "dropUnderline" that', function(){
+        it('removes the underlining of the link if it is underlined', function(){
             link.setStyleProperty('text-decoration', 'underline');
             link.dropUnderline();
             expect(link.getStyles().getProperty('text-decoration')).toBe('none');
         });
 
-        it('no underline if the link was not originally', function(){
+        it('removes the underlining of the link if it is not underlined', function(){
             link.setStyleProperty('text-decoration', 'none');
             link.dropUnderline();
             expect(link.getStyleProperty('text-decoration')).toBe('none');
         });
     });
 
-    describe('Parsing uri', function(){
+    describe('has static method "parseUri" that', function(){
         it('returns empty object if input is missing', function(){
             expect(Object.keys(Link.parseUri('')).length).toBe(0);
         });
@@ -351,7 +351,7 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Scheme management', function(){
+    describe('has methods to deal with the scheme', function(){
         it('has "link" as default scheme', function(){
             expect(link.getDefaultScheme()).toBe('link');
         });
@@ -376,8 +376,8 @@ describe('Link-related functionality:', function() {
         });
     });
 
-    describe('Link template', function(){
-        it('returns an object',function(){
+    describe('has method to "template" that', function(){
+        it('returns an object', function(){
             expect(typeof link.template()).toBe('object');
         });
         it('has keys href, scheme, color, isUnderlined, isCompound, target, text, title', function(){
@@ -395,6 +395,109 @@ describe('Link-related functionality:', function() {
             spyOn(link, 'getHref').and.returnValue('a link');
             expect(link.template().href).toBe('a link');
         });
+    });
+
+    describe('has method "loadFromTemplate" that', function(){
+        describe('sets "title" attribute', function(){
+            it('if it is not set', function(){
+                link.dropProperty('title');
+                var templ = {title: 'new title'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('title')).toBe('new title');
+            });
+            it('if it is set', function(){
+                link.setProperty('title', 'old title');
+                var templ = {title: 'a title'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('title')).toBe('a title');
+            });
+        });
+        describe('sets "href" attribute', function(){
+            it('if it is not set', function(){
+                link.dropProperty('href');
+                var templ = {href: 'www.test.com'};
+                link.loadFromTemplate(templ);
+                expect(link.getHref()).toBe('www.test.com');
+            });
+            it('if it is set', function(){
+                link.setHref('aaa.com');
+                var templ = {href: 'bbb.org'};
+                link.loadFromTemplate(templ);
+                expect(link.getHref()).toBe('bbb.org');
+            });
+        });
+        describe('sets "color" attribute', function(){
+            it('if it is not set', function(){
+                link.dropProperty('color');
+                var templ = {color: 'yellow'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('color')).toBe('yellow');
+            });
+            it('if it is set', function(){
+                link.setProperty('color', 'navy');
+                var templ = {color: 'blue'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('color')).toBe('blue');
+            });
+        });
+        describe('sets "target" attribute', function(){
+            it('if it is not set', function(){
+                link.dropProperty('target');
+                var templ = {target: '_blank'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('target')).toBe('_blank');
+            });
+            it('if it is set', function(){
+                link.setProperty('target', 'top');
+                var templ = {target: 'self'};
+                link.loadFromTemplate(templ);
+                expect(link.getProperty('target')).toBe('self');
+            });
+        });
+        describe('sets "scheme" attribute', function(){
+            it('if it is not set', function(){
+                link.dropProperty('scheme');
+                var templ = {scheme: 'mail'};
+                link.loadFromTemplate(templ);
+                expect(link.getScheme('scheme')).toBe('mail');
+            });
+            it('if it is set', function(){
+                link.setScheme('mail');
+                var templ = {scheme: 'link'};
+                link.loadFromTemplate(templ);
+                expect(link.getScheme()).toBe('link');
+            });
+        });
+
+        describe('sets "text-decoration" attribute', function(){
+            it('if the template has it equal to "true" and it is not set before', function(){
+                link.dropProperty('text-decoration');
+                var templ = {isUnderlined: true};
+                link.loadFromTemplate(templ);
+                expect(link.isUnderlined()).toBe(true);
+            });
+            it('if the template has it equal to "false" and it is not set before', function(){
+                link.dropProperty('text-decoration');
+                var templ = {isUnderlined: false};
+                link.loadFromTemplate(templ);
+                expect(link.isUnderlined()).toBe(false);
+            });
+
+            it('if the template has it equal to "true" and it is set before', function(){
+                link.setProperty('text-decoration', '1px solid blue');
+                var templ = {isUnderlined: true};
+                link.loadFromTemplate(templ);
+                expect(link.isUnderlined()).toBe(true);
+            });
+            it('if the template has it equal to "false" and it is set before', function(){
+                link.setProperty('text-decoration', '1px solid blue');
+                var templ = {isUnderlined: false};
+                link.loadFromTemplate(templ);
+                expect(link.isUnderlined()).toBe(false);
+            });
+        });
+
+
 
 
     });

@@ -362,7 +362,32 @@ function Link(href) {
 	 * @since          0.1.0
 	 */
 	this.loadFromTemplate = function(tmpl){
-		/// !!! stub
+		var key;
+		for (key in tmpl){
+			if (tmpl.hasOwnProperty(key)){
+				switch (key){
+					case 'title':
+						this.setProperty(key, tmpl[key]);
+						break;
+					case 'href':
+						this.setHref(tmpl[key]);
+						break;
+					case 'color':
+						this.setProperty('color', tmpl[key]);
+						break;
+					case 'isUnderlined':
+						this.underline(tmpl[key]);
+						break;
+					case 'scheme':
+						this.setScheme(tmpl[key]);
+						break;
+					case 'target':
+						this.setProperty(key, tmpl[key]);
+						break;
+				}
+			}
+		}
+
 	};
 
 
