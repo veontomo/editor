@@ -84,23 +84,60 @@ describe('Class "Document"', function() {
         console.log(span1.outerHTML);
     });
 
-    describe('has a method convertToLink method that', function(){
-        it('returns nothing if called without arguments', function() {
-            expect(doc.convertToLinks()).not.toBeDefined();
+    describe('has a method "insertLinkAt" method that', function(){
+        it('throws an error if the first argument is not an Element instance', function() {
+            var invalids = [null, undefined, 0, 1, -1, 4.21, -21.98, '', 'string', [], [5, 3, 16], {}, {foo: 1}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    doc.insertLinkAt(invalid);
+                }).toThrow(new Error('The first argument must be an Element instance!'));
+            });
         });
 
-        it('returns a copy of the scope node if the selection is empty and cursor position is not provided', function() {
-            var result = doc.convertToLinks(div1, [], null, aTemplate.template());
+        it('returns a copy of the scope node if the position is not a Range instance', function() {
+            var invalids = [null, undefined, 0, 1, -1, 4.21, -21.98, '', 'string', [], [5, 3, 16], {}, {foo: 1}];
+            invalids.forEach(function(invalid){
+                var result = doc.insertLinkAt(div1, invalid, aTemplate.template());
+                expect(div1.isEqualNode(result)).toBe(true);
+                expect(result === div1).toBe(false);
+            });
+        });
+
+        it('returns a copy of the scope node if method "insertNodeAt" throws an error', function() {
+             var cursorPos = new Range();
+            cursorPos.setStart(span1, 1);
+            cursorPos.collapse(true);
+            spyOn(doc, 'insertNodeAt').and.callFake(function(){throw new Error('an error');});
+            var result = doc.insertLinkAt(div1, cursorPos, aTemplate.template());
             expect(div1.isEqualNode(result)).toBe(true);
             expect(result === div1).toBe(false);
         });
 
-        it('inserts a link node into at the cursor position if the selection is empty', function() {
+        it('does not create nested links', function(){
+            var cursorPos = new Range();
+            cursorPos.setStart(a3, 1);
+            cursorPos.collapse(true);
+            var result = doc.insertLinkAt(span1, cursorPos, aTemplate.template());
+            expect(result).isInstanceOf(Element);
+            expect(result.childNodes.length).toBe(3);
+            expect(result.childNodes[0].isEqualNode(a1)).toBe(true);
+            expect(result.childNodes[2].isEqualNode(span2)).toBe(true);
+
+            expect(result.childNodes[1]).isInstanceOf(Element);
+            expect(result.childNodes[1].tagName.toLowerCase()).toBe('div');
+            expect(result.childNodes.length).toBe(4);
+            expect(result.childNodes[0].isEqualNode(a1)).toBe(true);
+            expect(result.childNodes[2].isEqualNode(div1)).toBe(true);
+
+
+
+        });
+
+        it('inserts a link node at given position', function() {
             var cursorPos = new Range();
             cursorPos.setStart(span1, 1);
             cursorPos.collapse(true);
-            var result = doc.convertToLinks(span1, [], cursorPos, aTemplate.template());
-            console.log(result.outerHTML);
+            var result = doc.insertLinkAt(span1, cursorPos, aTemplate.template());
             expect(result).isInstanceOf(Element);
             expect(result.childNodes.length).toBe(4);
             expect(result.childNodes[0].isEqualNode(a1)).toBe(true);
@@ -118,9 +155,16 @@ describe('Class "Document"', function() {
             expect(result.childNodes[3].isEqualNode(span2)).toBe(true);
 
         });
+    });
 
-
-        it('returns a template-fed link if the scope node is a link and the selection contains just that link', function() {
+    describe('has a method convertToLink method that', function(){
+        it('returns nothing if the first argument is not an Element instance', function() {
+            var invalids = [null, undefined, 0, 1, -1, 4.21, -21.98, '', 'string', [], [5, 3, 16], {}, {foo: 1}];
+            invalids.forEach(function(invalid){
+                expect(doc.convertToLinks(invalid)).not.toBeDefined();
+            });
+        });
+        xit('returns a template-fed link if the scope node is a link and the selection contains just that link', function() {
             var result = doc.convertToLinks(a1, [a1], null, aTemplate.template());
 
             expect(result).isInstanceOf(Element);
@@ -132,7 +176,7 @@ describe('Class "Document"', function() {
             expect(result.childNodes[0].nodeValue).toBe('a text of the link');
         });
 
-        it('modifies the link if all its text content is selected', function(){
+        xit('modifies the link if all its text content is selected', function(){
             var result = doc.convertToLinks(span1, [text1], null, aTemplate.template());
             expect(result).isInstanceOf(Element);
             expect(result.childNodes.length).toBe(3);
@@ -152,7 +196,7 @@ describe('Class "Document"', function() {
             expect(result.childNodes[2].isEqualNode(span2)).toBeD(true);
         });
 
-        it('changes the whole hyperlink if it contains multiple elements even if just one element is selected', function(){
+        xit('changes the whole hyperlink if it contains multiple elements even if just one element is selected', function(){
             var result = doc.convertToLinks(div1, [ol1], null, aTemplate.template());
             expect(result).isInstanceOf(Element);
             expect(result.getAttribute('href')).toBe('www.job.com');
@@ -164,7 +208,7 @@ describe('Class "Document"', function() {
             console.log('perform control over styles!');
         });
 
-        it('appends all inherited properties to the element when converting it into a link', function(){
+        xit('appends all inherited properties to the element when converting it into a link', function(){
             var result = doc.convertToLinks(span1, [p1], null, aTemplate.template());
             expect(result).isInstanceOf(Element);
             expect(result.tagName).toBe('span');

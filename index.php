@@ -160,7 +160,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		}
 	?>
 	<div>Current version: 0.1.0 (as by December 1, 2014)</div>
-
-
 </body>
 </html>
