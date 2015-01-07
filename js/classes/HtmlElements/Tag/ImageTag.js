@@ -1,17 +1,17 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global ImageStyles, Content, Tag */
+/*global ImageProperties, Content, Tag */
 
 /**
- * Represents an image.
+ * Represents an ImageTag.
  * @module          HtmlElements
- * @class           Image
+ * @class           ImageTag
  * @constructor
  */
-function Image() {
+function ImageTag() {
 	"use strict";
-	if (!(this instanceof Image)) {
-		return new Image();
+	if (!(this instanceof ImageTag)) {
+		return new ImageTag();
 	}
 	// inherit tag properties
 	Tag.call(this);
@@ -23,7 +23,7 @@ function Image() {
 	 * <ol><li>
 	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} to be "img"
 	 * </li><li>
-	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "Image"
+	 * {{#crossLink "Tag/className:property"}}className{{/crossLink}} to be "ImageTag"
 	 * </li><li>
 	 * {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} to be
 	 * {{#crossLink "ImageStyles"}}ImageStyles{{/crossLink}}
@@ -31,12 +31,12 @@ function Image() {
 	 * @method         constructor
 	 */
 	this.setTag('img');
-	this.setName('Image');
+	this.setName('ImageTag');
 	this.setProperties(new ImageProperties());
 
 	/**
-	 * Sets `src` property of image {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
-	 * if `url` corresponds to an image with non zero width and height. In this case, `height` and
+	 * Sets `src` property of ImageTag {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * if `url` corresponds to an ImageTag with non zero width and height. In this case, `height` and
 	 * `width` properties are set in {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
 	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
 	 * @method         setOrigin
@@ -97,7 +97,7 @@ function Image() {
 
 
 	/**
-	 * Gets "src" property of image {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
+	 * Gets "src" property of ImageTag {{#crossLink "Attributes"}}attribute{{/crossLink}} inherited from
 	 * {{#crossLink "Tag"}}Tag{{/crossLink}} class.
 	 * @method         getOrigin
 	 * @return         {String}
@@ -107,8 +107,8 @@ function Image() {
 	};
 
 	/**
-	 * Gets image height. It is read from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
-	 * It is set along with `src` attribute in {{#crossLink "Image/setOrigin:method"}}setOrigin{{/crossLink}}
+	 * Gets ImageTag height. It is read from {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
+	 * It is set along with `src` attribute in {{#crossLink "ImageTag/setOrigin:method"}}setOrigin{{/crossLink}}
 	 * method.
 	 * @method         getHeight
 	 * @return         {Integer}
@@ -119,7 +119,7 @@ function Image() {
 
 	/**
 	 * Returns html representation of the instance if
-	 * {{#crossLink "Image/getOrigin:method"}}getOrigin(){{/crossLink}} returns non-empty string.
+	 * {{#crossLink "ImageTag/getOrigin:method"}}getOrigin(){{/crossLink}} returns non-empty string.
 	 * Otherwise, returns empty string.
 	 *
 	 * Html representation consists of opening and closing tags that are output of methods
@@ -137,4 +137,4 @@ function Image() {
 		return (typeof orig === 'string' && orig.length > 0) ? this.openingTag() + this.closingTag() : '';
 	};
 }
-Image.prototype = Object.create(Tag.prototype);
+ImageTag.prototype = Object.create(Tag.prototype);

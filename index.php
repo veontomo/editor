@@ -56,7 +56,7 @@
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Cell.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Image.js"></script>
+	<script type="text/javascript" src="js/classes/HtmlElements/Tag/ImageTag.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Row.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/List.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag/ListItem.js"></script>

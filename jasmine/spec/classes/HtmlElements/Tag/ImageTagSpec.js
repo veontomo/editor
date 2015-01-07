@@ -1,60 +1,60 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, Image, Content, Properties, jasmine, Tag */
+/*global describe, it, expect, spyOn, beforeEach, ImageTag, Content, Properties, jasmine, Tag */
 
-describe('Image-related functionality:', function() {
+describe('ImageTag-related functionality:', function() {
     var img, attr, validLink, invalidLink;
 
     beforeEach(function() {
-        img = new Image();
+        img = new ImageTag();
         attr = new Properties();
         validLink = 'http://localhost/projects/editor/images/Compact_spaces.png';
         invalidLink = 'http://www.aaa.ccc/img.jpg';
     });
 
-    describe('Image::constructor: inherits properly from getTag() class', function(){
-        it('instance of Image is an instance of getTag() as well', function(){
+    describe('ImageTag::constructor: inherits properly from getTag() class', function(){
+        it('instance of ImageTag is an instance of getTag() as well', function(){
             expect(img instanceof Tag).toBe(true);
         });
         it('does not affect parent attr if it is changed in the child', function(){
-            expect((new Image()).foo).not.toBe(102);
+            expect((new ImageTag()).foo).not.toBe(102);
             img.foo = 102;
-            expect((new Image()).foo).not.toBe(102);
+            expect((new ImageTag()).foo).not.toBe(102);
             expect(img.foo).toBe(102);
         });
 
         it('adds keyword "new" if it is missing when an object is created', function(){
-            img = Image();
-            expect(img instanceof Image).toBe(true);
+            img = ImageTag();
+            expect(img instanceof ImageTag).toBe(true);
         });
 
-        it('creates an image with empty content', function(){
+        it('creates an ImageTag with empty content', function(){
             expect(img.length()).toBe(0);
         });
 
     });
 
-    describe('Image::className: class name', function(){
+    describe('ImageTag::className: class name', function(){
         it('gives the name of the class', function(){
-            expect(img.getName()).toBe('Image');
+            expect(img.getName()).toBe('ImageTag');
         });
     });
 
-    describe('Image::getTag(): getTag() name', function(){
-        it('returns image getTag()', function(){
+    describe('ImageTag::getTag(): getTag() name', function(){
+        it('returns ImageTag getTag()', function(){
             expect(img.getTag()).toBe('img');
         });
     });
 
-    xdescribe('Sets image origin', function(){
-        it('sets "src" attribute if url points to a valid image', function(){
-            img = new Image();
+    xdescribe('Sets ImageTag origin', function(){
+        it('sets "src" attribute if url points to a valid ImageTag', function(){
+            img = new ImageTag();
             img.setOrigin(validLink);
             var src = img.getOrigin();
             expect(src).toBe(validLink);
         });
 
-        it('does not set "src" attribute if url points to an invalid image', function(){
-            img = new Image();
+        it('does not set "src" attribute if url points to an invalid ImageTag', function(){
+            img = new ImageTag();
             img.setOrigin(invalidLink);
             expect(img.getOrigin()).not.toBe(invalidLink);
         });
@@ -71,16 +71,16 @@ describe('Image-related functionality:', function() {
 
     });
 
-    describe('Image::getOrigin(): gets source', function(){
-        it('calls Attribute::getProperty() to retrieve image source', function(){
-            spyOn(attr, 'getProperty').and.returnValue('file-image-is-here');
+    describe('ImageTag::getOrigin(): gets source', function(){
+        it('calls Attribute::getProperty() to retrieve ImageTag source', function(){
+            spyOn(attr, 'getProperty').and.returnValue('file-ImageTag-is-here');
             img.setProperties(attr);
-            expect(img.getOrigin()).toBe('file-image-is-here');
+            expect(img.getOrigin()).toBe('file-ImageTag-is-here');
             expect(attr.getProperty).toHaveBeenCalledWith('src');
         });
     });
 
-    xdescribe('Automatically derives image width', function(){
+    xdescribe('Automatically derives ImageTag width', function(){
         it('gets zero width if src is not set', function(){
             expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getWidth()).toBe(0);
@@ -91,7 +91,7 @@ describe('Image-related functionality:', function() {
         });
     });
 
-    xdescribe('Automatically derive image height', function(){
+    xdescribe('Automatically derive ImageTag height', function(){
         it('gets zero height if src is not set', function(){
             expect(img.getOrigin() === undefined || img.getOrigin() === null).toBe(true);
             expect(img.getHeight()).toBe(0);
