@@ -50,7 +50,6 @@
 	<script type="text/javascript" src="js/classes/Properties/RowProperties.js"></script>
 	<script type="text/javascript" src="js/classes/Properties/TableProperties.js"></script>
 
-
 	<!-- models -->
 	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
@@ -68,7 +67,6 @@
 	 <!-- document-related models -->
 	<script type="text/javascript" src="js/classes/HtmlElements/Document.js"></script>
 
-
 	<!-- converters -->
 	<script type="text/javascript" src="js/converters/Converter.js"></script>
 	<script type="text/javascript" src="js/converters/ConverterGeneral.js"></script>
@@ -77,7 +75,6 @@
 
 	<!-- helpers  -->
 	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
-	<!-- // <script type="text/javascript" src="js/classes/CKHelper/Selection.js"></script> -->
 	<script type="text/javascript" src="js/classes/HtmlElements/Mapper.js"></script>
 	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
 

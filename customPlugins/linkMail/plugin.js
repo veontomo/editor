@@ -48,5 +48,7 @@ var translations = {
 
 var lang;
 for (lang in translations){
-	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
+	if (translations.hasOwnProperty(lang)){
+		CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
+	}
 }

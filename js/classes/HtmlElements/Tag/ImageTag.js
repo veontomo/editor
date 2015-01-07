@@ -136,5 +136,23 @@ function ImageTag() {
 		var orig = this.getOrigin();
 		return (typeof orig === 'string' && orig.length > 0) ? this.openingTag() + this.closingTag() : '';
 	};
+
+	/**
+	 * Image template: json object of image properties that parametrise the image. As required, overrides
+	 * base class method {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}}.
+	 *
+	 * Returns an object with the following keys:<dl>
+	 * <dt>src</dt><dd> (String) value of the link "href" attribute</dd>
+	 * <dt>width</dt><dd> (String) scheme (mail or link)</dd>
+	 * <dt>height</dt><dd>(String) link color</dd>
+	 * <dt>alt</dt><dd>(Boolean) whether the link is underlined</dd>
+	 * <dt>title</dt><dd>(Boolean) whether the link content contains more that one element</dd>
+	 * </dl>
+	 * @method         template
+	 * @return         {Object}
+	 * @since          0.1.0
+	 */	this.template = function(){
+		return {};
+	}
 }
 ImageTag.prototype = Object.create(Tag.prototype);

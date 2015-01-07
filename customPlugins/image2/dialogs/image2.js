@@ -1,6 +1,39 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CImage */
-CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
+/*global CKEDITOR, CImage, Document, NEWSLETTER */
+
+/**
+* A dialog for image insertion.
+*
+* @module      Dialogs
+* @class       ImageDialog
+* @since       0.1.0
+* @author      A.Shcherbakov
+* @uses        CImage
+* @uses        Document
+*/
+var ImageDialog = function(editor) {
+	/**
+	 * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+	 * @property  {CImage}     _controller
+	 * @type      {CImage}
+	 * @private
+	 */
+	var _controller = new CImage();
+	_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+
+	/**
+	 * {{#crossLink "ImageDialog/_controller:property"}}_controller{{/crossLink}} configurator.
+	 * @method  anonymous
+	 * @return  {void}
+	 * @since   0.1.0
+	 * @private
+	 */
+	(function(){
+	    var worker = new Document();
+	    worker.setFactory(NEWSLETTER.factory);
+	    _controller.setWorker(worker);
+	}());
+
 	return {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.common.image,
@@ -22,7 +55,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						id: 'imageUrl',
 						label: editor.lang.common.url,
 						validate: function(){
-							return CImage.validateUrl(this.getValue(), editor);
+							return _controller.validateUrl(this.getValue(), editor);
 						},
 						default: ''
 					},
@@ -34,7 +67,7 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 						// alternative text
 						type: 'text',
 						id: 'textAlt',
-						label: editor.lang.image.alt + ' / ' + editor.lang.common.advisoryTitle,
+						label: editor.lang.image2.alternativeAndTitle,
 						default: ""
 					},
 				]
@@ -42,14 +75,16 @@ CKEDITOR.dialog.add( 'imageSimplified', function(editor) {
 		],
 
 		onShow: function(){
-			CImage.load(this, editor);
+			_controller.onShow(this, editor);
 		},
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			// removes eventual warning text
 			CKEDITOR.document.getById('warning').setHtml('');
-			CImage.insert(this, editor);
+			_controller.insert(this, editor);
 		}
 	};
-});
+};
+
+CKEDITOR.dialog.add('imageSimplified', ImageDialog);

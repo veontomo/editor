@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, Image */
+/*global Controller, Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, Image */
 
 /**
  * Link Controller.
@@ -9,21 +9,26 @@
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
-var CImage = {
+function CImage() {
+	"use strict";
+	if (!(this instanceof CImage)) {
+	    return new CImage();
+	}
+	Controller.call(this);
 
 	/**
 	 * Inserts image into `editor`.
 	 *
 	 * It uses information inserted in the dialog menu.
 	 * @method         insert
-	 * @param          {Object}             context          context by means the variables are passed from view to the controller
+	 * @param          {Object}             dialog          dialog by means the variables are passed from view to the controller
 	 * @param          {Object}             editor           instance of CKEDITOR
 	 * @return         {void}
 	 */
-	insert: function(context, editor){
+	this.insert = function(dialog, editor){
 		// user input
-		var textAlt = context.getValueOf('tab-general', 'textAlt'),
-			imageUrl = context.getValueOf('tab-general', 'imageUrl');
+		var textAlt = dialog.getValueOf('tab-general', 'textAlt'),
+			imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
 		// creating image object
 		var img = new Image(),
 			imgObj, imgHtml;
@@ -35,26 +40,48 @@ var CImage = {
 			imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
 			editor.insertElement(imgObj);
 		}
-	},
+	};
 
 	/**
-	 * Loads information about image into dialog menu if the selection contains image.
-	 * @method         load
-	 * @param          {Object}             context          context by means the variables are passed from view to the controller
-	 * @param          {Object}             editor           instance of CKEDITOR
+	 * Loads information about image into dialog menu
+	 * @method         onShow
+	 * @param          {Object}             dialog          dialog by means the variables are passed from view to the controller
+	 * @param          {Object}             editor          instance of CKEDITOR
 	 * @return         {void}
+	 * @since          0.1.0
 	 */
-	load: function(context, editor){
-		var startElem = editor.getSelection().getStartElement();
-		if (startElem && startElem.getName() === 'img'){
-			var imageUrl = startElem.getAttribute('src'),
-				alt = startElem.getAttribute('alt');
-			context.setValueOf('tab-general', 'imageUrl', imageUrl || '');
-			context.setValueOf('tab-general', 'textAlt', alt || '');
-		} else {
-			console.log('there is NO image: controller');
+	this.onShow = function(dialog, editor){
+		var doc, ranges, adapter, content, img, imgTag;
+		adapter = this.getEditorAdapter();
+		if (!adapter) {
+		    return;
 		}
-	},
+		ranges = adapter.getNativeRanges(editor);
+		content = adapter.getEditorContent(editor);
+		try {
+		    doc = this.getWorker();
+		    doc.setContent(content);
+		    doc.freezeSelection(ranges);
+		    imgTag = doc.detectTag('img');
+		    img = new ImageTag();
+		    img.load(imgTag);
+		    if (imgTag) {
+		        adapter.fillInDialog(dialog, img.template(), 'image');
+		    }
+		} catch (e) {
+		    console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
+		}
+
+		// var startElem = editor.getSelection().getStartElement();
+		// if (startElem && startElem.getName() === 'img'){
+		// 	var imageUrl = startElem.getAttribute('src'),
+		// 		alt = startElem.getAttribute('alt');
+		// 	dialog.setValueOf('tab-general', 'imageUrl', imageUrl || '');
+		// 	dialog.setValueOf('tab-general', 'textAlt', alt || '');
+		// } else {
+		// 	console.log('there is NO image: controller');
+		// }
+	};
 
 
 	/**
@@ -66,12 +93,14 @@ var CImage = {
 	 * @param          {Object}             editor           instance of CKEDITOR
 	 * @return         {Boolean}
 	 */
-	validateUrl: function(value, editor){
+	this.validateUrl = function(value, editor){
 		var isOk = typeof value === 'string' && value.trim().length > 0;
 		if (!isOk){
 			var warningField = CKEDITOR.document.getById('warning');
 			warningField.setHtml(editor.lang.common.invalidValue);
 		}
 		return isOk;
-	}
-};
+	};
+}
+
+CImage.prototype = Object.create(Controller.prototype);
