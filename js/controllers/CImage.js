@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Controller, Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, Image */
+/*global Controller, Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, ImageTag */
 
 /**
  * Link Controller.
@@ -61,11 +61,16 @@ function CImage() {
 		try {
 		    doc = this.getWorker();
 		    doc.setContent(content);
+		    // doc.flushSelection();
+		    console.log(content.outerHTML);
+		    console.log(ranges);
 		    doc.freezeSelection(ranges);
 		    imgTag = doc.detectTag('img');
-		    img = new ImageTag();
-		    img.load(imgTag);
 		    if (imgTag) {
+		    	console.log('image tag is found');
+		    	img = new ImageTag();
+		    	img.load(imgTag);
+		    	console.log(img.template());
 		        adapter.fillInDialog(dialog, img.template(), 'image');
 		    }
 		} catch (e) {

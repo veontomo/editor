@@ -147,6 +147,27 @@ function CKEditorAdapter(){
 		}
 	};
 
+
+	/**
+	 * Rearrange {{#crossLink "Link/template:property"}}link `template` object{{/crossLink}} into
+	 * an object accepted by link dialog window.
+	 *
+	 * Returns an object with the following keys:<dl>
+	 * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
+	 * <dt>scheme</dt><dd> (String) scheme ("mail" or "link")</dd>
+	 * <dt>color</dt><dd>(String) link color</dd>
+	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
+	 * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
+	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
+	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
+	 * <dt>title</dt><dd> (String) title attribute</dd>
+	 * </dl>
+	 * @method         _linkTemplateToDialog
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @private
+	 * @since          0.1.0
+	 */
 	var _linkTemplateToDialog = function(template){
 		var output = {
 			'linkInfoTab': {
@@ -165,6 +186,31 @@ function CKEditorAdapter(){
 
 
 	/**
+	 * Rearrange {{#crossLink "ImageTag/template:property"}}image `template` object{{/crossLink}} into
+	 * an object accepted by image dialog window.
+	 * Returns an object with the following keys:<dl>
+	 * <dt>imageUrl</dt><dd> (String) value of "src" attribute</dd>
+	 * <dt>textAlt</dt><dd> (String) alternative text or the title in case the former is not defined</dd>
+	 * </dl>
+	 * @method         _imageTemplateToDialog
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @private
+	 * @since          0.1.0
+	 */
+	var _imageTemplateToDialog = function(template){
+		var output = {
+			'mainTab': {
+				imageUrl:     template.src,
+				textAlt:      template.alt || template.title,
+			}
+		};
+		return output;
+	};
+
+
+
+	/**
 	 * Converts output of a {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}} method
 	 * into an object accepted by a dialog menu, that is into a format described by
 	 * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
@@ -174,7 +220,8 @@ function CKEditorAdapter(){
 	 * @since          0.0.7
 	 */
 	this.templateToDialog = {
-		'link': _linkTemplateToDialog
+		'link': _linkTemplateToDialog,
+		'image': _imageTemplateToDialog
 	};
 
 
@@ -274,7 +321,7 @@ function CKEditorAdapter(){
 	 * @abstract
 	 */
 	this.insertAt = function(parent, child, index){
-		/// !!! abstract method. Must be overridden by inheriting class.
+		/// !!! to be implemented
 		throw new Error('Method "insertAt" of class CKEditorAdapter has yet to be implemented!');
 	};
 
@@ -289,7 +336,7 @@ function CKEditorAdapter(){
 	 * @abstract
 	 */
 	this.removeNode = function(n){
-		/// !!! abstract method. Must be overridden by inheriting class.
+		/// !!! to be implemented
 		throw new Error('Method "removeNode"  of class CKEditorAdapter has yet to be implemented!');
 	};
 

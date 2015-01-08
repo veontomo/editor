@@ -2628,6 +2628,20 @@ describe('Class "Document"', function() {
 				expect(nodes1[0]).toBe(t31);
 				expect(nodes1[1]).toBe(e32);
 			});
+            it('setter overrides the previous values', function(){
+                doc.setSelection([[t20], [t31, e32]]);
+                doc.setSelection([[e21, e25]]);
+                var arr = doc.getSelection();
+                expect(Array.isArray(arr)).toBe(true);
+                expect(arr.length).toBe(1);
+                var nodes0 = arr[0];
+                expect(Array.isArray(nodes0)).toBe(true);
+                expect(nodes0.length).toBe(2);
+                expect(nodes0[0]).toBe(e21);
+                expect(nodes0[1]).toBe(e25);
+
+
+            });
 		});
 		describe('a method getSelectionPlain that', function(){
 			it('calls getSelection method', function(){

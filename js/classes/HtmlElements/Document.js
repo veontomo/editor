@@ -1200,6 +1200,7 @@ function Document(node){
 	 * @return         {void}
 	 */
 	this.setSelection = function(nodes){
+		this.flushSelection();
 		if (!Array.isArray(nodes)){
 			return;
 		}
@@ -1263,13 +1264,15 @@ function Document(node){
 			return;
 		}
 		var result = [];
-		ranges.forEach(function(range){
+		ranges.forEach(function(range, i, r){
+			console.log(i, range);
 			var nodes;
 			if (range instanceof Range){
 				nodes = this.nodesOfRange(range);
 				result.push(nodes);
 			}
 		}.bind(this));
+		console.log('setting selection to ', result);
 		this.setSelection(result);
 		if (ranges.length > 0){
 			this.setCursorPosition(ranges[0]);
@@ -2291,13 +2294,16 @@ function Document(node){
 			return;
 		}
 		/**
-		 * Whether the argument is a hyperlink
-		 * @method isLink
-		 * @param  {Any}     e
-		 * @return {Boolean}
+		 * Whether the argument `e` is an html element with tag `name`.
+		 *
+		 * Comparison is case-insensitive.
+		 *
+		 * @method     hasTag
+		 * @param      {Any}           e
+		 * @return     {Boolean}
 		 * @private
 		 */
-		var isLink = function(e){
+		var hasTag = function(e){
 			return (e instanceof Element) && (name.localeCompare(e.tagName, 'en', {sensitivity: 'base'}) === 0);
 		}.bind(this);
 
@@ -2309,16 +2315,16 @@ function Document(node){
 		 * @private
 		 */
 		var callback = function(e){
-			return this.findAncestor(e, isLink);
+			return this.findAncestor(e, hasTag);
 		}.bind(this);
 
 		var selection = this.getSelectionPlain(),
 			candidateNodes = Array.isArray(selection) ?  selection : [],
-			tag,
 			cursorPos = this.getCursorPosition();
 		if (cursorPos){
 			candidateNodes.push(cursorPos.startContainer);
 		}
+		console.log('datect tag searches among ', candidateNodes);
 		return this.findInBlock(candidateNodes, callback);
 	};
 

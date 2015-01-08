@@ -43,8 +43,7 @@ var ImageDialog = function(editor) {
 		// Dialog window contents definition.
 		contents: [
 			{
-				// Definition of the Basic Settings dialog tab (page).
-				id: 'tab-general',
+				id:    'mainTab',
 				label: 'Info generale',
 
 				// The tab contents.

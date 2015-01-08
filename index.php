@@ -148,7 +148,8 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			echo $fileContent;
 		}?>
 		<a href="www.test.com" title="this a title of the link">link</a>
-		<img width="200" src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="this a title of the link" />
+		<img width="200" src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" />
+		simple text
 	</div>
 	<!-- <div contentEditable="true" class="editor">type here</div> -->
 	<?php

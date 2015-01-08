@@ -112,9 +112,9 @@ function CLink() {
             doc.setContent(content);
             doc.freezeSelection(ranges);
             linkTag = doc.detectTag('a');
-            link = new Link();
-            link.load(linkTag);
             if (linkTag) {
+                link = new Link();
+                link.load(linkTag);
                 adapter.fillInDialog(dialog, link.template(), 'link');
             }
         } catch (e) {
