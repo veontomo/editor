@@ -1000,13 +1000,13 @@ function Tag(tName) {
 	 * Sets parameters from template `tmpl`.
 	 *
 	 * To be overridden by inhertited classes.
-	 * @method         loadFormTemplate
+	 * @method         loadFromTemplate
 	 * @param          {Object}     tmpl
 	 * @return         {void}
 	 * @since          0.1.0
 	 * @abstract
 	 */
-	this.loadFormTemplate = function(tmpl){
+	this.loadFromTemplate = function(tmpl){
 		/// this is an abstract method and must be overridden by an inheriting class
 		throw new Error('Method "loadFormTemplate" must be overridden by inheriting class!');
 	};

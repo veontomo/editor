@@ -211,6 +211,21 @@ function EditorAdapter(){
 		throw new Error('Method "removeNode" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
+	/**
+	 * Returns the position of the cursor inside the content of `editor`.
+	 *
+	 * The position is decribed by means of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * whose `startOffset` attribute is considered for determining the cursor position.
+	 * @method         getCursorPosition
+	 * @param          {Object}        editor
+	 * @return         {Range}
+	 * @since          0.1.0
+	 */
+	this.getCursorPosition = function(editor){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "getCursorPosition" of class EditorAdapter must be overridden by inheriting class!');
+	}
+
 
 
 }

@@ -59,7 +59,7 @@ function ImageTag() {
 				this.setProperty('height', imgHeight);
 			}
 		} else {
-			// console.log('protocol ' + protocol + ' is not supported!');
+			console.log('protocol ' + protocol + ' is not supported!');
 		}
 
 	};
@@ -159,6 +159,33 @@ function ImageTag() {
 			title:         this.getProperty('title'),
 		};
 		return info;
-	}
+	};
+
+	/**
+	 * Sets parameters from template `tmpl`.
+	 * @method         loadFromTemplate
+	 * @param          {Object}         tmpl
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.loadFromTemplate = function(tmpl){
+		var key;
+		for (key in tmpl){
+			if (tmpl.hasOwnProperty(key)){
+				switch (key){
+					case 'title':
+						this.setProperty(key, tmpl[key]);
+						break;
+					case 'src':
+						this.setOrigin(tmpl[key]);
+						break;
+					case 'alt':
+						this.setProperty(key, tmpl[key]);
+						break;
+				}
+			}
+		}
+	};
 }
+
 ImageTag.prototype = Object.create(Tag.prototype);

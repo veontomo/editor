@@ -1265,14 +1265,12 @@ function Document(node){
 		}
 		var result = [];
 		ranges.forEach(function(range, i, r){
-			console.log(i, range);
 			var nodes;
 			if (range instanceof Range){
 				nodes = this.nodesOfRange(range);
 				result.push(nodes);
 			}
 		}.bind(this));
-		console.log('setting selection to ', result);
 		this.setSelection(result);
 		if (ranges.length > 0){
 			this.setCursorPosition(ranges[0]);

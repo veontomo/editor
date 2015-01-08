@@ -81,7 +81,7 @@ var ImageDialog = function(editor) {
 		onOk: function() {
 			// removes eventual warning text
 			CKEDITOR.document.getById('warning').setHtml('');
-			_controller.insert(this, editor);
+			_controller.onOk(this, editor);
 		}
 	};
 };

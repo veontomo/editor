@@ -37,8 +37,8 @@ function CKEditorAdapter(){
 	 * Sets the content of the editor body.
 	 *
 	 * @method         setEditorContent
-	 * @param          {Editor}      editor
-	 * @param          {Node}        content       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {CKEDITOR.editor}    e         instance [CKeditor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor)
+	 * @param          {Node}        content          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @abstract
 	 * @since          0.1.0
 	 */
@@ -184,6 +184,58 @@ function CKEditorAdapter(){
 		return output;
 	};
 
+	/**
+	 * Rearrange link dialog window object into
+	 * {{#crossLink "Link/template:property"}}link template{{/crossLink}} object.
+	 *
+	 * It is inverse of {{#crossLink "CKEditorAdapter/_linkTemplateToDialog:method"}}_linkTemplateToDialog{{/crossLink}}.
+	 * @method         _linkDialogToTemplate
+	 * @param          {Object}       dialog
+	 * @return         {Object}
+	 * @since          0.1.0
+	 * @private
+	 */
+	var _linkDialogToTemplate = function(dialog){
+		var tabName = 'linkInfoTab',
+			linkTemplate = {
+				href:          dialog[tabName].getHref,
+				scheme:        dialog[tabName].scheme,
+				color:         dialog[tabName].color,
+				isUnderlined:  dialog[tabName].isUnderlined,
+				isCompound:    dialog[tabName].status,
+				target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
+				text:          dialog[tabName].text,
+				title:         dialog[tabName].title
+			};
+		return linkTemplate;
+	};
+
+
+
+	/**
+	 * Rearrange image dialog window object into
+	 * {{#crossLink "ImageTag/template:property"}}image template{{/crossLink}} object.
+	 *
+	 * Returns an object with the following keys:<dl>
+	 * <dt>imageUrl</dt><dd> (String) value of "src" attribute</dd>
+	 * <dt>textAlt</dt><dd> (String) alternative text or the title in case the former is not defined</dd>
+	 * </dl>
+	 * @method         _imageDialogToTemplate
+	 * @param          {Object}        dialog
+	 * @return         {Object}
+	 * @private
+	 * @since          0.1.0
+	 */
+	var _imageDialogToTemplate = function(dialog){
+		var tabName = 'mainTab',
+			info = {
+				src:           dialog[tabName].imageUrl,
+				alt:           dialog[tabName].textAlt,
+				title:         dialog[tabName].textAlt,
+			};
+		return info;
+	};
+
 
 	/**
 	 * Rearrange {{#crossLink "ImageTag/template:property"}}image `template` object{{/crossLink}} into
@@ -208,20 +260,38 @@ function CKEditorAdapter(){
 		return output;
 	};
 
-
-
 	/**
-	 * Converts output of a {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}} method
-	 * into an object accepted by a dialog menu, that is into a format described by
-	 * {{#crossLink "Controller/getDialogData:method"}}getDialogData{{/crossLink}}.
-	 * @method         templateToDialog
-	 * @param          {Object}        template
-	 * @return         {Object}
-	 * @since          0.0.7
+	 * Dispatcher for functions that transform {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}}
+	 * object into an object accepted by corresponding dialog window.
+	 *
+	 * It is inverse of {{#crossLink "CKEditorAdapter/dialogToTemplate:property"}}dialogToTemplate{{/crossLink}}.
+	 *
+	 * The format of the returned object is: <code>{`key1`: `mapper1`, ...}</code>, where `key1` is a marker by means of
+	 * which required mapper is chosen and `mapper1` is a function to which a template is supposed to be given.
+	 * @property       {Object}        templateToDialog
+	 * @since          0.1.0
 	 */
 	this.templateToDialog = {
 		'link': _linkTemplateToDialog,
-		'image': _imageTemplateToDialog
+		'image': _imageTemplateToDialog,
+	};
+
+
+	/**
+	 * Dispatcher for functions that transform dialog window object into corresponding
+	 * {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}} object.
+	 *
+	 *
+	 * It is inverse of {{#crossLink "CKEditorAdapter/templateToDialog:property"}}templateToDialog{{/crossLink}}.
+	 *
+	 * The format of the returned object is: <code>{`key1`: `mapper1`}</code>, where `key1` is a marker by means of
+	 * which required mapper is chosen and `mapper1` is a function to which a dialog output object is supposed to be given.
+	 * @property       {Object}        dialogToTemplate
+	 * @since          0.1.0
+	 */
+	this.dialogToTemplate = {
+		'link':   _linkDialogToTemplate,
+		'image': _imageDialogToTemplate,
 	};
 
 
@@ -255,9 +325,13 @@ function CKEditorAdapter(){
 				for (elemId in elems){
 					if (elems.hasOwnProperty(elemId)){
 						if (considerAll || types.indexOf(elems[elemId].type) !== -1){
-							value = dialog.getValueOf(pageId, elemId);
-							if (value !== undefined){
-								pageContent[elemId] = dialog.getValueOf(pageId, elemId);
+							try {
+								value = dialog.getValueOf(pageId, elemId);
+								if (value !== undefined){
+									pageContent[elemId] = dialog.getValueOf(pageId, elemId);
+								}
+							} catch(e){
+								console.log(e.name  + ': retrieving dialog element (' + pageId + ', ' + elemId + ')');
 							}
 
 						}
@@ -291,19 +365,19 @@ function CKEditorAdapter(){
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 */
-	this.dialogToTemplate = function(obj){
-		var tabName = 'linkInfoTab',
-			template = {
-				href:          obj[tabName].href,
-				scheme:        obj[tabName].scheme,
-				color:         obj[tabName].color,
-				isUnderlined:  obj[tabName].isUnderlined,
-				isCompound:    obj[tabName].status,
-				target:        obj[tabName].isNewWindow ? '_blank' : '_self',
-				title:         obj[tabName].title
-			};
-		return template;
-	};
+	// this.dialogToTemplate = function(obj){
+	// 	var tabName = 'linkInfoTab',
+	// 		template = {
+	// 			href:          obj[tabName].href,
+	// 			scheme:        obj[tabName].scheme,
+	// 			color:         obj[tabName].color,
+	// 			isUnderlined:  obj[tabName].isUnderlined,
+	// 			isCompound:    obj[tabName].status,
+	// 			target:        obj[tabName].isNewWindow ? '_blank' : '_self',
+	// 			title:         obj[tabName].title
+	// 		};
+	// 	return template;
+	// };
 
 
 	/**
@@ -338,6 +412,27 @@ function CKEditorAdapter(){
 	this.removeNode = function(n){
 		/// !!! to be implemented
 		throw new Error('Method "removeNode"  of class CKEditorAdapter has yet to be implemented!');
+	};
+
+	/**
+	 * Returns the position of the cursor inside the content of `editor`.
+	 *
+	 * The position is decribed by means of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * whose `startOffset` attribute is considered for determining the cursor position.
+	 * @method         getCursorPosition
+	 * @param          {CKEDITOR.editor}    e         [CKeditor](http://docs.ckeditor.com/#!/api/CKEDITOR.editor) instance
+	 * @return         {Range}                        [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @since          0.1.0
+	 */
+	this.getCursorPosition = function(editor){
+		try {
+			var selection = editor.getSelection();
+			var ranges = selection.getRanges();
+			return this.toNativeRange(ranges[0]);
+		} catch (e){
+			console.log(e.name  + ': when detecting cursor position (' + e.message + ')');
+			return undefined;
+		}
 	};
 
 

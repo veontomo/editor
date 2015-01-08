@@ -1,8 +1,8 @@
 /*jslint plusplus: true, white: true */
-/*global Controller, Unit, CKEDITOR, NEWSLETTER, Properties, ImageProperties, Helper, Selection, FACTORY, Content, ImageTag */
+/*global Controller, ImageTag */
 
 /**
- * Link Controller.
+ * Image controller.
  * @module    Controllers
  * @class     CImage
  * @type      {Object}
@@ -20,33 +20,63 @@ function CImage() {
 	 * Inserts image into `editor`.
 	 *
 	 * It uses information inserted in the dialog menu.
-	 * @method         insert
-	 * @param          {Object}             dialog          dialog by means the variables are passed from view to the controller
-	 * @param          {Object}             editor           instance of CKEDITOR
+	 * @method         onOk
+	 * @param          {Object}             dialog         dialog by means the variables are passed from view to the controller
+	 * @param          {Object}             editor         instance of editor
 	 * @return         {void}
 	 */
-	this.insert = function(dialog, editor){
-		// user input
-		var textAlt = dialog.getValueOf('tab-general', 'textAlt'),
-			imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
-		// creating image object
-		var img = new Image(),
-			imgObj, imgHtml;
-		img.setOrigin(imageUrl);
-		img.setProperty('alt', textAlt);
-		img.setProperty('title', textAlt);
-		imgHtml = img.toHtml();
-		if (typeof imgHtml === 'string' && imgHtml.length > 0){
-			imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
-			editor.insertElement(imgObj);
+	this.onOk = function(dialog, editor){
+		var adapter, doc, content, data, template, image, cursorPos;
+		try {
+			doc = this.getWorker();
+			adapter = this.getEditorAdapter();
+			content = adapter.getEditorContent(editor);
+			cursorPos = adapter.getCursorPosition(editor);
+			data = adapter.getDialogData(dialog, ['text']);
+			template = adapter.dialogToTemplate.image(data);
+			image = new ImageTag();
+			image.loadFromTemplate(template);
+			// newContent = doc.insertNodeAt(content, pos, );
 		}
+		catch (e){
+			console.log(e);
+		}
+		console.log(image.toHtml(), cursorPos);
+		// try {
+		//     doc = this.getWorker();
+		//     doc.setContent(content);
+		//     doc.freezeSelection(ranges);
+		//     linkTag = doc.detectTag('a');
+		//     if (linkTag) {
+		//         link = new Link();
+		//         link.load(linkTag);
+		//         adapter.fillInDialog(dialog, link.template(), 'link');
+		//     }
+		// } catch (e) {
+		//     console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
+		// }
+
+		// // user input
+		// var textAlt = dialog.getValueOf('tab-general', 'textAlt'),
+		// 	imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
+		// // creating image object
+		// var img = new Image(),
+		// 	imgObj, imgHtml;
+		// img.setOrigin(imageUrl);
+		// img.setProperty('alt', textAlt);
+		// img.setProperty('title', textAlt);
+		// imgHtml = img.toHtml();
+		// if (typeof imgHtml === 'string' && imgHtml.length > 0){
+		// 	imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
+		// 	editor.insertElement(imgObj);
+		// }
 	};
 
 	/**
 	 * Loads information about image into dialog menu
 	 * @method         onShow
 	 * @param          {Object}             dialog          dialog by means the variables are passed from view to the controller
-	 * @param          {Object}             editor          instance of CKEDITOR
+	 * @param          {Object}             editor          editor instance
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
@@ -61,31 +91,20 @@ function CImage() {
 		try {
 		    doc = this.getWorker();
 		    doc.setContent(content);
-		    // doc.flushSelection();
-		    console.log(content.outerHTML);
-		    console.log(ranges);
+		    // console.log(content.outerHTML);
+		    // console.log(ranges);
 		    doc.freezeSelection(ranges);
 		    imgTag = doc.detectTag('img');
 		    if (imgTag) {
-		    	console.log('image tag is found');
+		    	// console.log('image tag is found');
 		    	img = new ImageTag();
 		    	img.load(imgTag);
-		    	console.log(img.template());
+		    	// console.log(img.template());
 		        adapter.fillInDialog(dialog, img.template(), 'image');
 		    }
 		} catch (e) {
-		    console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
+		    console.log(e.name + ' occurred when filling in an image dialog window: ' + e.message);
 		}
-
-		// var startElem = editor.getSelection().getStartElement();
-		// if (startElem && startElem.getName() === 'img'){
-		// 	var imageUrl = startElem.getAttribute('src'),
-		// 		alt = startElem.getAttribute('alt');
-		// 	dialog.setValueOf('tab-general', 'imageUrl', imageUrl || '');
-		// 	dialog.setValueOf('tab-general', 'textAlt', alt || '');
-		// } else {
-		// 	console.log('there is NO image: controller');
-		// }
 	};
 
 
