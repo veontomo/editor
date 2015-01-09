@@ -2350,7 +2350,8 @@ function Document(node){
 			return this.insertLinkAt(scope, position, template);
 		}
 		/// once here, it means that there is a selection
-
+		/// !!! not finished yet!
+		throw new Error('Method convertToLinks of class Document is not fully implemented yet!');
 
 	};
 
@@ -2404,6 +2405,11 @@ function Document(node){
 	 * must correspond to an existing element in the DOM: starting from `root` and following the
 	 * branches numbered by integers of `pathToHost` array, one should arrive to a node.
 	 *
+	 * If the node `n` must be inserted inside a Text node (and not at its boundaries),
+	 * then it is splitted and then node `n` is inserted between them. If the node `n` must be
+	 * inserted at one of the boundaries of a Text node, then node `n` is appended or prepended
+	 * to that text node node.
+	 *
 	 * Throws an error in the following cases
 	 * <ol><li>
 	 * `pathToHost` is not an array
@@ -2440,13 +2446,31 @@ function Document(node){
 		if (!(hostNode instanceof Node)){
 			throw new Error('Target element is not found!');
 		}
-		var rightNode;
+		var rightNode, len;
 		/// two case are possible:
 		/// 1. hostingNode is a text node
 		/// 2. hostingNode is an element node
 		if (hostNode instanceof Text){
-			rightNode = hostNode.splitText(index);
-			hostNode.parentNode.insertBefore(n, rightNode);
+			if (index === 0){
+				/// insert in the beginning (no need to split the node)
+				hostNode.parentNode.insertBefore(n, hostNode);
+			} else {
+				len = hostNode.nodeValue.length;
+				/// insert in the middle
+				if (index < len){
+					rightNode = hostNode.splitText(index);
+					hostNode.parentNode.insertBefore(n, rightNode);
+				}
+				/// insert in the end (no need to split the node)
+				if (index === len){
+					rightNode = hostNode.nextSibling;
+					if (rightNode){
+						hostNode.parentNode.insertBefore(n, rightNode);
+					} else {
+						hostNode.parentNode.appendChild(n);
+					}
+				}
+			}
 		} else if (hostNode instanceof Element) {
 			var children = hostNode.childNodes;
 			if (index > children.length){

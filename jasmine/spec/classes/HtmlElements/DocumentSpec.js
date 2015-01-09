@@ -3131,51 +3131,51 @@ describe('Class "Document"', function() {
     });
 
     describe('has method "insertNodeAt" method that', function(){
-        it('throws an error when called without arguments', function() {
-            expect(function(){
-                doc.insertNodeAt();
-            }).toThrow();
-        });
-
-        it('throws an error if its first argument is not an Element instance', function() {
-            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
-                {}, {'foo': 1}, text1];
-            invalids.forEach(function(invalid){
+        describe('throws an error if', function(){
+            it('it is called without arguments', function() {
                 expect(function(){
-                    doc.insertNodeAt(invalid, [1], 0, node);
+                    doc.insertNodeAt();
                 }).toThrow();
             });
-        });
 
-        it('throws an error if its second argument is not array', function() {
-            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, {}, {'foo': 1}];
-            invalids.forEach(function(invalid){
-                expect(function(){
-                    doc.insertNodeAt(node, invalid, 1, ch2);
-                }).toThrow();
+            it('if its first argument is not an Element instance', function() {
+                var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
+                    {}, {'foo': 1}, text1];
+                invalids.forEach(function(invalid){
+                    expect(function(){
+                        doc.insertNodeAt(invalid, [1], 0, node);
+                    }).toThrow();
+                });
+            });
+
+            it('if its second argument is not array', function() {
+                var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, {}, {'foo': 1}];
+                invalids.forEach(function(invalid){
+                    expect(function(){
+                        doc.insertNodeAt(node, invalid, 1, ch2);
+                    }).toThrow();
+                });
+            });
+
+            it('if its third argument is not integer', function() {
+                var invalids = [null, undefined, '', 'non-empty string', 4.123, -4.8, {}, {'foo': 1}];
+                invalids.forEach(function(invalid){
+                    expect(function(){
+                        doc.insertNodeAt(node, [], invalid, ch2);
+                    }).toThrow();
+                });
+            });
+
+            it('if its fourth argument is not a Node instance', function() {
+                var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
+                    {}, {'foo': 1}];
+                invalids.forEach(function(invalid){
+                    expect(function(){
+                        doc.insertNodeAt(node, [1], 0, invalid);
+                    }).toThrow(new Error('Fourth argument must be a Node instance!'));
+                });
             });
         });
-
-        it('throws an error if its third argument is not integer', function() {
-            var invalids = [null, undefined, '', 'non-empty string', 4.123, -4.8, {}, {'foo': 1}];
-            invalids.forEach(function(invalid){
-                expect(function(){
-                    doc.insertNodeAt(node, [], invalid, ch2);
-                }).toThrow();
-            });
-        });
-
-
-        it('throws an error if its fourth argument is not a Node instance', function() {
-            var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
-                {}, {'foo': 1}];
-            invalids.forEach(function(invalid){
-                expect(function(){
-                    doc.insertNodeAt(node, [1], 0, invalid);
-                }).toThrow(new Error('Fourth argument must be a Node instance!'));
-            });
-        });
-
 
         describe('when inserting an Element instance as a first child of the root,', function(){
             var h1, res;
@@ -3280,6 +3280,58 @@ describe('Class "Document"', function() {
                     doc.insertNodeAt(node, [0], 5, el);
                 }).toThrow();
             });
+        });
+
+        describe('inserts a node inside a text node', function(){
+            var el;
+            beforeEach(function(){
+                el = document.createElement('div');
+            });
+            it('in the beginning', function(){
+                var res = doc.insertNodeAt(node, [2], 0, el);
+                expect(res instanceof Node).toBe(true);
+                expect(res.childNodes.length).toBe(4);
+                expect(res.childNodes[0].isEqualNode(ch1)).toBe(true);
+                expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
+                expect(res.childNodes[2]).toBe(el);
+                expect(res.childNodes[3].isEqualNode(text3)).toBe(true);
+             });
+            it('in the middle', function(){
+                var res = doc.insertNodeAt(node, [2], 3, el);
+                expect(res instanceof Node).toBe(true);
+                expect(res.childNodes.length).toBe(5);
+                expect(res.childNodes[0].isEqualNode(ch1)).toBe(true);
+                expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
+                expect(res.childNodes[2] instanceof Text).toBe(true);
+                expect(res.childNodes[2].nodeValue).toBe('Som');
+                expect(res.childNodes[3]).toBe(el);
+                expect(res.childNodes[4] instanceof Text).toBe(true);
+                expect(res.childNodes[4].nodeValue).toBe('e text');
+            });
+            it('in the end of a text node that has no next sibling', function(){
+                var res = doc.insertNodeAt(node, [2], 9, el);
+                expect(res instanceof Node).toBe(true);
+                expect(res.childNodes.length).toBe(4);
+                expect(res.childNodes[0].isEqualNode(ch1)).toBe(true);
+                expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
+                expect(res.childNodes[2].isEqualNode(text3)).toBe(true);
+                expect(res.childNodes[3]).toBe(el);
+            });
+            it('in the end of a text node that has next sibling', function(){
+                var res = doc.insertNodeAt(node, [0, 0], 24, el);
+                expect(res instanceof Node).toBe(true);
+                expect(res.childNodes.length).toBe(3);
+                var ch1New = res.childNodes[0];
+                expect(ch1New.childNodes.length).toBe(3);
+                expect(ch1New.childNodes[0].isEqualNode(text1)).toBe(true);
+                expect(ch1New.childNodes[1]).toBe(el);
+                expect(ch1New.childNodes[2].isEqualNode(ch11)).toBe(true);
+
+
+                expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
+                expect(res.childNodes[2].isEqualNode(text3)).toBe(true);
+            });
+
         });
 
     });
