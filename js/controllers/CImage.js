@@ -49,36 +49,6 @@ function CImage() {
 		catch (e){
 			console.log(e);
 		}
-		// console.log(image.toHtml(), cursorPos, doc.pathTo(cursorPos.startContainer, content), content.outerHTML, cursorPos.startContainer.outerHTML);
-		// console.log(content.contains(cursorPos.startContainer));
-		// try {
-		//     doc = this.getWorker();
-		//     doc.setContent(content);
-		//     doc.freezeSelection(ranges);
-		//     linkTag = doc.detectTag('a');
-		//     if (linkTag) {
-		//         link = new Link();
-		//         link.load(linkTag);
-		//         adapter.fillInDialog(dialog, link.template(), 'link');
-		//     }
-		// } catch (e) {
-		//     console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
-		// }
-
-		// // user input
-		// var textAlt = dialog.getValueOf('tab-general', 'textAlt'),
-		// 	imageUrl = dialog.getValueOf('tab-general', 'imageUrl');
-		// // creating image object
-		// var img = new Image(),
-		// 	imgObj, imgHtml;
-		// img.setOrigin(imageUrl);
-		// img.setProperty('alt', textAlt);
-		// img.setProperty('title', textAlt);
-		// imgHtml = img.toHtml();
-		// if (typeof imgHtml === 'string' && imgHtml.length > 0){
-		// 	imgObj = CKEDITOR.dom.element.createFromHtml(imgHtml);
-		// 	editor.insertElement(imgObj);
-		// }
 	};
 
 	/**

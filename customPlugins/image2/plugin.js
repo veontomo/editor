@@ -22,7 +22,6 @@ CKEDITOR.plugins.add('image2', {
 
 		editor.addCommand('image2Cancel', {
 			exec: function(editor){
-				console.log('image cancel');
 				var startElem = editor.getSelection().getStartElement(),
 					elem = startElem.getAscendant('img', true);
 				elem.$.remove();

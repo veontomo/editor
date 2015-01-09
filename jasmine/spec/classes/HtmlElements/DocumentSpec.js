@@ -3326,8 +3326,6 @@ describe('Class "Document"', function() {
                 expect(ch1New.childNodes[0].isEqualNode(text1)).toBe(true);
                 expect(ch1New.childNodes[1]).toBe(el);
                 expect(ch1New.childNodes[2].isEqualNode(ch11)).toBe(true);
-
-
                 expect(res.childNodes[1].isEqualNode(ch2)).toBe(true);
                 expect(res.childNodes[2].isEqualNode(text3)).toBe(true);
             });
