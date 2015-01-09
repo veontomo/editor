@@ -2400,9 +2400,9 @@ function Document(node){
 	/**
 	 * Returns a copy of `root` in which node `n` is inserted according to position `pos`.
 	 *
-	 * Array `pos` must contain at least one element. Without its last element, array `pos`
-	 * must point to an existing element in the DOM: starting from `root` and following
-	 * branch numbers given by the  (in the sense of )
+	 * Array `pos` must contain at least one element. Array of integers `pathToHost`
+	 * must correspond to an existing element in the DOM: starting from `root` and following the
+	 * branches numbered by integers of `pathToHost` array, one should arrive to a node.
 	 *
 	 * Throws an error in the following cases
 	 * <ol><li>
@@ -2412,7 +2412,7 @@ function Document(node){
 	 * </li><li>
 	 * `scope` or `n` is not an Element instance
 	 * </li><li>
-	 * `pathToHost` does not correspond to an exisitng point in DOM
+	 * `pathToHost` does not correspond to an exisitng node in DOM
 	 * </li></ol>
 	 *
 	 * @method         insertNodeAt
@@ -2437,21 +2437,30 @@ function Document(node){
 		}
 		var clone = root.cloneNode(true),
 			hostNode = this.getNodeByPath(pathToHost, clone);
-		if (!(hostNode instanceof Element)){
+		if (!(hostNode instanceof Node)){
 			throw new Error('Target element is not found!');
 		}
-		var children = hostNode.childNodes;
-		if (index > children.length){
-			throw new Error('Index is too big!');
-		}
-		if (index === children.length){
-			hostNode.appendChild(n);
-		} else {
-			var sibling = children[index];
-			if (!sibling){
-				throw new Error('Wrong index to insert node at!');
+		var rightNode;
+		/// two case are possible:
+		/// 1. hostingNode is a text node
+		/// 2. hostingNode is an element node
+		if (hostNode instanceof Text){
+			rightNode = hostNode.splitText(index);
+			hostNode.parentNode.insertBefore(n, rightNode);
+		} else if (hostNode instanceof Element) {
+			var children = hostNode.childNodes;
+			if (index > children.length){
+				throw new Error('Index is too big!');
 			}
-			hostNode.insertBefore(n, sibling);
+			if (index === children.length){
+				hostNode.appendChild(n);
+			} else {
+				rightNode = children[index];
+				if (!rightNode){
+					throw new Error('Wrong index to insert node at!');
+				}
+				hostNode.insertBefore(n, rightNode);
+			}
 		}
 		return clone;
 	};

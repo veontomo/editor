@@ -51,6 +51,7 @@ function ImageTag() {
 			img.src = url;
 			imgWidth = img.width;
 			imgHeight = img.height;
+			console.log(url, imgWidth, imgHeight);
 			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
 				this.setProperty('src', url);
 				this.setProperty('width', imgWidth);
@@ -169,6 +170,7 @@ function ImageTag() {
 	 * @since          0.1.0
 	 */
 	this.loadFromTemplate = function(tmpl){
+		console.log('loading from template', tmpl);
 		var key;
 		for (key in tmpl){
 			if (tmpl.hasOwnProperty(key)){

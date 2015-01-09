@@ -1,0 +1,57 @@
+ELENCO DEI CRITERI NECESSARI MA NON SUFFICIENTI
+
+Regole alle quali un file html di spedizione mail dovrebbe essere conforme per essere
+visualizzato su tutti i client di posta elettronica nello stesso modo.
+
+Si suppone che il file html sia valido.
+
+versione 02 del 09/01/2015
+
+1. il file deve non avere gli stili esterni:
+	a) i tag <style>...</style> non devono essere presenti nel file
+	b) i tag <link>...</link> non devono essere presenti nel file
+2. Nessun codice Javascript (sia interno che eserno) non devono essere presenti nel file
+	a) i tag <script type="text/javascript" src="..."> non devono essere presenti nel file
+	b) i tag <script>...</script> non devono essere presenti nel file
+3. Tutti i tag devono essere sprovvisti dell'attributo "class".
+4. Seguenti tag di formattazione non devono essere presenti nel file:
+	a) <i ...>...</i>
+	b) <b ...>...</b>
+	c) <em ...>...</em>
+	d) <font ...>...</font>
+5. Ogni tag <a ...>...</a> di collegamento ipertestuale deve avere attributi:
+	a) href
+	b) target (con valore impostato a "_blank")
+	c) title
+	d) style (in cui devono essere impostati valori di attributi font-size, font-family, font-style, font-weight e text-decoration)
+
+	Esempio:
+
+	<a href="http://www.google.com" target="_blank" title="Google" style="font-size: 12px; font-family: Verdana, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline;">cerca</a>
+
+6. Ogni tag di immagine <img .../> deve avere attributi:
+	a) src
+	b) title
+	c) alt
+	d) width e height (che devono essere uguali alle misure dell'immagine in px)
+
+	Esempio:
+
+	<img src="http://.../arcobaleno.jpg" title="pioggia" alt="arcobaleno" width="100" height="80" style="width: 100px; height: 80px" />
+
+7. Ogni tag di tabella <table ...>...</table>, di riga <tr ...>...</tr> e di cella <td ...>...</td> deve avere:
+	a) attributo "width"
+	b) attributi "width", "min-width" e "max-width" dentro attributo "style"
+
+	Esempio:
+
+	<td width="100" style="width: 100px; min-width: 100px; max-width: 100px;">cella</td>
+
+8. Una volta presente in un tag, attributo "width" deve essere ripetuto tra gli attributi di "style" del tag con lo stesso valore.
+
+	Esempio:
+
+	<div width="100" style="width: 100px;">testo</div>
+
+9. Il file deve contenere solo i simboli cui codici ASCII sono maggiori di 31 e minori di 127.
+

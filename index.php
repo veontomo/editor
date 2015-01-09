@@ -149,6 +149,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		}?>
 		<a href="www.test.com" title="this a title of the link">link</a>
 		<img width="200" src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" />
+		http://dave-wood.org/blog/wp-content/uploads/2009/10/rainbow_viewer.png
 		simple text
 	</div>
 	<!-- <div contentEditable="true" class="editor">type here</div> -->

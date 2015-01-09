@@ -26,22 +26,31 @@ function CImage() {
 	 * @return         {void}
 	 */
 	this.onOk = function(dialog, editor){
-		var adapter, doc, content, data, template, image, cursorPos;
+		var adapter, doc, content, data, template, image, cursorPos, path, newContent;
 		try {
-			doc = this.getWorker();
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			cursorPos = adapter.getCursorPosition(editor);
+			if (!cursorPos) {
+				return;
+			}
+			doc = this.getWorker();
+			path = doc.pathTo(cursorPos.startContainer, content);
+			if (!path){
+				return;
+			}
 			data = adapter.getDialogData(dialog, ['text']);
 			template = adapter.dialogToTemplate.image(data);
 			image = new ImageTag();
 			image.loadFromTemplate(template);
-			// newContent = doc.insertNodeAt(content, pos, );
+			newContent = doc.insertNodeAt(content, path, cursorPos.startOffset, image.toNode());
+			adapter.setEditorContent(editor, newContent);
 		}
 		catch (e){
 			console.log(e);
 		}
-		console.log(image.toHtml(), cursorPos);
+		// console.log(image.toHtml(), cursorPos, doc.pathTo(cursorPos.startContainer, content), content.outerHTML, cursorPos.startContainer.outerHTML);
+		// console.log(content.contains(cursorPos.startContainer));
 		// try {
 		//     doc = this.getWorker();
 		//     doc.setContent(content);
