@@ -2474,9 +2474,9 @@ function Document(node){
 		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
 			return;
 		}
-		selectedNodes.forEach(function(range){
+		ranges.forEach(function(range){
 			this.convertToList(content, range, listType);
-		});
+		}.bind(this));
 	};
 
 	/**

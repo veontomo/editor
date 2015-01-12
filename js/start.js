@@ -30,9 +30,4 @@ window.onload = function(){
 	    	}
 	    });
 	});
-	editor.on('someEvent', function(event) {
-	    alert(event.data);
-	} );
-	editor.fire( 'someEvent' );
-
 };

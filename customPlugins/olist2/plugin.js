@@ -41,7 +41,7 @@ CKEDITOR.plugins.add('olist2', {
 
 		editor.addCommand('olist2', {
 			exec: function(editor){
-				_controller.convertToList(editor, 'ol');
+				_controller.insertLists(editor, 'ol');
 			}
 		});
 
