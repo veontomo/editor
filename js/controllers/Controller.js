@@ -10,6 +10,10 @@
  * @author    A.Shcherbakov
  */
 function Controller(){
+	"use strict";
+	if (!(this instanceof Controller)) {
+	    return new Controller();
+	}
 
 	/**
 	 * The whole content of the editor window.
@@ -137,80 +141,6 @@ function Controller(){
 		_editorAdapter = adapter;
 	};
 
-	// *
-	//  * Collects parameters from the dialog menu and returns json like object with that data.
-	//  * If optional parameter `types` is provided, then only dialog fields of types present
-	//  * in array `types` are to be taken in consideration.
-	//  *
-	//  * Returns json object whose keys are page ids of the dialog menu and values are json objects
-	//  * whose keys are ids of the elements present on that page and values are those read from  the
-	//  * dialog menu.
-	//  *
-	//  * Example: <pre>{infoTab: {author: 'A.Einstein', title: 'On electrodynamics of moving electron'},
-	//  * publisher: {code: TDR19, license: 1031}}</pre>
-	//  *
-	//  * @method         getDialogData
-	//  * @param          {CKEDITOR.dialog}  dialog 		See [dialog definition](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog).
-	//  * @param          {Array}            types         array of strings standing for dialog field types.
-	//  * @return         {Object}
-
-	// this.getDialogData = function(dialog, types){
-	// 	var data = {},
-	// 		pages = dialog._.contents,
-	// 		pageId,
-	// 		elems, elemId, pageContent, value,
-	// 		considerAll = types === undefined  || !Array.isArray(types); // whether all dialog fields should be considered
-	// 	for (pageId in pages){
-	// 		if (pages.hasOwnProperty(pageId)){
-	// 			elems = pages[pageId];
-	// 			pageContent = {};
-	// 			for (elemId in elems){
-	// 				if (elems.hasOwnProperty(elemId)){
-	// 					if (considerAll || types.indexOf(elems[elemId].type) !== -1){
-	// 						value = dialog.getValueOf(pageId, elemId);
-	// 						if (value !== undefined){
-	// 							pageContent[elemId] = dialog.getValueOf(pageId, elemId);
-	// 						}
-
-	// 					}
-	// 				}
-	// 			}
-	// 			data[pageId] = pageContent;
-	// 		}
-	// 	}
-	// 	return data;
-	// };
-
-
-	// *
-	//  * Populates the field of the dialog menu. `data` must be of a format described in
-	//  * {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}} method.
-	//  * If a key has undefined value, then it is not taken into consideration.
-	//  * @method        fillInDialog
-	//  * @param         {Object}              data              data to be inserted,
-	//  *                                                        {{#crossLink "Controller/getDialogData:method"}}getDialog{{/crossLink}}
-	//  * @return        {void}
-
-	// this.fillInDialog = function(dialog, data){
-	// 	var pageId, page, elemId, value;
-	// 	for (pageId in data){
-	// 		if (data.hasOwnProperty(pageId)){
-	// 			page = data[pageId];
-	// 			for (elemId in page){
-	// 				if (page.hasOwnProperty(elemId)){
-	// 					value = page[elemId];
-	// 					if (value !== undefined){
-	// 						try {
-	// 							dialog.setValueOf(pageId, elemId, value);
-	// 						} catch (e){
-	// 							console.log('Error (' + e.name + ') in filling in the dialog menu: ' + e.message);
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// };
 
 
 
@@ -287,35 +217,6 @@ function Controller(){
 	};
 
 
-
-	// *
-	//  * Converts object of dialog menu format to an object of {{#crossLink "Tag/template:method"}}Tag{{/crossLink}}
-	//  * format.
-	//  * Eventually, the emplementation should be corrected by inherited class.
-	//  *
-	//  * @method         dialogToTemplate
-	//  * @param          {Object}        obj
-	//  * @return         {Object}
-	//  * @since          0.0.7
-
-	// this.dialogToTemplate = function(obj){
-	// 	return obj;
-	// };
-
-	// *
- // 	 * Converts object of {{#crossLink "Tag/template:method"}}Tag{{/crossLink}} format to object
- // 	 * of dialog menu format.
- // 	 *
- // 	 * Eventually, the emplementation should be corrected by inherited class.
-	//  *
-	//  * @method         templateToDialog
-	//  * @param          {Object}        obj
-	//  * @return         {Object}
-	//  * @since          0.0.7
-
-	// this.templateToDialog = function(obj){
-	// 	return obj;
-	// };
 
 	/**
 	 * Shows error message. Uses javascript method `alert` to display the message.

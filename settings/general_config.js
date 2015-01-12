@@ -112,7 +112,6 @@ var NEWSLETTER = (function(){
 			return this.defaultUnitMeasure;
 		};
 
-
 		/**
 		 * Name of the marker attribute to be used in order to mark tag elements.
 		 * @property  {String}     marker-name

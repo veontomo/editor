@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Element, Text, Node, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Mapper, Range */
+/*global Element, Text, Node, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Mapper, Range, Link */
 
 /**
  * This class is to deal with document: parsing, converting, saving.
@@ -1264,7 +1264,7 @@ function Document(node){
 			return;
 		}
 		var result = [];
-		ranges.forEach(function(range, i, r){
+		ranges.forEach(function(range){
 			var nodes;
 			if (range instanceof Range){
 				nodes = this.nodesOfRange(range);
@@ -2256,8 +2256,7 @@ function Document(node){
 		if (typeof C !== 'function'){
 			return;
 		}
-		var tag,
-			sel = this.getSelection();
+		var tag;
 		try {
 			tag = new C();
 		} catch (e){
@@ -2487,6 +2486,21 @@ function Document(node){
 			}
 		}
 		return clone;
+	};
+
+	/**
+	 * Inserts list of type  `listType` into `content`.
+	 *
+	 * Insertion is based on the selection: if nothing is selected, the insertion takes place at the cursor position.
+	 * Otherwise, each element of array `ranges` is transformed into list item.
+	 * @method         convertToList
+	 * @param          {Node}          content
+	 * @param          {Ranges}        ranges
+	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
+	 * @return         {Node}
+	 */
+	this.convertToList = function(content, ranges, listType){
+		/// !!! stub
 	};
 
 }

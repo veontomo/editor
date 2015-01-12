@@ -5,12 +5,12 @@
 // Fictitious menu dialog that embraces "link" and "mail" menu dialogs.
 // It is introduced in order to have all translations in one place.
 
-CKEDITOR.plugins.add('listDialog', {
+CKEDITOR.plugins.add('list2', {
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {}
 });
 
-var pluginName = 'linkMail';
+var pluginName = 'list2';
 var translations = {
 	it: {
 		targetNew:     'Apri in una nuova scheda',

@@ -7,8 +7,29 @@ CKEDITOR.plugins.add('olist2', {
 	// Register the icons.
 	icons: 'olist2',
 
-	// The plugin initialization logic goes inside this method.
+	/**
+	 * The plugin initialization logic goes inside this method.
+	 * @method  init
+	 * @param   {Object}     editor
+	 * @return  {void}
+	 */
 	init: function(editor) {
+
+		/**
+		 * Instance of {{#crossLink "CList"}}CList{{/crossLink}}
+		 * @property  {CList}     _controller
+		 * @type      {CList}
+		 * @private
+		 */
+		var _controller = new CList();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		(function(){
+		    var worker = new Document();
+		    worker.setFactory(NEWSLETTER.factory);
+		    _controller.setWorker(worker);
+		}());
+
+
 		// Define an editor command that opens our dialog.
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){
@@ -19,13 +40,11 @@ CKEDITOR.plugins.add('olist2', {
 			}
 		});
 
-		editor.addCommand('olist2', new CKEDITOR.dialogCommand('oListDialog'));
-		// editor.addCommand('olist2', {
-		// 	exec: function(editor){
-		// 		console.log('olist2Dialog');
-		// 		CKHelper.insertList(editor, 'ol');
-		// 	}
-		// });
+		editor.addCommand('olist2', {
+			exec: function(editor){
+				_controller.convertToList(editor, 'ol');
+			}
+		});
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('olist2', {
@@ -37,16 +56,6 @@ CKEDITOR.plugins.add('olist2', {
 			toolbar: 'document'
 		});
 
-		// Register our dialog file. this.path is the plugin folder path.
-		var path = this.path.split('/'), a;
-		// repeat until a non-empty element is popped
-		do {
-			a = path.pop();
-		}
-		while (!a && path.length > 0);
-		path = path.join('/') + '/list2/listDialog.js';
-		console.log(path);
-		CKEDITOR.dialog.add('oListDialog', path);
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');
