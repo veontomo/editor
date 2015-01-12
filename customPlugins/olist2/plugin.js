@@ -18,12 +18,14 @@ CKEDITOR.plugins.add('olist2', {
 				CKHelper.changeListType(editor, list, 'ul');
 			}
 		});
-		editor.addCommand('olist2', {
-			exec: function(editor){
-				console.log('olist2Dialog');
-				CKHelper.insertList(editor, 'ol');
-			}
-		});
+
+		editor.addCommand('olist2', new CKEDITOR.dialogCommand('oListDialog'));
+		// editor.addCommand('olist2', {
+		// 	exec: function(editor){
+		// 		console.log('olist2Dialog');
+		// 		CKHelper.insertList(editor, 'ol');
+		// 	}
+		// });
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('olist2', {
@@ -42,9 +44,9 @@ CKEDITOR.plugins.add('olist2', {
 			a = path.pop();
 		}
 		while (!a && path.length > 0);
-		path = path.join('/') + '/list/listDialog.js';
-		CKEDITOR.dialog.add('listDialog', path);
-
+		path = path.join('/') + '/list2/listDialog.js';
+		console.log(path);
+		CKEDITOR.dialog.add('oListDialog', path);
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');

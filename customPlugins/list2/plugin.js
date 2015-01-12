@@ -5,7 +5,7 @@
 // Fictitious menu dialog that embraces "link" and "mail" menu dialogs.
 // It is introduced in order to have all translations in one place.
 
-CKEDITOR.plugins.add('linkMail', {
+CKEDITOR.plugins.add('listDialog', {
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {}
 });
