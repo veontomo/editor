@@ -33,8 +33,6 @@ CKEDITOR.plugins.add('image2', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('image2Group');
-			console.log('image2');
-
 			editor.addMenuItem('image2Edit', {
 				label: editor.lang.image2.title,
 				icon: this.path + 'icons/image2edit.png',

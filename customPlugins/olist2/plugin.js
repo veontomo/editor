@@ -14,11 +14,13 @@ CKEDITOR.plugins.add('olist2', {
 			exec: function(editor){
  				var startElem = editor.getSelection().getStartElement(),
 					list = startElem.getAscendant('ol', true);
+				console.log('olist2Dialog');
 				CKHelper.changeListType(editor, list, 'ul');
 			}
 		});
 		editor.addCommand('olist2', {
 			exec: function(editor){
+				console.log('olist2Dialog');
 				CKHelper.insertList(editor, 'ol');
 			}
 		});
@@ -32,6 +34,16 @@ CKEDITOR.plugins.add('olist2', {
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
+
+		// Register our dialog file. this.path is the plugin folder path.
+		var path = this.path.split('/'), a;
+		// repeat until a non-empty element is popped
+		do {
+			a = path.pop();
+		}
+		while (!a && path.length > 0);
+		path = path.join('/') + '/list/listDialog.js';
+		CKEDITOR.dialog.add('listDialog', path);
 
 
 		if (editor.contextMenu) {
