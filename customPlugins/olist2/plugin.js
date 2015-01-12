@@ -29,7 +29,6 @@ CKEDITOR.plugins.add('olist2', {
 		    _controller.setWorker(worker);
 		}());
 
-
 		// Define an editor command that opens our dialog.
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){

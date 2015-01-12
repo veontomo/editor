@@ -70,8 +70,6 @@ function CImage() {
 		try {
 		    doc = this.getWorker();
 		    doc.setContent(content);
-		    // console.log(content.outerHTML);
-		    // console.log(ranges);
 		    doc.freezeSelection(ranges);
 		    imgTag = doc.detectTag('img');
 		    if (imgTag) {

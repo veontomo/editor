@@ -1358,19 +1358,6 @@ function Document(node){
 	};
 
 
-	// /**
-	//  * Returns the start element of selection if it exists.
-	//  * @method         getStartElement
-	//  * @return         {CKEDITOR.dom.element}
-	//  */
-	// this.getStartElement = function(){
-	// 	console.log('this is a stub method');
-	// 	/// !!! stub
-	//     // var sel = this.getSelected();
-	//     // if (sel instanceof CKEDITOR.dom.selection){
-	//     //     return sel.getStartElement();
-	//     // }
-	// };
 
 	/**
 	 * Returns `true` if {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} is empty,
@@ -1391,22 +1378,6 @@ function Document(node){
 	    });
 	};
 
-
-	// *
-	//  * Returns `true` if selected text starts inside a link, `false` otherwise.
-	//  * In case when the selection is empty, cursor position is considered as beginning
-	//  * of empty selection.
-	//  * @method         startsInsideLink
-	//  * @return         {Boolean}            whether the selection starts inside a link
-
-	// this.startsInsideLink = function(){
-	//     var start = this.getStartElement(),
-	//         parentLink = null;
-	//     if (start !== undefined && start !== null && (typeof start.getAncestor === 'function')){
-	//         parentLink = start.getAncestor('a', true);
-	//     }
-	//     return parentLink !== null;
-	// };
 
 
 	/**
@@ -2489,19 +2460,89 @@ function Document(node){
 	};
 
 	/**
-	 * Inserts list of type  `listType` into `content`.
+	 * Inserts many lists of type  `listType` into `content`. Items of each list are made of nodes corresponding
+	 * to elements of array `ranges`.
 	 *
-	 * Insertion is based on the selection: if nothing is selected, the insertion takes place at the cursor position.
-	 * Otherwise, each element of array `ranges` is transformed into list item.
-	 * @method         convertToList
+	 * @method         insertLists
 	 * @param          {Node}          content
-	 * @param          {Ranges}        ranges
+	 * @param          {Array}         ranges       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
-	 * @return         {Node}
+	 * @return         {void}
+	 * @since          0.1.0
 	 */
-	this.convertToList = function(content, ranges, listType){
-		/// !!! stub
-		console.log(content, ranges, listType);
+	this.insertLists = function(content, ranges, listType){
+		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
+			return;
+		}
+		selectedNodes.forEach(function(range){
+			this.convertToList(content, range, listType);
+		});
+	};
+
+	/**
+	 * Convert nodes belonging to `range` into a list of type `listType`. If `range` contains no nodes, then empty list is inserted
+	 * at the position specified `range`.
+	 * @method         convertToList
+	 * @param          {Node}  content
+	 * @param          {Range} range      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {String} listType
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.convertToList = function(content, range, listType){
+		console.log('inserting list....');
+	};
+
+
+	/**
+	 * Inserts a list which items are populated from the selection. If the selection is empty,
+	 * a list item with empty content is generated.
+	 * @method         insertList
+	 * @param          {CKEDITOR.editor}    editor                 Represents an editor instance.
+	 * @param          {String}             listType               Type of the list to insert (ol, ul)
+	 * @return         {void}
+	 */
+	this.insertList = function(editor, listType){
+		var selection = new Selection(editor),
+		    selectedNodes = selection.nodes,                   // 2-dim array
+		    factory = NEWSLETTER.factory;
+		console.log('CKHelper::insertListNew ', selectedNodes);
+		selectedNodes.forEach(function(block){
+			var len = block.length,
+				elem, list, content, newNode, firstElem;
+			list = new List(listType);
+			// if the block is empty (it means that the selection is empty), insert a link and exit
+			if (len === 0){
+				list.appendElem(new ListItem());
+				newNode = CKEDITOR.dom.element.createFromHtml(list.toHtml());
+				editor.insertElement(newNode);
+				return null;
+			}
+			// if still here, it means that the block has at least one item
+			firstElem = block.shift().$;                                  // NB: block lenght gets reduced here
+			if (len === 1 && (firstElem.nodeType === Node.ELEMENT_NODE)){ // the block has only one item
+																		  // and this item is an ELEMENT_NODE
+				elem = factory.mimic(firstElem);
+				content = elem.getContent();
+				list = new List(listType);
+				list.appendAsItems(content);
+				elem.setElements([list]);
+				newNode = elem.toNode();
+				firstElem.parentNode.replaceChild(newNode, firstElem);
+				return null;
+			}
+			// default case
+			var current = [factory.mimic(firstElem)];         // create array with one element
+			block.forEach(function(el){
+				current.push(factory.mimic(el.$));
+				el.$.remove();
+			});
+			list.appendAsItems(current);
+			newNode = list.toNode();
+			firstElem.parentNode.replaceChild(newNode, firstElem);
+			// newNode.focus()
+		});
+
 	};
 
 }
