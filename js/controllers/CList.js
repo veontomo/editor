@@ -29,12 +29,17 @@ function CList() {
      * @since          0.1.0
      */
     this.convertToList = function(editor, listType){
-        var adapter = this.getEditorAdapter(),
-            doc = this.getWorker(),
-            content = adapter.getEditorContent(editor),
-            ranges = adapter.getNativeRanges(editor),
+        var adapter, doc, content, ranges, newContent;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
             newContent = doc.convertToList(content, ranges, listType);
-        adapter.setEditorContent(newContent);
+            adapter.setEditorContent(newContent);
+        } catch (e) {
+            console.log(e.name + ' occurred when converting editor content into a list: ' + e.message);
+        }
     };
 
 }

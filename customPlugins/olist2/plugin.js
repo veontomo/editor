@@ -49,7 +49,7 @@ CKEDITOR.plugins.add('olist2', {
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('olist2', {
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang.list.numberedlist,
+			label: editor.lang.list2.ol.title,
 			// The command to execute on click.
 			command: 'olist2',
 			// The button placement in the toolbar (toolbar group name).
@@ -60,7 +60,7 @@ CKEDITOR.plugins.add('olist2', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');
 			editor.addMenuItem('olist2Dialog', {
-				label: 'convertire in elenco puntato',
+				label: editor.lang.list2.ol.switch,
 				icon: this.path + 'icons/convertList.png',
 				command: 'olist2Dialog',
 				group: 'list2Group'
@@ -75,3 +75,4 @@ CKEDITOR.plugins.add('olist2', {
 		}
 	}
 });
+

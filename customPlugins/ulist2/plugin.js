@@ -10,11 +10,28 @@ CKEDITOR.plugins.add('ulist2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
+
+		/**
+		 * Instance of {{#crossLink "CList"}}CList{{/crossLink}}
+		 * @property  {CList}     _controller
+		 * @type      {CList}
+		 * @private
+		 */
+		var _controller = new CList();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		(function(){
+		    var worker = new Document();
+		    worker.setFactory(NEWSLETTER.factory);
+		    _controller.setWorker(worker);
+		}());
+
+
 		editor.addCommand('ulist2', {
 			exec: function(editor){
-				CKHelper.insertList(editor, 'ul');
+				_controller.convertToList(editor, 'ul');
 			}
 		});
+
 		editor.addCommand('ulist2Dialog', {
 			exec: function(editor){
 				var startElem = editor.getSelection().getStartElement(),
@@ -26,7 +43,7 @@ CKEDITOR.plugins.add('ulist2', {
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton('Ulist2', {
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang.list.bulletedlist,
+			label: editor.lang.list2.ul.title,
 			// The command to execute on click.
 			command: 'ulist2',
 			// The button placement in the toolbar (toolbar group name).
@@ -37,7 +54,7 @@ CKEDITOR.plugins.add('ulist2', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup('list2Group');
 			editor.addMenuItem('ulist2Dialog', {
-				label: 'convertire in elenco numerato', //editor.lang.list.bulletedlist,
+				label: editor.lang.list2.ul.switch,
 				icon: this.path + 'icons/convertList.png',
 				command: 'ulist2Dialog',
 				group: 'list2Group'

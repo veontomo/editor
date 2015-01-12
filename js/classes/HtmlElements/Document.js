@@ -2501,6 +2501,7 @@ function Document(node){
 	 */
 	this.convertToList = function(content, ranges, listType){
 		/// !!! stub
+		console.log(content, ranges, listType);
 	};
 
 }
