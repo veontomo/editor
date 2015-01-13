@@ -2401,63 +2401,149 @@ function Document(node){
 	 * @since          0.1.0
 	 * @throws         {Error}                      If `pathToHost` is not an array
 	 */
-	this.insertNodeAt = function(root, pathToHost, index, n){
-		if (!(root instanceof Element)){
-			throw new Error('First argument must be an Element instance!');
-		}
-		if (!Array.isArray(pathToHost)){
-			throw new Error('Second argument must be an array!');
-		}
-		if (!(n instanceof Node)){
-			throw new Error('Fourth argument must be a Node instance!');
-		}
-		var clone = root.cloneNode(true),
-			hostNode = this.getNodeByPath(pathToHost, clone);
+	// this.insertNodeAt = function(root, pathToHost, index, n){
+	// 	if (!(root instanceof Element)){
+	// 		throw new Error('First argument must be an Element instance!');
+	// 	}
+	// 	if (!Array.isArray(pathToHost)){
+	// 		throw new Error('Second argument must be an array!');
+	// 	}
+	// 	if (!(n instanceof Node)){
+	// 		throw new Error('Fourth argument must be a Node instance!');
+	// 	}
+	// 	var //clone = root.cloneNode(true),
+	// 		clone = root,
+	// 		hostNode = this.getNodeByPath(pathToHost, clone);
+	// 	if (!(hostNode instanceof Node)){
+	// 		throw new Error('Target element is not found!');
+	// 	}
+	// 	var rightNode, len;
+	// 	/// two case are possible:
+	// 	/// 1. hostingNode is a text node
+	// 	/// 2. hostingNode is an element node
+	// 	if (hostNode instanceof Text){
+	// 		if (index === 0){
+	// 			/// insert in the beginning (no need to split the node)
+	// 			hostNode.parentNode.insertBefore(n, hostNode);
+	// 		} else {
+	// 			len = hostNode.nodeValue.length;
+	// 			/// insert in the middle
+	// 			if (index < len){
+	// 				rightNode = hostNode.splitText(index);
+	// 				hostNode.parentNode.insertBefore(n, rightNode);
+	// 			}
+	// 			/// insert in the end (no need to split the node)
+	// 			if (index === len){
+	// 				rightNode = hostNode.nextSibling;
+	// 				if (rightNode){
+	// 					hostNode.parentNode.insertBefore(n, rightNode);
+	// 				} else {
+	// 					hostNode.parentNode.appendChild(n);
+	// 				}
+	// 			}
+	// 		}
+	// 	} else if (hostNode instanceof Element) {
+	// 		var children = hostNode.childNodes;
+	// 		if (index > children.length){
+	// 			throw new Error('Index is too big!');
+	// 		}
+	// 		if (index === children.length){
+	// 			hostNode.appendChild(n);
+	// 		} else {
+	// 			rightNode = children[index];
+	// 			if (!rightNode){
+	// 				throw new Error('Wrong index to insert node at!');
+	// 			}
+	// 			hostNode.insertBefore(n, rightNode);
+	// 		}
+	// 	}
+	// 	return clone;
+	// };
+	this.insertNodeAt = function(hostNode, n, offset){
 		if (!(hostNode instanceof Node)){
-			throw new Error('Target element is not found!');
+			throw new Error('Node instance is expected!');
 		}
-		var rightNode, len;
-		/// two case are possible:
-		/// 1. hostingNode is a text node
-		/// 2. hostingNode is an element node
 		if (hostNode instanceof Text){
-			if (index === 0){
-				/// insert in the beginning (no need to split the node)
-				hostNode.parentNode.insertBefore(n, hostNode);
-			} else {
-				len = hostNode.nodeValue.length;
-				/// insert in the middle
-				if (index < len){
-					rightNode = hostNode.splitText(index);
-					hostNode.parentNode.insertBefore(n, rightNode);
-				}
-				/// insert in the end (no need to split the node)
-				if (index === len){
-					rightNode = hostNode.nextSibling;
-					if (rightNode){
-						hostNode.parentNode.insertBefore(n, rightNode);
-					} else {
-						hostNode.parentNode.appendChild(n);
-					}
-				}
+			return this.insertIntoTextNode(hostNode, n, offset);
+		}
+		if (hostNode instanceof Element) {
+			return this.insertChild(hostNode, n, offset);
+		}
+		return hostNode;
+	};
+
+	/**
+	 * Inserts node `n` as a child of `hostNode` at the position `offset`.
+	 * @method         insertChild
+	 * @param          {Element}       hostNode
+	 * @param          {Node}          n
+	 * @param          {Integer}       offset
+	 * @return         {Element}       reference to `hostNode`
+	 * @since          0.1.0
+	 */
+	this.insertChild = function(hostNode, n, offset){
+		var children = hostNode.childNodes;
+		var rightNode;
+		if (offset > children.length){
+			throw new Error('offset is too big!');
+		}
+		if (offset === children.length){
+			hostNode.appendChild(n);
+		} else {
+			rightNode = children[offset];
+			if (!rightNode){
+				throw new Error('Wrong offset to insert node at!');
 			}
-		} else if (hostNode instanceof Element) {
-			var children = hostNode.childNodes;
-			if (index > children.length){
-				throw new Error('Index is too big!');
+			hostNode.insertBefore(n, rightNode);
+		}
+		return hostNode;
+	};
+
+
+	/**
+	 * Inserts node `n` inside text node instance `textNode` at the position `offset`.
+	 * @method         insertIntoTextNode
+	 * @param          {Text}          hostNode
+	 * @param          {Node}          n
+	 * @param          {Integer}       offset
+	 * @return         {Text}          reference to `hostNode`
+	 * @since          0.1.0
+	 */
+	this.insertIntoTextNode = function(textNode, n, offset){
+		if (n instanceof Text){
+			var text1 = textNode.nodeValue,
+				text2 = n.nodeValue,
+				text;
+			text = text1.slice(0, offset) + text2 + text1.slice(offset);
+			textNode.nodeValue = text;
+			return textNode;
+		}
+		// textNode is NOT a text node
+		if (offset === 0){
+			/// insert at the beginning (no need to split the node)
+			textNode.parentNode.insertBefore(n, textNode);
+		} else {
+			var rightNode, len;
+			len = textNode.nodeValue.length;
+			/// insert in the middle
+			if (offset < len){
+				rightNode = textNode.splitText(offset);
+				textNode.parentNode.insertBefore(n, rightNode);
 			}
-			if (index === children.length){
-				hostNode.appendChild(n);
-			} else {
-				rightNode = children[index];
-				if (!rightNode){
-					throw new Error('Wrong index to insert node at!');
+			/// insert in the end (no need to split the node)
+			if (offset === len){
+				rightNode = textNode.nextSibling;
+				if (rightNode){
+					textNode.parentNode.insertBefore(n, rightNode);
+				} else {
+					textNode.parentNode.appendChild(n);
 				}
-				hostNode.insertBefore(n, rightNode);
 			}
 		}
-		return clone;
+		return textNode;
 	};
+
+
 
 	/**
 	 * Inserts many lists of type  `listType` into `content`. Items of each list are made of nodes corresponding
@@ -2467,30 +2553,49 @@ function Document(node){
 	 * @param          {Node}          content
 	 * @param          {Array}         ranges       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
-	 * @return         {void}
+	 * @return         {Node}
 	 * @since          0.1.0
 	 */
 	this.insertLists = function(content, ranges, listType){
 		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
 			return;
 		}
+		var currentContent = content;
 		ranges.forEach(function(range){
-			this.convertToList(content, range, listType);
+			currentContent = this.convertToList(currentContent, range, listType);
 		}.bind(this));
+		console.log('total content: ', currentContent.outerHTML);
+		return currentContent;
 	};
 
 	/**
 	 * Convert nodes belonging to `range` into a list of type `listType`. If `range` contains no nodes, then empty list is inserted
 	 * at the position specified `range`.
 	 * @method         convertToList
-	 * @param          {Node}  content
-	 * @param          {Range} range      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * @param          {String} listType
+	 * @param          {Node}          content
+	 * @param          {Range}         range      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {String}        listType
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
 	this.convertToList = function(content, range, listType){
-		console.log('inserting list....');
+		if (!(range instanceof Range)){
+			return;
+		}
+		console.log('inserting list corresponding to range ', range);
+		var nodes = this.nodesOfRange(range);
+		var newContent;
+		if (Array.isArray(nodes) &&  nodes.length > 0) {
+			newContent = this.convertNodesToList(content, nodes, listType);
+		} else {
+			var path = this.pathTo(range.startContainer, content);
+			var list = new List();
+			list.appendAsItems([1, 2, 3]);
+			console.log('new list', list.toHtml());
+			newContent = this.insertNodeAt(content, path, range.startOffset, list.toNode());
+		}
+		console.log('returning ', newContent);
+		return newContent;
 	};
 
 

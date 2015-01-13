@@ -148,10 +148,16 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<?php if(isset($fileContent)){
 			echo $fileContent;
 		}?>
-		<a href="www.test.com" title="this a title of the link">link</a>
-		<img width="200" src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" />
-		http://dave-wood.org/blog/wp-content/uploads/2009/10/rainbow_viewer.png
-		simple text
+		<a href="www.test.com" title="this a title of the link">link</a> <img src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" width="200" /> http://dave-wood.org/blog/wp-content/uploads/2009/10/rainbow_viewer.png simple text
+		<ol>
+			<li>item 1</li>
+			<li>item 2</li>
+			<li>item 3</li>
+			<li>item 4</li>
+		</ol>
+		<table><tbody><tr><td>cell 1</td><td>cell 2</td><td>cell 3</td></tr>
+		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr>
+		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table>
 	</div>
 	<!-- <div contentEditable="true" class="editor">type here</div> -->
 	<?php
