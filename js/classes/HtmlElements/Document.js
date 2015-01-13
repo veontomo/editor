@@ -2482,9 +2482,11 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.insertChild = function(hostNode, n, offset){
+		console.log('offset = ', offset, 'hostNode = ', hostNode);
 		var children = hostNode.childNodes;
 		var rightNode;
 		if (offset > children.length){
+			console.log(offset, children.length);
 			throw new Error('offset is too big!');
 		}
 		if (offset === children.length){
@@ -2492,6 +2494,7 @@ function Document(node){
 		} else {
 			rightNode = children[offset];
 			if (!rightNode){
+
 				throw new Error('Wrong offset to insert node at!');
 			}
 			hostNode.insertBefore(n, rightNode);
@@ -2553,19 +2556,16 @@ function Document(node){
 	 * @param          {Node}          content
 	 * @param          {Array}         ranges       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
-	 * @return         {Node}
+	 * @return         {void}
 	 * @since          0.1.0
 	 */
 	this.insertLists = function(content, ranges, listType){
 		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
 			return;
 		}
-		var currentContent = content;
 		ranges.forEach(function(range){
-			currentContent = this.convertToList(currentContent, range, listType);
+			this.convertToList(content, range, listType);
 		}.bind(this));
-		console.log('total content: ', currentContent.outerHTML);
-		return currentContent;
 	};
 
 	/**
@@ -2582,20 +2582,56 @@ function Document(node){
 		if (!(range instanceof Range)){
 			return;
 		}
-		console.log('inserting list corresponding to range ', range);
 		var nodes = this.nodesOfRange(range);
 		var newContent;
 		if (Array.isArray(nodes) &&  nodes.length > 0) {
-			newContent = this.convertNodesToList(content, nodes, listType);
+			this.convertNodesToList(nodes, listType);
 		} else {
-			var path = this.pathTo(range.startContainer, content);
-			var list = new List();
-			list.appendAsItems([1, 2, 3]);
-			console.log('new list', list.toHtml());
-			newContent = this.insertNodeAt(content, path, range.startOffset, list.toNode());
+			var list = new List(listType);
+			list.appendAsItems([1, 2]);
+			this.insertNodeAt(range.startContainer, list.toNode(), range.startOffset);
 		}
-		console.log('returning ', newContent);
-		return newContent;
+	};
+
+	/**
+	 * Converts nodes specified in array `nodes` into list.
+	 *
+	 * It is supposed that all elements of array `nodes` reside in the same document.
+	 *
+	 * Each element of the array `nodes` gets transformed into list item
+	 * @method convertNodesToList
+	 * @param          {Array}         nodes
+	 * @param          {String}        listType
+	 * @return         {Node}
+	 * @since          0.1.0
+	 */
+	this.convertNodesToList = function(nodes, listType){
+		if (!(Array.isArray(nodes) && nodes.length > 0)){
+			return;
+		}
+		var items = [],
+			list = new List(listType),
+			factory = this.getFactory(),
+			len = nodes.length,
+			item, i;
+		for (i = 0; i < len; i++) {
+			item = factory.mimic(nodes[i]);
+			if (!item.isEmpty()){
+				items.push(item);
+			}
+			// removing all elements from nodes except for the first node
+			if (i > 0){
+				nodes[i].parentNode.removeChild(nodes[i]);
+			}
+		}
+		list.appendAsItems(items);
+		var firstNode = nodes[0];
+		try {
+			// replacing the first node
+			return firstNode.parentNode.replaceChild(list.toNode(), firstNode);
+		} catch (e){
+			console.log('Error (' + e.name + ') when converting nodes into a list: ' + e.message);
+		}
 	};
 
 
@@ -2607,7 +2643,7 @@ function Document(node){
 	 * @param          {String}             listType               Type of the list to insert (ol, ul)
 	 * @return         {void}
 	 */
-	this.insertList = function(editor, listType){
+	this.insertList_to_delete = function(editor, listType){
 		var selection = new Selection(editor),
 		    selectedNodes = selection.nodes,                   // 2-dim array
 		    factory = NEWSLETTER.factory;

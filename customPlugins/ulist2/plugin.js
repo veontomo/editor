@@ -28,7 +28,7 @@ CKEDITOR.plugins.add('ulist2', {
 
 		editor.addCommand('ulist2', {
 			exec: function(editor){
-				_controller.convertToList(editor, 'ul');
+				_controller.insertLists(editor, 'ul');
 			}
 		});
 

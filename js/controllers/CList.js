@@ -29,14 +29,14 @@ function CList() {
      * @since          0.1.0
      */
     this.insertLists = function(editor, listType){
-        var adapter, doc, content, ranges, newContent;
+        var adapter, doc, content, ranges;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
-            newContent = doc.insertLists(content, ranges, listType);
-            adapter.setEditorContent(editor, newContent);
+            doc.insertLists(content, ranges, listType);
+            adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when converting editor content into a list: ' + e.message);
         }

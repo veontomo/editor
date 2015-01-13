@@ -760,7 +760,7 @@ function Tag(tName) {
 			contentSucc = false,
 			childrenArr = [],
 			children, currentChild, attr, i, len;
-		if (elem && (elem.nodeType === Node.ELEMENT_NODE)){
+		if (elem instanceof Element){
 			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
 			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
