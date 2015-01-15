@@ -2560,37 +2560,34 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.insertLists = function(content, ranges, listType){
+		console.log(ranges);
 		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
 			return;
 		}
 		ranges.forEach(function(range){
-			this.convertToList(content, range, listType);
+			this.convertRangeToList(range, listType);
 		}.bind(this));
 	};
 
 	/**
-	 * Convert nodes belonging to `range` into a list of type `listType`. If `range` contains no nodes, then empty list is inserted
-	 * at the position specified `range`.
-	 * @method         convertToList
-	 * @param          {Node}          content
+	 * Convert nodes belonging to `range` into a list of type `listType`.
+	 *
+	 * If `range` contains no nodes, then empty list is inserted at the position specified `range`.
+	 * @method         convertRangeToList
 	 * @param          {Range}         range      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {String}        listType
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.convertToList = function(content, range, listType){
-		console.log('content initial: ' + content.outerHTML);
+	this.convertRangeToList = function(range, listType){
 		if (!(range instanceof Range)){
 			return;
 		}
-		var nodes = this.nodesOfRange(range);
-		var newContent;
-		if (Array.isArray(nodes) &&  nodes.length > 0) {
-			this.convertNodesToList(nodes, listType);
-		} else {
+		console.log(range);
+		if (range.collapsed){
 			this.insertListAt(listType, range.startContainer, range.startOffset);
+			return;
 		}
-		console.log('content final: ' + content.outerHTML);
 	};
 
 
@@ -2620,13 +2617,13 @@ function Document(node){
 	 * It is supposed that all elements of array `nodes` reside in the same document.
 	 *
 	 * Each element of the array `nodes` gets transformed into list item
-	 * @method convertNodesToList
+	 * @method         convertNodesToList______UNUSED
 	 * @param          {Array}         nodes
 	 * @param          {String}        listType
 	 * @return         {Node}
 	 * @since          0.1.0
 	 */
-	this.convertNodesToList = function(nodes, listType){
+	this.convertNodesToList______UNUSED = function(nodes, listType){
 		if (!(Array.isArray(nodes) && nodes.length > 0)){
 			return;
 		}

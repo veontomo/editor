@@ -20,6 +20,26 @@ var nullOrUndefinedMatcher = {
   }
 };
 
+var numberOfChildrenMatcher = {
+  hasChildNodes: function(util, customEqualityTesters) {
+    return {
+      compare: function(actual, expected) {
+        return {'pass': (actual instanceof Element && actual.childNodes.length === expected)};
+      }
+    };
+  }
+};
+
+var tagNameMatcher = {
+  hasTagName: function(util, customEqualityTesters) {
+    return {
+      compare: function(actual, expected) {
+        return {'pass': (actual instanceof Element && actual.tagName.toLowerCase() === expected)};
+      }
+    };
+  }
+};
+
 
 
 describe('Class "Document"', function() {
@@ -28,6 +48,8 @@ describe('Class "Document"', function() {
     beforeEach(function() {
         jasmine.addMatchers(emptyArrayMatcher);
         jasmine.addMatchers(nullOrUndefinedMatcher);
+        jasmine.addMatchers(numberOfChildrenMatcher);
+        jasmine.addMatchers(tagNameMatcher);
         node = document.createElement('div');
         ch1 = document.createElement('p');
         text1 = document.createTextNode('Text inside a paragraph.');
@@ -76,7 +98,7 @@ describe('Class "Document"', function() {
             doc.clean([new RegExp(/\bid/)]);
             var doc2 = doc.getContent();
             var p = doc2.firstChild;
-            expect(p.tagName.toLowerCase()).toBe('p');
+            expect(p).hasTagName('p');
             expect(p.hasAttribute('id')).toBe(false);
             expect(p.getAttribute('width')).toBe('300px');
         });
@@ -710,7 +732,7 @@ describe('Class "Document"', function() {
 
         it('creates an element whose text representation is the original text node', function(){
             var n = doc.createToggledElemFromText(t22, 'font-weight', 'normal', 'large');
-            expect(n.childNodes.length).toBe(1);
+            expect(n).hasChildNodes(1);
             expect(n.firstChild.nodeValue).toBe(t22.nodeValue);
         });
     });
@@ -2488,7 +2510,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('does not modify parent of the text node if the breakpoints array is empty', function() {
 	            doc.spliceText(t20, []);
-	            expect(e10.childNodes.length).toBe(5);
+	            expect(e10).hasChildNodes(5);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2]).toBe(t22);
@@ -2497,7 +2519,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('does not modify parent of the text node if the breakpoints array is [0]', function() {
 	            doc.spliceText(t20, [0]);
-	            expect(e10.childNodes.length).toBe(5);
+	            expect(e10).hasChildNodes(5);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2]).toBe(t22);
@@ -2506,7 +2528,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('does not modify parent of the text node if the breakpoints array is [0, 0, 0]', function() {
 	            doc.spliceText(t24, [0]);
-	            expect(e10.childNodes.length).toBe(5);
+	            expect(e10).hasChildNodes(5);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2]).toBe(t22);
@@ -2515,7 +2537,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('does not modify parent of the text node if the unique breakpoint corresponds to the end of the text node', function() {
 	            doc.spliceText(t22, [t22.textContent.length]);
-	            expect(e10.childNodes.length).toBe(5);
+	            expect(e10).hasChildNodes(5);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2]).toBe(t22);
@@ -2524,7 +2546,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('does not modify parent of the text node if the breakpoint lays beyond the end of the text node', function() {
 	            doc.spliceText(t22, [t22.textContent.length + 10]);
-	            expect(e10.childNodes.length).toBe(5);
+	            expect(e10).hasChildNodes(5);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2]).toBe(t22);
@@ -2533,7 +2555,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('splits the text node in two parts if the breakpoint lays inside the node', function() {
 	            doc.spliceText(t22, [7]);
-	            expect(e10.childNodes.length).toBe(6);
+	            expect(e10).hasChildNodes(6);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2] instanceof Text).toBe(true);
@@ -2545,7 +2567,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('splits the text node in four pieces if the breakpoint contains three increasing numbers', function() {
 	            doc.spliceText(t22, [4, 7, 10]);
-	            expect(e10.childNodes.length).toBe(8);
+	            expect(e10).hasChildNodes(8);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2] instanceof Text).toBe(true);
@@ -2561,7 +2583,7 @@ describe('Class "Document"', function() {
 	        });
 	        it('splits the text node in three pieces if the breakpoint contains two coincident numbers', function() {
 	            doc.spliceText(t22, [4, 4, 10]);
-	            expect(e10.childNodes.length).toBe(7);
+	            expect(e10).hasChildNodes(7);
 	            expect(e10.childNodes[0]).toBe(t20);
 	            expect(e10.childNodes[1]).toBe(e21);
 	            expect(e10.childNodes[2] instanceof Text).toBe(true);
@@ -3161,7 +3183,7 @@ describe('Class "Document"', function() {
             });
 
             it('the number of children of the Element node becomes 3', function(){
-                expect(res.childNodes.length).toBe(3);
+                expect(res).hasChildNodes(3);
             });
 
             it('the inserted node becomes the first child', function(){
@@ -3186,7 +3208,7 @@ describe('Class "Document"', function() {
             });
 
             it('the number of children of the Element node becomes four', function(){
-                expect(res.childNodes.length).toBe(4);
+                expect(res).hasChildNodes(4);
             });
 
             it('the first child of the resulting node is initial one', function(){
@@ -3221,7 +3243,7 @@ describe('Class "Document"', function() {
 
 
             it('the number of children of the Element node becomes 2', function(){
-                expect(res.childNodes.length).toBe(2);
+                expect(res).hasChildNodes(2);
             });
 
             it('it returns Element with correct first child', function(){
@@ -3244,7 +3266,7 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion before the text node, if the text node is a last child', function(){
                 doc.insertNodeAt(text3, el, 0);
-                expect(node.childNodes.length).toBe(4);
+                expect(node).hasChildNodes(4);
                 expect(node.childNodes[0]).toBe(ch1);
                 expect(node.childNodes[1]).toBe(ch2);
                 expect(node.childNodes[2]).toBe(el);
@@ -3252,7 +3274,7 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion before the text node, if the text node is a first child', function(){
                 doc.insertNodeAt(text1, el, 0);
-                expect(ch1.childNodes.length).toBe(3);
+                expect(ch1).hasChildNodes(3);
                 expect(ch1.childNodes[0]).toBe(el);
                 expect(ch1.childNodes[1]).toBe(text1);
                 expect(ch1.childNodes[2]).toBe(ch11);
@@ -3270,7 +3292,7 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion after the text node, if the text node is a last child', function(){
                 doc.insertNodeAt(text3, el, text3.nodeValue.length);
-                expect(node.childNodes.length).toBe(4);
+                expect(node).hasChildNodes(4);
                 expect(node.childNodes[0]).toBe(ch1);
                 expect(node.childNodes[1]).toBe(ch2);
                 expect(node.childNodes[2]).toBe(text3);
@@ -3278,7 +3300,7 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion after the text node, if the text node is a first child', function(){
                 doc.insertNodeAt(text1, el, text1.nodeValue.length);
-                expect(ch1.childNodes.length).toBe(3);
+                expect(ch1).hasChildNodes(3);
                 expect(ch1.childNodes[0]).toBe(text1);
                 expect(ch1.childNodes[1]).toBe(el);
                 expect(ch1.childNodes[2]).toBe(ch11);
@@ -3296,13 +3318,70 @@ describe('Class "Document"', function() {
             });
             it('splits the text node', function(){
                 doc.insertNodeAt(text3, el, 4);
-                expect(node.childNodes.length).toBe(5);
+                expect(node).hasChildNodes(5);
                 expect(node.childNodes[0]).toBe(ch1);
                 expect(node.childNodes[1]).toBe(ch2);
                 expect(node.childNodes[2].nodeValue).toBe('Some');
                 expect(node.childNodes[3]).toBe(el);
                 expect(node.childNodes[4].nodeValue).toBe(' text');
             });
+        });
+    });
+
+    describe('has a method convertRangeToList that', function(){
+        it('converts a paragraph\'s children into list items', function(){
+            var r = document.createRange();
+            r.setStart(ch1, 0);
+            r.setEnd(ch1, 2);
+            doc.convertRangeToList(r, 'ul');
+            expect(ch1).hasChildNodes(1);
+            var list = ch1.childNodes[0];
+            expect(list instanceof Element).toBe(true);
+            expect(list).hasTagName('ul');
+            expect(list).hasChildNodes(2);
+            expect(list.childNodes[0].isEqualNode(text1)).toBe(true);
+            expect(list.childNodes[1].isEqualNode(ch11)).toBe(true);
+        });
+        it('converts image node into a single item list', function(){
+            var r = document.createRange();
+            r.setStart(ch1, 1);
+            r.setEnd(ch1, 2);
+            doc.convertRangeToList(r, 'ol');
+            // ch1 is a parent of ch11
+            expect(ch1).hasChildNodes(2);
+            expect(ch1.childNodes[0]).toBe(text1);
+            expect(ch1.childNodes[1]).hasTagName('ol');
+            var list = ch1.childNodes[1];
+            expect(list).hasChildNodes(1);
+            expect(list.childNodes[0]).hasTagName('li');
+            expect(list.childNodes[0].childNodes[0]).toBe(ch11);
+        });
+        it('inserts a list if the range is empty and it is inside a text node', function(){
+            var r = document.createRange();
+            r.setStart(text2, 8);
+            r.collapse(true);
+            doc.convertRangeToList(r, 'ol');
+            expect(ch2).hasChildNodes(3);
+            expect(ch2.childNodes[0].nodeValue).toBe('This is ');
+
+            var list = ch2.childNodes[1];
+            expect(list).hasTagName('ol');
+            expect(list).hasChildNodes(1);
+            expect(list.childNodes[0]).hasTagName('li');
+            expect(list.childNodes[0]).hasChildNodes(1);
+            expect(list.childNodes[0].childNodes[0].nodeValue).toBe('');
+
+
+            expect(ch2.childNodes[2].nodeValue).toBe('a link.');
+        });
+        it('converts a text node into a list', function(){
+            var r = document.createRange();
+            r.setStart(ch2, 0);
+            r.setEnd(ch2, 1);
+            doc.convertRangeToList(r, 'ol');
+            expect(ch2).hasChildNodes(1);
+            expect(ch2.childNodes[0]).hasTagName('ol');
+            // expect(ch2.childNodes[0].childNodes)
         });
     });
 

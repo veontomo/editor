@@ -168,4 +168,18 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	?>
 	<div>Current version: 0.1.0 (as by December 1, 2014)</div>
 </body>
+<script type="text/javascript">
+	var el1 = document.createElement('img');
+	el1.src  = 'image.png';
+	console.log(el1.outerHTML, 'prefix ' + el1.prefix);
+	var el2 = el1.appendChild(document.createElement('span'));
+	if (el1.contains(el2)){
+		console.log('success');
+	} else {
+		console.log('failure');
+	};
+
+	console.log(el1.outerHTML, el2, el2.outerHTML);
+
+</script>
 </html>
