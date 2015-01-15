@@ -2579,6 +2579,7 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertToList = function(content, range, listType){
+		console.log('content initial: ' + content.outerHTML);
 		if (!(range instanceof Range)){
 			return;
 		}
@@ -2587,10 +2588,30 @@ function Document(node){
 		if (Array.isArray(nodes) &&  nodes.length > 0) {
 			this.convertNodesToList(nodes, listType);
 		} else {
-			var list = new List(listType);
-			list.appendAsItems([1, 2]);
-			this.insertNodeAt(range.startContainer, list.toNode(), range.startOffset);
+			this.insertListAt(listType, range.startContainer, range.startOffset);
 		}
+		console.log('content final: ' + content.outerHTML);
+	};
+
+
+	/**
+	 * Inserts list at a given position.
+	 *
+	 * The list gets inserted inside node `root` at position `pos` by means of method
+	 * {{#crossLink "Document/insertNodeAt:method"}}insertNodeAt{{/crossLink}}.
+	 *
+	 * @method         insertListAt
+	 * @param          {String}        listType        type of list to be inserted (i.e., 'ul' or 'ol')
+	 * @param          {Node}          root
+	 * @param          {Integer}       pos
+	 * @param          {Array}         items           [Optional] array of elements to be treated as list items
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.insertListAt = function(listType, root, pos, items){
+		var list = new List(listType);
+		list.appendAsItems(items || ['']);
+		this.insertNodeAt(root, list.toNode(), pos);
 	};
 
 	/**
