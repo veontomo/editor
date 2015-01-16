@@ -148,7 +148,7 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<?php if(isset($fileContent)){
 			echo $fileContent;
 		}?>
-		<a href="www.test.com" title="this a title of the link">link</a> <img src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" width="200" /> http://dave-wood.org/blog/wp-content/uploads/2009/10/rainbow_viewer.png simple text
+		<a href="www.test.com" title="this a title of the link">link</a> <img src="http://www.viaggero.it/europa/francia/parigi/immagini/tram-parigi.png" title="T character" width="200" /> Nel saggio che dà il titolo alla raccolta, lo scrittore sostiene che le letture di gioventù risultano spesso poco proficue e forniscono al giovane lettore soltanto modelli, termini di paragone, schemi di classificazione e scale di valori con cui confrontarsi. La lettura in profondità, quella fra le righe, le varie allegorie, le metafore più astratte vengono colte unicamente con la rilettura in età matura, la quale, invece, permette di ritrovare le costanti summenzionate nei meccanismi interiori che già regolano il comportamento inconscio dell'individuo.
 		<ol>
 			<li>item 1</li>
 			<li>item 2</li>

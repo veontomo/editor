@@ -3371,7 +3371,6 @@ describe('Class "Document"', function() {
             expect(list.childNodes[0]).hasChildNodes(1);
             expect(list.childNodes[0].childNodes[0].nodeValue).toBe('');
 
-
             expect(ch2.childNodes[2].nodeValue).toBe('a link.');
         });
         it('converts a text node into a list', function(){
@@ -3381,7 +3380,10 @@ describe('Class "Document"', function() {
             doc.convertRangeToList(r, 'ol');
             expect(ch2).hasChildNodes(1);
             expect(ch2.childNodes[0]).hasTagName('ol');
-            // expect(ch2.childNodes[0].childNodes)
+            expect(ch2.childNodes[0]).hasChildNodes(1);
+            expect(ch2.childNodes[0].childNodes[0]).hasTagName('li');
+            expect(ch2.childNodes[0].childNodes[0]).hasChildNodes(1);
+            expect(ch2.childNodes[0].childNodes[0].childNodes[0].nodeValue).toBe('This is a link.');
         });
     });
 

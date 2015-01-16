@@ -2588,6 +2588,24 @@ function Document(node){
 			this.insertListAt(listType, range.startContainer, range.startOffset);
 			return;
 		}
+		var nodes = this.nodesOfRange(range);
+		if (!Array.isArray(nodes)){
+			console.log('collection of nodes inside the range are expected to be returned as array.');
+			return;
+		}
+		var len = nodes.length;
+		if (len > 1){
+			console.log('Currently multiple nodes in selection are not supported');
+			return;
+		}
+		if (len === 1){
+			if (nodes[0] instanceof Text){
+				var list = new List(listType);
+				list.appendItem(new ListItem());
+				var listElem = nodes[0].parentNode.insertBefore(list.toNode(), nodes[0]);
+				listElem.childNodes[0].appendChild(nodes[0]);
+			}
+		}
 	};
 
 
