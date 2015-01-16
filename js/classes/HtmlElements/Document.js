@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Element, Text, Node, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Mapper, Range, Link */
+/*global Element, Text, Node, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Link, Mapper, Range, List, ListItem */
 
 /**
  * This class is to deal with document: parsing, converting, saving.
@@ -2553,15 +2553,13 @@ function Document(node){
 	 * to elements of array `ranges`.
 	 *
 	 * @method         insertLists
-	 * @param          {Node}          content
 	 * @param          {Array}         ranges       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.insertLists = function(content, ranges, listType){
-		console.log(ranges);
-		if (!(content instanceof Node) || !(Array.isArray(ranges))) {
+	this.insertLists = function(ranges, listType){
+		if (!(Array.isArray(ranges))) {
 			return;
 		}
 		ranges.forEach(function(range){
@@ -2583,29 +2581,97 @@ function Document(node){
 		if (!(range instanceof Range)){
 			return;
 		}
-		console.log(range);
 		if (range.collapsed){
 			this.insertListAt(listType, range.startContainer, range.startOffset);
 			return;
 		}
 		var nodes = this.nodesOfRange(range);
 		if (!Array.isArray(nodes)){
-			console.log('collection of nodes inside the range are expected to be returned as array.');
 			return;
 		}
 		var len = nodes.length;
 		if (len > 1){
-			console.log('Currently multiple nodes in selection are not supported');
+			console.log('Currently, multiple nodes in selection are not supported.');
 			return;
 		}
-		if (len === 1){
-			if (nodes[0] instanceof Text){
-				var list = new List(listType);
-				list.appendItem(new ListItem());
-				var listElem = nodes[0].parentNode.insertBefore(list.toNode(), nodes[0]);
-				listElem.childNodes[0].appendChild(nodes[0]);
-			}
+		var	selectedNode = nodes[0]; // the selected node
+
+		var nodeName = selectedNode.nodeName.toLowerCase();
+		if ((nodeName === '#text') || (nodeName === 'img')){
+			this.convertNodeToListItem(selectedNode, listType);
+			return;
 		}
+		this.convertChildNodesToListItems(selectedNode, listType);
+	};
+
+	/**
+	 * Converts child nodes of `node` into list items.
+	 *
+	 * It appends a new list tag to `node` and then moves each of the original `nodes`'s children
+	 * so that they become list items of the newly inserted list.
+	 * The number of items of the resulting is equal to number of child nodes of `node`.
+	 *
+	 * For the moment, if the `node` tag name is one of 'ol', 'ul', 'tr', 'tbody', 'table', 'dl',
+	 * then no conversion is performed.
+	 *
+	 * @method  convertChildNodesToListItems
+	 * @param   {Node} node
+	 * @param   {String} listType
+	 * @return  {void}
+	 * @since   0.1.0
+	 */
+	this.convertChildNodesToListItems = function(node, listType){
+		var ignoreTagList = ['ol', 'ul', 'tr', 'tbody', 'table', 'dl'];
+		var nodeName = node.nodeName.toLowerCase();
+		if (ignoreTagList.indexOf(nodeName) !== -1){
+			console.log(nodeName + ' is among tags to ignore. Exiting...');
+			return;
+		}
+		var childNodes = node.childNodes,
+			i,
+			list = new List(listType),
+			listElem, li,
+			childNum = childNodes.length;
+		if (childNum === 0){
+			return;
+		}
+		listElem = node.appendChild(list.toNode());
+		for (i = 0; i < childNum; i++){
+			console.log('appending child #', i, childNodes[i]);
+			li = listElem.appendChild((new ListItem()).toNode());
+			li.appendChild(childNodes[0]); // the node number is always 0 because appendChild removes
+										   // the argument from the original location
+
+		}
+
+	};
+
+	/**
+	 * Transforms `node` into an item of a list of type `listType`.
+	 *
+	 * The method modifies DOM to which `node` belongs to. The DOM acquires a list tag of type `listType`
+	 * with a list item whose unique child node is the above mentioned `node`.
+	 *
+	 * In fact, the method inserts a list on the place of `node` which gets then "detached" from its origanal position and gets
+	 * attached as a child node of the first item of the newly created list.
+	 *
+	 * @method         convertNodeToListItem
+	 * @param          {Node}          node        If it has no parent node, no conversion is performed.
+	 * @param          {String}        listType
+	 * @return         {void}
+	 * @method         0.1.0
+	 */
+	this.convertNodeToListItem = function(node, listType){
+		var parent = node.parentNode;
+		if (!parent){
+			return;
+		}
+		console.log(listType);
+		var list = new List(listType),
+			listElem = parent.insertBefore(list.toNode(), node),
+			li = listElem.appendChild((new ListItem()).toNode());
+		listElem.appendChild((new ListItem()).toNode());
+		li.appendChild(node);
 	};
 
 
@@ -2679,47 +2745,47 @@ function Document(node){
 	 * @param          {String}             listType               Type of the list to insert (ol, ul)
 	 * @return         {void}
 	 */
-	this.insertList_to_delete = function(editor, listType){
-		var selection = new Selection(editor),
-		    selectedNodes = selection.nodes,                   // 2-dim array
-		    factory = NEWSLETTER.factory;
-		console.log('CKHelper::insertListNew ', selectedNodes);
-		selectedNodes.forEach(function(block){
-			var len = block.length,
-				elem, list, content, newNode, firstElem;
-			list = new List(listType);
-			// if the block is empty (it means that the selection is empty), insert a link and exit
-			if (len === 0){
-				list.appendElem(new ListItem());
-				newNode = CKEDITOR.dom.element.createFromHtml(list.toHtml());
-				editor.insertElement(newNode);
-				return null;
-			}
-			// if still here, it means that the block has at least one item
-			firstElem = block.shift().$;                                  // NB: block lenght gets reduced here
-			if (len === 1 && (firstElem.nodeType === Node.ELEMENT_NODE)){ // the block has only one item
-																		  // and this item is an ELEMENT_NODE
-				elem = factory.mimic(firstElem);
-				content = elem.getContent();
-				list = new List(listType);
-				list.appendAsItems(content);
-				elem.setElements([list]);
-				newNode = elem.toNode();
-				firstElem.parentNode.replaceChild(newNode, firstElem);
-				return null;
-			}
-			// default case
-			var current = [factory.mimic(firstElem)];         // create array with one element
-			block.forEach(function(el){
-				current.push(factory.mimic(el.$));
-				el.$.remove();
-			});
-			list.appendAsItems(current);
-			newNode = list.toNode();
-			firstElem.parentNode.replaceChild(newNode, firstElem);
-			// newNode.focus()
-		});
+	// this.insertList_to_delete = function(editor, listType){
+	// 	var selection = new Selection(editor),
+	// 	    selectedNodes = selection.nodes,                   // 2-dim array
+	// 	    factory = NEWSLETTER.factory;
+	// 	console.log('CKHelper::insertListNew ', selectedNodes);
+	// 	selectedNodes.forEach(function(block){
+	// 		var len = block.length,
+	// 			elem, list, content, newNode, firstElem;
+	// 		list = new List(listType);
+	// 		// if the block is empty (it means that the selection is empty), insert a link and exit
+	// 		if (len === 0){
+	// 			list.appendElem(new ListItem());
+	// 			newNode = CKEDITOR.dom.element.createFromHtml(list.toHtml());
+	// 			editor.insertElement(newNode);
+	// 			return null;
+	// 		}
+	// 		// if still here, it means that the block has at least one item
+	// 		firstElem = block.shift().$;                                  // NB: block lenght gets reduced here
+	// 		if (len === 1 && (firstElem.nodeType === Node.ELEMENT_NODE)){ // the block has only one item
+	// 																	  // and this item is an ELEMENT_NODE
+	// 			elem = factory.mimic(firstElem);
+	// 			content = elem.getContent();
+	// 			list = new List(listType);
+	// 			list.appendAsItems(content);
+	// 			elem.setElements([list]);
+	// 			newNode = elem.toNode();
+	// 			firstElem.parentNode.replaceChild(newNode, firstElem);
+	// 			return null;
+	// 		}
+	// 		// default case
+	// 		var current = [factory.mimic(firstElem)];         // create array with one element
+	// 		block.forEach(function(el){
+	// 			current.push(factory.mimic(el.$));
+	// 			el.$.remove();
+	// 		});
+	// 		list.appendAsItems(current);
+	// 		newNode = list.toNode();
+	// 		firstElem.parentNode.replaceChild(newNode, firstElem);
+	// 		// newNode.focus()
+	// 	});
 
-	};
+	// };
 
 }

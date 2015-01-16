@@ -3328,21 +3328,76 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has method insertLists that', function(){
+        it('does not modify DOM if the first argument is not an array', function(){
+            var r = document.createRange();
+            r.setStart(ch1, 1);
+            r.setEnd(ch2, 1);
+            var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', r];
+            var clone = node.cloneNode(true);
+            invalids.forEach(function(invalid){
+                doc.insertLists(invalid, 'ol');
+                expect(node.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('calls method convertRangeToList if the first argument is non-empty array', function(){
+            var r1 = document.createRange(),
+                r2 = document.createRange();
+            r1.setStart(ch1, 1);
+            r1.setEnd(ch2, 1);
+            r2.setStart(text1, 4);
+            r2.setEnd(text1, 6);
+            spyOn(doc, 'convertRangeToList');
+            doc.insertLists([r1, r2], 'ol');
+            expect(doc.convertRangeToList).toHaveBeenCalledWith(r1, 'ol');
+            expect(doc.convertRangeToList).toHaveBeenCalledWith(r2, 'ol');
+        });
+
+    });
+
     describe('has a method convertRangeToList that', function(){
+        it('does not modify DOM if the first argument is not a range', function(){
+            var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', [], [1, 2], document.createElement('div')];
+            var clone = node.cloneNode(true);
+            invalids.forEach(function(invalid){
+                doc.convertRangeToList(invalid, 'ol');
+                expect(node.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('inserts only one list with one item if the first argument is a collapsed range', function(){
+            var r = document.createRange();
+            r.setStart(text1, 4);
+            r.collapse(true);
+            var clone = node.cloneNode(true);
+            doc.convertRangeToList(r, 'ol');
+            expect(node).hasChildNodes(3);
+            expect(node.childNodes[1].isEqualNode(clone.childNodes[1]));
+            expect(node.childNodes[2].isEqualNode(clone.childNodes[2]));
+
+            var ch1New = node.childNodes[0];
+            expect(ch1New).hasChildNodes(4);
+            expect(ch1New.childNodes[0].nodeValue).toBe('Text');
+            expect(ch1New.childNodes[1].tagName.toLowerCase()).toBe('ol');
+            expect(ch1New.childNodes[1]).hasChildNodes(1);
+            expect(ch1New.childNodes[2].nodeValue).toBe(' inside a paragraph.');
+            expect(ch1New.childNodes[3].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+        });
+
+
         it('converts a paragraph\'s children into list items', function(){
             var r = document.createRange();
-            r.setStart(ch1, 0);
-            r.setEnd(ch1, 2);
+            r.setStart(node, 0);
+            r.setEnd(ch1, 1);
             doc.convertRangeToList(r, 'ul');
             expect(ch1).hasChildNodes(1);
             var list = ch1.childNodes[0];
             expect(list instanceof Element).toBe(true);
             expect(list).hasTagName('ul');
             expect(list).hasChildNodes(2);
-            expect(list.childNodes[0].isEqualNode(text1)).toBe(true);
-            expect(list.childNodes[1].isEqualNode(ch11)).toBe(true);
+            expect(list.childNodes[0].childNodes[0].isEqualNode(text1)).toBe(true);
+            expect(list.childNodes[1].childNodes[0].isEqualNode(ch11)).toBe(true);
         });
-        it('converts image node into a single item list', function(){
+        it('converts image node into a list whose first item is the image', function(){
             var r = document.createRange();
             r.setStart(ch1, 1);
             r.setEnd(ch1, 2);
@@ -3352,7 +3407,7 @@ describe('Class "Document"', function() {
             expect(ch1.childNodes[0]).toBe(text1);
             expect(ch1.childNodes[1]).hasTagName('ol');
             var list = ch1.childNodes[1];
-            expect(list).hasChildNodes(1);
+            expect(list).hasChildNodes(2);
             expect(list.childNodes[0]).hasTagName('li');
             expect(list.childNodes[0].childNodes[0]).toBe(ch11);
         });
@@ -3373,14 +3428,14 @@ describe('Class "Document"', function() {
 
             expect(ch2.childNodes[2].nodeValue).toBe('a link.');
         });
-        it('converts a text node into a list', function(){
+        it('converts a text node into a list with two items with the text node being the first one', function(){
             var r = document.createRange();
             r.setStart(ch2, 0);
             r.setEnd(ch2, 1);
             doc.convertRangeToList(r, 'ol');
             expect(ch2).hasChildNodes(1);
             expect(ch2.childNodes[0]).hasTagName('ol');
-            expect(ch2.childNodes[0]).hasChildNodes(1);
+            expect(ch2.childNodes[0]).hasChildNodes(2);
             expect(ch2.childNodes[0].childNodes[0]).hasTagName('li');
             expect(ch2.childNodes[0].childNodes[0]).hasChildNodes(1);
             expect(ch2.childNodes[0].childNodes[0].childNodes[0].nodeValue).toBe('This is a link.');
