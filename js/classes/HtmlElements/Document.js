@@ -1066,7 +1066,7 @@ function Document(node){
 	 * @method         spliceText
 	 * @param          {Text}          t              [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @param          {Array}         breakpoints    Array of integers in increasing order
-	 * @return         {Array|Null}                        Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
+	 * @return         {Array|Null}                   Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
 	 */
 	this.spliceText = function(t, bP){
 	    if (!(t instanceof Text) || !Array.isArray(bP)){
@@ -2694,7 +2694,5 @@ function Document(node){
 			return;
 		}
 	};
-
-
 
 }

@@ -103,7 +103,6 @@ describe('Class "Document"', function() {
             expect(p.getAttribute('width')).toBe('300px');
         });
         it('removes "class" attribute from nested tags', function() {
-            console.log(node.outerHTML);
             doc.clean([new RegExp(/\bclass\b/)]);
             var doc2 = doc.getContent();
             var img = doc2.firstChild.childNodes.item(1);
@@ -3493,7 +3492,7 @@ describe('Class "Document"', function() {
             expect(doc.changeSingleListType).toHaveBeenCalledWith(r3, 'ul', 'ol');
         });
 
-        it('calls method changeSingleListType only on Range instances of the first argument ', function(){
+        it('calls method changeSingleListType only on Range instances of the first argument', function(){
             spyOn(doc, 'changeSingleListType');
             var r1 = document.createRange(),
                 r2 = document.createRange();
@@ -3502,7 +3501,7 @@ describe('Class "Document"', function() {
             expect(doc.changeSingleListType).toHaveBeenCalledWith(r2, 'ul', 'ol');
         });
 
-        it('does not call method changeSingleListType on non-Range instances of the first argument ', function(){
+        it('does not call method changeSingleListType on non-Range instances of the first argument', function(){
             spyOn(doc, 'changeSingleListType');
             var r1 = document.createRange(),
                 r2 = document.createRange(),
@@ -3515,11 +3514,103 @@ describe('Class "Document"', function() {
 
         it('does not call method changeSingleListType if the first argument contains no Range instances', function(){
             spyOn(doc, 'changeSingleListType');
-            var r1 = document.createRange(),
-                r2 = document.createRange(),
-                el = document.createElement('div');
+             var el = document.createElement('div');
             doc.changeListType(['', el, [], null], 'ul', 'ol');
             expect(doc.changeSingleListType).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('has method changeSingleListType that', function(){
+        var list, li1, li2, li3, li4, text4, ch12, ch13, ch14, clone;
+        beforeEach(function(){
+            list = document.createElement('ol');
+            li1 = document.createElement('li');
+            li2 = document.createElement('li');
+            li3 = document.createElement('li');
+            li4 = document.createElement('li');
+            text4 = document.createTextNode('text inside first item');
+            ch12 = document.createElement('div');
+            ch13 = document.createElement('span');
+            ch14 = document.createElement('br');
+            li1.appendChild(text4);
+            li2.appendChild(ch12);
+            li3.appendChild(ch14);
+            li4.appendChild(ch13);
+            list.appendChild(li1);
+            list.appendChild(li2);
+            list.appendChild(li3);
+            list.appendChild(li4);
+            ch1.appendChild(list);
+
+            clone = node.cloneNode(true);
+        });
+
+        it('leaves DOM unmodified if it does not contain sought list', function(){
+            var r = document.createRange();
+            r.setStart(ch2, 0);
+            r.setEnd(ch2, 1);
+            doc.changeSingleListType(r, 'no list with such a tag', 'ol');
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not switch the type of an ordered list if the cursor is located outside of the list element', function(){
+            var r = document.createRange();
+            r.setStart(ch2, 0);
+            r.setEnd(ch2, 1);
+            doc.changeSingleListType(r, 'ol', 'ul');
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('converts the list type if the range corresponds to a position inside the first list item', function(){
+            var r = document.createRange();
+            r.setStart(text4, 4);
+            r.collapse(true);
+            doc.changeSingleListType(r, 'ol', 'ul');
+
+            expect(node.childNodes[0].childNodes[2]).hasTagName('ul');
+        });
+
+        it('leaves unchanged those DOM elements that do not belong to the list', function(){
+            var r = document.createRange();
+            r.setStart(list, 1);
+            r.setEnd(list, 2);
+            doc.changeSingleListType(r, 'ol', 'ul');
+
+
+            expect(node.childNodes.length).toBe(3);
+            var firstChild = node.childNodes[0],
+                firstChildClone = clone.childNodes[0];
+
+            expect(firstChild.childNodes.length).toBe(3);
+            expect(firstChild.childNodes[0].isEqualNode(firstChildClone.childNodes[0])).toBe(true);
+            expect(firstChild.childNodes[1].isEqualNode(firstChildClone.childNodes[1])).toBe(true);
+            expect(node.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(node.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+
+        it('does not change the number of list items of the list', function(){
+            var r = document.createRange();
+            r.setStart(list, 2);
+            r.setEnd(list, 3);
+            doc.changeSingleListType(r, 'ol', 'ul');
+
+            expect(node.childNodes[0].childNodes[2].childNodes.length).toBe(4);
+        });
+
+        it('does not change the content of list items ', function(){
+            var r = document.createRange();
+            r.setStart(text4, 2);
+            r.setEnd(list, 3);
+            doc.changeSingleListType(r, 'ol', 'ul');
+
+            var newListItems = node.childNodes[0].childNodes[2].childNodes,
+                oldListItems = clone.childNodes[0].childNodes[2].childNodes;
+            console.log(node.childNodes[0].childNodes[2].outerHTML);
+            console.log(clone.childNodes[0].childNodes[2].outerHTML);
+            expect(newListItems[0].childNodes[0].isEqualNode(oldListItems[0].childNodes[0])).toBe(true);
+            expect(newListItems[1].childNodes[0].isEqualNode(oldListItems[1].childNodes[0])).toBe(true);
+            expect(newListItems[2].childNodes[0].isEqualNode(oldListItems[2].childNodes[0])).toBe(true);
+            expect(newListItems[3].childNodes[0].isEqualNode(oldListItems[3].childNodes[0])).toBe(true);
         });
 
 

@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper,
-		Node, Image, CKEDITOR, ConverterFixed, ConverterElastic */
+		Node, ImageTag, CKEDITOR, ConverterFixed, ConverterElastic */
 /**
  * Singleton containing configuration settings. Some of the properties are write-protected.
  *
@@ -148,7 +148,7 @@ var NEWSLETTER = (function(){
 		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'LI';}, ListItem);
 		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'OL';}, OList);
 		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, Image);
+		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, ImageTag);
 		_tagMapper.setDefaultTarget(Tag);
 
 		/**
