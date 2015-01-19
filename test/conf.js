@@ -36,7 +36,6 @@ var path = require('path'),
     "converters/ConverterFixed.js",
     "converters/ConverterElastic.js",
     "converters/ConverterSimpleText.js",
-    // "classes/HtmlElements/Dom.js",
     "classes/HtmlElements/Document.js",
     "classes/HtmlElements/Mapper.js",
     "classes/HtmlElements/Factory.js",
@@ -103,6 +102,6 @@ module.exports = function (config) {
           {type: 'html', dir: statisticsDir }
         ],
     },
-    singleRun: false,
+    singleRun: true,
   });
 };

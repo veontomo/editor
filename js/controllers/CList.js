@@ -35,10 +35,38 @@ function CList() {
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
-            doc.insertLists(ranges, listType);
+            doc.insertLists(ranges, listType); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when converting editor content into a list: ' + e.message);
+        }
+    };
+
+    /**
+     * Changes type of the list.
+     *
+     * The type of which list is to be changed is decided based on the cursor position:
+     * the nearest list ansector of type `oldType` is replaced by a list of type `newType`.
+     * The content of the original list remains unchanged.
+     *
+     * @method         changeListType
+     * @param          {Object}        editor
+     * @param          {String}        oldType     list of what type is to be changed
+     * @param          {String}        newType     the above list should become of this type
+     * @return         {void}
+     * @since          0.1.0
+     */
+    this.changeListType = function(editor, oldType, newType){
+        var adapter, doc, content, ranges;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
+            doc.changeListType(ranges, oldType, newType); // here, object "editor" changes (because "ranges" is passed as reference)
+            adapter.setEditorContent(editor, content);
+        } catch (e) {
+            console.log(e.name + ' occurred when changing list type: ' + e.message);
         }
     };
 

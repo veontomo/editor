@@ -32,10 +32,11 @@ CKEDITOR.plugins.add('olist2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){
- 				var startElem = editor.getSelection().getStartElement(),
-					list = startElem.getAscendant('ol', true);
-				console.log('olist2Dialog');
-				CKHelper.changeListType(editor, list, 'ul');
+				_controller.changeListType(editor, 'ol', 'ul');
+ 			// 	var startElem = editor.getSelection().getStartElement(),
+				// 	list = startElem.getAscendant('ol', true);
+				// console.log('olist2Dialog');
+				// CKHelper.changeListType(editor, list, 'ul');
 			}
 		});
 
