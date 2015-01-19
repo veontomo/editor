@@ -2585,13 +2585,19 @@ function Document(node){
 			this.insertListAt(listType, range.startContainer, range.startOffset);
 			return;
 		}
-		var nodes = this.nodesOfRange(range);
-		if (!Array.isArray(nodes)){
+		try {
+			var nodes = this.nodesOfRange(range);
+		} catch (e){
+			console.log('Error (' + e.name + ') when detecting the nodes of the range: ' + e.message);
 			return;
 		}
 		var len = nodes.length;
 		if (len > 1){
 			console.log('Currently, multiple nodes in selection are not supported.');
+			return;
+		}
+		if (len === 0){
+			console.log('Strange case detected: the range is not collapsed, but contains no nodes!');
 			return;
 		}
 		var	selectedNode = nodes[0]; // the selected node

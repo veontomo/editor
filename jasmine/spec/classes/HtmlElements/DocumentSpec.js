@@ -3364,6 +3364,27 @@ describe('Class "Document"', function() {
                 expect(node.isEqualNode(clone)).toBe(true);
             });
         });
+        it('does not modify DOM if "nodesOfRange" throws an error', function(){
+            var clone = node.cloneNode(true);
+            var r = document.createRange();
+            r.setStart(text1, 4);
+            r.setEnd(node, 2);
+            spyOn(doc, 'nodesOfRange').and.callFake(function(){throw new Error('testing purpose error');});
+            doc.convertRangeToList(r, 'ol');
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not modify DOM if "nodesOfRange" returns empty array while the range is not collapsed (is it possible?)', function(){
+            var clone = node.cloneNode(true);
+            var r = document.createRange();
+            r.setStart(text1, 4);
+            r.setEnd(node, 2);
+            spyOn(doc, 'nodesOfRange').and.returnValue([]);
+            doc.convertRangeToList(r, 'ol');
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+
         it('inserts only one list with one item if the first argument is a collapsed range', function(){
             var r = document.createRange();
             r.setStart(text1, 4);
