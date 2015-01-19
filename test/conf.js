@@ -102,6 +102,6 @@ module.exports = function (config) {
           {type: 'html', dir: statisticsDir }
         ],
     },
-    singleRun: true,
+    singleRun: false,
   });
 };

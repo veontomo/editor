@@ -3463,6 +3463,69 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has method changeListType that', function(){
+        it('calls method changeSingleListType if the first argument is a range instance', function(){
+            spyOn(doc, 'changeSingleListType');
+            var r = document.createRange();
+            r.setStart(ch2, 0);
+            r.setEnd(ch2, 1);
+            doc.changeListType(r, 'old', 'new');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r, 'old', 'new');
+        });
+
+        it('does not call method changeSingleListType if the first argument is neither Range nor is array', function(){
+            spyOn(doc, 'changeSingleListType');
+            var invalids = [0, 1, -5.31, '', 'a string', [], {key: 'value'}, function(){return;}];
+            invalids.forEach(function(invalid){
+                doc.changeListType(invalid, 'old', 'new');
+            });
+            expect(doc.changeSingleListType).not.toHaveBeenCalled();
+        });
+
+        it('calls method changeSingleListType on each element of the first argument if they are all Range instances', function(){
+            spyOn(doc, 'changeSingleListType');
+            var r1 = document.createRange(),
+                r2 = document.createRange(),
+                r3 = document.createRange();
+            doc.changeListType([r1, r2, r3], 'ul', 'ol');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r1, 'ul', 'ol');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r2, 'ul', 'ol');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r3, 'ul', 'ol');
+        });
+
+        it('calls method changeSingleListType only on Range instances of the first argument ', function(){
+            spyOn(doc, 'changeSingleListType');
+            var r1 = document.createRange(),
+                r2 = document.createRange();
+            doc.changeListType([1, r1, 'string', null, {}, r2], 'ul', 'ol');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r1, 'ul', 'ol');
+            expect(doc.changeSingleListType).toHaveBeenCalledWith(r2, 'ul', 'ol');
+        });
+
+        it('does not call method changeSingleListType on non-Range instances of the first argument ', function(){
+            spyOn(doc, 'changeSingleListType');
+            var r1 = document.createRange(),
+                r2 = document.createRange(),
+                el = document.createElement('div');
+            doc.changeListType([1, r1, 'string', el, r2], 'ul', 'ol');
+            expect(doc.changeSingleListType).not.toHaveBeenCalledWith(1, 'ul', 'ol');
+            expect(doc.changeSingleListType).not.toHaveBeenCalledWith('string', 'ul', 'ol');
+            expect(doc.changeSingleListType).not.toHaveBeenCalledWith(el, 'ul', 'ol');
+        });
+
+        it('does not call method changeSingleListType if the first argument contains no Range instances', function(){
+            spyOn(doc, 'changeSingleListType');
+            var r1 = document.createRange(),
+                r2 = document.createRange(),
+                el = document.createElement('div');
+            doc.changeListType(['', el, [], null], 'ul', 'ol');
+            expect(doc.changeSingleListType).not.toHaveBeenCalled();
+        });
+
+
+
+    });
+
 
 
 });

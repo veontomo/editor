@@ -2401,64 +2401,6 @@ function Document(node){
 	 * @since          0.1.0
 	 * @throws         {Error}                      If `pathToHost` is not an array
 	 */
-	// this.insertNodeAt = function(root, pathToHost, index, n){
-	// 	if (!(root instanceof Element)){
-	// 		throw new Error('First argument must be an Element instance!');
-	// 	}
-	// 	if (!Array.isArray(pathToHost)){
-	// 		throw new Error('Second argument must be an array!');
-	// 	}
-	// 	if (!(n instanceof Node)){
-	// 		throw new Error('Fourth argument must be a Node instance!');
-	// 	}
-	// 	var //clone = root.cloneNode(true),
-	// 		clone = root,
-	// 		hostNode = this.getNodeByPath(pathToHost, clone);
-	// 	if (!(hostNode instanceof Node)){
-	// 		throw new Error('Target element is not found!');
-	// 	}
-	// 	var rightNode, len;
-	// 	/// two case are possible:
-	// 	/// 1. hostingNode is a text node
-	// 	/// 2. hostingNode is an element node
-	// 	if (hostNode instanceof Text){
-	// 		if (index === 0){
-	// 			/// insert in the beginning (no need to split the node)
-	// 			hostNode.parentNode.insertBefore(n, hostNode);
-	// 		} else {
-	// 			len = hostNode.nodeValue.length;
-	// 			/// insert in the middle
-	// 			if (index < len){
-	// 				rightNode = hostNode.splitText(index);
-	// 				hostNode.parentNode.insertBefore(n, rightNode);
-	// 			}
-	// 			/// insert in the end (no need to split the node)
-	// 			if (index === len){
-	// 				rightNode = hostNode.nextSibling;
-	// 				if (rightNode){
-	// 					hostNode.parentNode.insertBefore(n, rightNode);
-	// 				} else {
-	// 					hostNode.parentNode.appendChild(n);
-	// 				}
-	// 			}
-	// 		}
-	// 	} else if (hostNode instanceof Element) {
-	// 		var children = hostNode.childNodes;
-	// 		if (index > children.length){
-	// 			throw new Error('Index is too big!');
-	// 		}
-	// 		if (index === children.length){
-	// 			hostNode.appendChild(n);
-	// 		} else {
-	// 			rightNode = children[index];
-	// 			if (!rightNode){
-	// 				throw new Error('Wrong index to insert node at!');
-	// 			}
-	// 			hostNode.insertBefore(n, rightNode);
-	// 		}
-	// 	}
-	// 	return clone;
-	// };
 	this.insertNodeAt = function(hostNode, n, offset){
 		if (!(hostNode instanceof Node)){
 			throw new Error('Node instance is expected!');
@@ -2494,7 +2436,6 @@ function Document(node){
 		} else {
 			rightNode = children[offset];
 			if (!rightNode){
-
 				throw new Error('Wrong offset to insert node at!');
 			}
 			hostNode.insertBefore(n, rightNode);
@@ -2585,21 +2526,22 @@ function Document(node){
 			this.insertListAt(listType, range.startContainer, range.startOffset);
 			return;
 		}
+		var nodes;
 		try {
-			var nodes = this.nodesOfRange(range);
+			nodes = this.nodesOfRange(range);
 		} catch (e){
 			console.log('Error (' + e.name + ') when detecting the nodes of the range: ' + e.message);
 			return;
 		}
 		var len = nodes.length;
-		if (len > 1){
-			console.log('Currently, multiple nodes in selection are not supported.');
-			return;
-		}
 		if (len === 0){
 			console.log('Strange case detected: the range is not collapsed, but contains no nodes!');
 			return;
 		}
+		if (len > 1){
+			console.log('Currently, multiple nodes in selection are not supported. Only the first node will be taked into consideration.');
+		}
+
 		var	selectedNode = nodes[0]; // the selected node
 
 		var nodeName = selectedNode.nodeName.toLowerCase();
@@ -2647,7 +2589,6 @@ function Document(node){
 			li = listElem.appendChild((new ListItem()).toNode());
 			li.appendChild(childNodes[0]); // the node number is always 0 because appendChild removes
 										   // the argument from the original location
-
 		}
 
 	};
@@ -2712,9 +2653,47 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.changeListType = function(ranges, oldType, newType){
-		/// !!! stub
-		console.log('changeListType: from ' + oldType + ' to ' + newType);
-	}
+		if (ranges instanceof Range){
+			this.changeSingleListType(ranges, oldType, newType);
+		} else if (Array.isArray(ranges)){
+			ranges.forEach(function(range){
+				if (range instanceof Range){
+					this.changeSingleListType(range, oldType, newType);
+				}
+			}.bind(this));
+		}
+	};
+
+	/**
+	 * Changes the nearest ascendant of a range that corresponding to a list of type `oldType` to `newType`.
+	 * @method         changeSingleListType
+	 * @param          {Range}         range        [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {String}        oldType
+	 * @param          {String}        newType
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.changeSingleListType = function(range, oldType, newType){
+		var commonAns = range.commonAncestorContainer,
+			isOfOldType = function(n){
+				return ((n instanceof Element) && n.tagName.toLowerCase() === oldType);
+			};
+		var list = this.findAncestor(commonAns, isOfOldType);
+		if (!list){
+			return;
+		}
+		var listElem = new List(),
+			parent;
+		try {
+			listElem.load(list);
+			listElem.switchName(newType);
+			parent = list.parentNode;
+			parent.replaceChild(listElem.toNode(), list);
+		} catch(e){
+			console.log('Error (' + e.name + ') when detecting the nodes of the range: ' + e.message);
+			return;
+		}
+	};
 
 
 
