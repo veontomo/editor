@@ -35,10 +35,6 @@ CKEDITOR.plugins.add('ulist2', {
 		editor.addCommand('ulist2Dialog', {
 			exec: function(editor){
 				_controller.changeListType(editor, 'ul', 'ol');
-				// var startElem = editor.getSelection().getStartElement(),
-				// 	list = startElem.getAscendant('ul', true);
-				// 	console.log('changing list type to ol');
-				// CKHelper.changeListType(editor, list, 'ol');
 			}
 		});
 

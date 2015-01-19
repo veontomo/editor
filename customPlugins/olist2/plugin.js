@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKHelper, CKEDITOR */
+/*global CKEDITOR, CList, Document, NEWSLETTER */
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('olist2', {
@@ -33,10 +33,6 @@ CKEDITOR.plugins.add('olist2', {
 		editor.addCommand('olist2Dialog', {
 			exec: function(editor){
 				_controller.changeListType(editor, 'ol', 'ul');
- 			// 	var startElem = editor.getSelection().getStartElement(),
-				// 	list = startElem.getAscendant('ol', true);
-				// console.log('olist2Dialog');
-				// CKHelper.changeListType(editor, list, 'ul');
 			}
 		});
 
