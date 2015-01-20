@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Controller, List, NEWSLETTER, Document, Element */
+/*global Controller */
 
 /**
  * Text Decoration Controller.
@@ -34,10 +34,11 @@ function CTextDecoration() {
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
-            // doc.insertLists(ranges, listType); // here, object "content" changes (because "ranges" is passed as reference)
+            doc.convertToBold(ranges); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
-            console.log(e.name + ' occurred when converting selection into a bold: ' + e.message);
+            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            return;
         }
     };
 }
