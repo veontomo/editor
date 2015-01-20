@@ -1721,9 +1721,9 @@ function Document(node){
 	 *
 	 * NB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **
 	 * @method         getInheritedStyleProp
+	 * @param          {String}             key       name of property to find among inline style of ancestors
 	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {DOM.Node}           scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key       name of property to find among inline style of ancestors
 	 * @return         {String|Number|Null}
 	 * @since          0.0.4
 	 */

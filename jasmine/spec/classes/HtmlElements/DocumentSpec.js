@@ -357,75 +357,32 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "getInheritedStyleProp" that', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
-
-//                             e00 (block: wide)
-//         ____________________________|_________
-//         |                                     |
-//        e10                                   e11 (block: narrow)
-//   ______|_______________________________      |
-//   |     |                      |    |   |     |
-//  t20   e21 (block: narrow)    t22  e23 t24   t25
-//      ___|_________________
-//      |                    |
-//     e30 (block: wide)    t31
-
-        beforeEach(function(){
-            var stl1 = 'class: media; padding: 5em;',
-                stl2 = 'size: biggest; padding: 31px;';
-            e00 = document.createElement('div00');
-            e10 = document.createElement('div10');
-            e11 = document.createElement('div11');
-            t20 = document.createTextNode('text node 2.0');
-            e21 = document.createElement('div21');
-            t22 = document.createTextNode('text node 2.2');
-            e23 = document.createElement('div21');
-            t24 = document.createTextNode('text node 2.4');
-            t25 = document.createTextNode('text node 2.5');
-            e30 = document.createElement('div30');
-            t31 = document.createTextNode('text node 3.1');
-            e00.appendChild(e10);
-            e00.appendChild(e11);
-            e10.appendChild(t20);
-            e10.appendChild(e21);
-            e10.appendChild(t22);
-            e10.appendChild(e23);
-            e10.appendChild(t24);
-            e21.appendChild(e30);
-            e21.appendChild(t31);
-            e11.appendChild(t25);
-            e00.setAttribute('style', stl1);
-            e30.setAttribute('style', stl1);
-            e11.setAttribute('style', stl2);
-            e21.setAttribute('style', stl2);
-        });
-
-        it('returns the value of the attribute if the element has this property and limit node is set', function(){
-            expect(doc.getInheritedStyleProp('padding', e30, e00)).toBe('5em');
+        it('returns the value of the attribute if the second argument has this property set and the scope node is provided', function(){
+            expect(doc.getInheritedStyleProp('color', dom1_img0, node)).toBe('red');
         });
 
         it('returns the value of the attribute if the element has this property and limit node is not set', function(){
-            expect(doc.getInheritedStyleProp('padding', e30)).toBe('5em');
+            expect(doc.getInheritedStyleProp('padding', dom1_a0)).toBe('20em');
         });
 
         it('returns the node style property if the limit node is equal to the node', function(){
-            expect(doc.getInheritedStyleProp('padding', e11, e11)).toBe('31px');
+            expect(doc.getInheritedStyleProp('width', dom1_p0, dom1_p0)).toBe('100%');
         });
 
-        it('returns null if the node has no style property if the limit node is equal to the node', function(){
-            expect(doc.getInheritedStyleProp('padding', e23, e23)).not.toBeDefined();
+        it('returns undefined if the node has no style property if the limit node is equal to the node', function(){
+            expect(doc.getInheritedStyleProp('bizzareAttribute', dom1_span0, dom1_span0)).not.toBeDefined();
         });
 
-        it('returns parent node style property which when the parent is the limit node', function(){
-            expect(doc.getInheritedStyleProp('padding', t31, e21)).toBe('31px');
+        it('returns property value of the scope node if no node before has the property set', function(){
+            expect(doc.getInheritedStyleProp('color', dom1_li0, dom1_p0)).toBe('red');
         });
 
-        it('returns parent node style property if the limit node is not set', function(){
-            expect(doc.getInheritedStyleProp('padding', t31)).toBe('31px');
+        it('returns property value of an ancestor node if the scope node is not provided', function(){
+            expect(doc.getInheritedStyleProp('color', dom1_text1)).toBe('red');
         });
 
-        it('returns style property of one of the parents if the limit node is not a parent of the start node', function(){
-            expect(doc.getInheritedStyleProp('padding', t22, e11)).toBe('5em');
+        it('returns property value of an ancestor if the scope node does not contain the start node', function(){
+            expect(doc.getInheritedStyleProp('width', dom1_div1, dom1_a0)).toBe('100%');
         });
 
     });
