@@ -85,6 +85,7 @@
 	<script type="text/javascript" src="js/controllers/CList.js"></script>
 	<script type="text/javascript" src="js/controllers/CDownload.js"></script>
 	<script type="text/javascript" src="js/controllers/CImage.js"></script>
+	<script type="text/javascript" src="js/controllers/CTextDecoration.js"></script>
 
 	<!-- Adapters -->
 	<script type="text/javascript" src="js/adapters/EditorAdapter.js"></script>

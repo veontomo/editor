@@ -10,6 +10,19 @@ CKEDITOR.plugins.add('bold2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
+		/**
+		 * Instance of {{#crossLink "CTextDecoration"}}CTextDecoration{{/crossLink}}
+		 * @property  {CTextDecoration}     _controller
+		 * @type      {CTextDecoration}
+		 * @private
+		 */
+		var _controller = new CTextDecoration();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		(function(){
+		    var worker = new Document();
+		    worker.setFactory(NEWSLETTER.factory);
+		    _controller.setWorker(worker);
+		}());
 		var pluginName = 'bold2',
 			property = {
 				name: 'font-weight',
@@ -20,9 +33,10 @@ CKEDITOR.plugins.add('bold2', {
 		// Define an editor command that opens our dialog.
 		editor.addCommand(pluginName, {
 			exec: function(editor){
-				var	selection = new Selection(editor);
+				_controller.convertToBold(editor);
+				// var	selection = new Selection(editor);
 				// console.log(selection);
-				selection.switchDeepestChildStyle(property);
+				// selection.switchDeepestChildStyle(property);
 			}
 		});
 

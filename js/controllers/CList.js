@@ -22,7 +22,7 @@ function CList() {
      * The method gets the editor content and detects selected nodes.
      * Based on the selection, the editor content is modified and the new content is inserted
      * into the editor window.
-     * @method         convertToList
+     * @method         insertLists
      * @param          {Object}        editor
      * @param          {String}        listType
      * @return         {void}
