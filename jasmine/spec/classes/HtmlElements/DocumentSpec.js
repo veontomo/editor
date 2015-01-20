@@ -83,7 +83,7 @@ describe('Class "Document"', function() {
         doc = new Document(node);
 
     });
-    describe('has a method to clean tags that', function() {
+    describe('has a method "clean" that', function() {
         it('removes "class" attribute inside tags', function() {
             doc.clean(['class']);
             var doc2 = doc.getContent();
@@ -171,7 +171,7 @@ describe('Class "Document"', function() {
             pending();
         });
     });
-    describe('has a method to find ancestor that', function() {
+    describe('has a method "findAncestor" that', function() {
         var n00, n10, n11, n20, n21, n22, n23, n30, n31;
         //                    n00
         //         ____________|_________
@@ -282,7 +282,7 @@ describe('Class "Document"', function() {
 			expect(doc.getContent().isEqualNode(n)).toBe(true);
 		});
 	});
-	describe('has a method to get string representation of a node that', function(){
+	describe('has a method "nodeToText" that', function(){
 		it('returns empty string if the argument is not a Node instance', function(){
 			var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 			    	function() {return;}, {}, {foo: 23}];
@@ -1364,7 +1364,7 @@ describe('Class "Document"', function() {
 	        n00.appendChild(n11);
 	    });
 	    describe('a range related functionality that', function() {
-	        describe('has method isRange which', function() {
+	        describe('has a method "isRange" which', function() {
 	            it('returns true if argument is a Range instance', function() {
 	                expect(doc.isRange(range)).toBe(true);
 	            });
@@ -1382,7 +1382,7 @@ describe('Class "Document"', function() {
 	                });
 	            });
 	        });
-	        describe('has method appendRange', function() {
+	        describe('has a method "appendRange"', function() {
 	            it('that does not call setRanges method if the argument is not a valid range', function() {
 	                spyOn(doc, 'getRanges');
 	                spyOn(doc, 'setRanges');
@@ -1561,7 +1561,7 @@ describe('Class "Document"', function() {
 	                expect(doc.areEqual(range, range2)).toBe(false);
 	            });
 	        });
-	        describe('has method rangeCount that', function() {
+	        describe('has a method "rangeCount" that', function() {
 	            it('returns 0, if the "ranges" is not set', function() {
 	                spyOn(doc, 'getRanges');
 	                expect(doc.rangeCount()).toBe(0);
@@ -1579,7 +1579,7 @@ describe('Class "Document"', function() {
 	                expect(doc.rangeCount()).toBe(3);
 	            });
 	        });
-	        describe('has method setRanges that', function() {
+	        describe('has a method "setRanges" that', function() {
 	            it('sets ranges to empty array if it is called without argument', function() {
 	                doc.setRanges();
 	                var res = doc.getRanges();
@@ -1730,7 +1730,7 @@ describe('Class "Document"', function() {
 	                expect(doc.nextRange()).toBe('range1');
 	            });
 	        });
-	        describe('has method nodesBetween that', function() {
+	        describe('has a method "nodesBetween" that', function() {
 	            it('returns an empty array if it is called without arguments', function() {
 	                var nodes = doc.nodesBetween();
 	                expect(nodes).toBeEmptyArray();
@@ -2845,7 +2845,7 @@ describe('Class "Document"', function() {
 				expect(doc.selectedNodesToText('|', '-')).toBe('t20 node|e21 node-e23 node');
 			});
 		});
-		describe('has a method isSelectionEmpty that', function(){
+		describe('has a method "isSelectionEmpty" that', function(){
 			it('returns true if the selectedNodes is null', function(){
 				spyOn(doc, 'getSelection').and.returnValue(null);
 				expect(doc.isSelectionEmpty()).toBe(true);
@@ -2873,7 +2873,7 @@ describe('Class "Document"', function() {
 		});
 
 
-		describe('has a method findInBlock that', function(){
+		describe('has a method "findInBlock" that', function(){
 			it('returns undefined if the arguments are not provided', function(){
 				expect(doc.findInBlock()).toBe(undefined);
 			});
@@ -3002,7 +3002,7 @@ describe('Class "Document"', function() {
 
 	});
 
-	describe('has a method flatten that', function(){
+	describe('has a method "flatten" that', function(){
 		it('returns null if the input is a string, a number, a function and an object', function(){
 			var invalids = ['', 'hi', 0, -12.3, 234, {}, {1: 2}];
 			invalids.forEach(function(invalid) {
@@ -3064,12 +3064,9 @@ describe('Class "Document"', function() {
 			expect(arr[2][1]).toBe('b');
 			expect(arr[3]).toBe('c');
 		});
-
-
-
 	});
 
-	describe('has a method castToTag that', function(){
+	describe('has a method "castToTag" that', function(){
 		it('returns nothing if the constructor is not provided', function(){
 			expect(doc.castTo()).not.toBeDefined();
 		});
@@ -3118,7 +3115,7 @@ describe('Class "Document"', function() {
 		});
 	});
 
-    describe('has a method detectTag that', function(){
+    describe('has a method "detectTag" that', function(){
         it('returns nothing if it is called without argument', function(){
             expect(doc.detectTag()).toBeNullOrUndefined();
 
@@ -3151,7 +3148,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has method "insertNodeAt" method that', function(){
+    describe('has a method "insertNodeAt" method that', function(){
         describe('throws an error if', function(){
             it('it is called without arguments', function() {
                 expect(function(){
@@ -3327,7 +3324,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has method insertLists that', function(){
+    describe('has a method "insertLists" that', function(){
         it('does not modify DOM if the first argument is not an array', function(){
             var r = document.createRange();
             r.setStart(ch1, 1);
@@ -3351,10 +3348,9 @@ describe('Class "Document"', function() {
             expect(doc.convertRangeToList).toHaveBeenCalledWith(r1, 'ol');
             expect(doc.convertRangeToList).toHaveBeenCalledWith(r2, 'ol');
         });
-
     });
 
-    describe('has a method convertRangeToList that', function(){
+    describe('has a method "convertRangeToList" that', function(){
         it('does not modify DOM if the first argument is not a range', function(){
             var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', [], [1, 2], document.createElement('div')];
             var clone = node.cloneNode(true);
@@ -3462,7 +3458,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has method changeListType that', function(){
+    describe('has a method "changeListType" that', function(){
         it('calls method changeSingleListType if the first argument is a range instance', function(){
             spyOn(doc, 'changeSingleListType');
             var r = document.createRange();
@@ -3520,7 +3516,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has method changeSingleListType that', function(){
+    describe('has a method "changeSingleListType" that', function(){
         var list, li1, li2, li3, li4, text4, ch12, ch13, ch14, clone;
         beforeEach(function(){
             list = document.createElement('ol');
@@ -3597,7 +3593,7 @@ describe('Class "Document"', function() {
             expect(node.childNodes[0].childNodes[2].childNodes.length).toBe(4);
         });
 
-        it('does not change the content of list items ', function(){
+        it('does not change the content of list items', function(){
             var r = document.createRange();
             r.setStart(text4, 2);
             r.setEnd(list, 3);
@@ -3605,15 +3601,14 @@ describe('Class "Document"', function() {
 
             var newListItems = node.childNodes[0].childNodes[2].childNodes,
                 oldListItems = clone.childNodes[0].childNodes[2].childNodes;
-            console.log(node.childNodes[0].childNodes[2].outerHTML);
-            console.log(clone.childNodes[0].childNodes[2].outerHTML);
             expect(newListItems[0].childNodes[0].isEqualNode(oldListItems[0].childNodes[0])).toBe(true);
             expect(newListItems[1].childNodes[0].isEqualNode(oldListItems[1].childNodes[0])).toBe(true);
             expect(newListItems[2].childNodes[0].isEqualNode(oldListItems[2].childNodes[0])).toBe(true);
             expect(newListItems[3].childNodes[0].isEqualNode(oldListItems[3].childNodes[0])).toBe(true);
         });
+    });
 
-
+    describe('has a method "convertToBold" that', function(){
 
     });
 

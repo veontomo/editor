@@ -2695,4 +2695,16 @@ function Document(node){
 		}
 	};
 
+	/**
+	 * Converts selection given by `ranges` into a bold font.
+	 * @method         convertToBold
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.convertToBold = function(ranges){
+		/// !!! stub
+		console.log('stubbed method convertToBold has received this input: ', ranges);
+	};
+
 }
