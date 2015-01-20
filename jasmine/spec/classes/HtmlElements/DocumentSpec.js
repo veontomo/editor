@@ -301,7 +301,7 @@ describe('Class "Document"', function() {
 		});
 	});
 
-    describe('Getting common parent', function(){
+    describe('has a method "commonAncestor" that', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
 //                    n00                                m00
 //         ____________|_________                    _____|____
@@ -366,7 +366,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Finds proxy node', function(){
+    describe('has a method "proxy" that', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 //                    e00
 //         ____________|_________
@@ -423,7 +423,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Finds mentor node', function(){
+    describe('has a method "getMentor" that', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 
 //                             e00 (block: wide)
@@ -484,7 +484,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Finds style in the ascendants', function(){
+    describe('has a method "getInheritedStyleProp" that', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, t25, e30, t31;
 
 //                             e00 (block: wide)
@@ -559,7 +559,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('Toggles element style properties', function(){
+    describe('has a method "toggleElementStyle" that', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
 //                                     e00
@@ -645,7 +645,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('Creates an element node from a text one with a "toggled" style property', function(){
+    describe('has a method "createToggledElemFromText" that', function(){
         var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
 //                                     e00
@@ -737,7 +737,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('Gets complement nodes', function(){
+    describe('has a method "complementNodes" that', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
             e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
@@ -852,7 +852,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Nailing style property', function(){
+    describe('has a method "nailStyleProperty" that', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
             e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
@@ -990,7 +990,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Managing inline style property of nodes', function(){
+    describe('has a method "getStyleProperty" that', function(){
     	var e0, e1, t2, e3, e4;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
 //            ___________|_______
@@ -1013,7 +1013,7 @@ describe('Class "Document"', function() {
             e0.appendChild(e3);
         });
 
-        describe('Getting property', function(){
+        describe('does the following when getting a property', function(){
             it('returns undefined if asked about a text node', function(){
                 expect(doc.getStyleProperty(t2, 'whatever')).not.toBeDefined();
             });
@@ -1031,7 +1031,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('Deleting property', function(){
+        describe('does the following when deleting a property', function(){
             it('returns false if the argument does not support attributes (like a text node)', function(){
                 expect(doc.dropStyleProperty(t2, 'any')).toBe(false);
             });
@@ -1067,7 +1067,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('Setting property', function(){
+        describe('does the following when setting a property', function(){
             it('return node itself (modified) if the target is an element node', function(){
                 var n = doc.setStyleProperty(e3, 'color', 'blue');
                 expect(n.nodeType).toBe(Node.ELEMENT_NODE);
@@ -1141,7 +1141,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Switching class attributes', function(){
+    describe('has a method "switchClassProperty" that', function(){
         it('creates class attribute if no class attribute is present', function(){
             var el = document.createElement('div');
             doc.switchClassProperty(el, 'new_class', 'old_class');
@@ -1177,7 +1177,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('Getting inherited properties', function(){
+    describe('has a method "getInheritedProperties" that', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
 //                    n00                                m00
 //         ____________|_________                    _____|____
@@ -1311,7 +1311,7 @@ describe('Class "Document"', function() {
 
     });
 
-	describe('works with Selection that has', function() {
+	describe('works with selection that has', function() {
 	    // it seems that when activating these suits makes the page with test
 	    // output freeze for some seconds
 	    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, e32, n00, n10, n11;
