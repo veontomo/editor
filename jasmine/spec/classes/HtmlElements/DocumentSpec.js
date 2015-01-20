@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range */
 var emptyArrayMatcher = {
-  toBeEmptyArray: function(util, customEqualityTesters) {
+  toBeEmptyArray: function() {
     return {
       compare: function(actual) {
       	return {'pass': (Array.isArray(actual) && (actual.length === 0))};
@@ -43,7 +43,7 @@ var tagNameMatcher = {
 
 
 describe('Class "Document"', function() {
-    var node, doc, ch1, ch11, ch2, text1, text2, text3;
+    var node, doc, ch1, ch11, ch2, text1, text2, text3, dom2_m00, dom2_m10, dom2_m11;
 
     beforeEach(function() {
         jasmine.addMatchers(emptyArrayMatcher);
@@ -57,6 +57,11 @@ describe('Class "Document"', function() {
         ch2 = document.createElement('a');
         text2 = document.createTextNode('This is a link.');
         text3 = document.createTextNode('Some text');
+
+        dom2_m00 = document.createElement('div');
+        dom2_m10 = document.createElement('div');
+        dom2_m11 = document.createElement('div');
+
 
         node.appendChild(ch1);
         node.appendChild(ch2);
@@ -80,6 +85,11 @@ describe('Class "Document"', function() {
         ch2.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
         ch2.setAttribute('href', 'http://www.test.com');
         ch2.setAttribute('title', 'link to test');
+
+        dom2_m00.appendChild(dom2_m10);
+        dom2_m00.appendChild(dom2_m11);
+
+
         doc = new Document(node);
 
     });
@@ -302,67 +312,29 @@ describe('Class "Document"', function() {
 	});
 
     describe('has a method "commonAncestor" that', function(){
-        var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
-//                    n00                                m00
-//         ____________|_________                    _____|____
-//         |                     |                   |         |
-//        n10                   n11                 m10       m11
-//   ______|______               |
-//   |     |      |              |
-//  n20   n21    n22            n23
-//      ___|____
-//      |       |
-//     n30     n31
-//
-        beforeEach(function(){
-            doc = new Document();
-            n00 = document.createElement('div00');
-            n10 = document.createElement('div10');
-            n11 = document.createElement('div11');
-            n20 = document.createElement('div20');
-            n21 = document.createElement('div21');
-            n22 = document.createElement('div22');
-            n23 = document.createElement('div23');
-            n30 = document.createElement('div30');
-            n31 = document.createElement('div31');
-            m00 = document.createElement('div');
-            m10 = document.createElement('div');
-            m11 = document.createElement('div');
-            n00.appendChild(n10);
-            n00.appendChild(n11);
-            n10.appendChild(n20);
-            n10.appendChild(n21);
-            n10.appendChild(n22);
-            n21.appendChild(n30);
-            n21.appendChild(n31);
-            n11.appendChild(n23);
-            m00.appendChild(m10);
-            m00.appendChild(m11);
-        });
-
         it('returns the first argument if it contains the second argument', function(){
-            expect(doc.commonAncestor(n10, n31)).toBe(n10);
+            expect(doc.commonAncestor(ch2, text2)).toBe(ch2);
         });
 
         it('returns the second argument if it contains the first argument', function(){
-            expect(doc.commonAncestor(n23, n00)).toBe(n00);
+            expect(doc.commonAncestor(ch1, node)).toBe(node);
         });
 
 
         it('returns null if the nodes have no common parent', function(){
-            expect(doc.commonAncestor(n23, m10)).toBe(null);
+            expect(doc.commonAncestor(ch11, dom2_m10)).toBe(null);
         });
 
         it('returns the common parent if the nodes are siblings of each other', function(){
-            expect(doc.commonAncestor(n21, n22)).toBe(n10);
+            expect(doc.commonAncestor(text1, ch11)).toBe(ch1);
         });
 
         it('returns the common parent if the first argument is located deeper than the second', function(){
-            expect(doc.commonAncestor(n21, n22)).toBe(n10);
+            expect(doc.commonAncestor(text1, ch2)).toBe(node);
         });
 
         it('returns the common parent if the second argument is located deeper than the first', function(){
-            expect(doc.commonAncestor(n30, n23)).toBe(n00);
+            expect(doc.commonAncestor(ch1, text2)).toBe(node);
         });
     });
 
