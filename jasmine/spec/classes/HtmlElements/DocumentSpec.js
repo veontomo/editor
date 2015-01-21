@@ -433,61 +433,19 @@ describe('Class "Document"', function() {
 
 
     describe('has a method "createToggledElemFromText" that', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
 
-//                                     e00
-//          ____________________________|________
-//         |                                     |
-//        e10 (font: bold)                  e11 (block: narrow)
-//    _____|_______________________________      |_________
-//   |     |                      |    |   |     |         |
-//  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
-//      ___|___
-//     |       |
-//     e30    t31
-
-        beforeEach(function(){
-            e00 = document.createElement('div00');
-            e10 = document.createElement('div10');
-            e11 = document.createElement('div11');
-            t20 = document.createTextNode('text node 2.0');
-            e21 = document.createElement('div21');
-            t22 = document.createTextNode('text node 2.2');
-            e23 = document.createElement('div21');
-            t24 = document.createTextNode('text node 2.4');
-            e25 = document.createElement('div25');
-            e26 = document.createElement('div26');
-            e30 = document.createElement('div30');
-            t31 = document.createTextNode('text node 3.1');
-            e00.appendChild(e10);
-            e00.appendChild(e11);
-            e10.appendChild(t20);
-            e10.appendChild(e21);
-            e10.appendChild(t22);
-            e10.appendChild(e23);
-            e10.appendChild(t24);
-            e21.appendChild(e30);
-            e21.appendChild(t31);
-            e11.appendChild(e25);
-            e11.appendChild(e26);
-            e10.setAttribute('style', 'font-weight: bold;');
-            e26.setAttribute('style', 'font-weight: normal;');
-            e11.setAttribute('style', 'block: narrow;');
-            e21.setAttribute('style', 'width: 20px;');
-        });
-
-        it('creates an element node with "width" set to secondary value if the text node inherited "width" is equal to primary value', function(){
-            var n = doc.createToggledElemFromText(t31, 'width', '20px', '600px'),
+        it('creates an element node with "color" property set to secondary value if the text node has it inherited to primary value', function(){
+            var n = doc.createToggledElemFromText(dom1_text1, 'color', 'red', 'white'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '600px';
+                return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'white';
             })).toBe(true);
         });
 
-        it('creates an element node with "width" set to primary value if text node inherited "width" is different from primary value', function(){
-            var n = doc.createToggledElemFromText(t31, 'width', '300em', '20em'),
+        it('creates an element node with "width" property set to primary value if text node inherits it to a value different from primary value', function(){
+            var n = doc.createToggledElemFromText(dom1_text1, 'width', '300em', '20em'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
@@ -496,30 +454,30 @@ describe('Class "Document"', function() {
             })).toBe(true);
         });
 
-        it('creates an element node with "font-weight" set to alternative value if the text node inherited "font-weight" is equal to primary value', function(){
-            var n = doc.createToggledElemFromText(t22, 'font-weight', 'bold', '600');
+        it('creates an element node with "width" set to alternative value if the text node inherited "font-weight" is equal to primary value', function(){
+            var n = doc.createToggledElemFromText(dom1_text2, 'width', '87%', '25pt');
             var stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === '600';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '25pt';
             })).toBe(true);
         });
 
-        it('creates an element node with "font-weight" set to primary value if the text element inherited "font-weight" is different from primary value', function(){
-            var n = doc.createToggledElemFromText(t22, 'font-weight', 'normal', 'large'),
+        it('creates an element node with "width" set to primary value if the text element inherited "font-weight" is different from primary value', function(){
+            var n = doc.createToggledElemFromText(dom1_text2, 'width', '132px', 'anything'),
                 stl = n.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '132px';
             })).toBe(true);
         });
 
         it('creates an element whose text representation is the original text node', function(){
-            var n = doc.createToggledElemFromText(t22, 'font-weight', 'normal', 'large');
+            var n = doc.createToggledElemFromText(dom1_text1, 'font-weight', 'normal', 'large');
             expect(n).hasChildNodes(1);
-            expect(n.firstChild.nodeValue).toBe(t22.nodeValue);
+            expect(n.firstChild.nodeValue).toBe(dom1_text1.nodeValue);
         });
     });
 
