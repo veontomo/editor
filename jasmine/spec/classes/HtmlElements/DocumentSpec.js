@@ -389,86 +389,44 @@ describe('Class "Document"', function() {
 
 
     describe('has a method "toggleElementStyle" that', function(){
-        var e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31;
-
-//                                     e00
-//          ____________________________|________
-//         |                                     |
-//        e10 (font: bold)                  e11 (block: narrow)
-//    _____|_______________________________      |_________
-//   |     |                      |    |   |     |         |
-//  t20   e21 (width: large)     t22  e23 t24   e25    e26 (font: normal)
-//      ___|___
-//     |       |
-//     e30    t31
-
-        beforeEach(function(){
-            e00 = document.createElement('div00');
-            e10 = document.createElement('div10');
-            e11 = document.createElement('div11');
-            t20 = document.createTextNode('text node 2.0');
-            e21 = document.createElement('div21');
-            t22 = document.createTextNode('text node 2.2');
-            e23 = document.createElement('div21');
-            t24 = document.createTextNode('text node 2.4');
-            e25 = document.createElement('div25');
-            e26 = document.createElement('div26');
-            e30 = document.createElement('div30');
-            t31 = document.createTextNode('text node 3.1');
-            e00.appendChild(e10);
-            e00.appendChild(e11);
-            e10.appendChild(t20);
-            e10.appendChild(e21);
-            e10.appendChild(t22);
-            e10.appendChild(e23);
-            e10.appendChild(t24);
-            e21.appendChild(e30);
-            e21.appendChild(t31);
-            e11.appendChild(e25);
-            e11.appendChild(e26);
-            e10.setAttribute('style', 'font-weight: bold;');
-            e26.setAttribute('style', 'font-weight: normal;');
-            e11.setAttribute('style', 'block: narrow;');
-            e21.setAttribute('style', 'width: 100em;');
-        });
-
-        it('sets "width" to alternative value if the element has it set to primary value', function(){
-            doc.toggleElementStyle(e21, 'width', '100em', '300em');
-            var stl = e21.getAttribute('style'),
+        it('sets "color" to alternative value if the element has it set to primary value', function(){
+            doc.toggleElementStyle(dom1_p0, 'color', 'red', 'black');
+            var stl = dom1_p0.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '300em';
+                return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'black';
             })).toBe(true);
         });
 
-        it('sets "width" to primary value if the element has it different from primary value', function(){
-            doc.toggleElementStyle(e21, 'width', '50px', '200px');
-            var stl = e21.getAttribute('style'),
+        it('sets "padding" to primary value if the element has it different from primary value', function(){
+            doc.toggleElementStyle(dom1_a0, 'padding', '100px', '200px');
+            var stl = dom1_a0.getAttribute('style'),
                 arr = stl.split(';');
+                console.log(arr);
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '50px';
+                return tmp.length === 2 && tmp[0].trim() === 'padding' && tmp[1].trim() === '100px';
             })).toBe(true);
         });
 
-        it('sets "font" to alternative value if the element inherites "font" to  primary value"', function(){
-            doc.toggleElementStyle(e30, 'font-weight', 'bold', 'normal');
-            var stl = e30.getAttribute('style'),
+        it('sets "font" to alternative value if the element has no "font" but inherits it to primary value"', function(){
+            doc.toggleElementStyle(dom1_div1, 'color', 'red', 'yellow');
+            var stl = dom1_div1.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
+                return tmp.length === 2 && tmp[0].trim() === 'color' && tmp[1].trim() === 'yellow';
             })).toBe(true);
         });
 
          it('sets "font" to primary value if the element inherites "font" to not a primary value', function(){
-            doc.toggleElementStyle(e30, 'font-weight', 'normal', 'anything');
-            var stl = e30.getAttribute('style'),
+            doc.toggleElementStyle(dom1_div1, 'width', '450px', 'anything');
+            var stl = dom1_div1.getAttribute('style'),
                 arr = stl.split(';');
             expect(arr.some(function(str){
                 var tmp = str.split(':');
-                return tmp.length === 2 && tmp[0].trim() === 'font-weight' && tmp[1].trim() === 'normal';
+                return tmp.length === 2 && tmp[0].trim() === 'width' && tmp[1].trim() === '450px';
             })).toBe(true);
         });
     });
