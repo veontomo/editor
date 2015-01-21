@@ -1656,41 +1656,6 @@ function Document(node){
 	};
 
 
-	//////////////// end of content of Selection class   ///////////
-
-	//////////////// start of content of Dom class   ///////////
-	/**
-	 * Toggles inline style property `prop` of node `n`. When it turns out that the property should
-	 * be set, it is set to value `val`.
-	 *
-	 * @method          _toggleNodeStyle
-	 * @private
-	 * @param          {DOM.Node}           n          instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 * @param          {String}             prop       style property name to be toggled
-	 * @param          {String}             val        on-value of the the style property
-	 * @param          {String|Null}        altVal     off-value of the style property
-	 * @return         {void}
-	 * @since          0.0.4
-	 */
-	var _toggleNodeStyle = function(n, prop, val, altVal){
-	    var attrName = 'style',
-	        stl, stlStr;
-	    if (!(typeof n === 'object' && n.nodeType)){
-	        return;
-	    }
-	    // console.log('from parents: ', _lookUpInParents(n, prop));
-	    stl = new Properties(n.getAttribute(attrName));
-	    stl.setMode(1);
-	    stl.toggleProperty(prop, val, altVal);
-	    stlStr = stl.toString();
-	    if (stlStr){
-	        n.setAttribute(attrName, stlStr);
-	    } else {
-	        n.removeAttribute(attrName);
-	    }
-	};
-
-
 	/**
 	 * Returns **proxy** node of `n`:
 	 * <ol><li>
@@ -1757,97 +1722,7 @@ function Document(node){
 			}
 		}
 
-
-		// root = scope;
-
-		// console.log('root', root);
-		// // if the scope is not defined or if it is erraneous, impose scope to be the root.
-		// if (root === undefined || !root.contains(node)){
-		// 	console.log('looping for root', root, root === undefined, !root.contains(node));
-		// 	root = node;
-		// 	parent = root.parentNode;
-		// 	while (parent){
-		// 		root = parent;
-		// 		parent = root.parentNode;
-		// 	}
-		// }
-		// console.log('root', root);
-		// while (root.contains(currentNode)){
-		// 	console.log('loop', currentNode);
-		// 	// a node might have no "getAttribute" method (as text node does)
-		// 	if (typeof currentNode.getAttribute === 'function'){
-		// 		stl = new Properties(currentNode.getAttribute('style'));
-		// 		stl.setMode(1);
-		// 		if (stl.hasProperty(key)){
-		// 			return stl.getProperty(key);
-		// 		}
-		// 	}
-		// 	currentNode = currentNode.parentNode;
-		// }
 	};
-
-
-	/**
-	 * Modifies inline style properties of a {{#crossLink "Document/_proxy:method"}}proxy{{/crossLink}}
-	 * node of deepest children of node `n` in the following way:
-	 * <ol><li>
-	 * if style property `prop` of the deepest child is equal to `val`, then inline
-	 * style property of its "proxy" node is set to be `altVal`.
-	 * </li><li>
-	 * if style property `prop` of the deepest child is not equal to `val`, then inline
-	 * style property of its "proxy" node is set to be `val`.
-	 * </li></ol>
-	 * @private
-	 * @method         _deferToggleStyle
-	 * @param          {Node}               n                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             prop               name of style property (i.e., "width" or "text-decoration")
-	 * @param          {String}             val                value of style property (i.e., "10px" or "underline")
-	 * @return         {void}
-	 * @since          0.0.4
-	 * @todo           Try to make this method shorter
-	 */
-	// var _deferToggleStyle = function(n, prop, val, altVal){
-	//     var childNodes = n.childNodes,
-	//         childNum = childNodes.length,
-	//         child, span, parent, counter;
-	//     switch (childNum){
-	//          // node has no children
-	//         case 0:
-	//             if (n.nodeType === Node.ELEMENT_NODE){
-	//                 _toggleNodeStyle(n, prop, val, altVal);
-	//                 break;
-	//             }
-	//             if (n.nodeType === Node.TEXT_NODE){
-	//                 console.log('from parents: ', _lookUpInParents(n, prop));
-	//                 span = new Tag();
-	//                 span.setTag('span');
-	//                 span.setStyleProperty(prop, val);
-	//                 span.setContent(n.nodeValue);
-	//                 parent = n.parentNode;
-	//                 if (parent){
-	//                     parent.replaceChild(span.toNode(), n);
-	//                 }
-	//                 break;
-	//             }
-	//             break;
-	//         // node has only one child
-	//         case 1:
-	//             child = n.firstChild;
-	//             if (child.nodeType === Node.TEXT_NODE){
-	//                  _toggleNodeStyle(n, prop, val, altVal);
-	//             } else {
-	//                 _deferToggleStyle(child, prop, val, altVal);
-	//             }
-	//             break;
-	//         // node has many children
-	//         default:
-	//             console.log("children no. : ", childNum, childNodes);
-	//             for (counter = 0; counter < childNum; counter++){
-	//                 _deferToggleStyle(childNodes[counter], prop, val, altVal);
-	//             }
-	//     }
-	// };
-
 
 
 
@@ -1875,20 +1750,6 @@ function Document(node){
 	    }
 	    return el;
 	};
-
-	// /**
-	//  * Normalize parent of elements of the array.
-	//  * @method  normalizeParentOf
-	//  * @param  {Array}     elems
-	//  * @return {void}
-	//  */
-	// this.normalizeParentOf = function(elems){
-	//     var el = this.commonAncestorSoft(elems);
-	//     if (el){
-	//         el.normalize();
-	//     }
-	// };
-
 
 	/**
 	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.
@@ -2208,8 +2069,6 @@ function Document(node){
 		}
 		return p;
 	};
-
-	//////////////// end of content of Dom class     ///////////
 
 	/**
 	 * Creates an instance of class `C` and then calls its method given by string `loader`
@@ -2703,8 +2562,24 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertToBold = function(ranges){
+		if (!Array.isArray(ranges)){
+			return;
+		}
+		ranges.forEach(function(range){
+			this.convertRangeToBold(range);
+		}.bind(this));
+
+	};
+
+	/**
+	 * Converts a selection specified by `range` to become of bold font.
+	 * @method         convertRangeToBold
+	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.convertRangeToBold = function(range){
 		/// !!! stub
-		console.log('stubbed method convertToBold has received this input: ', ranges);
 	};
 
 }

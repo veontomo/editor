@@ -403,7 +403,6 @@ describe('Class "Document"', function() {
             doc.toggleElementStyle(dom1_a0, 'padding', '100px', '200px');
             var stl = dom1_a0.getAttribute('style'),
                 arr = stl.split(';');
-                console.log(arr);
             expect(arr.some(function(str){
                 var tmp = str.split(':');
                 return tmp.length === 2 && tmp[0].trim() === 'padding' && tmp[1].trim() === '100px';
@@ -3354,8 +3353,80 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "convertToBold" that', function(){
+        var clone;
+        beforeEach(function(){
+            clone = node.cloneNode(true);
+        });
+        it('does not modify DOM if it is called with no argument', function(){
+            doc.convertToBold();
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
 
+        it('does not modify DOM if the argument is a number, a string, an object or a function', function(){
+            var invalids = [0, 1, 3.21, -43.19, '', 'string', {}, {1: 'foo'}, function(){return;}, document.createElement('div')];
+            invalids.forEach(function(invalid){
+                doc.convertToBold(invalid);
+                expect(node.isEqualNode(clone)).toBe(true);
+            });
+        });
+
+        it('does not modify DOM if the argument is an empty array', function(){
+            doc.convertToBold([]);
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not modify DOM if the argument is an empty array', function(){
+            doc.convertToBold([]);
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not call modify DOM if the argument is an empty array', function(){
+            doc.convertToBold([]);
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        it('calls method "convertRangeToBold" on each element of the input array', function(){
+            spyOn(doc, 'convertRangeToBold');
+            var r1 = {}, r2 = {}, r3 = {};
+            doc.convertToBold([r1, r2, r3]);
+            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r1);
+            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r2);
+            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r3);
+        });
     });
+
+    describe('has a method "convertRangeToBold" that', function(){
+        var clone;
+        beforeEach(function(){
+            clone = node.cloneNode(true);
+        });
+        it('does not modify DOM if it is called with no argument', function(){
+            doc.convertRangeToBold();
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+        it('does not modify DOM if the argument is a number, a string, an object, an array or a function', function(){
+            var invalids = [0, 1, 3.21, -43.19,
+                '', 'string',
+                {}, {1: 'foo'},
+                [], [1, 2, 3],
+                function(){return;},
+                document.createElement('div')
+            ];
+            invalids.forEach(function(invalid){
+                doc.convertRangeToBold(invalid);
+                expect(node.isEqualNode(clone)).toBe(true);
+            });
+        });
+
+        it('does not modify DOM if the argument is a collapsed range', function(){
+            var r = document.createRange();
+            r.setStart(dom1_div1, 1);
+            r.collapse(true);
+            doc.convertRangeToBold(r);
+            expect(node.isEqualNode(clone)).toBe(true);
+        });
+    });
+
 
 
 
