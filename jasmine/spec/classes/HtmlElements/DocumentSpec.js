@@ -46,7 +46,9 @@ describe('Class "Document"', function() {
     var node, doc, dom1_p0, dom1_img0, dom1_a0, dom1_text1, dom1_text2, dom1_text0,
         dom1_div1, dom1_span0, dom1_text3, dom1_ol0, dom1_li0, dom1_li1, dom1_li2,
         // disconnected part
-        dom2_m00, dom2_m10, dom2_m11;
+        dom2_m00, dom2_m10, dom2_m11,
+        clone;
+
 
     beforeEach(function() {
         jasmine.addMatchers(emptyArrayMatcher);
@@ -431,7 +433,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('has a method "createToggledElemFromText" that', function(){
+    xdescribe('has a method "createToggledElemFromText" that', function(){
 
         it('creates an element node with "color" property set to secondary value if the text node has it inherited to primary value', function(){
             var n = doc.createToggledElemFromText(dom1_text1, 'color', 'red', 'white'),
@@ -596,7 +598,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "nailStyleProperty" that', function(){
+    xdescribe('has a method "nailStyleProperty" that', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
             e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
@@ -811,7 +813,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('does the following when setting a property', function(){
+        xdescribe('does the following when setting a property', function(){
             it('return node itself (modified) if the target is an element node', function(){
                 var n = doc.setStyleProperty(e3, 'color', 'blue');
                 expect(n.nodeType).toBe(node.ELEMENT_NODE);
@@ -3069,12 +3071,14 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "insertLists" that', function(){
+        beforeEach(function(){
+            clone = node.cloneNode(true);
+        });
         it('does not modify DOM if the first argument is not an array', function(){
             var r = document.createRange();
             r.setStart(dom1_p0, 1);
             r.setEnd(dom1_a0, 1);
             var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', r];
-            var clone = node.cloneNode(true);
             invalids.forEach(function(invalid){
                 doc.insertLists(invalid, 'ol');
                 expect(node.isEqualNode(clone)).toBe(true);
@@ -3097,14 +3101,12 @@ describe('Class "Document"', function() {
     xdescribe('has a method "convertRangeToList" that', function(){
         it('does not modify DOM if the first argument is not a range', function(){
             var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', [], [1, 2], document.createElement('div')];
-            var clone = node.cloneNode(true);
             invalids.forEach(function(invalid){
                 doc.convertRangeToList(invalid, 'ol');
                 expect(node.isEqualNode(clone)).toBe(true);
             });
         });
         it('does not modify DOM if "nodesOfRange" throws an error', function(){
-            var clone = node.cloneNode(true);
             var r = document.createRange();
             r.setStart(dom1_text1, 4);
             r.setEnd(node, 2);
@@ -3114,7 +3116,6 @@ describe('Class "Document"', function() {
         });
 
         it('does not modify DOM if "nodesOfRange" returns empty array while the range is not collapsed (is it possible?)', function(){
-            var clone = node.cloneNode(true);
             var r = document.createRange();
             r.setStart(dom1_text1, 4);
             r.setEnd(node, 2);
@@ -3128,7 +3129,6 @@ describe('Class "Document"', function() {
             var r = document.createRange();
             r.setStart(dom1_text1, 4);
             r.collapse(true);
-            var clone = node.cloneNode(true);
             doc.convertRangeToList(r, 'ol');
             expect(node).hasChildNodes(3);
             expect(node.childNodes[1].isEqualNode(clone.childNodes[1]));
@@ -3261,7 +3261,7 @@ describe('Class "Document"', function() {
     });
 
     xdescribe('has a method "changeSingleListType" that', function(){
-        var list, li1, li2, li3, li4, text4, ch12, ch13, ch14, clone;
+        var list, li1, li2, li3, li4, text4, ch12, ch13, ch14;
         beforeEach(function(){
             list = document.createElement('ol');
             li1 = document.createElement('li');
@@ -3353,7 +3353,6 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "convertToBold" that', function(){
-        var clone;
         beforeEach(function(){
             clone = node.cloneNode(true);
         });
@@ -3396,7 +3395,6 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "convertRangeToBold" that', function(){
-        var clone;
         beforeEach(function(){
             clone = node.cloneNode(true);
         });
@@ -3424,6 +3422,35 @@ describe('Class "Document"', function() {
             r.collapse(true);
             doc.convertRangeToBold(r);
             expect(node.isEqualNode(clone)).toBe(true);
+        });
+
+        describe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
+            var r;
+            beforeEach(function(){
+                clone = node.cloneNode(true);
+                r = document.createRange();
+                r.setStart(dom1_p0, 0);
+                r.setEnd(dom1_p0, 1);
+                doc.convertRangeToBold(r);
+            });
+
+            it('moves the text node inside a new element node that replaces that text node', function(){
+                expect(dom1_text1.parentNode).toBe(dom1_p0.childNodes[0]);
+            });
+            it('inserts an element node with "font-weight" style property set to "bold"', function(){
+                var stl = dom1_text1.parentNode.getAttribute('style');
+                expect(stl.match(/font-weight: bold/)).toBe(true);
+            });
+            it('does not modify the rest of DOM', function(){
+                expect(node.childNodes.length).toBe(3);
+
+                expect(node.childNodes[0].length).toBe(3);
+                expect(node.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+                expect(node.childNodes[0].childNodes[2].isEqualNode(clone.childNodes[0].childNodes[2])).toBe(true);
+
+                expect(node.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(node.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
         });
     });
 

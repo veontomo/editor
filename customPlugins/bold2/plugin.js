@@ -34,9 +34,6 @@ CKEDITOR.plugins.add('bold2', {
 		editor.addCommand(pluginName, {
 			exec: function(editor){
 				_controller.convertToBold(editor);
-				// var	selection = new Selection(editor);
-				// console.log(selection);
-				// selection.switchDeepestChildStyle(property);
 			}
 		});
 

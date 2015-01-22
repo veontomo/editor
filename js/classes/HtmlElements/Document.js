@@ -6,7 +6,7 @@
  *
  * @module 	    Document
  * @class  		Document
- * @param       {DOM.Node}          node          the content of the document
+ * @param       {Node}              node          the content of the document
  * @since       0.0.5
  * @author      A.Shcherbakov
  * @uses        Unit              class to deal with numbers with unit of measurements
@@ -20,11 +20,11 @@ function Document(node){
 	}
 
 	/**
-	 * Instance of [DOM.Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing
+	 * Instance of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing
 	 * the content of the class instance.
 	 * @private
-	 * @property       {DOM.Node}           _content
-	 * @type           {DOM.Node}
+	 * @property       {Node}               _content
+	 * @type           {Node}
 	 */
 	var _content;
 
@@ -146,7 +146,7 @@ function Document(node){
 	 *
 	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, assignment is not performed.
 	 * @method         setContent
-	 * @param          {DOM.Node}           n
+	 * @param          {Node}               n
 	 * @return         {void}
 	 */
 	this.setContent = function(n){
@@ -231,7 +231,7 @@ function Document(node){
 	 * Removes attributes present in array `flies` from the current node without affecting child nodes.
 	 * If the node is a not an element node, then nothing is performed upon it.
 	 * @method         cleanRoot
-	 * @param          {DOM.Node}               node
+	 * @param          {Node}                   node
  	 * @param          {Array}      flies       array of regular expressions
 	 * @return         {void}
 	 */
@@ -332,10 +332,10 @@ function Document(node){
 	 *
 	 * If `scope` is set, but `n` is not its desendant, then an error is thrown.
 	 * @method         findAncestor
-	 * @param          {DOM.Node}      n          node from which the search is started
+	 * @param          {Node}          n          node from which the search is started
 	 * @param          {Function}      criteria
-	 * @param          {DOM.Node}      scope      [optional] node with which the search is finished
-	 * @return         {DOM.Node}
+	 * @param          {Node}          scope      [optional] node with which the search is finished
+	 * @return         {Node}
 	 * @since          0.0.8
 	 */
 	this.findAncestor = function(n, criteria, scope){
@@ -1664,14 +1664,14 @@ function Document(node){
 	 * if `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.
 	 * </li></ol>
 	 * @method         proxy
-	 * @param          {DOM.Node}          n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {DOM.Node|Null}
+	 * @param          {Node}              n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node|Null}
 	 */
 	this.proxy = function(n){
-	    if (n === undefined || n.nodeType === undefined){
+	    if (!(n instanceof Node)){
 	        return null;
 	    }
-	    if (n.nodeType === Node.ELEMENT_NODE){
+	    if (n instanceof Element){
 	        return n;
 	    }
 	    return (n.nextSibling || n.previousSibling) ? n : n.parentNode;
@@ -1687,8 +1687,8 @@ function Document(node){
 	 * NB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **
 	 * @method         getInheritedStyleProp
 	 * @param          {String}             key       name of property to find among inline style of ancestors
-	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {DOM.Node}           scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}               scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {String|Number|Null}
 	 * @since          0.0.4
 	 */
@@ -1730,7 +1730,7 @@ function Document(node){
 	 * Returns common ancestor of all array elements. If an element is not a
 	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
 	 * @method         commonAncestorSoft
-	 * @return         {DOM.Node|Null}      common ancestor of the arguments
+	 * @return         {Node|Null}          common ancestor of the arguments
 	 */
 	this.commonAncestorSoft = function(elems){
 	    if (!Array.isArray(elems)){
@@ -1755,8 +1755,8 @@ function Document(node){
 	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.
 	 * @method         getMentor
 	 * @param          {String}             key               name of inline style property
-	 * @param          {DOM.Node}           node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {DOM.Node|undefined}                   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}               node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node|undefined}                       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 */
 	this.getMentor = function(key, node){
 		var currentNode = node,
@@ -1789,18 +1789,21 @@ function Document(node){
 	 * setting inline style property of `node` to required value.
 	 * </li></ol>
 	 * If `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`
-	 * @method         nailStyleProperty
-	 * @param          {DOM.Node}           node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @method         nailStyleProperty___old
+	 * @param          {Node}               node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key              name of inline style property
 	 * @param          {String|Number}      primary          primary value of inline style property
 	 * @param          {String|Number}      secondary        secondary value of inline style property
 	 * @return         {void}
 	 */
-	this.nailStyleProperty = function(node, key, primary, secondary){
+	this.nailStyleProperty___old = function(node, key, primary, secondary){
+		console.log('inside nailStyleProperty');
 		var mentor = this.getMentor(key, node);
 		// changing target node if there is no mentor
-		if (mentor === undefined){
-			this.setStyleProperty(node, key, primary);
+		if (!mentor){
+			console.log('property ' + key + ' is not set');
+			var newNode = this.setStyleProperty(node, key, primary);
+
 			return;
 		}
 		// from now on, mentor exists.
@@ -1826,13 +1829,13 @@ function Document(node){
 	 * then reference it itself is returned. Otherwise, it is returned a new
 	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains
 	 * a clone of `node` and which replaces `node`.
-	 * @method         setStyleProperty
-	 * @param          {DOM.Node}           node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @method         setStyleProperty___old
+	 * @param          {Node}               node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key      name of inline style property to set
 	 * @param          {String|Number}      value    value of the inline style property
-	 * @return         {DOM.Node}                    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @return         {Node}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 */
-	this.setStyleProperty = function(node, key, value){
+	this.setStyleProperty___old = function(node, key, value){
 		if (!node || !key || !value){
 			throw new Error('Node, key and value must be given!');
 		}
@@ -1855,7 +1858,7 @@ function Document(node){
 	 * Gets inline style property with name `key` of `node`. Returns `undefined` if `node`
 	 * does not have inline style property `key`.
 	 * @method         getStyleProperty
-	 * @param          {DOM.Node}           node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}               node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key           name of inline style property of `node`
 	 * @return         {String|Number}
 	 */
@@ -1875,7 +1878,7 @@ function Document(node){
 	 * Returns `true` if the initially contains inline style property `key` and `false` otherwise.
 	 *
 	 * @method         dropStyleProperty
-	 * @param          {DOM.Node}           node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of inline style attribute to drop
 	 * @return         {Boolean}                      `true` if successefully deleted the requested property
 	 *                                                 and `false` otherwise
@@ -1893,7 +1896,6 @@ function Document(node){
 			outcome = true;
 		}
 		return outcome;
-
 	};
 
 
@@ -1909,7 +1911,7 @@ function Document(node){
 	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
 	 * since text nodes have no attributes.
 	 * @method         toggleElementStyle
-	 * @param          {DOM.Element}        elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * @param          {Element}            elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {String}             key        name of style property to change
 	 * @param          {String|Number}      primary    primary value of the above style property
 	 * @param          {String|Number}      secondary  secondary value of the style property
@@ -1933,16 +1935,16 @@ function Document(node){
 	 * `key` value will be imposed to `primary`.
 	 *
 	 * Created instance is a "span" html tag.
-	 * @method         createToggledElemFromText
-	 * @param          {DOM.Text}           textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
+	 * @method         createToggledElemFromText___old
+	 * @param          {Text}               textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
 	 *                                                      instance whose "toggle" copy is to be created
 	 * @param          {String}             key             name of style property (i.e., "text-decoration", "font-style")
 	 * @param          {String|Number}      primary         primary value of the style property
 	 * @param          {String|Number}      secondary       secondary value
-	 * @return         {DOM.Node}
+	 * @return         {Node}
 	 * @since          0.0.4
 	 */
-	this.createToggledElemFromText = function(textNode, key, primary, secondary){
+	this.createToggledElemFromText___old = function(textNode, key, primary, secondary){
 		if (textNode && textNode.nodeType === Node.TEXT_NODE){
 			var linkElem = document.createElement('span'),
 				textNodeCopy = document.createTextNode(textNode.nodeValue),
@@ -1970,9 +1972,9 @@ function Document(node){
 	 * </dd>
 	 * </dl>
 	 * @method         complementNodes
-	 * @param          {DOM.Node}           startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @param          {Node}               startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instance from which to start the path
-	 * @param          {DOM.Node}           endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @param          {Node}               endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instance at which to finish the path
 	 * @return         {Array}                                 one-dimensional array of
 	 *                                                         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
@@ -2005,7 +2007,7 @@ function Document(node){
 	 * If `propSecondary` does not exist, then `propPrimary` is just appended to class
 	 * attributes. If class attribute does not exist, then it is created with value `propName`.
 	 * @method         switchClassProperty
-	 * @param          {DOM.Element}   elem
+	 * @param          {Element}       elem
 	 * @param          {String}        propPrimary
 	 * @param          {String}        propSecondary
 	 * @return         {void}
@@ -2044,8 +2046,8 @@ function Document(node){
 	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance corresponding to node `n`
 	 * is returned.
 	 * @method  	   getInheritedProperties
-	 * @param          {DOM.Element}   n
-	 * @param          {DOM.Element}   s   Optional
+	 * @param          {Element}       n
+	 * @param          {Element}       s   Optional
 	 * @return         {Properties}
 	 * @since          0.0.7
 	 */
@@ -2151,7 +2153,6 @@ function Document(node){
 		if (cursorPos){
 			candidateNodes.push(cursorPos.startContainer);
 		}
-		console.log('datect tag searches among ', candidateNodes);
 		return this.findInBlock(candidateNodes, callback);
 	};
 
@@ -2579,7 +2580,91 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertRangeToBold = function(range){
-		/// !!! stub
+		if (!(range instanceof Range) || (range.collapsed)){
+			return;
+		}
+		var nodes = this.nodesOfRange(range);
+		this.accentuateNodesStyleProperty(nodes, 'font-weight', 'bold');
 	};
+
+	/**
+	 * Sets nodes's style property.
+	 *
+	 * If style property `key` of every node of array `nodes` is equal to `value` or inherits to `value`, then nothing is done.
+	 * Otherwise, a proxy of `nodes` gets style property `key` set to `value`, while the nodes, complement to the
+	 * proxy, gets the style property set to its original value.
+	 * @method        accentuateNodesStyleProperty
+	 * @param         {Array}          nodes         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @param         {String|Number}  key           name of style property
+	 * @param         {String|Number}  value         value of the style property
+	 * @return        {void}
+	 * @since         0.1.0
+	 */
+	this.accentuateNodesStyleProperty = function(nodes, key, value){
+		var commonValue = this.commonStyleProperty(nodes, key);
+		if (commonValue === value){
+			// the nodes already have the style property imposed to desired value
+			// therefore, just exit
+			return;
+		}
+		// the nodes have different value of the style property
+		// therefore, one should set the style property of these nodes to the desired value,
+		// while the complement nodes should remain with original values of the style property.
+		//     !!! to finish !!!
+
+	};
+
+	/**
+	 * Returns common style (may be inherited from ancestors) of multiple nodes.
+	 *
+	 * If `nodes` have no common style property `key`, `undefined` is returned.
+	 * @method         commonStyleProperty
+	 * @param          {Array}         nodes     Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @param          {String|Number} key
+	 * @return         {String|Number|undefined}
+	 */
+	this.commonStyleProperty = function(nodes, key){
+		if (!Array.isArray(nodes) || nodes.length === 0){
+			return undefined;
+		}
+		var len = nodes.length,
+			value = this.getInheritedStyleProp(nodes[0], key),
+			valueTmp,
+			i;
+		for(i = 1; i < len; i++){
+			valueTmp = this.getInheritedStyleProp(nodes[i], key);
+			if (valueTmp !== value){
+				return undefined;
+			}
+		}
+		return value;
+	};
+
+	/**
+	 * Finds proxies of multiple nodes.
+	 *
+	 * Returns duplicate-free array of proxy nodes of each node in `nodes`.
+	 * @method         proxiesOf
+	 * @param          {Array}         nodes     Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @return         {Array}                   Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @since          0.2.0
+	 */
+	this.proxiesOf = function(nodes){
+		if (!Array.isArray(nodes)){
+			return;
+		}
+		var result = [];
+		nodes.forEach(function(node){
+			var nodeProxy = this.proxy(node);
+			var isPresent = result.some(function(elem){
+				return elem === nodeProxy;
+			});
+			if (!isPresent){
+				result.push(nodeProxy);
+			}
+		}.bind(this));
+		return nodes;
+	};
+
 
 }
