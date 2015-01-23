@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
+/*global xdescribe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
 var emptyArrayMatcher = {
   toBeEmptyArray: function() {
     return {
@@ -42,7 +42,7 @@ var tagNameMatcher = {
 
 
 
-describe('Class "Document"', function() {
+xdescribe('Class "Document"', function() {
     var node, doc, dom1_p0, dom1_img0, dom1_a0, dom1_text1, dom1_text2, dom1_text0,
         dom1_div1, dom1_span0, dom1_text3, dom1_ol0, dom1_li0, dom1_li1, dom1_li2,
         // disconnected part
@@ -133,7 +133,7 @@ describe('Class "Document"', function() {
         doc = new Document(node);
 
     });
-    describe('has a method "clean" that', function() {
+    xdescribe('has a method "clean" that', function() {
         it('removes "class" attribute inside tags', function() {
             doc.clean(['class']);
             var doc2 = doc.getContent();
@@ -178,7 +178,7 @@ describe('Class "Document"', function() {
             expect(img.getAttribute('style')).toBe('width: 100%; color: red;');
         });
     });
-    describe('has a method to calculate relative widths that', function() {
+    xdescribe('has a method to calculate relative widths that', function() {
         it('transforms fixed values into relative', function() {
             var div = document.createElement('div');
             div.setAttribute('style', 'width: 234px;');
@@ -194,7 +194,7 @@ describe('Class "Document"', function() {
             pending();
         });
     });
-    describe('has a method "findAncestor" that', function() {
+    xdescribe('has a method "findAncestor" that', function() {
         it('throws an error if the scope is set but it does not contain the start node', function() {
             expect(function() {
                 doc.findAncestor(dom1_p0, function(){return;}, dom1_a0);
@@ -244,7 +244,7 @@ describe('Class "Document"', function() {
             }, node)).toBe(dom1_p0);
         });
     });
-	describe('has setter/getter for the document content that', function(){
+	xdescribe('has setter/getter for the document content that', function(){
 		it('assignes the content if the argument is a node instance', function(){
 			var n = document.createElement('span');
 			doc = new Document();
@@ -273,7 +273,7 @@ describe('Class "Document"', function() {
 			expect(doc.getContent().isEqualNode(n)).toBe(true);
 		});
 	});
-	describe('has a method "nodeToText" that', function(){
+	xdescribe('has a method "nodeToText" that', function(){
 		it('returns empty string if the argument is not a node instance', function(){
 			var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 			    	function() {return;}, {}, {foo: 23}];
@@ -292,7 +292,7 @@ describe('Class "Document"', function() {
 		});
 	});
 
-    describe('has a method "commonAncestor" that', function(){
+    xdescribe('has a method "commonAncestor" that', function(){
         it('returns the first argument if it contains the second argument', function(){
             expect(doc.commonAncestor(dom1_a0, dom1_text2)).toBe(dom1_a0);
         });
@@ -319,7 +319,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "proxy" that', function(){
+    xdescribe('has a method "proxy" that', function(){
         it('returns the argument if it is an Element instance', function(){
             expect(doc.proxy(dom1_p0)).toBe(dom1_p0);
         });
@@ -340,7 +340,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "getMentor" that', function(){
+    xdescribe('has a method "getMentor" that', function(){
         it('returns null if none of the ancestors has the property set', function(){
             expect(doc.getMentor('text-decoration', dom1_div1)).not.toBeDefined();
         });
@@ -358,7 +358,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "getInheritedStyleProp" that', function(){
+    xdescribe('has a method "getInheritedStyleProp" that', function(){
         it('returns the value of the attribute if the second argument has this property set and the scope node is provided', function(){
             expect(doc.getInheritedStyleProp('color', dom1_img0, node)).toBe('red');
         });
@@ -390,7 +390,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('has a method "toggleElementStyle" that', function(){
+    xdescribe('has a method "toggleElementStyle" that', function(){
         it('sets "color" to alternative value if the element has it set to primary value', function(){
             doc.toggleElementStyle(dom1_p0, 'color', 'red', 'black');
             var stl = dom1_p0.getAttribute('style'),
@@ -483,7 +483,7 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('has a method "complementNodes" that', function(){
+    xdescribe('has a method "complementNodes" that', function(){
         var e00, e10, e11, e20, e21, e22, e23, e24, e30, e31, e32, e33, e34, e40,
             e41, e50, e51, e60, e61, e62, e63;
 //                                                   e00
@@ -736,7 +736,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "getStyleProperty" that', function(){
+    xdescribe('has a method "getStyleProperty" that', function(){
     	var e0, e1, t2, e3, e4;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
 //            ___________|_______
@@ -759,7 +759,7 @@ describe('Class "Document"', function() {
             e0.appendChild(e3);
         });
 
-        describe('does the following when getting a property', function(){
+        xdescribe('does the following when getting a property', function(){
             it('returns undefined if asked about a text node', function(){
                 expect(doc.getStyleProperty(t2, 'whatever')).not.toBeDefined();
             });
@@ -777,7 +777,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('does the following when deleting a property', function(){
+        xdescribe('does the following when deleting a property', function(){
             it('returns false if the argument does not support attributes (like a text node)', function(){
                 expect(doc.dropStyleProperty(t2, 'any')).toBe(false);
             });
@@ -887,7 +887,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "switchClassProperty" that', function(){
+    xdescribe('has a method "switchClassProperty" that', function(){
         it('creates class attribute if no class attribute is present', function(){
             var el = document.createElement('div');
             doc.switchClassProperty(el, 'new_class', 'old_class');
@@ -923,7 +923,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "getInheritedProperties" that', function(){
+    xdescribe('has a method "getInheritedProperties" that', function(){
         var n00, n10, n11, n20, n21, n22, n23, n30, n31, m00, m10, m11;
 //                    n00                                m00
 //         ____________|_________                    _____|____
@@ -1057,7 +1057,7 @@ describe('Class "Document"', function() {
 
     });
 
-	describe('works with selection that has', function() {
+	xdescribe('works with selection that has', function() {
 	    // it seems that when activating these suits makes the page with test
 	    // output freeze for some seconds
 	    var range, e00, e10, e11, t20, e21, t22, e23, t24, e25, e26, e30, t31, e32, n00, n10, n11;
@@ -1109,8 +1109,8 @@ describe('Class "Document"', function() {
 	        n00.appendChild(n10);
 	        n00.appendChild(n11);
 	    });
-	    describe('a range related functionality that', function() {
-	        describe('has a method "isRange" which', function() {
+	    xdescribe('a range related functionality that', function() {
+	        xdescribe('has a method "isRange" which', function() {
 	            it('returns true if argument is a Range instance', function() {
 	                expect(doc.isRange(range)).toBe(true);
 	            });
@@ -1128,7 +1128,7 @@ describe('Class "Document"', function() {
 	                });
 	            });
 	        });
-	        describe('has a method "appendRange"', function() {
+	        xdescribe('has a method "appendRange"', function() {
 	            it('that does not call setRanges method if the argument is not a valid range', function() {
 	                spyOn(doc, 'getRanges');
 	                spyOn(doc, 'setRanges');
@@ -1137,12 +1137,12 @@ describe('Class "Document"', function() {
 	                expect(doc.getRanges).not.toHaveBeenCalled();
 	                expect(doc.setRanges).not.toHaveBeenCalled();
 	            });
-	            describe('which in case when the argument is a valid range,', function() {
+	            xdescribe('which in case when the argument is a valid range,', function() {
 	                beforeEach(function() {
 	                    spyOn(doc, 'isRange').and.returnValue(true);
 	                    spyOn(doc, 'setRanges');
 	                });
-	                describe('present in _ranges,', function() {
+	                xdescribe('present in _ranges,', function() {
 	                    beforeEach(function() {
 	                        spyOn(doc, 'containsRange').and.returnValue(true);
 	                    });
@@ -1153,7 +1153,7 @@ describe('Class "Document"', function() {
 	                        expect(doc.setRanges).not.toHaveBeenCalled();
 	                    });
 	                });
-	                describe('not present in _ranges,', function() {
+	                xdescribe('not present in _ranges,', function() {
 	                    beforeEach(function() {
 	                        spyOn(doc, 'containsRange').and.returnValue(false);
 	                    });
@@ -1178,7 +1178,7 @@ describe('Class "Document"', function() {
 	                });
 	            });
 	        });
-	        describe('method containsRange', function() {
+	        xdescribe('method containsRange', function() {
 	            it('throws an error if isRange return false', function() {
 	                spyOn(doc, 'isRange').and.returnValue(false);
 	                expect(function() {
@@ -1236,7 +1236,7 @@ describe('Class "Document"', function() {
 	                expect(doc.containsRange(range)).toBe(true);
 	            });
 	        });
-	        describe('method areEqual', function() {
+	        xdescribe('method areEqual', function() {
 	            it('returns false if called with one argument that is not a Range instance', function() {
 	                spyOn(doc, 'isRange').and.returnValue(false);
 	                expect(doc.areEqual('anything')).toBe(false);
@@ -1307,7 +1307,7 @@ describe('Class "Document"', function() {
 	                expect(doc.areEqual(range, range2)).toBe(false);
 	            });
 	        });
-	        describe('has a method "rangeCount" that', function() {
+	        xdescribe('has a method "rangeCount" that', function() {
 	            it('returns 0, if the "ranges" is not set', function() {
 	                spyOn(doc, 'getRanges');
 	                expect(doc.rangeCount()).toBe(0);
@@ -1325,7 +1325,7 @@ describe('Class "Document"', function() {
 	                expect(doc.rangeCount()).toBe(3);
 	            });
 	        });
-	        describe('has a method "setRanges" that', function() {
+	        xdescribe('has a method "setRanges" that', function() {
 	            it('sets ranges to empty array if it is called without argument', function() {
 	                doc.setRanges();
 	                var res = doc.getRanges();
@@ -1404,7 +1404,7 @@ describe('Class "Document"', function() {
 	                expect(r[3]).toBe('rMiddle');
 	            });
 	        });
-	        describe('has nextRange method that', function() {
+	        xdescribe('has nextRange method that', function() {
 	            it('is undefined, if "ranges" is undefined', function() {
 	                spyOn(doc, 'getRanges');
 	                expect(doc.nextRange()).not.toBeDefined();
@@ -1476,7 +1476,7 @@ describe('Class "Document"', function() {
 	                expect(doc.nextRange()).toBe('range1');
 	            });
 	        });
-	        describe('has a method "nodesBetween" that', function() {
+	        xdescribe('has a method "nodesBetween" that', function() {
 	            it('returns an empty array if it is called without arguments', function() {
 	                var nodes = doc.nodesBetween();
 	                expect(nodes).toBeEmptyArray();
@@ -1583,7 +1583,7 @@ describe('Class "Document"', function() {
 	            });
 	        });
 	    });
-	    describe('a method to compare paths that', function() {
+	    xdescribe('a method to compare paths that', function() {
 	        it('returns undefined if the first argument is a string', function() {
 	            expect(doc.compare('a string', [2, 6])).not.toBeDefined();
 	        });
@@ -1648,7 +1648,7 @@ describe('Class "Document"', function() {
 	            expect(p2[1]).toBe(7);
 	        });
 	    });
-	    describe('a method commonAncestor that', function() {
+	    xdescribe('a method commonAncestor that', function() {
 	        it('returns nothing if it is called without arguments', function() {
 	            expect(doc.commonAncestor()).not.toBeDefined();
 	        });
@@ -1680,7 +1680,7 @@ describe('Class "Document"', function() {
 	            expect(doc.commonAncestor(e10, e25)).toBe(e00);
 	        });
 	    });
-	    describe('a method to find the root node that', function() {
+	    xdescribe('a method to find the root node that', function() {
 	        it('returns nothing if the argument is an undefined, string, number, array, function or a non-node object', function() {
 	            var invalids = [undefined, null, '', 'a string', [],
 	                [1, 2, 3], 0, 1, 4.32, -2, -5.96,
@@ -1704,7 +1704,7 @@ describe('Class "Document"', function() {
 	            expect(doc.rootOf(e00)).toBe(e00);
 	        });
 	    });
-	    describe('a method to calculate path to an element that', function() {
+	    xdescribe('a method to calculate path to an element that', function() {
 	        it('returns nothing if no argument is given', function(){
 	            expect(doc.pathTo()).not.toBeDefined();
 	        });
@@ -1752,7 +1752,7 @@ describe('Class "Document"', function() {
 	            expect(path[2]).toBe(1);
 	        });
 	    });
-	    describe('a method contains that', function() {
+	    xdescribe('a method contains that', function() {
 	        it('throws an error if the second argument is invalid and the first is a Node instance', function() {
 	            var invalids = [undefined, null, '', 'a string', [],
 	                [1, 2, 3], 0, 1, 4.32, -2, -5.96,
@@ -1811,7 +1811,7 @@ describe('Class "Document"', function() {
 	            expect(doc.contains(e32, e11)).toBe(false);
 	        });
 	    });
-	    describe('a method to get an element by path that', function(){
+	    xdescribe('a method to get an element by path that', function(){
 	        it('returns nothing if the path is not defined or given as a string, a number, a function or an object', function(){
 	            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96, function(){return;}, {}, {foo: 23}];
 	            invalids.forEach(function(invalid){
@@ -1843,7 +1843,7 @@ describe('Class "Document"', function() {
 	            expect(doc.getNodeByPath([2, 1], e10)).not.toBeDefined();
 	        });
 	    });
-	    describe('a method to find common "head" part of two arrays that' , function(){
+	    xdescribe('a method to find common "head" part of two arrays that' , function(){
 	        it('does not modify the content of the input arrays if they have common head', function(){
 	            var p1 = [9, 3, 0],
 	                p2 = [9, 7];
@@ -1918,7 +1918,7 @@ describe('Class "Document"', function() {
 	            expect(res[2]).toBe(1);
 	        });
 	    });
-	    describe('a method to find previous siblings that', function() {
+	    xdescribe('a method to find previous siblings that', function() {
 	        it('returns nothing if the argument is not defined or is a string, a number, a function or a non-node object', function() {
 	            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 	                function() {
@@ -1956,7 +1956,7 @@ describe('Class "Document"', function() {
 	            expect(res[2]).toBe(t20);
 	        });
 	    });
-	    describe('a method to find next siblings that', function() {
+	    xdescribe('a method to find next siblings that', function() {
 	        it('returns nothing if the argument is not defined or is a string, a number, a function or a non-node object', function() {
 	            var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
 	                function() {
@@ -1993,7 +1993,7 @@ describe('Class "Document"', function() {
 	            expect(res[1]).toBe(t24);
 	        });
 	    });
-	    describe('a method to find previous ascendants in given scope that', function() {
+	    xdescribe('a method to find previous ascendants in given scope that', function() {
 	        it('returns nothing if called without arguments', function() {
 	            expect(doc.bunchPrevSiblings()).not.toBeDefined();
 	        });
@@ -2054,7 +2054,7 @@ describe('Class "Document"', function() {
 	            expect(res[0]).toBe(e10);
 	        });
 	    });
-	    describe('a method to find next ascendants in given scope that', function() {
+	    xdescribe('a method to find next ascendants in given scope that', function() {
 	        it('returns nothing if called without arguments', function() {
 	            expect(doc.bunchNextSiblings()).not.toBeDefined();
 	        });
@@ -2119,7 +2119,7 @@ describe('Class "Document"', function() {
 	            expect(res.indexOf(e11) !== -1).toBe(true);
 	        });
 	    });
-	    describe('a method indexOf that', function() {
+	    xdescribe('a method indexOf that', function() {
 	        it('throws exception if argument either string, number, array, function or non-node element', function() {
 	            var invalids = [undefined, null, '', 'a string', [],
 	                [1, 2, 3], 0, 1, 4.32, -2, -5.96,
@@ -2145,7 +2145,7 @@ describe('Class "Document"', function() {
 	            expect(doc.indexOf(t24)).toBe(4);
 	        });
 	    });
-	    describe('a method isTextNode', function() {
+	    xdescribe('a method isTextNode', function() {
 	        it('returns true if the argument is a text node with non-empty content', function() {
 	            expect(doc.isTextNode(t20)).toBe(true);
 	        });
@@ -2173,7 +2173,7 @@ describe('Class "Document"', function() {
 	            })).toBe(false);
 	        });
 	    });
-	    describe('a method detachBoundaries that', function() {
+	    xdescribe('a method detachBoundaries that', function() {
 	        it('throws an error if its argument is a string, number, function, array or non-Range object', function() {
 	            var invalids = ['', 'a string', [],
 	                [1, 2, 3], 0, 1, 4.32, -2, -5.96,
@@ -2244,7 +2244,7 @@ describe('Class "Document"', function() {
 	            expect(nodes[1].textContent).toBe('t');
 	        });
 	    });
-	    describe('a method spliceText that', function() {
+	    xdescribe('a method spliceText that', function() {
 	        it('returns nothing if the first argument is not text node', function(){
 	            var invalids = ['', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96, function() {return;},
 	                {}, {foo: 23}
@@ -2341,7 +2341,7 @@ describe('Class "Document"', function() {
 	            expect(e10.childNodes[6]).toBe(t24);
 	        });
 	    });
-		describe('setter and getter methods for selected nodes that', function(){
+		xdescribe('setter and getter methods for selected nodes that', function(){
 			it('getter returns null if the setter is given no input', function(){
 				doc.setSelection();
 				expect(doc.getSelection()).toBe(null);
@@ -2410,7 +2410,7 @@ describe('Class "Document"', function() {
 
             });
 		});
-		describe('a method getSelectionPlain that', function(){
+		xdescribe('a method getSelectionPlain that', function(){
 			it('calls getSelection method', function(){
 				spyOn(doc, 'getSelection');
 				doc.getSelectionPlain();
@@ -2424,7 +2424,7 @@ describe('Class "Document"', function() {
 			});
 
 		});
-		describe('a method flushSelection that', function(){
+		xdescribe('a method flushSelection that', function(){
 			it('imposes selected nodes to null if previously nothing was selected', function(){
 				expect(doc.getSelection()).toBe(null);
 				doc.flushSelection();
@@ -2437,7 +2437,7 @@ describe('Class "Document"', function() {
 				expect(doc.getSelection()).toBe(null);
 			});
 		});
-		describe('a method nodesOfRange that', function(){
+		xdescribe('a method nodesOfRange that', function(){
 			it('throws an error if the argument is a string, a number, an array, a function or a non-Range instance', function(){
 				var invalids = [undefined, null, '', 'a string', [], [1, 2, 3], 0, 1, 4.32, -2, -5.96,
 					function() {return;}, {}, {foo: 23}];
@@ -2477,7 +2477,7 @@ describe('Class "Document"', function() {
 				expect(doc.nodesBetween).toHaveBeenCalledWith(t20, e26);
 			});
 		});
-		describe('a method freezeSelection that', function(){
+		xdescribe('a method freezeSelection that', function(){
 			it('does not call setSelection if the input is undefined, a null, a string, a number, a function or an object', function(){
 				spyOn(doc, 'setSelection');
 				var invalids = [undefined, null, '', 'a string', 0, 1, 4.32, -2, -5.96,
@@ -2557,7 +2557,7 @@ describe('Class "Document"', function() {
 				expect(nodes1[0]).toBe(e26);
 			});
 		});
-		describe('a method selectedNodesToText that', function(){
+		xdescribe('a method selectedNodesToText that', function(){
 			beforeEach(function(){
 				spyOn(doc, 'nodeToText').and.callFake(function(n){
 					if (n === t20){return 't20 node';}
@@ -2591,7 +2591,7 @@ describe('Class "Document"', function() {
 				expect(doc.selectedNodesToText('|', '-')).toBe('t20 node|e21 node-e23 node');
 			});
 		});
-		describe('has a method "isSelectionEmpty" that', function(){
+		xdescribe('has a method "isSelectionEmpty" that', function(){
 			it('returns true if the selectedNodes is null', function(){
 				spyOn(doc, 'getSelection').and.returnValue(null);
 				expect(doc.isSelectionEmpty()).toBe(true);
@@ -2619,7 +2619,7 @@ describe('Class "Document"', function() {
 		});
 
 
-		describe('has a method "findInBlock" that', function(){
+		xdescribe('has a method "findInBlock" that', function(){
 			it('returns undefined if the arguments are not provided', function(){
 				expect(doc.findInBlock()).toBe(undefined);
 			});
@@ -2659,7 +2659,7 @@ describe('Class "Document"', function() {
 			    expect(doc.findInBlock([e30, t22, t24, e32], callback)).toBe(null);
 			});
 		});
-		describe('tracks cursor position in such a way that', function(){
+		xdescribe('tracks cursor position in such a way that', function(){
 			it('the getter returns undefined by default', function(){
 				expect(doc.getCursorPosition()).not.toBeDefined();
 			});
@@ -2694,7 +2694,7 @@ describe('Class "Document"', function() {
 				expect(pos.startContainer).toBe(t22);
 			});
 		});
-		describe('a method extendedSearch that', function(){
+		xdescribe('a method extendedSearch that', function(){
 			it('returns nothing if nothing is selected and cursor position is unknown', function(){
 				var crit = jasmine.createSpy('spy callback');
 				doc.freezeSelection([]);
@@ -2748,7 +2748,7 @@ describe('Class "Document"', function() {
 
 	});
 
-	describe('has a method "flatten" that', function(){
+	xdescribe('has a method "flatten" that', function(){
 		it('returns null if the input is a string, a number, a function and an object', function(){
 			var invalids = ['', 'hi', 0, -12.3, 234, {}, {1: 2}];
 			invalids.forEach(function(invalid) {
@@ -2812,7 +2812,7 @@ describe('Class "Document"', function() {
 		});
 	});
 
-	describe('has a method "castToTag" that', function(){
+	xdescribe('has a method "castToTag" that', function(){
 		it('returns nothing if the constructor is not provided', function(){
 			expect(doc.castTo()).not.toBeDefined();
 		});
@@ -2861,7 +2861,7 @@ describe('Class "Document"', function() {
 		});
 	});
 
-    describe('has a method "detectTag" that', function(){
+    xdescribe('has a method "detectTag" that', function(){
         it('returns nothing if it is called without argument', function(){
             expect(doc.detectTag()).toBeNullOrUndefined();
 
@@ -2895,7 +2895,7 @@ describe('Class "Document"', function() {
     });
 
     xdescribe('has a method "insertNodeAt" method that', function(){
-        describe('throws an error if', function(){
+        xdescribe('throws an error if', function(){
             it('it is called without arguments', function() {
                 expect(function(){
                     doc.insertNodeAt();
@@ -2913,7 +2913,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('when inserting a node at the beginning of a node with two children,', function(){
+        xdescribe('when inserting a node at the beginning of a node with two children,', function(){
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
@@ -2938,7 +2938,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('when inserting a node in the middle of a node with three children,', function(){
+        xdescribe('when inserting a node in the middle of a node with three children,', function(){
             var el, res;
             beforeEach(function(){
                 el = document.createElement('span');
@@ -2972,7 +2972,7 @@ describe('Class "Document"', function() {
         });
 
 
-        describe('when inserting a node at the end of a node with one child,', function(){
+        xdescribe('when inserting a node at the end of a node with one child,', function(){
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
@@ -2997,7 +2997,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        describe('when prepending to a text node', function(){
+        xdescribe('when prepending to a text node', function(){
             var el;
             beforeEach(function(){
                 el = document.createElement('div');
@@ -3023,7 +3023,7 @@ describe('Class "Document"', function() {
              });
         });
 
-        describe('when appending to a text node', function(){
+        xdescribe('when appending to a text node', function(){
             var el;
             beforeEach(function(){
                el = document.createElement('div');
@@ -3049,7 +3049,7 @@ describe('Class "Document"', function() {
              });
         });
 
-        describe('when inserting inside a text node', function(){
+        xdescribe('when inserting inside a text node', function(){
             var el;
             beforeEach(function(){
                el = document.createElement('div');
@@ -3070,7 +3070,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "insertLists" that', function(){
+    xdescribe('has a method "insertLists" that', function(){
         beforeEach(function(){
             clone = node.cloneNode(true);
         });
@@ -3202,7 +3202,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "changeListType" that', function(){
+    xdescribe('has a method "changeListType" that', function(){
         it('calls method changeSingleListType if the first argument is a range instance', function(){
             spyOn(doc, 'changeSingleListType');
             var r = document.createRange();
@@ -3352,7 +3352,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "convertToBold" that', function(){
+    xdescribe('has a method "convertToBold" that', function(){
         beforeEach(function(){
             clone = node.cloneNode(true);
         });
@@ -3394,7 +3394,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "convertRangeToBold" that', function(){
+    xdescribe('has a method "convertRangeToBold" that', function(){
         beforeEach(function(){
             clone = node.cloneNode(true);
         });
@@ -3424,7 +3424,7 @@ describe('Class "Document"', function() {
             expect(node.isEqualNode(clone)).toBe(true);
         });
 
-        describe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
+        xdescribe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
             var r;
             beforeEach(function(){
                 clone = node.cloneNode(true);
