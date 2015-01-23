@@ -8,7 +8,7 @@ Editor:
    It seems to be impossible:
      a php script that launches a "Save As" dialog seems to not work when it is called asynchronously
 
- ☐ make sure that link tag do not override styles of elements, because for example, e-mail client di Libero adds its own default styles to links so that that override "more external"  styles. For example: in case of <span style="..."><a ...>...</a></span>, the styles of the span might easily be overridden by link styles imposed by e-mail clients. So, the correct nestign is <a ...><span style="...">...</span></a>.
+ ☐ make sure that link tag do not override styles of elements, because for example, e-mail client of Libero adds its own default styles to links so that that override "more external"  styles. For example: in case of <span style="..."><a ...>...</a></span>, the styles of the span might easily be overridden by link styles imposed by e-mail clients. So, the correct nestign is <a ...><span style="...">...</span></a>.
 
  ☐ Wrong mode bug: 1. insert text, 2. select a part of the text, 3. transform it into a link, 4. select the link dragging mouse from one end to the other (not by double click!), 5. make the selection bold, 6. check the resulting html source in order to see something like:
    <a href="http://ddd" style="text-decoration=&quot;underline&quot; padding=&quot;0px&quot; margin=&quot;0px&quot; color=&quot;#0000FF&quot;" target="_blank"></a>
@@ -21,26 +21,33 @@ Editor:
 
 
 Refactor toLink method of Link class:
-  ☐ make Clink controller slim. For the moment it is fat.
-  ☐ for the selected text, find all properties that it inherits
-    ☐ removes from these properties irrelevant attributes, like "id", "cellpadding" etc.
+  ✔ make Clink controller slim. For the moment it is fat. @done (15-01-23 12:40)
+  ✔ for the selected text, find all properties that it inherits @done (15-01-23 12:41)
+    ✔ removes from these properties irrelevant attributes, like "id", "cellpadding" etc. @done (15-01-23 12:41)
       Think over: probably it is better to use method DOM.getInheritedStyleProp() to find specific properties like
       "font-size", "color" etc.
-  ☐ wrap the selected text by link tag and impose properties of the link tag to be equal to the inherited ones.
+  ✔ wrap the selected text by link tag and impose properties of the link tag to be equal to the inherited ones. @done (15-01-23 12:41)
 
---- ✄ -----------------------
 
 Table:
-  ☐ find out why options "add row after" and "add row before" have disappeared from the context menu.
-  ☐ "insert column before/after" does not work either: TypeError: cell is null .\CKHelper.js:192
+  ✔ find out why options "add row after" and "add row before" have disappeared from the context menu. @done (15-01-23 12:41)
+  ✔ "insert column before/after" does not work either: TypeError: cell is null .\CKHelper.js:192 @done (15-01-23 12:41)
 
---- ✄ -----------------------
 
 Selection:
-  ☐ Create Selection class method "nodesOfRange" that returns array of Nodes of the ranges
+  ✘ Create Selection class method "nodesOfRange" that returns array of Nodes of the ranges @cancelled (15-01-23 12:41)
+
 
 Controller:
   ☐ Create FillInDialogSmart based on current selection
+
+
+ ☐ Clean "Document" class
+   ☐ make all tests in DocumentSpec to be pending and perform code coverage
+   ☐ write tests (or make them active if they are already present) to cover recent methods of Document class
+   ☐ control what Document class methods should remain and write (or make them active if they are already present) tests
+   ☐ remove all inactive tests from DocumentSpec
+
 
 
 

@@ -2598,7 +2598,7 @@ function Document(node){
 	 * @param         {String|Number}  key           name of style property
 	 * @param         {String|Number}  value         value of the style property
 	 * @return        {void}
-	 * @since         0.1.0
+	 * @since         0.2.0
 	 */
 	this.accentuateNodesStyleProperty = function(nodes, key, value){
 		var commonValue = this.commonStyleProperty(nodes, key);
@@ -2622,17 +2622,20 @@ function Document(node){
 	 * @param          {Array}         nodes     Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param          {String|Number} key
 	 * @return         {String|Number|undefined}
+	 * @since          0.2.0
 	 */
 	this.commonStyleProperty = function(nodes, key){
 		if (!Array.isArray(nodes) || nodes.length === 0){
 			return undefined;
 		}
 		var len = nodes.length,
-			value = this.getInheritedStyleProp(nodes[0], key),
+			value = this.getInheritedStyleProp(key, nodes[0]),
 			valueTmp,
 			i;
+		console.log('value of ' + key + ': ' + valueTmp);
 		for(i = 1; i < len; i++){
-			valueTmp = this.getInheritedStyleProp(nodes[i], key);
+			valueTmp = this.getInheritedStyleProp(key, nodes[i]);
+			console.log('value of ' + key + ': ' + valueTmp);
 			if (valueTmp !== value){
 				return undefined;
 			}

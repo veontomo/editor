@@ -42,7 +42,7 @@ var tagNameMatcher = {
 
 
 
-xdescribe('Class "Document"', function() {
+describe('Class "Document"', function() {
     var node, doc, dom1_p0, dom1_img0, dom1_a0, dom1_text1, dom1_text2, dom1_text0,
         dom1_div1, dom1_span0, dom1_text3, dom1_ol0, dom1_li0, dom1_li1, dom1_li2,
         // disconnected part
@@ -3452,6 +3452,51 @@ xdescribe('Class "Document"', function() {
                 expect(node.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
             });
         });
+    });
+
+    describe('has a method commonStyleProperty that', function(){
+        it('returns "undefined" if it is called without arguments', function(){
+            expect(doc.commonStyleProperty()).not.toBeDefined();
+        });
+        it('returns "undefined" if the first argument is valid, but the second is not set', function(){
+            expect(doc.commonStyleProperty([dom1_img0, dom1_a0])).not.toBeDefined();
+        });
+        it('returns "undefined" if the first argument is an empty array', function(){
+            expect(doc.commonStyleProperty([], 'whatever')).not.toBeDefined();
+        });
+        it('returns "undefined" if nodes nodes have no common value of the style property', function(){
+            expect(doc.commonStyleProperty([dom1_img0, dom1_div1, dom1_a0], 'padding')).not.toBeDefined();
+        });
+        it('returns value of the style property if the nodes have the same value of this property', function(){
+            dom1_span0.setAttribute('style', 'color: yellow; width: 55em');
+            dom1_a0.setAttribute('style', 'color: yellow; padding: 100pt');
+            dom1_ol0.setAttribute('style', 'width: 10%; color: yellow');
+            expect(doc.commonStyleProperty([dom1_a0, dom1_span0, dom1_ol0], 'color')).toBe('yellow');
+        });
+        it('returns "undefined" if the nodes have different values of this property', function(){
+            dom1_span0.setAttribute('style', 'color: yellow; width: 55em');
+            dom1_a0.setAttribute('style', 'color: red; padding: 100pt');
+            dom1_ol0.setAttribute('style', 'width: 10%; color: yellow');
+            expect(doc.commonStyleProperty([dom1_a0, dom1_span0, dom1_ol0], 'color')).not.toBeDefined();
+        });
+
+        it('returns value of the style property if the nodes inherit the same value of this property', function(){
+            node.setAttribute('style', 'font-size: 12em; width: 55em');        // dom1_text0 ancestor
+            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em'); // dom1_li2 ancestor
+            expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).toBe('12em');
+        });
+
+        it('returns value of the style property if the nodes inherit different values of this property', function(){
+            node.setAttribute('style', 'font-size: 11em; width: 55em');        // dom1_text0 ancestor
+            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em'); // dom1_li2 ancestor
+            expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).not.toBeDefined();
+        });
+
+
+
+
+
+
     });
 
 

@@ -167,6 +167,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
 	?>
-	<div>Current version: 0.1.0 (as by December 1, 2014)</div>
+	<div>Current version: 0.2.0 (as by Genuary 20, 2015)</div>
 </body>
 </html>
