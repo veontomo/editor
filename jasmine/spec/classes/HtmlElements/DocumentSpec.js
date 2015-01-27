@@ -3604,7 +3604,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "convertToBold" that', function(){
+    describe('has a method "convertToBold" that', function(){
         beforeEach(function(){
             clone = dom1_div0.cloneNode(true);
         });
@@ -3626,16 +3626,6 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        it('does not modify DOM if the argument is an empty array', function(){
-            doc.convertToBold([]);
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
-        });
-
-        it('does not call modify DOM if the argument is an empty array', function(){
-            doc.convertToBold([]);
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
-        });
-
         it('calls method "convertRangeToBold" on each element of the input array', function(){
             spyOn(doc, 'convertRangeToBold');
             var r1 = {}, r2 = {}, r3 = {};
@@ -3646,7 +3636,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "convertRangeToBold" that', function(){
+    describe('has a method "convertRangeToBold" that', function(){
         beforeEach(function(){
             clone = dom1_div0.cloneNode(true);
         });
@@ -3676,7 +3666,7 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        xdescribe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
+        describe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
             var r;
             beforeEach(function(){
                 clone = dom1_div0.cloneNode(true);

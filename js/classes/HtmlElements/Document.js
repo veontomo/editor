@@ -2654,17 +2654,124 @@ function Document(node){
 	 * @since         0.2.0
 	 */
 	this.accentuateNodesStyleProperty = function(nodes, key, value){
-		var commonValue = this.commonStyleProperty(nodes, key);
-		if (commonValue === value){
-			// the nodes already have the style property imposed to desired value
-			// therefore, just exit
+		if (!Array.isArray(nodes)){
 			return;
 		}
-		// the nodes have different value of the style property
-		// therefore, one should set the style property of these nodes to the desired value,
-		// while the complement nodes should remain with original values of the style property.
-		//     !!! to finish !!!
+		nodes.forEach(function(node){
+			console.log('accentuateNodesStyleProperty: ', node, key, value);
+			this.accentuateSingleNodeStyleProperty(node, key, value);
+		}.bind(this));
 
+	};
+
+	/**
+	 * Sets `node`'s style property `key` to be equal to `value`.
+	 * <ol><li>
+	 * If `node` does not have (niether inherits) a style property `key`, then
+	 * style property `key` of the proxy of `node` is set to `value`.
+	 * </li><li>
+	 * If `node` has (or inherits) a style property `key` which is different from `value`, then: <ol><li>
+	 * the mentor node (a node from which the style property is inherited) is found
+	 * </li><li>
+	 * style property `key` of the proxy of `node` is set to `value`.
+	 * </li></li>
+	 * a child node of the mentor that contains `node` does not undergo any modifications.
+	 * </li><li>
+	 * the other child nodes of the mentor are suggested to set style property `key` to become `value` (because a child
+	 * node might have its own value of that style property)
+	 * <li></ol>
+	 * If `node` has (or inherits) a style property `key` which is equal to `value`, then nothing is done.
+	 * </li><li>
+	 * </li></ol>
+	 * @method         accentuateSingleNodeStyleProperty
+	 * @param          {Node}          node    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}        key     name of style property
+	 * @param          {Any}           value   value of the style property
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.accentuateSingleNodeStyleProperty = function(node, key, value){
+		if(!(node instanceof Node)){
+			console.log('not a Node istance: ', node);
+			return;
+		}
+		console.log('node ', node, ' is a Node istance');
+		var mentor = this.getMentor(key, node);
+		console.log('mentor ', mentor);
+		if (mentor instanceof Element){
+			console.log('mentor ', mentor);
+			var actualValue = mentor.style[key];
+			if (actualValue !== value){
+				/// suggest property to all children of mentor except one that contans node
+				var childNodes = mentor.childNodes;
+				childNodes.forEach(function(child){
+					if (!this.contains(child, node)){
+						this.suggestStyleProperty(child, key, value);
+					}
+				}.bind(this));
+			}
+		}
+		/// set property to proxy of node
+		var proxy = this.proxy(node);
+		console.log('proxy ', proxy);
+		if (proxy instanceof Node){
+			this.setStyleProperty(proxy, key, value);
+		}
+		return;
+	};
+
+	/**
+	 * Sets style property `key` of `node` to be equal to `value`.
+	 *
+	 * If `node` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance, then it is
+	 * set the required value of the style property.
+	 * Otherwise, the node is replaced by a span element to which the node is appended. Required style property is
+	 * then assigned to the newly created span element.
+	 *
+	 * @method         setStyleProperty
+	 * @param          {Node}          node
+	 * @param          {String}        key
+	 * @param          {Any}           value
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.setStyleProperty = function(node, key, value){
+		if (typeof key !== 'string'){
+			return;
+		}
+		console.log('node ', node);
+		if (node instanceof Element){
+			console.log('node  is an Element');
+			node.style[key] = value;
+		} else {
+			console.log('node  is NOT  an Element');
+			var parent = node.parentNode,
+				span = document.createElement('span');
+			parent.insertBefore(span, node);
+			span.style[key] = value;
+			console.log('appending child to span');
+			span.appendChild(node);
+			console.log(span.outerHTML);
+		}
+	};
+
+	/**
+	 * Sets style property `key` of `node` to be equal to `value` only if it is not set.
+	 * @method         suggestStyleProperty
+	 * @param          {Node}          node
+	 * @param          {String}        key
+	 * @param          {Any}           value
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.suggestStyleProperty = function(node, key, value){
+		if (!(node instanceof Node)){
+			return;
+		}
+		var styles = node.style;
+		if (!(styles && styles[key])){
+			this.setStyleProperty(node, key, value);
+		}
 	};
 
 	/**
@@ -2685,7 +2792,6 @@ function Document(node){
 			value = this.getInheritedStyleProp(key, nodes[0]),
 			valueTmp,
 			i;
-		console.log('value of ' + key + ': ' + valueTmp);
 		for(i = 1; i < len; i++){
 			valueTmp = this.getInheritedStyleProp(key, nodes[i]);
 			console.log('value of ' + key + ': ' + valueTmp);
