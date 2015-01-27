@@ -360,8 +360,30 @@ function Document(node){
 		}
 	};
 
+	/**
+	 * Finds duplicate-free array of ancestors of elements of `nodes` satisfying the criteria `crit`.
+	 *
+	 * @method         findAncestorsOfMany
+	 * @param          {Array}         nodes    array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @param          {Function}      crit
+	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @since          0.2.0
+	 */
+	this.findAncestorsOfMany = function(nodes, crit){
+		if (!Array.isArray(nodes) || (typeof crit !== 'function')){
+			return undefined;
+		}
+		var res = [];
+		nodes.forEach(function(node){
+			var anc = this.findAncestor(node, crit);
+			if (anc && (res.indexOf(anc) === -1)){
+				res.push(anc);
+			}
+		}.bind(this));
+		return res;
+	};
 
-	//////////////// start of content of Selection class ///////////
+
 
 	/**
 	 * Current range number (for iterations over the ranges)
@@ -2466,7 +2488,7 @@ function Document(node){
 	 * @param          {Node}          node        If it has no parent node, no conversion is performed.
 	 * @param          {String}        listType
 	 * @return         {void}
-	 * @method         0.1.0
+	 * @since          0.1.0
 	 */
 	this.convertNodeToListItem = function(node, listType){
 		var parent = node.parentNode;
@@ -2514,46 +2536,79 @@ function Document(node){
 	 */
 	this.changeListType = function(ranges, oldType, newType){
 		if (ranges instanceof Range){
-			this.changeSingleListType(ranges, oldType, newType);
+			this.changeListTypeOfRange(ranges, oldType, newType);
 		} else if (Array.isArray(ranges)){
 			ranges.forEach(function(range){
 				if (range instanceof Range){
-					this.changeSingleListType(range, oldType, newType);
+					this.changeListTypeOfRange(range, oldType, newType);
 				}
 			}.bind(this));
 		}
 	};
 
 	/**
-	 * Changes the nearest ascendant of a range that corresponding to a list of type `oldType` to `newType`.
-	 * @method         changeSingleListType
+	 * Changes the nearest ascendant of a range corresponding to a list of type `oldType` to `newType`.
+	 * @method         changeListTypeOfRange
 	 * @param          {Range}         range        [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {String}        oldType
 	 * @param          {String}        newType
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.changeSingleListType = function(range, oldType, newType){
-		var commonAns = range.commonAncestorContainer,
-			isOfOldType = function(n){
-				return ((n instanceof Element) && n.tagName.toLowerCase() === oldType);
-			};
-		var list = this.findAncestor(commonAns, isOfOldType);
-		if (!list){
+	this.changeListTypeOfRange = function(range, oldType, newType){
+		if (!(range instanceof Range)){
 			return;
 		}
-		var listElem = new List(),
-			parent;
-		try {
-			listElem.load(list);
-			listElem.switchName(newType);
-			parent = list.parentNode;
-			parent.replaceChild(listElem.toNode(), list);
-		} catch(e){
-			console.log('Error (' + e.name + ') when detecting the nodes of the range: ' + e.message);
+		var isOfOldType = function(n){
+			return ((n instanceof Element) && n.tagName.toLowerCase() === oldType);
+		};
+		var listNodes;
+		if (range.collapsed){
+			var tmpNode = this.findAncestor(range.startContainer, isOfOldType);
+			if (tmpNode){
+				listNodes = [tmpNode];
+			}
+		} else {
+			var tmpNodes = this.nodesOfRange(range);
+			listNodes = this.findAncestorsOfMany(tmpNodes, isOfOldType);
+		}
+		if (!Array.isArray(listNodes)){
 			return;
+		}
+		listNodes.forEach(function(node){
+			this.setListNodeType(node, newType);
+		}.bind(this));
+	};
+
+
+	/**
+	 * Sets type of list node to be `newType`.
+	 *
+	 * `node` is supposed to be a tag corresponding to a list.
+	 *
+	 * @method         setListNodeType
+	 * @param          {Node}          node
+	 * @param          {String}        newType
+	 * @return         {Boolean}
+	 * @since          0.2.0
+	 */
+	this.setListNodeType = function(node, newType){
+		try {
+			var listElem = this.getFactory().mimic(node),
+				parent;
+			if (!(listElem instanceof List)){
+				return false;
+			}
+			listElem.switchName(newType);
+			parent = node.parentNode;
+			parent.replaceChild(listElem.toNode(), node);
+			return true;
+		} catch(e){
+			console.log('Error (' + e.name + ') when switching a list type: ' + e.message);
+			return false;
 		}
 	};
+
 
 	/**
 	 * Converts selection given by `ranges` into a bold font.
@@ -2641,32 +2696,6 @@ function Document(node){
 			}
 		}
 		return value;
-	};
-
-	/**
-	 * Finds proxies of multiple nodes.
-	 *
-	 * Returns duplicate-free array of proxy nodes of each node in `nodes`.
-	 * @method         proxiesOf
-	 * @param          {Array}         nodes     Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
-	 * @return         {Array}                   Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
-	 * @since          0.2.0
-	 */
-	this.proxiesOf = function(nodes){
-		if (!Array.isArray(nodes)){
-			return;
-		}
-		var result = [];
-		nodes.forEach(function(node){
-			var nodeProxy = this.proxy(node);
-			var isPresent = result.some(function(elem){
-				return elem === nodeProxy;
-			});
-			if (!isPresent){
-				result.push(nodeProxy);
-			}
-		}.bind(this));
-		return nodes;
 	};
 
 

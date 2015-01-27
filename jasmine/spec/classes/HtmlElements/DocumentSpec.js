@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global xdescribe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
+/*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
 var emptyArrayMatcher = {
   toBeEmptyArray: function() {
     return {
@@ -43,8 +43,9 @@ var tagNameMatcher = {
 
 
 describe('Class "Document"', function() {
-    var node, doc, dom1_p0, dom1_img0, dom1_a0, dom1_text1, dom1_text2, dom1_text0,
-        dom1_div1, dom1_span0, dom1_text3, dom1_ol0, dom1_li0, dom1_li1, dom1_li2,
+    var dom1_div0, doc, dom1_p0, dom1_img0, dom1_a0, dom1_text1, dom1_text2, dom1_text0,
+        dom1_div1, dom1_span0, dom1_text3, dom1_ol0, dom1_li0, dom1_li1, dom1_li2, dom1_text4,
+        dom1_ul0, dom1_li3, dom1_li4, dom1_br0,
         // disconnected part
         dom2_m00, dom2_m10, dom2_m11,
         clone;
@@ -70,10 +71,16 @@ describe('Class "Document"', function() {
         //                 ____|____
         //                |    |    |
         //               li0  li1  li2
-        //
+        //                |    |
+        //             text4  ul0
+        //                  ___|____
+        //                 |        |
+        //                li3      li4
+        //                 |
+        //                br0
 
 
-        node = document.createElement('div');
+        dom1_div0 = document.createElement('div');
         dom1_p0 = document.createElement('p');
         dom1_text1 = document.createTextNode('Text inside a paragraph.');
         dom1_img0 = document.createElement('img');
@@ -87,6 +94,11 @@ describe('Class "Document"', function() {
         dom1_li0 = document.createElement('li');
         dom1_li1 = document.createElement('li');
         dom1_li2 = document.createElement('li');
+        dom1_text4 = document.createTextNode('ordered list first item text node');
+        dom1_ul0 = document.createElement('ul');
+        dom1_li3 = document.createElement('li');
+        dom1_li4 = document.createElement('li');
+        dom1_br0 = document.createElement('br');
 
 
         dom2_m00 = document.createElement('div');
@@ -94,9 +106,9 @@ describe('Class "Document"', function() {
         dom2_m11 = document.createElement('div');
 
 
-        node.appendChild(dom1_p0);
-        node.appendChild(dom1_a0);
-        node.appendChild(dom1_text0);
+        dom1_div0.appendChild(dom1_p0);
+        dom1_div0.appendChild(dom1_a0);
+        dom1_div0.appendChild(dom1_text0);
         dom1_p0.appendChild(dom1_text1);
         dom1_p0.appendChild(dom1_img0);
         dom1_p0.appendChild(dom1_div1);
@@ -110,8 +122,15 @@ describe('Class "Document"', function() {
         dom1_ol0.appendChild(dom1_li1);
         dom1_ol0.appendChild(dom1_li2);
 
-        node.setAttribute('class', 'media');
-        node.setAttribute('id', 'bodyId');
+        dom1_li0.appendChild(dom1_text4);
+        dom1_li1.appendChild(dom1_ul0);
+        dom1_ul0.appendChild(dom1_li3);
+        dom1_ul0.appendChild(dom1_li4);
+
+        dom1_li3.appendChild(dom1_br0);
+
+        dom1_div0.setAttribute('class', 'media');
+        dom1_div0.setAttribute('id', 'bodyId');
 
         dom1_p0.setAttribute('style', 'width: 100%; color: red;');
         dom1_p0.setAttribute('marker', 'p');
@@ -129,9 +148,9 @@ describe('Class "Document"', function() {
         dom2_m00.appendChild(dom2_m10);
         dom2_m00.appendChild(dom2_m11);
 
+        doc = new Document(dom1_div0);
 
-        doc = new Document(node);
-
+        doc.setFactory(NEWSLETTER.factory);
     });
     xdescribe('has a method "clean" that', function() {
         it('removes "class" attribute inside tags', function() {
@@ -194,7 +213,7 @@ describe('Class "Document"', function() {
             pending();
         });
     });
-    xdescribe('has a method "findAncestor" that', function() {
+    describe('has a method "findAncestor" that', function() {
         it('throws an error if the scope is set but it does not contain the start node', function() {
             expect(function() {
                 doc.findAncestor(dom1_p0, function(){return;}, dom1_a0);
@@ -213,27 +232,27 @@ describe('Class "Document"', function() {
         it('returns nothing if the criteria never returns true', function() {
             expect(doc.findAncestor(dom1_a0, function() {
                 return false;
-            }, node)).not.toBeDefined();
+            }, dom1_div0)).not.toBeDefined();
         });
         it('returns the argument if it turns the criteria into true', function() {
             expect(doc.findAncestor(dom1_text1, function(n) {
                 return n === dom1_text1;
-            }, node)).toBe(dom1_text1);
+            }, dom1_div0)).toBe(dom1_text1);
         });
         it('returns scope node if the criteria becomes true only for it and not before', function() {
             expect(doc.findAncestor(dom1_text1, function(n) {
-                return n === node;
-            }, node)).toBe(node);
+                return n === dom1_div0;
+            }, dom1_div0)).toBe(dom1_div0);
         });
         it('returns intermediate node for which the criteria becomes true', function() {
             expect(doc.findAncestor(dom1_img0, function(n) {
                 return n === dom1_p0;
-            }, node)).toBe(dom1_p0);
+            }, dom1_div0)).toBe(dom1_p0);
         });
         it('returns nothing if criteria function always throws exceptions', function() {
             expect(doc.findAncestor(dom1_p0, function() {
                 throw new Error('an error!');
-            }, node)).not.toBeDefined();
+            }, dom1_div0)).not.toBeDefined();
         });
         it('returns correct node even if criteria function throws exception on previous calls', function() {
             expect(doc.findAncestor(dom1_text1, function(n) {
@@ -241,9 +260,56 @@ describe('Class "Document"', function() {
                     return true;
                 }
                 throw new Error('manually generated error!');
-            }, node)).toBe(dom1_p0);
+            }, dom1_div0)).toBe(dom1_p0);
         });
     });
+
+    describe('has a method "findAncestorsOfMany" that returns', function(){
+        it('undefined if called without arguments', function(){
+            expect(doc.findAncestorsOfMany()).not.toBeDefined();
+        });
+        it('undefined if called with single argument that is not an array', function(){
+            var invalids = [0, -1, 3.11, 9.87, '', 'a string', {}, {'key': 992}, function(){return;}, document.createTextNode('text')];
+            invalids.forEach(function(invalid){
+                expect(doc.findAncestorsOfMany(invalid)).not.toBeDefined();
+            });
+        });
+        it('undefined if the first argument that is not an array and the second is a function', function(){
+            var invalids = [0, -1, 3.11, 9.87, '', 'a string', {}, {'key': 992}, function(){return;}, document.createTextNode('text')];
+            var crit = function(){return true;};
+            invalids.forEach(function(invalid){
+                expect(doc.findAncestorsOfMany(invalid, crit)).not.toBeDefined();
+            });
+        });
+        it('an empty array if the first argument is an empty array while the second is a function', function(){
+            var crit = function(){return true;};
+            expect(doc.findAncestorsOfMany([], crit)).toBeEmptyArray();
+        });
+        it('the first argument if it is a duplicate-free array of elements and the criteria always returns true', function(){
+            var crit  = function(){return true;};
+            var nodes = [dom1_img0, dom1_ol0];
+            var res = doc.findAncestorsOfMany(nodes, crit);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(2);
+            expect(res.indexOf(dom1_img0) !== -1).toBe(true);
+            expect(res.indexOf(dom1_ol0) !== -1).toBe(true);
+        });
+
+        it('a single element array with parent element of the nodes if the criteria evaluates to true on that element', function(){
+            var crit  = function(n){return dom1_p0.isEqualNode(n);};
+            var nodes = [dom1_img0, dom1_ol0];
+            var res = doc.findAncestorsOfMany(nodes, crit);
+            expect(Array.isArray(res)).toBe(true);
+            expect(res.length).toBe(1);
+            expect(res[0] === dom1_p0).toBe(true);
+        });
+        it('an empty array if the criteria always evaluates to false', function(){
+            expect(doc.findAncestorsOfMany([dom1_img0, dom1_text2, dom1_li4], function(){return false;})).toBeEmptyArray();
+        });
+
+
+    });
+
 	xdescribe('has setter/getter for the document content that', function(){
 		it('assignes the content if the argument is a node instance', function(){
 			var n = document.createElement('span');
@@ -298,9 +364,8 @@ describe('Class "Document"', function() {
         });
 
         it('returns the second argument if it contains the first argument', function(){
-            expect(doc.commonAncestor(dom1_p0, node)).toBe(node);
+            expect(doc.commonAncestor(dom1_p0, dom1_div0)).toBe(dom1_div0);
         });
-
 
         it('returns null if the nodes have no common parent', function(){
             expect(doc.commonAncestor(dom1_img0, dom2_m10)).toBe(null);
@@ -311,11 +376,11 @@ describe('Class "Document"', function() {
         });
 
         it('returns the common parent if the first argument is located deeper than the second', function(){
-            expect(doc.commonAncestor(dom1_text1, dom1_a0)).toBe(node);
+            expect(doc.commonAncestor(dom1_text1, dom1_a0)).toBe(dom1_div0);
         });
 
         it('returns the common parent if the second argument is located deeper than the first', function(){
-            expect(doc.commonAncestor(dom1_p0, dom1_text2)).toBe(node);
+            expect(doc.commonAncestor(dom1_p0, dom1_text2)).toBe(dom1_div0);
         });
     });
 
@@ -360,7 +425,7 @@ describe('Class "Document"', function() {
 
     xdescribe('has a method "getInheritedStyleProp" that', function(){
         it('returns the value of the attribute if the second argument has this property set and the scope node is provided', function(){
-            expect(doc.getInheritedStyleProp('color', dom1_img0, node)).toBe('red');
+            expect(doc.getInheritedStyleProp('color', dom1_img0, dom1_div0)).toBe('red');
         });
 
         it('returns the value of the attribute if the element has this property and limit node is not set', function(){
@@ -816,13 +881,13 @@ describe('Class "Document"', function() {
         xdescribe('does the following when setting a property', function(){
             it('return node itself (modified) if the target is an element node', function(){
                 var n = doc.setStyleProperty(e3, 'color', 'blue');
-                expect(n.nodeType).toBe(node.ELEMENT_NODE);
+                expect(n.nodeType).toBe(dom1_div0.ELEMENT_NODE);
                 expect(n.isEqualNode(e3)).toBe(true);
             });
 
             it('returns a wrapping node if the target is a text node', function(){
                 var n = doc.setStyleProperty(t2, 'color', 'blue');
-                expect(n.nodeType).toBe(node.ELEMENT_NODE);
+                expect(n.nodeType).toBe(dom1_div0.ELEMENT_NODE);
             });
 
             it('appends the property to the node with inline style', function(){
@@ -2202,7 +2267,7 @@ describe('Class "Document"', function() {
 	            var nodes = doc.detachBoundaries(range);
 	            expect(Array.isArray(nodes)).toBe(true);
 	            expect(nodes.length).toBe(1);
-	            expect(nodes[0].nodeType).toBe(node.TEXT_NODE);
+	            expect(nodes[0].nodeType).toBe(dom1_div0.TEXT_NODE);
 	            expect(nodes[0].textContent).toBe('xt n');
 	        });
 	        it('does not call "spliceText" if the range starts and ends in the same element node', function() {
@@ -2874,11 +2939,11 @@ describe('Class "Document"', function() {
 
         it('returns an ancestor of the node where the cursor is postioned', function(){
             var range = document.createRange();
-            range.setStart(node, 1);
+            range.setStart(dom1_div0, 1);
             range.collapse(true);
             spyOn(doc, 'getCursorPosition').and.returnValue(range);
             spyOn(doc, 'getSelection');
-            expect(doc.detectTag('div')).toBe(node);
+            expect(doc.detectTag('div')).toBe(dom1_div0);
         });
 
         it('returns an ancestor of the selected nodes', function(){
@@ -2942,11 +3007,11 @@ describe('Class "Document"', function() {
             var el, res;
             beforeEach(function(){
                 el = document.createElement('span');
-                res = doc.insertNodeAt(node, el, 2);
+                res = doc.insertNodeAt(dom1_div0, el, 2);
             });
 
             it('returns the reference to the first argument', function(){
-                expect(res).toBe(node);
+                expect(res).toBe(dom1_div0);
             });
 
             it('the number of children of the Element node becomes four', function(){
@@ -3008,11 +3073,11 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion before the text node, if the text node is a last child', function(){
                 doc.insertNodeAt(dom1_text0, el, 0);
-                expect(node).hasChildNodes(4);
-                expect(node.childNodes[0]).toBe(dom1_p0);
-                expect(node.childNodes[1]).toBe(dom1_a0);
-                expect(node.childNodes[2]).toBe(el);
-                expect(node.childNodes[3]).toBe(dom1_text0);
+                expect(dom1_div0).hasChildNodes(4);
+                expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
+                expect(dom1_div0.childNodes[1]).toBe(dom1_a0);
+                expect(dom1_div0.childNodes[2]).toBe(el);
+                expect(dom1_div0.childNodes[3]).toBe(dom1_text0);
             });
             it('an Element instance, performs insertion before the text node, if the text node is a first child', function(){
                 doc.insertNodeAt(dom1_text1, el, 0);
@@ -3034,11 +3099,11 @@ describe('Class "Document"', function() {
             });
             it('an Element instance, performs insertion after the text node, if the text node is a last child', function(){
                 doc.insertNodeAt(dom1_text0, el, dom1_text0.nodeValue.length);
-                expect(node).hasChildNodes(4);
-                expect(node.childNodes[0]).toBe(dom1_p0);
-                expect(node.childNodes[1]).toBe(dom1_a0);
-                expect(node.childNodes[2]).toBe(dom1_text0);
-                expect(node.childNodes[3]).toBe(el);
+                expect(dom1_div0).hasChildNodes(4);
+                expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
+                expect(dom1_div0.childNodes[1]).toBe(dom1_a0);
+                expect(dom1_div0.childNodes[2]).toBe(dom1_text0);
+                expect(dom1_div0.childNodes[3]).toBe(el);
             });
             it('an Element instance, performs insertion after the text node, if the text node is a first child', function(){
                 doc.insertNodeAt(dom1_text1, el, dom1_text1.nodeValue.length);
@@ -3060,19 +3125,19 @@ describe('Class "Document"', function() {
             });
             it('splits the text node', function(){
                 doc.insertNodeAt(dom1_text0, el, 4);
-                expect(node).hasChildNodes(5);
-                expect(node.childNodes[0]).toBe(dom1_p0);
-                expect(node.childNodes[1]).toBe(dom1_a0);
-                expect(node.childNodes[2].nodeValue).toBe('Some');
-                expect(node.childNodes[3]).toBe(el);
-                expect(node.childNodes[4].nodeValue).toBe(' text');
+                expect(dom1_div0).hasChildNodes(5);
+                expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
+                expect(dom1_div0.childNodes[1]).toBe(dom1_a0);
+                expect(dom1_div0.childNodes[2].nodeValue).toBe('Some');
+                expect(dom1_div0.childNodes[3]).toBe(el);
+                expect(dom1_div0.childNodes[4].nodeValue).toBe(' text');
             });
         });
     });
 
     xdescribe('has a method "insertLists" that', function(){
         beforeEach(function(){
-            clone = node.cloneNode(true);
+            clone = dom1_text4.cloneNode(true);
         });
         it('does not modify DOM if the first argument is not an array', function(){
             var r = document.createRange();
@@ -3081,7 +3146,7 @@ describe('Class "Document"', function() {
             var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', r];
             invalids.forEach(function(invalid){
                 doc.insertLists(invalid, 'ol');
-                expect(node.isEqualNode(clone)).toBe(true);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
             });
         });
         it('calls method convertRangeToList if the first argument is non-empty array', function(){
@@ -3103,25 +3168,25 @@ describe('Class "Document"', function() {
             var invalids = [0, 1, -2, 2.11, {}, {key:'value'}, '', 'string', [], [1, 2], document.createElement('div')];
             invalids.forEach(function(invalid){
                 doc.convertRangeToList(invalid, 'ol');
-                expect(node.isEqualNode(clone)).toBe(true);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
             });
         });
         it('does not modify DOM if "nodesOfRange" throws an error', function(){
             var r = document.createRange();
             r.setStart(dom1_text1, 4);
-            r.setEnd(node, 2);
+            r.setEnd(dom1_div0, 2);
             spyOn(doc, 'nodesOfRange').and.callFake(function(){throw new Error('testing purpose error');});
             doc.convertRangeToList(r, 'ol');
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('does not modify DOM if "nodesOfRange" returns empty array while the range is not collapsed (is it possible?)', function(){
             var r = document.createRange();
             r.setStart(dom1_text1, 4);
-            r.setEnd(node, 2);
+            r.setEnd(dom1_div0, 2);
             spyOn(doc, 'nodesOfRange').and.returnValue([]);
             doc.convertRangeToList(r, 'ol');
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
 
@@ -3130,11 +3195,11 @@ describe('Class "Document"', function() {
             r.setStart(dom1_text1, 4);
             r.collapse(true);
             doc.convertRangeToList(r, 'ol');
-            expect(node).hasChildNodes(3);
-            expect(node.childNodes[1].isEqualNode(clone.childNodes[1]));
-            expect(node.childNodes[2].isEqualNode(clone.childNodes[2]));
+            expect(dom1_div0).hasChildNodes(3);
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1]));
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2]));
 
-            var ch1New = node.childNodes[0];
+            var ch1New = dom1_div0.childNodes[0];
             expect(ch1New).hasChildNodes(4);
             expect(ch1New.childNodes[0].nodeValue).toBe('Text');
             expect(ch1New.childNodes[1].tagName.toLowerCase()).toBe('ol');
@@ -3146,7 +3211,7 @@ describe('Class "Document"', function() {
 
         it('converts a paragraph\'s children into list items', function(){
             var r = document.createRange();
-            r.setStart(node, 0);
+            r.setStart(dom1_div0, 0);
             r.setEnd(dom1_p0, 1);
             doc.convertRangeToList(r, 'ul');
             expect(dom1_p0).hasChildNodes(1);
@@ -3202,65 +3267,252 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "changeListType" that', function(){
-        it('calls method changeSingleListType if the first argument is a range instance', function(){
-            spyOn(doc, 'changeSingleListType');
+    describe('has a method "changeListType" that', function(){
+        it('calls method changeListTypeOfRange if the first argument is a range instance', function(){
+            spyOn(doc, 'changeListTypeOfRange');
             var r = document.createRange();
             r.setStart(dom1_a0, 0);
             r.setEnd(dom1_a0, 1);
             doc.changeListType(r, 'old', 'new');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r, 'old', 'new');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r, 'old', 'new');
         });
 
-        it('does not call method changeSingleListType if the first argument is neither Range nor is array', function(){
-            spyOn(doc, 'changeSingleListType');
+        it('does not call method changeListTypeOfRange if the first argument is neither Range nor is array', function(){
+            spyOn(doc, 'changeListTypeOfRange');
             var invalids = [0, 1, -5.31, '', 'a string', [], {key: 'value'}, function(){return;}];
             invalids.forEach(function(invalid){
                 doc.changeListType(invalid, 'old', 'new');
             });
-            expect(doc.changeSingleListType).not.toHaveBeenCalled();
+            expect(doc.changeListTypeOfRange).not.toHaveBeenCalled();
         });
 
-        it('calls method changeSingleListType on each element of the first argument if they are all Range instances', function(){
-            spyOn(doc, 'changeSingleListType');
+        it('calls method changeListTypeOfRange on each element of the first argument if they are all Range instances', function(){
+            spyOn(doc, 'changeListTypeOfRange');
             var r1 = document.createRange(),
                 r2 = document.createRange(),
                 r3 = document.createRange();
             doc.changeListType([r1, r2, r3], 'ul', 'ol');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r1, 'ul', 'ol');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r2, 'ul', 'ol');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r3, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r1, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r2, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r3, 'ul', 'ol');
         });
 
-        it('calls method changeSingleListType only on Range instances of the first argument', function(){
-            spyOn(doc, 'changeSingleListType');
+        it('calls method changeListTypeOfRange only on Range instances of the first argument', function(){
+            spyOn(doc, 'changeListTypeOfRange');
             var r1 = document.createRange(),
                 r2 = document.createRange();
             doc.changeListType([1, r1, 'string', null, {}, r2], 'ul', 'ol');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r1, 'ul', 'ol');
-            expect(doc.changeSingleListType).toHaveBeenCalledWith(r2, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r1, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).toHaveBeenCalledWith(r2, 'ul', 'ol');
         });
 
-        it('does not call method changeSingleListType on non-Range instances of the first argument', function(){
-            spyOn(doc, 'changeSingleListType');
+        it('does not call method changeListTypeOfRange on non-Range instances of the first argument', function(){
+            spyOn(doc, 'changeListTypeOfRange');
             var r1 = document.createRange(),
                 r2 = document.createRange(),
                 el = document.createElement('div');
             doc.changeListType([1, r1, 'string', el, r2], 'ul', 'ol');
-            expect(doc.changeSingleListType).not.toHaveBeenCalledWith(1, 'ul', 'ol');
-            expect(doc.changeSingleListType).not.toHaveBeenCalledWith('string', 'ul', 'ol');
-            expect(doc.changeSingleListType).not.toHaveBeenCalledWith(el, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).not.toHaveBeenCalledWith(1, 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).not.toHaveBeenCalledWith('string', 'ul', 'ol');
+            expect(doc.changeListTypeOfRange).not.toHaveBeenCalledWith(el, 'ul', 'ol');
         });
 
-        it('does not call method changeSingleListType if the first argument contains no Range instances', function(){
-            spyOn(doc, 'changeSingleListType');
+        it('does not call method changeListTypeOfRange if the first argument contains no Range instances', function(){
+            spyOn(doc, 'changeListTypeOfRange');
              var el = document.createElement('div');
             doc.changeListType(['', el, [], null], 'ul', 'ol');
-            expect(doc.changeSingleListType).not.toHaveBeenCalled();
+            expect(doc.changeListTypeOfRange).not.toHaveBeenCalled();
         });
     });
 
-    xdescribe('has a method "changeSingleListType" that', function(){
+    describe('has a method "changeListTypeOfRange " that', function(){
+        beforeEach(function(){
+            clone = dom1_div0.cloneNode(true);
+        });
+        it('leaves DOM unmodified if it is called without arguments', function(){
+            doc.changeListTypeOfRange();
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('leaves DOM unmodified if the first argument is not a Range instance, while the rest - are valid strings', function(){
+            var invalids = [0, -4, 32.1, -22.99, '', 'string', {}, {'key': 'value'}, document.createElement('span')];
+            invalids.forEach(function(invalid){
+                doc.changeListTypeOfRange(invalid, 'ol', 'ul');
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('leaves DOM unmodified if the cursor positon has no list ascendant', function(){
+            var r = document.createRange();
+            r.setStart(dom1_p0, 0);
+            r.collapse(true);
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('leaves DOM unmodified if the cursor positon has a list ascendant but of different type', function(){
+            var r = document.createRange();
+            r.setStart(dom1_ol0, 0);
+            r.collapse(true);
+            doc.changeListTypeOfRange(r, 'ul', 'ol');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('leaves DOM unmodified if the selection includes multiple nodes but none of them has list ascendant', function(){
+            var r = document.createRange();
+            r.setStart(dom1_p0, 2);
+            r.setEnd(dom1_a0, 0);
+            doc.changeListTypeOfRange(r, 'ul', 'ol');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        describe('when asked to change the list of type "ol" while the cursor is located inside its first item', function(){
+            var listOrig, listNew, r;
+            beforeEach(function(){
+                r = document.createRange();
+                r.setStart(dom1_text4, 2);
+                r.collapse(true);
+
+                listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            it('changes the type of the list', function(){
+                doc.changeListTypeOfRange(r, 'ol', 'ul');
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                expect(listNew.tagName.toLowerCase()).toBe('ul');
+            });
+            it('does not change the list items', function(){
+                doc.changeListTypeOfRange(r, 'ol', 'ul');
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                expect(listNew.childNodes.length).toBe(3);
+                expect(listNew.childNodes[0].isEqualNode(listOrig.childNodes[0]));
+                expect(listNew.childNodes[1].isEqualNode(listOrig.childNodes[1]));
+                expect(listNew.childNodes[2].isEqualNode(listOrig.childNodes[2]));
+            });
+            it('does not change the rest of DOM', function(){
+                doc.changeListTypeOfRange(r, 'ol', 'ul');
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+
+                expect(dom1_div0.childNodes.length).toBe(3);
+                expect(dom1_div0.childNodes[0].childNodes[0].isEqualNode(clone.childNodes[0].childNodes[0]));
+                expect(dom1_div0.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1]));
+                expect(dom1_div0.childNodes[0].childNodes[2].childNodes[0].isEqualNode(clone.childNodes[0].childNodes[2].childNodes[0]));
+                expect(dom1_div0.childNodes[0].childNodes[2].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[2].childNodes[1]));
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1]));
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2]));
+            });
+        });
+
+        describe('has a method "setListNodeType" that', function(){
+            it('does not modify DOM if called without arguments', function(){
+                doc.setListNodeType();
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+
+            it('returns false if called without arguments', function(){
+                doc.setListNodeType();
+                expect(doc.setListNodeType()).toBe(false);
+            });
+
+            it('does not modify DOM and returns false if the first argument is not a Node and the second is a string', function(){
+                var invalids = [0, -4, 32.1, -22.99, '', 'string', [], [1, 2, 3], {}, {'key': 'value'}];
+                invalids.forEach(function(invalid){
+                    expect(doc.setListNodeType(invalid, 'a string')).toBe(false);
+                    expect(dom1_div0.isEqualNode(clone)).toBe(true);
+                });
+            });
+
+            it('does not modify DOM if the first argument does not correspond to a list node', function(){
+                doc.setListNodeType(dom1_div1, 'ul');
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+
+            it('returns false if the first argument does not correspond to a list node', function(){
+                expect(doc.setListNodeType(dom1_div1, 'ul')).toBe(false);
+            });
+
+            it('does not modify DOM and returns false if some internal method (i.e. getFactory) throws an exception', function(){
+                spyOn(doc, 'getFactory').and.throwError('an error');
+                expect(doc.setListNodeType(dom1_ol0, 'ul')).toBe(false);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+
+            it('transforms an ordered list into unordered one and returns true', function(){
+                expect(doc.setListNodeType(dom1_ol0, 'ul')).toBe(true);
+                expect(dom1_div1.childNodes[2].tagName.toLowerCase()).toBe('ul');
+            });
+            it('transforms an unordered list into ordered one and returns true', function(){
+                expect(doc.setListNodeType(dom1_ul0, 'ol')).toBe(true);
+                expect(dom1_li1.childNodes[0].tagName.toLowerCase()).toBe('ol');
+            });
+
+        });
+
+        describe('when asked to change the list of type "ol" while the cursor is located in a nested list of type "ul"', function(){
+            var listOrig, listNew, r, innerListNew, innerListOrig;
+            beforeEach(function(){
+                r = document.createRange();
+                r.setStart(dom1_ul0, 1);
+                r.collapse(true);
+
+                doc.changeListTypeOfRange(r, 'ol', 'ul');
+
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+
+                innerListNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2].childNodes[1].childNodes[0];
+                innerListOrig =     clone.childNodes[0].childNodes[2].childNodes[2].childNodes[1].childNodes[0];
+            });
+
+
+            it('changes the type of the outer list', function(){
+                expect(listNew.tagName.toLowerCase()).toBe('ul');
+            });
+
+            it('does not change the number of items of the outer list', function(){
+                expect(listNew.childNodes.length).toBe(listOrig.childNodes.length);
+            });
+
+
+            it('does not change the type of the inner list', function(){
+                expect(innerListNew.tagName.toLowerCase()).toBe('ul');
+            });
+
+            it('does not change the number of items of the inner list', function(){
+                expect(innerListNew.childNodes.length).toBe(innerListOrig.childNodes.length);
+            });
+        });
+
+        describe('when the selection contains multiple nodes and ancestors of some of them are lists of sought type', function(){
+            var listOrig, listNew, r;
+            beforeEach(function(){
+                r = document.createRange();
+                r.setStart(dom1_text1, 2);
+                r.setStart(dom1_ul0, 1);
+                doc.changeListTypeOfRange(r, 'ol', 'ul');
+
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            it('changes the type of ordered list', function(){
+                expect(listNew.tagName.toLowerCase()).toBe('ul');
+            });
+            it('does not change the number of items of the list that has undergone the type changing', function(){
+                expect(listNew.childNodes.length).toBe(listOrig.childNodes.length);
+            });
+
+            it('does not change the nodes that have no list among their ascendants', function(){
+                expect(dom1_div0.childNodes.length).toBe(3);
+                expect(dom1_div0.childNodes[0].childNodes[0].isEqualNode(clone.childNodes[0].childNodes[0]));
+                expect(dom1_div0.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1]));
+                expect(dom1_div0.childNodes[0].childNodes[2].childNodes[0].isEqualNode(clone.childNodes[0].childNodes[2].childNodes[0]));
+                expect(dom1_div0.childNodes[0].childNodes[2].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[2].childNodes[1]));
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1]));
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2]));
+            });
+
+        });
+
+
+    });
+
+    xdescribe('has a method "changeListTypeOfRange" that', function(){
         var list, li1, li2, li3, li4, text4, ch12, ch13, ch14;
         beforeEach(function(){
             list = document.createElement('ol');
@@ -3282,68 +3534,68 @@ describe('Class "Document"', function() {
             list.appendChild(li4);
             dom1_p0.appendChild(list);
 
-            clone = node.cloneNode(true);
+            clone = dom1_div0.cloneNode(true);
         });
 
         it('leaves DOM unmodified if it does not contain sought list', function(){
             var r = document.createRange();
             r.setStart(dom1_a0, 0);
             r.setEnd(dom1_a0, 1);
-            doc.changeSingleListType(r, 'no list with such a tag', 'ol');
-            expect(node.isEqualNode(clone)).toBe(true);
+            doc.changeListTypeOfRange(r, 'no list with such a tag', 'ol');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('does not switch the type of an ordered list if the cursor is located outside of the list element', function(){
             var r = document.createRange();
             r.setStart(dom1_a0, 0);
             r.setEnd(dom1_a0, 1);
-            doc.changeSingleListType(r, 'ol', 'ul');
-            expect(node.isEqualNode(clone)).toBe(true);
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('converts the list type if the range corresponds to a position inside the first list item', function(){
             var r = document.createRange();
             r.setStart(text4, 4);
             r.collapse(true);
-            doc.changeSingleListType(r, 'ol', 'ul');
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
 
-            expect(node.childNodes[0].childNodes[2]).hasTagName('ul');
+            expect(dom1_div0.childNodes[0].childNodes[2]).hasTagName('ul');
         });
 
         it('leaves unchanged those DOM elements that do not belong to the list', function(){
             var r = document.createRange();
             r.setStart(list, 1);
             r.setEnd(list, 2);
-            doc.changeSingleListType(r, 'ol', 'ul');
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
 
 
-            expect(node.childNodes.length).toBe(3);
-            var firstChild = node.childNodes[0],
+            expect(dom1_div0.childNodes.length).toBe(3);
+            var firstChild = dom1_div0.childNodes[0],
                 firstChildClone = clone.childNodes[0];
 
             expect(firstChild.childNodes.length).toBe(3);
             expect(firstChild.childNodes[0].isEqualNode(firstChildClone.childNodes[0])).toBe(true);
             expect(firstChild.childNodes[1].isEqualNode(firstChildClone.childNodes[1])).toBe(true);
-            expect(node.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
-            expect(node.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
         });
 
         it('does not change the number of list items of the list', function(){
             var r = document.createRange();
             r.setStart(list, 2);
             r.setEnd(list, 3);
-            doc.changeSingleListType(r, 'ol', 'ul');
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
 
-            expect(node.childNodes[0].childNodes[2].childNodes.length).toBe(4);
+            expect(dom1_div0.childNodes[0].childNodes[2].childNodes.length).toBe(4);
         });
 
         it('does not change the content of list items', function(){
             var r = document.createRange();
             r.setStart(text4, 2);
             r.setEnd(list, 3);
-            doc.changeSingleListType(r, 'ol', 'ul');
+            doc.changeListTypeOfRange(r, 'ol', 'ul');
 
-            var newListItems = node.childNodes[0].childNodes[2].childNodes,
+            var newListItems = dom1_div0.childNodes[0].childNodes[2].childNodes,
                 oldListItems = clone.childNodes[0].childNodes[2].childNodes;
             expect(newListItems[0].childNodes[0].isEqualNode(oldListItems[0].childNodes[0])).toBe(true);
             expect(newListItems[1].childNodes[0].isEqualNode(oldListItems[1].childNodes[0])).toBe(true);
@@ -3354,34 +3606,34 @@ describe('Class "Document"', function() {
 
     xdescribe('has a method "convertToBold" that', function(){
         beforeEach(function(){
-            clone = node.cloneNode(true);
+            clone = dom1_div0.cloneNode(true);
         });
         it('does not modify DOM if it is called with no argument', function(){
             doc.convertToBold();
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('does not modify DOM if the argument is a number, a string, an object or a function', function(){
             var invalids = [0, 1, 3.21, -43.19, '', 'string', {}, {1: 'foo'}, function(){return;}, document.createElement('div')];
             invalids.forEach(function(invalid){
                 doc.convertToBold(invalid);
-                expect(node.isEqualNode(clone)).toBe(true);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
             });
         });
 
         it('does not modify DOM if the argument is an empty array', function(){
             doc.convertToBold([]);
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('does not modify DOM if the argument is an empty array', function(){
             doc.convertToBold([]);
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('does not call modify DOM if the argument is an empty array', function(){
             doc.convertToBold([]);
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         it('calls method "convertRangeToBold" on each element of the input array', function(){
@@ -3396,11 +3648,11 @@ describe('Class "Document"', function() {
 
     xdescribe('has a method "convertRangeToBold" that', function(){
         beforeEach(function(){
-            clone = node.cloneNode(true);
+            clone = dom1_div0.cloneNode(true);
         });
         it('does not modify DOM if it is called with no argument', function(){
             doc.convertRangeToBold();
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
         it('does not modify DOM if the argument is a number, a string, an object, an array or a function', function(){
             var invalids = [0, 1, 3.21, -43.19,
@@ -3412,7 +3664,7 @@ describe('Class "Document"', function() {
             ];
             invalids.forEach(function(invalid){
                 doc.convertRangeToBold(invalid);
-                expect(node.isEqualNode(clone)).toBe(true);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
             });
         });
 
@@ -3421,13 +3673,13 @@ describe('Class "Document"', function() {
             r.setStart(dom1_div1, 1);
             r.collapse(true);
             doc.convertRangeToBold(r);
-            expect(node.isEqualNode(clone)).toBe(true);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
         xdescribe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
             var r;
             beforeEach(function(){
-                clone = node.cloneNode(true);
+                clone = dom1_div0.cloneNode(true);
                 r = document.createRange();
                 r.setStart(dom1_p0, 0);
                 r.setEnd(dom1_p0, 1);
@@ -3442,14 +3694,14 @@ describe('Class "Document"', function() {
                 expect(stl.match(/font-weight: bold/)).toBe(true);
             });
             it('does not modify the rest of DOM', function(){
-                expect(node.childNodes.length).toBe(3);
+                expect(dom1_div0.childNodes.length).toBe(3);
 
-                expect(node.childNodes[0].length).toBe(3);
-                expect(node.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
-                expect(node.childNodes[0].childNodes[2].isEqualNode(clone.childNodes[0].childNodes[2])).toBe(true);
+                expect(dom1_div0.childNodes[0].length).toBe(3);
+                expect(dom1_div0.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[0].childNodes[2].isEqualNode(clone.childNodes[0].childNodes[2])).toBe(true);
 
-                expect(node.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
-                expect(node.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
             });
         });
     });
@@ -3481,22 +3733,16 @@ describe('Class "Document"', function() {
         });
 
         it('returns value of the style property if the nodes inherit the same value of this property', function(){
-            node.setAttribute('style', 'font-size: 12em; width: 55em');        // dom1_text0 ancestor
-            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em'); // dom1_li2 ancestor
+            dom1_div0.setAttribute('style', 'font-size: 12em; width: 55em');        // dom1_text0 ancestor
+            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em');      // dom1_li2 ancestor
             expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).toBe('12em');
         });
 
         it('returns value of the style property if the nodes inherit different values of this property', function(){
-            node.setAttribute('style', 'font-size: 11em; width: 55em');        // dom1_text0 ancestor
-            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em'); // dom1_li2 ancestor
+            dom1_div0.setAttribute('style', 'font-size: 11em; width: 55em');        // dom1_text0 ancestor
+            dom1_div1.setAttribute('style', 'color: yellow; font-size: 12em');      // dom1_li2 ancestor
             expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).not.toBeDefined();
         });
-
-
-
-
-
-
     });
 
 
