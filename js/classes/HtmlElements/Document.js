@@ -2306,7 +2306,6 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.insertChild = function(hostNode, n, offset){
-		console.log('offset = ', offset, 'hostNode = ', hostNode);
 		var children = hostNode.childNodes;
 		var rightNode;
 		if (offset > children.length){
@@ -2467,7 +2466,6 @@ function Document(node){
 		}
 		listElem = node.appendChild(list.toNode());
 		for (i = 0; i < childNum; i++){
-			console.log('appending child #', i, childNodes[i]);
 			li = listElem.appendChild((new ListItem()).toNode());
 			li.appendChild(childNodes[0]); // the node number is always 0 because appendChild removes
 										   // the argument from the original location
