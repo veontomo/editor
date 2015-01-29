@@ -1256,6 +1256,9 @@ function Document(node){
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
+		if (r.collapsed){
+			return [];
+		}
 		var boundaries = this.detachBoundaries(r);
 		if (boundaries.length === 0){
 			return [];
@@ -2633,33 +2636,40 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertRangeToBold = function(range){
-		if (!(range instanceof Range) || (range.collapsed)){
+		var nodes;
+		try {
+			nodes = this.nodesOfRange(range);
+		} catch (e){
+			console.log('Error (' + e.name + ') when retrieving nodes of the range: ' + e.message);
 			return;
 		}
-		var nodes = this.nodesOfRange(range);
 		this.accentuateNodesStyleProperty(nodes, 'font-weight', 'bold');
 	};
 
 	/**
-	 * Sets nodes's style property.
+	 * Sets style property `key` of array `nodes` of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * to be equal to `value`.
 	 *
-	 * If style property `key` of every node of array `nodes` is equal to `value` or inherits to `value`, then nothing is done.
-	 * Otherwise, a proxy of `nodes` gets style property `key` set to `value`, while the nodes, complement to the
-	 * proxy, gets the style property set to its original value.
+	 * The operation is performed by means of method
+	 * {{#crossLink "Document/accentuateSingleNodeStyleProperty:method"}}accentuateSingleNodeStyleProperty{{/crossLink}}
+	 * that is called using every element of array `nodes`.
+	 *
 	 * @method        accentuateNodesStyleProperty
 	 * @param         {Array}          nodes         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param         {String|Number}  key           name of style property
 	 * @param         {String|Number}  value         value of the style property
 	 * @return        {void}
+	 * @throws        {Error}                        If `nodes` is not an array
 	 * @since         0.2.0
 	 */
 	this.accentuateNodesStyleProperty = function(nodes, key, value){
 		if (!Array.isArray(nodes)){
-			return;
+			throw new Error('Set of nodes must be given as an array!');
 		}
 		nodes.forEach(function(node){
-			console.log('accentuateNodesStyleProperty: ', node, key, value);
-			this.accentuateSingleNodeStyleProperty(node, key, value);
+			if (node instanceof Node){
+				this.accentuateSingleNodeStyleProperty(node, key, value);
+			}
 		}.bind(this));
 
 	};
@@ -2667,39 +2677,35 @@ function Document(node){
 	/**
 	 * Sets `node`'s style property `key` to be equal to `value`.
 	 * <ol><li>
-	 * If `node` does not have (niether inherits) a style property `key`, then
+	 * If `node` does not have (niether inherits) style property `key`, then
 	 * style property `key` of the proxy of `node` is set to `value`.
 	 * </li><li>
 	 * If `node` has (or inherits) a style property `key` which is different from `value`, then: <ol><li>
 	 * the mentor node (a node from which the style property is inherited) is found
 	 * </li><li>
 	 * style property `key` of the proxy of `node` is set to `value`.
-	 * </li></li>
+	 * </li><li>
 	 * a child node of the mentor that contains `node` does not undergo any modifications.
 	 * </li><li>
 	 * the other child nodes of the mentor are suggested to set style property `key` to become `value` (because a child
 	 * node might have its own value of that style property)
-	 * <li></ol>
+	 * </li></ol>
 	 * If `node` has (or inherits) a style property `key` which is equal to `value`, then nothing is done.
-	 * </li><li>
 	 * </li></ol>
 	 * @method         accentuateSingleNodeStyleProperty
 	 * @param          {Node}          node    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}        key     name of style property
 	 * @param          {Any}           value   value of the style property
 	 * @return         {void}
+	 * @throws         {Error}         If `node` is not a Node instance
 	 * @since          0.2.0
 	 */
 	this.accentuateSingleNodeStyleProperty = function(node, key, value){
 		if(!(node instanceof Node)){
-			console.log('not a Node istance: ', node);
-			return;
+			throw new Error('Set of nodes must be given as an array!');
 		}
-		console.log('node ', node, ' is a Node istance');
 		var mentor = this.getMentor(key, node);
-		console.log('mentor ', mentor);
 		if (mentor instanceof Element){
-			console.log('mentor ', mentor);
 			var actualValue = mentor.style[key];
 			if (actualValue !== value){
 				/// suggest property to all children of mentor except one that contans node
@@ -2713,7 +2719,6 @@ function Document(node){
 		}
 		/// set property to proxy of node
 		var proxy = this.proxy(node);
-		console.log('proxy ', proxy);
 		if (proxy instanceof Node){
 			this.setStyleProperty(proxy, key, value);
 		}
@@ -2729,49 +2734,60 @@ function Document(node){
 	 * then assigned to the newly created span element.
 	 *
 	 * @method         setStyleProperty
-	 * @param          {Node}          node
-	 * @param          {String}        key
-	 * @param          {Any}           value
+	 * @param          {Node}              node   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}            key
+	 * @param          {String|Number}     value
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.setStyleProperty = function(node, key, value){
-		if (typeof key !== 'string'){
+		if (!(node instanceof Node) || (typeof key !== 'string') || (key === '') ){
 			return;
 		}
-		console.log('node ', node);
+		if (((typeof value !== 'string') && (typeof value !== 'number')) || (value === '')){
+			return;
+		}
+		var target, stl;
 		if (node instanceof Element){
-			console.log('node  is an Element');
-			node.style[key] = value;
+			target = node;
 		} else {
-			console.log('node  is NOT  an Element');
+			// insert a node between node and its parent
+			// in order to change its styles
 			var parent = node.parentNode,
 				span = document.createElement('span');
 			parent.insertBefore(span, node);
-			span.style[key] = value;
-			console.log('appending child to span');
 			span.appendChild(node);
-			console.log(span.outerHTML);
+			target = span;
 		}
+		stl = new Properties(target.getAttribute('style'));
+		stl.setMode(1);
+		stl.setProperty(key, value);
+		target.setAttribute('style', stl.toString());
 	};
 
 	/**
-	 * Sets style property `key` of `node` to be equal to `value` only if it is not set.
+	 * Sets style property `key` of `node` to be equal to `value` only if the node does not
+	 * contain that property among its style ones.
 	 * @method         suggestStyleProperty
-	 * @param          {Node}          node
+	 * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}        key
 	 * @param          {Any}           value
 	 * @return         {void}
+	 * @throws         {Error}         If `node` is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @since          0.2.0
 	 */
 	this.suggestStyleProperty = function(node, key, value){
 		if (!(node instanceof Node)){
-			return;
+			throw new Error('It is illegal to suggest a property to a non-Node instance!');
 		}
-		var styles = node.style;
-		if (!(styles && styles[key])){
-			this.setStyleProperty(node, key, value);
+		if (node.getAttribute){
+			var styleStr = node.getAttribute('style'),
+				styleObj = new Properties(styleStr);
+			if (styleObj.hasProperty(key)){
+				return;
+			}
 		}
+		this.setStyleProperty(node, key, value);
 	};
 
 	/**
@@ -2794,7 +2810,6 @@ function Document(node){
 			i;
 		for(i = 1; i < len; i++){
 			valueTmp = this.getInheritedStyleProp(key, nodes[i]);
-			console.log('value of ' + key + ': ' + valueTmp);
 			if (valueTmp !== value){
 				return undefined;
 			}
