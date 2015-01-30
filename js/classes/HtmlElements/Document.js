@@ -1256,6 +1256,9 @@ function Document(node){
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
+		if (r.collapsed){
+			return [];
+		}
 		var boundaries = this.detachBoundaries(r);
 		if (boundaries.length === 0){
 			return [];
@@ -1897,27 +1900,22 @@ function Document(node){
 	/**
 	 * Drops inline style property `key` from `node` and removes inline style attribute if
 	 * it becomes empty.
-	 * Returns `true` if the initially contains inline style property `key` and `false` otherwise.
 	 *
 	 * @method         dropStyleProperty
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of inline style attribute to drop
-	 * @return         {Boolean}                      `true` if successefully deleted the requested property
-	 *                                                 and `false` otherwise
+	 * @return         {void}
 	 */
 	this.dropStyleProperty = function(node, key){
-		if (!node || !key || typeof node.getAttribute !== 'function'){
-			return false;
+		if (!(node instanceof Node) || (typeof key !== 'string') || (!node.style)){
+			return;
 		}
-		var outcome = false;
-		if (node.style && node.style.getPropertyValue(key)){
-			node.style.removeProperty(key);
-			if (node.style.length === 0){
-				node.removeAttribute('style');
-			}
-			outcome = true;
+		node.style.removeProperty(key);
+		var attrName = 'style',
+			attrValue = node.getAttribute(attrName);
+		if (attrValue === ''){
+			node.removeAttribute(attrName);
 		}
-		return outcome;
 	};
 
 
@@ -2633,38 +2631,154 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertRangeToBold = function(range){
-		if (!(range instanceof Range) || (range.collapsed)){
+		var nodes;
+		try {
+			nodes = this.nodesOfRange(range);
+		} catch (e){
+			console.log('Error (' + e.name + ') when retrieving nodes of the range: ' + e.message);
 			return;
 		}
-		var nodes = this.nodesOfRange(range);
 		this.accentuateNodesStyleProperty(nodes, 'font-weight', 'bold');
 	};
 
 	/**
-	 * Sets nodes's style property.
+	 * Sets style property `key` of array `nodes` of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * to be equal to `value`.
 	 *
-	 * If style property `key` of every node of array `nodes` is equal to `value` or inherits to `value`, then nothing is done.
-	 * Otherwise, a proxy of `nodes` gets style property `key` set to `value`, while the nodes, complement to the
-	 * proxy, gets the style property set to its original value.
+	 * The operation is performed by means of method
+	 * {{#crossLink "Document/accentuateSingleNodeStyleProperty:method"}}accentuateSingleNodeStyleProperty{{/crossLink}}
+	 * that is called using every element of array `nodes`.
+	 *
 	 * @method        accentuateNodesStyleProperty
 	 * @param         {Array}          nodes         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param         {String|Number}  key           name of style property
 	 * @param         {String|Number}  value         value of the style property
 	 * @return        {void}
+	 * @throws        {Error}                        If `nodes` is not an array
 	 * @since         0.2.0
 	 */
 	this.accentuateNodesStyleProperty = function(nodes, key, value){
-		var commonValue = this.commonStyleProperty(nodes, key);
-		if (commonValue === value){
-			// the nodes already have the style property imposed to desired value
-			// therefore, just exit
+		if (!Array.isArray(nodes)){
+			throw new Error('Set of nodes must be given as an array!');
+		}
+		nodes.forEach(function(node){
+			if (node instanceof Node){
+				this.accentuateSingleNodeStyleProperty(node, key, value);
+			}
+		}.bind(this));
+
+	};
+
+	/**
+	 * Sets `node`'s style property `key` to be equal to `value`.
+	 * <ol><li>
+	 * If there exists a node from which the given node inherits a value V of the style property
+	 * `key` (that node is called {{#crossLink "Document/getMentor:method"}}mentor{{/crossLink}}
+	 * and might coincide with the original node) such that V is different from `value`, then
+	 * <ol><li>
+	 * value V is suggested for all {{#crossLink "Document/complementNodes:method"}}complement nodes{{/crossLink}}
+	 * as a value of their style property `key`
+	 * </li><li>
+	 * the mentor gets rid of the style property `key`
+	 * </li><li>
+	 * style property `key` of a {{#crossLink "Document/proxt:method"}}proxy{{/crossLink}} of the given
+	 * node is set to the requested value
+	 * </li></ol>
+	 * </li><li>If the mentor does not exist, then style property `key` of a
+	 * {{#crossLink "Document/proxy:method"}}proxy{{/crossLink}} of the given
+	 * node is set to the requested value</li></ol>
+	 * @method         accentuateSingleNodeStyleProperty
+	 * @param          {Node}          node    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}        key     name of style property
+	 * @param          {Any}           value   value of the style property
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.accentuateSingleNodeStyleProperty = function(node, key, value){
+		var mentor = this.getMentor(key, node);
+		if (mentor instanceof Element){
+			var actualValue = this.getStyleProperty(mentor, key);
+			if (actualValue === value){
+				return;
+			}
+			/// removes the property from the mentor
+			this.dropStyleProperty(mentor, key);
+			/// suggest original property to all complementary nodes
+			var complementNodes = this.complementNodes(mentor, node);
+			complementNodes.forEach(function(n){
+				this.suggestStyleProperty(n, key, actualValue);
+			}.bind(this));
+
+		}
+		/// set property of node's proxy
+		var proxy = this.proxy(node);
+		this.setStyleProperty(proxy, key, value);
+	};
+
+
+	/**
+	 * Sets style property `key` of `node` to be equal to `value`.
+	 *
+	 * If `node` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance, then it is
+	 * set the required value of the style property.
+	 * Otherwise, the node is replaced by a span element to which the node is appended. Required style property is
+	 * then assigned to the newly created span element.
+	 *
+	 * @method         setStyleProperty
+	 * @param          {Node}              node   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}            key
+	 * @param          {String|Number}     value
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.setStyleProperty = function(node, key, value){
+		if (!(node instanceof Node) || (typeof key !== 'string') || (key === '') ){
 			return;
 		}
-		// the nodes have different value of the style property
-		// therefore, one should set the style property of these nodes to the desired value,
-		// while the complement nodes should remain with original values of the style property.
-		//     !!! to finish !!!
+		if (((typeof value !== 'string') && (typeof value !== 'number')) || (value === '')){
+			return;
+		}
+		var target, stl;
+		if (node instanceof Element){
+			target = node;
+		} else {
+			// insert a node between node and its parent
+			// in order to change its styles
+			var parent = node.parentNode,
+				span = document.createElement('span');
+			parent.insertBefore(span, node);
+			span.appendChild(node);
+			target = span;
+		}
+		stl = new Properties(target.getAttribute('style'));
+		stl.setMode(1);
+		stl.setProperty(key, value);
+		target.setAttribute('style', stl.toString());
+	};
 
+	/**
+	 * Sets style property `key` of `node` to be equal to `value` only if the node does not
+	 * contain that property among its style ones.
+	 * @method         suggestStyleProperty
+	 * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {String}        key
+	 * @param          {Any}           value
+	 * @return         {void}
+	 * @throws         {Error}         If `node` is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @since          0.2.0
+	 */
+	this.suggestStyleProperty = function(node, key, value){
+		if (!(node instanceof Node)){
+			throw new Error('It is illegal to suggest a property to a non-Node instance!');
+		}
+		if (node.getAttribute){
+			var styleStr = node.getAttribute('style'),
+				styleObj = new Properties(styleStr);
+			if (styleObj.hasProperty(key)){
+				return;
+			}
+		}
+		this.setStyleProperty(node, key, value);
 	};
 
 	/**
@@ -2685,10 +2799,8 @@ function Document(node){
 			value = this.getInheritedStyleProp(key, nodes[0]),
 			valueTmp,
 			i;
-		console.log('value of ' + key + ': ' + valueTmp);
 		for(i = 1; i < len; i++){
 			valueTmp = this.getInheritedStyleProp(key, nodes[i]);
-			console.log('value of ' + key + ': ' + valueTmp);
 			if (valueTmp !== value){
 				return undefined;
 			}

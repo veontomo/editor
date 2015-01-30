@@ -81,7 +81,6 @@ describe('Class "Document"', function() {
 
         doc = new Document();
         jasmine.addMatchers(instanceOfMatcher);
-        console.log(span1.outerHTML);
     });
 
     describe('has a method "insertLinkAt" method that', function(){

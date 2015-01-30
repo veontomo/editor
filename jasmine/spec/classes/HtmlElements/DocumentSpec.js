@@ -144,11 +144,15 @@ describe('Class "Document"', function() {
         dom1_a0.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
         dom1_a0.setAttribute('href', 'http://www.test.com');
         dom1_a0.setAttribute('title', 'link to test');
+        dom1_ol0.setAttribute('style', 'color: yellow;');
+        dom1_li0.setAttribute('style', 'background-color: blue');
+        dom1_li2.setAttribute('style', 'color: green');
 
         dom2_m00.appendChild(dom2_m10);
         dom2_m00.appendChild(dom2_m11);
 
         doc = new Document(dom1_div0);
+        clone = dom1_div0.cloneNode(true);
 
         doc.setFactory(NEWSLETTER.factory);
     });
@@ -801,6 +805,38 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has a method "dropStyleProperty" that', function(){
+        it('does not change DOM if the first argument is a Node that has no style property', function(){
+            doc.dropStyleProperty(dom1_span0, 'color');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('does not change DOM if the first argument is a Text node', function(){
+            doc.dropStyleProperty(dom1_text1, 'color');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('does not change DOM if the first argument is a Node without requested style property', function(){
+            doc.dropStyleProperty(dom1_p0, 'text-decoration');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('removes only requested style property', function(){
+            doc.dropStyleProperty(dom1_a0, 'color');
+            expect(dom1_a0.getAttribute('style').search(/color/) === -1).toBe(true);
+            expect(dom1_a0.style.getPropertyValue('padding')).toBe('20em');
+            expect(dom1_a0.style.getPropertyValue('width')).toBe('87%');
+            expect(dom1_a0.style.getPropertyValue('text-decoration')).toBe('underline');
+        });
+        it('does not change node\'s attributes', function(){
+            doc.dropStyleProperty(dom1_p0, 'color');
+            expect(dom1_p0.getAttribute('marker')).toBe('p');
+            expect(dom1_p0.getAttribute('width')).toBe('300px');
+        });
+        it('removes the whole style property if it becomes empty', function(){
+            doc.dropStyleProperty(dom1_li0, 'background-color');
+            expect(dom1_li0.getAttribute('style')).toBeNull();
+        });
+
+    });
+
     xdescribe('has a method "getStyleProperty" that', function(){
     	var e0, e1, t2, e3, e4;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
@@ -842,41 +878,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        xdescribe('does the following when deleting a property', function(){
-            it('returns false if the argument does not support attributes (like a text node)', function(){
-                expect(doc.dropStyleProperty(t2, 'any')).toBe(false);
-            });
 
-            it('returns false if the argument does not have that property', function(){
-                expect(doc.dropStyleProperty(e3, 'excellence')).toBe(false);
-            });
-
-            it('returns false if the argument has no inline style properties', function(){
-                expect(doc.dropStyleProperty(e1, 'width')).toBe(false);
-            });
-
-            it('returns true if the argument has required inline style property', function(){
-                expect(doc.dropStyleProperty(e3, 'width')).toBe(true);
-            });
-
-            it('removes the required inline style property if the argument has that property', function(){
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-                doc.dropStyleProperty(e0, 'font-size');
-                expect(e0.getAttribute('style').indexOf('font-size')).toBe(-1);
-            });
-
-            it('does not remove other inline style properties', function(){
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-                doc.dropStyleProperty(e0, 'padding');
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-            });
-
-            it('removes \"style\" attribute if after deleting requested key it remains empty', function(){
-                expect(e4.getAttribute('style').indexOf('padding')).not.toBe(-1);
-                doc.dropStyleProperty(e4, 'padding');
-                expect(e4.getAttribute('style')).toBe(null);
-            });
-        });
 
         xdescribe('does the following when setting a property', function(){
             it('return node itself (modified) if the target is an element node', function(){
@@ -3604,7 +3606,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "convertToBold" that', function(){
+    describe('has a method "convertToBold" that', function(){
         beforeEach(function(){
             clone = dom1_div0.cloneNode(true);
         });
@@ -3626,16 +3628,6 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        it('does not modify DOM if the argument is an empty array', function(){
-            doc.convertToBold([]);
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
-        });
-
-        it('does not call modify DOM if the argument is an empty array', function(){
-            doc.convertToBold([]);
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
-        });
-
         it('calls method "convertRangeToBold" on each element of the input array', function(){
             spyOn(doc, 'convertRangeToBold');
             var r1 = {}, r2 = {}, r3 = {};
@@ -3646,7 +3638,7 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "convertRangeToBold" that', function(){
+    describe('has a method "convertRangeToBold" that', function(){
         beforeEach(function(){
             clone = dom1_div0.cloneNode(true);
         });
@@ -3676,7 +3668,28 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        xdescribe('does the following if the range contains only a text node which inherits font-weigth attribute:', function(){
+        it('calls "accentuateNodesStyleProperty" using the output of "nodesOfRange"', function(){
+            var aRange = document.createRange();
+            var fakeNode1 = {},
+                fakeNode2 = {},
+                fakeOutput = [fakeNode1, fakeNode2];
+            spyOn(doc, 'nodesOfRange').and.returnValue(fakeOutput);
+            spyOn(doc, 'accentuateNodesStyleProperty');
+            doc.convertRangeToBold(aRange);
+            expect(doc.nodesOfRange).toHaveBeenCalledWith(aRange);
+            expect(doc.accentuateNodesStyleProperty).toHaveBeenCalledWith(fakeOutput, 'font-weight', 'bold');
+        });
+
+        it('does not modify DOM if "nodesOfRange" throws an exception', function(){
+            var aRange = document.createRange();
+            spyOn(doc, 'nodesOfRange').and.throwError('an error');
+            doc.convertRangeToBold(aRange);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+
+
+        xdescribe('does the following if the range contains only a text node which inherits font-weight attribute:', function(){
             var r;
             beforeEach(function(){
                 clone = dom1_div0.cloneNode(true);
@@ -3689,20 +3702,325 @@ describe('Class "Document"', function() {
             it('moves the text node inside a new element node that replaces that text node', function(){
                 expect(dom1_text1.parentNode).toBe(dom1_p0.childNodes[0]);
             });
-            it('inserts an element node with "font-weight" style property set to "bold"', function(){
-                var stl = dom1_text1.parentNode.getAttribute('style');
-                expect(stl.match(/font-weight: bold/)).toBe(true);
-            });
-            it('does not modify the rest of DOM', function(){
-                expect(dom1_div0.childNodes.length).toBe(3);
 
-                expect(dom1_div0.childNodes[0].length).toBe(3);
+            it('inserts an element node with "font-weight" style property set to "bold"', function(){
+                var stl = dom1_text1.parentNode.getAttribute('style'),
+                    res = stl.match(/font-weight:\s+bold/);
+
+                expect(Array.isArray(res)).toBe(true);
+                expect(res.length).toBe(1);
+            });
+
+            it('does not modify the rest of DOM', function(){
+                // control that the root still has three children
+                expect(dom1_div0.childNodes.length).toBe(3);
+                // control that the second and the third children of root's first child have not been changed
+                expect(dom1_div0.childNodes[0].childNodes.length).toBe(3);
                 expect(dom1_div0.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
                 expect(dom1_div0.childNodes[0].childNodes[2].isEqualNode(clone.childNodes[0].childNodes[2])).toBe(true);
-
+                // control that the second and the third children of the root have not been changed
                 expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
                 expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
             });
+        });
+    });
+
+    describe('has a method "accentuateNodesStyleProperty" that', function(){
+        beforeEach(function(){
+            clone = dom1_div0.cloneNode(true);
+        });
+
+        it('throws an error if the first argument is not set, a string, a number, an object or a function', function(){
+            var invalids = [null, undefined, 0, 1, 12.98, -12, -3.22, '', 'some string', {}, {key: 3}, function(){return;}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    doc.accentuateNodesStyleProperty(invalid, 'margin', '30em');
+                }).toThrow(new Error('Set of nodes must be given as an array!'));
+            });
+        });
+        it('does not call "accentuateSingleNodeStyleProperty" method if the first argument is an empty array', function(){
+            spyOn(doc, 'accentuateSingleNodeStyleProperty');
+            doc.accentuateNodesStyleProperty([], 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty).not.toHaveBeenCalled();
+        });
+
+        it('calls "accentuateSingleNodeStyleProperty" method if the first argument contains only Node instances', function(){
+            spyOn(doc, 'accentuateSingleNodeStyleProperty');
+            doc.accentuateNodesStyleProperty([dom1_span0, dom1_text2, dom1_ul0], 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty).toHaveBeenCalledWith(dom1_span0, 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty).toHaveBeenCalledWith(dom1_text2, 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty).toHaveBeenCalledWith(dom1_ul0, 'key', 'value');
+        });
+        it('calls "accentuateSingleNodeStyleProperty" method two times if the first array contains 2 Node and 3 non-Node instances ', function(){
+            spyOn(doc, 'accentuateSingleNodeStyleProperty');
+            var invalids = ['a string', document.createRange(), []];
+            doc.accentuateNodesStyleProperty([invalids[0], invalids[1], dom1_p0, invalids[2], dom1_li0], 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty.calls.count()).toBe(2);
+            expect(doc.accentuateSingleNodeStyleProperty).toHaveBeenCalledWith(dom1_p0, 'key', 'value');
+            expect(doc.accentuateSingleNodeStyleProperty).toHaveBeenCalledWith(dom1_li0, 'key', 'value');
+        });
+    });
+
+    describe('has a method "accentuateSingleNodeStyleProperty" that', function(){
+        describe('when setting font color of a "red color" paragraph to become blue', function(){
+            var pNew, pOrig;
+            beforeEach(function(){
+                doc.accentuateSingleNodeStyleProperty(dom1_p0, 'color', 'blue');
+                // introduce notations
+                pNew = dom1_div0.childNodes[0];
+                pOrig = clone.childNodes[0];
+            });
+            it('makes the paragraph have blue color font', function(){
+                expect(pNew.getAttribute('style').search(/color:\s+blue/) !== -1).toBe(true);
+            });
+            it('does not change the other nodes', function(){
+                // root must have three children
+                expect(dom1_div0.childNodes.length).toBe(3);
+                // the paragraph must still have three children
+                expect(pNew.childNodes.length).toBe(3);
+                // paragraph children must remain without changes
+                expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[0])).toBe(true);
+                expect(pNew.childNodes[1].isEqualNode(pOrig.childNodes[1])).toBe(true);
+                expect(pNew.childNodes[2].isEqualNode(pOrig.childNodes[2])).toBe(true);
+
+                // the root's second and third children must remain without changes
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
+
+            it('the other paragraph\'s style properties remain without changes', function(){
+                expect(pNew.style.width).toBe('100%');
+            });
+
+            it('the paragraph\'s attributes remain without changes', function(){
+                expect(pNew.getAttribute('marker')).toBe('p');
+                expect(pNew.getAttribute('width')).toBe('300px');
+            });
+        });
+        describe('when setting a text-decoration of a list node that does not inherit text-decoration', function(){
+            var listNew, listOrig;
+            beforeEach(function(){
+                doc.accentuateSingleNodeStyleProperty(dom1_ol0, 'text-decoration', 'underline');
+                // introduce notations
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            it('sets the text-decoration of the list node',function(){
+                console.log(listNew.outerHTML);
+                expect(listNew.getAttribute('style').search(/text-decoration:\s+underline/) !== -1).toBe(true);
+            });
+            it('does not change the rest of DOM', function(){
+                // root must have three children
+                expect(dom1_div0.childNodes.length).toBe(3);
+
+                // root's first child (denoted p) must still have three children
+                var p = dom1_div0.childNodes[0];
+                expect(p.childNodes.length).toBe(3);
+
+                // p's first and second child must remain without changes
+                expect(p.childNodes[0].isEqualNode(clone.childNodes[0].childNodes[0])).toBe(true);
+                expect(p.childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+
+                // p's third child (denoted divNew) must still have three children
+                var divNew = p.childNodes[2];
+                var divOrig = clone.childNodes[0].childNodes[2];
+                expect(divNew.childNodes.length).toBe(3);
+
+                // divs's first and second child must remain without changes
+                expect(divNew.childNodes[0].isEqualNode(divOrig.childNodes[0])).toBe(true);
+                expect(divNew.childNodes[1].isEqualNode(divOrig.childNodes[1])).toBe(true);
+
+                // divNew's third child (which is the list node) must become different
+                expect(divNew.childNodes[2].isEqualNode(divOrig.childNodes[2])).toBe(false);
+
+                // listNew must still have three children
+                expect(listNew.childNodes.length).toBe(3);
+                // listNew child nodes must remain the same
+                expect(listNew.childNodes[0].isEqualNode(listOrig.childNodes[0])).toBe(true);
+                expect(listNew.childNodes[1].isEqualNode(listOrig.childNodes[1])).toBe(true);
+                expect(listNew.childNodes[2].isEqualNode(listOrig.childNodes[2])).toBe(true);
+
+                // the root's second and third children must remain without changes
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
+        });
+        describe('when setting a color of a node that inherits different color value,', function(){
+            var mentorNew, mentorOrig;
+            beforeEach(function(){
+                // preparing spies the method depends on
+                spyOn(doc, 'proxy').and.returnValue(dom1_li1);
+                spyOn(doc, 'dropStyleProperty');
+                doc.accentuateSingleNodeStyleProperty(dom1_ul0, 'color', 'white');
+                // introduce notations
+                mentorNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                mentorOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            afterEach(function(){
+                expect(doc.proxy).toHaveBeenCalledWith(dom1_ul0);
+            });
+            it('sets color property of node\'s proxy', function(){
+                 expect(mentorNew.childNodes[1].getAttribute('style').search(/color:\s+white/) !== -1).toBe(true);
+            });
+            it('sets color property of mentor\'s first child to be equal to mentor\'s original value', function(){
+                 expect(mentorNew.childNodes[0].getAttribute('style').search(/color:\s+yellow/) !== -1).toBe(true);
+            });
+            it('does not change color property of mentor\'s third child', function(){
+                 expect(mentorNew.childNodes[2].getAttribute('style').search(/color:\s+green/) !== -1).toBe(true);
+            });
+            it('removes color property from mentor style', function(){
+                 expect(doc.dropStyleProperty).toHaveBeenCalledWith(mentorNew, 'color');
+            });
+        });
+
+        it('does not modify DOM if the value of inherited property is equal to required one', function(){
+            doc.accentuateSingleNodeStyleProperty(dom1_span0, 'color', 'red');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+    });
+
+    describe('has a method "suggestStyleProperty" that', function(){
+        beforeEach(function(){
+            clone = dom1_div0.cloneNode(true);
+        });
+
+        it('throws an error if the first argument is not defined, a number, a string, an array or an object', function(){
+            var invalids = [null, undefined, 0, 1, 12.98, -12, -3.22, '', 'some string', {}, {key: 3}, function(){return;}];
+            invalids.forEach(function(invalid){
+                expect(function(){
+                    doc.suggestStyleProperty(invalid, 'margin', '30em');
+                }).toThrow(new Error('It is illegal to suggest a property to a non-Node instance!'));
+            });
+        });
+
+        it('does not modify DOM if the node has a style property equal to the suggested value', function(){
+            doc.suggestStyleProperty(dom1_a0, 'color', 'navy');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not modify DOM if the node has a style property that differs from the suggested value', function(){
+            doc.suggestStyleProperty(dom1_p0, 'width', '87px');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('calls "setStyleProperty" method if the node is a text Node', function(){
+            spyOn(doc, 'setStyleProperty');
+            doc.suggestStyleProperty(dom1_text1, 'width', '31%');
+            expect(doc.setStyleProperty).toHaveBeenCalledWith(dom1_text1, 'width', '31%');
+        });
+
+        it('calls "setStyleProperty" method if the node does not have the required property', function(){
+            spyOn(doc, 'setStyleProperty');
+            doc.suggestStyleProperty(dom1_a0, 'margin', '2em');
+            expect(doc.setStyleProperty).toHaveBeenCalledWith(dom1_a0, 'margin', '2em');
+        });
+
+
+        it('modifies DOM if the first argument is a text Node', function(){
+            doc.suggestStyleProperty(dom1_text0, 'color', 'blue');
+            expect(dom1_div0.childNodes.length).toBe(3);
+            // root's first child must remain the same
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(true);
+            // root's second child must remain the same
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+
+            // parent of the original text node must the root's third child
+            expect(dom1_div0.childNodes[2] === dom1_text0.parentNode).toBe(true);
+            // root's third child must have suggested property
+            expect(dom1_div0.childNodes[2].style.color).toBe('blue');
+        });
+    });
+
+    describe('has a method "setStyleProperty" that', function(){
+        beforeEach(function(){
+            clone = dom1_div0.cloneNode(true);
+        });
+        it('does not modify DOM if it is called without arguments', function(){
+            doc.setStyleProperty();
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('does not modify DOM if the first argument is a number, a string, an array, a non-Node object, a function', function(){
+            var invalids = [null, undefined, 0, 1, 12.98, -12, -3.22, '', 'some string', {}, {key: 3}, function(){return;}];
+            invalids.forEach(function(invalid){
+                doc.setStyleProperty(invalid, 'margin', '30em');
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('does not modify DOM if the second argument is not set', function(){
+            doc.setStyleProperty(dom1_ol0);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not modify DOM if the second argument is a number, an array, an empty string, an object, a function', function(){
+            var invalids = [[], [1, 2, 3], '', {}, {key: 3}, function(){return;}];
+            invalids.forEach(function(invalid){
+                doc.setStyleProperty(dom1_span0, invalid, '30em');
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('does not modify DOM if the third argument is an array, an empty string, an object, a function', function(){
+            var invalids = [[], [1, 2, 3], '', {}, {key: 3}, function(){return;}];
+            invalids.forEach(function(invalid){
+                doc.setStyleProperty(dom1_span0, 'padding', invalid);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+        });
+        it('sets a property if its value is given as a number', function(){
+            doc.setStyleProperty(dom1_ol0, 'width', 30);
+            expect(dom1_ol0.getAttribute('style').search(/width:\s+30/) !== -1).toBe(true);
+        });
+
+        describe('when asking to set a new property of an Element node', function(){
+            beforeEach(function(){
+                doc.setStyleProperty(dom1_p0, 'margin', '61pt');
+            });
+
+            it('assigns that style property to the element', function(){
+                expect(dom1_p0.style.margin).toBe('61pt');
+            });
+
+            it('does not modify the rest of DOM', function(){
+                expect(dom1_div0.childNodes.length).toBe(3);
+
+                // root's first child still has three child nodes
+                expect(dom1_div0.childNodes[0].childNodes.length).toBe(3);
+                expect(dom1_div0.childNodes[0].childNodes[0].isEqualNode(clone.childNodes[0].childNodes[0])).toBe(true);
+                expect(dom1_div0.childNodes[0].childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[0].childNodes[2].isEqualNode(clone.childNodes[0].childNodes[2])).toBe(true);
+
+                // root's second child must remain the same
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                // root's third child must remain the same
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
+
+            it('does not change the original attributes of the Element instance', function(){
+                // the number of the attributes must not change (+1 due to "style" attribute)
+                expect(dom1_p0.attributes.length).toBe(2+1);
+                // attributes' values must not change
+                expect(dom1_p0.getAttribute('marker')).toBe('p');
+                expect(dom1_p0.getAttribute('width')).toBe('300px');
+            });
+
+            it('does not change the original style properties of the Element instance', function(){
+                expect(dom1_p0.style.width).toBe('100%');
+                expect(dom1_p0.style.color).toBe('red');
+            });
+        });
+        describe('when asking to set a property of a Text node', function(){
+            beforeEach(function(){
+                doc.setStyleProperty(dom1_text2, 'width', '109em');
+            });
+
+            it('creates an element node that has requested style property', function(){
+                expect(dom1_div0.childNodes[1].childNodes[0].style.width).toBe('109em');
+            });
+
+            it('replaces the text node by the newly created element', function(){
+                expect(dom1_div0.childNodes[1].childNodes[0] === dom1_text2.parentNode).toBe(true);
+            });
+
         });
     });
 

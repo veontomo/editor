@@ -240,7 +240,7 @@ describe('Content-related functionality', function(){
 			c.flush();
 			expect(c.getElements().length).toBe(0);
 		});
-		it('flushes the element array if it is empty', function(){
+		it('flushes the element array if it contains two elements', function(){
 			c.setElements([1, 'two']);
 			expect(c.getElements().length).toBe(2);
 			c.flush();
