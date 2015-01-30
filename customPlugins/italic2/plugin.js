@@ -1,6 +1,6 @@
 //*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Selection, EHToolbar*/
+/*global NEWSLETTER,CKEDITOR, EHToolbar, CTextDecoration, Document*/
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('italic2', {
@@ -10,17 +10,25 @@ CKEDITOR.plugins.add('italic2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-		var pluginName = 'italic2',
-			property = {
-				name: 'font-style',
-				value: 'italic',
-				altValue: 'normal'
-			};
+		/**
+		 * Instance of {{#crossLink "CTextDecoration"}}CTextDecoration{{/crossLink}}
+		 * @property  {CTextDecoration}     _controller
+		 * @type      {CTextDecoration}
+		 * @private
+		 */
+		var _controller = new CTextDecoration();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		(function(){
+		    var worker = new Document();
+		    worker.setFactory(NEWSLETTER.factory);
+		    _controller.setWorker(worker);
+		}());
+
+		var pluginName = 'italic2';
 		// Define an editor command that opens our dialog.
 		editor.addCommand(pluginName, {
 			exec: function(editor){
-				var	selection = new Selection(editor);
-				selection.switchDeepestChildStyle(property);
+				_controller.convertToItalics(editor);
 			}
 		});
 
@@ -37,6 +45,11 @@ CKEDITOR.plugins.add('italic2', {
 		// attaching events for highlighting plugin button in case the cursor
 		// is situated inside the element that is italic
 		editor.on('contentDom', function() {
+			var	property = {
+					name: 'font-style',
+					value: 'italic',
+					altValue: 'normal'
+				};
 			EHToolbar.registerEvent(editor, property, pluginName);
 		});
 

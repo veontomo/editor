@@ -1,6 +1,6 @@
 //*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Selection, EHToolbar*/
+/*global NEWSLETTER,CKEDITOR, EHToolbar, CTextDecoration, Document*/
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('bold2', {
@@ -23,12 +23,7 @@ CKEDITOR.plugins.add('bold2', {
 		    worker.setFactory(NEWSLETTER.factory);
 		    _controller.setWorker(worker);
 		}());
-		var pluginName = 'bold2',
-			property = {
-				name: 'font-weight',
-				value: 'bold',
-				altValue: 'normal'
-			};
+		var pluginName = 'bold2';
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand(pluginName, {
@@ -50,6 +45,11 @@ CKEDITOR.plugins.add('bold2', {
 		// attaching events for highlighting plugin button in case the cursor
 		// is situated inside the element that is bold
 		editor.on('contentDom', function() {
+			var	property = {
+				name: 'font-weight',
+				value: 'bold',
+				altValue: 'normal'
+			};
 			EHToolbar.registerEvent(editor, property, pluginName);
 		});
 

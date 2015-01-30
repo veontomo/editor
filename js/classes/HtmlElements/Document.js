@@ -2620,7 +2620,22 @@ function Document(node){
 		ranges.forEach(function(range){
 			this.convertRangeToBold(range);
 		}.bind(this));
+	};
 
+	/**
+	 * Converts selection given by `ranges` into italic font style.
+	 * @method         convertToItalics
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.convertToItalics = function(ranges){
+		if (!Array.isArray(ranges)){
+			return;
+		}
+		ranges.forEach(function(range){
+			this.convertRangeToItalics(range);
+		}.bind(this));
 	};
 
 	/**
@@ -2640,6 +2655,25 @@ function Document(node){
 		}
 		this.accentuateNodesStyleProperty(nodes, 'font-weight', 'bold');
 	};
+
+	/**
+	 * Converts a selection specified by `range` to become of italic font style.
+	 * @method         convertRangeToItalics
+	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @return         {void}
+	 * @since          0.1.0
+	 */
+	this.convertRangeToItalics = function(range){
+		var nodes;
+		try {
+			nodes = this.nodesOfRange(range);
+		} catch (e){
+			console.log('Error (' + e.name + ') when retrieving nodes of the range: ' + e.message);
+			return;
+		}
+		this.accentuateNodesStyleProperty(nodes, 'font-style', 'italic');
+	};
+
 
 	/**
 	 * Sets style property `key` of array `nodes` of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
