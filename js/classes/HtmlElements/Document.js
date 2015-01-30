@@ -2618,7 +2618,7 @@ function Document(node){
 			return;
 		}
 		ranges.forEach(function(range){
-			this.convertRangeToBold(range);
+			this.convertRangeStyleProperty(range, 'font-weight', 'bold');
 		}.bind(this));
 	};
 
@@ -2634,18 +2634,18 @@ function Document(node){
 			return;
 		}
 		ranges.forEach(function(range){
-			this.convertRangeToItalics(range);
+			this.convertRangeStyleProperty(range, 'font-style', 'italic');
 		}.bind(this));
 	};
 
 	/**
 	 * Converts a selection specified by `range` to become of bold font.
-	 * @method         convertRangeToBold
+	 * @method         convertRangeStyleProperty
 	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @return         {void}
-	 * @since          0.1.0
+	 * @since          0.2.0
 	 */
-	this.convertRangeToBold = function(range){
+	this.convertRangeStyleProperty = function(range, key, value){
 		var nodes;
 		try {
 			nodes = this.nodesOfRange(range);
@@ -2653,25 +2653,7 @@ function Document(node){
 			console.log('Error (' + e.name + ') when retrieving nodes of the range: ' + e.message);
 			return;
 		}
-		this.accentuateNodesStyleProperty(nodes, 'font-weight', 'bold');
-	};
-
-	/**
-	 * Converts a selection specified by `range` to become of italic font style.
-	 * @method         convertRangeToItalics
-	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.convertRangeToItalics = function(range){
-		var nodes;
-		try {
-			nodes = this.nodesOfRange(range);
-		} catch (e){
-			console.log('Error (' + e.name + ') when retrieving nodes of the range: ' + e.message);
-			return;
-		}
-		this.accentuateNodesStyleProperty(nodes, 'font-style', 'italic');
+		this.accentuateNodesStyleProperty(nodes, key, value);
 	};
 
 
