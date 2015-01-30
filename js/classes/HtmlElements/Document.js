@@ -2677,21 +2677,21 @@ function Document(node){
 	/**
 	 * Sets `node`'s style property `key` to be equal to `value`.
 	 * <ol><li>
-	 * If `node` does not have (niether inherits) style property `key`, then
-	 * style property `key` of the proxy of `node` is set to `value`.
+	 * If there exists a node from which the given node inherits a value V of the style property
+	 * `key` (that node is called {{#crossLink "Document/getMentor:method"}}mentor{{/crossLink}}
+	 * and might coincide with the original node) such that V is different from `value`, then
+	 * <ol><li>
+	 * value V is suggested for all {{#crossLink "Document/complementNodes:method"}}complement nodes{{/crossLink}}
+	 * as a value of their style property `key`
 	 * </li><li>
-	 * If `node` has (or inherits) a style property `key` which is different from `value`, then: <ol><li>
-	 * the mentor node (a node from which the style property is inherited) is found
+	 * the mentor gets rid of the style property `key`
 	 * </li><li>
-	 * style property `key` of the proxy of `node` is set to `value`.
-	 * </li><li>
-	 * a child node of the mentor that contains `node` does not undergo any modifications.
-	 * </li><li>
-	 * the other child nodes of the mentor are suggested to set style property `key` to become `value` (because a child
-	 * node might have its own value of that style property)
+	 * style property `key` of a {{#crossLink "Document/proxt:method"}}proxy{{/crossLink}} of the given
+	 * node is set to the requested value
 	 * </li></ol>
-	 * If `node` has (or inherits) a style property `key` which is equal to `value`, then nothing is done.
-	 * </li></ol>
+	 * </li><li>If the mentor does not exist, then style property `key` of a
+	 * {{#crossLink "Document/proxy:method"}}proxy{{/crossLink}} of the given
+	 * node is set to the requested value</li></ol>
 	 * @method         accentuateSingleNodeStyleProperty
 	 * @param          {Node}          node    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}        key     name of style property
@@ -2701,20 +2701,19 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.accentuateSingleNodeStyleProperty = function(node, key, value){
+		console.log(node, key, value);
 		if(!(node instanceof Node)){
 			throw new Error('Set of nodes must be given as an array!');
 		}
 		var mentor = this.getMentor(key, node);
 		if (mentor instanceof Element){
-			var actualValue = mentor.style[key];
+			var actualValue = this.getStyleProperty(mentor, key);
 			if (actualValue !== value){
-				/// suggest property to all children of mentor except one that contans node
-				var childNodes = mentor.childNodes;
-				childNodes.forEach(function(child){
-					if (!this.contains(child, node)){
-						this.suggestStyleProperty(child, key, value);
-					}
-				}.bind(this));
+				/// suggest original property to all complementary nodes
+				var complementNodes = this.complementNodes(mentor, node);
+				complementNodes.forEach(function(n){
+					this.suggestStyleProperty(n, key, actualValue);
+				});
 			}
 		}
 		/// set property to proxy of node
@@ -2724,6 +2723,7 @@ function Document(node){
 		}
 		return;
 	};
+
 
 	/**
 	 * Sets style property `key` of `node` to be equal to `value`.

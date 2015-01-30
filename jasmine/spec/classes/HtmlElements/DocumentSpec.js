@@ -144,6 +144,9 @@ describe('Class "Document"', function() {
         dom1_a0.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
         dom1_a0.setAttribute('href', 'http://www.test.com');
         dom1_a0.setAttribute('title', 'link to test');
+        dom1_ol0.setAttribute('style', 'color: yellow');
+        dom1_li0.setAttribute('style', 'color: blue');
+        dom1_li2.setAttribute('style', 'color: green');
 
         dom2_m00.appendChild(dom2_m10);
         dom2_m00.appendChild(dom2_m11);
@@ -3760,9 +3763,93 @@ describe('Class "Document"', function() {
         });
     });
 
-    // describe('has a method "accentuateSingleNodeStyleProperty" that', function(){
-        // it();
-    // });
+    describe('has a method "accentuateSingleNodeStyleProperty" that', function(){
+        describe('when setting font color of a "red color" paragraph to become blue', function(){
+            var pNew, pOrig;
+            beforeEach(function(){
+                doc.accentuateSingleNodeStyleProperty(dom1_p0, 'color', 'blue');
+                // introduce notations
+                pNew = dom1_div0.childNodes[0];
+                pOrig = clone.childNodes[0];
+            });
+            it('makes the paragraph have blue color font', function(){
+                expect(pNew.getAttribute('style').search(/color:\s+blue/) !== -1).toBe(true);
+            });
+            it('does not change the other nodes', function(){
+                // root must have three children
+                expect(dom1_div0.childNodes.length).toBe(3);
+                // the paragraph must still have three children
+                expect(pNew.childNodes.length).toBe(3);
+                // paragraph children must remain without changes
+                expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[0])).toBe(true);
+                expect(pNew.childNodes[1].isEqualNode(pOrig.childNodes[1])).toBe(true);
+                expect(pNew.childNodes[2].isEqualNode(pOrig.childNodes[2])).toBe(true);
+
+                // the root's second and third children must remain without changes
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
+
+            it('the other paragraph\'s style properties remain without changes', function(){
+                expect(pNew.style.width).toBe('100%');
+            });
+
+            it('the paragraph\'s attributes remain without changes', function(){
+                expect(pNew.getAttribute('marker')).toBe('p');
+                expect(pNew.getAttribute('width')).toBe('300px');
+            });
+        });
+        describe('when asking to set a text-decoration of a list node that does not inherit text-decoration', function(){
+            var listNew, listOrig;
+            beforeEach(function(){
+                doc.accentuateSingleNodeStyleProperty(dom1_ol0, 'text-decoration', 'underline');
+                // introduce notations
+                listNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            it('sets the text-decoration of the list node',function(){
+                expect(listNew.getAttribute('style').search(/text-decoration:\s+underline/) !== -1).toBe(true);
+                console.log(dom1_div0.outerHTML);
+            });
+            it('does not change the rest of DOM', function(){
+                // root must have three children
+                expect(dom1_div0.childNodes.length).toBe(3);
+
+                // root's first child (denoted p) must still have three children
+                var p = dom1_div0.childNodes[0];
+                expect(p.childNodes.length).toBe(3);
+
+                // p's first and second child must remain without changes
+                expect(p.childNodes[0].isEqualNode(clone.childNodes[0].childNodes[0])).toBe(true);
+                expect(p.childNodes[1].isEqualNode(clone.childNodes[0].childNodes[1])).toBe(true);
+
+                // p's third child (denoted divNew) must still have three children
+                var divNew = p.childNodes[2];
+                var divOrig = clone.childNodes[0].childNodes[2];
+                expect(divNew.childNodes.length).toBe(3);
+
+                // divs's first and second child must remain without changes
+                expect(divNew.childNodes[0].isEqualNode(divOrig.childNodes[0])).toBe(true);
+                expect(divNew.childNodes[1].isEqualNode(divOrig.childNodes[1])).toBe(true);
+
+                // divNew's third child (which is the list node) must become different
+                expect(divNew.childNodes[2].isEqualNode(divOrig.childNodes[2])).toBe(false);
+
+                // listNew must still have three children
+                expect(listNew.childNodes.length).toBe(3);
+                // listNew child nodes must remain the same
+                expect(listNew.childNodes[0].isEqualNode(listOrig.childNodes[0])).toBe(true);
+                expect(listNew.childNodes[1].isEqualNode(listOrig.childNodes[1])).toBe(true);
+                expect(listNew.childNodes[2].isEqualNode(listOrig.childNodes[2])).toBe(true);
+
+                // the root's second and third children must remain without changes
+                expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+                expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+            });
+
+        });
+
+    });
 
     describe('has a method "suggestStyleProperty" that', function(){
         beforeEach(function(){
