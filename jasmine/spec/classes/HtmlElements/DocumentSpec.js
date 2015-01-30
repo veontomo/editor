@@ -3806,7 +3806,6 @@ describe('Class "Document"', function() {
                 listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
             });
             it('sets the text-decoration of the list node',function(){
-                console.log(listNew.outerHTML);
                 expect(listNew.getAttribute('style').search(/text-decoration:\s+underline/) !== -1).toBe(true);
             });
             it('does not change the rest of DOM', function(){
