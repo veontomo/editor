@@ -1900,27 +1900,22 @@ function Document(node){
 	/**
 	 * Drops inline style property `key` from `node` and removes inline style attribute if
 	 * it becomes empty.
-	 * Returns `true` if the initially contains inline style property `key` and `false` otherwise.
 	 *
 	 * @method         dropStyleProperty
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of inline style attribute to drop
-	 * @return         {Boolean}                      `true` if successefully deleted the requested property
-	 *                                                 and `false` otherwise
+	 * @return         {void}
 	 */
 	this.dropStyleProperty = function(node, key){
-		if (!node || !key || typeof node.getAttribute !== 'function'){
-			return false;
+		if (!(node instanceof Node) || (typeof key !== 'string') || (!node.style)){
+			return;
 		}
-		var outcome = false;
-		if (node.style && node.style.getPropertyValue(key)){
-			node.style.removeProperty(key);
-			if (node.style.length === 0){
-				node.removeAttribute('style');
-			}
-			outcome = true;
+		node.style.removeProperty(key);
+		var attrName = 'style',
+			attrValue = node.getAttribute(attrName);
+		if (attrValue === ''){
+			node.removeAttribute(attrName);
 		}
-		return outcome;
 	};
 
 
@@ -2697,31 +2692,27 @@ function Document(node){
 	 * @param          {String}        key     name of style property
 	 * @param          {Any}           value   value of the style property
 	 * @return         {void}
-	 * @throws         {Error}         If `node` is not a Node instance
 	 * @since          0.2.0
 	 */
 	this.accentuateSingleNodeStyleProperty = function(node, key, value){
-		console.log(node, key, value);
-		if(!(node instanceof Node)){
-			throw new Error('Set of nodes must be given as an array!');
-		}
 		var mentor = this.getMentor(key, node);
 		if (mentor instanceof Element){
 			var actualValue = this.getStyleProperty(mentor, key);
-			if (actualValue !== value){
-				/// suggest original property to all complementary nodes
-				var complementNodes = this.complementNodes(mentor, node);
-				complementNodes.forEach(function(n){
-					this.suggestStyleProperty(n, key, actualValue);
-				});
+			if (actualValue === value){
+				return;
 			}
+			/// removes the property from the mentor
+			this.dropStyleProperty(mentor, key);
+			/// suggest original property to all complementary nodes
+			var complementNodes = this.complementNodes(mentor, node);
+			complementNodes.forEach(function(n){
+				this.suggestStyleProperty(n, key, actualValue);
+			}.bind(this));
+
 		}
-		/// set property to proxy of node
+		/// set property of node's proxy
 		var proxy = this.proxy(node);
-		if (proxy instanceof Node){
-			this.setStyleProperty(proxy, key, value);
-		}
-		return;
+		this.setStyleProperty(proxy, key, value);
 	};
 
 

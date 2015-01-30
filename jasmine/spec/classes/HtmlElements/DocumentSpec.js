@@ -144,8 +144,8 @@ describe('Class "Document"', function() {
         dom1_a0.setAttribute('style', 'padding: 20em; width: 87%; color: navy; text-decoration: underline;');
         dom1_a0.setAttribute('href', 'http://www.test.com');
         dom1_a0.setAttribute('title', 'link to test');
-        dom1_ol0.setAttribute('style', 'color: yellow');
-        dom1_li0.setAttribute('style', 'color: blue');
+        dom1_ol0.setAttribute('style', 'color: yellow;');
+        dom1_li0.setAttribute('style', 'background-color: blue');
         dom1_li2.setAttribute('style', 'color: green');
 
         dom2_m00.appendChild(dom2_m10);
@@ -805,6 +805,38 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has a method "dropStyleProperty" that', function(){
+        it('does not change DOM if the first argument is a Node that has no style property', function(){
+            doc.dropStyleProperty(dom1_span0, 'color');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('does not change DOM if the first argument is a Text node', function(){
+            doc.dropStyleProperty(dom1_text1, 'color');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('does not change DOM if the first argument is a Node without requested style property', function(){
+            doc.dropStyleProperty(dom1_p0, 'text-decoration');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('removes only requested style property', function(){
+            doc.dropStyleProperty(dom1_a0, 'color');
+            expect(dom1_a0.getAttribute('style').search(/color/) === -1).toBe(true);
+            expect(dom1_a0.style.getPropertyValue('padding')).toBe('20em');
+            expect(dom1_a0.style.getPropertyValue('width')).toBe('87%');
+            expect(dom1_a0.style.getPropertyValue('text-decoration')).toBe('underline');
+        });
+        it('does not change node\'s attributes', function(){
+            doc.dropStyleProperty(dom1_p0, 'color');
+            expect(dom1_p0.getAttribute('marker')).toBe('p');
+            expect(dom1_p0.getAttribute('width')).toBe('300px');
+        });
+        it('removes the whole style property if it becomes empty', function(){
+            doc.dropStyleProperty(dom1_li0, 'background-color');
+            expect(dom1_li0.getAttribute('style')).toBeNull();
+        });
+
+    });
+
     xdescribe('has a method "getStyleProperty" that', function(){
     	var e0, e1, t2, e3, e4;
 //                    e0 (font: nice; color: red)           e4 (size: 5)
@@ -846,41 +878,7 @@ describe('Class "Document"', function() {
             });
         });
 
-        xdescribe('does the following when deleting a property', function(){
-            it('returns false if the argument does not support attributes (like a text node)', function(){
-                expect(doc.dropStyleProperty(t2, 'any')).toBe(false);
-            });
 
-            it('returns false if the argument does not have that property', function(){
-                expect(doc.dropStyleProperty(e3, 'excellence')).toBe(false);
-            });
-
-            it('returns false if the argument has no inline style properties', function(){
-                expect(doc.dropStyleProperty(e1, 'width')).toBe(false);
-            });
-
-            it('returns true if the argument has required inline style property', function(){
-                expect(doc.dropStyleProperty(e3, 'width')).toBe(true);
-            });
-
-            it('removes the required inline style property if the argument has that property', function(){
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-                doc.dropStyleProperty(e0, 'font-size');
-                expect(e0.getAttribute('style').indexOf('font-size')).toBe(-1);
-            });
-
-            it('does not remove other inline style properties', function(){
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-                doc.dropStyleProperty(e0, 'padding');
-                expect(e0.getAttribute('style').indexOf('font-size')).not.toBe(-1);
-            });
-
-            it('removes \"style\" attribute if after deleting requested key it remains empty', function(){
-                expect(e4.getAttribute('style').indexOf('padding')).not.toBe(-1);
-                doc.dropStyleProperty(e4, 'padding');
-                expect(e4.getAttribute('style')).toBe(null);
-            });
-        });
 
         xdescribe('does the following when setting a property', function(){
             it('return node itself (modified) if the target is an element node', function(){
@@ -3799,7 +3797,7 @@ describe('Class "Document"', function() {
                 expect(pNew.getAttribute('width')).toBe('300px');
             });
         });
-        describe('when asking to set a text-decoration of a list node that does not inherit text-decoration', function(){
+        describe('when setting a text-decoration of a list node that does not inherit text-decoration', function(){
             var listNew, listOrig;
             beforeEach(function(){
                 doc.accentuateSingleNodeStyleProperty(dom1_ol0, 'text-decoration', 'underline');
@@ -3808,8 +3806,8 @@ describe('Class "Document"', function() {
                 listOrig = clone.childNodes[0].childNodes[2].childNodes[2];
             });
             it('sets the text-decoration of the list node',function(){
+                console.log(listNew.outerHTML);
                 expect(listNew.getAttribute('style').search(/text-decoration:\s+underline/) !== -1).toBe(true);
-                console.log(dom1_div0.outerHTML);
             });
             it('does not change the rest of DOM', function(){
                 // root must have three children
@@ -3846,7 +3844,38 @@ describe('Class "Document"', function() {
                 expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
                 expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
             });
+        });
+        describe('when setting a color of a node that inherits different color value,', function(){
+            var mentorNew, mentorOrig;
+            beforeEach(function(){
+                // preparing spies the method depends on
+                spyOn(doc, 'proxy').and.returnValue(dom1_li1);
+                spyOn(doc, 'dropStyleProperty');
+                doc.accentuateSingleNodeStyleProperty(dom1_ul0, 'color', 'white');
+                // introduce notations
+                mentorNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
+                mentorOrig = clone.childNodes[0].childNodes[2].childNodes[2];
+            });
+            afterEach(function(){
+                expect(doc.proxy).toHaveBeenCalledWith(dom1_ul0);
+            });
+            it('sets color property of node\'s proxy', function(){
+                 expect(mentorNew.childNodes[1].getAttribute('style').search(/color:\s+white/) !== -1).toBe(true);
+            });
+            it('sets color property of mentor\'s first child to be equal to mentor\'s original value', function(){
+                 expect(mentorNew.childNodes[0].getAttribute('style').search(/color:\s+yellow/) !== -1).toBe(true);
+            });
+            it('does not change color property of mentor\'s third child', function(){
+                 expect(mentorNew.childNodes[2].getAttribute('style').search(/color:\s+green/) !== -1).toBe(true);
+            });
+            it('removes color property from mentor style', function(){
+                 expect(doc.dropStyleProperty).toHaveBeenCalledWith(mentorNew, 'color');
+            });
+        });
 
+        it('does not modify DOM if the value of inherited property is equal to required one', function(){
+            doc.accentuateSingleNodeStyleProperty(dom1_span0, 'color', 'red');
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
     });
