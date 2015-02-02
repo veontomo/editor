@@ -3628,22 +3628,54 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        it('calls method "convertRangeToBold" on each element of the input array', function(){
-            spyOn(doc, 'convertRangeToBold');
+        it('calls method "modifyRangeStyleProperty" on each element of the input array', function(){
+            spyOn(doc, 'modifyRangeStyleProperty');
             var r1 = {}, r2 = {}, r3 = {};
             doc.convertToBold([r1, r2, r3]);
-            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r1);
-            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r2);
-            expect(doc.convertRangeToBold).toHaveBeenCalledWith(r3);
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r1, 'font-weight', 'bold');
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r2, 'font-weight', 'bold');
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r3, 'font-weight', 'bold');
         });
     });
 
-    describe('has a method "convertRangeToBold" that', function(){
+    describe('has a method "convertToItalics" that', function(){
         beforeEach(function(){
             clone = dom1_div0.cloneNode(true);
         });
         it('does not modify DOM if it is called with no argument', function(){
-            doc.convertRangeToBold();
+            doc.convertToItalics();
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not modify DOM if the argument is a number, a string, an object or a function', function(){
+            var invalids = [0, 1, 3.21, -43.19, '', 'string', {}, {1: 'foo'}, function(){return;}, document.createElement('div')];
+            invalids.forEach(function(invalid){
+                doc.convertToItalics(invalid);
+                expect(dom1_div0.isEqualNode(clone)).toBe(true);
+            });
+        });
+
+        it('does not modify DOM if the argument is an empty array', function(){
+            doc.convertToItalics([]);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('calls method "modifyRangeStyleProperty" on each element of the input array', function(){
+            spyOn(doc, 'modifyRangeStyleProperty');
+            var r1 = {}, r2 = {}, r3 = {};
+            doc.convertToItalics([r1, r2, r3]);
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r1, 'font-style', 'italic');
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r2, 'font-style', 'italic');
+            expect(doc.modifyRangeStyleProperty).toHaveBeenCalledWith(r3, 'font-style', 'italic');
+        });
+    });
+
+    describe('has a method "modifyRangeStyleProperty" that', function(){
+        beforeEach(function(){
+            clone = dom1_div0.cloneNode(true);
+        });
+        it('does not modify DOM if it is called with no argument', function(){
+            doc.modifyRangeStyleProperty();
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
         it('does not modify DOM if the argument is a number, a string, an object, an array or a function', function(){
@@ -3655,7 +3687,7 @@ describe('Class "Document"', function() {
                 document.createElement('div')
             ];
             invalids.forEach(function(invalid){
-                doc.convertRangeToBold(invalid);
+                doc.modifyRangeStyleProperty(invalid, 'font-weight', 'bold');
                 expect(dom1_div0.isEqualNode(clone)).toBe(true);
             });
         });
@@ -3664,7 +3696,7 @@ describe('Class "Document"', function() {
             var r = document.createRange();
             r.setStart(dom1_div1, 1);
             r.collapse(true);
-            doc.convertRangeToBold(r);
+            doc.modifyRangeStyleProperty(r, 'font-weight', 'bold');
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
@@ -3675,7 +3707,7 @@ describe('Class "Document"', function() {
                 fakeOutput = [fakeNode1, fakeNode2];
             spyOn(doc, 'nodesOfRange').and.returnValue(fakeOutput);
             spyOn(doc, 'accentuateNodesStyleProperty');
-            doc.convertRangeToBold(aRange);
+            doc.modifyRangeStyleProperty(aRange, 'font-weight', 'bold');
             expect(doc.nodesOfRange).toHaveBeenCalledWith(aRange);
             expect(doc.accentuateNodesStyleProperty).toHaveBeenCalledWith(fakeOutput, 'font-weight', 'bold');
         });
@@ -3683,7 +3715,7 @@ describe('Class "Document"', function() {
         it('does not modify DOM if "nodesOfRange" throws an exception', function(){
             var aRange = document.createRange();
             spyOn(doc, 'nodesOfRange').and.throwError('an error');
-            doc.convertRangeToBold(aRange);
+            doc.modifyRangeStyleProperty(aRange, 'font-weight', 'bold');
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
@@ -3696,7 +3728,7 @@ describe('Class "Document"', function() {
                 r = document.createRange();
                 r.setStart(dom1_p0, 0);
                 r.setEnd(dom1_p0, 1);
-                doc.convertRangeToBold(r);
+                doc.modifyRangeStyleProperty(r, 'font-weight', 'bold');
             });
 
             it('moves the text node inside a new element node that replaces that text node', function(){

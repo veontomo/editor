@@ -2614,12 +2614,7 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.convertToBold = function(ranges){
-		if (!Array.isArray(ranges)){
-			return;
-		}
-		ranges.forEach(function(range){
-			this.convertRangeStyleProperty(range, 'font-weight', 'bold');
-		}.bind(this));
+		this.updateRangesStyleProp(ranges, 'font-weight', 'bold');
 	};
 
 	/**
@@ -2630,22 +2625,39 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.convertToItalics = function(ranges){
+		this.updateRangesStyleProp(ranges, 'font-style', 'italic');
+	};
+
+	/**
+	 * Updates style property `stlName` of each element of array `ranges` to become equal to `stlValue`.
+	 * @method         updateRangesStyleProp
+	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @param          {String}        stlName       name of style property which value is subject to update
+	 * @param          {Any}           stlValue      value of the style property
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.updateRangesStyleProp = function(ranges, stlName, stlValue){
 		if (!Array.isArray(ranges)){
 			return;
 		}
 		ranges.forEach(function(range){
-			this.convertRangeStyleProperty(range, 'font-style', 'italic');
+			this.modifyRangeStyleProperty(range, stlName, stlValue);
 		}.bind(this));
+
 	};
 
+
 	/**
-	 * Converts a selection specified by `range` to become of bold font.
-	 * @method         convertRangeStyleProperty
+	 * Highlights selection by setting style property `key` of the selection specified by `range` to be equal to `value`.
+	 * @method         modifyRangeStyleProperty
 	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {String}        key
+	 * @param          {String}        value
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.convertRangeStyleProperty = function(range, key, value){
+	this.modifyRangeStyleProperty = function(range, key, value){
 		var nodes;
 		try {
 			nodes = this.nodesOfRange(range);
