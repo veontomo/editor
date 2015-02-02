@@ -4135,8 +4135,46 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "removeIf" that', function(){
-        it();
+    describe('has a method "clearRangesFromImages" that', function(){
+        beforeEach(function(){
+            spyOn(doc, 'clearRangeFrom');
+        });
+        it('does not modify DOM if the first argument is an empty array', function(){
+            doc.clearRangesFromImages([]);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('calls method "clearRangeFrom" with every Range instances from the first argument', function(){
+            var r1 = document.createRange();
+            r1.setStart(dom1_div1, 0);
+            r1.setEnd(dom1_ul0, 1);
+            var r2 = document.createRange();
+            r2.setStart(dom1_p0, 1);
+            r2.setEnd(dom1_p0, 2);
+            doc.clearRangesFromImages([r1, r2]);
+            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r1, doc.isImage);
+            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r2, doc.isImage);
+        });
+
+        it('does not call method "clearRangeFrom" if the first argument contains no range instances' , function(){
+            doc.clearRangesFromImages([1, 'a string', {1: 'value'}]);
+            expect(doc.clearRangeFrom).not.toHaveBeenCalled();
+        });
+
+        it('calls method "clearRangeFrom" only on Range instance in the first argument', function(){
+            var r1 = document.createRange();
+            r1.setStart(dom1_text1, 2);
+            r1.setEnd(dom1_text1, 4);
+            var r2 = document.createRange();
+            r2.setStart(dom1_p0, 1);
+            r2.collapse(true);
+            doc.clearRangesFromImages([r1, 'invalid', r2, 3.22]);
+            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r1, doc.isImage);
+            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r2, doc.isImage);
+            expect(doc.clearRangeFrom).not.toHaveBeenCalledWith('invalid', doc.isImage);
+            expect(doc.clearRangeFrom).not.toHaveBeenCalledWith(3.22, doc.isImage);
+        });
+
     });
 
 

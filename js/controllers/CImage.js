@@ -99,7 +99,7 @@ function CImage() {
 		var ranges = adapter.getNativeRanges(editor);
 		var content = adapter.getEditorContent(editor);
 		var doc = this.getWorker();
-		doc.removeImages(ranges);
+		doc.removeImagesFromRanges(ranges);
 		adapter.setEditorContent(editor, content);
 	};
 

@@ -2871,25 +2871,39 @@ function Document(node){
 	};
 
 	/**
-	 * Removes images of each element of `ranges`.
-	 * @method removeImages
+	 * Removes an image of each element of `ranges`.
+	 * @method clearRangesFromImages
 	 * @param  {Array} ranges
 	 * @return {void}
 	 * @since  0.2.0
 	 */
-	this.removeImages = function(ranges){
+	this.clearRangesFromImages = function(ranges){
 		ranges.forEach(function(range){
-			if (range.startContainer instanceof Element){
-				var target = range.startContainer.childNodes[range.startOffset];
-				if (!this.isImage(target)){
-					return;
-				}
-				var parent = target.parentNode;
-				if (parent){
-					target.parentNode.removeChild(target);
-				}
+			if(range instanceof Range){
+				this.clearRangeFrom(range, this.isImage);
 			}
 		}.bind(this));
+	};
+
+	/**
+	 * Removes nodes of `range` on which `criteria` evaluates to `true`.
+	 * @method         clearRangeFrom
+	 * @param          {Range}         range
+	 * @param          {Function}      criteria     single argument function to which a DOM node is to be given
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.clearRangeFrom = function(range, criteria){
+		// if (range.startContainer instanceof Element){
+		// 	var target = range.startContainer.childNodes[range.startOffset];
+		// 	if (!criteria(target)){
+		// 		return;
+		// 	}
+		// 	var parent = target.parentNode;
+		// 	if (parent){
+		// 		target.parentNode.removeChild(target);
+		// 	}
+		// }
 	};
 
 }
