@@ -64,7 +64,7 @@ function CTextDecoration() {
             doc.convertToItalics(ranges); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
-            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            console.log(e.name + ' occurred when converting selection into italics: ' + e.message);
             return;
         }
     };
@@ -90,7 +90,7 @@ function CTextDecoration() {
             doc.convertToStroked(ranges); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
-            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            console.log(e.name + ' occurred when converting selection into stoked: ' + e.message);
             return;
         }
     };
@@ -116,7 +116,7 @@ function CTextDecoration() {
             doc.convertToUnderlined(ranges); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
-            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            console.log(e.name + ' occurred when converting selection into underlined: ' + e.message);
             return;
         }
     };
