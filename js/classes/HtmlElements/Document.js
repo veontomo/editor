@@ -2629,6 +2629,29 @@ function Document(node){
 	};
 
 	/**
+	 * Converts selection given by `ranges` into stroked style.
+	 * @method         convertToStroked
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.convertToStroked = function(ranges){
+		this.updateRangesStyleProp(ranges, 'text-decoration', 'line-through');
+	};
+
+	/**
+	 * Converts selection given by `ranges` into underlined style.
+	 * @method         convertToUnderlined
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.convertToUnderlined = function(ranges){
+		this.updateRangesStyleProp(ranges, 'text-decoration', 'underline');
+	};
+
+
+	/**
 	 * Updates style property `stlName` of each element of array `ranges` to become equal to `stlValue`.
 	 * @method         updateRangesStyleProp
 	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances

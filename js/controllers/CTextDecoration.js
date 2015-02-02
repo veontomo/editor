@@ -67,7 +67,59 @@ function CTextDecoration() {
             console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
             return;
         }
+    };
 
-    }
+    /**
+     * Converts selection to become stroked.
+     *
+     * The method gets the editor content and detects selected nodes.
+     * Based on the selection, the editor content is modified and the new content is inserted
+     * into the editor window.
+     * @method         convertToStroked
+     * @param          {Object}        editor
+     * @return         {void}
+     * @since          0.2.0
+     */
+    this.convertToStroked = function(editor){
+        var adapter, doc, content, ranges;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
+            doc.convertToStroked(ranges); // here, object "content" changes (because "ranges" is passed as reference)
+            adapter.setEditorContent(editor, content);
+        } catch (e) {
+            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            return;
+        }
+    };
+
+    /**
+     * Converts selection to become underlined.
+     *
+     * The method gets the editor content and detects selected nodes.
+     * Based on the selection, the editor content is modified and the new content is inserted
+     * into the editor window.
+     * @method         convertToUnderlined
+     * @param          {Object}        editor
+     * @return         {void}
+     * @since          0.2.0
+     */
+    this.convertToUnderlined = function(editor){
+        var adapter, doc, content, ranges;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
+            doc.convertToUnderlined(ranges); // here, object "content" changes (because "ranges" is passed as reference)
+            adapter.setEditorContent(editor, content);
+        } catch (e) {
+            console.log(e.name + ' occurred when converting selection into bold font: ' + e.message);
+            return;
+        }
+    };
+
 }
 CTextDecoration.prototype = Object.create(Controller.prototype);

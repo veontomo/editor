@@ -1,6 +1,6 @@
 //*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global NEWSLETTER,CKEDITOR, EHToolbar, CTextDecoration, Document*/
+/*global NEWSLETTER, CKEDITOR, EHToolbar, CTextDecoration, Document*/
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('bold2', {
