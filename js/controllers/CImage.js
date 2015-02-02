@@ -84,6 +84,25 @@ function CImage() {
 		}
 	};
 
+	/**
+	 * Removes an image that is the nearest ascendant of the cursor position.
+	 * @method         removeImage
+	 * @param          {Object}        editor
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.removeImage = function(editor){
+		var adapter = this.getEditorAdapter();
+		if (!adapter) {
+		    return;
+		}
+		var ranges = adapter.getNativeRanges(editor);
+		var content = adapter.getEditorContent(editor);
+		var doc = this.getWorker();
+		doc.removeImages(ranges);
+		adapter.setEditorContent(editor, content);
+	};
+
 
 	/**
 	 * Validator for url in the dialog menu.

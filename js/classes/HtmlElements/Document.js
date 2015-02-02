@@ -2859,5 +2859,37 @@ function Document(node){
 		return value;
 	};
 
+	/**
+	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to an image.
+	 * @method         isImage
+	 * @param          {Any}     n
+	 * @return         {Boolean}
+	 * @since          0.2.0
+	 */
+	this.isImage = function(n){
+		return (n instanceof Element) && (n.tagName.toLowerCase() === 'img');
+	};
+
+	/**
+	 * Removes images of each element of `ranges`.
+	 * @method removeImages
+	 * @param  {Array} ranges
+	 * @return {void}
+	 * @since  0.2.0
+	 */
+	this.removeImages = function(ranges){
+		ranges.forEach(function(range){
+			if (range.startContainer instanceof Element){
+				var target = range.startContainer.childNodes[range.startOffset];
+				if (!this.isImage(target)){
+					return;
+				}
+				var parent = target.parentNode;
+				if (parent){
+					target.parentNode.removeChild(target);
+				}
+			}
+		}.bind(this));
+	};
 
 }

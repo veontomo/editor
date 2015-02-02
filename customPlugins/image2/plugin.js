@@ -8,6 +8,19 @@ CKEDITOR.plugins.add('image2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
+		/**
+		 * Instance of {{#crossLink "CTextDecoration"}}CTextDecoration{{/crossLink}}
+		 * @property  {CTextDecoration}     _controller
+		 * @type      {CTextDecoration}
+		 * @private
+		 */
+		var _controller = new CImage();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		(function(){
+		    var worker = new Document();
+		    worker.setFactory(NEWSLETTER.factory);
+		    _controller.setWorker(worker);
+		}());
 		// Define an editor command that opens our dialog.
 		editor.addCommand('image2', new CKEDITOR.dialogCommand('imageSimplified'));
 		// Create a toolbar button that executes the above command.
@@ -22,9 +35,7 @@ CKEDITOR.plugins.add('image2', {
 
 		editor.addCommand('image2Cancel', {
 			exec: function(editor){
-				var startElem = editor.getSelection().getStartElement(),
-					elem = startElem.getAscendant('img', true);
-				elem.$.remove();
+				_controller.removeImage(editor);
 			}
 		});
 

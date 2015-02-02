@@ -4093,6 +4093,51 @@ describe('Class "Document"', function() {
             expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).not.toBeDefined();
         });
     });
+    describe('has a methos "isImage" that', function(){
+        it('returns false if called without argument', function(){
+            expect(doc.isImage()).toBe(false);
+        });
+
+        it('returns false if the argument is a number, a string, an array, a function or a plain object', function(){
+            var invalids = [0, -1, 3.11, 9.87, '', 'a string', {}, {'key': 992}, function(){return;}];
+            invalids.forEach(function(invalid){
+                expect(doc.isImage(invalid)).toBe(false);
+            });
+        });
+
+        it('returns false if the argument is a div element', function(){
+            expect(doc.isImage(document.createElement('div'))).toBe(false);
+        });
+
+        it('returns false if the argument is a hyperlink element', function(){
+            expect(doc.isImage(dom1_a0)).toBe(false);
+        });
+
+        it('returns false if the argument is a paragraph with an image element', function(){
+            expect(doc.isImage(dom1_p0)).toBe(false);
+        });
+
+        it('returns true if the argument is an image element without src attribute', function(){
+            var im = document.createElement('img');
+            expect(doc.isImage(im)).toBe(true);
+        });
+
+        it('returns true if the argument is an image element with valid value of src attribute', function(){
+            var im = document.createElement('img');
+            im.src = 'anImage.png';
+            expect(doc.isImage(im)).toBe(true);
+        });
+
+        it('returns true if the argument is an image element with empty value of src attribute', function(){
+            var im = document.createElement('img');
+            im.src = '';
+            expect(doc.isImage(im)).toBe(true);
+        });
+    });
+
+    describe('has a method "removeIf" that', function(){
+        it();
+    });
 
 
 
