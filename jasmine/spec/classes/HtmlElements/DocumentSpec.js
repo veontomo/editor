@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, afterEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
+/*global describe, it, expect, spyOn, beforeEach, afterEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe,NEWSLETTER */
 var emptyArrayMatcher = {
   toBeEmptyArray: function() {
     return {
@@ -4092,7 +4092,7 @@ describe('Class "Document"', function() {
             expect(doc.commonStyleProperty([dom1_text0, dom1_li2], 'font-size')).not.toBeDefined();
         });
     });
-    describe('has a methos "isImage" that', function(){
+    describe('has a method "isImage" that', function(){
         it('returns false if called without argument', function(){
             expect(doc.isImage()).toBe(false);
         });
@@ -4134,16 +4134,69 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has a method "isLink" that', function(){
+        it('returns false if called without argument', function(){
+            expect(doc.isLink()).toBe(false);
+        });
+
+        it('returns false if the argument is a number, a string, an array, a function or a plain object', function(){
+            var invalids = [0, -1, 3.11, 9.87, '', 'a string', {}, {'key': 992}, function(){return;}];
+            invalids.forEach(function(invalid){
+                expect(doc.isLink(invalid)).toBe(false);
+            });
+        });
+
+        it('returns false if the argument is a div element', function(){
+            expect(doc.isLink(document.createElement('div'))).toBe(false);
+        });
+
+        it('returns false if the argument is a text node', function(){
+            expect(doc.isLink(document.createTextNode('a text node'))).toBe(false);
+        });
+
+        it('returns true if the argument is a hyperlink element', function(){
+            expect(doc.isLink(dom1_a0)).toBe(true);
+        });
+
+        it('returns false if the argument is a div with an image element', function(){
+            expect(doc.isLink(dom1_div0)).toBe(false);
+        });
+
+        it('returns true if the argument is a link element without href attribute', function(){
+            var n = document.createElement('a');
+            expect(doc.isLink(n)).toBe(true);
+        });
+
+        it('returns true if the argument is a link element with valid href attribute', function(){
+            var n = document.createElement('a');
+            n.setAttribute('href', 'http://www.google.com');
+            expect(doc.isLink(n)).toBe(true);
+        });
+
+        it('returns true if the argument is a link element with href attribute that corresponds to non-existing URL', function(){
+            var n = document.createElement('a');
+            n.setAttribute('href', 'http://this-url-does-not-exist! uhm!');
+            expect(doc.isLink(n)).toBe(true);
+        });
+
+        it('returns true if the argument is a link element with empty href attribute', function(){
+            var n = document.createElement('a');
+            n.setAttribute('href', '');
+            expect(doc.isLink(n)).toBe(true);
+        });
+    });
+
+
     describe('has a method "clearRangesFromImages" that', function(){
         beforeEach(function(){
-            spyOn(doc, 'clearRangeFrom');
+            spyOn(doc, 'cascadeRangeClean');
         });
         it('does not modify DOM if the first argument is an empty array', function(){
             doc.clearRangesFromImages([]);
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        it('calls method "clearRangeFrom" with every Range instances from the first argument', function(){
+        it('calls method "cascadeRangeClean" with every Range instances from the first argument', function(){
             var r1 = document.createRange();
             r1.setStart(dom1_div1, 0);
             r1.setEnd(dom1_ul0, 1);
@@ -4151,16 +4204,16 @@ describe('Class "Document"', function() {
             r2.setStart(dom1_p0, 1);
             r2.setEnd(dom1_p0, 2);
             doc.clearRangesFromImages([r1, r2]);
-            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r1, doc.isImage);
-            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r2, doc.isImage);
+            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r1, doc.isImage);
+            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r2, doc.isImage);
         });
 
-        it('does not call method "clearRangeFrom" if the first argument contains no range instances' , function(){
+        it('does not call method "cascadeRangeClean" if the first argument contains no range instances' , function(){
             doc.clearRangesFromImages([1, 'a string', {1: 'value'}]);
-            expect(doc.clearRangeFrom).not.toHaveBeenCalled();
+            expect(doc.cascadeRangeClean).not.toHaveBeenCalled();
         });
 
-        it('calls method "clearRangeFrom" only on Range instance in the first argument', function(){
+        it('calls method "cascadeRangeClean" only on Range instance in the first argument', function(){
             var r1 = document.createRange();
             r1.setStart(dom1_text1, 2);
             r1.setEnd(dom1_text1, 4);
@@ -4168,15 +4221,15 @@ describe('Class "Document"', function() {
             r2.setStart(dom1_p0, 1);
             r2.collapse(true);
             doc.clearRangesFromImages([r1, 'invalid', r2, 3.22]);
-            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r1, doc.isImage);
-            expect(doc.clearRangeFrom).toHaveBeenCalledWith(r2, doc.isImage);
-            expect(doc.clearRangeFrom).not.toHaveBeenCalledWith('invalid', doc.isImage);
-            expect(doc.clearRangeFrom).not.toHaveBeenCalledWith(3.22, doc.isImage);
+            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r1, doc.isImage);
+            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r2, doc.isImage);
+            expect(doc.cascadeRangeClean).not.toHaveBeenCalledWith('invalid', doc.isImage);
+            expect(doc.cascadeRangeClean).not.toHaveBeenCalledWith(3.22, doc.isImage);
         });
 
     });
 
-    describe('has a method "clearRangeFrom" that', function(){
+    describe('has a method "cascadeRangeClean" that', function(){
         var r;
         beforeEach(function(){
             r = document.createRange();
@@ -4185,7 +4238,7 @@ describe('Class "Document"', function() {
             var alwaysFalse = function(){return false;};
             r.setStart(dom1_text1, 2);
             r.setEnd(dom1_text1, 4);
-            doc.clearRangeFrom(r, alwaysFalse);
+            doc.cascadeRangeClean(r, alwaysFalse);
             dom1_div0.normalize();
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
@@ -4193,7 +4246,7 @@ describe('Class "Document"', function() {
             var alwaysTrue = function(){return true;};
             r.setStart(dom1_p0, 0);
             r.setEnd(dom1_p0, 3);
-            doc.clearRangeFrom(r, alwaysTrue);
+            doc.cascadeRangeClean(r, alwaysTrue);
 
             // the root still has three children
             expect(dom1_div0.childNodes.length).toBe(3);
@@ -4211,7 +4264,7 @@ describe('Class "Document"', function() {
             };
             r.setStart(dom1_div1, 1);
             r.setEnd(dom1_div0, 2);
-            doc.clearRangeFrom(r, criteria);
+            doc.cascadeRangeClean(r, criteria);
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
@@ -4223,7 +4276,7 @@ describe('Class "Document"', function() {
             // the range spans the whole document
             r.setStart(dom1_div0, 0);
             r.setEnd(dom1_div0, 2);
-            doc.clearRangeFrom(r, selector);
+            doc.cascadeRangeClean(r, selector);
 
             // the root should still have three children
             expect(dom1_div0.childNodes.length).toBe(3);
@@ -4256,7 +4309,7 @@ describe('Class "Document"', function() {
             };
             r.setStart(dom1_div0, 0);
             r.setEnd(dom1_div0, 3);
-            doc.clearRangeFrom(r, criteria);
+            doc.cascadeRangeClean(r, criteria);
 
             // the root node must remain with a single child
             expect(dom1_div0.childNodes.length).toBe(1);

@@ -2871,7 +2871,19 @@ function Document(node){
 	};
 
 	/**
-	 * Removes an image of each element of `ranges`.
+	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to a link.
+	 * @method         isLink
+	 * @param          {Any}     n
+	 * @return         {Boolean}
+	 * @since          0.2.0
+	 */
+	this.isLink = function(n){
+		return (n instanceof Element) && (n.tagName.toLowerCase() === 'a');
+	};
+
+
+	/**
+	 * Removes image elements from each element of array `ranges`.
 	 * @method clearRangesFromImages
 	 * @param  {Array} ranges
 	 * @return {void}
@@ -2880,23 +2892,69 @@ function Document(node){
 	this.clearRangesFromImages = function(ranges){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.clearRangeFrom(range, this.isImage);
+				this.cascadeRangeClean(range, this.isImage);
 			}
 		}.bind(this));
 	};
 
 	/**
-	 * Removes nodes of `range` on which `criteria` evaluates to `true`.
-	 * @method         clearRangeFrom
+	 * Removes link elements from each element of array `ranges`.
+	 * @method clearRangesFromLinks
+	 * @param  {Array} ranges
+	 * @return {void}
+	 * @since  0.2.0
+	 */
+	this.clearRangesFromLinks = function(ranges){
+		ranges.forEach(function(range){
+			if(range instanceof Range){
+				this.applyToRangeAncestors(range, this.isLink, this.unwrapNode);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Applies `operation` to all nodes that are ancestors of nodes belonging `range` and for which
+	 * `criteria` evaluates to `true`.
+	 * @method         applyToRangeAncestors
+	 * @param          {Range}         range       [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {Function}      criteria    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
+	 * @param          {Function}      operation   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> null
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.applyToRangeAncestors = function(range, criteria, operation){
+		var nodes = range.collapsed ? [range.startContainer] : this.nodesOfRange(range);
+		var targets = this.findAncestorsOfMany(nodes, this.isLink);
+		targets.forEach(function(n){
+			operation(n);
+		}.bind(this));
+	};
+
+	/**
+	 * Removes node `n` from DOM maitaining its child nodes (if any).
+	 * @method  unwrapNode
+	 * @param  {Node} n [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @return {void}
+	 */
+	this.unwrapNode = function(n){
+		/// !!! stub
+	};
+
+
+
+	/**
+	 * Applies method {{#crossLink "Document/cascadeNodeClean:property"}}cascadeNodeClean{{/crossLink}}
+	 * on each node of belonging to `range`
+	 * @method         cascadeRangeClean
 	 * @param          {Range}         range
 	 * @param          {Function}      criteria     single argument function to which a DOM node is to be given
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.clearRangeFrom = function(range, criteria){
+	this.cascadeRangeClean = function(range, criteria){
 		var nodes = this.nodesOfRange(range);
 		nodes.forEach(function(n){
-			this.clearNodeFrom(n, criteria);
+			this.cascadeNodeClean(n, criteria);
 		}.bind(this));
 	};
 
@@ -2905,13 +2963,13 @@ function Document(node){
 	 *
 	 * If `node` itself makes `criteria` return `true`, then `node` gets removed from DOM.
 	 * Otherwise, this method is recursively applied to every child node (if any) of `node`.
-	 * @method         clearNodeFrom
+	 * @method         cascadeNodeClean
 	 * @param          {Node}          node
 	 * @param          {Function}      criteria
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.clearNodeFrom = function(node, criteria){
+	this.cascadeNodeClean = function(node, criteria){
 		var critOutput;
 		try{
 			critOutput = criteria(node);
@@ -2929,7 +2987,7 @@ function Document(node){
 		// elaborate child nodes from the end, because some of them
 		// might be eliminated so that their enumeration changes
 		for (i = len - 1; i >= 0; i--){
-			this.clearNodeFrom(children.item(i), criteria);
+			this.cascadeNodeClean(children.item(i), criteria);
 		}
 	};
 
@@ -2941,8 +2999,10 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.removeNode = function(n){
+		console.log('removeNode: ', n);
 		var parent = n.parentNode;
 		if (parent){
+			console.log('removing child: ', n);
 			parent.removeChild(n);
 		}
 	};

@@ -160,8 +160,17 @@ function CLink() {
      * @since          0.2.0
      */
     this.unlink = function(editor){
-        /// !!! stub
-        console.log('CLink::unlink()', editor);
+        var adapter, doc, content, ranges;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
+            doc.clearRangesFromLinks(ranges); // here, object "content" changes (because "ranges" is passed as reference)
+            adapter.setEditorContent(editor, content);
+        } catch (e) {
+            console.log(e.name + ' occurred when removing links: ' + e.message);
+        }
     };
 
     /**
