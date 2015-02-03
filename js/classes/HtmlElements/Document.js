@@ -2899,15 +2899,15 @@ function Document(node){
 
 	/**
 	 * Removes link elements from each element of array `ranges`.
-	 * @method clearRangesFromLinks
-	 * @param  {Array} ranges
-	 * @return {void}
-	 * @since  0.2.0
+	 * @method         clearRangesFromLinks
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.clearRangesFromLinks = function(ranges){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.applyToRangeAncestors(range, this.isLink, this.unwrapNode);
+				this.applyToRangeAncestors(range, this.isLink, this.deparentize);
 			}
 		}.bind(this));
 	};
@@ -2924,20 +2924,37 @@ function Document(node){
 	 */
 	this.applyToRangeAncestors = function(range, criteria, operation){
 		var nodes = range.collapsed ? [range.startContainer] : this.nodesOfRange(range);
-		var targets = this.findAncestorsOfMany(nodes, this.isLink);
+		var targets = this.findAncestorsOfMany(nodes, criteria);
 		targets.forEach(function(n){
-			operation(n);
+			try {
+				operation(n);
+			} catch(e){
+				return;
+			}
 		}.bind(this));
 	};
 
 	/**
 	 * Removes node `n` from DOM maitaining its child nodes (if any).
-	 * @method  unwrapNode
-	 * @param  {Node} n [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 * @return {void}
+	 * @method         deparentize
+	 * @param          {Node}          n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 * @return         {void}
+	 * @since          0.2.0
 	 */
-	this.unwrapNode = function(n){
-		/// !!! stub
+	this.deparentize = function(n){
+		var parent = n.parentNode;
+		if (!parent){
+			return;
+		}
+		if (n instanceof Element){
+			var i,
+				len = n.childNodes.length;
+			for (i = 0; i < len; i++){
+				// childNodes is a live collection, therefore the child to move has always index 0
+				parent.insertBefore(n.childNodes[0], n);
+			}
+		}
+		this.removeNode(n);
 	};
 
 

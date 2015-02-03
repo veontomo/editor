@@ -4362,6 +4362,137 @@ describe('Class "Document"', function() {
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
+    });
+
+    describe('has a method "clearRangesFromLinks" that', function(){
+        var r1, r2;
+        beforeEach(function(){
+            r1 = document.createRange();
+            r2 = document.createRange();
+            spyOn(doc, 'applyToRangeAncestors');
+        });
+        it('does not call "applyToRangeAncestors" if the first argument is an empty array', function(){
+            doc.clearRangesFromLinks([]);
+            expect(doc.applyToRangeAncestors).not.toHaveBeenCalled();
+        });
+
+        it('does not call "applyToRangeAncestors" if the first argument contains no Range instances', function(){
+            doc.clearRangesFromLinks([1, 'a string']);
+            expect(doc.applyToRangeAncestors).not.toHaveBeenCalled();
+        });
+
+        it('calls "applyToRangeAncestors" on each argument element if they are all Range instances', function(){
+            doc.clearRangesFromLinks([r1, r2]);
+            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r1, doc.isLink, doc.deparentize);
+            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r2, doc.isLink, doc.deparentize);
+        });
+
+        it('calls "applyToRangeAncestors" only on Range instances', function(){
+            var obj = {};
+            doc.clearRangesFromLinks([-2.3, r1, obj]);
+            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r1, doc.isLink, doc.deparentize);
+            expect(doc.applyToRangeAncestors).not.toHaveBeenCalledWith(obj, jasmine.any(Function), jasmine.any(Function));
+            expect(doc.applyToRangeAncestors).not.toHaveBeenCalledWith(-2.3, jasmine.any(Function), jasmine.any(Function));
+        });
+    });
+
+    describe('has a method "applyToRangeAncestors" that', function(){
+        var r1, crit, oper;
+        beforeEach(function(){
+            r1 = document.createRange();
+            crit = function(){return true;};
+        });
+
+        it('uses the range start container when calling "findAncestorsOfMany" if the range is collapsed', function(){
+            spyOn(doc, 'findAncestorsOfMany').and.returnValue([]);
+            r1.setStart(dom1_text3, 6);
+            r1.collapse(true);
+
+            doc.applyToRangeAncestors(r1, crit, function(){});
+            expect(doc.findAncestorsOfMany).toHaveBeenCalledWith([dom1_text3], crit);
+        });
+
+        it('uses the ouptut of "nodesOfRange" when calling "findAncestorsOfMany" if the range is not collapsed', function(){
+            var fakeCollection = [dom1_text4, dom1_li2];
+            spyOn(doc, 'findAncestorsOfMany').and.returnValue([]);
+            spyOn(doc, 'nodesOfRange').and.returnValue(fakeCollection);
+            r1.setStart(dom1_div1, 2);
+            r1.setEnd(dom1_ul0, 1);
+            doc.applyToRangeAncestors(r1, crit, function(){});
+            expect(doc.findAncestorsOfMany).toHaveBeenCalledWith(fakeCollection, crit);
+        });
+
+        it('calls "operation" on each array element of "findAncestorsOfMany" output', function(){
+            var fakeCollection = [dom1_text4, dom1_li2];
+            spyOn(doc, 'findAncestorsOfMany').and.returnValue(fakeCollection);
+            spyOn(doc, 'nodesOfRange').and.returnValue([]);
+            oper = jasmine.createSpy('fakeFunction');
+            doc.applyToRangeAncestors(r1, crit, oper);
+            expect(oper).toHaveBeenCalledWith(dom1_text4);
+            expect(oper).toHaveBeenCalledWith(dom1_li2);
+        });
+
+        it('keeps on executing "operation" if previous calls make it throw an exception', function(){
+            var fakeCollection = [dom1_text4, dom1_li2, dom1_div1];
+            var fakeObj = {
+                oper: function(n){
+                    if(n === dom1_text4){
+                        throw new Error('manually generated error');
+                    }
+                }
+            };
+            spyOn(doc, 'findAncestorsOfMany').and.returnValue(fakeCollection);
+            spyOn(doc, 'nodesOfRange').and.returnValue([]);
+            spyOn(fakeObj, 'oper').and.callThrough();
+
+            expect(function(){
+                doc.applyToRangeAncestors(r1, crit, fakeObj.oper);
+            }).not.toThrow();
+
+            expect(fakeObj.oper).toHaveBeenCalledWith(dom1_text4);
+            expect(fakeObj.oper).toHaveBeenCalledWith(dom1_li2);
+            expect(fakeObj.oper).toHaveBeenCalledWith(dom1_div1);
+        });
+
+    });
+
+    describe('has a method "deparentize" that', function(){
+        it('does not modify DOM if the argument has no parent (i.e. it is the root)', function(){
+            doc.deparentize(dom1_div0);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('removes the argument if it has no children', function(){
+            doc.deparentize(dom1_text0);
+
+            // root must have two nodes
+            expect(dom1_div0.childNodes.length).toBe(2);
+            // root first and second nodes remain the same
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(true);
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+        });
+        it('removes the node and appends all its children to its parent', function(){
+            doc.deparentize(dom1_div1);
+
+            // root must still have three nodes
+            expect(dom1_div0.childNodes.length).toBe(3);
+
+            // root first child gets modified: it now has 5 children
+            var pNew = dom1_div0.childNodes[0],
+                pOrig = clone.childNodes[0],
+                divOrig = pOrig.childNodes[2];
+            expect(pNew.childNodes.length).toBe(5);
+            expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[0])).toBe(true);
+            expect(pNew.childNodes[1].isEqualNode(pOrig.childNodes[1])).toBe(true);
+            expect(pNew.childNodes[2].isEqualNode(divOrig.childNodes[0])).toBe(true);
+            expect(pNew.childNodes[3].isEqualNode(divOrig.childNodes[1])).toBe(true);
+            expect(pNew.childNodes[4].isEqualNode(divOrig.childNodes[2])).toBe(true);
+
+
+            // root second and third nodes remain the same
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+
 
     });
 
