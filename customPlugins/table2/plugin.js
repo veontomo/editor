@@ -6,6 +6,20 @@ CKEDITOR.plugins.add('table2', {
 	icons: 'table2',
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
+		/**
+		 * Instance of {{#crossLink "CTable"}}CTable{{/crossLink}}
+		 * @property  {CTable}     _controller
+		 * @type      {CTable}
+		 * @private
+		 */
+		var _controller = new CTable();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+
+		var worker = new Document();
+		worker.setFactory(NEWSLETTER.factory);
+		_controller.setWorker(worker);
+
+
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));

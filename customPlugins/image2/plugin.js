@@ -9,9 +9,9 @@ CKEDITOR.plugins.add('image2', {
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
 		/**
-		 * Instance of {{#crossLink "CTextDecoration"}}CTextDecoration{{/crossLink}}
-		 * @property  {CTextDecoration}     _controller
-		 * @type      {CTextDecoration}
+		 * Instance of {{#crossLink "CImage"}}CImage{{/crossLink}}
+		 * @property  {CImage}     _controller
+		 * @type      {CImage}
 		 * @private
 		 */
 		var _controller = new CImage();
