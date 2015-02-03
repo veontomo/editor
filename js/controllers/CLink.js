@@ -153,6 +153,18 @@ function CLink() {
     };
 
     /**
+     * Remove link from the editor.
+     * @method         unlink
+     * @param          {Object}        editor
+     * @return         {void}
+     * @since          0.2.0
+     */
+    this.unlink = function(editor){
+        /// !!! stub
+        console.log('CLink::unlink()', editor);
+    };
+
+    /**
      * Modifies the content of the `editor` based on the current selection and information
      * collected from the `dialog` window.
      *

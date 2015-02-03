@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR*/
+/*global CKEDITOR, CLink, NEWSLETTER*/
 
 /**
  * A customized CKEDITOR plugin to deal with operations on hyperlink.
@@ -16,6 +16,28 @@ CKEDITOR.plugins.add('link2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
+		/**
+		 * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+		 * @property  {CLink}     _controller
+		 * @type      {CLink}
+		 * @private
+		 */
+		var _controller = new CLink();
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+		/**
+		 * A class that performs operations with editor window content.
+		 * @property {Document} worker
+		 * @type     {Document}
+		 * @since    0.2.0
+		 * @private
+		 */
+		var worker = new Document();
+		worker.setFactory(NEWSLETTER.factory);
+		_controller.setWorker(worker);
+
+		var pluginName = 'link2';
+
+
 		// Define an editor command that opens our dialog.
 		editor.addCommand('link2', new CKEDITOR.dialogCommand('linkDialog'));
 		// Create a toolbar button that executes the above command.
@@ -29,18 +51,20 @@ CKEDITOR.plugins.add('link2', {
 		});
 		editor.addCommand('link2unlink', {
 			exec: function(editor){
-				var startElem = editor.getSelection().getStartElement(),
-					link = startElem.getAscendant('a', true);
-				CKHelper.unlink(editor, link);
+				_controller.unlink(editor);
+				// var startElem = editor.getSelection().getStartElement(),
+				// 	link = startElem.getAscendant('a', true);
+				// CKHelper.unlink(editor, link);
 			}
 		});
-		editor.addCommand('link2modify', {
-			exec: function(editor){
-				var startElem = editor.getSelection().getStartElement(),
-					link = startElem.getAscendant('a', true);
-				// CKHelper.modifyLink(editor, link);
-			}
-		});
+		// editor.addCommand('link2modify', {
+		// 	exec: function(editor){
+		// 		_controller.modify(editor);
+		// 		// var startElem = editor.getSelection().getStartElement(),
+		// 		// 	link = startElem.getAscendant('a', true);
+		// 		// CKHelper.modifyLink(editor, link);
+		// 	}
+		// });
 
 		// Register our dialog file. this.path is the plugin folder path.
 		var path = this.path.split('/'), a;
