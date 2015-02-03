@@ -1,7 +1,13 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR */
-
-// Register the plugin within the editor.
+/*global CKEDITOR, CImage, NEWSLETTER, Document */
+/**
+ * A customized CKEDITOR plugin to manage image operations.
+ * @module    CKEditorPlugins
+ * @class     Image2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('image2', {
 	// Register the icons.
 	icons: 'image2',

@@ -1,3 +1,14 @@
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR*/
+
+/**
+ * A customized CKEDITOR plugin to load content into the editor window from external source.
+ * @module    CKEditorPlugins
+ * @class     Upload
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('upload', {
 
 	// Register the icons.

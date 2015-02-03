@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+/*global CKEDITOR*/
 
 
 // Fictitious menu dialog that embraces "link" and "mail" menu dialogs.
@@ -7,7 +7,7 @@
 
 CKEDITOR.plugins.add('linkMail', {
 	// The plugin initialization logic goes inside this method.
-	init: function(editor) {}
+	init: function() {return;}
 });
 
 var pluginName = 'linkMail';

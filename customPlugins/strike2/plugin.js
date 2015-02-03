@@ -1,8 +1,14 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Selection, EHToolbar*/
+/*global CKEDITOR, EHToolbar, CTextDecoration, NEWSLETTER, Document */
 
-// Register the plugin within the editor.
+/**
+ * A customized CKEDITOR plugin to make selected text striked.
+ * @module    CKEditorPlugins
+ * @class     Strike2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('strike2', {
 
 	// Register the icons.
@@ -52,36 +58,5 @@ CKEDITOR.plugins.add('strike2', {
 			};
 			EHToolbar.registerEvent(editor, property, pluginName);
 		});
-		// // Define an editor command that opens our dialog.
-		// var pluginName = 'strike2',
-		// 	property = {
-		// 		name: 'text-decoration',
-		// 		value: 'line-through',
-		// 		altValue: 'none'
-		// 	};
-		// editor.addCommand(pluginName, {
-		// 	exec: function(editor){
-		// 		var	selection = new Selection(editor);
-		// 		selection.switchDeepestChildStyle(property);
-		// 	}
-		// });
-
-		// // Create a toolbar button that executes the above command.
-		// editor.ui.addButton(pluginName, {
-		// 	// The text part of the button (if available) and tooltip.
-		// 	label: editor.lang.basicstyles.strike,
-		// 	// The command to execute on click.
-		// 	command: pluginName,
-		// 	// The button placement in the toolbar (toolbar group name).
-		// 	toolbar: 'basicstyles2, 3'
-		// });
-
-		// // attaching events for highlighting plugin button in case the cursor
-		// // is situated inside the element that is stroken.
-		// editor.on('contentDom', function() {
-		// 	EHToolbar.registerEvent(editor,  property, pluginName);
-		// });
-
-
 	}
 });

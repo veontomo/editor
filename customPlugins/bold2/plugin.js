@@ -1,8 +1,14 @@
-//*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global NEWSLETTER, CKEDITOR, EHToolbar, CTextDecoration, Document*/
+/*global CKEDITOR, CTextDecoration, NEWSLETTER, Document, EHToolbar */
 
-// Register the plugin within the editor.
+/**
+ * A customized CKEDITOR plugin to make selected text bold.
+ * @module    CKEditorPlugins
+ * @class     Bold2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('bold2', {
 
 	// Register the icons.

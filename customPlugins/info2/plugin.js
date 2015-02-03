@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+/*global CKEDITOR */
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add('info2', {
@@ -36,7 +36,7 @@ CKEDITOR.plugins.add('info2', {
 						// console.log('after pushing, stack has ' + stack.length + ' elements');
 					}
 					if (top.nodeType === Node.ELEMENT_NODE){
-						console.log('' + accum + ': ' + top.tagName + ', width: ' + window.getComputedStyle(top).width);
+						console.log(accum + ': ' + top.tagName + ', width: ' + window.getComputedStyle(top).width);
 					}
 
 				}

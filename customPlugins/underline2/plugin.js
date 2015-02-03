@@ -1,8 +1,13 @@
-//*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Selection, EHToolbar*/
-
-// Register the plugin within the editor.
+/*global CKEDITOR, CTextDecoration, NEWSLETTER, Document, EHToolbar */
+/**
+ * A customized CKEDITOR plugin to make selected text underlined.
+ * @module    CKEditorPlugins
+ * @class     Undeline2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('underline2', {
 
 	// Register the icons.

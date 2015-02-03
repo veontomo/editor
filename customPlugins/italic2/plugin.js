@@ -1,8 +1,14 @@
-//*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global NEWSLETTER,CKEDITOR, EHToolbar, CTextDecoration, Document*/
+/*global CKEDITOR, CTextDecoration, NEWSLETTER, Document, EHToolbar */
 
-// Register the plugin within the editor.
+/**
+ * A customized CKEDITOR plugin to make selected text have italic font style.
+ * @module    CKEditorPlugins
+ * @class     Italic2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('italic2', {
 
 	// Register the icons.

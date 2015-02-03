@@ -48,6 +48,9 @@ Controller:
    ☐ control what Document class methods should remain and write (or make them active if they are already present) tests
    ☐ remove all inactive tests from DocumentSpec
 
+ ☐ Refactor link plugin to use CLink controller
+
+
 
 
 

@@ -1,8 +1,14 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CList, Document, NEWSLETTER */
+/*global CKEDITOR, CList, NEWSLETTER, Document */
 
-// Register the plugin within the editor.
+/**
+ * A customized CKEDITOR plugin to manage operations on unordered list.
+ * @module    CKEditorPlugins
+ * @class     Ulist2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('ulist2', {
 
 	// Register the icons.

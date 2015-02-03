@@ -1,6 +1,14 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
-// Register the plugin within the editor.
+/*global CKEDITOR*/
+
+/**
+ * A customized CKEDITOR plugin to deal with operations on hyperlink.
+ * @module    CKEditorPlugins
+ * @class     Link2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('link2', {
 
 	// Register the icons.

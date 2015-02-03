@@ -1,8 +1,14 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Selection*/
+/*global CKEDITOR*/
 
-// Register the plugin within the editor.
+/**
+ * A customized CKEDITOR plugin to set scales.
+ * @module    CKEditorPlugins
+ * @class     SetScale2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('setScale2', {
 
 	// Register the icons.

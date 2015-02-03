@@ -1,11 +1,17 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, LinkStyle, Helper, Link, Content */
+/*global CKEDITOR*/
 
-
-
+/**
+ * A customized CKEDITOR plugin to deal with operations on lists.
+ * @module    CKEditorPlugins
+ * @class     List2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('list2', {
 	// The plugin initialization logic goes inside this method.
-	init: function(){}
+	init: function(){return;}
 });
 
 var pluginName = 'list2';

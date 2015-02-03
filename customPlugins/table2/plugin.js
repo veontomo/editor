@@ -1,6 +1,14 @@
-/*global CKEDITOR, NEWSLETTER, Table, Row, Cell,  Helper, CKHelper, NEWSLETTER */
 /*jslint plusplus: true, white: true */
+/*global CKEDITOR, CTable, NEWSLETTER, Document */
 
+/**
+ * A customized CKEDITOR plugin to manage table operations.
+ * @module    CKEditorPlugins
+ * @class     Table2
+ * @type      {Object}
+ * @since     0.0.5
+ * @author    A.Shcherbakov
+ */
 CKEDITOR.plugins.add('table2', {
 	// Register the icons.
 	icons: 'table2',
@@ -14,7 +22,13 @@ CKEDITOR.plugins.add('table2', {
 		 */
 		var _controller = new CTable();
 		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
-
+		/**
+		 * A class that performs operations with editor window content.
+		 * @property {Document} worker
+		 * @type     {Document}
+		 * @since    0.2.0
+		 * @private
+		 */
 		var worker = new Document();
 		worker.setFactory(NEWSLETTER.factory);
 		_controller.setWorker(worker);
