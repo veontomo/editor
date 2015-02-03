@@ -2894,16 +2894,57 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.clearRangeFrom = function(range, criteria){
-		// if (range.startContainer instanceof Element){
-		// 	var target = range.startContainer.childNodes[range.startOffset];
-		// 	if (!criteria(target)){
-		// 		return;
-		// 	}
-		// 	var parent = target.parentNode;
-		// 	if (parent){
-		// 		target.parentNode.removeChild(target);
-		// 	}
-		// }
+		var nodes = this.nodesOfRange(range);
+		nodes.forEach(function(n){
+			this.clearNodeFrom(n, criteria);
+		}.bind(this));
+	};
+
+	/**
+	 * Clear `node` from all descendants for which `criteria` evaluates to `true`.
+	 *
+	 * If `node` itself makes `criteria` return `true`, then `node` gets removed from DOM.
+	 * Otherwise, this method is recursively applied to every child node (if any) of `node`.
+	 * @method         clearNodeFrom
+	 * @param          {Node}          node
+	 * @param          {Function}      criteria
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.clearNodeFrom = function(node, criteria){
+		var critOutput;
+		try{
+			critOutput = criteria(node);
+		} catch (e){
+			console.log('Error (' + e.name + ') when applying criteria to a node: ' + e.message);
+			return;
+		}
+		if (critOutput){
+			this.removeNode(node);
+			return;
+		}
+		var children = node.childNodes;
+		var i,
+			len = children.length;
+		// elaborate child nodes from the end, because some of them
+		// might be eliminated so that their enumeration changes
+		for (i = len - 1; i >= 0; i--){
+			this.clearNodeFrom(children.item(i), criteria);
+		}
+	};
+
+	/**
+	 * Removes node `n` from DOM.
+	 * @method         removeNode
+	 * @param          {Node}        n
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.removeNode = function(n){
+		var parent = n.parentNode;
+		if (parent){
+			parent.removeChild(n);
+		}
 	};
 
 }

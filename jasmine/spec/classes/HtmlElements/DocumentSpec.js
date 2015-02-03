@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, spyOn, beforeEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
+/*global describe, it, expect, spyOn, beforeEach, afterEach, jasmine, Document, Text, Properties, Node, Element, Range, xdescribe */
 var emptyArrayMatcher = {
   toBeEmptyArray: function() {
     return {
@@ -3877,7 +3877,7 @@ describe('Class "Document"', function() {
             });
         });
         describe('when setting a color of a node that inherits different color value,', function(){
-            var mentorNew, mentorOrig;
+            var mentorNew;
             beforeEach(function(){
                 // preparing spies the method depends on
                 spyOn(doc, 'proxy').and.returnValue(dom1_li1);
@@ -3885,7 +3885,6 @@ describe('Class "Document"', function() {
                 doc.accentuateSingleNodeStyleProperty(dom1_ul0, 'color', 'white');
                 // introduce notations
                 mentorNew = dom1_div0.childNodes[0].childNodes[2].childNodes[2];
-                mentorOrig = clone.childNodes[0].childNodes[2].childNodes[2];
             });
             afterEach(function(){
                 expect(doc.proxy).toHaveBeenCalledWith(dom1_ul0);
@@ -4177,7 +4176,140 @@ describe('Class "Document"', function() {
 
     });
 
+    describe('has a method "clearRangeFrom" that', function(){
+        var r;
+        beforeEach(function(){
+            r = document.createRange();
+        });
+        it('does not modify DOM if the criteria always evaluates to false', function(){
+            var alwaysFalse = function(){return false;};
+            r.setStart(dom1_text1, 2);
+            r.setEnd(dom1_text1, 4);
+            doc.clearRangeFrom(r, alwaysFalse);
+            dom1_div0.normalize();
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+        it('removes all nodes belonging to the range if the criteria always returns true', function(){
+            var alwaysTrue = function(){return true;};
+            r.setStart(dom1_p0, 0);
+            r.setEnd(dom1_p0, 3);
+            doc.clearRangeFrom(r, alwaysTrue);
+
+            // the root still has three children
+            expect(dom1_div0.childNodes.length).toBe(3);
+
+            // the first child contained the removed nodes
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(false);
+            // the second and the third child remain unchnaged
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+
+        it('does not modify DOM if the criteria always throws an exception', function(){
+            var criteria = function(){
+                throw new Error('a generated exception');
+            };
+            r.setStart(dom1_div1, 1);
+            r.setEnd(dom1_div0, 2);
+            doc.clearRangeFrom(r, criteria);
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('removes deeply lying nodes of the range for which the criteria evaluates to true', function(){
+            // this is a function to remove three nodes: dom1_text1, dom1_span0 and dom1_ol0
+            var selector = function(n){
+                return n === dom1_text1 || n === dom1_span0 || n === dom1_ol0;
+            };
+            // the range spans the whole document
+            r.setStart(dom1_div0, 0);
+            r.setEnd(dom1_div0, 2);
+            doc.clearRangeFrom(r, selector);
+
+            // the root should still have three children
+            expect(dom1_div0.childNodes.length).toBe(3);
+
+            // root's first child (a paragraph) looses its first child
+            var pNew = dom1_div0.childNodes[0];
+            var pOrig = clone.childNodes[0];
+            expect(pNew.childNodes.length).toBe(2);
+            // image node becomes the paragraph's first child
+            expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[1])).toBe(true);
+            // paragraph's last child (a div) looses two children (span0 and ol0) and remains with single child (text3)
+            var divNew = pNew.childNodes[1];
+            expect(divNew.childNodes.length).toBe(1);
+            expect(divNew.childNodes[0].isEqualNode(pOrig.childNodes[2].childNodes[1])).toBe(true);
+
+            // root's second and third children remain unchanged
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+
+        it('removes nodes for which the criteria returns true and leaves those for which it throws an exception', function(){
+            var criteria = function(n){
+                if (n === dom1_a0 || n === dom1_text0){
+                    return true;
+                }
+                if (n === dom1_div1){
+                    throw new Error('a generated exception');
+                }
+                return false;
+            };
+            r.setStart(dom1_div0, 0);
+            r.setEnd(dom1_div0, 3);
+            doc.clearRangeFrom(r, criteria);
+
+            // the root node must remain with a single child
+            expect(dom1_div0.childNodes.length).toBe(1);
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(true);
+        });
+
+    });
+
+    describe('has a method "removeNode" that', function(){
+        it('removes a text node from DOM', function(){
+            doc.removeNode(dom1_text0);
+            // the root node must remain with two children
+            expect(dom1_div0.childNodes.length).toBe(2);
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(true);
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+        });
+        it('removes an element node that has no children', function(){
+            doc.removeNode(dom1_img0);
+            // the root node still has three children
+            expect(dom1_div0.childNodes.length).toBe(3);
+
+            // root's first child undergoes changes: its middle child node (img element) gets removed
+            var pNew = dom1_div0.childNodes[0];
+            var pOrig = clone.childNodes[0];
+            expect(pNew.childNodes.length).toBe(2);
+            expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[0])).toBe(true);
+            expect(pNew.childNodes[1].isEqualNode(pOrig.childNodes[2])).toBe(true);
+            // root's second and third children remain without changes
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+        it('removes an element node that has children', function(){
+            doc.removeNode(dom1_p0);
+            // the root node must have two children
+            expect(dom1_div0.childNodes.length).toBe(2);
+
+            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[1])).toBe(true);
+            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[2])).toBe(true);
+        });
+
+        it('does not change DOM if the node does not exist in this DOM', function(){
+            doc.removeNode(document.createElement('div'));
+            // the root node must have two children
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
+
+        it('does not change DOM if the node has not parent node (i.e. it is the root node)', function(){
+            doc.removeNode(dom1_div0);
+            // the root node must have two children
+            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        });
 
 
+    });
 
 });
