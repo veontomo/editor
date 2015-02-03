@@ -67,7 +67,7 @@ var ImageDialog = function(editor) {
 						type: 'text',
 						id: 'textAlt',
 						label: editor.lang.image2.alternativeAndTitle,
-						default: ""
+						default: ''
 					},
 				]
 			},
