@@ -96,10 +96,15 @@ function CImage() {
 		if (!adapter) {
 		    return;
 		}
-		var ranges = adapter.getNativeRanges(editor);
-		var content = adapter.getEditorContent(editor);
-		var doc = this.getWorker();
-		doc.clearRangesFromImages(ranges);
+		try {
+			var ranges = adapter.getNativeRanges(editor),
+				content = adapter.getEditorContent(editor),
+				doc = this.getWorker();
+			doc.clearRangesFromImages(ranges);
+		} catch (e){
+			console.log(e.name + ' occurred when removing images: ' + e.message);
+			return;
+		}
 		adapter.setEditorContent(editor, content);
 	};
 
