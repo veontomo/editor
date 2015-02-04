@@ -43,6 +43,6 @@ OList.prototype = Object.create(List.prototype);
  * @return        {Boolean}
  * @since         0.2.0
  */
-UList.prototype.characteristicFunction = function(n){
+OList.prototype.characteristicFunction = function(n){
 	return (n instanceof Element) && n.tagName.toLowerCase() === 'ol';
 };

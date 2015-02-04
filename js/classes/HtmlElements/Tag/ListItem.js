@@ -47,6 +47,6 @@ ListItem.prototype = Object.create(Tag.prototype);
  * @return        {Boolean}
  * @since         0.2.0
  */
-UList.prototype.characteristicFunction = function(n){
+ListItem.prototype.characteristicFunction = function(n){
 	return (n instanceof Element) && n.tagName.toLowerCase() === 'li';
 };
