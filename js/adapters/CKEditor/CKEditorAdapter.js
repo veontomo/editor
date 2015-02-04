@@ -465,6 +465,24 @@ function CKEditorAdapter(){
 		}
 	};
 
+	/**
+	 * Returns native javascript representation of `el`.
+	 *
+	 * The output is either [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance or `null`
+	 * if the argument is not an element.
+	 * @method         toNativeElement
+	 * @param          {CKEDITOR.dom.element}   el   [CKEDITOR.dom.element](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element)
+	 *                                               instance
+	 * @return         {Node}
+	 * @since          0.2.0
+	 */
+	this.toNativeElement = function(el){
+		if (el instanceof CKEDITOR.dom.element){
+			return el.$;
+		}
+	};
+
+
 
 }
 CKEditorAdapter.prototype = Object.create(EditorAdapter.prototype);

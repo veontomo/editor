@@ -2881,6 +2881,17 @@ function Document(node){
 		return (n instanceof Element) && (n.tagName.toLowerCase() === 'a');
 	};
 
+	/**
+	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to a table.
+	 * @method         isTable
+	 * @param          {Any}     n
+	 * @return         {Boolean}
+	 * @since          0.2.0
+	 */
+	this.isTable = function(n){
+		return (n instanceof Element) && (n.tagName.toLowerCase() === 'table');
+	};
+
 
 	/**
 	 * Removes image elements from each element of array `ranges`.
@@ -3023,5 +3034,7 @@ function Document(node){
 			parent.removeChild(n);
 		}
 	};
+
+
 
 }

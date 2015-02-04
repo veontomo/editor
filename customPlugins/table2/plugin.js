@@ -21,7 +21,7 @@ CKEDITOR.plugins.add('table2', {
 		 * @private
 		 */
 		var _controller = new CTable();
-		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+
 		/**
 		 * A class that performs operations with editor window content.
 		 * @property {Document} worker
@@ -29,9 +29,16 @@ CKEDITOR.plugins.add('table2', {
 		 * @since    0.2.0
 		 * @private
 		 */
-		var worker = new Document();
-		worker.setFactory(NEWSLETTER.factory);
-		_controller.setWorker(worker);
+		var _worker = new Document();
+
+		/**
+		 * Configuring the controller:
+		 * 1. assign Factory to the worker (in order to make worker be able to construct html elements)
+		 * 2. assign adapter to the controller (in order to make controller comminicate with the editor)
+		 */
+		_worker.setFactory(NEWSLETTER.factory);
+		_controller.setWorker(_worker);
+		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
 
 
@@ -42,45 +49,37 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2ModifyTable', new CKEDITOR.dialogCommand('table2ModifyTableDialog'));
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				CKHelper.insertColumn(ed, 'before');
+				_controller.insertColumn(ed, 'before');
 			}
 		});
 
 		editor.addCommand('table2InsertColumnAfter', {
 			exec: function(ed){
-				CKHelper.insertColumn(ed, 'after');
+				_controller.insertColumn(ed, 'after');
 			}
 		});
 
 		editor.addCommand('table2AddRowBefore', {
-			exec: function (editor) {
-				CKHelper.insertRow(editor, 'before');
+			exec: function (ed) {
+				_controller.insertRow(ed, 'before');
 			}
 		});
 
 		editor.addCommand('table2AddRowAfter', {
-			exec: function (editor) {
-				CKHelper.insertRow(editor, 'after');
+			exec: function (ed) {
+				_controller.insertRow(ed, 'after');
 			}
 		});
 
 		editor.addCommand('table2DeleteRow', {
 			exec: function (editor) {
-				CKHelper.dropRow(editor);
+				_controller.dropRow(editor);
 			}
 		});
 
 		editor.addCommand('table2DeleteTable', {
-			exec: function (ed) {
-				var tableMarker = (new Table()).getName(), // string with which tables are marked
-					markerName = NEWSLETTER['marker-name'],
-					table = CKHelper.findAscendant(ed.getSelection().getStartElement(), function (el) {
-					return ((el.getName() === 'table') &&
-						(el.getAttribute(markerName) === tableMarker));
-				});
-				if (table) {
-					table.remove();
-				}
+			exec: function (editor) {
+				_controller.removeTable(editor);
 			}
 		});
 
@@ -180,24 +179,25 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var tableMarker = (new Table()).getName(), // string with which tables are marked
-					el = CKHelper.findAscendant(element, function (el) {
-					return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
-				}),
-				menuObj, elemObj;
+				var el = _controller.findTableAncestor(element);
+				// var tableMarker = (new Table()).getName(), // string with which tables are marked
+				// 	el = CKHelper.findAscendant(element, function (el) {
+				// 	return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
+				// }),
+				var menuObj = {},
+				elemObj;
+				console.log('table found: ', el);
 				if (el) {
-					menuObj = {
-						table2DeleteTable: CKEDITOR.TRISTATE_OFF,
-						table2InsertColumnBefore: CKEDITOR.TRISTATE_OFF,
-						table2InsertColumnAfter: CKEDITOR.TRISTATE_OFF,
-						table2ModifyTable: CKEDITOR.TRISTATE_OFF
-					};
-					elemObj = NEWSLETTER.factory.mimic(el.$);
-					// if the table has more than one column, than add possibility to drop columns and to resize them.
-					if (elemObj.colNum() > 1){
-						menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
-						menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
-					}
+					menuObj.table2DeleteTable = CKEDITOR.TRISTATE_OFF;
+					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
+					menuObj.table2InsertColumnAfter = CKEDITOR.TRISTATE_OFF;
+					menuObj.table2ModifyTable = CKEDITOR.TRISTATE_OFF;
+					// elemObj = NEWSLETTER.factory.mimic(el.$);
+					// // if the table has more than one column, than add possibility to drop columns and to resize them.
+					// if (elemObj.colNum() > 1){
+					// 	menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
+					// 	menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
+					// }
 					return menuObj;
 				}
 			});

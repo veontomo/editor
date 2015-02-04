@@ -1010,6 +1010,5 @@ function Tag(tName) {
 		/// this is an abstract method and must be overridden by an inheriting class
 		throw new Error('Method "loadFormTemplate" must be overridden by inheriting class!');
 	};
-
 }
 

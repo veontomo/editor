@@ -244,4 +244,17 @@ function EditorAdapter(){
 		throw new Error('Method "setDialogField" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
+	/**
+	 * Returns native javascript representation of `el`.
+	 * @method         toNativeElement
+	 * @param          {Object}        el    editor-specific representation of a DOM element
+	 * @return         {Node}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.toNativeElement = function(el){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "toNativeElement" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
 }
