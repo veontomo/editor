@@ -343,3 +343,17 @@ function Row() {
 
 }
 Row.prototype = Object.create(Tag.prototype);
+
+/**
+ * {{#crossLink "Row"}}Row{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class UList is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+Row.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'tr';
+};

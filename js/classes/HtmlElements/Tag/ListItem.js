@@ -36,3 +36,17 @@ function ListItem() {
 	this.setProperties(new ListItemProperties());
 }
 ListItem.prototype = Object.create(Tag.prototype);
+
+/**
+ * {{#crossLink "ListItem"}}ListItem{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class ListItem is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+UList.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'li';
+};

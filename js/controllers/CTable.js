@@ -16,6 +16,9 @@ function CTable(){
 	}
 	Controller.call(this);
 
+
+	this.setModel(Table.prototype);
+
 	/**
 	 * Returns the width of the parent element available for its children.
 	 * <pre>
@@ -389,7 +392,7 @@ function CTable(){
 			return;
 		}
 		var doc = this.getWorker();
-		var table  = doc.findAncestor(nativeEl, .isTable);
+		var table  = doc.findAncestor(nativeEl, this.getModel().characteristicFunction);
 		return table;
 	};
 

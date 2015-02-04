@@ -38,3 +38,17 @@ function Cell(arg) {
 }
 
 Cell.prototype = Object.create(Tag.prototype);
+
+/**
+ * {{#crossLink "Cell"}}Cell{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class Link is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+Cell.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'td';
+};

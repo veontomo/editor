@@ -1659,3 +1659,18 @@ function Table() {
 
 }
 Table.prototype = Object.create(Tag.prototype);
+
+
+/**
+ * {{#crossLink "Table"}}Table{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class Table is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+Table.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'table';
+};

@@ -167,11 +167,11 @@ function Controller(){
 
 	/**
 	 * {{#crossLink "Controller/_model:property"}}_model{{/crossLink}} getter.
-	 * @method    setModel
+	 * @method    getModel
 	 * @return    {Function}
 	 * @since     0.2.0
 	 */
-	this.setModel = function(){
+	this.getModel = function(){
 		return _model;
 	};
 
