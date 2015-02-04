@@ -48,7 +48,11 @@ Controller:
    ☐ control what Document class methods should remain and write (or make them active if they are already present) tests
    ☐ remove all inactive tests from DocumentSpec
 
- ☐ Refactor link plugin to use CLink controller
+ ✔ Refactor link plugin to use CLink controller @done (15-02-04 09:33)
+
+
+
+ ☐ Make Image plugin use not  hardcoded strings in dialog
 
 
 

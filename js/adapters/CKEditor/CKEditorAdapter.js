@@ -436,5 +436,36 @@ function CKEditorAdapter(){
 	};
 
 
+	/**
+	 * Sets value of a field in `dialog`.
+	 *
+	 * Information to identify the field and the corresponding value is encoded in object `data`.
+	 * @method         setDialogField
+	 * @param          {Object}        dialog
+	 * @param          {Object}        data
+	 * @since          0.2.0
+	 * @return         {void}
+	 */
+	this.setDialogField = function(dialog, data){
+		var tabId, elemId, value, elem;
+		try {
+			tabId = data.tabId;
+			elemId = data.elemId;
+			elem = dialog.getContentElement(tabId, elemId);
+			if (!elem){
+				return;
+			}
+			value  = data.value;
+			if (value !== undefined){
+				document.getElementById(elem.domId).innerHTML = value;
+			}
+
+		} catch(e){
+			console.log(e.name  + ' when setting dialog field:' + e.message);
+		}
+		console.log(elem);
+	};
+
+
 }
 CKEditorAdapter.prototype = Object.create(EditorAdapter.prototype);

@@ -33,10 +33,9 @@ var ImageDialog = function(editor) {
 	    worker.setFactory(NEWSLETTER.factory);
 	    _controller.setWorker(worker);
 	}());
-
 	return {
 		// Basic properties of the dialog window: title, minimum size.
-		title: editor.lang.common.image,
+		title: editor.lang.image2.title,
 		minWidth:  400,
 		minHeight: 200,
 
@@ -44,7 +43,7 @@ var ImageDialog = function(editor) {
 		contents: [
 			{
 				id:    'mainTab',
-				label: 'Info generale',
+				label:  editor.lang.image2.generalInfo,
 
 				// The tab contents.
 				elements: [
@@ -54,13 +53,19 @@ var ImageDialog = function(editor) {
 						id: 'imageUrl',
 						label: editor.lang.common.url,
 						validate: function(){
-							return _controller.validateUrl(this.getValue(), editor);
+							var isValid = _controller.validateUrl(this.getValue());
+							if (!isValid){
+								// console.log(this.getDialog());
+								_controller.setDialogField(this.getDialog(), {tabId: 'mainTab', elemId: 'warning', value: editor.lang.image2.invalidUrl});
+							}
+							return isValid;
 						},
 						default: ''
 					},
 					{
 						type: 'html',
-						html: '<div id="warning" style="color:red;"></div>'
+						id: 'warning',
+						html: ''
 					},
 					{
 						// alternative text
@@ -74,13 +79,15 @@ var ImageDialog = function(editor) {
 		],
 
 		onShow: function(){
+			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: ''});
 			_controller.onShow(this, editor);
 		},
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
 			// removes eventual warning text
-			CKEDITOR.document.getById('warning').setHtml('');
+			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: '', visible: true});
+			// CKEDITOR.document.getById('warning').setHtml('');
 			_controller.onOk(this, editor);
 		}
 	};

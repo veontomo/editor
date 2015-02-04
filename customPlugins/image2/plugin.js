@@ -79,14 +79,18 @@ CKEDITOR.plugins.add('image2', {
 var pluginName = 'image2';
 var translations = {
 	it: {
+		generalInfo: 'Informazione generale',
 		alternativeAndTitle: 'Titolo e testo alternativo',
 		title: 'Proprietà immagine',
-		drop: 'Eliminare immagine'
+		drop: 'Eliminare immagine',
+		invalidUrl: 'URL non valido'
 	},
 	en: {
+		generalInfo: 'General information',
 		alternativeAndTitle: 'Title and alternative text',
 		title: 'Image property',
-		drop: 'Drop image'
+		drop: 'Drop image',
+		invalidUrl: 'Invalid URL'
 	}
 };
 

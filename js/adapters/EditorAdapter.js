@@ -220,12 +220,28 @@ function EditorAdapter(){
 	 * @param          {Object}        editor
 	 * @return         {Range}
 	 * @since          0.1.0
+	 * @abstract
 	 */
 	this.getCursorPosition = function(editor){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "getCursorPosition" of class EditorAdapter must be overridden by inheriting class!');
-	}
+	};
 
 
+	/**
+	 * Sets value of a field in `dialog` according to information encoded in `data`.
+	 *
+	 * Implementation of this method is delegated to a class that inherits from this one.
+	 * @method         setDialogField
+	 * @param          {Object}        dialog           editor dialog object
+	 * @param          {Object}        data
+	 * @since          0.2.0
+	 * @return         {void}
+	 * @abstract
+	 */
+	this.setDialogField = function(dialog, data){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "setDialogField" of class EditorAdapter must be overridden by inheriting class!');
+	};
 
 }

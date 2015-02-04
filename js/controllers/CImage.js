@@ -26,25 +26,22 @@ function CImage() {
 	 * @return         {void}
 	 */
 	this.onOk = function(dialog, editor){
-		var adapter, doc, content, data, template, image, cursorPos, path, newContent;
+		var adapter, doc, content, data, template, image, cursorPos;
 		try {
 			adapter = this.getEditorAdapter();
+			doc = this.getWorker();
 			content = adapter.getEditorContent(editor);
 			cursorPos = adapter.getCursorPosition(editor);
 			if (!cursorPos) {
 				return;
 			}
-			doc = this.getWorker();
-			path = doc.pathTo(cursorPos.startContainer, content);
-			if (!path){
-				return;
-			}
+
 			data = adapter.getDialogData(dialog, ['text']);
 			template = adapter.dialogToTemplate.image(data);
 			image = new ImageTag();
 			image.loadFromTemplate(template);
 			doc.insertNodeAt(cursorPos.startContainer, image.toNode(),  cursorPos.startOffset);
-			adapter.setEditorContent(editor, newContent);
+			adapter.setEditorContent(editor, content);
 		}
 		catch (e){
 			console.log(e);
@@ -61,13 +58,10 @@ function CImage() {
 	 */
 	this.onShow = function(dialog, editor){
 		var doc, ranges, adapter, content, img, imgTag;
-		adapter = this.getEditorAdapter();
-		if (!adapter) {
-		    return;
-		}
-		ranges = adapter.getNativeRanges(editor);
-		content = adapter.getEditorContent(editor);
 		try {
+			adapter = this.getEditorAdapter();
+			ranges = adapter.getNativeRanges(editor);
+			content = adapter.getEditorContent(editor);
 		    doc = this.getWorker();
 		    doc.setContent(content);
 		    doc.freezeSelection(ranges);
@@ -92,14 +86,12 @@ function CImage() {
 	 * @since          0.2.0
 	 */
 	this.removeImage = function(editor){
-		var adapter = this.getEditorAdapter();
-		if (!adapter) {
-		    return;
-		}
+		var adapter, content, doc, ranges;
 		try {
-			var ranges = adapter.getNativeRanges(editor),
-				content = adapter.getEditorContent(editor),
-				doc = this.getWorker();
+			adapter = this.getEditorAdapter();
+			ranges = adapter.getNativeRanges(editor);
+			content = adapter.getEditorContent(editor);
+			doc = this.getWorker();
 			doc.clearRangesFromImages(ranges);
 		} catch (e){
 			console.log(e.name + ' occurred when removing images: ' + e.message);
@@ -112,19 +104,27 @@ function CImage() {
 	/**
 	 * Validator for url in the dialog menu.
 	 *
-	 * <span style="color: red">To do</span>: for the moment, the method has side effect: it shows some info in case the validation fails.
 	 * @method         validateUrl
 	 * @param          {String}             value
-	 * @param          {Object}             editor           instance of CKEDITOR
 	 * @return         {Boolean}
 	 */
-	this.validateUrl = function(value, editor){
+	this.validateUrl = function(value){
 		var isOk = typeof value === 'string' && value.trim().length > 0;
-		if (!isOk){
-			var warningField = CKEDITOR.document.getById('warning');
-			warningField.setHtml(editor.lang.common.invalidValue);
-		}
+		console.log('validateUrl: ', isOk);
 		return isOk;
+	};
+
+	/**
+	 * Clears a field called `name` in dialog menu.
+	 * @method         setDialogField
+	 * @param          {Object}        dialog
+	 * @param          {String}        name
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.setDialogField = function(dialog, name){
+		var adapter = this.getEditorAdapter();
+		adapter.setDialogField(dialog, name);
 	};
 }
 

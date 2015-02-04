@@ -215,7 +215,7 @@ function manageTable(editor, isNew) {
 		// Dialog window contents definition.
 		contents: [{
 			id: 'structure',
-			label: editor.lang.table2.structure,
+			label: editor.lang.table2.structure + '.s,slslsls',
 			elements: [
 			{
 				type: 'text',
