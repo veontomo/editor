@@ -463,7 +463,6 @@ function CKEditorAdapter(){
 		} catch(e){
 			console.log(e.name  + ' when setting dialog field:' + e.message);
 		}
-		console.log(elem);
 	};
 
 

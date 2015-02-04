@@ -45,24 +45,22 @@ function ImageTag() {
 	 */
 	this.setOrigin = function(url){
 		var protocol = this.getProtocol(url);
-		if (allowedProtocols.indexOf(protocol) !== -1){
-			var img = document.createElement('img'),
-				imgWidth, imgHeight;
-			img.src = url;
-			imgWidth = img.width;
-			imgHeight = img.height;
-			console.log(url, imgWidth, imgHeight);
-			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
-				this.setProperty('src', url);
-				this.setProperty('width', imgWidth);
-				this.setWidth(imgWidth);
-				this.setStyleProperty('height', imgHeight);
-				this.setProperty('height', imgHeight);
-			}
-		} else {
+		if (allowedProtocols.indexOf(protocol) === -1){
 			console.log('protocol ' + protocol + ' is not supported!');
+			return;
 		}
-
+		var img = document.createElement('img'),
+			imgWidth, imgHeight;
+		img.src = url;
+		imgWidth = img.width;
+		imgHeight = img.height;
+		if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
+			this.setProperty('src', url);
+			this.setProperty('width', imgWidth);
+			this.setWidth(imgWidth);
+			this.setStyleProperty('height', imgHeight);
+			this.setProperty('height', imgHeight);
+		}
 	};
 
 	/**
@@ -170,7 +168,6 @@ function ImageTag() {
 	 * @since          0.1.0
 	 */
 	this.loadFromTemplate = function(tmpl){
-		console.log('loading from template', tmpl);
 		var key;
 		for (key in tmpl){
 			if (tmpl.hasOwnProperty(key)){

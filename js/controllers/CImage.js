@@ -110,7 +110,6 @@ function CImage() {
 	 */
 	this.validateUrl = function(value){
 		var isOk = typeof value === 'string' && value.trim().length > 0;
-		console.log('validateUrl: ', isOk);
 		return isOk;
 	};
 

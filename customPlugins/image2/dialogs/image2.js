@@ -65,7 +65,8 @@ var ImageDialog = function(editor) {
 					{
 						type: 'html',
 						id: 'warning',
-						html: ''
+						html: ' ',
+						style: 'color: red'
 					},
 					{
 						// alternative text
@@ -79,15 +80,12 @@ var ImageDialog = function(editor) {
 		],
 
 		onShow: function(){
-			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: ''});
+			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: '&nbsp;'});
 			_controller.onShow(this, editor);
 		},
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
-			// removes eventual warning text
-			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: '', visible: true});
-			// CKEDITOR.document.getById('warning').setHtml('');
 			_controller.onOk(this, editor);
 		}
 	};
