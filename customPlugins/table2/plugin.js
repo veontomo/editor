@@ -186,7 +186,6 @@ CKEDITOR.plugins.add('table2', {
 				// }),
 				var menuObj = {},
 				elemObj;
-				console.log('table found: ', el);
 				if (el) {
 					menuObj.table2DeleteTable = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
