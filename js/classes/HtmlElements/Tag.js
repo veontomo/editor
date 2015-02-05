@@ -1010,6 +1010,18 @@ function Tag(tName) {
 		/// this is an abstract method and must be overridden by an inheriting class
 		throw new Error('Method "loadFormTemplate" must be overridden by inheriting class!');
 	};
-
 }
 
+/**
+ * {{#crossLink "Tag"}}Tag{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class Tag is designed
+ * to represent.  Inheriting classes are supposed to implement their own characteristic functions.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+Tag.prototype.characteristicFunction = function(n){
+	return (n instanceof Node);
+};

@@ -142,7 +142,38 @@ function Controller(){
 	};
 
 
+	/**
+	 * Name of the class that the controller represents.
+	 *
+	 * It is supposed to be a {{#crossLink "Tag"}}Tag{{/crossLink}} or one of its sublclasses.
+	 * @property {Tag} _model
+	 * @private
+	 * @type
+	 * @since  0.2.0
+	 */
+	var _model;
 
+	/**
+	 * {{#crossLink "Controller/_model:property"}}_model{{/crossLink}} setter.
+	 * @method    setModel
+	 * @param     {Function}       m
+	 * @return    {void}
+	 * @since     0.2.0
+	 */
+	this.setModel = function(m){
+		_model = m;
+	};
+
+
+	/**
+	 * {{#crossLink "Controller/_model:property"}}_model{{/crossLink}} getter.
+	 * @method    getModel
+	 * @return    {Function}
+	 * @since     0.2.0
+	 */
+	this.getModel = function(){
+		return _model;
+	};
 
 	/**
 	 * Disables single element with id `elemId` on page with id `pageId` in `dialog`.

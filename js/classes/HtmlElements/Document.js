@@ -2881,48 +2881,116 @@ function Document(node){
 		return (n instanceof Element) && (n.tagName.toLowerCase() === 'a');
 	};
 
+	/**
+	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to a table.
+	 * @method         isTable
+	 * @param          {Any}     n
+	 * @return         {Boolean}
+	 * @since          0.2.0
+	 */
+	this.isTable = function(n){
+		return (n instanceof Element) && (n.tagName.toLowerCase() === 'table');
+	};
+
 
 	/**
 	 * Removes image elements from each element of array `ranges`.
-	 * @method clearRangesFromImages
-	 * @param  {Array} ranges
-	 * @return {void}
-	 * @since  0.2.0
+	 * @method         clearRangesFromImages
+	 * @param          {Array}         ranges
+	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.clearRangesFromImages = function(ranges){
+		this.applyToDesOfManyRanges(ranges, this.isImage, this.removeNode, true);
+	};
+
+	/**
+	 * Applies `operation` on the descendats of nodes belonging to `ranges` on which `filter` evaluates to `true`.
+	 *
+	 * Calls method {{#crossLink "Document/applyToDesOfSingleRange:method"}}applyToDesOfSingleRange{{/crossLink}} on each
+	 * element of array `ranges`, passing to that method the range, `filter` and `operation`.
+	 *
+	 * @method         applyToDesOfManyRanges
+	 * @param          {Array}         ranges                array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
+	 *                                                       instances. Non Range instances are ignored.
+	 * @param          {Function}      filter                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
+	 * @param          {Function}      operation             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
+	 * @param          {Boolean}       mode                  [Optional] whether the execution should be terminated after applying
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.applyToDesOfManyRanges = function(ranges, filter, operation, mode              ){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.cascadeRangeClean(range, this.isImage);
+				this.applyToDesOfSingleRange(range, filter, operation, mode              );
 			}
 		}.bind(this));
 	};
 
 	/**
 	 * Removes link elements from each element of array `ranges`.
+	 *
+	 * Alias for {{#crossLink "Document/applyToAncOfManyRanges:method"}}applyToAncOfManyRanges{{/crossLink}}
+	 * with second and third arguments being correspondingly {{#crossLink "Document/isLink:method"}}isLink{{/crossLink}} and
+	 * {{#crossLink "Document/deparentize:method"}}deparentize{{/crossLink}}.
 	 * @method         clearRangesFromLinks
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.clearRangesFromLinks = function(ranges){
-		ranges.forEach(function(range){
-			if(range instanceof Range){
-				this.applyToRangeAncestors(range, this.isLink, this.deparentize);
-			}
-		}.bind(this));
+		this.applyToAncOfManyRanges(ranges, this.isLink, this.deparentize);
 	};
+
+
+	/**
+	 * Removes table elements from each element of array `ranges`.
+	 *
+	 * Alias for {{#crossLink "Document/applyToAncOfManyRanges:method"}}applyToAncOfManyRanges{{/crossLink}}
+	 * with second and third arguments being correspondingly {{#crossLink "Document/isTable:method"}}isTable{{/crossLink}} and
+	 * {{#crossLink "Document/removeNode:method"}}removeNode{{/crossLink}}.
+	 * @method         clearRangesFromTables
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.clearRangesFromTables = function(ranges){
+		this.applyToAncOfManyRanges(ranges, this.isTable, this.removeNode, true);
+	};
+
+    /**
+     * Applies `operation` on the nearest ancestors of nodes belonging to `ranges` on which `filter` evaluates to `true`.
+     *
+     * Calls method {{#crossLink "Document/applyToAncOfSingleRange:method"}}applyToAncOfSingleRange{{/crossLink}} on each
+     * element of array `ranges`, passing to that method the range, `filter` and `operation`.
+     *
+     * @method         applyToAncOfManyRanges
+     * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
+     *                                           Non Range instances are ignored.
+     * @param          {Function}      filter    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
+     * @param          {Function}      operation [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
+     * @return         {void}
+     * @since          0.2.0
+     */
+    this.applyToAncOfManyRanges = function(ranges, filter, operation){
+    	ranges.forEach(function(range){
+    		if(range instanceof Range){
+    			this.applyToAncOfSingleRange(range, filter, operation);
+    		}
+    	}.bind(this));
+    };
 
 	/**
 	 * Applies `operation` to all nodes that are ancestors of nodes belonging `range` and for which
 	 * `criteria` evaluates to `true`.
-	 * @method         applyToRangeAncestors
+	 * @method         applyToAncOfSingleRange
 	 * @param          {Range}         range       [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {Function}      criteria    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
-	 * @param          {Function}      operation   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> null
+	 * @param          {Function}      operation   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToRangeAncestors = function(range, criteria, operation){
+	this.applyToAncOfSingleRange = function(range, criteria, operation){
 		var nodes = range.collapsed ? [range.startContainer] : this.nodesOfRange(range);
 		var targets = this.findAncestorsOfMany(nodes, criteria);
 		targets.forEach(function(n){
@@ -2960,51 +3028,69 @@ function Document(node){
 
 
 	/**
-	 * Applies method {{#crossLink "Document/cascadeNodeClean:property"}}cascadeNodeClean{{/crossLink}}
+	 * Applies method {{#crossLink "Document/applyToDesOfSingleNode:property"}}applyToDesOfSingleNode{{/crossLink}}
 	 * on each node of belonging to `range`
-	 * @method         cascadeRangeClean
+	 * @method         applyToDesOfSingleRange
 	 * @param          {Range}         range
-	 * @param          {Function}      criteria     single argument function to which a DOM node is to be given
+	 * @param          {Function}      criteria                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
+	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
+	 * @param          {Boolean}       mode                    [Optional] whether the execution should be terminated after applying
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.cascadeRangeClean = function(range, criteria){
+	this.applyToDesOfSingleRange = function(range, criteria, operation, mode              ){
 		var nodes = this.nodesOfRange(range);
 		nodes.forEach(function(n){
-			this.cascadeNodeClean(n, criteria);
+			this.applyToDesOfSingleNode(n, criteria, operation, mode              );
 		}.bind(this));
 	};
 
 	/**
-	 * Clear `node` from all descendants for which `criteria` evaluates to `true`.
+	 * Applies `operation` to `node` descendants for which `criteria` evaluates to `true`.
 	 *
-	 * If `node` itself makes `criteria` return `true`, then `node` gets removed from DOM.
-	 * Otherwise, this method is recursively applied to every child node (if any) of `node`.
-	 * @method         cascadeNodeClean
+	 * The flow is as follows: <ol><li>
+	 * apply `criteria` to `node` itself and if it evaluates to `true`, then: <ol><li>
+	 * apply `operation` on `node`
+	 * </li><li>
+	 * if `mode              ` is set to `true`, then finish the execution.
+	 * </li></ol>
+	 * </li>
+	 * repeat the procedure to each `node`'s child.
+	 * </li></ol>
+	 *
+	 * @method         applyToDesOfSingleNode
 	 * @param          {Node}          node
-	 * @param          {Function}      criteria
+	 * @param          {Function}      criteria 			   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
+	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
+	 * @param          {Boolean}       mode                    [Optional] whether the execution should be terminated after applying
+	 *                                                         of the operation. Default value is `true`.
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.cascadeNodeClean = function(node, criteria){
-		var critOutput;
+	this.applyToDesOfSingleNode = function(node, criteria, operation, mode){
+		var critOutput,
+			shouldStop = mode === undefined ? true : mode;
 		try{
 			critOutput = criteria(node);
 		} catch (e){
 			console.log('Error (' + e.name + ') when applying criteria to a node: ' + e.message);
-			return;
+			critOutput = false;
 		}
 		if (critOutput){
-			this.removeNode(node);
-			return;
+			try {
+				operation(node);
+			} catch(e){
+				console.log('Error (' + e.name + ') when applying operation to a node: ' + e.message);
+			}
+			if (shouldStop){
+				return;
+			}
 		}
 		var children = node.childNodes;
 		var i,
 			len = children.length;
-		// elaborate child nodes from the end, because some of them
-		// might be eliminated so that their enumeration changes
 		for (i = len - 1; i >= 0; i--){
-			this.cascadeNodeClean(children.item(i), criteria);
+			this.applyToDesOfSingleNode(children.item(i), criteria, operation, mode);
 		}
 	};
 
@@ -3016,10 +3102,8 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.removeNode = function(n){
-		console.log('removeNode: ', n);
 		var parent = n.parentNode;
 		if (parent){
-			console.log('removing child: ', n);
 			parent.removeChild(n);
 		}
 	};

@@ -16,6 +16,9 @@ function CTable(){
 	}
 	Controller.call(this);
 
+
+	this.setModel(Table.prototype);
+
 	/**
 	 * Returns the width of the parent element available for its children.
 	 * <pre>
@@ -327,6 +330,93 @@ function CTable(){
 		table = currentTable.update(this.dialogToTemplate(tableInfo));
 		return table.toNode();
 	};
+
+	/**
+	 * Inserts a column into the table nearest to the current cursor position.
+	 *
+	 * Where the column is to be inserted is decided based on the value of `pos`.
+	 * @method         insertColumn
+	 * @param          {Object}        editor    editor instance
+	 * @param          {Any}           pos       position of the column to be inserted
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.insertColumn = function(editor, pos){
+		/// !!! stub
+		console.log('insertColumn: ', editor, pos);
+	};
+
+	/**
+	 * Inserts a row into the table nearest to the current cursor position.
+	 *
+	 * Where the row is to be inserted is decided based on the value of `pos`.
+	 * @method         insertRow
+	 * @param          {Object}        editor    editor instance
+	 * @param          {Any}           pos       position of the row to be inserted
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.insertRow = function(editor, pos){
+		/// !!! stub
+		console.log('insertRow: ', editor, pos);
+	};
+
+	/**
+	 * Drops a row from the table nearest to the current cursor position.
+	 *
+	 * @method         dropRow
+	 * @param          {Object}        editor    editor instance
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.dropRow = function(editor){
+		/// !!! stub
+		console.log('dropRow: ', editor);
+	};
+
+	/**
+	 * Finds table element among `element`'s ancestors.
+	 *
+	 * `element` is in editor representation. The output (if any) is a native javascript
+	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element).
+	 *
+	 * @method  findTableAncestor
+	 * @param   {Object}     el           element of the editor window in a representation that the editor uses
+	 * @return  {Element}                 [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) in native JS representation
+	 * @since   0.2.0
+	 */
+	this.findTableAncestor = function(el){
+		var adapter = this.getEditorAdapter(),
+			nativeEl = adapter.toNativeElement(el);
+		if (!nativeEl){
+			return;
+		}
+		var doc = this.getWorker();
+		var table  = doc.findAncestor(nativeEl, this.getModel().characteristicFunction);
+		return table;
+	};
+
+	/**
+	 * Removes the nearest table to the cursor position.
+	 * @method         removeTable
+	 * @param          {Object}        editor
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.removeTable = function(editor){
+		var adapter, content, doc, ranges;
+		try {
+			adapter = this.getEditorAdapter();
+			content = adapter.getEditorContent(editor);
+			ranges = adapter.getNativeRanges(editor);
+			doc = this.getWorker();
+			doc.clearRangesFromTables(ranges);
+			adapter.setEditorContent(editor, content);
+		} catch(e){
+			console.log(e.name + ' occurred when removing tables: ' + e.message);
+		}
+	};
+
 }
 
 CTable.prototype = Object.create(Controller.prototype);

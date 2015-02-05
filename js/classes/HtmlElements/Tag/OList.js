@@ -32,3 +32,17 @@ function OList() {
 
 }
 OList.prototype = Object.create(List.prototype);
+
+/**
+ * {{#crossLink "OList"}}OList{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class OList is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+OList.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'ol';
+};

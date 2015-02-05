@@ -428,3 +428,17 @@ Link.parseUri = function(href){
 	}
 	return res;
 };
+
+/**
+ * {{#crossLink "Link"}}Link{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class Link is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.0
+ */
+UList.prototype.characteristicFunction = function(n){
+	return (n instanceof Element) && n.tagName.toLowerCase() === 'a';
+};

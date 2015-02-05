@@ -4189,14 +4189,14 @@ describe('Class "Document"', function() {
 
     describe('has a method "clearRangesFromImages" that', function(){
         beforeEach(function(){
-            spyOn(doc, 'cascadeRangeClean');
+            spyOn(doc, 'applyToDesOfSingleRange');
         });
         it('does not modify DOM if the first argument is an empty array', function(){
             doc.clearRangesFromImages([]);
             expect(dom1_div0.isEqualNode(clone)).toBe(true);
         });
 
-        it('calls method "cascadeRangeClean" with every Range instances from the first argument', function(){
+        it('calls method "applyToDesOfSingleRange" with every Range instances from the first argument', function(){
             var r1 = document.createRange();
             r1.setStart(dom1_div1, 0);
             r1.setEnd(dom1_ul0, 1);
@@ -4204,16 +4204,16 @@ describe('Class "Document"', function() {
             r2.setStart(dom1_p0, 1);
             r2.setEnd(dom1_p0, 2);
             doc.clearRangesFromImages([r1, r2]);
-            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r1, doc.isImage);
-            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r2, doc.isImage);
+            expect(doc.applyToDesOfSingleRange).toHaveBeenCalledWith(r1, doc.isImage, doc.removeNode, true);
+            expect(doc.applyToDesOfSingleRange).toHaveBeenCalledWith(r2, doc.isImage, doc.removeNode, true);
         });
 
-        it('does not call method "cascadeRangeClean" if the first argument contains no range instances' , function(){
+        it('does not call method "applyToDesOfSingleRange" if the first argument contains no range instances' , function(){
             doc.clearRangesFromImages([1, 'a string', {1: 'value'}]);
-            expect(doc.cascadeRangeClean).not.toHaveBeenCalled();
+            expect(doc.applyToDesOfSingleRange).not.toHaveBeenCalled();
         });
 
-        it('calls method "cascadeRangeClean" only on Range instance in the first argument', function(){
+        it('calls method "applyToDesOfSingleRange" only on Range instance in the first argument', function(){
             var r1 = document.createRange();
             r1.setStart(dom1_text1, 2);
             r1.setEnd(dom1_text1, 4);
@@ -4221,101 +4221,151 @@ describe('Class "Document"', function() {
             r2.setStart(dom1_p0, 1);
             r2.collapse(true);
             doc.clearRangesFromImages([r1, 'invalid', r2, 3.22]);
-            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r1, doc.isImage);
-            expect(doc.cascadeRangeClean).toHaveBeenCalledWith(r2, doc.isImage);
-            expect(doc.cascadeRangeClean).not.toHaveBeenCalledWith('invalid', doc.isImage);
-            expect(doc.cascadeRangeClean).not.toHaveBeenCalledWith(3.22, doc.isImage);
+            expect(doc.applyToDesOfSingleRange).toHaveBeenCalledWith(r1, doc.isImage, doc.removeNode, true);
+            expect(doc.applyToDesOfSingleRange).toHaveBeenCalledWith(r2, doc.isImage, doc.removeNode, true);
+            expect(doc.applyToDesOfSingleRange).not.toHaveBeenCalledWith('invalid', jasmine.any(Function), jasmine.any(Function));
+            expect(doc.applyToDesOfSingleRange).not.toHaveBeenCalledWith(3.22, jasmine.any(Function), jasmine.any(Function));
         });
 
     });
 
-    describe('has a method "cascadeRangeClean" that', function(){
+    describe('has a method "applyToDesOfSingleRange" that', function(){
         var r;
         beforeEach(function(){
             r = document.createRange();
+            spyOn(doc, 'applyToDesOfSingleNode');
         });
-        it('does not modify DOM if the criteria always evaluates to false', function(){
-            var alwaysFalse = function(){return false;};
-            r.setStart(dom1_text1, 2);
-            r.setEnd(dom1_text1, 4);
-            doc.cascadeRangeClean(r, alwaysFalse);
-            dom1_div0.normalize();
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        it('does not call method "applyToDesOfSingleNode" if the range is collapsed', function(){
+            spyOn(doc, 'nodesOfRange').and.returnValue([]);
+            doc.applyToDesOfSingleRange(r, 'any 1', 'any 2', 'any 3');
+            expect(doc.applyToDesOfSingleNode).not.toHaveBeenCalled();
+            expect(doc.nodesOfRange).toHaveBeenCalledWith(r);
         });
-        it('removes all nodes belonging to the range if the criteria always returns true', function(){
-            var alwaysTrue = function(){return true;};
-            r.setStart(dom1_p0, 0);
-            r.setEnd(dom1_p0, 3);
-            doc.cascadeRangeClean(r, alwaysTrue);
-
-            // the root still has three children
-            expect(dom1_div0.childNodes.length).toBe(3);
-
-            // the first child contained the removed nodes
-            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(false);
-            // the second and the third child remain unchnaged
-            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
-            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+        it('calls method "applyToDesOfSingleNode" once if the range contains just one node', function(){
+            spyOn(doc, 'nodesOfRange').and.returnValue([dom1_span0]);
+            doc.applyToDesOfSingleRange(r, 'any 1', 'any 2', 'any 3');
+            expect(doc.applyToDesOfSingleNode.calls.count()).toBe(1);
+            expect(doc.applyToDesOfSingleNode).toHaveBeenCalledWith(dom1_span0, 'any 1', 'any 2', 'any 3');
+            expect(doc.nodesOfRange).toHaveBeenCalledWith(r);
         });
 
-        it('does not modify DOM if the criteria always throws an exception', function(){
-            var criteria = function(){
-                throw new Error('a generated exception');
-            };
-            r.setStart(dom1_div1, 1);
-            r.setEnd(dom1_div0, 2);
-            doc.cascadeRangeClean(r, criteria);
-            expect(dom1_div0.isEqualNode(clone)).toBe(true);
+        it('calls method "applyToDesOfSingleNode" three times if the range contains three nodes', function(){
+            spyOn(doc, 'nodesOfRange').and.returnValue([dom1_text0, dom1_li1, dom1_p0]);
+            doc.applyToDesOfSingleRange(r, 'any 1', 'any 2', 'any 3');
+            expect(doc.applyToDesOfSingleNode.calls.count()).toBe(3);
+            expect(doc.applyToDesOfSingleNode).toHaveBeenCalledWith(dom1_text0, 'any 1', 'any 2', 'any 3');
+            expect(doc.applyToDesOfSingleNode).toHaveBeenCalledWith(dom1_li1, 'any 1', 'any 2', 'any 3');
+            expect(doc.applyToDesOfSingleNode).toHaveBeenCalledWith(dom1_p0, 'any 1', 'any 2', 'any 3');
+            expect(doc.nodesOfRange).toHaveBeenCalledWith(r);
         });
 
-        it('removes deeply lying nodes of the range for which the criteria evaluates to true', function(){
-            // this is a function to remove three nodes: dom1_text1, dom1_span0 and dom1_ol0
-            var selector = function(n){
-                return n === dom1_text1 || n === dom1_span0 || n === dom1_ol0;
-            };
-            // the range spans the whole document
-            r.setStart(dom1_div0, 0);
-            r.setEnd(dom1_div0, 2);
-            doc.cascadeRangeClean(r, selector);
+    });
 
-            // the root should still have three children
-            expect(dom1_div0.childNodes.length).toBe(3);
-
-            // root's first child (a paragraph) looses its first child
-            var pNew = dom1_div0.childNodes[0];
-            var pOrig = clone.childNodes[0];
-            expect(pNew.childNodes.length).toBe(2);
-            // image node becomes the paragraph's first child
-            expect(pNew.childNodes[0].isEqualNode(pOrig.childNodes[1])).toBe(true);
-            // paragraph's last child (a div) looses two children (span0 and ol0) and remains with single child (text3)
-            var divNew = pNew.childNodes[1];
-            expect(divNew.childNodes.length).toBe(1);
-            expect(divNew.childNodes[0].isEqualNode(pOrig.childNodes[2].childNodes[1])).toBe(true);
-
-            // root's second and third children remain unchanged
-            expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
-            expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
+    describe('has a method "applyToDesOfSingleNode" that', function(){
+        var r, fakeOper, alwaysTrue, alwaysFalse;
+        beforeEach(function(){
+            r = document.createRange();
+            fakeOper = jasmine.createSpy('operation');
+            alwaysTrue = function(){return true;};
+            alwaysFalse = function(){return false;};
         });
+        describe('when applied to a node without children, then', function(){
+            it('it performs operation on the node if the criteria returns true and the mode is set to true', function(){
+                doc.applyToDesOfSingleNode(dom1_span0, alwaysTrue, fakeOper, true);
+                expect(fakeOper.calls.count()).toBe(1);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_span0);
+            });
 
-        it('removes nodes for which the criteria returns true and leaves those for which it throws an exception', function(){
-            var criteria = function(n){
-                if (n === dom1_a0 || n === dom1_text0){
-                    return true;
-                }
-                if (n === dom1_div1){
-                    throw new Error('a generated exception');
-                }
-                return false;
-            };
-            r.setStart(dom1_div0, 0);
-            r.setEnd(dom1_div0, 3);
-            doc.cascadeRangeClean(r, criteria);
+            it('it performs operation on the node if the criteria returns true and the mode is set to false', function(){
+                doc.applyToDesOfSingleNode(dom1_img0, alwaysTrue, fakeOper, false);
+                expect(fakeOper.calls.count()).toBe(1);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_img0);
+            });
 
-            // the root node must remain with a single child
-            expect(dom1_div0.childNodes.length).toBe(1);
-            expect(dom1_div0.childNodes[0].isEqualNode(clone.childNodes[0])).toBe(true);
+            it('it does not perform operation on the node if the criteria returns false and the mode is set to true', function(){
+                doc.applyToDesOfSingleNode(dom1_li1, alwaysFalse, fakeOper, true);
+                expect(fakeOper).not.toHaveBeenCalled();
+            });
+
+            it('it does not perform operation on the node if the criteria returns false and the mode is set to false', function(){
+                doc.applyToDesOfSingleNode(dom1_li1, alwaysFalse, fakeOper, false);
+                expect(fakeOper).not.toHaveBeenCalled();
+            });
         });
+        describe('when applied to a node with three children, then', function(){
+            it('it performs operation only the node if the criteria returns true and the mode is set to true', function(){
+                doc.applyToDesOfSingleNode(dom1_div1, alwaysTrue, fakeOper, true);
+                expect(fakeOper.calls.count()).toBe(1);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_div1);
+            });
+            it('it never performs operation if the criteria returns always false and the mode is set to true', function(){
+                doc.applyToDesOfSingleNode(dom1_div1, alwaysFalse, fakeOper, true);
+                expect(fakeOper).not.toHaveBeenCalled();
+            });
+            it('it never performs operation if the criteria returns always false and the mode is set to false', function(){
+                doc.applyToDesOfSingleNode(dom1_div1, alwaysFalse, fakeOper, false);
+                expect(fakeOper).not.toHaveBeenCalled();
+            });
+            it('it never performs operation if the criteria returns always false and the mode is not set', function(){
+                doc.applyToDesOfSingleNode(dom1_div1, alwaysFalse, fakeOper);
+                expect(fakeOper).not.toHaveBeenCalled();
+            });
+            it('it performs operation on nodes of different generations if the mode is set to false', function(){
+                var fakeCrit = function(n){return n === dom1_ol0 || n === dom1_li3;};
+                doc.applyToDesOfSingleNode(dom1_div1, fakeCrit, fakeOper, false);
+                expect(fakeOper.calls.count()).toBe(2);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_ol0);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_li3);
+            });
+            it('it performs operation on a node and not on its descendants if the mode is set to true', function(){
+                var fakeCrit = function(n){return n === dom1_ol0 || n === dom1_li3;};
+                doc.applyToDesOfSingleNode(dom1_div1, fakeCrit, fakeOper, true);
+                expect(fakeOper.calls.count()).toBe(1);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_ol0);
+            });
+            it('it does not perform operation on a node for which the criteria throws an expection', function(){
+                var fakeCrit = function(n){return
+                    if (n === dom1_li2){
+                        throw new Error('generated error');
+                    }
+                    return false;
+                };
+                doc.applyToDesOfSingleNode(dom1_ol0, fakeCrit, fakeOper, false);
+                expect(fakeOper).not.toHaveBeenCalledWith(dom1_li2);
+            });
+            it('it performs operation on corresponding nodes even if criteria throws an expection in some calls', function(){
+                var fakeCrit = function(n){
+                    if (n === dom1_li2){
+                        throw new Error('generated error');
+                    }
+                    return n === dom1_text3 || n === dom1_li3;
+                };
+                doc.applyToDesOfSingleNode(dom1_p0, fakeCrit, fakeOper, false);
+                expect(fakeOper.calls.count()).toBe(2);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_text3);
+                expect(fakeOper).toHaveBeenCalledWith(dom1_li3);
+            });
+            it('it keeps on performing operation on nodes even if for some calls it throws an exception', function(){
+                var fakeWrap = {
+                    fakeOper: function(n){
+                        if (n === dom1_text3){
+                            throw new Error('an error');
+                        }
+                    }
+                };
+                spyOn(fakeWrap, 'fakeOper').and.callThrough();
+                var fakeCrit = function(n){
+                    return n === dom1_text3 || n === dom1_li3;
+                };
+                doc.applyToDesOfSingleNode(dom1_div1, fakeCrit, fakeWrap.fakeOper, false);
+                expect(fakeWrap.fakeOper.calls.count()).toBe(2);
+                expect(fakeWrap.fakeOper).toHaveBeenCalledWith(dom1_text3);
+                expect(fakeWrap.fakeOper).toHaveBeenCalledWith(dom1_li3);
+            });
 
+
+
+        });
     });
 
     describe('has a method "removeNode" that', function(){
@@ -4365,38 +4415,64 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "clearRangesFromLinks" that', function(){
-        var r1, r2;
-        beforeEach(function(){
-            r1 = document.createRange();
-            r2 = document.createRange();
-            spyOn(doc, 'applyToRangeAncestors');
-        });
-        it('does not call "applyToRangeAncestors" if the first argument is an empty array', function(){
-            doc.clearRangesFromLinks([]);
-            expect(doc.applyToRangeAncestors).not.toHaveBeenCalled();
-        });
-
-        it('does not call "applyToRangeAncestors" if the first argument contains no Range instances', function(){
-            doc.clearRangesFromLinks([1, 'a string']);
-            expect(doc.applyToRangeAncestors).not.toHaveBeenCalled();
-        });
-
-        it('calls "applyToRangeAncestors" on each argument element if they are all Range instances', function(){
-            doc.clearRangesFromLinks([r1, r2]);
-            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r1, doc.isLink, doc.deparentize);
-            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r2, doc.isLink, doc.deparentize);
-        });
-
-        it('calls "applyToRangeAncestors" only on Range instances', function(){
-            var obj = {};
-            doc.clearRangesFromLinks([-2.3, r1, obj]);
-            expect(doc.applyToRangeAncestors).toHaveBeenCalledWith(r1, doc.isLink, doc.deparentize);
-            expect(doc.applyToRangeAncestors).not.toHaveBeenCalledWith(obj, jasmine.any(Function), jasmine.any(Function));
-            expect(doc.applyToRangeAncestors).not.toHaveBeenCalledWith(-2.3, jasmine.any(Function), jasmine.any(Function));
+        it('calls "applyToAncOfManyRanges" with properly set arguments', function(){
+            spyOn(doc, 'applyToAncOfManyRanges');
+            doc.clearRangesFromLinks('anything');
+            expect(doc.applyToAncOfManyRanges).toHaveBeenCalledWith('anything', doc.isLink, doc.deparentize);
         });
     });
 
-    describe('has a method "applyToRangeAncestors" that', function(){
+    describe('has a method "clearRangesFromImages" that', function(){
+        it('calls method "applyToAncOfManyRanges" with properly set arguments', function(){
+            spyOn(doc, 'applyToDesOfManyRanges');
+            doc.clearRangesFromImages('must be array of ranges');
+            expect(doc.applyToDesOfManyRanges).toHaveBeenCalledWith('must be array of ranges', doc.isImage, doc.removeNode, true);
+        });
+    });
+
+    describe('has a method "applyToAncOfManyRanges" that', function(){
+        beforeEach(function(){
+            spyOn(doc, 'applyToAncOfSingleRange');
+        });
+        it('does not call method "applyToAncOfSingleRange" if the argument is an empty array', function(){
+            var f1 = function(){},
+                f2 = function(){};
+            doc.applyToAncOfManyRanges([], f1, f2);
+            expect(doc.applyToAncOfSingleRange).not.toHaveBeenCalled();
+        });
+        it('calls method "applyToAncOfSingleRange" three times if the first argument contains three ranges', function(){
+            var f1 = function(){},
+                f2 = function(){};
+            var r1 = document.createRange(),
+                r2 = document.createRange(),
+                r3 = document.createRange();
+            doc.applyToAncOfManyRanges([r1, r2, r3], f1, f2);
+            expect(doc.applyToAncOfSingleRange.calls.count()).toBe(3);
+            expect(doc.applyToAncOfSingleRange).toHaveBeenCalledWith(r1, f1, f2);
+            expect(doc.applyToAncOfSingleRange).toHaveBeenCalledWith(r2, f1, f2);
+        });
+
+        it('does not call method "applyToAncOfSingleRange" if the first argument contains no ranges', function(){
+            var f1 = function(){},
+                f2 = function(){};
+            doc.applyToAncOfManyRanges(['a string', -4.21, {}], f1, f2);
+            expect(doc.applyToAncOfSingleRange).not.toHaveBeenCalled();
+        });
+
+        it('calls method "applyToAncOfSingleRange" once if the first argument contains one range and two non-Ranges', function(){
+            var f1 = function(){},
+                f2 = function(){};
+            var r1 = document.createRange();
+            doc.applyToAncOfManyRanges([1, {}, r1, [1, 2, 3]], f1, f2);
+            expect(doc.applyToAncOfSingleRange.calls.count()).toBe(1);
+            expect(doc.applyToAncOfSingleRange).toHaveBeenCalledWith(r1, f1, f2);
+        });
+
+
+    });
+
+
+    describe('has a method "applyToAncOfSingleRange" that', function(){
         var r1, crit, oper;
         beforeEach(function(){
             r1 = document.createRange();
@@ -4408,7 +4484,7 @@ describe('Class "Document"', function() {
             r1.setStart(dom1_text3, 6);
             r1.collapse(true);
 
-            doc.applyToRangeAncestors(r1, crit, function(){});
+            doc.applyToAncOfSingleRange(r1, crit, function(){});
             expect(doc.findAncestorsOfMany).toHaveBeenCalledWith([dom1_text3], crit);
         });
 
@@ -4418,7 +4494,7 @@ describe('Class "Document"', function() {
             spyOn(doc, 'nodesOfRange').and.returnValue(fakeCollection);
             r1.setStart(dom1_div1, 2);
             r1.setEnd(dom1_ul0, 1);
-            doc.applyToRangeAncestors(r1, crit, function(){});
+            doc.applyToAncOfSingleRange(r1, crit, function(){});
             expect(doc.findAncestorsOfMany).toHaveBeenCalledWith(fakeCollection, crit);
         });
 
@@ -4427,7 +4503,7 @@ describe('Class "Document"', function() {
             spyOn(doc, 'findAncestorsOfMany').and.returnValue(fakeCollection);
             spyOn(doc, 'nodesOfRange').and.returnValue([]);
             oper = jasmine.createSpy('fakeFunction');
-            doc.applyToRangeAncestors(r1, crit, oper);
+            doc.applyToAncOfSingleRange(r1, crit, oper);
             expect(oper).toHaveBeenCalledWith(dom1_text4);
             expect(oper).toHaveBeenCalledWith(dom1_li2);
         });
@@ -4446,7 +4522,7 @@ describe('Class "Document"', function() {
             spyOn(fakeObj, 'oper').and.callThrough();
 
             expect(function(){
-                doc.applyToRangeAncestors(r1, crit, fakeObj.oper);
+                doc.applyToAncOfSingleRange(r1, crit, fakeObj.oper);
             }).not.toThrow();
 
             expect(fakeObj.oper).toHaveBeenCalledWith(dom1_text4);
@@ -4492,8 +4568,14 @@ describe('Class "Document"', function() {
             expect(dom1_div0.childNodes[1].isEqualNode(clone.childNodes[1])).toBe(true);
             expect(dom1_div0.childNodes[2].isEqualNode(clone.childNodes[2])).toBe(true);
         });
+    });
 
-
+    describe('has a method "clearRangesFromTables" that', function(){
+        it('calls method "applyToAncOfManyRanges" with properly set arguments', function(){
+            spyOn(doc, 'applyToAncOfManyRanges');
+            doc.clearRangesFromTables('must be array of ranges');
+            expect(doc.applyToAncOfManyRanges).toHaveBeenCalledWith('must be array of ranges', doc.isTable, doc.removeNode, true);
+        });
     });
 
 });
