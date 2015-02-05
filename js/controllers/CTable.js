@@ -397,15 +397,26 @@ function CTable(){
 	};
 
 	/**
-	 * Removes table nearest to the cursor position.
+	 * Removes the nearest table to the cursor position.
 	 * @method         removeTable
 	 * @param          {Object}        editor
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.removeTable = function(editor){
-		/// !!! stub
-		console.log('removeTable', editor);
+		var adapter, content, doc, ranges;
+		try {
+			adapter = this.getEditorAdapter();
+			content = adapter.getEditorContent(editor);
+			console.log(content.outerHTML);
+			ranges = adapter.getNativeRanges(editor);
+			doc = this.getWorker();
+			doc.clearRangesFromTables(ranges);
+			adapter.setEditorContent(editor, content);
+			console.log(content.outerHTML);
+		} catch(e){
+			console.log(e.name + ' occurred when removing tables: ' + e.message);
+		}
 	};
 
 }

@@ -2918,10 +2918,27 @@ function Document(node){
 	this.clearRangesFromLinks = function(ranges){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.applyToRangeAncestors(range, this.isLink, this.deparentize);
+				this.applyToRangeAncestors(range, this.isTable, this.deparentize);
 			}
 		}.bind(this));
 	};
+
+
+	/**
+	 * Removes table elements from each element of array `ranges`.
+	 * @method         clearRangesFromTables
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.clearRangesFromTables = function(ranges){
+		ranges.forEach(function(range){
+			if(range instanceof Range){
+				this.applyToRangeAncestors(range, this.isTable, this.removeNode);
+			}
+		}.bind(this));
+	};
+
 
 	/**
 	 * Applies `operation` to all nodes that are ancestors of nodes belonging `range` and for which
@@ -3033,6 +3050,11 @@ function Document(node){
 			console.log('removing child: ', n);
 			parent.removeChild(n);
 		}
+	};
+
+
+	this.removeTable = function(n){
+
 	};
 
 
