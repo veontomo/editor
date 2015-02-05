@@ -408,12 +408,10 @@ function CTable(){
 		try {
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
-			console.log(content.outerHTML);
 			ranges = adapter.getNativeRanges(editor);
 			doc = this.getWorker();
 			doc.clearRangesFromTables(ranges);
 			adapter.setEditorContent(editor, content);
-			console.log(content.outerHTML);
 		} catch(e){
 			console.log(e.name + ' occurred when removing tables: ' + e.message);
 		}

@@ -2895,10 +2895,10 @@ function Document(node){
 
 	/**
 	 * Removes image elements from each element of array `ranges`.
-	 * @method clearRangesFromImages
-	 * @param  {Array} ranges
-	 * @return {void}
-	 * @since  0.2.0
+	 * @method         clearRangesFromImages
+	 * @param          {Array}         ranges
+	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.clearRangesFromImages = function(ranges){
 		this.applyToDesOfManyRanges(ranges, this.isImage, this.removeNode, true);
@@ -2910,19 +2910,19 @@ function Document(node){
 	 * Calls method {{#crossLink "Document/applyToDesOfSingleRange:method"}}applyToDesOfSingleRange{{/crossLink}} on each
 	 * element of array `ranges`, passing to that method the range, `filter` and `operation`.
 	 *
-	 * @method         applyToAncOfManyRanges
+	 * @method         applyToDesOfManyRanges
 	 * @param          {Array}         ranges                array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
 	 *                                                       instances. Non Range instances are ignored.
 	 * @param          {Function}      filter                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
-	 * @param          {Boolean}       stopAfterOperation    [Optional] whether the execution should be terminated after applying
+	 * @param          {Boolean}       mode                  [Optional] whether the execution should be terminated after applying
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToDesOfManyRanges = function(ranges, filter, operation, stopAfterOperation){
+	this.applyToDesOfManyRanges = function(ranges, filter, operation, mode              ){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.applyToDesOfSingleRange(range, filter, operation, stopAfterOperation);
+				this.applyToDesOfSingleRange(range, filter, operation, mode              );
 			}
 		}.bind(this));
 	};
@@ -2945,6 +2945,10 @@ function Document(node){
 
 	/**
 	 * Removes table elements from each element of array `ranges`.
+	 *
+	 * Alias for {{#crossLink "Document/applyToAncOfManyRanges:method"}}applyToAncOfManyRanges{{/crossLink}}
+	 * with second and third arguments being correspondingly {{#crossLink "Document/isTable:method"}}isTable{{/crossLink}} and
+	 * {{#crossLink "Document/removeNode:method"}}removeNode{{/crossLink}}.
 	 * @method         clearRangesFromTables
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
@@ -3030,14 +3034,14 @@ function Document(node){
 	 * @param          {Range}         range
 	 * @param          {Function}      criteria                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
-	 * @param          {Boolean}       stopAfterOperation      [Optional] whether the execution should be terminated after applying
+	 * @param          {Boolean}       mode                    [Optional] whether the execution should be terminated after applying
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToDesOfSingleRange = function(range, criteria, operation, stopAfterOperation){
+	this.applyToDesOfSingleRange = function(range, criteria, operation, mode              ){
 		var nodes = this.nodesOfRange(range);
 		nodes.forEach(function(n){
-			this.applyToDesOfSingleNode(n, criteria, operation, stopAfterOperation);
+			this.applyToDesOfSingleNode(n, criteria, operation, mode              );
 		}.bind(this));
 	};
 
@@ -3048,7 +3052,7 @@ function Document(node){
 	 * apply `criteria` to `node` itself and if it evaluates to `true`, then: <ol><li>
 	 * apply `operation` on `node`
 	 * </li><li>
-	 * if `stopAfterOperation` is set to `true`, then finish the execution.
+	 * if `mode              ` is set to `true`, then finish the execution.
 	 * </li></ol>
 	 * </li>
 	 * repeat the procedure to each `node`'s child.
@@ -3058,19 +3062,19 @@ function Document(node){
 	 * @param          {Node}          node
 	 * @param          {Function}      criteria 			   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
-	 * @param          {Boolean}       stopAfterOperation      [Optional] whether the execution should be terminated after applying
+	 * @param          {Boolean}       mode                    [Optional] whether the execution should be terminated after applying
 	 *                                                         of the operation. Default value is `true`.
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToDesOfSingleNode = function(node, criteria, operation, stopAfterOperation){
+	this.applyToDesOfSingleNode = function(node, criteria, operation, mode){
 		var critOutput,
-			shouldContinue = stopAfterOperation === undefined ? true : stopAfterOperation;
+			shouldStop = mode === undefined ? true : mode;
 		try{
 			critOutput = criteria(node);
 		} catch (e){
 			console.log('Error (' + e.name + ') when applying criteria to a node: ' + e.message);
-			return;
+			critOutput = false;
 		}
 		if (critOutput){
 			try {
@@ -3078,17 +3082,15 @@ function Document(node){
 			} catch(e){
 				console.log('Error (' + e.name + ') when applying operation to a node: ' + e.message);
 			}
-			if (stopAfterOperation){
+			if (shouldStop){
 				return;
 			}
 		}
 		var children = node.childNodes;
 		var i,
 			len = children.length;
-		// elaborate child nodes from the end, because some of them
-		// might be eliminated so that their enumeration changes
 		for (i = len - 1; i >= 0; i--){
-			this.applyToDesOfSingleNode(children.item(i), criteria, operation);
+			this.applyToDesOfSingleNode(children.item(i), criteria, operation, mode);
 		}
 	};
 
@@ -3100,10 +3102,8 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.removeNode = function(n){
-		console.log('removeNode: ', n);
 		var parent = n.parentNode;
 		if (parent){
-			console.log('removing child: ', n);
 			parent.removeChild(n);
 		}
 	};
