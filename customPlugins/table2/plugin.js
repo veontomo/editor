@@ -78,7 +78,7 @@ CKEDITOR.plugins.add('table2', {
 		});
 
 		editor.addCommand('table2DeleteTable', {
-			exec: function (editor) {
+			exec: function (editor, x) {
 				_controller.removeTable(editor);
 			}
 		});
@@ -132,7 +132,7 @@ CKEDITOR.plugins.add('table2', {
 				label: editor.lang.table.deleteTable,
 				icon: this.path + 'icons/deleteTable.png',
 				command: 'table2DeleteTable',
-				group: 'table2Group'
+				group: 'table2Group',
 			});
 			editor.addMenuItem('table2DropColumn', {
 				label: editor.lang.table.column.deleteColumn,
@@ -179,7 +179,7 @@ CKEDITOR.plugins.add('table2', {
 			});
 
 			editor.contextMenu.addListener(function (element) {
-				var el = _controller.findTableAncestor(element);
+				var el = _controller.findRepresentativeAncestor(element);
 				// var tableMarker = (new Table()).getName(), // string with which tables are marked
 				// 	el = CKHelper.findAscendant(element, function (el) {
 				// 	return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);

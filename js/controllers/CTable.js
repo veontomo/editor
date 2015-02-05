@@ -342,8 +342,11 @@ function CTable(){
 	 * @since          0.2.0
 	 */
 	this.insertColumn = function(editor, pos){
-		/// !!! stub
-		console.log('insertColumn: ', editor, pos);
+		var adapter = this.getEditorAdapter();
+		var content = adapter.getEditorContent(editor);
+		var worker = this.getWorker();
+		worker.insertColumn(content, pos);
+		adapter.setEditorContent(editor, content);
 	};
 
 	/**
@@ -372,28 +375,6 @@ function CTable(){
 	this.dropRow = function(editor){
 		/// !!! stub
 		console.log('dropRow: ', editor);
-	};
-
-	/**
-	 * Finds table element among `element`'s ancestors.
-	 *
-	 * `element` is in editor representation. The output (if any) is a native javascript
-	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element).
-	 *
-	 * @method  findTableAncestor
-	 * @param   {Object}     el           element of the editor window in a representation that the editor uses
-	 * @return  {Element}                 [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) in native JS representation
-	 * @since   0.2.0
-	 */
-	this.findTableAncestor = function(el){
-		var adapter = this.getEditorAdapter(),
-			nativeEl = adapter.toNativeElement(el);
-		if (!nativeEl){
-			return;
-		}
-		var doc = this.getWorker();
-		var table  = doc.findAncestor(nativeEl, this.getModel().characteristicFunction);
-		return table;
 	};
 
 	/**

@@ -3108,4 +3108,15 @@ function Document(node){
 		}
 	};
 
+	/**
+	 * Inserts column into the nearest  table that is
+	 * @method  insertColumn
+	 * @param  {[type]} n   [description]
+	 * @param  {[type]} pos [description]
+	 * @return {[type]}     [description]
+	 */
+	this.insertColumn = function(n, pos){
+
+	};
+
 }

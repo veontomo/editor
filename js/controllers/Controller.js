@@ -279,4 +279,26 @@ function Controller(){
 		throw new Error('Method "onShow" of class Controller must be overridden by inheriting class!');
 	};
 
+	/**
+	 * Finds the nearest ancestor of `el` that current controller represents.
+	 * @method         findRepresentativeAncestor
+	 * @param          {Object}        el      editor-specific represenation of DOM node.
+	 * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) in native JS representation
+	 * @since          0.2.0
+	 */
+	this.findRepresentativeAncestor = function(el){
+		var adapter = this.getEditorAdapter(),
+			nativeEl = adapter.toNativeElement(el);
+		if (!nativeEl){
+			return;
+		}
+		var doc = this.getWorker(),
+			criteria = this.getModel().characteristicFunction,
+			n;
+		if (typeof criteria === 'function'){
+			n  = doc.findAncestor(nativeEl, criteria);
+		}
+		return n;
+	};
+
 }
