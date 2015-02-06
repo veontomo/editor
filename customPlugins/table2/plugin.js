@@ -47,6 +47,7 @@ CKEDITOR.plugins.add('table2', {
 		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
 		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
 		editor.addCommand('table2ModifyTable', new CKEDITOR.dialogCommand('table2ModifyTableDialog'));
+
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
 				_controller.insertColumn(ed, 'before');
@@ -78,7 +79,7 @@ CKEDITOR.plugins.add('table2', {
 		});
 
 		editor.addCommand('table2DeleteTable', {
-			exec: function (editor, x) {
+			exec: function (editor) {
 				_controller.removeTable(editor);
 			}
 		});
@@ -187,10 +188,12 @@ CKEDITOR.plugins.add('table2', {
 				var menuObj = {},
 				elemObj;
 				if (el) {
+					_controller.setExtra(el);
 					menuObj.table2DeleteTable = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnAfter = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2ModifyTable = CKEDITOR.TRISTATE_OFF;
+					menuObj.target = 1;
 					// elemObj = NEWSLETTER.factory.mimic(el.$);
 					// // if the table has more than one column, than add possibility to drop columns and to resize them.
 					// if (elemObj.colNum() > 1){

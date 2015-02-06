@@ -342,11 +342,22 @@ function CTable(){
 	 * @since          0.2.0
 	 */
 	this.insertColumn = function(editor, pos){
+		console.log('extra:', this.getExtra());
 		var adapter = this.getEditorAdapter();
 		var content = adapter.getEditorContent(editor);
 		var worker = this.getWorker();
-		worker.insertColumn(content, pos);
-		adapter.setEditorContent(editor, content);
+		var cursorPos = adapter.getCursorPosition(editor);
+		if (!cursorPos){
+			return;
+		}
+		var table = this.findRepresentativeAncestor(cursorPos.startContainer);
+		console.log(table);
+		if (table){
+
+			worker.insertColumn(table, pos);
+			adapter.setEditorContent(editor, content);
+		}
+
 	};
 
 	/**

@@ -346,10 +346,12 @@ function Document(node){
 		if (typeof criteria !== 'function'){
 			throw new Error('Criteria must be a function!');
 		}
-		var currentNode = n;
+		var currentNode = n, isFound;
 		while (currentNode && (!isScoped || scope.contains(currentNode))){
 			try {
-				if (criteria(currentNode)){
+				isFound = criteria(currentNode);
+				console.log(currentNode, isFound);
+				if (isFound){
 					return currentNode;
 				}
 			} catch(e){
