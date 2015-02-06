@@ -4,14 +4,12 @@
 /**
  * A customized CKEDITOR plugin to manage operations on table rows.
  * @module    CKEditorPlugins
- * @class     Row2
+ * @class     PRow
  * @type      {Object}
  * @since     0.2.0
  * @author    A.Shcherbakov
  */
-CKEDITOR.plugins.add('row2', {
-	// Register the icons.
-	icons: 'row2',
+CKEDITOR.plugins.add('pRow', {
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
 		/**
