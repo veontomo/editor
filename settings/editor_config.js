@@ -102,7 +102,8 @@ CKEDITOR.editorConfig = function(config){
 
 	// registering custom plugins
 	var customPluginNames = ['download', 'image2', 'table2', 'link2', 'upload', 'olist2', 'ulist2',
-			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2', 'mail2', 'linkMail', 'save2', 'list2', 'pRow'],
+			'selection', 'bold2', 'italic2', 'underline2', 'strike2', 'info2', 'setScale2', 'mail2',
+			'linkMail', 'save2', 'list2', 'RowPlugin'],
 		pluginDir =  NEWSLETTER.customPluginDir;
 
 	customPluginNames.forEach(function(pluginName){

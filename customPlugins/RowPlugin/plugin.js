@@ -4,18 +4,18 @@
 /**
  * A customized CKEDITOR plugin to manage operations on table rows.
  * @module    CKEditorPlugins
- * @class     PRow
+ * @class     RowPlugin
  * @type      {Object}
  * @since     0.2.0
  * @author    A.Shcherbakov
  */
-CKEDITOR.plugins.add('pRow', {
+CKEDITOR.plugins.add('RowPlugin', {
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
 		/**
-		 * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}
-		 * @property   {Controller}        _controller
-		 * @type       {Controller}
+		 * Instance of {{#crossLink "CRow"}}CRow{{/crossLink}}
+		 * @property   {CRow}        CRow
+		 * @type       {CRow}
 		 * @private
 		 */
 		var _controller = new CRow();
@@ -67,19 +67,19 @@ CKEDITOR.plugins.add('pRow', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup('row2Group');
 			editor.addMenuItem('table2AddRowBefore', {
-				label: editor.lang.row2.insertBefore,
+				label: editor.lang.RowPlugin.insertBefore,
 				icon: this.path + 'icons/insert_row.png',
 				command: 'table2AddRowBefore',
 				group: 'row2Group'
 			});
 			editor.addMenuItem('table2AddRowAfter', {
-				label: editor.lang.row2.insertAfter,
+				label: editor.lang.RowPlugin.insertAfter,
 				icon: this.path + 'icons/insert_row.png',
 				command: 'table2AddRowAfter',
 				group: 'row2Group'
 			});
 			editor.addMenuItem('table2DeleteRow', {
-				label: editor.lang.row2.deleteRow,
+				label: editor.lang.RowPlugin.deleteRow,
 				icon: this.path + 'icons/delete_row.png',
 				command: 'table2DeleteRow',
 				group: 'row2Group'
@@ -100,7 +100,7 @@ CKEDITOR.plugins.add('pRow', {
 	}
 });
 
-var pluginName = 'row2';
+var pluginName = 'RowPlugin';
 var translations = {
 	it: {
 		insertBefore:  'Inserire riga prima',
