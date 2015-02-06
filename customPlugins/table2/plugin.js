@@ -40,6 +40,14 @@ CKEDITOR.plugins.add('table2', {
 		_controller.setWorker(_worker);
 		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
+		/**
+		 * Object containing elements on which context menu options have been triggered.
+		 * @private
+		 * @type   {Object}
+		 * @since  0.2.0
+		 */
+		var _target = {};
+
 
 
 		// Define an editor command that opens our dialog.
@@ -50,37 +58,37 @@ CKEDITOR.plugins.add('table2', {
 
 		editor.addCommand('table2InsertColumnBefore', {
 			exec: function(ed){
-				_controller.insertColumn(ed, 'before');
+				_controller.insertColumn(ed, _target.hostTable, 'before');
 			}
 		});
 
 		editor.addCommand('table2InsertColumnAfter', {
 			exec: function(ed){
-				_controller.insertColumn(ed, 'after');
+				_controller.insertColumn(ed, _target.hostTable, 'after');
 			}
 		});
 
 		editor.addCommand('table2AddRowBefore', {
 			exec: function (ed) {
-				_controller.insertRow(ed, 'before');
+				_controller.insertRow(ed, _target.hostTable, 'before');
 			}
 		});
 
 		editor.addCommand('table2AddRowAfter', {
 			exec: function (ed) {
-				_controller.insertRow(ed, 'after');
+				_controller.insertRow(ed, _target.hostTable, 'after');
 			}
 		});
 
 		editor.addCommand('table2DeleteRow', {
 			exec: function (editor) {
-				_controller.dropRow(editor);
+				_controller.dropRow(editor, _target.hostTable);
 			}
 		});
 
 		editor.addCommand('table2DeleteTable', {
 			exec: function (editor) {
-				_controller.removeTable(editor);
+				_controller.removeTable(editor, _target.hostTable);
 			}
 		});
 
@@ -181,14 +189,10 @@ CKEDITOR.plugins.add('table2', {
 
 			editor.contextMenu.addListener(function (element) {
 				var el = _controller.findRepresentativeAncestor(element);
-				// var tableMarker = (new Table()).getName(), // string with which tables are marked
-				// 	el = CKHelper.findAscendant(element, function (el) {
-				// 	return (el.getName() === 'table' && el.getAttribute(NEWSLETTER['marker-name']) === tableMarker);
-				// }),
 				var menuObj = {},
 				elemObj;
 				if (el) {
-					_controller.setExtra(el);
+					_target.hostTable = el;
 					menuObj.table2DeleteTable = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnAfter = CKEDITOR.TRISTATE_OFF;

@@ -176,34 +176,6 @@ function Controller(){
 	};
 
 	/**
-	 * General purpose storage.
-	 * @property       {Any}           _extra
-	 * @private
-	 * @since          0.2.0
-	 */
-	var _extra;
-
-	/**
-	 * {{#crossLink "Controller/_extra:method"}}_extra{{/crossLink}} getter.
-	 * @return         {Any}
-	 * @since          0.2.0
-	 */
-	this.getExtra = function(){
-		return _extra;
-	};
-
-	/**
-	 * {{#crossLink "Controller/_extra:method"}}_extra{{/crossLink}} getter.
-	 * @param          {Any}           e
-	 * @return         {void}
-	 * @since          0.2.0
-	 */
-	this.setExtra = function(e){
-		_extra = e;
-	};
-
-
-	/**
 	 * Disables single element with id `elemId` on page with id `pageId` in `dialog`.
 	 * @method         _disableField
 	 * @param          {CKEDITOR.dialog}    dialog

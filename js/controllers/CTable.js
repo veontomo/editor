@@ -341,8 +341,8 @@ function CTable(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.insertColumn = function(editor, pos){
-		console.log('extra:', this.getExtra());
+	this.insertColumn = function(editor, el, pos){
+		console.log('extra:', el);
 		var adapter = this.getEditorAdapter();
 		var content = adapter.getEditorContent(editor);
 		var worker = this.getWorker();
