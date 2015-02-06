@@ -3111,14 +3111,17 @@ function Document(node){
 	};
 
 	/**
-	 * Inserts column into the nearest  table that is
-	 * @method  insertColumn
-	 * @param  {[type]} n   [description]
-	 * @param  {[type]} pos [description]
-	 * @return {[type]}     [description]
+	 * Inserts empty column into `table` at position `pos`.
+	 * @method         insertColumn
+	 * @param          {Element}       table     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                           instance representing table
+	 * @param          {String}        pos       "after"|"before"
+	 * @return         {void}
+	 * @since          0.2.0
 	 */
-	this.insertColumn = function(n, pos){
-
+	this.insertColumn = function(table, pos){
+		/// !!! stub
+		console.log(table, pos);
 	};
 
 }

@@ -16,17 +16,17 @@ CKEDITOR.plugins.add('table2', {
 	init: function (editor) {
 		/**
 		 * Instance of {{#crossLink "CTable"}}CTable{{/crossLink}}
-		 * @property  {CTable}     _controller
-		 * @type      {CTable}
+		 * @property   {CTable}        _controller
+		 * @type       {CTable}
 		 * @private
 		 */
 		var _controller = new CTable();
 
 		/**
 		 * A class that performs operations with editor window content.
-		 * @property {Document} worker
-		 * @type     {Document}
-		 * @since    0.2.0
+		 * @property   {Document}     _worker
+		 * @type       {Document}
+		 * @since      0.2.0
 		 * @private
 		 */
 		var _worker = new Document();
@@ -43,8 +43,8 @@ CKEDITOR.plugins.add('table2', {
 		/**
 		 * Object containing elements on which context menu options have been triggered.
 		 * @private
-		 * @type   {Object}
-		 * @since  0.2.0
+		 * @type       {Object}
+		 * @since      0.2.0
 		 */
 		var _target = {};
 
@@ -197,12 +197,11 @@ CKEDITOR.plugins.add('table2', {
 					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2InsertColumnAfter = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2ModifyTable = CKEDITOR.TRISTATE_OFF;
-					menuObj.target = 1;
 					// elemObj = NEWSLETTER.factory.mimic(el.$);
 					// // if the table has more than one column, than add possibility to drop columns and to resize them.
 					// if (elemObj.colNum() > 1){
-					// 	menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
-					// 	menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
+						menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
+						menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
 					// }
 					return menuObj;
 				}

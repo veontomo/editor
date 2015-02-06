@@ -332,32 +332,23 @@ function CTable(){
 	};
 
 	/**
-	 * Inserts a column into the table nearest to the current cursor position.
+	 * Inserts a column into table `tbl`.
 	 *
 	 * Where the column is to be inserted is decided based on the value of `pos`.
 	 * @method         insertColumn
 	 * @param          {Object}        editor    editor instance
+	 * @param          {Element}       tbl       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                           instance representing table
 	 * @param          {Any}           pos       position of the column to be inserted
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.insertColumn = function(editor, el, pos){
-		console.log('extra:', el);
+	this.insertColumn = function(editor, tbl, pos){
 		var adapter = this.getEditorAdapter();
 		var content = adapter.getEditorContent(editor);
 		var worker = this.getWorker();
-		var cursorPos = adapter.getCursorPosition(editor);
-		if (!cursorPos){
-			return;
-		}
-		var table = this.findRepresentativeAncestor(cursorPos.startContainer);
-		console.log(table);
-		if (table){
-
-			worker.insertColumn(table, pos);
-			adapter.setEditorContent(editor, content);
-		}
-
+		worker.insertColumn(tbl, pos);
+		adapter.setEditorContent(editor, content);
 	};
 
 	/**
