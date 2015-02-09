@@ -12,7 +12,6 @@
 CKEDITOR.plugins.add('RowPlugin', {
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
-		console.log(this);
 		/**
 		 * Instance of {{#crossLink "CRow"}}CRow{{/crossLink}}
 		 * @property   {CRow}        CRow
@@ -38,6 +37,15 @@ CKEDITOR.plugins.add('RowPlugin', {
 		 * @private
 		 */
 		var _pluginName = this.name;
+
+		/**
+		 * Name of the group to embrace the plugin functionality.
+		 * @type       {String}
+		 * @property   {String}        _pluginNameGroup
+		 * @since      0.2.0
+		 * @private
+		 */
+		 var _pluginNameGroup = _pluginName + 'Group';
 
 		/**
 		 * Configuring the controller:
@@ -75,23 +83,23 @@ CKEDITOR.plugins.add('RowPlugin', {
 		});
 
 		if (editor.contextMenu) {
-			editor.addMenuGroup(_pluginName + 'Group');
-			editor.addMenuItem('RowPluginAddRowBefore', {
-				label: editor.lang.RowPlugin.insertBefore,
-				icon: this.path + 'icons/insert_row.png',
-				command: 'RowPluginAddRowBefore',
+			editor.addMenuGroup(_pluginNameGroup);
+			editor.addMenuItem(_pluginName + 'AddRowBefore', {
+				label: editor.lang[_pluginName].insertBefore,
+				icon: this.path + 'icons/insertRow.png',
+				command: _pluginName + 'AddRowBefore',
 				group: _pluginName + 'Group'
 			});
-			editor.addMenuItem('RowPluginAddRowAfter', {
-				label: editor.lang.RowPlugin.insertAfter,
-				icon: this.path + 'icons/insert_row.png',
-				command: 'RowPluginAddRowAfter',
+			editor.addMenuItem(_pluginName + 'AddRowAfter', {
+				label: editor.lang[_pluginName].insertAfter,
+				icon: this.path + 'icons/insertRow.png',
+				command: _pluginName + 'AddRowAfter',
 				group: _pluginName + 'Group'
 			});
-			editor.addMenuItem('RowPluginDeleteRow', {
-				label: editor.lang.RowPlugin.deleteRow,
-				icon: this.path + 'icons/delete_row.png',
-				command: 'RowPluginDeleteRow',
+			editor.addMenuItem(_pluginName + 'DeleteRow', {
+				label: editor.lang[_pluginName].deleteRow,
+				icon: this.path + 'icons/deleteRow.png',
+				command: _pluginName + 'DeleteRow',
 				group: _pluginName + 'Group'
 			});
 
@@ -100,9 +108,9 @@ CKEDITOR.plugins.add('RowPlugin', {
 				var menuObj = {};
 				if (el) {
 					_target.hostElem = el;
-					menuObj.table2AddRowAfter = CKEDITOR.TRISTATE_OFF;
-					menuObj.RowPluginAddRowBefore = CKEDITOR.TRISTATE_OFF;
-					menuObj.table2DeleteRow = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'DeleteRow'] = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'AddRowAfter'] = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'AddRowBefore'] = CKEDITOR.TRISTATE_OFF;
 				}
 				return menuObj;
 			});

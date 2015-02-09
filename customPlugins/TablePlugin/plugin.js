@@ -60,7 +60,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		/**
 		 * Name of the group to embrace the plugin functionality.
 		 * @type       {String}
-		 * @property   {String}        _pluginName
+		 * @property   {String}        _pluginNameGroup
 		 * @since      0.2.0
 		 * @private
 		 */
@@ -73,39 +73,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
-		// editor.addCommand(_pluginName + 'ResizeColumns', new CKEDITOR.dialogCommand(_pluginName + 'ResizeColumnsDialog'));
-		// editor.addCommand(_pluginName + 'DropColumn', new CKEDITOR.dialogCommand(_pluginName + 'DropColumnDialog'));
 		editor.addCommand(_pluginName + 'Modify', new CKEDITOR.dialogCommand(_pluginName + 'DialogModify'));
-
-		// editor.addCommand(_pluginName + 'InsertColumnBefore', {
-		// 	exec: function(ed){
-		// 		_controller.insertColumn(ed, _target.hostTable, 'before');
-		// 	}
-		// });
-
-		// editor.addCommand(_pluginName + 'InsertColumnAfter', {
-		// 	exec: function(ed){
-		// 		_controller.insertColumn(ed, _target.hostTable, 'after');
-		// 	}
-		// });
-
-		// editor.addCommand(_pluginName + 'AddRowBefore', {
-		// 	exec: function (ed) {
-		// 		_controller.insertRow(ed, _target.hostTable, 'before');
-		// 	}
-		// });
-
-		// editor.addCommand(_pluginName + 'AddRowAfter', {
-		// 	exec: function (ed) {
-		// 		_controller.insertRow(ed, _target.hostTable, 'after');
-		// 	}
-		// });
-
-		// editor.addCommand(_pluginName + 'DeleteRow', {
-		// 	exec: function (editor) {
-		// 		_controller.dropRow(editor, _target.hostTable);
-		// 	}
-		// });
 
 		editor.addCommand(_pluginName + 'Delete', {
 			exec: function (editor) {
@@ -126,61 +94,12 @@ CKEDITOR.plugins.add('TablePlugin', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
-			// editor.addMenuItem(_pluginName + 'Item', {
-			// 	label: editor.lang.table.toolbar,
-			// 	icon: this.path + 'icons/table2.png',
-			// 	command: _pluginName + 'Dialog',
-			// 	group: _pluginNameGroup
-			// });
-			// editor.addMenuItem(_pluginName + 'AddRowBefore', {
-			// 	label: editor.lang.table.row.insertBefore,
-			// 	icon: this.path + 'icons/insert_row.png',
-			// 	command: _pluginName + 'AddRowBefore',
-			// 	group: _pluginNameGroup
-			// });
-			// editor.addMenuItem(_pluginName + 'AddRowAfter', {
-			// 	label: editor.lang.table.row.insertAfter,
-			// 	icon: this.path + 'icons/insert_row.png',
-			// 	command: _pluginName + 'AddRowAfter',
-			// 	group: _pluginNameGroup
-			// });
-			// editor.addMenuItem(_pluginName + 'DeleteRow', {
-			// 	label: editor.lang.table.row.deleteRow,
-			// 	icon: this.path + 'icons/delete_row.png',
-			// 	command: _pluginName + 'DeleteRow',
-			// 	group: _pluginNameGroup
-			// });
-			// editor.addMenuItem(_pluginName + 'ResizeColumns', {
-			// 	label: editor.lang.table.column.resize || 'Resize Columns',
-			// 	icon: this.path + 'icons/resizeColumns.png',
-			// 	command: _pluginName + 'ResizeColumns',
-			// 	group: _pluginNameGroup
-			// });
 			editor.addMenuItem(_pluginName + 'Delete', {
 				label:   editor.lang.table.deleteTable,
 				icon:    this.path + 'icons/deleteTable.png',
 				command: _pluginName + 'Delete',
 				group:  _pluginNameGroup
 			});
-			// editor.addMenuItem(_pluginName + 'DropColumn', {
-			// 	label: editor.lang.table.column.deleteColumn,
-			// 	icon: this.path + 'icons/deleteColumn.png',
-			// 	command: _pluginName + 'DropColumn',
-			// 	group: _pluginNameGroup
-			// });
-			// editor.addMenuItem(_pluginName + 'InsertColumnBefore', {
-			// 	label: editor.lang.table.column.insertBefore,
-			// 	icon: this.path + 'icons/insertColumn.png',
-			// 	command: _pluginName + 'InsertColumnBefore',
-			// 	group: _pluginNameGroup
-			// });
-
-			// editor.addMenuItem(_pluginName + 'InsertColumnAfter', {
-			// 	label: editor.lang.table.column.insertAfter,
-			// 	icon: this.path + 'icons/insertColumn.png',
-			// 	command: _pluginName + 'InsertColumnAfter',
-			// 	group: _pluginNameGroup
-			// });
 
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].modifyTable,
@@ -189,22 +108,6 @@ CKEDITOR.plugins.add('TablePlugin', {
 				group: _pluginNameGroup
 			});
 
-
-			// editor.contextMenu.addListener(function (element) {
-			// 	var rowMarker = (new Row()).getName(), // the label by which the rows are marked
-			// 		markerName  = NEWSLETTER['marker-name'],
-			// 		el;
-			// 	el = CKHelper.findAscendant(element, function (el) {
-			// 		return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
-			// 	});
-			// 	if (el) {
-			// 		return {
-			// 			table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
-			// 			table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
-			// 			table2DeleteRow: CKEDITOR.TRISTATE_OFF
-			// 		};
-			// 	}
-			// });
 
 			editor.contextMenu.addListener(function (element) {
 				var el = _controller.findRepresentativeAncestor(element);
@@ -215,16 +118,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 					console.log('updating table context menu');
 					_target.hostTable = el;
 					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
-					// menuObj.['InsertColumnBefore'] = CKEDITOR.TRISTATE_OFF;
-					// menuObj['InsertColumnAfter'] = CKEDITOR.TRISTATE_OFF;
 					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
-					// elemObj = NEWSLETTER.factory.mimic(el.$);
-					// // if the table has more than one column, than add possibility to drop columns and to resize them.
-					// if (elemObj.colNum() > 1){
-						// menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
-						// menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
-					// }
-					console.log(menuObj);
 					return menuObj;
 				}
 			});
