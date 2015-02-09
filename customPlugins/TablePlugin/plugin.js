@@ -4,14 +4,14 @@
 /**
  * A customized CKEDITOR plugin to manage table operations.
  * @module    CKEditorPlugins
- * @class     Table2
+ * @class     TablePlugin
  * @type      {Object}
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
 CKEDITOR.plugins.add('TablePlugin', {
 	// Register the icons.
-	icons: 'tablePlugin',
+	icons: 'TablePlugin',
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
 		/**
@@ -66,161 +66,165 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
+		 // Register our dialog file. this.path is the plugin folder path.
+		 CKEDITOR.dialog.add(_pluginName + 'DialogCreate', this.path + 'dialogs/table2.js');
+		 CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('tablePluginDialog'));
-		editor.addCommand(_pluginName + 'ResizeColumns', new CKEDITOR.dialogCommand('tablePluginResizeColumnsDialog'));
-		editor.addCommand(_pluginName + 'DropColumn', new CKEDITOR.dialogCommand('tablePluginDropColumnDialog'));
-		editor.addCommand(_pluginName + 'ModifyTable', new CKEDITOR.dialogCommand('tablePluginModifyTableDialog'));
+		editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
+		// editor.addCommand(_pluginName + 'ResizeColumns', new CKEDITOR.dialogCommand(_pluginName + 'ResizeColumnsDialog'));
+		// editor.addCommand(_pluginName + 'DropColumn', new CKEDITOR.dialogCommand(_pluginName + 'DropColumnDialog'));
+		editor.addCommand(_pluginName + 'Modify', new CKEDITOR.dialogCommand(_pluginName + 'DialogModify'));
 
-		editor.addCommand(_pluginName + 'InsertColumnBefore', {
-			exec: function(ed){
-				_controller.insertColumn(ed, _target.hostTable, 'before');
-			}
-		});
+		// editor.addCommand(_pluginName + 'InsertColumnBefore', {
+		// 	exec: function(ed){
+		// 		_controller.insertColumn(ed, _target.hostTable, 'before');
+		// 	}
+		// });
 
-		editor.addCommand(_pluginName + 'InsertColumnAfter', {
-			exec: function(ed){
-				_controller.insertColumn(ed, _target.hostTable, 'after');
-			}
-		});
+		// editor.addCommand(_pluginName + 'InsertColumnAfter', {
+		// 	exec: function(ed){
+		// 		_controller.insertColumn(ed, _target.hostTable, 'after');
+		// 	}
+		// });
 
-		editor.addCommand(_pluginName + 'AddRowBefore', {
-			exec: function (ed) {
-				_controller.insertRow(ed, _target.hostTable, 'before');
-			}
-		});
+		// editor.addCommand(_pluginName + 'AddRowBefore', {
+		// 	exec: function (ed) {
+		// 		_controller.insertRow(ed, _target.hostTable, 'before');
+		// 	}
+		// });
 
-		editor.addCommand(_pluginName + 'AddRowAfter', {
-			exec: function (ed) {
-				_controller.insertRow(ed, _target.hostTable, 'after');
-			}
-		});
+		// editor.addCommand(_pluginName + 'AddRowAfter', {
+		// 	exec: function (ed) {
+		// 		_controller.insertRow(ed, _target.hostTable, 'after');
+		// 	}
+		// });
 
-		editor.addCommand(_pluginName + 'DeleteRow', {
-			exec: function (editor) {
-				_controller.dropRow(editor, _target.hostTable);
-			}
-		});
+		// editor.addCommand(_pluginName + 'DeleteRow', {
+		// 	exec: function (editor) {
+		// 		_controller.dropRow(editor, _target.hostTable);
+		// 	}
+		// });
 
-		editor.addCommand(_pluginName + 'DeleteTable', {
+		editor.addCommand(_pluginName + 'Delete', {
 			exec: function (editor) {
 				_controller.removeTable(editor, _target.hostTable);
 			}
 		});
 
 		// Create a toolbar button that executes the above command.
-		editor.ui.addButton('tablePlugin', {
+		editor.ui.addButton(_pluginName, {
 			// The text part of the button (if available) and tooptip.
 			label: editor.lang.table.toolbar,
 			// The command to execute on click.
-			command: 'tablePluginDialog',
+			command: _pluginName + 'DialogCreate',
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
 
-		// Register our dialog file. this.path is the plugin folder path.
-		CKEDITOR.dialog.add('tablePluginDialog', this.path + 'dialogs/table2.js');
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
-			editor.addMenuItem('tablePluginItem', {
-				label: editor.lang.table.toolbar,
-				icon: this.path + 'icons/table2.png',
-				command: 'tablePluginDialog',
-				group: _pluginNameGroup
+			// editor.addMenuItem(_pluginName + 'Item', {
+			// 	label: editor.lang.table.toolbar,
+			// 	icon: this.path + 'icons/table2.png',
+			// 	command: _pluginName + 'Dialog',
+			// 	group: _pluginNameGroup
+			// });
+			// editor.addMenuItem(_pluginName + 'AddRowBefore', {
+			// 	label: editor.lang.table.row.insertBefore,
+			// 	icon: this.path + 'icons/insert_row.png',
+			// 	command: _pluginName + 'AddRowBefore',
+			// 	group: _pluginNameGroup
+			// });
+			// editor.addMenuItem(_pluginName + 'AddRowAfter', {
+			// 	label: editor.lang.table.row.insertAfter,
+			// 	icon: this.path + 'icons/insert_row.png',
+			// 	command: _pluginName + 'AddRowAfter',
+			// 	group: _pluginNameGroup
+			// });
+			// editor.addMenuItem(_pluginName + 'DeleteRow', {
+			// 	label: editor.lang.table.row.deleteRow,
+			// 	icon: this.path + 'icons/delete_row.png',
+			// 	command: _pluginName + 'DeleteRow',
+			// 	group: _pluginNameGroup
+			// });
+			// editor.addMenuItem(_pluginName + 'ResizeColumns', {
+			// 	label: editor.lang.table.column.resize || 'Resize Columns',
+			// 	icon: this.path + 'icons/resizeColumns.png',
+			// 	command: _pluginName + 'ResizeColumns',
+			// 	group: _pluginNameGroup
+			// });
+			editor.addMenuItem(_pluginName + 'Delete', {
+				label:   editor.lang.table.deleteTable,
+				icon:    this.path + 'icons/deleteTable.png',
+				command: _pluginName + 'Delete',
+				group:  _pluginNameGroup
 			});
-			editor.addMenuItem('tablePluginAddRowBefore', {
-				label: editor.lang.table.row.insertBefore,
-				icon: this.path + 'icons/insert_row.png',
-				command: 'tablePluginAddRowBefore',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginAddRowAfter', {
-				label: editor.lang.table.row.insertAfter,
-				icon: this.path + 'icons/insert_row.png',
-				command: 'tablePluginAddRowAfter',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginDeleteRow', {
-				label: editor.lang.table.row.deleteRow,
-				icon: this.path + 'icons/delete_row.png',
-				command: 'tablePluginDeleteRow',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginResizeColumns', {
-				label: editor.lang.table.column.resize || 'Resize Columns',
-				icon: this.path + 'icons/resizeColumns.png',
-				command: 'tablePluginResizeColumns',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginDeleteTable', {
-				label: editor.lang.table.deleteTable,
-				icon: this.path + 'icons/deleteTable.png',
-				command: 'tablePluginDeleteTable',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginDropColumn', {
-				label: editor.lang.table.column.deleteColumn,
-				icon: this.path + 'icons/deleteColumn.png',
-				command: 'tablePluginDropColumn',
-				group: _pluginNameGroup
-			});
-			editor.addMenuItem('tablePluginInsertColumnBefore', {
-				label: editor.lang.table.column.insertBefore,
-				icon: this.path + 'icons/insertColumn.png',
-				command: 'tablePluginInsertColumnBefore',
-				group: _pluginNameGroup
-			});
+			// editor.addMenuItem(_pluginName + 'DropColumn', {
+			// 	label: editor.lang.table.column.deleteColumn,
+			// 	icon: this.path + 'icons/deleteColumn.png',
+			// 	command: _pluginName + 'DropColumn',
+			// 	group: _pluginNameGroup
+			// });
+			// editor.addMenuItem(_pluginName + 'InsertColumnBefore', {
+			// 	label: editor.lang.table.column.insertBefore,
+			// 	icon: this.path + 'icons/insertColumn.png',
+			// 	command: _pluginName + 'InsertColumnBefore',
+			// 	group: _pluginNameGroup
+			// });
 
-			editor.addMenuItem('tablePluginInsertColumnAfter', {
-				label: editor.lang.table.column.insertAfter,
-				icon: this.path + 'icons/insertColumn.png',
-				command: 'tablePluginInsertColumnAfter',
-				group: _pluginNameGroup
-			});
+			// editor.addMenuItem(_pluginName + 'InsertColumnAfter', {
+			// 	label: editor.lang.table.column.insertAfter,
+			// 	icon: this.path + 'icons/insertColumn.png',
+			// 	command: _pluginName + 'InsertColumnAfter',
+			// 	group: _pluginNameGroup
+			// });
 
-			editor.addMenuItem('tablePluginModifyTable', {
+			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].modifyTable,
-				icon: this.path + 'icons/table2.png',
-				command: 'tablePluginModifyTable',
+				icon: this.path + 'icons/TablePlugin.png',
+				command: _pluginName + 'Modify',
 				group: _pluginNameGroup
 			});
 
 
-			editor.contextMenu.addListener(function (element) {
-				var rowMarker = (new Row()).getName(), // the label by which the rows are marked
-					markerName  = NEWSLETTER['marker-name'],
-					el;
-				el = CKHelper.findAscendant(element, function (el) {
-					return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
-				});
-				if (el) {
-					return {
-						table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
-						table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
-						table2DeleteRow: CKEDITOR.TRISTATE_OFF
-					};
-				}
-			});
+			// editor.contextMenu.addListener(function (element) {
+			// 	var rowMarker = (new Row()).getName(), // the label by which the rows are marked
+			// 		markerName  = NEWSLETTER['marker-name'],
+			// 		el;
+			// 	el = CKHelper.findAscendant(element, function (el) {
+			// 		return (el.getName() === 'tr' && el.getAttribute(markerName) === rowMarker);
+			// 	});
+			// 	if (el) {
+			// 		return {
+			// 			table2AddRowBefore: CKEDITOR.TRISTATE_OFF,
+			// 			table2AddRowAfter: CKEDITOR.TRISTATE_OFF,
+			// 			table2DeleteRow: CKEDITOR.TRISTATE_OFF
+			// 		};
+			// 	}
+			// });
 
 			editor.contextMenu.addListener(function (element) {
 				var el = _controller.findRepresentativeAncestor(element);
 				var menuObj = {},
 				elemObj;
+				console.log('table operations: ', el);
 				if (el) {
+					console.log('updating table context menu');
 					_target.hostTable = el;
-					menuObj.table2DeleteTable = CKEDITOR.TRISTATE_OFF;
-					menuObj.table2InsertColumnBefore = CKEDITOR.TRISTATE_OFF;
-					menuObj.table2InsertColumnAfter = CKEDITOR.TRISTATE_OFF;
-					menuObj.table2ModifyTable = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
+					// menuObj.['InsertColumnBefore'] = CKEDITOR.TRISTATE_OFF;
+					// menuObj['InsertColumnAfter'] = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
 					// elemObj = NEWSLETTER.factory.mimic(el.$);
 					// // if the table has more than one column, than add possibility to drop columns and to resize them.
 					// if (elemObj.colNum() > 1){
-						menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
-						menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
+						// menuObj.table2ResizeColumns = CKEDITOR.TRISTATE_OFF;
+						// menuObj.table2DropColumn = CKEDITOR.TRISTATE_OFF;
 					// }
+					console.log(menuObj);
 					return menuObj;
 				}
 			});
@@ -292,7 +296,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 	}
 });
 
-// var pluginName = 'tablePlugin';
+// var pluginName = _pluginName + '';
 // var translations = {
 // 	it: {
 // 		separator:     'Inserire una linea tra le righe',
@@ -354,206 +358,206 @@ CKEDITOR.plugins.add('TablePlugin', {
 // }
 
 
-CKEDITOR.dialog.add('tablePluginResizeColumnsDialog', function (editor) {
-	return {
-		title: editor.lang.table.column.resize,
-		minWidth: "80em",
-		minHeight: "10em",
-		contents: [{
-			id: 'tab1',
-			label: 'Columns Resize',
-			elements: [{
-				type: 'html',
-				html: '<div id="infoCol"></div>',
-			}, {
-				type: 'html',
-				html: '<div id="hiddenDiv">Dimensioni desiderate:</div>'
-			}
-			]
-		}
-		],
+// CKEDITOR.dialog.add('TablePluginResizeColumnsDialog', function (editor) {
+// 	return {
+// 		title: editor.lang.table.column.resize,
+// 		minWidth: "80em",
+// 		minHeight: "10em",
+// 		contents: [{
+// 			id: 'tab1',
+// 			label: 'Columns Resize',
+// 			elements: [{
+// 				type: 'html',
+// 				html: '<div id="infoCol"></div>',
+// 			}, {
+// 				type: 'html',
+// 				html: '<div id="hiddenDiv">Dimensioni desiderate:</div>'
+// 			}
+// 			]
+// 		}
+// 		],
 
-		onShow: function () {
-			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
-				infoCol  = 	CKEDITOR.document.getById('infoCol'),
-				colField, i,
-				markerName  = NEWSLETTER['marker-name'],
-				tableMarker = (new Table()).getName(),
-				currentElem = editor.getSelection().getStartElement(),
-				table = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'table' &&
-						el.getAttribute(markerName) === tableMarker;
-			});
-			// exit if the table is not found
-			if (!table){
-				return null;
-			}
+// 		onShow: function () {
+// 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
+// 				infoCol  = 	CKEDITOR.document.getById('infoCol'),
+// 				colField, i,
+// 				markerName  = NEWSLETTER['marker-name'],
+// 				tableMarker = (new Table()).getName(),
+// 				currentElem = editor.getSelection().getStartElement(),
+// 				table = CKHelper.findAscendant(currentElem, function(el){
+// 					return el.getName() === 'table' &&
+// 						el.getAttribute(markerName) === tableMarker;
+// 			});
+// 			// exit if the table is not found
+// 			if (!table){
+// 				return null;
+// 			}
 
-			// var tableObj = table.getOuterHtml().createTableFromHtml();
-			var tableObj = NEWSLETTER.factory.mimic(table.$);
-			var	profile = tableObj.getProfile().map(function(el){
-				return parseFloat(el);
-			}),
-				totWidth = Helper.trace(profile),
-				colNum = profile.length,
-				unit = 'px',
-				cellWidthStr = profile.map(function(el){
-						return el;
-					}).join(' + ');
+// 			// var tableObj = table.getOuterHtml().createTableFromHtml();
+// 			var tableObj = NEWSLETTER.factory.mimic(table.$);
+// 			var	profile = tableObj.getProfile().map(function(el){
+// 				return parseFloat(el);
+// 			}),
+// 				totWidth = Helper.trace(profile),
+// 				colNum = profile.length,
+// 				unit = 'px',
+// 				cellWidthStr = profile.map(function(el){
+// 						return el;
+// 					}).join(' + ');
 
-			//console.log('table: ', table);
-			// override the field with current info about cell widths
-			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
+// 			//console.log('table: ', table);
+// 			// override the field with current info about cell widths
+// 			infoCol.setHtml('Dimensioni attuali delle colonne: ' + cellWidthStr + ' = ' + totWidth + ' ' + unit);
 
-			// input fields for resizing
-			var inputFields = hiddenDiv.getElementsByTag('input'),
-				len = inputFields.count();
-			// remove the items starting from the end.
-			for (i = len-1; i >= 0; i--){
-				inputFields.getItem(i).remove();
-			}
-			// appending input fields for insertion of the cell widths
-			for (i = 0; i < colNum; i++){
-				colField = new CKEDITOR.dom.element('input');
-				colField.setAttribute('type', 'text');
-				colField.setAttribute('id', 'colField' + i);
-				colField.setValue(profile[i]);
-				colField.setAttribute('class', 'cke_dialog_ui_input_text');
-				colField.setStyle('width', '5em');
-				colField.setStyle('text-align', 'center');
-				// to all but last field, attach listeners that "validate" user input
-				if (i < colNum - 1){
-					colField.on('change', function(){
-						var allButLast = 0, last, j,
-							currentInput = parseInt(this.getValue(), 10),
-							lastOld,
-							inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
-						len = inputFields2.count();
-						for (j = 0; j < len - 1; j++){
-							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
-						}
-						// value of the last cell before any modifications
-						lastOld = parseInt(inputFields2.getItem(len - 1).getValue(), 10);
-						// if positive, the last cell should have this width
-						last = totWidth - allButLast;
-						if (last > 0){
-							inputFields2.getItem(len - 1).setValue(last);
-						} else {
-							// re-impose the previous value of the input field
-							this.setValue(currentInput + last - lastOld);
-						}
-					});
-				} else {
-					// the last field is made non-editable
-					colField.setAttribute('disabled', 'true');
-				}
-				hiddenDiv.append(colField);
-			}
-		},
+// 			// input fields for resizing
+// 			var inputFields = hiddenDiv.getElementsByTag('input'),
+// 				len = inputFields.count();
+// 			// remove the items starting from the end.
+// 			for (i = len-1; i >= 0; i--){
+// 				inputFields.getItem(i).remove();
+// 			}
+// 			// appending input fields for insertion of the cell widths
+// 			for (i = 0; i < colNum; i++){
+// 				colField = new CKEDITOR.dom.element('input');
+// 				colField.setAttribute('type', 'text');
+// 				colField.setAttribute('id', 'colField' + i);
+// 				colField.setValue(profile[i]);
+// 				colField.setAttribute('class', 'cke_dialog_ui_input_text');
+// 				colField.setStyle('width', '5em');
+// 				colField.setStyle('text-align', 'center');
+// 				// to all but last field, attach listeners that "validate" user input
+// 				if (i < colNum - 1){
+// 					colField.on('change', function(){
+// 						var allButLast = 0, last, j,
+// 							currentInput = parseInt(this.getValue(), 10),
+// 							lastOld,
+// 							inputFields2 = CKEDITOR.document.getById('hiddenDiv').getElementsByTag('input');
+// 						len = inputFields2.count();
+// 						for (j = 0; j < len - 1; j++){
+// 							allButLast += parseInt(inputFields2.getItem(j).getValue(), 10);
+// 						}
+// 						// value of the last cell before any modifications
+// 						lastOld = parseInt(inputFields2.getItem(len - 1).getValue(), 10);
+// 						// if positive, the last cell should have this width
+// 						last = totWidth - allButLast;
+// 						if (last > 0){
+// 							inputFields2.getItem(len - 1).setValue(last);
+// 						} else {
+// 							// re-impose the previous value of the input field
+// 							this.setValue(currentInput + last - lastOld);
+// 						}
+// 					});
+// 				} else {
+// 					// the last field is made non-editable
+// 					colField.setAttribute('disabled', 'true');
+// 				}
+// 				hiddenDiv.append(colField);
+// 			}
+// 		},
 
-		onOk: function () {
-			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
-				inputFields = hiddenDiv.getElementsByTag('input'),
-				len = inputFields.count(),
-				userInput = [],
-				factory = NEWSLETTER.factory,
-				tableMarker = (new Table()).getName(),
-				currentElem, table, currentTable, tableStr, tableElem,
-				i;
-			for (i = 0; i < len; i++){
-				userInput[i] = parseInt(inputFields.getItem(i).getValue(), 10);
-			}
+// 		onOk: function () {
+// 			var hiddenDiv = CKEDITOR.document.getById('hiddenDiv'),
+// 				inputFields = hiddenDiv.getElementsByTag('input'),
+// 				len = inputFields.count(),
+// 				userInput = [],
+// 				factory = NEWSLETTER.factory,
+// 				tableMarker = (new Table()).getName(),
+// 				currentElem, table, currentTable, tableStr, tableElem,
+// 				i;
+// 			for (i = 0; i < len; i++){
+// 				userInput[i] = parseInt(inputFields.getItem(i).getValue(), 10);
+// 			}
 
-			currentElem = editor.getSelection().getStartElement();
-			table = CKHelper.findAscendant(currentElem, function(el){
-				return el.getName() === 'table' &&
-					el.getAttribute(NEWSLETTER['marker-name']) === tableMarker;
-			});
+// 			currentElem = editor.getSelection().getStartElement();
+// 			table = CKHelper.findAscendant(currentElem, function(el){
+// 				return el.getName() === 'table' &&
+// 					el.getAttribute(NEWSLETTER['marker-name']) === tableMarker;
+// 			});
 
-			currentTable = factory.mimic(table.$);
-			currentTable.disentangle();
-			currentTable.setProfile(userInput);
-			tableStr = currentTable.toHtml();
-			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
-			table.remove();
-			editor.insertElement(tableElem);
-			return null;
-		}
-	};
-});
+// 			currentTable = factory.mimic(table.$);
+// 			currentTable.disentangle();
+// 			currentTable.setProfile(userInput);
+// 			tableStr = currentTable.toHtml();
+// 			tableElem = CKEDITOR.dom.element.createFromHtml(tableStr);
+// 			table.remove();
+// 			editor.insertElement(tableElem);
+// 			return null;
+// 		}
+// 	};
+// });
 
-CKEDITOR.dialog.add('tablePluginDropColumnDialog', function (editor) {
-	return {
-		title: editor.lang.table.column.deleteColumn,
-		minWidth: '80em',
-		minHeight: '10em',
-		contents: [{
-			id: 'tab1',
-			label: 'Togliere colonna',
-			elements: [{
-				type: 'html',
-				html: 'Sei sicuro di voler eliminare la colonna evidenziata?',
-			}]
-		}
-		],
+// CKEDITOR.dialog.add('TablePluginDropColumnDialog', function (editor) {
+// 	return {
+// 		title: editor.lang.table.column.deleteColumn,
+// 		minWidth: '80em',
+// 		minHeight: '10em',
+// 		contents: [{
+// 			id: 'tab1',
+// 			label: 'Togliere colonna',
+// 			elements: [{
+// 				type: 'html',
+// 				html: 'Sei sicuro di voler eliminare la colonna evidenziata?',
+// 			}]
+// 		}
+// 		],
 
-		onShow: function(){
-			var currentElem = editor.getSelection().getStartElement(),
-				markerName  = NEWSLETTER['marker-name'],
-				rowMarker   = (new Row()).getName(),
-				cellMarker  = (new Cell()).getName(),
-				tableMarker = (new Table()).getName(),
-				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'table' && el.getAttribute(markerName) === tableMarker;
-				}),
-				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'td' && el.getAttribute(markerName) === cellMarker;
-				});
-			console.log(markerName, rowMarker, cellMarker, tableMarker, currentElem, tableElem, cellElem);
-			var	cellNumber = cellElem.getIndex(),
-				columnElems = tableElem.find('tr[' + markerName + '="' + rowMarker + '"] td[' +
-					markerName + '="' + cellMarker + '"]:nth-child('+ (cellNumber + 1) +')'),
-				len = columnElems.count(),
-				i,
-				boxShadowValues = '0.05em 0.05em 0.5em 0.05em #8B0000';
+// 		onShow: function(){
+// 			var currentElem = editor.getSelection().getStartElement(),
+// 				markerName  = NEWSLETTER['marker-name'],
+// 				rowMarker   = (new Row()).getName(),
+// 				cellMarker  = (new Cell()).getName(),
+// 				tableMarker = (new Table()).getName(),
+// 				tableElem = CKHelper.findAscendant(currentElem, function(el){
+// 					return el.getName() === 'table' && el.getAttribute(markerName) === tableMarker;
+// 				}),
+// 				cellElem = CKHelper.findAscendant(currentElem, function(el){
+// 					return el.getName() === 'td' && el.getAttribute(markerName) === cellMarker;
+// 				});
+// 			console.log(markerName, rowMarker, cellMarker, tableMarker, currentElem, tableElem, cellElem);
+// 			var	cellNumber = cellElem.getIndex(),
+// 				columnElems = tableElem.find('tr[' + markerName + '="' + rowMarker + '"] td[' +
+// 					markerName + '="' + cellMarker + '"]:nth-child('+ (cellNumber + 1) +')'),
+// 				len = columnElems.count(),
+// 				i,
+// 				boxShadowValues = '0.05em 0.05em 0.5em 0.05em #8B0000';
 
 
-			for (i = 0; i < len; i++){
-				$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
-			}
-		},
+// 			for (i = 0; i < len; i++){
+// 				$(columnElems.getItem(i).$).css('box-shadow', boxShadowValues);
+// 			}
+// 		},
 
-		onOk: function () {
-			var markerName  = NEWSLETTER['marker-name'],
-				cellMarker  = (new Cell()).getName(),
-				tableMarker = (new Table()).getName(),
-				currentElem = editor.getSelection().getStartElement(),
-				tableElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'table' &&	el.getAttribute(markerName) === tableMarker;
-				}),
-				cellElem = CKHelper.findAscendant(currentElem, function(el){
-					return el.getName() === 'td' &&	el.getAttribute(markerName) === cellMarker;
-				}),
-				// column number to drop
-				cellNumber = cellElem.getIndex(),
+// 		onOk: function () {
+// 			var markerName  = NEWSLETTER['marker-name'],
+// 				cellMarker  = (new Cell()).getName(),
+// 				tableMarker = (new Table()).getName(),
+// 				currentElem = editor.getSelection().getStartElement(),
+// 				tableElem = CKHelper.findAscendant(currentElem, function(el){
+// 					return el.getName() === 'table' &&	el.getAttribute(markerName) === tableMarker;
+// 				}),
+// 				cellElem = CKHelper.findAscendant(currentElem, function(el){
+// 					return el.getName() === 'td' &&	el.getAttribute(markerName) === cellMarker;
+// 				}),
+// 				// column number to drop
+// 				cellNumber = cellElem.getIndex(),
 
-				// tableObj = tableElem.getOuterHtml().createTableFromHtml(),
-				tableObj = NEWSLETTER.factory.mimic(tableElem.$),
-				colNum = tableObj.colNum(),
-				tableStr, tableElem2;
+// 				// tableObj = tableElem.getOuterHtml().createTableFromHtml(),
+// 				tableObj = NEWSLETTER.factory.mimic(tableElem.$),
+// 				colNum = tableObj.colNum(),
+// 				tableStr, tableElem2;
 
-			console.log('parentTable: ', tableElem);
-			console.log('currentElem: ', currentElem, ', its html ', currentElem.getHtml());
-			console.log('table before knocking out: ', tableObj.toHtml());
-			if (cellNumber >= 0 && cellNumber < colNum){
-				tableObj.knockOutCol(cellNumber);
-			}
-			console.log('table after knocking out: ', tableObj.toHtml());
-			tableStr = tableObj.toHtml();
-			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
-			tableElem.remove();
-			// call a custom method to insert the table and assign hovering effects on it
-			editor.insertElement(tableElem2);
-		}
-	};
-});
+// 			console.log('parentTable: ', tableElem);
+// 			console.log('currentElem: ', currentElem, ', its html ', currentElem.getHtml());
+// 			console.log('table before knocking out: ', tableObj.toHtml());
+// 			if (cellNumber >= 0 && cellNumber < colNum){
+// 				tableObj.knockOutCol(cellNumber);
+// 			}
+// 			console.log('table after knocking out: ', tableObj.toHtml());
+// 			tableStr = tableObj.toHtml();
+// 			tableElem2 = CKEDITOR.dom.element.createFromHtml(tableStr);
+// 			tableElem.remove();
+// 			// call a custom method to insert the table and assign hovering effects on it
+// 			editor.insertElement(tableElem2);
+// 		}
+// 	};
+// });

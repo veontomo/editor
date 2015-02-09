@@ -116,10 +116,10 @@ function manageTable(editor, isNew) {
 			}
 			colWeigthTab = {
 				id: colWeigthTabId,
-				label: editor.lang.table2.colWeightInfo,
+				label: editor.lang.TablePlugin.colWeightInfo,
 				elements: [{
 					type: 'html',
-					html: editor.lang.table2.columnWeight
+					html: editor.lang.TablePlugin.columnWeight
 				}, {
 					type: 'hbox',
 					children: children
@@ -215,7 +215,7 @@ function manageTable(editor, isNew) {
 		// Dialog window contents definition.
 		contents: [{
 			id: 'structure',
-			label: editor.lang.table2.structure + '.s,slslsls',
+			label: editor.lang.TablePlugin.structure,
 			elements: [
 			{
 				type: 'text',
@@ -242,20 +242,20 @@ function manageTable(editor, isNew) {
 			}]
 		}, {
 			id: 'borders',
-			label: editor.lang.table2.borders,
+			label: editor.lang.TablePlugin.borders,
 			elements: [
 			{
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.table2.frame,
+					html: editor.lang.TablePlugin.frame,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
 					children: [{
 						type: 'text',
 						label: editor.lang.common.width,
-						title: editor.lang.table2.valueInPx,
+						title: editor.lang.TablePlugin.valueInPx,
 						id: 'globalBorderWidth',
 						'default': '0',
 						inputStyle: _inputNumberStyle,
@@ -273,7 +273,7 @@ function manageTable(editor, isNew) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html:  editor.lang.table2.rowBorders,
+					html:  editor.lang.TablePlugin.rowBorders,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -299,7 +299,7 @@ function manageTable(editor, isNew) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.table2.cellBorders,
+					html: editor.lang.TablePlugin.cellBorders,
 				}, {
 					type: 'hbox',
 					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
@@ -307,11 +307,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('left.gif', editor.lang.table2.leftVerBord, 15, 15)
+							html: _controller.iconTag('left.gif', editor.lang.TablePlugin.leftVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.leftVerBord,
+							title: editor.lang.TablePlugin.leftVerBord,
 							id: 'leftVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -321,11 +321,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('middleVer.gif', editor.lang.table2.intVerBord, 15, 15)
+							html: _controller.iconTag('middleVer.gif', editor.lang.TablePlugin.intVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.intVerBord,
+							title: editor.lang.TablePlugin.intVerBord,
 							id: 'intVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -335,11 +335,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('right.gif', editor.lang.table2.rightVerBord, 15, 15)
+							html: _controller.iconTag('right.gif', editor.lang.TablePlugin.rightVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.rightVerBord,
+							title: editor.lang.TablePlugin.rightVerBord,
 							id: 'rightVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -349,11 +349,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('upper.gif', editor.lang.table2.topHorBord, 15, 15)
+							html: _controller.iconTag('upper.gif', editor.lang.TablePlugin.topHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.topHorBord,
+							title: editor.lang.TablePlugin.topHorBord,
 							id: 'topHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -363,11 +363,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('middleHor.gif', editor.lang.table2.intHorBord, 15, 15)
+							html: _controller.iconTag('middleHor.gif', editor.lang.TablePlugin.intHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.intHorBord,
+							title: editor.lang.TablePlugin.intHorBord,
 							id: 'intHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -377,11 +377,11 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('lower.gif', editor.lang.table2.bottomHorBord, 15, 15)
+							html: _controller.iconTag('lower.gif', editor.lang.TablePlugin.bottomHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.table2.bottomHorBord,
+							title: editor.lang.TablePlugin.bottomHorBord,
 							id: 'bottomHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -395,7 +395,7 @@ function manageTable(editor, isNew) {
 						}, {
 							type: 'text',
 							label: '',
-							title: editor.lang.table2.chooseColor,
+							title: editor.lang.TablePlugin.chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
 							inputStyle: _inputColorStyle
@@ -421,7 +421,7 @@ function manageTable(editor, isNew) {
 			}]
 		}, {
 			id: 'background',
-			label: editor.lang.table2.background,
+			label: editor.lang.TablePlugin.background,
 			elements: [
 			{
 				type: 'text',
@@ -433,13 +433,13 @@ function manageTable(editor, isNew) {
 			}]
 		}, {
 			id: 'spaces',
-			label: editor.lang.table2.spacesTitle,
+			label: editor.lang.TablePlugin.spacesTitle,
 			elements: [
 			{
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.table2.spacesDescr,
+					html: editor.lang.TablePlugin.spacesDescr,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -447,16 +447,16 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'text',
-							label: editor.lang.table2.globalSpaces,
-							title: editor.lang.table2.valueInPx,
+							label: editor.lang.TablePlugin.globalSpaces,
+							title: editor.lang.TablePlugin.valueInPx,
 							'default': '0',
 							id: 'spaceTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
 							type: 'text',
-							label: editor.lang.table2.globalPadding,
-							title: editor.lang.table2.valueInPx,
+							label: editor.lang.TablePlugin.globalPadding,
+							title: editor.lang.TablePlugin.valueInPx,
 							'default': '0',
 							id: 'paddingTableGlobal',
 							inputStyle: _inputNumberStyle,
@@ -466,16 +466,16 @@ function manageTable(editor, isNew) {
 						type: 'vbox',
 						children: [{
 							type: 'text',
-							label: editor.lang.table2.rowSpaceTitle,
-							title: editor.lang.table2.valueInPx,
+							label: editor.lang.TablePlugin.rowSpaceTitle,
+							title: editor.lang.TablePlugin.valueInPx,
 							'default': '0',
 							id: 'spaceBtwRows',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
 							type: 'text',
-							label: editor.lang.table2.cellSpace,
-							title: editor.lang.table2.valueInPx,
+							label: editor.lang.TablePlugin.cellSpace,
+							title: editor.lang.TablePlugin.valueInPx,
 							'default': '0',
 							id: 'spaceCell',
 							inputStyle: _inputNumberStyle,
@@ -569,6 +569,7 @@ function manageTable(editor, isNew) {
  * @since         0.0.6
  */
 function updateTable(editor){
+	console.log('update table is called');
 	return manageTable(editor, false);
 }
 
@@ -584,9 +585,10 @@ function updateTable(editor){
  * @since         0.0.6
  */
 function createTable(editor){
+	console.log('create table is called');
 	return manageTable(editor, true);
 }
 
 
-CKEDITOR.dialog.add('table2Dialog', createTable);
-CKEDITOR.dialog.add('table2ModifyTableDialog', updateTable);
+CKEDITOR.dialog.add('TablePluginDialogCreate', createTable);
+CKEDITOR.dialog.add('TablePluginDialogModify', updateTable);
