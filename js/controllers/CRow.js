@@ -2,7 +2,7 @@
 /*global Controller, Row */
 
 /**
- * Image controller.
+ * Table row controller.
  * @module    Controllers
  * @class     CRow
  * @type      {Object}
