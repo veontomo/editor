@@ -9,9 +9,9 @@
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
-CKEDITOR.plugins.add('table2', {
+CKEDITOR.plugins.add('TablePlugin', {
 	// Register the icons.
-	icons: 'table2',
+	icons: 'tablePlugin',
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
 		/**
@@ -48,126 +48,144 @@ CKEDITOR.plugins.add('table2', {
 		 */
 		var _target = {};
 
+		/**
+		 * Plugin name.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		var _pluginName = this.name;
+
+		/**
+		 * Name of the group to embrace the plugin functionality.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		 var _pluginNameGroup = _pluginName + 'Group';
+
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand('table2Dialog', new CKEDITOR.dialogCommand('table2Dialog'));
-		editor.addCommand('table2ResizeColumns', new CKEDITOR.dialogCommand('table2ResizeColumnsDialog'));
-		editor.addCommand('table2DropColumn', new CKEDITOR.dialogCommand('table2DropColumnDialog'));
-		editor.addCommand('table2ModifyTable', new CKEDITOR.dialogCommand('table2ModifyTableDialog'));
+		editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('tablePluginDialog'));
+		editor.addCommand(_pluginName + 'ResizeColumns', new CKEDITOR.dialogCommand('tablePluginResizeColumnsDialog'));
+		editor.addCommand(_pluginName + 'DropColumn', new CKEDITOR.dialogCommand('tablePluginDropColumnDialog'));
+		editor.addCommand(_pluginName + 'ModifyTable', new CKEDITOR.dialogCommand('tablePluginModifyTableDialog'));
 
-		editor.addCommand('table2InsertColumnBefore', {
+		editor.addCommand(_pluginName + 'InsertColumnBefore', {
 			exec: function(ed){
 				_controller.insertColumn(ed, _target.hostTable, 'before');
 			}
 		});
 
-		editor.addCommand('table2InsertColumnAfter', {
+		editor.addCommand(_pluginName + 'InsertColumnAfter', {
 			exec: function(ed){
 				_controller.insertColumn(ed, _target.hostTable, 'after');
 			}
 		});
 
-		editor.addCommand('table2AddRowBefore', {
+		editor.addCommand(_pluginName + 'AddRowBefore', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostTable, 'before');
 			}
 		});
 
-		editor.addCommand('table2AddRowAfter', {
+		editor.addCommand(_pluginName + 'AddRowAfter', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostTable, 'after');
 			}
 		});
 
-		editor.addCommand('table2DeleteRow', {
+		editor.addCommand(_pluginName + 'DeleteRow', {
 			exec: function (editor) {
 				_controller.dropRow(editor, _target.hostTable);
 			}
 		});
 
-		editor.addCommand('table2DeleteTable', {
+		editor.addCommand(_pluginName + 'DeleteTable', {
 			exec: function (editor) {
 				_controller.removeTable(editor, _target.hostTable);
 			}
 		});
 
 		// Create a toolbar button that executes the above command.
-		editor.ui.addButton('Table2', {
+		editor.ui.addButton('tablePlugin', {
 			// The text part of the button (if available) and tooptip.
 			label: editor.lang.table.toolbar,
 			// The command to execute on click.
-			command: 'table2Dialog',
+			command: 'tablePluginDialog',
 			// The button placement in the toolbar (toolbar group name).
 			toolbar: 'document'
 		});
 
 		// Register our dialog file. this.path is the plugin folder path.
-		CKEDITOR.dialog.add('table2Dialog', this.path + 'dialogs/table2.js');
+		CKEDITOR.dialog.add('tablePluginDialog', this.path + 'dialogs/table2.js');
 
 		if (editor.contextMenu) {
-			editor.addMenuGroup('table2Group');
-			editor.addMenuItem('table2Item', {
+			editor.addMenuGroup(_pluginNameGroup);
+			editor.addMenuItem('tablePluginItem', {
 				label: editor.lang.table.toolbar,
 				icon: this.path + 'icons/table2.png',
-				command: 'table2Dialog',
-				group: 'table2Group'
+				command: 'tablePluginDialog',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2AddRowBefore', {
+			editor.addMenuItem('tablePluginAddRowBefore', {
 				label: editor.lang.table.row.insertBefore,
 				icon: this.path + 'icons/insert_row.png',
-				command: 'table2AddRowBefore',
-				group: 'table2Group'
+				command: 'tablePluginAddRowBefore',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2AddRowAfter', {
+			editor.addMenuItem('tablePluginAddRowAfter', {
 				label: editor.lang.table.row.insertAfter,
 				icon: this.path + 'icons/insert_row.png',
-				command: 'table2AddRowAfter',
-				group: 'table2Group'
+				command: 'tablePluginAddRowAfter',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2DeleteRow', {
+			editor.addMenuItem('tablePluginDeleteRow', {
 				label: editor.lang.table.row.deleteRow,
 				icon: this.path + 'icons/delete_row.png',
-				command: 'table2DeleteRow',
-				group: 'table2Group'
+				command: 'tablePluginDeleteRow',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2ResizeColumns', {
+			editor.addMenuItem('tablePluginResizeColumns', {
 				label: editor.lang.table.column.resize || 'Resize Columns',
 				icon: this.path + 'icons/resizeColumns.png',
-				command: 'table2ResizeColumns',
-				group: 'table2Group'
+				command: 'tablePluginResizeColumns',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2DeleteTable', {
+			editor.addMenuItem('tablePluginDeleteTable', {
 				label: editor.lang.table.deleteTable,
 				icon: this.path + 'icons/deleteTable.png',
-				command: 'table2DeleteTable',
-				group: 'table2Group',
+				command: 'tablePluginDeleteTable',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2DropColumn', {
+			editor.addMenuItem('tablePluginDropColumn', {
 				label: editor.lang.table.column.deleteColumn,
 				icon: this.path + 'icons/deleteColumn.png',
-				command: 'table2DropColumn',
-				group: 'table2Group'
+				command: 'tablePluginDropColumn',
+				group: _pluginNameGroup
 			});
-			editor.addMenuItem('table2InsertColumnBefore', {
+			editor.addMenuItem('tablePluginInsertColumnBefore', {
 				label: editor.lang.table.column.insertBefore,
 				icon: this.path + 'icons/insertColumn.png',
-				command: 'table2InsertColumnBefore',
-				group: 'table2Group'
+				command: 'tablePluginInsertColumnBefore',
+				group: _pluginNameGroup
 			});
 
-			editor.addMenuItem('table2InsertColumnAfter', {
+			editor.addMenuItem('tablePluginInsertColumnAfter', {
 				label: editor.lang.table.column.insertAfter,
 				icon: this.path + 'icons/insertColumn.png',
-				command: 'table2InsertColumnAfter',
-				group: 'table2Group'
+				command: 'tablePluginInsertColumnAfter',
+				group: _pluginNameGroup
 			});
 
-			editor.addMenuItem('table2ModifyTable', {
-				label: editor.lang.table2.modifyTable,
+			editor.addMenuItem('tablePluginModifyTable', {
+				label: editor.lang[_pluginName].modifyTable,
 				icon: this.path + 'icons/table2.png',
-				command: 'table2ModifyTable',
-				group: 'table2Group'
+				command: 'tablePluginModifyTable',
+				group: _pluginNameGroup
 			});
 
 
@@ -207,72 +225,136 @@ CKEDITOR.plugins.add('table2', {
 				}
 			});
 		}
+	},
+
+	onLoad: function(){
+		var translations = {
+			it: {
+				separator:     'Inserire una linea tra le righe',
+				frame:         'Bordo attorno alla tabella',
+				intVerBord:    'Includere interni bordi verticali',
+				intHorBord:    'Includere interni bordi orizzonatali',
+				leftVerBord:   'Includere solo il bordo verticale sinistro',
+				rightVerBord:  'Includere solo il bordo verticale destro',
+				topHorBord:    'Includere solo il bordo orizzontale alto',
+				bottomHorBord: 'Includere solo il bordo orizzontale basso',
+				chooseColor:   'Scegliere colore',
+				borders:       'Bordi',
+				cellBorders:   'Bordi attorno a celle',
+				background:    'Sfondo',
+				spacesTitle:   'Spaziatura',
+				spacesDescr:   'Spazi attorno alla tabella, righe e celle',
+				valueInPx:     'Inserisci valore in pixel',
+				rowBorders:    'Bordo attorno alle righe',
+				globalSpaces:  'Spazi attorno alla tabella',
+				rowSpaceTitle: 'Spazi tra le righe',
+				cellSpace:     'Spazio tra testo e bordo di cella',
+				columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
+				structure:     'Struttura',
+				globalPadding: 'Spazio tra cornice e contenuto',
+				modifyTable:   'Modificare tabella',
+				colWeightInfo: 'Colonne'
+			},
+			en: {
+				separator:     'Insert a line between the rows',
+				frame:         'Frame around the table',
+				intVerBord:    'Insert only internal vertical borders',
+				intHorBord:    'Insert only internal horizontal borders',
+				leftVerBord:   'Insert the most left horizontal border',
+				rightVerBord:  'Insert the most right horizontal border',
+				topHorBord:    'Insert upper horizontal border',
+				bottomHorBord: 'Insert lowest horizontal border',
+				chooseColor:   'Choose color',
+				borders:       'Borders',
+				cellBorders:   'Cell frames',
+				background:    'Background',
+				spacesTitle:   'Margins',
+				spacesDescr:   'Spaces around the table, cells and rows',
+				valueInPx:     'Insert value in pixel',
+				rowBorders:    'Border around the rows',
+				globalSpaces:  'Spaces around the table',
+				rowSpaceTitle: 'Space between rows',
+				cellSpace:     'Space between text and cell frame',
+				columnWeight:  'Column weight factors',
+				structure:     'Structure',
+				globalPadding: 'Space between table border and content',
+				modifyTable:   'Modify table',
+				colWeightInfo: 'Columns'
+			}
+		};
+
+		var lang;
+		for (lang in translations){
+			if (translations.hasOwnProperty(lang)){
+				CKEDITOR.plugins.setLang(this.name, lang, translations[lang]);
+			}
+		}
 	}
 });
 
-var pluginName = 'table2';
-var translations = {
-	it: {
-		separator:     'Inserire una linea tra le righe',
-		frame:         'Bordo attorno alla tabella',
-		intVerBord:    'Includere interni bordi verticali',
-		intHorBord:    'Includere interni bordi orizzonatali',
-		leftVerBord:   'Includere solo il bordo verticale sinistro',
-		rightVerBord:  'Includere solo il bordo verticale destro',
-		topHorBord:    'Includere solo il bordo orizzontale alto',
-		bottomHorBord: 'Includere solo il bordo orizzontale basso',
-		chooseColor:   'Scegliere colore',
-		borders:       'Bordi',
-		cellBorders:   'Bordi attorno a celle',
-		background:    'Sfondo',
-		spacesTitle:   'Spaziatura',
-		spacesDescr:   'Spazi attorno alla tabella, righe e celle',
-		valueInPx:     'Inserisci valore in pixel',
-		rowBorders:    'Bordo attorno alle righe',
-		globalSpaces:  'Spazi attorno alla tabella',
-		rowSpaceTitle: 'Spazi tra le righe',
-		cellSpace:     'Spazio tra testo e bordo di cella',
-		columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
-		structure:     'Struttura',
-		globalPadding: 'Spazio tra cornice e contenuto',
-		modifyTable:   'Modificare tabella',
-		colWeightInfo: 'Colonne'
-	},
-	en: {
-		separator:     'Insert a line between the rows',
-		frame:         'Frame around the table',
-		intVerBord:    'Insert only internal vertical borders',
-		intHorBord:    'Insert only internal horizontal borders',
-		leftVerBord:   'Insert the most left horizontal border',
-		rightVerBord:  'Insert the most right horizontal border',
-		topHorBord:    'Insert upper horizontal border',
-		bottomHorBord: 'Insert lowest horizontal border',
-		chooseColor:   'Choose color',
-		borders:       'Borders',
-		cellBorders:   'Cell frames',
-		background:    'Background',
-		spacesTitle:   'Margins',
-		spacesDescr:   'Spaces around the table, cells and rows',
-		valueInPx:     'Insert value in pixel',
-		rowBorders:    'Border around the rows',
-		globalSpaces:  'Spaces around the table',
-		rowSpaceTitle: 'Space between rows',
-		cellSpace:     'Space between text and cell frame',
-		columnWeight:  'Column weight factors',
-		structure:     'Structure',
-		globalPadding: 'Space between table border and content',
-		modifyTable:   'Modify table',
-		colWeightInfo: 'Columns'
-	}
-};
+// var pluginName = 'tablePlugin';
+// var translations = {
+// 	it: {
+// 		separator:     'Inserire una linea tra le righe',
+// 		frame:         'Bordo attorno alla tabella',
+// 		intVerBord:    'Includere interni bordi verticali',
+// 		intHorBord:    'Includere interni bordi orizzonatali',
+// 		leftVerBord:   'Includere solo il bordo verticale sinistro',
+// 		rightVerBord:  'Includere solo il bordo verticale destro',
+// 		topHorBord:    'Includere solo il bordo orizzontale alto',
+// 		bottomHorBord: 'Includere solo il bordo orizzontale basso',
+// 		chooseColor:   'Scegliere colore',
+// 		borders:       'Bordi',
+// 		cellBorders:   'Bordi attorno a celle',
+// 		background:    'Sfondo',
+// 		spacesTitle:   'Spaziatura',
+// 		spacesDescr:   'Spazi attorno alla tabella, righe e celle',
+// 		valueInPx:     'Inserisci valore in pixel',
+// 		rowBorders:    'Bordo attorno alle righe',
+// 		globalSpaces:  'Spazi attorno alla tabella',
+// 		rowSpaceTitle: 'Spazi tra le righe',
+// 		cellSpace:     'Spazio tra testo e bordo di cella',
+// 		columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
+// 		structure:     'Struttura',
+// 		globalPadding: 'Spazio tra cornice e contenuto',
+// 		modifyTable:   'Modificare tabella',
+// 		colWeightInfo: 'Colonne'
+// 	},
+// 	en: {
+// 		separator:     'Insert a line between the rows',
+// 		frame:         'Frame around the table',
+// 		intVerBord:    'Insert only internal vertical borders',
+// 		intHorBord:    'Insert only internal horizontal borders',
+// 		leftVerBord:   'Insert the most left horizontal border',
+// 		rightVerBord:  'Insert the most right horizontal border',
+// 		topHorBord:    'Insert upper horizontal border',
+// 		bottomHorBord: 'Insert lowest horizontal border',
+// 		chooseColor:   'Choose color',
+// 		borders:       'Borders',
+// 		cellBorders:   'Cell frames',
+// 		background:    'Background',
+// 		spacesTitle:   'Margins',
+// 		spacesDescr:   'Spaces around the table, cells and rows',
+// 		valueInPx:     'Insert value in pixel',
+// 		rowBorders:    'Border around the rows',
+// 		globalSpaces:  'Spaces around the table',
+// 		rowSpaceTitle: 'Space between rows',
+// 		cellSpace:     'Space between text and cell frame',
+// 		columnWeight:  'Column weight factors',
+// 		structure:     'Structure',
+// 		globalPadding: 'Space between table border and content',
+// 		modifyTable:   'Modify table',
+// 		colWeightInfo: 'Columns'
+// 	}
+// };
 
-var lang;
-for (lang in translations){
-	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
-}
+// var lang;
+// for (lang in translations){
+// 	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
+// }
 
 
-CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
+CKEDITOR.dialog.add('tablePluginResizeColumnsDialog', function (editor) {
 	return {
 		title: editor.lang.table.column.resize,
 		minWidth: "80em",
@@ -400,7 +482,7 @@ CKEDITOR.dialog.add('table2ResizeColumnsDialog', function (editor) {
 	};
 });
 
-CKEDITOR.dialog.add('table2DropColumnDialog', function (editor) {
+CKEDITOR.dialog.add('tablePluginDropColumnDialog', function (editor) {
 	return {
 		title: editor.lang.table.column.deleteColumn,
 		minWidth: '80em',

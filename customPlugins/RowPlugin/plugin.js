@@ -12,6 +12,7 @@
 CKEDITOR.plugins.add('RowPlugin', {
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
+		console.log(this);
 		/**
 		 * Instance of {{#crossLink "CRow"}}CRow{{/crossLink}}
 		 * @property   {CRow}        CRow
@@ -30,6 +31,15 @@ CKEDITOR.plugins.add('RowPlugin', {
 		var _worker = new Document();
 
 		/**
+		 * Plugin name.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		var _pluginName = this.name;
+
+		/**
 		 * Configuring the controller:
 		 * 1. assign Factory to the worker (in order to make worker be able to construct html elements)
 		 * 2. assign adapter to the controller (in order to make controller comminicate with the editor)
@@ -46,43 +56,43 @@ CKEDITOR.plugins.add('RowPlugin', {
 		 */
 		var _target = {};
 
-		editor.addCommand('RowPluginAddRowBefore', {
+		editor.addCommand(_pluginName + 'AddRowBefore', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostElem, 'before');
 			}
 		});
 
-		editor.addCommand('RowPluginAddRowAfter', {
+		editor.addCommand(_pluginName + 'AddRowAfter', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostElem, 'after');
 			}
 		});
 
-		editor.addCommand('RowPluginDeleteRow', {
+		editor.addCommand(_pluginName + 'DeleteRow', {
 			exec: function (editor) {
 				_controller.dropRow(editor, _target.hostElem);
 			}
 		});
 
 		if (editor.contextMenu) {
-			editor.addMenuGroup('row2Group');
+			editor.addMenuGroup(_pluginName + 'Group');
 			editor.addMenuItem('RowPluginAddRowBefore', {
 				label: editor.lang.RowPlugin.insertBefore,
 				icon: this.path + 'icons/insert_row.png',
 				command: 'RowPluginAddRowBefore',
-				group: 'row2Group'
+				group: _pluginName + 'Group'
 			});
 			editor.addMenuItem('RowPluginAddRowAfter', {
 				label: editor.lang.RowPlugin.insertAfter,
 				icon: this.path + 'icons/insert_row.png',
 				command: 'RowPluginAddRowAfter',
-				group: 'row2Group'
+				group: _pluginName + 'Group'
 			});
 			editor.addMenuItem('RowPluginDeleteRow', {
 				label: editor.lang.RowPlugin.deleteRow,
 				icon: this.path + 'icons/delete_row.png',
 				command: 'RowPluginDeleteRow',
-				group: 'row2Group'
+				group: _pluginName + 'Group'
 			});
 
 			editor.contextMenu.addListener(function (element) {
@@ -97,24 +107,27 @@ CKEDITOR.plugins.add('RowPlugin', {
 				return menuObj;
 			});
 		}
+	},
+
+	onLoad: function(){
+		var translations = {
+			it: {
+				insertBefore:  'Inserire riga prima',
+				insertAfter:   'Inserire riga dopo',
+				deleteRow:     'Eliminare riga'
+			},
+			en: {
+				insertBefore:  'Insert row before',
+				insertAfter:   'Insert row after',
+				deleteRow:     'Drop row'
+			}
+		};
+
+		var lang;
+		for (lang in translations){
+			if (translations.hasOwnProperty(lang)){
+				CKEDITOR.plugins.setLang(this.name, lang, translations[lang]);
+			}
+		}
 	}
 });
-
-var pluginName = 'RowPlugin';
-var translations = {
-	it: {
-		insertBefore:  'Inserire riga prima',
-		insertAfter:   'Inserire riga dopo',
-		deleteRow:     'Eliminare riga'
-	},
-	en: {
-		insertBefore:  'Insert row before',
-		insertAfter:   'Insert row after',
-		deleteRow:     'Drop row'
-	}
-};
-
-var lang;
-for (lang in translations){
-	CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
-}
