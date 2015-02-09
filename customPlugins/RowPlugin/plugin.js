@@ -46,19 +46,19 @@ CKEDITOR.plugins.add('RowPlugin', {
 		 */
 		var _target = {};
 
-		editor.addCommand('table2AddRowBefore', {
+		editor.addCommand('RowPluginAddRowBefore', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostElem, 'before');
 			}
 		});
 
-		editor.addCommand('table2AddRowAfter', {
+		editor.addCommand('RowPluginAddRowAfter', {
 			exec: function (ed) {
 				_controller.insertRow(ed, _target.hostElem, 'after');
 			}
 		});
 
-		editor.addCommand('table2DeleteRow', {
+		editor.addCommand('RowPluginDeleteRow', {
 			exec: function (editor) {
 				_controller.dropRow(editor, _target.hostElem);
 			}
@@ -66,22 +66,22 @@ CKEDITOR.plugins.add('RowPlugin', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('row2Group');
-			editor.addMenuItem('table2AddRowBefore', {
+			editor.addMenuItem('RowPluginAddRowBefore', {
 				label: editor.lang.RowPlugin.insertBefore,
 				icon: this.path + 'icons/insert_row.png',
-				command: 'table2AddRowBefore',
+				command: 'RowPluginAddRowBefore',
 				group: 'row2Group'
 			});
-			editor.addMenuItem('table2AddRowAfter', {
+			editor.addMenuItem('RowPluginAddRowAfter', {
 				label: editor.lang.RowPlugin.insertAfter,
 				icon: this.path + 'icons/insert_row.png',
-				command: 'table2AddRowAfter',
+				command: 'RowPluginAddRowAfter',
 				group: 'row2Group'
 			});
-			editor.addMenuItem('table2DeleteRow', {
+			editor.addMenuItem('RowPluginDeleteRow', {
 				label: editor.lang.RowPlugin.deleteRow,
 				icon: this.path + 'icons/delete_row.png',
-				command: 'table2DeleteRow',
+				command: 'RowPluginDeleteRow',
 				group: 'row2Group'
 			});
 
@@ -91,7 +91,7 @@ CKEDITOR.plugins.add('RowPlugin', {
 				if (el) {
 					_target.hostElem = el;
 					menuObj.table2AddRowAfter = CKEDITOR.TRISTATE_OFF;
-					menuObj.table2AddRowBefore = CKEDITOR.TRISTATE_OFF;
+					menuObj.RowPluginAddRowBefore = CKEDITOR.TRISTATE_OFF;
 					menuObj.table2DeleteRow = CKEDITOR.TRISTATE_OFF;
 				}
 				return menuObj;
