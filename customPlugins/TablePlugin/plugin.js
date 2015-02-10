@@ -68,12 +68,12 @@ CKEDITOR.plugins.add('TablePlugin', {
 
 		 // Register our dialog file. this.path is the plugin folder path.
 		 CKEDITOR.dialog.add(_pluginName + 'DialogCreate', this.path + 'dialogs/table2.js');
-		 CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
+		 // CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
 
 
 		// Define an editor command that opens our dialog.
 		editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
-		editor.addCommand(_pluginName + 'Modify', new CKEDITOR.dialogCommand(_pluginName + 'DialogModify'));
+		editor.addCommand(_pluginName + 'ModifyDialog', new CKEDITOR.dialogCommand(_pluginName + 'DialogModify'));
 
 		editor.addCommand(_pluginName + 'Delete', {
 			exec: function (editor) {
@@ -100,11 +100,11 @@ CKEDITOR.plugins.add('TablePlugin', {
 				command: _pluginName + 'Delete',
 				group:  _pluginNameGroup
 			});
-
+//
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].modifyTable,
 				icon: this.path + 'icons/TablePlugin.png',
-				command: _pluginName + 'Modify',
+				command: _pluginName + 'ModifyDialog',
 				group: _pluginNameGroup
 			});
 
