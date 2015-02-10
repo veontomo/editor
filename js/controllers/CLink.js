@@ -158,10 +158,12 @@ function CLink() {
      * Remove link from the editor.
      * @method         unlink
      * @param          {Object}        editor
+     * @param          {Element}       link        [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+     *                                             representing link which has triggered execution of this method
      * @return         {void}
      * @since          0.2.0
      */
-    this.unlink = function(editor){
+    this.unlink = function(editor, link){
         var adapter, doc, content, ranges;
         try {
             adapter = this.getEditorAdapter();
