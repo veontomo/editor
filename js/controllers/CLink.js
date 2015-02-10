@@ -16,6 +16,8 @@ function CLink() {
     }
     Controller.call(this);
 
+    this.setModel(Link.prototype);
+
     // /**
     //  * Reads the content of the link insertion dialog, generates links and inserts them into the editor.
     //  * @method        convertToLinks

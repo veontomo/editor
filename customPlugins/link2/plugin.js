@@ -35,72 +35,74 @@ CKEDITOR.plugins.add('link2', {
 		worker.setFactory(NEWSLETTER.factory);
 		_controller.setWorker(worker);
 
-		var pluginName = 'link2';
+		/**
+		 * Object containing elements on which context menu options have been triggered.
+		 * @private
+		 * @property   {Object}        _target
+		 * @since      0.2.0
+		 */
+		var _target = {};
+
+		/**
+		 * Plugin name.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		var _pluginName = this.name;
+
+		/**
+		 * Name of the group to embrace the plugin functionality.
+		 * @type       {String}
+		 * @property   {String}        _pluginNameGroup
+		 * @since      0.2.0
+		 * @private
+		 */
+		 var _pluginNameGroup = _pluginName + 'Group';
+
+		 /**
+		 * Register dialog that inserts link.
+		 *
+		 * File "linkMailDialog.js" contains definition of two dialogs:
+		 * "mailDialog" and "linkDialog".
+		 * These dialogs are defined in the same file bacause they are defined in terms of a
+		 * class "linkMailDialog" which is defined in that file.
+		 */
+		 CKEDITOR.dialog.add('linkDialog', this.path + '../linkMail/linkMailDialog.js');
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand('link2', new CKEDITOR.dialogCommand('linkDialog'));
-		// Create a toolbar button that executes the above command.
+		editor.addCommand(_pluginName + 'link2', new CKEDITOR.dialogCommand('linkDialog'));
 		editor.ui.addButton('link2', {
-			// The text part of the button (if available) and tooptip.
 			label: editor.lang.link.title,
-			// The command to execute on click.
-			command: 'link2',
-			// The button placement in the toolbar (toolbar group name).
+			command: _pluginName + 'link2',
 			toolbar: 'document',
 		});
-		editor.addCommand('link2unlink', {
+		editor.addCommand(_pluginName + 'Unlink', {
 			exec: function(editor){
-				_controller.unlink(editor);
-				// var startElem = editor.getSelection().getStartElement(),
-				// 	link = startElem.getAscendant('a', true);
-				// CKHelper.unlink(editor, link);
+				_controller.unlink(editor, _target.hostLink);
 			}
 		});
-		// editor.addCommand('link2modify', {
-		// 	exec: function(editor){
-		// 		_controller.modify(editor);
-		// 		// var startElem = editor.getSelection().getStartElement(),
-		// 		// 	link = startElem.getAscendant('a', true);
-		// 		// CKHelper.modifyLink(editor, link);
-		// 	}
-		// });
-
-		// Register our dialog file. this.path is the plugin folder path.
-		var path = this.path.split('/'), a;
-		// repeat until a non-empty element is popped
-		do {
-			a = path.pop();
-		}
-		while (!a && path.length > 0);
-		path = path.join('/') + '/linkMail/linkMailDialog.js';
-		console.log('--------- adding linkDialog by means of path ' + path + ' ---------- ');
-		CKEDITOR.dialog.add('linkDialog', path);
 
 		if (editor.contextMenu) {
-			editor.addMenuGroup('link2Group');
+			editor.addMenuGroup(_pluginNameGroup);
 
-			editor.addMenuItem('link2Item', {
-				label: editor.lang.link.menu,
-				icon: this.path + 'icons/link2.png',
-				command: 'link2',
-				group: 'link2Group'
-			});
-			editor.addMenuItem('link2ItemUnlink', {
+			editor.addMenuItem(_pluginName + 'Unlink', {
 				label: editor.lang.link.unlink,
 				icon: this.path + 'icons/unlink2.png',
-				command: 'link2unlink',
-				group: 'link2Group'
+				command: _pluginName + 'Unlink',
+				group: _pluginNameGroup
 			});
 			editor.contextMenu.addListener(function(element) {
-				if (element.getAscendant('a', true)) {
-					return {
-						link2Item: CKEDITOR.TRISTATE_OFF,
-						link2ItemUnlink: CKEDITOR.TRISTATE_OFF
-					};
+				var el = _controller.findRepresentativeAncestor(element);
+				var menuObj = {};
+				if (el) {
+					_target.hostLink = el;
+					menuObj[_pluginName + 'Unlink'] = CKEDITOR.TRISTATE_OFF;
+					return menuObj;
 				}
 			});
 		}
-
 	}
 });
