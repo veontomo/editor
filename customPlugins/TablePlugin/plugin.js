@@ -66,9 +66,16 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		 // Register our dialog file. this.path is the plugin folder path.
+		 // Register dialogs. File "table2.js" is mentioned twice, because it contains definitions
+		 // of two dialogs: "TablePluginDialogCreate" and "TablePluginDialogModify".
+		 // These dialogs are defined in the same file bacause they are defined in terms of a
+		 // class "manageTable" which is defined in that file.
+		 // CKEDITOR uses lazy loading, therefore file 'dialogs/table2.js' is not loaded
+		 // immediately, but rather gets registered in such a way that CKEDITOR knows where
+		 // to find the definitions of the dialogs once they are called. If they are never called,
+		 // file 'dialogs/table2.js' will never be called.
 		 CKEDITOR.dialog.add(_pluginName + 'DialogCreate', this.path + 'dialogs/table2.js');
-		 // CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
+		 CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
 
 
 		// Define an editor command that opens our dialog.

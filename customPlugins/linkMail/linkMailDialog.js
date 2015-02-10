@@ -7,8 +7,10 @@
 * @module  Dialogs
 * @class   LinkMailDialog
 */
-function linkMailDialog(editor, scheme) {
 
+console.log('linkMailDialog.js is called!!!!!!!!!!!!!!!');
+function linkMailDialog(editor, scheme) {
+console.log('linkMailDialog class is loaded!!!!!!!!!!!!!!!');
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
      * @property  {CLink}     _controller
@@ -234,10 +236,12 @@ function linkMailDialog(editor, scheme) {
 }
 
 function linkDialog(editor){
+  console.log('linkDialog is loaded!!!!!!!!!!!!!!!');
   return linkMailDialog(editor, 'link');
 }
 
 function mailDialog(editor){
+   console.log('mailDialog is loaded!!!!!!!!!!!!!!!');
   return linkMailDialog(editor, 'mail');
 }
 

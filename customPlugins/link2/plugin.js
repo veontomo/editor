@@ -74,6 +74,7 @@ CKEDITOR.plugins.add('link2', {
 		}
 		while (!a && path.length > 0);
 		path = path.join('/') + '/linkMail/linkMailDialog.js';
+		console.log('--------- adding linkDialog by means of path ' + path + ' ---------- ');
 		CKEDITOR.dialog.add('linkDialog', path);
 
 		if (editor.contextMenu) {
