@@ -102,6 +102,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 				var el = _controller.findRepresentativeAncestor(element);
 				var menuObj = {};
 				if (el) {
+					console.log('link: ', el);
 					_target.hostLink = el;
 					menuObj[_pluginName + 'Unlink'] = CKEDITOR.TRISTATE_OFF;
 					return menuObj;

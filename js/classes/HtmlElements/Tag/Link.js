@@ -439,6 +439,6 @@ Link.parseUri = function(href){
  * @return        {Boolean}
  * @since         0.2.0
  */
-UList.prototype.characteristicFunction = function(n){
+Link.prototype.characteristicFunction = function(n){
 	return (n instanceof Element) && n.tagName.toLowerCase() === 'a';
 };
