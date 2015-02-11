@@ -4,15 +4,15 @@
 /**
  * A customized CKEDITOR plugin to deal with operations on hyperlink.
  * @module    CKEditorPlugins
- * @class     Link2
+ * @class     LinkPlugin
  * @type      {Object}
  * @since     0.0.5
  * @author    A.Shcherbakov
  */
-CKEDITOR.plugins.add('link2', {
+CKEDITOR.plugins.add('LinkPlugin', {
 
 	// Register the icons.
-	icons: 'link2',
+	icons: 'LinkPlugin',
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
@@ -73,15 +73,19 @@ CKEDITOR.plugins.add('link2', {
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand(_pluginName + 'link2', new CKEDITOR.dialogCommand('linkDialog'));
-		editor.ui.addButton('link2', {
+		editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('linkDialog'));
+		editor.ui.addButton(_pluginName, {
 			label: editor.lang.link.title,
-			command: _pluginName + 'link2',
+			command: _pluginName + 'Dialog',
 			toolbar: 'document',
 		});
 		editor.addCommand(_pluginName + 'Unlink', {
 			exec: function(editor){
-				_controller.unlink(editor, _target.hostLink);
+				// a link that triggers appearence of item "Unlink" in the context menu
+				// is available as _target.hostLink
+				// Remenber that the above mentioned link is not the only that might be
+				// present in the selected text
+				_controller.unlink(editor);
 			}
 		});
 
