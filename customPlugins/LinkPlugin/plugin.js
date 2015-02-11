@@ -94,7 +94,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 
 			editor.addMenuItem(_pluginName + 'Unlink', {
 				label: editor.lang.link.unlink,
-				icon: this.path + 'icons/unlink2.png',
+				icon: this.path + 'icons/unlink.png',
 				command: _pluginName + 'Unlink',
 				group: _pluginNameGroup
 			});
