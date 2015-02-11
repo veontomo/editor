@@ -11,8 +11,8 @@
 CKEDITOR.plugins.add('TablePlugin', {
 	/**
 	 * Register plugin icons.
-	 * @property {String} icons
-	 * @since  0.0.5
+	 * @property       {String} icons
+	 * @since          0.0.5
 	 */
 	icons: 'TablePlugin',
 
@@ -121,7 +121,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].modifyTable,
-				icon: this.path + 'icons/TablePlugin.png',
+				icon: this.path + 'icons/modifyTable.png',
 				command: _pluginName + 'ModifyDialog',
 				group: _pluginNameGroup
 			});
