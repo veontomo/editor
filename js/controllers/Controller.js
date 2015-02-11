@@ -287,17 +287,14 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.findRepresentativeAncestor = function(el){
-		console.log('findRepresentativeAncestor: ', el);
 		var adapter = this.getEditorAdapter(),
 			nativeEl = adapter.toNativeElement(el);
-		console.log('nativeEl: ', nativeEl);
 		if (!nativeEl){
 			return;
 		}
 		var doc = this.getWorker(),
 			criteria = this.getModel().characteristicFunction,
 			n;
-		console.log(criteria);
 		if (typeof criteria === 'function'){
 			n  = doc.findAncestor(nativeEl, criteria);
 		}

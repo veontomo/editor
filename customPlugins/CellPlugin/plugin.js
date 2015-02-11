@@ -13,7 +13,6 @@ CKEDITOR.plugins.add('CellPlugin', {
 	icons: 'CellPlugin',
 	// The plugin initialization logic goes inside this method.
 	init: function (editor) {
-		console.log(this);
 		/**
 		 * Instance of {{#crossLink "CCell"}}CCell{{/crossLink}}
 		 * @property   {CCell}        CCell
@@ -40,11 +39,9 @@ CKEDITOR.plugins.add('CellPlugin', {
 		 */
 		var _pluginName = this.name;
 
-		/**
-		 * Configuring the controller:
-		 * 1. assign Factory to the worker (in order to make worker be able to construct html elements)
-		 * 2. assign adapter to the controller (in order to make controller comminicate with the editor)
-		 */
+		//  Configuring the controller:
+		//  1. assign Factory to the worker (in order to make worker be able to construct html elements)
+		//  2. assign adapter to the controller (in order to make controller comminicate with the editor)
 		_worker.setFactory(NEWSLETTER.factory);
 		_controller.setWorker(_worker);
 		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);

@@ -47,11 +47,10 @@ CKEDITOR.plugins.add('RowPlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		/**
-		 * Configuring the controller:
-		 * 1. assign Factory to the worker (in order to make worker be able to construct html elements)
-		 * 2. assign adapter to the controller (in order to make controller comminicate with the editor)
-		 */
+
+		// Configuring the controller:
+		// 1. assign Factory to the worker (in order to make worker be able to construct html elements)
+		// 2. assign adapter to the controller (in order to make controller comminicate with the editor)
 		_worker.setFactory(NEWSLETTER.factory);
 		_controller.setWorker(_worker);
 		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
@@ -59,6 +58,7 @@ CKEDITOR.plugins.add('RowPlugin', {
 		/**
 		 * Object containing elements on which context menu options have been triggered.
 		 * @private
+		 * @property   {Object}       _target
 		 * @type       {Object}
 		 * @since      0.2.0
 		 */

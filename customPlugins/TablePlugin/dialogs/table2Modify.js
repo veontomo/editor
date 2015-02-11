@@ -9,7 +9,8 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
   * @class   table2ModifyDialog
   */
 
-var ModifyDialog = function (editor) {
+var ModifyDialog = function (editor, obj) {
+	console.log('ModifyDialog is called with: editor=', eidtor, ', obj=', obj);
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -484,5 +485,7 @@ var ModifyDialog = function (editor) {
 		}
 	};
 };
+
+
 
 CKEDITOR.dialog.add('table2ModifyDialog', ModifyDialog);

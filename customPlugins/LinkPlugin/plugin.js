@@ -61,13 +61,13 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		 /**
-		 * Register dialog that inserts link.
-		 *
-		 * File "linkMailDialog.js" contains definition of two dialogs:
-		 * "mailDialog" and "linkDialog".
-		 * These dialogs are defined in the same file bacause they are defined in terms of a
-		 * class "linkMailDialog" which is defined in that file.
+		 /*
+		  Register dialog that inserts link.
+
+		  File "linkMailDialog.js" contains definition of two dialogs:
+		  "mailDialog" and "linkDialog".
+		  These dialogs are defined in the same file bacause they are defined in terms of a
+		  class "linkMailDialog" which is defined in that file.
 		 */
 		 CKEDITOR.dialog.add('linkDialog', this.path + '../linkMail/linkMailDialog.js');
 

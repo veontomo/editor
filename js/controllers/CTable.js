@@ -400,6 +400,21 @@ function CTable(){
 		}
 	};
 
+	/**
+	 * Fills in editor dialog with data taken from element `el`.
+	 * @method         fillInDialogWith
+	 * @param          {Object}        dialog    editor-specific representation of the dialog
+	 * @param          {Node}          el        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 *                                           properties of which are to be used to fill in the dialog
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.fillInDialogWith = function(dialog, el){
+		var adapter = this.getEditorAdapter();
+		console.log('target contains '+ el.getElementsByTagName('tr').length + ' rows');
+		console.log(dialog instanceof CKEDITOR.dialog);
+	};
+
 }
 
 CTable.prototype = Object.create(Controller.prototype);

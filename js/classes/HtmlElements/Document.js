@@ -350,7 +350,6 @@ function Document(node){
 		while (currentNode && (!isScoped || scope.contains(currentNode))){
 			try {
 				isFound = criteria(currentNode);
-				console.log(currentNode, isFound);
 				if (isFound){
 					return currentNode;
 				}

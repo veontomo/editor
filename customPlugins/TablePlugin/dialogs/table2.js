@@ -3,24 +3,15 @@
 TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker, Selection */
 
 /**
-  * Table dialog.
-  *
-  * @module  Dialogs
-  * @class   TableDialog
-  */
-
-
-/**
- * Returns table insertion/updating dialog.
+ * Returns dialog window for creating a new table.
  *
- * In case of update, the dialog fields are filled-in with the table attribute value.
- * @method        manageTable
- * @param         {CKEDITOR}      editor   instance of CKEDITOR
- * @param         {Boolean}       isNew    whether the method should insert new table or update exisiting one
+ * @module        Dialogs
+ * @class         TableDialog
+ * @param         {Object}        editor   instance of CKEDITOR
  * @return        {Object}        dialog definition
  * @since         0.0.6
  */
-function manageTable(editor, isNew) {
+function TableDialog(editor) {
 
 	/**
 	 * Instance of {{#crossLink "Controller"}}Controller.{{/crossLink}}
@@ -29,6 +20,19 @@ function manageTable(editor, isNew) {
 	 * @private
 	 */
 	 var _controller = new CTable();
+
+	 /**
+	  * Configures {{#crossLink "TableDialog/_controller:property"}}_controller{{/crossLink}}.
+	  *
+	  * @method  constructor
+	  * @since   0.2.0
+	  */
+	 (function(){
+		 _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+	     var worker = new Document();
+	     worker.setFactory(NEWSLETTER.factory);
+	     _controller.setWorker(worker);
+	 }());
 
 	/**
 	 * Style for text input fields for numbers.
@@ -514,43 +518,43 @@ function manageTable(editor, isNew) {
 			}
 		},
 
-		/**
-		 * The function to execute when the dialog is loaded (executed every time the dialog is opened).
-		 *
-		 * Fills in table plugin dialog with selected (if any) table properties.
-		 * @method    onShow
-		 * @return    {void}
-		 */
-		onShow: function() {
-		    if (!isNew){
-		    	var table = _controller.getTable(editor);
-		    		// parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
-		    		// n = table instanceof Table ? table.colNum() : 0;
-		    	// _controller.addColWeightFields(parentElem, n);
-		    	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
-		    	_controller.disableFields(this, {'structure': ['rows', 'cols']});
-		    }
-		},
+		// /**
+		//  * The function to execute when the dialog is loaded (executed every time the dialog is opened).
+		//  *
+		//  * Fills in table plugin dialog with selected (if any) table properties.
+		//  * @method    onShow
+		//  * @return    {void}
+		//  */
+		// onShow: function() {
+		//     if (!isNew){
+		//     	var table = _controller.getTable(editor);
+		//     		// parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
+		//     		// n = table instanceof Table ? table.colNum() : 0;
+		//     	// _controller.addColWeightFields(parentElem, n);
+		//     	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
+		//     	_controller.disableFields(this, {'structure': ['rows', 'cols']});
+		//     }
+		// },
 
 		onOk: function () {
 			var tableNode, tableElem;
 			// in case of insertion of a new table
-			if (isNew){
+			// if (isNew){
 				tableNode = _controller.create(this, editor);
 				tableElem = CKEDITOR.document.createElement(tableNode);
 				editor.insertElement(tableElem);
-			} else {
+			// } else {
 				// in case of updating current table
-				var currentTable = _controller.findParentTable(editor);
-				if (!currentTable){
-					console.log('parent table is NOT found');
-					return;
-				}
-				tableNode = _controller.update(this, editor, currentTable);
-				currentTable.parentNode.replaceChild(tableNode, currentTable);
+				// var currentTable = _controller.findParentTable(editor);
+				// if (!currentTable){
+				// 	console.log('parent table is NOT found');
+				// 	return;
+				// }
+				// tableNode = _controller.update(this, editor, currentTable);
+				// currentTable.parentNode.replaceChild(tableNode, currentTable);
 				// tableElem = CKEDITOR.document.createElement(tableNode);
 				// tableElem.replace(currentTable);
-			}
+			// }
 			dropInputCells(this);
 		}
 	};
@@ -558,37 +562,4 @@ function manageTable(editor, isNew) {
 }
 
 
-/**
- * Wrapper to call method {{#crossLink "TableDialog/manageTable:method"}}manageTable{{/crossLink}} method with
- * the second argument set to `false`.
- *
- * @method        updateTable
- * @param         {CKEDITOR}      editor   instance of CKEDITOR
- * @param         {Boolean}       isNew    whether the method should insert new table or modify exisiting one
- * @return        {Object}        dialog definition
- * @since         0.0.6
- */
-function updateTable(editor){
-	console.log('update table is called');
-	return manageTable(editor, false);
-}
-
-
-/**
- * Wrapper to call method {{#crossLink "TableDialog/manageTable:method"}}manageTable{{/crossLink}} method with
- * the second argument set to `true`.
- *
- * @method        createTable
- * @param         {CKEDITOR}      editor   instance of CKEDITOR
- * @param         {Boolean}       isNew    whether the method should insert new table or modify exisiting one
- * @return        {Object}        dialog definition
- * @since         0.0.6
- */
-function createTable(editor){
-	console.log('create table is called');
-	return manageTable(editor, true);
-}
-
-
-CKEDITOR.dialog.add('TablePluginDialogCreate', createTable);
-CKEDITOR.dialog.add('TablePluginDialogModify', updateTable);
+CKEDITOR.dialog.add('TablePluginDialog', TableDialog);

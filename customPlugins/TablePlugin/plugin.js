@@ -76,25 +76,22 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		 /**
-		 * Register dialog corresponding to table creation and table modification.
-		 *
-		 * File "table2.js" is mentioned twice, because it contains definitions
-		 * of two dialogs: "TablePluginDialogCreate" and "TablePluginDialogModify".
-		 * These dialogs are defined in the same file bacause they are defined in terms of a
-		 * class "manageTable" which is defined in that file.
-		 * CKEDITOR uses lazy loading, therefore file 'dialogs/table2.js' is not loaded
-		 * immediately, but rather gets registered in such a way that CKEDITOR knows where
-		 * to find the definitions of the dialogs once they are called. If they are never called,
-		 * file 'dialogs/table2.js' will never be called.
-		 */
-		 CKEDITOR.dialog.add(_pluginName + 'DialogCreate', this.path + 'dialogs/table2.js');
-		 CKEDITOR.dialog.add(_pluginName + 'DialogModify', this.path + 'dialogs/table2.js');
-
+		  // Register dialog corresponding to table creation and table modification.
+		 CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/table2.js');
 
 		// Define an editor commands that open the above dialogs.
-		editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
-		editor.addCommand(_pluginName + 'ModifyDialog', new CKEDITOR.dialogCommand(_pluginName + 'DialogModify'));
+		// editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
+		editor.addCommand(_pluginName + 'Dialog', {
+			exec: function(editor){
+				editor.openDialog(_pluginName + 'Dialog', function(){
+					if (_target.hostTable){
+						_controller.fillInDialogWith(this, _target.hostTable);
+						// reset the reference to the target element
+						_target.hostTable = undefined;
+					}
+				});
+			}
+		});
 
 		editor.addCommand(_pluginName + 'Delete', {
 			exec: function (editor) {
@@ -105,7 +102,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		// Create a toolbar button that calls a command that opens a dialog.
 		editor.ui.addButton(_pluginName, {
 			label: editor.lang.table.toolbar,
-			command: _pluginName + 'DialogCreate',
+			command: _pluginName + 'Dialog',
 			toolbar: 'document'
 		});
 
@@ -113,7 +110,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
 			editor.addMenuItem(_pluginName + 'Delete', {
-				label:   editor.lang.table.deleteTable,
+				label:   editor.lang[_pluginName].deleteTable,
 				icon:    this.path + 'icons/deleteTable.png',
 				command: _pluginName + 'Delete',
 				group:  _pluginNameGroup
@@ -122,10 +119,9 @@ CKEDITOR.plugins.add('TablePlugin', {
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].modifyTable,
 				icon: this.path + 'icons/modifyTable.png',
-				command: _pluginName + 'ModifyDialog',
+				command: _pluginName + 'Dialog',
 				group: _pluginNameGroup
 			});
-
 
 			editor.contextMenu.addListener(function (element) {
 				var el = _controller.findRepresentativeAncestor(element);
@@ -143,56 +139,58 @@ CKEDITOR.plugins.add('TablePlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				separator:     'Inserire una linea tra le righe',
-				frame:         'Bordo attorno alla tabella',
-				intVerBord:    'Includere interni bordi verticali',
-				intHorBord:    'Includere interni bordi orizzonatali',
-				leftVerBord:   'Includere solo il bordo verticale sinistro',
-				rightVerBord:  'Includere solo il bordo verticale destro',
-				topHorBord:    'Includere solo il bordo orizzontale alto',
-				bottomHorBord: 'Includere solo il bordo orizzontale basso',
-				chooseColor:   'Scegliere colore',
-				borders:       'Bordi',
-				cellBorders:   'Bordi attorno a celle',
 				background:    'Sfondo',
-				spacesTitle:   'Spaziatura',
-				spacesDescr:   'Spazi attorno alla tabella, righe e celle',
-				valueInPx:     'Inserisci valore in pixel',
-				rowBorders:    'Bordo attorno alle righe',
-				globalSpaces:  'Spazi attorno alla tabella',
-				rowSpaceTitle: 'Spazi tra le righe',
+				borders:       'Bordi',
+				bottomHorBord: 'Includere solo il bordo orizzontale basso',
+				cellBorders:   'Bordi attorno a celle',
 				cellSpace:     'Spazio tra testo e bordo di cella',
+				chooseColor:   'Scegliere colore',
 				columnWeight:  'Fattori con i quali le colonne contribuiscono nella larghezza della tabella',
-				structure:     'Struttura',
+				colWeightInfo: 'Colonne',
+				deleteTable:   'Eliminare tabella',
+				frame:         'Bordo attorno alla tabella',
 				globalPadding: 'Spazio tra cornice e contenuto',
+				globalSpaces:  'Spazi attorno alla tabella',
+				intHorBord:    'Includere interni bordi orizzonatali',
+				intVerBord:    'Includere interni bordi verticali',
+				leftVerBord:   'Includere solo il bordo verticale sinistro',
 				modifyTable:   'Modificare tabella',
-				colWeightInfo: 'Colonne'
+				rightVerBord:  'Includere solo il bordo verticale destro',
+				rowBorders:    'Bordo attorno alle righe',
+				rowSpaceTitle: 'Spazi tra le righe',
+				separator:     'Inserire una linea tra le righe',
+				spacesDescr:   'Spazi attorno alla tabella, righe e celle',
+				spacesTitle:   'Spaziatura',
+				structure:     'Struttura',
+				topHorBord:    'Includere solo il bordo orizzontale alto',
+				valueInPx:     'Inserisci valore in pixel',
 			},
 			en: {
-				separator:     'Insert a line between the rows',
-				frame:         'Frame around the table',
-				intVerBord:    'Insert only internal vertical borders',
-				intHorBord:    'Insert only internal horizontal borders',
-				leftVerBord:   'Insert the most left horizontal border',
-				rightVerBord:  'Insert the most right horizontal border',
-				topHorBord:    'Insert upper horizontal border',
-				bottomHorBord: 'Insert lowest horizontal border',
-				chooseColor:   'Choose color',
-				borders:       'Borders',
-				cellBorders:   'Cell frames',
 				background:    'Background',
-				spacesTitle:   'Margins',
-				spacesDescr:   'Spaces around the table, cells and rows',
-				valueInPx:     'Insert value in pixel',
-				rowBorders:    'Border around the rows',
-				globalSpaces:  'Spaces around the table',
-				rowSpaceTitle: 'Space between rows',
+				borders:       'Borders',
+				bottomHorBord: 'Insert lowest horizontal border',
+				cellBorders:   'Cell frames',
 				cellSpace:     'Space between text and cell frame',
+				chooseColor:   'Choose color',
 				columnWeight:  'Column weight factors',
-				structure:     'Structure',
+				colWeightInfo: 'Columns',
+				deleteTable:   'Drop table',
+				frame:         'Frame around the table',
 				globalPadding: 'Space between table border and content',
+				globalSpaces:  'Spaces around the table',
+				intHorBord:    'Insert only internal horizontal borders',
+				intVerBord:    'Insert only internal vertical borders',
+				leftVerBord:   'Insert the most left horizontal border',
 				modifyTable:   'Modify table',
-				colWeightInfo: 'Columns'
+				rightVerBord:  'Insert the most right horizontal border',
+				rowBorders:    'Border around the rows',
+				rowSpaceTitle: 'Space between rows',
+				separator:     'Insert a line between the rows',
+				spacesDescr:   'Spaces around the table, cells and rows',
+				spacesTitle:   'Margins',
+				structure:     'Structure',
+				topHorBord:    'Insert upper horizontal border',
+				valueInPx:     'Insert value in pixel',
 			}
 		};
 
