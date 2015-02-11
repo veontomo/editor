@@ -287,10 +287,8 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.findRepresentativeAncestor = function(el){
-		console.log('input: ', el);
 		var adapter = this.getEditorAdapter(),
 			nativeEl = adapter.toNativeElement(el);
-		console.log('native form: ', nativeEl);
 		if (!nativeEl){
 			return;
 		}
@@ -300,7 +298,6 @@ function Controller(){
 		if (typeof criteria === 'function'){
 			n  = doc.findAncestor(nativeEl, criteria);
 		}
-		console.log('returning ', n);
 		return n;
 	};
 
