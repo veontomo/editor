@@ -118,6 +118,8 @@ function CLink() {
                 link = new Link();
                 link.load(linkTag);
                 adapter.fillInDialog(dialog, link.template(), 'link');
+                console.log(dialog, dialog instanceof CKEDITOR.dialog);
+                dialog.setValueOf('linkInfoTab', 'href', 'sdfsdfsadf');
             }
         } catch (e) {
             console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);

@@ -410,9 +410,21 @@ function CTable(){
 	 * @since          0.2.0
 	 */
 	this.fillInDialogWith = function(dialog, el){
-		var adapter = this.getEditorAdapter();
-		console.log('target contains '+ el.getElementsByTagName('tr').length + ' rows');
-		console.log(dialog instanceof CKEDITOR.dialog);
+		var adapter, worker, table;
+		try {
+			adapter = this.getEditorAdapter();
+			worker = this.getWorker();
+			table = worker.getFactory().mimic(el);
+			// adapter.fillInDialog(dialog, this.templateToDialog(table.template()));
+			// console.log(dialog.getContentElement('structure', 'rows').setValue('ssss'));
+			// console.log(dialog, dialog instanceof CKEDITOR.dialog);
+			// dialog.setValueOf('structure', 'rows', 'sdfsdfsadf');
+		} catch(e){
+			console.log(e.name + ' occurred when filling in table dialog: ', e);
+		}
+
+		console.log(this.templateToDialog(table.template()));
+		console.log(dialog);
 	};
 
 }

@@ -126,6 +126,7 @@ function CKEditorAdapter(){
 		} else {
 			dataForDialog = data;
 		}
+		console.log('filling in dialog with the data: ', dataForDialog);
 		var pageId, page, elemId, value;
 		for (pageId in dataForDialog){
 			if (dataForDialog.hasOwnProperty(pageId)){
