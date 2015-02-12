@@ -400,33 +400,6 @@ function CTable(){
 		}
 	};
 
-	/**
-	 * Fills in editor dialog with data taken from element `el`.
-	 * @method         fillInDialogWith
-	 * @param          {Object}        dialog    editor-specific representation of the dialog
-	 * @param          {Node}          el        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 *                                           properties of which are to be used to fill in the dialog
-	 * @return         {void}
-	 * @since          0.2.0
-	 */
-	this.fillInDialogWith = function(dialog, el){
-		var adapter, worker, table;
-		try {
-			adapter = this.getEditorAdapter();
-			worker = this.getWorker();
-			table = worker.getFactory().mimic(el);
-			// adapter.fillInDialog(dialog, this.templateToDialog(table.template()));
-			// console.log(dialog.getContentElement('structure', 'rows').setValue('ssss'));
-			// console.log(dialog, dialog instanceof CKEDITOR.dialog);
-			// dialog.setValueOf('structure', 'rows', 'sdfsdfsadf');
-		} catch(e){
-			console.log(e.name + ' occurred when filling in table dialog: ', e);
-		}
-
-		console.log(this.templateToDialog(table.template()));
-		console.log(dialog);
-	};
-
 }
 
 CTable.prototype = Object.create(Controller.prototype);

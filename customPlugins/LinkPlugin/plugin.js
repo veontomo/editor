@@ -69,11 +69,38 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		  These dialogs are defined in the same file bacause they are defined in terms of a
 		  class "linkMailDialog" which is defined in that file.
 		 */
-		 CKEDITOR.dialog.add('linkDialog', this.path + '../linkMail/linkMailDialog.js');
+		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + '../linkMail/linkMailDialog.js');
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('linkDialog'));
+		// editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('linkDialog'));
+		editor.addCommand(_pluginName + 'Dialog', {
+			exec: function(){
+				editor.openDialog(_pluginName + 'Dialog', function(){
+					console.log(_target.hostLink);
+					if (_target.hostLink){
+						// _controller.fillInDialogWith(this, _target.hostLink);
+						// reset the reference to the target element
+						_target.hostLink = undefined;
+						console.log(this instanceof CKEDITOR.dialog);
+					}
+				});
+			}
+		});
+
+		editor.addCommand(_pluginName + 'Modify', {
+			exec: function(e){
+				var dialog = e.openDialog(_pluginName + 'Dialog');
+				if (_target.hostLink){
+					_controller.fillInDialogWithElementData(dialog, _target.hostLink);
+					_target.hostLink = undefined;
+				}
+			}
+		});
+
+
+
+
 		editor.ui.addButton(_pluginName, {
 			label: editor.lang.link.title,
 			command: _pluginName + 'Dialog',
@@ -98,13 +125,21 @@ CKEDITOR.plugins.add('LinkPlugin', {
 				command: _pluginName + 'Unlink',
 				group: _pluginNameGroup
 			});
+
+			editor.addMenuItem(_pluginName + 'Modify', {
+				label: '--- modify link ---',
+				icon: this.path + 'icons/unlink.png',
+				command: _pluginName + 'Modify',
+				group: _pluginNameGroup
+			});
+
 			editor.contextMenu.addListener(function(element) {
 				var el = _controller.findRepresentativeAncestor(element);
 				var menuObj = {};
 				if (el) {
-					console.log('link: ', el);
 					_target.hostLink = el;
 					menuObj[_pluginName + 'Unlink'] = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
 					return menuObj;
 				}
 			});

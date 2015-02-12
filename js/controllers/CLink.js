@@ -98,32 +98,34 @@ function CLink() {
      * @return         {void}
      */
     this.onShow = function(dialog, editor) {
-        var linkTag, link, doc, ranges, adapter, content;
-        if (!editor) {
-            return;
-        }
-        adapter = this.getEditorAdapter();
-        if (!adapter) {
-            return;
-        }
-        ranges = adapter.getNativeRanges(editor);
-        content = adapter.getEditorContent(editor);
-        // this.setContent(adapter.getEditorContent(editor));
-        try {
-            doc = this.getWorker();
-            doc.setContent(content);
-            doc.freezeSelection(ranges);
-            linkTag = doc.detectTag('a');
-            if (linkTag) {
-                link = new Link();
-                link.load(linkTag);
-                adapter.fillInDialog(dialog, link.template(), 'link');
-                console.log(dialog, dialog instanceof CKEDITOR.dialog);
-                dialog.setValueOf('linkInfoTab', 'href', 'sdfsdfsadf');
-            }
-        } catch (e) {
-            console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
-        }
+        console.log('CLink.onShow() method is commented');
+        // var linkTag, link, doc, ranges, adapter, content;
+        // if (!editor) {
+        //     return;
+        // }
+        // adapter = this.getEditorAdapter();
+        // if (!adapter) {
+        //     return;
+        // }
+
+        // ranges = adapter.getNativeRanges(editor);
+        // content = adapter.getEditorContent(editor);
+        // // this.setContent(adapter.getEditorContent(editor));
+        // try {
+        //     doc = this.getWorker();
+        //     doc.setContent(content);
+        //     doc.freezeSelection(ranges);
+        //     linkTag = doc.detectTag('a');
+        //     if (linkTag) {
+        //         link = new Link();
+        //         link.load(linkTag);
+        //         // adapter.fillInDialog(dialog, link.template(), 'link');
+        //         // console.log(dialog, dialog instanceof CKEDITOR.dialog);
+        //         // dialog.setValueOf('linkInfoTab', 'href', 'sdfsdfsadf');
+        //     }
+        // } catch (e) {
+        //     console.log(e.name + ' occurred when detecting a link in the editor content: ' + e.message);
+        // }
 
 
         // doc.freezeSelection(ranges);
@@ -386,6 +388,27 @@ function CLink() {
         dialogData.linkInfoTab.status = true;
         return dialogData;
     };
+
+    /**
+     * Transforms a link template into a dialog-formatted object.
+     *
+     * @method         templateToDialog
+     * @param          {Object}        template
+     * @return         {Object}
+     * @since          0.2.0
+     * @override
+     */
+    this.templateToDialog = function(template){
+        return {linkInfoTab: {
+                href: template.href,
+                text: template.text,
+                title: template.title,
+                color: template.color
+            }
+        };
+    };
+
+
 
 }
 CLink.prototype = Object.create(Controller.prototype);

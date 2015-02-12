@@ -8,6 +8,7 @@
 * @class   LinkMailDialog
 */
 function linkMailDialog(editor, scheme) {
+    console.log('linkMailDialog is called');
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
      * @property  {CLink}     _controller
@@ -233,13 +234,14 @@ function linkMailDialog(editor, scheme) {
 }
 
 function linkDialog(editor){
-  return linkMailDialog(editor, 'link');
+    console.log('LinkPluginDialog is calling linkMailDialog');
+    return linkMailDialog(editor, 'link');
 }
 
 function mailDialog(editor){
-  return linkMailDialog(editor, 'mail');
+    return linkMailDialog(editor, 'mail');
 }
 
 CKEDITOR.dialog.add('mailDialog', mailDialog);
 
-CKEDITOR.dialog.add('linkDialog', linkDialog);
+CKEDITOR.dialog.add('LinkPluginDialog', linkDialog);

@@ -34,7 +34,7 @@ function Controller(){
 	 * @since          0.1.0
 	 */
 	this.setContent = function(c){
-		_content = (c instanceof Node) ? c : void 0;
+		_content = (c instanceof Node) ? c : undefined;
 	};
 
 	/**
@@ -266,7 +266,7 @@ function Controller(){
 	 *
 	 * Information about selection is retrieved from variable `editor`.
 	 *
-	 * The method is an bastract one and must be overridden by an inheriting class.
+	 * The method is an abstract one and must be overridden by an inheriting class.
 	 *
 	 * @method         onShow
 	 * @param          {Object}            dialog
@@ -277,6 +277,22 @@ function Controller(){
 	this.onShow = function(dialog, editor){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "onShow" of class Controller must be overridden by inheriting class!');
+	};
+
+
+	/**
+	 * Transforms an object form template form into a dialog form.
+	 *
+	 * Current implementation of this method corresponds to the trivial transformation.
+	 * Inheriting classes should override it in case non-trivial transformation is required.
+	 * @method         templateToDialog
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.templateToDialog = function(template){
+		console.log('Controller::templateToDialog() method performs the trivial transformation.');
+		return template;
 	};
 
 	/**
@@ -300,5 +316,30 @@ function Controller(){
 		}
 		return n;
 	};
+
+	/**
+	 * Fills in editor `dialog` with `data`.
+	 *
+	 * The structure of `data` must follow the structure of `dialog`.
+	 * @method         fillInDialog
+	 * @param          {Object}        dialog    editor-specific representation of the dialog
+	 * @param          {Node}          data      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 *                                           which various properties are to be used to fill in the dialog
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.fillInDialogWithElementData = function(dialog, element){
+	    var adapter, worker, template;
+	    try {
+	        adapter = this.getEditorAdapter();
+	        worker = this.getWorker();
+	        template = worker.getFactory().mimic(element).template();
+	        console.log(this.templateToDialog(template));
+	        adapter.fillInDialog(dialog, this.templateToDialog(template));
+	    } catch(e){
+	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
+	    }
+	};
+
 
 }
