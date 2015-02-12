@@ -41,7 +41,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 */
 		var _worker = new Document();
 
-		/**
+		/*
 		 * Configuring the controller:
 		 * 1. assign Factory to the worker (in order to make worker be able to construct html elements)
 		 * 2. assign adapter to the controller (in order to make controller comminicate with the editor)
@@ -76,8 +76,8 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		  // Register dialog corresponding to table creation and table modification.
-		 CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/table2.js');
+		// Register dialog corresponding to table creation and table modification.
+		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/table2.js');
 
 		// Define an editor commands that open the above dialogs.
 		// editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));

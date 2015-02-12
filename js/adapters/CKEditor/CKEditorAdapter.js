@@ -163,13 +163,12 @@ function CKEditorAdapter(){
 	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
 	 * <dt>title</dt><dd> (String) title attribute</dd>
 	 * </dl>
-	 * @method         _linkTemplateToDialog
+	 * @method         linkTemplateToDialog
 	 * @param          {Object}        template
 	 * @return         {Object}
-	 * @private
-	 * @since          0.1.0
+	 * @since          0.2.0
 	 */
-	var _linkTemplateToDialog = function(template){
+	this.linkTemplateToDialog = function(template){
 		var output = {
 			'linkInfoTab': {
 				href:          template.href,
@@ -190,13 +189,12 @@ function CKEditorAdapter(){
 	 * {{#crossLink "Link/template:property"}}link template{{/crossLink}} object.
 	 *
 	 * It is inverse of {{#crossLink "CKEditorAdapter/_linkTemplateToDialog:method"}}_linkTemplateToDialog{{/crossLink}}.
-	 * @method         _linkDialogToTemplate
+	 * @method         linkDialogToTemplate
 	 * @param          {Object}       dialog
 	 * @return         {Object}
 	 * @since          0.1.0
-	 * @private
 	 */
-	var _linkDialogToTemplate = function(dialog){
+	this.linkDialogToTemplate = function(dialog){
 		var tabName = 'linkInfoTab',
 			linkTemplate = {
 				href:          dialog[tabName].getHref,
@@ -221,13 +219,12 @@ function CKEditorAdapter(){
 	 * <dt>imageUrl</dt><dd> (String) value of "src" attribute</dd>
 	 * <dt>textAlt</dt><dd> (String) alternative text or the title in case the former is not defined</dd>
 	 * </dl>
-	 * @method         _imageDialogToTemplate
+	 * @method         imageDialogToTemplate
 	 * @param          {Object}        dialog
 	 * @return         {Object}
-	 * @private
 	 * @since          0.1.0
 	 */
-	var _imageDialogToTemplate = function(dialog){
+	this.imageDialogToTemplate = function(dialog){
 		var tabName = 'mainTab',
 			info = {
 				src:           dialog[tabName].imageUrl,
@@ -245,13 +242,12 @@ function CKEditorAdapter(){
 	 * <dt>imageUrl</dt><dd> (String) value of "src" attribute</dd>
 	 * <dt>textAlt</dt><dd> (String) alternative text or the title in case the former is not defined</dd>
 	 * </dl>
-	 * @method         _imageTemplateToDialog
+	 * @method         imageTemplateToDialog
 	 * @param          {Object}        template
 	 * @return         {Object}
-	 * @private
-	 * @since          0.1.0
+	 * @since          0.2.0
 	 */
-	var _imageTemplateToDialog = function(template){
+	this.imageTemplateToDialog = function(template){
 		var output = {
 			'mainTab': {
 				imageUrl:     template.src,
@@ -269,12 +265,20 @@ function CKEditorAdapter(){
 	 *
 	 * The format of the returned object is: <code>{`key1`: `mapper1`, ...}</code>, where `key1` is a marker by means of
 	 * which required mapper is chosen and `mapper1` is a function to which a template is supposed to be given.
-	 * @property       {Object}        templateToDialog
+	 * @method         templateToDialog
+	 * @param          {Object}        template
+	 * @param          {String}        marker
+	 * @return         {Object}
 	 * @since          0.1.0
 	 */
-	this.templateToDialog = {
-		'link': _linkTemplateToDialog,
-		'image': _imageTemplateToDialog,
+	this.templateToDialog = function(template, marker){
+		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
+		var mapper = marker2 + 'TemplateToDialog';
+		var executor = this[mapper];
+		if (typeof executor !== 'function'){
+			executor = this.defaultTemplateToDialog;
+		}
+		return executor(template);
 	};
 
 
@@ -287,13 +291,22 @@ function CKEditorAdapter(){
 	 *
 	 * The format of the returned object is: <code>{`key1`: `mapper1`}</code>, where `key1` is a marker by means of
 	 * which required mapper is chosen and `mapper1` is a function to which a dialog output object is supposed to be given.
-	 * @property       {Object}        dialogToTemplate
+	 * @method         dialogToTemplate
+	 * @param          {Object}        template
+	 * @param          {String}        marker
+	 * @return         {Object}
 	 * @since          0.1.0
 	 */
-	this.dialogToTemplate = {
-		'link':   _linkDialogToTemplate,
-		'image': _imageDialogToTemplate,
+	this.dialogToTemplate = function(dialog, marker){
+		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
+		var mapper = marker2 + 'DialogToTemplate';
+		var executor = this[mapper];
+		if (typeof executor !== 'function'){
+			executor = this.defaultDialogToTemplate;
+		}
+		return executor(dialog);
 	};
+
 
 
 	/**

@@ -346,25 +346,6 @@ function CLink() {
     };
 
 
-    // *
-    //  * Returns the nearest (for current cursor position) parent link. If no link is found among ancestors, `null`
-    //  * is returned.
-    //  *
-    //  * Sought element has tag `a`.
-    //  *
-    //  * @method         findParentLink
-    //  * @param          {CKEDITOR}      editor
-    //  * @return         {DOM.Node}
-
-    // this.findParentLink = function(editor){
-    // 	var elem = editor.getSelection().getStartElement(),
-    // 		criteria = function(el){return el.tagName.toLowerCase() === 'a';};
-    // 	if (elem){
-    // 		return this.findAscendant(elem.$, criteria);
-    // 	}
-    // };
-
-
     /**
      * Collects parameters from link dialog menu.
      *
@@ -382,15 +363,17 @@ function CLink() {
      * @param   {Object}        dialog
      * @return  {Object}
      */
-    this.getDialogData = function(dialog) {
-        var c = new Controller();
-        var dialogData = c.getDialogData(dialog);
-        dialogData.linkInfoTab.status = true;
-        return dialogData;
-    };
+    // this.getDialogData = function(dialog) {
+    //     var c = new Controller();
+    //     var dialogData = c.getDialogData(dialog);
+    //     dialogData.linkInfoTab.status = true;
+    //     return dialogData;
+    // };
 
     /**
      * Transforms a link template into a dialog-formatted object.
+     *
+     * This method is inverse of {{#crossLink "CLink/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
      *
      * @method         templateToDialog
      * @param          {Object}        template
@@ -400,13 +383,42 @@ function CLink() {
      */
     this.templateToDialog = function(template){
         return {linkInfoTab: {
-                href: template.href,
-                text: template.text,
+                color: template.color,
+                href:  template.href,
+                isNewWindow: template.target === '_blank',
+                isUnderlined: template.isUnderlined,
+                scheme: template.scheme,
+                text:  template.text,
                 title: template.title,
-                color: template.color
             }
         };
     };
+
+    /**
+     * Transforms a dialog-formatted object into a link template.
+     *
+     * This method is inverse of {{#crossLink "CLink/templateToDialog:method"}}templateToDialog{{/crossLink}}.
+     *
+     * @method         dialogToTemplate
+     * @param          {Object}        dialog
+     * @return         {Object}
+     * @since          0.2.0
+     * @override
+     */
+    this.dialogToTemplate = function(dialog){
+        var tabName = 'linkInfoTab',
+            linkTemplate = {
+                color:         dialog[tabName].color,
+                href:          dialog[tabName].getHref,
+                isUnderlined:  dialog[tabName].isUnderlined,
+                scheme:        dialog[tabName].scheme,
+                target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
+                text:          dialog[tabName].text,
+                title:         dialog[tabName].title
+            };
+        return linkTemplate;
+    };
+
 
 
 

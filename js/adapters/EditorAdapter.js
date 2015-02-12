@@ -257,4 +257,48 @@ function EditorAdapter(){
 		throw new Error('Method "toNativeElement" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
+
+	/**
+	 * Transforms template into dialog.
+	 *
+	 * In order to be able to track what dialog should be constructed, string `marker` is used.
+	 *
+	 * It is inverse of {{#crossLink "CKEditorAdapter/dialogToTemplate:property"}}dialogToTemplate{{/crossLink}}.
+	 *
+	 * The format of the returned object is: <code>{`key1`: `mapper1`, ...}</code>, where `key1` is a marker by means of
+	 * which required mapper is chosen and `mapper1` is a function to which a template is supposed to be given.
+	 * @method         templateToDialog
+	 * @param          {Object}        template
+	 * @param          {String}        marker
+	 * @return         {Object}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.templateToDialog = function(template, marker){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "templateToDialog" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+
+	/**
+	 * Transforms dialog into template.
+	 *
+	 * In order to be able to track what dialog should be constructed, string `marker` is used.
+	 *
+	 * It is inverse of {{#crossLink "CKEditorAdapter/templateToDialog:property"}}templateToDialog{{/crossLink}}.
+	 *
+	 * The format of the returned object is: <code>{`key1`: `mapper1`}</code>, where `key1` is a marker by means of
+	 * which required mapper is chosen and `mapper1` is a function to which a dialog output object is supposed to be given.
+	 * @method         dialogToTemplate
+	 * @param          {Object}        template
+	 * @param          {String}        marker
+	 * @return         {Object}
+	 * @abstract
+	 */
+	this.dialogToTemplate = function(dialog, marker){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "dialogToTemplate" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+
 }

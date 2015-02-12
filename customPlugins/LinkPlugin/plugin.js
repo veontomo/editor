@@ -61,30 +61,20 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		 */
 		 var _pluginNameGroup = _pluginName + 'Group';
 
-		 /*
-		  Register dialog that inserts link.
 
-		  File "linkMailDialog.js" contains definition of two dialogs:
-		  "mailDialog" and "linkDialog".
-		  These dialogs are defined in the same file bacause they are defined in terms of a
-		  class "linkMailDialog" which is defined in that file.
-		 */
-		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + '../linkMail/linkMailDialog.js');
-
-
-		// Define an editor command that opens our dialog.
-		// editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('linkDialog'));
+		// Define an editor command that opens the dialog and fills it in in case
+		// there is a link among ancestors of the cursor position.
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(){
-				editor.openDialog(_pluginName + 'Dialog', function(){
-					console.log(_target.hostLink);
-					if (_target.hostLink){
-						// _controller.fillInDialogWith(this, _target.hostLink);
-						// reset the reference to the target element
-						_target.hostLink = undefined;
-						console.log(this instanceof CKEDITOR.dialog);
-					}
-				});
+				var dialog = editor.openDialog(_pluginName + 'Dialog'),
+					startElement = editor.getSelection().getStartElement(),
+					parent;
+				if (startElement){
+					parent = _controller.findRepresentativeAncestor(startElement);
+				}
+				if (parent){
+					_controller.fillInDialogWithElementData(dialog, parent);
+				}
 			}
 		});
 
@@ -106,6 +96,17 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			command: _pluginName + 'Dialog',
 			toolbar: 'document',
 		});
+
+		 /*
+		  Register dialog that inserts link.
+
+		  File "linkMailDialog.js" contains definition of two dialogs:
+		  "mailDialog" and "linkDialog".
+		  These dialogs are defined in the same file bacause they are defined in terms of a
+		  class "linkMailDialog" which is defined in that file.
+		 */
+		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + '../LinkMailPlugin/linkMailDialog.js');
+
 		editor.addCommand(_pluginName + 'Unlink', {
 			exec: function(editor){
 				// a link that triggers appearence of item "Unlink" in the context menu
@@ -127,7 +128,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			});
 
 			editor.addMenuItem(_pluginName + 'Modify', {
-				label: '--- modify link ---',
+				label: editor.lang.LinkMailPlugin.modify,
 				icon: this.path + 'icons/unlink.png',
 				command: _pluginName + 'Modify',
 				group: _pluginNameGroup

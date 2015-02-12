@@ -281,18 +281,55 @@ function Controller(){
 
 
 	/**
-	 * Transforms an object form template form into a dialog form.
+	 * Transforms an object from template into a dialog form.
 	 *
-	 * Current implementation of this method corresponds to the trivial transformation.
-	 * Inheriting classes should override it in case non-trivial transformation is required.
+	 * Explicit implementation of this method depends on the editor used (like [CKEDITOR](http://docs.ckeditor.com/#))
+	 * as well as on template of which subclass of {{#crossLink "Tag"}}Tag{{/crossLink}} object (like
+	 * {{#crossLink "Link"}}Link{{/crossLink}}, {{#crossLink "Table"}}Table{{/crossLink}} etc) is passed.
+	 *
+	 * To manage different editors, the functionality of the method is delegated to
+	 * {{#crossLink "EditorAdapter"}}EditorAdapter{{/crossLink}} class. Further, in order to distinguish what subclass
+	 * calls this method, `marker` is used.
+	 *
+	 * This method is inverse of {{#crossLink "CController/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
+	 *
 	 * @method         templateToDialog
 	 * @param          {Object}        template
+	 * @param          {String}        marker
 	 * @return         {Object}
 	 * @since          0.2.0
 	 */
-	this.templateToDialog = function(template){
-		console.log('Controller::templateToDialog() method performs the trivial transformation.');
-		return template;
+	this.templateToDialog = function(template, marker){
+		try {
+			var adapter = this.getEditorAdapter(),
+				dialog = adapter.templateToDialog(template, marker);
+			return dialog;
+		} catch(e){
+			console.log(e.name + ' occurred when converting template to dialog: ' + e.message);
+		}
+	};
+
+
+	/**
+	 * Transforms an object from dialog into a template form.
+	 *
+	 * This method is inverse of {{#crossLink "CController/templateToDialog:method"}}templateToDialog{{/crossLink}}.
+	 *
+	 * @method         dialogToTemplate
+	 * @param          {Object}        dialog
+	 * @param          {String}        marker
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.dialogToTemplate = function(dialog, marker){
+		try {
+			var adapter = this.getEditorAdapter(),
+				dialog = adapter.templateToDialog(template, marker);
+			return dialog;
+		} catch(e){
+			console.log(e.name + ' occurred when converting dialog to template: ' + e.message);
+		}
+
 	};
 
 	/**

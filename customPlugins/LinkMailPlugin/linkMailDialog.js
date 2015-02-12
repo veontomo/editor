@@ -96,7 +96,7 @@ function linkMailDialog(editor, scheme) {
         });
     }());
 
-    var _pluginName = 'linkMail';
+    var _pluginName = 'LinkMailPlugin';
     return {
         title: editor.lang[_pluginName][scheme + 'Title'],
         minWidth: 400,
@@ -234,7 +234,6 @@ function linkMailDialog(editor, scheme) {
 }
 
 function linkDialog(editor){
-    console.log('LinkPluginDialog is calling linkMailDialog');
     return linkMailDialog(editor, 'link');
 }
 
