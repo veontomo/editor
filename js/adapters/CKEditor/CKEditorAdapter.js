@@ -120,14 +120,8 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data, marker){
-		var dataForDialog;
-		if (typeof marker === 'string' && this.templateToDialog.hasOwnProperty(marker)){
-			dataForDialog = this.templateToDialog[marker](data);
-		} else {
-			dataForDialog = data;
-		}
-		console.log('filling in dialog with the data: ', dataForDialog);
-		var pageId, page, elemId, value;
+		var pageId, page, elemId, value,
+			dataForDialog = this.templateToDialog(data, marker);;
 		for (pageId in dataForDialog){
 			if (dataForDialog.hasOwnProperty(pageId)){
 				page = dataForDialog[pageId];
@@ -148,6 +142,21 @@ function CKEditorAdapter(){
 		}
 	};
 
+
+
+	/**
+	 * Default function that transforms a template into a dialog-structred object.
+	 *
+	 * Current implementation is a trivial one.
+	 * @method         defaultTemplateToDialog
+	 * @param          {Object} tempalte
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.defaultTemplateToDialog = function(template){
+		console.log('default template -> dialog converter is called');
+		return template;
+	};
 
 	/**
 	 * Rearrange {{#crossLink "Link/template:property"}}link `template` object{{/crossLink}} into
@@ -236,6 +245,20 @@ function CKEditorAdapter(){
 
 
 	/**
+	 * Default function that transforms a dialog-structred object into a template.
+	 *
+	 * Current implementation is a trivial one.
+	 * @method         defaultDialogToTemplate
+	 * @param          {Object} tempalte
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.defaultDialogToTemplate = function(template){
+		console.log('default dialog -> template converter is called');
+		return template;
+	};
+
+	/**
 	 * Rearrange {{#crossLink "ImageTag/template:property"}}image `template` object{{/crossLink}} into
 	 * an object accepted by image dialog window.
 	 * Returns an object with the following keys:<dl>
@@ -280,36 +303,6 @@ function CKEditorAdapter(){
 		}
 		return executor(template);
 	};
-
-	/**
-	 * Default function that transforms a template into a dialog-structred object.
-	 *
-	 * Current implementation is a trivial one.
-	 * @method         defaultTemplateToDialog
-	 * @param          {Object} tempalte
-	 * @return         {Object}
-	 * @since          0.2.0
-	 */
-	this.defaultTemplateToDialog = function(template){
-		console.log('default template -> dialog converter is called');
-		return template;
-	};
-
-	/**
-	 * Default function that transforms a dialog-structred object into a template.
-	 *
-	 * Current implementation is a trivial one.
-	 * @method         defaultDialogToTemplate
-	 * @param          {Object} tempalte
-	 * @return         {Object}
-	 * @since          0.2.0
-	 */
-	this.defaultDialogToTemplate = function(template){
-		console.log('default dialog -> template converter is called');
-		return template;
-	};
-
-
 
 	/**
 	 * Dispatcher for functions that transform dialog window object into corresponding
@@ -386,76 +379,6 @@ function CKEditorAdapter(){
 		return data;
 	};
 
-
-	/**
-	 * Converts information collected from the link dialog menu into format defined by
-	 * {{#crossLink "Link/template:method"}}Link::template{{/crossLink}} method.
-	 *
-	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
-	 * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
- 	 * The returning object include the following keys:
-	 * Returns an object with the following keys:<dl>
-	 * <dt>href</dt><dd> (String) value of the link "href" attribute</dd>
-	 * <dt>scheme</dt><dd> (String) scheme (mail or link)</dd>
-	 * <dt>color</dt><dd>(String) link color</dd>
-	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
-	 * <dt>isCompound</dt><dd>(Boolean) whether the link content contains more that one element</dd>
-	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
-	 * <dt>text</dt><dd> (String) string representation of the link content</dd>
-	 * <dt>title</dt><dd> (String) title attribute</dd>
-	 * </dl>
-	 * @method         dialogToTemplate
-	 * @param          {Object}        obj
-	 * @return         {Object}
-	 */
-	// this.dialogToTemplate = function(obj){
-	// 	var tabName = 'linkInfoTab',
-	// 		template = {
-	// 			href:          obj[tabName].href,
-	// 			scheme:        obj[tabName].scheme,
-	// 			color:         obj[tabName].color,
-	// 			isUnderlined:  obj[tabName].isUnderlined,
-	// 			isCompound:    obj[tabName].status,
-	// 			target:        obj[tabName].isNewWindow ? '_blank' : '_self',
-	// 			title:         obj[tabName].title
-	// 		};
-	// 	return template;
-	// };
-
-
-	/**
-	 * Inserts node `child` as a child of a node `parent` at position `index`.
-	 *
-	 * If case of success, the inserted node has number `index` among children of node `parent`.
-	 *
-	 * Returns the newly inserted node.
-	 * @method       insertAt
-	 * @param        {Node}            parent      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param        {Node}            child       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param        {Integer}         index
-	 * @return       {Node}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @since        0.1.0
-	 * @abstract
-	 */
-	this.insertAt = function(parent, child, index){
-		/// !!! to be implemented
-		throw new Error('Method "insertAt" of class CKEditorAdapter has yet to be implemented!');
-	};
-
-	/**
-	 * Removes node `n` from the DOM along with all its descendants.
-	 *
-	 * Returns the removed node.
-	 * @method         removeNode
-	 * @param          {Node}        n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {Node}
-	 * @since          0.1.0
-	 * @abstract
-	 */
-	this.removeNode = function(n){
-		/// !!! to be implemented
-		throw new Error('Method "removeNode"  of class CKEditorAdapter has yet to be implemented!');
-	};
 
 	/**
 	 * Returns the position of the cursor inside the content of `editor`.
@@ -549,8 +472,6 @@ function CKEditorAdapter(){
 	this.getExtra = function(host){
 		return host.extraDataToStoreHere;
 	};
-
-
 
 }
 CKEditorAdapter.prototype = Object.create(EditorAdapter.prototype);

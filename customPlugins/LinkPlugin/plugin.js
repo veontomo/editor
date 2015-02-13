@@ -74,7 +74,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 				}
 				if (parent){
 					_controller.saveExtra(dialog, parent);
-					_controller.fillInDialogWithElementData(dialog, parent);
+					_controller.fillInDialogWithElementData(dialog, parent, 'link');
 				}
 			}
 		});

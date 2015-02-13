@@ -442,16 +442,18 @@ function Controller(){
 	 * @param          {Object}        dialog    editor-specific representation of the dialog
 	 * @param          {Node}          data      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 *                                           which various properties are to be used to fill in the dialog
+	 * @param          {String}        marker    an identifier that serves to determine how template should be
+	 *                                           mapped into dialog object
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.fillInDialogWithElementData = function(dialog, element){
+	this.fillInDialogWithElementData = function(dialog, element, marker){
 	    var adapter, worker, template;
 	    try {
 	        adapter = this.getEditorAdapter();
 	        worker = this.getWorker();
 	        template = worker.getFactory().mimic(element).template();
-	        adapter.fillInDialog(dialog, this.templateToDialog(template));
+	        adapter.fillInDialog(dialog, this.templateToDialog(template), marker);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
 	    }
