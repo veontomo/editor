@@ -202,6 +202,7 @@ function CLink() {
      * @since          0.1.0
      */
     this.elaborateAsLink = function(dialog, editor) {
+        console.log(this.getExtra(dialog));
       //   var adapter, dialogData, template, selectedNodes,
       //   	content, doc, newContent;
       //   try {

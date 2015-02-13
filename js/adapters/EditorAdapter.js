@@ -301,4 +301,32 @@ function EditorAdapter(){
 	};
 
 
+	/**
+	 * Saves `data` inside editor-specific element `host` (i.e, inside dialog, editor itself etc).
+	 * @method         saveExtra
+	 * @param          {Object}        host
+	 * @param          {Any}           data
+	 * @return         {void}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.saveExtra = function(host, data){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "saveExtra" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Gets previously saved data from editor-specific object `host` (i.e, inside dialog, editor itself etc).
+	 * @method         getExtra
+	 * @param          {Object}        host
+	 * @return         {Any}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.getExtra = function(host){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "getExtra" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+
 }

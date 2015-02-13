@@ -73,6 +73,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 					parent = _controller.findRepresentativeAncestor(startElement);
 				}
 				if (parent){
+					_controller.saveExtra(dialog, parent);
 					_controller.fillInDialogWithElementData(dialog, parent);
 				}
 			}

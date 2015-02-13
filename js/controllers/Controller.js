@@ -324,8 +324,8 @@ function Controller(){
 	this.dialogToTemplate = function(dialog, marker){
 		try {
 			var adapter = this.getEditorAdapter(),
-				dialog = adapter.templateToDialog(template, marker);
-			return dialog;
+				template = adapter.templateToDialog(dialog, marker);
+			return template;
 		} catch(e){
 			console.log(e.name + ' occurred when converting dialog to template: ' + e.message);
 		}
@@ -377,6 +377,58 @@ function Controller(){
 	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
 	    }
 	};
+
+	/**
+	 * Saves `data` inside editor-specific object `host`.
+	 *
+	 * The initial intent is to be able to pass elements that trigger appearence
+	 * of different items in the context menu to the dialog that stands behind the
+	 * operation corresponding to the above mentioned items in the context menu.
+	 *
+	 * Since this operation is editor-specific, this functionality is delegated to the
+	 * {{#crossLink "EditorAdapter"}}EditorAdapter{{/crossLink}} class.
+	 *
+	 * @method         saveExtra
+	 * @param          {Object}        host
+	 * @param          {Object}        data
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.saveExtra = function(host, data){
+		var adapter;
+		try {
+			adapter = this.getEditorAdapter();
+			adapter.saveExtra(host, data);
+		} catch (e){
+			console.log(e.name + ' occurred when saving extra information: ', e.message);
+		}
+	};
+
+	/**
+	 * Retreives previously saved data from editor-specific object `host`.
+	 *
+	 * The initial intent is to be able to pass elements that trigger appearence
+	 * of different items in the context menu to the dialog that stands behind the
+	 * operation corresponding to the above mentioned items in the context menu.
+	 *
+	 * Since this operation is editor-specific, this functionality is delegated to the
+	 * {{#crossLink "EditorAdapter"}}EditorAdapter{{/crossLink}} class.
+	 *
+	 * @method         getExtra
+	 * @param          {Object}        host
+	 * @return         {Any}
+	 * @since          0.2.0
+	 */
+	this.getExtra = function(host){
+		var adapter;
+		try {
+			adapter = this.getEditorAdapter();
+			return adapter.getExtra(host);
+		} catch (e){
+			console.log(e.name + ' occurred when getting extra information: ', e.message);
+		}
+	};
+
 
 
 }

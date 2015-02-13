@@ -228,6 +228,7 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
+            console.log(_controller.getExtra(this));
             _controller.elaborateAsLink(this, editor);
         }
     };

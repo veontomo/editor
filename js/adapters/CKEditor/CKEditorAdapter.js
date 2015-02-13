@@ -496,6 +496,31 @@ function CKEditorAdapter(){
 		}
 	};
 
+	/**
+	 * Saves `data` inside editor-specific element `host` (i.e, inside dialog, editor itself etc).
+	 * @method         saveExtra
+	 * @param          {Object}        host
+	 * @param          {Any}           data
+	 * @return         {void}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.saveExtra = function(host, data){
+		host.extraDataToStoreHere = data;
+	};
+
+	/**
+	 * Gets previously saved data from editor-specific object `host` (i.e, inside dialog, editor itself etc).
+	 * @method         getExtra
+	 * @param          {Object}        host
+	 * @return         {Any}
+	 * @since          0.2.0
+	 * @abstract
+	 */
+	this.getExtra = function(host){
+		return host.extraDataToStoreHere;
+	};
+
 
 
 }
