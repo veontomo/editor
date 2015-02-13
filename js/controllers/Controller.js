@@ -261,6 +261,32 @@ function Controller(){
 		alert(typeof msg === 'string' ? msg : 'Error occurred!');
 	};
 
+
+
+	/**
+	 * Action to execute when `dialog` is displayed for the first time.
+	 *
+	 * All information (like what is selected, what element has triggered the dialog etc) can be
+	 * retrieved from variable `editor`. Nevertheless, optional argument `node` is passed in order
+	 * to avoid repetitive parsing of the editor content in search of element that has triggered
+	 * the dialog (first parsing might occur when a deciding whether a context menu item
+	 * should appear or not, second - when filling in the dialog input fields etc).
+	 *
+	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 *
+	 * @method         onLoad
+	 * @param          {Object}            dialog      editor-specific representation of dialog
+	 * @param          {Object}            editor
+	 * @param          {Node|null}         node        [Optional] native javascript node that
+	 *                                                 that has triggered the appearence of the dialog
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.onLoad = function(dialog, editor, node){
+		/// Override if non-trivial behaviour is required
+		return;
+	};
+
 	/**
 	 * Action to execute when `dialog` is loaded (executed every time the dialog is opened).
 	 *
@@ -278,6 +304,7 @@ function Controller(){
 	 * @param          {Node|null}         node        [Optional] native javascript node that
 	 *                                                 that has triggered the appearence of the dialog
 	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.onShow = function(dialog, editor, node){
 		/// Override if non-trivial behaviour is required
@@ -301,6 +328,7 @@ function Controller(){
 	 * @param          {Node|null}         node        [Optional] native javascript node that
 	 *                                                 that has triggered the appearence of the dialog
 	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.onOk = function(dialog, editor, element){
 		/// Override if non-trivial behaviour is required
@@ -324,6 +352,7 @@ function Controller(){
 	 * @param          {Node|null}         node        [Optional] native javascript node that
 	 *                                                 that has triggered the appearence of the dialog
 	 * @return         {void}
+	 * @since          0.2.0
 	 */
 	this.onCancel = function(dialog, editor, element){
 		/// Override if non-trivial behaviour is required

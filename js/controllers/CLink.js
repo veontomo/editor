@@ -201,7 +201,7 @@ function CLink() {
      * @return         {void}
      * @since          0.1.0
      */
-    this.elaborateAsLink = function(dialog, editor, target) {
+    this.onOk = function(dialog, editor, target) {
         console.log('target element:', target);
       //   var adapter, dialogData, template, selectedNodes,
       //   	content, doc, newContent;
