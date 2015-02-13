@@ -262,21 +262,72 @@ function Controller(){
 	};
 
 	/**
-	 * Fills in `dialog` window based on text selected inside `editor`.
+	 * Action to execute when `dialog` is loaded (executed every time the dialog is opened).
 	 *
-	 * Information about selection is retrieved from variable `editor`.
+	 * All information (like what is selected, what element has triggered the dialog etc) can be
+	 * retrieved from variable `editor`. Nevertheless, optional argument `node` is passed in order
+	 * to avoid repetitive parsing of the editor content in search of element that has triggered
+	 * the dialog (first parsing might occur when a deciding whether a context menu item
+	 * should appear or not, second - when filling in the dialog input fields etc).
 	 *
-	 * The method is an abstract one and must be overridden by an inheriting class.
+	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
 	 *
 	 * @method         onShow
-	 * @param          {Object}            dialog
+	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
+	 * @param          {Node|null}         node        [Optional] native javascript node that
+	 *                                                 that has triggered the appearence of the dialog
 	 * @return         {void}
-	 * @abstract
 	 */
-	this.onShow = function(dialog, editor){
-		/// !!! abstract method. Must be overridden by inheriting class.
-		throw new Error('Method "onShow" of class Controller must be overridden by inheriting class!');
+	this.onShow = function(dialog, editor, node){
+		/// Override if non-trivial behaviour is required
+		return;
+	};
+
+	/**
+	 * Action to execute when `dialog`'s confirm button is pressed.
+	 *
+	 * All information (like what is selected, what element has triggered the dialog etc) can be
+	 * retrieved from variable `editor`. Nevertheless, optional argument `node` is passed in order
+	 * to avoid repetitive parsing of the editor content in search of element that has triggered
+	 * the dialog (first parsing might occur when a deciding whether a context menu item
+	 * should appear or not, second - when filling in the dialog input fields etc).
+	 *
+	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 *
+	 * @method         onOk
+	 * @param          {Object}            dialog      editor-specific representation of dialog
+	 * @param          {Object}            editor
+	 * @param          {Node|null}         node        [Optional] native javascript node that
+	 *                                                 that has triggered the appearence of the dialog
+	 * @return         {void}
+	 */
+	this.onOk = function(dialog, editor, element){
+		/// Override if non-trivial behaviour is required
+		return;
+	};
+
+	/**
+	 * Action to execute when `dialog`'s cancel button is pressed.
+	 *
+	 * All information (like what is selected, what element has triggered the dialog etc) can be
+	 * retrieved from variable `editor`. Nevertheless, optional argument `node` is passed in order
+	 * to avoid repetitive parsing of the editor content in search of element that has triggered
+	 * the dialog (first parsing might occur when a deciding whether a context menu item
+	 * should appear or not, second - when filling in the dialog input fields etc).
+	 *
+	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 *
+	 * @method         onCancel
+	 * @param          {Object}            dialog      editor-specific representation of dialog
+	 * @param          {Object}            editor
+	 * @param          {Node|null}         node        [Optional] native javascript node that
+	 *                                                 that has triggered the appearence of the dialog
+	 * @return         {void}
+	 */
+	this.onCancel = function(dialog, editor, element){
+		/// Override if non-trivial behaviour is required
+		return;
 	};
 
 
@@ -371,7 +422,6 @@ function Controller(){
 	        adapter = this.getEditorAdapter();
 	        worker = this.getWorker();
 	        template = worker.getFactory().mimic(element).template();
-	        console.log(this.templateToDialog(template));
 	        adapter.fillInDialog(dialog, this.templateToDialog(template));
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);

@@ -220,7 +220,7 @@ function linkMailDialog(editor, scheme) {
          * @return    {void}
          */
         onShow: function() {
-            _controller.onShow(this, editor);
+            // _controller.onShow(this, editor);
         },
 
         onCancel: function(){
@@ -228,8 +228,8 @@ function linkMailDialog(editor, scheme) {
         },
 
         onOk: function(){
-            console.log(_controller.getExtra(this));
-            _controller.elaborateAsLink(this, editor);
+            _controller.onOk(this, editor, _controller.getExtra(this));
+            // _controller.elaborateAsLink(this, editor, _controller.getExtra(this));
         }
     };
 }
