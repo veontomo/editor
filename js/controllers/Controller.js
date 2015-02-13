@@ -438,7 +438,7 @@ function Controller(){
 	 * Fills in editor `dialog` with `data`.
 	 *
 	 * The structure of `data` must follow the structure of `dialog`.
-	 * @method         fillInDialog
+	 * @method         fillInDialogWithElementData
 	 * @param          {Object}        dialog    editor-specific representation of the dialog
 	 * @param          {Node}          data      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 *                                           which various properties are to be used to fill in the dialog
@@ -511,14 +511,16 @@ function Controller(){
 	};
 
 	/**
-	 * Clears a field called `name` in dialog menu.
+	 * Sets a dialog field.
+	 *
+	 * Dialog field and the value to set is encoded into object `field`.
 	 * @method         setDialogField
-	 * @param          {Object}        dialog
-	 * @param          {String}        name
+	 * @param          {Object}        dialog    editor-specific representation of dialog window
+	 * @param          {Object}        field
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.setDialogField = function(dialog, name){
+	this.setDialogField = function(dialog, field){
 		var adapter = this.getEditorAdapter();
 		adapter.setDialogField(dialog, name);
 	};

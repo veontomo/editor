@@ -51,6 +51,14 @@ function TableDialog(editor) {
 	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
 
 	/**
+	 * Style for icons representing borders between columns and rows.
+	 * @property {String} _borderIconStyle
+	 * @type     {String}
+	 * @private
+	 */
+	var _borderIconStyle = 'width: 15px; height: 15px;';
+
+	/**
 	 * Color picker (JavaScript ColorPicker).
 	 *
 	 * dhtmlxColorPicker is open source GPL v2 and Free License [JavaScript component](http://dhtmlx.com/docs/products/dhtmlxColorPicker/)
@@ -145,18 +153,8 @@ function TableDialog(editor) {
 	 * @since          0.0.6
 	 */
 	var dropInputCells = function(dialog){
-		// var columnWidths = dialog.getContentElement('structure', 'columnWidthTable').getElement().$,
-			// title = dialog.getContentElement('structure', 'columnWidthTableTitle').getElement().$,
-		// 	children, i, len;
-		// children = columnWidths.childNodes;
-		// len = children.length;
 		var colWeigthTabId = 'colWeights';
 		dialog.hidePage(colWeigthTabId);
-		// removing the children backwards (since "children" is a live list)
-		// for (i = len - 1; i >= 0; i--) {
-		// 	columnWidths.removeChild(children[i]);
-		// }
-		// title.innerHTML = '';
 	};
 
 	/**
@@ -311,7 +309,9 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _controller.iconTag('left.gif', editor.lang.TablePlugin.leftVerBord, 15, 15)
+							id: 'leftVerIcon',
+							html: _controller.iconTag('left.gif', editor.lang.TablePlugin.leftVerBord, 15, 15),
+							style: _borderIconStyle
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -325,6 +325,7 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
+							id: 'intVerIcon',
 							html: _controller.iconTag('middleVer.gif', editor.lang.TablePlugin.intVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
@@ -339,6 +340,7 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
+							id: 'rightVerIcon',
 							html: _controller.iconTag('right.gif', editor.lang.TablePlugin.rightVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
@@ -353,6 +355,7 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
+							id: 'topHorIcon',
 							html: _controller.iconTag('upper.gif', editor.lang.TablePlugin.topHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
@@ -367,6 +370,7 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
+							id: 'intHorIcon',
 							html: _controller.iconTag('middleHor.gif', editor.lang.TablePlugin.intHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
@@ -381,6 +385,7 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
+							id: 'bottomHorIcon',
 							html: _controller.iconTag('lower.gif', editor.lang.TablePlugin.bottomHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
@@ -518,43 +523,18 @@ function TableDialog(editor) {
 			}
 		},
 
-		// /**
-		//  * The function to execute when the dialog is loaded (executed every time the dialog is opened).
-		//  *
-		//  * Fills in table plugin dialog with selected (if any) table properties.
-		//  * @method    onShow
-		//  * @return    {void}
-		//  */
-		// onShow: function() {
-		//     if (!isNew){
-		//     	var table = _controller.getTable(editor);
-		//     		// parentElem = this.getContentElement('structure', 'columnWidthTable').getElement().$,
-		//     		// n = table instanceof Table ? table.colNum() : 0;
-		//     	// _controller.addColWeightFields(parentElem, n);
-		//     	_controller.fillInDialog(this, _controller.templateToDialog(table.template()));
-		//     	_controller.disableFields(this, {'structure': ['rows', 'cols']});
-		//     }
-		// },
+		/**
+		 * The function to execute when the dialog is loaded (executed every time the dialog is opened).
+		 *
+		 * Fills in table plugin dialog with selected (if any) table properties.
+		 * @method    onShow
+		 * @return    {void}
+		 */
+		onShow: function() {
+		},
 
 		onOk: function () {
-			var tableNode, tableElem;
-			// in case of insertion of a new table
-			// if (isNew){
-				tableNode = _controller.create(this, editor);
-				tableElem = CKEDITOR.document.createElement(tableNode);
-				editor.insertElement(tableElem);
-			// } else {
-				// in case of updating current table
-				// var currentTable = _controller.findParentTable(editor);
-				// if (!currentTable){
-				// 	console.log('parent table is NOT found');
-				// 	return;
-				// }
-				// tableNode = _controller.update(this, editor, currentTable);
-				// currentTable.parentNode.replaceChild(tableNode, currentTable);
-				// tableElem = CKEDITOR.document.createElement(tableNode);
-				// tableElem.replace(currentTable);
-			// }
+			 _controller.onOk(this, editor, _controller.getExtra(this));
 			dropInputCells(this);
 		}
 	};

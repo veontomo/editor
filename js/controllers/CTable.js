@@ -218,7 +218,7 @@ function CTable(){
 			var titleText = '',
 				heightText = '',
 				widthText = '',
-				path = NEWSLETTER.customPluginDir + 'table2/icons/' + fileName;
+				path = NEWSLETTER.customPluginDir + 'TablePlugin/icons/' + fileName;
 			titleText =' title="' + (title || fileName) + '"';
 			heightText = height ? (' height="' + height + '"') : '';
 			widthText = width ? (' width="' + width + '"') : '';

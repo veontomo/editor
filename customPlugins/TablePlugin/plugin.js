@@ -83,13 +83,12 @@ CKEDITOR.plugins.add('TablePlugin', {
 		// editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
-				editor.openDialog(_pluginName + 'Dialog', function(){
-					if (_target.hostTable){
-						_controller.fillInDialogWith(this, _target.hostTable);
-						// reset the reference to the target element
-						_target.hostTable = undefined;
-					}
-				});
+				var dialog = editor.openDialog(_pluginName + 'Dialog');
+				if (_target.hostTable){
+					_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
+					// reset the reference to the target element
+					_target.hostTable = undefined;
+				}
 			}
 		});
 
