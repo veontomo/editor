@@ -32,8 +32,7 @@ function linkMailDialog(editor, scheme) {
     }());
 
 
-    var warningFieldId = 'linkWarning',
-        alt = true,
+    var alt = true,
         _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;';
 
     /**
@@ -60,6 +59,15 @@ function linkMailDialog(editor, scheme) {
      * @private
      */
     var _textInputStyle = 'padding-left: 0px; margin: 0; float: left; width: 100%;';
+
+    /**
+     * Style for warning fields.
+     * @property {String} _warningStyle
+     * @type     {String}
+     * @private
+     */
+     var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
+
 
     /**
      * Color picker (JavaScript ColorPicker).
@@ -119,15 +127,20 @@ function linkMailDialog(editor, scheme) {
                     validate: function(){
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
-                            var warningField = CKEDITOR.document.getById(warningFieldId);
-                            warningField.setHtml(editor.lang.common.invalidValue); }
+                            console.log(this);
+                            _controller.setDialogField(this.getDialog(), {tabId: 'linkInfoTab', elemId: 'warning', value: 'Error'});
+                            // var warningField = CKEDITOR.document.getById(warningFieldId);
+                            // warningField.setHtml(editor.lang.common.invalidValue);
+                            }
                         return isOk;
                     }
                 }]
             },
             {
                 type: 'html',
-                html: '<div id="linkWarning" style="color:red;"></div>'
+                id: 'warning',
+                html: '&nbsp;',
+                style: _warningStyle
             },
             {
                 type: 'hbox',
@@ -220,11 +233,10 @@ function linkMailDialog(editor, scheme) {
          * @return    {void}
          */
         onShow: function() {
-            // _controller.onShow(this, editor);
         },
 
         onCancel: function(){
-            CKEDITOR.document.getById(warningFieldId).setHtml('');
+            _controller.setDialogField(this, {tabId: 'linkInfoTab', elemId: 'warning', value: '&nbsp;'});
         },
 
         onOk: function(){

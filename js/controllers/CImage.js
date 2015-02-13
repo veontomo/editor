@@ -113,18 +113,6 @@ function CImage() {
 		return isOk;
 	};
 
-	/**
-	 * Clears a field called `name` in dialog menu.
-	 * @method         setDialogField
-	 * @param          {Object}        dialog
-	 * @param          {String}        name
-	 * @return         {void}
-	 * @since          0.2.0
-	 */
-	this.setDialogField = function(dialog, name){
-		var adapter = this.getEditorAdapter();
-		adapter.setDialogField(dialog, name);
-	};
 }
 
 CImage.prototype = Object.create(Controller.prototype);
