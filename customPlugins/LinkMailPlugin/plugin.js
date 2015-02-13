@@ -13,6 +13,7 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 		var translations = {
 			it: {
 				colordialog:   'Colore',
+				inavlid:       'Indirizzo non valido',
 				link:          'Url',
 				linkTextTitle: 'il testo di collegamento',
 				linkTitle:     'Dati collegamento',
@@ -26,10 +27,10 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 				title:         'Titolo',
 				titleTitle:    'testo che appare quando il cursore va sopra',
 				underline:     'Sottolineato',
-				wrongUrl:      'Indirizzo non valido'
 			},
 			en: {
 				colordialog:   'Color',
+				invalid:       'Invalid URL',
 				link:          'Url',
 				linkTextTitle: 'text of the link',
 				linkTitle:     'Link information',
@@ -43,7 +44,6 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 				title:         'Title',
 				titleTitle:    'popup text',
 				underline:     'Underlined',
-				wrongUrl:      'Invalid URL'
 			}
 		};
 

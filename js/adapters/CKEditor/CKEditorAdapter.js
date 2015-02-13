@@ -206,7 +206,7 @@ function CKEditorAdapter(){
 	this.linkDialogToTemplate = function(dialog){
 		var tabName = 'linkInfoTab',
 			linkTemplate = {
-				href:          dialog[tabName].getHref,
+				href:          dialog[tabName].href,
 				scheme:        dialog[tabName].scheme,
 				color:         dialog[tabName].color,
 				isUnderlined:  dialog[tabName].isUnderlined,
@@ -322,9 +322,13 @@ function CKEditorAdapter(){
 	this.dialogToTemplate = function(dialog, marker){
 		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
 		var mapper = marker2 + 'DialogToTemplate';
+		console.log('mapper: ' + mapper);
 		var executor = this[mapper];
 		if (typeof executor !== 'function'){
 			executor = this.defaultDialogToTemplate;
+			console.log('mapper does not exist');
+		} else {
+			console.log('mapper exists');
 		}
 		return executor(dialog);
 	};

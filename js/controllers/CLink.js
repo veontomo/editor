@@ -67,12 +67,14 @@ function CLink() {
      */
     this.onOk = function(dialog, editor, link) {
         console.log('target element:', link);
-        var adapter, doc, content, ranges;
+        var adapter, doc, content, ranges, dialogData, template;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
+            dialogData = adapter.getDialogData(dialog);
+            template = adapter.dialogToTemplate(dialogData, 'link');
             if (link){
                 console.log('the dialog has been given a link to elaborate.');
             } else {
@@ -80,7 +82,7 @@ function CLink() {
             }
             adapter.setEditorContent(editor, content);
         } catch (e) {
-            console.log(e.name + ' occurred when removing links: ' + e.message);
+            console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
 
     };

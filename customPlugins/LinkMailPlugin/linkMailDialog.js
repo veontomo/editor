@@ -131,11 +131,9 @@ function linkMailDialog(editor, scheme) {
                             _controller.setDialogField(this.getDialog(), {
                                 tabId: 'linkInfoTab',
                                 elemId: 'warning',
-                                value: editor.lang[_pluginName].wrongUrl
+                                value: editor.lang[_pluginName].invalid
                             });
-                            // var warningField = CKEDITOR.document.getById(warningFieldId);
-                            // warningField.setHtml(editor.lang.common.invalidValue);
-                            }
+                        }
                         return isOk;
                     }
                 }]
@@ -245,7 +243,6 @@ function linkMailDialog(editor, scheme) {
 
         onOk: function(){
             _controller.onOk(this, editor, _controller.getExtra(this));
-            // _controller.elaborateAsLink(this, editor, _controller.getExtra(this));
         }
     };
 }
