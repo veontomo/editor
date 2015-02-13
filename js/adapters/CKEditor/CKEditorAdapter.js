@@ -281,6 +281,35 @@ function CKEditorAdapter(){
 		return executor(template);
 	};
 
+	/**
+	 * Default function that transforms a template into a dialog-structred object.
+	 *
+	 * Current implementation is a trivial one.
+	 * @method         defaultTemplateToDialog
+	 * @param          {Object} tempalte
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.defaultTemplateToDialog = function(template){
+		console.log('default template -> dialog converter is called');
+		return template;
+	};
+
+	/**
+	 * Default function that transforms a dialog-structred object into a template.
+	 *
+	 * Current implementation is a trivial one.
+	 * @method         defaultDialogToTemplate
+	 * @param          {Object} tempalte
+	 * @return         {Object}
+	 * @since          0.2.0
+	 */
+	this.defaultDialogToTemplate = function(template){
+		console.log('default dialog -> template converter is called');
+		return template;
+	};
+
+
 
 	/**
 	 * Dispatcher for functions that transform dialog window object into corresponding

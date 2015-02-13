@@ -110,11 +110,9 @@ CKEDITOR.plugins.add('LinkPlugin', {
 
 		editor.addCommand(_pluginName + 'Unlink', {
 			exec: function(editor){
-				// a link that triggers appearence of item "Unlink" in the context menu
-				// is available as _target.hostLink
-				// Remenber that the above mentioned link is not the only that might be
-				// present in the selected text
-				_controller.unlink(editor);
+				// Remember that the link that has triggered context menu that might not be only one
+				// present in the selected text inside the editor content
+				_controller.unlink(editor, _target.hostLink);
 			}
 		});
 
