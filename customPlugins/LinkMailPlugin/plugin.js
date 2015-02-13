@@ -26,6 +26,7 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 				title:         'Titolo',
 				titleTitle:    'testo che appare quando il cursore va sopra',
 				underline:     'Sottolineato',
+				wrongUrl:      'Indirizzo non valido'
 			},
 			en: {
 				colordialog:   'Color',
@@ -42,6 +43,7 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 				title:         'Title',
 				titleTitle:    'popup text',
 				underline:     'Underlined',
+				wrongUrl:      'Invalid URL'
 			}
 		};
 

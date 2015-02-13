@@ -128,7 +128,11 @@ function linkMailDialog(editor, scheme) {
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
                             console.log(this);
-                            _controller.setDialogField(this.getDialog(), {tabId: 'linkInfoTab', elemId: 'warning', value: 'Error'});
+                            _controller.setDialogField(this.getDialog(), {
+                                tabId: 'linkInfoTab',
+                                elemId: 'warning',
+                                value: editor.lang[_pluginName].wrongUrl
+                            });
                             // var warningField = CKEDITOR.document.getById(warningFieldId);
                             // warningField.setHtml(editor.lang.common.invalidValue);
                             }
