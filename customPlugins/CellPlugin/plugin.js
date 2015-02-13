@@ -32,7 +32,6 @@ CKEDITOR.plugins.add('CellPlugin', {
 
 		/**
 		 * Plugin name.
-		 * @type       {String}
 		 * @property   {String}        _pluginName
 		 * @since      0.2.0
 		 * @private
@@ -48,9 +47,9 @@ CKEDITOR.plugins.add('CellPlugin', {
 
 		/**
 		 * Object containing elements on which context menu options have been triggered.
-		 * @private
-		 * @type       {Object}
+		 * @property   {Object}        _target
 		 * @since      0.2.0
+ 		 * @private
 		 */
 		var _target = {};
 

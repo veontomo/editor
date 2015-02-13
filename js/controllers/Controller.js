@@ -277,8 +277,8 @@ function Controller(){
 	 * @method         onLoad
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
-	 * @param          {Node|null}         node        [Optional] native javascript node that
-	 *                                                 that has triggered the appearence of the dialog
+	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                 instance that has triggered the appearence of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
@@ -301,8 +301,8 @@ function Controller(){
 	 * @method         onShow
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
-	 * @param          {Node|null}         node        [Optional] native javascript node that
-	 *                                                 that has triggered the appearence of the dialog
+	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                 instance that has triggered the appearence of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
@@ -325,8 +325,8 @@ function Controller(){
 	 * @method         onOk
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
-	 * @param          {Node|null}         node        [Optional] native javascript node that
-	 *                                                 that has triggered the appearence of the dialog
+	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                 instance that has triggered the appearence of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
@@ -349,8 +349,8 @@ function Controller(){
 	 * @method         onCancel
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
-	 * @param          {Node|null}         node        [Optional] native javascript node that
-	 *                                                 that has triggered the appearence of the dialog
+	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                                 instance that has triggered the appearence of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
