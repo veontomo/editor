@@ -157,15 +157,18 @@ function CKEditorAdapter(){
 	 * @since          0.1.0
 	 */
 	this.templateToDialog = function(template, marker){
-		console.info(performance.now(), 'templateToDialog: ', template, marker);
-		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
-		var mapper = marker2 + 'TemplateToDialog';
-		console.info(performance.now(), 'marker2 = ' + marker + ', mapper = ' + mapper);
-		var executor = this[mapper];
+		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default',
+			mapper = marker2 + 'TemplateToDialog',
+			executor = this[mapper];
 		if (typeof executor !== 'function'){
 			executor = this.defaultTemplateToDialog;
 		}
-		return executor(template);
+		try {
+			return executor(template);
+		} catch(e){
+			console.log(e.name + ' when transforming a template into dialog data: ' + e.message);
+		}
+
 	};
 
 
