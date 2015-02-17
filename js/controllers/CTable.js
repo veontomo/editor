@@ -204,29 +204,6 @@ function CTable(){
 	};
 
 	/**
-	 * Returns html tag to insert icon.
-	 * @method         iconName
-	 * @param          {String}             fileName  icon file name. It should be located in "table2/icons" folder of the
-	 *                                      custom plugin folder.
-	 * @param          {String}             title
-	 * @param          {Number|Null}        width     icon width in px
-	 * @param          {Number|Null}        height    icon height in px
-	 * @return         {String}
-	 */
-	this.iconTag = function(fileName, title, width, height){
-		if (typeof fileName === 'string' && fileName.trim()){
-			var titleText = '',
-				heightText = '',
-				widthText = '',
-				path = NEWSLETTER.customPluginDir + 'TablePlugin/icons/' + fileName;
-			titleText =' title="' + (title || fileName) + '"';
-			heightText = height ? (' height="' + height + '"') : '';
-			widthText = width ? (' width="' + width + '"') : '';
-			return '<img src="' + path + '"' + titleText + heightText + widthText + '/>';
-		}
-	};
-
-	/**
 	 * Returns instance of {{#crossLink "Table"}}Table{{/crossLink}} corresponding to a DOM.Element
 	 * inside which the cursor is situated. If no table is found, nothing is returned.
 	 * @method        getTable
