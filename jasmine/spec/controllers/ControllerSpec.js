@@ -69,11 +69,22 @@ describe ('Base controller class has', function(){
         });
     });
 
-    describe('has abstract method "onShow" that', function(){
-        it('throws an error if called directly and not from an inheriting class', function(){
-            expect(function(){
-                c.onShow();
-            }).toThrow(new Error('Method "onShow" of class Controller must be overridden by inheriting class!'));
+    describe('has a method "onShow" that', function(){
+        it('just exists', function(){
+            expect(c.hasOwnProperty('onShow')).toBe(true);
+            expect(typeof c.onShow).toBe('function');
+
+        });
+    });
+
+    describe('has a method to create elements from template', function(){
+        it('creates an instance of class A if getModel() returns prototype of class A', function(){
+            function A(x){
+                return x;
+            }
+            spyOn(c, 'getModel').and.returnValue(A);
+            var element = c.createFromTemplate({});
+            expect(element instanceof A).toBe(true  );
         });
     });
 

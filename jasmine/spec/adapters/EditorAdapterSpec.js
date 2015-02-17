@@ -108,21 +108,6 @@ describe('Editor adapter', function(){
 
 	});
 
-	describe('has a method insertAt that', function(){
-		it('throws an error if called directly and not from an inheriting class', function(){
-			expect(function(){
-				adapter.insertAt();
-			}).toThrow(new Error('Method "insertAt" of class EditorAdapter must be overridden by inheriting class!'));
-		});
-	});
-
-	describe('has a method removeNode that', function(){
-		it('throws an error if called directly and not from an inheriting class', function(){
-			expect(function(){
-				adapter.removeNode();
-			}).toThrow(new Error('Method "removeNode" of class EditorAdapter must be overridden by inheriting class!'));
-		});
-	});
 
 });
 
