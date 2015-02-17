@@ -77,12 +77,13 @@ CKEDITOR.plugins.add('TablePlugin', {
 		 var _pluginNameGroup = _pluginName + 'Group';
 
 		// Register dialog corresponding to table creation and table modification.
-		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/table2.js');
+		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/tableDialog.js');
 
 		// Define an editor commands that open the above dialogs.
 		// editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
+				console.info(performance.now(), 'executing ' + _pluginName + 'Dialog, _target = ', _target);
 				var dialog = editor.openDialog(_pluginName + 'Dialog');
 				if (_target.hostTable){
 					_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
@@ -126,6 +127,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 				var el = _controller.findRepresentativeAncestor(element);
 				var menuObj = {};
 				if (el) {
+					console.log('context menu items are triggered with host table', el);
 					_target.hostTable = el;
 					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
 					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;

@@ -448,12 +448,14 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.fillInDialogWithElementData = function(dialog, element, marker){
-	    var adapter, worker, template;
+	    var adapter, worker, dialogData, template;
 	    try {
 	        adapter = this.getEditorAdapter();
 	        worker = this.getWorker();
 	        template = worker.getFactory().mimic(element).template();
-	        adapter.fillInDialog(dialog, this.templateToDialog(template), marker);
+	        dialogData = adapter.templateToDialog(template, marker);
+	        console.log(template, '->', dialogData);
+	        adapter.fillInDialog(dialog, dialogData, marker);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
 	    }
@@ -522,7 +524,7 @@ function Controller(){
 	 */
 	this.setDialogField = function(dialog, field){
 		var adapter = this.getEditorAdapter();
-		adapter.setDialogField(dialog, name);
+		adapter.setDialogField(dialog, field);
 	};
 
 
