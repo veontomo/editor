@@ -34,6 +34,8 @@ function TableDialog(editor) {
 	     _controller.setWorker(worker);
 	 }());
 
+	 var _pluginDir = NEWSLETTER.customPluginDir;
+
 	/**
 	 * Style for text input fields for numbers.
 	 * @property {String} _inputNumberStyle
@@ -208,6 +210,27 @@ function TableDialog(editor) {
 		}
 	};
 
+	/**
+	 * Returns html tag to insert icon.
+	 * @method         iconName
+	 * @param          {String}             fileName  icon file name. It should be located in "table2/icons" folder of the
+	 *                                      custom plugin folder.
+	 * @param          {String}             title
+	 * @return         {String}
+	 * private
+	 */
+
+	var _iconTag = function(fileName, title){
+		if (typeof fileName === 'string' && fileName.trim()){
+			var titleText = '',
+				path = _pluginDir + 'TablePlugin/icons/' + fileName;
+			console.log(path);
+			titleText =' title="' + (title || fileName) + '"';
+			return '<img src="' + path + '"' + titleText + '/>';
+		}
+	};
+
+
 	var dialogWindow = {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
@@ -310,7 +333,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'leftVerIcon',
-							html: _controller.iconTag('left.gif', editor.lang.TablePlugin.leftVerBord, 15, 15),
+							html: _iconTag('left.gif', editor.lang.TablePlugin.leftVerBord),
 							style: _borderIconStyle
 						}, {
 							type: 'checkbox',
@@ -326,7 +349,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'intVerIcon',
-							html: _controller.iconTag('middleVer.gif', editor.lang.TablePlugin.intVerBord, 15, 15)
+							html: _iconTag('middleVer.gif', editor.lang.TablePlugin.intVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -341,7 +364,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'rightVerIcon',
-							html: _controller.iconTag('right.gif', editor.lang.TablePlugin.rightVerBord, 15, 15)
+							html: _iconTag('right.gif', editor.lang.TablePlugin.rightVerBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -356,7 +379,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'topHorIcon',
-							html: _controller.iconTag('upper.gif', editor.lang.TablePlugin.topHorBord, 15, 15)
+							html: _iconTag('upper.gif', editor.lang.TablePlugin.topHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -371,7 +394,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'intHorIcon',
-							html: _controller.iconTag('middleHor.gif', editor.lang.TablePlugin.intHorBord, 15, 15)
+							html: _iconTag('middleHor.gif', editor.lang.TablePlugin.intHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
@@ -386,7 +409,7 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'bottomHorIcon',
-							html: _controller.iconTag('lower.gif', editor.lang.TablePlugin.bottomHorBord, 15, 15)
+							html: _iconTag('lower.gif', editor.lang.TablePlugin.bottomHorBord, 15, 15)
 						}, {
 							type: 'checkbox',
 							label: '',
