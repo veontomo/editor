@@ -566,13 +566,18 @@ function TableDialog(editor) {
 		/**
 		 * The function to execute when the dialog is loaded (executed every time the dialog is opened).
 		 *
-		 * Fills in table plugin dialog with selected (if any) table properties.
 		 * @method    onShow
 		 * @return    {void}
 		 */
 		onShow: function() {
 		},
 
+		/**
+		 * The function to execute when the dialog is confirmed.
+		 *
+		 * @method    onShow
+		 * @return    {void}
+		 */
 		onOk: function () {
 			 _controller.onOk(this, editor, _controller.getExtra(this));
 			dropInputCells(this);

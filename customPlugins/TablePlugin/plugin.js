@@ -85,6 +85,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 				var dialog = editor.openDialog(_pluginName + 'Dialog');
 				if (_target.hostTable){
 					_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
+					_controller.saveExtra(dialog, _target.hostTable);
 					// reset the reference to the target element
 					_target.hostTable = undefined;
 				}
