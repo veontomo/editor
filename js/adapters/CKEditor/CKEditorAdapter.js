@@ -106,27 +106,25 @@ function CKEditorAdapter(){
 	/**
 	 * Fills in dialog window `dialog` with `data`.
 	 *
-	 * `data` is a {{#crossLink "Tag/template:method"}}template{{/crossLink}}.
-	 * Note that structure of `data` might be not conform with structure that `dialog` admits.
-	 * For this reason, `marker` is a string defining
+	 * `data` should be an object structured in a way that `dialog` accepts.
+	 *
+	 * Method {{#crossLink "EditorAdapter/templateToDialog:method"}}templateToDialog{{/crossLink}} is responsable
+	 * for transforming a template-like object into a dialog-like one.
 	 * @method         fillInDialog
 	 * @param          {CKEDITOR.dialog}        dialog             instance of
 	 *                                                             [CKEDITOR.dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog)
 	 * @param          {Object}                 data
-	 * @param          {String}                 marker              defines what type of pre-processing should be applied to `data`
 	 * @return         {void}
 	 * @since          0.1.0
 	 * @abstract
 	 *
 	 */
-	this.fillInDialog = function(dialog, data, marker){
-		console.info(performance.now(), 'filling in CKEditorAdapter: ', dialog, data, marker)
+	this.fillInDialog = function(dialog, data){
 		var pageId, page, elemId, value,
 			dataForDialog;
-		dataForDialog = this.templateToDialog(data, marker);
-		for (pageId in dataForDialog){
-			if (dataForDialog.hasOwnProperty(pageId)){
-				page = dataForDialog[pageId];
+		for (pageId in data){
+			if (data.hasOwnProperty(pageId)){
+				page = data[pageId];
 				for (elemId in page){
 					if (page.hasOwnProperty(elemId)){
 						value = page[elemId];

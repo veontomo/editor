@@ -80,10 +80,8 @@ CKEDITOR.plugins.add('TablePlugin', {
 		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/tableDialog.js');
 
 		// Define an editor commands that open the above dialogs.
-		// editor.addCommand(_pluginName + 'DialogCreate', new CKEDITOR.dialogCommand(_pluginName + 'DialogCreate'));
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
-				console.info(performance.now(), 'executing ' + _pluginName + 'Dialog, _target = ', _target);
 				var dialog = editor.openDialog(_pluginName + 'Dialog');
 				if (_target.hostTable){
 					_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
