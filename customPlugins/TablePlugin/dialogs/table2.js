@@ -7,16 +7,16 @@ TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXCol
  *
  * @module        Dialogs
  * @class         TableDialog
- * @param         {Object}        editor   instance of CKEDITOR
+ * @param         {Object}        editor      instance of CKEDITOR
  * @return        {Object}        dialog definition
  * @since         0.0.6
  */
 function TableDialog(editor) {
 
 	/**
-	 * Instance of {{#crossLink "Controller"}}Controller.{{/crossLink}}
-	 * @property       _controller
-	 * @type           CTable
+	 * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}.
+	 * @property       {CTable}        _controller
+	 * @type           {CTable}
 	 * @private
 	 */
 	 var _controller = new CTable();
@@ -34,7 +34,24 @@ function TableDialog(editor) {
 	     _controller.setWorker(worker);
 	 }());
 
-	 var _pluginDir = NEWSLETTER.customPluginDir;
+
+	/**
+	 * Name of the plugin the current dialog belongs to.
+	 * @property       {String} _pluginName
+	 * @type           {String}
+	 * @private
+	 * @since          0.2.0
+	 */
+	var _pluginName = 'TablePlugin';
+
+	/**
+	* Location of the directory containing plugin icons.
+	* @property      {String}        _iconsDir
+	* @type          {String}
+	* @since         0.2.0
+	* @private
+	*/
+	var _iconsDir = NEWSLETTER.customPluginDir + _pluginName + '/dialogs/icons/';
 
 	/**
 	 * Style for text input fields for numbers.
@@ -46,8 +63,8 @@ function TableDialog(editor) {
 
 	/**
 	 * Style for text input fields for choosing colors.
-	 * @property {String} _inputColorStyle
-	 * @type     {String}
+	 * @property       {String}        _inputColorStyle
+	 * @type           {String}
 	 * @private
 	 */
 	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
@@ -66,7 +83,7 @@ function TableDialog(editor) {
 	 * dhtmlxColorPicker is open source GPL v2 and Free License [JavaScript component](http://dhtmlx.com/docs/products/dhtmlxColorPicker/)
 	 * for easy color selection.
 	 *
-	 * @property {dhtmlXColorPicker} _colorPicker
+	 * @property       {dhtmlXColorPicker} _colorPicker
 	 * @private
 	 * @since  0.0.6
 	 */
@@ -130,10 +147,10 @@ function TableDialog(editor) {
 			}
 			colWeigthTab = {
 				id: colWeigthTabId,
-				label: editor.lang.TablePlugin.colWeightInfo,
+				label: editor.lang[_pluginName].colWeightInfo,
 				elements: [{
 					type: 'html',
-					html: editor.lang.TablePlugin.columnWeight
+					html: editor.lang[_pluginName].columnWeight
 				}, {
 					type: 'hbox',
 					children: children
@@ -218,13 +235,13 @@ function TableDialog(editor) {
 	 * @param          {String}             title
 	 * @return         {String}
 	 * private
+	 * @since          0.2.0
 	 */
 
 	var _iconTag = function(fileName, title){
 		if (typeof fileName === 'string' && fileName.trim()){
 			var titleText = '',
-				path = _pluginDir + 'TablePlugin/icons/' + fileName;
-			console.log(path);
+				path = _iconsDir + fileName;
 			titleText =' title="' + (title || fileName) + '"';
 			return '<img src="' + path + '"' + titleText + '/>';
 		}
@@ -234,13 +251,13 @@ function TableDialog(editor) {
 	var dialogWindow = {
 		// Basic properties of the dialog window: title, minimum size.
 		title: editor.lang.table.title,
-		minWidth: 500,
+		minWidth:  500,
 		minHeight: 300,
 
 		// Dialog window contents definition.
 		contents: [{
 			id: 'structure',
-			label: editor.lang.TablePlugin.structure,
+			label: editor.lang[_pluginName].structure,
 			elements: [
 			{
 				type: 'text',
@@ -267,20 +284,20 @@ function TableDialog(editor) {
 			}]
 		}, {
 			id: 'borders',
-			label: editor.lang.TablePlugin.borders,
+			label: editor.lang[_pluginName].borders,
 			elements: [
 			{
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.TablePlugin.frame,
+					html: editor.lang[_pluginName].frame,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
 					children: [{
 						type: 'text',
 						label: editor.lang.common.width,
-						title: editor.lang.TablePlugin.valueInPx,
+						title: editor.lang[_pluginName].valueInPx,
 						id: 'globalBorderWidth',
 						'default': '0',
 						inputStyle: _inputNumberStyle,
@@ -298,7 +315,7 @@ function TableDialog(editor) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html:  editor.lang.TablePlugin.rowBorders,
+					html:  editor.lang[_pluginName].rowBorders,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -324,7 +341,7 @@ function TableDialog(editor) {
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.TablePlugin.cellBorders,
+					html: editor.lang[_pluginName].cellBorders,
 				}, {
 					type: 'hbox',
 					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
@@ -333,12 +350,12 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'leftVerIcon',
-							html: _iconTag('left.gif', editor.lang.TablePlugin.leftVerBord),
+							html: _iconTag('left.gif', editor.lang[_pluginName].leftVerBord),
 							style: _borderIconStyle
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.leftVerBord,
+							title: editor.lang[_pluginName].leftVerBord,
 							id: 'leftVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -349,11 +366,11 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'intVerIcon',
-							html: _iconTag('middleVer.gif', editor.lang.TablePlugin.intVerBord, 15, 15)
+							html: _iconTag('middleVer.gif', editor.lang[_pluginName].intVerBord)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.intVerBord,
+							title: editor.lang[_pluginName].intVerBord,
 							id: 'intVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -364,11 +381,11 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'rightVerIcon',
-							html: _iconTag('right.gif', editor.lang.TablePlugin.rightVerBord, 15, 15)
+							html: _iconTag('right.gif', editor.lang[_pluginName].rightVerBord)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.rightVerBord,
+							title: editor.lang[_pluginName].rightVerBord,
 							id: 'rightVerBord',
 							default: false,
 							onChange: suggestValue,
@@ -379,11 +396,11 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'topHorIcon',
-							html: _iconTag('upper.gif', editor.lang.TablePlugin.topHorBord, 15, 15)
+							html: _iconTag('upper.gif', editor.lang[_pluginName].topHorBord)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.topHorBord,
+							title: editor.lang[_pluginName].topHorBord,
 							id: 'topHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -394,11 +411,11 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'intHorIcon',
-							html: _iconTag('middleHor.gif', editor.lang.TablePlugin.intHorBord, 15, 15)
+							html: _iconTag('middleHor.gif', editor.lang[_pluginName].intHorBord)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.intHorBord,
+							title: editor.lang[_pluginName].intHorBord,
 							id: 'intHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -409,11 +426,11 @@ function TableDialog(editor) {
 						children: [{
 							type: 'html',
 							id: 'bottomHorIcon',
-							html: _iconTag('lower.gif', editor.lang.TablePlugin.bottomHorBord, 15, 15)
+							html: _iconTag('lower.gif', editor.lang[_pluginName].bottomHorBord)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang.TablePlugin.bottomHorBord,
+							title: editor.lang[_pluginName].bottomHorBord,
 							id: 'bottomHorBord',
 							default: false,
 							onChange: suggestValue,
@@ -427,7 +444,7 @@ function TableDialog(editor) {
 						}, {
 							type: 'text',
 							label: '',
-							title: editor.lang.TablePlugin.chooseColor,
+							title: editor.lang[_pluginName].chooseColor,
 							id: 'cellBorderColor',
 							'default': '#000001',
 							inputStyle: _inputColorStyle
@@ -453,7 +470,7 @@ function TableDialog(editor) {
 			}]
 		}, {
 			id: 'background',
-			label: editor.lang.TablePlugin.background,
+			label: editor.lang[_pluginName].background,
 			elements: [
 			{
 				type: 'text',
@@ -465,13 +482,13 @@ function TableDialog(editor) {
 			}]
 		}, {
 			id: 'spaces',
-			label: editor.lang.TablePlugin.spacesTitle,
+			label: editor.lang[_pluginName].spacesTitle,
 			elements: [
 			{
 				type: 'vbox',
 				children: [{
 					type: 'html',
-					html: editor.lang.TablePlugin.spacesDescr,
+					html: editor.lang[_pluginName].spacesDescr,
 				}, {
 					type: 'hbox',
 					widths: ['50%', '50%'],
@@ -479,16 +496,16 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'text',
-							label: editor.lang.TablePlugin.globalSpaces,
-							title: editor.lang.TablePlugin.valueInPx,
+							label: editor.lang[_pluginName].globalSpaces,
+							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
 							id: 'spaceTableGlobal',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
 							type: 'text',
-							label: editor.lang.TablePlugin.globalPadding,
-							title: editor.lang.TablePlugin.valueInPx,
+							label: editor.lang[_pluginName].globalPadding,
+							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
 							id: 'paddingTableGlobal',
 							inputStyle: _inputNumberStyle,
@@ -498,16 +515,16 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'text',
-							label: editor.lang.TablePlugin.rowSpaceTitle,
-							title: editor.lang.TablePlugin.valueInPx,
+							label: editor.lang[_pluginName].rowSpaceTitle,
+							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
 							id: 'spaceBtwRows',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
 							type: 'text',
-							label: editor.lang.TablePlugin.cellSpace,
-							title: editor.lang.TablePlugin.valueInPx,
+							label: editor.lang[_pluginName].cellSpace,
+							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
 							id: 'spaceCell',
 							inputStyle: _inputNumberStyle,
