@@ -251,14 +251,27 @@ function CTable(){
 	 * @method        onOk
 	 * @param         {Object}         dialog    editor-specific representation of dialog window
 	 * @param         {Object}         editor
-	 * @param         {Any}            extra     [Optional] additional information that has been passed to the dialog
+	 * @param         {Element}        extra     [Optional] [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                           instance that has been passed to the dialog in case when the dialog
+	 *                                           corresponds to modification of existing table.
 	 * @return        {void}
 	 * @since         0.2.0
 	 */
 	this.onOk = function(dialog, editor, extra){
-		/// !!! stub
-		console.log('CTable.onOk is called with the arguments: ', dialog, editor, extra);
-		return;
+		var adapter, content, dialogData, template, inflatedElement, doc;
+		try {
+			adapter = this.getEditorAdapter();
+			content = adapter.getEditorContent(editor);
+			dialogData = adapter.getDialogData(dialog, ['text', 'checkox']);
+			template = adapter.dialogToTemplate(dialogData, 'table');
+			doc = this.getWorker();
+			inflatedElement = this.createFromTemplate(template);
+			doc.insertOrModify(content, inflatedElement, extra);
+			adapter.setEditorContent(editor, content);
+			return;
+		} catch(e){
+			console.log(e.name + ' occurred when elaborating table plugin confirm action: ' + e.message);
+		}
 	}
 
 }

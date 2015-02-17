@@ -530,5 +530,26 @@ function Controller(){
 		adapter.setDialogField(dialog, field);
 	};
 
+	/**
+	 * Creates an instance of model that the controller represents and inflates
+	 * its properties from `template`.
+	 *
+	 * @method createFromTemplate
+	 * @param  {Object} template
+	 * @return {Object}
+	 * @since  0.2.0
+	 */
+	this.createFromTemplate = function(template){
+		var Model, element;
+		try {
+			Model = this.getModel();
+			element = new Model();
+			element.loadFromTemplate(template);
+		} catch(e){
+			console.log(e.name + ' occurred when controller was creating an element from template: ', e.message);
+		}
+		return element;
+	};
+
 
 }

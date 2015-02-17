@@ -216,11 +216,11 @@ function CKEditorAdapter(){
 	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
 	 * to the total table width</dd>
 	 * </dl>
-	 * @method         TableDialogToTemplate
+	 * @method         tableDialogToTemplate
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 */
-	this.TableDialogToTemplate = function(obj){
+	this.tableDialogToTemplate = function(obj){
 		var defaultUnit = 'px';
 		var tableInfo = {
 			rows:                 parseInt(obj.structure.rows, 10),
