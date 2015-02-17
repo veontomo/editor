@@ -244,6 +244,23 @@ function CTable(){
 		}
 	};
 
+	/**
+	 * Action to execute when table `dialog`'s confirm button is pressed.
+	 *
+	 * Overrides parent class method {{#crossLink "Controller/onOk:method"}}Controller::onOk(){{/crossLink}}.
+	 * @method        onOk
+	 * @param         {Object}         dialog    editor-specific representation of dialog window
+	 * @param         {Object}         editor
+	 * @param         {Any}            extra     [Optional] additional information that has been passed to the dialog
+	 * @return        {void}
+	 * @since         0.2.0
+	 */
+	this.onOk = function(dialog, editor, extra){
+		/// !!! stub
+		console.log('CTable.onOk is called with the arguments: ', dialog, editor, extra);
+		return;
+	}
+
 }
 
 CTable.prototype = Object.create(Controller.prototype);
