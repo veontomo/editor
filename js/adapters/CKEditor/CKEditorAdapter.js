@@ -120,8 +120,7 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-		var pageId, page, elemId, value,
-			dataForDialog;
+		var pageId, page, elemId, value;
 		for (pageId in data){
 			if (data.hasOwnProperty(pageId)){
 				page = data[pageId];
