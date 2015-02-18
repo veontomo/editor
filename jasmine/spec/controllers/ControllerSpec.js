@@ -78,15 +78,49 @@ describe ('Base controller class has', function(){
     });
 
     describe('has a method to create elements from template', function(){
-        it('creates an instance of class A if getModel() returns prototype of class A', function(){
+        it('returns nothing if getModel() returns nothing', function(){
+            spyOn(c, 'getModel');
+            var element = c.createFromTemplate({});
+            expect(element).not.toBeDefined();
+        });
+
+        it('returns an instance of class A if getModel() returns prototype of class A that has no loadFromTemplate() method', function(){
             function A(x){
                 return x;
             }
             spyOn(c, 'getModel').and.returnValue(A);
             var element = c.createFromTemplate({});
-            expect(element instanceof A).toBe(true  );
+            expect(element instanceof A).toBe(true);
         });
+
+        it('returns nothing if an error gets thrown when creating an element', function(){
+            spyOn(c, 'getModel').and.throwError('manually triggered error');
+            var element = c.createFromTemplate();
+            expect(element).not.toBeDefined();
+        });
+        it('calls loadFromTemplate() method of the getModel() output', function(){
+            var spy = jasmine.createSpy('loading');
+            function A(){
+                this.loadFromTemplate = spy;
+            }
+            spyOn(c, 'getModel').and.returnValue(A);
+            var element = c.createFromTemplate();
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('passes the template to loadFromTemplate() method of the getModel() output', function(){
+            var spy = jasmine.createSpy('loading');
+            var template = {};
+            function A(){
+                this.loadFromTemplate = spy;
+            }
+            spyOn(c, 'getModel').and.returnValue(A);
+            var element = c.createFromTemplate(template);
+            expect(spy).toHaveBeenCalledWith(template);
+        });
+
     });
+
 
 
 });
