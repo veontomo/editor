@@ -534,10 +534,10 @@ function Controller(){
 	 * Creates an instance of model that the controller represents and inflates
 	 * its properties from `template`.
 	 *
-	 * @method createFromTemplate
-	 * @param  {Object} template
-	 * @return {Object}
-	 * @since  0.2.0
+	 * @method         createFromTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.0
 	 */
 	this.createFromTemplate = function(template){
 		var Model, element;

@@ -120,7 +120,7 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-		var pageId, page, elemId, value;
+		var pageId, page, elemId, value, elem;
 		for (pageId in data){
 			if (data.hasOwnProperty(pageId)){
 				page = data[pageId];
@@ -129,6 +129,7 @@ function CKEditorAdapter(){
 						value = page[elemId];
 						if (value !== undefined){
 							try {
+								elem = dialog.getContentElement(pageId, elemId);
 								dialog.setValueOf(pageId, elemId, value);
 							} catch (e){
 								console.log(e.name + ' when filling in the dialog menu item (' +

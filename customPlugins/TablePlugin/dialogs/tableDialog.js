@@ -579,7 +579,7 @@ function TableDialog(editor) {
 		 * @return    {void}
 		 */
 		onOk: function () {
-			 _controller.onOk(this, editor, _controller.getExtra(this));
+			_controller.onOk(this, editor, _controller.getExtra(this));
 			dropInputCells(this);
 		}
 	};
