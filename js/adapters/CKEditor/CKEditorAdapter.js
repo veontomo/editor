@@ -120,23 +120,28 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-		// console.log(dialog);
-		// dialog.foreach(function(x){
-		// 	console.log(x, x instanceof CKEDITOR.ui.dialog.uiElement);
-		// 	if (x instanceof CKEDITOR.ui.dialog.uiElement){
-		// 		console.log(x.getValue());
-		// 	}
-		// });
+		console.log(performance.now(), 'CKEditorAdapter.fillInDialog is started');
 		var pageId, page, elemId, value, elem, domElem;
 		for (pageId in data){
-			if (data.hasOwnProperty(pageId)){
+			if (pageId && data.hasOwnProperty(pageId)){
 				page = data[pageId];
 				for (elemId in page){
-					if (page.hasOwnProperty(elemId)){
+					if (elemId && page.hasOwnProperty(elemId)){
 						value = page[elemId];
 						if (value !== undefined){
 							try {
 								// elem = dialog.getContentElement(pageId, elemId);
+								// domElem = document.getElementById(elem.domId);
+								// if (domElem){
+								// 	console.log('setting value (' + pageId + ', ' + elemId + ') -> ', value);
+								// 	elem.setValue(value);
+								// } else {
+								// 	console.log('elem ' + elem.domId + ' is not present in DOM');
+								// }
+
+								// console.log(elem.domId + ' => ', document.getElementById(elem.domId));
+
+								// console.log('elem.domId', elem.domId);
 								// console.log('loading (' + pageId + ', ' + elemId + ') -> ');
 								// domElem = CKEDITOR.document.getById(elem.domId);
 
@@ -147,7 +152,7 @@ function CKEditorAdapter(){
 								// console.log(elemId + ' -> ', dialog._.contents[pageId][elemId]);
 								// console.log('get init value -> ', dialog._.contents[pageId][elemId].getInitValue());
 								// if (elemId === 'rows'){
-								// 	console.log('setting value of (' + pageId + ', ' + elemId + ')');
+									// console.log('setting value of (' + pageId + ', ' + elemId + ')');
 									// dialog._.contents[pageId][elemId].setValue('sksksksk');
 								// };
 
@@ -162,6 +167,7 @@ function CKEditorAdapter(){
 				}
 			}
 		}
+		console.log(performance.now(), 'CKEditorAdapter.fillInDialog is finished');
 	};
 
 	/**
