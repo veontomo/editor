@@ -120,54 +120,26 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-		console.log(performance.now(), 'CKEditorAdapter.fillInDialog is started');
-		var pageId, page, elemId, value, elem, domElem;
-		for (pageId in data){
-			if (pageId && data.hasOwnProperty(pageId)){
-				page = data[pageId];
-				for (elemId in page){
-					if (elemId && page.hasOwnProperty(elemId)){
-						value = page[elemId];
-						if (value !== undefined){
-							try {
-								// elem = dialog.getContentElement(pageId, elemId);
-								// domElem = document.getElementById(elem.domId);
-								// if (domElem){
-								// 	console.log('setting value (' + pageId + ', ' + elemId + ') -> ', value);
-								// 	elem.setValue(value);
-								// } else {
-								// 	console.log('elem ' + elem.domId + ' is not present in DOM');
-								// }
-
-								// console.log(elem.domId + ' => ', document.getElementById(elem.domId));
-
-								// console.log('elem.domId', elem.domId);
-								// console.log('loading (' + pageId + ', ' + elemId + ') -> ');
-								// domElem = CKEDITOR.document.getById(elem.domId);
-
-								// create an observer instance
-								// console.log('(' + pageId + ', ' + elemId + ') -> ', elem.domId, domElem);
-								// console.log('pageId: ' + pageId + ', elemId: ' + elemId + ' => ', elem, ' is uiElement', elem instanceof CKEDITOR.ui.dialog.uiElement);
-								// console.log('element.domId =  ', elem.domId);
-								// console.log(elemId + ' -> ', dialog._.contents[pageId][elemId]);
-								// console.log('get init value -> ', dialog._.contents[pageId][elemId].getInitValue());
-								// if (elemId === 'rows'){
-									// console.log('setting value of (' + pageId + ', ' + elemId + ')');
-									// dialog._.contents[pageId][elemId].setValue('sksksksk');
-								// };
-
-
-								dialog.setValueOf(pageId, elemId, value);
-							} catch (e){
-								console.log(e.name + ' when filling in the dialog menu item (' +
-									pageId + ', ' + elemId + ') with value ' + value + ': ' + e.message);
+			var pageId, page, elemId, value, elem, domElem;
+			for (pageId in data){
+				if (pageId && data.hasOwnProperty(pageId)){
+					page = data[pageId];
+					for (elemId in page){
+						if (elemId && page.hasOwnProperty(elemId)){
+							value = page[elemId];
+							if (value !== undefined){
+								try {
+									dialog.setValueOf(pageId, elemId, value);
+								} catch (e){
+									console.log(e.name + ' when filling in the dialog menu item (' +
+										pageId + ', ' + elemId + ') with value ' + value + ': ' + e.message);
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		console.log(performance.now(), 'CKEditorAdapter.fillInDialog is finished');
+
 	};
 
 	/**

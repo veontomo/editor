@@ -448,7 +448,6 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.fillInDialogWithElementData = function(dialog, element, marker){
-		console.log(performance.now(), 'Controller.fillInDialogWithElementData is executing');
 	    var adapter, worker, elemObj, dialogData, template;
 	    try {
 	        adapter = this.getEditorAdapter();
@@ -463,7 +462,6 @@ function Controller(){
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
 	    }
-	    console.log(performance.now(), 'Controller.fillInDialogWithElementData is finished');
 	};
 
 	/**

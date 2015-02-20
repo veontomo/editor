@@ -83,25 +83,18 @@ CKEDITOR.plugins.add('TablePlugin', {
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
 				editor.openDialog(_pluginName + 'Dialog', function(dialog){
-					dialog.on('show', function(){
-						if (_target.hostTable){
+					if (_target.hostTable){
+						// wait until the dialog gets loaded completely
+						// otherwise, an error occurs because the editor can already be
+						// aware of the UI input elements, but they might not be present
+						// in DOM so far
+						dialog.on('show', function(){
 							_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
 							_controller.saveExtra(dialog, _target.hostTable);
 							// reset the reference to the target element
 							_target.hostTable = undefined;
-						}
-					});
-					// if (_target.hostTable){
-					// 	console.log(performance.now(), 'Setting timeout');
-					// 	setTimeout(function(){
-					// 		_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
-					// 	}, 20000);
-					// 	console.log(performance.now(), 'Timeout is set');
-					// 	_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
-					// 	_controller.saveExtra(dialog, _target.hostTable);
-					// 	// reset the reference to the target element
-					// 	_target.hostTable = undefined;
-					// }
+						});
+					}
 				});
 			}
 		});
@@ -140,7 +133,6 @@ CKEDITOR.plugins.add('TablePlugin', {
 				var el = _controller.findRepresentativeAncestor(element);
 				var menuObj = {};
 				if (el) {
-					console.log('context menu items are triggered with host table', el);
 					_target.hostTable = el;
 					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
 					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
