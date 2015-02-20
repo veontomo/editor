@@ -2311,7 +2311,6 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.insertIntoText = function(textNode, n, offset){
-		console.log('insert into text node');
 		if (n instanceof Text){
 			var text1 = textNode.nodeValue,
 				text2 = n.nodeValue,
