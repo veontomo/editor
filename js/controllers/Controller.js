@@ -517,7 +517,7 @@ function Controller(){
 			adapter = this.getEditorAdapter();
 			return adapter.getExtra(host);
 		} catch (e){
-			console.log(e.name + ' occurred when getting extra information: ', e.message);
+			console.log(e.name + ' occurred when getting extra information: ' + e.message);
 		}
 	};
 
@@ -550,9 +550,10 @@ function Controller(){
 		try {
 			Model = this.getModel();
 			element = new Model();
+			console.log('--->', element, element instanceof Table);
 			element.loadFromTemplate(template);
 		} catch(e){
-			console.log(e.name + ' occurred when controller was creating an element from template: ', e.message);
+			console.log(e.name + ' occurred when controller was creating an element from template: ' + e.message);
 		}
 		return element;
 	};

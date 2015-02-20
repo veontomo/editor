@@ -257,8 +257,7 @@ function CTable(){
 	 * @since         0.2.0
 	 */
 	this.onOk = function(dialog, editor, extra){
-		console.log('CTable.onOk: getting model: ', this.getModel());
-		var adapter, content, dialogData, template, inflatedElement, doc;
+		var adapter, content, dialogData, template, inflatedElement, doc, cursorPos;
 		try {
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
@@ -266,13 +265,20 @@ function CTable(){
 			template = adapter.dialogToTemplate(dialogData, 'table');
 			doc = this.getWorker();
 			inflatedElement = this.createFromTemplate(template);
-			doc.insertOrModify(content, inflatedElement, extra);
+			if (extra){
+				doc.modify(extra, inflatedElement);
+			} else {
+				cursorPos = adapter.getCursorPosition(editor);
+				if (cursorPos){
+					doc.insertNodeAt(cursorPos.startContainer, inflatedElement, cursorPos.startOffset);
+				}
+			}
 			adapter.setEditorContent(editor, content);
 			return;
 		} catch(e){
 			console.log(e.name + ' occurred when elaborating table plugin confirm action: ' + e.message);
 		}
-	}
+	};
 
 }
 

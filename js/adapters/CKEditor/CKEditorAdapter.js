@@ -120,25 +120,25 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-			var pageId, page, elemId, value, elem, domElem;
-			for (pageId in data){
-				if (pageId && data.hasOwnProperty(pageId)){
-					page = data[pageId];
-					for (elemId in page){
-						if (elemId && page.hasOwnProperty(elemId)){
-							value = page[elemId];
-							if (value !== undefined){
-								try {
-									dialog.setValueOf(pageId, elemId, value);
-								} catch (e){
-									console.log(e.name + ' when filling in the dialog menu item (' +
-										pageId + ', ' + elemId + ') with value ' + value + ': ' + e.message);
-								}
+		var pageId, page, elemId, value, elem, domElem;
+		for (pageId in data){
+			if (pageId && data.hasOwnProperty(pageId)){
+				page = data[pageId];
+				for (elemId in page){
+					if (elemId && page.hasOwnProperty(elemId)){
+						value = page[elemId];
+						if (value !== undefined){
+							try {
+								dialog.setValueOf(pageId, elemId, value);
+							} catch (e){
+								console.log(e.name + ' when filling in the dialog menu item (' +
+									pageId + ', ' + elemId + ') with value ' + value + ': ' + e.message);
 							}
 						}
 					}
 				}
 			}
+		}
 
 	};
 

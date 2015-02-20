@@ -2278,7 +2278,7 @@ function Document(node){
 	 * @param          {Array}         pathToNode   path to node which becomes parent of `n`
 	 * @param          {Integer}       index        number under which node `n` should be available after insertion
 	 * @param          {Node}          n
-	 * @return         {Element}                    modified copy of `root`
+	 * @return         {void}
 	 * @since          0.1.0
 	 * @throws         {Error}                      If `pathToHost` is not an array
 	 */
@@ -2287,12 +2287,11 @@ function Document(node){
 			throw new Error('Node instance is expected!');
 		}
 		if (hostNode instanceof Text){
-			return this.insertIntoTextNode(hostNode, n, offset);
+			this.insertIntoTextNode(hostNode, n, offset);
 		}
 		if (hostNode instanceof Element) {
-			return this.insertChild(hostNode, n, offset);
+			this.insertChild(hostNode, n, offset);
 		}
-		return hostNode;
 	};
 
 	/**
@@ -2301,7 +2300,7 @@ function Document(node){
 	 * @param          {Element}       hostNode
 	 * @param          {Node}          n
 	 * @param          {Integer}       offset
-	 * @return         {Element}       reference to `hostNode`
+	 * @return         {void}
 	 * @since          0.1.0
 	 */
 	this.insertChild = function(hostNode, n, offset){
@@ -2320,7 +2319,6 @@ function Document(node){
 			}
 			hostNode.insertBefore(n, rightNode);
 		}
-		return hostNode;
 	};
 
 
@@ -2334,6 +2332,7 @@ function Document(node){
 	 * @since          0.1.0
 	 */
 	this.insertIntoTextNode = function(textNode, n, offset){
+		console.log('insert into text node');
 		if (n instanceof Text){
 			var text1 = textNode.nodeValue,
 				text2 = n.nodeValue,

@@ -1657,6 +1657,25 @@ function Table() {
 		return output;
 	};
 
+	/**
+	 * Sets table attributes from template `tmpl`.
+	 *
+	 * @method         loadFromTemplate
+	 * @param          {Object}     tmpl
+	 * @return         {void}
+	 * @since          0.1.0
+	 * @abstract
+	 */
+	this.loadFromTemplate = function(tmpl){
+		this.setBorder({
+			width: tmpl.tableBorderWidth.toString(),
+			color: tmpl.tableBorderColor,
+			style: 'solid'
+		});
+	};
+
+
+
 }
 Table.prototype = Object.create(Tag.prototype);
 
