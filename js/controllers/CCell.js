@@ -16,7 +16,7 @@ function CCell() {
 	}
 	Controller.call(this);
 
-	this.setModel(Cell.prototype);
+	this.setModel(Cell);
 }
 
 CCell.prototype = Object.create(Controller.prototype);

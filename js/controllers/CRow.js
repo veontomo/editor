@@ -16,7 +16,7 @@ function CRow() {
 	}
 	Controller.call(this);
 
-	this.setModel(Row.prototype);
+	this.setModel(Row);
 }
 
 CRow.prototype = Object.create(Controller.prototype);

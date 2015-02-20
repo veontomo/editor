@@ -16,7 +16,7 @@ function CLink() {
     }
     Controller.call(this);
 
-    this.setModel(Link.prototype);
+    this.setModel(Link);
 
     /**
      * Remove link from the editor.
