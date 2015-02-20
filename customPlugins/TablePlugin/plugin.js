@@ -83,10 +83,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
 				editor.openDialog(_pluginName + 'Dialog', function(dialog){
-					console.log(performance.now(), 'dialog callback is called with argument', dialog);
-					console.log(performance.now(), 'dialog has ' + dialog.getPageCount() + ' pages');
 					dialog.on('show', function(){
-						console.log(performance.now(), 'dialog: on show is triggered');
 						if (_target.hostTable){
 							_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
 							_controller.saveExtra(dialog, _target.hostTable);
@@ -106,8 +103,6 @@ CKEDITOR.plugins.add('TablePlugin', {
 					// 	_target.hostTable = undefined;
 					// }
 				});
-				console.info(performance.now(), 'after opening dialog');
-
 			}
 		});
 
