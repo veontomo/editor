@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CLink, NEWSLETTER*/
+/*global CKEDITOR, CLink, NEWSLETTER, Document*/
 
 /**
  * A customized CKEDITOR plugin to deal with operations on hyperlink.
@@ -81,11 +81,19 @@ CKEDITOR.plugins.add('LinkPlugin', {
 
 		editor.addCommand(_pluginName + 'Modify', {
 			exec: function(e){
-				var dialog = e.openDialog(_pluginName + 'Dialog');
-				if (_target.hostLink){
-					_controller.fillInDialogWithElementData(dialog, _target.hostLink);
-					_target.hostLink = undefined;
-				}
+				e.openDialog(_pluginName + 'Dialog', function(dialog){
+					if (_target.hostLink){
+						// wait until the dialog gets loaded completely
+						// otherwise, an error occurs because the editor can already be
+						// aware of the UI input elements, but they might not be present
+						// in DOM so far
+						dialog.on('show', function(){
+							_controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
+							_controller.saveExtra(dialog, _target.hostLink);
+							_target.hostLink = undefined;
+						});
+					}
+				});
 			}
 		});
 
