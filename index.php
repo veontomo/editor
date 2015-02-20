@@ -120,23 +120,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			echo '<div id="marker">Test Mode</div>';
 		}
 	?>
-	<script type="text/javascript">
-		// var observer = new MutationObserver(function(mutations) {
-		//   mutations.forEach(function(mutation) {
-		//     console.log(mutation);
-		//   });
-		// });
-		// var target = document.getElementsByTagName('body')[0];
-		// // configuration of the observer:
-		// var config = { attributes: true, childList: true, characterData: true };
-
-		// // pass in the target node, as well as the observer options
-		// observer.observe(target, config);
-
-		// // later, you can stop observing
-		// // observer.disconnect();
-
-	</script>
 
     <div class="panel">
 	    <a href="statistics/jsDoc/" target="_blank"><img src="images/yui-logo.png" height="40" title="javascript code docs"/>JS</a>
@@ -186,6 +169,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
 		}
 	?>
-	<div>Current version: 0.2.0 (as by Genuary 20, 2015)</div>
+	<div>Current version: 0.2.1 (as by February 20, 2015)</div>
 </body>
 </html>

@@ -426,8 +426,14 @@ function Controller(){
 			return;
 		}
 		var doc = this.getWorker(),
-			criteria = this.getModel().characteristicFunction,
-			n;
+			model = this.getModel(),
+			criteria, proto, n;
+			if (model){
+				proto = model.prototype;
+				if (proto){
+					criteria = proto.characteristicFunction;
+				}
+			}
 		if (typeof criteria === 'function'){
 			n  = doc.findAncestor(nativeEl, criteria);
 		}

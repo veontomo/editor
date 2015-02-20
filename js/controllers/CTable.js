@@ -16,8 +16,7 @@ function CTable(){
 	}
 	Controller.call(this);
 
-
-	this.setModel(Table.prototype);
+	this.setModel(Table);
 
 	/**
 	 * Returns the width of the parent element available for its children.
@@ -258,6 +257,7 @@ function CTable(){
 	 * @since         0.2.0
 	 */
 	this.onOk = function(dialog, editor, extra){
+		console.log('CTable.onOk: getting model: ', this.getModel());
 		var adapter, content, dialogData, template, inflatedElement, doc;
 		try {
 			adapter = this.getEditorAdapter();
