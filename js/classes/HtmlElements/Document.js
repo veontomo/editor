@@ -2252,7 +2252,7 @@ function Document(node){
 	/**
 	 * Inserts node `n` into `host` at position `offset`.
 	 *
-	 * The functionality is delegated to {{#crossLink "Document/insertIntoTextNode:method"}}insertIntoTextNode(){{/crossLink}}
+	 * The functionality is delegated to {{#crossLink "Document/insertIntoText:method"}}insertIntoText(){{/crossLink}}
 	 * method if `host` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance,
 	 * otherwise - to {{#crossLink "Document/insertChild:method"}}insertChild(){{/crossLink}} method.
 	 * @method         insertAt
@@ -2266,8 +2266,10 @@ function Document(node){
 	 */
 	this.insertAt = function(host, n, offset){
 		if (host instanceof Text){
-			this.insertIntoTextNode(host, n, offset);
+			console.log('inserting into a text');
+			this.insertIntoText(host, n, offset);
 		} else {
+			console.log('inserting into a non-text');
 			this.insertChild(host, n, offset);
 		}
 	};
@@ -2302,14 +2304,13 @@ function Document(node){
 
 	/**
 	 * Inserts node `n` inside text node instance `textNode` at the position `offset`.
-	 * @method         insertIntoTextNode
+	 * @method         insertIntoText
 	 * @param          {Text}          hostNode
 	 * @param          {Node}          n
 	 * @param          {Integer}       offset
-	 * @return         {Text}          reference to `hostNode`
-	 * @since          0.1.0
+	 * @since          0.2.1
 	 */
-	this.insertIntoTextNode = function(textNode, n, offset){
+	this.insertIntoText = function(textNode, n, offset){
 		console.log('insert into text node');
 		if (n instanceof Text){
 			var text1 = textNode.nodeValue,
@@ -2341,7 +2342,6 @@ function Document(node){
 				}
 			}
 		}
-		return textNode;
 	};
 
 
