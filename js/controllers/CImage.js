@@ -40,7 +40,7 @@ function CImage() {
 			template = adapter.dialogToTemplate.image(data);
 			image = new ImageTag();
 			image.loadFromTemplate(template);
-			doc.insertNodeAt(cursorPos.startContainer, image.toNode(),  cursorPos.startOffset);
+			doc.insertAt(cursorPos.startContainer, image.toNode(),  cursorPos.startOffset);
 			adapter.setEditorContent(editor, content);
 		}
 		catch (e){

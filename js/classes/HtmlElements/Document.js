@@ -2241,7 +2241,7 @@ function Document(node){
 			link = new Link();
 			link.loadFromTemplate(template);
 			path = this.pathTo(position.startContainer, scope);
-			output = this.insertNodeAt(clone, path, position.startOffset, link.toNode());
+			output = this.insertAt(clone, path, position.startOffset, link.toNode());
 		} catch (e){
 			console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
 			output = clone;
@@ -2250,47 +2250,25 @@ function Document(node){
 	};
 
 	/**
-	 * Returns a copy of `root` in which node `n` is inserted according to position `pos`.
+	 * Inserts node `n` into `host` at position `offset`.
 	 *
-	 * Array `pos` must contain at least one element. Array of integers `pathToHost`
-	 * must correspond to an existing element in the DOM: starting from `root` and following the
-	 * branches numbered by integers of `pathToHost` array, one should arrive to a node.
-	 *
-	 * If the node `n` must be inserted inside a Text node (and not at its boundaries),
-	 * then it is splitted and then node `n` is inserted between them. If the node `n` must be
-	 * inserted at one of the boundaries of a Text node, then node `n` is appended or prepended
-	 * to that text node node.
-	 *
-	 * Throws an error in the following cases
-	 * <ol><li>
-	 * `pathToHost` is not an array
-	 * </li><li>
-	 * `path` is an empty array
-	 * </li><li>
-	 * `scope` or `n` is not an Element instance
-	 * </li><li>
-	 * `pathToHost` does not correspond to an exisitng node in DOM
-	 * </li></ol>
-	 *
-	 * @method         insertNodeAt
-	 * @param          {Element}       root         [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * The functionality is delegated to {{#crossLink "Document/insertIntoTextNode:method"}}insertIntoTextNode(){{/crossLink}}
+	 * method if `host` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance,
+	 * otherwise - to {{#crossLink "Document/insertChild:method"}}insertChild(){{/crossLink}} method.
+	 * @method         insertAt
+	 * @param          {Element}       host         [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                              instance in which `n` is to be inserted
-	 * @param          {Array}         pathToNode   path to node which becomes parent of `n`
-	 * @param          {Integer}       index        number under which node `n` should be available after insertion
-	 * @param          {Node}          n
+	 * @param          {Element}       n            [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                              instance to be inserted
+	 * @param          {Integer}       offset       Location of the cut into which node `n` is to be inserted
 	 * @return         {void}
 	 * @since          0.1.0
-	 * @throws         {Error}                      If `pathToHost` is not an array
 	 */
-	this.insertNodeAt = function(hostNode, n, offset){
-		if (!(hostNode instanceof Node)){
-			throw new Error('Node instance is expected!');
-		}
-		if (hostNode instanceof Text){
-			this.insertIntoTextNode(hostNode, n, offset);
-		}
-		if (hostNode instanceof Element) {
-			this.insertChild(hostNode, n, offset);
+	this.insertAt = function(host, n, offset){
+		if (host instanceof Text){
+			this.insertIntoTextNode(host, n, offset);
+		} else {
+			this.insertChild(host, n, offset);
 		}
 	};
 
@@ -2504,7 +2482,7 @@ function Document(node){
 	 * Inserts list at a given position.
 	 *
 	 * The list gets inserted inside node `root` at position `pos` by means of method
-	 * {{#crossLink "Document/insertNodeAt:method"}}insertNodeAt{{/crossLink}}.
+	 * {{#crossLink "Document/insertAt:method"}}insertAt{{/crossLink}}.
 	 *
 	 * @method         insertListAt
 	 * @param          {String}        listType        type of list to be inserted (i.e., 'ul' or 'ol')
@@ -2517,7 +2495,7 @@ function Document(node){
 	this.insertListAt = function(listType, root, pos, items){
 		var list = new List(listType);
 		list.appendAsItems(items || ['']);
-		this.insertNodeAt(root, list.toNode(), pos);
+		this.insertAt(root, list.toNode(), pos);
 	};
 
 

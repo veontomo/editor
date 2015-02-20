@@ -270,7 +270,7 @@ function CTable(){
 			} else {
 				cursorPos = adapter.getCursorPosition(editor);
 				if (cursorPos){
-					doc.insertNodeAt(cursorPos.startContainer, inflatedElement, cursorPos.startOffset);
+					doc.insertAt(cursorPos.startContainer, inflatedElement, cursorPos.startOffset);
 				}
 			}
 			adapter.setEditorContent(editor, content);
