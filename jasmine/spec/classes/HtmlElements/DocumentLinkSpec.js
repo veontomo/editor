@@ -102,11 +102,11 @@ describe('Class "Document"', function() {
             });
         });
 
-        it('returns a copy of the scope node if method "insertNodeAt" throws an error', function() {
+        it('returns a copy of the scope node if method "insertAt" throws an error', function() {
              var cursorPos = new Range();
             cursorPos.setStart(span1, 1);
             cursorPos.collapse(true);
-            spyOn(doc, 'insertNodeAt').and.callFake(function(){throw new Error('an error');});
+            spyOn(doc, 'insertAt').and.callFake(function(){throw new Error('an error');});
             var result = doc.insertLinkAt(div1, cursorPos, aTemplate.template());
             expect(div1.isEqualNode(result)).toBe(true);
             expect(result === div1).toBe(false);

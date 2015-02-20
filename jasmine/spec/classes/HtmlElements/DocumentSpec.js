@@ -2961,30 +2961,12 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "insertNodeAt" method that', function(){
-        describe('throws an error if', function(){
-            it('it is called without arguments', function() {
-                expect(function(){
-                    doc.insertNodeAt();
-                }).toThrow(new Error('Node instance is expected!'));
-            });
-
-            it('if its first argument is not a node instance', function() {
-                var invalids = [null, undefined, '', 'non-empty string', 0, 4.123, -4.8, [], [1, 2, 3],
-                    {}, {'foo': 1}];
-                invalids.forEach(function(invalid){
-                    expect(function(){
-                        doc.insertNodeAt(invalid, document.createElement('div'), 0);
-                    }).toThrow(new Error('Node instance is expected!'));
-                });
-            });
-        });
-
+    describe('has a method "insertAt" method that', function(){
         describe('when inserting a node at the beginning of a node with three children,', function(){
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
-                doc.insertNodeAt(dom1_p0, h1, 0);
+                doc.insertAt(dom1_p0, h1, 0);
             });
 
             it('the number of children of the Element node becomes 4', function(){
@@ -3007,7 +2989,7 @@ describe('Class "Document"', function() {
             var el, res;
             beforeEach(function(){
                 el = document.createElement('span');
-                doc.insertNodeAt(dom1_div0, el, 2);
+                doc.insertAt(dom1_div0, el, 2);
             });
 
 
@@ -3038,7 +3020,7 @@ describe('Class "Document"', function() {
             var h1, res;
             beforeEach(function(){
                 h1 = document.createElement('h1');
-                doc.insertNodeAt(dom1_a0, h1, 1);
+                doc.insertAt(dom1_a0, h1, 1);
             });
 
             it('the number of children of the Element node becomes 2', function(){
@@ -3060,11 +3042,11 @@ describe('Class "Document"', function() {
                 el = document.createElement('div');
             });
             it('another text node, merges them', function(){
-                doc.insertNodeAt(dom1_text0, document.createTextNode('new text node'), 0);
+                doc.insertAt(dom1_text0, document.createTextNode('new text node'), 0);
                 expect(dom1_text0.nodeValue).toBe('new text nodeSome text');
             });
             it('an Element instance, performs insertion before the text node, if the text node is a last child', function(){
-                doc.insertNodeAt(dom1_text0, el, 0);
+                doc.insertAt(dom1_text0, el, 0);
                 expect(dom1_div0).hasChildNodes(4);
                 expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
                 expect(dom1_div0.childNodes[1]).toBe(dom1_a0);
@@ -3072,7 +3054,7 @@ describe('Class "Document"', function() {
                 expect(dom1_div0.childNodes[3]).toBe(dom1_text0);
             });
             it('an Element instance, performs insertion before the text node, if the text node is a first child', function(){
-                doc.insertNodeAt(dom1_text1, el, 0);
+                doc.insertAt(dom1_text1, el, 0);
                 expect(dom1_p0).hasChildNodes(4);
                 expect(dom1_p0.childNodes[0]).toBe(el);
                 expect(dom1_p0.childNodes[1]).toBe(dom1_text1);
@@ -3087,11 +3069,11 @@ describe('Class "Document"', function() {
                el = document.createElement('div');
             });
             it('another text node, merges them', function(){
-                doc.insertNodeAt(dom1_text0, document.createTextNode('new text node'), dom1_text0.nodeValue.length);
+                doc.insertAt(dom1_text0, document.createTextNode('new text node'), dom1_text0.nodeValue.length);
                 expect(dom1_text0.nodeValue).toBe('Some textnew text node');
             });
             it('an Element instance, performs insertion after the text node, if the text node is a last child', function(){
-                doc.insertNodeAt(dom1_text0, el, dom1_text0.nodeValue.length);
+                doc.insertAt(dom1_text0, el, dom1_text0.nodeValue.length);
                 expect(dom1_div0).hasChildNodes(4);
                 expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
                 expect(dom1_div0.childNodes[1]).toBe(dom1_a0);
@@ -3099,7 +3081,7 @@ describe('Class "Document"', function() {
                 expect(dom1_div0.childNodes[3]).toBe(el);
             });
             it('an Element instance, performs insertion after the text node, if the text node is a first child', function(){
-                doc.insertNodeAt(dom1_text1, el, dom1_text1.nodeValue.length);
+                doc.insertAt(dom1_text1, el, dom1_text1.nodeValue.length);
                 expect(dom1_p0).hasChildNodes(4);
                 expect(dom1_p0.childNodes[0]).toBe(dom1_text1);
                 expect(dom1_p0.childNodes[1]).toBe(el);
@@ -3114,11 +3096,11 @@ describe('Class "Document"', function() {
                el = document.createElement('div');
             });
             it('another text node, splits the target but does not add any node', function(){
-                doc.insertNodeAt(dom1_text0, document.createTextNode('new text node'), 4);
+                doc.insertAt(dom1_text0, document.createTextNode('new text node'), 4);
                 expect(dom1_text0.nodeValue).toBe('Somenew text node text');
             });
             it('splits the text node', function(){
-                doc.insertNodeAt(dom1_text0, el, 4);
+                doc.insertAt(dom1_text0, el, 4);
                 expect(dom1_div0).hasChildNodes(5);
                 expect(dom1_div0.childNodes[0]).toBe(dom1_p0);
                 expect(dom1_div0.childNodes[1]).toBe(dom1_a0);

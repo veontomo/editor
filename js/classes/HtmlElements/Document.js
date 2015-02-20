@@ -2241,7 +2241,7 @@ function Document(node){
 			link = new Link();
 			link.loadFromTemplate(template);
 			path = this.pathTo(position.startContainer, scope);
-			output = this.insertAt(clone, path, position.startOffset, link.toNode());
+			output = this.insertAt(position.startContainer, link.toNode(), position.startOffset);
 		} catch (e){
 			console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
 			output = clone;
@@ -2303,41 +2303,41 @@ function Document(node){
 
 
 	/**
-	 * Inserts node `n` inside text node instance `textNode` at the position `offset`.
+	 * Inserts `elem` inside `textElem` at the position `pos`.
 	 * @method         insertIntoText
-	 * @param          {Text}          hostNode
-	 * @param          {Node}          n
+	 * @param          {Text}          textElement    [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * @param          {Element}       elem           [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {Integer}       offset
 	 * @since          0.2.1
 	 */
-	this.insertIntoText = function(textNode, n, offset){
-		if (n instanceof Text){
-			var text1 = textNode.nodeValue,
-				text2 = n.nodeValue,
+	this.insertIntoText = function(textElem, elem, offset){
+		if (elem instanceof Text){
+			var text1 = textElem.nodeValue,
+				text2 = elem.nodeValue,
 				text;
 			text = text1.slice(0, offset) + text2 + text1.slice(offset);
-			textNode.nodeValue = text;
-			return textNode;
+			textElem.nodeValue = text;
+			return textElem;
 		}
-		// textNode is NOT a text node
+		// textElem is NOT a text node
 		if (offset === 0){
 			/// insert at the beginning (no need to split the node)
-			textNode.parentNode.insertBefore(n, textNode);
+			textElem.parentNode.insertBefore(elem, textElem);
 		} else {
 			var rightNode, len;
-			len = textNode.nodeValue.length;
+			len = textElem.nodeValue.length;
 			/// insert in the middle
 			if (offset < len){
-				rightNode = textNode.splitText(offset);
-				textNode.parentNode.insertBefore(n, rightNode);
+				rightNode = textElem.splitText(offset);
+				textElem.parentNode.insertBefore(elem, rightNode);
 			}
 			/// insert in the end (no need to split the node)
 			if (offset === len){
-				rightNode = textNode.nextSibling;
+				rightNode = textElem.nextSibling;
 				if (rightNode){
-					textNode.parentNode.insertBefore(n, rightNode);
+					textElem.parentNode.insertBefore(elem, rightNode);
 				} else {
-					textNode.parentNode.appendChild(n);
+					textElem.parentNode.appendChild(elem);
 				}
 			}
 		}
