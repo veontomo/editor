@@ -4839,45 +4839,6 @@ describe('Class "Document"', function() {
 
     });
 
-    describe('has a method "loadIntoElement" that', function(){
-        it('makes the argument have target\'s attributes if initially it has no attributes', function(){
-            var el = document.createElement('span');
-            var tag = new Tag('div');
-            tag.setProperty('class', 'best');
-            tag.setProperty('width', '321');
-            tag.setProperty('id', 'x');
-            tag.loadIntoElement(el);
-            expect(el.getAttribute('class')).toBe('best');
-            expect(el.getAttribute('width')).toBe('321');
-            expect(el.getAttribute('id')).toBe('x');
-        });
 
-        it('overrides element\'s attributes by the target ones', function(){
-            var el = document.createElement('span');
-            el.setAttribute('class', 'original class');
-            el.setAttribute('id', 'spanId');
-
-            var tag = new Tag('div');
-            tag.setProperty('class', 'best');
-            tag.setProperty('id', 'x');
-
-            tag.loadIntoElement(el);
-            expect(el.getAttribute('class')).toBe('best');
-            expect(el.getAttribute('id')).toBe('x');
-        });
-
-        it('does not set attributes if the argument is a text node', function(){
-            var el = document.createTextNode('this is a text node');
-
-            var tag = new Tag('div');
-            tag.setProperty('class', 'best');
-            tag.setProperty('id', 'x');
-
-            tag.loadIntoElement(el);
-            expect(el instanceof Text).toBe(true);
-        });
-
-
-    });
 
 });

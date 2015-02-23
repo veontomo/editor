@@ -789,12 +789,13 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.loadIntoElement = function(el){
-		/// !!! stub
 		var attrs = this.getProperties().getCore();
+		console.log(attrs);
 		var key, value;
 		for(key in attrs){
 			if (attrs.hasOwnProperty(key)){
 				value = attrs[key];
+				console.log(value);
 				if (value && (typeof value.toString === 'function')){
 					value = value.toString();
 				}
