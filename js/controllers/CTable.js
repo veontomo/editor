@@ -61,7 +61,7 @@ function CTable(){
 		tableInfo.width = this.parentWidth(editor);
 		var table = new Table();
 		try {
-			table.configure(this.dialogToTemplate(tableInfo), rowMarker);
+			table.loadFromTemplate(this.dialogToTemplate(tableInfo), rowMarker);
 		} catch(e){
 			console.log(e);
 		}
