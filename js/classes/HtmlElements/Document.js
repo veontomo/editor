@@ -3138,8 +3138,5 @@ function Document(node){
 		console.log(table, pos);
 	};
 
-	this.insertOrModify = function(content, inflatedElement, extra){
-
-	};
 
 }

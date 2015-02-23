@@ -780,6 +780,34 @@ function Tag(tName) {
 	};
 
 	/**
+	 * Tries to transfer properties of the target onto `el`.
+	 *
+	 * NB: after execution, it is most probably that `el` undergo modification.
+	 * @method         loadIntoElement
+	 * @param          {Element}       el
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.loadIntoElement = function(el){
+		/// !!! stub
+		var attrs = this.getProperties().getCore();
+		var key, value;
+		for(key in attrs){
+			if (attrs.hasOwnProperty(key)){
+				value = attrs[key];
+				if (value && (typeof value.toString === 'function')){
+					value = value.toString();
+				}
+				try {
+					el.setAttribute(key, value);
+				} catch (e){
+					console.log(e.name + ' occurred when loading properties on the element: ' + e.message);
+				}
+			}
+		}
+	};
+
+	/**
 	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.
 	 * Calls methods {{#crossLink "Attributes/decorateElement:method"}}Attributes::decorateElement(){{/crossLink}} to apply attributes,
 	 * {{#crossLink "Style/decorateElement:method"}}Style::decorateElement(){{/crossLink}} to apply styles and
