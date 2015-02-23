@@ -1177,15 +1177,15 @@ function Table() {
 	 * Configures current {{#crossLink "Table"}}Table{{/crossLink}} instance
 	 * using information provided by `template` object.
 	 * `template` object is of format described in {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
-	 * @method         configure
+	 * @method         loadFromTemplate
 	 * @param          {Object}        template           json object chracterizing parameters of the table instance
 	 * @param          {Function}      fun             [optional] function to be passed to
 	 *                                                 {{#crossLink "Table/makeShape:property"}}makeShape{{/crossLink}}
 	 *                                                 method.
 	 * @return         {Table}
-	 * @since          0.0.6
+	 * @since          0.2.1
 	 */
-	this.configure = function(template, fun){
+	this.loadFromTemplate = function(template, fun){
 		this.mark(NEWSLETTER['marker-name']);
 		if (typeof fun === 'function'){
 			this.makeShape(template.rows, template.cols, fun);
@@ -1660,21 +1660,20 @@ function Table() {
 	/**
 	 * Sets table attributes from template `tmpl`.
 	 *
-	 * @method         loadFromTemplate
+	 * @method         loadFromTemplate__old
 	 * @param          {Object}     tmpl
 	 * @return         {void}
 	 * @since          0.1.0
 	 * @abstract
 	 */
-	this.loadFromTemplate = function(tmpl){
-		this.setBorder({
-			width: tmpl.tableBorderWidth.toString(),
-			color: tmpl.tableBorderColor,
-			style: 'solid'
-		});
-	};
-
-
+	// this.loadFromTemplate = function(tmpl){
+		// this.setBorder({
+		// 	width: tmpl.tableBorderWidth.toString(),
+		// 	color: tmpl.tableBorderColor,
+		// 	style: 'solid'
+		// });
+		// this.configure(tmpl);
+	// };
 
 }
 Table.prototype = Object.create(Tag.prototype);
