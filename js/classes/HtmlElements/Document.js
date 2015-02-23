@@ -2292,27 +2292,23 @@ function Document(node){
 	};
 
 	/**
-	 * Settle element `el` as a child of `parent` at position `index`.
+	 * Sets width of element `el` in case it is inserted as a child of `parent`.
 	 *
 	 * The method tries to calculate a width that can be assigned to `elem` based on width
 	 * of its ascendants.
-	 *
-	 * If `parent` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then
-	 * it is splitted in two pieces at position `index` and the requested element is inserted between
-	 * them. (it is yet to decide how to manage element's width).
-	 *
-	 * @method         settleElement
+	 * @method         adjustWidth
 	 * @param          {Element}       el     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                        instance to be inserted
 	 * @param          {Element}       parent [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                        instance to accomodate the above element
-	 * @param          {Integer}       index  position where the element should be inserted
-	 * @return         {Element}              reference to the newly inserted element
+	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.settleElement = function(el, parent, index){
-		/// !!! stub
-		console.log('settling element', el, parent, index);
+	this.adjustWidth = function(el, parent){
+		var mentor = this.getMentor('width', parent);
+		if (mentor){
+			el.style.width = mentor.style.width;
+		}
 	};
 
 	/**

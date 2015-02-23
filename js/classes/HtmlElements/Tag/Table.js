@@ -1178,7 +1178,7 @@ function Table() {
 	 * using information provided by `template` object.
 	 * `template` object is of format described in {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
 	 * @method         loadFromTemplate
-	 * @param          {Object}        template           json object chracterizing parameters of the table instance
+	 * @param          {Object}        template        json object chracterizing parameters of the table instance
 	 * @param          {Function}      fun             [optional] function to be passed to
 	 *                                                 {{#crossLink "Table/makeShape:property"}}makeShape{{/crossLink}}
 	 *                                                 method.

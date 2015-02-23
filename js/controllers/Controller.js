@@ -550,7 +550,6 @@ function Controller(){
 		try {
 			Model = this.getModel();
 			element = new Model();
-			console.log('--->', element, element instanceof Table);
 			element.loadFromTemplate(template);
 		} catch(e){
 			console.log(e.name + ' occurred when controller was creating an element from template: ' + e.message);
