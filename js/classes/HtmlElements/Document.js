@@ -2275,6 +2275,47 @@ function Document(node){
 	};
 
 	/**
+	 * Updates `node` according to `template`.
+	 *
+	 * `node`'s properties that are present in `template` get updated, while the others remain
+	 * unchanged.
+	 * @method         updateNode
+	 * @param          {Node}           node         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
+	 *                                               instance in which `n` is to be inserted
+	 * @param          {Object}         template
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.updateNode = function(node, template){
+		/// !!! stub
+		console.log('updating ', node, 'by template', template);
+	};
+
+	/**
+	 * Settle element `el` as a child of `parent` at position `index`.
+	 *
+	 * The method tries to calculate a width that can be assigned to `elem` based on width
+	 * of its ascendants.
+	 *
+	 * If `parent` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance, then
+	 * it is splitted in two pieces at position `index` and the requested element is inserted between
+	 * them. (it is yet to decide how to manage element's width).
+	 *
+	 * @method         settleElement
+	 * @param          {Element}       el     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                        instance to be inserted
+	 * @param          {Element}       parent [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 *                                        instance to accomodate the above element
+	 * @param          {Integer}       index  position where the element should be inserted
+	 * @return         {Element}              reference to the newly inserted element
+	 * @since          0.2.1
+	 */
+	this.settleElement = function(el, parent, index){
+		/// !!! stub
+		console.log('settling element', el, parent, index);
+	};
+
+	/**
 	 * Inserts node `n` as a child of `hostNode` at the position `offset`.
 	 * @method         insertChild
 	 * @param          {Element}       hostNode

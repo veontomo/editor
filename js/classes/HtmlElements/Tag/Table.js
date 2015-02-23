@@ -1186,6 +1186,7 @@ function Table() {
 	 * @since          0.2.1
 	 */
 	this.loadFromTemplate = function(template, fun){
+		console.log('template for inflating table: ', template);
 		this.mark(NEWSLETTER['marker-name']);
 		if (typeof fun === 'function'){
 			this.makeShape(template.rows, template.cols, fun);

@@ -250,36 +250,26 @@ function CTable(){
 	 * @method        onOk
 	 * @param         {Object}         dialog    editor-specific representation of dialog window
 	 * @param         {Object}         editor
-	 * @param         {Element}        extra     [Optional] [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * @param         {Element}        seedTable [Optional] [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                           instance that has been passed to the dialog in case when the dialog
 	 *                                           corresponds to modification of existing table.
 	 * @return        {void}
 	 * @since         0.2.0
 	 */
-	this.onOk = function(dialog, editor, extra){
+	this.onOk = function(dialog, editor, seedTable){
 		var adapter, content, dialogData, template,
 			inflatedElement, doc, cursorPos, elem;
 		try {
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
-			dialogData = adapter.getDialogData(dialog, ['text', 'checkox']);
+			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
 			template = adapter.dialogToTemplate(dialogData, 'table');
 			doc = this.getWorker();
-			inflatedElement = this.createFromTemplate(template);
-			if (!inflatedElement){
-				return;
-			}
-			elem = inflatedElement.toNode();
-			if (!elem){
-				return;
-			}
-			if (extra){
-				doc.modify(extra, elem);
+			if (seedTable){
+				doc.updateNode(seedTable, template);
 			} else {
-				cursorPos = adapter.getCursorPosition(editor);
-				if (cursorPos){
-					doc.insertAt(cursorPos.startContainer, elem, cursorPos.startOffset);
-				}
+				inflatedElement = this.createFromTemplate(template);
+				doc.settleElement(inflatedElement, cursorPos.startContainer, cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
 		} catch(e){
