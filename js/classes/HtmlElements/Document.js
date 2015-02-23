@@ -2266,10 +2266,8 @@ function Document(node){
 	 */
 	this.insertAt = function(host, n, offset){
 		if (host instanceof Text){
-			console.log('inserting into a text');
 			this.insertIntoText(host, n, offset);
 		} else {
-			console.log('inserting into a non-text');
 			this.insertChild(host, n, offset);
 		}
 	};

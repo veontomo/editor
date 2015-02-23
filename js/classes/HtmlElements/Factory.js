@@ -83,9 +83,7 @@ function Factory(map){
 		// var rnd = parseInt(Math.random()*1000);
 		// console.info(rnd, 'Factory::mimic argument = ', obj);
 		var stub = this.stub(obj);
-		console.log('Factory mimic: stub = ', stub);
 		if (stub && typeof stub.loadFromElement === 'function'){
-			console.log('stub.loadFromElement = ', typeof stub.loadFromElement === 'function');
 			stub.loadFromElement(obj);
 		}
 		// console.info(rnd, 'Factory::mimic argument = ', obj);

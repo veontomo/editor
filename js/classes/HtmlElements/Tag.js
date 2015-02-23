@@ -755,7 +755,6 @@ function Tag(tName) {
 	 * @return     {Boolean}
 	 */
 	this.loadFromElement = function(elem){
-		console.info(this.getName(), elem, ' is element? ' + (elem instanceof Element));
 		var propNew,
 			propSucc = false,
 			contentSucc = false,
@@ -775,7 +774,6 @@ function Tag(tName) {
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
-			console.log('loadFromElement childrenArr', childrenArr);
 			contentSucc = _content.load(childrenArr);
 		}
 		return propSucc && contentSucc;
