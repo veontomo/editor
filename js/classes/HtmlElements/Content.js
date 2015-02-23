@@ -66,7 +66,9 @@ function Content(str) {
 	 * @return         {void}
 	 */
 	this.setElements = function(items){
+		console.log('Content setElements', items);
 		if (Array.isArray(items)){
+			console.log('setting Content elements')
 			_elements = items;
 		}
 	};
@@ -384,13 +386,19 @@ function Content(str) {
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
+		console.log('Content::load with argument ', arr);
 		if (Array.isArray(arr) && NEWSLETTER.factory){
 			var factory = NEWSLETTER.factory,
 			   	items = [];
+			console.log('cicle foreach ');
+			var len = arr.length;
 			arr.forEach(function(el){
+				console.log('element:', el);
 				var baby = factory.mimic(el);
+				console.log('baby:', baby);
 				items.push(baby);
 			});
+			console.log('cycle foreach is done, items = ', items);
 			this.setElements(items);
 			return true;
 		}

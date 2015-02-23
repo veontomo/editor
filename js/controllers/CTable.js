@@ -269,7 +269,14 @@ function CTable(){
 				doc.updateNode(seedTable, template);
 			} else {
 				inflatedElement = this.createFromTemplate(template);
-				doc.settleElement(inflatedElement, cursorPos.startContainer, cursorPos.startOffset);
+				cursorPos = adapter.getCursorPosition(editor);
+				var el = inflatedElement.toNode();
+				var parent = cursorPos.startContainer;
+				if(!doc.adjustWidth(el, parent)){
+					inflatedElement.setWidth(NEWSLETTER.defaultWidth);
+					el = inflatedElement.toNode();
+				}
+				doc.insertAt(parent, el, cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
 		} catch(e){

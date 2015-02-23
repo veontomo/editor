@@ -2301,14 +2301,18 @@ function Document(node){
 	 *                                        instance to be inserted
 	 * @param          {Element}       parent [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                        instance to accomodate the above element
-	 * @return         {void}
+	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
 	this.adjustWidth = function(el, parent){
-		var mentor = this.getMentor('width', parent);
-		if (mentor){
-			el.style.width = mentor.style.width;
+		var mentor = this.getMentor('width', parent),
+			width;
+		if (!mentor){
+			return false;
 		}
+		width = mentor.style.width;
+		el.style.width = width;
+		return el.style.width === width;
 	};
 
 	/**

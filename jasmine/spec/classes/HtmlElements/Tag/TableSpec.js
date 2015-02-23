@@ -1763,7 +1763,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('loads empty table', function(){
-            table.load(t00);
+            table.loadFromElement(t00);
             expect(table.length()).toBe(0);
             expect(table.getProperty('class')).toBe('highest');
             expect(table.getStyleProperty('width')).toBe('80%');
@@ -1771,7 +1771,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('loads a table with single row and no cells', function(){
-            table.load(t10);
+            table.loadFromElement(t10);
             expect(table.rowNum()).toBe(1);
             var row = table.getBody()[0];
             expect(row instanceof Row).toBe(true);
@@ -1781,7 +1781,7 @@ describe('Table-related functionality:', function(){
         });
 
         it('loads a table with single row and three cells', function(){
-            table.load(t13);
+            table.loadFromElement(t13);
             expect(table.rowNum()).toBe(1);
             expect(table.colNum()).toBe(3);
             var row = table.getRow(0);
@@ -1791,6 +1791,8 @@ describe('Table-related functionality:', function(){
             expect(row.getElem(0) instanceof Cell).toBe(true);
             expect(row.getElem(1) instanceof Cell).toBe(true);
             expect(row.getElem(2) instanceof Cell).toBe(true);
+            console.log('original: ' + t13.outerHTML);
+            console.log('result: ' + table.toHtml());
 
             expect(row.getElem(0).getFirst().toHtml()).toBe('cell 1.1');
             expect(row.getElem(1).getFirst().toHtml()).toBe('cell 1.2');
@@ -1800,7 +1802,7 @@ describe('Table-related functionality:', function(){
         it('loads table header', function(){
             var thead = t13.getElementsByTagName('thead')[0];
             thead.appendChild(document.createTextNode('table header'));
-            table.load(t13);
+            table.loadFromElement(t13);
             expect(table.getHeader().length()).toBe(1);
             expect(table.getHeader().getFirst().toHtml()).toBe('table header');
         });
@@ -1808,13 +1810,13 @@ describe('Table-related functionality:', function(){
         it('loads table footer', function(){
             var tfoot = t13.getElementsByTagName('tfoot')[0];
             tfoot.appendChild(document.createTextNode('table footer'));
-            table.load(t13);
+            table.loadFromElement(t13);
             expect(table.getFooter().length()).toBe(1);
             expect(table.getFooter().getFirst().toHtml()).toBe('table footer');
         });
 
         it('loads table caption', function(){
-            table.load(t10);
+            table.loadFromElement(t10);
             expect(table.getCaption().length()).toBe(1);
             expect(table.getCaption().getFirst().toHtml()).toBe('table caption');
         });

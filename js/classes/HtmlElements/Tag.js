@@ -750,11 +750,12 @@ function Tag(tName) {
 	 * the argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,
 	 * `false` is returned.<br />
 	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
-	 * @method     load
+	 * @method     loadFromElement
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
 	 * @return     {Boolean}
 	 */
-	this.load = function(elem){
+	this.loadFromElement = function(elem){
+		console.info(this.getName(), elem, ' is element? ' + (elem instanceof Element));
 		var propNew,
 			propSucc = false,
 			contentSucc = false,
@@ -764,7 +765,7 @@ function Tag(tName) {
 			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
 			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
-			attr  = elem.attributes;
+			attr = elem.attributes;
 			if (attr){
 				propNew = this.getProperties();
 				propSucc = propNew.load(attr);
@@ -774,6 +775,7 @@ function Tag(tName) {
 				currentChild = children.item(i);
 				childrenArr.push(currentChild);
 			}
+			console.log('loadFromElement childrenArr', childrenArr);
 			contentSucc = _content.load(childrenArr);
 		}
 		return propSucc && contentSucc;

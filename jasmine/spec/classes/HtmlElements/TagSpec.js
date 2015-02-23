@@ -873,7 +873,7 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'load');
             spyOn(tagProps, 'load');
             // spyOn(tagStyle, 'load');
-            tag.load();
+            tag.loadFromElement();
             expect(content.load).not.toHaveBeenCalled();
             expect(tagProps.load).not.toHaveBeenCalled();
             // expect(tagStyle.load).not.toHaveBeenCalled();
@@ -883,7 +883,7 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'load');
             spyOn(tagProps, 'load');
             // spyOn(tagStyle, 'load');
-            expect(tag.load()).toBe(false);
+            expect(tag.loadFromElement()).toBe(false);
         });
 
 
@@ -891,7 +891,7 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'load');
             spyOn(tagProps, 'load');
             // spyOn(tagStyle, 'load');
-            tag.load(root);
+            tag.loadFromElement(root);
             expect(tag.getTag()).toBe('custom');
         });
 
@@ -900,7 +900,7 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'load');
             spyOn(tagProps, 'load');
             // spyOn(tagStyle, 'load');
-            tag.load({'nodeType': 'any non element node type'});
+            tag.loadFromElement({'nodeType': 'any non element node type'});
             expect(content.load).not.toHaveBeenCalled();
             expect(tagProps.load).not.toHaveBeenCalled();
             // expect(tagStyle.load).not.toHaveBeenCalled();
@@ -910,34 +910,34 @@ describe('Tag-related functionality', function() {
             spyOn(content, 'load').and.returnValue(true);
             spyOn(tagProps, 'load').and.returnValue(true);
             // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.load(e0)).toBe(true);
+            expect(tag.loadFromElement(e0)).toBe(true);
         });
 
         it('returns "false", if all "load" methods return "false"', function(){
             spyOn(content, 'load').and.returnValue(false);
             spyOn(tagProps, 'load').and.returnValue(false);
             // spyOn(tagStyle, 'load').and.returnValue(false);
-            expect(tag.load(e0)).toBe(false);
+            expect(tag.loadFromElement(e0)).toBe(false);
         });
 
         it('returns "false", if "content.load" method return "false", and the others - "true"', function(){
             spyOn(content, 'load').and.returnValue(false);
             spyOn(tagProps, 'load').and.returnValue(true);
             // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.load(t1)).toBe(false);
+            expect(tag.loadFromElement(t1)).toBe(false);
         });
         it('returns "false", if "attr.load" method return "false", and the others - "true"', function(){
             spyOn(content, 'load').and.returnValue(true);
             spyOn(tagProps, 'load').and.returnValue(false);
             // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.load(e2)).toBe(false);
+            expect(tag.loadFromElement(e2)).toBe(false);
         });
 
         it('calls method to set attributes', function(){
             spyOn(content, 'load');
             spyOn(tagProps, 'load');
             // spyOn(tagStyle, 'load');
-            tag.load(root);
+            tag.loadFromElement(root);
             expect(tagProps.load).toHaveBeenCalledWith(root.attributes);
         });
 

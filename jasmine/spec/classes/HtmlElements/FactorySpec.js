@@ -73,13 +73,13 @@ describe('Factory-related functionality', function(){
                 expect(f.stub).toHaveBeenCalledWith('an element');
             });
             it('calls "load" method of "stub" output, if it exists', function(){
-                function Target(){this.load = function(){return null;};}
+                function Target(){this.loadFromElement = function(){return null;};}
                 var target = new Target();
-                spyOn(target, 'load');
+                spyOn(target, 'loadFromElement');
                 spyOn(f, 'stub').and.returnValue(target);
                 f.mimic('an element');
                 expect(f.stub).toHaveBeenCalledWith('an element');
-                expect(target.load).toHaveBeenCalledWith('an element');
+                expect(target.loadFromElement).toHaveBeenCalledWith('an element');
             });
             it('returns output of "stub" method if it has no "load" method', function(){
                 function Target(){}

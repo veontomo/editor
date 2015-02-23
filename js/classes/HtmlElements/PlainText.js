@@ -105,11 +105,11 @@ function PlainText(text) {
 	 * a [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) or a string. In this case
 	 * {{#crossLink "Text/content:property"}}content{{/crossLink}} is set to the string content of the argument.
 	 * Otherwise, `false` is returned.
-	 * @method  load
-	 * @param {DOM.TEXT|String} elem
-	 * @return  {Boolean}
+	 * @method         loadFromElement
+	 * @param          {DOM.TEXT|String}    elem
+	 * @return         {Boolean}
 	 */
-	this.load = function(elem){
+	this.loadFromElement = function(elem){
 		if (elem === undefined || elem === null){
 			return false;
 		}
