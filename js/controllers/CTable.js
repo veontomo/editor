@@ -274,11 +274,11 @@ function CTable(){
 				return;
 			}
 			if (extra){
-				doc.modify(extra, inflatedElement.toNode());
+				doc.modify(extra, elem);
 			} else {
 				cursorPos = adapter.getCursorPosition(editor);
 				if (cursorPos){
-					doc.insertAt(cursorPos.startContainer, inflatedElement.toNode(), cursorPos.startOffset);
+					doc.insertAt(cursorPos.startContainer, elem, cursorPos.startOffset);
 				}
 			}
 			adapter.setEditorContent(editor, content);
