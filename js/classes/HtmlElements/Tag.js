@@ -1079,6 +1079,42 @@ function Tag(tName) {
 	};
 
 
+	/**
+	 * Extracts template that corresponds to the outer element that this instance represents.
+	 *
+	 * Usually, elements have nested elements (i.e. tables contain rows, rows contain cells, lists contain list items).
+	 * When loading properties form a template, an element needs to know its own properties while those that refer to
+	 * the nested element should be taken into consideration when those elements are to be constructed.
+	 *
+	 * {{#crossLink "Tag"}}Tag{{/crossLink}} subclasses (like {{#crossLink "Table"}}Table{{/crossLink}},
+	 * {{#crossLink "OList"}}OList{{/crossLink}} etc.) should implement this method according to their needs.
+	 * Current implementations of this method and its counterpart method
+	 * {{#crossLink "Tag/extractInnerTemplate:method"}}extractInnerTemplate{{/crossLink}} are trivial: the first returns the
+	 * argument and the second returns empty object.
+	 * @method         extractOuterTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractOuterTemplate = function(template){
+		console.log('Tag method extractOuterTemplate() is called with', template);
+		return template;
+	};
+
+	/**
+	 * Extracts template that corresponds to the table rows and cells.
+	 * @method         extractInnerTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractInnerTemplate = function(template){
+		console.log('Tag method extractInnerTemplate() is called with', template);
+		return {};
+	};
+
+
+
 }
 
 /**

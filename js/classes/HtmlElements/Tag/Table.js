@@ -1205,7 +1205,7 @@ function Table() {
 
 
 	/**
-	 * Extracts template that correspond to the table and ignores information that refers
+	 * Extracts template that corresponds to the table and ignores information that refers
 	 * to the rows and cells.
 	 * @method         extractOuterTemplate
 	 * @param          {Object}        template
@@ -1218,7 +1218,7 @@ function Table() {
 	};
 
 	/**
-	 * Extracts template that correspond to the table rows and cells.
+	 * Extracts template that corresponds to the table rows and cells.
 	 * @method         extractInnerTemplate
 	 * @param          {Object}        template
 	 * @return         {Object}
