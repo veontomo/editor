@@ -3,11 +3,11 @@
 /*global DOMParser, Node, Attributes, Content, Styles, window, Helper, Properties */
 
 /**
- * This class is used to represent a general html tag.
+ * This class is used to represent a general html _tag.
  * @module 	    HtmlElements
  * @class  		Tag
  * @constructor
- * @param      {String}        tName           html tag corresponding to the class.
+ * @param      {String}        tName           html _tag corresponding to the class.
  * @since       0.0.3
  * @author      A.Shcherbakov
  *
@@ -19,18 +19,18 @@ function Tag(tName) {
 	}
 
 	/**
-	 * Html tag corresponding to this class.
-	 * @property       {String}             tag
+	 * Html _tag corresponding to this class.
+	 * @property       {String}             _tag
 	 * @default        null
 	 * @private
 	 * @since          0.0.1
 	 */
-	var tag = tName || null;
+	var _tag = tName || null;
 
 	/**
 	 * Name of the current class.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `tag` property that returns "Tag", while in IE, there
-	 * is no `tag` property.
+	 * in FF, `this.constructor` has `_tag` property that returns "Tag", while in IE, there
+	 * is no `_tag` property.
 	 * Every class that inherits from this one, should override this property.
 	 * @property       {String}    className
 	 * @type           {String}
@@ -42,18 +42,18 @@ function Tag(tName) {
 	var className = 'Tag';
 
 	/**
-	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} getter.
+	 * {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} getter.
 	 * @method         getTag
 	 * @return         {String}
 	 * @since          0.0.1
 	 */
 	this.getTag = function(){
-		return tag;
+		return _tag;
 	};
 
 
 	/**
-	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} setter. If the argument is
+	 * {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} setter. If the argument is
 	 * a string or a number, then if necessary, converts it into a string and performs
 	 * assignment. If the argument is of any other type, no assignment occures.
 	 * @method          setTag
@@ -66,15 +66,15 @@ function Tag(tName) {
 		if (name !== undefined){
 			var nameType = typeof name;
 			if (nameType === 'string'){
-				tag = name;
+				_tag = name;
 			} else if (nameType === 'number'){
-				tag = name.toString();
+				_tag = name.toString();
 			}
 		}
 	};
 
 	/**
-	 * Represents all properties of the tag. Previously, it was split into Attributes and Styles.
+	 * Represents all properties of the instance. Previously, it was split into Attributes and Styles.
 	 * @private
 	 * @property       {Properties}         _properties
 	 * @type           {Properties}
@@ -84,7 +84,7 @@ function Tag(tName) {
 	var _properties = new Properties();
 
 	/**
-	 * Content of the tag.
+	 * Content of the instance.
 	 * @property       {Content}            _content
 	 * @type           {Content}
 	 * @default        Content()
@@ -167,7 +167,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Sets {{#crossLink "Tag/_properties:property"}}properties{{/crossLink}} of the tag. If the argument is an instance
+	 * Sets {{#crossLink "Tag/_properties:property"}}properties{{/crossLink}} of the instance. If the argument is an instance
 	 * of {{#crossLink "Properties"}}Properties{{/crossLink}}, its clone is assigned to private variable
 	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}, otherwise the argument is passed to the
 	 * {{#crossLink "Properties"}}Properties{{/crossLink}} constructor and newly created instance is assigned to
@@ -623,7 +623,7 @@ function Tag(tName) {
 
 
 	/**
-	 * If {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} is a non-empty string, then it is
+	 * If {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} is a non-empty string, then it is
 	 * returned a string with which html representaion of current instance starts,
 	 * i.e.: `<div class="media" style="color: red; width: 73%">`.
 	 * @method         openingTag
@@ -643,7 +643,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns html closing tag, i.e. `</span>`.
+	 * Returns html closing _tag, i.e. `</span>`.
 	 * @method         closingTag
 	 * @return         {String}
 	 */
@@ -656,7 +656,7 @@ function Tag(tName) {
 
 	/**
 	 * Gives html representation of the instance.
-	 * If {{#crossLink "Tag/tag:property"}}tag{{/crossLink}} is not a non-empty string, just html comment is generated.
+	 * If {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} is not a non-empty string, just html comment is generated.
 	 * @method         toHtml
 	 * @return         {String}
 	 * @since          0.0.1
@@ -676,7 +676,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Generates plain text representation of the tag _content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
+	 * Generates plain text representation of the _tag _content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
 	 * @method         toText
 	 * @return         {String}
 	 * @since          0.0.1
@@ -686,8 +686,8 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns true, if the tag is empty. Returns false otherwise.<br />
-	 * The tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * Returns true, if the _tag is empty. Returns false otherwise.<br />
+	 * The _tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
 	 * and {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and {{#crossLink "Content"}}_content{{/crossLink}} returns true.
 	 * @method         isEmpty
 	 * @return         {Boolean}
@@ -772,7 +772,7 @@ function Tag(tName) {
 	/**
 	 * Populates the following properties of the target object
 	 * <ol><li>
-	 * {{#crossLink "Tag/tag:property"}}tag{{/crossLink}}
+	 * {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}}
 	 * </li><li>
 	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by calling
 	 * {{#crossLink "Properties/load:method"}}load(){{/crossLink}} method.
@@ -784,7 +784,7 @@ function Tag(tName) {
 	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if
 	 * the argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,
 	 * `false` is returned.<br />
-	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
+	 * NB: DOM.Element.attributes has the form `{1: {_tag: "width", value:"100", ...}, 2: {_tag: "color", value:"black", ...}, ...}`
 	 * @method     loadFromElement
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
 	 * @return     {Boolean}
@@ -798,7 +798,7 @@ function Tag(tName) {
 		if (elem instanceof Element){
 			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
-			this.setTag(elem.tagName.toLowerCase());         // setting tag of the tag
+			this.setTag(elem.tagName.toLowerCase());         // setting _tag of the _tag
 			attr = elem.attributes;
 			if (attr){
 				propNew = this.getProperties();
@@ -966,7 +966,7 @@ function Tag(tName) {
 	/**
 	 * Sets style key `name` of children which indexes are in array `range` to be equal to `value`.
 	 *
-	 * Example: <code>tag.setStylePropertyOfRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
+	 * Example: <code>_tag.setStylePropertyOfRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
 	 * property `margin` to be `10px` for children which indexes are 1, 4, 6, or 7.
 	 * @method         setStylePropertyOfRange
 	 * @param          {String}        key            style key
