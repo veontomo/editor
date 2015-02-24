@@ -1185,7 +1185,7 @@ function Table() {
 	 * @return         {Table}
 	 * @since          0.2.1
 	 */
-	this.loadFromTemplate = function(template, fun){
+	this.loadFromTemplate_old = function(template, fun){
 		console.log('template for inflating table: ', template);
 		this.mark(NEWSLETTER['marker-name']);
 		if (typeof fun === 'function'){
@@ -1196,6 +1196,37 @@ function Table() {
 		this.markRows(NEWSLETTER['marker-name']);
 		// this.markCells(NEWSLETTER['marker-name']);
 		this.configureProperties(template);
+	};
+
+
+	this.loadFromTemplate = function(template, fun){
+		var tableTemplate = this.extractOuterTemplate(template);
+	};
+
+
+	/**
+	 * Extracts template that correspond to the table and ignores information that refers
+	 * to the rows and cells.
+	 * @method         extractOuterTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractOuterTemplate = function(template){
+		/// !!!stub
+		return template;
+	};
+
+	/**
+	 * Extracts template that correspond to the table rows and cells.
+	 * @method         extractInnerTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractInnerTemplate = function(template){
+		/// !!!stub
+		return template;
 	};
 
 	/**
