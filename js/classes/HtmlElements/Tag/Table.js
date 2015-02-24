@@ -1200,7 +1200,32 @@ function Table() {
 
 
 	this.loadFromTemplate = function(template, fun){
-		var tableTemplate = this.extractOuterTemplate(template);
+		var tableTemplate = this.extractOuterTemplate(template),
+			rowTemplate = this.extractInnerTemplate(template),
+			rowNum = template.rows || 1,
+			row = new Row(),
+			rowCopy,
+			i;
+		this.loadTableTemplate(tableTemplate);
+		row.loadFromTemplate(rowTemplate);
+		this.appendRow(row);
+
+		for(i = 1; i < rowNum; i++){
+			rowCopy = row.clone();
+			this.appendRow(row);
+		}
+
+	};
+
+	/**
+	 * Loads outer table properties like table width, table border.
+	 * @method         loadOuterTableTemplate
+	 * @param          {Object}        template        json object chracterizing outer parameters of the table instance
+	 * @return         {void}
+	 */
+	this.loadOuterTableTemplate = function(template){
+		/// !!! stub
+		console.log('loading outer table properties:', template);
 	};
 
 
