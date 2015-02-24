@@ -258,7 +258,7 @@ function CTable(){
 	 */
 	this.onOk = function(dialog, editor, seedTable){
 		var adapter, content, dialogData, template,
-			inflatedElement, doc, cursorPos, elem;
+			inflatedElement, doc, cursorPos, hostElement;
 		try {
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
@@ -268,15 +268,11 @@ function CTable(){
 			if (seedTable){
 				doc.updateNode(seedTable, template);
 			} else {
-				inflatedElement = this.createFromTemplate(template);
 				cursorPos = adapter.getCursorPosition(editor);
-				var el = inflatedElement.toNode();
-				var parent = cursorPos.startContainer;
-				if(!doc.adjustWidth(el, parent)){
-					inflatedElement.setWidth(NEWSLETTER.defaultWidth);
-					el = inflatedElement.toNode();
-				}
-				doc.insertAt(parent, el, cursorPos.startOffset);
+				hostElement = cursorPos.startContainer;
+				template.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
+				inflatedElement = this.createFromTemplate(template);
+				doc.insertAt(hostElement, inflatedElement.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
 		} catch(e){

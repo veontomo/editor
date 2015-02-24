@@ -4813,28 +4813,27 @@ describe('Class "Document"', function() {
         });
     });
 
-    describe('has a method "adjustWidth" that', function() {
-        var el;
-        beforeEach(function() {
-            el = document.createElement('div');
-        });
-        it('sets width to be equal to that of parent element', function() {
+    describe('has a method "getAvailableWidth" that', function() {
+        it('returns 300px if the argument has width 300px', function() {
             dom1_p0.style.width = '300px';
-            doc.adjustWidth(el, dom1_p0);
-            expect(el.style.width).toBe('300px');
+            expect(doc.getAvailableWidth(dom1_p0)).toBe('300px');
         });
+
+        it('returns 150px if the argument has no width set, but one of its ancestor has width 150px', function() {
+            dom1_p0.style.width = '300px';
+            expect(doc.getAvailableWidth(dom1_p0)).toBe('300px');
+        });
+
 
         it('sets width to be equal to that of second ancestor if the parent has it not set', function() {
-            dom1_p0.style.width = '300px';
-            doc.adjustWidth(el, dom1_p0);
-            expect(el.style.width).toBe('300px');
+            dom1_div1.style.width = '150px';
+            expect(doc.getAvailableWidth(dom1_li3)).toBe('150px');
         });
 
-        it('does not change the width if the mentor is not found', function(){
-            el.style.width = '1234px';
-            spyOn(doc, 'getMentor');
-            doc.adjustWidth(el, dom1_p0);
-            expect(el.style.width).toBe('1234px');
+        it('returns nothing if none of the argument ancestor has width parameter set', function(){
+            dom1_p0.removeAttribute('width');
+            dom1_p0.removeAttribute('style');
+            expect(doc.getAvailableWidth(dom1_li2)).not.toBeDefined();
         });
 
     });

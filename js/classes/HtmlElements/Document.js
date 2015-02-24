@@ -2290,27 +2290,25 @@ function Document(node){
 	};
 
 	/**
-	 * Sets width of element `el` in case it is inserted as a child of `parent`.
+	 * Returns available width for an element in case it is inserted as a child of `el`.
 	 *
-	 * The method tries to calculate a width that can be assigned to `elem` based on width
-	 * of its ascendants.
-	 * @method         adjustWidth
+	 * The method tries to calculate a width that can be assigned to an element based on width
+	 * of `el` or its ascendants.
+	 *
+	 * If niether `el` nor its ascendant have width style property set, then nothing is returned.
+	 *
+	 * @method         getAvailableWidth
 	 * @param          {Element}       el     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                        instance to be inserted
-	 * @param          {Element}       parent [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 *                                        instance to accomodate the above element
-	 * @return         {Boolean}
+	 * @return         {String|Number|void}
 	 * @since          0.2.1
 	 */
-	this.adjustWidth = function(el, parent){
-		var mentor = this.getMentor('width', parent),
-			width;
-		if (!mentor){
-			return false;
+	this.getAvailableWidth = function(el){
+		var propName = 'width',
+			mentor = this.getMentor(propName, el);
+		if (mentor){
+			return mentor.style[propName];
 		}
-		width = mentor.style.width;
-		el.style.width = width;
-		return el.style.width === width;
 	};
 
 	/**
