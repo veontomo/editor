@@ -3,13 +3,13 @@
 /*global DOMParser, Node, Attributes, Content, Styles, window, Helper, Properties */
 
 /**
- * This class is used to represent a general html _tag.
- * @module 	    HtmlElements
- * @class  		Tag
+ * This class is used to represent a general html tag.
+ * @module 	           HtmlElements
+ * @class  		       Tag
  * @constructor
- * @param      {String}        tName           html _tag corresponding to the class.
- * @since       0.0.3
- * @author      A.Shcherbakov
+ * @param              {String}        tName           html tag corresponding to the class.
+ * @since              0.0.3
+ * @author             A.Shcherbakov
  *
  */
 function Tag(tName) {
@@ -19,7 +19,7 @@ function Tag(tName) {
 	}
 
 	/**
-	 * Html _tag corresponding to this class.
+	 * Html tag corresponding to element that an instance of this class represents.
 	 * @property       {String}             _tag
 	 * @default        null
 	 * @private
@@ -29,8 +29,8 @@ function Tag(tName) {
 
 	/**
 	 * Name of the current class.  This property is introduced for compatibility with IE: i.e.
-	 * in FF, `this.constructor` has `_tag` property that returns "Tag", while in IE, there
-	 * is no `_tag` property.
+	 * in FF, `this.constructor` has `tag` property that returns "Tag", while in IE, there
+	 * is no `tag` property.
 	 * Every class that inherits from this one, should override this property.
 	 * @property       {String}    className
 	 * @type           {String}
@@ -643,7 +643,7 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns html closing _tag, i.e. `</span>`.
+	 * Returns html closing tag, i.e. `</span>`.
 	 * @method         closingTag
 	 * @return         {String}
 	 */
@@ -676,7 +676,8 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Generates plain text representation of the _tag _content. Calls {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
+	 * Generates plain text representation of the tag _content. Calls
+	 * {{#crossLink "Content/toText:method"}}Content::toText(){{/crossLink}}.
 	 * @method         toText
 	 * @return         {String}
 	 * @since          0.0.1
@@ -686,8 +687,8 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Returns true, if the _tag is empty. Returns false otherwise.<br />
-	 * The _tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
+	 * Returns `true`, if the tag is empty. Returns `false` otherwise.<br />
+	 * The tag is considered empty if `isEmpty()` method for its {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
 	 * and {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and {{#crossLink "Content"}}_content{{/crossLink}} returns true.
 	 * @method         isEmpty
 	 * @return         {Boolean}
@@ -784,7 +785,7 @@ function Tag(tName) {
 	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if
 	 * the argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,
 	 * `false` is returned.<br />
-	 * NB: DOM.Element.attributes has the form `{1: {_tag: "width", value:"100", ...}, 2: {_tag: "color", value:"black", ...}, ...}`
+	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
 	 * @method     loadFromElement
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
 	 * @return     {Boolean}
@@ -798,7 +799,7 @@ function Tag(tName) {
 		if (elem instanceof Element){
 			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
 			len = children.length;
-			this.setTag(elem.tagName.toLowerCase());         // setting _tag of the _tag
+			this.setTag(elem.tagName.toLowerCase());         // setting tag
 			attr = elem.attributes;
 			if (attr){
 				propNew = this.getProperties();
@@ -966,7 +967,7 @@ function Tag(tName) {
 	/**
 	 * Sets style key `name` of children which indexes are in array `range` to be equal to `value`.
 	 *
-	 * Example: <code>_tag.setStylePropertyOfRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
+	 * Example: <code>tag.setStylePropertyOfRange('margin', '10px', [1, 4, 6, 7])</code> sets inline style
 	 * property `margin` to be `10px` for children which indexes are 1, 4, 6, or 7.
 	 * @method         setStylePropertyOfRange
 	 * @param          {String}        key            style key
