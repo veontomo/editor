@@ -93,8 +93,6 @@ function Tag(tName) {
 	 */
 	var _content = new Content();
 
-
-
 	/**
 	 * Marker name.
 	 *
@@ -107,6 +105,43 @@ function Tag(tName) {
 	 * @since          0.0.6
 	 */
 	var _marker = null;
+
+	/**
+	 * Reference to a class that performs operations with dimensionful units.
+	 *
+	 * This instance must implement the same methods that class {{#crossLink "Unit"}}Unit{{/crossLink}} has.
+	 * (if there were _interfaces_ in javascript, it would be possible to say that _unitWorker must implement
+	 * Unit interface).
+	 *
+	 * @property  {Object} _unitWorker
+	 * @private
+	 * @since  0.2.1
+	 */
+	var _unitWorker;
+
+
+	/**
+	 * {{#crossLink "Tag/_unitWorker:property"}}_unitWorker{{/crossLink}} setter.
+	 * @method         setUnitWorker
+	 * @param          {Unit}          worker    must implement {{#crossLink "Unit"}}Unit{{/crossLink}} interface
+	 * @since          0.2.1
+	 * @return         {void}
+	 */
+	this.setUnitWorker = function(worker){
+		if (worker){
+			_unitWorker = worker;
+		}
+	};
+
+	/**
+	 * {{#crossLink "Tag/_unitWorker:property"}}_unitWorker{{/crossLink}} getter.
+	 * @method         getUnitWorker
+	 * @return         {Unit}
+	 * @since          0.2.1
+	 */
+	this.getUnitWorker = function(){
+		return _unitWorker;
+	};
 
 	/**
 	 * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} getter.
@@ -1039,6 +1074,8 @@ function Tag(tName) {
 	this.loadFromTemplate = function(tmpl){
 		console.log('Attention: base class method loadFromTemplate() is used.');
 	};
+
+
 }
 
 /**

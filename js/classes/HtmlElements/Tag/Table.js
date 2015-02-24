@@ -1228,8 +1228,7 @@ function Table() {
 	 */
 	this.configureProperties = function(descr){
 		console.log('configuring properties: ', descr);
-		return
-;		var	tWidth = descr.width,
+		var	tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
 			spaceBtwRows = descr.spaceBtwRows,
 			currentWidth = tWidth.clone(),
