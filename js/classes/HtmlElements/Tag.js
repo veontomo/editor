@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global DOMParser, Node, Attributes, Content, Styles, window, Helper, Properties */
+/*global Node, Element, Content, window, Properties, Unit */
 
 /**
  * This class is used to represent a general html tag.
@@ -32,14 +32,14 @@ function Tag(tName) {
 	 * in FF, `this.constructor` has `tag` property that returns "Tag", while in IE, there
 	 * is no `tag` property.
 	 * Every class that inherits from this one, should override this property.
-	 * @property       {String}    className
+	 * @property       {String}    _className
 	 * @type           {String}
 	 * @default        "Tag"
 	 * @private
 	 * @readOnly
 	 * @since          0.0.2
 	 */
-	var className = 'Tag';
+	var _className = 'Tag';
 
 	/**
 	 * {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} getter.
@@ -113,11 +113,13 @@ function Tag(tName) {
 	 * (if there were _interfaces_ in javascript, it would be possible to say that _unitWorker must implement
 	 * Unit interface).
 	 *
-	 * @property  {Object} _unitWorker
+	 * @property       {Object} _unitWorker
 	 * @private
-	 * @since  0.2.1
+	 * @default        Unit
+	 * @since          0.2.1
+	 *
 	 */
-	var _unitWorker;
+	var _unitWorker = new Unit();
 
 
 	/**
@@ -255,16 +257,16 @@ function Tag(tName) {
 	};
 
 	/**
-	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} getter.
+	 * {{#crossLink "Tag/_className:property"}}Class name{{/crossLink}} getter.
 	 * @method         getName
 	 * @return         {String}
 	 */
 	this.getName = function(){
-		return className;
+		return _className;
 	};
 
 	/**
-	 * {{#crossLink "Tag/className:property"}}Class name{{/crossLink}} setter. Use it with caution. This
+	 * {{#crossLink "Tag/_className:property"}}Class name{{/crossLink}} setter. Use it with caution. This
 	 * method is intended to be used in classes that inherite from this one in order to set the name attribute.
 	 * (If only were there a late binding ...)
 	 * @method         setName
@@ -273,7 +275,7 @@ function Tag(tName) {
 	 */
 	this.setName = function(name){
 		if (typeof name === 'string'){
-			className = name;
+			_className = name;
 		}
 	};
 
@@ -743,7 +745,7 @@ function Tag(tName) {
 
 
 	/**
-	 * Creates a clone of the target. If the target has a `className` attribute corresponding to
+	 * Creates a clone of the target. If the target has a `_className` attribute corresponding to
 	 * exisiting class, then that class instance is to be returned. Otherwise a {{#crossLink "Tag"}}Tag{{/crossLink}}
 	 * instance is returned. The method parses all attributes of the target and if the attribute
 	 * responds to a "clone" method, then calls this method and assigns its result to the corresponding
@@ -895,7 +897,7 @@ function Tag(tName) {
 	/**
 	 * Marks the target.
 	 *
-	 * Assign value of variable {{#crossLink "Tag/className:property"}}classname{{/crossLink}} to attribute `marker`
+	 * Assign value of variable {{#crossLink "Tag/_className:property"}}classname{{/crossLink}} to attribute `marker`
 	 * and adds this key-value pair into {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}. It sets
 	 * as well {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} to be `marker` in order to be able to
 	 * apply eventually {{#crossLink "Tag/unmark:method"}}unmark{{/crossLink}} method.
