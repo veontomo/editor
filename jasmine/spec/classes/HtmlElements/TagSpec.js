@@ -1235,57 +1235,102 @@ describe('Tag-related functionality', function() {
 
     });
 
-describe('has a method "loadIntoElement" that', function(){
-    it('makes the argument have target\'s attributes if initially it has no attributes', function(){
-        var el = document.createElement('span');
-        tag = new Tag('div');
-        tag.setProperty('class', 'best');
-        tag.setProperty('width', '321');
-        tag.setProperty('id', 'x');
-        tag.loadIntoElement(el);
-        expect(el.getAttribute('class')).toBe('best');
-        expect(el.getAttribute('width')).toBe('321');
-        expect(el.getAttribute('id')).toBe('x');
+    describe('has a method "loadIntoElement" that', function(){
+        it('makes the argument have target\'s attributes if initially it has no attributes', function(){
+            var el = document.createElement('span');
+            tag = new Tag('div');
+            tag.setProperty('class', 'best');
+            tag.setProperty('width', '321');
+            tag.setProperty('id', 'x');
+            tag.loadIntoElement(el);
+            expect(el.getAttribute('class')).toBe('best');
+            expect(el.getAttribute('width')).toBe('321');
+            expect(el.getAttribute('id')).toBe('x');
+        });
+
+        it('overrides element\'s attributes by the target ones', function(){
+            var el = document.createElement('span');
+            el.setAttribute('class', 'original class');
+            el.setAttribute('id', 'spanId');
+
+            tag = new Tag('div');
+            tag.setProperty('class', 'best');
+            tag.setProperty('id', 'x');
+
+            tag.loadIntoElement(el);
+            expect(el.getAttribute('class')).toBe('best');
+            expect(el.getAttribute('id')).toBe('x');
+        });
+
+        it('does not set attributes if the argument is a text node', function(){
+            var el = document.createTextNode('this is a text node');
+
+            tag = new Tag('div');
+            tag.setProperty('class', 'best');
+            tag.setProperty('id', 'x');
+
+            tag.loadIntoElement(el);
+            expect(el instanceof Text).toBe(true);
+        });
+
+        it('makes the argument have target\'s style attributes if initially it has no attributes', function(){
+            var el = document.createElement('span');
+            tag = new Tag('div');
+            tag.setStyleProperty('padding', '20em');
+            tag.setStyleProperty('margin', '32pt');
+            tag.loadIntoElement(el);
+
+            expect(el.style.padding).toBe('20em');
+            expect(el.style.margin).toBe('32pt');
+        });
+
+
     });
 
-    it('overrides element\'s attributes by the target ones', function(){
-        var el = document.createElement('span');
-        el.setAttribute('class', 'original class');
-        el.setAttribute('id', 'spanId');
+    describe('has a method "template" that', function(){
+        var template;
+        it('returns an empty object if the Tag instance has no tag name, no properties tag name and no children', function(){
+            spyOn(tag, 'getTag');
+            spyOn(tag, 'getProperties');
+            spyOn(tag, 'getContent');
+            tag = new Tag();
+            template = tag.template();
+            expect(Object.keys(template).length).toBe(0);
+        });
 
-        tag = new Tag('div');
-        tag.setProperty('class', 'best');
-        tag.setProperty('id', 'x');
+        it('returns an object only with "tag" key if the Tag instance has tag name, but has neither properties nor children', function(){
+            spyOn(tag, 'getTag').and.returnValue('tag name');
+            spyOn(tag, 'getProperties');
+            spyOn(tag, 'getContent');
+            tag = new Tag('span');
+            template = tag.template();
+            expect(Object.keys(template).length).toBe(1);
+            expect(template.tag).toBe('tag name');
+        });
 
-        tag.loadIntoElement(el);
-        expect(el.getAttribute('class')).toBe('best');
-        expect(el.getAttribute('id')).toBe('x');
+        it('returns an object only with "property" key if the Tag instance has properties and has no children and no properties', function(){
+            spyOn(tag, 'getTag');
+            spyOn(tag, 'getContent');
+            tag = new Tag();
+            tag.setProperty('class', 'abc');
+            template = tag.template();
+            expect(Object.keys(template).length).toBe(1);
+            expect(Object.keys(template.property).length).toBe(1);
+            expect(template.property.class).toBe('abc');
+        });
+
+        it('calls method template() on content in order to construct the whole template', function(){
+            var fakeContent = new Content();
+            spyOn(fakeContent, 'template').and.returnValue('content template');
+            spyOn(tag, 'getContent').and.returnValue(fakeContent);
+            tag = new Tag();
+            template = tag.template();
+            expect(template.children).toBe('content template');
+        });
+
+
+
     });
-
-    it('does not set attributes if the argument is a text node', function(){
-        var el = document.createTextNode('this is a text node');
-
-        tag = new Tag('div');
-        tag.setProperty('class', 'best');
-        tag.setProperty('id', 'x');
-
-        tag.loadIntoElement(el);
-        expect(el instanceof Text).toBe(true);
-    });
-
-    it('makes the argument have target\'s style attributes if initially it has no attributes', function(){
-        var el = document.createElement('span');
-        tag = new Tag('div');
-        tag.setStyleProperty('padding', '20em');
-        tag.setStyleProperty('margin', '32pt');
-        tag.loadIntoElement(el);
-
-        expect(el.style.padding).toBe('20em');
-        expect(el.style.margin).toBe('32pt');
-    });
-
-
-});
 
 
 });

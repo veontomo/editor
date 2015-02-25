@@ -1071,15 +1071,19 @@ function Tag(tName) {
 	/**
 	 * Returns json object that uniquely parametrizes the instance.
 	 *
-	 * To be overridden by inhertited classes.
+	 * Base implementation returns an object with a single object-valued key `root`. That object contains key-value pairs
+	 * that {{#crossLink "Tag/_property:property"}}_property{{/crossLink}} contains.
 	 * @method         template
 	 * @return         {Object}
 	 * @since          0.0.7
-	 * @abstract
 	 */
 	this.template = function(){
-		/// this is an abstract method and must be overridden by an inheriting class
-		throw new Error('Method "template" must be overridden by inheriting class!');
+		var prop, childProp;
+		prop = this.getProperties() ? this.getProperties().getCore() : {};
+		return {
+			tag: this.getTag(),
+			properties: prop,
+		};
 	};
 
 	/**

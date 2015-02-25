@@ -523,4 +523,15 @@ function Content(str) {
 			});
 		}
 	};
+
+	/**
+	 * Returns array with templates corresponding to each content element.
+	 * @method         template
+	 * @return         {Array}         array of objects
+	 * @since          0.2.1
+	 */
+	this.template = function(){
+		/// !!! stub
+		return [];
+	};
 }
