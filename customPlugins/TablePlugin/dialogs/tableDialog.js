@@ -499,7 +499,7 @@ function TableDialog(editor) {
 							label: editor.lang[_pluginName].globalSpaces,
 							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
-							id: 'spaceTableGlobal',
+							id: 'margin',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
@@ -507,7 +507,7 @@ function TableDialog(editor) {
 							label: editor.lang[_pluginName].globalPadding,
 							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
-							id: 'paddingTableGlobal',
+							id: 'padding',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}]
@@ -518,7 +518,7 @@ function TableDialog(editor) {
 							label: editor.lang[_pluginName].rowSpaceTitle,
 							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
-							id: 'spaceBtwRows',
+							id: 'border-spacing',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 						}, {
@@ -526,7 +526,7 @@ function TableDialog(editor) {
 							label: editor.lang[_pluginName].cellSpace,
 							title: editor.lang[_pluginName].valueInPx,
 							'default': '0',
-							id: 'spaceCell',
+							id: 'cell[padding]',
 							inputStyle: _inputNumberStyle,
 							onChange: asNumber
 

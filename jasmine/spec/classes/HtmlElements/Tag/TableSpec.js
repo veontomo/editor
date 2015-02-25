@@ -1791,8 +1791,6 @@ describe('Table-related functionality:', function(){
             expect(row.getElem(0) instanceof Cell).toBe(true);
             expect(row.getElem(1) instanceof Cell).toBe(true);
             expect(row.getElem(2) instanceof Cell).toBe(true);
-            console.log('original: ' + t13.outerHTML);
-            console.log('result: ' + table.toHtml());
 
             expect(row.getElem(0).getFirst().toHtml()).toBe('cell 1.1');
             expect(row.getElem(1).getFirst().toHtml()).toBe('cell 1.2');
@@ -1984,11 +1982,88 @@ describe('Table-related functionality:', function(){
             expect(obj.width).toBe('7.3%');
             expect(obj.color).toBe('blue');
         });
+    });
 
+    describe('has a method "loadFromTemplate" that', function(){
+        it('calls "loadOuterTableTemplate" method with what "extractOuterTemplate" method outputs', function(){
+            var outerTemplate = {width: 100, background: 'white'};
+            spyOn(table, 'extractOuterTemplate').and.returnValue(outerTemplate);
+            spyOn(table, 'loadOuterTableTemplate');
+            table.loadFromTemplate({whatever: true});
+            expect(table.loadOuterTableTemplate).toHaveBeenCalledWith(outerTemplate);
+        });
 
+        it('calls "appendRow" method once if template has no "rows" key', function(){
+            var template = {};
+            spyOn(table, 'appendRow');
+            table.loadFromTemplate(template);
+            expect(table.appendRow.calls.count()).toBe(1);
+        });
 
+        it('calls "appendRow" method five times if template has rows:5 key-value pair', function(){
+            var template = {rows: 5, padding: '10em'};
+            spyOn(table, 'appendRow');
+            table.loadFromTemplate(template);
+            expect(table.appendRow.calls.count()).toBe(5);
+        });
+    });
 
+    describe('has a method "extractOuterTemplate" that', function(){
+        it('returns empty object if the input template is empty', function(){
+            expect(Object.keys(table.extractOuterTemplate({})).length).toBe(0);
+        });
+        it('returns an object with all table-related keys if the input template has those keys', function(){
+            var template = {
+                    'tableBorderWidth': '11px',
+                    'tableBorderColor': 'red',
+                    'phantomBorderColor': 'yellow',
+                    'globalTableBgColor': 'navy',
+                    'spaceBtwRows': '5em',
+                    'width': '400pt'},
+                extract = table.extractOuterTemplate(template);
 
+            expect(Object.keys(extract).length).toBe(Object.keys(template).length);
+            expect(extract.tableBorderWidth).toBe('11px');
+            expect(extract.tableBorderColor).toBe('red');
+            expect(extract.phantomBorderColor).toBe('yellow');
+            expect(extract.globalTableBgColor).toBe('navy');
+            expect(extract.spaceBtwRows).toBe('5em');
+            expect(extract.width).toBe('400pt');
+        });
+
+        it('returns an object without key "tableBorderColor" if it is originally not present in the template', function(){
+            var template = {
+                    'tableBorderWidth': '11px',
+                    'phantomBorderColor': 'yellow',
+                    'globalTableBgColor': 'navy',
+                    'spaceBtwRows': '5em',
+                    'width': '400pt'},
+                extract = table.extractOuterTemplate(template);
+            expect(extract.hasOwnProperty('tableBorderColor')).toBe(false);
+        });
+    });
+
+    describe('has a method "extractInnerTemplate" that', function(){
+        it('returns empty object if the input template is empty', function(){
+            expect(Object.keys(table.extractInnerTemplate({})).length).toBe(0);
+        });
+        it('returns an object with row-related keys if the input template has those keys', function(){
+            var template = {
+                'cellBorders': 'whatever',
+                'cellBorderWidth': '24em',
+                'cellBorderColor': '#010101',
+                'cellWeights': 'anything',
+                'spaceCell': '7'},
+                extract = table.extractInnerTemplate(template);
+
+            expect(Object.keys(extract).length).toBe(Object.keys(template).length);
+            expect(extract.cellBorders).toBe('whatever');
+            expect(extract.cellBorderWidth).toBe('24em');
+            expect(extract.cellBorderColor).toBe('#010101');
+            expect(extract.cellWeights).toBe('anything');
+            expect(extract.spaceCell).toBe('7');
+
+        });
 
     });
 

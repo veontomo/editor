@@ -420,11 +420,12 @@ function Table() {
 
 
 	/**
-	 * The number of the rows in the table. It scans {{#crossLink "Table/content:property"}}content{{/crossLink}}
-	 * of the instance until the first occurrence of `tbody` tag. Once found, its length is returned. If not found,
+	 * The number of the rows in the table. It scans {{#crossLink "Tag/_content:property"}}_content{{/crossLink}} attribute
+	 * (defined in the parent class {{#crossLink "Tag"}}Tag{{/crossLink}}) of the instance until the first occurrence
+	 * of `tbody` tag. Once found, its length is returned. If not found,
 	 * zero is returned.
-	 * @method  rowNum
-	 * @return {Number}
+	 * @method         rowNum
+	 * @return         {Number}
 	 */
 	this.rowNum = function(){
 		var cntn = this.getBody();
@@ -1199,20 +1200,25 @@ function Table() {
 	};
 
 
-	this.loadFromTemplate = function(template, fun){
+	this.loadFromTemplate = function(template){
 		var tableTemplate = this.extractOuterTemplate(template),
 			rowTemplate = this.extractInnerTemplate(template),
 			rowNum = template.rows || 1,
 			row = new Row(),
 			rowCopy,
-			i;
-		this.loadTableTemplate(tableTemplate);
+			i,
+			rowWidth;
+
+		rowWidth = tableTemplate.width - 2*(tableTemplate.tableBorderWidth + tableTemplate.margin + tableTemplate.padding);
+		rowTemplate.width = rowWidth;
+
+		this.loadOuterTableTemplate(tableTemplate);
 		row.loadFromTemplate(rowTemplate);
 		this.appendRow(row);
 
 		for(i = 1; i < rowNum; i++){
 			rowCopy = row.clone();
-			this.appendRow(row);
+			this.appendRow(rowCopy);
 		}
 
 	};
@@ -1238,8 +1244,18 @@ function Table() {
 	 * @since          0.2.1
 	 */
 	this.extractOuterTemplate = function(template){
-		/// !!!stub
-		return template;
+		var keys = [
+			'tableBorderWidth',
+			'tableBorderColor',
+			'phantomBorderColor',
+			'phantomBorderWidth',
+			'globalTableBgColor',
+			'border-spacing',
+			'margin',
+			'padding',
+			'width'
+		];
+		return this.extractFromTemplate(template, keys);
 	};
 
 	/**
@@ -1250,8 +1266,14 @@ function Table() {
 	 * @since          0.2.1
 	 */
 	this.extractInnerTemplate = function(template){
-		/// !!!stub
-		return template;
+		var keys = [
+			'cellBorders',
+			'cellBorderWidth',
+			'cellBorderColor',
+			'cellWeights',
+			'cell[padding]'
+		];
+		return this.extractFromTemplate(template, keys);
 	};
 
 	/**
@@ -1286,17 +1308,17 @@ function Table() {
 		console.log('configuring properties: ', descr);
 		var	tWidth = descr.width,
 			bWidth = descr.tableBorderWidth,
-			spaceBtwRows = descr.spaceBtwRows,
+			borderSpacing = descr['border-spacing'],
 			currentWidth = tWidth.clone(),
-			spaceBtwRowsHalf = spaceBtwRows.frac(2, 0),
+			borderSpacingHalf = borderSpacing.frac(2, 0),
 			cellWidths, i;
 
-		if (descr.spaceTableGlobal.getValue() > 0){
-			this.setStyleProperty('margin', descr.spaceTableGlobal.toString());
-			currentWidth = currentWidth.sub(descr.spaceTableGlobal.times(2));
+		if (descr.margin.getValue() > 0){
+			this.setStyleProperty('margin', descr.margin.toString());
+			currentWidth = currentWidth.sub(descr.margin.times(2));
 		}
 
-		var globalPadding = descr.paddingTableGlobal;
+		var globalPadding = descr.padding;
 		this.setStyleProperty('padding', globalPadding.toString());
 		// this.setProperty('cellpadding', globalPadding.getValue());
 		this.setProperty('cellspacing', globalPadding.getValue());
@@ -1318,7 +1340,7 @@ function Table() {
 		this.setWidth(currentWidth.getValue());
 
 		// setting vertical spaces between rows
-		this.setStyleProperty('border-spacing', '0px ' + spaceBtwRowsHalf.toString());
+		this.setStyleProperty('border-spacing', '0px ' + borderSpacingHalf.toString());
 
 		// setting background color
 		if (descr.globalTableBgColor){
@@ -1398,7 +1420,7 @@ function Table() {
 			}
 			this.setStylePropertyOfBlock('border-left', cellBorderInfo, null, colNums);
 		}
-		this.setStylePropertyOfBlock('padding', descr.spaceCell.toString(), null, null);
+		this.setStylePropertyOfBlock('padding', descr['cell[padding]'].toString(), null, null);
 		this.setProfile(cellWidths);
 		// console.log('table html after configuring properties: ', this.toHtml());
 	};
@@ -1426,11 +1448,11 @@ function Table() {
 	 * <dt>cellBorderWidth</dt><dd>(String|Unit) width of the border(s) mentioned in key `cellBorders`</dd>
 	 * <dt>cellBorderColor</dt><dd>(String) Color of the border(s) mentioned in key `cellBorders`</dd>
 	 * <dt>globalTableBgColor</dt><dd>(String) table background color</dd>
-	 * <dt>spaceTableGlobal</dt><dd>(String|Unit) table margin</dd>
-	 * <dt>paddingTableGlobal</dt><dd>(String|Unit) table padding </dd>
-	 * <dt>spaceBtwRows</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',
+	 * <dt>margin</dt><dd>(String|Unit) table margin</dd>
+	 * <dt>padding</dt><dd>(String|Unit) table padding </dd>
+	 * <dt>border-spacing</dt><dd>(String) `border-spacing` of the table in the following format: '5px 6px',
 	 * 5px - horizontally, 6px - vertically    </dd>
-	 * <dt>spaceCell</dt><dd>(String|Unit)  `padding` of each cell</dd>
+	 * <dt>cell[padding]</dt><dd>(String|Unit)  `padding` of each cell</dd>
 	 * <dt>width</dt><dd>(String|Unit) table width</dd>
 	 * </dl>
 	 * @method         template
@@ -1459,10 +1481,10 @@ function Table() {
 			cellBorderWidth:    cellBorders.width,
 			cellBorderColor:    cellBorders.color,
 			globalTableBgColor: this.getStyleProperty('background-color'),
-			spaceTableGlobal:   this.getStyleProperty('margin'),
-			paddingTableGlobal: this.getStyleProperty('padding'),
-			spaceBtwRows:       this.getStyleProperty('border-spacing').split(' ').pop(),
-			spaceCell:          this.getStylePropertyOfBlock('padding', null, null),
+			margin:             this.getStyleProperty('margin'),
+			padding:            this.getStyleProperty('padding'),
+			'border-spacing':   this.getStyleProperty('border-spacing').split(' ').pop(),
+			'cell[padding]':    this.getStylePropertyOfBlock('padding', null, null),
 			width:              this.getWidth(),
 			cellWeights:        this.getProfile()
 		};

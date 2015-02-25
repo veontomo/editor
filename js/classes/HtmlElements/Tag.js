@@ -828,12 +828,10 @@ function Tag(tName) {
 	 */
 	this.loadIntoElement = function(el){
 		var attrs = this.getProperties().getCore();
-		console.log(attrs);
 		var key, value;
 		for(key in attrs){
 			if (attrs.hasOwnProperty(key)){
 				value = attrs[key];
-				console.log(value);
 				if (value && (typeof value.toString === 'function')){
 					value = value.toString();
 				}
@@ -845,6 +843,27 @@ function Tag(tName) {
 			}
 		}
 	};
+
+	/**
+	 * Extracts properties from `template`.
+	 *
+	 * Only those properties which names are present in array `keys` are extracted from `template`.
+	 * @method         extractFromTemplate
+	 * @param          {Object}        template
+	 * @param          {Array}         keys            array of strings
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractFromTemplate = function(template, keys){
+		var extract = {};
+		keys.forEach(function(key){
+			if (template.hasOwnProperty(key)){
+				extract[key] = template[key];
+			}
+		});
+		return extract;
+	};
+
 
 	/**
 	 * Returns [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)  object corresponding to the current object.

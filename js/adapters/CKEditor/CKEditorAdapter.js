@@ -209,11 +209,11 @@ function CKEditorAdapter(){
      * <dt>cellBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for border width around table cells</dd>
      * <dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
      * <dt>globalTableBgColor</dt><dd>string for table background color</dd>
-     * <dt>spaceTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
-     * <dt>paddingTableGlobal</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
-     * <dt>spaceBtwRows</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
+     * <dt>margin</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
+     * <dt>padding</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
+     * <dt>border-spacing</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
      * (horizontal is set to 0 px)</dd>
-     * <dt>spaceCell</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table cells padding </dd>
+     * <dt>cell[padding]</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table cells padding </dd>
 	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
 	 * to the total table width</dd>
 	 * </dl>
@@ -241,10 +241,10 @@ function CKEditorAdapter(){
 			cellBorderWidth:    new Unit(parseInt(obj.borders.cellBorderWidth, 10), defaultUnit),
 			cellBorderColor:    obj.borders.cellBorderColor,
 			globalTableBgColor: obj.background.globalTableBgColor,
-			spaceTableGlobal:   new Unit(parseInt(obj.spaces.spaceTableGlobal, 10), defaultUnit),
-			paddingTableGlobal: new Unit(parseInt(obj.spaces.paddingTableGlobal, 10), defaultUnit),
-			spaceBtwRows:       new Unit(parseInt(obj.spaces.spaceBtwRows, 10), defaultUnit),
-			spaceCell:          new Unit(parseInt(obj.spaces.spaceCell, 10), defaultUnit),
+			margin:             new Unit(parseInt(obj.spaces.margin, 10), defaultUnit),
+			padding:            new Unit(parseInt(obj.spaces.padding, 10), defaultUnit),
+			'border-spacing':   new Unit(parseInt(obj.spaces['border-spacing'], 10), defaultUnit),
+			'cell[padding]':    new Unit(parseInt(obj.spaces['cell[padding]'], 10), defaultUnit),
 			width:              obj.width,
 		};
 		// adding key cellWeights for
@@ -298,10 +298,10 @@ function CKEditorAdapter(){
 				topHorBord: template.cellBorders.topHor
 			},
 			spaces: {
-				paddingTableGlobal: (new Unit(template.paddingTableGlobal || 0)).getValueAsString(),
-				spaceBtwRows:       (new Unit(template.spaceBtwRows || 0)).times(2).getValueAsString(),
-				spaceCell:          (new Unit(template.spaceCell || 0)).getValueAsString(),
-				spaceTableGlobal:   (new Unit(template.spaceTableGlobal || 0)).getValueAsString()
+				padding:            (new Unit(template.padding || 0)).getValueAsString(),
+				'border-spacing':       (new Unit(template['border-spacing'] || 0)).times(2).getValueAsString(),
+				'cell[padding]':    (new Unit(template['cell[padding]'] || 0)).getValueAsString(),
+				margin:             (new Unit(template.margin || 0)).getValueAsString()
 			},
 		};
 		// filling in column weight fields: corresponding text input fields are called
