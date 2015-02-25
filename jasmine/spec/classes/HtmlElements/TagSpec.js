@@ -1295,6 +1295,7 @@ describe('Tag-related functionality', function() {
             spyOn(tag, 'getContent');
             tag = new Tag();
             template = tag.template();
+            console.log(template);
             expect(Object.keys(template).length).toBe(0);
         });
 

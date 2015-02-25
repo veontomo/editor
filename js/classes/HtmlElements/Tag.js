@@ -1078,12 +1078,27 @@ function Tag(tName) {
 	 * @since          0.0.7
 	 */
 	this.template = function(){
-		var prop, childProp;
-		prop = this.getProperties() ? this.getProperties().getCore() : {};
-		return {
-			tag: this.getTag(),
-			properties: prop,
-		};
+		var output = {},
+			tag = this.getTag(),
+			cont = this.getContent(),
+			prop = this.getProperties(),
+			core, contTemplate;
+		if (tag){
+			output.tag = tag;
+		}
+		if (prop){
+			core = prop.getCore();
+			if (Object.keys(core) !== 0){
+				output.property = core;
+			}
+		}
+		if (cont){
+			contTemplate = cont.template();
+			if (Array.isArray(contTemplate) && contTemplate.length > 0) {
+				output.children = contTemplate;
+			}
+		}
+		return output;
 	};
 
 	/**
