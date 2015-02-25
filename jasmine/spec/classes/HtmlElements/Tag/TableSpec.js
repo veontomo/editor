@@ -2018,7 +2018,7 @@ describe('Table-related functionality:', function(){
                     'tableBorderColor': 'red',
                     'phantomBorderColor': 'yellow',
                     'globalTableBgColor': 'navy',
-                    'spaceBtwRows': '5em',
+                    'border-spacing': '5em',
                     'width': '400pt'},
                 extract = table.extractOuterTemplate(template);
 
@@ -2027,7 +2027,7 @@ describe('Table-related functionality:', function(){
             expect(extract.tableBorderColor).toBe('red');
             expect(extract.phantomBorderColor).toBe('yellow');
             expect(extract.globalTableBgColor).toBe('navy');
-            expect(extract.spaceBtwRows).toBe('5em');
+            expect(extract['border-spacing']).toBe('5em');
             expect(extract.width).toBe('400pt');
         });
 
@@ -2053,7 +2053,7 @@ describe('Table-related functionality:', function(){
                 'cellBorderWidth': '24em',
                 'cellBorderColor': '#010101',
                 'cellWeights': 'anything',
-                'spaceCell': '7'},
+                'cell[padding]': '7'},
                 extract = table.extractInnerTemplate(template);
 
             expect(Object.keys(extract).length).toBe(Object.keys(template).length);
@@ -2061,7 +2061,7 @@ describe('Table-related functionality:', function(){
             expect(extract.cellBorderWidth).toBe('24em');
             expect(extract.cellBorderColor).toBe('#010101');
             expect(extract.cellWeights).toBe('anything');
-            expect(extract.spaceCell).toBe('7');
+            expect(extract['cell[padding]']).toBe('7');
 
         });
 
