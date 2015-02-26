@@ -121,7 +121,6 @@ function Tag(tName) {
 	 */
 	var _unitWorker = new Unit();
 
-
 	/**
 	 * {{#crossLink "Tag/_unitWorker:property"}}_unitWorker{{/crossLink}} setter.
 	 * @method         setUnitWorker
@@ -1081,19 +1080,18 @@ function Tag(tName) {
 		var output = {},
 			tag = this.getTag(),
 			cont = this.getContent(),
-			prop = this.getProperties(),
-			core, contTemplate;
+			prop = this.getProperties();
 		if (tag){
 			output.tag = tag;
 		}
 		if (prop){
-			core = prop.getCore();
+			var core = prop.getCore();
 			if ((typeof core === 'object') && (Object.keys(core).length !== 0)){
-				output.property = core;
+				output.root = core;
 			}
 		}
 		if (cont){
-			contTemplate = cont.template();
+			var contTemplate = cont.template();
 			if (Array.isArray(contTemplate) && contTemplate.length > 0) {
 				output.children = contTemplate;
 			}
@@ -1133,6 +1131,7 @@ function Tag(tName) {
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.1
+	 * @deprecated     use extractProperTemplate
 	 */
 	this.extractOuterTemplate = function(template){
 		console.log('Tag method extractOuterTemplate() is called with', template);
@@ -1145,11 +1144,50 @@ function Tag(tName) {
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.1
+	 * @deprecated     use extractProperTemplate
 	 */
 	this.extractInnerTemplate = function(template){
 		console.log('Tag method extractInnerTemplate() is called with', template);
 		return {};
 	};
+
+
+	/**
+	 * Extract part of template that corresponds to the properties of the tag instance itself and not
+	 * to its nested elements.
+	 *
+	 * Template is a json object and the template stores the properties related to the instance under key
+	 * "root". The properties of the nested elements are stored under array-valued key "children".
+	 * @method         extractProperTemplate
+	 * @param          {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractProperTemplate = function(template){
+		return template.root;
+	};
+
+	/**
+	 * Extract part of template that corresponds to the properties of the elements that are located inside
+	 * this instance.
+	 *
+	 * Returns value associated with key `children` of the object `template`. If not present, an empty array is
+	 * returned.
+	 *
+	 * Template is a json object and the template stores the properties related to the instance under key
+	 * "root". The properties of the nested elements are stored under array-valued key "children".
+	 * @method         extractChildTemplates
+	 * @param          {Object}        template
+	 * @return         {Array}         array of templates of the child elements
+	 * @since          0.2.1
+	 */
+	this.extractChildTemplates = function(template){
+		return template.root || [];
+
+	};
+
+
+
 
 
 

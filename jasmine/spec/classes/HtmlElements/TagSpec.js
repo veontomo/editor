@@ -1302,11 +1302,11 @@ describe('Tag-related functionality', function() {
                 expect(template.tag).toBe('span');
             });
         });
-        describe('manage key "property" in the followig way:', function(){
-            it('does not include key "property" if the getProperty() method returns nothing', function(){
+        describe('manage key "root" in the followig way:', function(){
+            it('does not include key "root" if the getProperty() method returns nothing', function(){
                 spyOn(tag, 'getProperties');
                 template = tag.template();
-                expect(template.hasOwnProperty('property')).toBe(false);
+                expect(template.hasOwnProperty('root')).toBe(false);
             });
 
             it('uses getCore() method in order to retrieve key-value pairs of the property', function(){
@@ -1323,7 +1323,7 @@ describe('Tag-related functionality', function() {
                 spyOn(tag, 'getProperties').and.returnValue(prop);
                 tag = new Tag();
                 template = tag.template();
-                expect(template.hasOwnProperty('property')).toBe(false);
+                expect(template.hasOwnProperty('root')).toBe(false);
             });
             it('includes output of getCore() method if it has two keys', function(){
                 var prop = new Properties();
@@ -1331,8 +1331,8 @@ describe('Tag-related functionality', function() {
                 prop.setProperty('margin', '10px');
                 spyOn(tag, 'getProperties').and.returnValue(prop);
                 template = tag.template();
-                expect(template.property.class).toBe('media');
-                expect(template.property.margin).toBe('10px');
+                expect(template.root.class).toBe('media');
+                expect(template.root.margin).toBe('10px');
             });
         });
         describe('manage key "children" in the following way:', function(){

@@ -277,8 +277,8 @@ function CKEditorAdapter(){
 	this.tableTemplateToDialog = function(template){
 		var dialogData = {
 			structure: {
-				rows: template.rows,
-				cols: template.cols
+				rows: template.root.rows,
+				cols: template.root.cols
 			},
 			background: {
 				globalTableBgColor: template.globalTableBgColor

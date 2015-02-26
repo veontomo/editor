@@ -1201,25 +1201,25 @@ function Table() {
 
 
 	this.loadFromTemplate = function(template){
-		var tableTemplate = this.extractOuterTemplate(template),
-			rowTemplate = this.extractInnerTemplate(template),
+		var tableTemplate = this.extractProperTemplate(template),
+			rowTemplates = this.extractChildTemplates(template),
 			rowNum = template.rows || 1,
-			row = new Row(),
-			rowCopy,
+			row,
 			i,
 			rowWidth;
-
-		rowWidth = tableTemplate.width - 2*(tableTemplate.tableBorderWidth + tableTemplate.margin + tableTemplate.padding);
-		rowTemplate.width = rowWidth;
-
-		this.loadOuterTableTemplate(tableTemplate);
-		row.loadFromTemplate(rowTemplate);
-		this.appendRow(row);
-
-		for(i = 1; i < rowNum; i++){
-			rowCopy = row.clone();
-			this.appendRow(rowCopy);
+		if (tableTemplate){
+			this.loadOuterTableTemplate(tableTemplate);
+			rowWidth = tableTemplate.width - 2*(tableTemplate.tableBorderWidth + tableTemplate.margin + tableTemplate.padding);
+			rowTemplates.width = rowWidth;
 		}
+
+		for(i = 0; i < rowNum; i++){
+			row = new Row();
+			row.loadFromTemplate(rowTemplates[i]);
+			this.appendRow(row);
+		}
+
+		console.log(this.template());
 
 	};
 
@@ -1458,8 +1458,9 @@ function Table() {
 	 * @method         template
 	 * @return         {Object}
 	 * @since          0.0.7
+	 * @deprecated     in favor of base template() method defined in base class "Tag"
 	 */
-	this.template = function(){
+	this.template___old = function(){
 		var cellBorders = this.getCellBorders(),
 			tableBorderInfo = this.getBorder() || {};
 		var tableInfo = {
