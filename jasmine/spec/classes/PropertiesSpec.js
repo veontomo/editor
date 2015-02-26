@@ -1199,6 +1199,73 @@ describe('Properties-related functionality', function(){
             expect(border.width).toBe(21);
             expect(border.color).toBe('#123456');
         });
+    });
+
+    describe('has a method "template" that', function(){
+        it('returns empty object if the core is not defined', function(){
+            spyOn(props, 'getCore');
+            expect(Object.keys(props.template()).length).toBe(0);
+        });
+        it('returns object with two keys if the core has two string-valued keys', function(){
+            spyOn(props, 'getCore').and.returnValue({class: 'bottom', width: '345px'});
+            var template = props.template();
+            expect(Object.keys(template).length).toBe(2);
+            expect(template.class).toBe('bottom');
+            expect(template.width).toBe('345px');
+        });
+        it('returns object with three keys if the core has one string and two numeric keys', function(){
+            spyOn(props, 'getCore').and.returnValue({padding: 32, class: 'footer', width: 945});
+            var template = props.template();
+            expect(Object.keys(template).length).toBe(3);
+            expect(template.class).toBe('footer');
+            expect(template.width).toBe(945);
+            expect(template.padding).toBe(32);
+        });
+        it('ignores function-valued keys', function(){
+            spyOn(props, 'getCore').and.returnValue({foo: function(){return;}, width: '345px'});
+            var template = props.template();
+            expect(Object.keys(template).length).toBe(1);
+            expect(template.width).toBe('345px');
+        });
+        it('ignores array-valued keys', function(){
+            spyOn(props, 'getCore').and.returnValue({foo: [1, 2, 3], width: '345px'});
+            var template = props.template();
+            expect(Object.keys(template).length).toBe(1);
+            expect(template.width).toBe('345px');
+        });
+
+        it('ignores object-valued keys if they are not Properties instances', function(){
+            spyOn(props, 'getCore').and.returnValue({foo: 2, master: {1: 'dumb'}});
+            var template = props.template();
+            expect(Object.keys(template).length).toBe(1);
+            expect(template.foo).toBe(2);
+        });
+
+        it('calls itself in case a key corresponds to a Properties instance', function(){
+            var prop2 = new Properties();
+            spyOn(props, 'getCore').and.returnValue({foo: 2, master: prop2});
+            spyOn(prop2, 'template').and.returnValue({});
+            props.template();
+            expect(prop2.template).toHaveBeenCalled();
+        });
+
+        it('does not insert the key if recursive call gives back an empty object', function(){
+            var props2 = new Properties();
+            spyOn(props, 'getCore').and.returnValue({target: '_self', style: props2});
+            spyOn(props2, 'template').and.returnValue({});
+            var template = props.template();
+            expect(template.hasOwnProperty('style')).toBe(false);
+        });
+        it('inserts the key if recursive call gives back a non empty object', function(){
+            var props2 = new Properties();
+            var fakeTemplate = {'background': 'yellow', 'overflow': 'hidden'};
+            spyOn(props, 'getCore').and.returnValue({target: '_self', foo: props2});
+            spyOn(props2, 'template').and.returnValue(fakeTemplate);
+            var template = props.template();
+            expect(template.foo).toBe(fakeTemplate);
+        });
+
+
 
     });
 });

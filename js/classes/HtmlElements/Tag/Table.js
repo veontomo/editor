@@ -1219,9 +1219,9 @@ function Table() {
 			this.appendRow(row);
 		}
 
-		console.log(this.template());
-		console.log(this.toHtml());
-		console.log(this.template().children[0].children[0]);
+		// console.log(this.template());
+		// console.log(this.toHtml());
+		// console.log(this.template().children[0].children[0]);
 
 	};
 

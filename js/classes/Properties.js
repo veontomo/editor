@@ -1038,22 +1038,22 @@ function Properties(input) {
      * @since          0.2.1
      */
     this.template = function(){
+    	var allowedTypes = ['string', 'number'];  // keys whose values are of one of these types are added
+    											  // immediately to the output
     	var coreTmp = this.getCore(),
     		output = {},
-    		keys = Object.keys(coreTmp),
-    		value, valType,
-    		obj,
-    		i,
-    		len = keys.length;
+    		keys, value, obj, i, len;
 
+    	if (typeof coreTmp !== 'object'){
+    		return output;
+    	}
+    	keys = Object.keys(coreTmp);
+    	len = keys.length;
     	for (i = 0; i < len; i++){
     		value = coreTmp[keys[i]];
-    		valType = typeof value;
-    		if (valType === 'string' || valType === 'number'){
+    		if (allowedTypes.indexOf(typeof value) !== -1){
     			output[keys[i]] = value;
-    			continue;
-    		}
-    		if (value instanceof Properties){
+    		} else if (value instanceof Properties){
     			obj = value.template();
     			if (Object.keys(obj).length > 0){
     				output[keys[i]] = obj;
@@ -1061,7 +1061,6 @@ function Properties(input) {
     		}
     	}
     	return output;
-
     };
 
 
