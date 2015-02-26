@@ -1289,46 +1289,89 @@ describe('Tag-related functionality', function() {
 
     describe('has a method "template" that', function(){
         var template;
-        it('returns an empty object if the Tag instance has no tag name, no properties tag name and no children', function(){
-            spyOn(tag, 'getTag');
-            spyOn(tag, 'getProperties');
-            spyOn(tag, 'getContent');
-            tag = new Tag();
-            template = tag.template();
-            console.log(template);
-            expect(Object.keys(template).length).toBe(0);
-        });
+        describe('manage key "tag" in the followig way:', function(){
+            it('does not include key "tag" if the tagName() method returns nothing', function(){
+                spyOn(tag, 'getTag');
+                template = tag.template();
+                expect(template.hasOwnProperty('tag')).toBe(false);
+            });
 
-        it('returns an object only with "tag" key if the Tag instance has tag name, but has neither properties nor children', function(){
-            spyOn(tag, 'getTag').and.returnValue('tag name');
-            spyOn(tag, 'getProperties');
-            spyOn(tag, 'getContent');
-            tag = new Tag('span');
-            template = tag.template();
-            expect(Object.keys(template).length).toBe(1);
-            expect(template.tag).toBe('tag name');
+            it('includes key "tag" if the tagName() method returns "span"', function(){
+                spyOn(tag, 'getTag').and.returnValue('span');
+                template = tag.template();
+                expect(template.tag).toBe('span');
+            });
         });
+        describe('manage key "property" in the followig way:', function(){
+            it('does not include key "property" if the getProperty() method returns nothing', function(){
+                spyOn(tag, 'getProperties');
+                template = tag.template();
+                expect(template.hasOwnProperty('property')).toBe(false);
+            });
 
-        it('returns an object only with "property" key if the Tag instance has properties and has no children and no properties', function(){
-            spyOn(tag, 'getTag');
-            spyOn(tag, 'getContent');
-            tag = new Tag();
-            tag.setProperty('class', 'abc');
-            template = tag.template();
-            expect(Object.keys(template).length).toBe(1);
-            expect(Object.keys(template.property).length).toBe(1);
-            expect(template.property.class).toBe('abc');
+            it('uses getCore() method in order to retrieve key-value pairs of the property', function(){
+                var prop = new Properties();
+                spyOn(prop, 'getCore');
+                spyOn(tag, 'getProperties').and.returnValue(prop);
+                template = tag.template();
+                expect(prop.getCore).toHaveBeenCalled();
+            });
+
+            it('does not include output of getCore() method if it has no keys', function(){
+                var prop = new Properties();
+                spyOn(prop, 'getCore').and.returnValue({});
+                spyOn(tag, 'getProperties').and.returnValue(prop);
+                tag = new Tag();
+                template = tag.template();
+                expect(template.hasOwnProperty('property')).toBe(false);
+            });
+            it('includes output of getCore() method if it has two keys', function(){
+                var prop = new Properties();
+                prop.setProperty('class', 'media');
+                prop.setProperty('margin', '10px');
+                spyOn(tag, 'getProperties').and.returnValue(prop);
+                template = tag.template();
+                expect(template.property.class).toBe('media');
+                expect(template.property.margin).toBe('10px');
+            });
         });
+        describe('manage key "children" in the following way:', function(){
+            it('does not include key "children" if the getContent() method returns nothing', function(){
+                spyOn(tag, 'getContent');
+                template = tag.template();
+                expect(template.hasOwnProperty('children')).toBe(false);
+            });
+            it('uses template() method of the to retrieve key-value pairs of the property', function(){
+                content = new Content();
+                spyOn(content, 'template');
+                spyOn(tag, 'getContent').and.returnValue(content);
+                template = tag.template();
+                expect(content.template).toHaveBeenCalled();
+            });
+            it('does not include output of template() method if it is an empty array', function(){
+                content = new Content();
+                spyOn(content, 'template').and.returnValue([]);
+                spyOn(tag, 'getContent').and.returnValue(content);
+                template = tag.template();
+                expect(template.hasOwnProperty('children')).toBe(false);
+            });
+            it('does not include output of template() method if it is not array (i.e. a string)', function(){
+                content = new Content();
+                spyOn(content, 'template').and.returnValue('a string, not array');
+                spyOn(tag, 'getContent').and.returnValue(content);
+                template = tag.template();
+                expect(template.hasOwnProperty('children')).toBe(false);
+            });
+            it('includes output of template() method if it is an array with three elements', function(){
+                content = new Content();
+                var fakeContentTemplate = [{}, {}, {}];
+                spyOn(content, 'template').and.returnValue(fakeContentTemplate);
+                spyOn(tag, 'getContent').and.returnValue(content);
+                template = tag.template();
+                expect(template.children).toBe(fakeContentTemplate);
+            });
 
-        it('calls method template() on content in order to construct the whole template', function(){
-            var fakeContent = new Content();
-            spyOn(fakeContent, 'template').and.returnValue('content template');
-            spyOn(tag, 'getContent').and.returnValue(fakeContent);
-            tag = new Tag();
-            template = tag.template();
-            expect(template.children).toBe('content template');
         });
-
 
 
     });

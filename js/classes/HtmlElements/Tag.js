@@ -1088,7 +1088,7 @@ function Tag(tName) {
 		}
 		if (prop){
 			core = prop.getCore();
-			if (Object.keys(core) !== 0){
+			if ((typeof core === 'object') && (Object.keys(core).length !== 0)){
 				output.property = core;
 			}
 		}
