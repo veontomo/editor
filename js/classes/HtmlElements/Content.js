@@ -526,12 +526,29 @@ function Content(str) {
 
 	/**
 	 * Returns array with templates corresponding to each content element.
+	 *
+	 * The method tries to invoke method `template()` on each element of
+	 * array {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}}.
+	 * In case of success, the output of that execution is inserted into resulting array.
+	 * Otherwise, a `null` is inserted in the resulting array.
 	 * @method         template
 	 * @return         {Array}         array of objects
 	 * @since          0.2.1
 	 */
 	this.template = function(){
-		/// !!! stub
-		return [];
+		var elements = this.getElements(),
+			output = [];
+		if (Array.isArray(elements) && elements.length > 0){
+			elements.forEach(function(element){
+				var template;
+				try {
+					template = element.template();
+				} catch (e){
+					template = null;
+				}
+				output.push(template);
+			});
+		}
+		return output;
 	};
 }

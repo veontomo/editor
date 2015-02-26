@@ -942,10 +942,81 @@ describe('Content-related functionality', function(){
 			expect(c.getElem(1)).toBe(item2);
 			expect(c.getElem(2)).toBe(item3);
 		});
+	});
 
+	describe('has a method "template" that', function(){
+		it('returns an empty array if the instance has no elements inside', function(){
+			spyOn(c, 'getElements');
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 0).toBe(true);
+		});
 
+		it('calls method template() on each element of the instance', function(){
+			var el1 = jasmine.createSpyObj('el1', ['template']),
+				el2 = jasmine.createSpyObj('el2', ['template']),
+				el3 = jasmine.createSpyObj('el3', ['template']);
+			spyOn(c, 'getElements').and.returnValue([el1, el2, el3]);
+			c.template();
+			expect(el1.template).toHaveBeenCalled();
+			expect(el2.template).toHaveBeenCalled();
+			expect(el3.template).toHaveBeenCalled();
+		});
 
+		it('returns an array with three elements if the instance has three elements and they all respond to "template" method', function(){
+			var el1 = {template: function(){return;}},
+				el2 = {template: function(){return;}},
+				el3 = {template: function(){return;}};
+			spyOn(c, 'getElements').and.returnValue([el1, el2, el3]);
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 3).toBe(true);
+		});
 
+		it('returns an array with four elements even if the second element has no "template" method', function(){
+			var el1 = {template: function(){return;}},
+				el2 = {},
+				el3 = {template: function(){return;}},
+				el4 = {template: function(){return;}};
+			spyOn(c, 'getElements').and.returnValue([el1, el2, el3, el4]);
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 4).toBe(true);
+		});
+
+		it('returns an array which elements are outputs of method template() on each element of the instance', function(){
+			var t1 = {fakeTemplate: 'first element'},
+				t2 = {fakeTemplate: 'second element'},
+				t3 = {fakeTemplate: 'third element'};
+			var el1 = {template: function(){return t1;}},
+				el2 = {template: function(){return t2;}},
+				el3 = {template: function(){return t3;}};
+			spyOn(c, 'getElements').and.returnValue([el1, el2, el3]);
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 3).toBe(true);
+			expect(template[0]).toBe(t1);
+			expect(template[1]).toBe(t2);
+			expect(template[2]).toBe(t3);
+		});
+
+		it('returns an array with two elements even if template() method on all elements throws exception', function(){
+			var el1 = {template: function(){throw new Error('dynamically generated error');}},
+				el2 = {template: function(){throw new Error('dynamically generated error');}};
+			spyOn(c, 'getElements').and.returnValue([el1, el2]);
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 2).toBe(true);
+		});
+
+		it('returns an array with null\'s corresponding to elements on which template() throws exception', function(){
+			var t1 = {fakeTemplate: 'first element'},
+				t3 = {fakeTemplate: 'third element'};
+			var el1 = {template: function(){return t1;}},
+				el2 = {template: function(){throw new Error('error on the second element');}},
+				el3 = {template: function(){return t3;}};
+			spyOn(c, 'getElements').and.returnValue([el1, el2, el3]);
+			var template = c.template();
+			expect(Array.isArray(template) && template.length === 3).toBe(true);
+			expect(template[0]).toBe(t1);
+			expect(template[1]).toBe(null);
+			expect(template[2]).toBe(t3);
+		});
 	});
 
 
