@@ -1220,6 +1220,8 @@ function Table() {
 		}
 
 		console.log(this.template());
+		console.log(this.toHtml());
+		console.log(this.template().children[0].children[0]);
 
 	};
 

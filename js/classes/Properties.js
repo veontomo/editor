@@ -1026,5 +1026,43 @@ function Properties(input) {
     	}
     };
 
+    /**
+     * Returns json object collecting properties of the instance.
+     *
+     * The difference with {{#crossLink "Properties/getCore:method"}}getCore{{/crossLink}} method is that this method
+     * is recursively applied to key `style` (since the corresponding value is an instance of this class) hence
+     * output is a json object which values are strings, numbers or json objects but not functions or
+     * other class instances.
+     * @method         template
+     * @return         {Object}
+     * @since          0.2.1
+     */
+    this.template = function(){
+    	var coreTmp = this.getCore(),
+    		output = {},
+    		keys = Object.keys(coreTmp),
+    		value, valType,
+    		obj,
+    		i,
+    		len = keys.length;
+
+    	for (i = 0; i < len; i++){
+    		value = coreTmp[keys[i]];
+    		valType = typeof value;
+    		if (valType === 'string' || valType === 'number'){
+    			output[keys[i]] = value;
+    			continue;
+    		}
+    		if (value instanceof Properties){
+    			obj = value.template();
+    			if (Object.keys(obj).length > 0){
+    				output[keys[i]] = obj;
+    			}
+    		}
+    	}
+    	return output;
+
+    };
+
 
 }

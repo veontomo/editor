@@ -1085,7 +1085,7 @@ function Tag(tName) {
 			output.tag = tag;
 		}
 		if (prop){
-			var core = prop.getCore();
+			var core = prop.template();
 			if ((typeof core === 'object') && (Object.keys(core).length !== 0)){
 				output.root = core;
 			}
