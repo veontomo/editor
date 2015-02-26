@@ -120,6 +120,7 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
+		console.log('filling in dialog with data: ', data);
 		var pageId, page, elemId, value, elem, domElem;
 		for (pageId in data){
 			if (pageId && data.hasOwnProperty(pageId)){
@@ -178,7 +179,7 @@ function CKEditorAdapter(){
 	 *
 	 * Current implementation is a trivial one.
 	 * @method         defaultTemplateToDialog
-	 * @param          {Object} tempalte
+	 * @param          {Object} template
 	 * @return         {Object}
 	 * @since          0.2.0
 	 */
@@ -221,55 +222,24 @@ function CKEditorAdapter(){
 	 * @param          {Object}        obj
 	 * @return         {Object}
 	 */
-	this.tableDialogToTemplate = function(obj){
-		var defaultUnit = 'px';
+	this.tableDialogToTemplate = function(dialog){
 		var tableTemplate = {
 			name: 'table',
 			root: {
-				'rows':               obj.structure.rows,
-				'cols':               obj.structure.cols,
-				'margin':             obj.spaces.margin,
-				'padding':            obj.spaces.padding,
-				'background':         obj.background.background,
-				'border-width':       obj.borders['border-width'],
-				'border-color':       obj.borders['border-color'],
-				'border-spacing':     obj.spaces['border-spacing'],
-				'cell[padding]':      obj.spaces['cell[padding]'],
+				'rows':                     dialog.structure.rows,
+				'cols':                     dialog.structure.cols,
+				'margin':                   dialog.spaces.margin,
+				'padding':                  dialog.spaces.padding,
+				'background':               dialog.background.background,
+				'border-width':             dialog.borders['border-width'],
+				'border-color':             dialog.borders['border-color'],
+				'border-spacing':           dialog.spaces['border-spacing'],
 				'phantomTable': {
-					'phantomBorderWidth':   obj.borders.rowBorderWidth,
-					'phantomBorderColor':   obj.borders.rowBorderColor,
-				}
-
-			},
-
-			cellBorders: {
-				leftVer:   obj.borders.leftVerBord,
-				rightVer:  obj.borders.rightVerBord,
-				intVer:    obj.borders.intVerBord,
-				topHor:    obj.borders.topHorBord,
-				bottomHor: obj.borders.bottomHorBord,
-				intHor:    obj.borders.intHorBord,
-			},
-			cellBorderWidth:    new Unit(parseInt(obj.borders.cellBorderWidth, 10), defaultUnit),
-			cellBorderColor:    obj.borders.cellBorderColor,
-
-			width:              obj.width,
-		};
-		// adding key cellWeights for
-		var cellWeights = [];
-		if (obj.colWeights){
-			var colId;
-			for (colId in obj.colWeights){
-				if (obj.colWeights.hasOwnProperty(colId)){
-					cellWeights.push(parseFloat(obj.colWeights[colId]));
+					'phantomBorderWidth':   dialog.borders.rowBorderWidth,
+					'phantomBorderColor':   dialog.borders.rowBorderColor,
 				}
 			}
-		} else {
-			// creating array of 1's whose number is equal to number of table columns
-			// var arrTmp = new Array(tableTemplate.root.cols + 1); // dumb array of specified length
-			// cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
-		}
-		// tableTemplate.cellWeights = cellWeights;
+		};
 		return tableTemplate;
 	};
 
@@ -283,50 +253,69 @@ function CKEditorAdapter(){
 	 * @since          0.0.7
 	 */
 	this.tableTemplateToDialog = function(template){
+		console.log('tableTemplateToDialog input:', template);
 		var dialogData = {
 			structure: {
-				rows: template.root.rows,
-				cols: template.root.cols
-			},
-			background: {
-				background: template.background
-			},
-			borders: {
-				cellBorderColor: template.cellBorderColor,
-				globalBorderColor: template['border-color'],
-				rowBorderColor: template.rowBorderColor,
-				rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
-				cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),
-				globalBorderWidth: (new Unit(template.tableBorderWidth || 0)).getValueAsString(),
-				bottomHorBord: template.cellBorders.bottomHor,
-				intHorBord: template.cellBorders.intHor,
-				intVerBord: template.cellBorders.intVer,
-				leftVerBord: template.cellBorders.leftVer,
-				rightVerBord: template.cellBorders.rightVer,
-				topHorBord: template.cellBorders.topHor
+				rows:             template.root.rows,
+				cols:             template.root.cols,
 			},
 			spaces: {
-				padding:            (new Unit(template.padding || 0)).getValueAsString(),
-				'border-spacing':       (new Unit(template['border-spacing'] || 0)).times(2).getValueAsString(),
-				'cell[padding]':    (new Unit(template['cell[padding]'] || 0)).getValueAsString(),
-				margin:             (new Unit(template.margin || 0)).getValueAsString()
+				margin:           template.root.margin,
+				padding:          template.root.padding,
+				'border-spacing': template.root['border-spacing']
+			},
+			borders: {
+				// 'border-width':         template.root['border-width'],
+				// 'border-color':         template.root['border-color'],
+				// 'phantomBorderWidth':   template.root.phantomTable.rowBorderWidth,
+				// 'phantomBorderColor':   template.root.phantomTable.rowBorderColor,
 			},
 		};
-		// filling in column weight fields: corresponding text input fields are called
-		// "col0", "col1" etc.
-		var weigths = template.cellWeights;
-		try {
-			var tmp = Helper.divideByGcd(weigths);
-			weigths = tmp;
-		} catch (e){
-			console.log('Error (' + e.name + ') when cancelling common factors of column widths: ' + e.message);
-		}
-		if (Array.isArray(weigths)){
-			dialogData.colWeights = {};
-			weigths.forEach(function(val, ind){
-				dialogData.colWeights['col' + ind.toString()] = val.toString();
-			});
-		}
+		// previous version, as on 26/02/2015
+		// var dialogData = {
+		// 	structure: {
+		// 		rows: template.root.rows,
+		// 		cols: template.root.cols
+		// 	},
+		// 	background: {
+		// 		background: template.background
+		// 	},
+		// 	borders: {
+		// 		cellBorderColor: template.cellBorderColor,
+		// 		globalBorderColor: template['border-color'],
+		// 		rowBorderColor: template.rowBorderColor,
+		// 		rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
+		// 		cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),
+		// 		globalBorderWidth: (new Unit(template.tableBorderWidth || 0)).getValueAsString(),
+		// 		bottomHorBord: template.cellBorders.bottomHor,
+		// 		intHorBord: template.cellBorders.intHor,
+		// 		intVerBord: template.cellBorders.intVer,
+		// 		leftVerBord: template.cellBorders.leftVer,
+		// 		rightVerBord: template.cellBorders.rightVer,
+		// 		topHorBord: template.cellBorders.topHor
+		// 	},
+		// 	spaces: {
+		// 		padding:            (new Unit(template.padding || 0)).getValueAsString(),
+		// 		'border-spacing':       (new Unit(template['border-spacing'] || 0)).times(2).getValueAsString(),
+		// 		'cell[padding]':    (new Unit(template['cell[padding]'] || 0)).getValueAsString(),
+		// 		margin:             (new Unit(template.margin || 0)).getValueAsString()
+		// 	},
+		// };
+		// // filling in column weight fields: corresponding text input fields are called
+		// // "col0", "col1" etc.
+		// var weigths = template.cellWeights;
+		// try {
+		// 	var tmp = Helper.divideByGcd(weigths);
+		// 	weigths = tmp;
+		// } catch (e){
+		// 	console.log('Error (' + e.name + ') when cancelling common factors of column widths: ' + e.message);
+		// }
+		// if (Array.isArray(weigths)){
+		// 	dialogData.colWeights = {};
+		// 	weigths.forEach(function(val, ind){
+		// 		dialogData.colWeights['col' + ind.toString()] = val.toString();
+		// 	});
+		// }
 		return dialogData;
 	};
 
@@ -422,7 +411,7 @@ function CKEditorAdapter(){
 	 *
 	 * Current implementation is a trivial one.
 	 * @method         defaultDialogToTemplate
-	 * @param          {Object} tempalte
+	 * @param          {Object} template
 	 * @return         {Object}
 	 * @since          0.2.0
 	 */
