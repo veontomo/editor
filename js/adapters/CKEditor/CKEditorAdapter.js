@@ -199,7 +199,7 @@ function CKEditorAdapter(){
 	 * <dt>rows</dt><dd>number of table rows</dd>
 	 * <dt>cols</dt><dd>number of table columns</dd>
 	 * <dt>tableBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table border width</dd>
-	 * <dt>tableBorderColor</dt><dd>string for table border color</dd>
+	 * <dt>'border-color'</dt><dd>string for table border color</dd>
 	 * <dt>phantomBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for width around table rows</dd>
      * <dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
      * <dt>cellBorders</dt><dd>boolean variables for borders around table cells:
@@ -208,7 +208,7 @@ function CKEditorAdapter(){
      * </dd>
      * <dt>cellBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for border width around table cells</dd>
      * <dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
-     * <dt>globalTableBgColor</dt><dd>string for table background color</dd>
+     * <dt>background</dt><dd>string for table background color</dd>
      * <dt>margin</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
      * <dt>padding</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
      * <dt>border-spacing</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
@@ -223,13 +223,25 @@ function CKEditorAdapter(){
 	 */
 	this.tableDialogToTemplate = function(obj){
 		var defaultUnit = 'px';
-		var tableInfo = {
-			rows:                 parseInt(obj.structure.rows, 10),
-			cols:                 parseInt(obj.structure.cols, 10),
-			tableBorderWidth:     new Unit(parseInt(obj.borders.globalBorderWidth, 10), defaultUnit),
-			tableBorderColor:     obj.borders.globalBorderColor,
-			phantomBorderWidth:   new Unit(parseInt(obj.borders.rowBorderWidth, 10), defaultUnit),
-			phantomBorderColor:   obj.borders.rowBorderColor,
+		var tableTemplate = {
+			name: 'table',
+			root: {
+				'rows':               obj.structure.rows,
+				'cols':               obj.structure.cols,
+				'margin':             obj.spaces.margin,
+				'padding':            obj.spaces.padding,
+				'background':         obj.background.background,
+				'border-width':       obj.borders['border-width'],
+				'border-color':       obj.borders['border-color'],
+				'border-spacing':     obj.spaces['border-spacing'],
+				'cell[padding]':      obj.spaces['cell[padding]'],
+				'phantomTable': {
+					'phantomBorderWidth':   obj.borders.rowBorderWidth,
+					'phantomBorderColor':   obj.borders.rowBorderColor,
+				}
+
+			},
+
 			cellBorders: {
 				leftVer:   obj.borders.leftVerBord,
 				rightVer:  obj.borders.rightVerBord,
@@ -240,11 +252,7 @@ function CKEditorAdapter(){
 			},
 			cellBorderWidth:    new Unit(parseInt(obj.borders.cellBorderWidth, 10), defaultUnit),
 			cellBorderColor:    obj.borders.cellBorderColor,
-			globalTableBgColor: obj.background.globalTableBgColor,
-			margin:             new Unit(parseInt(obj.spaces.margin, 10), defaultUnit),
-			padding:            new Unit(parseInt(obj.spaces.padding, 10), defaultUnit),
-			'border-spacing':   new Unit(parseInt(obj.spaces['border-spacing'], 10), defaultUnit),
-			'cell[padding]':    new Unit(parseInt(obj.spaces['cell[padding]'], 10), defaultUnit),
+
 			width:              obj.width,
 		};
 		// adding key cellWeights for
@@ -258,11 +266,11 @@ function CKEditorAdapter(){
 			}
 		} else {
 			// creating array of 1's whose number is equal to number of table columns
-			var arrTmp = new Array(tableInfo.cols + 1); // dumb array of specified length
-			cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
+			// var arrTmp = new Array(tableTemplate.root.cols + 1); // dumb array of specified length
+			// cellWeights = arrTmp.join(1).split('').map(function(el){return parseFloat(el);});
 		}
-		tableInfo.cellWeights = cellWeights;
-		return tableInfo;
+		// tableTemplate.cellWeights = cellWeights;
+		return tableTemplate;
 	};
 
 	/**
@@ -281,11 +289,11 @@ function CKEditorAdapter(){
 				cols: template.root.cols
 			},
 			background: {
-				globalTableBgColor: template.globalTableBgColor
+				background: template.background
 			},
 			borders: {
 				cellBorderColor: template.cellBorderColor,
-				globalBorderColor: template.tableBorderColor,
+				globalBorderColor: template['border-color'],
 				rowBorderColor: template.rowBorderColor,
 				rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
 				cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),

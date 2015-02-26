@@ -1201,6 +1201,7 @@ function Table() {
 
 
 	this.loadFromTemplate = function(template){
+		console.log('loadFromTemplate: ', template);
 		var tableTemplate = this.extractProperTemplate(template),
 			rowTemplates = this.extractChildTemplates(template),
 			rowNum = template.rows || 1,
@@ -1218,11 +1219,6 @@ function Table() {
 			row.loadFromTemplate(rowTemplates[i]);
 			this.appendRow(row);
 		}
-
-		// console.log(this.template());
-		// console.log(this.toHtml());
-		// console.log(this.template().children[0].children[0]);
-
 	};
 
 	/**

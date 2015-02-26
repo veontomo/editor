@@ -298,14 +298,14 @@ function TableDialog(editor) {
 						type: 'text',
 						label: editor.lang.common.width,
 						title: editor.lang[_pluginName].valueInPx,
-						id: 'globalBorderWidth',
+						id: 'border-width',
 						'default': '0',
 						inputStyle: _inputNumberStyle,
 						onChange: asNumber
 					}, {
 						type: 'text',
 						label: editor.lang.colordialog.title,
-						id: 'globalBorderColor',
+						id: 'border-color',
 						'default': '#000001',
 						customcolors: true,
 						inputStyle: _inputColorStyle
@@ -475,7 +475,7 @@ function TableDialog(editor) {
 			{
 				type: 'text',
 				label: editor.lang.table.cell.bgColor,
-				id: 'globalTableBgColor',
+				id: 'background',
 				'default': '#ffffff',
 				inputStyle: _inputColorStyle
 
@@ -547,8 +547,8 @@ function TableDialog(editor) {
 			// ui text input elements to which append color picker
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
-				'borders':     ['globalBorderColor',  'rowBorderColor', 'cellBorderColor'],
-				'background':  ['globalTableBgColor'],
+				'borders':     ['border-color',  'rowBorderColor', 'cellBorderColor'],
+				'background':  ['background'],
 			};
 			var tab, ids, len, i, id;
 			for (tab in colorInputFields){
