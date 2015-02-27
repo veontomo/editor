@@ -265,6 +265,7 @@ function CKEditorAdapter(){
 				'border-spacing': template.root['border-spacing']
 			},
 			borders: {
+				//
 				// 'border-width':         template.root['border-width'],
 				// 'border-color':         template.root['border-color'],
 				// 'phantomBorderWidth':   template.root.phantomTable.rowBorderWidth,
