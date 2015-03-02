@@ -1985,12 +1985,12 @@ describe('Table-related functionality:', function(){
     });
 
     describe('has a method "loadFromTemplate" that', function(){
-        it('calls "loadOuterTableTemplate" method with what "extractOuterTemplate" method outputs', function(){
+        it('calls "loadRootFromTemplate" method with what "extractOuterTemplate" method outputs', function(){
             var outerTemplate = {width: 100, background: 'white'};
             spyOn(table, 'extractProperTemplate').and.returnValue(outerTemplate);
-            spyOn(table, 'loadOuterTableTemplate');
+            spyOn(table, 'loadRootFromTemplate');
             table.loadFromTemplate({whatever: true});
-            expect(table.loadOuterTableTemplate).toHaveBeenCalledWith(outerTemplate);
+            expect(table.loadRootFromTemplate).toHaveBeenCalledWith(outerTemplate);
         });
 
         it('calls "appendRow" method once if template has no "rows" key', function(){
