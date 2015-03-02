@@ -1429,8 +1429,7 @@ describe('Tag-related functionality', function() {
             expect(tag.loadRootFromTemplate).toHaveBeenCalledWith(tRoot);
         });
         it('calls method "loadRootFromTemplate" with templates corresponding to child elements', function(){
-            var tRoot = {width: '175px', padding: '42pt'},
-                t1 = {margin: '41em', 'class': 'media', color: 'green'},
+            var t1 = {margin: '41em', 'class': 'media', color: 'green'},
                 t2 = {paddin: '67px', 'cellspacing': '3', 'border-style': 'dotted'},
                 el1 = new Tag(),
                 el2 = new Tag();
@@ -1455,5 +1454,19 @@ describe('Tag-related functionality', function() {
             expect(t).toBe(tRoot);
         });
     });
+
+    describe('has a method "extractChildTemplates" that', function(){
+        it('returns an empty array if the template has no "children" key', function(){
+            var t = tag.extractChildTemplates({foo: 1, boo: 2});
+            expect(Object.keys(t).length).toBe(0);
+        });
+        it('returns an object with key "children" equal to the one in the template', function(){
+            var childrenTemplates = [{}, {}, {}],
+                template = {children: childrenTemplates};
+            var t = tag.extractChildTemplates(template);
+            expect(t).toBe(childrenTemplates);
+        });
+    });
+
 
 });

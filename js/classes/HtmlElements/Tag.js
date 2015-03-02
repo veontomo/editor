@@ -1151,8 +1151,7 @@ function Tag(tName) {
 	 * Extract part of template that corresponds to the properties of the tag instance itself and not
 	 * to its nested elements.
 	 *
-	 * Template is a json object and the template stores the properties related to the instance under key
-	 * "root". The properties of the nested elements are stored under array-valued key "children".
+	 * It returns value of key "root" of `template` object or an empty object in case that key does not exist.
 	 * @method         extractRootTemplate
 	 * @param          {Object}        template
 	 * @return         {Object}
@@ -1177,7 +1176,7 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.extractChildTemplates = function(template){
-		return template.root || [];
+		return template.children || [];
 
 	};
 
