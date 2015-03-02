@@ -1186,20 +1186,6 @@ function Table() {
 	 * @return         {Table}
 	 * @since          0.2.1
 	 */
-	this.loadFromTemplate_old = function(template, fun){
-		console.log('template for inflating table: ', template);
-		this.mark(NEWSLETTER['marker-name']);
-		if (typeof fun === 'function'){
-			this.makeShape(template.rows, template.cols, fun);
-		} else {
-			this.makeShape(template.rows, template.cols);
-		}
-		this.markRows(NEWSLETTER['marker-name']);
-		// this.markCells(NEWSLETTER['marker-name']);
-		this.configureProperties(template);
-	};
-
-
 	this.loadFromTemplate = function(template){
 		console.log('loadFromTemplate: ', template);
 		var tableTemplate = this.extractProperTemplate(template),
@@ -1209,7 +1195,7 @@ function Table() {
 			i,
 			rowWidth;
 		if (tableTemplate){
-			this.loadOuterTableTemplate(tableTemplate);
+			this.loadRootFromTemplate(tableTemplate);
 			rowWidth = tableTemplate.width - 2*(tableTemplate.tableBorderWidth + tableTemplate.margin + tableTemplate.padding);
 			rowTemplates.width = rowWidth;
 		}

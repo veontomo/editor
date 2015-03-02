@@ -1118,12 +1118,12 @@ function Tag(tName) {
 	 *
 	 * Object `tmpl` is supposed have an object-valued key 'root' that contains attributes that should be loaded.
 	 *
-	 * @method         loadFromPlainTemplate
+	 * @method         loadRootFromTemplate
 	 * @param          {Object}        tmpl
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.loadFromPlainTemplate = function(tmpl){
+	this.loadRootFromTemplate = function(tmpl){
 		var currentTagKey = 'root';
 		if (!tmpl.hasOwnProperty(currentTagKey)){
 			return;
