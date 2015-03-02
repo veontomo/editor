@@ -1159,7 +1159,7 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.extractRootTemplate = function(template){
-		return template.root || {};
+		return template.root || {} ;
 	};
 
 	/**

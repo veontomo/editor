@@ -1444,4 +1444,16 @@ describe('Tag-related functionality', function() {
 
     });
 
+    describe('has a method "extractRootTemplate" that', function(){
+        it('returns an empty object if the template has no "root" key', function(){
+            var t = tag.extractRootTemplate({foo: 1, boo: 2});
+            expect(Object.keys(t).length).toBe(0);
+        });
+        it('returns an object with key "root" equal to the one in the template', function(){
+            var tRoot = {width: 'large', 'anything': true};
+            var t = tag.extractRootTemplate({root: tRoot});
+            expect(t).toBe(tRoot);
+        });
+    });
+
 });
