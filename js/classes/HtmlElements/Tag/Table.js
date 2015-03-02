@@ -1208,18 +1208,6 @@ function Table() {
 	};
 
 	/**
-	 * Loads outer table properties like table width, table border.
-	 * @method         loadOuterTableTemplate
-	 * @param          {Object}        template        json object chracterizing outer parameters of the table instance
-	 * @return         {void}
-	 */
-	this.loadOuterTableTemplate = function(template){
-		/// !!! stub
-		console.log('loading outer table properties:', template);
-	};
-
-
-	/**
 	 * Extracts template that corresponds to the table and ignores information that refers
 	 * to the rows and cells.
 	 * @method         extractOuterTemplate
