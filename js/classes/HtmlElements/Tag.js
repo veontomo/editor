@@ -1102,7 +1102,6 @@ function Tag(tName) {
 	/**
 	 * Sets parameters from template `tmpl`.
 	 *
-	 *
 	 * To be overridden by inhertited classes.
 	 * @method         loadFromTemplate
 	 * @param          {Object}     tmpl
@@ -1112,6 +1111,26 @@ function Tag(tName) {
 	 */
 	this.loadFromTemplate = function(tmpl){
 		console.log('Attention: base class method loadFromTemplate() is used.');
+	};
+
+	/**
+	 * Loads properties corresponding to the current instance ones and not to its child elements.
+	 *
+	 * Object `tmpl` is supposed have an object-valued key 'root' that contains attributes that should be loaded.
+	 *
+	 * @method         loadFromPlainTemplate
+	 * @param          {Object}        tmpl
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.loadFromPlainTemplate = function(tmpl){
+		var currentTagKey = 'root';
+		if (!tmpl.hasOwnProperty(currentTagKey)){
+			return;
+		}
+		var prop = this.getProperties();
+		prop.appendProperty(tmpl[currentTagKey]);
+		this.setProperties(prop);
 	};
 
 

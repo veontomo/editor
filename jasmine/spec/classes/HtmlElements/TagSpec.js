@@ -1372,6 +1372,54 @@ describe('Tag-related functionality', function() {
             });
 
         });
+    });
+
+    describe('has a method "loadFromPlainTemplate" that', function(){
+        beforeEach(function(){
+            tag.setProperties({width: '3984em', color: 'navy', padding: 12});
+            expect(tag.getProperties().propNum()).toBe(3);
+        });
+        it('does not change tag\'s properties if the template has no "root" key', function(){
+            tag.loadFromPlainTemplate({width: '1px'});
+            expect(tag.getProperties().propNum()).toBe(3);
+            expect(tag.getProperty('width')).toBe('3984em');
+            expect(tag.getProperty('color')).toBe('navy');
+            expect(tag.getProperty('padding')).toBe(12);
+        });
+        it('adds properties that were not present intitially', function(){
+            tag.loadFromPlainTemplate({root: {
+                margin: '43pt',
+                background: 'red'
+            }});
+            expect(tag.getProperty('margin')).toBe('43pt');
+            expect(tag.getProperty('background')).toBe('red');
+        });
+
+        it('overrides properties that were present intitially', function(){
+            tag.loadFromPlainTemplate({root: {
+                width: '43pt',
+                background: 'red'
+            }});
+            expect(tag.getProperty('width')).toBe('43pt');
+        });
+        it('does not modify tag\'s properties that are not present in the template', function(){
+            tag.loadFromPlainTemplate({root: {
+                id: 'logo',
+                color: 'red'
+            }});
+            expect(tag.getProperty('width')).toBe('3984em');
+            expect(tag.getProperty('padding')).toBe(12);
+        });
+        it('does not add extra properties if the template contains only those present initially in the tag ', function(){
+            tag.loadFromPlainTemplate({root:
+                {
+                    padding: '9%',
+                    color: 'red'
+                }
+            });
+            expect(tag.getProperties().propNum()).toBe(3);
+        });
+
 
 
     });
