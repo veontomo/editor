@@ -1419,10 +1419,29 @@ describe('Tag-related functionality', function() {
             });
             expect(tag.getProperties().propNum()).toBe(3);
         });
-
-
-
     });
 
+    describe('has a method "loadFromTemplate" that', function(){
+        it('calls method "loadRootFromTemplate"', function(){
+            var tRoot = {root: {width: '175px', padding: '42pt'}};
+            spyOn(tag, 'loadRootFromTemplate');
+            tag.loadFromTemplate(tRoot);
+            expect(tag.loadRootFromTemplate).toHaveBeenCalledWith(tRoot);
+        });
+        it('calls method "loadRootFromTemplate" with templates corresponding to child elements', function(){
+            var tRoot = {width: '175px', padding: '42pt'},
+                t1 = {margin: '41em', 'class': 'media', color: 'green'},
+                t2 = {paddin: '67px', 'cellspacing': '3', 'border-style': 'dotted'},
+                el1 = new Tag(),
+                el2 = new Tag();
+            spyOn(tag, 'getElements').and.returnValue([el1, el2]);
+            spyOn(el1, 'loadRootFromTemplate');
+            spyOn(el2, 'loadRootFromTemplate');
+            tag.loadFromTemplate({root: t1, children: [t1, t2]});
+            expect(el1.loadRootFromTemplate).toHaveBeenCalledWith(t1);
+            expect(el2.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+        });
+
+    });
 
 });

@@ -1111,6 +1111,20 @@ function Tag(tName) {
 	 */
 	this.loadFromTemplate = function(tmpl){
 		console.log('Attention: base class method loadFromTemplate() is used.');
+		this.loadRootFromTemplate(tmpl);
+		var children = this.getElements(),
+			len, i, childTemplate,
+			childrenTagKey = 'children';
+		if (!children || !tmpl[childrenTagKey]){
+			return;
+		}
+		len = children.length;
+		for (i = 0; i < len; i++){
+			childTemplate = tmpl.children[i];
+			if (childTemplate){
+				children[i].loadRootFromTemplate(childTemplate);
+			}
+		}
 	};
 
 	/**
@@ -1133,57 +1147,19 @@ function Tag(tName) {
 		this.setProperties(prop);
 	};
 
-
-	/**
-	 * Extracts template that corresponds to the outer element that this instance represents.
-	 *
-	 * Usually, elements have nested elements (i.e. tables contain rows, rows contain cells, lists contain list items).
-	 * When loading properties form a template, an element needs to know its own properties while those that refer to
-	 * the nested element should be taken into consideration when those elements are to be constructed.
-	 *
-	 * {{#crossLink "Tag"}}Tag{{/crossLink}} subclasses (like {{#crossLink "Table"}}Table{{/crossLink}},
-	 * {{#crossLink "OList"}}OList{{/crossLink}} etc.) should implement this method according to their needs.
-	 * Current implementations of this method and its counterpart method
-	 * {{#crossLink "Tag/extractInnerTemplate:method"}}extractInnerTemplate{{/crossLink}} are trivial: the first returns the
-	 * argument and the second returns empty object.
-	 * @method         extractOuterTemplate
-	 * @param          {Object}        template
-	 * @return         {Object}
-	 * @since          0.2.1
-	 * @deprecated     use extractProperTemplate
-	 */
-	this.extractOuterTemplate = function(template){
-		console.log('Tag method extractOuterTemplate() is called with', template);
-		return template;
-	};
-
-	/**
-	 * Extracts template that corresponds to the table rows and cells.
-	 * @method         extractInnerTemplate
-	 * @param          {Object}        template
-	 * @return         {Object}
-	 * @since          0.2.1
-	 * @deprecated     use extractProperTemplate
-	 */
-	this.extractInnerTemplate = function(template){
-		console.log('Tag method extractInnerTemplate() is called with', template);
-		return {};
-	};
-
-
 	/**
 	 * Extract part of template that corresponds to the properties of the tag instance itself and not
 	 * to its nested elements.
 	 *
 	 * Template is a json object and the template stores the properties related to the instance under key
 	 * "root". The properties of the nested elements are stored under array-valued key "children".
-	 * @method         extractProperTemplate
+	 * @method         extractRootTemplate
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
-	this.extractProperTemplate = function(template){
-		return template.root;
+	this.extractRootTemplate = function(template){
+		return template.root || {};
 	};
 
 	/**
