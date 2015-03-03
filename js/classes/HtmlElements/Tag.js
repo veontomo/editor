@@ -1102,7 +1102,11 @@ function Tag(tName) {
 	/**
 	 * Sets parameters from template `tmpl`.
 	 *
-	 * To be overridden by inhertited classes.
+	 * The method sets parameters of the current element that are taken from value "root"
+	 * of `tmpl` and child element properties that are taken from value "children" of `tmpl`.
+	 * In case the number of child templates is less than the number of the children of the
+	 * element, the last child template is used..
+	 *
 	 * @method         loadFromTemplate
 	 * @param          {Object}     tmpl
 	 * @return         {void}
@@ -1114,15 +1118,18 @@ function Tag(tName) {
 		var children = this.getElements(),
 			len, i, childTemplate,
 			childrenTagKey = 'children';
-		if (!children || !tmpl[childrenTagKey]){
+		if (!children || !Array.isArray(tmpl[childrenTagKey]) || tmpl[childrenTagKey].length === 0){
 			return;
 		}
 		len = children.length;
-		for (i = 0; i < len; i++){
-			childTemplate = tmpl.children[i];
-			if (childTemplate){
-				children[i].loadRootFromTemplate(childTemplate);
+		childTemplate = tmpl[childrenTagKey][0];
+		children[0].loadRootFromTemplate(childTemplate);
+
+		for (i = 1; i < len; i++){
+			if (tmpl[childrenTagKey][i]){
+				childTemplate = tmpl[childrenTagKey][i];
 			}
+			children[i].loadRootFromTemplate(childTemplate);
 		}
 	};
 
