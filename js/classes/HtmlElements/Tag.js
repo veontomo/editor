@@ -1107,7 +1107,6 @@ function Tag(tName) {
 	 * @param          {Object}     tmpl
 	 * @return         {void}
 	 * @since          0.1.0
-	 * @abstract
 	 */
 	this.loadFromTemplate = function(tmpl){
 		console.log('Attention: base class method loadFromTemplate() is used.');

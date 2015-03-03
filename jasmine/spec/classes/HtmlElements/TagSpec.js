@@ -1441,6 +1441,26 @@ describe('Tag-related functionality', function() {
             expect(el2.loadRootFromTemplate).toHaveBeenCalledWith(t2);
         });
 
+        it('loads last template in a child the element has more children than are stored in the template', function(){
+            var t1 = {margin: '41em', 'class': 'media', color: 'green'},
+                t2 = {paddin: '67px', 'cellspacing': '3', 'border-style': 'dotted'},
+                el1 = new Tag(),
+                el2 = new Tag(),
+                el3 = new Tag(),
+                el4 = new Tag();
+            spyOn(tag, 'getElements').and.returnValue([el1, el2, el3, el4]);
+            spyOn(el1, 'loadRootFromTemplate');
+            spyOn(el2, 'loadRootFromTemplate');
+            spyOn(el3, 'loadRootFromTemplate');
+            spyOn(el4, 'loadRootFromTemplate');
+            tag.loadFromTemplate({root: t1, children: [t1, t2]});
+            expect(el1.loadRootFromTemplate).toHaveBeenCalledWith(t1);
+            expect(el2.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+            expect(el3.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+            expect(el4.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+        });
+
+
     });
 
     describe('has a method "extractRootTemplate" that', function(){
