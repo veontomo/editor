@@ -1038,8 +1038,9 @@ function Properties(input) {
      * @since          0.2.1
      */
     this.template = function(){
-    	var allowedTypes = ['string', 'number'];  // keys whose values are of one of these types are added
-    											  // immediately to the output
+    	var allowedTypes = ['string', 'number'];  // key values of these types are added
+    											  // to the output without calling this method
+    											  // recursively
     	var coreTmp = this.getCore(),
     		output = {},
     		keys, value, obj, i, len;
