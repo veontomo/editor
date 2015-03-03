@@ -1105,7 +1105,7 @@ function Tag(tName) {
 	 * The method sets parameters of the current element that are taken from value "root"
 	 * of `tmpl` and child element properties that are taken from value "children" of `tmpl`.
 	 * In case the number of child templates is less than the number of the children of the
-	 * element, the last child template is used..
+	 * element, the last child template is used.
 	 *
 	 * @method         loadFromTemplate
 	 * @param          {Object}     tmpl
@@ -1116,17 +1116,16 @@ function Tag(tName) {
 		console.log('Attention: base class method loadFromTemplate() is used.');
 		this.loadRootFromTemplate(tmpl);
 		var children = this.getElements(),
-			len, i, childTemplate,
+			childElemNum, i,
+			childTemplate,
 			childrenTagKey = 'children';
 		if (!children || !Array.isArray(tmpl[childrenTagKey]) || tmpl[childrenTagKey].length === 0){
 			return;
 		}
-		len = children.length;
-		childTemplate = tmpl[childrenTagKey][0];
-		children[0].loadRootFromTemplate(childTemplate);
-
-		for (i = 1; i < len; i++){
-			if (tmpl[childrenTagKey][i]){
+		childElemNum = children.length;
+		for (i = 0; i < childElemNum; i++){
+			// change template only if it is present
+			if (tmpl[childrenTagKey][i] !== undefined){
 				childTemplate = tmpl[childrenTagKey][i];
 			}
 			children[i].loadRootFromTemplate(childTemplate);
