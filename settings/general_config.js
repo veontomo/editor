@@ -134,35 +134,6 @@ var NEWSLETTER = (function(){
 			writable: false
 		});
 
-		/**
-		 * A {{#crossLink "Mapper"}}Mapper{{/crossLink}} to establish relations between html tags and corresponding classes.
-		 * @property {Mapper} _tagMapper
-		 * @private
-		 */
-		var _tagMapper = new Mapper();
-		_tagMapper.add(function(el){return (el instanceof Text);}, PlainText);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TD');}, Cell);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TABLE');}, Table);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TR');}, Row);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'A');}, Link);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'LI');}, ListItem);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'OL');}, OList);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'UL');}, UList);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'IMG');}, ImageTag);
-		_tagMapper.setDefaultTarget(Tag);
-
-		/**
-		 * Factory to produce instances of {{#crossLink "Tag"}}Tag{{/crossLink}} class.
-		 *
-		 * This factory is configured in such a way that its {{#crossLink "Factory/_mapping:property"}}_mapping{{/crossLink}}
-		 * is set to {{#crossLink "NEWSLETTER/_tagMapper:property"}}_tagMapper{{/crossLink}}.
-		 * @property {Factory} factory
-		 * @final
-		 */
-		Object.defineProperty(_output, 'factory', {
-			value:    new Factory(_tagMapper),
-			writable: false
-		});
 
 		/**
 		 * Array of available classes.
@@ -176,16 +147,37 @@ var NEWSLETTER = (function(){
 		var _availableClasses = [PlainText, Cell, Table, Row, Link, ListItem, OList, UList, ImageTag];
 
 		/**
-		 * Available classes.
-		 *
-		 * It is intended to be used by Factory methods when iterating over available classes in search of
-		 * a class that satisfies a criteria.
-		 * @property   {Array}         availabelClasses
-		 * @final
-		 * @since      0.2.1
+		 * A {{#crossLink "Mapper"}}Mapper{{/crossLink}} to establish relations between html tags and corresponding classes.
+		 * @property {Mapper} _tagMapper
+		 * @private
+		 * @deprecated  in favour of _availableClasses
 		 */
-		Object.defineProperty(_output, 'availableClasses', {
-			value:    _availableClasses
+		var _tagMapper = new Mapper();
+		_tagMapper.add(function(el){return (el instanceof Text);}, PlainText);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TD');}, Cell);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TABLE');}, Table);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TR');}, Row);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'A');}, Link);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'LI');}, ListItem);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'OL');}, OList);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'UL');}, UList);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'IMG');}, ImageTag);
+		_tagMapper.setDefaultTarget(Tag);
+
+
+		var _factory = new Factory(_tagMapper);
+		_factory.setAvailableClasses(_availableClasses);
+
+		/**
+		 * Factory to produce instances of {{#crossLink "Tag"}}Tag{{/crossLink}} class.
+		 *
+		 * This factory is configured in such a way that its {{#crossLink "Factory/_mapping:property"}}_mapping{{/crossLink}}
+		 * is set to {{#crossLink "NEWSLETTER/_tagMapper:property"}}_tagMapper{{/crossLink}}.
+		 * @property {Factory} factory
+		 * @final
+		 */
+		Object.defineProperty(_output, 'factory', {
+			value:    _factory,
 			writable: false
 		});
 

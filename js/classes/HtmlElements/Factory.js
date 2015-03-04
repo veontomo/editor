@@ -53,6 +53,41 @@ function Factory(map){
 		return isMap;
 	};
 
+
+	/**
+	 * Array of available classes.
+	 *
+	 * Each array element is an object constructor which is supposed to be used with operator "new".
+	 * @property   {Array}         _availableClasses
+	 * @type       {Array}
+	 * @since      0.2.1
+	 * @private
+	 */
+	var _availableClasses;
+
+
+	/**
+	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} setter.
+	 * @method         setAvailableClasses
+	 * @param          {array}         arr     array of classes
+	 * @since          0.2.1
+	 */
+	this.setAvailableClasses = function(arr){
+		_availableClasses = arr;
+	};
+
+
+	/**
+	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} getter.
+	 * @method         setAvailableClasses
+	 * @return         {Array}
+	 * @since          0.2.1
+	 */
+	this.setAvailableClasses = function(){
+		return _availableClasses;
+	};
+
+
 	/**
 	 * Creates a class instance corresponding to the argument. The decision is taken
 	 * based on method {{#crossLink "Mapper/findTargetFor:method"}}findTargetFor(){{/crossLink}}
