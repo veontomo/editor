@@ -152,6 +152,33 @@ function Factory(map){
 		return element;
 	};
 
+	/**
+	 * Finds a class that corresponds to string `name`.
+	 *
+	 * The method calls a method given by string `methodName` of each element of the available classes, passes
+	 * argument `name` to it and returns the first class for which that method returns `true`.
+	 *
+	 * @method         findByTag
+	 * @param          {String}        name
+	 * @param          {String}        methodName
+	 * @return         {Object|null}
+	 * @since          0.2.1
+	 */
+	this.findByName = function(name, methodName){
+		var classes = this.getAvailableClasses(),
+			len, i, callback;
+		if (!Array.isArray(classes)){
+			return;
+		}
+		len = classes.length;
+		for (i = 0; i < len; i++){
+			callback = classes[i][methodName];
+			if (typeof callback === 'function' && callback(name)){
+				return classes[i];
+			}
+		}
+	};
+
 
 	/**
 	 * Creates an object whose properties are populated with data stored in `template`.
