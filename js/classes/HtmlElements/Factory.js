@@ -153,12 +153,12 @@ function Factory(map){
 	};
 
 	/**
-	 * Finds a class that corresponds to string `name`.
+	 * Returns a class that corresponds to string `name`.
 	 *
 	 * The method calls a method given by string `methodName` of each element of the available classes, passes
 	 * argument `name` to it and returns the first class for which that method returns `true`.
 	 *
-	 * @method         findByTag
+	 * @method         findByName
 	 * @param          {String}        name
 	 * @param          {String}        methodName
 	 * @return         {Object|null}
@@ -192,7 +192,7 @@ function Factory(map){
 	this.createFromTemplate = function(template){
 		/// !!! stub
 		console.log(template.name)
-		return this.createByTagName(template.name);
+		return this.createByName(template.name, );
 	};
 
 }
