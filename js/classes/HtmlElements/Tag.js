@@ -1111,7 +1111,16 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.inflate = function(template){
-		/// !!! stub
+		var rootTemplate = this.extractRootTemplate(template);
+		if (typeof rootTemplate === 'object'){
+			this.inflateRoot(rootTemplate);
+		}
+		var childTemplates = this.extractChildTemplates(template),
+			childNum = childTemplates.length,
+			i;
+		for (i = 0; i < childNum; i++){
+
+		}
 	};
 
 
