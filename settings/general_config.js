@@ -1,6 +1,6 @@
 /*jslint plusplus: true, white: true */
 /*global Cell, Row, Table, ListItem, UList, OList, Link, PlainText, Tag, Factory, Mapper,
-		Node, ImageTag, CKEDITOR, ConverterFixed, ConverterElastic */
+		Node, Text, Element, ImageTag, CKEDITOR, ConverterFixed, ConverterElastic, CKEditorAdapter*/
 /**
  * Singleton containing configuration settings. Some of the properties are write-protected.
  *
@@ -140,15 +140,15 @@ var NEWSLETTER = (function(){
 		 * @private
 		 */
 		var _tagMapper = new Mapper();
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TD');}, Cell);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TABLE)';}, Table);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TR');}, Row);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'A');}, Link);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'LI');}, ListItem);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'OL');}, OList);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'UL');}, UList);
-		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'IMG');}, ImageTag);
+		_tagMapper.add(function(el){return (el instanceof Text);}, PlainText);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TD');}, Cell);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TABLE');}, Table);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TR');}, Row);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'A');}, Link);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'LI');}, ListItem);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'OL');}, OList);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'UL');}, UList);
+		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'IMG');}, ImageTag);
 		_tagMapper.setDefaultTarget(Tag);
 
 		/**
@@ -161,6 +161,31 @@ var NEWSLETTER = (function(){
 		 */
 		Object.defineProperty(_output, 'factory', {
 			value:    new Factory(_tagMapper),
+			writable: false
+		});
+
+		/**
+		 * Array of available classes.
+		 *
+		 * Each array element is an object constructor which is supposed to be used with operator "new".
+		 * @property   {Array}         _availableClasses
+		 * @type       {Array}
+		 * @since      0.2.1
+		 * @private
+		 */
+		var _availableClasses = [PlainText, Cell, Table, Row, Link, ListItem, OList, UList, ImageTag];
+
+		/**
+		 * Available classes.
+		 *
+		 * It is intended to be used by Factory methods when iterating over available classes in search of
+		 * a class that satisfies a criteria.
+		 * @property   {Array}         availabelClasses
+		 * @final
+		 * @since      0.2.1
+		 */
+		Object.defineProperty(_output, 'availableClasses', {
+			value:    _availableClasses
 			writable: false
 		});
 
