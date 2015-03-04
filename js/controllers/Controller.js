@@ -554,10 +554,12 @@ function Controller(){
 	 * @since          0.2.1
 	 */
 	this.create = function(){
-		var Model = this.getModel();
+		var Model;
 		try {
 			Model = this.getModel();
-			return new Model();
+			if (typeof Model === 'function'){
+				return new Model();
+			}
 		} catch(e){
 			console.log(e.name + ' occurred when controller was creating an element: ' + e.message);
 		}
