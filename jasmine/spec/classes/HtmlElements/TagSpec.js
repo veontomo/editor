@@ -1488,7 +1488,7 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('has a method "inflate" that', function(){
+    xdescribe('has a method "inflate" that', function(){
         it('loads attribute-like properties stored in "root"', function(){
             tag.inflate({root: {'class': 'media', 'id': 'logo'}});
             expect(tag.getProperty('class')).toBe('media');

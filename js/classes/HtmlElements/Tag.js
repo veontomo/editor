@@ -1100,32 +1100,6 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Inflates the instance with properties stored in `template`.
-	 *
-	 * Child elements are to be replaced with newly created ones and thier
-	 * properties are to be taken from `template.children` array.
-	 *
-	 * @method         inflate
-	 * @param          {Object}        template
-	 * @return         {void}
-	 * @since          0.2.1
-	 */
-	this.inflate = function(template){
-		var rootTemplate = this.extractRootTemplate(template);
-		if (typeof rootTemplate === 'object'){
-			this.inflateRoot(rootTemplate);
-		}
-		var childTemplates = this.extractChildTemplates(template),
-			childNum = childTemplates.length,
-			i;
-		for (i = 0; i < childNum; i++){
-
-		}
-	};
-
-
-
-	/**
 	 * Sets parameters from template `tmpl`.
 	 *
 	 * The method sets parameters of the current element that are taken from value "root"

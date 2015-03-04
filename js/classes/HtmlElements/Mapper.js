@@ -120,25 +120,33 @@ function Mapper(){
 	/**
 	 * Finds target for the argument. It parses array {{#crossLink "Mapper/mappings:property"}}mappings{{/crossLink}}
 	 * and calls `criterion` function of the array element. Value of `target` key of first `criterion` that returns
-	 * `true`, is returned. If not found,
-	 * {{#crossLink "Mapper/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned.
+	 * `true`, is returned. If not found and the second argument is different from `true`,
+	 * {{#crossLink "Mapper/getDefaultTarget:method"}}getDefaultTarget(){{/crossLink}} is returned. Otherwise, nothing is
+	 * returned.
 	 * @method     findTargetFor
 	 * @param      {Any}           needle              this variable is to be given as input for `criterion` function
 	 *                                                 of each array of mappings.
-	 * @return     {Function|Null}
+	 * @param      {Boolean}       returnDefault       whether default target should be returned in case no criteria
+	 *                                                 returns `true`
+	 * @return     {Function|void}
 	 */
-	this.findTargetFor = function(needle){
+	this.findTargetFor = function(needle, returnDefault){
 		var mapCopy = this.getMappings(),
 			len = mapCopy.length,
 			i = 0, current, result;
 		for (i = 0; i < len; i++){
+			console.log(i, mapCopy[i]);
 			current = mapCopy[i];
 			result = current.criterion(needle);
+			console.log(current.criterion, ' -> ', result);
 			if (result){
 				return current.target;
 			}
 		}
-		return this.getDefaultTarget();
+		if (!returnDefault){
+			return this.getDefaultTarget();
+		}
+
 	};
 
 }

@@ -98,12 +98,38 @@ function Factory(map){
 	 * @return         {Tag}                 instance of {{#crossLink "Tag"}}Tag{{/crossLink}} class or of its sublass
 	 * @since          0.1.0
 	 */
-	this.createByTagName = function(tagName){
-		if (typeof tagName !== 'string'){
+	this.createByName = function(tagName){
+		var mapper = this.getMapping(),
+			Builder,
+			element;
+		if (!mapper){
 			return;
 		}
-		var foo = document.createElement(tagName);
-		return this.stub(foo);
+		try {
+			Builder = mapper.findTargetFor(tagName);
+			console.log(tagName, Builder);
+			element = new Builder();
+		} catch(e){
+			console.log(e.name + ' occurred when creating element by tag name: ' + e.message);
+			return;
+		}
+		return element;
+	};
+
+
+	/**
+	 * Creates an object whose properties are populated with data stored in `template`.
+	 *
+	 * Inner structure of `template` is used to create child elements of resulting object.
+	 * @method         createFromTemplate
+	 * @property       {Object}        template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.createFromTemplate = function(template){
+		/// !!! stub
+		console.log(template.name)
+		return this.createByTagName(template.name);
 	};
 
 }
