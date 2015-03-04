@@ -77,38 +77,38 @@ describe ('Base controller class has', function(){
         });
     });
 
-    describe('has a method "create" that', function(){
+    describe('has a method "createModel" that', function(){
         it('returns nothing if method "getModel" returns nothing', function(){
             spyOn(c, 'getModel');
-            expect(c.create()).not.toBeDefined();
+            expect(c.createModel()).not.toBeDefined();
         });
 
         it('does not throw any error if method "getModel" throws an error', function(){
             spyOn(c, 'getModel').and.throwError('dynamically generated error');
             expect(function(){
-                c.create();
+                c.createModel();
             }).not.toThrow();
         });
 
         it('returns nothing if method "getModel" throws an error', function(){
             spyOn(c, 'getModel').and.throwError('dynamically generated error');
-            expect(c.create()).not.toBeDefined();
+            expect(c.createModel()).not.toBeDefined();
         });
 
         it('returns nothing if method "getModel" returns a string', function(){
             spyOn(c, 'getModel').and.returnValue('a string');
-            expect(c.create()).not.toBeDefined();
+            expect(c.createModel()).not.toBeDefined();
         });
 
         it('returns an object if method "getModel" returns a function', function(){
             spyOn(c, 'getModel').and.returnValue(function(){});
-            expect(typeof c.create()).toBe('object');
+            expect(typeof c.createModel()).toBe('object');
         });
 
         it('returns an instance of a class that is returned by method "getModel"', function(){
             function A(){};
             spyOn(c, 'getModel').and.returnValue(A);
-            expect(c.create() instanceof A).toBe(true);
+            expect(c.createModel() instanceof A).toBe(true);
         });
     });
 
