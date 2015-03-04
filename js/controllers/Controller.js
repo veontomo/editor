@@ -542,15 +542,39 @@ function Controller(){
 	};
 
 	/**
+	 * Creates an instance of a class the controller corresponds to.
+	 *
+	 * For example, for {{#crossLink "CTable"}}CTable{{/crossLink}} subclass, the method is supposed to return
+	 * a {{#crossLink "Table"}}Table{{/crossLink}} instance.
+	 *
+	 * The method makes use of {{#crossLink "Controller/getModel:method"}}getModel(){{/crossLink}} method
+	 * in order to determine what class it corresponds to.
+	 * @method         create
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.create = function(){
+		var Model, element;
+		try {
+			Model = this.getModel();
+			element = new Model();
+			return element;
+		} catch(e){
+			console.log(e.name + ' occurred when controller was creating an element: ' + e.message);
+		}
+
+	};
+
+	/**
 	 * Creates an instance of model that the controller represents and inflates
 	 * its properties from `template`.
 	 *
-	 * @method         loadContentFromTemplate
+	 * @method         inflate
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.0
 	 */
-	this.loadContentFromTemplate = function(template){
+	this.inflate = function(template){
 		var Model, element;
 		try {
 			Model = this.getModel();

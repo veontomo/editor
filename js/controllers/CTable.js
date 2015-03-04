@@ -273,7 +273,7 @@ function CTable(){
 				cursorPos = adapter.getCursorPosition(editor);
 				hostElement = cursorPos.startContainer;
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
-				inflatedElement = this.loadContentFromTemplate(template);
+				inflatedElement = this.inflate(template);
 				console.info('onOk', inflatedElement.toHtml());
 				doc.insertAt(hostElement, inflatedElement.toNode(), cursorPos.startOffset);
 			}
