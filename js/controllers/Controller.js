@@ -549,11 +549,11 @@ function Controller(){
 	 *
 	 * The method makes use of {{#crossLink "Controller/getModel:method"}}getModel(){{/crossLink}} method
 	 * in order to determine what class it corresponds to.
-	 * @method         create
+	 * @method         createModel
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
-	this.create = function(){
+	this.createModel = function(){
 		var Model;
 		try {
 			Model = this.getModel();
@@ -574,7 +574,7 @@ function Controller(){
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.0
-	 * @deprecated     in favour of method "create" and Tag class method "loadFromTemplate"
+	 * @deprecated     in favour of method "createModel" and Tag class method "loadFromTemplate"
 	 */
 	this.inflate = function(template){
 		var Model, element;
