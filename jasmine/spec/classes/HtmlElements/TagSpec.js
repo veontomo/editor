@@ -1488,48 +1488,27 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    // this is a pasted code from ControllerSpec.js
-    xdescribe('has a method "inflate" that', function(){
-        it('returns nothing if getModel() returns nothing', function(){
-            spyOn(c, 'getModel');
-            var element = c.inflate({});
-            expect(element).not.toBeDefined();
+    describe('has a method "inflate" that', function(){
+        it('loads attribute-like properties stored in "root"', function(){
+            tag.inflate({root: {'class': 'media', 'id': 'logo'}});
+            expect(tag.getProperty('class')).toBe('media');
+            expect(tag.getProperty('id')).toBe('logo');
         });
 
-        it('returns an instance of class A if getModel() returns prototype of class A that has no loadFromTemplate() method', function(){
-            function A(x){
-                return x;
-            }
-            spyOn(c, 'getModel').and.returnValue(A);
-            var element = c.inflate({});
-            expect(element instanceof A).toBe(true);
+        it('loads style-like properties stored in "root"', function(){
+            tag.inflate({root: {'style': {'padding': 29, 'width': '763px'}}});
+            expect(tag.getStyleProperty('padding')).toBe(29);
+            expect(tag.getStyleProperty('width')).toBe('763px');
         });
 
-        it('returns nothing if an error gets thrown when creating an element', function(){
-            spyOn(c, 'getModel').and.throwError('manually triggered error');
-            var element = c.inflate();
-            expect(element).not.toBeDefined();
-        });
-        it('calls loadFromTemplate() method of the getModel() output', function(){
-            var spy = jasmine.createSpy('loading');
-            function A(){
-                this.loadFromTemplate = spy;
-            }
-            spyOn(c, 'getModel').and.returnValue(A);
-            var element = c.inflate();
-            expect(spy).toHaveBeenCalled();
+        it('creates two child elements if the templates contains two children', function(){
+            var t1 = {name: 'span'},
+                t2 = {name: 'div'},
+                template = {name: 'anything', children: [t1, t2]};
+            tag.inflate(template);
+            expect(tag.length()).toBe(2);
         });
 
-        it('passes the template to loadFromTemplate() method of the getModel() output', function(){
-            var spy = jasmine.createSpy('loading');
-            var template = {};
-            function A(){
-                this.loadFromTemplate = spy;
-            }
-            spyOn(c, 'getModel').and.returnValue(A);
-            var element = c.inflate(template);
-            expect(spy).toHaveBeenCalledWith(template);
-        });
 
     });
 
