@@ -79,11 +79,11 @@ function Factory(map){
 
 	/**
 	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} getter.
-	 * @method         setAvailableClasses
+	 * @method         getAvailableClasses
 	 * @return         {Array}
 	 * @since          0.2.1
 	 */
-	this.setAvailableClasses = function(){
+	this.getAvailableClasses = function(){
 		return _availableClasses;
 	};
 
@@ -133,7 +133,8 @@ function Factory(map){
 	 * @return         {Tag}                 instance of {{#crossLink "Tag"}}Tag{{/crossLink}} class or of its sublass
 	 * @since          0.1.0
 	 */
-	this.createByName = function(tagName){
+	this.createByTagName = function(tagName){
+		console.log(this.getAvailableClasses());
 		var mapper = this.getMapping(),
 			Builder,
 			element;
