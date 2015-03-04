@@ -554,11 +554,10 @@ function Controller(){
 	 * @since          0.2.1
 	 */
 	this.create = function(){
-		var Model, element;
+		var Model = this.getModel();
 		try {
 			Model = this.getModel();
-			element = new Model();
-			return element;
+			return new Model();
 		} catch(e){
 			console.log(e.name + ' occurred when controller was creating an element: ' + e.message);
 		}
@@ -573,6 +572,7 @@ function Controller(){
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.0
+	 * @deprecated     in favour of method "create" and Tag class method "loadFromTemplate"
 	 */
 	this.inflate = function(template){
 		var Model, element;
