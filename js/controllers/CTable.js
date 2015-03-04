@@ -263,16 +263,18 @@ function CTable(){
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
+			console.info('onOk', dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
+			console.info('onOk', template);
 			doc = this.getWorker();
 			if (seedTable){
 				doc.updateNode(seedTable, template);
 			} else {
 				cursorPos = adapter.getCursorPosition(editor);
 				hostElement = cursorPos.startContainer;
-				template.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
-				inflatedElement = this.createFromTemplate(template);
-				console.info('onOk', inflatedElement.template());
+				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
+				inflatedElement = this.loadContentFromTemplate(template);
+				console.info('onOk', inflatedElement.toHtml());
 				doc.insertAt(hostElement, inflatedElement.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);

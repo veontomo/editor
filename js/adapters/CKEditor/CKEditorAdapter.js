@@ -223,7 +223,15 @@ function CKEditorAdapter(){
 	 * @return         {Object}
 	 */
 	this.tableDialogToTemplate = function(dialog){
-		var tableTemplate = {
+		var rowTemplate = {name: 'row', root: {
+			'border-color': dialog.borders.rowBorderColor,
+			'border-width': dialog.borders.rowBorderWidth,
+		}},
+		cellTemplate = {name: 'cell', root: {
+			'padding': dialog.spaces['cell[padding]'],
+		}},
+		tbodyTemplate = {name: 'tbody'},
+		tableTemplate = {
 			name: 'table',
 			root: {
 				'rows':                     dialog.structure.rows,
@@ -235,11 +243,14 @@ function CKEditorAdapter(){
 				'border-color':             dialog.borders['border-color'],
 				'border-spacing':           dialog.spaces['border-spacing'],
 				'phantomTable': {
-					'phantomBorderWidth':   dialog.borders.rowBorderWidth,
-					'phantomBorderColor':   dialog.borders.rowBorderColor,
+						'phantomBorderWidth':   dialog.borders.rowBorderWidth,
+						'phantomBorderColor':   dialog.borders.rowBorderColor,
 				}
 			}
 		};
+		rowTemplate.children = [cellTemplate];
+		tbodyTemplate.children = [rowTemplate];
+		tableTemplate.children = [tbodyTemplate];
 		return tableTemplate;
 	};
 
