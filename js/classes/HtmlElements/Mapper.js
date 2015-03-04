@@ -135,10 +135,8 @@ function Mapper(){
 			len = mapCopy.length,
 			i = 0, current, result;
 		for (i = 0; i < len; i++){
-			console.log(i, mapCopy[i]);
 			current = mapCopy[i];
 			result = current.criterion(needle);
-			console.log(current.criterion, ' -> ', result);
 			if (result){
 				return current.target;
 			}

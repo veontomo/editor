@@ -141,14 +141,14 @@ var NEWSLETTER = (function(){
 		 */
 		var _tagMapper = new Mapper();
 		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.TEXT_NODE;}, PlainText);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TD';}, Cell);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TABLE';}, Table);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'TR';}, Row);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'A';}, Link);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'LI';}, ListItem);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'OL';}, OList);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'UL';}, UList);
-		_tagMapper.add(function(el){return el !== undefined && el.nodeType === Node.ELEMENT_NODE && el.tagName === 'IMG';}, ImageTag);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TD');}, Cell);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TABLE)';}, Table);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'TR');}, Row);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'A');}, Link);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'LI');}, ListItem);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'OL');}, OList);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'UL');}, UList);
+		_tagMapper.add(function(el){return (el instanceof ELEMENT_NODE) && (el.tagName === 'IMG');}, ImageTag);
 		_tagMapper.setDefaultTarget(Tag);
 
 		/**
