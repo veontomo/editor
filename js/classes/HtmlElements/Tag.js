@@ -1124,7 +1124,8 @@ function Tag(tName) {
 		}
 		childElemNum = children.length;
 		for (i = 0; i < childElemNum; i++){
-			// change template only if it is present
+			// update template only if it is present
+			// otherwise, use one defined in previous iterations
 			if (tmpl[childrenTagKey][i] !== undefined){
 				childTemplate = tmpl[childrenTagKey][i];
 			}
