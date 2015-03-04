@@ -153,30 +153,56 @@ function Factory(map){
 	};
 
 	/**
-	 * Returns a class that corresponds to string `name`.
+	 * Returns a class that for which function given by the argument returns `true`.
 	 *
-	 * The method calls a method given by string `methodName` of each element of the available classes, passes
-	 * argument `name` to it and returns the first class for which that method returns `true`.
+	 * The method applies function `crit` to each element of array of the available classes until
+	 * it evaluates to `true`. Once it happens, then that class is returned.
 	 *
-	 * @method         findByName
-	 * @param          {String}        name
-	 * @param          {String}        methodName
+	 * @method         findClass
+	 * @param          {Function}        crit
 	 * @return         {Object|null}
 	 * @since          0.2.1
 	 */
-	this.findByName = function(name, methodName){
+	this.findClass = function(crit){
 		var classes = this.getAvailableClasses(),
-			len, i, callback;
+			len, i, output;
 		if (!Array.isArray(classes)){
 			return;
 		}
 		len = classes.length;
 		for (i = 0; i < len; i++){
-			callback = classes[i][methodName];
-			if (typeof callback === 'function' && callback(name)){
+			try {
+				output = crit(classes[i]);
+			} catch (e){
+				console.log(e.name + ' occurred when applying the criteria to the class: ' + e.message);
+				output = false;
+			}
+			if (output){
 				return classes[i];
 			}
 		}
+	};
+
+
+	/**
+	 * Finds a class whose name is equal to the argument.
+	 *
+	 * The method uses method {{#crossLink "Factory/findClass:method"}}findClass{{/crossLink}} with
+	 * properly concocted criteria.
+	 * @method         findByName
+	 * @param          {String}        name
+	 * @return         {Function|null}
+	 * @since          0.2.1
+	 */
+	this.findByName = function(name){
+		if (typeof name !== 'string'){
+			return;
+		}
+		var crit = function(c){
+			var obj = new c();
+			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name;
+		};
+		return this.findClass(crit);
 	};
 
 
@@ -190,9 +216,13 @@ function Factory(map){
 	 * @since          0.2.1
 	 */
 	this.createFromTemplate = function(template){
-		/// !!! stub
-		console.log(template.name)
-		return this.createByName(template.name, );
+		var TargetClass = this.findByName(template.name),
+			element;
+		if (TargetClass){
+			element = new TargetClass();
+		}
+		element.loadRootFromTemplate(template);
+		return element;
 	};
 
 }
