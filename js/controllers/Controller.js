@@ -566,27 +566,7 @@ function Controller(){
 
 	};
 
-	/**
-	 * Creates an instance of model that the controller represents and inflates
-	 * its properties from `template`.
-	 *
-	 * @method         inflate
-	 * @param          {Object}        template
-	 * @return         {Object}
-	 * @since          0.2.0
-	 * @deprecated     in favour of method "createModel" and Tag class method "loadFromTemplate"
-	 */
-	this.inflate = function(template){
-		var Model, element;
-		try {
-			Model = this.getModel();
-			element = new Model();
-			element.loadFromTemplate(template);
-		} catch(e){
-			console.log(e.name + ' occurred when controller was creating an element from template: ' + e.message);
-		}
-		return element;
-	};
+
 
 
 }
