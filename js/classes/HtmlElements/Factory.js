@@ -270,7 +270,7 @@ function Factory(map){
 		if (typeof template.name !== 'string'){
 			return undefined;
 		}
-		var TargetClass = this.findByName(template.name),
+		var TargetClass = this.findClassByName(template.name),
 			element;
 		if (TargetClass){
 			element = new TargetClass();

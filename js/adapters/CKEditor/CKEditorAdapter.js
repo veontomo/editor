@@ -224,24 +224,26 @@ function CKEditorAdapter(){
 	 */
 	this.tableDialogToTemplate = function(dialog){
 		var rowTemplate = {name: 'row', root: {
-			'border-color': dialog.borders.rowBorderColor,
-			'border-width': dialog.borders.rowBorderWidth,
+			style: {
+				'border-color': dialog.borders.rowBorderColor,
+				'border-width': dialog.borders.rowBorderWidth,
+			}
 		}},
 		cellTemplate = {name: 'cell', root: {
-			'padding': dialog.spaces['cell[padding]'],
+			'style': {'padding': dialog.spaces['cell[padding]']},
 		}},
 		tbodyTemplate = {name: 'tbody'},
 		tableTemplate = {
 			name: 'table',
 			root: {
-				'rows':                     dialog.structure.rows,
-				'cols':                     dialog.structure.cols,
-				'margin':                   dialog.spaces.margin,
-				'padding':                  dialog.spaces.padding,
-				'background':               dialog.background.background,
-				'border-width':             dialog.borders['border-width'],
-				'border-color':             dialog.borders['border-color'],
-				'border-spacing':           dialog.spaces['border-spacing'],
+				'style': {
+					'margin':           dialog.spaces.margin,
+					'padding':          dialog.spaces.padding,
+					'border-width':     dialog.borders['border-width'],
+					'border-color':     dialog.borders['border-color'],
+					'border-spacing':   dialog.spaces['border-spacing'],
+					'background':       dialog.background.background,
+				},
 				'phantomTable': {
 						'phantomBorderWidth':   dialog.borders.rowBorderWidth,
 						'phantomBorderColor':   dialog.borders.rowBorderColor,
