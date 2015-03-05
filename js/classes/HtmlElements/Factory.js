@@ -166,6 +166,7 @@ function Factory(map){
 	 * @param          {String}     tagName
 	 * @return         {Tag}                 instance of {{#crossLink "Tag"}}Tag{{/crossLink}} class or of its sublass
 	 * @since          0.1.0
+	 * @deprecated     in favour of findClassByName and produceInstanceOf
 	 */
 	this.createByTagName = function(tagName){
 		console.log(this.getAvailableClasses());
