@@ -218,10 +218,32 @@ function Factory(map){
 	this.createFromTemplate = function(template){
 		var TargetClass = this.findByName(template.name),
 			element;
+		console.log('target class for ' + template.name + ' is: ', TargetClass);
 		if (TargetClass){
 			element = new TargetClass();
+		} else {
+			element = new Tag();
+			element.setTag(template.name);
 		}
-		element.loadRootFromTemplate(template);
+		console.log('element: ', element);
+		if (!element){
+			return undefined;
+		}
+		if (typeof element.loadRootFromTemplate === 'function'){
+			element.loadRootFromTemplate(template);
+		}
+		var childTemplates = template.children,
+			len, child, i;
+		if (!Array.isArray(childTemplates)){
+			return element;
+		}
+		len = childTemplates.length;
+		for (i = 0; i < len; i++){
+			child = this.createFromTemplate(childTemplates[i]);
+			if (child && (typeof element.appendElem === 'function')){
+				element.appendElem(child);
+			}
+		}
 		return element;
 	};
 
