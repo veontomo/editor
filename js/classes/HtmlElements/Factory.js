@@ -236,6 +236,21 @@ function Factory(map){
 		return this.findClass(crit);
 	};
 
+	/**
+	 * Returns an instance of requested class.
+	 *
+	 * If the argument is not a class, then nothing is returned.
+	 * @method         produceInstanceOf
+	 * @param          {Function}      c
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.produceInstanceOf = function(c){
+		if (typeof c === 'function'){
+			return new c();
+		}
+	};
+
 
 	/**
 	 * Creates an object whose properties are populated with data stored in `template`.
@@ -258,7 +273,6 @@ function Factory(map){
 			element = new (this.getDefaultClass())();
 			element.setTag(template.name);
 		}
-		console.log('element: ', element);
 		if (!element){
 			return undefined;
 		}
