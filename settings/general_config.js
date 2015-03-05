@@ -177,7 +177,13 @@ var NEWSLETTER = (function(){
 		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'IMG');}, ImageTag);
 		_tagMapper.setDefaultTarget(Tag);
 
-
+		/**
+		 * A factory object that will be used in order to construct various objects.
+		 * @property   {Object}   _factory
+		 * @type       {Factory}
+		 * @since      0.2.1
+		 * @private
+		 */
 		var _factory = new Factory(_tagMapper);
 		_factory.setAvailableClasses(_availableClasses);
 		_factory.setDefaultClass(_defaultClass);
