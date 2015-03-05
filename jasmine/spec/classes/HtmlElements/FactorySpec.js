@@ -89,8 +89,51 @@ describe('Factory-related functionality', function(){
                 expect(f.stub).toHaveBeenCalledWith('an element');
                 expect(copy instanceof Target).toBe(true);
             });
-
-
         });
+    });
+    describe('has a method "findClass" that', function(){
+        var A, B, C, cTrue, cFalse;
+        beforeEach(function(){
+            A = function(){return;};
+            B = function(){return;};
+            C = function(){return;};
+            cTrue = function(){return true;};
+            cFalse = function(){return false;};
+        });
+
+        it('returns nothing if array of available classes is empty', function(){
+            spyOn(f, 'getAvailableClasses').and.returnValue([]);
+            expect(f.findClass(cTrue)).not.toBeDefined();
+        });
+        it('returns nothing if the criteria always returns false', function(){
+            expect(f.findClass(cFalse)).not.toBeDefined();
+        });
+        it('returns the first class of the available ones if the criteria always returns true', function(){
+            spyOn(f, 'getAvailableClasses').and.returnValue([A, B, C]);
+            expect(f.findClass(cTrue)).toBe(A);
+        });
+        it('returns the second class of the available ones if the criteria evaluates to true on 2-nd and 3-d classes', function(){
+            var crit = function(x){return x === A || x === B;}
+            spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
+            expect(f.findClass(crit)).toBe(A);
+        });
+        it('does not throw expection if the criteria throws one', function(){
+            var crit = function(x){throw new Error('error!');}
+            spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
+            expect(function(){
+                f.findClass(crit)
+            }).not.toThrow();
+        });
+        it('returns the third class of the available ones if the criteria evaluates to true on it but on previous calls it throws an error', function(){
+            var crit = function(x){
+                if(x === B) {return true;}
+                if(x === A) {throw new Error('error');}
+            }
+            spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
+            expect(f.findClass(crit)).toBe(B);
+        });
+
+
+
     });
 });

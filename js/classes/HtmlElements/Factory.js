@@ -61,9 +61,10 @@ function Factory(map){
 	 * @property   {Array}         _availableClasses
 	 * @type       {Array}
 	 * @since      0.2.1
+	 * @default    [] (empty array)
 	 * @private
 	 */
-	var _availableClasses;
+	var _availableClasses = [];
 
 	/**
 	 * A default class.
@@ -199,9 +200,6 @@ function Factory(map){
 	this.findClass = function(crit){
 		var classes = this.getAvailableClasses(),
 			len, i, output;
-		if (!Array.isArray(classes)){
-			return;
-		}
 		len = classes.length;
 		for (i = 0; i < len; i++){
 			try {
@@ -249,13 +247,15 @@ function Factory(map){
 	 * @since          0.2.1
 	 */
 	this.createFromTemplate = function(template){
+		if (typeof template.name !== 'string'){
+			return undefined;
+		}
 		var TargetClass = this.findByName(template.name),
 			element;
-		console.log('target class for ' + template.name + ' is: ', TargetClass);
 		if (TargetClass){
 			element = new TargetClass();
 		} else {
-			element = new Tag();
+			element = new (this.getDefaultClass())();
 			element.setTag(template.name);
 		}
 		console.log('element: ', element);
