@@ -231,7 +231,7 @@ function Factory(map){
 		}
 		var crit = function(c){
 			var obj = new c();
-			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name;
+			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name.toLowerCase();
 		};
 		return this.findClass(crit);
 	};

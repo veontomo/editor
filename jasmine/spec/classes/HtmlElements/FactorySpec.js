@@ -113,24 +113,67 @@ describe('Factory-related functionality', function(){
             expect(f.findClass(cTrue)).toBe(A);
         });
         it('returns the second class of the available ones if the criteria evaluates to true on 2-nd and 3-d classes', function(){
-            var crit = function(x){return x === A || x === B;}
+            var crit = function(x){return x === A || x === B;};
             spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
             expect(f.findClass(crit)).toBe(A);
         });
         it('does not throw expection if the criteria throws one', function(){
-            var crit = function(x){throw new Error('error!');}
+            var crit = function(){throw new Error('error!');};
             spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
             expect(function(){
-                f.findClass(crit)
+                f.findClass(crit);
             }).not.toThrow();
         });
         it('returns the third class of the available ones if the criteria evaluates to true on it but on previous calls it throws an error', function(){
             var crit = function(x){
                 if(x === B) {return true;}
                 if(x === A) {throw new Error('error');}
-            }
+            };
             spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
             expect(f.findClass(crit)).toBe(B);
+        });
+    });
+
+    describe('has a method "findClassByName" that', function(){
+        var Bmw, BmwBig, Porsche, Fiat, WithoutName;
+        beforeEach(function(){
+            Bmw =     function(){this.getName = function(){return 'bmw';};};
+            Porsche = function(){this.getName = function(){return 'pOrsche';};};
+            BmwBig =  function(){this.getName = function(){return 'BMW';};};
+            Fiat =    function(){this.getName = function(){return 'fiat';};};
+            WithoutName = function(){return;};
+            spyOn(f, 'getAvailableClasses').and.returnValue([Bmw, WithoutName, BmwBig, Porsche, Fiat]);
+        });
+        it('returns nothing if the argument is a number', function(){
+            expect(f.findClassByName(0)).not.toBeDefined();
+            expect(f.findClassByName(1)).not.toBeDefined();
+            expect(f.findClassByName(4)).not.toBeDefined();
+            expect(f.findClassByName(-12.99)).not.toBeDefined();
+        });
+        it('returns nothing if the argument is an array', function(){
+            expect(f.findClassByName([])).not.toBeDefined();
+            expect(f.findClassByName([0, 1])).not.toBeDefined();
+        });
+        it('returns nothing if the argument is a function', function(){
+            expect(f.findClassByName(function(){return;})).not.toBeDefined();
+        });
+        it('returns nothing if the argument is an object', function(){
+            expect(f.findClassByName({})).not.toBeDefined();
+        });
+        it('returns nothing if no class has requested name', function(){
+            expect(f.findClassByName('no such name')).not.toBeDefined();
+        });
+        it('returns class Fiat if the argument is "fiat"', function(){
+            expect(f.findClassByName('fiat')).toBe(Fiat);
+        });
+        it('returns class Porsche if the argument is "Porsche"', function(){
+            expect(f.findClassByName('Porsche')).toBe(Porsche);
+        });
+        it('returns class Bmw if the argument is "BMW"', function(){
+            expect(f.findClassByName('BMW')).toBe(Bmw);
+        });
+        it('returns class Bmw if the argument is "bmw"', function(){
+            expect(f.findClassByName('BMW')).toBe(Bmw);
         });
     });
 
