@@ -247,7 +247,11 @@ function Factory(map){
 	 */
 	this.produceInstanceOf = function(c){
 		if (typeof c === 'function'){
-			return new c();
+			try {
+				return new c();
+			} catch(e){
+				console.log(e.name + ' occurred when producing a class instance: ' + e.message);
+			}
 		}
 	};
 

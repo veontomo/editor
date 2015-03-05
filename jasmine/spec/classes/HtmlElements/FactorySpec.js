@@ -177,5 +177,37 @@ describe('Factory-related functionality', function(){
         });
     });
 
+    describe('has a method "produceInstanceOf" that', function(){
+        it('returns nothing if the argument is a number', function(){
+            expect(f.produceInstanceOf(0)).not.toBeDefined();
+            expect(f.produceInstanceOf(1)).not.toBeDefined();
+            expect(f.produceInstanceOf(4)).not.toBeDefined();
+            expect(f.produceInstanceOf(-12.99)).not.toBeDefined();
+        });
+        it('returns nothing if the argument is an array', function(){
+            expect(f.produceInstanceOf([])).not.toBeDefined();
+            expect(f.produceInstanceOf([0, 1])).not.toBeDefined();
+        });
+        it('returns nothing if the argument is a string', function(){
+            expect(f.produceInstanceOf('a string')).not.toBeDefined();
+        });
+        it('returns nothing if the argument is an object', function(){
+            expect(f.produceInstanceOf({})).not.toBeDefined();
+        });
+        it('returns an instance of given class', function(){
+            var A = function(){};
+            expect(f.produceInstanceOf(A) instanceof A).toBe(true);
+        });
+        it('does not throw any error even if argument is a an error-throwing function', function(){
+            var A = function(){throw new Error('error!!!');};
+            expect(function(){
+                f.produceInstanceOf(A);
+            }).not.toThrow();
+        });
+
+
+
+    });
+
 
 });
