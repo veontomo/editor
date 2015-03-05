@@ -147,6 +147,19 @@ var NEWSLETTER = (function(){
 		var _availableClasses = [PlainText, Cell, Table, Row, Link, ListItem, OList, UList, ImageTag];
 
 		/**
+		 * A default class.
+		 *
+		 * The role of this property is to emphasize a class that the Factory might use in case none
+		 * of the {{#crossLink "NEWSLETTER/_availableClasses:property"}}available classes{{/crossLink}}
+		 * satisfies a condition.
+		 * @property   {Function}      _defaultClass
+		 * @type       {[type]}
+		 * @since      0.2.1
+		 * @private
+		 */
+		var _defaultClass = Tag;
+
+		/**
 		 * A {{#crossLink "Mapper"}}Mapper{{/crossLink}} to establish relations between html tags and corresponding classes.
 		 * @property {Mapper} _tagMapper
 		 * @private
