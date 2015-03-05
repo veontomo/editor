@@ -180,6 +180,7 @@ var NEWSLETTER = (function(){
 
 		var _factory = new Factory(_tagMapper);
 		_factory.setAvailableClasses(_availableClasses);
+		_factory.setDefaultClass(_defaultClass);
 
 		/**
 		 * Factory to produce instances of {{#crossLink "Tag"}}Tag{{/crossLink}} class.

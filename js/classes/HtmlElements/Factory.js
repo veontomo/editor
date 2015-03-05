@@ -65,6 +65,18 @@ function Factory(map){
 	 */
 	var _availableClasses;
 
+	/**
+	 * A default class.
+	 *
+	 * A class that the Factory might use if none of the {{#crossLink "Factory/_availableClasses:property"}}available
+	 * classes{{/crossLink}} does not suit a purpose.
+	 * @property   {Function}         _defaultClass
+	 * @type       {Function}
+	 * @since      0.2.1
+	 * @private
+	 */
+	var _defaultClass;
+
 
 	/**
 	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} setter.
@@ -85,6 +97,27 @@ function Factory(map){
 	 */
 	this.getAvailableClasses = function(){
 		return _availableClasses;
+	};
+
+	/**
+	 * {{#crossLink "Factory/_defaultClass:property"}}_defaultClass{{/crossLink}} setter.
+	 * @method         setDefaultClass
+	 * @param          {Function}         fun
+	 * @since          0.2.1
+	 */
+	this.setDefaultClass = function(fun){
+		_defaultClass = fun;
+	};
+
+
+	/**
+	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} getter.
+	 * @method         getDefaultClass
+	 * @return         {Function}
+	 * @since          0.2.1
+	 */
+	this.getDefaultClass = function(){
+		return _defaultClass;
 	};
 
 
