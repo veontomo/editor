@@ -132,8 +132,7 @@ describe('Factory-related functionality', function(){
             spyOn(f, 'getAvailableClasses').and.returnValue([C, A, B]);
             expect(f.findClass(crit)).toBe(B);
         });
-
-
-
     });
+
+
 });

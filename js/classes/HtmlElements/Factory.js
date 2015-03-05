@@ -220,12 +220,12 @@ function Factory(map){
 	 *
 	 * The method uses method {{#crossLink "Factory/findClass:method"}}findClass{{/crossLink}} with
 	 * properly concocted criteria.
-	 * @method         findByName
+	 * @method         findClassByName
 	 * @param          {String}        name
 	 * @return         {Function|null}
 	 * @since          0.2.1
 	 */
-	this.findByName = function(name){
+	this.findClassByName = function(name){
 		if (typeof name !== 'string'){
 			return;
 		}
