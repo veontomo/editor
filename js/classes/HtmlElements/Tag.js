@@ -1114,7 +1114,7 @@ function Tag(tName) {
 	 * @deprecated     in favour of loadTemplate
 	 */
 	this.loadFromTemplate = function(tmpl){
-		console.log('Attention: base class method loadFromTemplate() is used.');
+		console.info('Attention', 'It is called a deprecated method. Use Tag:loadtemplate() instead.');
 		this.loadRootFromTemplate(tmpl);
 		var children = this.getElements(),
 			childElemNum, i,
@@ -1152,6 +1152,18 @@ function Tag(tName) {
 		var prop = this.getProperties();
 		prop.appendProperty(tmpl[currentTagKey]);
 		this.setProperties(prop);
+		var childElements = this.getElements(),
+			len, i;
+		if (!Array.isArray(childElements)){
+			return;
+		}
+		len = childElements.length;
+		for (i = 0; i < len; i++){
+			/// to finish:
+			console.log('load template into child elements');
+		}
+
+
 	};
 
 	/**
