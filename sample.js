@@ -12,29 +12,29 @@ casper.options.loadPlugins = true;
 casper.options.viewportSize = {width: 1980, height: 1080};
 // casper.options.clientScripts = ['ckeditor/ckeditor.js'];
 
-casper.test.begin('Page contains the editor window', 1, function suite(test) {
-    var url = 'https://mail.tiscali.it/';
-    // var url = 'http://localhost/debug/editor/casper.html';
+casper.test.begin('Page contains the editor window', 3, function suite(test) {
+    // var url = 'https://mail.tiscali.it/';
+    var url = 'http://localhost/debug/editor/casper.html';
     var screenshotDir = 'screenshots/';
 
     casper.start(url, function() {
         this.capture(screenshotDir + 'screeshotStart.png');
-        test.assertTextExists('Tiscali', "main page contains word \"Tiscali\"");
+        test.assertTextExists('Casper', "main page contains word \"Casper\"");
     });
 
-    // casper.waitForSelector('#editor', function() {
-    //     this.capture(screenshotDir + 'screenshotEndSuccess.png');
-    // }, function(){
-    //     console.log('Still nothing...');
-    //     this.capture(screenshotDir + 'screeshotEndFail.png');
-    // }, 5000);
+    casper.waitForSelector('#editor', function() {
+        this.capture(screenshotDir + 'screenshotEndSuccess.png');
+    }, function(){
+        console.log('Still nothing...');
+        this.capture(screenshotDir + 'screeshotEndFail.png');
+    }, 5000);
 
-    casper.then(function(){
-        this.fillSelectors('form', {
-                'input[name="_user"]':    'rossidaemon',
-                'input[name="_pass"]':    'KLFa3GfM',
-            }, false);
-    });
+    // casper.then(function(){
+    //     this.fillSelectors('form', {
+    //             'input[name="_user"]':    '...',
+    //             'input[name="_pass"]':    '...',
+    //         }, false);
+    // });
 
     // casper.then(function(){
     //     this.fillSelectors('form', {
@@ -43,10 +43,10 @@ casper.test.begin('Page contains the editor window', 1, function suite(test) {
     //         }, true);
     // });
 
-    // casper.then(function(){
-    //     this.mouseEvent('click', '#editor');
+    casper.then(function(){
+        this.mouseEvent('click', '#editor');
         // this.fill('editor', 'AAAAAAAAAAA');
-    // });
+    });
 
 
 
