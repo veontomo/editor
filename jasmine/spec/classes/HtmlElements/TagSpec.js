@@ -1374,20 +1374,20 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('has a method "loadTemplate" that', function(){
+    describe('has a method "loadRootFromTemplate" that', function(){
         beforeEach(function(){
             tag.setProperties({width: '3984em', color: 'navy', padding: 12});
             expect(tag.getProperties().propNum()).toBe(3);
         });
         it('does not change tag\'s properties if the template has no "root" key', function(){
-            tag.loadTemplate({width: '1px'});
+            tag.loadRootFromTemplate({width: '1px'});
             expect(tag.getProperties().propNum()).toBe(3);
             expect(tag.getProperty('width')).toBe('3984em');
             expect(tag.getProperty('color')).toBe('navy');
             expect(tag.getProperty('padding')).toBe(12);
         });
         it('adds properties that were not present intitially', function(){
-            tag.loadTemplate({root: {
+            tag.loadRootFromTemplate({root: {
                 margin: '43pt',
                 background: 'red'
             }});
@@ -1396,14 +1396,14 @@ describe('Tag-related functionality', function() {
         });
 
         it('overrides properties that were present intitially', function(){
-            tag.loadTemplate({root: {
+            tag.loadRootFromTemplate({root: {
                 width: '43pt',
                 background: 'red'
             }});
             expect(tag.getProperty('width')).toBe('43pt');
         });
         it('does not modify tag\'s properties that are not present in the template', function(){
-            tag.loadTemplate({root: {
+            tag.loadRootFromTemplate({root: {
                 id: 'logo',
                 color: 'red'
             }});
@@ -1411,7 +1411,7 @@ describe('Tag-related functionality', function() {
             expect(tag.getProperty('padding')).toBe(12);
         });
         it('does not add extra properties if the template contains only those present initially in the tag ', function(){
-            tag.loadTemplate({root:
+            tag.loadRootFromTemplate({root:
                 {
                     padding: '9%',
                     color: 'red'
@@ -1421,12 +1421,12 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    xdescribe('has a method "loadFromTemplate" that', function(){
+    describe('has a method "loadFromTemplate" that', function(){
         it('calls method "loadRootFromTemplate"', function(){
             var tRoot = {root: {width: '175px', padding: '42pt'}};
-            spyOn(tag, 'loadTemplate');
+            spyOn(tag, 'loadRootFromTemplate');
             tag.loadFromTemplate(tRoot);
-            expect(tag.loadTemplate).toHaveBeenCalledWith(tRoot);
+            expect(tag.loadRootFromTemplate).toHaveBeenCalledWith(tRoot);
         });
         it('calls method "loadRootFromTemplate" with templates corresponding to child elements', function(){
             var t1 = {margin: '41em', 'class': 'media', color: 'green'},
@@ -1434,11 +1434,11 @@ describe('Tag-related functionality', function() {
                 el1 = new Tag(),
                 el2 = new Tag();
             spyOn(tag, 'getElements').and.returnValue([el1, el2]);
-            spyOn(el1, 'loadTemplate');
-            spyOn(el2, 'loadTemplate');
+            spyOn(el1, 'loadRootFromTemplate');
+            spyOn(el2, 'loadRootFromTemplate');
             tag.loadFromTemplate({root: t1, children: [t1, t2]});
-            expect(el1.loadTemplate).toHaveBeenCalledWith(t1);
-            expect(el2.loadTemplate).toHaveBeenCalledWith(t2);
+            expect(el1.loadRootFromTemplate).toHaveBeenCalledWith(t1);
+            expect(el2.loadRootFromTemplate).toHaveBeenCalledWith(t2);
         });
 
         it('loads last template in a child the element has more children than are stored in the template', function(){
@@ -1449,15 +1449,15 @@ describe('Tag-related functionality', function() {
                 el3 = new Tag(),
                 el4 = new Tag();
             spyOn(tag, 'getElements').and.returnValue([el1, el2, el3, el4]);
-            spyOn(el1, 'loadTemplate');
-            spyOn(el2, 'loadTemplate');
-            spyOn(el3, 'loadTemplate');
-            spyOn(el4, 'loadTemplate');
+            spyOn(el1, 'loadRootFromTemplate');
+            spyOn(el2, 'loadRootFromTemplate');
+            spyOn(el3, 'loadRootFromTemplate');
+            spyOn(el4, 'loadRootFromTemplate');
             tag.loadFromTemplate({root: t1, children: [t1, t2]});
-            expect(el1.loadTemplate).toHaveBeenCalledWith(t1);
-            expect(el2.loadTemplate).toHaveBeenCalledWith(t2);
-            expect(el3.loadTemplate).toHaveBeenCalledWith(t2);
-            expect(el4.loadTemplate).toHaveBeenCalledWith(t2);
+            expect(el1.loadRootFromTemplate).toHaveBeenCalledWith(t1);
+            expect(el2.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+            expect(el3.loadRootFromTemplate).toHaveBeenCalledWith(t2);
+            expect(el4.loadRootFromTemplate).toHaveBeenCalledWith(t2);
         });
 
 

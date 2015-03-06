@@ -1115,7 +1115,7 @@ function Tag(tName) {
 	 */
 	this.loadFromTemplate = function(tmpl){
 		console.info('Attention', 'It is called a deprecated method. Use Tag:loadtemplate() instead.');
-		this.loadTemplate(tmpl);
+		this.loadRootFromTemplate(tmpl);
 		var children = this.getElements(),
 			childElemNum, i,
 			childTemplate,
@@ -1130,7 +1130,7 @@ function Tag(tName) {
 			if (tmpl[childrenTagKey][i] !== undefined){
 				childTemplate = tmpl[childrenTagKey][i];
 			}
-			children[i].loadTemplate(childTemplate);
+			children[i].loadRootFromTemplate(childTemplate);
 		}
 	};
 
