@@ -273,9 +273,9 @@ function Factory(map){
 		var TargetClass = this.findClassByName(template.name),
 			element;
 		if (TargetClass){
-			element = new TargetClass();
+			element = this.produceInstanceOf(TargetClass);
 		} else {
-			element = new (this.getDefaultClass())();
+			element = this.produceInstanceOf(this.getDefaultClass());
 			element.setTag(template.name);
 		}
 		if (!element){
