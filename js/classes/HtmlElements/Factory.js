@@ -281,8 +281,8 @@ function Factory(map){
 		if (!element){
 			return undefined;
 		}
-		if (typeof element.loadRootFromTemplate === 'function'){
-			element.loadRootFromTemplate(template);
+		if (typeof element.loadTemplate === 'function'){
+			element.loadTemplate(template);
 		}
 		var childTemplates = template.children,
 			len, child, i;
