@@ -1569,6 +1569,21 @@ function Table() {
 		return output;
 	};
 
+
+	/**
+	 * Loads template.
+	 *
+	 * Overrides base class method {{#crossLink "Tag/loadTemplate:property"}}Tag:loadTemplate{{/crossLink}}.
+	 * @method  loadTemplate
+	 * @param   {Object} template
+	 * @return  {void}
+	 * @since   0.2.1
+	 * @override
+	 */
+	// this.loadTemplate = function(template){
+		// console.log('should be overriden');
+	};
+
 }
 Table.prototype = Object.create(Tag.prototype);
 
