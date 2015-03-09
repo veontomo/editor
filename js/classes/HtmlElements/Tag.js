@@ -1100,41 +1100,6 @@ function Tag(tName) {
 	};
 
 	/**
-	 * Sets parameters from template `tmpl`.
-	 *
-	 * The method sets parameters of the current element that are taken from value "root"
-	 * of `tmpl` and child element properties that are taken from value "children" of `tmpl`.
-	 * In case the number of child templates is less than the number of the children of the
-	 * element, the last child template is used.
-	 *
-	 * @method         loadFromTemplate
-	 * @param          {Object}     tmpl
-	 * @return         {void}
-	 * @since          0.1.0
-	 * @deprecated     in favour of loadTemplate
-	 */
-	this.loadFromTemplate = function(tmpl){
-		console.info('Attention', 'It is called a deprecated method. Use Tag:loadtemplate() instead.');
-		this.loadRootFromTemplate(tmpl);
-		var children = this.getElements(),
-			childElemNum, i,
-			childTemplate,
-			childrenTagKey = 'children';
-		if (!children || !Array.isArray(tmpl[childrenTagKey]) || tmpl[childrenTagKey].length === 0){
-			return;
-		}
-		childElemNum = children.length;
-		for (i = 0; i < childElemNum; i++){
-			// update template only if it is present
-			// otherwise, use one defined in previous iterations
-			if (tmpl[childrenTagKey][i] !== undefined){
-				childTemplate = tmpl[childrenTagKey][i];
-			}
-			children[i].loadRootFromTemplate(childTemplate);
-		}
-	};
-
-	/**
 	 * Loads properties corresponding to the current instance ones and not to its child elements.
 	 *
 	 * Object `tmpl` is supposed have an object-valued key 'root' that contains attributes that should be loaded.
