@@ -1145,25 +1145,15 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.loadTemplate = function(tmpl){
-		var currentTagKey = 'root';
-		if (!tmpl.hasOwnProperty(currentTagKey)){
-			return;
+		var properties, content;
+		properties = this.getProperties();
+		properties.appendProperty(this.extractRootTemplate(tmpl));
+		this.setProperties(properties);
+		content = this.getContent();
+		if (content){
+			content.loadTemplateBunch(this.extractChildTemplates(tmpl));
+			this.setContent(content);
 		}
-		var prop = this.getProperties();
-		prop.appendProperty(tmpl[currentTagKey]);
-		this.setProperties(prop);
-		var childElements = this.getElements(),
-			len, i;
-		if (!Array.isArray(childElements)){
-			return;
-		}
-		len = childElements.length;
-		for (i = 0; i < len; i++){
-			/// to finish:
-			console.log('load template into child elements');
-		}
-
-
 	};
 
 	/**

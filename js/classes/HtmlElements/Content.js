@@ -551,4 +551,20 @@ function Content(str) {
 		}
 		return output;
 	};
+
+	/**
+	 * Loads templates into content elements.
+	 *
+	 * It iterates over {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}} array
+	 * and loads a next available template into every element. If the array of templates
+	 * is shorter than the array of {{#crossLink "Content/_elements:property"}}_elements{{/crossLink}},
+	 * then the last template is used for missing templates.
+	 * @method         loadTemplateBunch
+	 * @param          {Object}        templateBunch      array of templates
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.loadTemplateBunch = function(templateBunch){
+		/// !!! stub
+	}
 }

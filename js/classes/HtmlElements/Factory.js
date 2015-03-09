@@ -286,14 +286,13 @@ function Factory(map){
 		}
 		var childTemplates = template.children,
 			len, child, i;
-		if (!Array.isArray(childTemplates)){
-			return element;
-		}
-		len = childTemplates.length;
-		for (i = 0; i < len; i++){
-			child = this.createFromTemplate(childTemplates[i]);
-			if (child && (typeof element.appendElem === 'function')){
-				element.appendElem(child);
+		if (Array.isArray(childTemplates) && (typeof element.appendElem === 'function')){
+			len = childTemplates.length;
+			for (i = 0; i < len; i++){
+				child = this.createFromTemplate(childTemplates[i]);
+				if (child){
+					element.appendElem(child);
+				}
 			}
 		}
 		return element;
