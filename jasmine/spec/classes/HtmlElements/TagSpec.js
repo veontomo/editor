@@ -1419,6 +1419,45 @@ describe('Tag-related functionality', function() {
             });
             expect(tag.getProperties().propNum()).toBe(3);
         });
+        it('does not call method "setContent" if the content is undefiend', function(){
+            spyOn(tag, 'getContent');
+            spyOn(tag, 'setContent');
+            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['an fictitios array']});
+            expect(tag.setContent).not.toHaveBeenCalled();
+        });
+        it('calls method "setContent" if the content is defiend', function(){
+            spyOn(tag, 'getContent').and.returnValue(new Content());
+            spyOn(tag, 'setContent');
+            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['an fictitios array']});
+            expect(tag.setContent).toHaveBeenCalled();
+        });
+        it('calls method "loadTemplateBunch" on the content if it is defined', function(){
+            var fakeContent = new Content();
+            spyOn(tag, 'getContent').and.returnValue(fakeContent);
+            spyOn(fakeContent, 'loadTemplateBunch');
+            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['an fictitios array']});
+            expect(fakeContent.loadTemplateBunch).toHaveBeenCalled();
+        });
+        it('calls method "extractChildTemplates" to get child templates', function(){
+            var fakeContent = new Content();
+            var fakeArr = [];
+            spyOn(tag, 'getContent').and.returnValue(fakeContent);
+            spyOn(tag, 'extractChildTemplates').and.returnValue(fakeArr);
+            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['an fictitios array']});
+            expect(tag.extractChildTemplates).toHaveBeenCalled();
+        });
+        it('calls method "loadTemplateBunch" with output of "extractChildTemplates" method', function(){
+            var fakeContent = new Content();
+            var fakeArr = [];
+            spyOn(tag, 'getContent').and.returnValue(fakeContent);
+            spyOn(tag, 'extractChildTemplates').and.returnValue(fakeArr);
+            spyOn(fakeContent, 'loadTemplateBunch');
+            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['anything']});
+            expect(fakeContent.loadTemplateBunch).toHaveBeenCalledWith(fakeArr);
+            expect(tag.extractChildTemplates).toHaveBeenCalled();
+        });
+
+
 
     });
 
