@@ -565,6 +565,23 @@ function Content(str) {
 	 * @since          0.2.1
 	 */
 	this.loadTemplateBunch = function(templateBunch){
-		/// !!! stub
-	}
+		var children = this.getElements();
+		if (!Array.isArray(children) || !Array.isArray(templateBunch) || templateBunch.length === 0){
+			return;
+		}
+		var childNum = children.length,
+			i,
+			template;
+		for (i = 0; i < childNum; i++){
+			try {
+				if (templateBunch[i]){
+					template = templateBunch[i];
+				}
+				children[i].loadTemplate(template);
+			} catch (e){
+				console.log(e.name + ' when loading template into child n.' + i + ': ' + e.message);
+			}
+		}
+		this.setElements(children);
+	};
 }

@@ -1019,5 +1019,56 @@ describe('Content-related functionality', function(){
 		});
 	});
 
+	describe('has a method "loadTemplateBunch" that', function(){
+		it('calls method "loadTemplate" on every element if they all have that method', function(){
+			var fakeChild1 = jasmine.createSpyObj('child1', ['loadTemplate']),
+				fakeChild2 = jasmine.createSpyObj('child2', ['loadTemplate']),
+				fakeTemplate1 = {},
+				fakeTemplate2 = {};
+			spyOn(c, 'getElements').and.returnValue([fakeChild1, fakeChild2]);
+			c.loadTemplateBunch([fakeTemplate1, fakeTemplate2]);
+			expect(fakeChild1.loadTemplate).toHaveBeenCalledWith(fakeTemplate1);
+			expect(fakeChild2.loadTemplate).toHaveBeenCalledWith(fakeTemplate2);
+		});
+		it('calls method "loadTemplate" on every element if they all have that method', function(){
+			var fakeChild1 = jasmine.createSpyObj('child1', ['loadTemplate']),
+				fakeChild2 = jasmine.createSpyObj('child2', ['loadTemplate']);
+			spyOn(c, 'getElements').and.returnValue([fakeChild1, fakeChild2]);
+			spyOn(c, 'setElements');
+			c.loadTemplateBunch([{}, {}]);
+			expect(c.setElements).toHaveBeenCalledWith([fakeChild1, fakeChild2]);
+		});
+
+		it('does not throw any error if a child has no "loadTemplate" method', function(){
+			var fakeChild = {};
+			var fakeTemplate = {};
+			spyOn(c, 'getElements').and.returnValue([fakeChild]);
+			expect(function(){
+				c.loadTemplateBunch([fakeTemplate]);
+			}).not.toThrow();
+		});
+		it('does not throw any error if "loadTemplate" method throws an error', function(){
+			var fakeChild = {loadTemplate: function(){throw new Error('Dynamically generated error');}};
+			var fakeTemplate = {};
+			spyOn(c, 'getElements').and.returnValue([fakeChild]);
+			expect(function(){
+				c.loadTemplateBunch([fakeTemplate]);
+			}).not.toThrow();
+		});
+		it('uses the same template if there are three elements and the only template', function(){
+			var fakeChild1 = jasmine.createSpyObj('child1', ['loadTemplate']),
+				fakeChild2 = jasmine.createSpyObj('child2', ['loadTemplate']),
+				fakeChild3 = jasmine.createSpyObj('child3', ['loadTemplate']);
+			var fakeTemplate = {};
+			spyOn(c, 'getElements').and.returnValue([fakeChild1, fakeChild2, fakeChild3]);
+			c.loadTemplateBunch([fakeTemplate]);
+			expect(fakeChild1.loadTemplate).toHaveBeenCalledWith(fakeTemplate);
+			expect(fakeChild2.loadTemplate).toHaveBeenCalledWith(fakeTemplate);
+			expect(fakeChild3.loadTemplate).toHaveBeenCalledWith(fakeTemplate);
+		});
+
+
+	});
+
 
 });
