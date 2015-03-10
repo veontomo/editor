@@ -263,9 +263,7 @@ function CTable(){
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
-			console.info('onOk', dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
-			console.info('onOk', template);
 			doc = this.getWorker();
 			if (seedTable){
 				doc.updateNode(seedTable, template);
@@ -275,7 +273,6 @@ function CTable(){
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
 				builder = doc.getFactory();
 				model = builder.createFromTemplate(template);
-				console.info('onOk', model.toHtml());
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);

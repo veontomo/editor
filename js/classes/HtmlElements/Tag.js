@@ -1110,13 +1110,38 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.loadTemplate = function(tmpl){
-		var properties, content;
-		properties = this.getProperties();
-		properties.appendProperty(this.extractRootTemplate(tmpl));
+		this.loadProperTemplate(tmpl);
+		this.loadChildTemplates(this.extractChildTemplates(tmpl));
+	};
+
+	/**
+	 * Loads properties corresponding to the instance and not those corresponding
+	 * to its children.
+	 * @method         loadProperTemplate
+	 * @param          {Object}        template
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.loadProperTemplate = function(template){
+		var properties = this.getProperties();
+		properties.appendProperty(this.extractRootTemplate(template));
 		this.setProperties(properties);
-		content = this.getContent();
+	};
+
+	/**
+	 * Loads template corresponding to the instance child elements.
+	 *
+	 * Delegates its functionality to {{#crossLink "Content/loadTemplateBunch:method"}}loadTemplateBunch{{/crossLink}}
+	 * method.
+	 * @method         loadChildTemplates
+	 * @param          {Array}         templateBunch       array of templates
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.loadChildTemplates = function(templateBunch){
+		var content = this.getContent();
 		if (content){
-			content.loadTemplateBunch(this.extractChildTemplates(tmpl));
+			content.loadTemplateBunch(templateBunch);
 			this.setContent(content);
 		}
 	};
