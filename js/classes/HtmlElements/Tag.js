@@ -1124,7 +1124,7 @@ function Tag(tName) {
 	 */
 	this.loadProperTemplate = function(template){
 		var properties = this.getProperties();
-		properties.appendProperty(this.extractRootTemplate(template));
+		properties.appendProperty(this.extractProperTemplate(template));
 		this.setProperties(properties);
 	};
 
@@ -1151,12 +1151,12 @@ function Tag(tName) {
 	 * to its nested elements.
 	 *
 	 * It returns value of key "root" of `template` object or an empty object in case that key does not exist.
-	 * @method         extractRootTemplate
+	 * @method         extractProperTemplate
 	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
-	this.extractRootTemplate = function(template){
+	this.extractProperTemplate = function(template){
 		return template.root || {} ;
 	};
 
