@@ -1582,7 +1582,7 @@ function Table() {
 	 */
 	// this.loadTemplate = function(template){
 		// console.log('should be overriden');
-	};
+	// };
 
 }
 Table.prototype = Object.create(Tag.prototype);
