@@ -1580,9 +1580,9 @@ function Table() {
 	 * @since   0.2.1
 	 * @override
 	 */
-	// this.loadTemplate = function(template){
-		// console.log('should be overriden');
-	// };
+	this.loadTemplate = function(template){
+		console.log('loading table from template: ', template);
+	};
 
 }
 Table.prototype = Object.create(Tag.prototype);

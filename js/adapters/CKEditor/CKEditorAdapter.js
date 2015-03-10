@@ -190,50 +190,22 @@ function CKEditorAdapter(){
 
 
 	/**
-	 * Converts information collected from the table dialog menu into format defined by
-	 * {{#crossLink "Table/template:method"}}Table::template{{/crossLink}} method.
+	 * Converts information collected from the table dialog menu into table template.
 	 *
-	 * Overrides {{#crossLink "Controller"}}base class{{/crossLink}} definition of
-	 * {{#crossLink "Controller/dialogToTemplate:method"}}dialogToTemplate{{/crossLink}}.
- 	 * The returning object include the following keys:
-	 * <dl>
-	 * <dt>rows</dt><dd>number of table rows</dd>
-	 * <dt>cols</dt><dd>number of table columns</dd>
-	 * <dt>tableBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table border width</dd>
-	 * <dt>'border-color'</dt><dd>string for table border color</dd>
-	 * <dt>phantomBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for width around table rows</dd>
-     * <dt>phantomBorderColor</dt><dd>string for the border around table rows</dd>
-     * <dt>cellBorders</dt><dd>boolean variables for borders around table cells:
-     * 		<code>leftVer</code>, <code>rightVer</code>, <code>intVer</code>,
-     *   	<code>topHor</code>, <code>bottomHor</code>, <code>intHor</code>
-     * </dd>
-     * <dt>cellBorderWidth</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for border width around table cells</dd>
-     * <dt>cellBorderColor</dt><dd>string for border color around table cells</dd>
-     * <dt>background</dt><dd>string for table background color</dd>
-     * <dt>margin</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table margin</dd>
-     * <dt>padding</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for the table padding</dd>
-     * <dt>border-spacing</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance to set vertical spacing between rows
-     * (horizontal is set to 0 px)</dd>
-     * <dt>cell[padding]</dt><dd>{{#crossLink "Unit"}}Unit{{/crossLink}} instance for table cells padding </dd>
-	 * <dt>cellWeights</dt><dd>array of (non-negative) numbers that have meaning of weights with which columns contribute
-	 * to the total table width</dd>
-	 * </dl>
+	 * NB: due to nested nature (table -> tbody -> row -> cell) of table template, it seems
+	 * better to be able to customize process of loading table template. This method propduces
+	 * output this is to be given to {{#crossLink "Table/loadTemplate:method"}}Table:loadTemplate{{/crossLink}}
+	 * method. Implementation of this method differs from that of the base class
+	 * {{#crossLink "Tag/loadTemplate:property"}}Tag:loadTemplate{{/crossLink}}.
+	 *
 	 * @method         tableDialogToTemplate
-	 * @param          {Object}        obj
+	 * @param          {Object}        dialog
 	 * @return         {Object}
+	 * @since          0.2.1
 	 */
 	this.tableDialogToTemplate = function(dialog){
-		var rowTemplate = {name: 'row', root: {
-			style: {
-				'border-color': dialog.borders.rowBorderColor,
-				'border-width': dialog.borders.rowBorderWidth,
-			}
-		}},
-		cellTemplate = {name: 'cell', root: {
-			'style': {'padding': dialog.spaces['cell[padding]']},
-		}},
-		tbodyTemplate = {name: 'tbody'},
-		tableTemplate = {
+		/// yet to be finished
+		var tableTemplate = {
 			name: 'table',
 			root: {
 				'style': {
@@ -248,11 +220,20 @@ function CKEditorAdapter(){
 						'phantomBorderWidth':   dialog.borders.rowBorderWidth,
 						'phantomBorderColor':   dialog.borders.rowBorderColor,
 				}
+			},
+			rowTemplates: {
+				name: 'row',
+				root: {
+					style: {
+						'border-color': dialog.borders.rowBorderColor,
+						'border-width': dialog.borders.rowBorderWidth,
+					}
+				}
+			},
+			cellTemplates: {
+				name: 'cell'
 			}
 		};
-		rowTemplate.children = [cellTemplate];
-		tbodyTemplate.children = [rowTemplate];
-		tableTemplate.children = [tbodyTemplate];
 		return tableTemplate;
 	};
 
