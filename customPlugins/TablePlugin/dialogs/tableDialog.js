@@ -256,24 +256,55 @@ function TableDialog(editor) {
 
 		// Dialog window contents definition.
 		contents: [{
-			id: 'structure',
+			id: 'table',
 			label: editor.lang[_pluginName].structure,
-			elements: [
-			{
+			elements: [{
 				type: 'text',
-				label: editor.lang.table.rows,
+				label: "Background color",
+				id: 'border-color',
+				default: '#000001',
+				customcolors: true,
+				inputStyle: _inputColorStyle
+			}, {
+				type: 'text',
+				label: "Padding",
+				id: 'padding',
+				default: '0',
+				inputStyle: _inputNumberStyle
+			}, {
+				type: 'text',
+				label: "Margin",
+				id: 'margin',
+				default: '0',
+				inputStyle: _inputNumberStyle
+			}, {
+				type: 'text',
+				label: "Border color",
+				id: 'border-color',
+				default: '#000001',
+				inputStyle: _inputColorStyle
+			}, {
+				type: 'text',
+				label: "Border width",
+				id: 'border-width',
+				default: '0',
+				inputStyle: _inputNumberStyle
+			}, {
+				type: 'text',
+				label: "Number of rows",
 				id: 'rows',
-				'default': 1,
-				inputStyle: _inputNumberStyle,
-				onChange: asNumber
+				default: '1',
+				onChange: asNumber,
+				inputStyle: _inputNumberStyle
 			}, {
 				type: 'text',
-				label: editor.lang.table.columns,
-				id: 'cols',
-				'default': 1,
-				inputStyle: _inputNumberStyle,
-				onChange: drawInputCells
-			}, {
+				label: "Number of columns",
+				id: 'columns',
+				default: '1',
+				onChange: drawInputCells,
+				inputStyle: _inputNumberStyle
+			},
+			 {
 				type: 'html',
 				id:   'columnWidthTableTitle',
 				html: ''
@@ -281,6 +312,89 @@ function TableDialog(editor) {
 				type: 'html',
 				id:   'columnWidthTable',
 				html: ''
+			}]},
+		{
+			id: 'rows',
+			label:  editor.lang[_pluginName].rows,
+			elements: [
+			{
+				type: 'vbox',
+				children: [{
+					type: 'text',
+					label: "Padding",
+					id: 'padding',
+					default: '0',
+					inputStyle: _inputNumberStyle
+				}, {
+					type: 'text',
+					label: "Margin",
+					id: 'margin',
+					default: '0',
+					inputStyle: _inputNumberStyle
+				}, {
+					type: 'text',
+					label: "Border color",
+					id: 'border-color',
+					default: '#000001',
+					inputStyle: _inputColorStyle
+				}, {
+					type: 'text',
+					label: "Border width",
+					id: 'border-color',
+					default: '0',
+					inputStyle: _inputNumberStyle
+				},
+				// {
+				// 	type: 'hbox',
+				// 	widths: ['50%', '50%'],
+				// 	children: [{
+				// 		type: 'text',
+				// 		label: editor.lang.common.width,
+				// 		title: editor.lang[_pluginName].valueInPx,
+				// 		id: 'border-width',
+				// 		'default': '0',
+				// 		inputStyle: _inputNumberStyle,
+				// 		onChange: asNumber
+				// 	}, {
+				// 		type: 'text',
+				// 		label: editor.lang.colordialog.title,
+				// 		id: 'border-color',
+				// 		'default': '#000001',
+				// 		customcolors: true,
+				// 		inputStyle: _inputColorStyle
+				// 	}]
+				// }
+				]
+			}]
+		}, {
+			id: 'cells',
+			label:  editor.lang[_pluginName].cells,
+			elements: [
+			{
+				type: 'vbox',
+				children: [{
+					type: 'html',
+					html: editor.lang[_pluginName].frame,
+				}, {
+					type: 'hbox',
+					widths: ['50%', '50%'],
+					children: [{
+						type: 'text',
+						label: editor.lang.common.width,
+						title: editor.lang[_pluginName].valueInPx,
+						id: 'border-width',
+						'default': '0',
+						inputStyle: _inputNumberStyle,
+						onChange: asNumber
+					}, {
+						type: 'text',
+						label: editor.lang.colordialog.title,
+						id: 'border-color',
+						'default': '#000001',
+						customcolors: true,
+						inputStyle: _inputColorStyle
+					}]
+				}]
 			}]
 		}, {
 			id: 'borders',
