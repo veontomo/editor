@@ -192,11 +192,16 @@ function CKEditorAdapter(){
 	/**
 	 * Converts information collected from the table dialog menu into table template.
 	 *
-	 * NB: due to nested nature (table -> tbody -> row -> cell) of table template, it seems
-	 * better to be able to customize process of loading table template. This method propduces
-	 * output this is to be given to {{#crossLink "Table/loadTemplate:method"}}Table:loadTemplate{{/crossLink}}
-	 * method. Implementation of this method differs from that of the base class
-	 * {{#crossLink "Tag/loadTemplate:property"}}Tag:loadTemplate{{/crossLink}}.
+	 * NB: due to nested nature (table -> tbody -> row -> cell) of tables, it seems
+	 * better to be able to customize process of loading table template.
+	 *
+	 * This method produces output that is then intended to be given to
+	 * {{#crossLink "Table/loadTemplate:method"}}Table:loadTemplate{{/crossLink}}
+	 * method.
+	 *
+	 * Note that first, middle and last rows of table might have different templates (i.e.,
+	 * first row might have upper border and the last row - the bottom border) as well as
+	 * first, middle and last cells might have different templates.
 	 *
 	 * @method         tableDialogToTemplate
 	 * @param          {Object}        dialog
@@ -204,6 +209,7 @@ function CKEditorAdapter(){
 	 * @since          0.2.1
 	 */
 	this.tableDialogToTemplate = function(dialog){
+		console.log('dialog = ', dialog);
 		/// yet to be finished
 		var tableTemplate = {
 			name: 'table',
