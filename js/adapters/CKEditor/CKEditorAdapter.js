@@ -121,7 +121,7 @@ function CKEditorAdapter(){
 	 */
 	this.fillInDialog = function(dialog, data){
 		console.log('filling in dialog with data: ', data);
-		var pageId, page, elemId, value, elem, domElem;
+		var pageId, page, elemId, value;
 		for (pageId in data){
 			if (pageId && data.hasOwnProperty(pageId)){
 				page = data[pageId];
@@ -209,35 +209,44 @@ function CKEditorAdapter(){
 	 * @since          0.2.1
 	 */
 	this.tableDialogToTemplate = function(dialog){
-		console.log('dialog = ', dialog);
-		/// yet to be finished
 		var tableTemplate = {
 			name: 'table',
 			root: {
 				'style': {
-					'margin':           dialog.spaces.margin,
-					'padding':          dialog.spaces.padding,
-					'border-width':     dialog.borders['border-width'],
-					'border-color':     dialog.borders['border-color'],
-					'border-spacing':   dialog.spaces['border-spacing'],
-					'background':       dialog.background.background,
+					'margin':        dialog.table.margin,
+					'padding':       dialog.table.padding,
+					'border-width':  dialog.table['border-width'],
+					'border-color':  dialog.table['border-color'],
+					'background':    dialog.table.background,
 				},
-				'phantomTable': {
-						'phantomBorderWidth':   dialog.borders.rowBorderWidth,
-						'phantomBorderColor':   dialog.borders.rowBorderColor,
+				'phantom': {
+					'border-width':  dialog.rows['border-width'],
+					'border-color':  dialog.rows['border-color'],
 				}
 			},
 			rowTemplates: {
 				name: 'row',
 				root: {
+					'border-top':    dialog.rows.borderTop,
+					'border-bottom': dialog.rows.borderBottom,
+					'border-middle': dialog.rows.borderMiddle,
 					style: {
-						'border-color': dialog.borders.rowBorderColor,
-						'border-width': dialog.borders.rowBorderWidth,
+						'margin':    dialog.rows.margin,
+						'padding':   dialog.rows.padding,
 					}
 				}
 			},
 			cellTemplates: {
-				name: 'cell'
+				name: 'cell',
+				root: {
+					'border-right':  dialog.cells.borderLeft,
+					'border-left':   dialog.cells.borderRight,
+					'border-middle': dialog.cells.borderMiddle,
+					style: {
+						'margin':    dialog.cells.margin,
+						'padding':   dialog.cells.padding,
+					}
+				},
 			}
 		};
 		return tableTemplate;
@@ -447,7 +456,6 @@ function CKEditorAdapter(){
 	 * Dispatcher for functions that transform dialog window object into corresponding
 	 * {{#crossLink "Tag/template:method"}}Tag::template{{/crossLink}} object.
 	 *
-	 *
 	 * It is inverse of {{#crossLink "CKEditorAdapter/templateToDialog:property"}}templateToDialog{{/crossLink}}.
 	 *
 	 * The format of the returned object is: <code>{`key1`: `mapper1`}</code>, where `key1` is a marker by means of
@@ -461,13 +469,9 @@ function CKEditorAdapter(){
 	this.dialogToTemplate = function(dialog, marker){
 		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
 		var mapper = marker2 + 'DialogToTemplate';
-		console.log('mapper: ' + mapper);
 		var executor = this[mapper];
 		if (typeof executor !== 'function'){
 			executor = this.defaultDialogToTemplate;
-			console.log('mapper does not exist');
-		} else {
-			console.log('mapper exists');
 		}
 		return executor(dialog);
 	};

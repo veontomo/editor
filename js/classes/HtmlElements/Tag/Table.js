@@ -1581,7 +1581,10 @@ function Table() {
 	 * @override
 	 */
 	this.loadTemplate = function(template){
-		console.log('loading table from template: ', template);
+		var properTemplate = this.extractProperTemplate(template);
+		console.log('rootTemplate: ', properTemplate);
+		this.setProperties(properTemplate);
+		this.setWidth(properTemplate.width);
 	};
 
 }
