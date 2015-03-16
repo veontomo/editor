@@ -324,13 +324,15 @@ function TableDialog(editor) {
 					label: "Padding",
 					id: 'padding',
 					default: '0',
-					inputStyle: _inputNumberStyle
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				}, {
 					type: 'text',
 					label: "Margin",
 					id: 'margin',
 					default: '0',
-					inputStyle: _inputNumberStyle
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				}, {
 					type: 'text',
 					label: "Border color",
@@ -340,9 +342,10 @@ function TableDialog(editor) {
 				}, {
 					type: 'text',
 					label: "Border width",
-					id: 'border-color',
+					id: 'border-width',
 					default: '0',
-					inputStyle: _inputNumberStyle
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				},
 				// {
 				// 	type: 'hbox',
@@ -369,32 +372,37 @@ function TableDialog(editor) {
 		}, {
 			id: 'cells',
 			label:  editor.lang[_pluginName].cells,
-			elements: [
-			{
+			elements: [{
 				type: 'vbox',
 				children: [{
-					type: 'html',
-					html: editor.lang[_pluginName].frame,
+					type: 'text',
+					label: "Padding",
+					id: 'padding',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				}, {
-					type: 'hbox',
-					widths: ['50%', '50%'],
-					children: [{
-						type: 'text',
-						label: editor.lang.common.width,
-						title: editor.lang[_pluginName].valueInPx,
-						id: 'border-width',
-						'default': '0',
-						inputStyle: _inputNumberStyle,
-						onChange: asNumber
-					}, {
-						type: 'text',
-						label: editor.lang.colordialog.title,
-						id: 'border-color',
-						'default': '#000001',
-						customcolors: true,
-						inputStyle: _inputColorStyle
-					}]
-				}]
+					type: 'text',
+					label: "Margin",
+					id: 'margin',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
+				}, {
+					type: 'text',
+					label: "Border color",
+					id: 'border-color',
+					default: '#000001',
+					inputStyle: _inputColorStyle
+				}, {
+					type: 'text',
+					label: "Border width",
+					id: 'border-width',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
+				},
+			]
 			}]
 		}, {
 			id: 'borders',
