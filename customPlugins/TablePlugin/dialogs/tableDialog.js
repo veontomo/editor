@@ -289,48 +289,55 @@ function TableDialog(editor) {
 		// Dialog window contents definition.
 		contents: [{
 			id: 'table',
-			label: editor.lang[_pluginName].structure,
+			label: editor.lang[_pluginName].overallTable,
 			elements: [{
 				type: 'text',
-				label: "Background color",
+				label: editor.lang[_pluginName].background,
+				title: editor.lang[_pluginName].backgroundDescr,
 				id: 'background',
 				default: '#FFFFFF',
 				customcolors: true,
 				inputStyle: _inputColorStyle
 			}, {
 				type: 'text',
-				label: "Padding",
+				label: editor.lang[_pluginName].padding,
+				title: editor.lang[_pluginName].paddingDescr,
 				id: 'padding',
 				default: '0',
 				inputStyle: _inputNumberStyle
 			}, {
 				type: 'text',
-				label: "Margin",
+				label: editor.lang[_pluginName].margin,
+				title: editor.lang[_pluginName].marginDescr,
 				id: 'margin',
 				default: '0',
 				inputStyle: _inputNumberStyle
 			}, {
 				type: 'text',
-				label: "Border color",
+				label: editor.lang[_pluginName].borderColor,
+				title: editor.lang[_pluginName].borderColorDescr,
 				id: 'border-color',
 				default: '#000001',
 				inputStyle: _inputColorStyle
 			}, {
 				type: 'text',
-				label: "Border width",
+				label: editor.lang[_pluginName].borderWidth,
+				title: editor.lang[_pluginName].borderWidthDescr,
 				id: 'border-width',
 				default: '0',
 				inputStyle: _inputNumberStyle
 			}, {
 				type: 'text',
-				label: "Number of rows",
+				label: editor.lang[_pluginName].rowNum,
+				title: editor.lang[_pluginName].rowNumDescr,
 				id: 'rows',
 				default: '1',
 				onChange: asNumber,
 				inputStyle: _inputNumberStyle
 			}, {
 				type: 'text',
-				label: "Number of columns",
+				label: editor.lang[_pluginName].cellNum,
+				title: editor.lang[_pluginName].cellNumDescr,
 				id: 'columns',
 				default: '1',
 				onChange: drawInputCells,
@@ -347,33 +354,37 @@ function TableDialog(editor) {
 			}]},
 		{
 			id: 'rows',
-			label:  editor.lang[_pluginName].rows,
+			label: editor.lang[_pluginName].rows,
 			elements: [
 			{
 				type: 'vbox',
 				children: [{
 					type: 'text',
-					label: "Padding",
+					label: editor.lang[_pluginName].padding,
+					title: editor.lang[_pluginName].paddingDescr,
 					id: 'padding',
 					default: '0',
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				}, {
 					type: 'text',
-					label: "Margin",
+					label: editor.lang[_pluginName].margin,
+					title: editor.lang[_pluginName].marginDescr,
 					id: 'margin',
 					default: '0',
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				}, {
 					type: 'text',
-					label: "Border color",
+					label: editor.lang[_pluginName].borderColor,
+					title: editor.lang[_pluginName].borderColorDescr,
 					id: 'border-color',
 					default: '#000001',
 					inputStyle: _inputColorStyle
 				}, {
 					type: 'text',
-					label: "Border width",
+					label: editor.lang[_pluginName].borderWidth,
+					title: editor.lang[_pluginName].borderWidthDescr,
 					id: 'border-width',
 					default: '0',
 					inputStyle: _inputNumberStyle,
@@ -385,46 +396,43 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'topHorIcon',
-							html: _iconTag('upper.gif', editor.lang[_pluginName].topHorBord)
+							html: _iconTag('upper.gif', editor.lang[_pluginName].borderTop)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].topHorBord,
-							id: 'topHorBord',
+							title: editor.lang[_pluginName].borderTop,
+							id: 'borderTop',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['rows', 'border-width', '1']
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'intHorIcon',
-							html: _iconTag('middleHor.gif', editor.lang[_pluginName].intHorBord)
+							html: _iconTag('middleHor.gif', editor.lang[_pluginName].borderMiddle)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].intHorBord,
-							id: 'intHorBord',
+							title: editor.lang[_pluginName].borderMiddle,
+							id: 'borderMiddle',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['rows', 'border-width', '1']
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'bottomHorIcon',
-							html: _iconTag('lower.gif', editor.lang[_pluginName].bottomHorBord)
+							html: _iconTag('lower.gif', editor.lang[_pluginName].borderBottom)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].bottomHorBord,
-							id: 'bottomHorBord',
+							title: editor.lang[_pluginName].borderBottom,
+							id: 'borderBottom',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['rows', 'border-width', '1']
 						}]
 					}]
 				}
@@ -437,27 +445,31 @@ function TableDialog(editor) {
 				type: 'vbox',
 				children: [{
 					type: 'text',
-					label: "Padding",
+					label: editor.lang[_pluginName].padding,
+					title: editor.lang[_pluginName].paddingDescr,
 					id: 'padding',
 					default: '0',
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				}, {
 					type: 'text',
-					label: "Margin",
+					label: editor.lang[_pluginName].margin,
+					title: editor.lang[_pluginName].marginDescr,
 					id: 'margin',
 					default: '0',
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				}, {
 					type: 'text',
-					label: "Border color",
+					label: editor.lang[_pluginName].borderColor,
+					title: editor.lang[_pluginName].borderColorDescr,
 					id: 'border-color',
 					default: '#000001',
 					inputStyle: _inputColorStyle
 				}, {
 					type: 'text',
-					label: "Border width",
+					label: editor.lang[_pluginName].borderWidth,
+					title: editor.lang[_pluginName].borderWidthDescr,
 					id: 'border-width',
 					default: '0',
 					inputStyle: _inputNumberStyle,
@@ -469,47 +481,44 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'leftVerIcon',
-							html: _iconTag('left.gif', editor.lang[_pluginName].leftVerBord),
+							html: _iconTag('left.gif', editor.lang[_pluginName].borderLeft),
 							style: _borderIconStyle
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].leftVerBord,
-							id: 'leftVerBord',
+							title: editor.lang[_pluginName].borderLeft,
+							id: 'borderLeft',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['cells', 'border-width', '1']
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'intVerIcon',
-							html: _iconTag('middleVer.gif', editor.lang[_pluginName].intVerBord)
+							html: _iconTag('middleVer.gif', editor.lang[_pluginName].borderMiddle)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].intVerBord,
-							id: 'intVerBord',
+							title: editor.lang[_pluginName].borderMiddle,
+							id: 'borderMiddle',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['cells', 'border-width', '1']
 						}]
 					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							id: 'rightVerIcon',
-							html: _iconTag('right.gif', editor.lang[_pluginName].rightVerBord)
+							html: _iconTag('right.gif', editor.lang[_pluginName].borderRight)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].rightVerBord,
-							id: 'rightVerBord',
+							title: editor.lang[_pluginName].borderRight,
+							id: 'borderRight',
 							default: false,
 							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
+							target: ['cells', 'border-width', '1']
 						}]
 					}]
 				}
