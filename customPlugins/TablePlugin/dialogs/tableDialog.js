@@ -391,7 +391,7 @@ function TableDialog(editor) {
 					onChange: asNumber
 				}, {
 					type: 'hbox',
-					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
+					widths: ['2em', '2em', 'auto'],
 					children: [{
 						type: 'vbox',
 						children: [{
@@ -476,7 +476,7 @@ function TableDialog(editor) {
 					onChange: asNumber
 				}, {
 					type: 'hbox',
-					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
+					widths: ['2em', '2em', 'auto'],
 					children: [{
 						type: 'vbox',
 						children: [{
