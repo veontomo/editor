@@ -247,6 +247,38 @@ function TableDialog(editor) {
 		}
 	};
 
+	/**
+	 * Appends {{#crossLink "TableDialog/_colorPicker:property"}}color picker{{/crossLink}} instance
+	 * to many elements.
+	 *
+	 * The user elements are provided by means of the argument which should be given in the following format:
+	 * {tabId1: [pageId1, pageId2, ...], tabId2: [pageId1, pageId2, ...], ...}
+	 * @method         appendColorPickerToBunch
+	 * @param          {Object}  dialog
+	 * @param          {Object}        elements
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	var _appendColorPickerToBunch = function(dialog, elements){
+		var tab, ids, len, i, id;
+		for (tab in elements){
+			if (elements.hasOwnProperty(tab)){
+				ids = elements[tab];
+				len = ids.length;
+				for (i = 0; i < len; i++){
+					try {
+						id = dialog.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+						_colorPicker.linkTo(id);
+					} catch (e){
+						console.log(e.name + ' occurred when linking color picking dialog to input element (' + i + ' of tab '  + tab + '): ' + e.message);
+					}
+
+
+				}
+			}
+		}
+	};
+
 
 	var dialogWindow = {
 		// Basic properties of the dialog window: title, minimum size.
@@ -261,8 +293,8 @@ function TableDialog(editor) {
 			elements: [{
 				type: 'text',
 				label: "Background color",
-				id: 'border-color',
-				default: '#000001',
+				id: 'background',
+				default: '#FFFFFF',
 				customcolors: true,
 				inputStyle: _inputColorStyle
 			}, {
@@ -347,26 +379,6 @@ function TableDialog(editor) {
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				},
-				// {
-				// 	type: 'hbox',
-				// 	widths: ['50%', '50%'],
-				// 	children: [{
-				// 		type: 'text',
-				// 		label: editor.lang.common.width,
-				// 		title: editor.lang[_pluginName].valueInPx,
-				// 		id: 'border-width',
-				// 		'default': '0',
-				// 		inputStyle: _inputNumberStyle,
-				// 		onChange: asNumber
-				// 	}, {
-				// 		type: 'text',
-				// 		label: editor.lang.colordialog.title,
-				// 		id: 'border-color',
-				// 		'default': '#000001',
-				// 		customcolors: true,
-				// 		inputStyle: _inputColorStyle
-				// 	}]
-				// }
 				]
 			}]
 		}, {
@@ -402,6 +414,102 @@ function TableDialog(editor) {
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
 				},
+				{
+					type: 'hbox',
+					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
+					children: [{
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'leftVerIcon',
+							html: _iconTag('left.gif', editor.lang[_pluginName].leftVerBord),
+							style: _borderIconStyle
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].leftVerBord,
+							id: 'leftVerBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'intVerIcon',
+							html: _iconTag('middleVer.gif', editor.lang[_pluginName].intVerBord)
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].intVerBord,
+							id: 'intVerBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'rightVerIcon',
+							html: _iconTag('right.gif', editor.lang[_pluginName].rightVerBord)
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].rightVerBord,
+							id: 'rightVerBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'topHorIcon',
+							html: _iconTag('upper.gif', editor.lang[_pluginName].topHorBord)
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].topHorBord,
+							id: 'topHorBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'intHorIcon',
+							html: _iconTag('middleHor.gif', editor.lang[_pluginName].intHorBord)
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].intHorBord,
+							id: 'intHorBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}, {
+						type: 'vbox',
+						children: [{
+							type: 'html',
+							id: 'bottomHorIcon',
+							html: _iconTag('lower.gif', editor.lang[_pluginName].bottomHorBord)
+						}, {
+							type: 'checkbox',
+							label: '',
+							title: editor.lang[_pluginName].bottomHorBord,
+							id: 'bottomHorBord',
+							default: false,
+							onChange: suggestValue,
+							target: ['borders', 'cellBorderWidth', '1']
+						}]
+					}]
+				}
 			]
 			}]
 		}, {
@@ -464,7 +572,8 @@ function TableDialog(editor) {
 				children: [{
 					type: 'html',
 					html: editor.lang[_pluginName].cellBorders,
-				}, {
+				},
+				{
 					type: 'hbox',
 					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
 					children: [{
@@ -590,73 +699,7 @@ function TableDialog(editor) {
 					}]
 				}]
 			}]
-		}, {
-			id: 'background',
-			label: editor.lang[_pluginName].background,
-			elements: [
-			{
-				type: 'text',
-				label: editor.lang.table.cell.bgColor,
-				id: 'background',
-				'default': '#ffffff',
-				inputStyle: _inputColorStyle
-
-			}]
-		}, {
-			id: 'spaces',
-			label: editor.lang[_pluginName].spacesTitle,
-			elements: [
-			{
-				type: 'vbox',
-				children: [{
-					type: 'html',
-					html: editor.lang[_pluginName].spacesDescr,
-				}, {
-					type: 'hbox',
-					widths: ['50%', '50%'],
-					children: [{
-						type: 'vbox',
-						children: [{
-							type: 'text',
-							label: editor.lang[_pluginName].globalSpaces,
-							title: editor.lang[_pluginName].valueInPx,
-							'default': '0',
-							id: 'margin',
-							inputStyle: _inputNumberStyle,
-							onChange: asNumber
-						}, {
-							type: 'text',
-							label: editor.lang[_pluginName].globalPadding,
-							title: editor.lang[_pluginName].valueInPx,
-							'default': '0',
-							id: 'padding',
-							inputStyle: _inputNumberStyle,
-							onChange: asNumber
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'text',
-							label: editor.lang[_pluginName].rowSpaceTitle,
-							title: editor.lang[_pluginName].valueInPx,
-							'default': '0',
-							id: 'border-spacing',
-							inputStyle: _inputNumberStyle,
-							onChange: asNumber
-						}, {
-							type: 'text',
-							label: editor.lang[_pluginName].cellSpace,
-							title: editor.lang[_pluginName].valueInPx,
-							'default': '0',
-							id: 'cell[padding]',
-							inputStyle: _inputNumberStyle,
-							onChange: asNumber
-
-						}]
-					}]
-				}]
-			}]
-		}
+		},
 		],
 
 		/**
@@ -666,24 +709,17 @@ function TableDialog(editor) {
 		 * @return     {void}
 		 */
 		onLoad: function(){
-			// ui text input elements to which append color picker
+			// ui text input elements to which the color picker should be appended
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
-				'borders':     ['border-color',  'rowBorderColor', 'cellBorderColor'],
-				'background':  ['background'],
+				'table':     ['background', 'border-color'],
+				'rows':      ['border-color'],
+				'cells':     ['border-color'],
 			};
-			var tab, ids, len, i, id;
-			for (tab in colorInputFields){
-				if (colorInputFields.hasOwnProperty(tab)){
-					ids = colorInputFields[tab];
-					len = ids.length;
-					for (i = 0; i < len; i++){
-						id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
-						_colorPicker.linkTo(id);
-					}
-				}
-			}
+			_appendColorPickerToBunch(this, colorInputFields);
 		},
+
+
 
 		/**
 		 * The function to execute when the dialog is loaded (executed every time the dialog is opened).
