@@ -116,14 +116,14 @@ CKEDITOR.plugins.add('TablePlugin', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
 			editor.addMenuItem(_pluginName + 'Delete', {
-				label:   editor.lang[_pluginName].deleteTable,
+				label:   editor.lang[_pluginName].delete,
 				icon:    this.path + 'icons/deleteTable.png',
 				command: _pluginName + 'Delete',
 				group:  _pluginNameGroup
 			});
 
 			editor.addMenuItem(_pluginName + 'Modify', {
-				label: editor.lang[_pluginName].modifyTable,
+				label: editor.lang[_pluginName].modify,
 				icon: this.path + 'icons/modifyTable.png',
 				command: _pluginName + 'Dialog',
 				group: _pluginNameGroup
@@ -159,8 +159,10 @@ CKEDITOR.plugins.add('TablePlugin', {
 				cellNum:         'Numero di colonne',
 				cellNumDescr:    'Impostare il numero di colonne della tabella',
 				cells:           'Celle',
+				delete:          'Eliminare la tabella',
 				margin:          'Margine',
 				marginDescr:     'Spazio tra il bordo e l\'esterno in pixel',
+				modify:          'Modificare la tabella',
 				overallTable:    'Tabella',
 				padding:         'Padding',
 				paddingDescr:    'Spazio tra il bordo e l\'interno in pixel',
@@ -182,8 +184,10 @@ CKEDITOR.plugins.add('TablePlugin', {
 				borderWidthDescr:'Set border width in pixels',
 				cellNum:         'Columns',
 				cells:           'Cells',
+				delete:          'Drop the table',
 				margin:          'Margin',
 				marginDescr:     'Space between border and outer elements in pixels',
+				modify:          'Modify the table',
 				overallTable:    'Table',
 				padding:         'Padding',
 				paddingDescr:    'Space between border and the content in pixels',
