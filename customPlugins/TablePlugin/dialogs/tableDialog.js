@@ -378,92 +378,10 @@ function TableDialog(editor) {
 					default: '0',
 					inputStyle: _inputNumberStyle,
 					onChange: asNumber
-				},
-				]
-			}]
-		}, {
-			id: 'cells',
-			label:  editor.lang[_pluginName].cells,
-			elements: [{
-				type: 'vbox',
-				children: [{
-					type: 'text',
-					label: "Padding",
-					id: 'padding',
-					default: '0',
-					inputStyle: _inputNumberStyle,
-					onChange: asNumber
 				}, {
-					type: 'text',
-					label: "Margin",
-					id: 'margin',
-					default: '0',
-					inputStyle: _inputNumberStyle,
-					onChange: asNumber
-				}, {
-					type: 'text',
-					label: "Border color",
-					id: 'border-color',
-					default: '#000001',
-					inputStyle: _inputColorStyle
-				}, {
-					type: 'text',
-					label: "Border width",
-					id: 'border-width',
-					default: '0',
-					inputStyle: _inputNumberStyle,
-					onChange: asNumber
-				},
-				{
 					type: 'hbox',
 					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
 					children: [{
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'leftVerIcon',
-							html: _iconTag('left.gif', editor.lang[_pluginName].leftVerBord),
-							style: _borderIconStyle
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].leftVerBord,
-							id: 'leftVerBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'intVerIcon',
-							html: _iconTag('middleVer.gif', editor.lang[_pluginName].intVerBord)
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].intVerBord,
-							id: 'intVerBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'rightVerIcon',
-							html: _iconTag('right.gif', editor.lang[_pluginName].rightVerBord)
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].rightVerBord,
-							id: 'rightVerBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
 						type: 'vbox',
 						children: [{
 							type: 'html',
@@ -510,70 +428,41 @@ function TableDialog(editor) {
 						}]
 					}]
 				}
-			]
+				]
 			}]
 		}, {
-			id: 'borders',
-			label: editor.lang[_pluginName].borders,
-			elements: [
-			{
+			id: 'cells',
+			label:  editor.lang[_pluginName].cells,
+			elements: [{
 				type: 'vbox',
 				children: [{
-					type: 'html',
-					html: editor.lang[_pluginName].frame,
+					type: 'text',
+					label: "Padding",
+					id: 'padding',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				}, {
-					type: 'hbox',
-					widths: ['50%', '50%'],
-					children: [{
-						type: 'text',
-						label: editor.lang.common.width,
-						title: editor.lang[_pluginName].valueInPx,
-						id: 'border-width',
-						'default': '0',
-						inputStyle: _inputNumberStyle,
-						onChange: asNumber
-					}, {
-						type: 'text',
-						label: editor.lang.colordialog.title,
-						id: 'border-color',
-						'default': '#000001',
-						customcolors: true,
-						inputStyle: _inputColorStyle
-					}]
-				}]
-			}, {
-				type: 'vbox',
-				children: [{
-					type: 'html',
-					html:  editor.lang[_pluginName].rowBorders,
+					type: 'text',
+					label: "Margin",
+					id: 'margin',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
 				}, {
-					type: 'hbox',
-					widths: ['50%', '50%'],
-					children: [{
-						type: 'text',
-						label: editor.lang.common.width,
-						id: 'rowBorderWidth',
-						'default': '0',
-						inputStyle: _inputNumberStyle,
-						onChange: asNumber
-					}, {
-						type: 'text',
-						label: editor.lang.colordialog.title,
-						id: 'rowBorderColor',
-						'default': '#000001',
-						inputStyle: _inputColorStyle,
-						onChange: suggestValue,
-						target: ['borders', 'rowBorderWidth', '1']
-					}]
-
-				}]
-			},  {
-				type: 'vbox',
-				children: [{
-					type: 'html',
-					html: editor.lang[_pluginName].cellBorders,
-				},
-				{
+					type: 'text',
+					label: "Border color",
+					id: 'border-color',
+					default: '#000001',
+					inputStyle: _inputColorStyle
+				}, {
+					type: 'text',
+					label: "Border width",
+					id: 'border-width',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
+				}, {
 					type: 'hbox',
 					widths: ['8%', '8%', '8%', '8%', '8%', '8%', '20%', '20%'],
 					children: [{
@@ -622,84 +511,11 @@ function TableDialog(editor) {
 							onChange: suggestValue,
 							target: ['borders', 'cellBorderWidth', '1']
 						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'topHorIcon',
-							html: _iconTag('upper.gif', editor.lang[_pluginName].topHorBord)
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].topHorBord,
-							id: 'topHorBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'intHorIcon',
-							html: _iconTag('middleHor.gif', editor.lang[_pluginName].intHorBord)
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].intHorBord,
-							id: 'intHorBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							id: 'bottomHorIcon',
-							html: _iconTag('lower.gif', editor.lang[_pluginName].bottomHorBord)
-						}, {
-							type: 'checkbox',
-							label: '',
-							title: editor.lang[_pluginName].bottomHorBord,
-							id: 'bottomHorBord',
-							default: false,
-							onChange: suggestValue,
-							target: ['borders', 'cellBorderWidth', '1']
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							html: editor.lang.colordialog.title,
-						}, {
-							type: 'text',
-							label: '',
-							title: editor.lang[_pluginName].chooseColor,
-							id: 'cellBorderColor',
-							'default': '#000001',
-							inputStyle: _inputColorStyle
-
-						}]
-					}, {
-						type: 'vbox',
-						children: [{
-							type: 'html',
-							html: editor.lang.common.width,
-						}, {
-							type: 'text',
-							label: '',
-							title: editor.lang.common.width,
-							id: 'cellBorderWidth',
-							'default': '0',
-							inputStyle: _inputNumberStyle,
-							onChange: asNumber
-
-						}]
 					}]
-				}]
+				}
+			]
 			}]
-		},
+		}
 		],
 
 		/**
