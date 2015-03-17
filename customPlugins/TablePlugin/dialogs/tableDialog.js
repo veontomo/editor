@@ -494,13 +494,13 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _iconTag('left.gif', editor.lang[_pluginName].borderLeft),
+							html: _iconTag('left.gif', editor.lang[_pluginName].borderFirst),
 							style: _borderIconStyle
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].borderLeft,
-							id: 'borderLeft',
+							title: editor.lang[_pluginName].borderFirst,
+							id: 'borderFirst',
 							default: false,
 							onChange: suggestValue,
 							target: ['cells', 'border-width', '1']
@@ -523,12 +523,12 @@ function TableDialog(editor) {
 						type: 'vbox',
 						children: [{
 							type: 'html',
-							html: _iconTag('right.gif', editor.lang[_pluginName].borderRight)
+							html: _iconTag('right.gif', editor.lang[_pluginName].borderLast)
 						}, {
 							type: 'checkbox',
 							label: '',
-							title: editor.lang[_pluginName].borderRight,
-							id: 'borderRight',
+							title: editor.lang[_pluginName].borderlast,
+							id: 'borderLast',
 							default: false,
 							onChange: suggestValue,
 							target: ['cells', 'border-width', '1']
