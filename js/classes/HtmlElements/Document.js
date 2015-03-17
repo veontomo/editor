@@ -272,7 +272,7 @@ function Document(node){
 	 */
 	this.setWrapCss = function(css){
 		_wrapCss = (css instanceof Properties) ? css : new Properties(css);
-		_wrapCss.setMode(1);   /// 1 corresponds to inline styles
+		_wrapCss.setMode(Properties.MODE_STYLE);
 	};
 
 	/**
@@ -1869,7 +1869,7 @@ function Document(node){
 			isElem = node.nodeType === Node.ELEMENT_NODE,
 			node2 = isElem ? node : document.createElement('span'),
 			style = new Properties(node2.getAttribute(attrName));
-		style.setMode(1);
+		style.setMode(Properties.MODE_STYLE);
 		style.setProperty(key, value);
 		node2.setAttribute(attrName, style.toString());
 		// arrange the node if it was created as a span
@@ -1944,7 +1944,7 @@ function Document(node){
 			var attrName = 'style',
 				stl = new Properties(elem.getAttribute(attrName)),
 				styleValue = this.getInheritedStyleProp(key, elem);
-			stl.setMode(1);
+			stl.setMode(Properties.MODE_STYLE);
 			stl.setProperty(key, (styleValue === primary) ? secondary :  primary);
 			elem.setAttribute(attrName, stl.toString());
 		}
@@ -2816,7 +2816,7 @@ function Document(node){
 			target = span;
 		}
 		stl = new Properties(target.getAttribute('style'));
-		stl.setMode(1);
+		stl.setMode(Properties.MODE_STYLE);
 		stl.setProperty(key, value);
 		target.setAttribute('style', stl.toString());
 	};

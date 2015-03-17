@@ -129,7 +129,7 @@ function Properties(input) {
 	 */
 	this.setStyles = function(stl){
 		core.style = stl instanceof Properties ? stl : new Properties(stl);
-		core.style.setMode(1);
+		core.style.setMode(Properties.MODE_STYLE);
 	};
 
 	/**
@@ -414,7 +414,7 @@ function Properties(input) {
 		var propName = 'style';
 		if (!this.getProperty(propName)){
 			var stl = new Properties();
-			stl.setMode(1);
+			stl.setMode(Properties.MODE_STYLE);
 			this.setProperty(propName, stl);
 		}
 	};

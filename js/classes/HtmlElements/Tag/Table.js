@@ -1620,7 +1620,7 @@ function Table() {
 	this.setPhantomTemplate = function(template){
 		/// first apprx
 		var style = new Properties(template);
-		style.setMode(1);
+		style.setMode(Properties.MODE_STYLE);
 		this.setPhantomTableProperties(style);
 		this.setPhantomRowProperties(style);
 		this.setPhantomCellProperties(style);
