@@ -1569,6 +1569,20 @@ function Table() {
 		return output;
 	};
 
+	/**
+	 * Extracts a template corresponding to phantom table.
+	 *
+	 * If the argument has no phantom-related keys, an empty object is returned.
+	 * @method         extractPhantomTemplate
+	 * @param          {Object}     template
+	 * @return         {Object}
+	 * @since          0.2.1
+	 */
+	this.extractPhantomTemplate = function(template){
+		var key = 'phantom';
+		return template.hasOwnProperty(key) ? template[key] : {};
+	};
+
 
 	/**
 	 * Loads template.
@@ -1581,10 +1595,16 @@ function Table() {
 	 * @override
 	 */
 	this.loadTemplate = function(template){
-		var properTemplate = this.extractProperTemplate(template);
+		var properTemplate = this.extractProperTemplate(template),
+			phantomTemplate = this.extractPhantomTemplate(template);
 		console.log('rootTemplate: ', properTemplate);
 		this.setProperties(properTemplate);
 		this.setWidth(properTemplate.width);
+		if (template.hasOwnProperty('phantom')){
+			this.setPhantomTableStyles(template.phantom);
+		}
+		console.log('rows: ' + template.rows, ', columns: ' + template.columns);
+		this.makeShape(parseInt(template.rows, 10), parseInt(template.columns, 10));
 	};
 
 }

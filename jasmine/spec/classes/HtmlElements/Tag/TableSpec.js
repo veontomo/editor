@@ -1984,4 +1984,20 @@ describe('Table-related functionality:', function(){
         });
     });
 
+    describe('has a method "extractPhantomTemplate" that', function(){
+        it('returns an empty object if the input object has no "phantom" key', function(){
+            var template = {name: 'table', root: {padding: 5}};
+            var phantomTemplate = table.extractPhantomTemplate(template);
+            expect(typeof phantomTemplate).toBe('object');
+            expect(Object.keys(phantomTemplate).length).toBe(0);
+        });
+        it('returns a value of "phantom" key', function(){
+            var foo = {};
+            var template = {name: 'table', phantom: foo};
+            var phantomTemplate = table.extractPhantomTemplate(template);
+            expect(phantomTemplate).toBe(foo);
+        });
+
+    });
+
 });
