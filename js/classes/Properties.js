@@ -789,8 +789,10 @@ function Properties(input) {
 	 *
 	 */
 	this.setStyleProperty = function(key, value){
+		console.log('setting style property: ', key, value);
 		this.initializeStyle();
 		this.getStyles().setProperty(key, value);
+		console.log(this.toString());
 	};
 
 

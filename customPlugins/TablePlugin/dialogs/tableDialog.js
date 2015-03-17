@@ -376,15 +376,28 @@ function TableDialog(editor) {
 					onChange: asNumber
 				}, {
 					type: 'text',
-					label: editor.lang[_pluginName].borderColor,
-					title: editor.lang[_pluginName].borderColorDescr,
-					id: 'border-color',
-					default: '#000001',
+					label: editor.lang[_pluginName].frameColor,
+					title: editor.lang[_pluginName].frameColorDescr,
+					id: 'frame-color',
 					inputStyle: _inputColorStyle
 				}, {
 					type: 'text',
-					label: editor.lang[_pluginName].borderWidth,
-					title: editor.lang[_pluginName].borderWidthDescr,
+					label: editor.lang[_pluginName].frameWidth,
+					title: editor.lang[_pluginName].frameWidthDescr,
+					id: 'frame-width',
+					default: '0',
+					inputStyle: _inputNumberStyle,
+					onChange: asNumber
+				}, {
+					type: 'text',
+					label: editor.lang[_pluginName].rowBorderColor,
+					title: editor.lang[_pluginName].rowBorderDescr,
+					id: 'border-color',
+					inputStyle: _inputColorStyle,
+				}, {
+					type: 'text',
+					label: editor.lang[_pluginName].rowBorderWidth,
+					title: editor.lang[_pluginName].rowBorderDescr,
 					id: 'border-width',
 					default: '0',
 					inputStyle: _inputNumberStyle,
@@ -538,7 +551,7 @@ function TableDialog(editor) {
 			// format: tabId: [pageId1, pageId2, ...]
 			var colorInputFields = {
 				'table':     ['background', 'border-color'],
-				'rows':      ['border-color'],
+				'rows':      ['frame-color', 'border-color'],
 				'cells':     ['border-color'],
 			};
 			_appendColorPickerToBunch(this, colorInputFields);

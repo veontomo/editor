@@ -220,25 +220,27 @@ function CKEditorAdapter(){
 					'background':    dialog.table.background,
 				},
 			},
+			'frame': {
+				'width': dialog.rows.frameWidth,
+				'color': dialog.rows.frameColor
+			},
 			'rows':     dialog.table.rows,
 			'columns':  dialog.table.columns,
-			'phantom': {
-				'border-width':  dialog.rows['border-width'],
-				'border-color':  dialog.rows['border-color'],
-			},
-			rowTemplates: {
+			row: {
 				name: 'row',
 				root: {
 					style: {
-						'margin':    dialog.rows.margin,
-						'padding':   dialog.rows.padding,
+						'margin':        dialog.rows.margin,
+						'padding':       dialog.rows.padding,
+						'border-width':  dialog.rows['border-width'],
+						'border-color':  dialog.rows['border-color'],
 					}
 				},
 				'border-first':  dialog.rows.borderFirst,
 				'border-last':   dialog.rows.borderLast,
 				'border-middle': dialog.rows.borderMiddle,
 			},
-			cellTemplates: {
+			cell: {
 				name: 'cell',
 				root: {
 					style: {

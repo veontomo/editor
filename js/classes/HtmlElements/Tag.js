@@ -1176,12 +1176,7 @@ function Tag(tName) {
 	 */
 	this.extractChildTemplates = function(template){
 		return template.children || [];
-
 	};
-
-
-
-
 
 
 }

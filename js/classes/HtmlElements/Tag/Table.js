@@ -1570,17 +1570,19 @@ function Table() {
 	};
 
 	/**
-	 * Extracts a template corresponding to phantom table.
+	 * Returns object with properties corresponding to the phantom cell, row and table.
 	 *
-	 * If the argument has no phantom-related keys, an empty object is returned.
+	 * Current implementation is quite trivial: it just returns value of key "frame" of `template`.
 	 * @method         extractPhantomTemplate
-	 * @param          {Object}     template
+	 * @param          {Object} template
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
 	this.extractPhantomTemplate = function(template){
-		var key = 'phantom';
-		return template.hasOwnProperty(key) ? template[key] : {};
+		var key = 'frame';
+		if (template && template.hasOwnProperty(key)){
+			return template[key];
+		}
 	};
 
 
@@ -1597,6 +1599,10 @@ function Table() {
 	this.loadTemplate = function(template){
 		var properTemplate = this.extractProperTemplate(template),
 			phantomTemplate = this.extractPhantomTemplate(template);
+
+		if (properTemplate.hasOwnProperty('border-width')){
+			properTemplate['border-style'] = 'solid';
+		}
 		this.setProperties(properTemplate);
 		this.setWidth(properTemplate.width);
 
@@ -1605,8 +1611,33 @@ function Table() {
 														   /// parent table padding, margin and border width
  			this.setPhantomTemplate(phantomTemplate);
 		}
+		var rowNum = parseInt(template.rows, 10),
+			rowTemplate = template.row || {},
+			r,
+			row;
+		if (typeof rowNum !== 'number'){
+			return;
+		}
+		rowTemplate.cell = template.cell;
+		for (r = 0; r < rowNum; r++){
+			row = new Row();
+			if (r === 0 && template.row['border-first']){
+				console.log('create border of the last row', template.row['border-width'] + 'px solid ' + template.row['border-color']);
+				row.setStyleProperty('border-top', template.row['border-width'] + 'px solid ' + template.row['border-color']);
+			}
+			if (r === rowNum - 1 && template.row['border-last']){
+				console.log('create border of the last row');
+			}
+			if (r > 0 && r < rowNum - 1 && template.row['border-middle']){
+				console.log('create border of the middle row');
+			}
+			console.log('loading row template:', rowTemplate);
+			row.loadTemplate(rowTemplate);
+			this.appendRow(row);
+		}
+
 		console.log('rows: ' + template.rows, ', columns: ' + template.columns);
-		this.makeShape(parseInt(template.rows, 10), parseInt(template.columns, 10));
+		// this.makeShape(, parseInt(template.columns, 10));
 	};
 
 	/**
