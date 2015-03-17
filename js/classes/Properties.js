@@ -1063,6 +1063,30 @@ function Properties(input) {
     	}
     	return output;
     };
-
-
 }
+
+/**
+ * Mode corresponding to attribute-like representation.
+ * @property    {Integer} MODE_ATTRIBUTE
+ * @type        {Integer}
+ * @static
+ * @final
+ * @since       0.2.1
+ */
+Object.defineProperty(Properties, 'MODE_ATTRIBUTE', {
+	value:  0,
+	writable: false
+});
+
+/**
+ * Mode corresponding to inline style representation.
+ * @property    {Integer} MODE_STYLE
+ * @type        {Integer}
+ * @static
+ * @final
+ * @since       0.2.1
+ */
+Object.defineProperty(Properties, 'MODE_STYLE', {
+	value: 1,
+	writable: false
+});

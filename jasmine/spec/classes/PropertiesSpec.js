@@ -8,6 +8,29 @@ describe('Properties-related functionality', function(){
         props = new Properties();
     });
 
+    describe('has statically defined constant', function(){
+        describe('named MODE_ATTRIBUTE that', function(){
+            it('is equal to 0', function(){
+                expect(Properties.MODE_ATTRIBUTE).toBe(0);
+            });
+            it('remains equal to 0 even if one assignes another value to it', function(){
+                Properties.MODE_ATTRIBUTE = 4;
+                expect(Properties.MODE_ATTRIBUTE).toBe(0);
+            });
+        });
+        describe('named MODE_ATTRIBUTE that', function(){
+            it('named MODE_STYLE that is equal to 1', function(){
+                expect(Properties.MODE_STYLE).toBe(1);
+            });
+            it('remains equal to 1 even if one assignes another value to it', function(){
+                Properties.MODE_STYLE = 'a string';
+                expect(Properties.MODE_STYLE).toBe(1);
+            });
+
+        });
+    })
+
+
     describe('setProperty(): property setter', function(){
         it('returns false, if no argument is given', function(){
             expect(props.setProperty()).toBe(false);
@@ -1264,9 +1287,6 @@ describe('Properties-related functionality', function(){
             var template = props.template();
             expect(template.foo).toBe(fakeTemplate);
         });
-
-
-
     });
 });
 

@@ -1597,7 +1597,6 @@ function Table() {
 	this.loadTemplate = function(template){
 		var properTemplate = this.extractProperTemplate(template),
 			phantomTemplate = this.extractPhantomTemplate(template);
-		console.log('rootTemplate: ', properTemplate);
 		this.setProperties(properTemplate);
 		this.setWidth(properTemplate.width);
 
@@ -1620,7 +1619,7 @@ function Table() {
 	 */
 	this.setPhantomTemplate = function(template){
 		/// first apprx
-		var style = new Property(template);
+		var style = new Properties(template);
 		style.setMode(1);
 		this.setPhantomTableProperties(style);
 		this.setPhantomRowProperties(style);
