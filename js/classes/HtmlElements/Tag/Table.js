@@ -1600,11 +1600,31 @@ function Table() {
 		console.log('rootTemplate: ', properTemplate);
 		this.setProperties(properTemplate);
 		this.setWidth(properTemplate.width);
-		if (template.hasOwnProperty('phantom')){
-			this.setPhantomTableStyles(template.phantom);
+
+		if (Object.keys(phantomTemplate).length > 0){
+			phantomTemplate.width = properTemplate.width;  /// stub: it should take into consideration
+														   /// parent table padding, margin and border width
+ 			this.setPhantomTemplate(phantomTemplate);
+
 		}
 		console.log('rows: ' + template.rows, ', columns: ' + template.columns);
 		this.makeShape(parseInt(template.rows, 10), parseInt(template.columns, 10));
+	};
+
+	/**
+	 * Sets properties of the following phantom elements: table, row, cell.
+	 * @method  setPhantomTemplate
+	 * @param   {Object} template
+	 * @return  {void}
+	 * @since   0.2.1
+	 */
+	this.setPhantomTemplate = function(template){
+		/// first apprx
+		var style = new Property(template);
+		style.setMode(1);
+		this.setPhantomTableProperties(style);
+		this.setPhantomRowProperties(style);
+		this.setPhantomCellProperties(style);
 	};
 
 }
