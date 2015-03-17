@@ -1604,7 +1604,6 @@ function Table() {
 			phantomTemplate.width = properTemplate.width;  /// stub: it should take into consideration
 														   /// parent table padding, margin and border width
  			this.setPhantomTemplate(phantomTemplate);
-
 		}
 		console.log('rows: ' + template.rows, ', columns: ' + template.columns);
 		this.makeShape(parseInt(template.rows, 10), parseInt(template.columns, 10));

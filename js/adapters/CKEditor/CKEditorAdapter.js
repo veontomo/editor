@@ -229,26 +229,26 @@ function CKEditorAdapter(){
 			rowTemplates: {
 				name: 'row',
 				root: {
-					'border-first':  dialog.rows.borderFirst,
-					'border-last':   dialog.rows.borderLast,
-					'border-middle': dialog.rows.borderMiddle,
 					style: {
 						'margin':    dialog.rows.margin,
 						'padding':   dialog.rows.padding,
 					}
-				}
+				},
+				'border-first':  dialog.rows.borderFirst,
+				'border-last':   dialog.rows.borderLast,
+				'border-middle': dialog.rows.borderMiddle,
 			},
 			cellTemplates: {
 				name: 'cell',
 				root: {
-					'border-first':  dialog.cells.borderFirst,
-					'border-last':   dialog.cells.borderLast,
-					'border-middle': dialog.cells.borderMiddle,
 					style: {
 						'margin':    dialog.cells.margin,
 						'padding':   dialog.cells.padding,
 					}
 				},
+				'border-first':  dialog.cells.borderFirst,
+				'border-last':   dialog.cells.borderLast,
+				'border-middle': dialog.cells.borderMiddle,
 			}
 		};
 		return tableTemplate;
