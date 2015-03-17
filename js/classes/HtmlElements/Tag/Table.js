@@ -1606,24 +1606,25 @@ function Table() {
 		this.setProperties(properTemplate);
 		this.setWidth(properTemplate.width);
 
-		if (Object.keys(phantomTemplate).length > 0){
+		if (phantomTemplate){
 			phantomTemplate.width = properTemplate.width;  /// stub: it should take into consideration
 														   /// parent table padding, margin and border width
  			this.setPhantomTemplate(phantomTemplate);
 		}
 		var rowNum = parseInt(template.rows, 10),
-			rowTemplate = template.row || {},
+			rowTemplate = template.row,
 			r,
 			row;
 		if (typeof rowNum !== 'number'){
 			return;
 		}
 		rowTemplate.cell = template.cell;
+		console.log(rowTemplate);
 		for (r = 0; r < rowNum; r++){
 			row = new Row();
-			if (r === 0 && template.row['border-first']){
+			if (r === 0 && rowTemplate && rowTemplate['border-first']){
 				console.log('create border of the last row', template.row['border-width'] + 'px solid ' + template.row['border-color']);
-				row.setStyleProperty('border-top', template.row['border-width'] + 'px solid ' + template.row['border-color']);
+				row.setStyleProperty('border-top', rowTemplate.root.style['border-width'] + 'px solid ' + rowTemplate.root.style['border-color']);
 			}
 			if (r === rowNum - 1 && template.row['border-last']){
 				console.log('create border of the last row');
