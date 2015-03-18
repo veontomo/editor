@@ -222,6 +222,7 @@ function linkMailDialog(editor, scheme) {
          * @return    {void}
          */
         onShow: function() {
+            console.log(_controller.getExtra(this));
         },
 
         onCancel: function(){

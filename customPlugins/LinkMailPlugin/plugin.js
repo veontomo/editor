@@ -14,9 +14,8 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 			it: {
 				content: 'Contenuto',
 				contentDescr: 'Il contenuto da linkare',
-
 				color:        'Color',
-				inavlid:       'Indirizzo non valido',
+				invalid:       'Indirizzo non valido',
 				// link:          'Indirizzo url',
 				linkTextTitle: 'il testo di collegamento',
 				linkTitle:     'Dati collegamento',
@@ -50,7 +49,7 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 				content:      'Content',
 				contentDescr: 'The content that is supposed to be linked',
 				color:        'Color',
-				invalid:       'Invalid URL',
+				invalid:       'Invalid address',
 				// link:          'Url',
 				linkTextTitle: 'text of the link',
 				linkTitle:     'Link information',
