@@ -254,7 +254,7 @@ function TableDialog(editor) {
 	 * The user elements are provided by means of the argument which should be given in the following format:
 	 * {tabId1: [pageId1, pageId2, ...], tabId2: [pageId1, pageId2, ...], ...}
 	 * @method         appendColorPickerToBunch
-	 * @param          {Object}  dialog
+	 * @param          {Object}        dialog
 	 * @param          {Object}        elements
 	 * @return         {void}
 	 * @since          0.2.1

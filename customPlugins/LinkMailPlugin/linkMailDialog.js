@@ -105,8 +105,44 @@ function linkMailDialog(editor, scheme) {
     }());
 
     var _pluginName = 'LinkMailPlugin';
+
+
+    /**
+     * Appends {{#crossLink "TableDialog/_colorPicker:property"}}color picker{{/crossLink}} instance
+     * to many elements.
+     *
+     * The user elements are provided by means of the argument which should be given in the following format:
+     * {tabId1: [pageId1, pageId2, ...], tabId2: [pageId1, pageId2, ...], ...}
+     * @method         appendColorPickerToBunch
+     * @param          {Object}        dialog
+     * @param          {Object}        elements
+     * @return         {void}
+     * @since          0.2.1
+     */
+    var _appendColorPickerToBunch = function(dialog, elements){
+        var tab, ids, len, i, id;
+        for (tab in elements){
+            if (elements.hasOwnProperty(tab)){
+                ids = elements[tab];
+                len = ids.length;
+                for (i = 0; i < len; i++){
+                    try {
+                        id = dialog.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
+                        _colorPicker.linkTo(id);
+                    } catch (e){
+                        console.log(e.name + ' occurred when linking color picking dialog to input element (' + i + ' of tab '  + tab + '): ' + e.message);
+                    }
+
+
+                }
+            }
+        }
+    };
+
+
+
     return {
-        title: editor.lang[_pluginName][scheme + 'Title'],
+        title: editor.lang[_pluginName][scheme].title,
         minWidth: 400,
         minHeight: 300,
         height: '20em',
@@ -114,20 +150,16 @@ function linkMailDialog(editor, scheme) {
             id: 'linkInfoTab',
             label: 'labelTab1',
             elements: [{
-                type: 'hbox',
-                widths: ['10%', '90%'],
+                type: 'vbox',
                 children: [{
-                    type: 'html',
-                    html: editor.lang[_pluginName][scheme],
-                    style: _labelStyle,
-                }, {
-                    type: 'text',
-                    id: 'href',
+                    type:  'text',
+                    id:    'href',
+                    label: editor.lang[_pluginName][scheme].url,
+                    title: editor.lang[_pluginName][scheme].urlDescr,
                     style: _textInputStyle,
                     validate: function(){
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
-                            console.log(this);
                             _controller.setDialogField(this.getDialog(), {
                                 tabId: 'linkInfoTab',
                                 elemId: 'warning',
@@ -136,66 +168,43 @@ function linkMailDialog(editor, scheme) {
                         }
                         return isOk;
                     }
-                }]
-            },
-            {
-                type: 'html',
-                id: 'warning',
-                html: '&nbsp;',
-                style: _warningStyle
-            },
-            {
-                type: 'hbox',
-                widths: ['10%', '90%'],
-                children: [{
+                }, {
                     type: 'html',
-                    html: editor.lang[_pluginName].text,
-                    title: editor.lang[_pluginName][scheme + 'TextTitle'],
-                    style: _labelStyle
+                    id: 'warning',
+                    html: '&nbsp;',
+                    style: _warningStyle
                 }, {
                     type: 'text',
-                    id: 'text',
-                    title: editor.lang[_pluginName][scheme + 'TextTitle'],
+                    id : 'content',
+                    label: editor.lang[_pluginName].content,
+                    title: editor.lang[_pluginName][scheme].contentDescr,
                     style: _textInputStyle,
-                    'default': 'descrizione del link',
-                }]
-            },
-            {
-                type: 'hbox',
-                widths: ['10%', '90%'],
-                children: [{
-                    type: 'html',
-                    html: editor.lang[_pluginName].title,
-                    title: editor.lang[_pluginName].titleTitle,
-                    style: _labelStyle
                 }, {
                     type: 'text',
                     id: 'title',
-                    title: editor.lang[_pluginName].titleTitle,
+                    label: editor.lang[_pluginName].title,
+                    title: editor.lang[_pluginName].titleDescr,
                     style: _textInputStyle,
-                    'default': ''
-                }]
-            }, {
-                type: 'html',
-                style: _heading,
-                html:  editor.lang[_pluginName].styleTitle,
-            }, {
-                type: 'checkbox',
-                id: 'isUnderlined',
-                label: editor.lang[_pluginName].underline,
-                "default": alt,
-            }, {
-                type: 'checkbox',
-                id: 'isNewWindow',
-                label: editor.lang[_pluginName].targetNew,
-                "default": true,
-            }, {
-                type: 'text',
-                label: editor.lang[_pluginName].colordialog,
-                id: 'color',
-                'default': '#0000FF',
-                customcolors: true,
-                inputStyle: _inputColorStyle
+                }, {
+                    type: 'checkbox',
+                    id: 'isUnderlined',
+                    label: editor.lang[_pluginName].underline,
+                    title: editor.lang[_pluginName].underlineDescr,
+                    "default": alt,
+                }, {
+                    type: 'checkbox',
+                    id: 'isTargetBlank',
+                    label: editor.lang[_pluginName].target,
+                    title: editor.lang[_pluginName].targetDescr,
+                    "default": true,
+                }, {
+                    type: 'text',
+                    label: editor.lang[_pluginName].color,
+                    id: 'color',
+                    'default': '#0000FF',
+                    customcolors: true,
+                    inputStyle: _inputColorStyle
+                }],
             }]
         }],
 
@@ -214,17 +223,7 @@ function linkMailDialog(editor, scheme) {
             var colorInputFields = {
                 'linkInfoTab':  ['color']
             };
-            var tab, ids, len, i, id;
-            for (tab in colorInputFields){
-                if (colorInputFields.hasOwnProperty(tab)){
-                    ids = colorInputFields[tab];
-                    len = ids.length;
-                    for (i = 0; i < len; i++){
-                        id = this.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
-                        _colorPicker.linkTo(id);
-                    }
-                }
-            }
+            _appendColorPickerToBunch(this, colorInputFields);
         },
 
         /**

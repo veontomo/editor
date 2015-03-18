@@ -12,38 +12,69 @@ CKEDITOR.plugins.add('LinkMailPlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				colordialog:   'Colore',
+				content: 'Contenuto',
+				contentDescr: 'Il contenuto da linkare',
+
+				color:        'Color',
 				inavlid:       'Indirizzo non valido',
-				link:          'Url',
+				// link:          'Indirizzo url',
 				linkTextTitle: 'il testo di collegamento',
 				linkTitle:     'Dati collegamento',
-				mail:          'E-mail',
+				// mail:          'E-mail',
 				mailTextTitle: 'testo che contiene l\'email',
 				mailTitle:     'Dati indirizzo email',
 				modify:        'Modificare collegamento',
 				styleTitle:    'Stile',
-				targetNew:     'Apri in una nuova scheda',
+				target:        'Aprire in scheda nuova',
+				targetDescr:   'Impostare che il link si apri in una nuova scheda',
 				text:          'Testo',
 				title:         'Titolo',
-				titleTitle:    'testo che appare quando il cursore va sopra',
+				titleDescr:    'testo che appare quando utente passa sopra l\'elemento',
 				underline:     'Sottolineato',
+				underlineDescr:'Spunta la casella per sottolineare il contenuto',
+				mail: {
+					content: 'Contenuto',
+					contentDescr: 'Il contenuto da linkare',
+					title:   'Informazioni collegamento',
+					url:     'Indirizzo',
+					urlDescr: 'Indirizzo e-mail',
+				},
+				link: {
+					title:   'Informazioni e-mail',
+					url:     'Url',
+					urlDescr: 'Link',
+
+				}
 			},
 			en: {
-				colordialog:   'Color',
+				content:      'Content',
+				contentDescr: 'The content that is supposed to be linked',
+				color:        'Color',
 				invalid:       'Invalid URL',
-				link:          'Url',
+				// link:          'Url',
 				linkTextTitle: 'text of the link',
 				linkTitle:     'Link information',
-				mail:          'E-mail',
+				// mail:          'E-mail',
 				mailTextTitle: 'text containing e-mail link',
 				mailTitle:     'Email address data',
 				modify:        'Modify link',
 				styleTitle:    'Style',
-				targetNew:     'Open in new tab',
+				target:        'Open in a new tab',
+				targetDescr:   'Open the link in new tab',
 				text:          'Text',
 				title:         'Title',
-				titleTitle:    'popup text',
+				titleDescr:    'popup text',
 				underline:     'Underlined',
+				underlineDescr:'Check this box for the content to be underlined',
+				mail: {
+
+					title:        'E-mail property',
+				},
+				link: {
+					title:        'Link property',
+
+				}
+
 			}
 		};
 
