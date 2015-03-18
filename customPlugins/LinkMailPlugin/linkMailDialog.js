@@ -8,7 +8,6 @@
 * @class   LinkMailDialog
 */
 function linkMailDialog(editor, scheme) {
-    console.log('linkMailDialog is called');
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
      * @property  {CLink}     _controller
@@ -32,9 +31,6 @@ function linkMailDialog(editor, scheme) {
     }());
 
 
-    var alt = true,
-        _heading = 'padding: 1em; font-size: 1.1em; font-weight: bold;';
-
     /**
      * Style for text input fields for choosing colors.
      * @property {String} _inputColorStyle
@@ -43,14 +39,6 @@ function linkMailDialog(editor, scheme) {
      */
     var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
 
-
-    /**
-     * Style for label fields (text in front of input fields).
-     * @property {String} _labelStyle
-     * @type     {String}
-     * @private
-     */
-    var _labelStyle = 'padding-right: 0px; margin: 0; float: left; padding-top: 0.5em; width: 3em;';
 
     /**
      * Style for label fields (text in front of input fields).
@@ -190,7 +178,7 @@ function linkMailDialog(editor, scheme) {
                     id: 'isUnderlined',
                     label: editor.lang[_pluginName].underline,
                     title: editor.lang[_pluginName].underlineDescr,
-                    "default": alt,
+                    'default': true,
                 }, {
                     type: 'checkbox',
                     id: 'isTargetBlank',
