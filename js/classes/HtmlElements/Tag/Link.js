@@ -241,7 +241,6 @@ function Link(href) {
 	 * <dt>color</dt><dd>(String) link color</dd>
 	 * <dt>isUnderlined</dt><dd>(Boolean) whether the link is underlined</dd>
 	 * <dt>isTargetBlank</dt><dd>(Boolean) whether the link opens in a new window</dd>
-	 * <dt>target</dt><dd> (String) in what window the link is supposed to be open</dd>
 	 * <dt>content</dt><dd> (String) string representation of the link content</dd>
 	 * <dt>title</dt><dd> (String) title attribute</dd>
 	 * </dl>

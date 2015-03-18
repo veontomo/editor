@@ -86,5 +86,25 @@ function CLink() {
         }
 
     };
+
+
+    /**
+     * Fills in dialog window based on what the user selects.
+     *
+     * Overrides base class method {{#crossLink "Controller/fillDialogWithSelection:method"}}Controller{{/crossLink}}.
+     *
+     * @method         fillDialogWithSelection
+     * @param          {Object}        dialog        editor-specific representation of a dialog window
+     * @param          {Object}        selection     editor-specific representation of the selection
+     * @return         {void}
+     * @since          0.2.1
+     * @Override
+     */
+    this.fillDialogWithSelection = function(dialog, selection){
+        /// !!! stub
+        console.dir(dialog);
+        console.dir(selection);
+    };
+
 }
 CLink.prototype = Object.create(Controller.prototype);
