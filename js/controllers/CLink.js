@@ -91,7 +91,8 @@ function CLink() {
     /**
      * Fills in dialog window based on what the user selects.
      *
-     * Overrides base class method {{#crossLink "Controller/fillDialogWithSelection:method"}}Controller{{/crossLink}}.
+     * Overrides base class method {{#crossLink "Controller/fillDialogWithSelection:method"}}Controller{{/crossLink}}
+     * since the sublasses might have different implementations of the method.
      *
      * @method         fillDialogWithSelection
      * @param          {Object}        dialog        editor-specific representation of a dialog window
