@@ -1623,7 +1623,6 @@ function Table() {
 		for (r = 0; r < rowNum; r++){
 			row = new Row();
 			if (r === 0 && rowTemplate && rowTemplate['border-first']){
-				console.log('create border of the last row', template.row['border-width'] + 'px solid ' + template.row['border-color']);
 				row.setStyleProperty('border-top', rowTemplate.root.style['border-width'] + 'px solid ' + rowTemplate.root.style['border-color']);
 			}
 			if (r === rowNum - 1 && template.row['border-last']){
