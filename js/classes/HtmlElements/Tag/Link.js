@@ -346,7 +346,6 @@ function Link(href) {
 			scheme:        this.getScheme(),
 			color:         this.getStyleProperty('color'),
 			isUnderlined:  this.isUnderlined(),
-			isCompound:    this.length() > 1,
 			target:        this.getProperty('target'),
 			content:       this.getContent().toText(),
 			title:         this.getProperty('title')

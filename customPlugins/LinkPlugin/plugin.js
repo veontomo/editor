@@ -110,15 +110,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			toolbar: 'document',
 		});
 
-		 /*
-		  Register dialog that inserts link.
-
-		  File "linkMailDialog.js" contains definition of two dialogs:
-		  "mailDialog" and "linkDialog".
-		  These dialogs are defined in the same file bacause they are defined in terms of a
-		  class "linkMailDialog" which is defined in that file.
-		 */
-		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + '../LinkMailPlugin/linkMailDialog.js');
+		CKEDITOR.dialog.add(_pluginName + 'Dialog', this.path + 'dialogs/link.js');
 
 		editor.addCommand(_pluginName + 'Unlink', {
 			exec: function(editor){
@@ -132,14 +124,14 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			editor.addMenuGroup(_pluginNameGroup);
 
 			editor.addMenuItem(_pluginName + 'Unlink', {
-				label: editor.lang.link.unlink,
+				label: editor.lang.LinkPlugin.unlink,
 				icon: this.path + 'icons/unlink.png',
 				command: _pluginName + 'Unlink',
 				group: _pluginNameGroup
 			});
 
 			editor.addMenuItem(_pluginName + 'Modify', {
-				label: editor.lang.LinkMailPlugin.modify,
+				label: editor.lang.LinkPlugin.modify,
 				icon: this.path + 'icons/unlink.png',
 				command: _pluginName + 'Modify',
 				group: _pluginNameGroup
@@ -155,6 +147,56 @@ CKEDITOR.plugins.add('LinkPlugin', {
 					return menuObj;
 				}
 			});
+		}
+	},
+
+	onLoad: function(){
+		var translations = {
+			it: {
+				content: 'Contenuto',
+				contentDescr: 'Il contenuto da linkare',
+				color:        'Color',
+				invalid:       'Indirizzo non valido',
+				linkTextTitle: 'il testo di collegamento',
+				linkTitle:     'Dati collegamento',
+				mailTextTitle: 'testo che contiene l\'email',
+				mailTitle:     'Dati indirizzo email',
+				modify:        'Modificare collegamento',
+				styleTitle:    'Stile',
+				target:        'Aprire in scheda nuova',
+				targetDescr:   'Impostare che il link si apri in una nuova scheda',
+				text:          'Testo',
+				title:         'Titolo',
+				titleDescr:    'testo che appare quando utente passa sopra l\'elemento',
+				underline:     'Sottolineato',
+				underlineDescr:'Spunta la casella per sottolineare il contenuto',
+			},
+			en: {
+				content:      'Content',
+				contentDescr: 'The content that is supposed to be linked',
+				color:        'Color',
+				invalid:       'Invalid address',
+				linkTextTitle: 'text of the link',
+				linkTitle:     'Link information',
+				mailTextTitle: 'text containing e-mail link',
+				mailTitle:     'Email address data',
+				modify:        'Modify link',
+				styleTitle:    'Style',
+				target:        'Open in a new tab',
+				targetDescr:   'Open the link in new tab',
+				text:          'Text',
+				title:         'Title',
+				titleDescr:    'popup text',
+				underline:     'Underlined',
+				underlineDescr:'Check this box for the content to be underlined',
+			}
+		};
+
+		var lang;
+		for (lang in translations){
+			if (translations.hasOwnProperty(lang)){
+				CKEDITOR.plugins.setLang(this.name, lang, translations[lang]);
+			}
 		}
 	}
 });

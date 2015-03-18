@@ -354,19 +354,18 @@ function CKEditorAdapter(){
 	 * @since          0.2.0
 	 */
 	this.linkTemplateToDialog = function(template){
-		var output = {
-			'linkInfoTab': {
-				href:          template.href,
-				scheme:        template.scheme,
-				color:         template.color,
-				isUnderlined:  template.isUnderlined,
-				status:        template.isCompound,
-				isNewWindow:   template.target ==='_blank' ,
-				title:         template.title,
-				content:       template.content
-			}
-		};
-		return output;
+		// var output = {
+			// 'linkInfoTab': {
+			// 	href:          template.href,
+			// 	scheme:        template.scheme,
+			// 	color:         template.color,
+			// 	isUnderlined:  template.isUnderlined,
+			// 	isTargetBlank: template.isTargetBlank,
+			// 	title:         template.title,
+			// 	content:       template.content
+			// }
+		// };
+		return {'linkInfoTab': template};
 	};
 
 	/**
