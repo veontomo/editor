@@ -132,7 +132,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang.LinkPlugin.modify,
-				icon: this.path + 'icons/unlink.png',
+				icon: this.path + 'icons/LinkPlugin.png',
 				command: _pluginName + 'Modify',
 				group: _pluginNameGroup
 			});
@@ -153,42 +153,39 @@ CKEDITOR.plugins.add('LinkPlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				content: 'Contenuto',
-				contentDescr: 'Il contenuto da linkare',
-				color:        'Color',
+				color:         'Colore',
+				colorDescr:    'Colore del collegamento',
+				content:       'Contenuto',
+				contentDescr:  'Il contenuto da linkare',
 				invalid:       'Indirizzo non valido',
-				linkTextTitle: 'il testo di collegamento',
-				linkTitle:     'Dati collegamento',
-				mailTextTitle: 'testo che contiene l\'email',
-				mailTitle:     'Dati indirizzo email',
 				modify:        'Modificare collegamento',
-				styleTitle:    'Stile',
 				target:        'Aprire in scheda nuova',
 				targetDescr:   'Impostare che il link si apri in una nuova scheda',
-				text:          'Testo',
 				title:         'Titolo',
 				titleDescr:    'testo che appare quando utente passa sopra l\'elemento',
 				underline:     'Sottolineato',
 				underlineDescr:'Spunta la casella per sottolineare il contenuto',
+				unlink:        'Eliminare collegamento',
+				url:           'URL',
+				urlDescr:      'Indirizzo della risorsa al quale fare il collegamento',
+
 			},
 			en: {
-				content:      'Content',
-				contentDescr: 'The content that is supposed to be linked',
-				color:        'Color',
+				color:         'Color',
+				colorDescr:    'Choose color of the link',
+				content:       'Content',
+				contentDescr:  'The content that is supposed to be linked',
 				invalid:       'Invalid address',
-				linkTextTitle: 'text of the link',
-				linkTitle:     'Link information',
-				mailTextTitle: 'text containing e-mail link',
-				mailTitle:     'Email address data',
 				modify:        'Modify link',
-				styleTitle:    'Style',
 				target:        'Open in a new tab',
 				targetDescr:   'Open the link in new tab',
-				text:          'Text',
 				title:         'Title',
 				titleDescr:    'popup text',
 				underline:     'Underlined',
 				underlineDescr:'Check this box for the content to be underlined',
+				unlink:        'Drop link',
+				url:           'URL',
+				urlDescr:      'Address which the link should point to',
 			}
 		};
 
