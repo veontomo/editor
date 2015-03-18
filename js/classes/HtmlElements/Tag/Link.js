@@ -343,14 +343,25 @@ function Link(href) {
 	this.template = function(){
 		var linkInfo = {
 			href:          this.getHref(),
-			scheme:        this.getScheme(),
 			color:         this.getStyleProperty('color'),
 			isUnderlined:  this.isUnderlined(),
-			target:        this.getProperty('target'),
+			isTargetBlank: this.shouldOpenNew(),
 			content:       this.getContent().toText(),
 			title:         this.getProperty('title')
 		};
 		return linkInfo;
+	};
+
+	/**
+	 * Returns `true` if the link opens in a new window and `false` otherwise.
+	 *
+	 * The behaviour is completely defined by the value of attribute `target`.
+	 * @method         shouldOpenNew
+	 * @return         {Boolean}
+	 * @since          0.2.1
+	 */
+	this.shouldOpenNew = function(){
+		return this.getProperty('title') === '_blank';
 	};
 
 	/**

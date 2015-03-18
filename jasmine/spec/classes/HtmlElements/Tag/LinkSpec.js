@@ -380,15 +380,29 @@ describe('Class "Link"', function() {
         it('returns an object', function(){
             expect(typeof link.template()).toBe('object');
         });
-        it('has keys href, scheme, color, isUnderlined, isCompound, target, text, title', function(){
-            var keys = ['href', 'scheme', 'color', 'isUnderlined', 'isCompound', 'target', 'text', 'title'],
-                key,
-                template = link.template();
-            for (key in keys){
-                if (keys.hasOwnProperty(key)){
-                    expect(template.hasOwnProperty(keys[key])).toBe(true);
-                }
-            }
+
+        it('returns object with key "href"', function(){
+            expect(link.template().hasOwnProperty('href')).toBe(true);
+        });
+
+        it('returns object with key "color"', function(){
+            expect(link.template().hasOwnProperty('color')).toBe(true);
+        });
+
+        it('returns object with key "isUnderlined"', function(){
+            expect(link.template().hasOwnProperty('isUnderlined')).toBe(true);
+        });
+
+        it('returns object with key "isTargetBlank"', function(){
+            expect(link.template().hasOwnProperty('isTargetBlank')).toBe(true);
+        });
+
+        it('returns object with key "title"', function(){
+            expect(link.template().hasOwnProperty('title')).toBe(true);
+        });
+
+        it('returns object with key "content"', function(){
+            expect(link.template().hasOwnProperty('content')).toBe(true);
         });
 
         it('sets "href" key from getHref() value',function(){
