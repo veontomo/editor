@@ -463,11 +463,7 @@ function Controller(){
 	        	return;
 	        }
 	        template = elemObj.template();
-	        // enhancing table template created autamatically by Tag.template() method
-	        // (I don't want to override it in Table class)
-	        template.root.cols = elemObj.colNum();
-	        template.root.rows = elemObj.rowNum();
-
+	        console.log(template);
 	        dialogData = adapter.templateToDialog(template, marker);
 	        adapter.fillInDialog(dialog, dialogData, marker);
 	    } catch(e){

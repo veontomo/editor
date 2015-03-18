@@ -65,17 +65,21 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		// Define an editor command that opens the dialog and fills it in in case
 		// there is a link among ancestors of the cursor position.
 		editor.addCommand(_pluginName + 'Dialog', {
-			exec: function(){
-				var dialog = editor.openDialog(_pluginName + 'Dialog'),
-					startElement = editor.getSelection().getStartElement(),
-					parent;
-				if (startElement){
-					parent = _controller.findRepresentativeAncestor(startElement);
-				}
-				if (parent){
-					_controller.saveExtra(dialog, parent);
-					_controller.fillInDialogWithElementData(dialog, parent, 'link');
-				}
+			exec: function(e){
+				e.openDialog(_pluginName + 'Dialog', function(dialog){
+					dialog.on('show', function(){
+						var startElement = e.getSelection().getStartElement(),
+							parent;
+						if (startElement){
+							parent = _controller.findRepresentativeAncestor(startElement);
+						}
+						if (parent){
+							_controller.saveExtra(dialog, parent);
+							_controller.fillInDialogWithElementData(dialog, parent, 'link');
+						}
+
+					});
+				});
 			}
 		});
 

@@ -363,7 +363,7 @@ function CKEditorAdapter(){
 				status:        template.isCompound,
 				isNewWindow:   template.target ==='_blank' ,
 				title:         template.title,
-				text:          template.text
+				content:       template.content
 			}
 		};
 		return output;

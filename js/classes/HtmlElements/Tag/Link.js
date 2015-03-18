@@ -348,7 +348,7 @@ function Link(href) {
 			isUnderlined:  this.isUnderlined(),
 			isCompound:    this.length() > 1,
 			target:        this.getProperty('target'),
-			text:          this.getContent().toText(),
+			content:       this.getContent().toText(),
 			title:         this.getProperty('title')
 		};
 		return linkInfo;
