@@ -68,15 +68,16 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
 					dialog.on('show', function(){
-						var startElement = e.getSelection().getStartElement(),
-							parent;
-						if (startElement){
-							parent = _controller.findRepresentativeAncestor(startElement);
-						}
-						if (parent){
-							_controller.saveExtra(dialog, parent);
-							_controller.fillInDialogWithElementData(dialog, parent, 'link');
-						}
+						_controller.fillDialogWithSelection(dialog, e.getSelection());
+						// var startElement = e.getSelection().getStartElement(),
+						// 	parent;
+						// if (startElement){
+						// 	parent = _controller.findRepresentativeAncestor(startElement);
+						// }
+						// if (parent){
+						// 	_controller.saveExtra(dialog, parent);
+						// 	_controller.fillInDialogWithElementData(dialog, parent, 'link');
+						// }
 
 					});
 				});

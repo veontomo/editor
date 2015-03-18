@@ -467,8 +467,23 @@ function Controller(){
 	        dialogData = adapter.templateToDialog(template, marker);
 	        adapter.fillInDialog(dialog, dialogData, marker);
 	    } catch(e){
-	        console.log(e.name + ' occurred when filling in dialog with data: ', e.message);
+	        console.log(e.name + ' occurred when filling in dialog with data: ' + e.message);
 	    }
+	};
+
+	/**
+	 * Fills in dialog window based on what the user selects.
+	 *
+	 * @method         fillDialogWithSelection
+	 * @param          {Object}        dialog        editor-specific representation of a dialog window
+	 * @param          {Object}        selection     editor-specific representation of the selection
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.fillDialogWithSelection = function(dialog, selection){
+		/// !!! stub
+		console.dir(dialog);
+		console.dir(selection);
 	};
 
 	/**
