@@ -538,16 +538,16 @@ function Controller(){
 	/**
 	 * Sets a dialog field.
 	 *
-	 * Dialog field and the value to set is encoded into object `field`.
+	 * Dialog field and the value to set is encoded into object `info`.
 	 * @method         setDialogField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
-	 * @param          {Object}        field
+	 * @param          {Object}        info
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.setDialogField = function(dialog, field){
+	this.setDialogField = function(dialog, info){
 		var adapter = this.getEditorAdapter();
-		adapter.setDialogField(dialog, field);
+		adapter.setDialogField(dialog, info);
 	};
 
 	/**

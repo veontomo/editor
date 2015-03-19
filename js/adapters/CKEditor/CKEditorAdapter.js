@@ -278,58 +278,12 @@ function CKEditorAdapter(){
 				'border-spacing': template.root['border-spacing']
 			},
 			borders: {
-				//
 				// 'border-width':         template.root['border-width'],
 				// 'border-color':         template.root['border-color'],
 				// 'phantomBorderWidth':   template.root.phantomTable.rowBorderWidth,
 				// 'phantomBorderColor':   template.root.phantomTable.rowBorderColor,
 			},
 		};
-		// previous version, as on 26/02/2015
-		// var dialogData = {
-		// 	structure: {
-		// 		rows: template.root.rows,
-		// 		cols: template.root.cols
-		// 	},
-		// 	background: {
-		// 		background: template.background
-		// 	},
-		// 	borders: {
-		// 		cellBorderColor: template.cellBorderColor,
-		// 		globalBorderColor: template['border-color'],
-		// 		rowBorderColor: template.rowBorderColor,
-		// 		rowBorderWidth: (new Unit(template.rowBorderWidth || 0)).getValueAsString(),
-		// 		cellBorderWidth: (new Unit(template.cellBorderWidth || 0)).getValueAsString(),
-		// 		globalBorderWidth: (new Unit(template.tableBorderWidth || 0)).getValueAsString(),
-		// 		bottomHorBord: template.cellBorders.bottomHor,
-		// 		intHorBord: template.cellBorders.intHor,
-		// 		intVerBord: template.cellBorders.intVer,
-		// 		leftVerBord: template.cellBorders.leftVer,
-		// 		rightVerBord: template.cellBorders.rightVer,
-		// 		topHorBord: template.cellBorders.topHor
-		// 	},
-		// 	spaces: {
-		// 		padding:            (new Unit(template.padding || 0)).getValueAsString(),
-		// 		'border-spacing':       (new Unit(template['border-spacing'] || 0)).times(2).getValueAsString(),
-		// 		'cell[padding]':    (new Unit(template['cell[padding]'] || 0)).getValueAsString(),
-		// 		margin:             (new Unit(template.margin || 0)).getValueAsString()
-		// 	},
-		// };
-		// // filling in column weight fields: corresponding text input fields are called
-		// // "col0", "col1" etc.
-		// var weigths = template.cellWeights;
-		// try {
-		// 	var tmp = Helper.divideByGcd(weigths);
-		// 	weigths = tmp;
-		// } catch (e){
-		// 	console.log('Error (' + e.name + ') when cancelling common factors of column widths: ' + e.message);
-		// }
-		// if (Array.isArray(weigths)){
-		// 	dialogData.colWeights = {};
-		// 	weigths.forEach(function(val, ind){
-		// 		dialogData.colWeights['col' + ind.toString()] = val.toString();
-		// 	});
-		// }
 		return dialogData;
 	};
 
@@ -354,17 +308,6 @@ function CKEditorAdapter(){
 	 * @since          0.2.0
 	 */
 	this.linkTemplateToDialog = function(template){
-		// var output = {
-			// 'linkInfoTab': {
-			// 	href:          template.href,
-			// 	scheme:        template.scheme,
-			// 	color:         template.color,
-			// 	isUnderlined:  template.isUnderlined,
-			// 	isTargetBlank: template.isTargetBlank,
-			// 	title:         template.title,
-			// 	content:       template.content
-			// }
-		// };
 		return {'linkInfoTab': template};
 	};
 
@@ -555,7 +498,8 @@ function CKEditorAdapter(){
 	/**
 	 * Sets value of a field in `dialog`.
 	 *
-	 * Information to identify the field and the corresponding value is encoded in object `data`.
+	 * Information to identify the field and the value is encoded in object `data` which must be of
+	 * the following format: <pre>{`tabId`: ..., `elemId`: ..., `value`: ...}</pre>
 	 * @method         setDialogField
 	 * @param          {Object}        dialog
 	 * @param          {Object}        data
@@ -568,13 +512,13 @@ function CKEditorAdapter(){
 			tabId = data.tabId;
 			elemId = data.elemId;
 			elem = dialog.getContentElement(tabId, elemId);
-			if (!elem){
-				return;
+			if (elem  && data.value){
+				elem.setValue(data.value);
 			}
-			value  = data.value;
-			if (value !== undefined){
-				document.getElementById(elem.domId).innerHTML = value;
-			}
+			// value = data.value;
+			// if (value !== undefined){
+			// 	document.getElementById(elem.domId).innerHTML = value;
+			// }
 
 		} catch(e){
 			console.log(e.name  + ' when setting dialog field:' + e.message);

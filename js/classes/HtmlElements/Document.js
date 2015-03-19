@@ -371,6 +371,7 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.findAncestorsOfMany = function(nodes, crit){
+		console.log('findAncestorsOfMany: ', nodes, crit);
 		if (!Array.isArray(nodes) || (typeof crit !== 'function')){
 			return undefined;
 		}
@@ -1254,6 +1255,7 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
+		console.log('nodesOfRange', r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
@@ -1261,12 +1263,14 @@ function Document(node){
 			return [];
 		}
 		var boundaries = this.detachBoundaries(r);
+		console.info('nodesOfRange: boundaries:', boundaries);
 		if (boundaries.length === 0){
 			return [];
 		}
 		if (boundaries.length === 1){
 			return [boundaries[0]];
 		}
+
 		return this.nodesBetween(boundaries[0], boundaries[1]);
 	};
 
@@ -1332,57 +1336,9 @@ function Document(node){
 	 * @return         {String}
 	 * @since          0.1.0
 	 */
-	this.nodeToText = function(n){
-		return (n instanceof Node) ? n.textContent : '';
-	};
-
-
-	/**
-	 * Returns text representation of the selected nodes stored in
-	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
-	 *
-	 * Remember that {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}
-	 * is in general a two dimensional array.
-	 *
-	 * @method    selectedNodesToText
-	 * @param     {String}    elemSeparator           string to be used as a separator between elements in array
-	 * @param     {String}    blockSeparator          string to be used as a separator between arrays
-	 * @return    {String}
-	 */
-	this.selectedNodesToText = function(elemSeparator, blockSeparator){
-		/**
-		 * Transforms array of nodes into a string.
-		 * @method       _rangeToText
-		 * @param        {Array}     nodesArr      array of node instances
-		 * @param        {String}    separ         separator to be used as a delimiter between string representations of the nodes
-		 * @return       {String}
-		 * @private
-		 */
-		var _rangeToText = function(nodesArr, separ){
-			if (!Array.isArray(nodesArr)){
-				return '';
-			}
-			var result = [];
-			nodesArr.forEach(function(n){
-				var txt = this.nodeToText(n);
-				result.push(txt);
-
-			}.bind(this));
-			return result.join(separ);
-		}.bind(this);
-
-		var result = [],
-			bS = blockSeparator || ' ',
-			eS = elemSeparator || ' ';
-		if (!Array.isArray(this.getSelection())){
-			return '';
-		}
-		this.getSelection().forEach(function(r){
-			result.push(_rangeToText(r, eS));
-		}.bind(this));
-		return result.join(bS);
-	};
-
+	// this.nodeToText = function(n){
+		// return (n instanceof Node) ? n.textContent : '';
+	// };
 
 
 	/**
@@ -1394,15 +1350,15 @@ function Document(node){
 	 * @method         isSelectionEmpty
 	 * @return         {Boolean}
 	 */
-	this.isSelectionEmpty = function(){
-	    var s = this.getSelection();
-	    if (!s || s.length === 0){
-	    	return true;
-	    }
-	    return s.every(function(arr){
-	    	return arr.length === 0;
-	    });
-	};
+	// this.isSelectionEmpty = function(){
+	    // var s = this.getSelection();
+	    // if (!s || s.length === 0){
+	    // 	return true;
+	    // }
+	    // return s.every(function(arr){
+	    // 	return arr.length === 0;
+	    // });
+	// };
 
 
 
@@ -1418,7 +1374,7 @@ function Document(node){
 	 * @method         isEditable
 	 * @return         {Boolean}
 	 */
-	this.isEditable = function(){
+	// this.isEditable = function(){
 		///!!! stub
 	    // var nodes = this.nodes;
 	    // if (!nodes){
@@ -1456,9 +1412,9 @@ function Document(node){
 	    //     }
 	    //     return false;
 	    // }
-	    return false;
+	    // return false;
 
-	};
+	// };
 
 	/**
 	 * Removes duplicate DOM nodes form input array. Each element of the array must be an instance of
@@ -1472,36 +1428,36 @@ function Document(node){
 	 *                                              [CKEDITOR.dom.domObject](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject)
 	 *                                              elements
 	 */
-	var dropDuplicates = function(arr){
-	    var len = arr.length;
-	    if (len === 0 || len === 1){
-	        return arr;
-	    }
-	    if (len > 1){
-	        var first = arr[0],
-	            linkElem = [],
-	            linkElemLen = 0,
-	            i, j,
-	            isPresent;
-	        linkElem.push(first);
-	        linkElemLen++;
+	// var dropDuplicates = function(arr){
+	//     var len = arr.length;
+	//     if (len === 0 || len === 1){
+	//         return arr;
+	//     }
+	//     if (len > 1){
+	//         var first = arr[0],
+	//             linkElem = [],
+	//             linkElemLen = 0,
+	//             i, j,
+	//             isPresent;
+	//         linkElem.push(first);
+	//         linkElemLen++;
 
-	        for (i = 1; i < len; i++){
-	            isPresent = false;
-	            for (j = 0; j < linkElemLen; j++){
-	                if (linkElem[j].equals(arr[i])){
-	                    isPresent = true;
-	                    break;
-	                }
-	            }
-	            if (!isPresent){
-	                linkElem.push(arr[i]);
-	                linkElemLen++;
-	            }
-	        }
-	        return linkElem;
-	    }
-	};
+	//         for (i = 1; i < len; i++){
+	//             isPresent = false;
+	//             for (j = 0; j < linkElemLen; j++){
+	//                 if (linkElem[j].equals(arr[i])){
+	//                     isPresent = true;
+	//                     break;
+	//                 }
+	//             }
+	//             if (!isPresent){
+	//                 linkElem.push(arr[i]);
+	//                 linkElemLen++;
+	//             }
+	//         }
+	//         return linkElem;
+	//     }
+	// };
 
 	/**
 	 * Replaces each element in {{#crossLink "Document/_selection:property"}}_selection{{/crossLink}} by
@@ -1512,33 +1468,33 @@ function Document(node){
 	 * @method         absorbLink
 	 * @return         {void}
 	 */
-	this.absorbLink = function(){
-	    var input = this.nodes,
-	        linkElem = [],
-	        temp, link;
-	    if (this.isEmpty()){
-	        // if the selection is empty and the cursor is inside a link,
-	        // insert this link into nodes
-	        link = this.getStartElement().getAncestor('a', true);
-	        if (link){
-	            linkElem.push([link]);   // resulting array must be 2-dimensional with a single element
-	        }
-	    } else {
-	        // parse elements in the selectionif it is not empty
-	        input.forEach(function(block){
-	            if (Array.isArray(block) && block.length > 0){
-	                temp = [];
-	                block.forEach(function(elem){
-	                    link = elem.getAncestor('a', true);
-	                    temp.push(link || elem) ;
-	                });
-	                linkElem.push(dropDuplicates(temp));
-	            }
-	        });
+	// this.absorbLink = function(){
+	//     var input = this.nodes,
+	//         linkElem = [],
+	//         temp, link;
+	//     if (this.isEmpty()){
+	//         // if the selection is empty and the cursor is inside a link,
+	//         // insert this link into nodes
+	//         link = this.getStartElement().getAncestor('a', true);
+	//         if (link){
+	//             linkElem.push([link]);   // resulting array must be 2-dimensional with a single element
+	//         }
+	//     } else {
+	//         // parse elements in the selectionif it is not empty
+	//         input.forEach(function(block){
+	//             if (Array.isArray(block) && block.length > 0){
+	//                 temp = [];
+	//                 block.forEach(function(elem){
+	//                     link = elem.getAncestor('a', true);
+	//                     temp.push(link || elem) ;
+	//                 });
+	//                 linkElem.push(dropDuplicates(temp));
+	//             }
+	//         });
 
-	    }
-	    this.nodes = linkElem;
-	};
+	//     }
+	//     this.nodes = linkElem;
+	// };
 
 	/**
 	 * Propagate style property named `prop` with the value `val` to the last descendant of each node in the selection.
@@ -2138,6 +2094,7 @@ function Document(node){
 	 * @param          {String}     name        tag name
 	 * @since          0.1.0
 	 * @return         {Element|Null}       instance of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * @deprecated     in favor findAncestorsOfRanges
 	 */
 	this.detectTag = function(name){
 		if (typeof name !== 'string'){
@@ -3147,14 +3104,35 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.findAncestorsOfRanges = function(ranges, criteria){
-		if (ranges.length > 1){
-			console.log('Multiple range selection is yet to be implemented. Now consider only the first range.');
-		}
-		if (ranges.length === 0){
-			return [];
-		}
-		return this.findAncestorsOfMany(this.nodesOfRange(ranges[0], criteria));
+		var ancestorsGlob = [];
+		ranges.forEach(function(range){
+			var nodes = range.collapsed ? [range.startContainer] : this.nodesOfRange(range),
+				ancestorsLoc = this.findAncestorsOfMany(nodes, criteria);
+			console.log(range, nodes);
+			ancestorsGlob = ancestorsGlob.concat(ancestorsLoc);
+		}.bind(this));
+		console.log('returning', ancestorsGlob);
+		return ancestorsGlob;
 	};
+
+
+	/**
+	 * Returns text representation of the selection given by `ranges`.
+	 *
+	 * @method    rangeBunchToString
+	 * @param     {Array}     ranges                  array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @param     {String}    separator               [Optional] string to be used as a separator between ranges
+	 * @return    {String}
+	 */
+	this.rangeBunchToString = function(ranges, separator){
+		var stringBunch = [];
+		ranges.forEach(function(range){
+			stringBunch.push(range.toString());
+		});
+
+		return stringBunch.join(separator || '');
+	};
+
 
 
 }

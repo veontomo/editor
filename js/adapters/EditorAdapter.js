@@ -197,10 +197,11 @@ function EditorAdapter(){
 	/**
 	 * Sets value of a field in `dialog` according to information encoded in `data`.
 	 *
-	 * Implementation of this method is delegated to a class that inherits from this one.
+	 * Since inheriting classes are extected to implement this method, see concrete implementations for
+	 * the format in which `data` is supposed to be presented.
 	 * @method         setDialogField
 	 * @param          {Object}        dialog           editor dialog object
-	 * @param          {Object}        data
+	 * @param          {Object}        data             editor-specific representation
 	 * @since          0.2.0
 	 * @return         {void}
 	 * @abstract

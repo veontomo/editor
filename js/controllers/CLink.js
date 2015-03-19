@@ -100,17 +100,22 @@ function CLink() {
      * @Override
      */
     this.fillInDialog = function(dialog, editor){
-        var adapter, ranges, doc, content, link;
+        var adapter, ranges, doc, content, links;
         try {
             adapter = this.getEditorAdapter();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
             doc = this.getWorker();
-            link = doc.findAncestorsOfRanges(ranges, this.getModel().prototype.characteristicFunction);
-            console.log("ranges: ", ranges);
-            if (link){
-                this.fillInDialogWithElementData(dialog, link, 'link');
+            links = doc.findAncestorsOfRanges(ranges, this.getModel().prototype.characteristicFunction);
+            selectionContent = doc.rangesToString(ranges);
+            if (links.length > 0){
+                this.fillInDialogWithElementData(dialog, links[0], 'link');
             }
+            if (selectionContent){
+                this.setDialogField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
+            }
+
+
         } catch (e) {
             console.log(e.name + ' occurred when filling in link dialog: ' + e.message);
         }
