@@ -500,13 +500,13 @@ function CKEditorAdapter(){
 	 *
 	 * Information to identify the field and the value is encoded in object `data` which must be of
 	 * the following format: <pre>{`tabId`: ..., `elemId`: ..., `value`: ...}</pre>
-	 * @method         setDialogField
+	 * @method         setDialogInputField
 	 * @param          {Object}        dialog
 	 * @param          {Object}        data
 	 * @since          0.2.0
 	 * @return         {void}
 	 */
-	this.setDialogField = function(dialog, data){
+	this.setDialogInputField = function(dialog, data){
 		var tabId, elemId, value;
 		try {
 			tabId = data.tabId;
@@ -514,7 +514,7 @@ function CKEditorAdapter(){
 			value = data.value;
 			dialog.setValueOf(tabId, elemId, value);
 		} catch(e){
-			console.log(e.name  + ' when setting dialog field:' + e.message);
+			console.log(e.name  + ' when setting dialog input field:' + e.message);
 		}
 	};
 
@@ -523,24 +523,21 @@ function CKEditorAdapter(){
 	 *
 	 * Information to identify the field and the value is encoded in object `data` which must be of
 	 * the following format: <pre>{`tabId`: ..., `elemId`: ..., `value`: ...}</pre>
-	 * @method         setDialogField
+	 * @method         setDialogHtmlField
 	 * @param          {Object}        dialog
 	 * @param          {Object}        data
 	 * @since          0.2.0
 	 * @return         {void}
 	 */
-	this.alert = function(dialog, data){
-		var tabId, elemId, value, elem;
+	this.setDialogHtmlField = function(dialog, data){
+		var tabId, elemId, elem;
 		try {
 			tabId = data.tabId;
 			elemId = data.elemId;
 			elem = dialog.getContentElement(tabId, elemId);
-			// console.log(elem, data.value);
-			if (elem && data.value){
-				elem.setValue(data.value);
-			}
+			CKEDITOR.document.getById(elem.domId).$.innerHTML = data.value;
 		} catch(e){
-			console.log(e.name  + ' when setting dialog field:' + e.message);
+			console.log(e.name  + ' when setting dialog html field:' + e.message);
 		}
 	};
 

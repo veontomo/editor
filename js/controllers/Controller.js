@@ -542,15 +542,15 @@ function Controller(){
 	 *
 	 * This method is similar to {{#crossLink "Controller/alert:method"}}alert{{/crossLink}},
 	 * difference between them is that this method inserts information in text-input fields.
-	 * @method         setDialogField
+	 * @method         setDialogInputField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
 	 * @param          {Object}        info
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.setDialogField = function(dialog, info){
+	this.setDialogInputField = function(dialog, info){
 		var adapter = this.getEditorAdapter();
-		adapter.setDialogField(dialog, info);
+		adapter.setDialogInputField(dialog, info);
 	};
 
 
@@ -559,17 +559,17 @@ function Controller(){
 	 *
 	 * Location of the warning and its content is encoded into object `info` format of which is editor-specific.
 	 *
-	 * This method is similar to {{#crossLink "Controller/setDialogField:method"}}setDialogField{{/crossLink}},
+	 * This method is similar to {{#crossLink "Controller/setDialogInputField:method"}}setDialogInputField{{/crossLink}},
 	 * difference between them is that this method changes 'html'-like fields.
-	 * @method         alert
+	 * @method         setDialogHtmlField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
 	 * @param          {Object}        info
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.alert = function(dialog, info){
+	this.setDialogHtmlField = function(dialog, info){
 		var adapter = this.getEditorAdapter();
-		adapter.setDialogField(dialog, info);
+		adapter.setDialogHtmlField(dialog, info);
 	};
 
 	/**

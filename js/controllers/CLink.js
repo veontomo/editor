@@ -112,7 +112,7 @@ function CLink() {
                 this.fillInDialogWithElementData(dialog, links[0], 'link');
             }
             if (selectionContent){
-                this.setDialogField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
+                this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
             }
 
 

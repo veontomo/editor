@@ -199,16 +199,33 @@ function EditorAdapter(){
 	 *
 	 * Since inheriting classes are extected to implement this method, see concrete implementations for
 	 * the format in which `data` is supposed to be presented.
-	 * @method         setDialogField
+	 * @method         setDialogInputField
 	 * @param          {Object}        dialog           editor dialog object
 	 * @param          {Object}        data             editor-specific representation
 	 * @since          0.2.0
 	 * @return         {void}
 	 * @abstract
 	 */
-	this.setDialogField = function(dialog, data){
+	this.setDialogInputField = function(dialog, data){
 		/// !!! abstract method. Must be overridden by inheriting class.
-		throw new Error('Method "setDialogField" of class EditorAdapter must be overridden by inheriting class!');
+		throw new Error('Method "setDialogInputField" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Sets value of a field in `dialog` according to information encoded in `data`.
+	 *
+	 * Since inheriting classes are extected to implement this method, see concrete implementations for
+	 * the format in which `data` is supposed to be presented.
+	 * @method         setDialogHtmlField
+	 * @param          {Object}        dialog           editor dialog object
+	 * @param          {Object}        data             editor-specific representation
+	 * @since          0.2.0
+	 * @return         {void}
+	 * @abstract
+	 */
+	this.setDialogHtmlField = function(dialog, data){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "alert" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
 	/**
