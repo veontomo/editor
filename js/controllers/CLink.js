@@ -100,14 +100,14 @@ function CLink() {
      * @Override
      */
     this.fillInDialog = function(dialog, editor){
-        var adapter, ranges, doc, content, links;
+        var adapter, ranges, doc, content, links, selectionContent;
         try {
             adapter = this.getEditorAdapter();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
             doc = this.getWorker();
             links = doc.findAncestorsOfRanges(ranges, this.getModel().prototype.characteristicFunction);
-            selectionContent = doc.rangesToString(ranges);
+            selectionContent = doc.rangeBunchToString(ranges);
             if (links.length > 0){
                 this.fillInDialogWithElementData(dialog, links[0], 'link');
             }

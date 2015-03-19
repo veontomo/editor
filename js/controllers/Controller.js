@@ -539,6 +539,9 @@ function Controller(){
 	 * Sets a dialog field.
 	 *
 	 * Dialog field and the value to set is encoded into object `info`.
+	 *
+	 * This method is similar to {{#crossLink "Controller/alert:method"}}alert{{/crossLink}},
+	 * difference between them is that this method inserts information in text-input fields.
 	 * @method         setDialogField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
 	 * @param          {Object}        info
@@ -546,6 +549,25 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.setDialogField = function(dialog, info){
+		var adapter = this.getEditorAdapter();
+		adapter.setDialogField(dialog, info);
+	};
+
+
+	/**
+	 * Displays a warning on the dialog window.
+	 *
+	 * Location of the warning and its content is encoded into object `info` format of which is editor-specific.
+	 *
+	 * This method is similar to {{#crossLink "Controller/setDialogField:method"}}setDialogField{{/crossLink}},
+	 * difference between them is that this method changes 'html'-like fields.
+	 * @method         alert
+	 * @param          {Object}        dialog    editor-specific representation of dialog window
+	 * @param          {Object}        info
+	 * @return         {void}
+	 * @since          0.2.0
+	 */
+	this.alert = function(dialog, info){
 		var adapter = this.getEditorAdapter();
 		adapter.setDialogField(dialog, info);
 	};

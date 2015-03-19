@@ -147,12 +147,13 @@ function linkDialog(editor) {
                     validate: function(){
                         var isOk = Boolean(this.getValue().trim());
                         if (!isOk){
-                            _controller.setDialogField(this.getDialog(), {
+                            _controller.alert(this.getDialog(), {
                                 tabId: 'linkInfoTab',
                                 elemId: 'warning',
                                 value: editor.lang[_pluginName].invalid
                             });
                         }
+                        console.log(isOk);
                         return isOk;
                     }
                 }, {

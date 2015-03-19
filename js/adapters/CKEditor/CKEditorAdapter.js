@@ -507,19 +507,38 @@ function CKEditorAdapter(){
 	 * @return         {void}
 	 */
 	this.setDialogField = function(dialog, data){
+		var tabId, elemId, value;
+		try {
+			tabId = data.tabId;
+			elemId = data.elemId;
+			value = data.value;
+			dialog.setValueOf(tabId, elemId, value);
+		} catch(e){
+			console.log(e.name  + ' when setting dialog field:' + e.message);
+		}
+	};
+
+	/**
+	 * Sets value of a field in `dialog`.
+	 *
+	 * Information to identify the field and the value is encoded in object `data` which must be of
+	 * the following format: <pre>{`tabId`: ..., `elemId`: ..., `value`: ...}</pre>
+	 * @method         setDialogField
+	 * @param          {Object}        dialog
+	 * @param          {Object}        data
+	 * @since          0.2.0
+	 * @return         {void}
+	 */
+	this.alert = function(dialog, data){
 		var tabId, elemId, value, elem;
 		try {
 			tabId = data.tabId;
 			elemId = data.elemId;
 			elem = dialog.getContentElement(tabId, elemId);
-			if (elem  && data.value){
+			// console.log(elem, data.value);
+			if (elem && data.value){
 				elem.setValue(data.value);
 			}
-			// value = data.value;
-			// if (value !== undefined){
-			// 	document.getElementById(elem.domId).innerHTML = value;
-			// }
-
 		} catch(e){
 			console.log(e.name  + ' when setting dialog field:' + e.message);
 		}
