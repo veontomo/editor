@@ -60,9 +60,9 @@ function Document(node){
 	 * @method         constructor
 	 * @param          {Node}           node
 	 */
-	if (node instanceof Node){
-		_content = node;
-	}
+	// if (node instanceof Node){
+		// _content = node;
+	// }
 
 	/**
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} setter. Supposed to be an
@@ -128,63 +128,6 @@ function Document(node){
 	};
 
 
-	/**
-	 * Returns "deep" [clone](https://developer.mozilla.org/en-US/docs/Web/API/Node.cloneNode) of
-	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}. If it is not set, nothing
-	 * is returned.
-	 * @method         getContent
-	 * @return         {Node}
-	 */
-	this.getContent = function(){
-		if (_content){
-			return _content.cloneNode(true);
-		}
-	};
-
-	/**
-	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}} setter.
-	 *
-	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, assignment is not performed.
-	 * @method         setContent
-	 * @param          {Node}               n
-	 * @return         {void}
-	 */
-	this.setContent = function(n){
-		if (n instanceof Node){
-			_content = n;
-		}
-	};
-
-
-	/**
-	 * Removes attributes present in array `flies` of regular expressions from
-	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
-	 * It first creates a "shallow" (without children) copy of the argument and applies
-	 * {{#crossLink "Document/cleanCurrent:method"}}cleanCurrent{{/crossLink}} method
-	 * to remove attributes from the argument. Then, consider each child of the argument
-	 * and applies {{#crossLink "Document/clean:method"}}clean{{/crossLink}} method to them
-	 * and append the result to the shallow copy.
-	 *
-	 * @method         clean
-	 * @param          {Array}      flies        array of regular expressions
-	 * @return         {void}
-	 */
-	this.clean = function(flies){
-		var n = this.getContent(),
-			out = n.cloneNode(false);
-		this.cleanRoot(out, flies);
-		var children = n.childNodes,
-			len = children.length,
-			i, cleanChild, d;
-		// parsing each child one by one
-		for (i = 0; i < len; i++){
-			d = new Document(children.item(i));
-			d.clean(flies);
-			cleanChild = d.getContent();
-			out.appendChild(cleanChild);
-		}
-		this.setContent(out);
-	};
 
 	/**
 	 * Escapes "tricky" symbols by their html code representations.
@@ -226,39 +169,6 @@ function Document(node){
 		this.setContent(linkElem);
 		console.log('Content at the end: ', this.getContent());
 	};
-
-	/**
-	 * Removes attributes present in array `flies` from the current node without affecting child nodes.
-	 * If the node is a not an element node, then nothing is performed upon it.
-	 * @method         cleanRoot
-	 * @param          {Node}                   node
- 	 * @param          {Array}      flies       array of regular expressions
-	 * @return         {void}
-	 */
-	this.cleanRoot = function(node, flies){
-		if (flies && node.nodeType === Node.ELEMENT_NODE){
-			var nodeAttrs = node.attributes,  // NamedNodeMap of node attributes
-				len = nodeAttrs.length,
-				attrNames = [],   // array of node attributes (names of the attributes)
-				i;
-			// populating plain array of node attributes
-			for (i = 0; i < len; i++){
-				attrNames.push(nodeAttrs[i].name);
-			}
-			if (attrNames){
-				attrNames.forEach(function(attr){
-					// whether an attribute matches at least one regular expression
-					var doesMatch = flies.some(function(fly){
-						return attr.match(fly);
-					});
-					if (doesMatch){
-						node.removeAttribute(attr);
-					}
-				});
-			}
-		}
-	};
-
 
 	/**
 	 * {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}} setter.
@@ -1428,33 +1338,6 @@ function Document(node){
 
 	};
 
-
-
-	/**
-	 * Returns common ancestor of all array elements. If an element is not a
-	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, it is ignored.
-	 * @method         commonAncestorSoft
-	 * @return         {Node|Null}          common ancestor of the arguments
-	 */
-	this.commonAncestorSoft = function(elems){
-	    if (!Array.isArray(elems)){
-	        return null;
-	    }
-	    var arg = elems.filter(function(el){
-	        return el && el.nodeType !== undefined;
-	    });
-	    if (arg.length === 0){
-	        return null;
-	    }
-	    var el = arg.shift(),
-	        elTmp;
-	    while (arg.length > 0){
-	        elTmp = arg.shift();
-	        el = this.commonAncestor(el, elTmp);
-	    }
-	    return el;
-	};
-
 	/**
 	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.
 	 * @method         getMentor
@@ -1478,85 +1361,8 @@ function Document(node){
 		}
 	};
 
-	/**
-	 * Nails inline style property `key` of `node`:  applies style property on "innocent" nodes
-	 * and toggles node inline property `key` between `primary` and `secondary`.
-	 *
-	 * If `node` has a mentor node, then:
-	 * <ol><li>
-	 * assign value of inline style property `key` of the mentor to each
-	 * {{#crossLink "Dom/complementNodes:method"}}complement node{{/crossLink}} to the path `mentor - ... - node`,
-	 * </li><li>
-	 * eliminate inline style property `key` from the mentor,
-	 * </li><li>
-	 * call {{#crossLink "Dom/setStyleProperty:method"}}setStyleProperty{{/crossLink}} method that takes care of
-	 * setting inline style property of `node` to required value.
-	 * </li></ol>
-	 * If `node` has no mentor node, then set its inline style property `key` to be equal to `secondary`
-	 * @method         nailStyleProperty___old
-	 * @param          {Node}               node             [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key              name of inline style property
-	 * @param          {String|Number}      primary          primary value of inline style property
-	 * @param          {String|Number}      secondary        secondary value of inline style property
-	 * @return         {void}
-	 */
-	this.nailStyleProperty___old = function(node, key, primary, secondary){
-		console.log('inside nailStyleProperty');
-		var mentor = this.getMentor(key, node);
-		// changing target node if there is no mentor
-		if (!mentor){
-			console.log('property ' + key + ' is not set');
-			var newNode = this.setStyleProperty(node, key, primary);
-
-			return;
-		}
-		// from now on, mentor exists.
-		// It might coincide with the node (in this case, array of complement nodes is empty).
-		var complNodes = this.complementNodes(mentor, node),
-			len = complNodes.length,
-			mentorStyle = this.getStyleProperty(mentor, key),
-			i;
-		// apply mentor's style property on complement nodes
-		for (i = 0; i < len; i++){
-			this.setStyleProperty(complNodes[i], key, mentorStyle);
-		}
-		// drop the property from the mentor
-		this.dropStyleProperty(mentor, key);
-		// impose secondary value of the style property on the target node
-		this.setStyleProperty(node, key, mentorStyle === primary ? secondary : primary);
-	};
 
 
-	/**
-	 * Returns reference to a node with inline style property `key` being set to `value`.
-	 * If `node` is a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
-	 * then reference it itself is returned. Otherwise, it is returned a new
-	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, which contains
-	 * a clone of `node` and which replaces `node`.
-	 * @method         setStyleProperty___old
-	 * @param          {Node}               node     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key      name of inline style property to set
-	 * @param          {String|Number}      value    value of the inline style property
-	 * @return         {Node}                        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 */
-	this.setStyleProperty___old = function(node, key, value){
-		if (!node || !key || !value){
-			throw new Error('Node, key and value must be given!');
-		}
-		var attrName = 'style',
-			isElem = node.nodeType === Node.ELEMENT_NODE,
-			node2 = isElem ? node : document.createElement('span'),
-			style = new Properties(node2.getAttribute(attrName));
-		style.setMode(Properties.MODE_STYLE);
-		style.setProperty(key, value);
-		node2.setAttribute(attrName, style.toString());
-		// arrange the node if it was created as a span
-		if (!isElem){
-			node2.appendChild(node.cloneNode(false));
-			node.parentNode.replaceChild(node2, node);
-		}
-		return node2;
-	};
 
 	/**
 	 * Gets inline style property with name `key` of `node`. Returns `undefined` if `node`
@@ -1628,33 +1434,6 @@ function Document(node){
 		}
 	};
 
-	/**
-	 * Returns an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance with the style
-	 * property `key` equal to `secondary` if value of `key` attribute in "style" property  is equal to `primary`. Otherwise,
-	 * `key` value will be imposed to `primary`.
-	 *
-	 * Created instance is a "span" html tag.
-	 * @method         createToggledElemFromText___old
-	 * @param          {Text}               textNode        [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text)
-	 *                                                      instance whose "toggle" copy is to be created
-	 * @param          {String}             key             name of style property (i.e., "text-decoration", "font-style")
-	 * @param          {String|Number}      primary         primary value of the style property
-	 * @param          {String|Number}      secondary       secondary value
-	 * @return         {Node}
-	 * @since          0.0.4
-	 */
-	this.createToggledElemFromText___old = function(textNode, key, primary, secondary){
-		if (textNode && textNode.nodeType === Node.TEXT_NODE){
-			var linkElem = document.createElement('span'),
-				textNodeCopy = document.createTextNode(textNode.nodeValue),
-				styleValue = this.getInheritedStyleProp(key, textNode),
-				styleToggled = styleValue === primary ? secondary : primary;
-			linkElem.setAttribute('style', key + ': ' + styleToggled + ';');
-			linkElem.appendChild(textNodeCopy);
-			return linkElem;
-		}
-	};
-
 
 	/**
 	 * Returns a one-dimensional array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
@@ -1699,190 +1478,6 @@ function Document(node){
 			}
 		}
 		return result;
-	};
-
-	/**
-	 * Replaces `propSecondary` string by `propPrimary` one in the class attribute of `elem`.
-	 * If `propSecondary` does not exist, then `propPrimary` is just appended to class
-	 * attributes. If class attribute does not exist, then it is created with value `propName`.
-	 * @method         switchClassProperty
-	 * @param          {Element}       elem
-	 * @param          {String}        propPrimary
-	 * @param          {String}        propSecondary
-	 * @return         {void}
-	 * @since          0.0.6
-	 */
-	this.switchClassProperty = function(elem, propPrimary, propSecondary){
-		var attrName = 'class';
-		var classValue = elem.getAttribute(attrName);
-		if (!classValue){
-			elem.setAttribute(attrName, propPrimary);
-			return;
-		}
-		var attrValues = classValue.split(' ');
-		var index = attrValues.indexOf(propSecondary);
-		if (index !== -1){
-			// replace secondary-switch attribute
-			attrValues[index] = propPrimary;
-		} else if (attrValues.indexOf(propPrimary) === -1) {
-			// insert secondary-switch attribute only if it is not already present
-			attrValues.push(propPrimary);
-		}
-		classValue = attrValues.join(' ');
-		elem.setAttribute(attrName, classValue);
-	};
-
-	/**
-	 * Returns a Properties instance that accumulates the highest specificity attributes and styles of
-	 * node `n` within the scope `s` (included).
-	 *
-	 * The method parses DOM ascending from the node `n` up to node `s` (included) and accumulates only those
-	 * styles/attributes that have not been set so far: that is if an attribute encouters more than once,
-	 * only its first occurence gets into consideration.
-	 *
-	 * If node `s` is not set, then parsing is performed up to the "highest" root.
-	 * If node `s` is set, but node `n` is not its descendant, then a
-	 * {{#crossLink "Properties"}}Properties{{/crossLink}} instance corresponding to node `n`
-	 * is returned.
-	 * @method  	   getInheritedProperties
-	 * @param          {Element}       n
-	 * @param          {Element}       s   Optional
-	 * @return         {Properties}
-	 * @since          0.0.7
-	 */
-	this.getInheritedProperties = function(n, s){
-		var p = new Properties();
-		if (!n){
-			return p;
-		}
-		p.loadNodeProperties(n);
-		var naturalLimit = s === undefined;
-		if (!(naturalLimit || s.contains(n))){
-			return p;
-		}
-		var currentNode = n.parentNode,
-			currentProp;
-		while (currentNode && (naturalLimit || s.contains(currentNode))){
-			currentProp = new Properties();
-			currentProp.loadNodeProperties(currentNode);
-			p.suggestProperty(currentProp);
-			currentNode = currentNode.parentNode;
-		}
-		return p;
-	};
-
-	/**
-	 * Creates an instance of class `C` and then calls its method given by string `loader`
-	 * with `data` being used as an argument of that method.
-
-	 * @method         castTo
-	 * @param          {Function}        C          class constructor
-	 * @param          {String}          loader     name of the method of the returned object to be called
-	 *                                              in order initialize object's properties
-	 * @param  		   {Any}             data       data to be provided as an argument to `loader` method
-	 * @return         {Object}
-	 * @since          0.1.0
-	 */
-	this.castTo = function(C, loader, data){
-		if (typeof C !== 'function'){
-			return;
-		}
-		var tag;
-		try {
-			tag = new C();
-		} catch (e){
-			return;
-		}
-		if (typeof tag[loader] === 'function'){
-			try {
-				tag[loader](data);
-			} catch (e){
-				console.log(e.name + ' when applying loader ' + loader + ' with argument ' + data + ': ' + e.message);
-			}
-		}
-		return tag;
-	};
-
-	/**
-	 * Finds a tag specified by string `name` inside {{#crossLink "Document/_content:property"}}_content{{/crossLink}} based on the
-	 * selected nodes and cursor position.
-	 *
-	 * The search is performed among ancestors of nodes belonging to the selection and among ancestors of
-	 * the node that contains the cursor position.
-	 *
-	 * The selection is retrieved by means of {{#crossLink "Document/getSelection:method"}}getSelection{{/crossLink}} method.
-	 *
-	 * @method         detectTag
-	 * @param          {String}     name        tag name
-	 * @since          0.1.0
-	 * @return         {Element|Null}       instance of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 * @deprecated     in favor findAncestorsOfRanges
-	 */
-	this.detectTag = function(name){
-		if (typeof name !== 'string'){
-			return;
-		}
-		/**
-		 * Whether the argument `e` is an html element with tag `name`.
-		 *
-		 * Comparison is case-insensitive.
-		 *
-		 * @method     hasTag
-		 * @param      {Any}           e
-		 * @return     {Boolean}
-		 * @private
-		 */
-		var hasTag = function(e){
-			return (e instanceof Element) && (name.localeCompare(e.tagName, 'en', {sensitivity: 'base'}) === 0);
-		}.bind(this);
-
-		/**
-		 * Finds a hyperlink among ancestors of element `e`
-		 * @method callback
-		 * @param  {Node}   e [description]
-		 * @return {Element}
-		 * @private
-		 */
-		var callback = function(e){
-			return this.findAncestor(e, hasTag);
-		}.bind(this);
-
-		var selection = this.getSelectionPlain(),
-			candidateNodes = Array.isArray(selection) ?  selection : [],
-			cursorPos = this.getCursorPosition();
-		if (cursorPos){
-			candidateNodes.push(cursorPos.startContainer);
-		}
-		return this.findInBlock(candidateNodes, callback);
-	};
-
-	/**
-	 * Converts selected nodes into hyperlinks.
-	 *
-	 * Returns a new [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
-	 * corresponding to `scope` in which selected nodes (given by array `selection`) are
-	 * transformed into hyperlinks described by `template`.
-	 * In case when the selection is empty, cursor position is used in order the insert
-	 * the hyperlink into `scope`.
-	 * @method         convertToLinks
-	 * @since          0.1.0
-	 * @param          {Node}            scope           a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {Array}           selection
-	 * @param          {Range}           position        collapsed range
-	 * @param          {Object}          template
-	 * @return         {Element}
-	 */
-	this.convertToLinks = function(scope, selection, position, template){
-		if (!((scope instanceof Node) && (typeof template === 'object'))){
-			return;
-		}
-		if (!Array.isArray(selection) || selection.length === 0){
-			return this.insertLinkAt(scope, position, template);
-		}
-		/// once here, it means that there is a selection
-		/// !!! not finished yet!
-		throw new Error('Method convertToLinks of class Document is not fully implemented yet!');
-
 	};
 
 
@@ -2079,140 +1674,6 @@ function Document(node){
 			this.convertRangeToList(range, listType);
 		}.bind(this));
 	};
-
-	/**
-	 * Convert nodes belonging to `range` into a list of type `listType`.
-	 *
-	 * If `range` contains no nodes, then empty list is inserted at the position specified `range`.
-	 * @method         convertRangeToList
-	 * @param          {Range}         range      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * @param          {String}        listType
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.convertRangeToList = function(range, listType){
-		if (!(range instanceof Range)){
-			return;
-		}
-		if (range.collapsed){
-			this.insertListAt(listType, range.startContainer, range.startOffset);
-			return;
-		}
-		var nodes;
-		try {
-			nodes = this.nodesOfRange(range);
-		} catch (e){
-			console.log('Error (' + e.name + ') when detecting the nodes of the range: ' + e.message);
-			return;
-		}
-		var len = nodes.length;
-		if (len === 0){
-			console.log('Strange case detected: the range is not collapsed, but contains no nodes!');
-			return;
-		}
-		if (len > 1){
-			console.log('Currently, multiple nodes in selection are not supported. Only the first node will be taked into consideration.');
-		}
-
-		var	selectedNode = nodes[0]; // the selected node
-
-		var nodeName = selectedNode.nodeName.toLowerCase();
-		if ((nodeName === '#text') || (nodeName === 'img')){
-			this.convertNodeToListItem(selectedNode, listType);
-			return;
-		}
-		this.convertChildNodesToListItems(selectedNode, listType);
-	};
-
-	/**
-	 * Converts child nodes of `node` into list items.
-	 *
-	 * It appends a new list tag to `node` and then moves each of the original `nodes`'s children
-	 * so that they become list items of the newly inserted list.
-	 * The number of items of the resulting is equal to number of child nodes of `node`.
-	 *
-	 * For the moment, if the `node` tag name is one of 'ol', 'ul', 'tr', 'tbody', 'table', 'dl',
-	 * then no conversion is performed.
-	 *
-	 * @method         convertChildNodesToListItems
-	 * @param          {Node}           node
-	 * @param          {String}         listType
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.convertChildNodesToListItems = function(node, listType){
-		var ignoreTagList = ['ol', 'ul', 'tr', 'tbody', 'table', 'dl'];
-		var nodeName = node.nodeName.toLowerCase();
-		if (ignoreTagList.indexOf(nodeName) !== -1){
-			console.log(nodeName + ' is among tags to ignore. Exiting...');
-			return;
-		}
-		var childNodes = node.childNodes,
-			i,
-			list = new List(listType),
-			listElem, li,
-			childNum = childNodes.length;
-		if (childNum === 0){
-			return;
-		}
-		listElem = node.appendChild(list.toNode());
-		for (i = 0; i < childNum; i++){
-			li = listElem.appendChild((new ListItem()).toNode());
-			li.appendChild(childNodes[0]); // the node number is always 0 because appendChild removes
-										   // the argument from the original location
-		}
-
-	};
-
-	/**
-	 * Transforms `node` into an item of a list of type `listType`.
-	 *
-	 * The method modifies DOM to which `node` belongs to. The DOM acquires a list tag of type `listType`
-	 * with a list item whose unique child node is the above mentioned `node`.
-	 *
-	 * In fact, the method inserts a list on the place of `node` which gets then "detached" from its origanal position and gets
-	 * attached as a child node of the first item of the newly created list.
-	 *
-	 * @method         convertNodeToListItem
-	 * @param          {Node}          node        If it has no parent node, no conversion is performed.
-	 * @param          {String}        listType
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.convertNodeToListItem = function(node, listType){
-		var parent = node.parentNode;
-		if (!parent){
-			return;
-		}
-		console.log(listType);
-		var list = new List(listType),
-			listElem = parent.insertBefore(list.toNode(), node),
-			li = listElem.appendChild((new ListItem()).toNode());
-		listElem.appendChild((new ListItem()).toNode());
-		li.appendChild(node);
-	};
-
-
-	/**
-	 * Inserts list at a given position.
-	 *
-	 * The list gets inserted inside node `root` at position `pos` by means of method
-	 * {{#crossLink "Document/insertAt:method"}}insertAt{{/crossLink}}.
-	 *
-	 * @method         insertListAt
-	 * @param          {String}        listType        type of list to be inserted (i.e., 'ul' or 'ol')
-	 * @param          {Node}          root
-	 * @param          {Integer}       pos
-	 * @param          {Array}         items           [Optional] array of elements to be treated as list items
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.insertListAt = function(listType, root, pos, items){
-		var list = new List(listType);
-		list.appendAsItems(items || ['']);
-		this.insertAt(root, list.toNode(), pos);
-	};
-
 
 	/**
 	 * Changes list type of each element in array `ranges` from `oldType` to `newType`.
@@ -2852,7 +2313,5 @@ function Document(node){
 
 		return stringBunch.join(separator || '');
 	};
-
-
 
 }

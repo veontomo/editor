@@ -65,7 +65,8 @@ function CImage() {
 		    doc = this.getWorker();
 		    doc.setContent(content);
 		    doc.freezeSelection(ranges);
-		    imgTag = doc.detectTag('img');
+		    // TODO: make the code below work
+		    imgTag = doc.findAncestor(ranges, this.getModel().prototype.characteristicFunction);
 		    if (imgTag) {
 		    	// console.log('image tag is found');
 		    	img = new ImageTag();
