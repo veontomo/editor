@@ -88,7 +88,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 						// otherwise, an error occurs because the editor can already be
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
-						dialog.on('show', function(){
+						dialog.once('show', function(){
 							_controller.fillInDialogWithElementData(dialog, _target.hostTable, 'table');
 							_controller.saveExtra(dialog, _target.hostTable);
 							// reset the reference to the target element

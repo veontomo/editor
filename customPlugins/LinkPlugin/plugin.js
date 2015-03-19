@@ -67,18 +67,8 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
-					dialog.on('show', function(){
-						_controller.fillDialogWithSelection(dialog, e.getSelection());
-						// var startElement = e.getSelection().getStartElement(),
-						// 	parent;
-						// if (startElement){
-						// 	parent = _controller.findRepresentativeAncestor(startElement);
-						// }
-						// if (parent){
-						// 	_controller.saveExtra(dialog, parent);
-						// 	_controller.fillInDialogWithElementData(dialog, parent, 'link');
-						// }
-
+					dialog.once('show', function(){
+						_controller.fillInDialog(dialog, e);
 					});
 				});
 			}
@@ -92,7 +82,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						// otherwise, an error occurs because the editor can already be
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
-						dialog.on('show', function(){
+						dialog.once('show', function(){
 							_controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
 							_controller.saveExtra(dialog, _target.hostLink);
 							_target.hostLink = undefined;

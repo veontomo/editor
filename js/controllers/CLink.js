@@ -66,7 +66,6 @@ function CLink() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor, link) {
-        console.log('target element:', link);
         var adapter, doc, content, ranges, dialogData, template;
         try {
             adapter = this.getEditorAdapter();
@@ -89,22 +88,32 @@ function CLink() {
 
 
     /**
-     * Fills in dialog window based on what the user selects.
+     * Fills in `dialog` window based on `editor` state (content, selection etc).
      *
-     * Overrides base class method {{#crossLink "Controller/fillDialogWithSelection:method"}}Controller{{/crossLink}}
+     * Overrides base class method {{#crossLink "Controller/fillInDialog:method"}}Controller{{/crossLink}}
      * since the sublasses might have different implementations of the method.
-     *
-     * @method         fillDialogWithSelection
+     * @method         fillInDialog
      * @param          {Object}        dialog        editor-specific representation of a dialog window
-     * @param          {Object}        selection     editor-specific representation of the selection
+     * @param          {Object}        editor
      * @return         {void}
      * @since          0.2.1
      * @Override
      */
-    this.fillDialogWithSelection = function(dialog, selection){
-        /// !!! stub
-        console.dir(dialog);
-        console.dir(selection);
+    this.fillInDialog = function(dialog, editor){
+        var adapter, ranges, doc, content, link;
+        try {
+            adapter = this.getEditorAdapter();
+            content = adapter.getEditorContent(editor);
+            ranges = adapter.getNativeRanges(editor);
+            doc = this.getWorker();
+            link = doc.findAncestorsOfRanges(ranges, this.getModel().prototype.characteristicFunction);
+            console.log("ranges: ", ranges);
+            if (link){
+                this.fillInDialogWithElementData(dialog, link, 'link');
+            }
+        } catch (e) {
+            console.log(e.name + ' occurred when filling in link dialog: ' + e.message);
+        }
     };
 
 }

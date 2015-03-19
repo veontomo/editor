@@ -3136,5 +3136,25 @@ function Document(node){
 		console.log(table, pos);
 	};
 
+	/**
+	 * Finds all elements that satisfy the given `criteria`.
+	 *
+	 * The search is performed over ancestors of nodes belonging to `ranges`.
+	 * @method         findAncestorsOfRanges
+	 * @param          {Array}         ranges    array of ranges
+	 * @param          {Function}      criteria  function: Node -> Boolean
+	 * @return         {Array}                   array (might be empty) of Element instances
+	 * @since          0.2.1
+	 */
+	this.findAncestorsOfRanges = function(ranges, criteria){
+		if (ranges.length > 1){
+			console.log('Multiple range selection is yet to be implemented. Now consider only the first range.');
+		}
+		if (ranges.length === 0){
+			return [];
+		}
+		return this.findAncestorsOfMany(this.nodesOfRange(ranges[0], criteria));
+	};
+
 
 }

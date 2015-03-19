@@ -472,18 +472,16 @@ function Controller(){
 	};
 
 	/**
-	 * Fills in dialog window based on what the user selects.
+	 * Fills in `dialog` window based on `editor` state (content, selection etc).
 	 *
-	 * @method         fillDialogWithSelection
+	 * @method         fillInDialog
 	 * @param          {Object}        dialog        editor-specific representation of a dialog window
-	 * @param          {Object}        selection     editor-specific representation of the selection
+	 * @param          {Object}        editor
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.fillDialogWithSelection = function(dialog, selection){
-		/// !!! stub
-		console.dir(dialog);
-		console.dir(selection);
+	this.fillInDialog = function(dialog, editor){
+		console.warn('Controller.fillInDialog() is called, but its implementation is trivial (it does nothing).');
 	};
 
 	/**

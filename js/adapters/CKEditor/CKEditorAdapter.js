@@ -622,6 +622,5 @@ function CKEditorAdapter(){
 	this.getExtra = function(host){
 		return host.extraDataToStoreHere;
 	};
-
 }
 CKEditorAdapter.prototype = Object.create(EditorAdapter.prototype);
