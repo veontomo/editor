@@ -471,12 +471,14 @@ function Controller(){
 	};
 
 	/**
-	 * Fills in editor `dialog` with `data`.
+	 * Fills in editor `dialog` with `element` data.
 	 *
-	 * The structure of `data` must follow the structure of `dialog`.
+	 * Data is retrieved from `element` by means of template() method which is applied
+	 * to the object that {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}}
+	 * returns.
 	 * @method         fillInDialogWithElementData
 	 * @param          {Object}        dialog    editor-specific representation of the dialog
-	 * @param          {Node}          data      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}          element   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 *                                           which various properties are to be used to fill in the dialog
 	 * @param          {String}        marker    an identifier that serves to determine how template should be
 	 *                                           mapped into dialog object
