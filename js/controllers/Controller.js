@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global  */
+/*global  Node */
 
 /**
  * Base controller class.
@@ -425,19 +425,7 @@ function Controller(){
 		if (!nativeEl){
 			return;
 		}
-		var doc = this.getWorker(),
-			model = this.getModel(),
-			criteria, proto, n;
-			if (model){
-				proto = model.prototype;
-				if (proto){
-					criteria = proto.characteristicFunction;
-				}
-			}
-		if (typeof criteria === 'function'){
-			n  = doc.findAncestor(nativeEl, criteria);
-		}
-		return n;
+		return this.findRepresentativeAncestorOfNode(nativeEl);
 	};
 
 
