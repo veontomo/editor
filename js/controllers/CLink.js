@@ -52,7 +52,7 @@ function CLink() {
      * {{#crossLink "Document/_selectedNodes:property"}}Document::_selectedNodes{{/crossLink}}
      * defined. This means that the current method is called after another method (like
      * {{#crossLink "Controller/onShow:method"}}onShow{{/crossLink}})
-     * has intialized those properties.
+     * has initialized those properties.
      *
      * <em>I have chosen this approach in order to have correct information about selection: remember
      * that in order to fill in a link creation dialog, the DOM might undergo modifications
@@ -91,7 +91,7 @@ function CLink() {
      * Fills in `dialog` window based on `editor` state (content, selection etc).
      *
      * Overrides base class method {{#crossLink "Controller/fillInDialog:method"}}Controller{{/crossLink}}
-     * since the sublasses might have different implementations of the method.
+     * since the subclasses might have different implementations of the method.
      * @method         fillInDialog
      * @param          {Object}        dialog        editor-specific representation of a dialog window
      * @param          {Object}        editor
@@ -114,8 +114,6 @@ function CLink() {
             if (selectionContent){
                 this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
             }
-
-
         } catch (e) {
             console.log(e.name + ' occurred when filling in link dialog: ' + e.message);
         }

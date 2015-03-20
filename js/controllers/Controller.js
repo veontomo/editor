@@ -50,7 +50,7 @@ function Controller(){
 
 
 	/**
-	 * A worker that performes operations on the editor content.
+	 * A worker that performs operations on the editor content.
 	 * @property       {Object}        _worker
 	 * @private
 	 * @since          0.1.0
@@ -145,7 +145,7 @@ function Controller(){
 	/**
 	 * Name of the class that the controller represents.
 	 *
-	 * It is supposed to be a {{#crossLink "Tag"}}Tag{{/crossLink}} or one of its sublclasses.
+	 * It is supposed to be a {{#crossLink "Tag"}}Tag{{/crossLink}} or one of its subclasses.
 	 * @property {Tag} _model
 	 * @private
 	 * @type
@@ -272,18 +272,18 @@ function Controller(){
 	 * the dialog (first parsing might occur when a deciding whether a context menu item
 	 * should appear or not, second - when filling in the dialog input fields etc).
 	 *
-	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 * Inheriting classes might override this method in order to have a non-trivial behavior.
 	 *
 	 * @method         onLoad
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
 	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 *                                                 instance that has triggered the appearence of the dialog
+	 *                                                 instance that has triggered the appearance of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.onLoad = function(dialog, editor, node){
-		/// Override if non-trivial behaviour is required
+		/// Override if non-trivial behavior is required
 		return;
 	};
 
@@ -296,7 +296,7 @@ function Controller(){
 	 * the dialog (first parsing might occur when a deciding whether a context menu item
 	 * should appear or not, second - when filling in the dialog input fields etc).
 	 *
-	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 * Inheriting classes might override this method in order to have a non-trivial behavior.
 	 *
 	 * @method         onShow
 	 * @param          {Object}            dialog      editor-specific representation of dialog
@@ -307,7 +307,7 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.onShow = function(dialog, editor, node){
-		/// Override if non-trivial behaviour is required
+		/// Override if non-trivial behavior is required
 		return;
 	};
 
@@ -320,18 +320,18 @@ function Controller(){
 	 * the dialog (first parsing might occur when a deciding whether a context menu item
 	 * should appear or not, second - when filling in the dialog input fields etc).
 	 *
-	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 * Inheriting classes might override this method in order to have a non-trivial behavior.
 	 *
 	 * @method         onOk
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
 	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 *                                                 instance that has triggered the appearence of the dialog
+	 *                                                 instance that has triggered the appearance of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.onOk = function(dialog, editor, element){
-		/// Override if non-trivial behaviour is required
+		/// Override if non-trivial behavior is required
 		return;
 	};
 
@@ -344,18 +344,18 @@ function Controller(){
 	 * the dialog (first parsing might occur when a deciding whether a context menu item
 	 * should appear or not, second - when filling in the dialog input fields etc).
 	 *
-	 * Inheriting classes might override this method in order to have a non-trivial behaviour.
+	 * Inheriting classes might override this method in order to have a non-trivial behavior.
 	 *
 	 * @method         onCancel
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
 	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 *                                                 instance that has triggered the appearence of the dialog
+	 *                                                 instance that has triggered the appearance of the dialog
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
 	this.onCancel = function(dialog, editor, element){
-		/// Override if non-trivial behaviour is required
+		/// Override if non-trivial behavior is required
 		return;
 	};
 
@@ -415,7 +415,7 @@ function Controller(){
 	/**
 	 * Finds the nearest ancestor of `el` that current controller represents.
 	 * @method         findRepresentativeAncestor
-	 * @param          {Object}        el      editor-specific represenation of DOM node.
+	 * @param          {Object}        el      editor-specific representation of DOM node.
 	 * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) in native JS representation
 	 * @since          0.2.0
 	 */
@@ -487,7 +487,7 @@ function Controller(){
 	/**
 	 * Saves `data` inside editor-specific object `host`.
 	 *
-	 * The initial intent is to be able to pass elements that trigger appearence
+	 * The initial intent is to be able to pass elements that trigger appearance
 	 * of different items in the context menu to the dialog that stands behind the
 	 * operation corresponding to the above mentioned items in the context menu.
 	 *
@@ -511,9 +511,9 @@ function Controller(){
 	};
 
 	/**
-	 * Retreives previously saved data from editor-specific object `host`.
+	 * Retrieves previously saved data from editor-specific object `host`.
 	 *
-	 * The initial intent is to be able to pass elements that trigger appearence
+	 * The initial intent is to be able to pass elements that trigger appearance
 	 * of different items in the context menu to the dialog that stands behind the
 	 * operation corresponding to the above mentioned items in the context menu.
 	 *
@@ -540,7 +540,7 @@ function Controller(){
 	 *
 	 * Dialog field and the value to set is encoded into object `info`.
 	 *
-	 * This method is similar to {{#crossLink "Controller/alert:method"}}alert{{/crossLink}},
+	 * This method is similar to {{#crossLink "Controller/setDialogInputField:method"}}setDialogInputField{{/crossLink}},
 	 * difference between them is that this method inserts information in text-input fields.
 	 * @method         setDialogInputField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
@@ -560,7 +560,7 @@ function Controller(){
 	 * Location of the warning and its content is encoded into object `info` format of which is editor-specific.
 	 *
 	 * This method is similar to {{#crossLink "Controller/setDialogInputField:method"}}setDialogInputField{{/crossLink}},
-	 * difference between them is that this method changes 'html'-like fields.
+	 * difference between them is that this method changes html-like fields.
 	 * @method         setDialogHtmlField
 	 * @param          {Object}        dialog    editor-specific representation of dialog window
 	 * @param          {Object}        info

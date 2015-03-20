@@ -225,7 +225,7 @@ function linkDialog(editor) {
         },
 
         onCancel: function(){
-            _controller.setDialogField(this, {tabId: 'linkInfoTab', elemId: 'warning', value: '&nbsp;'});
+            _controller.setDialogHtmlField(this, {tabId: 'linkInfoTab', elemId: 'warning', value: '&nbsp;'});
         },
 
         onOk: function(){
