@@ -34,7 +34,7 @@ function Document(node){
 	 *
 	 * If set, it is supposed to be an instance of {{#crossLink "Properties"}}Properties{{/crossLink}}
 	 * class with {{#crossLink "Properties/_mode:property"}}_mode{{/crossLink}} to be set to correspond
-	 * to inline styles.
+	 * to in-line styles.
 	 * @property       {Properties}    _wrapCss
 	 * @private
 	 * @since          0.0.6
@@ -43,26 +43,13 @@ function Document(node){
 
 
 	/**
-	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsability is to convert
+	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsibility is to convert
 	 * current instance into different formats.
 	 * @property       {Converter}          _converter
 	 * @default        Converter
 	 * @private
 	 */
 	var _converter = new Converter(NEWSLETTER.formatMapper || (new Mapper()));
-
-	/**
-	 * Constructor.
-	 *
-	 * Sets {{#crossLink "Document/_content:property"}}_content{{/crossLink}} to be equal to `node`
-	 * if it is an instance of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 * (in fact, it is enough that `node` has `typeNode` property).
-	 * @method         constructor
-	 * @param          {Node}           node
-	 */
-	// if (node instanceof Node){
-		// _content = node;
-	// }
 
 	/**
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} setter. Supposed to be an
@@ -150,7 +137,6 @@ function Document(node){
 			if (value){
 				console.log('its value is ' + value);
 				linkElem = document.createTextNode(Helper.specialChar(value));
-				// console.log('its new value is ' + linkElem.nodeValue);
 			}
 		} else {
 			console.log('node is NOT a text one');
@@ -240,7 +226,7 @@ function Document(node){
 	 *
 	 * If `scope` is not set, then the search is performed up to the highest root.
 	 *
-	 * If `scope` is set, but `n` is not its desendant, then an error is thrown.
+	 * If `scope` is set, but `n` is not its descendant, then an error is thrown.
 	 * @method         findAncestor
 	 * @param          {Node}          n          node from which the search is started
 	 * @param          {Function}      criteria
@@ -470,7 +456,7 @@ function Document(node){
 
 
 	/**
-	 * Returns array without diplicates of nodes that lay between `n1` and `n2` inclusively.
+	 * Returns array without duplicates of nodes that lay between `n1` and `n2` inclusively.
 	 *
 	 * The order in which the nodes appear in the DOM does not matter: the linkElem
 	 * array starts with the node that appears first in the DOM.
@@ -797,7 +783,7 @@ function Document(node){
 	 * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
 	 * come after `node` in the context of `root`.
 	 *
-	 * Therefore, all linkElem array elements belong to `root` while niether
+	 * Therefore, all linkElem array elements belong to `root` while neither
 	 * `root` nor `node` is included.
 	 * @method         bunchNextSiblings
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
@@ -816,7 +802,7 @@ function Document(node){
 	 * Returns an array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances that
 	 * come before `node` in the context of `root`.
 	 *
-	 * Therefore, all linkElem array elements belong to `root` while niether
+	 * Therefore, all linkElem array elements belong to `root` while neither
 	 * `root` nor `node` is included.
 	 * @method         bunchPrevSiblings
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
@@ -832,7 +818,7 @@ function Document(node){
 	};
 
 	/**
-	 * Returns array of elememts that are obtained by always following direction `dir`.
+	 * Returns array of elements that are obtained by always following direction `dir`.
 	 *
 	 * Starting from node `n`, the method applies property `dir` to it, until non-Node instance is
 	 * reached. Array of all intermediate elements are then returned.
@@ -873,7 +859,7 @@ function Document(node){
 	    }
 	    var n = desc;
 	    while (n){
-	        if (n === asc){ // node.isEqualNode(asc) --- not good, as it campares by value
+	        if (n === asc){ // node.isEqualNode(asc) --- not good, as it compares by value
 	            return true;
 	        }
 	        n = n.parentNode;
@@ -1028,7 +1014,7 @@ function Document(node){
 	/**
 	 * Represents nodes that are selected.
 	 *
-	 * Two dimensional array of nodes. Each element is an array corresponding to a contigouos set
+	 * Two dimensional array of nodes. Each element is an array corresponding to a contiguous set
 	 * of nodes of a selection.
 	 * If nothing is selected, it is set to `null`.
 	 * @property       {Array|null}    _selectedNodes
@@ -1339,16 +1325,16 @@ function Document(node){
 	};
 
 	/**
-	 * Returns the nearest node from which `node` inherits inline style property `key`. If no such node exists, returns `undefined`.
+	 * Returns the nearest node from which `node` inherits in-line style property `key`. If no such node exists, returns `undefined`.
 	 * @method         getMentor
-	 * @param          {String}             key               name of inline style property
+	 * @param          {String}             key               name of in-line style property
 	 * @param          {Node}               node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node|undefined}                       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 */
 	this.getMentor = function(key, node){
 		var currentNode = node,
 			stl;
-		// if the scope is not defined or if it is erraneous, impose scope to be the root.
+		// if the scope is not defined or if it is erroneous, impose scope to be the root.
 		while (currentNode){
 			// whether the current node has attributes
 			if (typeof currentNode.getAttribute === 'function'){
@@ -1365,11 +1351,11 @@ function Document(node){
 
 
 	/**
-	 * Gets inline style property with name `key` of `node`. Returns `undefined` if `node`
-	 * does not have inline style property `key`.
+	 * Gets in-line style property with name `key` of `node`. Returns `undefined` if `node`
+	 * does not have in-line style property `key`.
 	 * @method         getStyleProperty
 	 * @param          {Node}               node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key           name of inline style property of `node`
+	 * @param          {String}             key           name of in-line style property of `node`
 	 * @return         {String|Number}
 	 */
 	this.getStyleProperty = function(node, key){
@@ -1383,12 +1369,12 @@ function Document(node){
 
 
 	/**
-	 * Drops inline style property `key` from `node` and removes inline style attribute if
+	 * Drops in-line style property `key` from `node` and removes in-line style attribute if
 	 * it becomes empty.
 	 *
 	 * @method         dropStyleProperty
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @param          {String}             key       name of inline style attribute to drop
+	 * @param          {String}             key       name of in-line style attribute to drop
 	 * @return         {void}
 	 */
 	this.dropStyleProperty = function(node, key){
@@ -1517,7 +1503,7 @@ function Document(node){
 			path = this.pathTo(position.startContainer, scope);
 			output = this.insertAt(position.startContainer, link.toNode(), position.startOffset);
 		} catch (e){
-			console.log(e.name + ' when inserting link at cursor postion: ' + e.message);
+			console.log(e.name + ' when inserting link at cursor position: ' + e.message);
 			output = clone;
 		}
 		return output;
@@ -1569,7 +1555,7 @@ function Document(node){
 	 * The method tries to calculate a width that can be assigned to an element based on width
 	 * of `el` or its ascendants.
 	 *
-	 * If niether `el` nor its ascendant have width style property set, then nothing is returned.
+	 * If neither `el` nor its ascendant have width style property set, then nothing is returned.
 	 *
 	 * @method         getAvailableWidth
 	 * @param          {Element}       el     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
@@ -1886,7 +1872,7 @@ function Document(node){
 	 * </li><li>
 	 * the mentor gets rid of the style property `key`
 	 * </li><li>
-	 * style property `key` of a {{#crossLink "Document/proxt:method"}}proxy{{/crossLink}} of the given
+	 * style property `key` of a {{#crossLink "Document/proxy:method"}}proxy{{/crossLink}} of the given
 	 * node is set to the requested value
 	 * </li></ol>
 	 * </li><li>If the mentor does not exist, then style property `key` of a
@@ -2157,7 +2143,7 @@ function Document(node){
 	};
 
 	/**
-	 * Removes node `n` from DOM maitaining its child nodes (if any).
+	 * Removes node `n` from DOM maintaining its child nodes (if any).
 	 * @method         deparentize
 	 * @param          {Node}          n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 * @return         {void}
