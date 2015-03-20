@@ -440,6 +440,48 @@ function Controller(){
 		return n;
 	};
 
+
+	/**
+	 * Finds the nearest ancestor of the type the controller represents. Look up starts
+	 * from the current cursor position.
+	 * @method         findRepresentativeAncestorFromCursorPosition
+	 * @param          {Object}        editor
+	 * @return         {Node}
+	 * @since          0.2.1
+	 */
+	this.findRepresentativeAncestorFromCursorPosition = function(editor){
+		var adapter = this.getEditorAdapter(),
+			cursorPos = adapter.getCursorPosition(editor);
+		if (!cursorPos){
+			return;
+		}
+		var startElem = cursorPos.startContainer;
+		return this.findRepresentativeAncestorOfNode(startElem);
+	};
+
+	/**
+	 * Finds the nearest ancestor of `node` of the type the controller represents.
+	 * @method         findRepresentativeAncestorOfNode
+	 * @param          {Node}          node
+	 * @return         {Node}
+	 * @since          0.2.1
+	 */
+	this.findRepresentativeAncestorOfNode = function(node){
+		var doc = this.getWorker(),
+			model = this.getModel(),
+			criteria, proto, n;
+			if (model){
+				proto = model.prototype;
+				if (proto){
+					criteria = proto.characteristicFunction;
+				}
+			}
+		if (typeof criteria === 'function'){
+			n  = doc.findAncestor(node, criteria);
+		}
+		return n;
+	};
+
 	/**
 	 * Fills in editor `dialog` with `data`.
 	 *

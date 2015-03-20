@@ -67,13 +67,19 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
-					dialog.once('show', function(){
+					dialog.once('show', function(event){
+						// find a link ancestor of the cursor position
+						var reprElem  = _controller.findRepresentativeAncestorFromCursorPosition(e);
+						if (reprElem){
+							_controller.saveExtra(dialog, reprElem);
+						}
 						_controller.fillInDialog(dialog, e);
 					});
 				});
 			}
 		});
 
+		// this code gets called when context menu is activated (with the right button click)
 		editor.addCommand(_pluginName + 'Modify', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
