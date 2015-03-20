@@ -414,9 +414,11 @@ function Controller(){
 
 	/**
 	 * Finds the nearest ancestor of `el` that current controller represents.
+	 *
+	 * Returns nothing if the corresponding element is not found.
 	 * @method         findRepresentativeAncestor
 	 * @param          {Object}        el      editor-specific representation of DOM node.
-	 * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) in native JS representation
+	 * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @since          0.2.0
 	 */
 	this.findRepresentativeAncestor = function(el){
@@ -432,8 +434,10 @@ function Controller(){
 	/**
 	 * Finds the nearest ancestor of the type the controller represents. Look up starts
 	 * from the current cursor position.
+	 *
+	 * Returns nothing if the corresponding element is not found.
 	 * @method         findRepresentativeAncestorFromCursorPosition
-	 * @param          {Object}        editor
+	 * @param          {Object}        editor       editor-specific representation of DOM node.
 	 * @return         {Node}
 	 * @since          0.2.1
 	 */
@@ -449,8 +453,10 @@ function Controller(){
 
 	/**
 	 * Finds the nearest ancestor of `node` of the type the controller represents.
+	 *
+	 * Returns nothing if the corresponding element is not found.
 	 * @method         findRepresentativeAncestorOfNode
-	 * @param          {Node}          node
+	 * @param          {Node}          node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node}
 	 * @since          0.2.1
 	 */
