@@ -86,7 +86,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						dialog.once('show', function(){
 							_controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
 							_controller.saveExtra(dialog, _target.hostLink);
-							_controller.disableContentEditIfComposite(_target.hostLink, dialog, {'linkInfoTab': 'content'});
+							_controller.disableIfComposite(_target.hostLink, dialog, {'linkInfoTab': 'content'});
 							_target.hostLink = undefined;
 						});
 					}

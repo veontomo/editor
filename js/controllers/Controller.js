@@ -249,16 +249,19 @@ function Controller(){
 
 	/**
 	 * Disables `fields` of `dialog` if `target` is not editable.
-	 *
+	 * @method         disableIfComposite
 	 * @param          {Node}          target
 	 * @param          {Object}        dialog       editor-specific representation of the dialog window
 	 * @param          {Object}        fields       object defining dialog fields to be disabled
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.disableContentEditIfComposite = function(target, dialog, fields){
-
-	}
+	this.disableIfComposite = function(target, dialog, fields){
+		var worker = this.getWorker();
+		if (!worker.isEditableNode(target)){
+			this.disableFields(dialog, fields);
+		}
+	};
 
 
 

@@ -127,6 +127,9 @@ function CLink() {
             if (selectionContent){
                 this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
             }
+            if (!doc.isEditableBunchOfRanges(ranges)){
+                this.disableFields(dialog, {'linkInfoTab': 'content'});
+            }
         } catch (e) {
             console.log(e.name + ' occurred when filling in link dialog: ' + e.message);
         }

@@ -2332,16 +2332,29 @@ function Document(node){
 	 * </li><li>
 	 * it has exactly one child that is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * </li></ol>
-	 * @method         isEditable
+	 * @method         isEditableNode
 	 * @param          {Node}          n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
-	this.isEditable = function(n){
+	this.isEditableNode = function(n){
 		if (n instanceof Text){
 			return true;
 		}
 		return ((n instanceof Node) && (n.childNodes.length === 1) && (n.firstChild instanceof Text));
+	};
+
+	/**
+	 * Returns `true` if the selection contains exactly one [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
+	 * instance and if this range starts and ends in the same [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) node.
+	 * @method         isEditableBunchOfRanges
+	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {Boolean}
+	 * @since          0.2.1
+	 */
+	this.isEditableBunchOfRanges = function(ranges){
+		console.log(ranges.length, ranges[0].commonAncestorContainer);
+		return (ranges.length === 1) && (ranges[0].startContainer === ranges[0].endContainer) && (ranges[0].startContainer instanceof Text);
 	};
 
 
