@@ -2336,7 +2336,10 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.isEditable = function(n){
-
+		if (n instanceof Text){
+			return true;
+		}
+		return (n && n.childNodes && (n.childNodes.length === 1) && (n.firstChild instanceof Text));
 	};
 
 

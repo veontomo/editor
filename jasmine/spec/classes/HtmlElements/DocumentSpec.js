@@ -4857,7 +4857,7 @@ describe('Class "Document"', function() {
 
         it('returns false if the argument is a list item tag with two children: text and image nodes', function(){
             var img = document.createElement('img'),
-                li = document.createTextNode('li'),
+                li = document.createElement('li'),
                 t = document.createTextNode('a text node');
             li.appendChild(t);
             li.appendChild(img);
