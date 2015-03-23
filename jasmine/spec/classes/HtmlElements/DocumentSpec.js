@@ -4557,7 +4557,6 @@ describe('Class "Document"', function() {
             });
             it('it does not perform operation on a node for which the criteria throws an expection', function() {
                 var fakeCrit = function(n) {
-                    return
                     if (n === dom1_li2) {
                         throw new Error('generated error');
                     }
@@ -4854,6 +4853,14 @@ describe('Class "Document"', function() {
             var img = document.createElement('img');
             expect(doc.isEditable(img)).toBe(false);
         });
+
+        it('returns false if the argument is a span tag with single child that is a div tag', function(){
+            var span = document.createElement('span'),
+                div = document.createElement('div');
+            span.appendChild(div);
+            expect(doc.isEditable(span)).toBe(false);
+        });
+
 
         it('returns false if the argument is a list item tag with two children: text and image nodes', function(){
             var img = document.createElement('img'),

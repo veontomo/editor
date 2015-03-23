@@ -2319,7 +2319,9 @@ function Document(node){
 	 */
 	this.replaceChild = function(newNode, oldNode){
 		var parent = oldNode.parentNode;
-		parent.replaceChild(newNode, oldNode);
+		if (parent){
+			parent.replaceChild(newNode, oldNode);
+		}
 	};
 
 
@@ -2339,7 +2341,7 @@ function Document(node){
 		if (n instanceof Text){
 			return true;
 		}
-		return (n && n.childNodes && (n.childNodes.length === 1) && (n.firstChild instanceof Text));
+		return ((n instanceof Node) && (n.childNodes.length === 1) && (n.firstChild instanceof Text));
 	};
 
 
