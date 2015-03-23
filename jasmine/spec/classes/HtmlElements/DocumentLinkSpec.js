@@ -83,7 +83,7 @@ describe('Class "Document"', function() {
         jasmine.addMatchers(instanceOfMatcher);
     });
 
-    describe('has a method "insertLinkAt" method that', function(){
+    xdescribe('has a method "insertLinkAt" method that', function(){
         it('throws an error if the first argument is not an Element instance', function() {
             var invalids = [null, undefined, 0, 1, -1, 4.21, -21.98, '', 'string', [], [5, 3, 16], {}, {foo: 1}];
             invalids.forEach(function(invalid){

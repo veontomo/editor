@@ -388,7 +388,7 @@ describe('Class "Link"', function() {
         });
     });
 
-    describe('has method "loadFromTemplate" that', function(){
+    xdescribe('has method "loadFromTemplate" that', function(){
         describe('sets "title" attribute', function(){
             it('if it is not set', function(){
                 link.dropProperty('title');
