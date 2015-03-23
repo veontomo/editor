@@ -66,7 +66,7 @@ function CLink() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor, link) {
-        var adapter, doc, content, ranges, dialogData, template;
+        var adapter, doc, content, ranges, dialogData, template, newLink;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
@@ -74,6 +74,10 @@ function CLink() {
             ranges = adapter.getNativeRanges(editor);
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
+            newLink = worker.appendChildrenToTemplate(template, ranges);
+            if (link){
+
+            }
             worker.insertLink(content, ranges, template, link);
             adapter.setEditorContent(editor, content);
         } catch (e) {

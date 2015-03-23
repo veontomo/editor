@@ -2259,4 +2259,26 @@ function Document(node){
 		return stringBunch.join(separator || '');
 	};
 
+	/**
+	 * Creates a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance whose properties are
+	 * encoded in `template`.
+	 *
+	 * Delegates its functionality to {{#crossLink "Factory/createFromTemplate:method"}}createFromTemplate{{/crossLink}}
+	 * of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
+	 *
+	 * @method         createFromTemplate
+	 * @param          {Object}        template
+	 * @return         {Node}
+	 * @since          0.2.1
+	 */
+	this.createFromTemplate = function(template){
+		try {
+			return this.getFactory().createFromTemplate(template);
+		} catch(e){
+			console.log(e.name + ' occurred when delegating creation of a node from template: ' + e.message);
+		}
+
+	};
+
+
 }
