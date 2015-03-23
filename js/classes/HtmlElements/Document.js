@@ -874,8 +874,8 @@ function Document(node){
 	 * The first next sibling becomes the first element of the array,
 	 * the second next sibling becomes the second one and so on.
 	 * @method         nextSiblings
-	 * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @param          {Node}     elem     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Array}             array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @since          0.0.8
 	 */
 	this.nextSiblings = function(elem){
@@ -2279,6 +2279,35 @@ function Document(node){
 		}
 
 	};
+
+	/**
+	 * Moves the nodes of selection given by `ranges` as child nodes of `element`.
+	 * @method         moveNodesIntoLink
+	 * @param          {Element}       element       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
+	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.moveNodesIntoLink = function(element, ranges){
+		/// !!! stub
+	};
+
+	/**
+	 * Replaces `oldNode`  by `newNode`.
+	 *
+	 * Modifies DOM which `oldNode` belongs to in such a way that `oldNode` gets replaced by `newNode`.
+	 *
+	 * In fact, it is based on [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild) method of
+	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) class.
+	 * @method         replaceChild
+	 * @param          {Node}          newNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @param          {Node}          oldNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {vod}
+	 * @since          0.2.1
+	 */
+	this.replaceChild = function(newNode, oldNode){
+		/// !!! stub
+	}
 
 
 }

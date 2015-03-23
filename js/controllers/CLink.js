@@ -74,11 +74,14 @@ function CLink() {
             ranges = adapter.getNativeRanges(editor);
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
-            newLink = worker.appendChildrenToTemplate(template, ranges);
+            newLink = worker.createFromTemplate(template);
+            worker.moveNodesIntoLink(newLink, ranges);
             if (link){
-
+                worker.replaceChild(newLink, link);
+            } else {
+                var position = adapter.getCursorPosition(editor);
+                worker.insertAt(position.startContainer, newLink, position.startOffset);
             }
-            worker.insertLink(content, ranges, template, link);
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
