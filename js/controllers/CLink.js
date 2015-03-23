@@ -66,21 +66,30 @@ function CLink() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor, link) {
-        var adapter, doc, content, ranges, dialogData, template, newLink;
+        var adapter, doc, content, ranges, dialogData, template,
+            shallowLink, linktToInsert, cursorPos;
         try {
             adapter = this.getEditorAdapter();
+            cursorPos = adapter.getCursorPosition(editor);
+            if (!cursorPos){
+                return;
+            }
+            console.info('CLink', 'position is detected');
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
-            newLink = worker.createFromTemplate(template);
-            worker.moveNodesIntoLink(newLink, ranges);
+            shallowLink = doc.createFromTemplate(template);
+            if (!shallowLink){
+                return;
+            }
+            console.info('CLink', 'link to insert is present');
+            linktToInsert = doc.moveNodesIntoLink(shallowLink.toNode(), ranges);
             if (link){
-                worker.replaceChild(newLink, link);
+                doc.replaceChild(linktToInsert, link);
             } else {
-                var position = adapter.getCursorPosition(editor);
-                worker.insertAt(position.startContainer, newLink, position.startOffset);
+                doc.insertAt(cursorPos.startContainer, linktToInsert, cursorPos.startOffset);
             }
             adapter.setEditorContent(editor, content);
         } catch (e) {

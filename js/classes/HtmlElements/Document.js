@@ -267,7 +267,6 @@ function Document(node){
 	 * @since          0.2.0
 	 */
 	this.findAncestorsOfMany = function(nodes, crit){
-		console.log('findAncestorsOfMany: ', nodes, crit);
 		if (!Array.isArray(nodes) || (typeof crit !== 'function')){
 			return undefined;
 		}
@@ -1485,8 +1484,10 @@ function Document(node){
 	 */
 	this.insertAt = function(host, n, offset){
 		if (host instanceof Text){
+			console.info("host is a text");
 			this.insertIntoText(host, n, offset);
 		} else {
+			console.info("host is NOT a text");
 			this.insertChild(host, n, offset);
 		}
 	};
@@ -1556,7 +1557,6 @@ function Document(node){
 			hostNode.insertBefore(n, rightNode);
 		}
 	};
-
 
 	/**
 	 * Inserts `elem` inside `textElem` at the position `pos`.
@@ -2281,16 +2281,28 @@ function Document(node){
 	};
 
 	/**
-	 * Moves the nodes of selection given by `ranges` as child nodes of `element`.
+	 * Returns a new [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance which is obtained
+	 * by appending nodes of `ranges` to `element`.
 	 * @method         moveNodesIntoLink
 	 * @param          {Element}       element       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
-	 * @return         {void}
+	 * @return         {Element}
 	 * @since          0.2.1
 	 */
 	this.moveNodesIntoLink = function(element, ranges){
-		/// !!! stub
+		ranges.forEach(function(range){
+			var nodes = this.nodesOfRange(range);
+			if (!Array.isArray(nodes)){
+				return;
+			}
+			nodes.forEach(function(node){
+				element.appendChild(node);
+			});
+		}.bind(this));
+		console.info("moveNodesIntoLink", element);
+		return element;
 	};
+
 
 	/**
 	 * Replaces `oldNode`  by `newNode`.
@@ -2302,12 +2314,30 @@ function Document(node){
 	 * @method         replaceChild
 	 * @param          {Node}          newNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node}          oldNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {vod}
+	 * @return         {void}
 	 * @since          0.2.1
 	 */
 	this.replaceChild = function(newNode, oldNode){
-		/// !!! stub
-	}
+		var parent = oldNode.parentNode;
+		parent.replaceChild(newNode, oldNode);
+	};
+
+
+	/**
+	 * Returns `true` if node `n` is editable and `false` otherwise.
+	 * A node is editable if one of the following holds: <ul><li>
+	 * it is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * </li><li>
+	 * it has exactly one child that is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * </li></ol>
+	 * @method         isEditable
+	 * @param          {Node}          n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Boolean}
+	 * @since          0.2.1
+	 */
+	this.isEditable = function(n){
+
+	};
 
 
 }

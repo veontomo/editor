@@ -279,7 +279,7 @@ function Link(href) {
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.loadFromTemplate = function(tmpl){
+	this.loadFromTemplate___ = function(tmpl){
 		var key;
 		for (key in tmpl){
 			if (tmpl.hasOwnProperty(key)){

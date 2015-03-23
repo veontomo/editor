@@ -324,14 +324,17 @@ function CKEditorAdapter(){
 	this.linkDialogToTemplate = function(dialog){
 		var tabName = 'linkInfoTab',
 			linkTemplate = {
-				href:          dialog[tabName].href,
-				scheme:        dialog[tabName].scheme,
-				color:         dialog[tabName].color,
-				isUnderlined:  dialog[tabName].isUnderlined,
-				isCompound:    dialog[tabName].status,
-				target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
-				text:          dialog[tabName].text,
-				title:         dialog[tabName].title
+				name: 'link',
+				root: {
+					href:          dialog[tabName].href,
+					scheme:        dialog[tabName].scheme,
+					color:         dialog[tabName].color,
+					isUnderlined:  dialog[tabName].isUnderlined,
+					isCompound:    dialog[tabName].status,
+					target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
+					text:          dialog[tabName].text,
+					title:         dialog[tabName].title
+				}
 			};
 		return linkTemplate;
 	};
