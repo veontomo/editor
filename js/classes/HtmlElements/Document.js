@@ -1467,47 +1467,6 @@ function Document(node){
 	};
 
 
-	/**
-	 * Inserts a hyperlink [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) described
-	 * by `template` into DOM of the `scope` at location `position`.
-	 *
-	 * Returns a new instance of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) that is
-	 * a modification of `scope` as described above.
-	 *
-	 * If `position` is not a [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance, a clone
-	 * of `scope` is returned.
-	 * @method         insertLinkAt
-	 * @param          {Element}       scope         [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 *                                               instance in which insertion is to be done
-	 * @param          {Range}         position      [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
-	 *                                               instance describing the location of the insertion
-	 * @param          {Object}        template
-	 * @return         {Element}                     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 *                 								 instance
-	 * @throws         {Error}         If `scope` is not an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 *                 				   instance
-	 * @since          0.1.0
-	 */
-	this.insertLinkAt = function(scope, position, template){
-		if (!(scope instanceof Element)){
-			throw new Error('The first argument must be an Element instance!');
-		}
-		var clone = scope.cloneNode(true),
-			link, path, output;
-		if (!(position instanceof Range)){
-			return clone;
-		}
-		try {
-			link = new Link();
-			link.loadFromTemplate(template);
-			path = this.pathTo(position.startContainer, scope);
-			output = this.insertAt(position.startContainer, link.toNode(), position.startOffset);
-		} catch (e){
-			console.log(e.name + ' when inserting link at cursor position: ' + e.message);
-			output = clone;
-		}
-		return output;
-	};
 
 	/**
 	 * Inserts node `n` into `host` at position `offset`.

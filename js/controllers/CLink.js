@@ -74,11 +74,7 @@ function CLink() {
             ranges = adapter.getNativeRanges(editor);
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
-            if (link){
-                console.log('the dialog has been given a link to elaborate.');
-            } else {
-                console.log('the dialog has not been given any link to elaborate. Probably, a new link is to be created.');
-            }
+            worker.insertLink(content, ranges, template, link);
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
