@@ -110,6 +110,7 @@ function CLink() {
             selectionContent = doc.rangeBunchToString(ranges);
             if (links.length > 0){
                 this.fillInDialogWithElementData(dialog, links[0], 'link');
+                this.saveExtra(dialog, links[0]);
             }
             if (selectionContent){
                 this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});

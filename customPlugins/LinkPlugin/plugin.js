@@ -68,11 +68,6 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
 					dialog.once('show', function(event){
-						// find a link ancestor of the cursor position
-						var reprElem  = _controller.findRepresentativeAncestorFromCursorPosition(e);
-						if (reprElem){
-							_controller.saveExtra(dialog, reprElem);
-						}
 						_controller.fillInDialog(dialog, e);
 					});
 				});
