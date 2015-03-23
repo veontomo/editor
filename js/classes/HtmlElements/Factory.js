@@ -262,7 +262,7 @@ function Factory(map){
 	 *
 	 * Inner structure of `template` is used to create child elements of resulting object.
 	 * @method         createFromTemplate
-	 * @property       {Object}        template
+	 * @param          {Object}        template
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
