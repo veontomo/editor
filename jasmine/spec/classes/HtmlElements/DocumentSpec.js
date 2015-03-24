@@ -4876,27 +4876,6 @@ describe('Class "Document"', function() {
         });
     });
 
-        //                    div0
-        //         ____________|_________
-        //         |           |         |
-        //        p0          a0       text0
-        //     ____|____       |
-        //    |    |    |    text2
-        //  text1 img0 div1
-        //       _______|______
-        //      |       |      |
-        //    span0   text3   ol0
-        //                 ____|____
-        //                |    |    |
-        //               li0  li1  li2
-        //                |    |
-        //             text4  ul0
-        //                  ___|____
-        //                 |        |
-        //                li3      li4
-        //                 |
-        //                br0
-
 
     describe('has a method "isEditableBunchOfRanges" that', function(){
         it('returns false if the argument is an empty array', function(){
@@ -4923,9 +4902,45 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "isEditableRange" that', function(){
-        // it('returns false ');
+        it('returns false if the argument is missing', function(){
+           expect(doc.isEditableRange()).toBe(false);
+        });
+        it('returns true if the range is a collapsed one', function(){
+            var r = document.createRange();
+            r.setStart(dom1_p0, 2);
+            r.collapse(true); // collapse to start
+            expect(doc.isEditableRange(r)).toBe(true);
+        });
+        it('calls method "nodesOfRange" if the range is not collapsed', function(){
+            var r = document.createRange();
+            r.setStart(dom1_div1, 0);
+            r.setEnd(dom1_div1, 3);
+            spyOn(doc, 'nodesOfRange').and.returnValue([]);
+            doc.isEditableRange(r);
+            expect(doc.nodesOfRange).toHaveBeenCalledWith(r);
+        });
+
+        it('returns false if "nodesOfRange" returns array with three nodes', function(){
+            var r = document.createRange();
+            r.setStart(dom1_div1, 0);
+            r.setEnd(dom1_div1, 3);
+            spyOn(doc, 'nodesOfRange').and.returnValue([dom1_div1, dom1_a0, dom1_img0]);
+            expect(doc.isEditableRange(r)).toBe(false);
+        });
+        it('returns false if "nodesOfRange" returns array with just one node that is a text one', function(){
+            var r = document.createRange();
+            r.setStart(dom1_text2, 1);
+            r.setEnd(dom1_text2, 2);
+            spyOn(doc, 'nodesOfRange').and.returnValue([dom1_text0]);
+            expect(doc.isEditableRange(r)).toBe(true);
+        });
+        it('returns false if "nodesOfRange" returns array with just two nodes that are text ones', function(){
+            var r = document.createRange();
+            r.setStart(dom1_text2, 1);
+            r.setEnd(dom1_text2, 2);
+            spyOn(doc, 'nodesOfRange').and.returnValue([dom1_text0, dom1_text1]);
+            expect(doc.isEditableRange(r)).toBe(false);
+        });
+
     });
-
-
-
 });

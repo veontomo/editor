@@ -1150,6 +1150,7 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
+		console.log(r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
@@ -1157,6 +1158,7 @@ function Document(node){
 			return [];
 		}
 		var boundaries = this.detachBoundaries(r);
+		console.log(boundaries);
 		if (boundaries.length === 0){
 			return [];
 		}
@@ -2370,16 +2372,17 @@ function Document(node){
 	 * @since  0.2.1
 	 */
 	this.isEditableRange = function(r){
-		// if (ranges[0].collapsed){
-		// 	return true;
-		// }
-		// var nodes = this.nodesOfRange(ranges[0]);
-		// if (nodes.length === 0){
-		// 	return true;
-		// }
-		// if (nodes.length > 1){
-		// 	return false;
-		// }
-		// return this.isEditableNode(nodes[0]);
+		if (!(r instanceof Range)){
+			return false;
+		}
+		if (r.collapsed){
+			return true;
+		}
+		var nodes = this.nodesOfRange(r);
+		if (nodes.length > 1){
+			return false;
+		}
+		return this.isEditableNode(nodes[0]);
 	};
+
 }
