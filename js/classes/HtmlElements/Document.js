@@ -2350,39 +2350,36 @@ function Document(node){
 	 * Returns `true` if the selection is editable.
 	 *
 	 * The selection is editable if corresponding array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
-	 * instances<ul><li>
-	 * is empty
-	 * </li><li>
-	 * contains unique element and that element is a [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * that is either empty or contains just one node that is editable
-	 * </li></ul>
+	 * instances only one element and that element is an editable [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
 	 * @method         isEditableBunchOfRanges
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
 	this.isEditableBunchOfRanges = function(ranges){
-		var len = ranges.length;
-		if (len > 1){
+		if (ranges.length !== 1){
 			return false;
 		}
-		if (len === 0){
-			return true;
-		}
-		if (len === 1){
-			if (ranges[0].collapsed){
-				return true;
-			}
-			var nodes = this.nodesOfRange(ranges[0]);
-			if (nodes.length === 0){
-				return true;
-			}
-			if (nodes.length > 1){
-				return false;
-			}
-			return this.isEditableNode(nodes[0]);
-		}
+		return this.isEditableRange(ranges[0]);
 	};
 
-
+	/**
+	 * Returns `true` if range `r` corresponds to a part of DOM that can be edited.
+	 * @param  {Range}  r
+	 * @return {Boolean}
+	 * @since  0.2.1
+	 */
+	this.isEditableRange = function(r){
+		// if (ranges[0].collapsed){
+		// 	return true;
+		// }
+		// var nodes = this.nodesOfRange(ranges[0]);
+		// if (nodes.length === 0){
+		// 	return true;
+		// }
+		// if (nodes.length > 1){
+		// 	return false;
+		// }
+		// return this.isEditableNode(nodes[0]);
+	};
 }

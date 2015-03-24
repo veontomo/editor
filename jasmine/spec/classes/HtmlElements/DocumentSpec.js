@@ -4874,9 +4874,56 @@ describe('Class "Document"', function() {
             li.appendChild(img);
             expect(doc.isEditableNode(li)).toBe(false);
         });
+    });
+
+        //                    div0
+        //         ____________|_________
+        //         |           |         |
+        //        p0          a0       text0
+        //     ____|____       |
+        //    |    |    |    text2
+        //  text1 img0 div1
+        //       _______|______
+        //      |       |      |
+        //    span0   text3   ol0
+        //                 ____|____
+        //                |    |    |
+        //               li0  li1  li2
+        //                |    |
+        //             text4  ul0
+        //                  ___|____
+        //                 |        |
+        //                li3      li4
+        //                 |
+        //                br0
 
 
+    describe('has a method "isEditableBunchOfRanges" that', function(){
+        it('returns false if the argument is an empty array', function(){
+            expect(doc.isEditableBunchOfRanges([])).toBe(false);
+        });
+        it('returns true if the argument is an array with two ranges', function(){
+            var r1 = document.createRange(),
+                r2 = document.createRange();
+            expect(doc.isEditableBunchOfRanges([r1, r2])).toBe(false);
+        });
 
+        it('calls method "isEditableRange" in order to determine whether unique range is editable', function(){
+            var r = document.createRange();
+            spyOn(doc, 'isEditableRange');
+            doc.isEditableBunchOfRanges([r]);
+            expect(doc.isEditableRange).toHaveBeenCalledWith(r);
+        });
+
+        it('returns the result of method "isEditableRange" in order to determine whether unique range is editable', function(){
+            var r = document.createRange();
+            spyOn(doc, 'isEditableRange').and.returnValue('result');
+            expect(doc.isEditableBunchOfRanges([r])).toBe('result');
+        });
+    });
+
+    describe('has a method "isEditableRange" that', function(){
+        // it('returns false ');
     });
 
 
