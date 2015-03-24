@@ -1150,7 +1150,6 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
-		console.log('nodesOfRange', r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
@@ -1158,7 +1157,6 @@ function Document(node){
 			return [];
 		}
 		var boundaries = this.detachBoundaries(r);
-		console.info('nodesOfRange: boundaries:', boundaries);
 		if (boundaries.length === 0){
 			return [];
 		}
@@ -1474,20 +1472,21 @@ function Document(node){
 	 * method if `host` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance,
 	 * otherwise - to {{#crossLink "Document/insertChild:method"}}insertChild(){{/crossLink}} method.
 	 * @method         insertAt
-	 * @param          {Element}       host         [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * @param          {Node}       host            [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                              instance in which `n` is to be inserted
-	 * @param          {Element}       n            [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+	 * @param          {Node}       n               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                              instance to be inserted
 	 * @param          {Integer}       offset       Location of the cut into which node `n` is to be inserted
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
 	this.insertAt = function(host, n, offset){
-		if (host instanceof Text){
-			console.info("host is a text");
+		if (!(host instanceof Node)){
+			return;
+		}
+		if (host.nodeType === Node.TEXT_NODE){
 			this.insertIntoText(host, n, offset);
 		} else {
-			console.info("host is NOT a text");
 			this.insertChild(host, n, offset);
 		}
 	};
@@ -2338,23 +2337,51 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.isEditableNode = function(n){
-		if (n instanceof Text){
-			return true;
+		try {
+			return (n.nodeType === Node.TEXT_NODE) || ((n.childNodes.length === 1) && (n.firstChild.nodeType === Node.TEXT_NODE));
+		} catch(e){
+			return false;
 		}
-		return ((n instanceof Node) && (n.childNodes.length === 1) && (n.firstChild instanceof Text));
+
+
 	};
 
 	/**
-	 * Returns `true` if the selection contains exactly one [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
-	 * instance and if this range starts and ends in the same [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) node.
+	 * Returns `true` if the selection is editable.
+	 *
+	 * The selection is editable if corresponding array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
+	 * instances<ul><li>
+	 * is empty
+	 * </li><li>
+	 * contains unique element and that element is a [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * that is either empty or contains just one node that is editable
+	 * </li></ul>
 	 * @method         isEditableBunchOfRanges
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
 	this.isEditableBunchOfRanges = function(ranges){
-		console.log(ranges.length, ranges[0].commonAncestorContainer);
-		return (ranges.length === 1) && (ranges[0].startContainer === ranges[0].endContainer) && (ranges[0].startContainer instanceof Text);
+		var len = ranges.length;
+		if (len > 1){
+			return false;
+		}
+		if (len === 0){
+			return true;
+		}
+		if (len === 1){
+			if (ranges[0].collapsed){
+				return true;
+			}
+			var nodes = this.nodesOfRange(ranges[0]);
+			if (nodes.length === 0){
+				return true;
+			}
+			if (nodes.length > 1){
+				return false;
+			}
+			return this.isEditableNode(nodes[0]);
+		}
 	};
 
 

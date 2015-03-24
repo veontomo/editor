@@ -4838,6 +4838,10 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method "isEditableNode" that', function(){
+        it('returns false if called without argument', function(){
+            expect(doc.isEditableNode()).toBe(false);
+        });
+
         it('returns true if the argument is a text node', function(){
             var t = document.createTextNode('a text node');
             expect(doc.isEditableNode(t)).toBe(true);
