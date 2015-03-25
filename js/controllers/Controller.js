@@ -299,6 +299,7 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.onLoad = function(dialog, editor, node){
+		console.log(dialog, editor, node);
 		/// Override if non-trivial behavior is required
 		return;
 	};
@@ -323,6 +324,7 @@ function Controller(){
 	 * @since          0.2.0
 	 */
 	this.onShow = function(dialog, editor, node){
+		console.log(dialog, editor, node);
 		/// Override if non-trivial behavior is required
 		return;
 	};
@@ -348,6 +350,7 @@ function Controller(){
 	 */
 	this.onOk = function(dialog, editor, element){
 		/// Override if non-trivial behavior is required
+		console.log(dialog, editor, element);
 		return;
 	};
 
@@ -372,6 +375,7 @@ function Controller(){
 	 */
 	this.onCancel = function(dialog, editor, element){
 		/// Override if non-trivial behavior is required
+		console.log(dialog, editor, element);
 		return;
 	};
 
@@ -493,12 +497,12 @@ function Controller(){
 	};
 
 	/**
-	 * Fills in editor `dialog` with `element` data.
+	 * Fills in editor `dialog` with data stored in `element`.
 	 *
 	 * Data is retrieved from `element` by means of template() method which is applied
 	 * to the object that {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}}
 	 * returns.
-	 * @method         fillInDialogWithElementData
+	 * @method         fillInDialogWithElement
 	 * @param          {Object}        dialog    editor-specific representation of the dialog
 	 * @param          {Node}          element   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 *                                           which various properties are to be used to fill in the dialog
@@ -507,7 +511,7 @@ function Controller(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.fillInDialogWithElementData = function(dialog, element, marker){
+	this.fillInDialogWithElement = function(dialog, element){
 	    var adapter, worker, elemObj, dialogData, template;
 	    try {
 	        adapter = this.getEditorAdapter();
@@ -518,24 +522,28 @@ function Controller(){
 	        }
 	        template = elemObj.template();
 	        console.log(template);
-	        dialogData = adapter.templateToDialog(template, marker);
-	        adapter.fillInDialog(dialog, dialogData, marker);
+	        dialogData = adapter.templateToDialog(template);
+	        adapter.fillInDialog(dialog, dialogData, template.name);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ' + e.message);
 	    }
 	};
 
 	/**
-	 * Fills in `dialog` window based on `editor` state (content, selection etc).
+	 * Fills in `dialog` window based on `editor` and `pivot`.
 	 *
-	 * @method         fillInDialog
+ 	 * `editor` represents the editor itself and serves to obtain what is selected at the moment
+	 * the dialog is activated.
+	 *
+	 * @method         fillInDialogWithSelection
 	 * @param          {Object}        dialog        editor-specific representation of a dialog window
 	 * @param          {Object}        editor
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.fillInDialog = function(dialog, editor){
-		console.warn('Controller.fillInDialog() is called, but its implementation is trivial (it does nothing).');
+	this.fillInDialogWithSelection = function(dialog, editor){
+		console.log(dialog, editor);
+		console.warn('Controller.fillInDialogWithSelection() is called, but its implementation is trivial (it does nothing).');
 	};
 
 	/**

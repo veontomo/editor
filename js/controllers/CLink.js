@@ -107,11 +107,13 @@ function CLink() {
      * @method         fillInDialog
      * @param          {Object}        dialog        editor-specific representation of a dialog window
      * @param          {Object}        editor
+     * @param          {Node}          element       [Optional]
      * @return         {void}
      * @since          0.2.1
      * @Override
      */
-    this.fillInDialog = function(dialog, editor){
+    this.fillInDialog = function(dialog, editor, element){
+        console.log('Filling in dialog with the following data: ', dialog, editor, element);
         var adapter, ranges, doc, content, links, selectionContent;
         try {
             adapter = this.getEditorAdapter();

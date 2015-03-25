@@ -68,7 +68,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
 					dialog.once('show', function(event){
-						_controller.fillInDialog(dialog, e);
+						_controller.fillInDialogWithSelection(dialog, e);
 					});
 				});
 			}
@@ -84,9 +84,10 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
 						dialog.once('show', function(){
-							_controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
-							_controller.saveExtra(dialog, _target.hostLink);
-							_controller.disableIfComposite(_target.hostLink, dialog, {'linkInfoTab': 'content'});
+							// _controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
+							_controller.fillInDialogWithElement(dialog, _target.hostLink);
+							// _controller.saveExtra(dialog, _target.hostLink);
+							// _controller.disableIfComposite(_target.hostLink, dialog, {'linkInfoTab': 'content'});
 							_target.hostLink = undefined;
 						});
 					}
