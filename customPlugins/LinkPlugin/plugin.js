@@ -84,10 +84,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
 						dialog.once('show', function(){
-							// _controller.fillInDialogWithElementData(dialog, _target.hostLink, 'link');
 							_controller.fillInDialogWithElement(dialog, _target.hostLink);
-							// _controller.saveExtra(dialog, _target.hostLink);
-							// _controller.disableIfComposite(_target.hostLink, dialog, {'linkInfoTab': 'content'});
 							_target.hostLink = undefined;
 						});
 					}

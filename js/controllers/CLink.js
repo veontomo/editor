@@ -104,24 +104,23 @@ function CLink() {
      *
      * Overrides base class method {{#crossLink "Controller/fillInDialog:method"}}Controller{{/crossLink}}
      * since the subclasses might have different implementations of the method.
-     * @method         fillInDialog
+     * @method         fillInDialogWithSelection
      * @param          {Object}        dialog        editor-specific representation of a dialog window
      * @param          {Object}        editor
-     * @param          {Node}          element       [Optional]
      * @return         {void}
      * @since          0.2.1
      * @Override
      */
-    this.fillInDialog = function(dialog, editor, element){
-        console.log('Filling in dialog with the following data: ', dialog, editor, element);
+    this.fillInDialogWithSelection = function(dialog, editor){
+        console.log('Filling in dialog with the following data: ', dialog, editor);
         var adapter, ranges, doc, content, links, selectionContent;
         try {
             adapter = this.getEditorAdapter();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
             doc = this.getWorker();
-            links = doc.findAncestorsOfRanges(ranges, this.getModel().prototype.characteristicFunction);
-            selectionContent = doc.rangeBunchToString(ranges);
+            links = doc.findFirstAncestorOfRanges(ranges, this.getModel().prototype.characteristicFunction);
+            selectionContent = doc.selectionToString(ranges);
             if (links.length > 0){
                 this.fillInDialogWithElementData(dialog, links[0], 'link');
                 this.saveExtra(dialog, links[0]);

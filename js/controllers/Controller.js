@@ -521,9 +521,8 @@ function Controller(){
 	        	return;
 	        }
 	        template = elemObj.template();
-	        console.log(template);
 	        dialogData = adapter.templateToDialog(template);
-	        adapter.fillInDialog(dialog, dialogData, template.name);
+	        adapter.fillInDialog(dialog, dialogData);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ' + e.message);
 	    }

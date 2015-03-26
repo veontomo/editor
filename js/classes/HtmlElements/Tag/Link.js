@@ -250,12 +250,15 @@ function Link(href) {
 	 */
 	this.template = function(){
 		var linkInfo = {
-			href:          this.getHref(),
-			color:         this.getStyleProperty('color'),
-			isUnderlined:  this.isUnderlined(),
-			isTargetBlank: this.shouldOpenNew(),
-			content:       this.getContent().toText(),
-			title:         this.getProperty('title')
+			name: 'link',
+			root: {
+				href:          this.getHref(),
+				color:         this.getStyleProperty('color'),
+				isUnderlined:  this.isUnderlined(),
+				isTargetBlank: this.shouldOpenNew(),
+				content:       this.getContent().toText(),
+				title:         this.getProperty('title')
+			}
 		};
 		return linkInfo;
 	};

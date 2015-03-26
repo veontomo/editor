@@ -2242,16 +2242,62 @@ function Document(node){
 		return ancestorsGlob;
 	};
 
+	/**
+	 * Returns a first ancestor of elements belonging to the selection on which
+	 * `criteria` evaluates to `true`. If no such element found, nothing is returned.
+	 * @method         findSelectionFirstAncestor
+	 * @param          {Array}         ranges         array of ranges
+	 * @param          {Function}      criteria       function: Node -> Boolean
+	 * @return         {Node|null}
+	 * @since          0.2.1
+	 */
+	this.findSelectionFirstAncestor = function(selection, criteria){
+		var len = selection.length,
+			needle,
+			i;
+		for (i = 0; i < len; i++){
+			needle = this.findRangeFirstAncestor(selection[i], criteria);
+			if (needle){
+				return needle;
+			}
+		}
+	};
+
+
+	/**
+	 * Returns first ancestor of elements of range on which `criteria` evaluates to `true`.
+	 * If no such element found, nothing is returned.
+	 * @method         findRangeFirstAncestor
+	 * @param          {Range}         range     [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @param          {Function}      criteria  function: Node -> Boolean
+	 * @return         {Node|null}
+	 * @since          0.2.1
+	 */
+	this.findRangeFirstAncestor = function(range, criteria){
+		if (range.collapsed){
+			return this.findAncestor(range.startContainer, criteria);
+		}
+		var nodes = this.nodesOfRange(range),
+			len = nodes.length,
+			i, ancestor;
+		for (i = 0; i < len; i++){
+			ancestor = this.findAncestor(nodes[i], criteria);
+			if (ancestor){
+				return ancestor;
+			}
+		}
+	};
+
 
 	/**
 	 * Returns text representation of the selection given by `ranges`.
 	 *
-	 * @method    rangeBunchToString
+	 * @method    selectionToString
 	 * @param     {Array}     ranges                  array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param     {String}    separator               [Optional] string to be used as a separator between ranges
 	 * @return    {String}
 	 */
-	this.rangeBunchToString = function(ranges, separator){
+	this.selectionToString = function(ranges, separator){
 		var stringBunch = [];
 		ranges.forEach(function(range){
 			stringBunch.push(range.toString());
@@ -2353,12 +2399,12 @@ function Document(node){
 	 *
 	 * The selection is editable if corresponding array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
 	 * instances only one element and that element is an editable [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
-	 * @method         isEditableBunchOfRanges
+	 * @method         isSelectionEditable
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
-	this.isEditableBunchOfRanges = function(ranges){
+	this.isSelectionEditable = function(ranges){
 		if (ranges.length !== 1){
 			return false;
 		}
