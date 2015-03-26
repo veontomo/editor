@@ -153,13 +153,12 @@ function CKEditorAdapter(){
 	 * which required mapper is chosen and `mapper1` is a function to which a template is supposed to be given.
 	 * @method         templateToDialog
 	 * @param          {Object}        template
-	 * @param          {String}        marker
 	 * @return         {Object}
 	 * @since          0.1.0
 	 */
-	this.templateToDialog = function(template, marker){
-		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default',
-			mapper = marker2 + 'TemplateToDialog',
+	this.templateToDialog = function(template){
+		var marker = template.name.toLowerCase(),
+			mapper = marker + 'TemplateToDialog',
 			executor = this[mapper];
 		if (typeof executor !== 'function'){
 			executor = this.defaultTemplateToDialog;
@@ -308,7 +307,7 @@ function CKEditorAdapter(){
 	 * @since          0.2.0
 	 */
 	this.linkTemplateToDialog = function(template){
-		return {'linkInfoTab': template};
+		return {'linkInfoTab': template.root};
 	};
 
 	/**

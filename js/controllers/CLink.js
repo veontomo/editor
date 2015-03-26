@@ -113,22 +113,22 @@ function CLink() {
      */
     this.fillInDialogWithSelection = function(dialog, editor){
         console.log('Filling in dialog with the following data: ', dialog, editor);
-        var adapter, ranges, doc, content, links, selectionContent;
+        var adapter, ranges, doc, content, link, selectionContent;
         try {
             adapter = this.getEditorAdapter();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
             doc = this.getWorker();
-            links = doc.findFirstAncestorOfRanges(ranges, this.getModel().prototype.characteristicFunction);
+            link = doc.findSelectionFirstAncestor(ranges, this.getModel().prototype.characteristicFunction);
             selectionContent = doc.selectionToString(ranges);
-            if (links.length > 0){
-                this.fillInDialogWithElementData(dialog, links[0], 'link');
-                this.saveExtra(dialog, links[0]);
+            if (link){
+                this.fillInDialogWithElement(dialog, link);
+                this.saveExtra(dialog, link);
             }
             if (selectionContent){
                 this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
             }
-            if (!doc.isEditableBunchOfRanges(ranges)){
+            if (!doc.isSelectionEditable(ranges)){
                 this.disableFields(dialog, {'linkInfoTab': 'content'});
             }
         } catch (e) {
