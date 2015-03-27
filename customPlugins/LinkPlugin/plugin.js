@@ -85,6 +85,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						// in DOM so far
 						dialog.once('show', function(){
 							_controller.fillInDialogWithElement(dialog, _target.hostLink);
+							_controller.saveExtra(_target.hostLink);
 							_target.hostLink = undefined;
 						});
 					}

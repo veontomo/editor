@@ -375,7 +375,7 @@ function CKEditorAdapter(){
 	 */
 	this.defaultDialogToTemplate = function(template){
 		console.log('default dialog -> template converter is called');
-		return template;
+		return {'tab': template.root};;
 	};
 
 	/**

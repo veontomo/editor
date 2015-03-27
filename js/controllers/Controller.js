@@ -83,36 +83,6 @@ function Controller(){
 
 
 	/**
-	 * Array of elemnts belonging to the selection.
-	 * @property      {Array}          _selection
-	 * @private
-	 * @since          0.0.7
-	 */
-	var _selection;
-
-	/**
-	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} getter.
-	 * @method         getSelection
-	 * @return         {Object}
-	 * @since          0.0.7
-	 */
-	this.getSelection = function(){
-		return _selection;
-	};
-
-	/**
-	 * {{#crossLink "Controller/_selection:property"}}_selection{{/crossLink}} setter.
-	 * @method         setSelection
-	 * @param          {Array}        sel
-	 * @return         {void}
-	 * @since          0.0.7
-	 */
-	this.setSelection = function(sel){
-		_selection = sel;
-	};
-
-
-	/**
 	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
 	 * @property       {EditorAdapter}      _editorAdapter
 	 * @since          0.0.8
@@ -522,7 +492,6 @@ function Controller(){
 	        }
 	        template = elemObj.template();
 	        dialogData = adapter.templateToDialog(template);
-	        console.log("dialog data: ", dialogData);
 	        adapter.fillInDialog(dialog, dialogData);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ' + e.message);
