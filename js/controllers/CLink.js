@@ -19,30 +19,6 @@ function CLink() {
     this.setModel(Link);
 
     /**
-     * Remove link from the editor.
-     * @method         unlink
-     * @param          {Object}        editor
-     * @param          {Node|null}     link            [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-     *                                                 instance that has triggered the context menu with operation to
-     *                                                 remove the link
-     * @return         {void}
-     * @since          0.2.0
-     */
-    this.unlink = function(editor, link){
-        var adapter, doc, content, ranges;
-        try {
-            adapter = this.getEditorAdapter();
-            doc = this.getWorker();
-            content = adapter.getEditorContent(editor);
-            ranges = adapter.getNativeRanges(editor);
-            doc.clearRangesFromLinks(ranges); // here, object "content" changes (because "ranges" is passed as reference)
-            adapter.setEditorContent(editor, content);
-        } catch (e) {
-            console.log(e.name + ' occurred when removing links: ' + e.message);
-        }
-    };
-
-    /**
      * Modifies the content of the `editor` based on information provided in the `dialog` window
      * as well in optional json-like object `params`.
      * @method         onOk
@@ -72,7 +48,7 @@ function CLink() {
             } else if (params.selection){
                 doc.transformIntoLink(params.selection, shallowLink);
             } else {
-                doc.insertAt(cursorPos.startContainer, elem, cursorPos.startOffset);
+                doc.insertAt(cursorPos.startContainer, shallowLink, cursorPos.startOffset);
             }
             adapter.setEditorContent(editor, content);
         } catch (e) {

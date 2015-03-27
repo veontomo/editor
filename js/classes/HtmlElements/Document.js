@@ -2440,8 +2440,8 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.modifyLink = function(link, referenceLink){
-		/// !!! stub
-	    console.info('Doc:modify', link, referenceLink);
+    	link.setAttribute('href', referenceLink.getHref());
+    	link.setAttribute('data-cke-saved-href', referenceLink.getHref());
 	};
 
 	/**
