@@ -4877,27 +4877,27 @@ describe('Class "Document"', function() {
     });
 
 
-    describe('has a method "isEditableBunchOfRanges" that', function(){
+    describe('has a method "isSelectionEditable" that', function(){
         it('returns false if the argument is an empty array', function(){
-            expect(doc.isEditableBunchOfRanges([])).toBe(false);
+            expect(doc.isSelectionEditable([])).toBe(false);
         });
         it('returns true if the argument is an array with two ranges', function(){
             var r1 = document.createRange(),
                 r2 = document.createRange();
-            expect(doc.isEditableBunchOfRanges([r1, r2])).toBe(false);
+            expect(doc.isSelectionEditable([r1, r2])).toBe(false);
         });
 
         it('calls method "isEditableRange" in order to determine whether unique range is editable', function(){
             var r = document.createRange();
             spyOn(doc, 'isEditableRange');
-            doc.isEditableBunchOfRanges([r]);
+            doc.isSelectionEditable([r]);
             expect(doc.isEditableRange).toHaveBeenCalledWith(r);
         });
 
         it('returns the result of method "isEditableRange" in order to determine whether unique range is editable', function(){
             var r = document.createRange();
             spyOn(doc, 'isEditableRange').and.returnValue('result');
-            expect(doc.isEditableBunchOfRanges([r])).toBe('result');
+            expect(doc.isSelectionEditable([r])).toBe('result');
         });
     });
 

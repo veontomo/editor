@@ -1150,7 +1150,6 @@ function Document(node){
 	 * @throws         {Error}         If `r` is not a [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 */
 	this.nodesOfRange = function(r){
-		console.log(r);
 		if (!(r instanceof Range)){
 			throw new Error('The argument must be a Range instance!');
 		}
@@ -1158,7 +1157,6 @@ function Document(node){
 			return [];
 		}
 		var boundaries = this.detachBoundaries(r);
-		console.log(boundaries);
 		if (boundaries.length === 0){
 			return [];
 		}

@@ -358,138 +358,45 @@ describe('Class "Link"', function() {
             expect(typeof link.template()).toBe('object');
         });
 
-        it('returns object with key "href"', function(){
-            expect(link.template().hasOwnProperty('href')).toBe(true);
+        it('returns an object with key "name" equal to "link"', function(){
+            expect(link.template().name).toBe('link');
         });
 
-        it('returns object with key "color"', function(){
-            expect(link.template().hasOwnProperty('color')).toBe(true);
-        });
-
-        it('returns object with key "isUnderlined"', function(){
-            expect(link.template().hasOwnProperty('isUnderlined')).toBe(true);
-        });
-
-        it('returns object with key "isTargetBlank"', function(){
-            expect(link.template().hasOwnProperty('isTargetBlank')).toBe(true);
-        });
-
-        it('returns object with key "title"', function(){
-            expect(link.template().hasOwnProperty('title')).toBe(true);
-        });
-
-        it('returns object with key "content"', function(){
-            expect(link.template().hasOwnProperty('content')).toBe(true);
-        });
-
-        it('sets "href" key from getHref() value',function(){
-            spyOn(link, 'getHref').and.returnValue('a link');
-            expect(link.template().href).toBe('a link');
-        });
-    });
-
-    xdescribe('has method "loadFromTemplate" that', function(){
-        describe('sets "title" attribute', function(){
-            it('if it is not set', function(){
-                link.dropProperty('title');
-                var templ = {title: 'new title'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('title')).toBe('new title');
+        describe('returns an object that contains a key "root" that', function(){
+            var root;
+            beforeEach(function(){
+                spyOn(link, 'getHref').and.returnValue('a link');
+                root = link.template().root;
             });
-            it('if it is set', function(){
-                link.setProperty('title', 'old title');
-                var templ = {title: 'a title'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('title')).toBe('a title');
+            it('is an object', function(){
+                expect(typeof root).toBe('object');
+            });
+
+            it('contains key "href"', function(){
+                expect(root.hasOwnProperty('href')).toBe(true);
+            });
+
+            it('uses method getHref() method to set "href" key',function(){
+                expect(link.getHref).toHaveBeenCalled();
+                expect(root.href).toBe('a link');
+            });
+
+            it('contains key "color"', function(){
+                expect(root.hasOwnProperty('color')).toBe(true);
+            });
+
+            it('contains key "isUnderlined"', function(){
+                expect(root.hasOwnProperty('isUnderlined')).toBe(true);
+            });
+
+            it('contains key "isTargetBlank"', function(){
+                expect(root.hasOwnProperty('isTargetBlank')).toBe(true);
+            });
+
+            it('contains key "title"', function(){
+                expect(root.hasOwnProperty('title')).toBe(true);
             });
         });
-        describe('sets "href" attribute', function(){
-            it('if it is not set', function(){
-                link.dropProperty('href');
-                var templ = {href: 'www.test.com'};
-                link.loadFromTemplate(templ);
-                expect(link.getHref()).toBe('www.test.com');
-            });
-            it('if it is set', function(){
-                link.setHref('aaa.com');
-                var templ = {href: 'bbb.org'};
-                link.loadFromTemplate(templ);
-                expect(link.getHref()).toBe('bbb.org');
-            });
-        });
-        describe('sets "color" attribute', function(){
-            it('if it is not set', function(){
-                link.dropProperty('color');
-                var templ = {color: 'yellow'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('color')).toBe('yellow');
-            });
-            it('if it is set', function(){
-                link.setProperty('color', 'navy');
-                var templ = {color: 'blue'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('color')).toBe('blue');
-            });
-        });
-        describe('sets "target" attribute', function(){
-            it('if it is not set', function(){
-                link.dropProperty('target');
-                var templ = {target: '_blank'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('target')).toBe('_blank');
-            });
-            it('if it is set', function(){
-                link.setProperty('target', 'top');
-                var templ = {target: 'self'};
-                link.loadFromTemplate(templ);
-                expect(link.getProperty('target')).toBe('self');
-            });
-        });
-
-        describe('sets content to according to "text" attribute', function(){
-            it('if it is not set', function(){
-                link.flushContent();
-                link.loadFromTemplate({text: 'link text'});
-                expect(link.toText()).toBe('link text');
-            });
-            it('if it is set', function(){
-                link.appendElem(new Tag());
-                link.loadFromTemplate({text: 'new link text'});
-                expect(link.toText()).toBe('new link text');
-            });
-        });
-
-
-        describe('sets "text-decoration" attribute', function(){
-            it('if the template has it equal to "true" and it is not set before', function(){
-                link.dropProperty('text-decoration');
-                var templ = {isUnderlined: true};
-                link.loadFromTemplate(templ);
-                expect(link.isUnderlined()).toBe(true);
-            });
-            it('if the template has it equal to "false" and it is not set before', function(){
-                link.dropProperty('text-decoration');
-                var templ = {isUnderlined: false};
-                link.loadFromTemplate(templ);
-                expect(link.isUnderlined()).toBe(false);
-            });
-
-            it('if the template has it equal to "true" and it is set before', function(){
-                link.setProperty('text-decoration', '1px solid blue');
-                var templ = {isUnderlined: true};
-                link.loadFromTemplate(templ);
-                expect(link.isUnderlined()).toBe(true);
-            });
-            it('if the template has it equal to "false" and it is set before', function(){
-                link.setProperty('text-decoration', '1px solid blue');
-                var templ = {isUnderlined: false};
-                link.loadFromTemplate(templ);
-                expect(link.isUnderlined()).toBe(false);
-            });
-        });
-
-
-
 
     });
 
