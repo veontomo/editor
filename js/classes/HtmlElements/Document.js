@@ -2429,4 +2429,33 @@ function Document(node){
 		return this.isEditableNode(nodes[0]);
 	};
 
+	/**
+	 * Modifies `link` using data present in `referenceLink`.
+	 *
+	 * @method         modifyLink
+	 * @param          {Element}       link
+	 * @param          {Element}       referenceLink      editor-specific representation of dialog window
+	 * @param          {Object}        editor
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.modifyLink = function(link, referenceLink){
+		/// !!! stub
+	    console.info('Doc:modify', link, referenceLink);
+	};
+
+	/**
+	 * Transforms nodes of `selection` into links based on information stored in `referenceLink`.
+	 * @method         transformIntoLink
+	 * @param          {Array}         selection
+	 * @param          {Element}       referenceLink
+	 * @return         {void}
+	 * @since          0.2.1
+	 */
+	this.transformIntoLink = function(selection, referenceLink){
+		/// !!! stub
+	    console.info('Doc:transform', selection, referenceLink);
+	};
+
+
 }

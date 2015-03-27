@@ -82,6 +82,7 @@ function Controller(){
 	};
 
 
+
 	/**
 	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
 	 * @property       {EditorAdapter}      _editorAdapter
@@ -109,6 +110,16 @@ function Controller(){
 	 */
 	this.setEditorAdapter = function(adapter){
 		_editorAdapter = adapter;
+	};
+
+	this.getEditorSelection = function(editor){
+		var adapter;
+		try {
+			adapter = this.getEditorAdapter();
+			return adapter.getNativeRanges(editor);
+		} catch (e){
+			console.log(e.name + ' occurred when retrieving editor selection: ' + e.message);
+		}
 	};
 
 
@@ -303,7 +314,7 @@ function Controller(){
 	 * Action to execute when `dialog`'s confirm button is pressed.
 	 *
 	 * All information (like what is selected, what element has triggered the dialog etc) can be
-	 * retrieved from variable `editor`. Nevertheless, optional argument `node` is passed in order
+	 * retrieved from variable `editor`. Nevertheless, an optional json object `params` is passed in order
 	 * to avoid repetitive parsing of the editor content in search of element that has triggered
 	 * the dialog (first parsing might occur when a deciding whether a context menu item
 	 * should appear or not, second - when filling in the dialog input fields etc).
@@ -313,14 +324,13 @@ function Controller(){
 	 * @method         onOk
 	 * @param          {Object}            dialog      editor-specific representation of dialog
 	 * @param          {Object}            editor
-	 * @param          {Node|null}         node        [Optional] [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 *                                                 instance that has triggered the appearance of the dialog
+	 * @param          {Object}            params      [Optional] useful parameters
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.onOk = function(dialog, editor, element){
+	this.onOk = function(dialog, editor, params){
 		/// Override if non-trivial behavior is required
-		console.log(dialog, editor, element);
+		console.log(dialog, editor, params);
 		return;
 	};
 

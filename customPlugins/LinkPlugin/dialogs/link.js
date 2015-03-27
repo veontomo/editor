@@ -17,6 +17,9 @@ function linkDialog(editor) {
     var _controller = new CLink();
     _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
+
+    var _editorSelection = _controller.getEditorSelection(editor);
+
     /**
      * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
      * @method  anonymous
@@ -229,7 +232,12 @@ function linkDialog(editor) {
         },
 
         onOk: function(){
-            _controller.onOk(this, editor, _controller.getExtra(this));
+            console.log('link plugin onOk');
+            var params = {
+                'link': _controller.getExtra(this),
+                'selection': _controller.getEditorSelection(editor)
+            };
+            _controller.onOk(this, editor, params);
         }
     };
 }
