@@ -2441,7 +2441,9 @@ function Document(node){
 	 */
 	this.modifyLink = function(link, referenceLink){
     	link.setAttribute('href', referenceLink.getHref());
-    	link.setAttribute('data-cke-saved-href', referenceLink.getHref());
+    	/// CKEDITOR inserts its own attributes, so I reset it here
+    	/// (try to do this more flexibly)
+    	// link.dropAttribute('data-cke-saved-href');
 	};
 
 	/**

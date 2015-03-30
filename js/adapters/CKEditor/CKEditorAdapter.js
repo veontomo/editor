@@ -45,9 +45,35 @@ function CKEditorAdapter(){
 	this.setEditorContent = function(editor, content){
 		if ((editor instanceof CKEDITOR.editor) && (content instanceof Node)){
 			try {
-				editor.setData(content.outerHTML);
+				_cleanLinks(content);
+				editor.setData(contentCleanLinks.outerHTML);
 			} catch (e){
 				console.log(e.name + ' occurred when setting up the editor content: ' + e.message);
+			}
+		}
+	};
+
+
+	/**
+	 * Modifies links inside `n`: if link has attribute "data-cke-saved-href" then it should be set to the value of its
+	 * "href" attribute.
+	 *
+	 * CKEditor has a representation of links such that they are assigned additional attribute "data-cke-saved-href".
+	 * @method         _cleanLinks
+	 * @param          {Node}          n
+	 * @return         {void}
+	 * @since          0.2.2
+	 *
+	 */
+	var _cleanLinks = function(n){
+		var attrName = 'data-cke-saved-href',
+			bunch = n.getElementsByTagName('a'),
+			len  = bunch.length,
+			link;
+		for (i = 0; i < len; i++){
+			link = bunch.item(i);
+			if (link.hasAttribute(attrName)){
+				link.setAttribute(attrName, link.getAttribute('href'));
 			}
 		}
 	};
