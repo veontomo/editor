@@ -275,42 +275,6 @@ function Link(href) {
 		return this.getProperty('title') === '_blank';
 	};
 
-	/**
-	 * Sets parameters from template `tmpl`.
-	 * @method         loadFromTemplate
-	 * @param          {Object}         tmpl
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.loadFromTemplate___ = function(tmpl){
-		var key;
-		for (key in tmpl){
-			if (tmpl.hasOwnProperty(key)){
-				switch (key){
-					case 'title':
-						this.setProperty(key, tmpl[key]);
-						break;
-					case 'href':
-						this.setHref(tmpl[key]);
-						break;
-					case 'color':
-						this.setProperty('color', tmpl[key]);
-						break;
-					case 'isUnderlined':
-						this.underline(tmpl[key]);
-						break;
-					case 'target':
-						this.setProperty(key, tmpl[key]);
-						break;
-					case 'text':
-						this.setContent(tmpl[key]);
-						break;
-				}
-			}
-		}
-
-	};
-
 
 }
 Link.prototype = Object.create(Tag.prototype);

@@ -2435,15 +2435,24 @@ function Document(node){
 	 * @method         modifyLink
 	 * @param          {Element}       link
 	 * @param          {Element}       referenceLink      editor-specific representation of dialog window
-	 * @param          {Object}        editor
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
 	this.modifyLink = function(link, referenceLink){
-    	link.setAttribute('href', referenceLink.getHref());
-    	/// CKEDITOR inserts its own attributes, so I reset it here
-    	/// (try to do this more flexibly)
-    	// link.dropAttribute('data-cke-saved-href');
+		console.log(link, referenceLink);
+		var attrs = referenceLink.attributes,
+			attr,
+			len = attrs.length,
+			i;
+		console.log(attrs);
+		for (i = 0; i < len; i++){
+			attr = attrs.item(i);
+			if (attr){
+				console.log("setting attribute " + attr.name + " = " + attr.value);
+				link.setAttribute(attr.name, attr.value);
+			}
+
+		}
 	};
 
 	/**

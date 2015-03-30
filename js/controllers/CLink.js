@@ -40,11 +40,13 @@ function CLink() {
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             dialogData = adapter.getDialogData(dialog);
+            console.log(dialogData);
             template = adapter.dialogToTemplate(dialogData, 'link');
+            console.log(template);
             shallowLink = doc.createFromTemplate(template);
 
             if (params.link){
-                doc.modifyLink(params.link, shallowLink);
+                doc.modifyLink(params.link, shallowLink.toNode());
             } else if (params.selection){
                 doc.transformIntoLink(params.selection, shallowLink);
             } else {

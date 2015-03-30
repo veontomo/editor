@@ -46,7 +46,7 @@ function CKEditorAdapter(){
 		if ((editor instanceof CKEDITOR.editor) && (content instanceof Node)){
 			try {
 				_cleanLinks(content);
-				editor.setData(contentCleanLinks.outerHTML);
+				editor.setData(content.outerHTML);
 			} catch (e){
 				console.log(e.name + ' occurred when setting up the editor content: ' + e.message);
 			}
@@ -69,7 +69,8 @@ function CKEditorAdapter(){
 		var attrName = 'data-cke-saved-href',
 			bunch = n.getElementsByTagName('a'),
 			len  = bunch.length,
-			link;
+			link,
+			i;
 		for (i = 0; i < len; i++){
 			link = bunch.item(i);
 			if (link.hasAttribute(attrName)){
@@ -352,13 +353,12 @@ function CKEditorAdapter(){
 				name: 'link',
 				root: {
 					href:          dialog[tabName].href,
-					scheme:        dialog[tabName].scheme,
-					color:         dialog[tabName].color,
-					isUnderlined:  dialog[tabName].isUnderlined,
-					isCompound:    dialog[tabName].status,
 					target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
-					text:          dialog[tabName].text,
-					title:         dialog[tabName].title
+					title:         dialog[tabName].title,
+					style: {
+						color:              dialog[tabName].color,
+						'text-decoration':  dialog[tabName].isUnderlined ? 'underline' : 'none',
+					}
 				}
 			};
 		return linkTemplate;
@@ -401,7 +401,7 @@ function CKEditorAdapter(){
 	 */
 	this.defaultDialogToTemplate = function(template){
 		console.log('default dialog -> template converter is called');
-		return {'tab': template.root};;
+		return {'tab': template.root};
 	};
 
 	/**
