@@ -712,6 +712,20 @@ describe('Properties-related functionality', function(){
             props.setProperty('width', 'new value');
             expect(props.getProperty('width')).toBe('new value');
         });
+
+
+        it('merges two inline styles', function(){
+            props.setStyleProperty('padding', '32em');
+            props.setStyleProperty('color', 'red');
+            var props2 = new Properties();
+            props2.setStyleProperty('margin', '1px');
+            props2.setStyleProperty('width', '55em');
+            props.appendProperty(props2);
+            expect(props.getStyleProperty('padding')).toBe('32em');
+            expect(props.getStyleProperty('margin')).toBe('1px');
+            expect(props.getStyleProperty('color')).toBe('red');
+            expect(props.getStyleProperty('width')).toBe('55em');
+        });
     });
 
     describe('Property::propNum(): gets the number of records in core', function(){
