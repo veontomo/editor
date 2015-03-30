@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Property, window, Unit */
+/*global Properties, window, Unit */
 
 /**
  * A general Property class. If the argument is an object, then its properties are copied
@@ -336,44 +336,73 @@ function Properties(input) {
 	/**
 	 * Fills in the core with key-value pairs from the argument if any. If the argument
 	 * is a string, splits it according to the pattern "key: value;". If the argument is
-	 * an object, then it gets its key-value pairs. Obtained blocks are then sent one
-	 * by one to {{#crossLink "Properties/setProperty:method"}}setProperty(){{/crossLink}}
-	 * method.
+	 * an object, then it gets its key-value pairs.
 	 * @method     appendPropertyAsStringOrObj
 	 * @param      {Any}        input
 	 * @private
 	 * @return     {void}
 	 */
 	var appendPropertyAsStringOrObj = function (obj, context){
-		var attr, value, key, pool = [], source;
+		var key, value, attrs;
 		if (typeof obj === 'string'){
-			attr = obj.split(';');
-			attr.forEach(function(pair){
-				var split = pair.split(':');
-				if (split.length === 2){
-					key = split[0].trim();
-					value =  split[1].trim();
-					pool.push([key, value]);
-				}
-			});
-		}
-		if (obj instanceof Properties){
-			source = obj.getCore();
+			attrs = context.stringToJson(obj);
+		} else if (obj instanceof Properties){
+			attrs = obj.getCore();
 		} else if (typeof obj === 'object'){
-			source = obj;
+			attrs = obj;
 		}
-		if (source){
-			for (key in source){
-				if (source.hasOwnProperty(key)){
-					value = source[key];
-					pool.push([key, value]);
+		for (key in attrs){
+			if (attrs.hasOwnProperty(key)){
+				value = attrs[key];
+				if (typeof context.getProperty(key) === 'object' && typeof value === 'object'){
+					context.appendToKey(key, value);
+				} else {
+					context.setProperty(key, value);
 				}
-			}
 
+			}
 		}
-		pool.forEach(function(pair){
-			context.setProperty(pair[0], pair[1]);
+	};
+
+
+	/**
+	 * Appends `obj` to the property `prop` of the current object.
+	 *
+	 * It is supposed that current instance has object-valued property `prop` to which `obj` should be appended.
+	 * @method         appendToKey
+	 * @param          {String}        prop
+	 * @param          {Object}        obj
+	 * @return         {void}
+	 * @since          0.2.3
+	 */
+	this.appendToKey = function(key, obj){
+		var prop = new Properties(this.getProperty(key));
+		prop.appendProperty(obj);
+		this.setProperty(key, prop);
+	};
+
+	/**
+	 * Creates a json-like object from a string.
+	 *
+	 * For the moment, only inline-style format of strings is supported.
+	 * @method         stringToJson
+	 * @param          {String}        str
+	 * @return         {Object}
+	 * @since          0.2.3
+	 */
+	this.stringToJson = function(str){
+		var json = {},
+			value, key,
+			attr = str.split(Properties.SEPARATOR_RECORDS);
+		attr.forEach(function(pair){
+			var split = pair.split(Properties.SEPARATOR_KEY_VALUE);
+			if (split.length === 2){
+				key = split[0].trim();
+				value = split[1].trim();
+				json[key] = value;
+			}
 		});
+		return json;
 	};
 
 	appendPropertyAsStringOrObj(input, this);
@@ -1088,5 +1117,32 @@ Object.defineProperty(Properties, 'MODE_ATTRIBUTE', {
  */
 Object.defineProperty(Properties, 'MODE_STYLE', {
 	value: 1,
+	writable: false
+});
+
+/**
+ * Separator between subsequent key-value pairs
+ * @property    {String}     SEPARATOR_RECORDS
+ * @type        {String}
+ * @static
+ * @final
+ * @since       0.2.2
+ */
+Object.defineProperty(Properties, 'SEPARATOR_RECORDS', {
+	value: ';',
+	writable: false
+});
+
+
+/**
+ * Separator between key and value within
+ * @property    {String}     SEPARATOR_KEY_VALUE
+ * @type        {String}
+ * @static
+ * @final
+ * @since       0.2.2
+ */
+Object.defineProperty(Properties, 'SEPARATOR_KEY_VALUE', {
+	value: ':',
 	writable: false
 });
