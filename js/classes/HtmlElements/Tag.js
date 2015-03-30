@@ -1124,9 +1124,7 @@ function Tag(tName) {
 	 */
 	this.loadProperTemplate = function(template){
 		var properties = this.getProperties();
-		console.log('initial properties: ', properties.toString());
 		properties.appendProperty(this.extractProperTemplate(template));
-		console.log('final properties: ', properties.toString());
 		this.setProperties(properties);
 	};
 

@@ -229,20 +229,28 @@ function Controller(){
 	};
 
 	/**
-	 * Disables `fields` of `dialog` if `target` is not editable.
-	 * @method         disableIfComposite
-	 * @param          {Node}          target
-	 * @param          {Object}        dialog       editor-specific representation of the dialog window
-	 * @param          {Object}        fields       object defining dialog fields to be disabled
-	 * @return         {void}
-	 * @since          0.2.1
+	 * Disables `field` of `dialog` if `node` is not editable.
+	 * @method        disableFieldIfNotEditable
+	 * @param         {Node}        node
+	 * @param         {Object}      dialog      editor-specific representation of the dialog
+	 * @param         {Object}      field       object that uniquely defines the field to be disabled
+	 * @return        {void}
+	 * @since         0.2.2
 	 */
-	this.disableIfComposite = function(target, dialog, fields){
-		var worker = this.getWorker();
-		if (!worker.isEditableNode(target)){
-			this.disableFields(dialog, fields);
+	this.disableFieldIfNotEditable = function(node, dialog, field){
+		var adapter,
+			worker;
+		try {
+			adapter = this.getEditorAdapter();
+			worker = this.getWorker();
+			if (!worker.isEditableNode(node)){
+				adapter.disableField(dialog, field);
+			}
+		} catch (e){
+			console.log(e.name + ': failed to disable the dialog field. ' + e.message);
 		}
 	};
+
 
 
 

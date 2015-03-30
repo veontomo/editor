@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global EditorAdapter, CKEDITOR */
+/*global EditorAdapter, CKEDITOR, Node */
 
 /**
  * Implements "abstract" methods of class {{#crossLink "EditorAdapter"}}EditorAdapter{{/crossLink}}
@@ -45,7 +45,7 @@ function CKEditorAdapter(){
 	this.setEditorContent = function(editor, content){
 		if ((editor instanceof CKEDITOR.editor) && (content instanceof Node)){
 			try {
-				_cleanLinks(content);
+				this.cleanLinks(content);
 				editor.setData(content.outerHTML);
 			} catch (e){
 				console.log(e.name + ' occurred when setting up the editor content: ' + e.message);
@@ -59,13 +59,13 @@ function CKEditorAdapter(){
 	 * "href" attribute.
 	 *
 	 * CKEditor has a representation of links such that they are assigned additional attribute "data-cke-saved-href".
-	 * @method         _cleanLinks
+	 * @method         cleanLinks
 	 * @param          {Node}          n
 	 * @return         {void}
 	 * @since          0.2.2
 	 *
 	 */
-	var _cleanLinks = function(n){
+	this.cleanLinks = function(n){
 		var attrName = 'data-cke-saved-href',
 			bunch = n.getElementsByTagName('a'),
 			len  = bunch.length,
@@ -358,7 +358,8 @@ function CKEditorAdapter(){
 					style: {
 						color:              dialog[tabName].color,
 						'text-decoration':  dialog[tabName].isUnderlined ? 'underline' : 'none',
-					}
+					},
+					content: dialog[tabName].content,
 				}
 			};
 		return linkTemplate;
@@ -609,6 +610,24 @@ function CKEditorAdapter(){
 	 */
 	this.getExtra = function(host){
 		return host.extraDataToStoreHere;
+	};
+
+
+	/**
+	 * Disables `dialog` defined by `field`.
+	 * @method         disableField
+	 * @param          {Object}        dialog      editor-specific dialog menu field
+	 * @return         {Object}        field       an object of format {'tabId': 'elemId'}
+	 * @since          0.2.2
+	 * @abstract
+	 */
+	this.disableField = function(dialog, field){
+		var key;
+		for (key in field){
+			if (field.hasOwnProperty(key)){
+				dialog.getContentElement(key, field[key]).disable();
+			}
+		}
 	};
 }
 CKEditorAdapter.prototype = Object.create(EditorAdapter.prototype);

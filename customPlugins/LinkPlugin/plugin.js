@@ -86,6 +86,7 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						dialog.once('show', function(){
 							_controller.fillInDialogWithElement(dialog, _target.hostLink);
 							_controller.saveExtra(dialog, _target.hostLink);
+							_controller.disableFieldIfNotEditable(_target.hostLink, dialog, {'linkInfoTab': 'content'});
 							_target.hostLink = undefined;
 						});
 					}

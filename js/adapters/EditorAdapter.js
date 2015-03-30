@@ -312,5 +312,18 @@ function EditorAdapter(){
 		throw new Error('Method "getExtra" of class EditorAdapter must be overridden by inheriting class!');
 	};
 
+	/**
+	 * Disables `dialog` defined by `field`.
+	 * @method         disableField
+	 * @param          {Object}        dialog      editor-specific dialog menu field
+	 * @return         {Object}        field
+	 * @since          0.2.2
+	 * @abstract
+	 */
+	this.disableField = function(dialog, field){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "disableField" of class EditorAdapter must be overridden by inheriting class!');
+	}
+
 
 }
