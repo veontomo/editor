@@ -49,7 +49,7 @@ function CLink() {
             if (params.link){
                 doc.modifyLink(params.link, shallowLink.toNode());
             } else if (params.selection){
-                doc.transformIntoLink(params.selection, shallowLink);
+                doc.selectionToLink(params.selection, shallowLink);
             } else {
                 doc.insertAt(cursorPos.startContainer, shallowLink, cursorPos.startOffset);
             }

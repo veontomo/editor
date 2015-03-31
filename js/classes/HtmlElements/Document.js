@@ -2328,13 +2328,13 @@ function Document(node){
 	/**
 	 * Returns a new [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance which is obtained
 	 * by appending nodes of `ranges` to `element`.
-	 * @method         moveNodesIntoLink
+	 * @method         moveNodesToLink
 	 * @param          {Element}       element       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Element}
 	 * @since          0.2.1
 	 */
-	this.moveNodesIntoLink = function(element, ranges){
+	this.moveNodesToLink = function(element, ranges){
 		ranges.forEach(function(range){
 			var nodes = this.nodesOfRange(range);
 			if (!Array.isArray(nodes)){
@@ -2344,7 +2344,7 @@ function Document(node){
 				element.appendChild(node);
 			});
 		}.bind(this));
-		console.info("moveNodesIntoLink", element);
+		console.info("moveNodesToLink", element);
 		return element;
 	};
 
@@ -2456,16 +2456,38 @@ function Document(node){
 
 	/**
 	 * Transforms nodes of `selection` into links based on information stored in `referenceLink`.
-	 * @method         transformIntoLink
-	 * @param          {Array}         selection
+	 *
+	 * This method is called in the case when there is no links among ancestors of the nodes
+	 * belonging to the selection. Therefore, one should manage eventual presence of links
+	 * among descendants of the nodes belonging to the selection.
+	 *
+	 * @method         selectionToLink
+	 * @param          {Array}         selection      array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {Element}       referenceLink
 	 * @return         {void}
 	 * @since          0.2.1
 	 */
-	this.transformIntoLink = function(selection, referenceLink){
-		/// !!! stub
-	    console.info('Doc:transform', selection, referenceLink);
+	this.selectionToLink = function(selection, referenceLink){
+		selection.forEach(function(range){
+			this.rangeToLink(range, referenceLink);
+		}.bind(this));
 	};
+
+	/**
+	 * Transforms `range` into link based on information stored in `referenceLink`.
+	 *
+	 * The method must manage possible situation when there are links among descendants
+	 * of the nodes belonging to the range.
+	 * @method         rangeToLink
+	 * @param          {Range}         range
+	 * @param          {Element}       referenceLink
+	 * @return         {void}
+	 * @siince         0.2.3
+	 */
+	this.rangeToLink = function(range, referenceLink){
+		/// !!! stub
+		console.log("rangeToLink", range, referenceLink);
+	}
 
 
 }

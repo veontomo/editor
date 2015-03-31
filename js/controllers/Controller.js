@@ -591,7 +591,7 @@ function Controller(){
 	/**
 	 * Returns `true` if `selection` is editable. Returns `false` otherwise.
 	 * @method         isSelectionEditable
-	 * @param          {Array}          selection   Array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @param          {Array}          selection   array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Boolean}
 	 * @since          0.2.3
 	 */
