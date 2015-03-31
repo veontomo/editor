@@ -2439,12 +2439,10 @@ function Document(node){
 	 * @since          0.2.1
 	 */
 	this.modifyLink = function(link, referenceLink){
-		console.log(link, referenceLink);
 		var attrs = referenceLink.attributes,
 			attr,
 			len = attrs.length,
 			i;
-		console.log(attrs);
 		for (i = 0; i < len; i++){
 			attr = attrs.item(i);
 			if (attr){

@@ -147,7 +147,6 @@ function CKEditorAdapter(){
 	 *
 	 */
 	this.fillInDialog = function(dialog, data){
-		console.log('filling in dialog with data: ', data);
 		var pageId, page, elemId, value;
 		for (pageId in data){
 			if (pageId && data.hasOwnProperty(pageId)){
@@ -354,7 +353,7 @@ function CKEditorAdapter(){
 			name: 'link',
 			root: {
 				href:          dialog[tabName].href,
-				target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
+				target:        dialog[tabName].isTargetBlank ? '_blank' : '_self',
 				title:         dialog[tabName].title,
 				style: {
 					color:              dialog[tabName].color,

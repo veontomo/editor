@@ -232,7 +232,6 @@ function linkDialog(editor) {
         },
 
         onOk: function(){
-            console.log('link plugin onOk');
             var params = {
                 'link': _controller.getExtra(this),
                 'selection': _controller.getEditorSelection(editor)

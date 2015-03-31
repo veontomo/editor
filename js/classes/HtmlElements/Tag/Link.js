@@ -272,7 +272,7 @@ function Link(href) {
 	 * @since          0.2.1
 	 */
 	this.shouldOpenNew = function(){
-		return this.getProperty('title') === '_blank';
+		return this.getProperty('target') === '_blank';
 	};
 
 
