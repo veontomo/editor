@@ -349,19 +349,19 @@ function CKEditorAdapter(){
 	 */
 	this.linkDialogToTemplate = function(dialog){
 		var tabName = 'linkInfoTab',
-			linkTemplate = {
-				name: 'link',
-				root: {
-					href:          dialog[tabName].href,
-					target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
-					title:         dialog[tabName].title,
-					style: {
-						color:              dialog[tabName].color,
-						'text-decoration':  dialog[tabName].isUnderlined ? 'underline' : 'none',
-					},
-					content: dialog[tabName].content,
-				}
-			};
+			linkTemplate;
+		linkTemplate = {
+			name: 'link',
+			root: {
+				href:          dialog[tabName].href,
+				target:        dialog[tabName].isNewWindow ? '_blank' : '_self',
+				title:         dialog[tabName].title,
+				style: {
+					color:              dialog[tabName].color,
+					'text-decoration':  dialog[tabName].isUnderlined ? 'underline' : 'none',
+				},
+			}
+		};
 		return linkTemplate;
 	};
 
@@ -616,10 +616,9 @@ function CKEditorAdapter(){
 	/**
 	 * Disables `dialog` defined by `field`.
 	 * @method         disableField
-	 * @param          {Object}        dialog      editor-specific dialog menu field
-	 * @return         {Object}        field       an object of format {'tabId': 'elemId'}
+	 * @param          {CKEDITOR.dialog}  dialog      [Dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog) instance
+	 * @return         {Object}           field       an object of format {'tabId': 'elemId'}
 	 * @since          0.2.2
-	 * @abstract
 	 */
 	this.disableField = function(dialog, field){
 		var key;
@@ -627,6 +626,45 @@ function CKEditorAdapter(){
 			if (field.hasOwnProperty(key)){
 				dialog.getContentElement(key, field[key]).disable();
 			}
+		}
+	};
+
+	/**
+	 * Returns `true` if `field` element of `dialog` is enabled  and `false` otherwise.
+	 * @method         isFieldEnabled
+	 * @param          {CKEDITOR.dialog}  dialog      [Dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog) instance
+	 * @param          {Object}           field       object of form {'tabId': 'elementId'}
+	 * @return         {boolean}
+	 * @since          0.2.3
+	 */
+	this.isFieldEnabled = function(dialog, field){
+		var output, keys;
+		try {
+			keys = Object.keys(field);
+			output = dialog.getContentElement(keys[0], field[keys[0]]).isEnabled();
+		} catch (e){
+			console.log(e.name + ' occurred when determining the status of dialog field: ' + e.message);
+			console.log('Treat it as if the field is disabled...');
+			output = false;
+		}
+		return output;
+	};
+
+	/**
+	 * Returns value of `field` element of `dialog`.
+	 * @method         getFieldValue
+	 * @param          {CKEDITOR.dialog}  dialog      [Dialog](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog) instance
+	 * @param          {Object}           field       object of form {'tabId': 'elementId'}
+	 * @return         {Any}
+	 * @since          0.2.3
+	 */
+	this.getFieldValue = function(dialog, field){
+		var keys;
+		try {
+			keys = Object.keys(field);
+			return dialog.getValueOf(keys[0], field[keys[0]]);
+		} catch (e){
+			console.log(e.name + ' occurred when retrieving value of dialog field: ' + e.message);
 		}
 	};
 }

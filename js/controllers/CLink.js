@@ -30,7 +30,7 @@ function CLink() {
      */
     this.onOk = function(dialog, editor, params) {
         var adapter, doc, content, dialogData, template,
-            shallowLink, cursorPos;
+            shallowLink, cursorPos, contentUIElem;
         try {
             adapter = this.getEditorAdapter();
             cursorPos = adapter.getCursorPosition(editor);
@@ -42,6 +42,10 @@ function CLink() {
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
             shallowLink = doc.createFromTemplate(template);
+            contentUIElem = {'linkInfoTab': 'content'};
+            if (adapter.isFieldEnabled(dialog, contentUIElem) === true){
+                shallowLink.setContent(adapter.getFieldValue(dialog, contentUIElem));
+            }
 
             if (params.link){
                 doc.modifyLink(params.link, shallowLink.toNode());

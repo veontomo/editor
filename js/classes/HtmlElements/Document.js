@@ -2448,10 +2448,11 @@ function Document(node){
 		for (i = 0; i < len; i++){
 			attr = attrs.item(i);
 			if (attr){
-				console.log("setting attribute " + attr.name + " = " + attr.value);
 				link.setAttribute(attr.name, attr.value);
 			}
-
+		}
+		if (this.isEditableNode(link)){
+			link.innerHTML = referenceLink.innerHTML;
 		}
 	};
 

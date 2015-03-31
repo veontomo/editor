@@ -323,7 +323,36 @@ function EditorAdapter(){
 	this.disableField = function(dialog, field){
 		/// !!! abstract method. Must be overridden by inheriting class.
 		throw new Error('Method "disableField" of class EditorAdapter must be overridden by inheriting class!');
-	}
+	};
+
+	/**
+	 * Returns `true` if `field` element of `dialog` is enabled  and `false` otherwise.
+	 * @method         isFieldEnabled
+	 * @param          {Object}        dialog      editor-specific dialog menu field
+	 * @param          {Object}        field
+	 * @return         {boolean}
+	 * @since          0.2.3
+	 * @abstract
+	 */
+	this.isFieldEnabled = function(dialog, field){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "isFieldEnabled" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
+	/**
+	 * Returns value of `field` element of `dialog`.
+	 * @method         getFieldValue
+	 * @param          {Object}        dialog      editor-specific dialog menu field
+	 * @param          {Object}        field
+	 * @return         {Any}
+	 * @since          0.2.3
+	 * @abstract
+	 */
+	this.getFieldValue = function(dialog, field){
+		/// !!! abstract method. Must be overridden by inheriting class.
+		throw new Error('Method "getFieldValue" of class EditorAdapter must be overridden by inheriting class!');
+	};
+
 
 
 }
