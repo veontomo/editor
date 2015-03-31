@@ -2377,12 +2377,12 @@ function Document(node){
 	 * </li><li>
 	 * it has exactly one child that is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * </li></ol>
-	 * @method         isEditableNode
+	 * @method         isNodeEditable
 	 * @param          {Node}          n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
-	this.isEditableNode = function(n){
+	this.isNodeEditable = function(n){
 		try {
 			return (n.nodeType === Node.TEXT_NODE) || ((n.childNodes.length === 1) && (n.firstChild.nodeType === Node.TEXT_NODE));
 		} catch(e){
@@ -2426,7 +2426,7 @@ function Document(node){
 		if (nodes.length > 1){
 			return false;
 		}
-		return this.isEditableNode(nodes[0]);
+		return this.isNodeEditable(nodes[0]);
 	};
 
 	/**
@@ -2449,7 +2449,7 @@ function Document(node){
 				link.setAttribute(attr.name, attr.value);
 			}
 		}
-		if (this.isEditableNode(link)){
+		if (this.isNodeEditable(link)){
 			link.innerHTML = referenceLink.innerHTML;
 		}
 	};

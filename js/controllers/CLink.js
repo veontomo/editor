@@ -46,7 +46,6 @@ function CLink() {
             if (adapter.isFieldEnabled(dialog, contentUIElem) === true){
                 shallowLink.setContent(adapter.getFieldValue(dialog, contentUIElem));
             }
-
             if (params.link){
                 doc.modifyLink(params.link, shallowLink.toNode());
             } else if (params.selection){
@@ -74,7 +73,6 @@ function CLink() {
      * @Override
      */
     this.fillInDialogWithSelection = function(dialog, editor){
-        console.log('Filling in dialog with the following data: ', dialog, editor);
         var adapter, ranges, doc, link, selectionContent;
         try {
             adapter = this.getEditorAdapter();
@@ -88,9 +86,6 @@ function CLink() {
             }
             if (selectionContent){
                 this.setDialogInputField(dialog, {'tabId': 'linkInfoTab', 'elemId': 'content', 'value': selectionContent});
-            }
-            if (!doc.isSelectionEditable(ranges)){
-                this.disableFields(dialog, {'linkInfoTab': 'content'});
             }
         } catch (e) {
             console.log(e.name + ' occurred when filling in link dialog: ' + e.message);

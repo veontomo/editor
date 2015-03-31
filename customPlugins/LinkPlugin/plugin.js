@@ -67,8 +67,12 @@ CKEDITOR.plugins.add('LinkPlugin', {
 		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
-					dialog.once('show', function(event){
+					dialog.once('show', function(){
 						_controller.fillInDialogWithSelection(dialog, e);
+						if (!_controller.isSelectionEditable(_controller.getEditorSelection(e))){
+							_controller.disableField(dialog, {'linkInfoTab': 'content'});
+						}
+						// _controller.disableFieldIfSelectionNotEditable(e, dialog, {'linkInfoTab': 'content'});
 					});
 				});
 			}
@@ -86,7 +90,10 @@ CKEDITOR.plugins.add('LinkPlugin', {
 						dialog.once('show', function(){
 							_controller.fillInDialogWithElement(dialog, _target.hostLink);
 							_controller.saveExtra(dialog, _target.hostLink);
-							_controller.disableFieldIfNotEditable(_target.hostLink, dialog, {'linkInfoTab': 'content'});
+							if (!_controller.isNodeEditable(_target.hostLink)){
+								_controller.disableField(dialog, {'linkInfoTab': 'content'});
+							}
+							// _controller.disableField_If_NotEditable(_target.hostLink, dialog, {'linkInfoTab': 'content'});
 							_target.hostLink = undefined;
 						});
 					}

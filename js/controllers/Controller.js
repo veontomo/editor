@@ -157,27 +157,23 @@ function Controller(){
 	};
 
 	/**
-	 * Disables `field` of `dialog` if `node` is not editable.
+	 * Disables `field` of `dialog`.
 	 * @method        disableFieldIfNotEditable
-	 * @param         {Node}        node
 	 * @param         {Object}      dialog      editor-specific representation of the dialog
 	 * @param         {Object}      field       object that uniquely defines the field to be disabled
 	 * @return        {void}
 	 * @since         0.2.2
 	 */
-	this.disableFieldIfNotEditable = function(node, dialog, field){
-		var adapter,
-			worker;
+	this.disableField = function(dialog, field){
+		var adapter;
 		try {
 			adapter = this.getEditorAdapter();
-			worker = this.getWorker();
-			if (!worker.isEditableNode(node)){
-				adapter.disableField(dialog, field);
-			}
+			adapter.disableField(dialog, field);
 		} catch (e){
-			console.log(e.name + ': failed to disable the dialog field. ' + e.message);
+			console.log(e.name + ': failed to disable the dialog field. Message: ' + e.message);
 		}
 	};
+
 
 
 
@@ -571,8 +567,46 @@ function Controller(){
 		} catch(e){
 			console.log(e.name + ' occurred when controller was creating an element: ' + e.message);
 		}
-
 	};
+
+	/**
+	 * Returns `true` if node `n` is editable. Returns `false` otherwise.
+	 * @method         isNodeEditable
+	 * @param          {Node}          n
+	 * @return         {Boolean}
+	 * @since          0.2.3
+	 */
+	this.isNodeEditable = function(n){
+		var worker, result;
+		try {
+			worker = this.getWorker();
+			result = worker.isNodeEditable(n);
+		} catch (e){
+			console.log(e.name + ': the node is assigned as non-editable because ' + e.message);
+			result = false;
+		}
+		return result;
+	};
+
+	/**
+	 * Returns `true` if `selection` is editable. Returns `false` otherwise.
+	 * @method         isSelectionEditable
+	 * @param          {Array}          selection   Array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @return         {Boolean}
+	 * @since          0.2.3
+	 */
+	 this.isSelectionEditable = function(selection){
+	 	var worker, result;
+	 	try {
+	 		worker = this.getWorker();
+	 		result = worker.isSelectionEditable(selection);
+	 	} catch (e){
+	 		console.log(e.name + ': the node is assigned as non-editable because ' + e.message);
+	 		result = false;
+	 	}
+	 	return result;
+
+	 }
 
 
 
