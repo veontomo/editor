@@ -2474,7 +2474,7 @@ function Document(node){
 	};
 
 	/**
-	 * Transforms `range` into link based on information stored in `referenceLink`.
+	 * Transforms `range` into a link based on information stored in `referenceLink`.
 	 *
 	 * The method must manage possible situation when there are links among descendants
 	 * of the nodes belonging to the range.
@@ -2485,9 +2485,31 @@ function Document(node){
 	 * @siince         0.2.3
 	 */
 	this.rangeToLink = function(range, referenceLink){
-		/// !!! stub
-		console.log("rangeToLink", range, referenceLink);
-	}
+		if (range.collapsed){
+			this.insertAt(range.startContainer, referenceLink, range.startOffset);
+		}
+		var nodes = this.nodesOfRange(range);
+		nodes.forEach(function(node){
+			this.nodeToLink(node, referenceLink);
+		}.bind(this));
+	};
+
+	/**
+	 * Converts `node` into a link based on information stored in `referenceLink`.
+	 * @method         nodeToLink
+	 * @param          {Node}    node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
+	 * @param          {Element} referenceLink     an element representing html hyperlink
+	 * @return         {void}
+	 * @since          0.2.3
+	 */
+	this.nodeToLink = function(node, referenceLink){
+		var parent = node.parentNode;
+		if (!parent){
+			return;
+		}
+		parent.insertBefore(referenceLink, node);
+		referenceLink.appendChild(node);
+	};
 
 
 }

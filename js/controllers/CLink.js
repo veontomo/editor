@@ -49,9 +49,9 @@ function CLink() {
             if (params.link){
                 doc.modifyLink(params.link, shallowLink.toNode());
             } else if (params.selection){
-                doc.selectionToLink(params.selection, shallowLink);
+                doc.selectionToLink(params.selection, shallowLink.toNode());
             } else {
-                doc.insertAt(cursorPos.startContainer, shallowLink, cursorPos.startOffset);
+                doc.insertAt(cursorPos.startContainer, shallowLink.toNode(), cursorPos.startOffset);
             }
             adapter.setEditorContent(editor, content);
         } catch (e) {
