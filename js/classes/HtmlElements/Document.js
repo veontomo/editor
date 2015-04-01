@@ -2476,8 +2476,6 @@ function Document(node){
 	/**
 	 * Transforms `range` into a link based on information stored in `referenceLink`.
 	 *
-	 * The method must manage possible situation when there are links among descendants
-	 * of the nodes belonging to the range.
 	 * @method         rangeToLink
 	 * @param          {Range}         range
 	 * @param          {Element}       referenceLink
@@ -2496,6 +2494,8 @@ function Document(node){
 
 	/**
 	 * Converts `node` into a link based on information stored in `referenceLink`.
+ 	 * The method must manage possible situation when there are links among descendants
+	 * of the nodes belonging to the range.
 	 * @method         nodeToLink
 	 * @param          {Node}    node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param          {Element} referenceLink     an element representing html hyperlink
@@ -2509,7 +2509,18 @@ function Document(node){
 		}
 		parent.insertBefore(referenceLink, node);
 		referenceLink.appendChild(node);
+		this.clearNodeFromLink(node);
 	};
 
+	/**
+	 * Finds hyperlinks among descendants of node `n` and removes link wrapper (leaving the content).
+	 * @method         clearNodeFromLink
+	 * @param          {Node}          n
+	 * @return         {void}
+	 * @since          0.2.3
+	 */
+	this.clearNodeFromLink = function(n){
+		/// !!! stub
+	};
 
 }
