@@ -1,19 +1,17 @@
 /*jslint plusplus: true, white: true */
-/*global Element, Text, Node, Properties, Tag, Helper, FACTORY, Unit, NEWSLETTER, Converter, Link, Mapper, Range, List, ListItem */
+/*global Element, Text, Node, Properties, Tag, NEWSLETTER, Converter, Mapper, Range, List, ListItem */
 
 /**
- * This class is to deal with document: parsing, converting, saving.
+ * This class allows to parse, convert, save etc. html documents.
  *
  * @module 	    Document
  * @class  		Document
- * @param       {Node}              node          the content of the document
  * @since       0.0.5
  * @author      A.Shcherbakov
- * @uses        Unit              class to deal with numbers with unit of measurements
  * @uses        Properties        class to deal with Properties of document nodes
  */
 
-function Document(node){
+function Document(){
 	"use strict";
 	if (!(this instanceof Document)) {
 		return new Document(node);
@@ -152,17 +150,17 @@ function Document(node){
 	 * Creates a valid html document whose body is given by `content`.
 	 *
 	 * **NB**: it uses css of the editor content body.
-	 * @param          {Node}              content
+	 * @param          {Node}              node
 	 * @method         docHtml
 	 * @return         {String}            content of html document
 	 */
-	this.docHtml = function(content){
+	this.docHtml = function(node){
 		var wrapCss = this.getWrapCss(),
 			bodyCssStr = wrapCss ? wrapCss.toString() : '';
 		if (bodyCssStr){
 			bodyCssStr = ' style="' + bodyCssStr + '"';
 		}
-		var bodyContent = content ? content.innerHTML : '';
+		var bodyContent = (node instanceof Node) ? node.innerHTML : '';
 		var header = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n";
 		var body = "<center>\n<div" + bodyCssStr + ">\n" + bodyContent +  "\n</div>\n</center>\n";
 		var footer = "</body>\n</html>";
@@ -260,29 +258,6 @@ function Document(node){
 	    // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
 	    return isValid;
 	};
-
-	/**
-	 * Whether two ranges `r1` and `r2` are equal.
-	 *
-	 * Returns `true` if `r1` and `r2` have equal starting and ending points. Otherwise, returns `false`.
-	 * @method         areEqual
-	 * @param          {Range}         r1       instance of Range
-	 * @param          {Range}         r2       instance of Range
-	 * @return         {Boolean}
-	 * @since          0.0.8
-	 */
-	this.areEqual = function(r1, r2){
-	    if (!this.isRange(r1) || !this.isRange(r2)){
-	        return false;
-	    }
-	    var r1Start = r1.startContainer,
-	        r2Start = r2.startContainer,
-	        r1End = r1.endContainer,
-	        r2End = r2.endContainer;
-	    return r1Start && r2Start && r1End && r2End && r1Start.isEqualNode(r2Start) && r1End.isEqualNode(r2End) && r1.startOffset === r2.startOffset && r1.endOffset === r2.endOffset;
-	};
-
-
 
 	/**
 	 * Returns array without duplicates of nodes that lay between `n1` and `n2` inclusively.
