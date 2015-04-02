@@ -245,26 +245,6 @@ function Document(node){
 	};
 
 
-
-	/**
-	 * Current range number (for iterations over the ranges)
-	 * @property       {Integer}       _rangePointer
-	 * @since          0.0.8
-	 * @private
-	 */
-	var _rangePointer;
-
-	/**
-	* Array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
-	*
-	* This array is to store information about selected elements that corresponds to
-	* multiple ranges. Each array element corresponds to a contiguous set of elements in the DOM.
-	* @property        {Array}         _ranges
-	* @since           0.1.0
-	* @private
-	*/
-	var _ranges;
-
 	/**
 	 * Whether the argument is a range.
 	 *
@@ -302,35 +282,6 @@ function Document(node){
 	    return r1Start && r2Start && r1End && r2End && r1Start.isEqualNode(r2Start) && r1End.isEqualNode(r2End) && r1.startOffset === r2.startOffset && r1.endOffset === r2.endOffset;
 	};
 
-	/**
-	 * Returns the next element from {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}}
-	 * if it exists.
-	 * @method         nextRange
-	 * @return         {Range|null}
-	 * @since          0.0.8
-	 */
-	this.nextRange = function(){
-	    if (_rangePointer === undefined){
-	        _rangePointer = 0;
-	    }
-	    if (_rangePointer < this.rangeCount()){
-	        var r = this.getRanges()[_rangePointer];
-	        _rangePointer++;
-	        return r;
-	    }
-	};
-
-	/**
-	 * Restarts the range iterator.
-	 * @method         startOver
-	 * @return         {void}
-	 * @since          0.0.8
-	 */
-	this.startOver = function(){
-	    if (_rangePointer !== undefined){
-	        _rangePointer = 0;
-	    }
-	};
 
 
 	/**
@@ -889,136 +840,7 @@ function Document(node){
 	    }
 	};
 
-	/**
-	 * Represents nodes that are selected.
-	 *
-	 * Two dimensional array of nodes. Each element is an array corresponding to a contiguous set
-	 * of nodes of a selection.
-	 * If nothing is selected, it is set to `null`.
-	 * @property       {Array|null}    _selectedNodes
-	 * @since          0.1.0
-	 * @default        null
-	 * @private
-	 */
-	var _selectedNodes = null;
 
-	/**
-	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} getter.
-	 * @method         getSelection
-	 * @return         {Array|null} [description]
-	 */
-	this.getSelection = function(){
-		return _selectedNodes;
-	};
-
-
-	/**
-	 * Cursor position.
-	 *
-	 * Information about the cursor position is stored inside a collapsed
-	 * [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
-	 * @property       {Range}         _cursorPosition
-	 */
-	var _cursorPosition;
-
-
-	/**
-	 * {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}} getter.
-	 * @method         getCursorPosition
-	 * @return         {Range}
-	 * @since          0.1.0
-	 */
-	this.getCursorPosition = function(){
-		return _cursorPosition;
-	};
-
-	/**
-	 * {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}} setter.
-	 *
-	 * Assigns {{#crossLink "Document/_cursorPosition:property"}}_cursorPosition{{/crossLink}}
-	 * to be a collapsed [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * built from `r`.
-	 * @method         setCursorPosition
-	 * @param          {Range}              r         [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.setCursorPosition = function(r){
-		if (!(r instanceof Range)){
-			return;
-		}
-		var range = document.createRange();
-		range.setStart(r.startContainer, r.startOffset);
-		range.collapse(true); // collapsing to the start
-		_cursorPosition = range;
-	};
-
-
-
-	/**
-	 * Appends array of nodes to {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
-	 *
-	 * If `nodes` is not array, nothing is performed. Any element of the input array that is not a
-	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance, is ignored.
-	 * If all elements of the input array are not [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
-	 * instances, nothing is performed.
-	 *
-	 * @method         _appendToSelectedNodes
-	 * @param          {Array}         nodes     array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
-	 * @return         {void}
-	 * @private
-	 * @since          0.1.0
-	 */
-	var _appendToSelectedNodes = function(nodes){
-		if (!Array.isArray(nodes)){
-			return;
-		}
-		var filtered = [];
-		nodes.forEach(function(node){
-			if (node instanceof Node){
-				filtered.push(node);
-			}
-		});
-		if (filtered.length > 0){
-			// var currentSelected = this.getSelection();
-			if (Array.isArray(_selectedNodes)){
-				_selectedNodes = _selectedNodes.concat([filtered]);
-			} else {
-				_selectedNodes = [filtered];
-			}
-
-		}
-	}.bind(this);
-
-	/**
-	 * {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} setter.
-	 * The arguments is supposed to be a two dimensional array of nodes.
-	 * @method         setSelection
-	 * @param          {Array}         nodes     two dimensional array of nodes
-	 * @return         {void}
-	 */
-	this.setSelection = function(nodes){
-		this.flushSelection();
-		if (!Array.isArray(nodes)){
-			return;
-		}
-		nodes.forEach(function(n){
-			// n is supposed to be an array  of nodes
-			_appendToSelectedNodes(n);
-		}.bind(this));
-	};
-
-	/**
-	 * Clears {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}}.
-	 *
-	 * Sets {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} to `null`.
-	 * @method  flushSelection
-	 * @return  {void}
-	 * @since   0.1.0
-	 */
-	this.flushSelection = function(){
-		_selectedNodes = null;
-	};
 
 	/**
 	 * Returns array of nodes that belong to [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance `r`.
@@ -1044,59 +866,6 @@ function Document(node){
 		}
 
 		return this.nodesBetween(boundaries[0], boundaries[1]);
-	};
-
-	/**
-	 * Sets {{#crossLink "Document/_selectedNodes:property"}}_selectedNodes{{/crossLink}} as a
-	 * **two dimensional** array of nodes corresponding to the selection.
-	 *
-	 * The need to assign the selection to a variable is dictated by the fact that during this procedure,
-	 * the DOM might suffer modifications which a method
-	 * {{#crossLink "Document/detachBoundaries:method"}}detachBoundaries{{/crossLink}} eventually performs.
-	 *
-	 * The argument is an array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
-	 *
-	 * @method         freezeSelection
-	 * @param          {Array}         ranges
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.freezeSelection = function(ranges){
-		if (!(Array.isArray(ranges))){
-			return;
-		}
-		var result = [];
-		ranges.forEach(function(range){
-			var nodes;
-			if (range instanceof Range){
-				nodes = this.nodesOfRange(range);
-				result.push(nodes);
-			}
-		}.bind(this));
-		this.setSelection(result);
-		if (ranges.length > 0){
-			this.setCursorPosition(ranges[0]);
-		}
-	};
-
-
-	/**
-	 * Returns array with elements that belong to the selection.
-	 *
-	 *
-	 * If selection is not set, nothing is returned.
-	 *
-	 * Unlike to {{#crossLink "Document/getSelection:method"}}getSelection{{/crossLink}}, this method returns
-	 * one dimensional array of [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instances.
-	 * @method  getSelectionPlain
-	 * @since   0.1.0
-	 * @return  {Array}
-	 */
-	this.getSelectionPlain = function(){
-		var sel = this.getSelection();
-		if (sel){
-			return this.flatten(sel);
-		}
 	};
 
 

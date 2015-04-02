@@ -4887,36 +4887,36 @@ describe('Class "Document"', function() {
             expect(doc.isSelectionEditable([r1, r2])).toBe(false);
         });
 
-        it('calls method "isEditableRange" in order to determine whether unique range is editable', function(){
+        it('calls method "isRangeEditable" in order to determine whether unique range is editable', function(){
             var r = document.createRange();
-            spyOn(doc, 'isEditableRange');
+            spyOn(doc, 'isRangeEditable');
             doc.isSelectionEditable([r]);
-            expect(doc.isEditableRange).toHaveBeenCalledWith(r);
+            expect(doc.isRangeEditable).toHaveBeenCalledWith(r);
         });
 
-        it('returns the result of method "isEditableRange" in order to determine whether unique range is editable', function(){
+        it('returns the result of method "isRangeEditable" in order to determine whether unique range is editable', function(){
             var r = document.createRange();
-            spyOn(doc, 'isEditableRange').and.returnValue('result');
+            spyOn(doc, 'isRangeEditable').and.returnValue('result');
             expect(doc.isSelectionEditable([r])).toBe('result');
         });
     });
 
-    describe('has a method "isEditableRange" that', function(){
+    describe('has a method "isRangeEditable" that', function(){
         it('returns false if the argument is missing', function(){
-           expect(doc.isEditableRange()).toBe(false);
+           expect(doc.isRangeEditable()).toBe(false);
         });
         it('returns true if the range is a collapsed one', function(){
             var r = document.createRange();
             r.setStart(dom1_p0, 2);
             r.collapse(true); // collapse to start
-            expect(doc.isEditableRange(r)).toBe(true);
+            expect(doc.isRangeEditable(r)).toBe(true);
         });
         it('calls method "nodesOfRange" if the range is not collapsed', function(){
             var r = document.createRange();
             r.setStart(dom1_div1, 0);
             r.setEnd(dom1_div1, 3);
             spyOn(doc, 'nodesOfRange').and.returnValue([]);
-            doc.isEditableRange(r);
+            doc.isRangeEditable(r);
             expect(doc.nodesOfRange).toHaveBeenCalledWith(r);
         });
 
@@ -4925,21 +4925,21 @@ describe('Class "Document"', function() {
             r.setStart(dom1_div1, 0);
             r.setEnd(dom1_div1, 3);
             spyOn(doc, 'nodesOfRange').and.returnValue([dom1_div1, dom1_a0, dom1_img0]);
-            expect(doc.isEditableRange(r)).toBe(false);
+            expect(doc.isRangeEditable(r)).toBe(false);
         });
         it('returns false if "nodesOfRange" returns array with just one node that is a text one', function(){
             var r = document.createRange();
             r.setStart(dom1_text2, 1);
             r.setEnd(dom1_text2, 2);
             spyOn(doc, 'nodesOfRange').and.returnValue([dom1_text0]);
-            expect(doc.isEditableRange(r)).toBe(true);
+            expect(doc.isRangeEditable(r)).toBe(true);
         });
         it('returns false if "nodesOfRange" returns array with just two nodes that are text ones', function(){
             var r = document.createRange();
             r.setStart(dom1_text2, 1);
             r.setEnd(dom1_text2, 2);
             spyOn(doc, 'nodesOfRange').and.returnValue([dom1_text0, dom1_text1]);
-            expect(doc.isEditableRange(r)).toBe(false);
+            expect(doc.isRangeEditable(r)).toBe(false);
         });
 
     });
