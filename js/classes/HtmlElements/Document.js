@@ -265,55 +265,6 @@ function Document(node){
 	*/
 	var _ranges;
 
-
-	/**
-	 * {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} getter.
-	 * @method         getRanges
-	 * @return         {Array}          array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
-	 */
-	this.getRanges = function(){
-	    return _ranges;
-	};
-
-	/**
-	 * {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} setter.
-	 * @method         setRanges
-	 * @param          {Array}      ranges
-	 * @return         void
-	 * @since          0.0.8
-	 */
-	this.setRanges = function(ranges){
-	    if (!Array.isArray(ranges)){
-	        _ranges = [];
-	        return;
-	    }
-	    _ranges = ranges.filter(function(r){
-	        return this.isRange(r);
-	    }.bind(this));
-	};
-
-
-	/**
-	 * Appends a range to the selection if the argument is a Range instance and is not
-	 * already present in {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}} array.
-	 *
-	 * @method         appendRange
-	 * @param          {Range}         range
-	 * @return         {void}
-	 * @since          0.0.8
-	 */
-	this.appendRange = function(range){
-	    if (this.isRange(range) && !this.containsRange(range)){
-	        var ranges = this.getRanges();
-	        if (Array.isArray(ranges)){
-	            ranges.push(range);
-	        } else {
-	            ranges = [range];
-	        }
-	        this.setRanges(ranges);
-	    }
-	};
-
 	/**
 	 * Whether the argument is a range.
 	 *
@@ -328,42 +279,6 @@ function Document(node){
 	    var isValid = (r instanceof Range);
 	    // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
 	    return isValid;
-	};
-
-	/**
-	 * Whether the selection contains `range`.
-	 * @method         containsRange
-	 * @param          {Range}         range
-	 * @return         {Boolean}
-	 * @since          0.0.8
-	 */
-	this.containsRange = function(range){
-	    if (!this.isRange(range)){
-	        throw new Error('The argument must be a Range instance!');
-	    }
-	    var ranges = this.getRanges();
-	    if (ranges){
-	        // compares given argument range with range stored in varaible "range"
-	        var comparator = function(x){return this.areEqual(x, range);}.bind(this);
-	        return ranges.some(comparator);
-	    }
-	    return false;
-	};
-
-	/**
-	 * The number of elements in
-	 * {{#crossLink "Document/_ranges:property"}}_ranges{{/crossLink}}
-	 * array.
-	 * @method         rangeCount
-	 * @return         {Integer}
-	 * @since          0.0.8
-	 */
-	this.rangeCount = function(){
-	    var r = this.getRanges();
-	    if (!r){
-	        return 0;
-	    }
-	    return r.length;
 	};
 
 	/**

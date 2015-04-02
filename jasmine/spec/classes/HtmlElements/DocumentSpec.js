@@ -4837,32 +4837,32 @@ describe('Class "Document"', function() {
 
     });
 
-    describe('has a method "isEditableNode" that', function(){
+    describe('has a method "isNodeEditable" that', function(){
         it('returns false if called without argument', function(){
-            expect(doc.isEditableNode()).toBe(false);
+            expect(doc.isNodeEditable()).toBe(false);
         });
 
         it('returns true if the argument is a text node', function(){
             var t = document.createTextNode('a text node');
-            expect(doc.isEditableNode(t)).toBe(true);
+            expect(doc.isNodeEditable(t)).toBe(true);
         });
         it('returns true if the argument is a div node with single child that is a text node', function(){
             var t = document.createTextNode('a text node'),
                 d = document.createElement('div');
             d.appendChild(t);
-            expect(doc.isEditableNode(t)).toBe(true);
+            expect(doc.isNodeEditable(t)).toBe(true);
         });
 
         it('returns false if the argument is an image node', function(){
             var img = document.createElement('img');
-            expect(doc.isEditableNode(img)).toBe(false);
+            expect(doc.isNodeEditable(img)).toBe(false);
         });
 
         it('returns false if the argument is a span tag with single child that is a div tag', function(){
             var span = document.createElement('span'),
                 div = document.createElement('div');
             span.appendChild(div);
-            expect(doc.isEditableNode(span)).toBe(false);
+            expect(doc.isNodeEditable(span)).toBe(false);
         });
 
 
@@ -4872,7 +4872,7 @@ describe('Class "Document"', function() {
                 t = document.createTextNode('a text node');
             li.appendChild(t);
             li.appendChild(img);
-            expect(doc.isEditableNode(li)).toBe(false);
+            expect(doc.isNodeEditable(li)).toBe(false);
         });
     });
 
