@@ -19,15 +19,6 @@ function Document(node){
 		return new Document(node);
 	}
 
-	/**
-	 * Instance of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) representing
-	 * the content of the class instance.
-	 * @private
-	 * @property       {Node}               _content
-	 * @type           {Node}
-	 */
-	var _content;
-
 
 	/**
 	 * (Optional) Styles to be applied to overall content of the newsletter before saving it.
@@ -127,33 +118,9 @@ function Document(node){
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.escape = function(){
-		console.log('Content at the beginning: ', this.getContent());
-		var cntn = this.getContent(),
-			linkElem;
-		if (cntn.nodeType === Node.TEXT_NODE){
-			console.log('node is a text one');
-			var value = cntn.nodeValue;
-			if (value){
-				console.log('its value is ' + value);
-				linkElem = document.createTextNode(Helper.specialChar(value));
-			}
-		} else {
-			console.log('node is NOT a text one');
-			var children = cntn.childNodes,
-				len = children.length,
-				i, childDoc;
-			console.log('node has ' + len + ' children');
-			linkElem = document.createElement(cntn.tagName);
-			for (i = 0; i < len; i++){
-				console.log(i);
-				childDoc = new Document(children[i]);
-				childDoc.escape();
-				linkElem.appendChild(childDoc.getContent());
-			}
-		}
-		this.setContent(linkElem);
-		console.log('Content at the end: ', this.getContent());
+	this.escape = function(cntn){
+		/// !!! stub
+		console.log('method escape() is to be implemented');
 	};
 
 	/**
@@ -2480,7 +2447,7 @@ function Document(node){
 	 * @param          {Range}         range
 	 * @param          {Element}       referenceLink
 	 * @return         {void}
-	 * @siince         0.2.3
+	 * @since          0.2.3
 	 */
 	this.rangeToLink = function(range, referenceLink){
 		if (range.collapsed){
