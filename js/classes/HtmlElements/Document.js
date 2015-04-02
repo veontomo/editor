@@ -111,14 +111,14 @@ function Document(node){
 	 * Escapes "tricky" symbols by their html code representations.
 	 *
 	 * After execution of this method, special symbols inside text nodes of
-	 * {{#crossLink "Document/_content:property"}}_content{{/crossLink}}
-	 * get substituted by their html representations.
+	 * `n` are substituted by their html representations.
 	 *
 	 * @method         escape
+	 * @param          {Node}          n
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.escape = function(cntn){
+	this.escape = function(n){
 		/// !!! stub
 		console.log('method escape() is to be implemented');
 	};
@@ -149,20 +149,20 @@ function Document(node){
 	};
 
 	/**
-	 * Creates a valid html document whose body is given by string `content`.
+	 * Creates a valid html document whose body is given by `content`.
 	 *
 	 * **NB**: it uses css of the editor content body.
+	 * @param          {Node}              content
 	 * @method         docHtml
 	 * @return         {String}            content of html document
 	 */
-	this.docHtml = function(){
+	this.docHtml = function(content){
 		var wrapCss = this.getWrapCss(),
 			bodyCssStr = wrapCss ? wrapCss.toString() : '';
 		if (bodyCssStr){
 			bodyCssStr = ' style="' + bodyCssStr + '"';
 		}
-		var bodyContent = this.getContent();
-		bodyContent = bodyContent ? bodyContent.innerHTML : '';
+		var bodyContent = content ? content.innerHTML : '';
 		var header = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n";
 		var body = "<center>\n<div" + bodyCssStr + ">\n" + bodyContent +  "\n</div>\n</center>\n";
 		var footer = "</body>\n</html>";
@@ -173,16 +173,13 @@ function Document(node){
 	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} into prescribed format.
 	 * @method         convertTo
 	 * @param          {String}             format
+	 * @param          {Node}               n
 	 * @return         {void}
 	 */
-	this.convertTo = function(format){
+	this.convertTo = function(format, n){
 		var c = this.getConverter();
 		if (typeof c.convertTo === 'function'){
-			var newContent = c.convertTo(this.getContent(), format);
-			if (newContent){
-				this.setContent(newContent);
-			}
-
+			return c.convertTo(n, format);
 		}
 	};
 
