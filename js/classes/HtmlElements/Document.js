@@ -2290,9 +2290,10 @@ function Document(node){
 
 	/**
 	 * Returns `true` if range `r` corresponds to a part of DOM that can be edited.
-	 * @param  {Range}  r
-	 * @return {Boolean}
-	 * @since  0.2.1
+	 * @method         isEditableRange
+	 * @param          {Range}         r    [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
+	 * @return         {Boolean}
+	 * @since          0.2.1
 	 */
 	this.isEditableRange = function(r){
 		if (!(r instanceof Range)){
