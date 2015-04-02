@@ -2285,17 +2285,17 @@ function Document(node){
 		if (ranges.length !== 1){
 			return false;
 		}
-		return this.isEditableRange(ranges[0]);
+		return this.isRangeEditable(ranges[0]);
 	};
 
 	/**
 	 * Returns `true` if range `r` corresponds to a part of DOM that can be edited.
-	 * @method         isEditableRange
+	 * @method         isRangeEditable
 	 * @param          {Range}         r    [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @return         {Boolean}
 	 * @since          0.2.1
 	 */
-	this.isEditableRange = function(r){
+	this.isRangeEditable = function(r){
 		if (!(r instanceof Range)){
 			return false;
 		}
