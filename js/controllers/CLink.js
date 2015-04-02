@@ -30,7 +30,7 @@ function CLink() {
      */
     this.onOk = function(dialog, editor, params) {
         var adapter, doc, content, dialogData, template,
-            shallowLink, cursorPos, contentUIElem;
+            shallowLink, cursorPos, shouldDropSelection, contentUIElem;
         try {
             adapter = this.getEditorAdapter();
             cursorPos = adapter.getCursorPosition(editor);
@@ -43,13 +43,21 @@ function CLink() {
             template = adapter.dialogToTemplate(dialogData, 'link');
             shallowLink = doc.createFromTemplate(template);
             contentUIElem = {'linkInfoTab': 'content'};
-            if (adapter.isFieldEnabled(dialog, contentUIElem) === true){
+            shouldDropSelection = adapter.isFieldEnabled(dialog, contentUIElem) === true;
+
+            if (shouldDropSelection){
                 shallowLink.setContent(adapter.getFieldValue(dialog, contentUIElem));
             }
+
             if (params.link){
                 doc.modifyLink(params.link, shallowLink.toNode());
             } else if (params.selection){
-                doc.selectionToLink(params.selection, shallowLink.toNode());
+                if (doc.isSelectionEditable(params.selection)){
+                    doc.replaceSelectionByLink(params.selection, shallowLink.toNode());
+                } else {
+                    doc.selectionToLink(params.selection, shallowLink.toNode());
+                }
+
             } else {
                 doc.insertAt(cursorPos.startContainer, shallowLink.toNode(), cursorPos.startOffset);
             }

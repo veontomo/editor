@@ -2092,6 +2092,7 @@ function Document(){
 	 * @since          0.2.1
 	 */
 	this.selectionToLink = function(selection, referenceLink){
+		console.log(selection, referenceLink);
 		selection.forEach(function(range){
 			this.rangeToLink(range, referenceLink);
 		}.bind(this));
@@ -2111,6 +2112,7 @@ function Document(){
 			this.insertAt(range.startContainer, referenceLink, range.startOffset);
 		}
 		var nodes = this.nodesOfRange(range);
+		console.log(nodes);
 		nodes.forEach(function(node){
 			this.nodeToLink(node, referenceLink);
 		}.bind(this));
@@ -2127,6 +2129,7 @@ function Document(){
 	 * @since          0.2.3
 	 */
 	this.nodeToLink = function(node, referenceLink){
+		console.log('nodeToLink', node, referenceLink);
 		var parent = node.parentNode;
 		if (!parent){
 			return;
@@ -2144,7 +2147,34 @@ function Document(){
 	 * @since          0.2.3
 	 */
 	this.clearNodeFromLink = function(n){
-		this.applyToDesOfSingleNode(ranges, this.isLink, this.deparentize, true);
+		this.applyToDesOfSingleNode(n, this.isLink, this.deparentize, true);
+	};
+
+	/**
+	 * Replace selection by link.
+	 *
+	 * NB: Simple (not correct) version. It does not take care of multiple ranges (I do not
+	 * know how they are relevant because the selection is supposed to be editable).
+	 * @method         replaceSelectionByLink
+	 * @param          {Array}         ranges
+	 * @param          {Element}       referenceLinklink
+	 * @return         {void}
+	 * @since          0.2.3
+	 */
+	this.replaceSelectionByLink = function(ranges, referenceLink){
+		var range = ranges[0];
+		if (range.collapsed){
+			this.insertAt(range.startContainer, referenceLink, range.startOffset);
+			return;
+		}
+		var nodes = this.nodesOfRange(range),
+			parent;
+		if (nodes.length > 0){
+			parent = nodes[0].parentNode;
+			if (parent){
+				parent.replaceChild(referenceLink, nodes[0]);
+			}
+		}
 	};
 
 }
