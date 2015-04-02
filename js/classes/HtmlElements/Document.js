@@ -1640,10 +1640,10 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToDesOfManyRanges = function(ranges, filter, operation, mode              ){
+	this.applyToDesOfManyRanges = function(ranges, filter, operation, mode){
 		ranges.forEach(function(range){
 			if(range instanceof Range){
-				this.applyToDesOfSingleRange(range, filter, operation, mode              );
+				this.applyToDesOfSingleRange(range, filter, operation, mode);
 			}
 		}.bind(this));
 	};
@@ -1759,10 +1759,10 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.applyToDesOfSingleRange = function(range, criteria, operation, mode              ){
+	this.applyToDesOfSingleRange = function(range, criteria, operation, mode){
 		var nodes = this.nodesOfRange(range);
 		nodes.forEach(function(n){
-			this.applyToDesOfSingleNode(n, criteria, operation, mode              );
+			this.applyToDesOfSingleNode(n, criteria, operation, mode);
 		}.bind(this));
 	};
 
@@ -2144,7 +2144,7 @@ function Document(){
 	 * @since          0.2.3
 	 */
 	this.clearNodeFromLink = function(n){
-		/// !!! stub
+		this.applyToDesOfSingleNode(ranges, this.isLink, this.deparentize, true);
 	};
 
 }
