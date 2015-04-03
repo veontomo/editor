@@ -80,7 +80,7 @@ var ImageDialog = function(editor) {
 		],
 
 		onShow: function(){
-			_controller.setDialogField(this, {tabId: 'mainTab', elemId: 'warning', value: '&nbsp;'});
+			_controller.setDialogHtmlField(this, {tabId: 'mainTab', elemId: 'warning', value: '&nbsp;'});
 			_controller.onShow(this, editor);
 		},
 

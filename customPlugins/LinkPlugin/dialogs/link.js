@@ -5,9 +5,9 @@
 * Unified dialog for link and e-mail insertion.
 *
 * @module  Dialogs
-* @class   LinkMailDialog
+* @class   LinkDialog
 */
-function linkDialog(editor) {
+function LinkDialog(editor) {
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
      * @property  {CLink}     _controller
@@ -242,4 +242,4 @@ function linkDialog(editor) {
 }
 
 
-CKEDITOR.dialog.add('LinkPluginDialog', linkDialog);
+CKEDITOR.dialog.add('LinkPluginDialog', LinkDialog);

@@ -14,19 +14,51 @@ CKEDITOR.plugins.add('image2', {
 
 	// The plugin initialization logic goes inside this method.
 	init: function(editor) {
-		/**
-		 * Instance of {{#crossLink "CImage"}}CImage{{/crossLink}}
-		 * @property  {CImage}     _controller
-		 * @type      {CImage}
+				/**
+		 * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+		 * @property  {CLink}     _controller
+		 * @type      {CLink}
 		 * @private
 		 */
 		var _controller = new CImage();
 		_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
-		(function(){
-		    var worker = new Document();
-		    worker.setFactory(NEWSLETTER.factory);
-		    _controller.setWorker(worker);
-		}());
+		/**
+		 * A class that performs operations with editor window content.
+		 * @property {Document} worker
+		 * @type     {Document}
+		 * @since    0.2.0
+		 * @private
+		 */
+		var worker = new Document();
+		worker.setFactory(NEWSLETTER.factory);
+		_controller.setWorker(worker);
+
+		/**
+		 * Object containing elements on which context menu options have been triggered.
+		 * @private
+		 * @property   {Object}        _target
+		 * @since      0.2.0
+		 */
+		var _target = {};
+
+		/**
+		 * Plugin name.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		var _pluginName = this.name;
+
+		/**
+		 * Name of the group to embrace the plugin functionality.
+		 * @type       {String}
+		 * @property   {String}        _pluginNameGroup
+		 * @since      0.2.0
+		 * @private
+		 */
+		 var _pluginNameGroup = _pluginName + 'Group';
+
 		// Define an editor command that opens our dialog.
 		editor.addCommand('image2', new CKEDITOR.dialogCommand('imageSimplified'));
 		// Create a toolbar button that executes the above command.
@@ -50,55 +82,54 @@ CKEDITOR.plugins.add('image2', {
 
 		if (editor.contextMenu) {
 			editor.addMenuGroup('image2Group');
-			editor.addMenuItem('image2Edit', {
+			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang.image2.title,
 				icon: this.path + 'icons/image2edit.png',
 				command: 'image2',
 				group: 'image2Group'
 			});
-			editor.addMenuItem('image2Cancel', {
+			editor.addMenuItem(_pluginName + 'Delete', {
 				label: editor.lang.image2.drop,
 				icon: this.path + 'icons/image2cancel.png',
 				command: 'image2Cancel',
 				group: 'image2Group'
 			});
 			editor.contextMenu.addListener(function(element) {
-				if (element.getAscendant('img', true)) {
-					return {
-						image2Edit: CKEDITOR.TRISTATE_OFF,
-						image2Cancel: CKEDITOR.TRISTATE_OFF,
-					};
+				var el = _controller.findRepresentativeAncestor(element);
+				var menuObj = {};
+				if (el) {
+					_target.hostLink = el;
+					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
+					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
+					return menuObj;
 				}
 			});
 		}
+	},
+	onLoad: function(){
+		var translations = {
+			it: {
+				generalInfo: 'Informazione generale',
+				alternativeAndTitle: 'Titolo e testo alternativo',
+				title: 'Proprietà immagine',
+				delete: 'Eliminare immagine',
+				invalidUrl: 'URL non valido'
+			},
+			en: {
+				generalInfo: 'General information',
+				alternativeAndTitle: 'Title and alternative text',
+				title: 'Image property',
+				delete: 'Delete image',
+				invalidUrl: 'Invalid URL'
+			}
+		};
 
+		var lang;
+		for (lang in translations){
+			if (translations.hasOwnProperty(lang)){
+				CKEDITOR.plugins.setLang(this.name, lang, translations[lang]);
+			}
+		}
 	}
 });
-
-
-var pluginName = 'image2';
-var translations = {
-	it: {
-		generalInfo: 'Informazione generale',
-		alternativeAndTitle: 'Titolo e testo alternativo',
-		title: 'Proprietà immagine',
-		drop: 'Eliminare immagine',
-		invalidUrl: 'URL non valido'
-	},
-	en: {
-		generalInfo: 'General information',
-		alternativeAndTitle: 'Title and alternative text',
-		title: 'Image property',
-		drop: 'Drop image',
-		invalidUrl: 'Invalid URL'
-	}
-};
-
-var lang;
-for (lang in translations){
-	if (translations.hasOwnProperty(lang)){
-		CKEDITOR.plugins.setLang(pluginName, lang, translations[lang]);
-	}
-
-}
 
