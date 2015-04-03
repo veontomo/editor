@@ -96,6 +96,7 @@ CKEDITOR.plugins.add('image2', {
 			});
 			editor.contextMenu.addListener(function(element) {
 				var el = _controller.findRepresentativeAncestor(element);
+				console.log("image plugin listener", el);
 				var menuObj = {};
 				if (el) {
 					_target.hostLink = el;
