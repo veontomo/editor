@@ -66,12 +66,13 @@ CKEDITOR.plugins.add('ImagePlugin', {
 		editor.addCommand(_pluginName + 'Modify', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
-					if (_target.hostLink){
+					if (_target.image){
 						// wait until the dialog gets loaded completely
 						// otherwise, an error occurs because the editor can already be
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
 						dialog.once('show', function(){
+							console.log("use image node " + _target.image.outerHTML + " in order to fill in dialog");
 						});
 					}
 				});
@@ -101,7 +102,6 @@ CKEDITOR.plugins.add('ImagePlugin', {
 
 
 		if (editor.contextMenu) {
-			console.log(_pluginName);
 			editor.addMenuGroup(_pluginNameGroup);
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang.ImagePlugin.title,
