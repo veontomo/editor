@@ -73,7 +73,10 @@ CKEDITOR.plugins.add('image2', {
 
 		editor.addCommand('image2Cancel', {
 			exec: function(editor){
-				_controller.removeImage(editor);
+				if (_target.image){
+					_controller.removeNode(editor, _target.image);
+				}
+				_target.image = null;
 			}
 		});
 
@@ -89,17 +92,16 @@ CKEDITOR.plugins.add('image2', {
 				group: 'image2Group'
 			});
 			editor.addMenuItem(_pluginName + 'Delete', {
-				label: editor.lang.image2.drop,
+				label: editor.lang.image2.delete,
 				icon: this.path + 'icons/image2cancel.png',
 				command: 'image2Cancel',
 				group: 'image2Group'
 			});
 			editor.contextMenu.addListener(function(element) {
 				var el = _controller.findRepresentativeAncestor(element);
-				console.log("image plugin listener", el);
 				var menuObj = {};
 				if (el) {
-					_target.hostLink = el;
+					_target.image = el;
 					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
 					menuObj[_pluginName + 'Delete'] = CKEDITOR.TRISTATE_OFF;
 					return menuObj;

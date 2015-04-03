@@ -595,7 +595,7 @@ function Controller(){
 	 * @return         {Boolean}
 	 * @since          0.2.3
 	 */
-	 this.isSelectionEditable = function(selection){
+	this.isSelectionEditable = function(selection){
 	 	var worker, result;
 	 	try {
 	 		worker = this.getWorker();
@@ -605,10 +605,26 @@ function Controller(){
 	 		result = false;
 	 	}
 	 	return result;
+	};
 
-	 }
-
-
-
-
+	/**
+	 * Removes `node` from DOM corresponding to the editor content.
+	 * @method         removeElement
+	 * @param          {Object}        editor
+	 * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {void}
+	 * @since          0.2.4
+	 */
+	this.removeNode = function(editor, node){
+		var adapter, worker, content;
+		try {
+			adapter = this.getEditorAdapter();
+			content = adapter.getEditorContent(editor);
+			worker = this.getWorker();
+			worker.removeNode(node);
+			adapter.setEditorContent(content);
+		} catch (e){
+			console.log(e.name + ' occurred when removing a node: ' + e.message);
+		}
+	};
 }

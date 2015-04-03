@@ -16,7 +16,10 @@ function CImage() {
 	}
 	Controller.call(this);
 
-	 this.setModel(ImageTag);
+	//
+	// Sets model corresponding to this controller.
+	//
+	this.setModel(ImageTag);
 
 	/**
 	 * Inserts image into `editor`.
