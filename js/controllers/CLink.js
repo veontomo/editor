@@ -49,8 +49,8 @@ function CLink() {
                 shallowLink.setContent(adapter.getFieldValue(dialog, contentUIElem));
             }
 
-            if (params.link){
-                doc.modifyLink(params.link, shallowLink.toNode());
+            if (params.target){
+                doc.modifyLink(params.target, shallowLink.toNode());
             } else if (params.selection){
                 if (doc.isSelectionEditable(params.selection)){
                     doc.replaceSelectionByLink(params.selection, shallowLink.toNode());

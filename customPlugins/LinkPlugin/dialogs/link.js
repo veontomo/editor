@@ -17,9 +17,6 @@ function LinkDialog(editor) {
     var _controller = new CLink();
     _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
-
-    var _editorSelection = _controller.getEditorSelection(editor);
-
     /**
      * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
      * @method  anonymous
@@ -217,23 +214,13 @@ function LinkDialog(editor) {
             _appendColorPickerToBunch(this, colorInputFields);
         },
 
-        /**
-         * The function to execute when the dialog is loaded (executed every time the dialog is opened).
-         *
-         * Fills in link plugin dialog with selected (if any) link properties.
-         * @method    onShow
-         * @return    {void}
-         */
-        onShow: function() {
-        },
-
         onCancel: function(){
             _controller.setDialogHtmlField(this, {tabId: 'linkInfoTab', elemId: 'warning', value: '&nbsp;'});
         },
 
         onOk: function(){
             var params = {
-                'link': _controller.getExtra(this),
+                'target':    _controller.getExtra(this),
                 'selection': _controller.getEditorSelection(editor)
             };
             _controller.onOk(this, editor, params);

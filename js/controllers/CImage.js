@@ -50,8 +50,8 @@ function CImage() {
 		    	return;
 		    }
 		    image = image.toNode();
-		    if (params && params.img){
-		        doc.replaceChild(image, params.img);
+		    if (params.target){
+		        doc.replaceChild(image, params.target);
 		    } else {
 				doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
 		    }
