@@ -93,7 +93,7 @@ var ImageDialog = function(editor) {
 
 		// This method is invoked once a user clicks the OK button, confirming the dialog.
 		onOk: function() {
-			_controller.onOk(this, editor);
+			_controller.onOk(this, editor, {img: _controller.getExtra(this)});
 		}
 	};
 };

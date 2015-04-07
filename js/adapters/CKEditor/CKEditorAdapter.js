@@ -382,12 +382,15 @@ function CKEditorAdapter(){
 	 */
 	this.imgDialogToTemplate = function(dialog){
 		var tabName = 'mainTab',
-			info = {
-				src:           dialog[tabName].imageUrl,
-				alt:           dialog[tabName].textAlt,
-				title:         dialog[tabName].textAlt,
+			template = {
+				name: 'img',
+				root: {
+					src:           dialog[tabName].imageUrl,
+					alt:           dialog[tabName].textAlt,
+					title:         dialog[tabName].textAlt,
+				}
 			};
-		return info;
+		return template;
 	};
 
 

@@ -30,26 +30,34 @@ function CImage() {
 	 * @param          {Object}             editor         instance of editor
 	 * @return         {void}
 	 */
-	this.onOk = function(dialog, editor){
-		var adapter, doc, content, data, template, image, cursorPos;
+	this.onOk = function(dialog, editor, params){
+		var adapter, doc, content, dialogData, template,
+		    image, cursorPos;
 		try {
-			adapter = this.getEditorAdapter();
-			doc = this.getWorker();
-			content = adapter.getEditorContent(editor);
-			cursorPos = adapter.getCursorPosition(editor);
-			if (!cursorPos) {
-				return;
-			}
+		    adapter = this.getEditorAdapter();
+		    cursorPos = adapter.getCursorPosition(editor);
+		    if (!cursorPos){
+		        return;
+		    }
+		    doc = this.getWorker();
+		    content = adapter.getEditorContent(editor);
+		    dialogData = adapter.getDialogData(dialog);
+		    template = adapter.dialogToTemplate(dialogData, 'img');
+		    image = doc.createFromTemplate(template);
+		    if (!image){
+		    	return;
+		    }
 
-			data = adapter.getDialogData(dialog, ['text']);
-			template = adapter.dialogToTemplate.image(data);
-			image = new ImageTag();
-			image.loadFromTemplate(template);
-			doc.insertAt(cursorPos.startContainer, image.toNode(),  cursorPos.startOffset);
-			adapter.setEditorContent(editor, content);
-		}
-		catch (e){
-			console.log(e);
+		    if (params && params.img){
+		    	console.log("replacing node ", params.img, " by ", image.toNode());
+		        doc.replaceChild(image.toNode(), params.img);
+		    } else {
+		    	console.log("inserting child ", image.toNode(), " by ", cursorPos);
+				doc.insertAt(cursorPos.startContainer, image.toNode(), cursorPos.startOffset);
+		    }
+		    adapter.setEditorContent(editor, content);
+		} catch (e) {
+		    console.log(e.name + ' occurred when inserting image: ' + e.message);
 		}
 	};
 
