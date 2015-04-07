@@ -26,9 +26,11 @@ function CImage() {
 	 *
 	 * It uses information inserted in the dialog menu.
 	 * @method         onOk
-	 * @param          {Object}             dialog         dialog by means the variables are passed from view to the controller
-	 * @param          {Object}             editor         instance of editor
+	 * @param          {Object}        dialog         dialog by means the variables are passed from view to the controller
+	 * @param          {Object}        editor         instance of editor
+     * @param          {Object}        params         [Optional]
 	 * @return         {void}
+	 * @since          0.2.5
 	 */
 	this.onOk = function(dialog, editor, params){
 		var adapter, doc, content, dialogData, template,
@@ -47,13 +49,11 @@ function CImage() {
 		    if (!image){
 		    	return;
 		    }
-
+		    image = image.toNode();
 		    if (params && params.img){
-		    	console.log("replacing node ", params.img, " by ", image.toNode());
-		        doc.replaceChild(image.toNode(), params.img);
+		        doc.replaceChild(image, params.img);
 		    } else {
-		    	console.log("inserting child ", image.toNode(), " by ", cursorPos);
-				doc.insertAt(cursorPos.startContainer, image.toNode(), cursorPos.startOffset);
+				doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
 		    }
 		    adapter.setEditorContent(editor, content);
 		} catch (e) {
@@ -61,36 +61,6 @@ function CImage() {
 		}
 	};
 
-	/**
-	 * Loads information about image into dialog menu
-	 * @method         onShow
-	 * @param          {Object}             dialog          dialog by means the variables are passed from view to the controller
-	 * @param          {Object}             editor          editor instance
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.onShow = function(dialog, editor){
-		var doc, ranges, adapter, content, img, imgTag;
-		try {
-			adapter = this.getEditorAdapter();
-			ranges = adapter.getNativeRanges(editor);
-			content = adapter.getEditorContent(editor);
-		    doc = this.getWorker();
-		    doc.setContent(content);
-		    doc.freezeSelection(ranges);
-		    // TODO: make the code below work
-		    imgTag = doc.findAncestor(ranges, this.getModel().prototype.characteristicFunction);
-		    if (imgTag) {
-		    	// console.log('image tag is found');
-		    	img = new ImageTag();
-		    	img.load(imgTag);
-		    	// console.log(img.template());
-		        adapter.fillInDialog(dialog, img.template(), 'image');
-		    }
-		} catch (e) {
-		    console.log(e.name + ' occurred when filling in an image dialog window: ' + e.message);
-		}
-	};
 
 	/**
 	 * Removes an image that is the nearest ascendant of the cursor position.
