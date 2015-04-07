@@ -20,7 +20,7 @@ function CLink() {
 
     /**
      * Modifies the content of the `editor` based on information provided in the `dialog` window
-     * as well in optional json-like object `params`.
+     * as well in optional json-like object `params` that may contain keys `target` and `selection`.
      * @method         onOk
      * @param          {Object}        dialog
      * @param          {Object}        editor
@@ -49,15 +49,14 @@ function CLink() {
                 shallowLink.setContent(adapter.getFieldValue(dialog, contentUIElem));
             }
 
-            if (params.target){
+            if (params && params.target){
                 doc.modifyLink(params.target, shallowLink.toNode());
-            } else if (params.selection){
+            } else if (params && params.selection){
                 if (doc.isSelectionEditable(params.selection)){
                     doc.replaceSelectionByLink(params.selection, shallowLink.toNode());
                 } else {
                     doc.selectionToLink(params.selection, shallowLink.toNode());
                 }
-
             } else {
                 doc.insertAt(cursorPos.startContainer, shallowLink.toNode(), cursorPos.startOffset);
             }
