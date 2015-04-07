@@ -434,6 +434,7 @@ function Controller(){
 	        }
 	        template = elemObj.template();
 	        dialogData = adapter.templateToDialog(template);
+	        console.log("data to fill in the dialog: ", dialogData);
 	        adapter.fillInDialog(dialog, dialogData);
 	    } catch(e){
 	        console.log(e.name + ' occurred when filling in dialog with data: ' + e.message);

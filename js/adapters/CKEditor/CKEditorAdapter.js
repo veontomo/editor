@@ -186,6 +186,7 @@ function CKEditorAdapter(){
 		var marker = template.name.toLowerCase(),
 			mapper = marker + 'TemplateToDialog',
 			executor = this[mapper];
+		console.log("search for " + marker + " template");
 		if (typeof executor !== 'function'){
 			executor = this.defaultTemplateToDialog;
 		}
@@ -379,7 +380,7 @@ function CKEditorAdapter(){
 	 * @return         {Object}
 	 * @since          0.1.0
 	 */
-	this.imageDialogToTemplate = function(dialog){
+	this.imgDialogToTemplate = function(dialog){
 		var tabName = 'mainTab',
 			info = {
 				src:           dialog[tabName].imageUrl,
@@ -416,11 +417,11 @@ function CKEditorAdapter(){
 	 * @return         {Object}
 	 * @since          0.2.0
 	 */
-	this.imageTemplateToDialog = function(template){
+	this.imgTemplateToDialog = function(template){
 		var output = {
 			'mainTab': {
-				imageUrl:     template.src,
-				textAlt:      template.alt || template.title,
+				imageUrl:     template.root.src,
+				textAlt:      template.root.alt || template.root.title,
 			}
 		};
 		return output;
