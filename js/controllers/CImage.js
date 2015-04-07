@@ -50,7 +50,7 @@ function CImage() {
 		    	return;
 		    }
 		    image = image.toNode();
-		    if (params.target){
+		    if (params && params.target){
 		        doc.replaceChild(image, params.target);
 		    } else {
 				doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
@@ -59,29 +59,6 @@ function CImage() {
 		} catch (e) {
 		    console.log(e.name + ' occurred when inserting image: ' + e.message);
 		}
-	};
-
-
-	/**
-	 * Removes an image that is the nearest ascendant of the cursor position.
-	 * @method         removeImage
-	 * @param          {Object}        editor
-	 * @return         {void}
-	 * @since          0.2.0
-	 */
-	this.removeImage = function(editor){
-		var adapter, content, doc, ranges;
-		try {
-			adapter = this.getEditorAdapter();
-			ranges = adapter.getNativeRanges(editor);
-			content = adapter.getEditorContent(editor);
-			doc = this.getWorker();
-			doc.clearRangesFromImages(ranges);
-		} catch (e){
-			console.log(e.name + ' occurred when removing images: ' + e.message);
-			return;
-		}
-		adapter.setEditorContent(editor, content);
 	};
 
 
