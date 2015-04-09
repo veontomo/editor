@@ -1275,44 +1275,12 @@ function Document(){
 				}
 			}.bind(this));
 		}
+		items.push('');
 		list.appendAsItems(items);
 		this.insertAt(host, list.toNode(), offset);
 	};
 
 
-	/**
-	 * Changes the nearest ascendant of a range corresponding to a list of type `oldType` to `newType`.
-	 * @method         changeListTypeOfRange
-	 * @param          {Range}         range        [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
-	 * @param          {String}        oldType
-	 * @param          {String}        newType
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.changeListTypeOfRange = function(range, oldType, newType){
-		if (!(range instanceof Range)){
-			return;
-		}
-		var isOfOldType = function(n){
-			return ((n instanceof Element) && n.tagName.toLowerCase() === oldType);
-		};
-		var listNodes;
-		if (range.collapsed){
-			var tmpNode = this.findAncestor(range.startContainer, isOfOldType);
-			if (tmpNode){
-				listNodes = [tmpNode];
-			}
-		} else {
-			var tmpNodes = this.nodesOfRange(range);
-			listNodes = this.findAncestorsOfMany(tmpNodes, isOfOldType);
-		}
-		if (!Array.isArray(listNodes)){
-			return;
-		}
-		listNodes.forEach(function(node){
-			this.setListNodeType(node, newType);
-		}.bind(this));
-	};
 
 
 	/**
