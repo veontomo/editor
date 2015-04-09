@@ -1244,6 +1244,43 @@ function Document(){
 
 
 	/**
+	 * Converts `range` into a list of type `listType`.
+	 *
+	 * Each node of the range becomes an item of the list.
+	 * @method         convertRangeToList
+	 * @param          {Range}       range
+	 * @param          {String}      type      list type (i.e. ol, ul)
+	 * @return         {void}
+	 * @since          0.2.5
+	 */
+	this.convertRangeToList = function(range, type){
+		var factory = this.getFactory();
+		if (!factory){
+			return;
+		}
+		var list = new List(type),
+			host = range.startContainer,
+			offset = range.startOffset;
+
+		var nodes = this.nodesOfRange(range);
+		var items = [];
+		if (nodes){
+			nodes.forEach(function(node){
+				try {
+					var elem = factory.mimic(node);
+					items.push(elem);
+					this.removeNode(node);
+				} catch (e){
+					console.log(e.name + ' occurred when creating list item: ' + e.message);
+				}
+			}.bind(this));
+		}
+		list.appendAsItems(items);
+		this.insertAt(host, list.toNode(), offset);
+	};
+
+
+	/**
 	 * Changes the nearest ascendant of a range corresponding to a list of type `oldType` to `newType`.
 	 * @method         changeListTypeOfRange
 	 * @param          {Range}         range        [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
