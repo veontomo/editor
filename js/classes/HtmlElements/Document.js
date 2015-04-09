@@ -14,7 +14,7 @@
 function Document(){
 	"use strict";
 	if (!(this instanceof Document)) {
-		return new Document(node);
+		return new Document();
 	}
 
 
@@ -1242,32 +1242,6 @@ function Document(){
 		}.bind(this));
 	};
 
-	/**
-	 * Changes list type of `elem` to `newType`.
-	 * @method         changeListType
-	 * @param          {Element}       elem        this list should change its type
-	 * @param          {String}        newType
-	 * @return         {Element|Null}
-	 * @since          0.1.0
-	 */
-	this.changeListType = function(elem, newType){
-		try {
-			if (elem.tagName.toLowerCase() === newType){
-				return elem;
-			}
-			var factory = this.getFactory(),
-				list;
-			if (!factory){
-				return;
-			}
-			list = factory.mimic(elem);
-			console.log(list.toHtml());
-			list.switchName(newType);
-			return list.toNode();
-		} catch (e){
-			console.log(e.name + ' occurred when changing list type: ' + e.message);
-		}
-	};
 
 	/**
 	 * Changes the nearest ascendant of a range corresponding to a list of type `oldType` to `newType`.

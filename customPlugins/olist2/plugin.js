@@ -64,7 +64,7 @@ CKEDITOR.plugins.add('olist2', {
 
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand(_pluginName + 'Dialog', {
+		editor.addCommand(_pluginName + 'Modify', {
 			exec: function(editor){
 				if (_target.host){
 					_controller.changeListType(editor, _target.host, 'ul');
@@ -73,7 +73,7 @@ CKEDITOR.plugins.add('olist2', {
 			}
 		});
 
-		editor.addCommand(_pluginName, {
+		editor.addCommand(_pluginName + 'Create', {
 			exec: function(editor){
 				_controller.insertLists(editor, 'ol');
 			}
@@ -84,9 +84,9 @@ CKEDITOR.plugins.add('olist2', {
 			// The text part of the button (if available) and tooptip.
 			label: editor.lang[_pluginName].title,
 			// The command to execute on click.
-			command: _pluginName,
+			command: _pluginName + 'Create',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: _pluginName
+			toolbar: 'document'
 		});
 
 
@@ -95,7 +95,7 @@ CKEDITOR.plugins.add('olist2', {
 			editor.addMenuItem(_pluginName + 'Modify', {
 				label: editor.lang[_pluginName].switch,
 				icon: this.path + 'icons/convertList.png',
-				command: _pluginName + 'Dialog',
+				command: _pluginName + 'Modify',
 				group: _pluginNameGroup
 			});
 			editor.contextMenu.addListener(function(element) {
