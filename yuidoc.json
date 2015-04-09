@@ -1,7 +1,7 @@
 {
     "name": "Newsletter API",
     "description": "Javascript classes",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "options": {
         "outdir": "statistics/jsDoc",
         "paths": ["js", "settings", "customPlugins"]

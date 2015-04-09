@@ -1243,24 +1243,15 @@ function Document(){
 	};
 
 	/**
-	 * Changes list type of each element in array `ranges` from `oldType` to `newType`.
+	 * Changes list type of `elem` to `newType`.
 	 * @method         changeListType
-	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
-	 * @param          {String}        oldType
+	 * @param          {Element}       elem        this list should change its type
 	 * @param          {String}        newType
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.changeListType = function(ranges, oldType, newType){
-		if (ranges instanceof Range){
-			this.changeListTypeOfRange(ranges, oldType, newType);
-		} else if (Array.isArray(ranges)){
-			ranges.forEach(function(range){
-				if (range instanceof Range){
-					this.changeListTypeOfRange(range, oldType, newType);
-				}
-			}.bind(this));
-		}
+	this.changeListType = function(elem, newType){
+		/// !!! stub
 	};
 
 	/**

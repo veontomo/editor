@@ -36,46 +36,96 @@ CKEDITOR.plugins.add('olist2', {
 		    _controller.setWorker(worker);
 		}());
 
+		/**
+		 * Object containing elements on which context menu options have been triggered.
+		 * @private
+		 * @property   {Object}        _target
+		 * @since      0.2.5
+		 */
+		var _target = {};
+
+		/**
+		 * Plugin name.
+		 * @type       {String}
+		 * @property   {String}        _pluginName
+		 * @since      0.2.0
+		 * @private
+		 */
+		var _pluginName = this.name;
+
+		/**
+		 * Name of the group to embrace the plugin functionality.
+		 * @type       {String}
+		 * @property   {String}        _pluginNameGroup
+		 * @since      0.2.0
+		 * @private
+		 */
+		 var _pluginNameGroup = _pluginName + 'Group';
+
+
 		// Define an editor command that opens our dialog.
-		editor.addCommand('olist2Dialog', {
+		editor.addCommand(_pluginName + 'Dialog', {
 			exec: function(editor){
-				_controller.changeListType(editor, 'ol', 'ul');
+				if (_target.host){
+					_controller.changeListType(editor, _target.host, 'ul');
+				}
+
 			}
 		});
 
-		editor.addCommand('olist2', {
+		editor.addCommand(_pluginName, {
 			exec: function(editor){
 				_controller.insertLists(editor, 'ol');
 			}
 		});
 
 		// Create a toolbar button that executes the above command.
-		editor.ui.addButton('olist2', {
+		editor.ui.addButton(_pluginName, {
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang.list2.ol.title,
+			label: editor.lang[_pluginName].title,
 			// The command to execute on click.
-			command: 'olist2',
+			command: _pluginName,
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'document'
+			toolbar: _pluginName
 		});
 
 
 		if (editor.contextMenu) {
-			editor.addMenuGroup('list2Group');
-			editor.addMenuItem('olist2Dialog', {
-				label: editor.lang.list2.ol.switch,
+			editor.addMenuGroup(_pluginNameGroup);
+			editor.addMenuItem(_pluginName + 'Modify', {
+				label: editor.lang[_pluginName].switch,
 				icon: this.path + 'icons/convertList.png',
-				command: 'olist2Dialog',
-				group: 'list2Group'
+				command: _pluginName + 'Dialog',
+				group: _pluginNameGroup
 			});
 			editor.contextMenu.addListener(function(element) {
-				if (element.getAscendant('ol', true)) {
-					return {
-						olist2Dialog: CKEDITOR.TRISTATE_OFF
-					};
+				var el = _controller.findRepresentativeAncestor(element);
+				var menuObj = {};
+				console.log(el);
+				if (el) {
+					_target.host = el;
+					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
+					return menuObj;
 				}
 			});
 		}
+	},
+
+	onLoad: function(){
+		var translations = {
+			it: {
+				switch: 'Convertire in elenco puntato',
+				title:  'Elenco numerato'
+			}
+		};
+		var lang;
+		for (lang in translations){
+			if (translations.hasOwnProperty(lang)){
+				CKEDITOR.plugins.setLang(this.name, lang, translations[lang]);
+			}
+		}
 	}
+
+
 });
 

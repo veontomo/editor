@@ -16,6 +16,8 @@ function CList() {
     }
     Controller.call(this);
 
+    this.setModel(List);
+
     /**
      * Converts selection into an ordered or unordered list.
      *
@@ -51,19 +53,18 @@ function CList() {
      *
      * @method         changeListType
      * @param          {Object}        editor
-     * @param          {String}        oldType     list of what type is to be changed
+     * @param          {Element}       list        this list is to chaneg its type
      * @param          {String}        newType     the above list should become of this type
      * @return         {void}
      * @since          0.1.0
      */
-    this.changeListType = function(editor, oldType, newType){
+    this.changeListType = function(editor, list, newType){
         var adapter, doc, content, ranges;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
-            ranges = adapter.getNativeRanges(editor);
-            doc.changeListType(ranges, oldType, newType); // here, object "editor" changes (because "ranges" is passed as reference)
+            doc.changeListType(list, newType); // here, object "editor" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when changing list type: ' + e.message);
