@@ -1225,19 +1225,19 @@ function Document(){
 
 	/**
 	 * Inserts many lists of type  `listType` into `content`. Items of each list are made of nodes corresponding
-	 * to elements of array `ranges`.
+	 * to elements of array `selection`.
 	 *
-	 * @method         insertLists
-	 * @param          {Array}         ranges       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
+	 * @method         selectionToList
+	 * @param          {Array}         selection       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
 	 * @return         {void}
 	 * @since          0.1.0
 	 */
-	this.insertLists = function(ranges, listType){
-		if (!(Array.isArray(ranges))) {
+	this.selectionToList = function(selection, listType){
+		if (!(Array.isArray(selection))) {
 			return;
 		}
-		ranges.forEach(function(range){
+		selection.forEach(function(range){
 			this.convertRangeToList(range, listType);
 		}.bind(this));
 	};

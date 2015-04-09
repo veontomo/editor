@@ -3289,21 +3289,9 @@ describe('Class "Document"', function() {
         });
     });
 
-    xdescribe('has a method "insertLists" that', function() {
+    describe('has a method "selectionToList" that', function() {
         beforeEach(function() {
             clone = dom1_text4.cloneNode(true);
-        });
-        it('does not modify DOM if the first argument is not an array', function() {
-            var r = document.createRange();
-            r.setStart(dom1_p0, 1);
-            r.setEnd(dom1_a0, 1);
-            var invalids = [0, 1, -2, 2.11, {}, {
-                key: 'value'
-            }, '', 'string', r];
-            invalids.forEach(function(invalid) {
-                doc.insertLists(invalid, 'ol');
-                expect(dom1_div0.isEqualNode(clone)).toBe(true);
-            });
         });
         it('calls method convertRangeToList if the first argument is non-empty array', function() {
             var r1 = document.createRange(),
@@ -3313,7 +3301,7 @@ describe('Class "Document"', function() {
             r2.setStart(dom1_text1, 4);
             r2.setEnd(dom1_text1, 6);
             spyOn(doc, 'convertRangeToList');
-            doc.insertLists([r1, r2], 'ol');
+            doc.selectionToList([r1, r2], 'ol');
             expect(doc.convertRangeToList).toHaveBeenCalledWith(r1, 'ol');
             expect(doc.convertRangeToList).toHaveBeenCalledWith(r2, 'ol');
         });

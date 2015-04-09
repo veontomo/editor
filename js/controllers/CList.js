@@ -37,7 +37,7 @@ function CList() {
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
             ranges = adapter.getNativeRanges(editor);
-            doc.insertLists(ranges, listType); // here, object "content" changes (because "ranges" is passed as reference)
+            doc.selectionToList(ranges, listType); // here, object "content" changes (because "ranges" is passed as reference)
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when converting editor content into a list: ' + e.message);
