@@ -89,7 +89,6 @@ CKEDITOR.plugins.add('olist2', {
 			toolbar: 'document'
 		});
 
-
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
 			editor.addMenuItem(_pluginName + 'Modify', {
@@ -99,7 +98,7 @@ CKEDITOR.plugins.add('olist2', {
 				group: _pluginNameGroup
 			});
 			editor.contextMenu.addListener(function(element) {
-				var el = _controller.findRepresentativeAncestor(element);
+				var el = _controller.findRepresentativeAncestorOfType(element, 'ol');
 				var menuObj = {};
 				console.log(el);
 				if (el) {

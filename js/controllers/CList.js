@@ -71,5 +71,27 @@ function CList() {
         }
     };
 
+    /**
+     * Finds the nearest list ancestor of element `el`; the list must be of type `type`.
+     *
+     * Returns nothing if the corresponding element is not found.
+     * @method         findRepresentativeAncestorOfType
+     * @param          {Object}        el      editor-specific representation of DOM node.
+     * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+     * @since          0.2.5
+     */
+    this.findRepresentativeAncestorOfType = function(el, type){
+        var adapter = this.getEditorAdapter(),
+            nativeEl = adapter.toNativeElement(el);
+        if (!nativeEl){
+            return;
+        }
+        var worker = this.getWorker();
+        var crit = function(el){
+            return (el instanceof Element) && (el.tagName.toLowerCase() === type);
+        }
+        return worker.findAncestor(nativeEl, crit);
+    };
+
 }
 CList.prototype = Object.create(Controller.prototype);

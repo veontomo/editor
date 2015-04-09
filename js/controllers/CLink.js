@@ -99,5 +99,6 @@ function CLink() {
         }
     };
 
+
 }
 CLink.prototype = Object.create(Controller.prototype);
