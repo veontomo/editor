@@ -149,3 +149,22 @@ function List(listType) {
 	};
 }
 List.prototype = Object.create(Tag.prototype);
+
+
+/**
+ * {{#crossLink "List"}}List{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class List is designed
+ * to represent.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.5
+ */
+List.prototype.characteristicFunction = function(n){
+	if (!(n instanceof Element)){
+		return false;
+	}
+	var tag = n.tagName.toLowerCase();
+	return tag === 'ul' || tag === 'ol';
+};

@@ -59,13 +59,17 @@ function CList() {
      * @since          0.1.0
      */
     this.changeListType = function(editor, list, newType){
-        var adapter, doc, content, ranges;
+        var adapter, doc, content, updatedList;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
             content = adapter.getEditorContent(editor);
-            doc.changeListType(list, newType); // here, object "editor" changes (because "ranges" is passed as reference)
-            adapter.setEditorContent(editor, content);
+            updatedList = doc.changeListType(list, newType); // here, object "editor" changes (because "ranges" is passed as reference)
+            console.log(updatedList);
+            if (updatedList){
+                doc.replaceChild(updatedList, list);
+                adapter.setEditorContent(editor, content);
+            }
         } catch (e) {
             console.log(e.name + ' occurred when changing list type: ' + e.message);
         }
