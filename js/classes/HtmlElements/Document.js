@@ -1238,7 +1238,7 @@ function Document(){
 			return;
 		}
 		selection.forEach(function(range){
-			this.convertRangeToList(range, listType);
+			this.rangeToList(range, listType);
 		}.bind(this));
 	};
 
@@ -1247,13 +1247,13 @@ function Document(){
 	 * Converts `range` into a list of type `listType`.
 	 *
 	 * Each node of the range becomes an item of the list.
-	 * @method         convertRangeToList
+	 * @method         rangeToList
 	 * @param          {Range}       range
 	 * @param          {String}      type      list type (i.e. ol, ul)
 	 * @return         {void}
 	 * @since          0.2.5
 	 */
-	this.convertRangeToList = function(range, type){
+	this.rangeToList = function(range, type){
 		var factory = this.getFactory();
 		if (!factory){
 			return;
@@ -1265,6 +1265,7 @@ function Document(){
 		var nodes = this.nodesOfRange(range);
 		var items = [];
 		if (nodes){
+			console.log(nodes);
 			nodes.forEach(function(node){
 				try {
 					var elem = factory.mimic(node);
