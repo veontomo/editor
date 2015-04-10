@@ -973,12 +973,12 @@ function Document(){
 	/**
 	 * Gets in-line style property with name `key` of `node`. Returns `undefined` if `node`
 	 * does not have in-line style property `key`.
-	 * @method         getStyleProperty 0:0
+	 * @method         getStyleProperty 1:0
 	 * @param          {Node}               node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key           name of in-line style property of `node`
 	 * @return         {String|Number}
 	 */
-	this.getStyleProperty_to_delete = function(node, key){
+	this.getStyleProperty = function(node, key){
 		if (node && key && typeof node.getAttribute === 'function'){
 			var stl = new Properties(node.getAttribute('style'));
 			if (stl.hasProperty(key)){
@@ -992,12 +992,12 @@ function Document(){
 	 * Drops in-line style property `key` from `node` and removes in-line style attribute if
 	 * it becomes empty.
 	 *
-	 * @method         dropStyleProperty 0:0
+	 * @method         dropStyleProperty 1:0
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of in-line style attribute to drop
 	 * @return         {void}
 	 */
-	this.dropStyleProperty_to_delete = function(node, key){
+	this.dropStyleProperty = function(node, key){
 		if (!(node instanceof Node) || (typeof key !== 'string') || (!node.style)){
 			return;
 		}
