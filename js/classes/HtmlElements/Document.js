@@ -70,7 +70,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} setter.
-	 * @method         setFactory  0:15
+	 * @method         setFactory5
 	 * @param          {Object}             f          an object to used as a factory
 	 * @return         {void}
 	 * @since          0.1.0
@@ -608,7 +608,7 @@ function Document(){
 	 * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
 	 * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
 	 * by cutting the container according to the range offsets.
-	 * @method         detachBoundaries  1:0
+	 * @method         detachBoundaries
 	 * @param          {Range}         r
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @since          0.0.8
@@ -699,7 +699,7 @@ function Document(){
 
 	/**
 	 * Returns array of nodes that belong to [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance `r`.
-	 * @method         nodesOfRange 10:0
+	 * @method         nodesOfRange
 	 * @param          {Range}         r         [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @return         {Array}
 	 * @since          0.1.0
@@ -732,7 +732,7 @@ function Document(){
 	 * </li><li>
 	 * if `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.
 	 * </li></ol>
-	 * @method         proxy  1:0
+	 * @method         proxy
 	 * @param          {Node}              n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node|Null}
 	 */
@@ -1132,7 +1132,7 @@ function Document(){
 
 	/**
 	 * Converts selection given by `ranges` into a bold font.
-	 * @method         convertToBold  0:1
+	 * @method         convertToBold
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.1.0
