@@ -99,6 +99,27 @@ function CLink() {
         }
     };
 
+    /**
+     * Replaces `link` by an Element instance whose tag is `tagName`.
+     *
+     * @method         unlink
+     * @param          {Object}        editor
+     * @param          {Element}       link
+     * @return         {void}
+     * @since          0.2.5
+     */
+    this.unlink = function(editor, link){
+        var adapter, doc, content;
+        try {
+            adapter = this.getEditorAdapter();
+            doc = this.getWorker();
+            content = adapter.getEditorContent(editor);
+            doc.clearNodeFromLink(link);
+            adapter.setEditorContent(editor, content);
+        } catch (e) {
+            console.log(e.name + ' occurred when stripping link: ' + e.message);
+        }
+    };
 
 }
 CLink.prototype = Object.create(Controller.prototype);

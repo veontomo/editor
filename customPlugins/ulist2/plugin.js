@@ -100,7 +100,6 @@ CKEDITOR.plugins.add('ulist2', {
 			editor.contextMenu.addListener(function(element) {
 				var el = _controller.findListAncestorOfType(element, 'ul');
 				var menuObj = {};
-				console.log(el);
 				if (el) {
 					_target.host = el;
 					menuObj[_pluginName + 'Modify'] = CKEDITOR.TRISTATE_OFF;
