@@ -44,7 +44,7 @@ function Document(){
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} setter. Supposed to be an
 	 * instance of {{#crossLink "Converter"}}Converter{{/crossLink}} though no validation control is
 	 * performed.
-	 * @method         setConverter
+	 * @method         setConverter 0:0
 	 * @param          {Any}                c
 	 * @return         {void}
 	 */
@@ -54,7 +54,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}} getter.
-	 * @method         getConverter
+	 * @method         getConverter 1:0
 	 * @return         {Any}                Supposed to be an instance of
 	 *                                      {{#crossLink "Converter"}}Converter{{/crossLink}}
 	 */
@@ -72,7 +72,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} getter.
-	 * @method         getFactory
+	 * @method         getFactory 3:2
 	 * @return         {Object|null}
 	 * @since          0.1.0
 	 */
@@ -82,7 +82,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} setter.
-	 * @method         setFactory
+	 * @method         setFactory  0:15
 	 * @param          {Object}             f          an object to used as a factory
 	 * @return         {void}
 	 * @since          0.1.0
@@ -96,7 +96,7 @@ function Document(){
 	 * Sets {{#crossLink "Converter/_mapper:property"}}_mapper{{/crossLink}} of
 	 * {{#crossLink "Document/_converter:property"}}_converter{{/crossLink}}.
 	 * Alias for {{#crossLink "Converter/setMapper:method"}}setMapper{{/crossLink}} method.
-	 * @method         setMapper
+	 * @method         setMapper 0:0
 	 * @param          {void}               m
 	 */
 	this.setMapper = function(m){
@@ -111,7 +111,7 @@ function Document(){
 	 * After execution of this method, special symbols inside text nodes of
 	 * `n` are substituted by their html representations.
 	 *
-	 * @method         escape
+	 * @method         escape 0:0
 	 * @param          {Node}          n
 	 * @return         {void}
 	 * @since          0.0.6
@@ -127,7 +127,7 @@ function Document(){
 	 * If necessary, the argument is transformed into a
 	 * {{#crossLink "Properties"}}Propreties{{/crossLink}} instance,
 	 * and then assigned to {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}}.
-	 * @method         setWrapCss
+	 * @method         setWrapCss 0:1
 	 * @param          {Any}        css
 	 * @since          0.0.6
 	 */
@@ -138,7 +138,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_wrapCss:property"}}_wrapCss{{/crossLink}} getter.
-	 * @method         getWrapCss
+	 * @method         getWrapCss 1:0
 	 * @return         {Properties}
 	 * @since          0.0.6
 	 */
@@ -150,8 +150,8 @@ function Document(){
 	 * Creates a valid html document whose body is given by `content`.
 	 *
 	 * **NB**: it uses css of the editor content body.
+	 * @method         docHtml 0:1
 	 * @param          {Node}              node
-	 * @method         docHtml
 	 * @return         {String}            content of html document
 	 */
 	this.docHtml = function(node){
@@ -169,7 +169,7 @@ function Document(){
 
 	/**
 	 * Converts {{#crossLink "Document/_content:property"}}_content{{/crossLink}} into prescribed format.
-	 * @method         convertTo
+	 * @method         convertTo 0:1
 	 * @param          {String}             format
 	 * @param          {Node}               n
 	 * @return         {void}
@@ -189,7 +189,7 @@ function Document(){
 	 * If `scope` is not set, then the search is performed up to the highest root.
 	 *
 	 * If `scope` is set, but `n` is not its descendant, then an error is thrown.
-	 * @method         findAncestor
+	 * @method         findAncestor 3:2
 	 * @param          {Node}          n          node from which the search is started
 	 * @param          {Function}      criteria
 	 * @param          {Node}          scope      [optional] node with which the search is finished
@@ -222,7 +222,7 @@ function Document(){
 	/**
 	 * Finds duplicate-free array of ancestors of elements of `nodes` satisfying the criteria `crit`.
 	 *
-	 * @method         findAncestorsOfMany
+	 * @method         findAncestorsOfMany 2:0
 	 * @param          {Array}         nodes    array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param          {Function}      crit
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
@@ -248,7 +248,7 @@ function Document(){
 	 *
 	 * Returns `true` if the argument is a range, `false` otherwise.
 	 *
-	 * @method         isRange
+	 * @method         isRange 0:0
 	 * @param          {Any}           r
 	 * @return         {Boolean}
 	 * @since          0.0.8
@@ -271,7 +271,7 @@ function Document(){
 	 * all descendants of every node in the array lay between `n1` and `n2`
 	 * </li></ol>
 	 *
-	 * @method         nodesBetween
+	 * @method         nodesBetween 1:0
 	 * @since          0.0.8
 	 * @param          {Node}          n1     left limit (ignore nodes that come before this node)
 	 * @param          {Node}          n2     right limit (ignore nodes that come after this node)
@@ -371,7 +371,7 @@ function Document(){
 	 * If arguments of function `c` are not comparable, the linkElem of the whole method is not defined.
 	 *
 	 * If `p1` and `p2` can not be compared, nothing is returned.
-	 * @method         compare
+	 * @method         compare 1:0
 	 * @param          {Array}         p1        array of numbers
 	 * @param          {Array}         p2        array of numbers
 	 * @param          {Function}      c         [Optional] comparator
@@ -418,7 +418,7 @@ function Document(){
 
 	/**
 	 * Gives common ancestor of nodes `n1` and `n2`. If it does not exist, nothing is returned.
-	 * @method         commonAncestor
+	 * @method         commonAncestor 1:0
 	 * @param          {Node}           n1     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node}           n2     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node|Null}
@@ -445,7 +445,7 @@ function Document(){
 	 * Returns the longest common "head" of arrays `a1` and `a2`.
 	 *
 	 * Compares elements of the arrays from the beginning and if the elements are equal, insert it into the resulting array.
-	 * @method         commonHead
+	 * @method         commonHead 0:0
 	 * @param          {Array}         a1
 	 * @param          {Array}         a2
 	 * @return         {Array}
@@ -468,7 +468,7 @@ function Document(){
 	 * Returns the root of `n`.
 	 *
 	 * A node is called to be a root of a node `n` if it contains node `n` and has no parent (that is the node highest ancestor).
-	 * @method         rootOf
+	 * @method         rootOf 0:0
 	 * @param          {Node}          n
 	 * @return         {Node|Null}
 	 */
@@ -490,7 +490,7 @@ function Document(){
 	 * in order to arrive from node `s` to node `n`. If node `s` is not set, then the path is
 	 * given with respect to `s` highest parent.
 	 * @since          0.0.8
-	 * @method         pathTo
+	 * @method         pathTo 2:0
 	 * @param          {Node}          n     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node|Null}     s     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Array|Null}
@@ -517,7 +517,7 @@ function Document(){
 	 * Returns an element following `path` starting from element `ref`.
 	 *
 	 * If element is not found, nothing is returned.
-	 * @method         getNodeByPath
+	 * @method         getNodeByPath  0:0
 	 * @param          {Array}         path         array of integers
 	 * @param          {Node}          ref
 	 * @return         {Node}
@@ -541,7 +541,7 @@ function Document(){
 	 *
 	 * An index of a node is a number of the node in ordered list of its parent children. If the node has no parent, its
 	 * index is equal to zero.
-	 * @method         indexOf
+	 * @method         indexOf 1:0
 	 * @param          {Node}          n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Integer}
 	 * @since          0.0.8
@@ -562,7 +562,7 @@ function Document(){
 	/**
 	 * Returns array of results of applying `operation` on each node when passing from `node` to `root`.
 	 *
-	 * @method         _bunchSibling
+	 * @method         _bunchSiblings 2:0
 	 * @private
 	 * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node}          root        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -589,7 +589,7 @@ function Document(){
 	 *
 	 * Therefore, all linkElem array elements belong to `root` while neither
 	 * `root` nor `node` is included.
-	 * @method         bunchNextSiblings
+	 * @method         bunchNextSiblings 1:0
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
 	 *                                             must be inside of `node`
 	 * @param          {Node}         root         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -608,7 +608,7 @@ function Document(){
 	 *
 	 * Therefore, all linkElem array elements belong to `root` while neither
 	 * `root` nor `node` is included.
-	 * @method         bunchPrevSiblings
+	 * @method         bunchPrevSiblings 1:0
 	 * @param          {Node}         node         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
 	 *                                             must be inside of `node`
 	 * @param          {Node}         root         a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -628,7 +628,7 @@ function Document(){
 	 * reached. Array of all intermediate elements are then returned.
 	 *
 	 * ** Attention to infinite loops! **
-	 * @method         _trackWalk
+	 * @method         _trackWalk 1:0
 	 * @private
 	 * @param          {Any}           elem
 	 * @param          {String}        prop       property name to be applied
@@ -651,7 +651,7 @@ function Document(){
 	 *
 	 * This method is written for compatibility with IE that does not have method
 	 * "contains" for Node instances.
-	 * @method         contains
+	 * @method         contains 8:0
 	 * @param          {Node}          asc
 	 * @param          {Node}          desc
 	 * @return         {Boolean}
@@ -677,7 +677,7 @@ function Document(){
 	 *
 	 * The first next sibling becomes the first element of the array,
 	 * the second next sibling becomes the second one and so on.
-	 * @method         nextSiblings
+	 * @method         nextSiblings 1:0
 	 * @param          {Node}     elem     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Array}             array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @since          0.0.8
@@ -695,7 +695,7 @@ function Document(){
 	 *
 	 * **Pay attention to the order:** the nearest previous sibling becomes the first element of the array,
 	 * the second previous sibling becomes the second one and so on.
-	 * @method         prevSiblings
+	 * @method         prevSiblings 1:0
 	 * @param          {Node}          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @since          0.0.8
@@ -710,7 +710,7 @@ function Document(){
 
 	/**
 	 * Returns `true` if the argument is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance.
-	 * @method         isTextNode
+	 * @method         isTextNode 2:0
 	 * @param          {Any}           n
 	 * @return         {Boolean}
 	 * @since          0.0.8
@@ -728,7 +728,7 @@ function Document(){
 	 * [Comment](https://developer.mozilla.org/en-US/docs/Web/API/Comment) or
 	 * [CDATASection](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection) then DOM is modified
 	 * by cutting the container according to the range offsets.
-	 * @method         detachBoundaries
+	 * @method         detachBoundaries  1:0
 	 * @param          {Range}         r
 	 * @return         {Array}         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @since          0.0.8
@@ -787,7 +787,7 @@ function Document(){
 	 * The cuts that would result in producing empty text nodes, are ignored:
 	 * <code>"<span class="cut">|</span>a stri<span class="cut">|</span>ng<span class="cut">|</span>"</code> is equivalent
 	 * to <code>"a stri<span class="cut">|</span>ng"</code>.
-	 * @method         spliceText
+	 * @method         spliceText 3:0
 	 * @param          {Text}          t              [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @param          {Array}         breakpoints    Array of integers in increasing order
 	 * @return         {Array|Null}                   Array of [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instances
@@ -819,7 +819,7 @@ function Document(){
 
 	/**
 	 * Returns array of nodes that belong to [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance `r`.
-	 * @method         nodesOfRange
+	 * @method         nodesOfRange 10:0
 	 * @param          {Range}         r         [Range](http://https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @return         {Array}
 	 * @since          0.1.0
@@ -849,7 +849,7 @@ function Document(){
 	 * Applies `callback` to each element of array `block` until `callback` evaluates to anything
 	 * that casts to `true`. Namely that result of `callback` is returned.
 	 *
-	 * @method         findInBlock
+	 * @method         findInBlock 0:0
 	 * @param          {Array}         block            array of anything
 	 * @param          {Function}      callback
 	 * @return         {Element|Null}
@@ -883,7 +883,7 @@ function Document(){
 	 * </li><li>
 	 * if `n` is a text element with siblings or is a node element, then proxy of `n` is `n` itself.
 	 * </li></ol>
-	 * @method         proxy
+	 * @method         proxy  1:0
 	 * @param          {Node}              n          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node|Null}
 	 */
@@ -905,7 +905,7 @@ function Document(){
 	 * is performed up to the "highest" parent of `node`.
 	 *
 	 * NB: ** optimize algorithm in such a way that DOM is parsed only once even when `scope` is set wrong. **
-	 * @method         getInheritedStyleProp
+	 * @method         getInheritedStyleProp 3:0
 	 * @param          {String}             key       name of property to find among inline style of ancestors
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node}               scope     [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -946,7 +946,7 @@ function Document(){
 
 	/**
 	 * Returns the nearest node from which `node` inherits in-line style property `key`. If no such node exists, returns `undefined`.
-	 * @method         getMentor
+	 * @method         getMentor 2:0
 	 * @param          {String}             key               name of in-line style property
 	 * @param          {Node}               node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Node|undefined}                       [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
@@ -973,7 +973,7 @@ function Document(){
 	/**
 	 * Gets in-line style property with name `key` of `node`. Returns `undefined` if `node`
 	 * does not have in-line style property `key`.
-	 * @method         getStyleProperty
+	 * @method         getStyleProperty 0:0
 	 * @param          {Node}               node          [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key           name of in-line style property of `node`
 	 * @return         {String|Number}
@@ -992,7 +992,7 @@ function Document(){
 	 * Drops in-line style property `key` from `node` and removes in-line style attribute if
 	 * it becomes empty.
 	 *
-	 * @method         dropStyleProperty
+	 * @method         dropStyleProperty 0:0
 	 * @param          {Node}               node      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}             key       name of in-line style attribute to drop
 	 * @return         {void}
@@ -1021,7 +1021,7 @@ function Document(){
 	 * If not [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance is given as the first
 	 * argument, then the method performs nothing. Note, that for text nodes this method is not applicable,
 	 * since text nodes have no attributes.
-	 * @method         toggleElementStyle
+	 * @method         toggleElementStyle 0:0
 	 * @param          {Element}            elem       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {String}             key        name of style property to change
 	 * @param          {String|Number}      primary    primary value of the above style property
@@ -1055,7 +1055,7 @@ function Document(){
 	 * 	A node C is a descendant of A - ... - B path if parent of node C belongs to A - ... - B path.
 	 * </dd>
 	 * </dl>
-	 * @method         complementNodes
+	 * @method         complementNodes 1:0
 	 * @param          {Node}               startNode          a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                                         instance from which to start the path
 	 * @param          {Node}               endNode            a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
@@ -1094,7 +1094,7 @@ function Document(){
 	 * The functionality is delegated to {{#crossLink "Document/insertIntoText:method"}}insertIntoText(){{/crossLink}}
 	 * method if `host` is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance,
 	 * otherwise - to {{#crossLink "Document/insertChild:method"}}insertChild(){{/crossLink}} method.
-	 * @method         insertAt
+	 * @method         insertAt 2:3
 	 * @param          {Node}       host            [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                              instance in which `n` is to be inserted
 	 * @param          {Node}       n               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
@@ -1119,7 +1119,7 @@ function Document(){
 	 *
 	 * `node`'s properties that are present in `template` get updated, while the others remain
 	 * unchanged.
-	 * @method         updateNode
+	 * @method         updateNode 0:1
 	 * @param          {Node}           node         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 *                                               instance in which `n` is to be inserted
 	 * @param          {Object}         template
@@ -1139,7 +1139,7 @@ function Document(){
 	 *
 	 * If neither `el` nor its ascendant have width style property set, then nothing is returned.
 	 *
-	 * @method         getAvailableWidth
+	 * @method         getAvailableWidth 0:1
 	 * @param          {Element}       el     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                        instance to be inserted
 	 * @return         {String|Number|void}
@@ -1155,7 +1155,7 @@ function Document(){
 
 	/**
 	 * Inserts node `n` as a child of `hostNode` at the position `offset`.
-	 * @method         insertChild
+	 * @method         insertChild 1:0
 	 * @param          {Element}       hostNode
 	 * @param          {Node}          n
 	 * @param          {Integer}       offset
@@ -1182,7 +1182,7 @@ function Document(){
 
 	/**
 	 * Inserts `elem` inside `textElem` at the position `pos`.
-	 * @method         insertIntoText
+	 * @method         insertIntoText 1:0
 	 * @param          {Text}          textElement    [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @param          {Element}       elem           [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {Integer}       offset
@@ -1227,7 +1227,7 @@ function Document(){
 	 * Inserts many lists of type  `listType` into `content`. Items of each list are made of nodes corresponding
 	 * to elements of array `selection`.
 	 *
-	 * @method         selectionToList
+	 * @method         selectionToList 0:1
 	 * @param          {Array}         selection       array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        listType     type of list (ordered or unordered) to be inserted
 	 * @return         {void}
@@ -1247,7 +1247,7 @@ function Document(){
 	 * Converts `range` into a list of type `listType`.
 	 *
 	 * Each node of the range becomes an item of the list.
-	 * @method         rangeToList
+	 * @method         rangeToList 1:0
 	 * @param          {Range}       range
 	 * @param          {String}      type      list type (i.e. ol, ul)
 	 * @return         {void}
@@ -1265,7 +1265,6 @@ function Document(){
 		var nodes = this.nodesOfRange(range);
 		var items = [];
 		if (nodes){
-			console.log(nodes);
 			nodes.forEach(function(node){
 				try {
 					var elem = factory.mimic(node);
@@ -1289,7 +1288,7 @@ function Document(){
 	 *
 	 * `node` is supposed to be a tag corresponding to a list.
 	 *
-	 * @method         setListNodeType
+	 * @method         setListNodeType 0:1
 	 * @param          {Node}          node
 	 * @param          {String}        newType
 	 * @return         {Boolean}
@@ -1315,7 +1314,7 @@ function Document(){
 
 	/**
 	 * Converts selection given by `ranges` into a bold font.
-	 * @method         convertToBold
+	 * @method         convertToBold  0:1
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.1.0
@@ -1326,7 +1325,7 @@ function Document(){
 
 	/**
 	 * Converts selection given by `ranges` into italic font style.
-	 * @method         convertToItalics
+	 * @method         convertToItalics 0:1
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1337,7 +1336,7 @@ function Document(){
 
 	/**
 	 * Converts selection given by `ranges` into stroked style.
-	 * @method         convertToStroked
+	 * @method         convertToStroked 0:1
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1348,7 +1347,7 @@ function Document(){
 
 	/**
 	 * Converts selection given by `ranges` into underlined style.
-	 * @method         convertToUnderlined
+	 * @method         convertToUnderlined 0:1
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1360,7 +1359,7 @@ function Document(){
 
 	/**
 	 * Updates style property `stlName` of each element of array `ranges` to become equal to `stlValue`.
-	 * @method         updateRangesStyleProp
+	 * @method         updateRangesStyleProp 4:0
 	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {String}        stlName       name of style property which value is subject to update
 	 * @param          {Any}           stlValue      value of the style property
@@ -1380,7 +1379,7 @@ function Document(){
 
 	/**
 	 * Highlights selection by setting style property `key` of the selection specified by `range` to be equal to `value`.
-	 * @method         modifyRangeStyleProperty
+	 * @method         modifyRangeStyleProperty 1:0
 	 * @param          {Range}         range [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {String}        key
 	 * @param          {String}        value
@@ -1407,7 +1406,7 @@ function Document(){
 	 * {{#crossLink "Document/accentuateSingleNodeStyleProperty:method"}}accentuateSingleNodeStyleProperty{{/crossLink}}
 	 * that is called using every element of array `nodes`.
 	 *
-	 * @method        accentuateNodesStyleProperty
+	 * @method        accentuateNodesStyleProperty 1:0
 	 * @param         {Array}          nodes         array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param         {String|Number}  key           name of style property
 	 * @param         {String|Number}  value         value of the style property
@@ -1445,7 +1444,7 @@ function Document(){
 	 * </li><li>If the mentor does not exist, then style property `key` of a
 	 * {{#crossLink "Document/proxy:method"}}proxy{{/crossLink}} of the given
 	 * node is set to the requested value</li></ol>
-	 * @method         accentuateSingleNodeStyleProperty
+	 * @method         accentuateSingleNodeStyleProperty 1:0
 	 * @param          {Node}          node    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}        key     name of style property
 	 * @param          {Any}           value   value of the style property
@@ -1482,7 +1481,7 @@ function Document(){
 	 * Otherwise, the node is replaced by a span element to which the node is appended. Required style property is
 	 * then assigned to the newly created span element.
 	 *
-	 * @method         setStyleProperty
+	 * @method         setStyleProperty 2:0
 	 * @param          {Node}              node   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}            key
 	 * @param          {String|Number}     value
@@ -1517,7 +1516,7 @@ function Document(){
 	/**
 	 * Sets style property `key` of `node` to be equal to `value` only if the node does not
 	 * contain that property among its style ones.
-	 * @method         suggestStyleProperty
+	 * @method         suggestStyleProperty 1:0
 	 * @param          {Node}          node        [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {String}        key
 	 * @param          {Any}           value
@@ -1543,7 +1542,7 @@ function Document(){
 	 * Returns common style (may be inherited from ancestors) of multiple nodes.
 	 *
 	 * If `nodes` have no common style property `key`, `undefined` is returned.
-	 * @method         commonStyleProperty
+	 * @method         commonStyleProperty 0:0
 	 * @param          {Array}         nodes     Array of [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param          {String|Number} key
 	 * @return         {String|Number|undefined}
@@ -1568,7 +1567,7 @@ function Document(){
 
 	/**
 	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to an image.
-	 * @method         isImage
+	 * @method         isImage 1:0
 	 * @param          {Any}     n
 	 * @return         {Boolean}
 	 * @since          0.2.0
@@ -1579,7 +1578,7 @@ function Document(){
 
 	/**
 	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to a link.
-	 * @method         isLink
+	 * @method         isLink 2:0
 	 * @param          {Any}     n
 	 * @return         {Boolean}
 	 * @since          0.2.0
@@ -1590,7 +1589,7 @@ function Document(){
 
 	/**
 	 * Whether `n` is an [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance corresponding to a table.
-	 * @method         isTable
+	 * @method         isTable 1:0
 	 * @param          {Any}     n
 	 * @return         {Boolean}
 	 * @since          0.2.0
@@ -1602,7 +1601,7 @@ function Document(){
 
 	/**
 	 * Removes image elements from each element of array `ranges`.
-	 * @method         clearRangesFromImages
+	 * @method         clearRangesFromImages 0:0
 	 * @param          {Array}         ranges
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1617,7 +1616,7 @@ function Document(){
 	 * Calls method {{#crossLink "Document/applyToDesOfSingleRange:method"}}applyToDesOfSingleRange{{/crossLink}} on each
 	 * element of array `ranges`, passing to that method the range, `filter` and `operation`.
 	 *
-	 * @method         applyToDesOfManyRanges
+	 * @method         applyToDesOfManyRanges 1:0
 	 * @param          {Array}         ranges                array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
 	 *                                                       instances. Non Range instances are ignored.
 	 * @param          {Function}      filter                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
@@ -1640,7 +1639,7 @@ function Document(){
 	 * Alias for {{#crossLink "Document/applyToAncOfManyRanges:method"}}applyToAncOfManyRanges{{/crossLink}}
 	 * with second and third arguments being correspondingly {{#crossLink "Document/isLink:method"}}isLink{{/crossLink}} and
 	 * {{#crossLink "Document/deparentize:method"}}deparentize{{/crossLink}}.
-	 * @method         clearRangesFromLinks
+	 * @method         clearRangesFromLinks 0:0
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1656,7 +1655,7 @@ function Document(){
 	 * Alias for {{#crossLink "Document/applyToAncOfManyRanges:method"}}applyToAncOfManyRanges{{/crossLink}}
 	 * with second and third arguments being correspondingly {{#crossLink "Document/isTable:method"}}isTable{{/crossLink}} and
 	 * {{#crossLink "Document/removeNode:method"}}removeNode{{/crossLink}}.
-	 * @method         clearRangesFromTables
+	 * @method         clearRangesFromTables 0:1
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1671,7 +1670,7 @@ function Document(){
      * Calls method {{#crossLink "Document/applyToAncOfSingleRange:method"}}applyToAncOfSingleRange{{/crossLink}} on each
      * element of array `ranges`, passing to that method the range, `filter` and `operation`.
      *
-     * @method         applyToAncOfManyRanges
+     * @method         applyToAncOfManyRanges 2:0
      * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances.
      *                                           Non Range instances are ignored.
      * @param          {Function}      filter    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
@@ -1690,7 +1689,7 @@ function Document(){
 	/**
 	 * Applies `operation` to all nodes that are ancestors of nodes belonging `range` and for which
 	 * `criteria` evaluates to `true`.
-	 * @method         applyToAncOfSingleRange
+	 * @method         applyToAncOfSingleRange 1:0
 	 * @param          {Range}         range       [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {Function}      criteria    [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
@@ -1711,7 +1710,7 @@ function Document(){
 
 	/**
 	 * Removes node `n` from DOM maintaining its child nodes (if any).
-	 * @method         deparentize
+	 * @method         deparentize 2:0
 	 * @param          {Node}          n         [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node)
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1737,7 +1736,7 @@ function Document(){
 	/**
 	 * Applies method {{#crossLink "Document/applyToDesOfSingleNode:property"}}applyToDesOfSingleNode{{/crossLink}}
 	 * on each node of belonging to `range`
-	 * @method         applyToDesOfSingleRange
+	 * @method         applyToDesOfSingleRange 1:0
 	 * @param          {Range}         range
 	 * @param          {Function}      criteria                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
@@ -1765,7 +1764,7 @@ function Document(){
 	 * repeat the procedure to each `node`'s child.
 	 * </li></ol>
 	 *
-	 * @method         applyToDesOfSingleNode
+	 * @method         applyToDesOfSingleNode 2:0
 	 * @param          {Node}          node
 	 * @param          {Function}      criteria 			   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> Boolean
 	 * @param          {Function}      operation               [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -> void
@@ -1803,7 +1802,7 @@ function Document(){
 
 	/**
 	 * Removes node `n` from DOM.
-	 * @method         removeNode
+	 * @method         removeNode 4:1
 	 * @param          {Node}        n
 	 * @return         {void}
 	 * @since          0.2.0
@@ -1817,7 +1816,7 @@ function Document(){
 
 	/**
 	 * Inserts empty column into `table` at position `pos`.
-	 * @method         insertColumn
+	 * @method         insertColumn 0:1
 	 * @param          {Element}       table     [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 	 *                                           instance representing table
 	 * @param          {String}        pos       "after"|"before"
@@ -1833,7 +1832,7 @@ function Document(){
 	 * Finds all elements that satisfy the given `criteria`.
 	 *
 	 * The search is performed over ancestors of nodes belonging to `ranges`.
-	 * @method         findAncestorsOfRanges
+	 * @method         findAncestorsOfRanges 0:0
 	 * @param          {Array}         ranges    array of ranges
 	 * @param          {Function}      criteria  function: Node -> Boolean
 	 * @return         {Array}                   array (might be empty) of Element instances
@@ -1852,7 +1851,7 @@ function Document(){
 	/**
 	 * Returns a first ancestor of elements belonging to the selection on which
 	 * `criteria` evaluates to `true`. If no such element found, nothing is returned.
-	 * @method         findSelectionFirstAncestor
+	 * @method         findSelectionFirstAncestor 0:1
 	 * @param          {Array}         ranges         array of ranges
 	 * @param          {Function}      criteria       function: Node -> Boolean
 	 * @return         {Node|null}
@@ -1874,7 +1873,7 @@ function Document(){
 	/**
 	 * Returns first ancestor of elements of range on which `criteria` evaluates to `true`.
 	 * If no such element found, nothing is returned.
-	 * @method         findRangeFirstAncestor
+	 * @method         findRangeFirstAncestor 0:1
 	 * @param          {Range}         range     [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @param          {Function}      criteria  function: Node -> Boolean
 	 * @return         {Node|null}
@@ -1899,7 +1898,7 @@ function Document(){
 	/**
 	 * Returns text representation of the selection given by `ranges`.
 	 *
-	 * @method    selectionToString
+	 * @method    selectionToString 0:1
 	 * @param     {Array}     ranges                  array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param     {String}    separator               [Optional] string to be used as a separator between ranges
 	 * @return    {String}
@@ -1920,7 +1919,7 @@ function Document(){
 	 * Delegates its functionality to {{#crossLink "Factory/createFromTemplate:method"}}createFromTemplate{{/crossLink}}
 	 * of {{#crossLink "Factory"}}Factory{{/crossLink}} class.
 	 *
-	 * @method         createFromTemplate
+	 * @method         createFromTemplate 0:2
 	 * @param          {Object}        template
 	 * @return         {Node}
 	 * @since          0.2.1
@@ -1931,13 +1930,12 @@ function Document(){
 		} catch(e){
 			console.log(e.name + ' occurred when delegating creation of a node from template: ' + e.message);
 		}
-
 	};
 
 	/**
 	 * Returns a new [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance which is obtained
 	 * by appending nodes of `ranges` to `element`.
-	 * @method         moveNodesToLink
+	 * @method         moveNodesToLink 0:0
 	 * @param          {Element}       element       [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) instance
 	 * @param          {Array}         ranges        array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Element}
@@ -1965,7 +1963,7 @@ function Document(){
 	 *
 	 * In fact, it is based on [replaceChild](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild) method of
 	 * [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) class.
-	 * @method         replaceChild
+	 * @method         replaceChild 2:1
 	 * @param          {Node}          newNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @param          {Node}          oldNode      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {void}
@@ -1986,7 +1984,7 @@ function Document(){
 	 * </li><li>
 	 * it has exactly one child that is a [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * </li></ol>
-	 * @method         isNodeEditable
+	 * @method         isNodeEditable 1:2
 	 * @param          {Node}          n           [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
 	 * @return         {Boolean}
 	 * @since          0.2.1
@@ -2006,7 +2004,7 @@ function Document(){
 	 *
 	 * The selection is editable if corresponding array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range)
 	 * instances only one element and that element is an editable [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance.
-	 * @method         isSelectionEditable
+	 * @method         isSelectionEditable 0:2
 	 * @param          {Array}         ranges    array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @return         {Boolean}
 	 * @since          0.2.1
@@ -2020,7 +2018,7 @@ function Document(){
 
 	/**
 	 * Returns `true` if range `r` corresponds to a part of DOM that can be edited.
-	 * @method         isRangeEditable
+	 * @method         isRangeEditable 1:0
 	 * @param          {Range}         r    [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instance
 	 * @return         {Boolean}
 	 * @since          0.2.1
@@ -2042,7 +2040,7 @@ function Document(){
 	/**
 	 * Modifies `link` using data present in `referenceLink`.
 	 *
-	 * @method         modifyLink
+	 * @method         modifyLink 0:1
 	 * @param          {Element}       link
 	 * @param          {Element}       referenceLink      editor-specific representation of dialog window
 	 * @return         {void}
@@ -2071,7 +2069,7 @@ function Document(){
 	 * belonging to the selection. Therefore, one should manage eventual presence of links
 	 * among descendants of the nodes belonging to the selection.
 	 *
-	 * @method         selectionToLink
+	 * @method         selectionToLink 0:1
 	 * @param          {Array}         selection      array of [Range](https://developer.mozilla.org/en-US/docs/Web/API/Range) instances
 	 * @param          {Element}       referenceLink
 	 * @return         {void}
@@ -2087,7 +2085,7 @@ function Document(){
 	/**
 	 * Transforms `range` into a link based on information stored in `referenceLink`.
 	 *
-	 * @method         rangeToLink
+	 * @method         rangeToLink 1:0
 	 * @param          {Range}         range
 	 * @param          {Element}       referenceLink
 	 * @return         {void}
@@ -2108,7 +2106,7 @@ function Document(){
 	 * Converts `node` into a link based on information stored in `referenceLink`.
  	 * The method must manage possible situation when there are links among descendants
 	 * of the nodes belonging to the range.
-	 * @method         nodeToLink
+	 * @method         nodeToLink 1:0
 	 * @param          {Node}    node              [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instances
 	 * @param          {Element} referenceLink     an element representing html hyperlink
 	 * @return         {void}
@@ -2127,7 +2125,7 @@ function Document(){
 
 	/**
 	 * Finds hyperlinks among descendants of node `n` and removes link wrapper (leaving the content).
-	 * @method         clearNodeFromLink
+	 * @method         clearNodeFromLink 1:0
 	 * @param          {Node}          n
 	 * @return         {void}
 	 * @since          0.2.3
@@ -2141,7 +2139,7 @@ function Document(){
 	 *
 	 * NB: Simple (not correct) version. It does not take care of multiple ranges (I do not
 	 * know how they are relevant because the selection is supposed to be editable).
-	 * @method         replaceSelectionByLink
+	 * @method         replaceSelectionByLink 0:1
 	 * @param          {Array}         ranges
 	 * @param          {Element}       referenceLinklink
 	 * @return         {void}
