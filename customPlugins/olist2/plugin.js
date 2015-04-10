@@ -4,7 +4,7 @@
 /**
  * A customized CKEDITOR plugin to manage operations on ordered list.
  * @module    CKEditorPlugins
- * @class     Ulist2
+ * @class     Olist2
  * @type      {Object}
  * @since     0.0.5
  * @author    A.Shcherbakov
@@ -98,7 +98,7 @@ CKEDITOR.plugins.add('olist2', {
 				group: _pluginNameGroup
 			});
 			editor.contextMenu.addListener(function(element) {
-				var el = _controller.findRepresentativeAncestorOfType(element, 'ol');
+				var el = _controller.findListAncestorOfType(element, 'ol');
 				var menuObj = {};
 				console.log(el);
 				if (el) {

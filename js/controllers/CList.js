@@ -75,12 +75,13 @@ function CList() {
      * Finds the nearest list ancestor of element `el`; the list must be of type `type`.
      *
      * Returns nothing if the corresponding element is not found.
-     * @method         findRepresentativeAncestorOfType
+     * @method         findListAncestorOfType
      * @param          {Object}        el      editor-specific representation of DOM node.
+     * @param          {String}        type
      * @return         {Node}                  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
      * @since          0.2.5
      */
-    this.findRepresentativeAncestorOfType = function(el, type){
+    this.findListAncestorOfType = function(el, type){
         var adapter = this.getEditorAdapter(),
             nativeEl = adapter.toNativeElement(el);
         if (!nativeEl){
@@ -89,7 +90,7 @@ function CList() {
         var worker = this.getWorker();
         var crit = function(el){
             return (el instanceof Element) && (el.tagName.toLowerCase() === type);
-        }
+        };
         return worker.findAncestor(nativeEl, crit);
     };
 
