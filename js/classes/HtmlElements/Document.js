@@ -48,7 +48,7 @@ function Document(){
 	 * @param          {Any}                c
 	 * @return         {void}
 	 */
-	this.setConverter = function(c){
+	this.setConverter_to_delete = function(c){
 		_converter = c;
 	};
 
@@ -99,7 +99,7 @@ function Document(){
 	 * @method         setMapper 0:0
 	 * @param          {void}               m
 	 */
-	this.setMapper = function(m){
+	this.setMapper_to_delete = function(m){
 		_converter.setMapper(m);
 	};
 
@@ -116,7 +116,7 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.0.6
 	 */
-	this.escape = function(n){
+	this.escape_to_delete = function(n){
 		/// !!! stub
 		console.log('method escape() is to be implemented');
 	};
@@ -253,7 +253,7 @@ function Document(){
 	 * @return         {Boolean}
 	 * @since          0.0.8
 	 */
-	this.isRange = function(r){
+	this.isRange_to_delete = function(r){
 	    var isValid = (r instanceof Range);
 	    // console.log(r, isValid ? ' is a range' : ' is NOT a range!');
 	    return isValid;
@@ -450,7 +450,7 @@ function Document(){
 	 * @param          {Array}         a2
 	 * @return         {Array}
 	 */
-	this.commonHead = function(p1, p2){
+	this.commonHead_to_delete = function(p1, p2){
 	    var commonHeadAux = function(p1, p2, ind, acc){
 	        if (p1.length === ind || p2.length === ind || p1[ind] !== p2[ind]){
 	            return acc;
@@ -472,7 +472,7 @@ function Document(){
 	 * @param          {Node}          n
 	 * @return         {Node|Null}
 	 */
-	this.rootOf = function(n){
+	this.rootOf_to_delete = function(n){
 	    if (!(n instanceof Node)){
 	        return undefined;
 	    }
@@ -523,7 +523,7 @@ function Document(){
 	 * @return         {Node}
 	 * @since          0.0.8
 	 */
-	this.getNodeByPath = function(path, ref){
+	this.getNodeByPath_to_delete = function(path, ref){
 	    if (!(Array.isArray(path) && (ref instanceof Node))){
 	        return;
 	    }
@@ -855,7 +855,7 @@ function Document(){
 	 * @return         {Element|Null}
 	 * @since          0.1.0
 	 */
-	this.findInBlock = function(block, callback){
+	this.findInBlock_to_delete = function(block, callback){
 		if (block === undefined || callback === undefined || !(Array.isArray(block)) || typeof callback !== 'function'){
 			return;
 		}
@@ -978,7 +978,7 @@ function Document(){
 	 * @param          {String}             key           name of in-line style property of `node`
 	 * @return         {String|Number}
 	 */
-	this.getStyleProperty = function(node, key){
+	this.getStyleProperty_to_delete = function(node, key){
 		if (node && key && typeof node.getAttribute === 'function'){
 			var stl = new Properties(node.getAttribute('style'));
 			if (stl.hasProperty(key)){
@@ -997,7 +997,7 @@ function Document(){
 	 * @param          {String}             key       name of in-line style attribute to drop
 	 * @return         {void}
 	 */
-	this.dropStyleProperty = function(node, key){
+	this.dropStyleProperty_to_delete = function(node, key){
 		if (!(node instanceof Node) || (typeof key !== 'string') || (!node.style)){
 			return;
 		}
@@ -1029,7 +1029,7 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.0.4
 	 */
-	this.toggleElementStyle = function(elem, key, primary, secondary){
+	this.toggleElementStyle_to_delete = function(elem, key, primary, secondary){
 		if (elem && elem.nodeType === Node.ELEMENT_NODE){
 			var attrName = 'style',
 				stl = new Properties(elem.getAttribute(attrName)),
@@ -1548,7 +1548,7 @@ function Document(){
 	 * @return         {String|Number|undefined}
 	 * @since          0.2.0
 	 */
-	this.commonStyleProperty = function(nodes, key){
+	this.commonStyleProperty_to_delete = function(nodes, key){
 		if (!Array.isArray(nodes) || nodes.length === 0){
 			return undefined;
 		}
@@ -1606,7 +1606,7 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.clearRangesFromImages = function(ranges){
+	this.clearRangesFromImages_to_delete = function(ranges){
 		this.applyToDesOfManyRanges(ranges, this.isImage, this.removeNode, true);
 	};
 
@@ -1644,7 +1644,7 @@ function Document(){
 	 * @return         {void}
 	 * @since          0.2.0
 	 */
-	this.clearRangesFromLinks = function(ranges){
+	this.clearRangesFromLinks_to_delete = function(ranges){
 		this.applyToAncOfManyRanges(ranges, this.isLink, this.deparentize);
 	};
 
@@ -1838,7 +1838,7 @@ function Document(){
 	 * @return         {Array}                   array (might be empty) of Element instances
 	 * @since          0.2.1
 	 */
-	this.findAncestorsOfRanges = function(ranges, criteria){
+	this.findAncestorsOfRanges_to_delete = function(ranges, criteria){
 		var ancestorsGlob = [];
 		ranges.forEach(function(range){
 			var nodes = range.collapsed ? [range.startContainer] : this.nodesOfRange(range),
@@ -1941,7 +1941,7 @@ function Document(){
 	 * @return         {Element}
 	 * @since          0.2.1
 	 */
-	this.moveNodesToLink = function(element, ranges){
+	this.moveNodesToLink_to_delete = function(element, ranges){
 		ranges.forEach(function(range){
 			var nodes = this.nodesOfRange(range);
 			if (!Array.isArray(nodes)){
