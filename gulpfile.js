@@ -4,7 +4,9 @@
 var gulp   = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-
+// define project files in the order as they must be included
+// each of these files is to be first compressed and then
+// all of these files are concatenated in a single file.
 var sourceFiles = [
 	'js/classes/Helper.js',
 	'js/classes/Helper/Unit.js',
@@ -62,7 +64,7 @@ var sourceFiles = [
 	// entry file
 	'js/start.js'
 ];
-gulp.task('scripts', function() {
+gulp.task('concat', function() {
   return gulp.src(['./gulp/compressed/*.js'])
     .pipe(concat('editor.min.js'))
     .pipe(gulp.dest('./js_prod/'));
@@ -74,8 +76,4 @@ gulp.task('compress', function() {
     .pipe(gulp.dest('./gulp/compressed/'));
 });
 
-// gulp.task('watch', function(){
-//     gulp.watch([tsPath], ['scripts']);
-// });
-
-gulp.task('default', ['compress', 'scripts']);
+gulp.task('default', ['compress', 'concat']);
