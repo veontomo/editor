@@ -1,0 +1,1 @@
+function UList(){"use strict";return this instanceof UList?(List.call(this),this.setTag("ul"),void this.setName("UList")):new UList}UList.prototype=Object.create(List.prototype),UList.prototype.characteristicFunction=function(t){return t instanceof Element&&"ul"===t.tagName.toLowerCase()};

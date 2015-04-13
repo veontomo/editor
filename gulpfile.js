@@ -56,11 +56,16 @@ var sourceFiles = [
 
 	 // event handlers
 	'js/eventHandlers/EHToolbar.js',
+
+	// configuration file
+	'settings/general_config.js',
+	// entry file
+	'js/start.js'
 ];
 gulp.task('scripts', function() {
   return gulp.src(['./gulp/compressed/*.js'])
     .pipe(concat('editor.min.js'))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./js_prod/'));
 });
 
 gulp.task('compress', function() {

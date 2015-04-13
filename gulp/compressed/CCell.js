@@ -1,0 +1,1 @@
+function CCell(){"use strict";return this instanceof CCell?(Controller.call(this),void this.setModel(Cell)):new CCell}CCell.prototype=Object.create(Controller.prototype);

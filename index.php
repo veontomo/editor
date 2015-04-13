@@ -37,67 +37,72 @@
 
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
-	<script type="text/javascript" src="js/start.js"></script>
 
-	<script type="text/javascript" src="js/classes/Helper.js"></script>
-	<script type="text/javascript" src="js/classes/Helper/Unit.js"></script>
-	<script type="text/javascript" src="js/classes/Properties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/ImageProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/LinkProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/CellProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/ListProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/ListItemProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/RowProperties.js"></script>
-	<script type="text/javascript" src="js/classes/Properties/TableProperties.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/classes/Helper.js"></script>
+	// <script type="text/javascript" src="js/classes/Helper/Unit.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/ImageProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/LinkProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/CellProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/ListProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/ListItemProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/RowProperties.js"></script>
+	// <script type="text/javascript" src="js/classes/Properties/TableProperties.js"></script>
+ -->
 	<!-- models -->
-	<script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Cell.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/ImageTag.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Row.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/List.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/ListItem.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/OList.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/UList.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Tag/Link.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/classes/HtmlElements/Content.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/Table.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/Cell.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/ImageTag.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/Row.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/List.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/ListItem.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/OList.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/UList.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Tag/Link.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/PlainText.js"></script>
+ -->
 	 <!-- document-related models -->
-	<script type="text/javascript" src="js/classes/HtmlElements/Document.js"></script>
+	<!-- // <script type="text/javascript" src="js/classes/HtmlElements/Document.js"></script> -->
 
 	<!-- converters -->
-	<script type="text/javascript" src="js/converters/Converter.js"></script>
-	<script type="text/javascript" src="js/converters/ConverterGeneral.js"></script>
-	<script type="text/javascript" src="js/converters/ConverterFixed.js"></script>
-	<script type="text/javascript" src="js/converters/ConverterElastic.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/converters/Converter.js"></script>
+	// <script type="text/javascript" src="js/converters/ConverterGeneral.js"></script>
+	// <script type="text/javascript" src="js/converters/ConverterFixed.js"></script>
+	// <script type="text/javascript" src="js/converters/ConverterElastic.js"></script>
+ -->
 	<!-- helpers  -->
-	<script type="text/javascript" src="js/classes/CKHelper.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Mapper.js"></script>
-	<script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/classes/CKHelper.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Mapper.js"></script>
+	// <script type="text/javascript" src="js/classes/HtmlElements/Factory.js"></script>
+ -->
 	<!-- Controllers -->
-	<script type="text/javascript" src="js/controllers/Controller.js"></script>
-	<script type="text/javascript" src="js/controllers/CTable.js"></script>
-	<script type="text/javascript" src="js/controllers/CRow.js"></script>
-	<script type="text/javascript" src="js/controllers/CCell.js"></script>
-	<script type="text/javascript" src="js/controllers/CLink.js"></script>
-	<script type="text/javascript" src="js/controllers/CList.js"></script>
-	<script type="text/javascript" src="js/controllers/CDownload.js"></script>
-	<script type="text/javascript" src="js/controllers/CImage.js"></script>
-	<script type="text/javascript" src="js/controllers/CTextDecoration.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/controllers/Controller.js"></script>
+	// <script type="text/javascript" src="js/controllers/CTable.js"></script>
+	// <script type="text/javascript" src="js/controllers/CRow.js"></script>
+	// <script type="text/javascript" src="js/controllers/CCell.js"></script>
+	// <script type="text/javascript" src="js/controllers/CLink.js"></script>
+	// <script type="text/javascript" src="js/controllers/CList.js"></script>
+	// <script type="text/javascript" src="js/controllers/CDownload.js"></script>
+	// <script type="text/javascript" src="js/controllers/CImage.js"></script>
+	// <script type="text/javascript" src="js/controllers/CTextDecoration.js"></script>
+ -->
 	<!-- Adapters -->
-	<script type="text/javascript" src="js/adapters/EditorAdapter.js"></script>
-	<script type="text/javascript" src="js/adapters/CKEditor/CKEditorAdapter.js"></script>
-
+<!-- 	// <script type="text/javascript" src="js/adapters/EditorAdapter.js"></script>
+	// <script type="text/javascript" src="js/adapters/CKEditor/CKEditorAdapter.js"></script>
+ -->
 	<!-- event handlers -->
-	<script type="text/javascript" src="js/eventHandlers/EHToolbar.js"></script>
+	<!-- // <script type="text/javascript" src="js/eventHandlers/EHToolbar.js"></script> -->
+
+
+
+	<script type="text/javascript" src="js_prod/editor.min.js"></script>
 
 	<!-- configuration file -->
-	<script type="text/javascript" src="settings/general_config.js"></script>
+	<!-- // <script type="text/javascript" src="settings/general_config.js"></script> -->
+
+	<!-- // <script type="text/javascript" src="js_prod/start.js"></script> -->
 
 
 	<!-- external plugins -->
