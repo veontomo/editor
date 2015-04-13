@@ -6,6 +6,7 @@
 apidocs/*
 gulp/*
 js/coverage/*
+js_prod/*
 node_modules/*
 npm-debug.log
 php/repo/*.html
