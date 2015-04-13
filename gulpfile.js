@@ -76,4 +76,8 @@ gulp.task('compress', function() {
     .pipe(gulp.dest('./gulp/compressed/'));
 });
 
-gulp.task('default', ['compress', 'concat']);
+gulp.task('watch', function() {
+  gulp.watch(sourceFiles, ['compress', 'concat']);
+});
+
+gulp.task('default', ['compress', 'concat', 'watch']);
