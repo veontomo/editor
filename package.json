@@ -17,7 +17,8 @@
     "karma-ie-launcher": "~0.1.1",
     "cucumber": "latest",
     "karma-spec-reporter": "~0.0.12",
-    "karma-firefox-launcher": "^0.1.3"
+    "karma-firefox-launcher": "^0.1.3",
+    "gulp-concat": "^2.0.3"
   },
   "scripts": {
     "test": "node_modules/.bin/karma start --log-level debug test/conf.js --verbose"
