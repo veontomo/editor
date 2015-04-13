@@ -72,7 +72,6 @@ CKEDITOR.plugins.add('ImagePlugin', {
 						// aware of the UI input elements, but they might not be present
 						// in DOM so far
 						dialog.once('show', function(){
-							console.log("use image node " + _target.image.outerHTML + " in order to fill in dialog");
 							_controller.fillInDialogWithElement(dialog, _target.image);
 							_controller.saveExtra(dialog, _target.image);
 							_target.image = undefined;
