@@ -75,7 +75,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 							console.log("use image node " + _target.image.outerHTML + " in order to fill in dialog");
 							_controller.fillInDialogWithElement(dialog, _target.image);
 							_controller.saveExtra(dialog, _target.image);
-							_target.hostLink = undefined;
+							_target.image = undefined;
 
 						});
 					}

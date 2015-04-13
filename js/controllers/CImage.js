@@ -51,8 +51,10 @@ function CImage() {
 		    }
 		    image = image.toNode();
 		    if (params && params.target){
+		    	console.log('replacing child', image, param);
 		        doc.replaceChild(image, params.target);
 		    } else {
+		    	console.log('inserting ', image);
 				doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
 		    }
 		    adapter.setEditorContent(editor, content);
