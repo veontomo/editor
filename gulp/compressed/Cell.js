@@ -1,1 +1,0 @@
-function Cell(t){"use strict";return this instanceof Cell?(Tag.call(this,t),this.setTag("td"),this.setName("Cell"),this.setProperties(new CellProperties),void this.setContent(new Content(t))):new Cell(t)}Cell.prototype=Object.create(Tag.prototype),Cell.prototype.characteristicFunction=function(t){return t instanceof Element&&"td"===t.tagName.toLowerCase()};

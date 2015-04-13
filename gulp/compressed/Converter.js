@@ -1,1 +1,0 @@
-function Converter(e){"use strict";if(!(this instanceof Converter))return new Converter(e);var n=e instanceof Mapper?e:new Mapper;this.getMapper=function(){return n},this.setMapper=function(e){e instanceof Mapper&&(n=e)},this.convertTo=function(e,n,r){var t=this.getMapper(),i=t.findTargetFor(n);if(i){var o=new i;return o.convert(e,r)}}}

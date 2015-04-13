@@ -1,1 +1,0 @@
-function CRow(){"use strict";return this instanceof CRow?(Controller.call(this),void this.setModel(Row)):new CRow}CRow.prototype=Object.create(Controller.prototype);

@@ -1,1 +1,0 @@
-function RowProperties(e){"use strict";if(!(this instanceof RowProperties))return new RowProperties(e);Properties.call(this,e),this.setName("RowProperties");var t={"border-style":"none",width:0,padding:0,margin:0};this.initializeStyle();var r=this.getStyles();r.suggestProperty(t),this.setStyles(r)}RowProperties.prototype=Object.create(Properties.prototype);

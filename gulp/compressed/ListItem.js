@@ -1,1 +1,0 @@
-function ListItem(){"use strict";return this instanceof ListItem?(Tag.call(this),this.setTag("li"),this.setName("ListItem"),void this.setProperties(new ListItemProperties)):new ListItem}ListItem.prototype=Object.create(Tag.prototype),ListItem.prototype.characteristicFunction=function(t){return t instanceof Element&&"li"===t.tagName.toLowerCase()};

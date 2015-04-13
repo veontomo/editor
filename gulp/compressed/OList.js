@@ -1,1 +1,0 @@
-function OList(){"use strict";return this instanceof OList?(List.call(this),this.setTag("ol"),void this.setName("OList")):new OList}OList.prototype=Object.create(List.prototype),OList.prototype.characteristicFunction=function(t){return t instanceof Element&&"ol"===t.tagName.toLowerCase()};
