@@ -1110,8 +1110,11 @@ function Tag(tName) {
 	 * @since          0.2.1
 	 */
 	this.loadTemplate = function(tmpl){
+		console.log("before loading proper template: ", this.toHtml());
 		this.loadProperTemplate(tmpl);
+		console.log("after loading proper template: ", this.toHtml());
 		this.loadChildTemplates(this.extractChildTemplates(tmpl));
+
 	};
 
 	/**

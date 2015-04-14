@@ -45,11 +45,16 @@ function CImage() {
 		    content = adapter.getEditorContent(editor);
 		    dialogData = adapter.getDialogData(dialog);
 		    template = adapter.dialogToTemplate(dialogData, 'img');
+		    console.log(template);
+		    console.log("new image instance: ", (new ImageTag()).toNode());
 		    image = doc.createFromTemplate(template);
+
+		    console.log('image is ', image.toHtml());
 		    if (!image){
 		    	return;
 		    }
 		    image = image.toNode();
+
 		    if (params && params.target){
 		        doc.replaceChild(image, params.target);
 		    } else {

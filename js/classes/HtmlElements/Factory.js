@@ -232,7 +232,7 @@ function Factory(map){
 		}
 		var crit = function(c){
 			var obj = new c();
-			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name.toLowerCase();
+			return typeof obj.getTag === 'function' && obj.getTag().toLowerCase() === name.toLowerCase();
 		};
 		return this.findClass(crit);
 	};
@@ -268,13 +268,17 @@ function Factory(map){
 	 */
 	this.createFromTemplate = function(template){
 		if (typeof template.name !== 'string'){
+			console.log("template contains no name");
 			return undefined;
 		}
+		console.log("name: ", template.name);
 		var TargetClass = this.findClassByName(template.name),
 			element;
 		if (TargetClass){
+			console.log("target class is found", TargetClass);
 			element = this.produceInstanceOf(TargetClass);
 		} else {
+			console.log("target class is not found");
 			element = this.produceInstanceOf(this.getDefaultClass());
 			element.setTag(template.name);
 		}

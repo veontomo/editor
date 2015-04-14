@@ -18,6 +18,8 @@ function ImageTag() {
 
 	var allowedProtocols = ['http', 'https'];
 
+	console.log('creating image');
+
 	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
 	 * <ol><li>
@@ -32,7 +34,9 @@ function ImageTag() {
 	 */
 	this.setTag('img');
 	this.setName('ImageTag');
-	this.setProperties(new ImageProperties());
+	var prop = new ImageProperties();
+	console.log("seeting image properties: ", prop.toString());
+	this.setProperties(prop);
 
 	/**
 	 * Sets `src` property of ImageTag {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
@@ -166,6 +170,7 @@ function ImageTag() {
 	 * @since          0.1.0
 	 */
 	this.loadFromTemplate = function(tmpl){
+		console.log('loading from template', tmpl);
 		var key;
 		for (key in tmpl){
 			if (tmpl.hasOwnProperty(key)){
