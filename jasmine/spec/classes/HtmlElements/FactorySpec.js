@@ -135,14 +135,14 @@ describe('Factory-related functionality', function(){
     });
 
     describe('has a method "findClassByName" that', function(){
-        var Bmw, BmwBig, Porsche, Fiat, WithoutName;
+        var Bmw, Porsche, Fiat, AlfaRomeo, WithoutName;
         beforeEach(function(){
-            Bmw =     function(){this.getName = function(){return 'bmw';};};
-            Porsche = function(){this.getName = function(){return 'pOrsche';};};
-            BmwBig =  function(){this.getName = function(){return 'BMW';};};
-            Fiat =    function(){this.getName = function(){return 'fiat';};};
+            Bmw =     function(){this.getName = function(){return 'Bmw';};};
+            Porsche = function(){this.getName = function(){return 'Porsche';};};
+            AlfaRomeo =  function(){this.getName = function(){return 'Alfa Romeo';};};
+            Fiat =    function(){this.getName = function(){return 'Fiat';};};
             WithoutName = function(){return;};
-            spyOn(f, 'getAvailableClasses').and.returnValue([Bmw, WithoutName, BmwBig, Porsche, Fiat]);
+            f.setAvailableClasses([Bmw, WithoutName, AlfaRomeo, Porsche, Fiat]);
         });
         it('returns nothing if the argument is a number', function(){
             expect(f.findClassByName(0)).not.toBeDefined();
@@ -163,17 +163,14 @@ describe('Factory-related functionality', function(){
         it('returns nothing if no class has requested name', function(){
             expect(f.findClassByName('no such name')).not.toBeDefined();
         });
-        it('returns class Fiat if the argument is "fiat"', function(){
-            expect(f.findClassByName('fiat')).toBe(Fiat);
+        it('returns class Fiat if the argument is "Fiat"', function(){
+            expect(f.findClassByName('Fiat')).toBe(Fiat);
         });
         it('returns class Porsche if the argument is "Porsche"', function(){
-            expect(f.findClassByName('Porsche')).toBe(Porsche);
+            expect(f.findClassByName('Alfa Romeo')).toBe(AlfaRomeo);
         });
-        it('returns class Bmw if the argument is "BMW"', function(){
-            expect(f.findClassByName('BMW')).toBe(Bmw);
-        });
-        it('returns class Bmw if the argument is "bmw"', function(){
-            expect(f.findClassByName('BMW')).toBe(Bmw);
+        it('returns nothing if the argument is "BMW"', function(){
+            expect(f.findClassByName('BMW')).not.toBeDefined();
         });
     });
 

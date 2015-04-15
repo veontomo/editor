@@ -180,12 +180,13 @@ function Factory(map){
 		}
 		try {
 			var className = probe.getName();
-			if (typeof className !== 'string'){
+			if (typeof className == 'string'){
 				_availableClassesByClassName[className] = C;
 			}
 		} catch (e){
 			console.log(e.name + ' occurred when retrieveing the name of the class\'s: ' + e.message);
 		}
+
 	};
 
 
