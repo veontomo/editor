@@ -238,6 +238,35 @@ function Factory(map){
 	};
 
 	/**
+	 * Finds a class that is supposed to represent an html element with tag `tagName`.
+	 *
+	 * The method uses method {{#crossLink "Factory/findClass:method"}}findClass{{/crossLink}} with
+	 * properly concocted criteria.
+	 * @method         findClassByTag
+	 * @param          {String}        tagName
+	 * @return         {Function|null}
+	 * @since          0.2.6
+	 */
+	this.findClassByTag = function(tagName){
+		if (typeof tagName !== 'string'){
+			return;
+		}
+		var canonicalForm = tagName.toLowerCase();
+		var crit = function(c){
+			var output;
+			try {
+				var obj = new c();
+				output = obj.getName().toLowerCase() === canonicalForm;
+			} catch (e){
+				output = false;
+			}
+			return output;
+		};
+		return this.findClass(crit);
+	};
+
+
+	/**
 	 * Returns an instance of requested class.
 	 *
 	 * If the argument is not a class, then nothing is returned.
