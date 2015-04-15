@@ -195,7 +195,7 @@ function Factory(map){
 	 *
 	 * @method         findClass
 	 * @param          {Function}        crit
-	 * @return         {Object|null}
+	 * @return         {Function|null}
 	 * @since          0.2.1
 	 */
 	this.findClass = function(crit){
@@ -204,9 +204,8 @@ function Factory(map){
 		len = classes.length;
 		for (i = 0; i < len; i++){
 			try {
-				output = crit(classes[i]);
+				output = (crit(classes[i]) === true);
 			} catch (e){
-				console.log(e.name + ' occurred when applying the criteria to the class: ' + e.message);
 				output = false;
 			}
 			if (output){
@@ -256,7 +255,7 @@ function Factory(map){
 			var output;
 			try {
 				var obj = new c();
-				output = obj.getName().toLowerCase() === canonicalForm;
+				output = obj.getTag().toLowerCase() === canonicalForm;
 			} catch (e){
 				output = false;
 			}
@@ -297,17 +296,13 @@ function Factory(map){
 	 */
 	this.createFromTemplate = function(template){
 		if (typeof template.name !== 'string'){
-			console.log("template contains no name");
 			return undefined;
 		}
-		console.log("name: ", template.name);
-		var TargetClass = this.findClassByName(template.name),
+		var TargetClass = this.findClassByTag(template.name),
 			element;
 		if (TargetClass){
-			console.log("target class is found", TargetClass);
 			element = this.produceInstanceOf(TargetClass);
 		} else {
-			console.log("target class is not found");
 			element = this.produceInstanceOf(this.getDefaultClass());
 			element.setTag(template.name);
 		}
